@@ -1,0 +1,169 @@
+context Object {	
+	constraint IdentifiersMustBeUnique {
+		guard: self.identifier.isDefined()
+		check: self.identifier.isUniqueIdentifier()
+		message: 'Duplicate identifier: ' + self.identifier
+	}
+}
+
+context ClassObject {
+	constraint ClassifierMustExist {
+		guard: hasSpecificMetamodel()
+		check: Metamodel!EClassifier.allInstances().select(c|c.name = self.type).size() = 1
+		message: 'Unrecognised classifier: ' + self.type
+	}
+	
+	constraint ClassifierMustBeClass {
+		guard: self.satisfies('ClassifierMustExist')
+		check: self.toClass().isDefined()
+		message: 'Cannot instantiate the enumeration or data type: ' + self.type
+	}
+	
+	constraint ClassMustNotBeAbstract {
+		guard: self.satisfies('ClassifierMustBeClass')
+		check: not self.toClass().isAbstract()
+		message: 'Cannot instantiate the abstract class: ' + self.type
+	}
+	
+	constraint ClassMustSpecifyRequiredFeatures {
+		guard: self.satisfies('ClassMustNotBeAbstract')
+		check: self.getAllFeaturesThatRequireAValueButDontHaveOne().isEmpty() 
+		message: self.identifier + ' must specify a value for the following features: ' + self.getAllFeaturesThatRequireAValueButDontHaveOne().collect(f|f.name).toString()
+	}
+}
+
+context Slot {
+	constraint FeatureMustExist {
+		guard: hasSpecificMetamodel() and self.owner.isTypeOf(ClassObject) and self.owner.toClass().isDefined() and self.feature.isDefined() 
+		check: self.owner.toClass().eAllStructuralFeatures.select(c|c.name = self.feature).size() = 1
+		message: 'Unrecognised feature: ' + self.feature
+	}
+}
+
+context StringSlot {
+	constraint FeatureMustAcceptStrings {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.String'
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+	
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+}
+
+context IntegerSlot {
+	constraint FeatureMustAcceptIntegers {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Integer' or self.toStructuralFeature().eType.instanceTypeName = 'int'
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+	
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+}
+
+context FloatSlot {
+	constraint FeatureMustAcceptFloats {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Float' or self.toStructuralFeature().eType.instanceTypeName = 'float'
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+	
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+}
+
+context BooleanSlot {
+	constraint FeatureMustAcceptBooleans {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Boolean' or self.toStructuralFeature().eType.instanceTypeName = 'boolean'
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+	
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+}
+
+context EnumSlot {
+	constraint FeatureMustAcceptEnums {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().eType.isKindOf(Metamodel!EEnum)
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+}
+
+context ReferenceSlot {
+	constraint ReferencedIdentifiersMustExist {
+		check: self.identifiers.forAll(i|i.isUniqueIdentifier())
+		message: 'Unrecognised identifier: ' + self.getIdentifiers().select(i|not i.isUniqueIdentifier()).at(0)
+	}
+
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist') and self.satisfies('ReferencedIdentifiersMustExist')
+		check: self.toStructuralFeature().isMany() or self.identifiers.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+
+	constraint ReferencedIdentifiersMustBeOfRightType {
+		guard: self.satisfies('FeatureMustExist') and self.satisfies('ReferencedIdentifiersMustExist') and self.satisfies('SingleValuedFeatureCannotTakeMultipleValues')
+		check: self.identifiers.forAll(i|self.toStructuralFeature().eType.compatibleWith(i.toClass()))
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+}
+
+operation hasSpecificMetamodel() : Boolean {
+	return Spec.allInstances().at(0).nsUris.notEmpty();
+}
+
+operation String isUniqueIdentifier() : Boolean {
+	return ClassObject.allInstances().select(c|c.identifier = self).size() = 1;
+}
+
+operation Slot toStructuralFeature() : Metamodel!EStructuralFeature {
+	var classifier : Metamodel!EClassifier := Metamodel!EClassifier.allInstances().select(c|c.name = self.owner.type).at(0);
+	return Metamodel!EStructuralFeature.allInstances().select(c|c.name = self.feature and classifier.eAllStructuralFeatures.includes(c)).at(0);
+}
+
+operation String toClass() : Metamodel!EClassifier {
+	return ClassObject.allInstances().selectOne(c|c.identifier = self).toClass();
+}
+
+operation ClassObject toClass() : Metamodel!EClassifier {
+ return Metamodel!EClass.allInstances().selectOne(c|c.name = self.type);
+} 
+
+operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifier) : Boolean {
+	if (classifier.isUndefined()) { return false; }
+	return self = classifier or self.isSuperTypeOf(classifier);
+}
+
+operation Metamodel!EClass getAllFeaturesThatRequireAValue() : Sequence(EStructuralFeature) {
+	return self.eAllStructuralFeatures.select(f|f.lowerBound = 1);
+}
+
+operation ClassObject getAllFeaturesThatRequireAValueButDontHaveOne() : Sequence(EStructuralFeature) {
+    return self.toClass().getAllFeaturesThatRequireAValue().reject(f|self.slots.exists(s|s.feature = f.name));
+}
+
+operation Sequence toString() : String {
+	var result : String := '';
+
+	for (element in self) {
+		result := result + element.toString();
+		if (hasMore) { result := result + ', '; }
+	}
+	
+	return result;
+}

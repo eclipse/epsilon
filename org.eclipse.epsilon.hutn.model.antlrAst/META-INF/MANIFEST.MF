@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation AST Model (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.antlrAst;singleton:=true
+Bundle-Version: 0.7.0
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,
+ org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl,
+ org.eclipse.epsilon.hutn.model.hutnAntlrAst.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.epsilon.commons,
+ org.eclipse.epsilon.antlr.postprocessor.model
+Eclipse-LazyStart: true

@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true
+Bundle-Version: 0.7.0
+Export-Package: org.eclipse.epsilon.hutn.dt.editor
+Require-Bundle: org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.hutn.engine,
+ org.eclipse.ui.views,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.swt,
+ org.eclipse.ui,
+ org.eclipse.jface.text,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.editors,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.emf.ecore.editor,
+ org.eclipse.epsilon.util.emf,
+ org.eclipse.epsilon.emc.emf.dt,
+ org.eclipse.debug.core
+Bundle-Vendor: Eclipse.org

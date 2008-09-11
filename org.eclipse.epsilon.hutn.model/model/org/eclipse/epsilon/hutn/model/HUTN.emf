@@ -1,0 +1,65 @@
+@namespace(uri="http://www.eclipse.org/gmt/epsilon/hutn", prefix="hutn")
+package hutn;
+
+class Spec {
+  val NsUri[*] nsUris;
+  val PackageObject[*] objects;
+}
+
+class NsUri extends ModelElement {
+  attr String[1] value;
+}
+
+class ModelElement {
+  attr int line;
+  attr int col;
+}
+
+abstract class Object extends ModelElement {
+  attr String type;
+  val Slot[*]#owner slots;
+  attr String identifier;
+}
+
+class PackageObject extends Object {
+}
+
+class ClassObject extends Object {
+}
+
+abstract class Slot extends ModelElement {
+  attr String feature;
+  ref Object[1]#slots owner;
+}
+
+class StringSlot extends Slot {
+  !unique attr String[*] values;
+}
+
+class BooleanSlot extends Slot {
+  !unique attr Boolean[*] values;
+}
+
+class IntegerSlot extends Slot {
+  !unique attr Integer[*] values;
+}
+
+class FloatSlot extends Slot {
+  !unique attr Float[*] values;
+}
+
+class NullSlot extends Slot {
+}
+
+class ContainmentSlot extends Slot {
+  val Object[*] objects;
+}
+
+class ReferenceSlot extends Slot {
+  !unique attr String[*] identifiers;
+}
+
+class EnumSlot extends Slot {
+  !unique attr String value;
+}
+

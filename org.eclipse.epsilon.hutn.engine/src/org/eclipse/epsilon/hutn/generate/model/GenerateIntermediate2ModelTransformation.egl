@@ -1,0 +1,53 @@
+[% for (class in EClass.allInstances()) { %]
+rule Object2[%=class.name%]
+  transform o : Intermediate!ClassObject
+  to t : Model!"[%=class.name%]" {
+	
+	guard: o.type = '[%=class.name%]'
+	
+[% for (attribute in class.eAllAttributes) { %]
+	if (o.getSlotByFeature('[%=attribute.name%]').isDefined()) {
+		[% if (EEnum.isType(attribute.eType)) { %]
+			var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
+			
+			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.getSlotByFeature('[%=attribute.name%]').value);
+			
+		[% } else if (attribute.isMany()) { %]
+			for (value in o.getSlotByFeature('[%=attribute.name%]').values) {
+				t."[%=attribute.name%]".add(value);
+			}
+		[% } else { %]
+			t."[%=attribute.name%]" := o.getSlotByFeature('[%=attribute.name%]').values.at(0);
+		[% } %]
+	}
+[% } %]
+
+[% for (reference in class.eAllReferences) { %]
+	if (o.getSlotByFeature('[%=reference.name%]').isDefined()) {
+		[% if (reference.isMany()) { %]
+			for (classObject in o.getSlotByFeature('[%=reference.name%]').getClassObjects()) {
+				t."[%=reference.name%]".add(classObject.equivalent());
+			}
+		[% } else { %]
+			t."[%=reference.name%]" := o.getSlotByFeature('[%=reference.name%]').getClassObjects().at(0).equivalent();
+		[% } %]
+	}
+[% } %]
+}
+[% } %]
+
+operation Intermediate!Object getSlotByFeature(feature : String) : Intermediate!Slot {
+	return self.slots.selectOne(s:Intermediate!Slot | s.feature = feature);
+}
+
+operation ReferenceSlot getClassObjects() : Sequence {
+	return self.identifiers.collect(i:String | i.getClassObject());
+}
+
+operation ContainmentSlot getClassObjects() : Sequence {
+	return self.objects.select(o:Intermediate!ClassObject | true);
+}
+
+operation String getClassObject() : Intermediate!ClassObject {
+	return Intermediate!ClassObject.allInstances().select(c:Intermediate!ClassObject | c.identifier = self).at(0);
+}
