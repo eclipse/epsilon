@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository class='org.eclipse.equinox.internal.p2.artifact.repository.simple.SimpleArtifactRepository' version='1.0.0'?>
+<repository name='file:/E:/Projects/Eclipse/3.4/workspace3/org.eclipse.epsilon.updatesite/ - artifacts' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
+  <properties size='2'>
+    <property name='p2.compressed' value='false'/>
+    <property name='p2.timestamp' value='1221143242484'/>
+  </properties>
+  <mappings size='3'>
+    <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
+    <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}_${version}'/>
+    <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
+  </mappings>
+  <artifacts size='50'>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.egl.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='131576'/>
+        <property name='download.size' value='131576'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.common.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='217490'/>
+        <property name='download.size' value='217490'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eol.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='101365'/>
+        <property name='download.size' value='101365'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.antlr' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='109732'/>
+        <property name='download.size' value='109732'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eugenia' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='8074'/>
+        <property name='download.size' value='8074'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.emc.composite' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='8751'/>
+        <property name='download.size' value='8751'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.evl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='145845'/>
+        <property name='download.size' value='145845'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.erl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='9700'/>
+        <property name='download.size' value='9700'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.dt' version='0.7.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='33985'/>
+        <property name='download.size' value='33985'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eol.tools' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='9632'/>
+        <property name='download.size' value='9632'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eol.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='326698'/>
+        <property name='download.size' value='326698'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.emc.emf' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='47702'/>
+        <property name='download.size' value='47702'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.hutn.feature' version='0.7.0'>
+      <properties size='2'>
+        <property name='artifact.size' value='3436'/>
+        <property name='download.size' value='3436'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.feature' version='0.8.1'>
+      <properties size='2'>
+        <property name='artifact.size' value='3471'/>
+        <property name='download.size' value='3471'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.util.emf' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='103244'/>
+        <property name='download.size' value='103244'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.productivity' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='9746'/>
+        <property name='download.size' value='9746'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.antlr.postprocessor.model' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='23356'/>
+        <property name='download.size' value='23356'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.commons' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='31527'/>
+        <property name='download.size' value='31527'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ewl.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='94665'/>
+        <property name='download.size' value='94665'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ewl.gmf' version='0.8.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='5131'/>
+        <property name='download.size' value='5131'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.evl.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='69943'/>
+        <property name='download.size' value='69943'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ecl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='136834'/>
+        <property name='download.size' value='136834'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.emc.emf.virtual' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='50483'/>
+        <property name='download.size' value='50483'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eugenia.validation' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='750'/>
+        <property name='download.size' value='750'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.egl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='71609'/>
+        <property name='download.size' value='71609'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eml.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='44934'/>
+        <property name='download.size' value='44934'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.eugenia.feature' version='0.8.1'>
+      <properties size='2'>
+        <property name='artifact.size' value='900'/>
+        <property name='download.size' value='900'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.etl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='136101'/>
+        <property name='download.size' value='136101'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.dependencies' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='417'/>
+        <property name='download.size' value='417'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.engine' version='0.7.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='85625'/>
+        <property name='download.size' value='85625'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.evl.emf.validation.feature' version='0.8.1'>
+      <properties size='2'>
+        <property name='artifact.size' value='893'/>
+        <property name='download.size' value='893'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ecl.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='119208'/>
+        <property name='download.size' value='119208'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.gmf.feature' version='0.8.1'>
+      <properties size='2'>
+        <property name='artifact.size' value='1031'/>
+        <property name='download.size' value='1031'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ecl.dt.tools' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='692'/>
+        <property name='download.size' value='692'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ewl.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='124087'/>
+        <property name='download.size' value='124087'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.ewl.emf' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='74913'/>
+        <property name='download.size' value='74913'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.workflow' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='32195'/>
+        <property name='download.size' value='32195'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.evl.emf.validation' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='22429'/>
+        <property name='download.size' value='22429'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='31799'/>
+        <property name='download.size' value='31799'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.config' version='0.7.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='26003'/>
+        <property name='download.size' value='26003'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.antlr.postprocessor' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='2972'/>
+        <property name='download.size' value='2972'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eugenia.runtime' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='3616'/>
+        <property name='download.size' value='3616'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model' version='0.7.0'>
+      <properties size='3'>
+        <property name='artifact.size' value='50982'/>
+        <property name='download.size' value='50982'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.dt.exeed' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='302907'/>
+        <property name='download.size' value='302907'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.etl.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='43737'/>
+        <property name='download.size' value='43737'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.profiling.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='169238'/>
+        <property name='download.size' value='169238'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eml.engine' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='150862'/>
+        <property name='download.size' value='150862'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.emc.emf.dt' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='50540'/>
+        <property name='download.size' value='50540'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.perspective' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='123090'/>
+        <property name='download.size' value='123090'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.eol.dt.tools' version='0.8.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='876'/>
+        <property name='download.size' value='876'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+  </artifacts>
+</repository>
