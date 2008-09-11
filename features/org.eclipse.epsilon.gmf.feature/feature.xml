@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.epsilon.gmf.feature"
+      label="Epsilon GMF Support (Incubation)"
+      version="0.8.0"
+      provider-name="Eclipse.org">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="Epsilon" url="http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.gmf.runtime.common.core"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.action"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.action.ide"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.printing"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.services"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.services.action"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.services.dnd"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.services.dnd.ide"/>
+      <import plugin="org.eclipse.gmf.runtime.common.ui.services.properties"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.core"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.actions"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.dnd"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.geoshapes"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.printing"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.printing.render"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.properties"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers.ide"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.render"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.resources.editor"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.clipboard.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.commands.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.type.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.type.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.ui.properties"/>
+      <import plugin="org.eclipse.gmf.runtime.gef.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.notation"/>
+      <import plugin="org.eclipse.gmf.runtime.notation.edit"/>
+      <import plugin="org.eclipse.gmf.runtime.notation.providers"/>
+      <import plugin="org.eclipse.epsilon.ewl.engine"/>
+      <import plugin="org.eclipse.gmf.ecore.editor"/>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.epsilon.ewl.gmf"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+</feature>

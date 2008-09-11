@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.epsilon.feature"
+      label="Epsilon (Incubation)"
+      version="0.8.0"
+      provider-name="The University of York">
+
+   <description url="http://www.eclipse.org/gmt/epsilon">
+      Epsilon Platform Feature
+   </description>
+
+   <copyright>
+      Please refer to the Licence Agreement
+   </copyright>
+
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
+      &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;title&gt;Eclipse.org Software User Agreement&lt;/title&gt;
+&lt;/head&gt;
+&lt;body lang=&quot;EN-US&quot; link=blue vlink=purple&gt;
+&lt;h2&gt;Eclipse Foundation Software User Agreement&lt;/h2&gt;
+
+&lt;p&gt;
+March 17, 2005&lt;/p&gt;
+&lt;h3&gt;Usage Of Content&lt;/h3&gt;
+
+&lt;p&gt;
+THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION,
+INFORMATION AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS
+(COLLECTIVELY &amp;quot;CONTENT&amp;quot;).  USE OF THE CONTENT IS GOVERNED
+BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE TERMS
+AND
+CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED
+BELOW.  BY USING THE CONTENT, YOU AGREE THAT YOUR USE
+OF THE CONTENT IS GOVERNED BY THIS AGREEMENT AND/OR THE TERMS
+AND CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR
+NOTICES INDICATED OR REFERENCED BELOW.  IF YOU DO NOT AGREE TO
+THE TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND
+CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED
+OR REFERENCED BELOW, THEN YOU MAY NOT USE THE CONTENT.&lt;/p&gt;
+&lt;h3&gt;Applicable Licenses&lt;/h3&gt;   
+
+&lt;p&gt;
+Unless otherwise indicated, all Content made available by the
+Eclipse Foundation is provided to you under the terms and conditions
+of the Eclipse Public License Version 1.0
+(&amp;quot;EPL&amp;quot;).  A copy of the EPL is provided with this Content
+and is also available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;.
+For purposes of the EPL, &amp;quot;Program&amp;quot; will mean the Content.&lt;/p&gt;
+
+&lt;p&gt;
+Content includes, but is not limited to, source code, object
+code, documentation and other files maintained in the Eclipse.org
+CVS repository (&amp;quot;Repository&amp;quot;) in CVS
+modules (&amp;quot;Modules&amp;quot;) and made available as downloadable
+archives (&amp;quot;Downloads&amp;quot;).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Content may be structured and packaged into modules to facilitate
+delivering, extending, and upgrading the Content.  Typical modules
+may include plug-ins (&amp;quot;Plug-ins&amp;quot;), plug-in fragments
+(&amp;quot;Fragments&amp;quot;), and features (&amp;quot;Features&amp;quot;).&lt;/li&gt;
+&lt;li&gt;Each Plug-in or Fragment may be packaged as a sub-directory
+or JAR (Java&amp;trade; ARchive) in a directory named &amp;quot;plugins&amp;quot;.&lt;/li&gt;
+&lt;li&gt;A Feature is a bundle of one or more Plug-ins and/or Fragments
+and associated material.  Each Feature may be packaged as a sub-directory
+in a directory named &amp;quot;features&amp;quot;.  Within a Feature,
+files named &amp;quot;feature.xml&amp;quot; may contain a list of the
+names and version numbers of the Plug-ins
+and/or Fragments associated with that Feature.&lt;/li&gt;
+&lt;li&gt;Features may also include other Features (&amp;quot;Included
+Features&amp;quot;). Within a Feature, files named &amp;quot;feature.xml&amp;quot;
+may contain a list of the names and version numbers of Included
+Features.&lt;/li&gt;
+&lt;/ul&gt;   
+
+&lt;p&gt;
+The terms and conditions governing Plug-ins and Fragments should
+be contained in files named &amp;quot;about.html&amp;quot; (&amp;quot;Abouts&amp;quot;).
+The terms and conditions governing Features and
+Included Features should be contained in files named &amp;quot;license.html&amp;quot;
+(&amp;quot;Feature Licenses&amp;quot;).  Abouts and Feature Licenses
+may be located in any directory of a Download or Module
+including, but not limited to the following locations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The top-level (root) directory&lt;/li&gt;
+&lt;li&gt;Plug-in and Fragment directories&lt;/li&gt;
+&lt;li&gt;Inside Plug-ins and Fragments packaged as JARs&lt;/li&gt;
+&lt;li&gt;Sub-directories of the directory named &amp;quot;src&amp;quot; of
+certain Plug-ins&lt;/li&gt;
+&lt;li&gt;Feature directories&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Note: if a Feature made available by the Eclipse Foundation is
+installed using the Eclipse Update Manager, you must agree to
+a license (&amp;quot;Feature Update License&amp;quot;) during the
+installation process.  If the Feature contains Included Features,
+the Feature Update License should either provide you with the
+terms and conditions governing the Included Features or
+inform you where you can locate them.  Feature Update Licenses
+may be found in the &amp;quot;license&amp;quot; property of files named
+&amp;quot;feature.properties&amp;quot; found within a Feature.
+Such Abouts, Feature Licenses, and Feature Update Licenses contain
+the terms and conditions (or references to such terms and conditions)
+that govern your use of the associated Content in
+that directory.&lt;/p&gt;
+
+&lt;p&gt;
+THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY
+REFER TO THE EPL OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS
+AND CONDITIONS.  SOME OF THESE
+OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Common Public License Version 1.0 (available at &lt;a href=&quot;http://www.eclipse.org/legal/cpl-v10.html&quot;&gt;http://www.eclipse.org/legal/cpl-v10.html&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Apache Software License 1.1 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE&quot;&gt;http://www.apache.org/licenses/LICENSE&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Apache Software License 2.0 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;&gt;http://www.apache.org/licenses/LICENSE-2.0&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;IBM Public License 1.0 (available at &lt;a href=&quot;http://oss.software.ibm.com/developerworks/opensource/license10.html&quot;&gt;http://oss.software.ibm.com/developerworks/opensource/license10.html&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Metro Link Public License 1.00 (available at &lt;a href=&quot;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&quot;&gt;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Mozilla Public License Version 1.1 (available at &lt;a href=&quot;http://www.mozilla.org/MPL/MPL-1.1.html&quot;&gt;http://www.mozilla.org/MPL/MPL-1.1.html&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS
+PRIOR TO USE OF THE CONTENT.  If no About, Feature License, or
+Feature Update License is provided, please
+contact the Eclipse Foundation to determine what terms and conditions
+govern that particular Content.&lt;/p&gt;
+&lt;h3&gt;Cryptography&lt;/h3&gt;
+
+&lt;p&gt;
+Content may contain encryption software. The country in which
+you are currently may have restrictions on the import, possession,
+and use, and/or re-export to
+another country, of encryption software. BEFORE using any encryption
+software, please check the country&apos;s laws, regulations and policies
+concerning the import,
+possession, or use, and re-export of encryption software, to
+see if this is permitted.&lt;/p&gt;
+&lt;small&gt;Java and all Java-based trademarks are trademarks of Sun
+Microsystems, Inc. in the United States, other countries, or
+both.&lt;/small&gt;   
+&lt;/body&gt;
+&lt;/h
+   </license>
+
+   <url>
+      <update label="Epsilon" url="http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.core.variables"/>
+      <import plugin="org.eclipse.emf.ecore.editor"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.emf.common"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.epsilon.commons"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.dependencies"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ecl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ecl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.common.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.dt.exeed"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.help"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.perspective"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.util.emf"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.egl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.egl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eml.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eml.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eol.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eol.dt.tools"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eol.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eol.tools"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.erl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.etl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.etl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.evl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.evl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ecl.dt.tools"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.workflow"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ewl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ewl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.profiling.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.antlr.postprocessor"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.antlr.postprocessor.model"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.ewl.emf"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.virtual"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.productivity"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.antlr"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.composite"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+</feature>
