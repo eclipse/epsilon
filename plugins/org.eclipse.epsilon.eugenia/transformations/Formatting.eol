@@ -1,0 +1,136 @@
+operation ECore!EClass createFigure() {
+	
+	var shapeName := self.getFormatOption('figure');
+	var shape;
+	
+	if (shapeName = 'rectangle') {
+		shape := new GmfGraph!Rectangle;
+	}
+	else if (shapeName = 'ellipse') {
+		shape := new GmfGraph!Ellipse;
+	}
+	else if (shapeName.isUndefined() or shapeName='rounded') {
+		shape := new GmfGraph!RoundedRectangle;
+		shape.cornerHeight := 8;
+		shape.cornerWidth := 8;
+	}
+	else {
+		shape := new GmfGraph!CustomFigure;
+		shape.qualifiedClassName := shapeName;
+	}
+	
+	if (not shape.isTypeOf(GmfGraph!CustomFigure)) {
+		var marginBorder := new GmfGraph!MarginBorder;
+		var insets := new GmfGraph!Insets;
+		var border := 5;
+		insets.top := border;
+		insets.bottom := border;
+		insets.left := border;
+		insets.right := border;
+		marginBorder.insets := insets;
+		shape.border := marginBorder;
+	}
+	
+	shape.formatNode(self);
+	
+	return shape;
+}
+
+operation GmfGraph!Figure formatLine(color : String, width : String, style : String) {
+	
+	if (color.isDefined()) {
+		self.foregroundColor := createColor(color);
+	}
+	
+	if (width.isDefined() and self.isKindOf(GmfGraph!Shape)) {
+		self.lineWidth := width.asInteger();
+	}
+	
+	if (style.isDefined() and self.isKindOf(GmfGraph!Shape)) {
+		if (style = 'dash') {
+			self.lineKind := GmfGraph!LineKind#LINE_DASH.instance;
+		}
+		else if (style = 'dot') {
+			self.lineKind := GmfGraph!LineKind#LINE_DOT.instance;
+		}
+		else if (style = 'solid') {
+			self.lineKind := GmfGraph!LineKind#LINE_SOLID.instance;
+		}
+	}
+	
+}
+
+operation GmfGraph!Figure formatNode(e : ECore!EModelElement) {
+	
+	var backgroundColor := e.getFormatOption('color');
+	
+	if (backgroundColor.isDefined()) {
+		self.backgroundColor := createColor(backgroundColor);
+	}
+	
+	self.formatLine(e.getFormatOption('border.color'),e.getFormatOption('border.width'),e.getFormatOption('border.style'));
+	
+}
+
+operation GmfGraph!PolylineConnection formatConnection(e) {
+	
+	self.sourceDecoration := createPolylineDecoration(self.name + 'SourceDecoration', e.getFormatOption('source.decoration'));
+	self.targetDecoration := createPolylineDecoration(self.name + 'TargetDecoration', e.getFormatOption('target.decoration'));
+
+	self.formatLine(e.getFormatOption('color'),e.getFormatOption('width'),e.getFormatOption('style'));
+	
+	-*
+	var color := e.getFormatOption('color');
+	if (color.isDefined()) {
+		self.foregroundColor := createColor(color);
+		self.backgroundColor := createColor(color);
+	}
+	
+	var width := e.getFormatOption('width');
+	if (width.isDefined()) {
+		self.lineWidth := width.asInteger();
+	}
+	*-
+}
+
+operation createPolylineDecoration(name : String, type : String) {
+	
+	var polylineDecoration;
+	
+	if (type = 'none' or type.isUndefined()) {
+	
+	}
+	else if (type = 'arrow') {
+		polylineDecoration := new GmfGraph!PolylineDecoration;
+		polylineDecoration.name := name;
+	}
+	else {
+		polylineDecoration := new GmfGraph!CustomDecoration;
+		polylineDecoration.qualifiedClassName := type;
+		polylineDecoration.name := name;
+	}
+	
+	if (polylineDecoration.isDefined()) {
+		figureGallery.figures.add(polylineDecoration);
+	}
+	
+	return polylineDecoration;
+	
+}
+
+operation createColor(rgb : String) : GmfGraph!Color {
+	var color := new GmfGraph!RGBColor;
+	var parts := rgb.split(',');
+	color.red := parts.at(0).asInteger();
+	color.green := parts.at(1).asInteger();
+	color.blue := parts.at(2).asInteger();
+	return color;
+}
+
+operation ECore!EModelElement getFormatOption(option : String) : String {
+	
+	var value := self.getAnnotationValue('gmf.node', option);
+	if (value.isUndefined()) value := self.getAnnotationValue('gmf.link', option);
+	
+	return value;
+}

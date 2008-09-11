@@ -1,0 +1,211 @@
+import 'ECoreUtil.eol';
+
+context EPackage {
+	
+	constraint DiagramIsDefined {
+		
+		guard : self.getTopEPackage().isAnnotatedAs('gmf')
+		
+		check : getDiagramClass().isDefined()
+		
+		message : 'One class must be specified as gmf.diagram'
+		
+	}
+	
+	constraint ContainmentReferencesAreDefined {
+		
+		guard : self.satisfies('DiagramIsDefined')
+		
+		check : getDiagramClass().getContainmentReferences().size() > 0
+		
+		message : 'Diagram class ' + getDiagramClass().name + ' must define '
+			+ ' at least one containment reference'
+		
+	}
+	
+	constraint NodesAreDefined {
+		
+		guard : self.satisfies('DiagramIsDefined')
+		
+		check : getNodes().size() > 0
+		
+		message : 'No nodes (gmf.node) have been defined'
+		
+	}
+	
+	critique ReferenceLinksAreDefined {
+		
+		guard : self.satisfies('DiagramIsDefined')
+		
+		check : getReferenceLinks().size() > 0
+		
+		message : 'No reference links (gmf.link) have been defined'
+	}
+	
+}
+
+context EClass {
+	
+	guard : self.isNode() and self.getTopEPackage().satisfies('DiagramIsDefined')
+	
+	constraint NodeLabelIsDefined { 
+		
+		check : self.getAnnotationValue('gmf.node', 'label').isDefined()  
+		
+		message : 'No label defined for class ' + self.name 
+		
+	} 
+	
+	constraint NodeLabelsExist { 
+		
+		guard : self.satisfies('NodeLabelIsDefined') 
+		
+		check {
+			var missing : Sequence(String);
+			for (label : String in self.getAnnotationValue('gmf.node', 'label').split(',').collect(s|s.trim())){
+				if (not self.getAttribute(label).isDefined()) {
+					missing.add(label);
+				}
+			}
+			return missing.size() = 0;
+		}
+		
+		message : 'Label attribute(s) ' + missing.concat(', ')  
+			+ ' does not exist in class ' + self.name 
+		
+	}
+	
+}
+
+context EStringToStringMapEntry {
+	
+	guard : self.getTopEPackage().satisfies('DiagramIsDefined') and 
+		EAnnotation.all.exists(a|a.source.isDefined() and 
+		a.source.startsWith('gmf.') and a.details.includes(self))
+	
+	critique LabelIcon {
+		
+		guard : self.key = 'label.icon'
+		
+		check {
+			var values := Sequence{'true', 'false'};
+			return values.includes(self.value);
+		}
+		
+		message : 'The value of label.icon must be one of: ' + values.concat(',')
+	}
+	
+	critique LineStyle {
+		
+		guard : self.key = 'style'
+		
+		check {
+			var values := Sequence{'dot', 'dash', 'solid'};
+			return values.includes(self.value);
+		}
+		
+		message : 'The value of style must be one of: ' + values.concat(',')
+	}
+
+	critique CompartmentLayout {
+		
+		guard : self.key = 'layout'
+		
+		check {
+			var values := Sequence{'list', 'free'};
+			return values.includes(self.value);
+		}
+		
+		message : 'The value of style must be one of: ' + values.concat(',')
+	}	
+}
+
+context EClass {
+	
+	guard : self.isLink() and self.getTopEPackage().satisfies('DiagramIsDefined')
+	
+	constraint LinkLabelExists {
+		
+		guard : self.getAnnotationValue('gmf.link', 'label').isDefined()
+
+		check {
+			var missing : Sequence(String);
+			for (label : String in self.getAnnotationValue('gmf.link', 'label').split(',').collect(s|s.trim())){
+				if (not self.getAttribute(label).isDefined()) {
+					missing.add(label);
+				}
+			}
+			return missing.size() = 0;
+		}
+		
+		message : 'Label attribute(s) ' + missing.concat(', ')  
+			+ ' does not exist in link class ' + self.name 
+		
+	}
+	
+	
+	constraint LinkSourceIsDefined {
+		
+		check : self.getAnnotationValue('gmf.link', 'source').isDefined() 
+		
+		message : 'No source defined for link class ' + self.name
+		
+	}
+	
+	constraint LinkSourceExists {
+		
+		guard : self.satisfies('LinkSourceIsDefined')
+		
+		check : self.getReference(self.getAnnotationValue('gmf.link', 'source')).isDefined()
+		
+		message : 'No reference named ' + self.getAnnotationValue('gmf.link', 'source') 
+			+ ' exists in link class ' + self.name
+			
+	}
+	
+	constraint LinkTargetIsDefined {
+		
+		check : self.getAnnotationValue('gmf.link', 'target').isDefined() 
+		
+		message : 'No target defined for link class ' + self.name
+		
+	}
+	
+	constraint LinkTargetExists {
+		
+		guard : self.satisfies('LinkTargetIsDefined')
+		
+		check : self.getReference(self.getAnnotationValue('gmf.link', 'target')).isDefined()
+		
+		message : 'No reference named ' + self.getAnnotationValue('gmf.link', 'target') 
+			+ ' exists in link class ' + self.name
+		
+	}
+	
+	critique CanBeVisualized {
+		
+		check : getDiagramContainmentReference(self).isDefined()
+		
+		message : 'Cannot generate link for class ' + self.name + 
+			' because it cannot be contained in any containment refence ' +
+			' of diagram root ' + getDiagramClass().name
+		
+	}
+}
+
+operation ECore!EClass getAttribute(name : String) {
+	return self.eAllStructuralFeatures.selectOne(sf:ECore!EAttribute|sf.name = name);
+}
+
+operation ECore!EClass getReference(name : String) {
+	return self.eAllStructuralFeatures.selectOne(sf:ECore!EReference|sf.name = name);
+}
+
+operation Any getTopEPackage() {
+	if (self.eContainer().isDefined()) {
+		return self.eContainer().getTopEPackage();
+	}
+	else {
+		return self;
+	}
+}

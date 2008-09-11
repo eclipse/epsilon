@@ -1,0 +1,255 @@
+@cached
+operation getNodes() {
+	return ECore!EClass.all.select(c|c.isNode());	
+}
+
+@cached
+operation getLinks() {
+	return ECore!EClass.all.select(c|c.isLink());
+}
+
+@cached
+operation getReferenceLinks() {
+	return ECore!EReference.all.select(r|r.isLink());
+}
+
+@cached
+operation ECore!EClass getAllConcreteSubTypes() { 
+	
+	return ECore!EClass.all.select(c|not c.abstract and c.eAllSuperTypes.includes(self));
+	
+}
+
+@cached
+operation getDiagramClass() : ECore!EClass {
+	return ECore!EClass.all.selectOne(c|c.isAnnotatedAs('gmf.diagram'));
+}
+
+operation getDiagramContainmentReference(class : ECore!EClass) {
+	for (ref in getDiagramClass().getContainmentReferences()){
+		if (class.eAllSuperTypes.includes(ref.eType) or class = ref.eType) return ref;
+	}
+}
+
+@cached
+operation ECore!EClass getContainmentReferences() {
+	return self.eAllStructuralFeatures.select(sf : ECore!EReference | sf.containment);
+}
+
+@cached
+operation ECore!EClass getCompartmentReferences() {
+	return self.getContainmentReferences().select(r|r.isAnnotatedAs('gmf.compartment'));
+}
+
+@cached
+operation ECore!EClass getAffixedReferences() {
+	return self.getContainmentReferences().select(r|r.isAnnotatedAs('gmf.affixed'));
+}
+
+@cached
+operation ECore!EReference isListLayout() : Boolean {
+	var label := self.getAnnotationValue('gmf.compartment', 'layout');
+	if (label = 'list') return true;
+	else return false;
+}
+
+@cached
+operation ECore!EClass getConcreteSubtypes() {
+	return ECore!EClass.all.select(e|(not e.abstract) and (e.eAllSuperTypes.includes(self) or e = self));
+}
+
+@cached
+operation ECore!EClass getNodeSize() {
+	var size := self.getAnnotationValue('gmf.node', 'size');
+	if (not size.isDefined()) return size;
+	else {
+		var d : new GmfGraph!Dimension;
+		d.dx := size.split(',').at(0).asInteger();
+		d.dy := size.split(',').at(1).asInteger();
+		return d;
+	}
+	
+}
+
+@cached
+operation ECore!EClass getNodeSize() {
+	var size := self.getAnnotationValue('gmf.node', 'size');
+	if (not size.isDefined()) return size;
+	else {
+		var d : new GmfGraph!Dimension;
+		d.dx := size.split(',').at(0).asInteger();
+		d.dy := size.split(',').at(1).asInteger();
+		return d;
+	}
+	
+}
+operation ECore!EClass getLinkEndFeature(name : String) {
+	var featureName := self.getAnnotationValue('gmf.link', name);
+	return self.eAllStructuralFeatures.selectOne(sf|sf.name = featureName);
+}
+
+@cached
+operation ECore!EClass getLinkSourceFeature() {
+	return self.getLinkEndFeature('source');
+}
+
+@cached
+operation ECore!EClass getLinkTargetFeature() {
+	return self.getLinkEndFeature('target');
+}
+
+@cached
+operation ECore!EReference isLink() : Boolean {
+	return self.isAnnotatedAs('gmf.link');
+}
+
+@cached
+operation ECore!EClass isLink() : Boolean {
+	
+	if (self.abstract) return false;
+	 
+	var isLink := self.isAnnotatedAs('gmf.link');
+	var isNoLink := self.isAnnotatedAs('gmf.nolink');
+	
+	if (isNoLink) return false;
+	else if (isLink) return true;
+	else return self.eSuperTypes.exists(s|s.isLink());
+	
+	return isLink;
+}
+
+@cached
+operation ECore!EClass isNode() : Boolean {
+	
+	if (self.isLink()) return false;
+	if (self.abstract) return false;
+	
+	var isNode := self.isAnnotatedAs('gmf.node');
+	var isNoNode := self.isAnnotatedAs('gmf.nonode');
+	
+	if (isNoNode) return false;
+	else if (isNode) return true;
+	else return self.eSuperTypes.exists(s|s.isNode());
+	
+	return isNode;
+}
+
+@cached
+operation ECore!EClass getLabelName() : String {
+	--return self.name + self.getLabelAttribute().name.firstToUpperCase();
+	return self.name + 'Label';
+}
+
+@cached
+operation ECore!EClass hasInternalLabel() : Boolean {
+	var labelPosition := self.getAnnotationValue('gmf.node', 'label.placement');
+	if (labelPosition.isUndefined() or labelPosition = 'internal') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+@cached
+operation ECore!EClass labelHasIcon(default : Boolean) : Boolean {
+
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	
+	var hasIcon := self.getAnnotationValue(ann, 'label.icon');
+	
+	if (hasIcon.isUndefined()) return default;
+	else if (hasIcon = 'true') return true;
+	else return false;
+	
+}
+
+@cached
+operation ECore!EClass getLabelPattern() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	
+	return self.getAnnotationValue(ann, 'label.pattern');
+	
+}
+
+operation ECore!EClass getLabelClass() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	
+	return self.getAnnotationValue(ann, 'label.impl');
+	
+}
+
+operation ECore!EClass getLabelAttributes() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	
+	var labelAnnotationValue := self.getAnnotationValue(ann, 'label');
+	
+	if (labelAnnotationValue.isDefined()) {
+		var labels := labelAnnotationValue.split(',').collect(s|s.trim());
+		return self.eAllStructuralFeatures.select(f|labels.exists(s|s = f.name));
+	}
+	else {
+		return Sequence{};
+	}
+}
+
+
+
+@cached
+operation ECore!EAnnotation getDetail(key : String) : String {
+	var detail := self.details.selectOne(d|d.key = key);
+	if (detail.isDefined()) {return detail.value;}
+	else {return null;}
+}
+
+operation ECore!EModelElement getAnnotationValue(name : String, detail : String) : Any {
+	
+	var ann := self.eAnnotations.selectOne(a|a.source = name);
+	
+	var det;
+	
+	if (ann.isDefined()) {
+		det := ann.details.selectOne(d|d.key = detail);
+	}
+	
+	if (det.isDefined()) {
+		return det.value;
+	}
+	else if (self.isTypeOf(ECore!EClass)) {
+		for (s in self.eSuperTypes) {
+			var sann := s.getAnnotationValue(name, detail);
+			if (sann.isDefined()) {
+				return sann;
+			}
+		}
+	}
+	return det;	
+}
+
+@cached
+operation ECore!EModelElement getAnnotation(name : String) : ECore!EAnnotation {
+	var ann := self.eAnnotations.selectOne(a|a.source = name);
+	
+	if (self.isTypeOf(ECore!EClass) and ann.isUndefined()) {
+		for (s in self.eSuperTypes) {
+			var sann := s.getAnnotation(name);
+			if (sann.isDefined()) return sann;
+		}
+	}
+	
+	return ann;
+	
+}
+
+@cached
+operation ECore!EModelElement isAnnotatedAs(name : String) : Boolean {
+	return self.getAnnotation(name).isDefined();
+}

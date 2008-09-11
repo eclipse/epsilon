@@ -1,0 +1,54 @@
+import 'ECoreUtil.eol';
+
+var ePackage := ECore!EPackage.all.first();
+
+var genDiagram := GmfGen!GenDiagram.all.first();
+
+-- Enable shortcuts
+genDiagram.containsShortcutsTo.add(ePackage.name);
+genDiagram.shortcutsProvidedFor.add(ePackage.name);
+
+-- Enable validation
+genDiagram.validationDecorators := true;
+genDiagram.validationEnabled := true;
+genDiagram.liveValidationUIFeedback := true;
+
+-- Enable printing
+var genPlugin := GmfGen!GenPlugin.all.first();
+genPlugin.printingEnabled := true;
+
+-- Adjust compartment layout
+for (class in getNodes()) {
+	for (ref in class.getCompartmentReferences()) {
+		var genCompartments := GmfGen!GenCompartment.all.select(c|c.title = class.name + ref.name.firstToUpperCase() + 'Compartment');
+		for (genCompartment in genCompartments) {
+			genCompartment.listLayout := ref.isListLayout();
+			genCompartment.hideIfEmpty := true;
+		}
+	}
+}
+
+-- Adjust open diagram behaviour
+
+for (class in getDiagramClass().getAllConcreteSubTypes() + Sequence{getDiagramClass()}) {
+	var genTopLevelNodes := GmfGen!GenTopLevelNode.all.select(n|n.createCommandClassName = class.name + 'CreateCommand');
+	for (genTopLevelNode in genTopLevelNodes) {
+		genTopLevelNode.behaviour.add(new GmfGen!OpenDiagramBehaviour);
+	}
+}
+
+-*
+for (node in getNodes()) {
+	
+	if (node.getLabelClass().isDefined()) {
+	
+		var parentAssignedViewMap := GmfGen!ParentAssignedViewmap.all.selectOne(viewMap|viewMap.getterName = 'getFigure' + node.name + 'LabelFigure');
+		
+		parentAssignedViewMap.println('->' + node.name).figureQualifiedClassName := node.getLabelClass();
+		
+		var innerClassViewmap := GmfGen!InnerClassViewmap.all.selectOne(viewMap|viewMap.className = node.name + 'Figure');
+		innerClassViewmap.classBody := innerClassViewmap.classBody.replace('org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel',node.getLabelClass());
+		
+	}
+}
+*-

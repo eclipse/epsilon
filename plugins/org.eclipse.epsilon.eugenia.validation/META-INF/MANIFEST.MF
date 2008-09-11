@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Validation Plug-in
+Bundle-SymbolicName: org.eclipse.epsilon.eugenia.validation;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.evl.emf.validation;bundle-version="1.0.0"

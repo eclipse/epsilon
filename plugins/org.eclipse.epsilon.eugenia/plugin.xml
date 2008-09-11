@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.easygmf.ecore"
+            nameFilter="*.ecore"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateToolGraphMapDelegate"
+               enablesFor="1"
+               id="org.eclipse.epsilon.eugenia.GenerateToolGraphMapDelegate"
+               label="Generate GMF tool, graph and map models"
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/actions">
+         </action>
+         <menu
+               id="org.eclipse.epsilon.eugenia.ecore"
+               label="Eugenia"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.easygmf.gmfgen"
+            nameFilter="*.gmfgen"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.eugenia.FixGmfGenDelegate"
+               enablesFor="1"
+               id="org.eclipse.epsilon.eugenia.FixGmfGenDelegate"
+               label="Synchronize GMF gen model"
+               menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">
+         </action>
+         <menu
+               id="org.eclipse.epsilon.eugenia.gmfgen"
+               label="Eugenia"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.easygmf.gmfgen"
+            nameFilter="*.genmodel"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
+               enablesFor="1"
+               id="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
+               label="Synchronize EMF gen model"
+               menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">
+         </action>
+         <menu
+               id="org.eclipse.epsilon.eugenia.gmfgen"
+               label="Eugenia"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
+      </objectContribution>
+   </extension>
+
+</plugin>

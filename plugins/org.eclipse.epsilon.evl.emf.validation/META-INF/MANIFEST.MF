@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EVL EMF Validation Integration Plug-in
+Bundle-SymbolicName: org.eclipse.epsilon.evl.emf.validation;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.epsilon.evl.emf.validation.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.epsilon.evl.engine,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.emf.validation,
+ org.eclipse.emf.validation.ui,
+ org.eclipse.emf.validation.ui.ide,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.eol.dt,
+ org.eclipse.debug.core,
+ org.eclipse.ui.ide;bundle-version="3.4.0",
+ org.eclipse.emf.ecore.edit;bundle-version="2.4.0",
+ org.eclipse.emf.ecore.editor;bundle-version="2.4.0",
+ org.eclipse.emf.edit;bundle-version="2.4.0",
+ org.eclipse.emf.edit.ui;bundle-version="2.4.0",
+ org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.1.0"
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.epsilon.evl.emf.validation

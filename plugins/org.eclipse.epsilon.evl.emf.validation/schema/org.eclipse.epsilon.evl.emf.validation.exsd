@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.epsilon.evl.emf.validation" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.epsilon.evl.emf.validation" id="org.eclipse.epsilon.evl.emf.validation" name="EVL Constraints"/>
+      </appinfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="constraintsBinding" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="constraintsBinding">
+      <annotation>
+         <appinfo>
+            <meta.element labelAttribute="ePackageUri"/>
+         </appinfo>
+         <documentation>
+            Binding of an ePackage URI with a set of EVL constraints defined in a file.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="namespaceURI" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The namespace URI of the package on EClasses of which the constraints apply.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="constraints" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The file that contains the EVL constraints.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="modelName" type="string">
+            <annotation>
+               <documentation>
+                  The name of the model in the EVL constraints file. If no value is specified the model shall be accessible as &quot;_Model&quot;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="bundleId" type="string">
+            <annotation>
+               <documentation>
+                  The id of the bundle in which the EVL constraints module is contained. If unspecified, the contributing plugin is assumed.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiInfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>
