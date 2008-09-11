@@ -29,7 +29,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		delegates.add(new GmfMarkerResolver());
 	}
 	
-	@Override
 	public boolean canResolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			//System.err.println(delegate);
@@ -39,7 +38,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return false;
 	}
 
-	@Override
 	public EObject resolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -48,7 +46,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
-	@Override
 	public String getAbsoluteElementId(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -57,7 +54,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
-	@Override
 	public String getMessage(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -66,7 +62,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
-	@Override
 	public EditingDomain getEditingDomain(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))

@@ -35,12 +35,10 @@ public class EvlMarkerResolution implements IMarkerResolution {
 		}
 	}
 
-	@Override
 	public String getLabel() {
 		return label;
 	}
 
-	@Override
 	public void run(IMarker marker) {
 		
 		EObject self = EvlMarkerResolverManager.INSTANCE.resolve(marker); //getEObject(elementId);

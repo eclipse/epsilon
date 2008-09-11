@@ -36,7 +36,6 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	protected HashMap<EvlFixInstance, String> modelNames = new HashMap<EvlFixInstance, String>();
 	
-	@Override
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		
 		if (this != INSTANCE) return INSTANCE.getResolutions(marker);

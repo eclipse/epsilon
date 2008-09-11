@@ -28,7 +28,6 @@ public class CompositeEValidator implements EValidator {
 		return delegates;
 	}
 
-	@Override
 	public boolean validate(EObject object, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean validate = true;
@@ -38,7 +37,6 @@ public class CompositeEValidator implements EValidator {
 		return validate;
 	}
 
-	@Override
 	public boolean validate(EClass class1, EObject object,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
@@ -48,7 +46,6 @@ public class CompositeEValidator implements EValidator {
 		return validate;
 	}
 
-	@Override
 	public boolean validate(EDataType dataType, Object value,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
@@ -57,7 +54,4 @@ public class CompositeEValidator implements EValidator {
 		}
 		return validate;
 	}
-	
-	
-	
 }
