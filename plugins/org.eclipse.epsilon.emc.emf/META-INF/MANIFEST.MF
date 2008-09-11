@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon EMF Model Support (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.emc.emf;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.emf;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.ecore.change;visibility:=reexport,
+ org.eclipse.emf.mapping.xsd2ecore
+Export-Package: org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.emc.emf.m0,
+ org.eclipse.epsilon.emc.emf.tools,
+ org.eclipse.epsilon.emc.emf.transactions,
+ org.eclipse.epsilon.emc.emf.xml
+Bundle-ClassPath: org.eclipse.epsilon.emc.emf.jar

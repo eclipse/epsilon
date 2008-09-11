@@ -1,0 +1,29 @@
+operation Any allOfType(){
+	def allOfType : Sequence;
+	allOfType := Model!Row.allInstances().select(r|r.tableData.table.name = self);
+	return allOfType;
+}
+
+operation Model!Row getProperty(property : String) {
+
+	def cell : Model!Cell;
+	cell := self.cell.select(c|c.column.name = property).first(); 
+	
+	if (cell.isDefined()){
+		def ck : Model!ForeignKey;
+		ck := Model!ForeignKey.allInstances().select(fk|fk.child.participant = cell.column).first();
+	  if (ck.isDefined()){
+			return 
+	  		Model!Row.allInstances().
+	  			select(r|r.cell.exists(c|c.column = ck.parent.participant)).first();
+	  }
+	  else {
+	  	return cell.value;
+	  }
+	}
+	
+}
+
+operation Model!Row setProperty(property:String, value:Any) {
+	self.cell.select(c|c.column.name = property).first().value := value;
+}

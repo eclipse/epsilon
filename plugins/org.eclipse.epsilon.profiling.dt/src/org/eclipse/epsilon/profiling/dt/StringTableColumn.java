@@ -1,0 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.profiling.dt;
+
+import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.jface.viewers.TableViewer;
+
+public class StringTableColumn extends SortableTableColumn {
+
+	public StringTableColumn(TableViewer tableViewer, int style) {
+		super(tableViewer, style);
+	}
+
+	public StringTableColumn(TableViewer tableViewer, int style, int index) {
+		super(tableViewer, style, index);
+	}
+
+	@Override
+	int compare(Object o1, Object o2) {
+		return StringUtil.toString(o1).compareTo(StringUtil.toString(o2));
+	}
+
+}

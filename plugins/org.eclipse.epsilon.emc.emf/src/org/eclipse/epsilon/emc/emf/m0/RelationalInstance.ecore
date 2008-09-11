@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Relational:Database xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:Relational="Relational">
+  <tables name="Customer">
+    <columns name="customerId" type="INT"/>
+    <columns name="details" type="VARCHAR"/>
+    <columns name="age" type="INT"/>
+    <columns name="credit" type="REAL"/>
+  </tables>
+  <tables name="Invoice">
+    <columns name="invoiceId" type="INT"/>
+    <columns name="customerId" type="INT"/>
+    <columns name="issueNumber" type="VARCHAR"/>
+    <columns name="totalValue" type="REAL"/>
+    <columns name="payed" type="BIT"/>
+  </tables>
+  <tables name="Product">
+    <columns name="productId" type="INT"/>
+    <columns name="unitPrice" type="REAL"/>
+  </tables>
+  <tables name="InvoiceItem">
+    <columns name="invoiceId" type="INT"/>
+    <columns name="productId" type="INT"/>
+    <columns name="quantity" type="REAL"/>
+  </tables>
+  <foreignKeys name="CustomerInvoice" oneToMany="false">
+    <parent name="customer" participant="#//@tables.0/@columns.0"/>
+    <child name="invoice" participant="#//@tables.1/@columns.1"/>
+  </foreignKeys>
+  <foreignKeys name="InvoiceItemProduct" oneToMany="false">
+    <parent name="invoiceItem" participant="#//@tables.3/@columns.1"/>
+    <child name="product" participant="#//@tables.2/@columns.0"/>
+  </foreignKeys>
+  <foreignKeys name="InvoiceInvoiceItem" oneToMany="true">
+    <parent name="invoice" participant="#//@tables.1/@columns.0"/>
+    <child name="invoiceItems" participant="#//@tables.3/@columns.0"/>
+  </foreignKeys>
+  <tableData table="#//@tables.0">
+    <row>
+      <cell value="1" column="#//@tables.0/@columns.0"/>
+      <cell value="Dimitrios Kolovos" column="#//@tables.0/@columns.1"/>
+      <cell value="25" column="#//@tables.0/@columns.2"/>
+      <cell value="3000" column="#//@tables.0/@columns.3"/>
+    </row>
+  </tableData>
+  <tableData table="#//@tables.1">
+    <row>
+      <cell value="1" column="#//@tables.1/@columns.0"/>
+      <cell value="1" column="#//@tables.1/@columns.1"/>
+      <cell value="IN0001" column="#//@tables.1/@columns.2"/>
+      <cell value="5000" column="#//@tables.1/@columns.3"/>
+      <cell value="false" column="#//@tables.1/@columns.4"/>
+    </row>
+  </tableData>
+  <tableData table="#//@tables.2">
+    <row>
+      <cell value="1" column="#//@tables.2/@columns.0"/>
+      <cell value="10" column="#//@tables.2/@columns.1"/>
+    </row>
+  </tableData>
+  <tableData table="#//@tables.3">
+    <row>
+      <cell value="1" column="#//@tables.3/@columns.0"/>
+      <cell value="1" column="#//@tables.3/@columns.1"/>
+      <cell value="20" column="#//@tables.3/@columns.2"/>
+    </row>
+  </tableData>
+</Relational:Database>

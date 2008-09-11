@@ -1,0 +1,30 @@
+import 'Copy[%=eCoreName%].etl';
+
+[%for (c : EClass in EClass.allInstances.select(c|not c.abstract)) { %]
+rule [%=c.getMergeRuleName()%]
+	merge l : Left!"[%=c.name%]"
+	with r : Right!"[%=c.name%]" 
+	into t : Target!"[%=c.name%]" {
+	
+	[%for (a : EAttribute in c.eAllStructuralFeatures.select(sf|not sf.many and sf.changeable)) {%] 
+	t."[%=a.name%]" := l."[%=a.name%]";
+	[%}%]
+	[%for (a : EAttribute in c.eAllStructuralFeatures.select(sf|sf.many and sf.changeable)) {%] 
+	t."[%=a.name%]" := l."[%=a.name%]" + r."[%=a.name%]";
+	[%}%]
+	[%for (a : EReference in c.eAllStructuralFeatures.select(sf|not sf.many and sf.changeable)) {%] 
+	t."[%=a.name%]" ::= l."[%=a.name%]";
+	[%}%]
+	[%for (a : EReference in c.eAllStructuralFeatures.select(sf|sf.many and sf.changeable)) {%] 
+	t."[%=a.name%]" ::= l."[%=a.name%]" + r."[%=a.name%]";
+	[%}%]
+	
+}
+[%}
+%]
+
+[%
+operation EClass getMergeRuleName() : String {
+	return 'Merge' + self.name;
+}
+%]

@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Wizard Language Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.ewl.dt;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Activator: org.eclipse.epsilon.ewl.dt.EwlPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.ewl.engine,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.jface,
+ org.eclipse.ui,
+ org.eclipse.jface.text,
+ org.eclipse.ui.views,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.editors,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Bundle-ClassPath: org.eclipse.epsilon.ewl.dt.jar
+Export-Package: org.eclipse.epsilon.ewl.dt,
+ org.eclipse.epsilon.ewl.dt.editor,
+ org.eclipse.epsilon.ewl.dt.editor.outline,
+ org.eclipse.epsilon.ewl.dt.wizards

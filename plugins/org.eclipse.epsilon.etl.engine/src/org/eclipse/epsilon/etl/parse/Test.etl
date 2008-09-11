@@ -1,0 +1,27 @@
+pre {
+	doit();
+}
+
+post A {
+	doit();
+}
+
+rule A 
+	transform a : A
+	to b : B extends C2D {
+	
+	guard : true
+	
+	doit();
+	
+}
+
+rule B 
+	transform a : A 
+	to b : B, c : C {
+
+	guard {
+		return false;
+	}
+
+}

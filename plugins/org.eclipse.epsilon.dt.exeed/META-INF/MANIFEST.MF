@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Exeed EMF Model Editor (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.dt.exeed;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Activator: org.eclipse.epsilon.dt.exeed.ExeedPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf;visibility:=reexport,
+ org.eclipse.epsilon.commons;visibility:=reexport,
+ org.eclipse.emf.ecore.editor;visibility:=reexport,
+ org.eclipse.core.runtime;visibility:=reexport,
+ org.eclipse.epsilon.common.dt;visibility:=reexport,
+ org.eclipse.epsilon.util.emf;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf;visibility:=reexport,
+ org.eclipse.ui.editors;visibility:=reexport,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.ui;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport
+Eclipse-LazyStart: true
+Bundle-ClassPath: org.eclipse.epsilon.dt.exeed.jar,
+ lib/jdom.jar
+Export-Package: org.eclipse.epsilon.dt.exeed,
+ org.eclipse.epsilon.dt.exeed.modelink

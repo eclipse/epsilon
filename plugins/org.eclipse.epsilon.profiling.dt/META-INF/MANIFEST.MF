@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Profiling Support (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.profiling.dt;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Activator: org.eclipse.epsilon.profiling.dt.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.commons,
+ org.eclipse.epsilon.common.dt
+Eclipse-LazyStart: true
+Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
+Export-Package: org.eclipse.epsilon.profiling.dt,
+ org.eclipse.epsilon.profiling.dt.plot

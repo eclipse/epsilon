@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="PrimitiveTypes">
+    <eClassifiers xsi:type="ecore:EDataType" name="String"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Boolean"/>
+  </ecore:EPackage>
+  <ecore:EPackage name="Relational">
+    <eClassifiers xsi:type="ecore:EClass" name="Database">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tables" ordered="false" upperBound="-1" eType="/1/Table" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="foreignKeys" ordered="false" upperBound="-1" eType="/1/ForeignKey" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tableData" ordered="false" upperBound="-1" eType="/1/TableData" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false" lowerBound="1" eType="/0/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Table" eSuperTypes="/1/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="columns" ordered="false" upperBound="-1" eType="/1/Column" containment="true" eOpposite="/1/Column/table"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForeignKey" eSuperTypes="/1/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="oneToMany" ordered="false" unique="false" lowerBound="1" eType="/0/Boolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" ordered="false" lowerBound="1" eType="/1/ForeignKeyEnd" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" ordered="false" lowerBound="1" eType="/1/ForeignKeyEnd" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForeignKeyEnd" eSuperTypes="/1/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="participant" ordered="false" lowerBound="1" eType="/1/Column"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Column" eSuperTypes="/1/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" unique="false" lowerBound="1" eType="/0/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="table" ordered="false" lowerBound="1" eType="/1/Table" eOpposite="/1/Table/columns"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TableData">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="table" ordered="false" lowerBound="1" eType="/1/Table"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="row" ordered="false" upperBound="-1" eType="/1/Row" containment="true" eOpposite="/1/Row/tableData"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Row">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tableData" ordered="false" lowerBound="1" eType="/1/TableData" eOpposite="/1/TableData/row"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cell" ordered="false" upperBound="-1" eType="/1/Cell" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Cell">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false" unique="false" lowerBound="1" eType="/0/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="column" ordered="false" lowerBound="1" eType="/1/Column"/>
+    </eClassifiers>
+  </ecore:EPackage>
+</xmi:XMI>

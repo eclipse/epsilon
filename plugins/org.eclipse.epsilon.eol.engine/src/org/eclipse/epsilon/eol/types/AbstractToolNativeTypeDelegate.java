@@ -1,0 +1,32 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.eol.types;
+
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.tools.ITool;
+
+public abstract class AbstractToolNativeTypeDelegate implements IToolNativeTypeDelegate {
+	
+	public abstract Object createInstance(String clazz) 
+			throws EolRuntimeException;
+	
+	public Object createInstance(String clazz, IEolContext context)
+			throws EolRuntimeException {
+		
+		Object instance = createInstance(clazz);
+		if (instance instanceof ITool) {
+			((ITool) instance).setContext(context);
+		}
+		return instance;
+	}
+
+}

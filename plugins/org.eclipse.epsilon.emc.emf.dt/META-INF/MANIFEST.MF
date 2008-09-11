@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon EMF Model Support Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.dt;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.common.dt,
+ org.eclipse.jface,
+ org.eclipse.epsilon.commons,
+ org.eclipse.emf,
+ org.eclipse.emf.ecore,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.emc.emf.virtual,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.util.emf
+Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar
+Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.epsilon.emc.emf.dt
+Bundle-Activator: org.eclipse.epsilon.emc.emf.dt.Activator
+Eclipse-LazyStart: true

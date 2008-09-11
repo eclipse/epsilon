@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Rule Language Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.erl.engine;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.eol.engine
+Bundle-ClassPath: org.eclipse.epsilon.erl.engine.jar
+Export-Package: org.eclipse.epsilon.erl,
+ org.eclipse.epsilon.erl.exceptions,
+ org.eclipse.epsilon.erl.rules,
+ org.eclipse.epsilon.erl.strategy

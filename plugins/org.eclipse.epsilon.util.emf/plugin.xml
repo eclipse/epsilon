@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.epsilon.dt"
+            class="org.eclipse.epsilon.util.emf.NewEmfModelWizard"
+            icon="icons/emfmodel.gif"
+            id="org.eclipse.epsilon.util.emf.NewEmfModelWizard"
+            name="EMF Model"/>
+      <wizard
+            category="org.eclipse.epsilon.dt"
+            class="org.eclipse.epsilon.util.emf.NewRegisteredEPackageWizard"
+            icon="icons/register.gif"
+            id="org.eclipse.epsilon.util.emf.NewRegisteredEPackageWizard"
+            name="Registered EPackage">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.perspective.popups.ecore"
+            nameFilter="*.ecore"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.util.emf.RegisterMetamodelAction"
+               icon="icons/register.gif"
+               id="org.eclipse.epsilon.util.emf.RegisterMetamodelAction"
+               label="Register EPackages"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup />
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="Epsilon"
+            class="org.eclipse.epsilon.util.emf.EmfRegistryPreferencePage"
+            id="EmfRegistryPreferencePage"
+            name="EMF Registry"/>
+   </extension>
+
+</plugin>

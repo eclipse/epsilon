@@ -1,0 +1,36 @@
+import 'Test.lib';
+
+wizard Int {
+	
+	guard : self.isTypeOf(String)
+	
+	parameter name : String {
+		title : 'Name' 
+		range : Class.allInstances
+		check : name <> ''
+		fail : 'Rename class to something meaningful'
+	}
+	
+	title : 'Boo'
+	
+	do {
+		-- a.b.c;
+	}
+	
+}
+
+wizard All {
+	
+	-- guard : false
+	
+	title : 'I apply to ' + self
+	
+	do {
+		for (h in thisModule.allHelpers) {
+			h.name.println();
+		}
+		
+		('I print ' + self.foo()).println();
+	}
+	
+}

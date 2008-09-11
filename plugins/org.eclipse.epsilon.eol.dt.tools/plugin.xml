@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.eol.tools.SchedulerTool"
+            defaultName="Scheduler"/>
+      <tool
+            class="org.eclipse.epsilon.eol.tools.Timer"
+            defaultName="Timer">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.eol.tools.JavaTool"
+            defaultName="Java">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.eol.tools.ProfilerTool"
+            defaultName="Profiler">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.eol.tools.MathTool"
+            defaultName="MathTool">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.eol.tools.FileSystemTool"
+            defaultName="fileSystemTool">
+      </tool>
+   </extension>
+
+</plugin>

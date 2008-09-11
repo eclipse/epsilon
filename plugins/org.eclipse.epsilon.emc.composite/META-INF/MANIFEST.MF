@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Composite EMF Plug-in
+Bundle-SymbolicName: org.eclipse.epsilon.emc.composite
+Bundle-Version: 0.8.0
+Bundle-Activator: org.eclipse.epsilon.emc.composite.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.epsilon.ecl.engine,
+ org.eclipse.epsilon.etl.engine,
+ org.eclipse.epsilon.eol.engine
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.epsilon.emc.composite

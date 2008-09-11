@@ -1,0 +1,12 @@
+for (i in Sequence{1..10}) {
+	var t : new Tree;
+	t.label := 't'+i;
+}
+
+for (t in Tree.allInstances) {
+	t.parent := Tree.allInstances.excluding(t).random();
+}
+
+for (t in Tree.allInstances) {
+	(t.label + ' childOf ' + t.parent.label + ' parentOf ' + t.children.collect(c|c.label).concat(',')).println();
+}

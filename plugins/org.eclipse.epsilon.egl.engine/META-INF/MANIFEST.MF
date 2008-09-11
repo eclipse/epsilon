@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Generation Language Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.egl.engine
+Bundle-Version: 0.8.0
+Bundle-Localization: plugin
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.commons,
+ org.eclipse.epsilon.emc.emf
+Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
+Export-Package: org.eclipse.epsilon.egl,
+ org.eclipse.epsilon.egl.config,
+ org.eclipse.epsilon.egl.exceptions,
+ org.eclipse.epsilon.egl.execute.context,
+ org.eclipse.epsilon.egl.merge,
+ org.eclipse.epsilon.egl.merge.output,
+ org.eclipse.epsilon.egl.merge.partition,
+ org.eclipse.epsilon.egl.output,
+ org.eclipse.epsilon.egl.parse,
+ org.eclipse.epsilon.egl.parse.problem,
+ org.eclipse.epsilon.egl.preprocessor,
+ org.eclipse.epsilon.egl.status,
+ org.eclipse.epsilon.egl.template,
+ org.eclipse.epsilon.egl.traceability,
+ org.eclipse.epsilon.egl.types,
+ org.eclipse.epsilon.egl.util

@@ -1,0 +1,85 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.dt.exeed.modelink;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.Wizard;
+
+public class ConfigureModeLinkWizard extends Wizard {
+	
+	protected IFile file;
+	protected ModeLink modeLink;
+	protected ConfigureLinkedModelsPage leftPage;
+	protected ConfigureLinkedModelsPage middlePage;
+	protected ConfigureLinkedModelsPage rightPage;
+	
+	public ConfigureModeLinkWizard() {
+		
+	}
+	
+	@Override
+	public void addPages() {
+		if (modeLink == null) modeLink = new ModeLink();
+		//addPage(new ConfigureThreeWayPage("Three way", modeLink));
+		leftPage = new ConfigureLinkedModelsPage("Left models", modeLink, Position.LEFT);
+		addPage(leftPage);
+		middlePage = new ConfigureLinkedModelsPage("Middle models", modeLink, Position.MIDDLE);
+		addPage(middlePage);
+		rightPage = new ConfigureLinkedModelsPage("Right models", modeLink, Position.RIGHT);
+		addPage(rightPage);
+	}
+	
+	@Override
+	public boolean performFinish() {
+		modeLink.store(file);
+		return true;
+	}
+
+	public IFile getFile() {
+		return file;
+	}
+
+	public void setFile(IFile file) {
+		this.file = file;
+		modeLink = new ModeLink();
+		try {
+			modeLink.load(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//LogUtil.logException(e);
+		}
+	}
+
+	@Override
+	public IWizardPage getNextPage(IWizardPage page) {
+		if (page == leftPage && !modeLink.isThreeWay()) {
+			return rightPage;
+		}
+		else {
+			return super.getNextPage(page);
+		}
+	}
+
+	@Override
+	public IWizardPage getPreviousPage(IWizardPage page) {
+		if (page == rightPage && !modeLink.isThreeWay()) {
+			return leftPage;
+		}
+		else {
+			return super.getPreviousPage(page);
+		}
+	}
+
+	
+	
+}

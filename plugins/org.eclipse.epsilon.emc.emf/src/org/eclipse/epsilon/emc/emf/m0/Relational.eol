@@ -1,0 +1,120 @@
+operation String allOfType() : Sequence {
+	return Model!Row.allInstances().
+		select(r|r.tableData.table.name = self);
+}
+
+operation String allOfKind() : Sequence {
+	return self.allOfType();
+}
+
+operation String hasType() : Boolean {
+	return Model!Table.allInstances.exists(t|t.name = self);
+}
+
+operation Model!Row getCellOrRows(name : String) : Any {
+	
+	var cell : Model!Cell;
+	
+	-- First try to find a cell with that name
+	cell := self.cell.select(c|c.column.name = name).first(); 
+	
+	if (cell.isDefined()){
+		-- If a cell with that name exists, return it
+		return cell;
+	}
+	else {
+		-- Try to find a foreign child-key with that name
+		var childKeyCell : Model!Cell;
+		
+		childKeyCell := self.cell.select
+			(c|Model!ForeignKey.allInstances().
+				exists(fk|fk.child.participant = 
+					c.column and fk.parent.name = name)).first();
+		
+		if (childKeyCell.isDefined()) {
+			var ck : Model!ForeignKey;
+			ck := Model!ForeignKey.allInstances().
+				select(fk|fk.child.participant = childKeyCell.column).first();
+			return Model!Row.allInstances().
+				select(r|r.cell.exists(c|c.column = ck.parent.participant 
+					and c.value = childKeyCell.value)).first();
+		}
+		else {
+			-- Try to find a foreign parent-key with that name
+			var parentKeyCell : Model!Cell;
+			parentKeyCell := self.cell.select
+				(c|Model!ForeignKey.allInstances()
+					.exists(fk|fk.parent.participant = c.column 
+						and fk.child.name = name)).first();
+			
+			if (parentKeyCell.isDefined()) {
+				var pk : Model!ForeignKey;
+				pk := Model!ForeignKey.allInstances().
+					select(fk|fk.parent.participant = parentKeyCell.column).first();
+				var rows : Sequence;
+				rows := Model!Row.allInstances().
+					select(r|r.cell.exists(c|c.column = pk.child.participant and
+						c.value=parentKeyCell.value));
+				if (pk.oneToMany){
+					return rows;
+				}
+				else {
+					return rows.first();
+				}
+			}
+			
+		}
+		
+	}
+	throw 'Undefined property: ' + name;
+}
+
+operation Model!Row getProperty(name : String) {
+	var ret : Any;
+	ret := self.getCellOrRows(name);
+	if (ret.isTypeOf(Model!Cell)){
+		return ret.getValue();
+	}
+	else {
+		return ret;
+	}
+}
+
+operation Model!Cell getValue() : Any {
+	if (self.column.type = 'INT'){
+		return self.value.asInteger();
+	}
+	if (self.column.type = 'BIT'){
+		return self.value.asBoolean();
+	}
+	if (self.column.type = 'REAL'){
+		return self.value.asReal();
+	}
+	return self.value.asString();
+}
+
+operation Model!Row setProperty(name : String, value : Any) {
+	var ret : Any;
+	ret := self.getCellOrRows(name);
+	if (ret.isTypeOf(Model!Cell)){
+		ret.value := value;
+	}
+}
+
+operation Any createInstance(name : String){
+	var table : Model!Table;
+	table := name.tableForName();
+	var row : new Model!Row;
+	return row;
+}
+
+operation String tableForName() : Model!Table {
+	var ret : Any;
+	ret := Model!Table.select(t|t.name = self).first();
+	if (ret.isDefined()){
+		return ret;
+	}
+	else {
+		throw ('No such table: ' + self);
+	}
+}

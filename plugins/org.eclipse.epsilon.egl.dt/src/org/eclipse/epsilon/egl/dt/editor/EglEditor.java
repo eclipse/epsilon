@@ -1,0 +1,105 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.egl.dt.editor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
+import org.eclipse.epsilon.eol.dt.editor.EolEditor;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
+public class EglEditor extends AbstractModuleEditor {
+	
+	private final EolEditor eolEditor = new EolEditor();
+	
+	public EglEditor() {
+		setBackgroundColor(new Color(Display.getCurrent(), 251, 242, 184));
+		setDocumentProvider(new EglProvider());
+	}
+		
+	@Override
+	public void init(IEditorSite site, IEditorInput input) {
+		super.init(site, input);
+		
+		// Syntax highlight according to partitioning
+		setSourceViewerConfiguration(new EglConfiguration(super.getSourceViewerConfiguration()));
+	}
+
+	@Override
+	public List<?> getKeywords() {
+		return eolEditor.getKeywords();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List getBuiltinVariables() {
+		List<Object> vars = eolEditor.getBuiltinVariables();
+		
+		vars.add("out");
+		vars.add("TemplateFactory");
+		
+		vars.add("openTag");
+		vars.add("openOutputTag");
+		vars.add("closeTag");
+		
+		return vars;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List getTypes() {
+		List<Object> types = super.getTypes();
+		
+		types.add("Template");
+		
+		return types;
+	}
+
+	@Override
+	public IContentOutlinePage createOutlinePage() {
+		ModuleContentOutlinePage outline = 
+			new ModuleContentOutlinePage(
+					this.getDocumentProvider(), 
+					this, 
+					new EglModule(), 
+					new EglModuleElementLabelProvider());
+		return outline;
+	}
+
+	@Override
+	public IModule getModule() {
+		return new EglModule();
+	}
+
+	List<Template> templates = null;
+	@Override
+	public List<Template> getTemplates() {
+		if (templates==null) {
+			templates = new ArrayList<Template>();
+			templates.add(new Template("[% %]","dynamic block","","[%${cursor}%]",false));
+			templates.add(new Template("[%= %]","output block","","[%=${cursor}%]",false));
+			templates.add(new Template("[* *]","multiline comment","","[*${cursor}*]",false));
+			templates.add(new Template("for", "iterate over collection", "", "[%for (${iterator} in ${collection}) { %]\r\n\t${cursor}\r\n[%}%]",false));
+			
+		}
+		return templates;
+	}
+}

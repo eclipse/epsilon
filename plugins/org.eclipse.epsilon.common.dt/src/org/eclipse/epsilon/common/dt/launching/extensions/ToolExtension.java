@@ -1,0 +1,101 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.common.dt.launching.extensions;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+
+public class ToolExtension {
+	
+	protected IConfigurationElement configurationElement;
+	static ArrayList instances;
+	final static String extensionPoint = "org.eclipse.epsilon.common.dt.tool";
+	
+	public IConfigurationElement getConfigurationElement() {
+		return configurationElement;
+	}
+
+	public void setConfigurationElement(IConfigurationElement configurationElement) {
+		this.configurationElement = configurationElement;
+	}
+
+	public ToolExtension() {
+		super();
+	}
+	
+	public static ArrayList<ToolExtension> getInstances() {
+		
+		if (instances == null) {
+		
+			instances = new ArrayList();
+			IExtensionRegistry registry = Platform.getExtensionRegistry();
+			IExtensionPoint extenstionPoint = registry.getExtensionPoint(extensionPoint);
+			
+			IConfigurationElement[] configurationElements = extenstionPoint.getConfigurationElements();
+			
+			for (int i=0;i<configurationElements.length;i++) {
+				ToolExtension extension = new ToolExtension();
+				IConfigurationElement configurationElement = configurationElements[i];
+				extension.configurationElement = configurationElement;
+				instances.add(extension);
+			}
+		}
+		
+		return instances;
+	}
+	
+	public static ToolExtension forClass(String clazz) {
+		ListIterator li = getInstances().listIterator();
+		while (li.hasNext()) {
+			ToolExtension extension = (ToolExtension) li.next();
+			if (extension.getClazz().equalsIgnoreCase(clazz)){
+				return extension;
+			}
+		}
+		return null;
+	}
+	
+	public String getDefaultName() {
+		return configurationElement.getAttribute("defaultName");
+	}
+	
+	public String getClazz() {
+		return configurationElement.getAttribute("class");
+	}
+	
+	public String getDescription() {
+		return configurationElement.getAttribute("description");
+	}
+	
+	public Object createTool() throws EolRuntimeException {
+		try { 
+			return configurationElement.createExecutableExtension("class");
+		}
+		catch (Exception ex) {
+			throw new EolInternalException(ex);
+		}
+	}
+	
+	// FIXME Show the name of the classs, then the (fully qualified name)
+	@Override
+	public String toString() {
+		//String[] parts = getClazz().split(".");
+		//return parts[parts.length-1] + " (" + getClazz() + ")";
+		return getClazz();
+	}
+}

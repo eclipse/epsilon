@@ -1,0 +1,80 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.eol.execute;
+
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
+import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolBoolean;
+import org.eclipse.epsilon.eol.types.EolInteger;
+
+
+// TODO : Fix the scope of while statements...
+public class WhileStatementExecutor extends AbstractExecutor{
+
+	@Override
+	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
+		AST conditionAst = ast.getFirstChild();
+		AST bodyAst = conditionAst.getNextSibling();
+		
+		//how many times the loop has been executed
+		int loop = 0;
+		
+		while (true){
+			context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
+			
+			loop ++;
+			Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
+			
+			if (!(condition instanceof EolBoolean)) {
+				context.getFrameStack().leave(ast);
+				throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
+			}
+			
+			if (((EolBoolean) condition).booleanValue()){
+				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount",new EolInteger(loop)));
+				try {
+					context.getExecutorFactory().executeAST(bodyAst, context);
+				}
+				catch (EolBreakException bex){
+					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
+						throw bex;
+					}
+					context.getFrameStack().leave(ast);
+					break;
+				}
+				catch (EolContinueException cex){
+					context.getFrameStack().leave(ast);
+					continue;
+				}
+				
+				//if (loop > 100000) {
+				//	throw new EolRuntimeException("Possibly infinite loop (>100000 loops)", conditionAst);
+				//}
+				
+			}
+			else {
+				context.getFrameStack().leave(ast);
+				break;
+			}
+			
+			context.getFrameStack().leave(ast);
+		}
+		
+		return null;
+	}
+
+}

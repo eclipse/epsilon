@@ -1,0 +1,53 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.eol.execute.operations.simple.assertions;
+
+import java.util.List;
+
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.types.EolBoolean;
+
+
+public class AssertOperation extends AbstractSimpleOperation {
+
+	@Override
+	public Object execute(Object source, List parameters, IEolContext context,
+			AST ast) throws EolRuntimeException {
+		
+		if (!context.isAssertionsEnabled()) {return null;}
+		
+		Object condition = null;
+		Object message = null;
+		
+		if (parameters.size() > 0) {
+			condition = parameters.get(0);
+		}
+		if (parameters.size() > 1) {
+			message = parameters.get(1);
+		}
+		
+		if (conditionSatisfied(condition)) return null;
+		
+		throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast);
+	}
+	
+	public boolean conditionSatisfied(Object condition) {
+		if (condition instanceof EolBoolean) {
+			if (((EolBoolean) condition).booleanValue()) {return true;}
+		}
+		return false;
+	}
+	
+}

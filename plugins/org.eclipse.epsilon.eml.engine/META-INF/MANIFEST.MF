@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Merging Language Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.eml.engine
+Bundle-Version: 0.8.0
+Bundle-Localization: plugin
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.erl.engine,
+ org.eclipse.epsilon.ecl.engine,
+ org.eclipse.epsilon.etl.engine
+Export-Package: org.eclipse.epsilon.eml,
+ org.eclipse.epsilon.eml.exceptions,
+ org.eclipse.epsilon.eml.execute,
+ org.eclipse.epsilon.eml.execute.context,
+ org.eclipse.epsilon.eml.execute.operations,
+ org.eclipse.epsilon.eml.parse,
+ org.eclipse.epsilon.eml.strategy,
+ org.eclipse.epsilon.eml.trace
+Bundle-ClassPath: org.eclipse.epsilon.eml.engine.jar

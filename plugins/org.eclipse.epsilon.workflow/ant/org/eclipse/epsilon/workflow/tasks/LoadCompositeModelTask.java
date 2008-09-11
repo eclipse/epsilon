@@ -1,0 +1,72 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.workflow.tasks;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.tools.ant.BuildException;
+import org.eclipse.epsilon.ecl.trace.MatchTrace;
+import org.eclipse.epsilon.emc.composite.CompositeModel;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
+
+public class LoadCompositeModelTask extends EpsilonTask {
+	
+	protected List<ModelNestedElement> modelNestedElements = new ArrayList();
+	protected String matchTrace = null;
+	protected String name = null;
+	
+	@Override
+	public void executeImpl() throws BuildException {
+		
+		ArrayList<IModel> models = new ArrayList<IModel>();
+		
+		for (ModelNestedElement modelNestedElement : modelNestedElements) {
+			try {
+				models.add(getProjectRepository().getModelByName(modelNestedElement.getRef()));
+			}
+			catch (Exception ex) {
+				throw new BuildException(ex);
+			}
+		}
+		
+		MatchTrace matchTrace = null; 
+		
+		try {
+			matchTrace = (MatchTrace) getProjectStackFrame().get(this.matchTrace).getValue();
+		}
+		catch (Exception ex) {
+			throw new BuildException("A variable named " + 
+					this.matchTrace + " of type MatchTrace has not been found in the context.");
+		}
+		
+		CompositeModel composite = new CompositeModel(models, matchTrace);
+		composite.setName(name);
+		getProjectRepository().addModel(composite);
+		
+		
+	}
+	
+	public ModelNestedElement createModel() {
+		ModelNestedElement model = new ModelNestedElement();
+		modelNestedElements.add(model);
+		return model;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setMatchTrace(String matchTrace) {
+		this.matchTrace = matchTrace;
+	}
+}

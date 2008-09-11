@@ -1,0 +1,80 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.egl.preprocessor;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.eclipse.epsilon.egl.util.FileUtil;
+
+public class Trace {
+
+	private Map<Integer, Integer> lineNumberMapping = new TreeMap<Integer, Integer>();
+	private Map<Integer, Integer> columnCorrections = new TreeMap<Integer, Integer>();
+	
+	private int currentEolLine = 1;
+	private int maximumEglLineNumber = 1;
+
+	
+	public Integer getEglLineNumberFor(int eolLine) {
+		if (lineNumberMapping.containsKey(eolLine))
+			return lineNumberMapping.get(eolLine);
+		
+		return maximumEglLineNumber;
+	}
+	
+	public int getEglColumnNumberFor(int eolLine, int eolCol) {
+		if (columnCorrections.containsKey(eolLine))
+			return eolCol + columnCorrections.get(eolLine);
+		
+		return eolCol;
+	}
+
+	void setEglLineNumberForCurrentEolLineNumber(int eglLineNumber) {
+		currentEolLine++;
+		lineNumberMapping.put(currentEolLine, eglLineNumber);
+		maximumEglLineNumber = Math.max(maximumEglLineNumber, eglLineNumber);
+	}
+	
+	void incrementColumnCorrectionNumber(int correction) {
+		if (columnCorrections.containsKey(currentEolLine))
+			columnCorrections.put(currentEolLine, correction + columnCorrections.get(currentEolLine));
+		else
+			columnCorrections.put(currentEolLine, correction);
+	}
+	
+	void reset() {
+		lineNumberMapping.clear();
+		columnCorrections.clear();
+		currentEolLine = 0;
+		maximumEglLineNumber = 1;
+	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		for (int eolLine = 1; eolLine <= currentEolLine; eolLine++) {
+			builder.append(eolLine);
+			builder.append(" -> ");
+			builder.append(getEglLineNumberFor(eolLine));
+
+			builder.append(" [");
+			builder.append(getEglColumnNumberFor(eolLine, 0));
+			builder.append("]");
+			
+			builder.append(FileUtil.NEWLINE);
+		}
+		
+		return builder.toString();
+	}
+}

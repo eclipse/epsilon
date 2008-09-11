@@ -1,0 +1,70 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.util.emf;
+
+import java.util.Iterator;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IObjectActionDelegate;
+import org.eclipse.ui.IWorkbenchPart;
+
+public class RegisterMetamodelAction implements IObjectActionDelegate{
+	
+	protected ISelection selection;
+	
+	public RegisterMetamodelAction() {
+		super();
+	}
+
+	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+		
+	}
+
+	public void selectionChanged(IAction action, ISelection selection) {
+		this.selection = selection;
+	}
+	
+	public void run(IAction action){
+		
+		Iterator it = ((IStructuredSelection) selection).iterator();
+		while (it.hasNext()) {
+			IFile file = (IFile) it.next();
+			//String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + file.getFullPath().toOSString();
+			String fileName = file.getFullPath().toOSString();
+			//String fileName = file.getRawLocation().toOSString();
+			try {
+				EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+				EmfRegistryManager.getInstance().addMetamodel(fileName);
+				EpsilonConsole.getInstance().getInfoStream().println("Metamodel " + fileName + " registered successfully");
+			}
+			catch (Exception ex) {
+				LogUtil.log("Metamodel " + fileName + " could not be registered", ex);
+			}
+		}
+		/*
+		IFile file = (IFile)((IStructuredSelection) selection).getFirstElement();
+		//String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + file.getFullPath().toOSString();
+		String fileName = file.getFullPath().toOSString();
+		//String fileName = file.getRawLocation().toOSString();
+		EmfRegistryManager.getInstance().addMetamodel(fileName);
+		EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+		*/
+	}
+	
+}

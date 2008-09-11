@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="modelType" name="Model Type" schema="schema/modelType.exsd"/>
+   <extension-point id="prettyPrinter" name="PrettyPrinter" schema="schema/prettyPrinter.exsd"/>
+   <extension-point id="tool" name="Tool" schema="schema/tool.exsd"/>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="org.eclipse.epsilon.common.dt.launching.chain.ChainLaunchConfigurationDelegate"
+            icon="icons/chain.gif"
+            id="org.eclipse.epsilon.common.dt.launching.chain.ChainLaunchConfigurationDelegate"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.variables.dynamicVariables">
+      <variable
+            description="Prompts for a resource in the workspace and returns its absolute path in the filesystem"
+            name="resource_prompt"
+            resolver="org.eclipse.epsilon.common.dt.variables.ResourcePromptVariableResolver"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="org.eclipse.epsilon.common.dt.console.EpsilonConsolePageParticipant"
+            id="org.eclipse.epsilon.common.dt.console.EpsilonConsolePageParticipant">
+         <enablement/>
+      </consolePageParticipant>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.epsilon.dt"
+            class="org.eclipse.epsilon.common.dt.tools.ToolsView"
+            icon="icons/tool.png"
+            id="org.eclipse.epsilon.common.dt.tools.ToolsView"
+            name="Tools">
+      </view>
+   </extension>
+</plugin>

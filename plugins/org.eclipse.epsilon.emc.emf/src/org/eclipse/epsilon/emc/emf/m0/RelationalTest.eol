@@ -1,0 +1,11 @@
+for (c in Relational!Customer.allInstances){
+	
+	var balance : Real;
+	
+	balance := c.invoice.select(i|i.payed = false)
+		.collect(i|i.totalValue).sum();
+	
+	if (balance > c.credit){
+		('Customer ' + c.details + ' has a negative balance').println();	
+	}
+}

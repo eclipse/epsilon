@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Validation Language Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.evl.engine
+Bundle-Version: 0.8.0
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport
+Eclipse-AutoStart: true
+Bundle-ClassPath: org.eclipse.epsilon.evl.engine.jar
+Export-Package: org.eclipse.epsilon.evl,
+ org.eclipse.epsilon.evl.execute,
+ org.eclipse.epsilon.evl.execute.context,
+ org.eclipse.epsilon.evl.execute.exceptions,
+ org.eclipse.epsilon.evl.execute.operations,
+ org.eclipse.epsilon.evl.parse,
+ org.eclipse.epsilon.evl.trace
