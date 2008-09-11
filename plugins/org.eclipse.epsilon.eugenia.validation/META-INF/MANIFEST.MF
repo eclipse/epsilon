@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Validation Plug-in
+Bundle-Name: Eugenia Validation Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.eugenia.validation;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.8.1
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.evl.emf.validation;bundle-version="1.0.0"
+Require-Bundle: org.eclipse.epsilon.evl.emf.validation

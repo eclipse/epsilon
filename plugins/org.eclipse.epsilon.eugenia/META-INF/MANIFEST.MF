@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Easygmf Plug-in
+Bundle-Name: Eugenia Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.eugenia;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.8.1
 Bundle-Activator: org.eclipse.epsilon.eugenia.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
@@ -15,6 +15,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmf.graphdef;bundle-version="2.0.100",
  org.eclipse.gmf.map;bundle-version="2.1.0",
  org.eclipse.gmf.codegen;bundle-version="2.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia

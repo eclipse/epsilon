@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.eugenia.feature"
-      label="Epsilon EuGENia Feature"
-      version="1.0.0">
+      label="Eugenia Feature (Incubation)"
+      version="0.8.1"
+      provider-name="Eclipse.org">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -35,14 +36,21 @@
          id="org.eclipse.epsilon.eugenia"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.8.1"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eugenia.runtime"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.8.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eugenia.validation"
+         download-size="0"
+         install-size="0"
+         version="0.8.1"
          unpack="false"/>
 
 </feature>
