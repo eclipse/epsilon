@@ -146,10 +146,6 @@ both.&lt;/small&gt;
 &lt;/h
    </license>
 
-   <url>
-      <update label="Epsilon" url="http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml"/>
-   </url>
-
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>

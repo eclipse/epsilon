@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.gmf.feature"
-      label="Epsilon GMF Support (Incubation)"
+      label="EWL GMF Integration (Incubation)"
       version="0.8.0"
       provider-name="Eclipse.org">
 
@@ -16,10 +16,6 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
-
-   <url>
-      <update label="Epsilon" url="http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml"/>
-   </url>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
