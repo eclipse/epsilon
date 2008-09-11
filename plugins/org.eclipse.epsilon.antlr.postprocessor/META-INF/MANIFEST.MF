@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Antlr AST Postprocessor (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.antlr.postprocessor
+Bundle-Version: 0.8.0
+Require-Bundle: org.eclipse.epsilon.antlr.postprocessor.model;visibility:=reexport,
+ org.eclipse.epsilon.dependencies,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.epsilon.commons
+Export-Package: org.eclipse.epsilon.antlr.postprocessor
+Bundle-Vendor: Eclipse.org
