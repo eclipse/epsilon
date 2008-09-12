@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
       mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/modeling/gmt/epsilon/updates/site.xml&amp;format=xml">
-   <feature url="features/org.eclipse.epsilon.hutn.feature_0.7.0.jar" id="org.eclipse.epsilon.hutn.feature" version="0.7.0">
-      <category name="Epsilon"/>
-   </feature>
    <feature url="features/org.eclipse.epsilon.evl.emf.validation.feature_0.8.1.jar" id="org.eclipse.epsilon.evl.emf.validation.feature" version="0.8.1">
       <category name="Epsilon"/>
    </feature>
@@ -16,12 +13,15 @@
    <feature url="features/org.eclipse.epsilon.gmf.feature_0.8.1.jar" id="org.eclipse.epsilon.gmf.feature" version="0.8.1">
       <category name="Epsilon"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.hutn.feature_0.7.1.jar" id="org.eclipse.epsilon.hutn.feature" version="0.7.1">
+      <category name="Epsilon"/>
+   </feature>
    <category-def name="Epsilon" label="Epsilon (Incubation)">
       <description>
          Epsilon is a platform of task-specific languages and tools for model management. 
          Epsilon provides languages for tasks such as model transformation, validation, comparison, merging and code generation. 
          It also includes Eclipse-based development tools for the languages and ANT tasks for executing them in the context of complex workflows.
-         Additional feature support live validation, repairing, and scripting of models in EMF and GMF-based editors.
+         Additional features include support live validation, repairing, and scripting of models in EMF and GMF-based editors.
       </description>
    </category-def>
 </site>

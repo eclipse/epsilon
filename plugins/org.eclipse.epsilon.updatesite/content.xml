@@ -3,12 +3,8 @@
 <repository name='file:/E:/Projects/Eclipse/3.4/workspace3/org.eclipse.epsilon.updatesite/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1221143242500'/>
+    <property name='p2.timestamp' value='1221209892593'/>
   </properties>
-  <references size='2'>
-    <repository url='http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml' type='1' options='0'/>
-    <repository url='http://download.eclipse.org/technology/gmt/epsilon/org.eclipse.epsilon.updatesite/site.xml' type='0' options='0'/>
-  </references>
   <units size='60'>
     <unit id='org.eclipse.epsilon.eml.engine' version='0.8.1' singleton='false'>
       <update id='org.eclipse.epsilon.eml.engine' range='[0.0.0,0.8.1)' severity='0'/>
@@ -124,6 +120,38 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-Activator: org.eclipse.epsilon.eml.dt.EmlPlugin&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.jface.text,org.eclipse.ui.editors,org.eclipse.ui.workbench.texteditor,org.eclipse.epsilon.eol.dt,org.eclipse.debug.core,org.eclipse.debug.ui,org.eclipse.epsilon.eol.engine,org.eclipse.epsilon.eml.engine,org.eclipse.core.resources,org.eclipse.ui.ide,org.eclipse.ui.views,org.eclipse.epsilon.ecl.engine,org.eclipse.epsilon.commons,org.eclipse.epsilon.etl.engine,org.eclipse.epsilon.etl.dt,org.eclipse.epsilon.ecl.dt,org.eclipse.epsilon.erl.engine,org.eclipse.epsilon.common.dt&#xA;Bundle-Name: Epsilon Merging Language Development Tools (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.eml.dt;singleton:=true&#xA;Bundle-Version: 0.8.1&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.eml.dt,org.eclipse.epsilon.eml.dt.editor,org.eclipse.epsilon.eml.dt.editor.outline,org.eclipse.epsilon.eml.dt.launching,org.eclipse.epsilon.eml.dt.launching.tabs,org.eclipse.epsilon.eml.dt.wizards&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.eclipse.epsilon.hutn.model.config' version='0.7.1'>
+      <update id='org.eclipse.epsilon.hutn.model.config' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Configuration Model (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' version='0.7.1'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.config' version='0.7.1'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.config' version='0.7.1'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons&#xA;Bundle-Name: Human Usable Textual Notation Configuration Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.config;singleton:=true&#xA;Bundle-Version: 0.7.1&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model.config,org.eclipse.epsilon.hutn.model.config.hutnConfig,org.eclipse.epsilon.hutn.model.config.hutnConfig.impl,org.eclipse.epsilon.hutn.model.config.hutnConfig.util&#xA;
           </instruction>
         </instructions>
       </touchpointData>
@@ -413,6 +441,50 @@
         [Enter Copyright Description here.]
       </copyright>
     </unit>
+    <unit id='org.eclipse.epsilon.hutn.dt' version='0.7.1'>
+      <update id='org.eclipse.epsilon.hutn.dt' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Development Tools (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
+      </properties>
+      <provides size='4'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.dt' version='0.7.1'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.dt' version='0.7.1'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.dt.editor' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='18'>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.dt' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.views' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.common.dt' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.swt' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench.texteditor' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.editor' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.util.emf' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf.dt' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.dt' version='0.7.1'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-ManifestVersion: 2&#xA;Bundle-Version: 0.7.1&#xA;Export-Package: org.eclipse.epsilon.hutn.dt.editor&#xA;Require-Bundle: org.eclipse.epsilon.eol.dt,org.eclipse.epsilon.eol.engine,org.eclipse.epsilon.hutn.engine,org.eclipse.ui.views,org.eclipse.epsilon.common.dt,org.eclipse.swt,org.eclipse.ui,org.eclipse.jface.text,org.eclipse.ui.workbench.texteditor,org.eclipse.ui.editors,org.eclipse.core.runtime,org.eclipse.epsilon.emc.emf,org.eclipse.core.resources,org.eclipse.ui.ide,org.eclipse.emf.ecore.editor,org.eclipse.epsilon.util.emf,org.eclipse.epsilon.emc.emf.dt,org.eclipse.debug.core&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true&#xA;Bundle-Name: Human Usable Textual Notation Development Tools (Incubation)&#xA;Bundle-Vendor: Eclipse.org&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='org.eclipse.epsilon.productivity' version='0.8.1'>
       <update id='org.eclipse.epsilon.productivity' range='[0.0.0,0.8.1)' severity='0'/>
       <properties size='2'>
@@ -525,34 +597,51 @@
         [Enter Copyright Description here.]
       </copyright>
     </unit>
-    <unit id='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.0'>
-      <update id='org.eclipse.epsilon.hutn.model.antlrAst' range='[0.0.0,0.7.0)' severity='0'/>
+    <unit id='org.eclipse.epsilon.hutn.engine' version='0.7.1' singleton='false'>
+      <update id='org.eclipse.epsilon.hutn.engine' range='[0.0.0,0.7.1)' severity='0'/>
       <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation AST Model (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Engine (Incubation)'/>
         <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
       </properties>
-      <provides size='6'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.0'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst.util' version='0.0.0'/>
+      <provides size='15'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' version='0.7.1'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.engine' version='0.7.1'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.exceptions' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate.metamodel' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.parse' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.parse.postprocessor' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.translate' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation.config' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation.model' version='0.0.0'/>
         <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
       </provides>
-      <requires size='4'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <requires size='12'>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.dependencies' range='0.0.0'/>
         <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.antlr.postprocessor.model' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.antlrAst' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.config' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.etl.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.erl.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.egl.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.evl.engine' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.antlr.postprocessor' range='0.0.0'/>
       </requires>
       <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.0'/>
+        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.engine' version='0.7.1'/>
       </artifacts>
       <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
       <touchpointData size='1'>
         <instructions size='1'>
           <instruction key='manifest'>
-            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons,org.eclipse.epsilon.antlr.postprocessor.model&#xA;Bundle-Name: Human Usable Textual Notation AST Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.antlrAst;singleton:=true&#xA;Bundle-Version: 0.7.0&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl,org.eclipse.epsilon.hutn.model.hutnAntlrAst.util&#xA;
+            Bundle-ManifestVersion: 2&#xA;Bundle-Version: 0.7.1&#xA;Export-Package: org.eclipse.epsilon.hutn,org.eclipse.epsilon.hutn.exceptions,org.eclipse.epsilon.hutn.generate,org.eclipse.epsilon.hutn.generate.metamodel,org.eclipse.epsilon.hutn.generate.model,org.eclipse.epsilon.hutn.parse;uses:=&quot;antlr.collections.impl,antlr&quot;,org.eclipse.epsilon.hutn.parse.postprocessor,org.eclipse.epsilon.hutn.translate;uses:=&quot;antlr.collections&quot;,org.eclipse.epsilon.hutn.util,org.eclipse.epsilon.hutn.validation,org.eclipse.epsilon.hutn.validation.config,org.eclipse.epsilon.hutn.validation.model&#xA;Require-Bundle: org.eclipse.epsilon.dependencies,org.eclipse.emf.ecore,org.eclipse.epsilon.hutn.model;visibility:=reexport,org.eclipse.epsilon.hutn.model.antlrAst;visibility:=reexport,org.eclipse.epsilon.hutn.model.config;visibility:=reexport,org.eclipse.epsilon.eol.engine,org.eclipse.epsilon.emc.emf,org.eclipse.epsilon.etl.engine,org.eclipse.epsilon.erl.engine,org.eclipse.epsilon.egl.engine,org.eclipse.epsilon.evl.engine,org.eclipse.epsilon.antlr.postprocessor;visibility:=reexport&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.engine&#xA;Bundle-Name: Human Usable Textual Notation Engine (Incubation)&#xA;Bundle-Vendor: Eclipse.org&#xA;
           </instruction>
         </instructions>
       </touchpointData>
@@ -637,50 +726,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.epsilon.hutn.dt' version='0.7.0'>
-      <update id='org.eclipse.epsilon.hutn.dt' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Development Tools (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-      </properties>
-      <provides size='4'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.dt' version='0.7.0'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.dt' version='0.7.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.dt.editor' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='18'>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.dt' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.views' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.common.dt' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.swt' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.workbench.texteditor' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.editor' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.util.emf' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf.dt' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.dt' version='0.7.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-ManifestVersion: 2&#xA;Bundle-Version: 0.7.0&#xA;Export-Package: org.eclipse.epsilon.hutn.dt.editor&#xA;Require-Bundle: org.eclipse.epsilon.eol.dt,org.eclipse.epsilon.eol.engine,org.eclipse.epsilon.hutn.engine,org.eclipse.ui.views,org.eclipse.epsilon.common.dt,org.eclipse.swt,org.eclipse.ui,org.eclipse.jface.text,org.eclipse.ui.workbench.texteditor,org.eclipse.ui.editors,org.eclipse.core.runtime,org.eclipse.epsilon.emc.emf,org.eclipse.core.resources,org.eclipse.ui.ide,org.eclipse.emf.ecore.editor,org.eclipse.epsilon.util.emf,org.eclipse.epsilon.emc.emf.dt,org.eclipse.debug.core&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true&#xA;Bundle-Name: Human Usable Textual Notation Development Tools (Incubation)&#xA;Bundle-Vendor: Eclipse.org&#xA;
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.epsilon.antlr.postprocessor' version='0.8.1' singleton='false'>
       <update id='org.eclipse.epsilon.antlr.postprocessor' range='[0.0.0,0.8.1)' severity='0'/>
       <properties size='2'>
@@ -710,6 +755,42 @@
           </instruction>
         </instructions>
       </touchpointData>
+    </unit>
+    <unit id='org.eclipse.epsilon.hutn.feature.feature.jar' version='0.7.1'>
+      <update id='org.eclipse.epsilon.hutn.feature.feature.jar' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='4'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.description' value='Epsilon-based HUTN tooling'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.eclipse.org/gmt/epsilon'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.jar' version='0.7.1'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='org.eclipse.epsilon.hutn.feature' version='0.7.1'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.hutn.feature' version='0.7.1'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <licenses size='1'>
+        <license url='http://www.eclipse.org/legal/epl-v10.html'>
+          &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-1&quot;&gt;&#xA;&lt;title&gt;Eclipse.org Software User Agreement&lt;/title&gt;&#xA;&lt;/head&gt;&#xA;&lt;body lang=&quot;EN-US&quot; link=blue vlink=purple&gt;&#xA;&lt;h2&gt;Eclipse Foundation Software User Agreement&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;&#xA;March 17, 2005&lt;/p&gt;&#xA;&lt;h3&gt;Usage Of Content&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION,&#xA;INFORMATION AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS&#xA;(COLLECTIVELY &amp;quot;CONTENT&amp;quot;).  USE OF THE CONTENT IS GOVERNED&#xA;BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE TERMS&#xA;AND&#xA;CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED&#xA;BELOW.  BY USING THE CONTENT, YOU AGREE THAT YOUR USE&#xA;OF THE CONTENT IS GOVERNED BY THIS AGREEMENT AND/OR THE TERMS&#xA;AND CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR&#xA;NOTICES INDICATED OR REFERENCED BELOW.  IF YOU DO NOT AGREE TO&#xA;THE TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND&#xA;CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED&#xA;OR REFERENCED BELOW, THEN YOU MAY NOT USE THE CONTENT.&lt;/p&gt;&#xA;&lt;h3&gt;Applicable Licenses&lt;/h3&gt;   &#xA;&#xA;&lt;p&gt;&#xA;Unless otherwise indicated, all Content made available by the&#xA;Eclipse Foundation is provided to you under the terms and conditions&#xA;of the Eclipse Public License Version 1.0&#xA;(&amp;quot;EPL&amp;quot;).  A copy of the EPL is provided with this Content&#xA;and is also available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;.&#xA;For purposes of the EPL, &amp;quot;Program&amp;quot; will mean the Content.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content includes, but is not limited to, source code, object&#xA;code, documentation and other files maintained in the Eclipse.org&#xA;CVS repository (&amp;quot;Repository&amp;quot;) in CVS&#xA;modules (&amp;quot;Modules&amp;quot;) and made available as downloadable&#xA;archives (&amp;quot;Downloads&amp;quot;).&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Content may be structured and packaged into modules to facilitate&#xA;delivering, extending, and upgrading the Content.  Typical modules&#xA;may include plug-ins (&amp;quot;Plug-ins&amp;quot;), plug-in fragments&#xA;(&amp;quot;Fragments&amp;quot;), and features (&amp;quot;Features&amp;quot;).&lt;/li&gt;&#xA;&lt;li&gt;Each Plug-in or Fragment may be packaged as a sub-directory&#xA;or JAR (Java&amp;trade; ARchive) in a directory named &amp;quot;plugins&amp;quot;.&lt;/li&gt;&#xA;&lt;li&gt;A Feature is a bundle of one or more Plug-ins and/or Fragments&#xA;and associated material.  Each Feature may be packaged as a sub-directory&#xA;in a directory named &amp;quot;features&amp;quot;.  Within a Feature,&#xA;files named &amp;quot;feature.xml&amp;quot; may contain a list of the&#xA;names and version numbers of the Plug-ins&#xA;and/or Fragments associated with that Feature.&lt;/li&gt;&#xA;&lt;li&gt;Features may also include other Features (&amp;quot;Included&#xA;Features&amp;quot;). Within a Feature, files named &amp;quot;feature.xml&amp;quot;&#xA;may contain a list of the names and version numbers of Included&#xA;Features.&lt;/li&gt;&#xA;&lt;/ul&gt;   &#xA;&#xA;&lt;p&gt;&#xA;The terms and conditions governing Plug-ins and Fragments should&#xA;be contained in files named &amp;quot;about.html&amp;quot; (&amp;quot;Abouts&amp;quot;).&#xA;The terms and conditions governing Features and&#xA;Included Features should be contained in files named &amp;quot;license.html&amp;quot;&#xA;(&amp;quot;Feature Licenses&amp;quot;).  Abouts and Feature Licenses&#xA;may be located in any directory of a Download or Module&#xA;including, but not limited to the following locations:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The top-level (root) directory&lt;/li&gt;&#xA;&lt;li&gt;Plug-in and Fragment directories&lt;/li&gt;&#xA;&lt;li&gt;Inside Plug-ins and Fragments packaged as JARs&lt;/li&gt;&#xA;&lt;li&gt;Sub-directories of the directory named &amp;quot;src&amp;quot; of&#xA;certain Plug-ins&lt;/li&gt;&#xA;&lt;li&gt;Feature directories&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;Note: if a Feature made available by the Eclipse Foundation is&#xA;installed using the Eclipse Update Manager, you must agree to&#xA;a license (&amp;quot;Feature Update License&amp;quot;) during the&#xA;installation process.  If the Feature contains Included Features,&#xA;the Feature Update License should either provide you with the&#xA;terms and conditions governing the Included Features or&#xA;inform you where you can locate them.  Feature Update Licenses&#xA;may be found in the &amp;quot;license&amp;quot; property of files named&#xA;&amp;quot;feature.properties&amp;quot; found within a Feature.&#xA;Such Abouts, Feature Licenses, and Feature Update Licenses contain&#xA;the terms and conditions (or references to such terms and conditions)&#xA;that govern your use of the associated Content in&#xA;that directory.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY&#xA;REFER TO THE EPL OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS&#xA;AND CONDITIONS.  SOME OF THESE&#xA;OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Common Public License Version 1.0 (available at &lt;a href=&quot;http://www.eclipse.org/legal/cpl-v10.html&quot;&gt;http://www.eclipse.org/legal/cpl-v10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 1.1 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE&quot;&gt;http://www.apache.org/licenses/LICENSE&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 2.0 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;&gt;http://www.apache.org/licenses/LICENSE-2.0&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;IBM Public License 1.0 (available at &lt;a href=&quot;http://oss.software.ibm.com/developerworks/opensource/license10.html&quot;&gt;http://oss.software.ibm.com/developerworks/opensource/license10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Metro Link Public License 1.00 (available at &lt;a href=&quot;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&quot;&gt;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Mozilla Public License Version 1.1 (available at &lt;a href=&quot;http://www.mozilla.org/MPL/MPL-1.1.html&quot;&gt;http://www.mozilla.org/MPL/MPL-1.1.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS&#xA;PRIOR TO USE OF THE CONTENT.  If no About, Feature License, or&#xA;Feature Update License is provided, please&#xA;contact the Eclipse Foundation to determine what terms and conditions&#xA;govern that particular Content.&lt;/p&gt;&#xA;&lt;h3&gt;Cryptography&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content may contain encryption software. The country in which&#xA;you are currently may have restrictions on the import, possession,&#xA;and use, and/or re-export to&#xA;another country, of encryption software. BEFORE using any encryption&#xA;software, please check the country&apos;s laws, regulations and policies&#xA;concerning the import,&#xA;possession, or use, and re-export of encryption software, to&#xA;see if this is permitted.&lt;/p&gt;&#xA;&lt;small&gt;Java and all Java-based trademarks are trademarks of Sun&#xA;Microsystems, Inc. in the United States, other countries, or&#xA;both.&lt;/small&gt;   &#xA;&lt;/body&gt;&#xA;&lt;/h
+        </license>
+      </licenses>
+      <copyright>
+        Please refer to the Licence Agreement
+      </copyright>
     </unit>
     <unit id='org.eclipse.epsilon.egl.engine' version='0.8.1' singleton='false'>
       <update id='org.eclipse.epsilon.egl.engine' range='[0.0.0,0.8.1)' severity='0'/>
@@ -800,38 +881,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-ManifestVersion: 2&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.epsilon.commons,org.eclipse.epsilon.ecl.engine,org.eclipse.epsilon.eol.dt,org.eclipse.epsilon.eol.engine,org.eclipse.ui.editors,org.eclipse.ui.workbench.texteditor,org.eclipse.jface.text,org.eclipse.ui.views,org.eclipse.epsilon.erl.engine,org.eclipse.debug.ui,org.eclipse.debug.core,org.eclipse.core.resources,org.eclipse.epsilon.common.dt&#xA;Bundle-Activator: org.eclipse.epsilon.ecl.dt.EclPlugin&#xA;Manifest-Version: 1.0&#xA;Bundle-Version: 0.8.1&#xA;Export-Package: org.eclipse.epsilon.ecl.dt,org.eclipse.epsilon.ecl.dt.editor,org.eclipse.epsilon.ecl.dt.editor.outline,org.eclipse.epsilon.ecl.dt.launching,org.eclipse.epsilon.ecl.dt.launching.tabs,org.eclipse.epsilon.ecl.dt.wizards&#xA;Bundle-SymbolicName: org.eclipse.epsilon.ecl.dt;singleton:=true&#xA;Bundle-Name: Epsilon Comparison Language Development Tools (Incubation)&#xA;Bundle-Vendor: Eclipse.org&#xA;Eclipse-LazyStart: true&#xA;
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.epsilon.hutn.model.config' version='0.7.0'>
-      <update id='org.eclipse.epsilon.hutn.model.config' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Configuration Model (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-      </properties>
-      <provides size='7'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' version='0.7.0'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.config' version='0.7.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.config.hutnConfig.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.config' version='0.7.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons&#xA;Bundle-Name: Human Usable Textual Notation Configuration Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.config;singleton:=true&#xA;Bundle-Version: 0.7.0&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model.config,org.eclipse.epsilon.hutn.model.config.hutnConfig,org.eclipse.epsilon.hutn.model.config.hutnConfig.impl,org.eclipse.epsilon.hutn.model.config.hutnConfig.util&#xA;
           </instruction>
         </instructions>
       </touchpointData>
@@ -1011,42 +1060,6 @@
         [Enter Copyright Description here.]
       </copyright>
     </unit>
-    <unit id='org.eclipse.epsilon.hutn.feature.feature.jar' version='0.7.0'>
-      <update id='org.eclipse.epsilon.hutn.feature.feature.jar' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='4'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.description' value='Epsilon-based HUTN tooling'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='http://www.eclipse.org/gmt/epsilon'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.jar' version='0.7.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-        <provided namespace='org.eclipse.update.feature' name='org.eclipse.epsilon.hutn.feature' version='0.7.0'/>
-      </provides>
-      <filter>
-        (org.eclipse.update.install.features=true)
-      </filter>
-      <artifacts size='1'>
-        <artifact classifier='org.eclipse.update.feature' id='org.eclipse.epsilon.hutn.feature' version='0.7.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='zipped'>
-            true
-          </instruction>
-        </instructions>
-      </touchpointData>
-      <licenses size='1'>
-        <license url='http://www.eclipse.org/legal/epl-v10.html'>
-          &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-1&quot;&gt;&#xA;&lt;title&gt;Eclipse.org Software User Agreement&lt;/title&gt;&#xA;&lt;/head&gt;&#xA;&lt;body lang=&quot;EN-US&quot; link=blue vlink=purple&gt;&#xA;&lt;h2&gt;Eclipse Foundation Software User Agreement&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;&#xA;March 17, 2005&lt;/p&gt;&#xA;&lt;h3&gt;Usage Of Content&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION,&#xA;INFORMATION AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS&#xA;(COLLECTIVELY &amp;quot;CONTENT&amp;quot;).  USE OF THE CONTENT IS GOVERNED&#xA;BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE TERMS&#xA;AND&#xA;CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED&#xA;BELOW.  BY USING THE CONTENT, YOU AGREE THAT YOUR USE&#xA;OF THE CONTENT IS GOVERNED BY THIS AGREEMENT AND/OR THE TERMS&#xA;AND CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR&#xA;NOTICES INDICATED OR REFERENCED BELOW.  IF YOU DO NOT AGREE TO&#xA;THE TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND&#xA;CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED&#xA;OR REFERENCED BELOW, THEN YOU MAY NOT USE THE CONTENT.&lt;/p&gt;&#xA;&lt;h3&gt;Applicable Licenses&lt;/h3&gt;   &#xA;&#xA;&lt;p&gt;&#xA;Unless otherwise indicated, all Content made available by the&#xA;Eclipse Foundation is provided to you under the terms and conditions&#xA;of the Eclipse Public License Version 1.0&#xA;(&amp;quot;EPL&amp;quot;).  A copy of the EPL is provided with this Content&#xA;and is also available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;.&#xA;For purposes of the EPL, &amp;quot;Program&amp;quot; will mean the Content.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content includes, but is not limited to, source code, object&#xA;code, documentation and other files maintained in the Eclipse.org&#xA;CVS repository (&amp;quot;Repository&amp;quot;) in CVS&#xA;modules (&amp;quot;Modules&amp;quot;) and made available as downloadable&#xA;archives (&amp;quot;Downloads&amp;quot;).&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Content may be structured and packaged into modules to facilitate&#xA;delivering, extending, and upgrading the Content.  Typical modules&#xA;may include plug-ins (&amp;quot;Plug-ins&amp;quot;), plug-in fragments&#xA;(&amp;quot;Fragments&amp;quot;), and features (&amp;quot;Features&amp;quot;).&lt;/li&gt;&#xA;&lt;li&gt;Each Plug-in or Fragment may be packaged as a sub-directory&#xA;or JAR (Java&amp;trade; ARchive) in a directory named &amp;quot;plugins&amp;quot;.&lt;/li&gt;&#xA;&lt;li&gt;A Feature is a bundle of one or more Plug-ins and/or Fragments&#xA;and associated material.  Each Feature may be packaged as a sub-directory&#xA;in a directory named &amp;quot;features&amp;quot;.  Within a Feature,&#xA;files named &amp;quot;feature.xml&amp;quot; may contain a list of the&#xA;names and version numbers of the Plug-ins&#xA;and/or Fragments associated with that Feature.&lt;/li&gt;&#xA;&lt;li&gt;Features may also include other Features (&amp;quot;Included&#xA;Features&amp;quot;). Within a Feature, files named &amp;quot;feature.xml&amp;quot;&#xA;may contain a list of the names and version numbers of Included&#xA;Features.&lt;/li&gt;&#xA;&lt;/ul&gt;   &#xA;&#xA;&lt;p&gt;&#xA;The terms and conditions governing Plug-ins and Fragments should&#xA;be contained in files named &amp;quot;about.html&amp;quot; (&amp;quot;Abouts&amp;quot;).&#xA;The terms and conditions governing Features and&#xA;Included Features should be contained in files named &amp;quot;license.html&amp;quot;&#xA;(&amp;quot;Feature Licenses&amp;quot;).  Abouts and Feature Licenses&#xA;may be located in any directory of a Download or Module&#xA;including, but not limited to the following locations:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The top-level (root) directory&lt;/li&gt;&#xA;&lt;li&gt;Plug-in and Fragment directories&lt;/li&gt;&#xA;&lt;li&gt;Inside Plug-ins and Fragments packaged as JARs&lt;/li&gt;&#xA;&lt;li&gt;Sub-directories of the directory named &amp;quot;src&amp;quot; of&#xA;certain Plug-ins&lt;/li&gt;&#xA;&lt;li&gt;Feature directories&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;Note: if a Feature made available by the Eclipse Foundation is&#xA;installed using the Eclipse Update Manager, you must agree to&#xA;a license (&amp;quot;Feature Update License&amp;quot;) during the&#xA;installation process.  If the Feature contains Included Features,&#xA;the Feature Update License should either provide you with the&#xA;terms and conditions governing the Included Features or&#xA;inform you where you can locate them.  Feature Update Licenses&#xA;may be found in the &amp;quot;license&amp;quot; property of files named&#xA;&amp;quot;feature.properties&amp;quot; found within a Feature.&#xA;Such Abouts, Feature Licenses, and Feature Update Licenses contain&#xA;the terms and conditions (or references to such terms and conditions)&#xA;that govern your use of the associated Content in&#xA;that directory.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY&#xA;REFER TO THE EPL OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS&#xA;AND CONDITIONS.  SOME OF THESE&#xA;OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Common Public License Version 1.0 (available at &lt;a href=&quot;http://www.eclipse.org/legal/cpl-v10.html&quot;&gt;http://www.eclipse.org/legal/cpl-v10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 1.1 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE&quot;&gt;http://www.apache.org/licenses/LICENSE&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 2.0 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;&gt;http://www.apache.org/licenses/LICENSE-2.0&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;IBM Public License 1.0 (available at &lt;a href=&quot;http://oss.software.ibm.com/developerworks/opensource/license10.html&quot;&gt;http://oss.software.ibm.com/developerworks/opensource/license10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Metro Link Public License 1.00 (available at &lt;a href=&quot;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&quot;&gt;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Mozilla Public License Version 1.1 (available at &lt;a href=&quot;http://www.mozilla.org/MPL/MPL-1.1.html&quot;&gt;http://www.mozilla.org/MPL/MPL-1.1.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS&#xA;PRIOR TO USE OF THE CONTENT.  If no About, Feature License, or&#xA;Feature Update License is provided, please&#xA;contact the Eclipse Foundation to determine what terms and conditions&#xA;govern that particular Content.&lt;/p&gt;&#xA;&lt;h3&gt;Cryptography&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content may contain encryption software. The country in which&#xA;you are currently may have restrictions on the import, possession,&#xA;and use, and/or re-export to&#xA;another country, of encryption software. BEFORE using any encryption&#xA;software, please check the country&apos;s laws, regulations and policies&#xA;concerning the import,&#xA;possession, or use, and re-export of encryption software, to&#xA;see if this is permitted.&lt;/p&gt;&#xA;&lt;small&gt;Java and all Java-based trademarks are trademarks of Sun&#xA;Microsystems, Inc. in the United States, other countries, or&#xA;both.&lt;/small&gt;   &#xA;&lt;/body&gt;&#xA;&lt;/h
-        </license>
-      </licenses>
-      <copyright>
-        Please refer to the Licence Agreement
-      </copyright>
-    </unit>
     <unit id='org.eclipse.epsilon.gmf.feature.feature.jar' version='0.8.1'>
       <update id='org.eclipse.epsilon.gmf.feature.feature.jar' range='[0.0.0,0.8.1)' severity='0'/>
       <properties size='4'>
@@ -1214,55 +1227,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='org.eclipse.epsilon.hutn.engine' version='0.7.0' singleton='false'>
-      <update id='org.eclipse.epsilon.hutn.engine' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Engine (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-      </properties>
-      <provides size='15'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' version='0.7.0'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.engine' version='0.7.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.exceptions' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate.metamodel' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.generate.model' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.parse' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.parse.postprocessor' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.translate' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.util' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation.config' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.validation.model' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='12'>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.dependencies' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.antlrAst' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.config' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.etl.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.erl.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.egl.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.evl.engine' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.antlr.postprocessor' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.engine' version='0.7.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-ManifestVersion: 2&#xA;Bundle-Version: 0.7.0&#xA;Export-Package: org.eclipse.epsilon.hutn,org.eclipse.epsilon.hutn.exceptions,org.eclipse.epsilon.hutn.generate,org.eclipse.epsilon.hutn.generate.metamodel,org.eclipse.epsilon.hutn.generate.model,org.eclipse.epsilon.hutn.parse;uses:=&quot;antlr.collections.impl,antlr&quot;,org.eclipse.epsilon.hutn.parse.postprocessor,org.eclipse.epsilon.hutn.translate;uses:=&quot;antlr.collections&quot;,org.eclipse.epsilon.hutn.util,org.eclipse.epsilon.hutn.validation,org.eclipse.epsilon.hutn.validation.config,org.eclipse.epsilon.hutn.validation.model&#xA;Require-Bundle: org.eclipse.epsilon.dependencies,org.eclipse.emf.ecore,org.eclipse.epsilon.hutn.model;visibility:=reexport,org.eclipse.epsilon.hutn.model.antlrAst;visibility:=reexport,org.eclipse.epsilon.hutn.model.config;visibility:=reexport,org.eclipse.epsilon.eol.engine,org.eclipse.epsilon.emc.emf,org.eclipse.epsilon.etl.engine,org.eclipse.epsilon.erl.engine,org.eclipse.epsilon.egl.engine,org.eclipse.epsilon.evl.engine,org.eclipse.epsilon.antlr.postprocessor;visibility:=reexport&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.engine&#xA;Bundle-Name: Human Usable Textual Notation Engine (Incubation)&#xA;Bundle-Vendor: Eclipse.org&#xA;
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='org.eclipse.epsilon.ewl.dt' version='0.8.1'>
       <update id='org.eclipse.epsilon.ewl.dt' range='[0.0.0,0.8.1)' severity='0'/>
       <properties size='2'>
@@ -1367,38 +1331,6 @@
         <instructions size='1'>
           <instruction key='manifest'>
             Bundle-ManifestVersion: 2&#xA;Bundle-Version: 0.8.1&#xA;Require-Bundle: org.eclipse.epsilon.ecl.engine,org.eclipse.epsilon.common.dt&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.ecl.dt.tools;singleton:=true&#xA;Bundle-Name: ECL Tools (Incubation)&#xA;Bundle-Localization: plugin&#xA;Bundle-Vendor: Eclipse.org&#xA;
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
-    <unit id='org.eclipse.epsilon.hutn.model' version='0.7.0'>
-      <update id='org.eclipse.epsilon.hutn.model' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Ecore Model (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-      </properties>
-      <provides size='7'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' version='0.7.0'/>
-        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model' version='0.7.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn.impl' version='0.0.0'/>
-        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn.util' version='0.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='3'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model' version='0.7.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons&#xA;Bundle-Name: Human Usable Textual Notation Ecore Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model;singleton:=true&#xA;Bundle-Version: 0.7.0&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model,org.eclipse.epsilon.hutn.model.hutn,org.eclipse.epsilon.hutn.model.hutn.impl,org.eclipse.epsilon.hutn.model.hutn.util&#xA;
           </instruction>
         </instructions>
       </touchpointData>
@@ -1644,67 +1576,37 @@
         [Enter Copyright Description here.]
       </copyright>
     </unit>
-    <unit id='org.eclipse.epsilon.hutn.feature.feature.group' version='0.7.0' singleton='false'>
-      <update id='org.eclipse.epsilon.hutn.feature.feature.group' range='[0.0.0,0.7.0)' severity='0'/>
-      <properties size='5'>
-        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation (Incubation)'/>
-        <property name='org.eclipse.equinox.p2.description' value='Epsilon-based HUTN tooling'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='http://www.eclipse.org/gmt/epsilon'/>
+    <unit id='org.eclipse.epsilon.hutn.model' version='0.7.1'>
+      <update id='org.eclipse.epsilon.hutn.model' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation Ecore Model (Incubation)'/>
         <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
-        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
       </properties>
-      <provides size='1'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.group' version='0.7.0'/>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' version='0.7.1'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model' version='0.7.1'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutn.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
       </provides>
-      <requires size='34'>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.eol.dt' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.views' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.common.dt' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.swt' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.jface.text' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.workbench.texteditor' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.editors' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.runtime' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.resources' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.ide' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.editor' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.dependencies' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.etl.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.erl.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.egl.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.evl.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.antlr.postprocessor' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.commons' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.antlr.postprocessor.model' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.util.emf' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' range='0.0.0'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.dt' range='[0.7.0,0.7.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' range='[0.7.0,0.7.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' range='[0.7.0,0.7.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' range='[0.7.0,0.7.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' range='[0.7.0,0.7.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.jar' range='[0.7.0,0.7.0]'>
-          <filter>
-            (org.eclipse.update.install.features=true)
-          </filter>
-        </required>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
       </requires>
-      <touchpoint id='null' version='0.0.0'/>
-      <licenses size='1'>
-        <license url='http://www.eclipse.org/legal/epl-v10.html'>
-          &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-1&quot;&gt;&#xA;&lt;title&gt;Eclipse.org Software User Agreement&lt;/title&gt;&#xA;&lt;/head&gt;&#xA;&lt;body lang=&quot;EN-US&quot; link=blue vlink=purple&gt;&#xA;&lt;h2&gt;Eclipse Foundation Software User Agreement&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;&#xA;March 17, 2005&lt;/p&gt;&#xA;&lt;h3&gt;Usage Of Content&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION,&#xA;INFORMATION AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS&#xA;(COLLECTIVELY &amp;quot;CONTENT&amp;quot;).  USE OF THE CONTENT IS GOVERNED&#xA;BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE TERMS&#xA;AND&#xA;CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED&#xA;BELOW.  BY USING THE CONTENT, YOU AGREE THAT YOUR USE&#xA;OF THE CONTENT IS GOVERNED BY THIS AGREEMENT AND/OR THE TERMS&#xA;AND CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR&#xA;NOTICES INDICATED OR REFERENCED BELOW.  IF YOU DO NOT AGREE TO&#xA;THE TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND&#xA;CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED&#xA;OR REFERENCED BELOW, THEN YOU MAY NOT USE THE CONTENT.&lt;/p&gt;&#xA;&lt;h3&gt;Applicable Licenses&lt;/h3&gt;   &#xA;&#xA;&lt;p&gt;&#xA;Unless otherwise indicated, all Content made available by the&#xA;Eclipse Foundation is provided to you under the terms and conditions&#xA;of the Eclipse Public License Version 1.0&#xA;(&amp;quot;EPL&amp;quot;).  A copy of the EPL is provided with this Content&#xA;and is also available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;.&#xA;For purposes of the EPL, &amp;quot;Program&amp;quot; will mean the Content.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content includes, but is not limited to, source code, object&#xA;code, documentation and other files maintained in the Eclipse.org&#xA;CVS repository (&amp;quot;Repository&amp;quot;) in CVS&#xA;modules (&amp;quot;Modules&amp;quot;) and made available as downloadable&#xA;archives (&amp;quot;Downloads&amp;quot;).&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Content may be structured and packaged into modules to facilitate&#xA;delivering, extending, and upgrading the Content.  Typical modules&#xA;may include plug-ins (&amp;quot;Plug-ins&amp;quot;), plug-in fragments&#xA;(&amp;quot;Fragments&amp;quot;), and features (&amp;quot;Features&amp;quot;).&lt;/li&gt;&#xA;&lt;li&gt;Each Plug-in or Fragment may be packaged as a sub-directory&#xA;or JAR (Java&amp;trade; ARchive) in a directory named &amp;quot;plugins&amp;quot;.&lt;/li&gt;&#xA;&lt;li&gt;A Feature is a bundle of one or more Plug-ins and/or Fragments&#xA;and associated material.  Each Feature may be packaged as a sub-directory&#xA;in a directory named &amp;quot;features&amp;quot;.  Within a Feature,&#xA;files named &amp;quot;feature.xml&amp;quot; may contain a list of the&#xA;names and version numbers of the Plug-ins&#xA;and/or Fragments associated with that Feature.&lt;/li&gt;&#xA;&lt;li&gt;Features may also include other Features (&amp;quot;Included&#xA;Features&amp;quot;). Within a Feature, files named &amp;quot;feature.xml&amp;quot;&#xA;may contain a list of the names and version numbers of Included&#xA;Features.&lt;/li&gt;&#xA;&lt;/ul&gt;   &#xA;&#xA;&lt;p&gt;&#xA;The terms and conditions governing Plug-ins and Fragments should&#xA;be contained in files named &amp;quot;about.html&amp;quot; (&amp;quot;Abouts&amp;quot;).&#xA;The terms and conditions governing Features and&#xA;Included Features should be contained in files named &amp;quot;license.html&amp;quot;&#xA;(&amp;quot;Feature Licenses&amp;quot;).  Abouts and Feature Licenses&#xA;may be located in any directory of a Download or Module&#xA;including, but not limited to the following locations:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The top-level (root) directory&lt;/li&gt;&#xA;&lt;li&gt;Plug-in and Fragment directories&lt;/li&gt;&#xA;&lt;li&gt;Inside Plug-ins and Fragments packaged as JARs&lt;/li&gt;&#xA;&lt;li&gt;Sub-directories of the directory named &amp;quot;src&amp;quot; of&#xA;certain Plug-ins&lt;/li&gt;&#xA;&lt;li&gt;Feature directories&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;Note: if a Feature made available by the Eclipse Foundation is&#xA;installed using the Eclipse Update Manager, you must agree to&#xA;a license (&amp;quot;Feature Update License&amp;quot;) during the&#xA;installation process.  If the Feature contains Included Features,&#xA;the Feature Update License should either provide you with the&#xA;terms and conditions governing the Included Features or&#xA;inform you where you can locate them.  Feature Update Licenses&#xA;may be found in the &amp;quot;license&amp;quot; property of files named&#xA;&amp;quot;feature.properties&amp;quot; found within a Feature.&#xA;Such Abouts, Feature Licenses, and Feature Update Licenses contain&#xA;the terms and conditions (or references to such terms and conditions)&#xA;that govern your use of the associated Content in&#xA;that directory.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY&#xA;REFER TO THE EPL OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS&#xA;AND CONDITIONS.  SOME OF THESE&#xA;OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Common Public License Version 1.0 (available at &lt;a href=&quot;http://www.eclipse.org/legal/cpl-v10.html&quot;&gt;http://www.eclipse.org/legal/cpl-v10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 1.1 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE&quot;&gt;http://www.apache.org/licenses/LICENSE&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 2.0 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;&gt;http://www.apache.org/licenses/LICENSE-2.0&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;IBM Public License 1.0 (available at &lt;a href=&quot;http://oss.software.ibm.com/developerworks/opensource/license10.html&quot;&gt;http://oss.software.ibm.com/developerworks/opensource/license10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Metro Link Public License 1.00 (available at &lt;a href=&quot;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&quot;&gt;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Mozilla Public License Version 1.1 (available at &lt;a href=&quot;http://www.mozilla.org/MPL/MPL-1.1.html&quot;&gt;http://www.mozilla.org/MPL/MPL-1.1.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS&#xA;PRIOR TO USE OF THE CONTENT.  If no About, Feature License, or&#xA;Feature Update License is provided, please&#xA;contact the Eclipse Foundation to determine what terms and conditions&#xA;govern that particular Content.&lt;/p&gt;&#xA;&lt;h3&gt;Cryptography&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content may contain encryption software. The country in which&#xA;you are currently may have restrictions on the import, possession,&#xA;and use, and/or re-export to&#xA;another country, of encryption software. BEFORE using any encryption&#xA;software, please check the country&apos;s laws, regulations and policies&#xA;concerning the import,&#xA;possession, or use, and re-export of encryption software, to&#xA;see if this is permitted.&lt;/p&gt;&#xA;&lt;small&gt;Java and all Java-based trademarks are trademarks of Sun&#xA;Microsystems, Inc. in the United States, other countries, or&#xA;both.&lt;/small&gt;   &#xA;&lt;/body&gt;&#xA;&lt;/h
-        </license>
-      </licenses>
-      <copyright>
-        Please refer to the Licence Agreement
-      </copyright>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model' version='0.7.1'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons&#xA;Bundle-Name: Human Usable Textual Notation Ecore Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model;singleton:=true&#xA;Bundle-Version: 0.7.1&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model,org.eclipse.epsilon.hutn.model.hutn,org.eclipse.epsilon.hutn.model.hutn.impl,org.eclipse.epsilon.hutn.model.hutn.util&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
     </unit>
     <unit id='org.eclipse.epsilon.eugenia.feature.feature.jar' version='0.8.1'>
       <update id='org.eclipse.epsilon.eugenia.feature.feature.jar' range='[0.0.0,0.8.1)' severity='0'/>
@@ -1860,6 +1762,68 @@
           </instruction>
         </instructions>
       </touchpointData>
+    </unit>
+    <unit id='org.eclipse.epsilon.hutn.feature.feature.group' version='0.7.1' singleton='false'>
+      <update id='org.eclipse.epsilon.hutn.feature.feature.group' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.description' value='Epsilon-based HUTN tooling'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.eclipse.org/gmt/epsilon'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.group' version='0.7.1'/>
+      </provides>
+      <requires size='34'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.eol.dt' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.eol.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.views' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.common.dt' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.swt' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.jface.text' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.workbench.texteditor' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.editors' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.emc.emf' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.ide' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore.editor' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.dependencies' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.etl.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.erl.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.egl.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.evl.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.antlr.postprocessor' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.commons' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.antlr.postprocessor.model' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.util.emf' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.dt' range='[0.7.1,0.7.1]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.engine' range='[0.7.1,0.7.1]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model' range='[0.7.1,0.7.1]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' range='[0.7.1,0.7.1]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.config' range='[0.7.1,0.7.1]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.feature.feature.jar' range='[0.7.1,0.7.1]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <licenses size='1'>
+        <license url='http://www.eclipse.org/legal/epl-v10.html'>
+          &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-1&quot;&gt;&#xA;&lt;title&gt;Eclipse.org Software User Agreement&lt;/title&gt;&#xA;&lt;/head&gt;&#xA;&lt;body lang=&quot;EN-US&quot; link=blue vlink=purple&gt;&#xA;&lt;h2&gt;Eclipse Foundation Software User Agreement&lt;/h2&gt;&#xA;&#xA;&lt;p&gt;&#xA;March 17, 2005&lt;/p&gt;&#xA;&lt;h3&gt;Usage Of Content&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION,&#xA;INFORMATION AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS&#xA;(COLLECTIVELY &amp;quot;CONTENT&amp;quot;).  USE OF THE CONTENT IS GOVERNED&#xA;BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE TERMS&#xA;AND&#xA;CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED&#xA;BELOW.  BY USING THE CONTENT, YOU AGREE THAT YOUR USE&#xA;OF THE CONTENT IS GOVERNED BY THIS AGREEMENT AND/OR THE TERMS&#xA;AND CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR&#xA;NOTICES INDICATED OR REFERENCED BELOW.  IF YOU DO NOT AGREE TO&#xA;THE TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND&#xA;CONDITIONS OF ANY APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED&#xA;OR REFERENCED BELOW, THEN YOU MAY NOT USE THE CONTENT.&lt;/p&gt;&#xA;&lt;h3&gt;Applicable Licenses&lt;/h3&gt;   &#xA;&#xA;&lt;p&gt;&#xA;Unless otherwise indicated, all Content made available by the&#xA;Eclipse Foundation is provided to you under the terms and conditions&#xA;of the Eclipse Public License Version 1.0&#xA;(&amp;quot;EPL&amp;quot;).  A copy of the EPL is provided with this Content&#xA;and is also available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;.&#xA;For purposes of the EPL, &amp;quot;Program&amp;quot; will mean the Content.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content includes, but is not limited to, source code, object&#xA;code, documentation and other files maintained in the Eclipse.org&#xA;CVS repository (&amp;quot;Repository&amp;quot;) in CVS&#xA;modules (&amp;quot;Modules&amp;quot;) and made available as downloadable&#xA;archives (&amp;quot;Downloads&amp;quot;).&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Content may be structured and packaged into modules to facilitate&#xA;delivering, extending, and upgrading the Content.  Typical modules&#xA;may include plug-ins (&amp;quot;Plug-ins&amp;quot;), plug-in fragments&#xA;(&amp;quot;Fragments&amp;quot;), and features (&amp;quot;Features&amp;quot;).&lt;/li&gt;&#xA;&lt;li&gt;Each Plug-in or Fragment may be packaged as a sub-directory&#xA;or JAR (Java&amp;trade; ARchive) in a directory named &amp;quot;plugins&amp;quot;.&lt;/li&gt;&#xA;&lt;li&gt;A Feature is a bundle of one or more Plug-ins and/or Fragments&#xA;and associated material.  Each Feature may be packaged as a sub-directory&#xA;in a directory named &amp;quot;features&amp;quot;.  Within a Feature,&#xA;files named &amp;quot;feature.xml&amp;quot; may contain a list of the&#xA;names and version numbers of the Plug-ins&#xA;and/or Fragments associated with that Feature.&lt;/li&gt;&#xA;&lt;li&gt;Features may also include other Features (&amp;quot;Included&#xA;Features&amp;quot;). Within a Feature, files named &amp;quot;feature.xml&amp;quot;&#xA;may contain a list of the names and version numbers of Included&#xA;Features.&lt;/li&gt;&#xA;&lt;/ul&gt;   &#xA;&#xA;&lt;p&gt;&#xA;The terms and conditions governing Plug-ins and Fragments should&#xA;be contained in files named &amp;quot;about.html&amp;quot; (&amp;quot;Abouts&amp;quot;).&#xA;The terms and conditions governing Features and&#xA;Included Features should be contained in files named &amp;quot;license.html&amp;quot;&#xA;(&amp;quot;Feature Licenses&amp;quot;).  Abouts and Feature Licenses&#xA;may be located in any directory of a Download or Module&#xA;including, but not limited to the following locations:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The top-level (root) directory&lt;/li&gt;&#xA;&lt;li&gt;Plug-in and Fragment directories&lt;/li&gt;&#xA;&lt;li&gt;Inside Plug-ins and Fragments packaged as JARs&lt;/li&gt;&#xA;&lt;li&gt;Sub-directories of the directory named &amp;quot;src&amp;quot; of&#xA;certain Plug-ins&lt;/li&gt;&#xA;&lt;li&gt;Feature directories&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;Note: if a Feature made available by the Eclipse Foundation is&#xA;installed using the Eclipse Update Manager, you must agree to&#xA;a license (&amp;quot;Feature Update License&amp;quot;) during the&#xA;installation process.  If the Feature contains Included Features,&#xA;the Feature Update License should either provide you with the&#xA;terms and conditions governing the Included Features or&#xA;inform you where you can locate them.  Feature Update Licenses&#xA;may be found in the &amp;quot;license&amp;quot; property of files named&#xA;&amp;quot;feature.properties&amp;quot; found within a Feature.&#xA;Such Abouts, Feature Licenses, and Feature Update Licenses contain&#xA;the terms and conditions (or references to such terms and conditions)&#xA;that govern your use of the associated Content in&#xA;that directory.&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY&#xA;REFER TO THE EPL OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS&#xA;AND CONDITIONS.  SOME OF THESE&#xA;OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Common Public License Version 1.0 (available at &lt;a href=&quot;http://www.eclipse.org/legal/cpl-v10.html&quot;&gt;http://www.eclipse.org/legal/cpl-v10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 1.1 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE&quot;&gt;http://www.apache.org/licenses/LICENSE&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Apache Software License 2.0 (available at &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;&gt;http://www.apache.org/licenses/LICENSE-2.0&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;IBM Public License 1.0 (available at &lt;a href=&quot;http://oss.software.ibm.com/developerworks/opensource/license10.html&quot;&gt;http://oss.software.ibm.com/developerworks/opensource/license10.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Metro Link Public License 1.00 (available at &lt;a href=&quot;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&quot;&gt;http://www.opengroup.org/openmotif/supporters/metrolink/license.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Mozilla Public License Version 1.1 (available at &lt;a href=&quot;http://www.mozilla.org/MPL/MPL-1.1.html&quot;&gt;http://www.mozilla.org/MPL/MPL-1.1.html&lt;/a&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS&#xA;PRIOR TO USE OF THE CONTENT.  If no About, Feature License, or&#xA;Feature Update License is provided, please&#xA;contact the Eclipse Foundation to determine what terms and conditions&#xA;govern that particular Content.&lt;/p&gt;&#xA;&lt;h3&gt;Cryptography&lt;/h3&gt;&#xA;&#xA;&lt;p&gt;&#xA;Content may contain encryption software. The country in which&#xA;you are currently may have restrictions on the import, possession,&#xA;and use, and/or re-export to&#xA;another country, of encryption software. BEFORE using any encryption&#xA;software, please check the country&apos;s laws, regulations and policies&#xA;concerning the import,&#xA;possession, or use, and re-export of encryption software, to&#xA;see if this is permitted.&lt;/p&gt;&#xA;&lt;small&gt;Java and all Java-based trademarks are trademarks of Sun&#xA;Microsystems, Inc. in the United States, other countries, or&#xA;both.&lt;/small&gt;   &#xA;&lt;/body&gt;&#xA;&lt;/h
+        </license>
+      </licenses>
+      <copyright>
+        Please refer to the Licence Agreement
+      </copyright>
     </unit>
     <unit id='org.eclipse.epsilon.evl.engine' version='0.8.1' singleton='false'>
       <update id='org.eclipse.epsilon.evl.engine' range='[0.0.0,0.8.1)' severity='0'/>
@@ -2046,6 +2010,38 @@
         <provided namespace='java.package' name='org.xml.sax.helpers' version='0.0.0'/>
       </provides>
       <touchpoint id='org.eclipse.equinox.p2.native' version='1.0.0'/>
+    </unit>
+    <unit id='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.1'>
+      <update id='org.eclipse.epsilon.hutn.model.antlrAst' range='[0.0.0,0.7.1)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Human Usable Textual Notation AST Model (Incubation)'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Eclipse.org'/>
+      </properties>
+      <provides size='6'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.1'/>
+        <provided namespace='osgi.bundle' name='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.1'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.eclipse.epsilon.hutn.model.hutnAntlrAst.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.commons' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.epsilon.antlr.postprocessor.model' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='org.eclipse.epsilon.hutn.model.antlrAst' version='0.7.1'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-Vendor: Eclipse.org&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-ClassPath: .&#xA;Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibility:=reexport,org.eclipse.epsilon.commons,org.eclipse.epsilon.antlr.postprocessor.model&#xA;Bundle-Name: Human Usable Textual Notation AST Model (Incubation)&#xA;Bundle-Localization: plugin&#xA;Manifest-Version: 1.0&#xA;Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.antlrAst;singleton:=true&#xA;Bundle-Version: 0.7.1&#xA;Eclipse-LazyStart: true&#xA;Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl,org.eclipse.epsilon.hutn.model.hutnAntlrAst.util&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
     </unit>
     <unit id='org.eclipse.epsilon.ewl.gmf' version='0.8.0'>
       <update id='org.eclipse.epsilon.ewl.gmf' range='[0.0.0,0.8.0)' severity='0'/>
