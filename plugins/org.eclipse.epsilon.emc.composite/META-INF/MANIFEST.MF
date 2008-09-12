@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Composite EMF Plug-in
+Bundle-Name: Composite Model Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.composite
 Bundle-Version: 0.8.1
 Bundle-Activator: org.eclipse.epsilon.emc.composite.Activator
