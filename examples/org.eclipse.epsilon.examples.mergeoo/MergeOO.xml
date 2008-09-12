@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project default="main">
+	
+	<target name="main" depends="loadModels, compare, merge">
+	
+	</target>
+	
+	<target name="loadModels">
+		
+		<epsilon.loadModel name="Left" type="EMF" profile="true">
+			<parameter name="aliases" value="Source"/>
+			<parameter name="modelFile" file="models/Educational.model"/>
+			<parameter name="metamodelUri" value="OO"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+			
+		<epsilon.loadModel name="Right" type="EMF" profile="true">
+			<parameter name="aliases" value="Source"/>
+			<parameter name="modelFile" file="models/Management.model"/>
+			<parameter name="metamodelUri" value="OO"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+		
+		<epsilon.loadModel name="Target" type="EMF" profile="true">
+			<parameter name="modelFile" file="models/Merged.model"/>
+			<parameter name="metamodelUri" value="OO"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
+			<parameter name="readOnLoad" value="false"/>
+			<parameter name="storeOnDisposal" value="true"/>
+		</epsilon.loadModel>
+		
+
+		
+	</target>
+	
+	<target name="compare">
+		
+		<epsilon.ecl src="MatchOO.ecl" exportmatchtrace="trace">
+			<model ref="Left"/>
+			<model ref="Right"/>
+		</epsilon.ecl>
+		
+	</target>
+	
+	<target name="merge">
+		
+		<epsilon.eml src="MergeOO.eml" usematchtrace="trace">
+			<model ref="Left"/>
+			<model ref="Right"/>
+			<model ref="Target"/>
+		</epsilon.eml>
+		
+	</target>
+	
+</project>

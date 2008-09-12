@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
+<listAttribute key="models">
+<listEntry value="#&#13;&#10;#Fri Sep 12 11:25:30 BST 2008&#13;&#10;isMetamodelFileBased=true&#13;&#10;name=OO&#13;&#10;readOnLoad=false&#13;&#10;storeOnDisposal=true&#13;&#10;aliases=&#13;&#10;metamodelUri=&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.buildooinstance/models/OOInstance.model&#13;&#10;expand=false&#13;&#10;metamodelFile=/org.eclipse.epsilon.examples.buildooinstance/metamodels/OO.ecore&#13;&#10;"/>
+</listAttribute>
+<stringAttribute key="source" value="/org.eclipse.epsilon.examples.buildooinstance/BuildOOInstance.eol"/>
+<listAttribute key="tools"/>
+</launchConfiguration>

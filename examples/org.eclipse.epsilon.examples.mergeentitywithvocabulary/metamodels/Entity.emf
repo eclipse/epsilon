@@ -1,0 +1,14 @@
+package Entity;
+
+class System {
+  val Entity[*]#system entity;
+}
+
+class Entity {
+  attr String name;
+  ref System#entity system;
+  attr Boolean inDomain;
+}
+
+datatype String : "";
+datatype Boolean : "";

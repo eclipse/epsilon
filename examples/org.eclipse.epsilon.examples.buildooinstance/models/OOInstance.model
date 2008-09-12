@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<OO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OO="OO" xmi:id="_wCIzYICsEd2O1qWkkEg7zA" name="m">
+  <contents xsi:type="OO:Package" xmi:id="_wClfUICsEd2O1qWkkEg7zA" name="p1">
+    <contents xsi:type="OO:Class" xmi:id="_wCvQUICsEd2O1qWkkEg7zA" name="c11" extends="_wCvQXoCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQUYCsEd2O1qWkkEg7zA" name="c12" extends="_wCvQUYCsEd2O1qWkkEg7zA" extendedBy="_wCvQUYCsEd2O1qWkkEg7zA _wCvQUoCsEd2O1qWkkEg7zA _wCvQWoCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQUoCsEd2O1qWkkEg7zA" name="c13" extends="_wCvQUYCsEd2O1qWkkEg7zA" extendedBy="_wCvQVYCsEd2O1qWkkEg7zA _wCvQXYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+  </contents>
+  <contents xsi:type="OO:Package" xmi:id="_wCvQU4CsEd2O1qWkkEg7zA" name="p2">
+    <contents xsi:type="OO:Class" xmi:id="_wCvQVICsEd2O1qWkkEg7zA" name="c21" extends="_wCvQVoCsEd2O1qWkkEg7zA" extendedBy="_wCvQYYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQVYCsEd2O1qWkkEg7zA" name="c22" extends="_wCvQUoCsEd2O1qWkkEg7zA" extendedBy="_wCvQWYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQVoCsEd2O1qWkkEg7zA" name="c23" extends="_wCvQYICsEd2O1qWkkEg7zA" extendedBy="_wCvQVICsEd2O1qWkkEg7zA" isAbstract="false"/>
+  </contents>
+  <contents xsi:type="OO:Package" xmi:id="_wCvQV4CsEd2O1qWkkEg7zA" name="p3">
+    <contents xsi:type="OO:Class" xmi:id="_wCvQWICsEd2O1qWkkEg7zA" name="c31" extends="_wCvQYYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQWYCsEd2O1qWkkEg7zA" name="c32" extends="_wCvQVYCsEd2O1qWkkEg7zA" extendedBy="_wCvQXoCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQWoCsEd2O1qWkkEg7zA" name="c33" extends="_wCvQUYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+  </contents>
+  <contents xsi:type="OO:Package" xmi:id="_wCvQW4CsEd2O1qWkkEg7zA" name="p4">
+    <contents xsi:type="OO:Class" xmi:id="_wCvQXICsEd2O1qWkkEg7zA" name="c41" extends="_wCvQYYCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQXYCsEd2O1qWkkEg7zA" name="c42" extends="_wCvQUoCsEd2O1qWkkEg7zA" extendedBy="_wCvQYICsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQXoCsEd2O1qWkkEg7zA" name="c43" extends="_wCvQWYCsEd2O1qWkkEg7zA" extendedBy="_wCvQUICsEd2O1qWkkEg7zA" isAbstract="false"/>
+  </contents>
+  <contents xsi:type="OO:Package" xmi:id="_wCvQX4CsEd2O1qWkkEg7zA" name="p5">
+    <contents xsi:type="OO:Class" xmi:id="_wCvQYICsEd2O1qWkkEg7zA" name="c51" extends="_wCvQXYCsEd2O1qWkkEg7zA" extendedBy="_wCvQVoCsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQYYCsEd2O1qWkkEg7zA" name="c52" extends="_wCvQVICsEd2O1qWkkEg7zA" extendedBy="_wCvQWICsEd2O1qWkkEg7zA _wCvQXICsEd2O1qWkkEg7zA" isAbstract="false"/>
+    <contents xsi:type="OO:Class" xmi:id="_wCvQYoCsEd2O1qWkkEg7zA" name="c53" extends="_wCvQYoCsEd2O1qWkkEg7zA" extendedBy="_wCvQYoCsEd2O1qWkkEg7zA" isAbstract="false"/>
+  </contents>
+</OO:Model>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DB:Database xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DB="DB" xmi:id="_Uq31YICuEd2O1qWkkEg7zA">
+  <contents xsi:type="DB:Table" xmi:id="_Uq31YYCuEd2O1qWkkEg7zA" name="School" primaryKeys="_Uq31YoCuEd2O1qWkkEg7zA">
+    <columns xmi:id="_Uq31YoCuEd2O1qWkkEg7zA" name="schoolId" type="INT"/>
+    <columns xmi:id="_UrKwUICuEd2O1qWkkEg7zA" name="address" type="NVARCHAR"/>
+    <columns xmi:id="_UrKwV4CuEd2O1qWkkEg7zA" name="postCodesAcceptedId" type="INT"/>
+  </contents>
+  <contents xsi:type="DB:Table" xmi:id="_UrA_UICuEd2O1qWkkEg7zA" name="Student" primaryKeys="_UrA_UYCuEd2O1qWkkEg7zA">
+    <columns xmi:id="_UrA_UYCuEd2O1qWkkEg7zA" name="studentId" type="INT"/>
+    <columns xmi:id="_UrA_U4CuEd2O1qWkkEg7zA" name="personId" type="INT"/>
+    <columns xmi:id="_UrKwUYCuEd2O1qWkkEg7zA" name="grade" type="NUMBER"/>
+    <columns xmi:id="_UrKwWoCuEd2O1qWkkEg7zA" name="studentsId" type="INT"/>
+    <columns xmi:id="_UrKwXoCuEd2O1qWkkEg7zA" name="studentsId" type="INT"/>
+  </contents>
+  <contents xsi:type="DB:Table" xmi:id="_UrA_VICuEd2O1qWkkEg7zA" name="Person" primaryKeys="_UrA_VYCuEd2O1qWkkEg7zA">
+    <columns xmi:id="_UrA_VYCuEd2O1qWkkEg7zA" name="personId" type="INT"/>
+    <columns xmi:id="_UrKwUoCuEd2O1qWkkEg7zA" name="details" type="NVARCHAR"/>
+  </contents>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrA_UoCuEd2O1qWkkEg7zA" name="StudentExtendsPerson" parent="_UrA_VYCuEd2O1qWkkEg7zA" child="_UrA_U4CuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:Table" xmi:id="_UrA_VoCuEd2O1qWkkEg7zA" name="Employee" primaryKeys="_UrA_V4CuEd2O1qWkkEg7zA">
+    <columns xmi:id="_UrA_V4CuEd2O1qWkkEg7zA" name="employeeId" type="INT"/>
+    <columns xmi:id="_UrA_WYCuEd2O1qWkkEg7zA" name="personId" type="INT"/>
+    <columns xmi:id="_UrKwU4CuEd2O1qWkkEg7zA" name="salary" type="NUMBER"/>
+  </contents>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrA_WICuEd2O1qWkkEg7zA" name="EmployeeExtendsPerson" parent="_UrA_VYCuEd2O1qWkkEg7zA" child="_UrA_WYCuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:Table" xmi:id="_UrA_WoCuEd2O1qWkkEg7zA" name="Teacher" primaryKeys="_UrA_W4CuEd2O1qWkkEg7zA">
+    <columns xmi:id="_UrA_W4CuEd2O1qWkkEg7zA" name="teacherId" type="INT"/>
+    <columns xmi:id="_UrA_XYCuEd2O1qWkkEg7zA" name="employeeId" type="INT"/>
+  </contents>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrA_XICuEd2O1qWkkEg7zA" name="TeacherExtendsEmployee" parent="_UrA_V4CuEd2O1qWkkEg7zA" child="_UrA_XYCuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:Table" xmi:id="_UrA_XoCuEd2O1qWkkEg7zA" name="Class" primaryKeys="_UrA_X4CuEd2O1qWkkEg7zA">
+    <columns xmi:id="_UrA_X4CuEd2O1qWkkEg7zA" name="classId" type="INT"/>
+    <columns xmi:id="_UrKwXICuEd2O1qWkkEg7zA" name="teachesId" type="INT"/>
+  </contents>
+  <contents xsi:type="DB:Table" xmi:id="_UrKwVICuEd2O1qWkkEg7zA" name="School_PostCodesAcceptedValues">
+    <columns xmi:id="_UrKwVYCuEd2O1qWkkEg7zA" name="id" type="INT"/>
+    <columns xmi:id="_UrKwVoCuEd2O1qWkkEg7zA" name="value" type="NVARCHAR"/>
+  </contents>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrKwWICuEd2O1qWkkEg7zA" parent="_UrKwVYCuEd2O1qWkkEg7zA" child="_UrKwV4CuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrKwWYCuEd2O1qWkkEg7zA" name="students" parent="_Uq31YoCuEd2O1qWkkEg7zA" child="_UrKwWoCuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrKwW4CuEd2O1qWkkEg7zA" name="teaches" parent="_UrA_W4CuEd2O1qWkkEg7zA" child="_UrKwXICuEd2O1qWkkEg7zA"/>
+  <contents xsi:type="DB:ForeignKey" xmi:id="_UrKwXYCuEd2O1qWkkEg7zA" name="students" parent="_UrA_X4CuEd2O1qWkkEg7zA" child="_UrKwXoCuEd2O1qWkkEg7zA"/>
+</DB:Database>

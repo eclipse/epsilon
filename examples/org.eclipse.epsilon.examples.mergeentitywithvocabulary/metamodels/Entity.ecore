@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="Entity">
+    <eClassifiers xsi:type="ecore:EClass" name="System">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entity" ordered="false" upperBound="-1" eType="/0/Entity" containment="true" eOpposite="/0/Entity/system"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Entity">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false" lowerBound="1" eType="/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="system" ordered="false" lowerBound="1" eType="/0/System" eOpposite="/0/System/entity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="inDomain" ordered="false" unique="false" lowerBound="1" eType="/1/Boolean"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ecore:EPackage name="PrimitiveTypes">
+    <eClassifiers xsi:type="ecore:EDataType" name="String"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Boolean"/>
+  </ecore:EPackage>
+</xmi:XMI>

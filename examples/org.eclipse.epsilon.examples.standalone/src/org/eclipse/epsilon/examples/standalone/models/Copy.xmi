@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Tree xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="TreeDsl" xmi:id="_Zjn0YFJIEd27X_ZSX77RwQ" label="CopyOfa">
+  <children xmi:id="_ZjxlYFJIEd27X_ZSX77RwQ" label="CopyOfb">
+    <children xmi:id="_ZjxlYVJIEd27X_ZSX77RwQ" label="CopyOfc"/>
+  </children>
+</Tree>

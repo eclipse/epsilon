@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project default="main">
+	
+	<target name="main" depends="loadModels, compare, merge, disposeModels">
+	
+	</target>
+	
+	<target name="loadModels">
+		
+		<epsilon.loadModel name="Source" type="EMF" profile="true">
+			<parameter name="modelFile" file="models/Source.model"/>
+			<parameter name="metamodelFile" file="metamodels/Entity.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+
+		<epsilon.loadModel name="Target" type="EMF" profile="true">
+			<parameter name="modelFile" file="models/Target.model"/>
+			<parameter name="metamodelFile" file="metamodels/Entity.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="false"/>
+			<parameter name="storeOnDisposal" value="true"/>
+		</epsilon.loadModel>
+		
+		<epsilon.loadModel name="Vocabulary" type="EMF" profile="true">
+			<parameter name="modelFile" file="models/Vocabulary.model"/>
+			<parameter name="metamodelFile" file="metamodels/DomainVocabulary.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+		
+	</target>
+	
+	<target name="compare">
+		
+		<epsilon.ecl src="EntityWithVocabulary.ecl">
+			<model ref="Source"/>
+			<model ref="Vocabulary"/>
+			<exports ref="matchTrace" as="eclMatchTrace"/>
+		</epsilon.ecl>
+		
+	</target>
+	
+	<target name="merge">
+		
+		<epsilon.eml src="EntityWithVocabulary.eml" matchtrace="eclMatchTrace">
+			<model ref="Source"/>
+			<model ref="Vocabulary"/>
+			<model ref="Target"/>
+		</epsilon.eml>
+		
+	</target>
+	
+	<target name="disposeModels">
+		<epsilon.disposeModels/>
+	</target>
+	
+</project>

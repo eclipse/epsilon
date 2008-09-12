@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.eml.eclipse.dt.launcing.EmlLaunchConfigurationDelegate">
+<listAttribute key="models">
+<listEntry value="#&#13;&#10;#Fri Apr 11 19:48:38 CEST 2008&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=Left&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=false&#13;&#10;aliases=Source&#13;&#10;metamodelUri=OO&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mergeoo/models/Educational.model&#13;&#10;expand=true&#13;&#10;metamodelFile=&#13;&#10;"/>
+<listEntry value="#&#13;&#10;#Fri Apr 11 19:48:47 CEST 2008&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=Right&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=false&#13;&#10;aliases=Source&#13;&#10;metamodelUri=OO&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mergeoo/models/Management.model&#13;&#10;expand=true&#13;&#10;metamodelFile=&#13;&#10;"/>
+<listEntry value="#&#13;&#10;#Fri Apr 11 19:48:57 CEST 2008&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=Target&#13;&#10;readOnLoad=false&#13;&#10;storeOnDisposal=true&#13;&#10;aliases=&#13;&#10;metamodelUri=OO&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mergeoo/models/Merged.model&#13;&#10;expand=true&#13;&#10;metamodelFile=&#13;&#10;"/>
+</listAttribute>
+<stringAttribute key="source" value="\org.eclipse.epsilon.examples.mergeoo\MergeOO.eml"/>
+<stringAttribute key="source.ecl" value="\org.eclipse.epsilon.examples.mergeoo\MatchOO.ecl"/>
+</launchConfiguration>

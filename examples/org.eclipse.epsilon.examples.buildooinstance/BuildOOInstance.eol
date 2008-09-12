@@ -1,0 +1,31 @@
+var "model" : Model;
+"model" := new Model;
+-- Alternatively we could have used:
+-- var model : new Model; (creates a typed variable)
+-- var model : Model := new Model; (creates a typed variable)
+-- var model := new Model; (creates an untyped variable)
+
+"model".name := 'm';
+
+-- Create five packages
+for (i in Sequence{1..5}){
+	var package : Package := new Package;
+	package.name := 'p' + i;
+	package.package := "model";
+
+	-- Create three classes in each package
+	for (j in Sequence{1..3}) {
+		
+		var class : Class := new Class;
+		class.name := 'c' + i + '' + j;
+		class.isAbstract := false;
+		class.package := package;
+		
+	}
+	
+}
+
+-- Assign random supertypes to the classes created
+for (c in Class.allInstances) {
+	c.extends := Class.allInstances.random();
+}
