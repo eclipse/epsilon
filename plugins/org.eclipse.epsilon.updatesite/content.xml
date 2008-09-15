@@ -3,7 +3,7 @@
 <repository name='file:/E:/Projects/Eclipse/3.4/workspace3/org.eclipse.epsilon.updatesite/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1221213097000'/>
+    <property name='p2.timestamp' value='1221468383984'/>
   </properties>
   <units size='60'>
     <unit id='org.eclipse.epsilon.eml.engine' version='0.8.1' singleton='false'>
