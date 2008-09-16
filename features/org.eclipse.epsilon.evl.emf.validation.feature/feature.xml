@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.epsilon.evl.emf.validation.feature"
+      label="Epsilon EMF/GMF Live Validation (Incubation)"
+      version="0.8.1.1">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.epsilon.evl.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.eclipse.emf.validation.ui"/>
+      <import plugin="org.eclipse.emf.validation.ui.ide"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.epsilon.eol.dt"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.ui.ide" version="3.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.edit" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.editor" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.edit" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.edit.ui" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.1.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.epsilon.evl.emf.validation"
+         download-size="0"
+         install-size="0"
+         version="0.8.1.1"
+         unpack="false"/>
+
+</feature>
