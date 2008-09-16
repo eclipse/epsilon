@@ -54,6 +54,11 @@ operation ECore!EReference isListLayout() : Boolean {
 }
 
 @cached
+operation ECore!EReference getLinkLabel() : String {
+	return self.getAnnotationValue('gmf.link', 'label');
+}
+
+@cached
 operation ECore!EClass getConcreteSubtypes() {
 	return ECore!EClass.all.select(e|(not e.abstract) and (e.eAllSuperTypes.includes(self) or e = self));
 }
