@@ -78,6 +78,7 @@ tokens {
 	TYPE;
 	ENUMERATION_VALUE;
 	IMPORT;
+	ModelDeclaration;
 }
 
 @members {
@@ -91,6 +92,14 @@ public void setTokenType(ParserRuleReturnScope tree, int type) {
 operationDeclarationOrAnnotationBlock
 	: operationDeclaration|annotationBlock
 	;
+
+/*
+modelDeclaration
+	:	'model' NAME modelAlias? (':' NAME)? ';';
+
+modelAlias
+	:  ('alias' NAME (',' NAME)*)
+*/
 
 operationDeclaration
 	//:	'operation' (ctx=typeName {$ctx.setType(TYPE);})? operationName=NAME '(' formalParameterList ')' (':' returnType=typeName {$returnType.setType(TYPE);})? statementBlock
