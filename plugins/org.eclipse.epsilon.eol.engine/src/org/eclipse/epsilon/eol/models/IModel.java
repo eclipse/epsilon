@@ -59,6 +59,8 @@ public interface IModel {
 	
 	public boolean owns(Object instance);
 	
+	public boolean knowsAboutProperty(Object instance, String property);
+	
 	public boolean isInstantiable(String type); 
 	
 	public boolean isModelElement(Object instance);

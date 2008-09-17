@@ -165,5 +165,9 @@ public class ModelReference implements IModel{
 	public IModelTransactionSupport getTransactionSupport() {
 		return target.getTransactionSupport();
 	}
+
+	public boolean knowsAboutProperty(Object instance, String property) {
+		return target.knowsAboutProperty(instance, property);
+	}
 	
 }

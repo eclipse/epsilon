@@ -31,6 +31,7 @@ public abstract class Model implements IModel{
 	public static final String PROPERTY_STOREONDISPOSAL = "storeOnDisposal";
 	public static final String PROPERTY_ALIASES = "aliases";
 	
+
 	protected String name;
 	protected List<String> aliases = new ArrayList<String>();
 	protected boolean storeOnDisposal = false;
@@ -151,6 +152,10 @@ public abstract class Model implements IModel{
 		if (this.isStoredOnDispoal()){
 			this.store();
 		}
+	}
+	
+	public boolean knowsAboutProperty(Object instance, String property) {
+		return owns(instance);
 	}
 	
 	NoModelTransactionSupport transactionSupport = new NoModelTransactionSupport();

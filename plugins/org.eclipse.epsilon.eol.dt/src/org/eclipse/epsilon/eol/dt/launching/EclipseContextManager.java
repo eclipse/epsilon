@@ -131,10 +131,10 @@ public class EclipseContextManager {
 				model.load(properties, EclipseUtil.getWorkspacePath());
 				context.getModelRepository().addModel(model);
 			} catch (Exception e) {
+				e.printStackTrace();
 				EpsilonConsole.getInstance().getErrorStream().print(e.toString());
 				LogUtil.log(e);
 			}
-
 		}
 		
 		progressMonitor.done();		

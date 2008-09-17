@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -53,7 +54,7 @@ public abstract class AbstractEmfModel extends Model{
 	protected Resource modelImpl;
 	protected boolean cachingEnabled = true;
 	protected boolean expand = true;
-	
+
 	public abstract void load() throws EolModelLoadingException;
 	
 	protected InputStream getInputStream(String file) throws IOException {
@@ -121,6 +122,18 @@ public abstract class AbstractEmfModel extends Model{
 		}
 		
 		throw new EolEnumerationValueNotFoundException(enumeration,label,this.getName());
+	}
+	
+	@Override
+	public boolean knowsAboutProperty(Object instance, String property) {
+		
+		if (!owns(instance)) return false;
+		
+		EObject eObject = (EObject) instance;
+		for (EStructuralFeature sf : eObject.eClass().getEAllStructuralFeatures()) {
+			if (sf.getName().equals(property)) { return true; }
+		}
+		return false;
 	}
 	
 	protected void printPackages() {
@@ -470,6 +483,7 @@ public abstract class AbstractEmfModel extends Model{
 		if (modelImpl != null) {
 			//modelImpl.unload();
 			EmfModelResourceFactory.getInstance().removeCachedResource(modelImpl.getURI());
+			modelImpl = null;
 		}
 	}
 	

@@ -53,7 +53,15 @@ public class NameExecutor extends AbstractExecutor{
 		// Then look for a model with that name
 		if (variable == null) {
 			try {
+				
+				//System.err.println("MODELS + " + context.getModelRepository().getModels().size());
+				
+				//for (IModel m : context.getModelRepository().getModels()) {
+				//	System.err.println("MODEL -> " + m.getName());
+				//}
+				
 				IModel model = context.getModelRepository().getModelByName(name);
+			
 				if (model != null)
 				variable = Variable.createReadOnlyVariable(name,model);
 			}

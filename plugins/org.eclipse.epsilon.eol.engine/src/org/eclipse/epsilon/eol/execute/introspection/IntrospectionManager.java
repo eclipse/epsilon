@@ -75,7 +75,7 @@ public class IntrospectionManager {
 		ListIterator li = context.getModelRepository().getModels().listIterator();
 		while (li.hasNext()){
 			IModel model = (IModel) li.next();
-			if (model.owns(object)) {
+			if (model.knowsAboutProperty(object, property)) {
 				IPropertySetter ps = model.getPropertySetter();
 				ps.setObject(object);
 				ps.setProperty(property);
@@ -117,9 +117,7 @@ public class IntrospectionManager {
 		ListIterator li = context.getModelRepository().getModels().listIterator();
 		while (li.hasNext()){
 			IModel model = (IModel) li.next();
-			if (model.owns(object)) {
-				//if (property.equalsIgnoreCase("name"))
-				//System.err.println("M - " + object + " - " + property);
+			if (model.knowsAboutProperty(object, property)) {
 				IPropertyGetter pg = model.getPropertyGetter();
 				pg.setContext(context);
 				return pg;
