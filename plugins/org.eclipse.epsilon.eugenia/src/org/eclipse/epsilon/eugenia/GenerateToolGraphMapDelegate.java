@@ -47,4 +47,9 @@ public class GenerateToolGraphMapDelegate extends EolTransformationActionDelegat
 		return models;
 	}
 
+	@Override
+	public String getTitle() {
+		return "Generating GMF .gmfgraph, .gmftool and .gmfmap models";
+	}
+
 }

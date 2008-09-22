@@ -10,7 +10,13 @@ operation getLinks() {
 
 @cached
 operation getReferenceLinks() {
-	return ECore!EReference.all.select(r|r.isLink());
+	var diagramClass := getDiagramClass();
+	if (diagramClass.getAnnotationValue('gmf.diagram', 'refsarelinks') = 'true') {
+		return ECore!EReference.all.select(r|r.containment = false);
+	} 
+	else {
+		return ECore!EReference.all.select(r|r.isLink());
+	}
 }
 
 @cached

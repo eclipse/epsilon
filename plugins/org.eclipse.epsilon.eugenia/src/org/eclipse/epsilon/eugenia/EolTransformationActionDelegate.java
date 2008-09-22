@@ -14,6 +14,10 @@ import java.net.URI;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -40,15 +44,25 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		shell = targetPart.getSite().getShell();
 	}
-
-	public void run(IAction action) {
-		try {
-			runImpl(action);
-		}
-		catch (Exception ex) {
-			MessageDialog.openError(shell, "Error", "An error has occured. Please see the Error Log");
-			LogUtil.log(ex);
-		}
+	
+	public abstract String getTitle();
+	
+	public void run(final IAction action) {
+		
+		Job job = new Job(getTitle()) {
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					runImpl(action);
+				} catch (Exception ex) {
+					MessageDialog.openError(shell, "Error",
+							"An error has occured. Please see the Error Log");
+					LogUtil.log(ex);
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.setPriority(Job.SHORT);
+		job.schedule(); // start as soon as possible
 	}
 	
 	public abstract List<EmfModel> getModels() throws Exception;
@@ -62,7 +76,7 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 	public abstract String getEolPath();
 	
 	public void runImpl(IAction action) throws Exception {
-		
+					  
 		EolModule module = new EolModule();
 		URI uri = Activator.getDefault().getBundle().getResource(getEolPath()).toURI();
 		module.parse(uri);

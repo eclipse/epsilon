@@ -35,5 +35,10 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 		models.add(loadModel("GenModel", genModelPath, GenModelPackage.eNS_URI, true, true, false));
 		return models;
 	}
+
+	@Override
+	public String getTitle() {
+		return "Synchronizing .genmodel model";
+	}
 }
  

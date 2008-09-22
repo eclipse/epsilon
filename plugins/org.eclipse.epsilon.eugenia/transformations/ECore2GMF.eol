@@ -407,6 +407,13 @@ for (compartmentMapping in GmfMap!CompartmentMapping.all) {
 	compartmentMapping.children := compartmentMapping.children.asSequence().sortBy(cr|-cr.getDomainMetaElement().eAllSuperTypes.size());
 }
 
+-- Order tools by name
+
+nodesToolGroup.tools := nodesToolGroup.tools.sortBy(t|t.title);
+if (linksToolGroup.isDefined()) {
+	linksToolGroup.tools := linksToolGroup.tools.sortBy(t|t.title);
+}
+
 -- Store models
 
 --GmfTool.store(ECore.modelFile.replace('.ecore', '.gmftool'));

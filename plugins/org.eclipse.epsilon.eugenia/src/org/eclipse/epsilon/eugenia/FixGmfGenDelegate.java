@@ -36,4 +36,9 @@ public class FixGmfGenDelegate extends EolTransformationActionDelegate {
 		return models;
 	}
 
+	@Override
+	public String getTitle() {
+		return "Synchronizing .gmfgen model";
+	}
+
 }
