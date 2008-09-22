@@ -37,6 +37,10 @@ public class SortByOperation extends CollectOperation {
 		for (int index = 0; index < collected.size().intValue(); index++)
 			map.put(collected.at(new EolInteger(index)), source.at(new EolInteger(index)));
 		
+		// FIXME : Find a better way to sort the results
+		//		   the current way compares them based on  
+		//		   their string representations
+		
 		// Sort the collected values
 		try {
 			collected.sort(context.getPrettyPrinterManager());

@@ -61,13 +61,30 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 			ex.printStackTrace();
 		}
 		
-		IMarkerResolution[] iMarkerResolutions = new IMarkerResolution[resolutions.size()];
+		IMarkerResolution[] iMarkerResolutions = new IMarkerResolution[resolutions.size() + 1];
 	
 		int i = 0;
 		for (IMarkerResolution resolution : resolutions) {
 			iMarkerResolutions[i] = resolution;
 			i++;
 		}
+		
+		iMarkerResolutions[iMarkerResolutions.length - 1] = new IMarkerResolution() {
+
+			public String getLabel() {
+				return "Ignore";
+			}
+
+			public void run(IMarker marker) {
+				// Just (try to) delete the marker
+				try {
+					marker.delete();
+				} catch (CoreException e) {
+					LogUtil.log(e);
+				}
+			}
+			
+		};
 		
 		return iMarkerResolutions;
 	}
