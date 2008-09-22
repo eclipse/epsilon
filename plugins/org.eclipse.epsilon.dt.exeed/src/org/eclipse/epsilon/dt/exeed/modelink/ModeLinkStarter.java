@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -73,7 +74,7 @@ public class ModeLinkStarter extends EditorPart {
 		 * });
 		 * 
 		 * thread.start();
-		 */
+		 */ 
 	}
 
 	protected void startModeLinkEditor() {
@@ -141,10 +142,17 @@ public class ModeLinkStarter extends EditorPart {
 										.getFile(new Path(path)),
 								getPosition(el.getAttributeValue("position",
 										"left")));
-
-						editorIds[i] = PlatformUI.getWorkbench()
-								.getEditorRegistry().getDefaultEditor(path)
-								.getId();
+						
+						//System.err.println(path + " -> ");
+						
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+						String editorId = null;
+						if (editorDescriptor != null) editorId = editorDescriptor.getId();
+						else editorId = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
+							
+						editorIds[i] = editorId;
+						
+						
 						inputs[i] = editorInput;
 						// editorIds[i] = editorId;
 						i++;
