@@ -254,7 +254,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 
 	protected void updateImageDescriptors(Collection descriptors,
 			Collection actions) {
-		if (descriptors == null || actions == null)
+		if (descriptors == null || actions == null || editor == null)
 			return;
 
 		Iterator dit = descriptors.iterator();
