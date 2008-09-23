@@ -53,6 +53,9 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		String filePath = getElementResourceLocation(marker);
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(getElementResourceLocation(marker)));
 		String editorId = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filePath).getId();
+		
+		//PlatformUI.getWorkbench().getEditorRegistry().
+		
 		IEditorPart part = null;
 		
 		try {
