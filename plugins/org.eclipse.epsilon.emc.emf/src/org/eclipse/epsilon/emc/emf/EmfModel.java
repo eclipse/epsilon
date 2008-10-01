@@ -143,7 +143,7 @@ public class EmfModel extends AbstractEmfModel {
 		}
 		else {
 			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri);
-						packages.add(ePackage);
+			packages.add(ePackage);
 			EmfUtil.collectDependencies(ePackage, packages);
 		}
 		
