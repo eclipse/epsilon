@@ -7,10 +7,10 @@ Bundle-Activator: org.eclipse.epsilon.eugenia.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.epsilon.common.dt;bundle-version="0.8.0",
- org.eclipse.epsilon.eol.engine;bundle-version="0.8.0",
- org.eclipse.epsilon.emc.emf;bundle-version="0.8.0",
- org.eclipse.gmf.map;bundle-version="2.1.0",
- org.eclipse.gmf.codegen;bundle-version="2.1.0"
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.gmf.map,
+ org.eclipse.gmf.codegen
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia

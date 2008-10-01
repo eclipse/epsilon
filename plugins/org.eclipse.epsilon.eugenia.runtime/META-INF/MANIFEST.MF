@@ -6,8 +6,8 @@ Bundle-Version: 0.8.1.1
 Bundle-Activator: org.eclipse.epsilon.eugenia.runtime.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.draw2d;bundle-version="3.4.0",
- org.eclipse.gmf.runtime.draw2d.ui;bundle-version="1.1.0"
+ org.eclipse.draw2d,
+ org.eclipse.gmf.runtime.draw2d.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia.runtime,
  org.eclipse.epsilon.eugenia.runtime.shapes
