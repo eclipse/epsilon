@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation Test Dependencies (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.test.dependencies
+Bundle-Version: 0.7.1.1
+Require-Bundle: org.eclipse.epsilon.hutn.engine;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.epsilon.ecl.engine;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport,
+ org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf;visibility:=reexport,
+ org.eclipse.epsilon.test.dependencies;visibility:=reexport
+Export-Package: org.antlr.gunit,
+ org.eclipse.epsilon.hutn.test.acceptance.models,
+ org.eclipse.epsilon.hutn.test.util
+Bundle-Vendor: Eclipse.org

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation Acceptance Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.test.acceptance
+Bundle-Version: 0.7.1.1
+Require-Bundle: org.eclipse.epsilon.hutn.test.dependencies,
+ org.eclipse.uml2.uml
+Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.epsilon.hutn.test.acceptance
