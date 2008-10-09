@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Generation Language Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.egl.engine.test
+Bundle-Version: 0.8.1.1
+Export-Package: org.eclipse.epsilon.egl.test
+Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
+ org.eclipse.epsilon.egl.engine.test.unit,
+ org.eclipse.epsilon.egl.engine.test.acceptance
+Bundle-Vendor: Eclipse.org

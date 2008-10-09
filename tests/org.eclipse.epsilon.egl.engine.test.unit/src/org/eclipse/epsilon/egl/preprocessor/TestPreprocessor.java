@@ -1,0 +1,432 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.egl.preprocessor;
+
+import static org.junit.Assert.*;
+import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
+
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.egl.parse.EglLexer;
+import org.eclipse.epsilon.egl.parse.EglParser;
+import org.junit.Test;
+
+public class TestPreprocessor {
+	
+	private final Preprocessor preprocessor = new Preprocessor();
+	
+	private String preprocess(String program) {
+		final EglLexer lexer = new EglLexer(program);
+		final EglParser parser = new EglParser(lexer, new EpsilonTreeAdaptor(null));
+
+		parser.parse();
+		
+		return preprocessor.convertToEol((AST)parser.getAST());
+	}
+	
+	@Test
+	public void testProgram() {
+		final String egl = "[%var x : String;%]";
+		final String eol = "var x : String;";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testText() {
+		final String egl = "Hello World!";
+		final String eol = "out.print('Hello World!');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testTextMultiline() {
+		final String egl = "Hello World!" + NEWLINE +
+		                   "foo";
+		final String eol = "out.print('Hello World!');" + NEWLINE +
+		                   "out.print('\\n');" + NEWLINE +
+		                   "out.print('foo');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeQuote() {
+		final String egl = "'";
+		final String eol = "out.print('\\'');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeDoubleQuote() {
+		final String egl = "\"";
+		final String eol = "out.print('\\\"');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeBackslash() {
+		final String egl = "\\";
+		final String eol = "out.print('\\\\');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeTab() {
+		final String egl = "\t";
+		final String eol = "out.print('\\t');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeLineFeed() {
+		final String egl = "\r";
+		final String eol = "out.print('\\r');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testEscapeNewLine() {
+		final String egl = "\n";
+		final String eol = "out.print('\\n');";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testOutput() {
+		final String egl = "[%=foo%]";
+		final String eol = "out.print(foo);";
+
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testGobbleWhitespaceBeforeStartTag() {
+		final String egl = " \t[%var x : String;%]";
+		final String eol = "var x : String;";
+		
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testMultipleLines() {
+		final String egl = "[%for (i in Sequence{1..10}) {" + NEWLINE + 
+		                   "out.print(i);" + NEWLINE + 
+		                   "}%]";
+		
+		final String eol = "for (i in Sequence{1..10}) {" + NEWLINE +
+		                   "out.print(i);" + NEWLINE +
+		                   "}";
+		
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testMultipleTagsOnOneLineGenerateMultipleLinesOfEol() {
+		final String egl = "[%for (i in Sequence{1..10}) {%][%out.print(i);%][%}%]";
+		final String eol = "for (i in Sequence{1..10}) {" + NEWLINE +
+		                   "out.print(i);" + NEWLINE +
+		                   "}";
+		
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	@Test
+	public void testComment() {
+		final String egl = "[%for (i in Sequence{1..10}) {%][* [% j := i + 2 %] i plus 2 is [%=j%] *][%out.print(i);%][%}%]";
+		final String eol = "for (i in Sequence{1..10}) {" + NEWLINE +
+		                   "out.print(i);" + NEWLINE +
+		                   "}";
+		
+//		System.err.println(preprocess(egl));
+		
+		assertEquals(eol, preprocess(egl));
+	}
+	
+	
+	/// Traceability tests \\\	
+	@Test
+	public void testTraceabilityOneLine() {
+		final String program = "[%for (i in Sequence{1..10}) {%][%out.print(i);%][%}%]";
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(3));
+	}
+	
+	@Test
+	public void testTraceabilityMultiLineMultiTag() {
+		final String program = "[%for (i in Sequence{1..10}) {%]" + NEWLINE +
+		                       "[%out.print(i);%]" + NEWLINE + 
+		                       "[%}%]";
+
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(3));
+	}
+	
+	@Test
+	public void testTraceabilityMultiLineSingleTag() {
+		final String program = "[%for (i in Sequence{1..10}) {" + NEWLINE +
+		                       "out.print(i);" + NEWLINE + 
+		                       "}%]";
+
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(3));
+	}
+	
+	@Test
+	public void testTraceabilityAfterTag() {
+		final String program = "[%" + NEWLINE +
+		                       "  var x : Integer := 5;%]" + NEWLINE +
+		                       "[% x := x + 1; %]";
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(3));
+	}
+	
+	@Test
+	public void testTraceabilityTagsOnSeparateLines() {
+		final String program = "[%" + NEWLINE +
+		                       "  var x : Integer := 5;" + NEWLINE + 
+		                       "%]";
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+	}
+	
+	@Test
+	public void testTraceabilityAfterTagsOnSeparateLines() {
+		final String program = "[%" + NEWLINE +
+		                       "  var x : Integer := 5;" + NEWLINE + 
+		                       "%]" + NEWLINE +
+		                       "[% x := x + 1; %]";
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(4, preprocessor.getTrace().getEglLineNumberFor(3));
+	}
+	
+	@Test
+	public void testTraceabilityAfterMultiLineComment() {
+		final String program = "[*"                  + NEWLINE +
+		                       " This is a"          + NEWLINE +
+		                       " multi-line comment" + NEWLINE +
+		                       "*]"                  + NEWLINE +
+		                       "[%var x := 5;%]";
+
+		System.err.println(preprocess(program));
+		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(5, preprocessor.getTrace().getEglLineNumberFor(1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityColumnSimple() {
+		final String program = "[%out.print('foo');%]";
+		//                      1234567890123456789
+		//                      0        1         
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(7, preprocessor.getTrace().getEglColumnNumberFor(1, 5));
+	}
+	
+	@Test
+	public void testTraceabilityColumnMultipleTags() {
+		final String program = "[%for (i in Sequence{1..10})%] [%var x : Integer := i+2%]    [%out.print(x)%][%}%]";
+		//                      123456789012345678901234567890123456789012345678901234567890123456789012345678901234
+		//                      0        1         2         3         4         5         6         7         8
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals( 3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(34, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(64, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(80, preprocessor.getTrace().getEglColumnNumberFor(4, 1));
+	}
+	
+	@Test
+	public void testTraceabilityColumnMultipleTagsWithComment() {
+		final String program = "[%for (i in Sequence{1..10})%] [%var x : Integer := i+2%]    [* foo *][%out.print(x)%][%}%]";
+		//                      1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901
+		//                      0        1         2         3         4         5         6         7         8
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals( 3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(34, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(73, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(89, preprocessor.getTrace().getEglColumnNumberFor(4, 1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityColumnTabs() {
+		final String program = "[%for (i in Sequence{1..10})%]\t\t[%var x : Integer := i+2%] \t[%out.print(x)%][%}%]";
+		//                      12345678901234567890123456789011223456789012345678901234567890012345678901234567890123
+		//                      0        1         2         3           4         5          6         7         8
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals( 3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(35, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(63, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(79, preprocessor.getTrace().getEglColumnNumberFor(4, 1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityColumnOutput() {
+		final String program = "[%=1+1%][%=2+2%][%var hello : String := 'hello';%] [%=hello%]";
+		//                      1234567890123456789012345678901234567890123456789012345678901
+		//                      0        1         2         3         4         5         6
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		final int offset = "out.print(".length();
+		
+		assertEquals( 4, preprocessor.getTrace().getEglColumnNumberFor(1, offset + 1));
+		assertEquals(12, preprocessor.getTrace().getEglColumnNumberFor(2, offset + 1));
+		assertEquals(19, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(55, preprocessor.getTrace().getEglColumnNumberFor(5, offset + 1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityColumnMultiline() {
+		final String program = "[%for (i in Sequence{1..10})%]" + NEWLINE +
+		                       "  [% var x : Integer := i+2%]" + NEWLINE + 
+		                       "  [%=x%]" + NEWLINE +
+		                       "[%}%]";
+		//                      1234567890123456789012345678901
+		//                      0        1         2         3
+
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		final int offset = "out.print(".length();
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(3));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(4));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(5));
+		assertEquals(4, preprocessor.getTrace().getEglLineNumberFor(6));
+		
+		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(5,  preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(1,  preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(6,  preprocessor.getTrace().getEglColumnNumberFor(4, offset + 1));
+		assertEquals(11, preprocessor.getTrace().getEglColumnNumberFor(5, offset + 1));
+		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(6, 1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityColumnTrailingCloseTag() {
+		final String program = "[%for (i in Sequence{1..10})" + NEWLINE + 
+		                       "  var y : String;  %] [%var x : Integer := i+2%]    [%out.print(x)%][%}%]";
+		//                      12345678901234567890123456789012345678901234567890123456789012345678901234
+		//                      0        1         2         3         4         5         6         7      
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(3));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(4));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(5));
+		
+		assertEquals( 3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals( 1, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(25, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(55, preprocessor.getTrace().getEglColumnNumberFor(4, 1));
+		assertEquals(71, preprocessor.getTrace().getEglColumnNumberFor(5, 1));
+	}
+	
+	
+	@Test
+	public void testTraceabilityComments() {
+		final String program = "[% -- This is a comment" + NEWLINE +
+				               "for (i in Sequence{1..10})" + NEWLINE + 
+		                       "  var y : String;  %] [%var x : Integer := i+2%]    [%out.print(x)%][%}%]";
+		//                      12345678901234567890123456789012345678901234567890123456789012345678901234
+		//                      0        1         2         3         4         5         6         7      
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
+		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(3));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(4));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(5));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(6));
+		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(7));
+		
+		assertEquals( 3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals( 1, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals( 1, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(25, preprocessor.getTrace().getEglColumnNumberFor(4, 1));
+		assertEquals(55, preprocessor.getTrace().getEglColumnNumberFor(5, 1));
+		assertEquals(71, preprocessor.getTrace().getEglColumnNumberFor(6, 1));
+	}
+}

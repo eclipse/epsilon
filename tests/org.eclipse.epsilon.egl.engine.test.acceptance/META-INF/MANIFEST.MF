@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Generation Language Acceptance Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.egl.engine.test.acceptance
+Bundle-Version: 0.8.1.1
+Export-Package: org.eclipse.epsilon.egl.test.acceptance,
+ org.eclipse.epsilon.egl.test.acceptance.engine,
+ org.eclipse.epsilon.egl.test.acceptance.exceptions,
+ org.eclipse.epsilon.egl.test.acceptance.merge,
+ org.eclipse.epsilon.egl.test.acceptance.output,
+ org.eclipse.epsilon.egl.test.acceptance.stop,
+ org.eclipse.epsilon.egl.test.acceptance.traceability,
+ org.eclipse.epsilon.egl.test.models
+Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies
+Bundle-Vendor: Eclipse.org
