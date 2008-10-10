@@ -30,6 +30,7 @@ import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.parse.HutnLexer;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
+import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 
 public class IntermediateModelGenerator {
@@ -62,15 +63,16 @@ public class IntermediateModelGenerator {
 	}
 	
 	public static void main(String[] args) throws HutnTranslationException {
-		generate("@Spec {"                              +
-                "	MetaModel \"FamiliesMetaModel\" {" +
-                "		nsUri = \"families\""          +
-                "	}"                                 +
-                "}"                                    +
-                "Families {"                           +
-                "	Family \"The Smiths\" {"           +
-                "		name: \"The Smiths\""          +
-                "	}"                                 +
+		generate("@Spec {"                                                                             +
+                "	MetaModel \"FamiliesMetaModel\" {"                                                +
+                "		nsUri = \"families\""                                                         +
+                "	}"                                                                                +
+                "}"                                                                                   +
+                "Families {"                                                                          +
+                "	Person \"John\" {"                                                                +
+                "		accounts: Account \"" + HutnTestWithFamiliesMetaModel.BANK_ACCOUNTS_MODEL_URI + "#//@accounts.0\","             +
+                "                 Account \"" + HutnTestWithFamiliesMetaModel.BANK_ACCOUNTS_MODEL_URI + "#_swAAYJX5Ed2TbbKclPHPaA\""  +
+                "	}"                                                                                +
                 "}").store("Intermediate.model");
 	}
 }

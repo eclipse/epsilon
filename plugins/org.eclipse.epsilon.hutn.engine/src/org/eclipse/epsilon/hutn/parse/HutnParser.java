@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2008-08-15 10:58:58
+// $ANTLR 3.1b1 /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2008-10-09 14:15:18
 
 package org.eclipse.epsilon.hutn.parse;
 
@@ -913,7 +913,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
             // AST REWRITE
-            // elements: attr, NAME, NAME
+            // elements: NAME, attr, NAME
             // token labels: 
             // rule labels: retval
             // token list labels: 

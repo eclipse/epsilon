@@ -27,6 +27,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.Containment;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ContainmentEmpty;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.DefaultValue;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Enumerations;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Inference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InfixAssociation;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Simple;
@@ -40,7 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
                Associations.class, Containment.class, ContainmentEmpty.class,
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
-               AssociationBlock.class, InfixAssociation.class})
+               AssociationBlock.class, InfixAssociation.class, ExternalObjectReference.class})
 public class ValidHutnAcceptanceTestSuite {
 
 	public static Test suite() {

@@ -190,6 +190,7 @@ ID_LETTER
     :    ID_START_LETTER
     |    '0'..'9'
     |    '-'
+    |    '#'
     ;
     
 fragment

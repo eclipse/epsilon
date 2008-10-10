@@ -1,3 +1,7 @@
+pre {
+	var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
+}
+
 context Object {	
 	constraint IdentifiersMustBeUnique {
 		guard: self.identifier.isDefined()
@@ -106,8 +110,9 @@ context EnumSlot {
 
 context ReferenceSlot {
 	constraint ReferencedIdentifiersMustExist {
-		check: self.identifiers.forAll(i|i.isUniqueIdentifier())
-		message: 'Unrecognised identifier: ' + self.getIdentifiers().select(i|not i.isUniqueIdentifier()).at(0)
+		check: self.identifiers.forAll(i|i.isRecognisedIdentifier())
+		message: self.identifiers.selectOne(i|not i.isRecognisedIdentifier()).getMessage()
+				 
 	}
 
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
@@ -131,22 +136,74 @@ operation String isUniqueIdentifier() : Boolean {
 	return ClassObject.allInstances().select(c|c.identifier = self).size() = 1;
 }
 
+operation String isRecognisedIdentifier() : Boolean {
+	if ('#'.isSubstringOf(self)) {		
+		return self.canLocateExternalModel() and self.canLocateExternalModelElement();
+
+	} else {
+		return self.isUniqueIdentifier();
+	}
+}
+
+operation String getMessage() : String {
+	if ('#'.isSubstringOf(self)) {
+		if (not self.canLocateExternalModel()) {
+			return 'Model not found: ' + self.split('#').first();
+		}
+		
+		return 'Model element not found: ' + self.split('#').last();
+	
+	} else {
+		return 'Unrecognised identifier: ' + self;
+	}
+}
+
+operation String canLocateExternalModel() : Boolean {
+	return EmfTool.resourceExists(self.split('#').first());
+}
+
+operation String canLocateExternalModelElement() : Boolean {
+	return EmfTool.modelElementExists(self);
+}
+
 operation Slot toStructuralFeature() : Metamodel!EStructuralFeature {
 	var classifier : Metamodel!EClassifier := Metamodel!EClassifier.allInstances().select(c|c.name = self.owner.type).at(0);
 	return Metamodel!EStructuralFeature.allInstances().select(c|c.name = self.feature and classifier.eAllStructuralFeatures.includes(c)).at(0);
 }
 
 operation String toClass() : Metamodel!EClassifier {
-	return ClassObject.allInstances().selectOne(c|c.identifier = self).toClass();
+	if ('#'.isSubstringOf(self)) {
+		-- External object reference, locate in external model
+
+		var object := EmfTool.getEObject(self);
+		
+		if (object.isDefined()) {
+			return object.eClass();
+		}
+	
+	} else {
+		-- Internal object reference, located in current model
+
+		var object := ClassObject.allInstances().selectOne(c|c.identifier = self);
+	
+		if (object.isDefined()) {
+			return object.toClass();
+		}
+	}
 }
 
 operation ClassObject toClass() : Metamodel!EClassifier {
- return Metamodel!EClass.allInstances().selectOne(c|c.name = self.type);
+	return Metamodel!EClass.allInstances().selectOne(c|c.name = self.type);
 } 
 
 operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifier) : Boolean {
 	if (classifier.isUndefined()) { return false; }
-	return self = classifier or self.isSuperTypeOf(classifier);
+	
+	
+	return (self.getName() = classifier.getName() and 
+	        self.getEPackage().getNsUri() = classifier.getEPackage().getNsUri()
+	       ) or 
+	       self.isSuperTypeOf(classifier);
 }
 
 operation Metamodel!EClass getAllFeaturesThatRequireAValue() : Sequence(EStructuralFeature) {

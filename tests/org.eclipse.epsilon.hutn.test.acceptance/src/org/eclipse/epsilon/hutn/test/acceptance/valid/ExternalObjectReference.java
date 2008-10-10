@@ -1,0 +1,60 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************
+ *
+ * $Id:$
+ */
+package org.eclipse.epsilon.hutn.test.acceptance.valid;
+
+import org.eclipse.epsilon.hutn.test.acceptance.util.HutnAcceptanceTest;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class ExternalObjectReference extends HutnAcceptanceTest {
+	
+	@BeforeClass
+	public static void executeHutn() throws Exception {
+		final String hutn = "@Spec {"                                                                             +
+	                        "	MetaModel \"FamiliesMetaModel\" {"                                                +
+	                        "		nsUri = \"families\""                                                         +
+	                        "	}"                                                                                +
+	                        "}"                                                                                   +
+                            "Families {"                                                                          +
+                            "	Person \"John\" {"                                                                +
+                            "		accounts: Account \"" + BANK_ACCOUNTS_MODEL_URI + "#//@accounts.0\","             +
+                            "                 Account \"" + BANK_ACCOUNTS_MODEL_URI + "#_swAAYJX5Ed2TbbKclPHPaA\""  +
+                            "	}"                                                                                +
+                            "}";
+		
+		model = generateModel(hutn);
+		
+		model.setVariable("john", "Person.all().first()");
+		
+		model.setVariable("accNumber", "john.accounts.first().eClass.getEStructuralFeature('number')");
+	}
+	
+	@Test
+	public void johnShouldHaveTwoAccounts() {
+		model.assertEquals(2, "john.accounts.size()");
+	}
+	
+	
+	// FIXME The contents of "john.accounts" shouldn't be dynamic objects
+	
+	@Test
+	public void firstAccountShouldHaveCorrectNumber() {
+		model.assertEquals("111111", "john.accounts.first().eGet(accNumber)");
+	}
+	
+	@Test
+	public void secondAccountShouldHaveCorrectNumber() {
+		model.assertEquals("222222", "john.accounts.last().eGet(accNumber)");
+	}
+}

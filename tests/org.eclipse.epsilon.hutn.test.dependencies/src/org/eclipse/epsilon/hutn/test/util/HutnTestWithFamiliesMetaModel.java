@@ -16,15 +16,22 @@ package org.eclipse.epsilon.hutn.test.util;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.hutn.test.acceptance.models.BankAccounts;
 import org.eclipse.epsilon.hutn.test.acceptance.models.Families;
 import org.junit.BeforeClass;
 
 public class HutnTestWithFamiliesMetaModel {
-
-	protected static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies/models/org/eclipse/epsilon/hutn/test/acceptance/models/FamiliesConfig.model";
+	
+	protected static final String CONFIG_FILE = 
+		"../org.eclipse.epsilon.hutn.test.dependencies/" +
+		"models/org/eclipse/epsilon/hutn/test/acceptance/models/" +
+		"FamiliesConfig.model";
+	
+	public static final String BANK_ACCOUNTS_MODEL_URI = Families.getBankAccountsModelUri().toString();
 	
 	@BeforeClass
 	public static void registerMetaModels() throws Exception {
 		EmfUtil.register(Families.getMetaModelUri(), EPackage.Registry.INSTANCE);
+		EmfUtil.register(BankAccounts.getMetaModelUri(), EPackage.Registry.INSTANCE);
 	}
 }

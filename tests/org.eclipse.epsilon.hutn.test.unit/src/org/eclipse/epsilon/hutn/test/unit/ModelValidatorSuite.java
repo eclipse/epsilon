@@ -44,7 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
                IncorrectTypeForFloat.class, IncorrectTypeForEnum.class,
                IncorrectTypeForReference.class, ReferenceWithSubtype.class, 
                Traceability.class, InstantiateEnum.class,
-               RequiredValueNotSpecified.class})
+               RequiredValueNotSpecified.class, ModelValidatorExternalRefSuite.class})
 public class ModelValidatorSuite {
 
 	public static Test suite() {

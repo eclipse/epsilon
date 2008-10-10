@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2008-08-15 10:58:58
+// $ANTLR 3.1b1 /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2008-10-09 14:15:18
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -291,7 +291,7 @@ public class HutnLexer extends Lexer {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0=='-'||(LA1_0>='0' && LA1_0<='9')||(LA1_0>='@' && LA1_0<='Z')||LA1_0=='_'||(LA1_0>='a' && LA1_0<='z')) ) {
+                if ( (LA1_0=='#'||LA1_0=='-'||(LA1_0>='0' && LA1_0<='9')||(LA1_0>='@' && LA1_0<='Z')||LA1_0=='_'||(LA1_0>='a' && LA1_0<='z')) ) {
                     alt1=1;
                 }
 
@@ -337,7 +337,7 @@ public class HutnLexer extends Lexer {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0==' '||(LA2_0>='-' && LA2_0<=':')||(LA2_0>='@' && LA2_0<='Z')||LA2_0=='\\'||LA2_0=='_'||(LA2_0>='a' && LA2_0<='z')) ) {
+                if ( (LA2_0==' '||LA2_0=='#'||(LA2_0>='-' && LA2_0<=':')||(LA2_0>='@' && LA2_0<='Z')||LA2_0=='\\'||LA2_0=='_'||(LA2_0>='a' && LA2_0<='z')) ) {
                     alt2=1;
                 }
 
@@ -780,10 +780,10 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ID_LETTER
     public final void mID_LETTER() throws RecognitionException {
         try {
-            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:190:5: ( ID_START_LETTER | '0' .. '9' | '-' )
+            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:190:5: ( ID_START_LETTER | '0' .. '9' | '-' | '#' )
             // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
-            if ( input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
+            if ( input.LA(1)=='#'||input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
 
             }
@@ -804,10 +804,10 @@ public class HutnLexer extends Lexer {
     // $ANTLR start TEXT_LETTER
     public final void mTEXT_LETTER() throws RecognitionException {
         try {
-            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:197:5: ( ID_LETTER | '\\\\' | '/' | ':' | '.' | ' ' )
+            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:198:5: ( ID_LETTER | '\\\\' | '/' | ':' | '.' | ' ' )
             // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
-            if ( input.LA(1)==' '||(input.LA(1)>='-' && input.LA(1)<=':')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
+            if ( input.LA(1)==' '||input.LA(1)=='#'||(input.LA(1)>='-' && input.LA(1)<=':')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
 
             }
@@ -828,8 +828,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:206:7: ( '0' .. '9' )
-            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:206:9: '0' .. '9'
+            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:207:7: ( '0' .. '9' )
+            // /local/d0p5/louis/eclipse-ide/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:207:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -972,7 +972,7 @@ public class HutnLexer extends Lexer {
         "\37\uffff";
     static final String DFA11_minS =
         "\1\11\1\162\1\141\1\165\13\uffff\1\52\1\165\2\154\2\uffff\1\145"+
-        "\1\163\1\154\1\55\1\145\1\55\1\uffff\1\55\2\uffff";
+        "\1\163\1\154\1\43\1\145\1\43\1\uffff\1\43\2\uffff";
     static final String DFA11_maxS =
         "\1\176\1\162\1\141\1\165\13\uffff\1\57\1\165\2\154\2\uffff\1\145"+
         "\1\163\1\154\1\172\1\145\1\172\1\uffff\1\172\2\uffff";
@@ -1009,11 +1009,14 @@ public class HutnLexer extends Lexer {
             "\1\30",
             "\1\31",
             "\1\32",
-            "\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12\1\uffff\32\12",
+            "\1\12\11\uffff\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12"+
+            "\1\uffff\32\12",
             "\1\34",
-            "\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12\1\uffff\32\12",
+            "\1\12\11\uffff\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12"+
+            "\1\uffff\32\12",
             "",
-            "\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12\1\uffff\32\12",
+            "\1\12\11\uffff\1\12\2\uffff\12\12\6\uffff\33\12\4\uffff\1\12"+
+            "\1\uffff\32\12",
             "",
             ""
     };
