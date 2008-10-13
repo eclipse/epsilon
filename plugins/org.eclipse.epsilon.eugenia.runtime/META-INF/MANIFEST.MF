@@ -9,6 +9,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.draw2d,
  org.eclipse.gmf.runtime.draw2d.ui
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.epsilon.eugenia.runtime,
- org.eclipse.epsilon.eugenia.runtime.shapes
+Export-Package: org.eclipse.epsilon.eugenia.runtime
 Bundle-Vendor: Eclipse.org
