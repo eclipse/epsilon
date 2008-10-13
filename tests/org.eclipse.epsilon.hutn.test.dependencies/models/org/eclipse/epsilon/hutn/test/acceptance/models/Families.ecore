@@ -32,4 +32,8 @@
     <eLiterals name="poodle" value="1"/>
     <eLiterals name="labrador" value="2"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="District">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="families" lowerBound="1"
+        upperBound="-1" eType="#//Family" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

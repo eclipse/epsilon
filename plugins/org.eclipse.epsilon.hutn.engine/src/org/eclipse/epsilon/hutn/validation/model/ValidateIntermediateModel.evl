@@ -29,10 +29,10 @@ context ClassObject {
 		message: 'Cannot instantiate the abstract class: ' + self.type
 	}
 	
-	constraint ClassMustSpecifyRequiredFeatures {
+	constraint ClassMustSpecifyRequiredReferences {
 		guard: self.satisfies('ClassMustNotBeAbstract')
-		check: self.getAllFeaturesThatRequireAValueButDontHaveOne().isEmpty() 
-		message: self.identifier + ' must specify a value for the following features: ' + self.getAllFeaturesThatRequireAValueButDontHaveOne().collect(f|f.name).toString()
+		check: self.getAllReferencesThatRequireAValueButDontHaveOne().isEmpty() 
+		message: self.identifier + ' must specify a value for the following reference features: ' + self.getAllReferencesThatRequireAValueButDontHaveOne().collect(f|f.name).toString()
 	}
 }
 
@@ -206,12 +206,12 @@ operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifie
 	       self.isSuperTypeOf(classifier);
 }
 
-operation Metamodel!EClass getAllFeaturesThatRequireAValue() : Sequence(EStructuralFeature) {
-	return self.eAllStructuralFeatures.select(f|f.lowerBound = 1);
+operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
+	return self.eAllReferences.select(f|f.lowerBound = 1);
 }
 
-operation ClassObject getAllFeaturesThatRequireAValueButDontHaveOne() : Sequence(EStructuralFeature) {
-    return self.toClass().getAllFeaturesThatRequireAValue().reject(f|self.slots.exists(s|s.feature = f.name));
+operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {
+    return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name));
 }
 
 operation Sequence toString() : String {

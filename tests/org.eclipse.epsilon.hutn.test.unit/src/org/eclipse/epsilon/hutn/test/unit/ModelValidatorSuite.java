@@ -26,7 +26,7 @@ import org.eclipse.epsilon.hutn.validation.model.IncorrectTypeForReference;
 import org.eclipse.epsilon.hutn.validation.model.IncorrectTypeForString;
 import org.eclipse.epsilon.hutn.validation.model.InstantiateEnum;
 import org.eclipse.epsilon.hutn.validation.model.ReferenceWithSubtype;
-import org.eclipse.epsilon.hutn.validation.model.RequiredValueNotSpecified;
+import org.eclipse.epsilon.hutn.validation.model.RequiredReferenceValueNotSpecified;
 import org.eclipse.epsilon.hutn.validation.model.TooManyValues;
 import org.eclipse.epsilon.hutn.validation.model.Traceability;
 import org.eclipse.epsilon.hutn.validation.model.UnrecognisedClassifier;
@@ -44,7 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
                IncorrectTypeForFloat.class, IncorrectTypeForEnum.class,
                IncorrectTypeForReference.class, ReferenceWithSubtype.class, 
                Traceability.class, InstantiateEnum.class,
-               RequiredValueNotSpecified.class, ModelValidatorExternalRefSuite.class})
+               RequiredReferenceValueNotSpecified.class, ModelValidatorExternalRefSuite.class})
 public class ModelValidatorSuite {
 
 	public static Test suite() {

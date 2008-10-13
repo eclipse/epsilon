@@ -22,11 +22,11 @@ import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class RequiredValueNotSpecified extends HutnModelValidationTest {
+public class RequiredReferenceValueNotSpecified extends HutnModelValidationTest {
 
 	@BeforeClass
 	public static void validateModel() throws HutnValidationException {
-		problems = modelValidationTest(createSpec("families", createPackage(createClass("Fido", "Dog"))));
+		problems = modelValidationTest(createSpec("families", createPackage(createClass("York", "District"))));
 	}
 	
 	@Test
@@ -36,6 +36,6 @@ public class RequiredValueNotSpecified extends HutnModelValidationTest {
 	
 	@Test
 	public void reasonShouldBeRequiredValueNotSpecified() {
-		assertEquals("Fido must specify a value for the following features: breed", problems.get(0).getReason());
+		assertEquals("York must specify a value for the following reference features: families", problems.get(0).getReason());
 	}
 }
