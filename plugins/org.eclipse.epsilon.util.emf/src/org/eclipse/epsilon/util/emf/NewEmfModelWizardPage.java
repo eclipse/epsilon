@@ -126,6 +126,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 		namespaceLabel.setText("&Metamodel URI");
 		
 		metamodelUriText = new Text(container,SWT.BORDER|SWT.SINGLE);
+		
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		metamodelUriText.setLayoutData(gd);
 		
@@ -152,7 +153,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 		Label rootClassLabel = new Label(container, SWT.NULL);
 		rootClassLabel.setText("&Root instance type");
 		
-		rootClassCombo = new Combo(container,SWT.BORDER|SWT.SINGLE|SWT.READ_ONLY);
+		rootClassCombo = new Combo(container,SWT.BORDER|SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		rootClassCombo.setLayoutData(gd);
 		

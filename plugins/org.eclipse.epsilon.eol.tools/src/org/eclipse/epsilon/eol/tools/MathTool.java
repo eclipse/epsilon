@@ -31,4 +31,20 @@ public class MathTool {
 	public double atan(float d) {
 		return Math.atan(d);
 	}
+	
+	public int bitwiseAnd(int i1, int i2) {
+		return i1 & i2;
+	}
+	
+	public int bitwiseOr(int i1, int i2) {
+		return i1 | i2;
+	}
+	
+	public int bitwiseNot(int i1) {
+		return ~i1;
+	}
+	
+	public String toBitString(int i) {
+		return Integer.toBinaryString(i);
+	}
 }
