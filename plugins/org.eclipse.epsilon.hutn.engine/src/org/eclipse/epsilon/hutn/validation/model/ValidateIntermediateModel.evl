@@ -42,6 +42,12 @@ context Slot {
 		check: self.owner.toClass().eAllStructuralFeatures.select(c|c.name = self.feature).size() = 1
 		message: 'Unrecognised feature: ' + self.feature
 	}
+	
+	constraint FeatureMustBeChangeable {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().changeable
+		message: 'Feature ' + self.toStructuralFeature().name + ' is not changeable'
+	}
 }
 
 context StringSlot {
@@ -207,7 +213,7 @@ operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifie
 }
 
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
-	return self.eAllReferences.select(f|f.lowerBound = 1);
+	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable);
 }
 
 operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {
