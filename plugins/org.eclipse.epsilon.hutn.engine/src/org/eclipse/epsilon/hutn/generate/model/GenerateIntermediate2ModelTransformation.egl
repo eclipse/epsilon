@@ -14,7 +14,7 @@ rule Object2[%=class.name%]
 		[% if (EEnum.isType(attribute.eType)) { %]
 			var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
 			
-			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.getSlotByFeature('[%=attribute.name%]').value);
+			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.getSlotByFeature('[%=attribute.name%]').value).instance;
 			
 		[% } else if (attribute.isMany()) { %]
 			for (value in o.getSlotByFeature('[%=attribute.name%]').values) {
