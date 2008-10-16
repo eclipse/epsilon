@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.dt.wizards;
 
-import org.eclipse.epsilon.common.dt.wizards.AbstractNewFileWizard;
+import org.eclipse.epsilon.common.dt.wizards.AbstractNewFileWizard2;
 
-public class NewEmlFileWizard extends AbstractNewFileWizard{
+public class NewEmlFileWizard extends AbstractNewFileWizard2 {
 
 	@Override
 	public String getTitle() {

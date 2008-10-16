@@ -11,8 +11,9 @@
 package org.eclipse.epsilon.eol.dt.wizards;
 
 import org.eclipse.epsilon.common.dt.wizards.AbstractNewFileWizard;
+import org.eclipse.epsilon.common.dt.wizards.AbstractNewFileWizard2;
 
-public class NewEolFileWizard extends AbstractNewFileWizard{
+public class NewEolFileWizard extends AbstractNewFileWizard2 {
 
 	@Override
 	public String getTitle() {
