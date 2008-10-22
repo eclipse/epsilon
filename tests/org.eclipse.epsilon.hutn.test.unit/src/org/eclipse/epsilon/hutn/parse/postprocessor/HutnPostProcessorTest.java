@@ -23,7 +23,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
 public abstract class HutnPostProcessorTest {
 	

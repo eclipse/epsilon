@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.translate;
 
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
+import org.eclipse.epsilon.hutn.model.hutn.Spec;
 
 public interface IHutnModule extends IEolLibraryModule {
 
@@ -34,6 +35,8 @@ public interface IHutnModule extends IEolLibraryModule {
 	public List<String> getNsUris();
 	
 	public void setConfigFileDirectory(File configFileDirectory);
+	
+	public Spec getIntermediateModel();
 	
 	public void storeIntermediateModel(File destination);
 	

@@ -213,7 +213,7 @@ operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifie
 }
 
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
-	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable);
+	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
 }
 
 operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {

@@ -12,7 +12,7 @@
  *
  * $Id: ModelWithEolAssertions.java,v 1.4 2008/08/12 08:58:18 louis Exp $
  */
-package org.eclipse.epsilon.hutn.test.util;
+package org.eclipse.epsilon.test.util;
 
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;

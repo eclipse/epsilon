@@ -4,5 +4,7 @@ Bundle-Name: Epsilon Test Dependencies (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.test.dependencies
 Bundle-Version: 0.8.1.1
 Require-Bundle: org.junit4;visibility:=reexport,
- org.eclipse.epsilon.dependencies;visibility:=reexport
+ org.eclipse.epsilon.dependencies;visibility:=reexport,
+ org.eclipse.epsilon.eol.engine
 Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.epsilon.test.util

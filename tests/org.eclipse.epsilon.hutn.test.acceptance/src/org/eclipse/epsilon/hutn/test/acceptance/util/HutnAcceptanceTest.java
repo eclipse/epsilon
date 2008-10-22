@@ -17,10 +17,10 @@ package org.eclipse.epsilon.hutn.test.acceptance.util;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.AfterClass;
 
 public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {

@@ -211,6 +211,12 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		new ModelGenerator(spec, metamodel).generate(destination);
 	}
 	
+	public Spec getIntermediateModel() {
+		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
+		
+		return spec;
+	}
+	
 	public void storeIntermediateModel(File destination) {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		

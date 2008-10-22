@@ -15,7 +15,7 @@
 package org.eclipse.epsilon.hutn.translate;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.junit.Test;

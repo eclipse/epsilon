@@ -16,7 +16,7 @@ package org.eclipse.epsilon.hutn.parse.postprocessor;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

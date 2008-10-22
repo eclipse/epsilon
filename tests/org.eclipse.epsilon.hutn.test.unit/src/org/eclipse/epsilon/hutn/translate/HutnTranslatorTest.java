@@ -20,7 +20,7 @@ import java.util.List;
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
-import org.eclipse.epsilon.hutn.test.util.ModelWithEolAssertions;
+import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 import org.eclipse.epsilon.hutn.util.EmfUtil;
 import org.eclipse.epsilon.eol.models.IModel;
