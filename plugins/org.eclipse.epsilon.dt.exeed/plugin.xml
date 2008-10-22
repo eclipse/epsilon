@@ -6,7 +6,7 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Exeed Editor"
-            extensions="ecore,xmi,model,xml"
+            extensions="ecore,xmi,model,xml,bim"
             icon="icons/emfmodel.gif"
             contributorClass="org.eclipse.epsilon.dt.exeed.ExeedActionBarContributor"
             class="org.eclipse.epsilon.dt.exeed.ExeedEditor"

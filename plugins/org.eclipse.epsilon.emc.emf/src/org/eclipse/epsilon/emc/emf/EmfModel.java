@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
@@ -116,7 +118,13 @@ public class EmfModel extends AbstractEmfModel {
 		if(!etfm.containsKey("*")) {
 			etfm.put("*", EmfModelResourceFactory.getInstance());
 			etfm.put("xml", new GenericXMLResourceFactoryImpl());
-			etfm.put("bmi", new BmiResourceFactory());
+			etfm.put("bim", new ResourceFactoryImpl() {
+				@Override
+				public Resource createResource(URI uri) {
+					return new BinaryResourceImpl(uri);
+				}
+			});
+			//etfm.put("bmi", new BmiResourceFactory());
 		}
 		
 		if (EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) == null) {

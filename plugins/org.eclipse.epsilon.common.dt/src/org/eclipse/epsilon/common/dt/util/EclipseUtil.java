@@ -12,6 +12,7 @@ package org.eclipse.epsilon.common.dt.util;
 
 import java.io.File;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -48,11 +49,21 @@ public class EclipseUtil {
 	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
 		String fileName = file.getAbsolutePath();
-		String workbenchPath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString();
-		String relateivePath = fileName.replace(workbenchPath,"");
+		//String workbenchPath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString();
+		//String relateivePath = fileName.replace(workbenchPath,"");
 		
-		IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().
-		findMember(new Path(relateivePath));
+		//if (relateivePath.equalsIgnoreCase(fileName)) {
+			//File outside the workspace
+		//	ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path)
+		//}
+		
+		//IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().
+		//findMember(new Path(relateivePath));
+		//findMember(new Path(fileName));
+		
+		IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path(fileName))[0];
+		
+		if (res == null) return;
 		
 		FileEditorInput fileinput=new FileEditorInput(res);
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(fileName);

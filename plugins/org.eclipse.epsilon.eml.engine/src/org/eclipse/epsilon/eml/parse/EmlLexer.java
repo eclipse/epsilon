@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Eml__.g 2008-09-01 17:26:00
+// $ANTLR 3.1b1 Eml__.g 2008-10-21 15:46:59
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -101,9 +101,10 @@ public class EmlLexer extends Lexer {
     public static final int T__71=71;
     public static final int WS=17;
     public static final int T__72=72;
+    public static final int T__129=129;
     public static final int T__70=70;
     public static final int JavaIDDigit=15;
-    public static final int GUARD=63;
+    public static final int GUARD=64;
     public static final int Annotation=20;
     public static final int T__76=76;
     public static final int T__75=75;
@@ -116,10 +117,9 @@ public class EmlLexer extends Lexer {
     public static final int T__78=78;
     public static final int T__77=77;
     public static final int T__68=68;
-    public static final int EMLMODULE=66;
+    public static final int EMLMODULE=67;
     public static final int T__69=69;
     public static final int SPECIAL_ASSIGNMENT=24;
-    public static final int T__67=67;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
     public static final int T__118=118;
@@ -128,7 +128,7 @@ public class EmlLexer extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
-    public static final int TRANSFORM=64;
+    public static final int TRANSFORM=65;
     public static final int T__124=124;
     public static final int T__123=123;
     public static final int T__122=122;
@@ -137,7 +137,7 @@ public class EmlLexer extends Lexer {
     public static final int T__121=121;
     public static final int FLOAT=4;
     public static final int T__120=120;
-    public static final int PRE=60;
+    public static final int PRE=61;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
     public static final int ModelElementType=39;
@@ -159,19 +159,20 @@ public class EmlLexer extends Lexer {
     public static final int EXPRRANGE=49;
     public static final int OPERATOR=52;
     public static final int EXPRLIST=48;
-    public static final int MERGE=65;
+    public static final int MERGE=66;
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=129;
+    public static final int Tokens=130;
     public static final int POINT_POINT=8;
+    public static final int ModelDeclaration=60;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
     public static final int FORMAL=21;
-    public static final int POST=61;
+    public static final int POST=62;
     public static final int ARROW=9;
     public static final int ASSIGNMENT=23;
-    public static final int EXTENDS=62;
+    public static final int EXTENDS=63;
     public static final int STRING=12;
 
     // delegates
@@ -188,36 +189,16 @@ public class EmlLexer extends Lexer {
     }
     public String getGrammarFileName() { return "Eml__.g"; }
 
-    // $ANTLR start T__67
-    public final void mT__67() throws RecognitionException {
+    // $ANTLR start T__68
+    public final void mT__68() throws RecognitionException {
         try {
-            int _type = T__67;
+            int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Eml__.g:44:7: ( 'operation' )
             // Eml__.g:44:9: 'operation'
             {
             match("operation"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__67
-
-    // $ANTLR start T__68
-    public final void mT__68() throws RecognitionException {
-        try {
-            int _type = T__68;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:45:7: ( '(' )
-            // Eml__.g:45:9: '('
-            {
-            match('('); 
 
             }
 
@@ -234,10 +215,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:46:7: ( ')' )
-            // Eml__.g:46:9: ')'
+            // Eml__.g:45:7: ( '(' )
+            // Eml__.g:45:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -254,10 +235,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:47:7: ( ':' )
-            // Eml__.g:47:9: ':'
+            // Eml__.g:46:7: ( ')' )
+            // Eml__.g:46:9: ')'
             {
-            match(':'); 
+            match(')'); 
 
             }
 
@@ -274,11 +255,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:48:7: ( 'import' )
-            // Eml__.g:48:9: 'import'
+            // Eml__.g:47:7: ( ':' )
+            // Eml__.g:47:9: ':'
             {
-            match("import"); 
-
+            match(':'); 
 
             }
 
@@ -295,10 +275,11 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:49:7: ( ';' )
-            // Eml__.g:49:9: ';'
+            // Eml__.g:48:7: ( 'import' )
+            // Eml__.g:48:9: 'import'
             {
-            match(';'); 
+            match("import"); 
+
 
             }
 
@@ -315,10 +296,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:50:7: ( '{' )
-            // Eml__.g:50:9: '{'
+            // Eml__.g:49:7: ( ';' )
+            // Eml__.g:49:9: ';'
             {
-            match('{'); 
+            match(';'); 
 
             }
 
@@ -335,10 +316,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:51:7: ( '}' )
-            // Eml__.g:51:9: '}'
+            // Eml__.g:50:7: ( '{' )
+            // Eml__.g:50:9: '{'
             {
-            match('}'); 
+            match('{'); 
 
             }
 
@@ -355,10 +336,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:52:7: ( ',' )
-            // Eml__.g:52:9: ','
+            // Eml__.g:51:7: ( '}' )
+            // Eml__.g:51:9: '}'
             {
-            match(','); 
+            match('}'); 
 
             }
 
@@ -375,10 +356,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:53:7: ( '$' )
-            // Eml__.g:53:9: '$'
+            // Eml__.g:52:7: ( ',' )
+            // Eml__.g:52:9: ','
             {
-            match('$'); 
+            match(','); 
 
             }
 
@@ -395,10 +376,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:54:7: ( '!' )
-            // Eml__.g:54:9: '!'
+            // Eml__.g:53:7: ( '$' )
+            // Eml__.g:53:9: '$'
             {
-            match('!'); 
+            match('$'); 
 
             }
 
@@ -415,11 +396,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:55:7: ( '::' )
-            // Eml__.g:55:9: '::'
+            // Eml__.g:54:7: ( '!' )
+            // Eml__.g:54:9: '!'
             {
-            match("::"); 
-
+            match('!'); 
 
             }
 
@@ -436,10 +416,11 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:56:7: ( '#' )
-            // Eml__.g:56:9: '#'
+            // Eml__.g:55:7: ( '::' )
+            // Eml__.g:55:9: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -456,11 +437,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__80;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:57:7: ( 'Native' )
-            // Eml__.g:57:9: 'Native'
+            // Eml__.g:56:7: ( '#' )
+            // Eml__.g:56:9: '#'
             {
-            match("Native"); 
-
+            match('#'); 
 
             }
 
@@ -477,10 +457,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__81;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:58:7: ( 'Collection' )
-            // Eml__.g:58:9: 'Collection'
+            // Eml__.g:57:7: ( 'Native' )
+            // Eml__.g:57:9: 'Native'
             {
-            match("Collection"); 
+            match("Native"); 
 
 
             }
@@ -498,10 +478,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__82;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:59:7: ( 'Sequence' )
-            // Eml__.g:59:9: 'Sequence'
+            // Eml__.g:58:7: ( 'Collection' )
+            // Eml__.g:58:9: 'Collection'
             {
-            match("Sequence"); 
+            match("Collection"); 
 
 
             }
@@ -519,10 +499,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__83;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:60:7: ( 'Bag' )
-            // Eml__.g:60:9: 'Bag'
+            // Eml__.g:59:7: ( 'Sequence' )
+            // Eml__.g:59:9: 'Sequence'
             {
-            match("Bag"); 
+            match("Sequence"); 
 
 
             }
@@ -540,10 +520,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__84;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:61:7: ( 'Set' )
-            // Eml__.g:61:9: 'Set'
+            // Eml__.g:60:7: ( 'Bag' )
+            // Eml__.g:60:9: 'Bag'
             {
-            match("Set"); 
+            match("Bag"); 
 
 
             }
@@ -561,10 +541,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__85;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:62:7: ( 'OrderedSet' )
-            // Eml__.g:62:9: 'OrderedSet'
+            // Eml__.g:61:7: ( 'Set' )
+            // Eml__.g:61:9: 'Set'
             {
-            match("OrderedSet"); 
+            match("Set"); 
 
 
             }
@@ -582,10 +562,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__86;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:63:7: ( 'for' )
-            // Eml__.g:63:9: 'for'
+            // Eml__.g:62:7: ( 'OrderedSet' )
+            // Eml__.g:62:9: 'OrderedSet'
             {
-            match("for"); 
+            match("OrderedSet"); 
 
 
             }
@@ -603,10 +583,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__87;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:64:7: ( 'in' )
-            // Eml__.g:64:9: 'in'
+            // Eml__.g:63:7: ( 'for' )
+            // Eml__.g:63:9: 'for'
             {
-            match("in"); 
+            match("for"); 
 
 
             }
@@ -624,10 +604,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__88;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:65:7: ( 'if' )
-            // Eml__.g:65:9: 'if'
+            // Eml__.g:64:7: ( 'in' )
+            // Eml__.g:64:9: 'in'
             {
-            match("if"); 
+            match("in"); 
 
 
             }
@@ -645,10 +625,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__89;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:66:7: ( 'else' )
-            // Eml__.g:66:9: 'else'
+            // Eml__.g:65:7: ( 'if' )
+            // Eml__.g:65:9: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -666,10 +646,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__90;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:67:7: ( 'while' )
-            // Eml__.g:67:9: 'while'
+            // Eml__.g:66:7: ( 'else' )
+            // Eml__.g:66:9: 'else'
             {
-            match("while"); 
+            match("else"); 
 
 
             }
@@ -687,10 +667,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__91;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:68:7: ( 'return' )
-            // Eml__.g:68:9: 'return'
+            // Eml__.g:67:7: ( 'while' )
+            // Eml__.g:67:9: 'while'
             {
-            match("return"); 
+            match("while"); 
 
 
             }
@@ -708,10 +688,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__92;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:69:7: ( 'throw' )
-            // Eml__.g:69:9: 'throw'
+            // Eml__.g:68:7: ( 'return' )
+            // Eml__.g:68:9: 'return'
             {
-            match("throw"); 
+            match("return"); 
 
 
             }
@@ -729,10 +709,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__93;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:70:7: ( 'delete' )
-            // Eml__.g:70:9: 'delete'
+            // Eml__.g:69:7: ( 'throw' )
+            // Eml__.g:69:9: 'throw'
             {
-            match("delete"); 
+            match("throw"); 
 
 
             }
@@ -750,10 +730,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__94;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:71:7: ( 'break' )
-            // Eml__.g:71:9: 'break'
+            // Eml__.g:70:7: ( 'delete' )
+            // Eml__.g:70:9: 'delete'
             {
-            match("break"); 
+            match("delete"); 
 
 
             }
@@ -771,10 +751,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__95;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:72:7: ( 'breakAll' )
-            // Eml__.g:72:9: 'breakAll'
+            // Eml__.g:71:7: ( 'break' )
+            // Eml__.g:71:9: 'break'
             {
-            match("breakAll"); 
+            match("break"); 
 
 
             }
@@ -792,10 +772,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__96;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:73:7: ( 'continue' )
-            // Eml__.g:73:9: 'continue'
+            // Eml__.g:72:7: ( 'breakAll' )
+            // Eml__.g:72:9: 'breakAll'
             {
-            match("continue"); 
+            match("breakAll"); 
 
 
             }
@@ -813,10 +793,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:74:7: ( 'abort' )
-            // Eml__.g:74:9: 'abort'
+            // Eml__.g:73:7: ( 'continue' )
+            // Eml__.g:73:9: 'continue'
             {
-            match("abort"); 
+            match("continue"); 
 
 
             }
@@ -834,10 +814,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:75:7: ( 'transaction' )
-            // Eml__.g:75:9: 'transaction'
+            // Eml__.g:74:7: ( 'abort' )
+            // Eml__.g:74:9: 'abort'
             {
-            match("transaction"); 
+            match("abort"); 
 
 
             }
@@ -855,10 +835,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:76:7: ( ':=' )
-            // Eml__.g:76:9: ':='
+            // Eml__.g:75:7: ( 'transaction' )
+            // Eml__.g:75:9: 'transaction'
             {
-            match(":="); 
+            match("transaction"); 
 
 
             }
@@ -876,10 +856,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:77:8: ( '::=' )
-            // Eml__.g:77:10: '::='
+            // Eml__.g:76:8: ( ':=' )
+            // Eml__.g:76:10: ':='
             {
-            match("::="); 
+            match(":="); 
 
 
             }
@@ -897,10 +877,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:78:8: ( 'or' )
-            // Eml__.g:78:10: 'or'
+            // Eml__.g:77:8: ( '::=' )
+            // Eml__.g:77:10: '::='
             {
-            match("or"); 
+            match("::="); 
 
 
             }
@@ -918,10 +898,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:79:8: ( 'and' )
-            // Eml__.g:79:10: 'and'
+            // Eml__.g:78:8: ( 'or' )
+            // Eml__.g:78:10: 'or'
             {
-            match("and"); 
+            match("or"); 
 
 
             }
@@ -939,10 +919,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:80:8: ( 'xor' )
-            // Eml__.g:80:10: 'xor'
+            // Eml__.g:79:8: ( 'and' )
+            // Eml__.g:79:10: 'and'
             {
-            match("xor"); 
+            match("and"); 
 
 
             }
@@ -960,10 +940,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:81:8: ( 'implies' )
-            // Eml__.g:81:10: 'implies'
+            // Eml__.g:80:8: ( 'xor' )
+            // Eml__.g:80:10: 'xor'
             {
-            match("implies"); 
+            match("xor"); 
 
 
             }
@@ -981,10 +961,11 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:82:8: ( '=' )
-            // Eml__.g:82:10: '='
+            // Eml__.g:81:8: ( 'implies' )
+            // Eml__.g:81:10: 'implies'
             {
-            match('='); 
+            match("implies"); 
+
 
             }
 
@@ -1001,10 +982,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:83:8: ( '>' )
-            // Eml__.g:83:10: '>'
+            // Eml__.g:82:8: ( '=' )
+            // Eml__.g:82:10: '='
             {
-            match('>'); 
+            match('='); 
 
             }
 
@@ -1021,10 +1002,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:84:8: ( '<' )
-            // Eml__.g:84:10: '<'
+            // Eml__.g:83:8: ( '>' )
+            // Eml__.g:83:10: '>'
             {
-            match('<'); 
+            match('>'); 
 
             }
 
@@ -1041,11 +1022,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:85:8: ( '>=' )
-            // Eml__.g:85:10: '>='
+            // Eml__.g:84:8: ( '<' )
+            // Eml__.g:84:10: '<'
             {
-            match(">="); 
-
+            match('<'); 
 
             }
 
@@ -1062,10 +1042,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:86:8: ( '<=' )
-            // Eml__.g:86:10: '<='
+            // Eml__.g:85:8: ( '>=' )
+            // Eml__.g:85:10: '>='
             {
-            match("<="); 
+            match(">="); 
 
 
             }
@@ -1083,10 +1063,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:87:8: ( '<>' )
-            // Eml__.g:87:10: '<>'
+            // Eml__.g:86:8: ( '<=' )
+            // Eml__.g:86:10: '<='
             {
-            match("<>"); 
+            match("<="); 
 
 
             }
@@ -1104,10 +1084,11 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:88:8: ( '+' )
-            // Eml__.g:88:10: '+'
+            // Eml__.g:87:8: ( '<>' )
+            // Eml__.g:87:10: '<>'
             {
-            match('+'); 
+            match("<>"); 
+
 
             }
 
@@ -1124,10 +1105,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:89:8: ( '-' )
-            // Eml__.g:89:10: '-'
+            // Eml__.g:88:8: ( '+' )
+            // Eml__.g:88:10: '+'
             {
-            match('-'); 
+            match('+'); 
 
             }
 
@@ -1144,10 +1125,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:90:8: ( '*' )
-            // Eml__.g:90:10: '*'
+            // Eml__.g:89:8: ( '-' )
+            // Eml__.g:89:10: '-'
             {
-            match('*'); 
+            match('-'); 
 
             }
 
@@ -1164,10 +1145,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:91:8: ( '/' )
-            // Eml__.g:91:10: '/'
+            // Eml__.g:90:8: ( '*' )
+            // Eml__.g:90:10: '*'
             {
-            match('/'); 
+            match('*'); 
 
             }
 
@@ -1184,11 +1165,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:92:8: ( 'not' )
-            // Eml__.g:92:10: 'not'
+            // Eml__.g:91:8: ( '/' )
+            // Eml__.g:91:10: '/'
             {
-            match("not"); 
-
+            match('/'); 
 
             }
 
@@ -1205,10 +1185,11 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:93:8: ( '|' )
-            // Eml__.g:93:10: '|'
+            // Eml__.g:92:8: ( 'not' )
+            // Eml__.g:92:10: 'not'
             {
-            match('|'); 
+            match("not"); 
+
 
             }
 
@@ -1225,11 +1206,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:94:8: ( 'new' )
-            // Eml__.g:94:10: 'new'
+            // Eml__.g:93:8: ( '|' )
+            // Eml__.g:93:10: '|'
             {
-            match("new"); 
-
+            match('|'); 
 
             }
 
@@ -1246,10 +1226,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:95:8: ( 'var' )
-            // Eml__.g:95:10: 'var'
+            // Eml__.g:94:8: ( 'new' )
+            // Eml__.g:94:10: 'new'
             {
-            match("var"); 
+            match("new"); 
 
 
             }
@@ -1267,10 +1247,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__119;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:96:8: ( 'pre' )
-            // Eml__.g:96:10: 'pre'
+            // Eml__.g:95:8: ( 'var' )
+            // Eml__.g:95:10: 'var'
             {
-            match("pre"); 
+            match("var"); 
 
 
             }
@@ -1288,10 +1268,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__120;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:97:8: ( 'post' )
-            // Eml__.g:97:10: 'post'
+            // Eml__.g:96:8: ( 'pre' )
+            // Eml__.g:96:10: 'pre'
             {
-            match("post"); 
+            match("pre"); 
 
 
             }
@@ -1309,10 +1289,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__121;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:98:8: ( 'guard' )
-            // Eml__.g:98:10: 'guard'
+            // Eml__.g:97:8: ( 'post' )
+            // Eml__.g:97:10: 'post'
             {
-            match("guard"); 
+            match("post"); 
 
 
             }
@@ -1330,10 +1310,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__122;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:99:8: ( 'extends' )
-            // Eml__.g:99:10: 'extends'
+            // Eml__.g:98:8: ( 'guard' )
+            // Eml__.g:98:10: 'guard'
             {
-            match("extends"); 
+            match("guard"); 
 
 
             }
@@ -1351,10 +1331,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__123;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:100:8: ( 'rule' )
-            // Eml__.g:100:10: 'rule'
+            // Eml__.g:99:8: ( 'extends' )
+            // Eml__.g:99:10: 'extends'
             {
-            match("rule"); 
+            match("extends"); 
 
 
             }
@@ -1372,10 +1352,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__124;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:101:8: ( 'transform' )
-            // Eml__.g:101:10: 'transform'
+            // Eml__.g:100:8: ( 'rule' )
+            // Eml__.g:100:10: 'rule'
             {
-            match("transform"); 
+            match("rule"); 
 
 
             }
@@ -1393,10 +1373,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__125;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:102:8: ( 'to' )
-            // Eml__.g:102:10: 'to'
+            // Eml__.g:101:8: ( 'transform' )
+            // Eml__.g:101:10: 'transform'
             {
-            match("to"); 
+            match("transform"); 
 
 
             }
@@ -1414,10 +1394,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__126;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:103:8: ( 'merge' )
-            // Eml__.g:103:10: 'merge'
+            // Eml__.g:102:8: ( 'to' )
+            // Eml__.g:102:10: 'to'
             {
-            match("merge"); 
+            match("to"); 
 
 
             }
@@ -1435,10 +1415,10 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__127;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eml__.g:104:8: ( 'with' )
-            // Eml__.g:104:10: 'with'
+            // Eml__.g:103:8: ( 'merge' )
+            // Eml__.g:103:10: 'merge'
             {
-            match("with"); 
+            match("merge"); 
 
 
             }
@@ -1456,6 +1436,27 @@ public class EmlLexer extends Lexer {
         try {
             int _type = T__128;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Eml__.g:104:8: ( 'with' )
+            // Eml__.g:104:10: 'with'
+            {
+            match("with"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__128
+
+    // $ANTLR start T__129
+    public final void mT__129() throws RecognitionException {
+        try {
+            int _type = T__129;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // Eml__.g:105:8: ( 'into' )
             // Eml__.g:105:10: 'into'
             {
@@ -1470,449 +1471,449 @@ public class EmlLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T__128
+    // $ANTLR end T__129
 
     public void mTokens() throws RecognitionException {
-        // Eml__.g:1:8: ( T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | EolLexerRules. Tokens )
+        // Eml__.g:1:8: ( T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | EolLexerRules. Tokens )
         int alt1=63;
         alt1 = dfa1.predict(input);
         switch (alt1) {
             case 1 :
-                // Eml__.g:1:10: T__67
-                {
-                mT__67(); 
-
-                }
-                break;
-            case 2 :
-                // Eml__.g:1:16: T__68
+                // Eml__.g:1:10: T__68
                 {
                 mT__68(); 
 
                 }
                 break;
-            case 3 :
-                // Eml__.g:1:22: T__69
+            case 2 :
+                // Eml__.g:1:16: T__69
                 {
                 mT__69(); 
 
                 }
                 break;
-            case 4 :
-                // Eml__.g:1:28: T__70
+            case 3 :
+                // Eml__.g:1:22: T__70
                 {
                 mT__70(); 
 
                 }
                 break;
-            case 5 :
-                // Eml__.g:1:34: T__71
+            case 4 :
+                // Eml__.g:1:28: T__71
                 {
                 mT__71(); 
 
                 }
                 break;
-            case 6 :
-                // Eml__.g:1:40: T__72
+            case 5 :
+                // Eml__.g:1:34: T__72
                 {
                 mT__72(); 
 
                 }
                 break;
-            case 7 :
-                // Eml__.g:1:46: T__73
+            case 6 :
+                // Eml__.g:1:40: T__73
                 {
                 mT__73(); 
 
                 }
                 break;
-            case 8 :
-                // Eml__.g:1:52: T__74
+            case 7 :
+                // Eml__.g:1:46: T__74
                 {
                 mT__74(); 
 
                 }
                 break;
-            case 9 :
-                // Eml__.g:1:58: T__75
+            case 8 :
+                // Eml__.g:1:52: T__75
                 {
                 mT__75(); 
 
                 }
                 break;
-            case 10 :
-                // Eml__.g:1:64: T__76
+            case 9 :
+                // Eml__.g:1:58: T__76
                 {
                 mT__76(); 
 
                 }
                 break;
-            case 11 :
-                // Eml__.g:1:70: T__77
+            case 10 :
+                // Eml__.g:1:64: T__77
                 {
                 mT__77(); 
 
                 }
                 break;
-            case 12 :
-                // Eml__.g:1:76: T__78
+            case 11 :
+                // Eml__.g:1:70: T__78
                 {
                 mT__78(); 
 
                 }
                 break;
-            case 13 :
-                // Eml__.g:1:82: T__79
+            case 12 :
+                // Eml__.g:1:76: T__79
                 {
                 mT__79(); 
 
                 }
                 break;
-            case 14 :
-                // Eml__.g:1:88: T__80
+            case 13 :
+                // Eml__.g:1:82: T__80
                 {
                 mT__80(); 
 
                 }
                 break;
-            case 15 :
-                // Eml__.g:1:94: T__81
+            case 14 :
+                // Eml__.g:1:88: T__81
                 {
                 mT__81(); 
 
                 }
                 break;
-            case 16 :
-                // Eml__.g:1:100: T__82
+            case 15 :
+                // Eml__.g:1:94: T__82
                 {
                 mT__82(); 
 
                 }
                 break;
-            case 17 :
-                // Eml__.g:1:106: T__83
+            case 16 :
+                // Eml__.g:1:100: T__83
                 {
                 mT__83(); 
 
                 }
                 break;
-            case 18 :
-                // Eml__.g:1:112: T__84
+            case 17 :
+                // Eml__.g:1:106: T__84
                 {
                 mT__84(); 
 
                 }
                 break;
-            case 19 :
-                // Eml__.g:1:118: T__85
+            case 18 :
+                // Eml__.g:1:112: T__85
                 {
                 mT__85(); 
 
                 }
                 break;
-            case 20 :
-                // Eml__.g:1:124: T__86
+            case 19 :
+                // Eml__.g:1:118: T__86
                 {
                 mT__86(); 
 
                 }
                 break;
-            case 21 :
-                // Eml__.g:1:130: T__87
+            case 20 :
+                // Eml__.g:1:124: T__87
                 {
                 mT__87(); 
 
                 }
                 break;
-            case 22 :
-                // Eml__.g:1:136: T__88
+            case 21 :
+                // Eml__.g:1:130: T__88
                 {
                 mT__88(); 
 
                 }
                 break;
-            case 23 :
-                // Eml__.g:1:142: T__89
+            case 22 :
+                // Eml__.g:1:136: T__89
                 {
                 mT__89(); 
 
                 }
                 break;
-            case 24 :
-                // Eml__.g:1:148: T__90
+            case 23 :
+                // Eml__.g:1:142: T__90
                 {
                 mT__90(); 
 
                 }
                 break;
-            case 25 :
-                // Eml__.g:1:154: T__91
+            case 24 :
+                // Eml__.g:1:148: T__91
                 {
                 mT__91(); 
 
                 }
                 break;
-            case 26 :
-                // Eml__.g:1:160: T__92
+            case 25 :
+                // Eml__.g:1:154: T__92
                 {
                 mT__92(); 
 
                 }
                 break;
-            case 27 :
-                // Eml__.g:1:166: T__93
+            case 26 :
+                // Eml__.g:1:160: T__93
                 {
                 mT__93(); 
 
                 }
                 break;
-            case 28 :
-                // Eml__.g:1:172: T__94
+            case 27 :
+                // Eml__.g:1:166: T__94
                 {
                 mT__94(); 
 
                 }
                 break;
-            case 29 :
-                // Eml__.g:1:178: T__95
+            case 28 :
+                // Eml__.g:1:172: T__95
                 {
                 mT__95(); 
 
                 }
                 break;
-            case 30 :
-                // Eml__.g:1:184: T__96
+            case 29 :
+                // Eml__.g:1:178: T__96
                 {
                 mT__96(); 
 
                 }
                 break;
-            case 31 :
-                // Eml__.g:1:190: T__97
+            case 30 :
+                // Eml__.g:1:184: T__97
                 {
                 mT__97(); 
 
                 }
                 break;
-            case 32 :
-                // Eml__.g:1:196: T__98
+            case 31 :
+                // Eml__.g:1:190: T__98
                 {
                 mT__98(); 
 
                 }
                 break;
-            case 33 :
-                // Eml__.g:1:202: T__99
+            case 32 :
+                // Eml__.g:1:196: T__99
                 {
                 mT__99(); 
 
                 }
                 break;
-            case 34 :
-                // Eml__.g:1:208: T__100
+            case 33 :
+                // Eml__.g:1:202: T__100
                 {
                 mT__100(); 
 
                 }
                 break;
-            case 35 :
-                // Eml__.g:1:215: T__101
+            case 34 :
+                // Eml__.g:1:209: T__101
                 {
                 mT__101(); 
 
                 }
                 break;
-            case 36 :
-                // Eml__.g:1:222: T__102
+            case 35 :
+                // Eml__.g:1:216: T__102
                 {
                 mT__102(); 
 
                 }
                 break;
-            case 37 :
-                // Eml__.g:1:229: T__103
+            case 36 :
+                // Eml__.g:1:223: T__103
                 {
                 mT__103(); 
 
                 }
                 break;
-            case 38 :
-                // Eml__.g:1:236: T__104
+            case 37 :
+                // Eml__.g:1:230: T__104
                 {
                 mT__104(); 
 
                 }
                 break;
-            case 39 :
-                // Eml__.g:1:243: T__105
+            case 38 :
+                // Eml__.g:1:237: T__105
                 {
                 mT__105(); 
 
                 }
                 break;
-            case 40 :
-                // Eml__.g:1:250: T__106
+            case 39 :
+                // Eml__.g:1:244: T__106
                 {
                 mT__106(); 
 
                 }
                 break;
-            case 41 :
-                // Eml__.g:1:257: T__107
+            case 40 :
+                // Eml__.g:1:251: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 42 :
-                // Eml__.g:1:264: T__108
+            case 41 :
+                // Eml__.g:1:258: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 43 :
-                // Eml__.g:1:271: T__109
+            case 42 :
+                // Eml__.g:1:265: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 44 :
-                // Eml__.g:1:278: T__110
+            case 43 :
+                // Eml__.g:1:272: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 45 :
-                // Eml__.g:1:285: T__111
+            case 44 :
+                // Eml__.g:1:279: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 46 :
-                // Eml__.g:1:292: T__112
+            case 45 :
+                // Eml__.g:1:286: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 47 :
-                // Eml__.g:1:299: T__113
+            case 46 :
+                // Eml__.g:1:293: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 48 :
-                // Eml__.g:1:306: T__114
+            case 47 :
+                // Eml__.g:1:300: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 49 :
-                // Eml__.g:1:313: T__115
+            case 48 :
+                // Eml__.g:1:307: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 50 :
-                // Eml__.g:1:320: T__116
+            case 49 :
+                // Eml__.g:1:314: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 51 :
-                // Eml__.g:1:327: T__117
+            case 50 :
+                // Eml__.g:1:321: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 52 :
-                // Eml__.g:1:334: T__118
+            case 51 :
+                // Eml__.g:1:328: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
-            case 53 :
-                // Eml__.g:1:341: T__119
+            case 52 :
+                // Eml__.g:1:335: T__119
                 {
                 mT__119(); 
 
                 }
                 break;
-            case 54 :
-                // Eml__.g:1:348: T__120
+            case 53 :
+                // Eml__.g:1:342: T__120
                 {
                 mT__120(); 
 
                 }
                 break;
-            case 55 :
-                // Eml__.g:1:355: T__121
+            case 54 :
+                // Eml__.g:1:349: T__121
                 {
                 mT__121(); 
 
                 }
                 break;
-            case 56 :
-                // Eml__.g:1:362: T__122
+            case 55 :
+                // Eml__.g:1:356: T__122
                 {
                 mT__122(); 
 
                 }
                 break;
-            case 57 :
-                // Eml__.g:1:369: T__123
+            case 56 :
+                // Eml__.g:1:363: T__123
                 {
                 mT__123(); 
 
                 }
                 break;
-            case 58 :
-                // Eml__.g:1:376: T__124
+            case 57 :
+                // Eml__.g:1:370: T__124
                 {
                 mT__124(); 
 
                 }
                 break;
-            case 59 :
-                // Eml__.g:1:383: T__125
+            case 58 :
+                // Eml__.g:1:377: T__125
                 {
                 mT__125(); 
 
                 }
                 break;
-            case 60 :
-                // Eml__.g:1:390: T__126
+            case 59 :
+                // Eml__.g:1:384: T__126
                 {
                 mT__126(); 
 
                 }
                 break;
-            case 61 :
-                // Eml__.g:1:397: T__127
+            case 60 :
+                // Eml__.g:1:391: T__127
                 {
                 mT__127(); 
 
                 }
                 break;
-            case 62 :
-                // Eml__.g:1:404: T__128
+            case 61 :
+                // Eml__.g:1:398: T__128
                 {
                 mT__128(); 
 
                 }
                 break;
+            case 62 :
+                // Eml__.g:1:405: T__129
+                {
+                mT__129(); 
+
+                }
+                break;
             case 63 :
-                // Eml__.g:1:411: EolLexerRules. Tokens
+                // Eml__.g:1:412: EolLexerRules. Tokens
                 {
                 gEolLexerRules.mTokens(); 
 
@@ -2387,7 +2388,7 @@ public class EmlLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | EolLexerRules. Tokens );";
+            return "1:1: Tokens : ( T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | EolLexerRules. Tokens );";
         }
     }
  

@@ -11,13 +11,20 @@
 package org.eclipse.epsilon.emc.emf.tools;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.eclipse.epsilon.emc.emf.EmfModelResourceSet;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -34,6 +41,16 @@ public class EmfTool extends AbstractTool{
 		while (it.hasNext()) {
 			context.getOutputStream().println(it.next());
 		}
+	}
+	
+	public EcoreUtil getECoreUtil() {
+		return new EcoreUtil();
+	}
+	
+	public Map<EObject, Collection<EStructuralFeature.Setting>> getCrossReferences(Object eObject) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		list.add(eObject);
+		return CrossReferencer.find(list);
 	}
 	
 	public void createModel(EObject eObject, String name) {

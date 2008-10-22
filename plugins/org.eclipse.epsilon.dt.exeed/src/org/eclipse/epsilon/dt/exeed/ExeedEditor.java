@@ -39,6 +39,8 @@ import org.eclipse.emf.ecore.presentation.EcoreEditorPlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -255,6 +257,15 @@ public class ExeedEditor extends EcoreEditor {
 		
 		editingDomain.getResourceSet().getResourceFactoryRegistry().
 		getExtensionToFactoryMap().put("*", new IDXMIResourceFactoryImpl());
+		
+		editingDomain.getResourceSet().getResourceFactoryRegistry().
+		getExtensionToFactoryMap().put("bim", new ResourceFactoryImpl() {
+			@Override
+			public Resource createResource(URI uri) {
+				// TODO Auto-generated method stub
+				return new BinaryResourceImpl(uri);
+			}
+		});
 		
 		
 		editingDomain.getResourceSet().getResourceFactoryRegistry().

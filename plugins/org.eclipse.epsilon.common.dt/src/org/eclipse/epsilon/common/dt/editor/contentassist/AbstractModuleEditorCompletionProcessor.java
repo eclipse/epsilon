@@ -72,6 +72,9 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 
 	@Override
 	protected Template[] getTemplates(String contextTypeId) {
+		
+		//System.err.println(contextTypeId);
+		
 		//Template t = new Template("for", "iterate over collection", "", "for (${iterator} in ${collection}) { \r\n\t${cursor}\r\n}",true);
 		//Template t2 = new Template("while", "while loop with condition", "", "while (${condition}) {\r\n\t${cursor}\r\n}",false);
 		//Template t3 = new Template("transform", "transform rule", "", "transform ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype}\r\n\tto t : ${targetmodel}!${targettype} {\r\n\t${cursor}\r\n}",false);
