@@ -14,6 +14,14 @@
  */
 package org.eclipse.epsilon.test.util;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.EolEvaluator;
@@ -21,7 +29,20 @@ import org.eclipse.epsilon.eol.EolEvaluator;
 public class ModelWithEolAssertions {
 	
 	private final IModel model;
-	private final EolEvaluator evaluator; 
+	private final EolEvaluator evaluator;
+	
+	private static Resource createResourceFor(EObject eObject) {
+		final ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
+		
+		final Resource resource = resourceSet.createResource(URI.createFileURI("foo.ecore"));
+		resource.getContents().add(eObject);
+		return resource;
+	}
+	
+	public ModelWithEolAssertions(EObject eObject, EPackage... ePackages) {
+		this(new InMemoryEmfModel("Model", createResourceFor(eObject), ePackages));
+	}
 	
 	public ModelWithEolAssertions(IModel model) {
 		this.model = model;
