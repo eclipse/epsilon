@@ -53,6 +53,7 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	protected Spec spec;
 	protected boolean metaModelIsValid = true;
 	protected File configFileDirectory;
+	protected boolean hutnIsValid = false;
 	
 	/*
 	public TokenStream createLexer(Reader reader) {
@@ -94,6 +95,7 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		super.reset();
 		context = new HutnContext(this);
 		metaModelIsValid = true;
+		hutnIsValid = false;
 	}
 
 	/*
@@ -137,7 +139,9 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 			final HutnTranslator translator = new HutnTranslator(configFileDirectory);
 			getParseProblems().addAll(translator.validateConfigModel(astModel));
 			
-			if (parsingWasSuccessful()) {
+			hutnIsValid = parsingWasSuccessful();
+			
+			if (hutnIsValid) {
 				spec = translator.createIntermediateModel(astModel);
 					
 				if (spec == null)
@@ -153,6 +157,12 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 			getParseProblems().add(new ParseProblem(e.getLine(), e.getColumn(), "Unrecognised namespace URI: " + e.getUri()));
 			metaModelIsValid = false;
 		}
+	}
+
+	public boolean hasValidHutn() {
+		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
+		
+		return hutnIsValid;
 	}
 	
 	public void setConfigFileDirectory(File configFileDirectory) {
