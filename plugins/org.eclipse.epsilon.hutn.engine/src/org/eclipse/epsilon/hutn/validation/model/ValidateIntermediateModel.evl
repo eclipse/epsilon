@@ -134,6 +134,20 @@ context ReferenceSlot {
 	}
 }
 
+context ContainmentSlot {
+	constraint SingleValuedFeatureCannotTakeMultipleValues {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.toStructuralFeature().isMany() or self.identifiers.size = 1
+		message: 'Multiple values not permitted for: ' + self.feature
+	}
+
+	constraint ObjectsMustBeOfRightType {
+		guard: self.satisfies('FeatureMustExist') and self.satisfies('SingleValuedFeatureCannotTakeMultipleValues')
+		check: self.objects.forAll(o|self.toStructuralFeature().eType.compatibleWith(o.toClass()))
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
+}
+
 operation hasSpecificMetamodel() : Boolean {
 	return Spec.allInstances().at(0).nsUris.notEmpty();
 }

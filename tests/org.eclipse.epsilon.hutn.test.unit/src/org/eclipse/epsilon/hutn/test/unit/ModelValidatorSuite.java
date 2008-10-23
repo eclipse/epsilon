@@ -17,6 +17,7 @@ package org.eclipse.epsilon.hutn.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.hutn.validation.model.IncorrectTypeForContainment;
 import org.eclipse.epsilon.hutn.validation.model.UnchangeableReferencesNeedNotSpecifyAValue;
 import org.eclipse.epsilon.hutn.validation.model.DuplicateIdentifiers;
 import org.eclipse.epsilon.hutn.validation.model.IncorrectTypeForBoolean;
@@ -43,8 +44,8 @@ import org.junit.runners.Suite.SuiteClasses;
                TooManyValues.class, IncorrectTypeForString.class,
                IncorrectTypeForInteger.class, IncorrectTypeForBoolean.class,
                IncorrectTypeForFloat.class, IncorrectTypeForEnum.class,
-               IncorrectTypeForReference.class, ReferenceWithSubtype.class, 
-               Traceability.class, InstantiateEnum.class,
+               IncorrectTypeForReference.class, ReferenceWithSubtype.class,
+               IncorrectTypeForContainment.class, Traceability.class, InstantiateEnum.class,
                RequiredReferenceValueNotSpecified.class, ModelValidatorExternalRefSuite.class,
                UnchangeableReferencesNeedNotSpecifyAValue.class})
 public class ModelValidatorSuite {
