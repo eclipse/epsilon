@@ -48,6 +48,9 @@ public class EclipseUtil {
 	}
 	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
+		
+		if (file == null) return;
+		
 		String fileName = file.getAbsolutePath();
 		//String workbenchPath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString();
 		//String relateivePath = fileName.replace(workbenchPath,"");

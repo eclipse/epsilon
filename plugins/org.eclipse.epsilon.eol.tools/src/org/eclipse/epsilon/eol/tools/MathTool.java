@@ -47,4 +47,9 @@ public class MathTool {
 	public String toBitString(int i) {
 		return Integer.toBinaryString(i);
 	}
+	
+	public int bitStringToInt(String s) {
+		return Integer.parseInt(s, 2);
+	}
+	
 }
