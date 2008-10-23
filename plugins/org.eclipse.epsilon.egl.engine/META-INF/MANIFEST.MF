@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
+ org.eclipse.epsilon.egl.beautify,
  org.eclipse.epsilon.egl.config,
  org.eclipse.epsilon.egl.exceptions,
  org.eclipse.epsilon.egl.execute.context,
