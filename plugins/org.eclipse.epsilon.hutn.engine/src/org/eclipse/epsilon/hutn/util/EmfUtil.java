@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -75,6 +76,12 @@ public abstract class EmfUtil {
 				
 		model.load();
 		return model;
+	}
+	
+	public static EObject cloneModel(EObject rootObject) {
+		final EObject cloned = EcoreUtil.copy(rootObject);
+		createResourceFor(cloned);
+		return cloned;
 	}
 	
 	public static IModel loadMetaModel(String modelName, File metaModelFile) throws EolModelLoadingException {
