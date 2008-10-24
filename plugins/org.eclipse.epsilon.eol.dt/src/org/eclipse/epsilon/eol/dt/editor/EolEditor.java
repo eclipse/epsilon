@@ -28,8 +28,8 @@ public class EolEditor extends AbstractModuleEditor {
 	}
 	
 	@Override
-	public List getKeywords() {
-		ArrayList keywords = new ArrayList();
+	public List<String> getKeywords() {
+		ArrayList<String> keywords = new ArrayList<String>();
 
 		keywords.add("import");
 		//keywords.add("input");
@@ -64,8 +64,8 @@ public class EolEditor extends AbstractModuleEditor {
 	}
 
 	@Override
-	public List getBuiltinVariables() {
-		ArrayList builtIn = new ArrayList();
+	public List<String> getBuiltinVariables() {
+		ArrayList<String> builtIn = new ArrayList<String>();
 		builtIn.add("hasMore");
 		builtIn.add("loopCount");
 		builtIn.add("self");

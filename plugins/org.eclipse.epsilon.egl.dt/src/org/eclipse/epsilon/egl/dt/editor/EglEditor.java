@@ -51,7 +51,7 @@ public class EglEditor extends AbstractModuleEditor {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List getBuiltinVariables() {
-		List<Object> vars = eolEditor.getBuiltinVariables();
+		List<String> vars = eolEditor.getBuiltinVariables();
 		
 		vars.add("out");
 		vars.add("TemplateFactory");

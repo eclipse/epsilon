@@ -24,9 +24,9 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class EvlEditor extends EolEditor{
 		
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		
-		List keywords = new ArrayList();
+		List<String> keywords = new ArrayList<String>();
 		
 		keywords.add("context");
 		keywords.add("constraint");
@@ -52,9 +52,9 @@ public class EvlEditor extends EolEditor{
 	}
 	
 	@Override
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		
-		ArrayList builtIn = new ArrayList();
+		ArrayList<String> builtIn = new ArrayList<String>();
 		
 		builtIn.add("constraintTrace");
 		
