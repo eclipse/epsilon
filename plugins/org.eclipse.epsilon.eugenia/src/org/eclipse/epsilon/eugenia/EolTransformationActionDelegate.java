@@ -55,7 +55,7 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 					runImpl(action);
 				} catch (Exception ex) {
 					MessageDialog.openError(shell, "Error",
-							"An error has occured. Please see the Error Log");
+							"An error has occured. Please see the Error Log.");
 					LogUtil.log(ex);
 				}
 				return Status.OK_STATUS;
