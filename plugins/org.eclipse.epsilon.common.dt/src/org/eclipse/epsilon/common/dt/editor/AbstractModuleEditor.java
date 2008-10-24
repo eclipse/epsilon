@@ -102,7 +102,8 @@ public abstract class AbstractModuleEditor extends TextEditor implements
 
 	public AbstractModuleEditor() {
 		super();
-		// setSourceViewerConfiguration(new Configuration());
+		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
+		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}
 	
 	public void insertText(String text) {
@@ -173,194 +174,8 @@ public abstract class AbstractModuleEditor extends TextEditor implements
 	 * markAsStateDependentAction("ContentAssistProposal", true); }
 	 */
 	
-	class Configuration extends SourceViewerConfiguration {
-
-		@Override
-		public IPresentationReconciler getPresentationReconciler(
-				ISourceViewer sourceViewer) {
-			PresentationReconciler reconciler = new PresentationReconciler();
-			DefaultDamagerRepairer2 ddr = new DefaultDamagerRepairer2(
-					new Scanner());
-			
-			ddr.fDefaultTextAttribute = new TextAttribute(null, getBackgroundColor(),
-					SWT.NORMAL);
-			
-			reconciler.setRepairer(ddr, IDocument.DEFAULT_CONTENT_TYPE);
-			reconciler.setDamager(ddr, IDocument.DEFAULT_CONTENT_TYPE);
-			return reconciler;
-		}
-		
-		@Override
-		public ITextDoubleClickStrategy getDoubleClickStrategy(
-				ISourceViewer sourceViewer, String contentType) {
-			ITextDoubleClickStrategy clickStrat = new ITextDoubleClickStrategy() {
-				public void doubleClicked(ITextViewer viewer) {
-					try {
-						IDocument doc = viewer.getDocument();
-						int caretOffset = viewer.getSelectedRange().x;
-
-						int start = caretOffset;
-						int end = caretOffset;
-						boolean isIdentifierPart = Character
-								.isJavaIdentifierPart(doc.getChar(start));
-						// boolean isWhitespace =
-						// Character.isWhitespace(doc.getChar(start));
-
-						if (isIdentifierPart) {
-							while (Character.isJavaIdentifierPart(doc
-									.getChar(start))) {
-								start--;
-							}
-
-							while (Character.isJavaIdentifierPart(doc
-									.getChar(end))) {
-								end++;
-							}
-						}
-						/*
-						 * else if (isWhitespace){ while
-						 * (Character.isWhitespace(doc.getChar(start))){
-						 * start--; }
-						 * 
-						 * while (Character.isWhitespace(doc.getChar(end))){
-						 * end++; } }
-						 */
-						viewer.setSelectedRange(start + 1, end - start - 1);
-
-					} catch (BadLocationException e) {
-						// DebugUIPlugin.log(e);
-					}
-				}
-			};
-			return clickStrat;
-		}
-
-		@Override
-		public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
-			return new DefaultAnnotationHover();
-		}
-		
-		
-	public IContentAssistant getContentAssistant (ISourceViewer sourceViewer) {
-			ContentAssistant assistance = new ContentAssistant();
-			assistance.setContentAssistProcessor(new AbstractModuleEditorCompletionProcessor(AbstractModuleEditor.this),
-					IDocument.DEFAULT_CONTENT_TYPE);
-			
-			assistance.enableAutoActivation (true);
-			assistance.setAutoActivationDelay(500);
-			assistance.setProposalPopupOrientation (
-					IContentAssistant.PROPOSAL_OVERLAY);
-			return assistance;
-		}
-		
-	}
 	
-	class Scanner extends RuleBasedScanner {
-		List keywords = getKeywords();
-
-		List builtinVariables = getBuiltinVariables();
-		
-		List types = getTypes();
-		
-		List assertions = getAssertions();
-		
-		
-		public Scanner() {
-			
-			addSmartTyping();
-			
-			fDefaultReturnToken = new Token(new TextAttribute(null, getBackgroundColor(),
-					SWT.NORMAL));
-			
-			WordRule keywordsRule = new WordRule(new IWordDetector() {
-				public boolean isWordStart(char c) {
-					return Character.isJavaIdentifierStart(c);// || c == '.';
-				}
-
-				public boolean isWordPart(char c) {
-					return Character.isJavaIdentifierPart(c);
-				}
-			}, new Token(new TextAttribute(null, getBackgroundColor(), SWT.NORMAL)));
-
-			ListIterator li = keywords.listIterator();
-			while (li.hasNext()) {
-				keywordsRule.addWord(li.next().toString(), new Token(
-						new TextAttribute(AbstractModuleEditor.KEYWORD, getBackgroundColor(),
-								SWT.BOLD)));
-			}
-
-			WordRule builtinRule = new WordRule(new IWordDetector() {
-				public boolean isWordStart(char c) {
-					return Character.isJavaIdentifierStart(c);// || c == '.';
-				}
-
-				public boolean isWordPart(char c) {
-					return Character.isJavaIdentifierPart(c);
-				}
-			}, new Token(new TextAttribute(null)));
-
-			li = builtinVariables.listIterator();
-			while (li.hasNext()) {
-				keywordsRule.addWord(li.next().toString(), new Token(
-						new TextAttribute(AbstractModuleEditor.BUILTIN, getBackgroundColor(),
-								SWT.ITALIC)));
-			}
-			
-			WordRule typesRule = new WordRule(new IWordDetector() {
-				public boolean isWordStart(char c) {
-					return Character.isJavaIdentifierStart(c);// || c == '.';
-				}
-
-				public boolean isWordPart(char c) {
-					return Character.isJavaIdentifierPart(c);
-				}
-			}, new Token(new TextAttribute(null)));
-
-			li = types.listIterator();
-			while (li.hasNext()) {
-				keywordsRule.addWord(li.next().toString(), new Token(
-						new TextAttribute(AbstractModuleEditor.TYPE, getBackgroundColor(),
-								SWT.BOLD)));
-			}
-			
-			WordRule assertionsRule = new WordRule(new IWordDetector() {
-				public boolean isWordStart(char c) {
-					return Character.isJavaIdentifierStart(c);// || c == '.';
-				}
-
-				public boolean isWordPart(char c) {
-					return Character.isJavaIdentifierPart(c);
-				}
-			}, new Token(new TextAttribute(null)));
-
-			li = assertions.listIterator();
-			while (li.hasNext()) {
-				assertionsRule.addWord(li.next().toString(), new Token(
-						new TextAttribute(AbstractModuleEditor.ASSERTION, getBackgroundColor(),
-								SWT.BOLD)));
-			}
-			
-			setRules(new IRule[] {
-					new EndOfLineRule("--", new Token(new TextAttribute(
-							AbstractModuleEditor.COMMENT, getBackgroundColor(), SWT.NORMAL))),
-					new MultiLineRule("-*", "*-",new Token(new TextAttribute(
-							AbstractModuleEditor.COMMENT, getBackgroundColor(), SWT.NORMAL))),
-					new EndOfLineRule("@", new Token(new TextAttribute(
-							AbstractModuleEditor.ANNOTATION, getBackgroundColor(), SWT.NORMAL))),
-					new EndOfLineRule("$", new Token(new TextAttribute(
-							AbstractModuleEditor.EXECUTABLEANNOTATION, getBackgroundColor(), SWT.NORMAL))),
-					new SingleLineRule("\"", "\"", new Token(new TextAttribute(
-							AbstractModuleEditor.DEFAULT, getBackgroundColor(), SWT.NORMAL)), '\\'),
-					new SingleLineRule("'", "'", new Token(new TextAttribute(
-							AbstractModuleEditor.STRING, getBackgroundColor(), SWT.NORMAL)), '\\'),
-					new WhitespaceRule(new IWhitespaceDetector() {
-						public boolean isWhitespace(char c) {
-							return Character.isWhitespace(c);
-						}
-					}), keywordsRule, builtinRule, typesRule});
-		}
-	}
-
+	
 	@Override
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
@@ -602,7 +417,7 @@ public abstract class AbstractModuleEditor extends TextEditor implements
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		setSourceViewerConfiguration(new Configuration());
+		setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 		addPropertyListener(this);
 	}
 
