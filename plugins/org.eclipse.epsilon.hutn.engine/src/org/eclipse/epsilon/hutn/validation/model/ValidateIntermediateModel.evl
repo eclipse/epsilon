@@ -48,15 +48,15 @@ context Slot {
 		check: self.toStructuralFeature().changeable
 		message: 'Feature ' + self.toStructuralFeature().name + ' is not changeable'
 	}
+	
+	constraint MustBeTypeCompatibleWithFeature {
+		guard: self.satisfies('FeatureMustExist')
+		check: self.typeCompatibleWith(self.toStructuralFeature())
+		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+	}
 }
 
 context StringSlot {
-	constraint FeatureMustAcceptStrings {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.String'
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
-	}
-	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
 		check: self.toStructuralFeature().isMany() or self.values.size = 1
@@ -64,13 +64,7 @@ context StringSlot {
 	}
 }
 
-context IntegerSlot {
-	constraint FeatureMustAcceptIntegers {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Integer' or self.toStructuralFeature().eType.instanceTypeName = 'int'
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
-	}
-	
+context IntegerSlot {	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
 		check: self.toStructuralFeature().isMany() or self.values.size = 1
@@ -79,12 +73,6 @@ context IntegerSlot {
 }
 
 context FloatSlot {
-	constraint FeatureMustAcceptFloats {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Float' or self.toStructuralFeature().eType.instanceTypeName = 'float'
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
-	}
-	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
 		check: self.toStructuralFeature().isMany() or self.values.size = 1
@@ -93,24 +81,10 @@ context FloatSlot {
 }
 
 context BooleanSlot {
-	constraint FeatureMustAcceptBooleans {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().eType.instanceTypeName = 'java.lang.Boolean' or self.toStructuralFeature().eType.instanceTypeName = 'boolean'
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
-	}
-	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
 		check: self.toStructuralFeature().isMany() or self.values.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
-	}
-}
-
-context EnumSlot {
-	constraint FeatureMustAcceptEnums {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().eType.isKindOf(Metamodel!EEnum)
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
 	}
 }
 
@@ -126,25 +100,13 @@ context ReferenceSlot {
 		check: self.toStructuralFeature().isMany() or self.identifiers.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
-
-	constraint ReferencedIdentifiersMustBeOfRightType {
-		guard: self.satisfies('FeatureMustExist') and self.satisfies('ReferencedIdentifiersMustExist') and self.satisfies('SingleValuedFeatureCannotTakeMultipleValues')
-		check: self.identifiers.forAll(i|self.toStructuralFeature().eType.compatibleWith(i.toClass()))
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
-	}
 }
 
 context ContainmentSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.identifiers.size = 1
+		check: self.toStructuralFeature().isMany() or self.objects.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
-	}
-
-	constraint ObjectsMustBeOfRightType {
-		guard: self.satisfies('FeatureMustExist') and self.satisfies('SingleValuedFeatureCannotTakeMultipleValues')
-		check: self.objects.forAll(o|self.toStructuralFeature().eType.compatibleWith(o.toClass()))
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
 	}
 }
 
@@ -215,16 +177,6 @@ operation String toClass() : Metamodel!EClassifier {
 operation ClassObject toClass() : Metamodel!EClassifier {
 	return Metamodel!EClass.allInstances().selectOne(c|c.name = self.type);
 } 
-
-operation Metamodel!EClassifier compatibleWith(classifier : Metamodel!EClassifier) : Boolean {
-	if (classifier.isUndefined()) { return false; }
-	
-	
-	return (self.getName() = classifier.getName() and 
-	        self.getEPackage().getNsUri() = classifier.getEPackage().getNsUri()
-	       ) or 
-	       self.isSuperTypeOf(classifier);
-}
 
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
 	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
