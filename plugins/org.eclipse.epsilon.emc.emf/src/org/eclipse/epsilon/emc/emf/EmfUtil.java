@@ -13,17 +13,21 @@ package org.eclipse.epsilon.emc.emf;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -207,5 +211,23 @@ public class EmfUtil {
 		}
 	}
 
+	public static List<EClass> getAllEClassesFromSameMetamodelAs(EModelElement metamodelElement) {
+		return getAllModelElementsOfType(metamodelElement, EcoreFactory.eINSTANCE.createEClass());
+	}
+	
+	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, T type) {		
+		final List<T> results = new LinkedList<T>();
+		
+		final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
+		
+		while (iterator.hasNext()) {
+			final EObject object = iterator.next();
+			
+			if (type.eClass().isInstance(object))
+				results.add((T)object);
+		}
+		
+		return Collections.unmodifiableList(results);
+	}
 	
 }
