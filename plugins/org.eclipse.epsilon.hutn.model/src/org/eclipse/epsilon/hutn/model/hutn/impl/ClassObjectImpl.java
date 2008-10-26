@@ -14,10 +14,14 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,6 +50,53 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 	@Override
 	protected EClass eStaticClass() {
 		return HutnPackage.Literals.CLASS_OBJECT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns an EClass from the specified collection that
+	 * matches the type of this Object
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public EClass getEClass(Collection<EClass> eClasses) {
+		if (getType() == null)
+			return null;
+		
+		for (EClass eClass : eClasses) {
+			if (getType().equals(eClass.getName())) {
+				return eClass;
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether every Slot contained in this ClassObject
+	 * has the same type as some EStructuralFeature contained in eClass
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EClass eClass) {
+		for (Slot slot : getSlots()) {
+			boolean foundFeature = false;
+			int index = 0;
+			
+			while (!foundFeature && index < eClass.getEAllStructuralFeatures().size()) {
+				final EStructuralFeature feature = eClass.getEAllStructuralFeatures().get(index++);
+				
+				foundFeature = slot.getFeature().equals(feature.getName()) &&
+				               slot.typeCompatibleWith(feature);
+			}
+			
+			if (!foundFeature) return false;
+		}
+		
+		return true;
 	}
 
 } //ClassObjectImpl

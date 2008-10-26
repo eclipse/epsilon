@@ -15,9 +15,11 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.NullSlot;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,4 +50,22 @@ public class NullSlotImpl extends SlotImpl implements NullSlot {
 		return HutnPackage.Literals.NULL_SLOT;
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		throw new UnsupportedOperationException("NullSlots cannot contain a value.");
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		throw new UnsupportedOperationException("NullSlots are not compatible with any EStructuralFeature.");
+	}
+	
 } //NullSlotImpl

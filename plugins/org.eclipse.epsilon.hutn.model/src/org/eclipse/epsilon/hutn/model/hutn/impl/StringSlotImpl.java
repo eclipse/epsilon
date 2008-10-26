@@ -19,10 +19,12 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 import org.eclipse.epsilon.hutn.model.hutn.StringSlot;
 
 /**
@@ -156,4 +158,27 @@ public class StringSlotImpl extends SlotImpl implements StringSlot {
 		return result.toString();
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		if (slot instanceof StringSlot) {
+			this.getValues().addAll(((StringSlot)slot).getValues());
+		
+		} else {
+			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a StringSlot");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		return "java.lang.String".equals(feature.getEType().getInstanceTypeName());
+	}
+	
 } //StringSlotImpl

@@ -105,4 +105,14 @@ public interface Object extends ModelElement {
 	 */
 	void setIdentifier(String value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * Finds a Slot with the specified feature for this Object.
+	 * Returns null when no such Slot exists.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Slot findSlot(String feature);
+
 } // Object

@@ -19,11 +19,13 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.eclipse.epsilon.hutn.model.hutn.FloatSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -156,4 +158,29 @@ public class FloatSlotImpl extends SlotImpl implements FloatSlot {
 		return result.toString();
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		if (slot instanceof FloatSlot) {
+			this.getValues().addAll(((FloatSlot)slot).getValues());
+		
+		} else {
+			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a FloatSlot");
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		final String type = feature.getEType().getInstanceTypeName();
+		
+		return "java.lang.Float".equals(type) || "float".equals(type);
+	}
+	
 } //FloatSlotImpl

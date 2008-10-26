@@ -14,6 +14,8 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -86,5 +88,24 @@ public interface Slot extends ModelElement {
 	 * @generated
 	 */
 	void setOwner(org.eclipse.epsilon.hutn.model.hutn.Object value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Appends the contents of slot to the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void append(Slot slot);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether the contents of this Slot has the same
+	 * type as the specified EStructuralFeature.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	boolean typeCompatibleWith(EStructuralFeature feature);
 
 } // Slot

@@ -173,6 +173,22 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Finds a slot with the specified feature for this object.
+	 * Returns null when no such slot exists.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Slot findSlot(String feature) {
+		for (Slot slot : getSlots()) {
+			if (feature.equals(slot.getFeature()))
+				return slot;
+		}
+		
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */

@@ -14,6 +14,10 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EClass;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -26,4 +30,26 @@ package org.eclipse.epsilon.hutn.model.hutn;
  * @generated
  */
 public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object {
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns an EClass from the specified collection that
+	 * matches the type of this Object
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	EClass getEClass(Collection<EClass> eClasses);
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether every Slot contained in this ClassObject
+	 * has the same type as some EStructuralFeature contained in eClass
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	boolean typeCompatibleWith(EClass eClass);
+	
 } // ClassObject

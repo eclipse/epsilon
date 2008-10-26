@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -142,6 +143,23 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HutnPackage.SLOT__OWNER, newOwner, newOwner));
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Appends the contents of slot to the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract void append(Slot slot);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether the contents of this Slot has the same
+	 * type as the specified EStructuralFeature.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract boolean typeCompatibleWith(EStructuralFeature feature);
 
 	/**
 	 * <!-- begin-user-doc -->

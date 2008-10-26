@@ -22,14 +22,16 @@
     <genClasses ecoreClass="HUTN.ecore#//Object">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//Object/slots"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/identifier"/>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//PackageObject"/>
-    <genClasses ecoreClass="HUTN.ecore#//ClassObject">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//ClassObject/identifier"/>
-    </genClasses>
+    <genClasses ecoreClass="HUTN.ecore#//ClassObject"/>
     <genClasses ecoreClass="HUTN.ecore#//Slot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Slot/feature"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference HUTN.ecore#//Slot/owner"/>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/append">
+        <genParameters ecoreParameter="HUTN.ecore#//Slot/append/slot"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//StringSlot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//StringSlot/values"/>
@@ -49,6 +51,9 @@
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//ReferenceSlot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//ReferenceSlot/identifiers"/>
+    </genClasses>
+    <genClasses ecoreClass="HUTN.ecore#//EnumSlot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//EnumSlot/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

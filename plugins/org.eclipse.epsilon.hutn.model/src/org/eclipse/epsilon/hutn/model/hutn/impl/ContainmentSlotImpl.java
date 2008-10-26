@@ -15,19 +15,24 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -158,4 +163,44 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 		return super.eIsSet(featureID);
 	}
 
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		if (slot instanceof ContainmentSlot) {
+			this.getObjects().addAll(((ContainmentSlot)slot).getObjects());
+		
+		} else {
+			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a ContainmentSlot");
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {	
+		if (feature.getEType() instanceof EClass) {
+			final EClass type           = (EClass)feature.getEType();
+			final List<EClass> eClasses = EmfUtil.getAllEClassesFromSameMetamodelAs(feature);
+			
+			for (org.eclipse.epsilon.hutn.model.hutn.Object object : getObjects()) {
+				final ClassObject classObject = (ClassObject)object;
+				
+				if (!type.isSuperTypeOf(classObject.getEClass(eClasses))) {
+					return false;
+				}
+			}
+			
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+	
 } //ContainmentSlotImpl

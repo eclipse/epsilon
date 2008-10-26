@@ -19,11 +19,13 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.IntegerSlot;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -154,6 +156,31 @@ public class IntegerSlotImpl extends SlotImpl implements IntegerSlot {
 		result.append(values);
 		result.append(')');
 		return result.toString();
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		if (slot instanceof IntegerSlot) {
+			this.getValues().addAll(((IntegerSlot)slot).getValues());
+		
+		} else {
+			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a IntegerSlot");
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		final String type = feature.getEType().getInstanceTypeName();
+		
+		return "java.lang.Integer".equals(type) || "int".equals(type);
 	}
 
 } //IntegerSlotImpl

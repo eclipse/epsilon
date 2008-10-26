@@ -17,11 +17,14 @@ package org.eclipse.epsilon.hutn.model.hutn.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -169,6 +172,24 @@ public class EnumSlotImpl extends SlotImpl implements EnumSlot {
 		result.append(value);
 		result.append(')');
 		return result.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		throw new UnsupportedOperationException("EnumSlots can only contain a single value.");
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		return feature.getEType() instanceof EEnum;
 	}
 
 } //EnumSlotImpl

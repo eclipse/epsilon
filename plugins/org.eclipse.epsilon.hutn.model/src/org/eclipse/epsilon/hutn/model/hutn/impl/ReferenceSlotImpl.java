@@ -15,15 +15,18 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
-
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -156,4 +159,67 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 		return result.toString();
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void append(Slot slot) {
+		if (slot instanceof ReferenceSlot) {
+			this.getIdentifiers().addAll(((ReferenceSlot)slot).getIdentifiers());
+		
+		} else {
+			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a ReferenceSlot");
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature feature) {
+		if (feature.getEType() instanceof EClass) {
+			final EClass type           = (EClass)feature.getEType();
+			final List<EClass> eClasses = EmfUtil.getAllEClassesFromSameMetamodelAs(feature);
+			
+			for (String identifier : getIdentifiers()) {
+				final EClass eClass = findClassByIdentifier(identifier, eClasses);
+				
+				if (eClass != null && !type.isSuperTypeOf(eClass)) {
+					return false;
+				}
+			}
+			
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private EClass findClassByIdentifier(String identifier, Collection<EClass> eClasses) {
+		for (ClassObject classObject : eAllClassObjects()) {
+			if (identifier.equals(classObject.getIdentifier())) {
+				return classObject.getEClass(eClasses);
+			}
+		}
+		
+		return null;
+	}	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private List<ClassObject> eAllClassObjects() {
+		return EmfUtil.getAllModelElementsOfType(this, HutnFactory.eINSTANCE.createClassObject());
+	}
+	
 } //ReferenceSlotImpl
