@@ -17,6 +17,7 @@ package org.eclipse.epsilon.hutn.model.hutn.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -178,6 +179,34 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public EList<ClassObject> getClassObjects() {
+		final EList<ClassObject> classObjects = new BasicEList<ClassObject>();
+		
+		for (String identifier : getIdentifiers()) {
+			final ClassObject classObject = getClassObject(identifier);
+			
+			if (classObject != null)
+				classObjects.add(classObject);
+		}
+		
+		return classObjects;
+	}
+	
+	private ClassObject getClassObject(String identifier) {
+		for (ClassObject classObject : eAllClassObjects()) {
+			if (identifier.equals(classObject.getIdentifier())) {
+				return classObject;
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public boolean typeCompatibleWith(EStructuralFeature feature) {
 		if (feature.getEType() instanceof EClass) {
 			final EClass type           = (EClass)feature.getEType();
@@ -204,10 +233,10 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 	 * @generated NOT
 	 */
 	private EClass findClassByIdentifier(String identifier, Collection<EClass> eClasses) {
-		for (ClassObject classObject : eAllClassObjects()) {
-			if (identifier.equals(classObject.getIdentifier())) {
-				return classObject.getEClass(eClasses);
-			}
+		final ClassObject classObject = getClassObject(identifier);
+		
+		if (classObject != null) {
+			return classObject.getEClass(eClasses);
 		}
 		
 		return null;

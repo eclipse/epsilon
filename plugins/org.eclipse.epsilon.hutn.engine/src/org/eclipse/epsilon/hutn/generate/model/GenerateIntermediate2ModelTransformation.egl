@@ -29,32 +29,32 @@ rule Object2[%=class.name%]
 [% for (reference in class.eAllReferences) { %]
 	if (o.findSlot('[%=reference.name%]').isDefined()) {
 		[% if (reference.isMany()) { %]
-			for (object in o.findSlot('[%=reference.name%]').getClassObjects()) {
+			for (object in o.findSlot('[%=reference.name%]').getEObjects()) {
 				t."[%=reference.name%]".add(object);
 			}
 		[% } else { %]
-			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getClassObjects().first();
+			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getEObjects().first();
 		[% } %]
 	}
 [% } %]
 }
 [% } %]
 
-operation ReferenceSlot getClassObjects() : Sequence {
-	return self.identifiers.collect(i:String | i.getClassObject());
+operation ReferenceSlot getEObjects() : Sequence {
+	return self.identifiers.collect(i:String | i.getEObject(self));
 }
 
-operation ContainmentSlot getClassObjects() : Sequence {
+operation ContainmentSlot getEObjects() : Sequence {
 	return self.classObjects.collect(o:Intermediate!ClassObject | o.equivalent());
 }
 
-operation String getClassObject() : Any {
+operation String getEObject(slot : ReferenceSlot) : Any {
 	if ('#'.isSubstringOf(self)) {
 		-- External object reference, locate in external model
 		return EmfTool.getEObject(self);
 	
 	} else {
 		-- Internal object reference, located in current model
-		return Intermediate!ClassObject.all().selectOne(c:Intermediate!ClassObject | c.identifier = self).equivalent();
+		return slot.getClassObjects.selectOne(c|c.identifier = self).equivalent();
 	}
 }

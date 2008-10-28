@@ -49,4 +49,12 @@ public interface ReferenceSlot extends Slot {
 	 */
 	EList<String> getIdentifiers();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<ClassObject> getClassObjects();
+
 } // ReferenceSlot

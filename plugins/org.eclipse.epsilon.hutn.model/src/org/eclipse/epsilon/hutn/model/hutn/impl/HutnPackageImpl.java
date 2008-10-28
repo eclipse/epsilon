@@ -687,6 +687,8 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEClass(referenceSlotEClass, ReferenceSlot.class, "ReferenceSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReferenceSlot_Identifiers(), ecorePackage.getEString(), "identifiers", null, 0, -1, ReferenceSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		addEOperation(referenceSlotEClass, this.getClassObject(), "getClassObjects", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(enumSlotEClass, EnumSlot.class, "EnumSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEnumSlot_Value(), ecorePackage.getEString(), "value", null, 0, 1, EnumSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
