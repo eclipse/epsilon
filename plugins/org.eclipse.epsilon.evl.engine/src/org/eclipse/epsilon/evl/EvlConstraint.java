@@ -76,6 +76,9 @@ public class EvlConstraint extends AbstractModuleElement{
 	
 	//FIXME : Currently examines only the local guard
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException{
+		
+		if (!constraintContext.getAllOfSourceKind(context).contains(object)) return false;
+		
 		if (guard.getAst() != null) {
 			context.getFrameStack().enter(FrameType.PROTECTED, guard.getAst());
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));

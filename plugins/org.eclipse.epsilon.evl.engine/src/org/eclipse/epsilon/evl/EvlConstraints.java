@@ -10,32 +10,44 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class EvlConstraints implements Iterable {
 	
-	protected HashMap<String, EvlConstraint> storage = new HashMap<String, EvlConstraint>();
+	protected List<EvlConstraint> storage = new ArrayList<EvlConstraint>();
+	
+	//protected HashMap<String, EvlConstraint> storage = new HashMap<String, EvlConstraint>();
 	
 	public EvlConstraints() {
 		super();
 	}
 	
 	public void addConstraint(EvlConstraint constraint){
-		storage.put(constraint.getName(), constraint);
+		storage.add(constraint);
 	}
 	
-	public EvlConstraint getConstraint(String name){
-		return storage.get(name);
+	public EvlConstraint getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException{
+		for (EvlConstraint constraint : storage) {
+			if (constraint.getName().equals(name) && constraint.appliesTo(target, context)) {
+				return constraint;
+			}
+		}
+		return null;
 	}
 	
 	public Collection values() {
-		return storage.values();
+		return storage;
 	}
 	
 	public Iterator iterator() {
-		return values().iterator();
+		return storage.iterator();
 	}
 
 }

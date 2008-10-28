@@ -34,21 +34,20 @@ public class SatisfiesOperation extends AbstractOperation{
 		
 		IEvlContext context = (IEvlContext) context_;
 		
-		Object result = context.getExecutorFactory().executeAST(ast.getFirstChild().getFirstChild(), context);
-		String constraintName = context.getPrettyPrinterManager().toString(result);
-		
-		EvlConstraint constraint = context.getModule().getConstraints().getConstraint(constraintName);
-		
-		if (constraint == null) {
-			throw new EvlConstraintNotFoundException(constraintName,ast);
+		for (AST child : ast.getFirstChild().getChildren()) {
+			Object result = context.getExecutorFactory().executeAST(child, context);
+			String constraintName = context.getPrettyPrinterManager().toString(result);
+			
+			EvlConstraint constraint = context.getModule().getConstraints().getConstraint(constraintName, obj, context);
+			
+			if (constraint == null) {
+				throw new EvlConstraintNotFoundException(constraintName,ast);
+			}
+			
+			if (constraint.check(obj,context) == false) return EolBoolean.FALSE;
 		}
 		
-		//if (context.getConstraintTrace().isChecked(constraint,obj)){
-		//	return new EolBoolean(context.getConstraintTrace().isSatisfied(constraint,obj));
-		//}
-		//else {
-			//TODO Check that the constraint actually applies to the object!!!
-			return new EolBoolean(constraint.check(obj,context));
-		//}
+		return EolBoolean.TRUE;
+		
 	}
 }

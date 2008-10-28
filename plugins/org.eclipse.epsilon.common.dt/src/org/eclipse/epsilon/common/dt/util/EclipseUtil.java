@@ -71,7 +71,7 @@ public class EclipseUtil {
 		FileEditorInput fileinput=new FileEditorInput(res);
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(fileName);
 		try {
-			AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId());		
+			AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId(), false);		
 			IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
 			
 			if (line == 0) line = 1;
