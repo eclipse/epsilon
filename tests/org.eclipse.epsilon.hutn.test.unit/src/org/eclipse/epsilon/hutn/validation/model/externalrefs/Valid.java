@@ -35,7 +35,6 @@ public class Valid extends HutnModelValidationTest {
 	
 	@Test
 	public void validationShouldReportNoProblems() {
-		System.out.println(problems);
 		assertEquals(0, problems.size());
 	}
 }
