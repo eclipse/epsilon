@@ -36,7 +36,7 @@ public class SingleClassWithAdjectives extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 		
 		model.setVariable("slot1", "class.slots.at(0)");
 		model.setVariable("slot2", "class.slots.at(1)");

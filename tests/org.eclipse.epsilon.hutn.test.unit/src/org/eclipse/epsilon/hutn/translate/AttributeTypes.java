@@ -41,7 +41,7 @@ public class AttributeTypes extends HutnTranslatorTest {
 		
 		final ModelWithEolAssertions model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 		model.setVariable("slot" ,   "class.slots.at(0)");
 		
 		model.assertTrue(expectedType + ".isType(slot)");

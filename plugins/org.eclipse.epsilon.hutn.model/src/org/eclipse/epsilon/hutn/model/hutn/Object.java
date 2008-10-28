@@ -14,8 +14,6 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
-import org.eclipse.emf.common.util.EList;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Object</b></em>'.
@@ -25,7 +23,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Object#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Object#getSlots <em>Slots</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Object#getIdentifier <em>Identifier</em>}</li>
  * </ul>
  * </p>
@@ -62,24 +59,6 @@ public interface Object extends ModelElement {
 	void setType(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Slots</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.epsilon.hutn.model.hutn.Slot}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner <em>Owner</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Slots</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Slots</em>' containment reference list.
-	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getObject_Slots()
-	 * @see org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner
-	 * @model opposite="owner" containment="true"
-	 * @generated
-	 */
-	EList<Slot> getSlots();
-
-	/**
 	 * Returns the value of the '<em><b>Identifier</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -104,15 +83,5 @@ public interface Object extends ModelElement {
 	 * @generated
 	 */
 	void setIdentifier(String value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * Finds a Slot with the specified feature for this Object.
-	 * Returns null when no such Slot exists.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	Slot findSlot(String feature);
 
 } // Object

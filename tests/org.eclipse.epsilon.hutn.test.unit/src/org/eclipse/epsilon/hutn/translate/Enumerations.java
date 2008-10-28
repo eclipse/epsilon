@@ -39,14 +39,14 @@ public class Enumerations extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 		
 		model.setVariable("slot", "class.slots.at(0)");
 	}
 	
 	@Test
-	public void packageShouldContainOneObject() {
-		model.assertEquals(1, "package.slots.first().objects.size()");
+	public void packageShouldContainOneClassObject() {
+		model.assertEquals(1, "package.classObjects.size()");
 	}
 	
 	@Test

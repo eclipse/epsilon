@@ -110,13 +110,10 @@ public abstract class IntermediateUtil {
 	
 	public static PackageObject createPackage(ClassObject... classes) {
 		final PackageObject pkg = HutnFactory.eINSTANCE.createPackageObject();
-		
-		final ContainmentSlot slot = HutnFactory.eINSTANCE.createContainmentSlot();
-		
+	
 		for (ClassObject cls : classes) {
-			slot.getObjects().add(cls);
+			pkg.getClassObjects().add(cls);
 		}
-		pkg.getSlots().add(slot);
 		
 		return pkg;
 	}

@@ -14,6 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import org.eclipse.emf.common.util.EList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EClass;
@@ -24,6 +25,12 @@ import org.eclipse.emf.ecore.EClass;
  * A representation of the model object '<em><b>Class Object</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject#getSlots <em>Slots</em>}</li>
+ * </ul>
+ * </p>
  *
  * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getClassObject()
  * @model
@@ -31,6 +38,34 @@ import org.eclipse.emf.ecore.EClass;
  */
 public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object {
 	
+	/**
+	 * Returns the value of the '<em><b>Slots</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.hutn.model.hutn.Slot}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Slots</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Slots</em>' containment reference list.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getClassObject_Slots()
+	 * @see org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner
+	 * @model opposite="owner" containment="true"
+	 * @generated
+	 */
+	EList<Slot> getSlots();
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Slot findSlot(String feature);
+
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * Returns an EClass from the specified collection that

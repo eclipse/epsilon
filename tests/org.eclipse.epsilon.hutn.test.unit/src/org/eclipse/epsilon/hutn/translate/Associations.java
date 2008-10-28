@@ -42,14 +42,14 @@ public class Associations extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("family",  "package.slots.first().objects.select(o : Object | o.type = 'Family').first()");
+		model.setVariable("family",  "package.classObjects.selectOne(c : ClassObject | c.type = 'Family')");
 		
 		model.setVariable("slot", "family.slots.first()");
 	}
 	
 	@Test
-	public void packageShouldContainThreeObjects() {
-		model.assertEquals(3, "package.slots.first().objects.size()");
+	public void packageShouldContainThreeClassObjects() {
+		model.assertEquals(3, "package.classObjects.size()");
 	}
 	
 	@Test

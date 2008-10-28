@@ -14,23 +14,10 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
-import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +27,6 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ObjectImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ObjectImpl#getSlots <em>Slots</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ObjectImpl#getIdentifier <em>Identifier</em>}</li>
  * </ul>
  * </p>
@@ -67,16 +53,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 	 * @ordered
 	 */
 	protected String type = TYPE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getSlots() <em>Slots</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSlots()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Slot> slots;
 
 	/**
 	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
@@ -143,18 +119,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Slot> getSlots() {
-		if (slots == null) {
-			slots = new EObjectContainmentWithInverseEList<Slot>(Slot.class, this, HutnPackage.OBJECT__SLOTS, HutnPackage.SLOT__OWNER);
-		}
-		return slots;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -173,51 +137,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Finds a slot with the specified feature for this object.
-	 * Returns null when no such slot exists.
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Slot findSlot(String feature) {
-		for (Slot slot : getSlots()) {
-			if (feature.equals(slot.getFeature()))
-				return slot;
-		}
-		
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HutnPackage.OBJECT__SLOTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSlots()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HutnPackage.OBJECT__SLOTS:
-				return ((InternalEList<?>)getSlots()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -226,8 +145,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 		switch (featureID) {
 			case HutnPackage.OBJECT__TYPE:
 				return getType();
-			case HutnPackage.OBJECT__SLOTS:
-				return getSlots();
 			case HutnPackage.OBJECT__IDENTIFIER:
 				return getIdentifier();
 		}
@@ -239,16 +156,11 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HutnPackage.OBJECT__TYPE:
 				setType((String)newValue);
-				return;
-			case HutnPackage.OBJECT__SLOTS:
-				getSlots().clear();
-				getSlots().addAll((Collection<? extends Slot>)newValue);
 				return;
 			case HutnPackage.OBJECT__IDENTIFIER:
 				setIdentifier((String)newValue);
@@ -268,9 +180,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 			case HutnPackage.OBJECT__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
-			case HutnPackage.OBJECT__SLOTS:
-				getSlots().clear();
-				return;
 			case HutnPackage.OBJECT__IDENTIFIER:
 				setIdentifier(IDENTIFIER_EDEFAULT);
 				return;
@@ -288,8 +197,6 @@ public abstract class ObjectImpl extends ModelElementImpl implements org.eclipse
 		switch (featureID) {
 			case HutnPackage.OBJECT__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-			case HutnPackage.OBJECT__SLOTS:
-				return slots != null && !slots.isEmpty();
 			case HutnPackage.OBJECT__IDENTIFIER:
 				return IDENTIFIER_EDEFAULT == null ? identifier != null : !IDENTIFIER_EDEFAULT.equals(identifier);
 		}

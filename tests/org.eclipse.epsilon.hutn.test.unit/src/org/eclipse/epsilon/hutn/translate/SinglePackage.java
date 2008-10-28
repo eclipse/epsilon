@@ -63,7 +63,7 @@ public class SinglePackage extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void objectShouldHaveNoSlots() {
-		model.assertEquals(0, "object.slots.size()");
+	public void objectShouldHaveNoClassObjects() {
+		model.assertEquals(0, "object.classObjects.size()");
 	}
 }

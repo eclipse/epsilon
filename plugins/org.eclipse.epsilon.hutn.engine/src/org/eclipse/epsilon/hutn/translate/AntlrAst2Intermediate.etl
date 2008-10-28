@@ -34,18 +34,9 @@ rule NameNode2PackageObject
 	p.addIdentifier(n, false);
 	p.addTraceabilityInfo(n);
 	
-	var classesSlot := new Intermediate!ContainmentSlot;
-	
 	for (child in n.children.select(n : AntlrAst!NameNode | true)) {
-		classesSlot.objects.add(child.equivalent());
+		p.classObjects.add(child.equivalent());
 	}
-	
-	if (classesSlot.objects.notEmpty()) {
-		p.slots.add(classesSlot);
-	} else {
-		delete classesSlot;
-	}
-	
 	
 	-- Transform association blocks and infix associations
 	n.children.forAll(a : AntlrAst!AssociationInstanceNode | a.createReferences());

@@ -36,22 +36,12 @@ public class SingleClass extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 	}
 		
 	@Test
-	public void packageShouldHaveOneSlot() {
-		model.assertEquals(1, "package.slots.size()");
-	}
-	
-	@Test
-	public void packageShouldContainOneObject() {
-		model.assertEquals(1, "package.slots.first().objects.size()");
-	}
-	
-	@Test
-	public void packageSlotShouldBeContainmentSlot() {
-		model.assertTrue("ContainmentSlot.isType(package.slots.first())");
+	public void packageShouldHaveOneClassObject() {
+		model.assertEquals(1, "package.classObjects.size()");
 	}
 	
 	@Test

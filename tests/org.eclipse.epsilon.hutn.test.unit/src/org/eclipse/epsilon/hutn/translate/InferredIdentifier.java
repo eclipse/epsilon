@@ -50,7 +50,7 @@ public class InferredIdentifier extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 	}
 	
 	@Test

@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
@@ -108,9 +109,9 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public org.eclipse.epsilon.hutn.model.hutn.Object getOwner() {
+	public ClassObject getOwner() {
 		if (eContainerFeatureID != HutnPackage.SLOT__OWNER) return null;
-		return (org.eclipse.epsilon.hutn.model.hutn.Object)eContainer();
+		return (ClassObject)eContainer();
 	}
 
 	/**
@@ -118,7 +119,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetOwner(org.eclipse.epsilon.hutn.model.hutn.Object newOwner, NotificationChain msgs) {
+	public NotificationChain basicSetOwner(ClassObject newOwner, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newOwner, HutnPackage.SLOT__OWNER, msgs);
 		return msgs;
 	}
@@ -128,7 +129,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOwner(org.eclipse.epsilon.hutn.model.hutn.Object newOwner) {
+	public void setOwner(ClassObject newOwner) {
 		if (newOwner != eInternalContainer() || (eContainerFeatureID != HutnPackage.SLOT__OWNER && newOwner != null)) {
 			if (EcoreUtil.isAncestor(this, newOwner))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -136,7 +137,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newOwner != null)
-				msgs = ((InternalEObject)newOwner).eInverseAdd(this, HutnPackage.OBJECT__SLOTS, org.eclipse.epsilon.hutn.model.hutn.Object.class, msgs);
+				msgs = ((InternalEObject)newOwner).eInverseAdd(this, HutnPackage.CLASS_OBJECT__SLOTS, ClassObject.class, msgs);
 			msgs = basicSetOwner(newOwner, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -172,7 +173,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 			case HutnPackage.SLOT__OWNER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetOwner((org.eclipse.epsilon.hutn.model.hutn.Object)otherEnd, msgs);
+				return basicSetOwner((ClassObject)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -200,7 +201,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID) {
 			case HutnPackage.SLOT__OWNER:
-				return eInternalContainer().eInverseRemove(this, HutnPackage.OBJECT__SLOTS, org.eclipse.epsilon.hutn.model.hutn.Object.class, msgs);
+				return eInternalContainer().eInverseRemove(this, HutnPackage.CLASS_OBJECT__SLOTS, ClassObject.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -233,7 +234,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 				setFeature((String)newValue);
 				return;
 			case HutnPackage.SLOT__OWNER:
-				setOwner((org.eclipse.epsilon.hutn.model.hutn.Object)newValue);
+				setOwner((ClassObject)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -251,7 +252,7 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 				setFeature(FEATURE_EDEFAULT);
 				return;
 			case HutnPackage.SLOT__OWNER:
-				setOwner((org.eclipse.epsilon.hutn.model.hutn.Object)null);
+				setOwner((ClassObject)null);
 				return;
 		}
 		super.eUnset(featureID);

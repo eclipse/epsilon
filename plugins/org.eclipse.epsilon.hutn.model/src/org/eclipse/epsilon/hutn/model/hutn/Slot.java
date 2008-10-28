@@ -63,7 +63,7 @@ public interface Slot extends ModelElement {
 
 	/**
 	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.epsilon.hutn.model.hutn.Object#getSlots <em>Slots</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject#getSlots <em>Slots</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Owner</em>' container reference isn't clear,
@@ -71,13 +71,13 @@ public interface Slot extends ModelElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Owner</em>' container reference.
-	 * @see #setOwner(org.eclipse.epsilon.hutn.model.hutn.Object)
+	 * @see #setOwner(ClassObject)
 	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getSlot_Owner()
-	 * @see org.eclipse.epsilon.hutn.model.hutn.Object#getSlots
+	 * @see org.eclipse.epsilon.hutn.model.hutn.ClassObject#getSlots
 	 * @model opposite="slots" required="true" transient="false"
 	 * @generated
 	 */
-	org.eclipse.epsilon.hutn.model.hutn.Object getOwner();
+	ClassObject getOwner();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner <em>Owner</em>}' container reference.
@@ -87,7 +87,7 @@ public interface Slot extends ModelElement {
 	 * @see #getOwner()
 	 * @generated
 	 */
-	void setOwner(org.eclipse.epsilon.hutn.model.hutn.Object value);
+	void setOwner(ClassObject value);
 
 	/**
 	 * <!-- begin-user-doc -->

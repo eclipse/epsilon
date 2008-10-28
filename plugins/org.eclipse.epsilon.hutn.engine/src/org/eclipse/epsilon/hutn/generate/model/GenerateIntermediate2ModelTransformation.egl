@@ -10,39 +10,35 @@ rule Object2[%=class.name%]
 	guard: o.type = '[%=class.name%]'
 	
 [% for (attribute in class.eAllAttributes) { %]
-	if (o.getSlotByFeature('[%=attribute.name%]').isDefined()) {
+	if (o.findSlot('[%=attribute.name%]').isDefined()) {
 		[% if (EEnum.isType(attribute.eType)) { %]
 			var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
 			
-			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.getSlotByFeature('[%=attribute.name%]').value).instance;
+			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').value).instance;
 			
 		[% } else if (attribute.isMany()) { %]
-			for (value in o.getSlotByFeature('[%=attribute.name%]').values) {
+			for (value in o.findSlot('[%=attribute.name%]').values) {
 				t."[%=attribute.name%]".add(value);
 			}
 		[% } else { %]
-			t."[%=attribute.name%]" := o.getSlotByFeature('[%=attribute.name%]').values.at(0);
+			t."[%=attribute.name%]" := o.findSlot('[%=attribute.name%]').values.at(0);
 		[% } %]
 	}
 [% } %]
 
 [% for (reference in class.eAllReferences) { %]
-	if (o.getSlotByFeature('[%=reference.name%]').isDefined()) {
+	if (o.findSlot('[%=reference.name%]').isDefined()) {
 		[% if (reference.isMany()) { %]
-			for (object in o.getSlotByFeature('[%=reference.name%]').getObjects()) {
+			for (object in o.findSlot('[%=reference.name%]').getObjects()) {
 				t."[%=reference.name%]".add(object);
 			}
 		[% } else { %]
-			t."[%=reference.name%]" := o.getSlotByFeature('[%=reference.name%]').getObjects().first();
+			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getObjects().first();
 		[% } %]
 	}
 [% } %]
 }
 [% } %]
-
-operation Intermediate!Object getSlotByFeature(feature : String) : Intermediate!Slot {
-	return self.slots.selectOne(s:Intermediate!Slot | s.feature = feature);
-}
 
 operation ReferenceSlot getObjects() : Sequence {
 	return self.identifiers.collect(i:String | i.getObject());

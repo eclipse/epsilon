@@ -38,23 +38,13 @@ public class TwoClasses extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class1",  "package.slots.first().objects.at(0)");
-		model.setVariable("class2",  "package.slots.first().objects.at(1)");
+		model.setVariable("class1",  "package.classObjects.first()");
+		model.setVariable("class2",  "package.classObjects.last()");
 	}
 		
 	@Test
-	public void packageShouldHaveOneSlot() {
-		model.assertEquals(1, "package.slots.size()");
-	}
-	
-	@Test
-	public void packageShouldContainTwoObjects() {
-		model.assertEquals(2, "package.slots.first().objects.size()");
-	}
-	
-	@Test
-	public void packageSlotShouldBeContainmentSlot() {
-		model.assertTrue("ContainmentSlot.isType(package.slots.first())");
+	public void packageShouldHaveTwoClassObjects() {
+		model.assertEquals(2, "package.classObjects.size()");
 	}
 	
 	@Test

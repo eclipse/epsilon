@@ -45,7 +45,7 @@ public class DefaultValue extends HutnTranslatorTest {
 		
 		model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
-		model.setVariable("class",   "package.slots.first().objects.first()");
+		model.setVariable("class",   "package.classObjects.first()");
 		model.setVariable("slot",    "class.slots.select(s|s.feature <> 'id').first()");
 	}
 	
