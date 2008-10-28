@@ -476,7 +476,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getContainmentSlot_Objects() {
+	public EReference getContainmentSlot_ClassObjects() {
 		return (EReference)containmentSlotEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -584,7 +584,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		nullSlotEClass = createEClass(NULL_SLOT);
 
 		containmentSlotEClass = createEClass(CONTAINMENT_SLOT);
-		createEReference(containmentSlotEClass, CONTAINMENT_SLOT__OBJECTS);
+		createEReference(containmentSlotEClass, CONTAINMENT_SLOT__CLASS_OBJECTS);
 
 		referenceSlotEClass = createEClass(REFERENCE_SLOT);
 		createEAttribute(referenceSlotEClass, REFERENCE_SLOT__IDENTIFIERS);
@@ -682,7 +682,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEClass(nullSlotEClass, NullSlot.class, "NullSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(containmentSlotEClass, ContainmentSlot.class, "ContainmentSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContainmentSlot_Objects(), this.getObject(), null, "objects", null, 0, -1, ContainmentSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContainmentSlot_ClassObjects(), this.getClassObject(), null, "classObjects", null, 0, -1, ContainmentSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(referenceSlotEClass, ReferenceSlot.class, "ReferenceSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReferenceSlot_Identifiers(), ecorePackage.getEString(), "identifiers", null, 0, -1, ReferenceSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

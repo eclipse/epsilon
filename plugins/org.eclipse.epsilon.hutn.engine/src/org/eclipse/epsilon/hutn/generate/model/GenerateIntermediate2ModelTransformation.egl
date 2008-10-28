@@ -29,26 +29,26 @@ rule Object2[%=class.name%]
 [% for (reference in class.eAllReferences) { %]
 	if (o.findSlot('[%=reference.name%]').isDefined()) {
 		[% if (reference.isMany()) { %]
-			for (object in o.findSlot('[%=reference.name%]').getObjects()) {
+			for (object in o.findSlot('[%=reference.name%]').getClassObjects()) {
 				t."[%=reference.name%]".add(object);
 			}
 		[% } else { %]
-			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getObjects().first();
+			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getClassObjects().first();
 		[% } %]
 	}
 [% } %]
 }
 [% } %]
 
-operation ReferenceSlot getObjects() : Sequence {
-	return self.identifiers.collect(i:String | i.getObject());
+operation ReferenceSlot getClassObjects() : Sequence {
+	return self.identifiers.collect(i:String | i.getClassObject());
 }
 
-operation ContainmentSlot getObjects() : Sequence {
-	return self.objects.collect(o:Intermediate!ClassObject | o.equivalent());
+operation ContainmentSlot getClassObjects() : Sequence {
+	return self.classObjects.collect(o:Intermediate!ClassObject | o.equivalent());
 }
 
-operation String getObject() : Any {
+operation String getClassObject() : Any {
 	if ('#'.isSubstringOf(self)) {
 		-- External object reference, locate in external model
 		return EmfTool.getEObject(self);

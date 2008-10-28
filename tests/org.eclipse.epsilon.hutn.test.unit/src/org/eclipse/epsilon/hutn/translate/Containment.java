@@ -67,17 +67,17 @@ public class Containment extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void slotShouldContainTwoObjects() {
-		model.assertEquals(2, "slot.objects.size()");
+	public void slotShouldContainTwoClassObjects() {
+		model.assertEquals(2, "slot.classObjects.size()");
 	}
 	
 	@Test
-	public void slotShouldContainFirstObject() {
-		model.assertEquals("John", "slot.objects.at(0).identifier");
+	public void slotShouldContainFirstClassObject() {
+		model.assertEquals("John", "slot.classObjects.at(0).identifier");
 	}
 	
 	@Test
-	public void slotShouldContainSecondObject() {
-		model.assertEquals("Gill", "slot.objects.at(1).identifier");
+	public void slotShouldContainSecondClassObject() {
+		model.assertEquals("Gill", "slot.classObjects.at(1).identifier");
 	}
 }

@@ -244,7 +244,7 @@ operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 		
 	} else if (Intermediate!ContainmentSlot.isType(slot)) {
 		for (containedObject in n.children) {
-			slot.objects.add(containedObject.getValue());
+			slot.classObjects.add(containedObject.getValue());
 		}
 			
 	} else {

@@ -14,6 +14,8 @@
  */
 package org.eclipse.epsilon.hutn.test.unit.util;
 
+import java.util.Arrays;
+
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
@@ -45,8 +47,7 @@ public abstract class IntermediateUtil {
 		final StringSlot slot = HutnFactory.eINSTANCE.createStringSlot();
 		slot.setFeature(feature);
 		
-		for (String value : values)
-			slot.getValues().add(value);
+		slot.getValues().addAll(Arrays.asList(values));
 		
 		return slot;
 	}
@@ -55,8 +56,7 @@ public abstract class IntermediateUtil {
 		final IntegerSlot slot = HutnFactory.eINSTANCE.createIntegerSlot();
 		slot.setFeature(feature);
 		
-		for (int value : values)
-			slot.getValues().add(value);
+		slot.getValues().addAll(Arrays.asList(values));
 		
 		return slot;
 	}
@@ -65,8 +65,7 @@ public abstract class IntermediateUtil {
 		final FloatSlot slot = HutnFactory.eINSTANCE.createFloatSlot();
 		slot.setFeature(feature);
 		
-		for (float value : values)
-			slot.getValues().add(value);
+		slot.getValues().addAll(Arrays.asList(values));
 		
 		return slot;
 	}
@@ -75,18 +74,16 @@ public abstract class IntermediateUtil {
 		final ReferenceSlot slot = HutnFactory.eINSTANCE.createReferenceSlot();
 		slot.setFeature(feature);
 		
-		for (String identifier : identifiers)
-			slot.getIdentifiers().add(identifier);
+		slot.getIdentifiers().addAll(Arrays.asList(identifiers));
 		
 		return slot;
 	}
 	
-	public static ContainmentSlot createContainmentSlot(String feature, ClassObject... objects) {
+	public static ContainmentSlot createContainmentSlot(String feature, ClassObject... classObjects) {
 		final ContainmentSlot slot = HutnFactory.eINSTANCE.createContainmentSlot();
 		slot.setFeature(feature);
 		
-		for (ClassObject object : objects)
-			slot.getObjects().add(object);
+		slot.getClassObjects().addAll(Arrays.asList(classObjects));
 		
 		return slot;
 	}

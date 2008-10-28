@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getClassObjects <em>Class Objects</em>}</li>
  * </ul>
  * </p>
  *
@@ -34,19 +34,19 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ContainmentSlot extends Slot {
 	/**
-	 * Returns the value of the '<em><b>Objects</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.epsilon.hutn.model.hutn.Object}.
+	 * Returns the value of the '<em><b>Class Objects</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.hutn.model.hutn.ClassObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Objects</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Class Objects</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Objects</em>' containment reference list.
-	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getContainmentSlot_Objects()
+	 * @return the value of the '<em>Class Objects</em>' containment reference list.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getContainmentSlot_ClassObjects()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<org.eclipse.epsilon.hutn.model.hutn.Object> getObjects();
+	EList<ClassObject> getClassObjects();
 
 } // ContainmentSlot

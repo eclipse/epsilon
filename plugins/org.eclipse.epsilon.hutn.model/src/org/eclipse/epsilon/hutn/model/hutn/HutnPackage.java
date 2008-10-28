@@ -783,13 +783,13 @@ public interface HutnPackage extends EPackage {
 	int CONTAINMENT_SLOT__OWNER = SLOT__OWNER;
 
 	/**
-	 * The feature id for the '<em><b>Objects</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Class Objects</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__OBJECTS = SLOT_FEATURE_COUNT + 0;
+	int CONTAINMENT_SLOT__CLASS_OBJECTS = SLOT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Containment Slot</em>' class.
@@ -1225,15 +1225,15 @@ public interface HutnPackage extends EPackage {
 	EClass getContainmentSlot();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getObjects <em>Objects</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getClassObjects <em>Class Objects</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Objects</em>'.
-	 * @see org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getObjects()
+	 * @return the meta object for the containment reference list '<em>Class Objects</em>'.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot#getClassObjects()
 	 * @see #getContainmentSlot()
 	 * @generated
 	 */
-	EReference getContainmentSlot_Objects();
+	EReference getContainmentSlot_ClassObjects();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot <em>Reference Slot</em>}'.
@@ -1550,12 +1550,12 @@ public interface HutnPackage extends EPackage {
 		EClass CONTAINMENT_SLOT = eINSTANCE.getContainmentSlot();
 
 		/**
-		 * The meta object literal for the '<em><b>Objects</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Class Objects</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONTAINMENT_SLOT__OBJECTS = eINSTANCE.getContainmentSlot_Objects();
+		EReference CONTAINMENT_SLOT__CLASS_OBJECTS = eINSTANCE.getContainmentSlot_ClassObjects();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ReferenceSlotImpl <em>Reference Slot</em>}' class.

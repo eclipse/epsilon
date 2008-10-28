@@ -57,8 +57,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NullSlot" eSuperTypes="#//Slot"/>
   <eClassifiers xsi:type="ecore:EClass" name="ContainmentSlot" eSuperTypes="#//Slot">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
-        eType="#//Object" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classObjects" upperBound="-1"
+        eType="#//ClassObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceSlot" eSuperTypes="#//Slot">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifiers" unique="false"

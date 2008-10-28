@@ -41,7 +41,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ContainmentSlotImpl#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ContainmentSlotImpl#getClassObjects <em>Class Objects</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,15 +49,14 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  */
 public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	/**
-	 * The cached value of the '{@link #getObjects() <em>Objects</em>}' containment reference list.
+	 * The cached value of the '{@link #getClassObjects() <em>Class Objects</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjects()
+	 * @see #getClassObjects()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<org.eclipse.epsilon.hutn.model.hutn.Object> objects;
-
+	protected EList<ClassObject> classObjects;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,11 +81,11 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<org.eclipse.epsilon.hutn.model.hutn.Object> getObjects() {
-		if (objects == null) {
-			objects = new EObjectContainmentEList<org.eclipse.epsilon.hutn.model.hutn.Object>(org.eclipse.epsilon.hutn.model.hutn.Object.class, this, HutnPackage.CONTAINMENT_SLOT__OBJECTS);
+	public EList<ClassObject> getClassObjects() {
+		if (classObjects == null) {
+			classObjects = new EObjectContainmentEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS);
 		}
-		return objects;
+		return classObjects;
 	}
 
 	/**
@@ -97,8 +96,8 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__OBJECTS:
-				return ((InternalEList<?>)getObjects()).basicRemove(otherEnd, msgs);
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				return ((InternalEList<?>)getClassObjects()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -111,8 +110,8 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__OBJECTS:
-				return getObjects();
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				return getClassObjects();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -126,9 +125,9 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__OBJECTS:
-				getObjects().clear();
-				getObjects().addAll((Collection<? extends org.eclipse.epsilon.hutn.model.hutn.Object>)newValue);
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				getClassObjects().clear();
+				getClassObjects().addAll((Collection<? extends ClassObject>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -142,8 +141,8 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__OBJECTS:
-				getObjects().clear();
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				getClassObjects().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -157,8 +156,8 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__OBJECTS:
-				return objects != null && !objects.isEmpty();
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				return classObjects != null && !classObjects.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -171,7 +170,7 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	 */
 	public void append(Slot slot) {
 		if (slot instanceof ContainmentSlot) {
-			this.getObjects().addAll(((ContainmentSlot)slot).getObjects());
+			this.getClassObjects().addAll(((ContainmentSlot)slot).getClassObjects());
 		
 		} else {
 			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a ContainmentSlot");
@@ -188,9 +187,7 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 			final EClass type           = (EClass)feature.getEType();
 			final List<EClass> eClasses = EmfUtil.getAllEClassesFromSameMetamodelAs(feature);
 			
-			for (org.eclipse.epsilon.hutn.model.hutn.Object object : getObjects()) {
-				final ClassObject classObject = (ClassObject)object;
-				
+			for (ClassObject classObject : getClassObjects()) {
 				if (!type.isSuperTypeOf(classObject.getEClass(eClasses))) {
 					return false;
 				}
