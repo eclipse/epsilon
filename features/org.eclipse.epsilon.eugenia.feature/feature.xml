@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.eugenia.feature"
       label="Epsilon Eugenia (Incubation)"
-      version="0.8.1.1"
+      version="0.8.2"
       provider-name="Eclipse.org">
 
    <description url="http://www.example.com/description">
@@ -36,21 +36,21 @@
          id="org.eclipse.epsilon.eugenia"
          download-size="0"
          install-size="0"
-         version="0.8.1.1"
+         version="0.8.2"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eugenia.runtime"
          download-size="0"
          install-size="0"
-         version="0.8.1.1"
+         version="0.8.2"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eugenia.validation"
          download-size="0"
          install-size="0"
-         version="0.8.1.1"
+         version="0.8.2"
          unpack="false"/>
 
 </feature>

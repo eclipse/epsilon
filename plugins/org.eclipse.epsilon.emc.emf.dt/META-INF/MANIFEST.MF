@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon EMF Model Support Development Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.dt;singleton:=true
-Bundle-Version: 0.8.1.1
+Bundle-Version: 0.8.2
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.jface,
