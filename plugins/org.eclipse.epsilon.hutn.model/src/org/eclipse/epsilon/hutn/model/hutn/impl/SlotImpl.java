@@ -14,6 +14,8 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -161,6 +163,29 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * @generated NOT
 	 */
 	public abstract boolean typeCompatibleWith(EStructuralFeature feature);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the corresponding EStructrualFeature that matches the 
+	 * feature of this Slot. 
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public EStructuralFeature getEStructuralFeature(Collection<EClass> eClasses) {
+		final EClass owner = getOwner().getEClass(eClasses);
+		
+		if (getFeature() == null || owner == null)
+			return null;
+		
+		for (EStructuralFeature feature : owner.getEAllStructuralFeatures()) {
+			if (getFeature().equals(feature.getName())) {
+				return feature;
+			}
+		}
+		
+		return null;
+	}
 
 	/**
 	 * <!-- begin-user-doc -->

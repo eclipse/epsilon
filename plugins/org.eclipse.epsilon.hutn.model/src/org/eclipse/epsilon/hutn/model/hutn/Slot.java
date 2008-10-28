@@ -14,6 +14,9 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
@@ -107,5 +110,15 @@ public interface Slot extends ModelElement {
 	 * @generated NOT
 	 */
 	boolean typeCompatibleWith(EStructuralFeature feature);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the corresponding EStructrualFeature that matches the 
+	 * feature of this Slot. 
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	EStructuralFeature getEStructuralFeature(Collection<EClass> eClasses);
 
 } // Slot

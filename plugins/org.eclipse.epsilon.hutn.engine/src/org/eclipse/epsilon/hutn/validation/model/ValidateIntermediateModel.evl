@@ -149,8 +149,7 @@ operation String canLocateExternalModelElement() : Boolean {
 }
 
 operation Slot toStructuralFeature() : Metamodel!EStructuralFeature {
-	var classifier : Metamodel!EClassifier := Metamodel!EClassifier.allInstances().select(c|c.name = self.owner.type).at(0);
-	return Metamodel!EStructuralFeature.allInstances().select(c|c.name = self.feature and classifier.eAllStructuralFeatures.includes(c)).at(0);
+	return self.getEStructuralFeature(Metamodel!EClass.all);
 }
 
 operation String toClass() : Metamodel!EClassifier {
