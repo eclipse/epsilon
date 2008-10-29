@@ -78,8 +78,9 @@ public abstract class EmfUtil {
 		return model;
 	}
 	
-	public static EObject cloneModel(EObject rootObject) {
-		final EObject cloned = EcoreUtil.copy(rootObject);
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> T clone(T object) {
+		final T cloned = (T)EcoreUtil.copy(object);
 		createResourceFor(cloned);
 		return cloned;
 	}
