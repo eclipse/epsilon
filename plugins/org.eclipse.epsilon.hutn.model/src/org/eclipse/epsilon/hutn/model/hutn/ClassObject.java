@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EClass;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject#getSlots <em>Slots</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +56,36 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 	 * @generated
 	 */
 	EList<Slot> getSlots();
+
+
+	/**
+	 * Returns the value of the '<em><b>Container</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer#getClassObjects <em>Class Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Container</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Container</em>' container reference.
+	 * @see #setContainer(ClassObjectContainer)
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getClassObject_Container()
+	 * @see org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer#getClassObjects
+	 * @model opposite="classObjects" required="true" transient="false"
+	 * @generated
+	 */
+	ClassObjectContainer getContainer();
+
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject#getContainer <em>Container</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Container</em>' container reference.
+	 * @see #getContainer()
+	 * @generated
+	 */
+	void setContainer(ClassObjectContainer value);
 
 
 	/**

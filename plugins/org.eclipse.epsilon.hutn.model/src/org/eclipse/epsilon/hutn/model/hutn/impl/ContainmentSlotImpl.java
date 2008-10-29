@@ -25,11 +25,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -83,9 +84,24 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	 */
 	public EList<ClassObject> getClassObjects() {
 		if (classObjects == null) {
-			classObjects = new EObjectContainmentEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS);
+			classObjects = new EObjectContainmentWithInverseEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS, HutnPackage.CLASS_OBJECT__CONTAINER);
 		}
 		return classObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassObjects()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -163,6 +179,38 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	}
 
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == ClassObjectContainer.class) {
+			switch (derivedFeatureID) {
+				case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS: return HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == ClassObjectContainer.class) {
+			switch (baseFeatureID) {
+				case HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS: return HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

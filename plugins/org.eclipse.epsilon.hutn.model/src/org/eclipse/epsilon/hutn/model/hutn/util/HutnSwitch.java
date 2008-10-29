@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.epsilon.hutn.model.hutn.BooleanSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
 import org.eclipse.epsilon.hutn.model.hutn.FloatSlot;
@@ -139,6 +140,7 @@ public class HutnSwitch<T> {
 				PackageObject packageObject = (PackageObject)theEObject;
 				T result = casePackageObject(packageObject);
 				if (result == null) result = caseObject(packageObject);
+				if (result == null) result = caseClassObjectContainer(packageObject);
 				if (result == null) result = caseModelElement(packageObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -202,6 +204,7 @@ public class HutnSwitch<T> {
 				ContainmentSlot containmentSlot = (ContainmentSlot)theEObject;
 				T result = caseContainmentSlot(containmentSlot);
 				if (result == null) result = caseSlot(containmentSlot);
+				if (result == null) result = caseClassObjectContainer(containmentSlot);
 				if (result == null) result = caseModelElement(containmentSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -219,6 +222,12 @@ public class HutnSwitch<T> {
 				T result = caseEnumSlot(enumSlot);
 				if (result == null) result = caseSlot(enumSlot);
 				if (result == null) result = caseModelElement(enumSlot);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HutnPackage.CLASS_OBJECT_CONTAINER: {
+				ClassObjectContainer classObjectContainer = (ClassObjectContainer)theEObject;
+				T result = caseClassObjectContainer(classObjectContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -448,6 +457,21 @@ public class HutnSwitch<T> {
 	 * @generated
 	 */
 	public T caseEnumSlot(EnumSlot object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Class Object Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Class Object Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseClassObjectContainer(ClassObjectContainer object) {
 		return null;
 	}
 

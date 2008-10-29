@@ -16,15 +16,19 @@ package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
@@ -36,6 +40,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ClassObjectImpl#getSlots <em>Slots</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ClassObjectImpl#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -85,6 +90,47 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ClassObjectContainer getContainer() {
+		if (eContainerFeatureID != HutnPackage.CLASS_OBJECT__CONTAINER) return null;
+		return (ClassObjectContainer)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetContainer(ClassObjectContainer newContainer, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newContainer, HutnPackage.CLASS_OBJECT__CONTAINER, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContainer(ClassObjectContainer newContainer) {
+		if (newContainer != eInternalContainer() || (eContainerFeatureID != HutnPackage.CLASS_OBJECT__CONTAINER && newContainer != null)) {
+			if (EcoreUtil.isAncestor(this, newContainer))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newContainer != null)
+				msgs = ((InternalEObject)newContainer).eInverseAdd(this, HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS, ClassObjectContainer.class, msgs);
+			msgs = basicSetContainer(newContainer, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HutnPackage.CLASS_OBJECT__CONTAINER, newContainer, newContainer));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * Finds a slot with the specified feature for this object.
 	 * Returns null when no such slot exists.
 	 * <!-- end-user-doc -->
@@ -110,6 +156,10 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		switch (featureID) {
 			case HutnPackage.CLASS_OBJECT__SLOTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSlots()).basicAdd(otherEnd, msgs);
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetContainer((ClassObjectContainer)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -124,8 +174,24 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		switch (featureID) {
 			case HutnPackage.CLASS_OBJECT__SLOTS:
 				return ((InternalEList<?>)getSlots()).basicRemove(otherEnd, msgs);
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				return basicSetContainer(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID) {
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				return eInternalContainer().eInverseRemove(this, HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS, ClassObjectContainer.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -138,6 +204,8 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		switch (featureID) {
 			case HutnPackage.CLASS_OBJECT__SLOTS:
 				return getSlots();
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				return getContainer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -155,6 +223,9 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 				getSlots().clear();
 				getSlots().addAll((Collection<? extends Slot>)newValue);
 				return;
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				setContainer((ClassObjectContainer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -170,6 +241,9 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 			case HutnPackage.CLASS_OBJECT__SLOTS:
 				getSlots().clear();
 				return;
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				setContainer((ClassObjectContainer)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -184,6 +258,8 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		switch (featureID) {
 			case HutnPackage.CLASS_OBJECT__SLOTS:
 				return slots != null && !slots.isEmpty();
+			case HutnPackage.CLASS_OBJECT__CONTAINER:
+				return getContainer() != null;
 		}
 		return super.eIsSet(featureID);
 	}

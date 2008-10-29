@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.epsilon.hutn.model.hutn.BooleanSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
 import org.eclipse.epsilon.hutn.model.hutn.FloatSlot;
@@ -152,6 +153,10 @@ public class HutnAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEnumSlot(EnumSlot object) {
 				return createEnumSlotAdapter();
+			}
+			@Override
+			public Adapter caseClassObjectContainer(ClassObjectContainer object) {
+				return createClassObjectContainerAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -380,6 +385,20 @@ public class HutnAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEnumSlotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer <em>Class Object Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer
+	 * @generated
+	 */
+	public Adapter createClassObjectContainerAdapter() {
 		return null;
 	}
 
