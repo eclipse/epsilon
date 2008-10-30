@@ -35,7 +35,7 @@ public class EvlConstraints implements Iterable {
 	
 	public EvlConstraint getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException{
 		for (EvlConstraint constraint : storage) {
-			if (constraint.getName().equals(name) && constraint.appliesTo(target, context)) {
+			if (constraint.getName().equals(name)) {// && constraint.appliesTo(target, context)) {
 				return constraint;
 			}
 		}
