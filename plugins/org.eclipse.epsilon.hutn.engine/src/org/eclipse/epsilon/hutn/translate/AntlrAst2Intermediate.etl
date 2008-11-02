@@ -34,12 +34,16 @@ rule NameNode2PackageObject
 	p.addIdentifier(n, false);
 	p.addTraceabilityInfo(n);
 	
+	if (not spec.nsUris.isEmpty()) {
+		p.metamodel := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool').getEPackage(spec.nsUris.first.value);
+	}
+	
 	for (child in n.children.select(n : AntlrAst!NameNode | true)) {
 		p.classObjects.add(child.equivalent());
 	}
 	
 	-- Transform association blocks and infix associations
-	n.children.forAll(a : AntlrAst!AssociationInstanceNode | a.createReferences());
+	n.children.forAll(a : AntlrAst!AssociationInstanceNode | a.createReferences(p));
 }
 
 rule NameNode2ClassObject
@@ -51,7 +55,7 @@ rule NameNode2ClassObject
 	createClassObject(c, n);
 }
 
-operation AntlrAst!AssociationInstanceNode createReferences() {
+operation AntlrAst!AssociationInstanceNode createReferences(package : Intermediate!PackageObject) {
 
 	var slot : Intermediate!ReferenceSlot;	
 	var currentChildIsSource := true;
@@ -61,6 +65,7 @@ operation AntlrAst!AssociationInstanceNode createReferences() {
 		
 		if (cls.isUndefined()) {
 			cls := createClassObject(ref);
+			package.classObjects.add(cls);
 		}
 		
 		if (currentChildIsSource) {

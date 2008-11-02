@@ -45,21 +45,21 @@ context Slot {
 	
 	constraint FeatureMustBeChangeable {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().changeable
-		message: 'Feature ' + self.toStructuralFeature().name + ' is not changeable'
+		check: self.getEStructuralFeature().changeable
+		message: 'Feature ' + self.getEStructuralFeature().name + ' is not changeable'
 	}
 	
 	constraint MustBeTypeCompatibleWithFeature {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.typeCompatibleWith(self.toStructuralFeature())
-		message: 'Expected ' + self.toStructuralFeature().eType.name + ' for: ' + self.feature
+		check: self.typeCompatibleWith(self.getEStructuralFeature())
+		message: 'Expected ' + self.getEStructuralFeature().eType.name + ' for: ' + self.feature
 	}
 }
 
 context StringSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		check: self.getEStructuralFeature().isMany() or self.values.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -67,7 +67,7 @@ context StringSlot {
 context IntegerSlot {	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		check: self.getEStructuralFeature().isMany() or self.values.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -75,7 +75,7 @@ context IntegerSlot {
 context FloatSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		check: self.getEStructuralFeature().isMany() or self.values.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -83,7 +83,7 @@ context FloatSlot {
 context BooleanSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.values.size = 1
+		check: self.getEStructuralFeature().isMany() or self.values.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -97,7 +97,7 @@ context ReferenceSlot {
 
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist') and self.satisfies('ReferencedIdentifiersMustExist')
-		check: self.toStructuralFeature().isMany() or self.identifiers.size = 1
+		check: self.getEStructuralFeature().isMany() or self.identifiers.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -105,7 +105,7 @@ context ReferenceSlot {
 context ContainmentSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.toStructuralFeature().isMany() or self.objects.size = 1
+		check: self.getEStructuralFeature().isMany() or self.objects.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
@@ -146,10 +146,6 @@ operation String canLocateExternalModel() : Boolean {
 
 operation String canLocateExternalModelElement() : Boolean {
 	return EmfTool.modelElementExists(self);
-}
-
-operation Slot toStructuralFeature() : Metamodel!EStructuralFeature {
-	return self.getEStructuralFeature(Metamodel!EClass.all);
 }
 
 operation String toClass() : Metamodel!EClassifier {

@@ -16,6 +16,7 @@ package org.eclipse.epsilon.hutn.test.unit.util;
 
 import java.util.Arrays;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
@@ -107,7 +108,7 @@ public abstract class IntermediateUtil {
 	
 	public static PackageObject createPackage(ClassObject... classes) {
 		final PackageObject pkg = HutnFactory.eINSTANCE.createPackageObject();
-	
+		
 		for (ClassObject cls : classes) {
 			pkg.getClassObjects().add(cls);
 		}
@@ -131,6 +132,7 @@ public abstract class IntermediateUtil {
 		
 		for (PackageObject pkg : packages) {
 			spec.getObjects().add(pkg);
+			pkg.setMetamodel(EPackage.Registry.INSTANCE.getEPackage(nsUri));
 		}
 		
 		return spec;
