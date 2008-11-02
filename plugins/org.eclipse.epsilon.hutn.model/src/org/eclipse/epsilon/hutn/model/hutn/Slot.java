@@ -134,7 +134,7 @@ public interface Slot extends ModelElement {
 	 * Returns the corresponding EStructuralFeature in the containing 
 	 * PackageObject's metamodel.
 	 * <!-- end-user-doc -->
-	 * @model
+	 * @model kind="operation"
 	 * @generated
 	 */
 	EStructuralFeature getEStructuralFeature();
@@ -145,7 +145,7 @@ public interface Slot extends ModelElement {
 	 * Returns true only if this Slot has a corresponding EStructuralFeature
 	 * in the containing PackageObject's metamodel.
 	 * <!-- end-user-doc -->
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	boolean hasEStructuralFeature();

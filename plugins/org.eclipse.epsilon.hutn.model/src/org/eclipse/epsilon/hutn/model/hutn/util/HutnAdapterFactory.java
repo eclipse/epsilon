@@ -112,6 +112,10 @@ public class HutnAdapterFactory extends AdapterFactoryImpl {
 				return createObjectAdapter();
 			}
 			@Override
+			public Adapter caseClassObjectContainer(ClassObjectContainer object) {
+				return createClassObjectContainerAdapter();
+			}
+			@Override
 			public Adapter casePackageObject(PackageObject object) {
 				return createPackageObjectAdapter();
 			}
@@ -122,6 +126,10 @@ public class HutnAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSlot(Slot object) {
 				return createSlotAdapter();
+			}
+			@Override
+			public Adapter caseAssociativeSlot(AssociativeSlot object) {
+				return createAssociativeSlotAdapter();
 			}
 			@Override
 			public Adapter caseStringSlot(StringSlot object) {
@@ -154,14 +162,6 @@ public class HutnAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEnumSlot(EnumSlot object) {
 				return createEnumSlotAdapter();
-			}
-			@Override
-			public Adapter caseClassObjectContainer(ClassObjectContainer object) {
-				return createClassObjectContainerAdapter();
-			}
-			@Override
-			public Adapter caseAssociativeSlot(AssociativeSlot object) {
-				return createAssociativeSlotAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {

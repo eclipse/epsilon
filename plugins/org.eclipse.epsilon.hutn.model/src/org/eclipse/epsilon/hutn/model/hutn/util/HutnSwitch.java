@@ -137,6 +137,12 @@ public class HutnSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HutnPackage.CLASS_OBJECT_CONTAINER: {
+				ClassObjectContainer classObjectContainer = (ClassObjectContainer)theEObject;
+				T result = caseClassObjectContainer(classObjectContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HutnPackage.PACKAGE_OBJECT: {
 				PackageObject packageObject = (PackageObject)theEObject;
 				T result = casePackageObject(packageObject);
@@ -158,6 +164,14 @@ public class HutnSwitch<T> {
 				Slot slot = (Slot)theEObject;
 				T result = caseSlot(slot);
 				if (result == null) result = caseModelElement(slot);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HutnPackage.ASSOCIATIVE_SLOT: {
+				AssociativeSlot associativeSlot = (AssociativeSlot)theEObject;
+				T result = caseAssociativeSlot(associativeSlot);
+				if (result == null) result = caseSlot(associativeSlot);
+				if (result == null) result = caseModelElement(associativeSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -225,20 +239,6 @@ public class HutnSwitch<T> {
 				T result = caseEnumSlot(enumSlot);
 				if (result == null) result = caseSlot(enumSlot);
 				if (result == null) result = caseModelElement(enumSlot);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HutnPackage.CLASS_OBJECT_CONTAINER: {
-				ClassObjectContainer classObjectContainer = (ClassObjectContainer)theEObject;
-				T result = caseClassObjectContainer(classObjectContainer);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HutnPackage.ASSOCIATIVE_SLOT: {
-				AssociativeSlot associativeSlot = (AssociativeSlot)theEObject;
-				T result = caseAssociativeSlot(associativeSlot);
-				if (result == null) result = caseSlot(associativeSlot);
-				if (result == null) result = caseModelElement(associativeSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
