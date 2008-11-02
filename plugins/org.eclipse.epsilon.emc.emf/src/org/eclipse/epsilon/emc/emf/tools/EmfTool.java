@@ -65,6 +65,10 @@ public class EmfTool extends AbstractTool{
 		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 	}
 	
+	public EPackage getEPackage(String nsUri) {
+		return EPackage.Registry.INSTANCE.getEPackage(nsUri);
+	}
+	
 	public Object validate(EObject eObject) {
 		return Diagnostician.INSTANCE.validate(eObject);
 	}
