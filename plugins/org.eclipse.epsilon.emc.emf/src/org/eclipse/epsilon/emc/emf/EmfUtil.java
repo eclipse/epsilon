@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -212,10 +211,11 @@ public class EmfUtil {
 	}
 
 	public static List<EClass> getAllEClassesFromSameMetamodelAs(EModelElement metamodelElement) {
-		return getAllModelElementsOfType(metamodelElement, EcoreFactory.eINSTANCE.createEClass());
+		return getAllModelElementsOfType(metamodelElement, EClass.class);
 	}
 	
-	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, T type) {		
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
 		final List<T> results = new LinkedList<T>();
 		
 		final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
@@ -223,7 +223,7 @@ public class EmfUtil {
 		while (iterator.hasNext()) {
 			final EObject object = iterator.next();
 			
-			if (type.eClass().isInstance(object))
+			if (type.isInstance(object))
 				results.add((T)object);
 		}
 		
