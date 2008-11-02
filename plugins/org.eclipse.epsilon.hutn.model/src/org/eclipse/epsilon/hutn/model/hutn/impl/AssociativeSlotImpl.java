@@ -10,33 +10,34 @@
  *     Louis Rose - initial API and implementation
  * ******************************************************************************
  *
- * $Id: NullSlotImpl.java,v 1.3 2008/08/15 10:05:57 dkolovos Exp $
+ * $Id$
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
-import org.eclipse.epsilon.hutn.model.hutn.NullSlot;
-import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Null Slot</b></em>'.
+ * An implementation of the model object '<em><b>Associative Slot</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class NullSlotImpl extends SlotImpl implements NullSlot {
+public abstract class AssociativeSlotImpl extends SlotImpl implements AssociativeSlot {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NullSlotImpl() {
+	protected AssociativeSlotImpl() {
 		super();
 	}
 
@@ -47,7 +48,7 @@ public class NullSlotImpl extends SlotImpl implements NullSlot {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return HutnPackage.Literals.NULL_SLOT;
+		return HutnPackage.Literals.ASSOCIATIVE_SLOT;
 	}
 
 	/**
@@ -55,28 +56,13 @@ public class NullSlotImpl extends SlotImpl implements NullSlot {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void append(Slot slot) {
-		throw new UnsupportedOperationException("NullSlots cannot contain a value.");
-	}
-	
+	public abstract EList<ClassObject> getClassObjects();
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean typeCompatibleWith(EStructuralFeature feature) {
-		return false;
-	}
+	public abstract void addClassObject(ClassObject classObject);
 
-	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	protected int getSize() {
-		return 0;
-	}
-} //NullSlotImpl
+} //AssociativeSlotImpl

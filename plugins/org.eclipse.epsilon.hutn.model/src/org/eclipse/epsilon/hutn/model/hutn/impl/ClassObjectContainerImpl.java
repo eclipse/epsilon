@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,6 +82,14 @@ public abstract class ClassObjectContainerImpl extends EObjectImpl implements Cl
 		}
 		return classObjects;
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the PackageObject that contains this ClassObjectContainer.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract PackageObject getPackageObject();
 
 	/**
 	 * <!-- begin-user-doc -->

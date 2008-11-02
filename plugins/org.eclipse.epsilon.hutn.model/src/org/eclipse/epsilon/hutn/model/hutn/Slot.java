@@ -14,9 +14,6 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
-import java.util.Collection;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
@@ -106,19 +103,51 @@ public interface Slot extends ModelElement {
 	 * Indicates whether the contents of this Slot has the same
 	 * type as the specified EStructuralFeature.
 	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
+	 * @model required="true" eStructuralFeatureRequired="true"
+	 * @generated
 	 */
-	boolean typeCompatibleWith(EStructuralFeature feature);
+	boolean typeCompatibleWith(EStructuralFeature eStructuralFeature);
 	
 	/**
 	 * <!-- begin-user-doc -->
-	 * Returns the corresponding EStructrualFeature that matches the 
-	 * feature of this Slot. 
+	 * Indicates whether the contents of this Slot can fit in the
+	 * specified EStructuralFeature.
+	 * <!-- end-user-doc -->
+	 * @model required="true" eStructuralFeatureRequired="true"
+	 * @generated
+	 */
+	boolean multiplicityCompatibleWith(EStructuralFeature eStructuralFeature);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether this Slot's name, type of contents, and 
+	 * size of contents is compatible with the specified
+	 * EStructuralFeature.
+	 * <!-- end-user-doc -->
+	 * @model required="true" eStructuralFeatureRequired="true"
+	 * @generated
+	 */
+	boolean compatibleWith(EStructuralFeature eStructuralFeature);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the corresponding EStructuralFeature in the containing 
+	 * PackageObject's metamodel.
 	 * <!-- end-user-doc -->
 	 * @model
-	 * @generated NOT
+	 * @generated
 	 */
-	EStructuralFeature getEStructuralFeature(Collection<EClass> eClasses);
+	EStructuralFeature getEStructuralFeature();
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns true only if this Slot has a corresponding EStructuralFeature
+	 * in the containing PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean hasEStructuralFeature();
 
 } // Slot

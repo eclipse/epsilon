@@ -10,21 +10,37 @@
  *     Louis Rose - initial API and implementation
  * ******************************************************************************
  *
- * $Id: ContainmentSlot.java,v 1.3 2008/08/15 10:05:57 dkolovos Exp $
+ * $Id$
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Containment Slot</b></em>'.
+ * A representation of the model object '<em><b>Associative Slot</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getContainmentSlot()
- * @model
+ * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getAssociativeSlot()
+ * @model abstract="true"
  * @generated
  */
-public interface ContainmentSlot extends AssociativeSlot, ClassObjectContainer {
+public interface AssociativeSlot extends Slot {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<ClassObject> getClassObjects();
 
-} // ContainmentSlot
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model classObjectRequired="true"
+	 * @generated
+	 */
+	void addClassObject(ClassObject classObject);
+
+} // AssociativeSlot

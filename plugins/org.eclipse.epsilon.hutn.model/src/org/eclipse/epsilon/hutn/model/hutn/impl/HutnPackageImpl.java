@@ -20,8 +20,11 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
+import org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.BooleanSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
@@ -160,6 +163,13 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	private EClass classObjectContainerEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass associativeSlotEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -215,11 +225,16 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 
 		isInited = true;
 
+		// Obtain or create and register interdependencies
+		EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) : EcorePackage.eINSTANCE);
+
 		// Create package meta-data objects
 		theHutnPackage.createPackageContents();
+		theEcorePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHutnPackage.initializePackageContents();
+		theEcorePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHutnPackage.freeze();
@@ -333,6 +348,15 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	 */
 	public EClass getPackageObject() {
 		return packageObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackageObject_Metamodel() {
+		return (EReference)packageObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -538,6 +562,15 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAssociativeSlot() {
+		return associativeSlotEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public HutnFactory getHutnFactory() {
 		return (HutnFactory)getEFactoryInstance();
 	}
@@ -577,6 +610,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		createEAttribute(objectEClass, OBJECT__IDENTIFIER);
 
 		packageObjectEClass = createEClass(PACKAGE_OBJECT);
+		createEReference(packageObjectEClass, PACKAGE_OBJECT__METAMODEL);
 
 		classObjectEClass = createEClass(CLASS_OBJECT);
 		createEReference(classObjectEClass, CLASS_OBJECT__SLOTS);
@@ -610,6 +644,8 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 
 		classObjectContainerEClass = createEClass(CLASS_OBJECT_CONTAINER);
 		createEReference(classObjectContainerEClass, CLASS_OBJECT_CONTAINER__CLASS_OBJECTS);
+
+		associativeSlotEClass = createEClass(ASSOCIATIVE_SLOT);
 	}
 
 	/**
@@ -635,6 +671,9 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -651,10 +690,11 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		integerSlotEClass.getESuperTypes().add(this.getSlot());
 		floatSlotEClass.getESuperTypes().add(this.getSlot());
 		nullSlotEClass.getESuperTypes().add(this.getSlot());
-		containmentSlotEClass.getESuperTypes().add(this.getSlot());
+		containmentSlotEClass.getESuperTypes().add(this.getAssociativeSlot());
 		containmentSlotEClass.getESuperTypes().add(this.getClassObjectContainer());
-		referenceSlotEClass.getESuperTypes().add(this.getSlot());
+		referenceSlotEClass.getESuperTypes().add(this.getAssociativeSlot());
 		enumSlotEClass.getESuperTypes().add(this.getSlot());
+		associativeSlotEClass.getESuperTypes().add(this.getSlot());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(specEClass, Spec.class, "Spec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -673,6 +713,9 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEAttribute(getObject_Identifier(), ecorePackage.getEString(), "identifier", null, 0, 1, org.eclipse.epsilon.hutn.model.hutn.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(packageObjectEClass, PackageObject.class, "PackageObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPackageObject_Metamodel(), theEcorePackage.getEPackage(), null, "metamodel", null, 0, 1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(packageObjectEClass, theEcorePackage.getEClass(), "getAllEClasses", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(classObjectEClass, ClassObject.class, "ClassObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassObject_Slots(), this.getSlot(), this.getSlot_Owner(), "slots", null, 0, -1, ClassObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -681,12 +724,30 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		EOperation op = addEOperation(classObjectEClass, this.getSlot(), "findSlot", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(classObjectEClass, this.getPackageObject(), "getPackageObject", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(classObjectEClass, theEcorePackage.getEClass(), "getEClass", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(classObjectEClass, ecorePackage.getEBoolean(), "hasEClass", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(classObjectEClass, ecorePackage.getEBoolean(), "typeCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEClass(), "eClass", 1, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(slotEClass, Slot.class, "Slot", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSlot_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlot_Owner(), this.getClassObject(), this.getClassObject_Slots(), "owner", null, 1, 1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(slotEClass, null, "append", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getSlot(), "slot", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "typeCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "multiplicityCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "compatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(stringSlotEClass, StringSlot.class, "StringSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringSlot_Values(), ecorePackage.getEString(), "values", null, 0, -1, StringSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -707,13 +768,20 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEClass(referenceSlotEClass, ReferenceSlot.class, "ReferenceSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReferenceSlot_Identifiers(), ecorePackage.getEString(), "identifiers", null, 0, -1, ReferenceSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(referenceSlotEClass, this.getClassObject(), "getClassObjects", 0, -1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(enumSlotEClass, EnumSlot.class, "EnumSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEnumSlot_Value(), ecorePackage.getEString(), "value", null, 0, 1, EnumSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classObjectContainerEClass, ClassObjectContainer.class, "ClassObjectContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassObjectContainer_ClassObjects(), this.getClassObject(), this.getClassObject_Container(), "classObjects", null, 0, -1, ClassObjectContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(classObjectContainerEClass, this.getPackageObject(), "getPackageObject", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(associativeSlotEClass, AssociativeSlot.class, "AssociativeSlot", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(associativeSlotEClass, this.getClassObject(), "getClassObjects", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(associativeSlotEClass, null, "addClassObject", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getClassObject(), "classObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

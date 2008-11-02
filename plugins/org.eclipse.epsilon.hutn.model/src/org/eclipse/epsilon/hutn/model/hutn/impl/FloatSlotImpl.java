@@ -183,4 +183,16 @@ public class FloatSlotImpl extends SlotImpl implements FloatSlot {
 		return "java.lang.Float".equals(type) || "float".equals(type);
 	}
 	
+	/**
+	 * * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	protected int getSize() {
+		return getValues().size();
+	}
+	
 } //FloatSlotImpl

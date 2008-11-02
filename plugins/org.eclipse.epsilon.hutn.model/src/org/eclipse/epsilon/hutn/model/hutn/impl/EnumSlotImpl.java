@@ -191,5 +191,17 @@ public class EnumSlotImpl extends SlotImpl implements EnumSlot {
 	public boolean typeCompatibleWith(EStructuralFeature feature) {
 		return feature.getEType() instanceof EEnum;
 	}
+	
+	/**
+	 * * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	protected int getSize() {
+		return getValue() == null ? 0 : 1;
+	}
 
 } //EnumSlotImpl

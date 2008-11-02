@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
-import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -42,7 +41,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  *
  * @generated
  */
-public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
+public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceSlot {
 	/**
 	 * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' attribute list.
 	 * <!-- begin-user-doc -->
@@ -236,7 +235,7 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 		final ClassObject classObject = getClassObject(identifier);
 		
 		if (classObject != null) {
-			return classObject.getEClass(eClasses);
+			return classObject.getEClass();
 		}
 		
 		return null;
@@ -248,7 +247,32 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 	 * @generated NOT
 	 */
 	private List<ClassObject> eAllClassObjects() {
-		return EmfUtil.getAllModelElementsOfType(this, HutnFactory.eINSTANCE.createClassObject());
+		return EmfUtil.getAllModelElementsOfType(this, ClassObject.class);
 	}
 	
+	/**
+	 * * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	protected int getSize() {
+		return getIdentifiers().size();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	public void addClassObject(ClassObject classObject) {
+		if (classObject.getIdentifier() == null)
+			throw new IllegalArgumentException("ClassObjects must have an identifier if they are to be added to a ReferenceSlot.");
+		
+		getIdentifiers().add(classObject.getIdentifier());
+	}
 } //ReferenceSlotImpl

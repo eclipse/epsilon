@@ -15,7 +15,6 @@
 package org.eclipse.epsilon.hutn.model.hutn;
 
 import org.eclipse.emf.common.util.EList;
-import java.util.Collection;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -99,13 +98,34 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Returns an EClass from the specified collection that
-	 * matches the type of this Object
+	 * Returns the PackageObject that contains this ClassObject.
 	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
+	 * @model kind="operation" required="true"
+	 * @generated
 	 */
-	EClass getEClass(Collection<EClass> eClasses);
+	PackageObject getPackageObject();
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the corresponding EClass in the containing 
+	 * PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EClass getEClass();
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns true only if this Slot has a corresponding EClass
+	 * in the containing PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean hasEClass();
 	
 	
 	/**
@@ -113,8 +133,8 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 	 * Indicates whether every Slot contained in this ClassObject
 	 * has the same type as some EStructuralFeature contained in eClass
 	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
+	 * @model required="true" eClassRequired="true"
+	 * @generated
 	 */
 	boolean typeCompatibleWith(EClass eClass);
 	

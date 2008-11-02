@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.BooleanSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
@@ -203,8 +204,9 @@ public class HutnSwitch<T> {
 			case HutnPackage.CONTAINMENT_SLOT: {
 				ContainmentSlot containmentSlot = (ContainmentSlot)theEObject;
 				T result = caseContainmentSlot(containmentSlot);
-				if (result == null) result = caseSlot(containmentSlot);
+				if (result == null) result = caseAssociativeSlot(containmentSlot);
 				if (result == null) result = caseClassObjectContainer(containmentSlot);
+				if (result == null) result = caseSlot(containmentSlot);
 				if (result == null) result = caseModelElement(containmentSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -212,6 +214,7 @@ public class HutnSwitch<T> {
 			case HutnPackage.REFERENCE_SLOT: {
 				ReferenceSlot referenceSlot = (ReferenceSlot)theEObject;
 				T result = caseReferenceSlot(referenceSlot);
+				if (result == null) result = caseAssociativeSlot(referenceSlot);
 				if (result == null) result = caseSlot(referenceSlot);
 				if (result == null) result = caseModelElement(referenceSlot);
 				if (result == null) result = defaultCase(theEObject);
@@ -228,6 +231,14 @@ public class HutnSwitch<T> {
 			case HutnPackage.CLASS_OBJECT_CONTAINER: {
 				ClassObjectContainer classObjectContainer = (ClassObjectContainer)theEObject;
 				T result = caseClassObjectContainer(classObjectContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HutnPackage.ASSOCIATIVE_SLOT: {
+				AssociativeSlot associativeSlot = (AssociativeSlot)theEObject;
+				T result = caseAssociativeSlot(associativeSlot);
+				if (result == null) result = caseSlot(associativeSlot);
+				if (result == null) result = caseModelElement(associativeSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -472,6 +483,21 @@ public class HutnSwitch<T> {
 	 * @generated
 	 */
 	public T caseClassObjectContainer(ClassObjectContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Associative Slot</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Associative Slot</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssociativeSlot(AssociativeSlot object) {
 		return null;
 	}
 

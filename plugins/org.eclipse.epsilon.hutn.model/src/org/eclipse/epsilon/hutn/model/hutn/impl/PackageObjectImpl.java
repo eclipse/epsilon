@@ -15,10 +15,16 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
@@ -34,6 +40,7 @@ import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.PackageObjectImpl#getClassObjects <em>Class Objects</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.PackageObjectImpl#getMetamodel <em>Metamodel</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,6 +56,16 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 	 * @ordered
 	 */
 	protected EList<ClassObject> classObjects;
+
+	/**
+	 * The cached value of the '{@link #getMetamodel() <em>Metamodel</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetamodel()
+	 * @generated
+	 * @ordered
+	 */
+	protected EPackage metamodel;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,6 +96,74 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 			classObjects = new EObjectContainmentWithInverseEList<ClassObject>(ClassObject.class, this, HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS, HutnPackage.CLASS_OBJECT__CONTAINER);
 		}
 		return classObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EPackage getMetamodel() {
+		if (metamodel != null && metamodel.eIsProxy()) {
+			InternalEObject oldMetamodel = (InternalEObject)metamodel;
+			metamodel = (EPackage)eResolveProxy(oldMetamodel);
+			if (metamodel != oldMetamodel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HutnPackage.PACKAGE_OBJECT__METAMODEL, oldMetamodel, metamodel));
+			}
+		}
+		return metamodel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EPackage basicGetMetamodel() {
+		return metamodel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMetamodel(EPackage newMetamodel) {
+		EPackage oldMetamodel = metamodel;
+		metamodel = newMetamodel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HutnPackage.PACKAGE_OBJECT__METAMODEL, oldMetamodel, metamodel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns all of the EClasses contained in this PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<EClass> getAllEClasses() {
+		final EList<EClass> eClasses = new BasicEList<EClass>();
+		
+		if (getMetamodel() != null) {
+			for (EClassifier eClassifier : getMetamodel().getEClassifiers()) {
+				if (eClassifier instanceof EClass) {
+					eClasses.add((EClass)eClassifier);
+				}
+			}
+		}
+
+		return eClasses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the PackageObject that contains this ClassObjectContainer.
+	 * <!-- end-user-doc -->
+	 * @generated NOT 
+	 */
+	public PackageObject getPackageObject() {
+		return this;
 	}
 
 	/**
@@ -120,6 +205,9 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 		switch (featureID) {
 			case HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS:
 				return getClassObjects();
+			case HutnPackage.PACKAGE_OBJECT__METAMODEL:
+				if (resolve) return getMetamodel();
+				return basicGetMetamodel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -137,6 +225,9 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 				getClassObjects().clear();
 				getClassObjects().addAll((Collection<? extends ClassObject>)newValue);
 				return;
+			case HutnPackage.PACKAGE_OBJECT__METAMODEL:
+				setMetamodel((EPackage)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -152,6 +243,9 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 			case HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS:
 				getClassObjects().clear();
 				return;
+			case HutnPackage.PACKAGE_OBJECT__METAMODEL:
+				setMetamodel((EPackage)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -166,6 +260,8 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 		switch (featureID) {
 			case HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS:
 				return classObjects != null && !classObjects.isEmpty();
+			case HutnPackage.PACKAGE_OBJECT__METAMODEL:
+				return metamodel != null;
 		}
 		return super.eIsSet(featureID);
 	}

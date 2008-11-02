@@ -32,7 +32,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ReferenceSlot extends Slot {
+public interface ReferenceSlot extends AssociativeSlot {
 	/**
 	 * Returns the value of the '<em><b>Identifiers</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
@@ -48,13 +48,5 @@ public interface ReferenceSlot extends Slot {
 	 * @generated
 	 */
 	EList<String> getIdentifiers();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<ClassObject> getClassObjects();
 
 } // ReferenceSlot

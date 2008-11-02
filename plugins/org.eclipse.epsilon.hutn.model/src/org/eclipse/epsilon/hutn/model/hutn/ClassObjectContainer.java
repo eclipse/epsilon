@@ -53,4 +53,13 @@ public interface ClassObjectContainer extends EObject {
 	 */
 	EList<ClassObject> getClassObjects();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the PackageObject that contains this ClassObjectContainer.
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" required="true"
+	 * @generated
+	 */
+	PackageObject getPackageObject();
+
 } // ClassObjectContainer

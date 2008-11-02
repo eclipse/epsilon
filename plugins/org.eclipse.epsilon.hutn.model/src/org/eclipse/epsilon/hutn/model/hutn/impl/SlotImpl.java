@@ -14,19 +14,13 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -157,23 +151,60 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	
 	/**
 	 * <!-- begin-user-doc -->
-	 * Indicates whether the contents of this Slot has the same
-	 * type as the specified EStructuralFeature.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public abstract boolean typeCompatibleWith(EStructuralFeature feature);
-	
+	public abstract boolean typeCompatibleWith(EStructuralFeature eStructuralFeature);
+
 	/**
 	 * <!-- begin-user-doc -->
-	 * Returns the corresponding EStructrualFeature that matches the 
-	 * feature of this Slot. 
+	 * Indicates whether the contents of this Slot has the same
+	 * type as the specified EStructuralFeature.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated NOT
 	 */
-	public EStructuralFeature getEStructuralFeature(Collection<EClass> eClasses) {
-		final EClass owner = getOwner().getEClass(eClasses);
+	public boolean compatibleWith(EStructuralFeature feature) {
+		if (getFeature() == null) return false;
+		if (feature.getName() == null) return false;
+		
+		return getFeature().equals(feature.getName()) &&
+		       typeCompatibleWith(feature) &&
+		       multiplicityCompatibleWith(feature);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Indicates whether the contents of this Slot can fit in the
+	 * specified EStructuralFeature.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public boolean multiplicityCompatibleWith(EStructuralFeature feature) {
+		return getSize() >= feature.getLowerBound() &&
+		       getSize() <= feature.getUpperBound();
+	}
+
+	/**
+	 * * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	protected abstract int getSize();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the corresponding EStructuralFeature in the containing 
+	 * PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public EStructuralFeature getEStructuralFeature() {
+		final EClass owner = getOwner().getEClass();
 		
 		if (getFeature() == null || owner == null)
 			return null;
@@ -185,6 +216,18 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns true only if this Slot has a corresponding EStructuralFeature
+	 * in the containing PackageObject's metamodel.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public boolean hasEStructuralFeature() {
+		return getEStructuralFeature() != null;
 	}
 
 	/**

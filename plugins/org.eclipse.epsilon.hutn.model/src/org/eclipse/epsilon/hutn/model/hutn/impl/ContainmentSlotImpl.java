@@ -15,24 +15,19 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
@@ -48,7 +43,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  *
  * @generated
  */
-public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
+public class ContainmentSlotImpl extends AssociativeSlotImpl implements ContainmentSlot {
 	/**
 	 * The cached value of the '{@link #getClassObjects() <em>Class Objects</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -87,6 +82,16 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 			classObjects = new EObjectContainmentWithInverseEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS, HutnPackage.CLASS_OBJECT__CONTAINER);
 		}
 		return classObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the PackageObject that contains this ClassObjectContainer.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PackageObject getPackageObject() {
+		return getOwner().getPackageObject();
 	}
 
 	/**
@@ -233,10 +238,9 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 	public boolean typeCompatibleWith(EStructuralFeature feature) {	
 		if (feature.getEType() instanceof EClass) {
 			final EClass type           = (EClass)feature.getEType();
-			final List<EClass> eClasses = EmfUtil.getAllEClassesFromSameMetamodelAs(feature);
 			
 			for (ClassObject classObject : getClassObjects()) {
-				if (!type.isSuperTypeOf(classObject.getEClass(eClasses))) {
+				if (!type.isSuperTypeOf(classObject.getEClass())) {
 					return false;
 				}
 			}
@@ -246,6 +250,29 @@ public class ContainmentSlotImpl extends SlotImpl implements ContainmentSlot {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	protected int getSize() {
+		return getClassObjects().size();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	public void addClassObject(ClassObject classObject) {
+		getClassObjects().add(classObject);
 	}
 	
 } //ContainmentSlotImpl

@@ -298,13 +298,22 @@ public interface HutnPackage extends EPackage {
 	int PACKAGE_OBJECT__CLASS_OBJECTS = OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Metamodel</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_OBJECT__METAMODEL = OBJECT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Package Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE_OBJECT_FEATURE_COUNT = OBJECT_FEATURE_COUNT + 1;
+	int PACKAGE_OBJECT_FEATURE_COUNT = OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ClassObjectImpl <em>Class Object</em>}' class.
@@ -746,6 +755,61 @@ public interface HutnPackage extends EPackage {
 	int NULL_SLOT_FEATURE_COUNT = SLOT_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.AssociativeSlotImpl <em>Associative Slot</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.hutn.model.hutn.impl.AssociativeSlotImpl
+	 * @see org.eclipse.epsilon.hutn.model.hutn.impl.HutnPackageImpl#getAssociativeSlot()
+	 * @generated
+	 */
+	int ASSOCIATIVE_SLOT = 16;
+
+	/**
+	 * The feature id for the '<em><b>Line</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATIVE_SLOT__LINE = SLOT__LINE;
+
+	/**
+	 * The feature id for the '<em><b>Col</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATIVE_SLOT__COL = SLOT__COL;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATIVE_SLOT__FEATURE = SLOT__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATIVE_SLOT__OWNER = SLOT__OWNER;
+
+	/**
+	 * The number of structural features of the '<em>Associative Slot</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATIVE_SLOT_FEATURE_COUNT = SLOT_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ContainmentSlotImpl <em>Containment Slot</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -762,7 +826,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__LINE = SLOT__LINE;
+	int CONTAINMENT_SLOT__LINE = ASSOCIATIVE_SLOT__LINE;
 
 	/**
 	 * The feature id for the '<em><b>Col</b></em>' attribute.
@@ -771,7 +835,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__COL = SLOT__COL;
+	int CONTAINMENT_SLOT__COL = ASSOCIATIVE_SLOT__COL;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' attribute.
@@ -780,7 +844,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__FEATURE = SLOT__FEATURE;
+	int CONTAINMENT_SLOT__FEATURE = ASSOCIATIVE_SLOT__FEATURE;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -789,7 +853,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__OWNER = SLOT__OWNER;
+	int CONTAINMENT_SLOT__OWNER = ASSOCIATIVE_SLOT__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Class Objects</b></em>' containment reference list.
@@ -798,7 +862,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT__CLASS_OBJECTS = SLOT_FEATURE_COUNT + 0;
+	int CONTAINMENT_SLOT__CLASS_OBJECTS = ASSOCIATIVE_SLOT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Containment Slot</em>' class.
@@ -807,7 +871,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINMENT_SLOT_FEATURE_COUNT = SLOT_FEATURE_COUNT + 1;
+	int CONTAINMENT_SLOT_FEATURE_COUNT = ASSOCIATIVE_SLOT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ReferenceSlotImpl <em>Reference Slot</em>}' class.
@@ -826,7 +890,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT__LINE = SLOT__LINE;
+	int REFERENCE_SLOT__LINE = ASSOCIATIVE_SLOT__LINE;
 
 	/**
 	 * The feature id for the '<em><b>Col</b></em>' attribute.
@@ -835,7 +899,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT__COL = SLOT__COL;
+	int REFERENCE_SLOT__COL = ASSOCIATIVE_SLOT__COL;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' attribute.
@@ -844,7 +908,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT__FEATURE = SLOT__FEATURE;
+	int REFERENCE_SLOT__FEATURE = ASSOCIATIVE_SLOT__FEATURE;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -853,7 +917,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT__OWNER = SLOT__OWNER;
+	int REFERENCE_SLOT__OWNER = ASSOCIATIVE_SLOT__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Identifiers</b></em>' attribute list.
@@ -862,7 +926,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT__IDENTIFIERS = SLOT_FEATURE_COUNT + 0;
+	int REFERENCE_SLOT__IDENTIFIERS = ASSOCIATIVE_SLOT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Reference Slot</em>' class.
@@ -871,7 +935,7 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_SLOT_FEATURE_COUNT = SLOT_FEATURE_COUNT + 1;
+	int REFERENCE_SLOT_FEATURE_COUNT = ASSOCIATIVE_SLOT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.EnumSlotImpl <em>Enum Slot</em>}' class.
@@ -1093,6 +1157,17 @@ public interface HutnPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getPackageObject();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel <em>Metamodel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Metamodel</em>'.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel()
+	 * @see #getPackageObject()
+	 * @generated
+	 */
+	EReference getPackageObject_Metamodel();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.model.hutn.ClassObject <em>Class Object</em>}'.
@@ -1326,6 +1401,16 @@ public interface HutnPackage extends EPackage {
 	EReference getClassObjectContainer_ClassObjects();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot <em>Associative Slot</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Associative Slot</em>'.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot
+	 * @generated
+	 */
+	EClass getAssociativeSlot();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1452,6 +1537,14 @@ public interface HutnPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PACKAGE_OBJECT = eINSTANCE.getPackageObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Metamodel</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE_OBJECT__METAMODEL = eINSTANCE.getPackageObject_Metamodel();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ClassObjectImpl <em>Class Object</em>}' class.
@@ -1650,6 +1743,16 @@ public interface HutnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLASS_OBJECT_CONTAINER__CLASS_OBJECTS = eINSTANCE.getClassObjectContainer_ClassObjects();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.AssociativeSlotImpl <em>Associative Slot</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.hutn.model.hutn.impl.AssociativeSlotImpl
+		 * @see org.eclipse.epsilon.hutn.model.hutn.impl.HutnPackageImpl#getAssociativeSlot()
+		 * @generated
+		 */
+		EClass ASSOCIATIVE_SLOT = eINSTANCE.getAssociativeSlot();
 
 	}
 

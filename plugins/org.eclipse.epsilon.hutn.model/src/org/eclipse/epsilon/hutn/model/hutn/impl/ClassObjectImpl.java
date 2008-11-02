@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
@@ -143,6 +144,16 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		}
 		
 		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Returns the PackageObject that contains this ClassObject.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PackageObject getPackageObject() {
+		return getContainer().getPackageObject();
 	}
 
 	/**
@@ -266,23 +277,33 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Returns an EClass from the specified collection that
-	 * matches the type of this Object
+	 * Returns the corresponding EClass in the containing 
+	 * PackageObject's metamodel.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated NOT
 	 */
-	public EClass getEClass(Collection<EClass> eClasses) {
+	public EClass getEClass() {
 		if (getType() == null)
 			return null;
 		
-		for (EClass eClass : eClasses) {
+		for (EClass eClass : getPackageObject().getAllEClasses()) {
 			if (getType().equals(eClass.getName())) {
 				return eClass;
 			}
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Returns true only if this Slot has a corresponding EClass
+	 * in the containing PackageObject's metamodel.
+	 * @model
+	 * @generated NOT
+	 */
+	public boolean hasEClass() {
+		return getEClass() != null;
 	}
 
 	/**

@@ -183,4 +183,15 @@ public class IntegerSlotImpl extends SlotImpl implements IntegerSlot {
 		return "java.lang.Integer".equals(type) || "int".equals(type);
 	}
 
+	/**
+	 * * <!-- begin-user-doc -->
+	 * Returns the size of the contents of this Slot.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	@Override
+	protected int getSize() {
+		return getValues().size();
+	}
 } //IntegerSlotImpl
