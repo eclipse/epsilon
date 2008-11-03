@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.gmf.feature"
       label="Epsilon EMF/GMF Scripting (Incubation)"
-      version="0.8.2"
+      version="0.8.2.1"
       provider-name="Eclipse.org">
 
    <description url="http://www.example.com/description">
@@ -69,6 +69,6 @@
          id="org.eclipse.epsilon.ewl.gmf"
          download-size="0"
          install-size="0"
-         version="0.8.2"/>
+         version="0.8.2.1"/>
 
 </feature>
