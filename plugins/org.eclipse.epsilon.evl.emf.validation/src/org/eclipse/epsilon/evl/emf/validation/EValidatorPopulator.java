@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.ui.IStartup;
 
 public class EValidatorPopulator implements IStartup {
@@ -82,8 +83,8 @@ public class EValidatorPopulator implements IStartup {
 					EValidator.Registry.INSTANCE.put(ePackage, newValidator);
 				}
 				
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LogUtil.log(e);
 			}
 		}
 		
