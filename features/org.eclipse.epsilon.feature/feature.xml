@@ -3,7 +3,7 @@
       id="org.eclipse.epsilon.feature"
       label="Epsilon Core (Incubation)"
       version="0.8.2.1"
-      provider-name="The University of York">
+      provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
       Epsilon Platform Feature
