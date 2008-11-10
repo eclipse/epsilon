@@ -169,11 +169,13 @@ public class Preprocessor {
 						
 						updateOffset(child.getLine(), 3, child.getFirstChild().getText().length());
 						
-						// Update trace to account for length of out.print(
-						trace.incrementColumnCorrectionNumber(-10);
+						String printCall = "out.printdyn(";
+						
+						// Update trace to account for length of printCall
+						trace.incrementColumnCorrectionNumber(-printCall.length());
 						
 //						appendToEolOnANewLine("out.print(" + child.getFirstChild().getText() + ");", child.getLine());
-						eol.append("out.print(" + child.getFirstChild().getText() + ");");
+						eol.append(printCall + child.getFirstChild().getText() + ");");
 					}
 					
 					break;
@@ -181,6 +183,8 @@ public class Preprocessor {
 			
 			child = child.getNextSibling();
 		}
+		
+		System.err.println(eol.toString());
 		
 		return eol.toString();
 	}

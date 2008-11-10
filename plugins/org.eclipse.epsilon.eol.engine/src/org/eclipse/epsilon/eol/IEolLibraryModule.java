@@ -36,4 +36,8 @@ public interface IEolLibraryModule extends IModule{
 	public IEolContext getContext();
 	
 	public List<ParseProblem> getParseProblems();
+	
+	public EolOperationFactory getOperationFactory();
+	
+	public void setOperationFactory(EolOperationFactory operationFactory);
 }

@@ -227,7 +227,8 @@ public class EolOperation extends AbstractModuleElement{
 		Object result = null;
 		
 		try {
-			context.getExecutorFactory().executeAST(this.getBody(), context);
+			executeBody(context);
+			//context.getExecutorFactory().executeAST(this.getBody(), context);
 		}
 		catch (EolReturnException rex){
 			result = rex.getReturned();
@@ -250,6 +251,10 @@ public class EolOperation extends AbstractModuleElement{
 		}
 		
 		return result;
+	}
+	
+	protected void executeBody(IEolContext context) throws EolRuntimeException {
+		context.getExecutorFactory().executeAST(this.getBody(), context);
 	}
 	
 	protected void evaluatePreConditions(IEolContext context) throws EolRuntimeException {

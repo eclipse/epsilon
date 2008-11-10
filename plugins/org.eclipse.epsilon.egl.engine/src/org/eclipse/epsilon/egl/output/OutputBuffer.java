@@ -13,12 +13,14 @@ package org.eclipse.epsilon.egl.output;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
 import org.eclipse.epsilon.egl.util.FileUtil;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.types.EolInteger;
 
 public class OutputBuffer {
@@ -32,6 +34,10 @@ public class OutputBuffer {
 	
 	public OutputBuffer(IEglContext context) {
 		this(context, null);
+	}
+	
+	public OutputBuffer() {
+		this(null, null);
 	}
 	
 	// For unit tests
@@ -49,6 +55,52 @@ public class OutputBuffer {
 	
 	public void print(Object o){
 		buffer.append(o == null ? "null" : o.toString());
+	}
+	
+	public void printdyn(Object o) {
+		int lastline = buffer.lastIndexOf("\n");
+		String str = StringUtil.toString(o);
+		String[] parts = str.split("\r\n");
+		String spaceStr = null; 
+		if (lastline == -1) {
+			spaceStr = buffer.substring(0, buffer.length());
+		}
+		else {
+			spaceStr = buffer.substring(lastline + 1, buffer.length());
+		}
+		
+		String temp = "";
+		
+		for (char c : spaceStr.toCharArray()) {
+			if (Character.isWhitespace(c)) {
+				temp = temp + c;
+			}
+			else {
+				temp = temp + " ";
+			}
+		}
+		
+		spaceStr = temp;
+		
+		//spaceStr = spaceStr.replaceAll("^[\\s]*", " ");
+		
+		for (int i=0;i<parts.length;i++) {
+			System.err.println(parts[i]);
+			if (i > 0) {
+				buffer.append("\n" + spaceStr + parts[i]);
+			}
+			else {
+				buffer.append(parts[i]);
+			}
+		}
+	}
+	
+	public String getSpaces(int howMany) {
+		String str = "";
+		for (int i=0;i<howMany;i++) {
+			str += " ";
+		}
+		return str;
 	}
 	
 	public void println(){

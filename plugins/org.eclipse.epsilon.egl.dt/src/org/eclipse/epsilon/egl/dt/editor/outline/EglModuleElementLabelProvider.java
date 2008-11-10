@@ -14,10 +14,12 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.egl.EglDynamicSection;
 import org.eclipse.epsilon.egl.EglShortcutSection;
 import org.eclipse.epsilon.egl.EglStaticSection;
+import org.eclipse.epsilon.egl.EglTemplateOperation;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
+import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class EglModuleElementLabelProvider extends ModuleElementLabelProvider{
+public class EglModuleElementLabelProvider extends EolModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
@@ -32,7 +34,11 @@ public class EglModuleElementLabelProvider extends ModuleElementLabelProvider{
 			return EglPlugin.getDefault().createImage("icons/shortcut.png");
 		}
 		
-		return null;
+		if (element instanceof EglTemplateOperation) {
+			return EglPlugin.getDefault().createImage("icons/template.png");
+		}
+		
+		return super.getImage(element);
 	}
 
 }

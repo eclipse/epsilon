@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -143,6 +145,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		eol = preprocessor.convertToEol(ast);
 		
 		try {
+			eolModule.setOperationFactory(new EglOperationFactory());
 			return eolModule.parse(eol, sourceFile);
 			
 		} catch (Exception e) {
@@ -207,10 +210,23 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		reset(null);
 	}
 	
+	@Override
+	public EolOperations getOperations() {
+		return eolModule.getOperations();
+	}
+	
 	private void reset(IEglContext existingContext) {
 		super.reset();
 		
-		eolModule = new EolModule();
+		// Added .egl to the types of import files the internal eol module can handle
+		eolModule = new EolModule() {
+			public HashMap<String, Class> getImportConfiguration() {
+				HashMap<String, Class> importConfiguration = new HashMap();
+				importConfiguration.put("eol", EolLibraryModule.class);
+				importConfiguration.put("egl", EglModule.class);
+				return importConfiguration;
+			}
+		};
 		eol = null;
 		preprocessor = new Preprocessor();
 		
@@ -250,6 +266,10 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 	@Override
 	public List<ModuleElement> getChildren() {
+		
+		return eolModule.getChildren();
+		
+		/*
 		List<ModuleElement> children = new LinkedList<ModuleElement>();
 		
 		if (ast != null) {
@@ -274,7 +294,8 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 				current = current.getNextSibling();
 			}
 		}
+		*/
 		
-		return children;
+		//return children;
 	}
 }

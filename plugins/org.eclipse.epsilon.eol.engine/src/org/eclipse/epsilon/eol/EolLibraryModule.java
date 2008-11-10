@@ -44,7 +44,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	protected List<EolModelGroupDefinition> declaredModelGroupDefinitions = new ArrayList<EolModelGroupDefinition>();
 	protected Set<EolModelDefinition> modelDefinitions = null;
 	protected Set<EolModelGroupDefinition> modelGroupDefinitions = null;
-	
+	protected EolOperationFactory operationFactory = new EolOperationFactory();
 	
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
@@ -160,7 +160,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		Iterator it = AstUtil.getChildren(ast, EolParser.HELPERMETHOD).iterator();
 		while (it.hasNext()){
 			AST helperAst = (AST) it.next();
-			EolOperation helper = new EolOperation(helperAst);
+			EolOperation helper = operationFactory.createOperation(helperAst); //new EolOperation(helperAst);
 			//helper.setSourceFile(this.getSourceFile());
 			declaredOperations.add(helper);
 		}
@@ -319,6 +319,12 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		return modelGroupDefinitions;
 	}
 
+	public EolOperationFactory getOperationFactory() {
+		return operationFactory;
+	}
 
+	public void setOperationFactory(EolOperationFactory operationFactory) {
+		this.operationFactory = operationFactory;
+	}
 	
 }
