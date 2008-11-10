@@ -142,14 +142,18 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 		ModuleElement element = (ModuleElement) (((IStructuredSelection) event
 				.getSelection()).getFirstElement());
 		
-		if (element == null)
+		if (element == null || element.getAst() == null)
 			return;
 
 		AST firstConcreteChild = AstUtil
 				.getFirstConcreteChild(element.getAst());
 		
-		EclipseUtil.openEditorAt(firstConcreteChild.getFile(), firstConcreteChild.getLine(), firstConcreteChild.getColumn(), true);
-		
+		try {
+			EclipseUtil.openEditorAt(firstConcreteChild.getFile(), firstConcreteChild.getLine(), firstConcreteChild.getColumn(), true);
+		}
+		catch (Exception ex) {
+			//ex.printStackTrace();
+		}
 		/*
 		try {
 			int offset = (editor.getDocumentProvider().getDocument(
