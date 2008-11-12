@@ -13,14 +13,12 @@ package org.eclipse.epsilon.emc.emf.tools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -32,16 +30,31 @@ import org.eclipse.epsilon.eol.tools.AbstractTool;
 
 public class EmfTool extends AbstractTool{
 	
+	/*
 	public void getAllContents(EObject o) {
 		
 		//System.err.println(o.eAllContents() instanceof List);
 		
+		EObject lim = null;
 		Iterator<?> it = o.eAllContents();
-		
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.createResource(null);
 		while (it.hasNext()) {
 			context.getOutputStream().println(it.next());
 		}
 	}
+	*/
+	/*
+	public Resource putInNewResource(EObject eObject) {
+		ResourceSet rs = new ResourceSetImpl();
+		EPackage ePackage = eObject.eClass().getEPackage();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+		rs.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+		Resource r = rs.createResource(URI.createFileURI(""));
+		r.getContents().add(eObject);
+		return r;
+	}
+	*/
 	
 	public EcoreUtil getECoreUtil() {
 		return new EcoreUtil();
