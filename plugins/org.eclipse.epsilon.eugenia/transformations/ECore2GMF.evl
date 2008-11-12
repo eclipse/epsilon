@@ -37,7 +37,7 @@ context EPackage {
 		
 		guard : self.satisfies('DiagramIsDefined')
 		
-		check : getReferenceLinks().size() > 0
+		check : getReferenceLinks().size() > 0 or getLinks().size > 0
 		
 		message : 'No reference links (gmf.link) have been defined'
 	}
