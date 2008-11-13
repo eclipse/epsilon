@@ -35,7 +35,15 @@ rule NameNode2PackageObject
 	p.addTraceabilityInfo(n);
 	
 	if (not spec.nsUris.isEmpty()) {
-		p.metamodel := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool').getEPackage(spec.nsUris.first.value);
+		var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
+	
+		for (nsUri in spec.nsUris) {
+			var package := EmfTool.getEPackage(nsUri.value);
+			
+			if (package.isDefined()) {
+				p.metamodel.add(package);
+			}
+		}
 	}
 	
 	for (child in n.children.select(n : AntlrAst!NameNode | true)) {

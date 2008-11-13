@@ -23,8 +23,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="male" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Person" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="accounts" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharedAccounts" upperBound="-1"
         eType="ecore:EClass BankAccounts.ecore#//Account"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accounts" upperBound="-1"
+        eType="ecore:EClass BankAccounts.ecore#//Account" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dog" eSuperTypes="#//Pet">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="loud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

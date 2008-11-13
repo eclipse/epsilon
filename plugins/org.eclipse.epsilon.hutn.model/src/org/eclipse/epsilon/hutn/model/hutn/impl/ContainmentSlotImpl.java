@@ -240,7 +240,9 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 			final EClass type           = (EClass)feature.getEType();
 			
 			for (ClassObject classObject : getClassObjects()) {
-				if (!type.isSuperTypeOf(classObject.getEClass())) {
+				final EClass containedType = classObject.getEClass();
+				
+				if (containedType == null || !isSuperType(type, containedType)) {
 					return false;
 				}
 			}
@@ -250,6 +252,42 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private boolean isSuperType(EClass type, EClass candidate) {
+		if (type == null || candidate == null) return false;
+		
+		if (equals(type, candidate)) return true;
+		
+		for (EClass supertypeOfCandidate : candidate.getEAllSuperTypes()) {
+			if (equals(type, supertypeOfCandidate)) return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private boolean equals(EClass c, EClass other) {
+		final boolean namesEqual = (c.getName() == null     ?
+		                            other.getName() == null :
+		                            c.getName().equals(other.getName())
+		                           );
+		
+		final boolean nsUriEqual = (c.getEPackage().getNsURI() == null     ?
+		                            other.getEPackage().getNsURI() == null :
+                                    c.getEPackage().getNsURI().equals(other.getEPackage().getNsURI())
+                                   );
+		
+		return namesEqual && nsUriEqual;
 	}
 	
 	/**

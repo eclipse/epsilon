@@ -13,13 +13,13 @@ context Object {
 context ClassObject {
 	constraint ClassifierMustExist {
 		guard: hasSpecificMetamodel()
-		check: Metamodel!EClassifier.allInstances().select(c|c.name = self.type).size() = 1
+		check: self.hasEClass() or Metamodel!EClassifier.allInstances().select(c|c.name = self.type).size() = 1
 		message: 'Unrecognised classifier: ' + self.type
 	}
 	
 	constraint ClassifierMustBeClass {
 		guard: self.satisfies('ClassifierMustExist')
-		check: self.toClass().isDefined()
+		check: self.hasEClass()
 		message: 'Cannot instantiate the enumeration or data type: ' + self.type
 	}
 	
@@ -148,7 +148,7 @@ operation String canLocateExternalModelElement() : Boolean {
 	return EmfTool.modelElementExists(self);
 }
 
-operation String toClass() : Metamodel!EClassifier {
+operation String toClass() : Metamodel!EClass {
 	if ('#'.isSubstringOf(self)) {
 		-- External object reference, locate in external model
 
@@ -169,8 +169,8 @@ operation String toClass() : Metamodel!EClassifier {
 	}
 }
 
-operation ClassObject toClass() : Metamodel!EClassifier {
-	return Metamodel!EClass.allInstances().selectOne(c|c.name = self.type);
+operation ClassObject toClass() : Metamodel!EClass {
+	return self.getEClass();
 } 
 
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {

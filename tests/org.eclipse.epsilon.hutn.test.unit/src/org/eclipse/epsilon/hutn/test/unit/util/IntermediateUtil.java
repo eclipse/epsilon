@@ -132,7 +132,7 @@ public abstract class IntermediateUtil {
 		
 		for (PackageObject pkg : packages) {
 			spec.getObjects().add(pkg);
-			pkg.setMetamodel(EPackage.Registry.INSTANCE.getEPackage(nsUri));
+			pkg.getMetamodel().add(EPackage.Registry.INSTANCE.getEPackage(nsUri));
 		}
 		
 		return spec;

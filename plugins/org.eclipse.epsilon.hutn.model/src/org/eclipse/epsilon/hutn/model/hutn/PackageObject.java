@@ -39,30 +39,20 @@ import org.eclipse.emf.ecore.EPackage;
 public interface PackageObject extends org.eclipse.epsilon.hutn.model.hutn.Object, ClassObjectContainer {
 
 	/**
-	 * Returns the value of the '<em><b>Metamodel</b></em>' reference.
+	 * Returns the value of the '<em><b>Metamodel</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EPackage}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Metamodel</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Metamodel</em>' reference.
-	 * @see #setMetamodel(EPackage)
+	 * @return the value of the '<em>Metamodel</em>' reference list.
 	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getPackageObject_Metamodel()
 	 * @model
 	 * @generated
 	 */
-	EPackage getMetamodel();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel <em>Metamodel</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Metamodel</em>' reference.
-	 * @see #getMetamodel()
-	 * @generated
-	 */
-	void setMetamodel(EPackage value);
+	EList<EPackage> getMetamodel();
 
 	/**
 	 * <!-- begin-user-doc -->

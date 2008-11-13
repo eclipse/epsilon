@@ -21,40 +21,40 @@ public class ExternalObjectReference extends HutnAcceptanceTest {
 	
 	@BeforeClass
 	public static void executeHutn() throws Exception {
-		final String hutn = "@Spec {"                                                                             +
-	                        "	MetaModel \"FamiliesMetaModel\" {"                                                +
-	                        "		nsUri = \"families\""                                                         +
-	                        "	}"                                                                                +
-	                        "}"                                                                                   +
-                            "Families {"                                                                          +
-                            "	Person \"John\" {"                                                                +
-                            "		accounts: Account \"" + BANK_ACCOUNTS_MODEL_URI + "#//@accounts.0\","             +
-                            "                 Account \"" + BANK_ACCOUNTS_MODEL_URI + "#_swAAYJX5Ed2TbbKclPHPaA\""  +
-                            "	}"                                                                                +
+		final String hutn = "@Spec {"                                                                                     +
+	                        "	MetaModel \"FamiliesMetaModel\" {"                                                        +
+	                        "		nsUri = \"families\""                                                                 +
+	                        "	}"                                                                                        +
+	                        "}"                                                                                           +
+                            "Families {"                                                                                  +
+                            "	Person \"John\" {"                                                                        +
+                            "		sharedAccounts: Account \"" + BANK_ACCOUNTS_MODEL_URI + "#//@accounts.0\","           +
+                            "                       Account \"" + BANK_ACCOUNTS_MODEL_URI + "#_swAAYJX5Ed2TbbKclPHPaA\""  +
+                            "	}"                                                                                        +
                             "}";
 		
 		model = generateModel(hutn);
 		
 		model.setVariable("john", "Person.all().first()");
 		
-		model.setVariable("accNumber", "john.accounts.first().eClass.getEStructuralFeature('number')");
+		model.setVariable("accNumber", "john.sharedAccounts.first().eClass.getEStructuralFeature('number')");
 	}
 	
 	@Test
 	public void johnShouldHaveTwoAccounts() {
-		model.assertEquals(2, "john.accounts.size()");
+		model.assertEquals(2, "john.sharedAccounts.size()");
 	}
 	
 	
-	// FIXME The contents of "john.accounts" shouldn't be dynamic objects
+	// FIXME The contents of "john.sharedAccounts" shouldn't be dynamic objects
 	
 	@Test
 	public void firstAccountShouldHaveCorrectNumber() {
-		model.assertEquals("111111", "john.accounts.first().eGet(accNumber)");
+		model.assertEquals("111111", "john.sharedAccounts.first().eGet(accNumber)");
 	}
 	
 	@Test
 	public void secondAccountShouldHaveCorrectNumber() {
-		model.assertEquals("222222", "john.accounts.last().eGet(accNumber)");
+		model.assertEquals("222222", "john.sharedAccounts.last().eGet(accNumber)");
 	}
 }

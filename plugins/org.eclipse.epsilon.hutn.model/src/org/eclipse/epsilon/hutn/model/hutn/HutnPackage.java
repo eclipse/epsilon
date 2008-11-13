@@ -436,7 +436,7 @@ public interface HutnPackage extends EPackage {
 	int PACKAGE_OBJECT__CLASS_OBJECTS = OBJECT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Metamodel</b></em>' reference.
+	 * The feature id for the '<em><b>Metamodel</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1158,10 +1158,10 @@ public interface HutnPackage extends EPackage {
 	EClass getPackageObject();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel <em>Metamodel</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel <em>Metamodel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Metamodel</em>'.
+	 * @return the meta object for the reference list '<em>Metamodel</em>'.
 	 * @see org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel()
 	 * @see #getPackageObject()
 	 * @generated
@@ -1538,7 +1538,7 @@ public interface HutnPackage extends EPackage {
 		EClass PACKAGE_OBJECT = eINSTANCE.getPackageObject();
 
 		/**
-		 * The meta object literal for the '<em><b>Metamodel</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Metamodel</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

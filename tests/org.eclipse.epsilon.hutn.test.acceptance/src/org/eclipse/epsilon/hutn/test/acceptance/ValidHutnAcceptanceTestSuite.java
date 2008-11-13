@@ -32,6 +32,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.Inference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InfixAssociation;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Simple;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.SpecOnly;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.TwoMetamodels;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -41,7 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Associations.class, Containment.class, ContainmentEmpty.class,
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
-               AssociationBlock.class, InfixAssociation.class, ExternalObjectReference.class})
+               AssociationBlock.class, InfixAssociation.class,
+               ExternalObjectReference.class, TwoMetamodels.class})
 public class ValidHutnAcceptanceTestSuite {
 
 	public static Test suite() {

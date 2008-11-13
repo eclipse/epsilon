@@ -718,7 +718,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		addEOperation(classObjectContainerEClass, this.getPackageObject(), "getPackageObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(packageObjectEClass, PackageObject.class, "PackageObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPackageObject_Metamodel(), theEcorePackage.getEPackage(), null, "metamodel", null, 0, 1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPackageObject_Metamodel(), theEcorePackage.getEPackage(), null, "metamodel", null, 0, -1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(packageObjectEClass, theEcorePackage.getEClass(), "getAllEClasses", 0, -1, IS_UNIQUE, IS_ORDERED);
 
