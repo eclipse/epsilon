@@ -105,7 +105,7 @@ context ReferenceSlot {
 context ContainmentSlot {
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
-		check: self.getEStructuralFeature().isMany() or self.objects.size = 1
+		check: self.getEStructuralFeature().isMany() or self.classObjects.size = 1
 		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
