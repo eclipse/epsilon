@@ -276,18 +276,23 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	private boolean equals(EClass c, EClass other) {
+	private boolean equals(EClass c, EClass other) {		
 		final boolean namesEqual = (c.getName() == null     ?
 		                            other.getName() == null :
 		                            c.getName().equals(other.getName())
 		                           );
 		
-		final boolean nsUriEqual = (c.getEPackage().getNsURI() == null     ?
-		                            other.getEPackage().getNsURI() == null :
-                                    c.getEPackage().getNsURI().equals(other.getEPackage().getNsURI())
-                                   );
+		if (c.getEPackage() == null || other.getEPackage() == null) {
+			return namesEqual;
 		
-		return namesEqual && nsUriEqual;
+		} else {
+			final boolean nsUriEqual = (c.getEPackage().getNsURI() == null     ?
+			                            other.getEPackage().getNsURI() == null :
+	                                    c.getEPackage().getNsURI().equals(other.getEPackage().getNsURI())
+	                                   );
+			
+			return namesEqual && nsUriEqual;
+		}
 	}
 	
 	/**
