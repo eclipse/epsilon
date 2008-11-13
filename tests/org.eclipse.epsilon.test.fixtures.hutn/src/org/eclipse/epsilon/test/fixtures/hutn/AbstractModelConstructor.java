@@ -14,12 +14,13 @@
 package org.eclipse.epsilon.test.fixtures.hutn;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 
-public abstract class AbstractModelConstructor {
+public abstract class AbstractModelConstructor<T> {
 	
 	private static final IHutnModule hutnModule = new HutnModule(); 
 	
@@ -58,10 +59,33 @@ public abstract class AbstractModelConstructor {
 		return "@Spec {"                                      +
                 "    MetaModel \"MetaModel\" {"               +
                 "        nsUri = \"" + nsUri + "\""           +
-                "        configFile = \"" + configFile + "\"" +
+                         getConfigFilePreamble(configFile)    +
                 "    }"                                       +
                 "}" + hutn;
 	}
 	
-	public abstract Object construct(String hutn);	
+	protected static String getConfigFilePreamble(String configFile) {
+		return (configFile == null) ? "" : "configFile = \"" + configFile + "\"";
+	}
+	
+	public T construct(String hutn) {
+		final IModel model = constructModel(addPreamble(hutn, getNsUri(), getConfigFile()));
+
+		try {
+			for (Object o : model.getAllOfKind(getRootElementType().getSimpleName())) {
+				if (getRootElementType().isInstance(o)) {
+					return getRootElementType().cast(o);
+				}
+			}
+		} catch (EolModelElementTypeNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;	
+	}
+
+	protected abstract String getNsUri();
+	protected abstract String getConfigFile();
+	protected abstract Class<T> getRootElementType();
 }
