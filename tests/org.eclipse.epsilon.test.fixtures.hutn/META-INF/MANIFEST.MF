@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Test HUTN for Fixtures (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.test.fixtures.hutn
+Bundle-Version: 0.8.1.1
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.hutn.engine
+Export-Package: org.eclipse.epsilon.test.fixtures.hutn
