@@ -22,9 +22,9 @@ Require-Bundle: org.eclipse.epsilon.dependencies,
  org.eclipse.epsilon.hutn.model.config;visibility:=reexport,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.etl.engine,
+ org.eclipse.epsilon.etl.engine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine,
- org.eclipse.epsilon.egl.engine,
+ org.eclipse.epsilon.egl.engine;visibility:=reexport,
  org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.antlr.postprocessor;visibility:=reexport
 Bundle-Vendor: Eclipse.org
