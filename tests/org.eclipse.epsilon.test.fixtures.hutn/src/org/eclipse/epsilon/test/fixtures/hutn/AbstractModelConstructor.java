@@ -13,6 +13,9 @@
  */
 package org.eclipse.epsilon.test.fixtures.hutn;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -56,12 +59,22 @@ public abstract class AbstractModelConstructor<T> {
 	}
 	
 	protected static String addPreamble(String hutn, String nsUri, String configFile) {
-		return "@Spec {"                                      +
-                "    MetaModel \"MetaModel\" {"               +
-                "        nsUri = \"" + nsUri + "\""           +
-                         getConfigFilePreamble(configFile)    +
-                "    }"                                       +
-                "}" + hutn;
+		return addPreamble(hutn, Collections.singletonList(nsUri), Collections.singletonList(configFile));
+	}
+	
+	protected static String addPreamble(String hutn, List<String> nsUris, List<String> configFiles) {
+		String preamble = "@Spec {";
+		
+		for (int index = 0; index < nsUris.size(); index++) {
+			preamble += "MetaModel \"MetaModel\" {";
+			preamble += "	nsUri = \"" + nsUris.get(index) + "\"";
+			preamble +=     getConfigFilePreamble(configFiles.get(index));
+			preamble += "}";
+		}
+		
+		preamble += "}";
+		
+		return preamble + hutn;
 	}
 	
 	protected static String getConfigFilePreamble(String configFile) {
@@ -69,8 +82,8 @@ public abstract class AbstractModelConstructor<T> {
 	}
 	
 	public T construct(String hutn) {
-		final IModel model = constructModel(addPreamble(hutn, getNsUri(), getConfigFile()));
-
+		final IModel model = constructModel(addPreamble(hutn, getNsUris(), getConfigFiles()));
+		
 		try {
 			for (Object o : model.getAllOfKind(getRootElementType().getSimpleName())) {
 				if (getRootElementType().isInstance(o)) {
@@ -85,7 +98,7 @@ public abstract class AbstractModelConstructor<T> {
 		return null;	
 	}
 
-	protected abstract String getNsUri();
-	protected abstract String getConfigFile();
+	protected abstract List<String> getNsUris();
+	protected abstract List<String> getConfigFiles();
 	protected abstract Class<T> getRootElementType();
 }
