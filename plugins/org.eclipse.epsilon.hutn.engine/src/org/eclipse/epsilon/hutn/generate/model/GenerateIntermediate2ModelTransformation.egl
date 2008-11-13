@@ -2,42 +2,45 @@ pre {
 	var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
 }
 
-[% for (class in EClass.allInstances()) { %]
-rule Object2[%=class.name%]
-  transform o : Intermediate!ClassObject
-  to t : Model!"[%=class.name%]" {
+[% if (not PackageObject.all.isEmpty()) { %]
+	[% for (class in PackageObject.all.first.getAllEClasses()) { %]
+	[* for (class in EClass.allInstances()) { *]
+	rule Object2[%=class.name%]
+	  transform o : Intermediate!ClassObject
+	  to t : Model!"[%=class.name%]" {
+		
+		guard: o.type = '[%=class.name%]'
+		
+	[% for (attribute in class.eAllAttributes) { %]
+		if (o.findSlot('[%=attribute.name%]').isDefined()) {
+			[% if (EEnum.isType(attribute.eType)) { %]
+				var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
+				
+				t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').value).instance;
+				
+			[% } else if (attribute.isMany()) { %]
+				for (value in o.findSlot('[%=attribute.name%]').values) {
+					t."[%=attribute.name%]".add(value);
+				}
+			[% } else { %]
+				t."[%=attribute.name%]" := o.findSlot('[%=attribute.name%]').values.at(0);
+			[% } %]
+		}
+	[% } %]
 	
-	guard: o.type = '[%=class.name%]'
-	
-[% for (attribute in class.eAllAttributes) { %]
-	if (o.findSlot('[%=attribute.name%]').isDefined()) {
-		[% if (EEnum.isType(attribute.eType)) { %]
-			var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
-			
-			t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').value).instance;
-			
-		[% } else if (attribute.isMany()) { %]
-			for (value in o.findSlot('[%=attribute.name%]').values) {
-				t."[%=attribute.name%]".add(value);
-			}
-		[% } else { %]
-			t."[%=attribute.name%]" := o.findSlot('[%=attribute.name%]').values.at(0);
-		[% } %]
+	[% for (reference in class.eAllReferences) { %]
+		if (o.findSlot('[%=reference.name%]').isDefined()) {
+			[% if (reference.isMany()) { %]
+				for (object in o.findSlot('[%=reference.name%]').getEObjects()) {
+					t."[%=reference.name%]".add(object);
+				}
+			[% } else { %]
+				t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getEObjects().first();
+			[% } %]
+		}
+	[% } %]
 	}
-[% } %]
-
-[% for (reference in class.eAllReferences) { %]
-	if (o.findSlot('[%=reference.name%]').isDefined()) {
-		[% if (reference.isMany()) { %]
-			for (object in o.findSlot('[%=reference.name%]').getEObjects()) {
-				t."[%=reference.name%]".add(object);
-			}
-		[% } else { %]
-			t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getEObjects().first();
-		[% } %]
-	}
-[% } %]
-}
+	[% } %]
 [% } %]
 
 operation ReferenceSlot getEObjects() : Sequence {

@@ -127,7 +127,8 @@ public class ModelGenerator extends AbstractGenerator {
 	public String generateTransformation() throws HutnGenerationException {
 		try {
 			final IEglModule generator = new EglModule();
-			generator.getContext().getModelRepository().addModel(metaModel);
+//			generator.getContext().getModelRepository().addModel(metaModel);
+			generator.getContext().getModelRepository().addModel(source);
 			generator.parse(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
 			
 			final String transformation = generator.execute();
