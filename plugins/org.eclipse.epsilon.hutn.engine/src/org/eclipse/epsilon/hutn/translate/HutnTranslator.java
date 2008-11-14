@@ -25,13 +25,11 @@ import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
 import org.eclipse.epsilon.hutn.exceptions.HutnMetaModelRegistrationException;
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
-import org.eclipse.epsilon.hutn.model.HutnMetamodel;
 import org.eclipse.epsilon.hutn.model.config.HutnConfigMetamodel;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigPackage;
 import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstMetamodel;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstPackage;
 import org.eclipse.epsilon.hutn.util.EmfUtil;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
@@ -51,9 +49,9 @@ public class HutnTranslator {
 	}
 	
 	private static void registerMetaModels() throws HutnMetaModelRegistrationException {
-		EmfUtil.registerMetaModel(HutnPackage.eNS_URI,         HutnMetamodel.getMetaModelUri());
-		EmfUtil.registerMetaModel(HutnConfigPackage.eNS_URI,   HutnConfigMetamodel.getMetaModelUri());
-		EmfUtil.registerMetaModel(HutnAntlrAstPackage.eNS_URI, HutnAntlrAstMetamodel.getMetaModelUri());
+		EmfUtil.register(HutnPackage.eNS_URI,         HutnPackage.eINSTANCE);
+		EmfUtil.register(HutnConfigPackage.eNS_URI,   HutnConfigPackage.eINSTANCE);
+		EmfUtil.register(HutnAntlrAstPackage.eNS_URI, HutnAntlrAstPackage.eINSTANCE);
 	}
 	
 	private static Node findNodeWithText(List<Node> nodes, String text) {

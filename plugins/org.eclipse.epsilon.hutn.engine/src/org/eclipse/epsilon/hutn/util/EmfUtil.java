@@ -89,13 +89,7 @@ public abstract class EmfUtil {
 		return loadModel(modelName, metaModelFile, EcorePackage.eNS_URI);
 	}
 	
-	public static void registerMetaModel(String nsUri, URI uri) throws HutnMetaModelRegistrationException {
-		try {
-			if (EPackage.Registry.INSTANCE.getEPackage(nsUri) == null) {
-				org.eclipse.epsilon.emc.emf.EmfUtil.register(uri, EPackage.Registry.INSTANCE);
-			}
-		} catch (Exception e) {
-			throw new HutnMetaModelRegistrationException("Could not register metamodel with nsUri: " + nsUri, e);
-		}
+	public static void register(String nsUri, EPackage pkg) throws HutnMetaModelRegistrationException {
+		EPackage.Registry.INSTANCE.put(nsUri, pkg);
 	}
 }
