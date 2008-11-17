@@ -432,7 +432,7 @@ public abstract class EolCollection extends EolAny{
 	
 	public EolReal product() {
 		Iterator it = this.storage.iterator();
-		EolReal product = new EolReal();
+		EolReal product = new EolReal(1.0f);
 		while (it.hasNext()){
 			Object next = it.next();
 			if (next instanceof EolReal){
