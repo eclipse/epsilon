@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.EolEvaluator;
 
@@ -166,6 +167,18 @@ public class ModelWithEolAssertions {
 		else
 			org.junit.Assert.assertNull(message, result);
 	
+	}
+	
+	public Object evaluate(String eolStatement) throws Throwable {
+		try {
+			return evaluator.evaluate(eolStatement);
+		} catch (EolEvaluatorException e) {
+			if (e.getCause() != null) {
+				throw e.getCause();
+			} else {
+				throw e;
+			}
+		}
 	}
 	
 	
