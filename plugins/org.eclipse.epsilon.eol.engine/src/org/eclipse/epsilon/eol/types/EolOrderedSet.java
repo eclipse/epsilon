@@ -61,4 +61,17 @@ public class EolOrderedSet extends EolSet{
 	public EolCollection createCollection(Collection storage) {
 		return new EolOrderedSet(storage);
 	}
+	
+	/**
+	 * Returns a new subset that contains
+	 * the elements of this ordered set starting 
+	 * from <code>lower</code> and ending at
+	 * <code>upper</code>
+	 * @param lower
+	 * @param upper
+	 * @return EolOrderedSet
+	 */
+	public EolOrderedSet subset(EolInteger lower, EolInteger upper){
+		return new EolOrderedSet(((List)storage).subList(lower.intValue(), upper.intValue()));
+	}
 }
