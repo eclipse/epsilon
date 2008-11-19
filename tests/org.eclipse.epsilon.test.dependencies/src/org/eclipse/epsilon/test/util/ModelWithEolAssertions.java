@@ -39,7 +39,7 @@ public class ModelWithEolAssertions {
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
 		
-		final Resource resource = resourceSet.createResource(URI.createFileURI("foo.ecore"));
+		final Resource resource = resourceSet.createResource(URI.createFileURI("debug.model"));
 		resource.getContents().add(eObject);
 		return resource;
 	}
@@ -198,8 +198,13 @@ public class ModelWithEolAssertions {
 		evaluator.setVariable(name, eolStatement);
 	}
 	
+	public void addAndSetVariable(String name, EObject value) {
+		add(value);
+		evaluator.setVariable(name, value);
+	}
+	
 	public void store(String path) {
-		System.err.println(path);
+		model.getModelImpl().setURI(URI.createFileURI(path));
 		model.store(path);
 	}
 }
