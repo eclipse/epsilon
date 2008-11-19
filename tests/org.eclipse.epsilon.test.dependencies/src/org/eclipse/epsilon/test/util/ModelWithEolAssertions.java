@@ -173,14 +173,26 @@ public class ModelWithEolAssertions {
 		try {
 			return evaluator.evaluate(eolStatement);
 		} catch (EolEvaluatorException e) {
-			if (e.getCause() != null) {
-				throw e.getCause();
-			} else {
-				throw e;
-			}
+			throwCauseOf(e);
+			return null; // Never reached
 		}
 	}
 	
+	public void execute(String statement) throws Throwable {
+		try {
+			evaluator.execute(statement);
+		} catch (EolEvaluatorException e) {
+			throwCauseOf(e);
+		}
+	}
+
+	private void throwCauseOf(EolEvaluatorException e) throws Throwable {
+		if (e.getCause() != null) {
+			throw e.getCause();
+		} else {
+			throw e;
+		}
+	}
 	
 	public void setVariable(String name, String eolStatement) {
 		evaluator.setVariable(name, eolStatement);
