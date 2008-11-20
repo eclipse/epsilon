@@ -1,0 +1,55 @@
+<?xml version="1.0"?> 
+
+<!--
+	The following build script illustrates how to launch the example via ANT.
+	Ensure that External Tools Configuration specifies that the JRE to be used
+	is the same as the workspace.
+		1) Click External Tools Configuration... from the External Tools dropdown.
+		2) Select the ANT build for this build script.
+		3) Click the JRE tab.
+		4) Select the option that reads: "Run in the same JRE as the workspace."
+		5) Click Apply.
+		6) Click Run.
+-->
+
+<project default="main">
+ 	<target name="init">
+		<property name="models" location="${basedir}/models"/>
+		<property name="metamodels" location="${basedir}/metamodels"/>
+ 	</target>
+ 	
+ 	<target name="loadModels">
+		<epsilon.loadModel name="OO" type="EMF">
+			<parameter name="modelFile" value="${models}/OOInstance.model"/>
+			<parameter name="metamodelFile" value="${metamodels}/OO.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+		
+		<epsilon.loadModel name="OO2DB" type="EMF">
+			<parameter name="modelFile" value="${models}/OO2DB.model"/>
+			<parameter name="metamodelFile" value="${metamodels}/TM.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="true"/>
+			<parameter name="storeOnDisposal" value="false"/>
+		</epsilon.loadModel>
+		
+		<epsilon.loadModel name="DB" type="EMF">
+			<parameter name="modelFile" value="${models}/DBInstance.model"/>
+			<parameter name="metamodelFile" value="${metamodels}/DB.ecore"/>
+			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="readOnLoad" value="false"/>
+			<parameter name="storeOnDisposal" value="true"/>
+		</epsilon.loadModel>
+ 	 </target>
+ 	
+	<target name="main" depends="init,loadModels">		
+		<epsilon.etl src="${basedir}/OO2DB.etl">
+			<model ref="OO"/>
+			<model ref="OO2DB"/>
+			<model ref="DB"/>
+		</epsilon.etl>
+	</target>
+</project>
+
