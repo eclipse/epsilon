@@ -22,21 +22,15 @@ public class EolEvaluator {
 
 	private final IEolModule module = new EolModule();
 	
-	private boolean statementsEvaluated = false;
+	private boolean statementsExecuted = false;
 	
 	public EolEvaluator(IModel... models) {
 		for (IModel model : models)
 			module.getContext().getModelRepository().addModel(model);
 	}
 	
-	private static String asEolStatement(Object o) {
-		return "return " + o.toString() + ";";
-	}
-	
-	public Object evaluate(Object o) {
-		statementsEvaluated = true;
-		
-		final String statement = asEolStatement(o);
+	private Object executeInteral(String statement) {
+		statementsExecuted = true;
 		
 		try {
 			if (module.parse(statement)) {
@@ -46,26 +40,43 @@ public class EolEvaluator {
 			}
 
 		} catch (Exception e) {
-			throw new EolEvaluatorException("Could not evaluate '" + o.toString() + "'", e);
+			throw new EolEvaluatorException("Could not execute '" + statement + "'", e);
 		}
 	}
 	
+	private static String asEolStatement(Object o) {
+		return "return " + o.toString() + ";";
+	}
+	
+	public Object evaluate(Object o) {
+		return executeInteral(asEolStatement(o));
+	}
+	
+	public void execute(String statement) {
+		executeInteral(statement);
+	}
+	
 	public void setVariable(String name, String eolStatement) {
-		final Object value = evaluate(eolStatement);
+		setVariable(name, evaluate(eolStatement));
+	}
+	
+	public void setVariable(String name, Object value) {
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(name, value));
 	}
 	
 	public void importFile(File file) {
-		if (statementsEvaluated) {
-			throw new IllegalStateException("Cannot import files after calls to evaluate or setVariable have occurred");
+		if (statementsExecuted) {
+			throw new IllegalStateException("Cannot import files after calls to execute, evaluate or setVariable have occurred");
 		}
 		
 		try {
-			if (module.parse("import '" + file.getAbsolutePath() + "';")) {
+			if (module.parse("import '" + file.getAbsolutePath() + "';") && module.getParseProblems().isEmpty()) {
 				return;
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			throw new EolEvaluatorException("Could not import: " + file.getAbsolutePath(), e);
+		}
 		
-		throw new EolEvaluatorException("Could not import: " + file.getAbsolutePath());
+		throw new EolEvaluatorException("Errors when parsing: " + file.getAbsolutePath() + "-" + module.getParseProblems());
 	}
 }
