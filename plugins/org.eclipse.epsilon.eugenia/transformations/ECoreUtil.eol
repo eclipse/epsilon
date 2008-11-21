@@ -9,6 +9,11 @@ operation getLinks() {
 }
 
 @cached
+operation getLabelledAttributesFor(class : ECore!EClass) {
+	return class.eAllAttributes.select(a|a.isLabelled());	
+}
+
+@cached
 operation getReferenceLinks() {
 	var diagramClass := getDiagramClass();
 	if (diagramClass.getAnnotationValue('gmf.diagram', 'refsarelinks') = 'true') {
@@ -212,6 +217,29 @@ operation ECore!EClass getLabelAttributes() {
 	}
 }
 
+@cached
+operation ECore!EClass getLabelReadOnly() : Boolean {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	
+	return self.getAnnotationValue(ann, 'label.readOnly') = 'true';
+}
+
+@cached
+operation ECore!EAttribute isLabelled() : Boolean {
+	return self.isAnnotatedAs('gmf.label');
+}
+
+@cached
+operation ECore!EAttribute getLabelName() : String {
+	return self.eContainingClass.name + self.name.firstToUpperCase() + 'Label';
+}
+
+@cached
+operation ECore!EAttribute getReadOnly() : Boolean {
+	return self.getAnnotationValue('gmf.label', 'readOnly') = 'true';
+}
 
 
 @cached

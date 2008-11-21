@@ -154,7 +154,38 @@ for (class in getNodes()) {
 	featureLabelMapping.editorPattern := class.getLabelPattern();
 	featureLabelMapping.viewPattern := class.getLabelPattern();
 	featureLabelMapping.features.addAll(class.getLabelAttributes());
+	featureLabelMapping.readOnly := class.getLabelReadOnly();
 	
+	-- Process EAttributes (gmf.labels)
+	for (attribute in getLabelledAttributesFor(class)) {
+		-- Create GmfGraph label
+		var label := new GmfGraph!Label;
+		label.name := attribute.getLabelName() + 'Figure';
+		
+		-- Create GmfGraph diagram label
+		var diagramLabel := new GmfGraph!DiagramLabel;
+		diagramLabel.name := attribute.getLabelName();
+		diagramLabel.elementIcon := false;
+		canvas.labels.add(diagramLabel);
+		
+		figure.children.add(label);
+			
+		-- Create GmfGraph child access
+		var childAccess : new GmfGraph!ChildAccess;
+		childAccess.figure := label;
+		childAccess.accessor := 'getFigure' + label.name;
+		figureDescriptor.accessors.add(childAccess);
+			
+		diagramLabel.accessor := childAccess;
+		diagramLabel.figure := figureDescriptor;
+		
+		-- Create GmfMap feature label mapping
+		var featureLabelMapping : new GmfMap!FeatureLabelMapping;
+		nodeMapping.labelMappings.add(featureLabelMapping);
+		featureLabelMapping.diagramLabel := diagramLabel;
+		featureLabelMapping.features.add(attribute);
+		featureLabelMapping.readOnly := attribute.getReadOnly();
+	}
 }
 
 for (containment in getDiagramClass().getContainmentReferences()) {
@@ -328,6 +359,7 @@ for (class in getLinks()) {
 		var featureLabelMapping := new GmfMap!FeatureLabelMapping;
 		featureLabelMapping.diagramLabel := diagramLabel;
 		featureLabelMapping.features.addAll(class.getLabelAttributes());
+		featureLabelMapping.readOnly := class.getLabelReadOnly();
 		linkMapping.labelMappings.add(featureLabelMapping);
 	}
 	
