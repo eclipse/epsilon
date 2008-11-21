@@ -85,7 +85,7 @@ public class OutputBuffer {
 		//spaceStr = spaceStr.replaceAll("^[\\s]*", " ");
 		
 		for (int i=0;i<parts.length;i++) {
-			System.err.println(parts[i]);
+			//System.err.println(parts[i]);
 			if (i > 0) {
 				buffer.append("\n" + spaceStr + parts[i]);
 			}
