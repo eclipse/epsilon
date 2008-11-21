@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EPackage Registry Explorer Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.dt.epackageregistryexplorer;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.8.2.1
 Bundle-Activator: org.eclipse.epsilon.dt.epackageregistryexplorer.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.epsilon.dt.epackageregistryexplorer
+Bundle-Vendor: Eclipse.org
