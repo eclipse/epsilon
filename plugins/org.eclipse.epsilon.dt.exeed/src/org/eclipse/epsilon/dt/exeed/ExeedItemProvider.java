@@ -76,7 +76,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 	public void setImageTextProvider(ImageTextProvider imageTextProvider) {
 		this.imageTextProvider = imageTextProvider;
 	}
-
+	
 	@Override
 	public List getPropertyDescriptors(Object object) {
 		
@@ -103,19 +103,13 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 				
 				itemPropertyDescriptors.add(itemPropertyDescriptor);
 				
-				/*
-				if (eFeature.getName().equalsIgnoreCase("name")) {
-					itemPropertyDescriptors.add(0, itemPropertyDescriptor);
-				}
-				else {
-					itemPropertyDescriptors.add(itemPropertyDescriptor);
-				}*/
 			}
 		}
 
 		return itemPropertyDescriptors;
 	}
 	
+	/*
 	@Override
 	public Collection<?> getChildren(Object object) {
 		Collection children = super.getChildren(object);
@@ -152,7 +146,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		
 		return children;
 	}
-	
+	*/
 	protected boolean isNested(EStructuralFeature sf) {
 		EAnnotation eAnnotation = sf.getEAnnotation("exeed");
 		if (eAnnotation != null) {

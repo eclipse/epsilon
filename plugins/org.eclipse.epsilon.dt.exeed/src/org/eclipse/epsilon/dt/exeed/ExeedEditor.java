@@ -425,6 +425,7 @@ public class ExeedEditor extends EcoreEditor {
 		Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
 		
 		InMemoryEmfModel model = new InMemoryEmfModel(mainResource);
+		model.setCachingEnabled(false);
 		
 		/*
 		ListIterator li = this.getEditingDomain().getResourceSet().getResources().listIterator();
