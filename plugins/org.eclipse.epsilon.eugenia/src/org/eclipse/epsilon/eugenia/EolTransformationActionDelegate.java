@@ -54,9 +54,13 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 				try {
 					runImpl(action);
 				} catch (Exception ex) {
+					// Produce log message before displaying message
+					// Swapping the order seems to prevent the message
+					// from being logged
+					LogUtil.log(ex);
+					
 					MessageDialog.openError(shell, "Error",
 							"An error has occured. Please see the Error Log.");
-					LogUtil.log(ex);
 				}
 				return Status.OK_STATUS;
 			}
