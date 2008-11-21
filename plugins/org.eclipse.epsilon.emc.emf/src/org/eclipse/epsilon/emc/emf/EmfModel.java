@@ -67,10 +67,12 @@ public class EmfModel extends AbstractEmfModel {
 		this.modelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_MODEL_FILE);
 		this.metamodelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_METAMODEL_FILE);
 		
+		
+		
 		if (StringUtil.isEmpty(basePath)) {
-			this.modelFileUri = URI.createURI(modelFile);
+			this.modelFileUri = URI.createFileURI(modelFile);
 			if (isMetamodelFileBased) {
-				this.metamodelFileUri = URI.createURI(metamodelFile);
+				this.metamodelFileUri = URI.createFileURI(metamodelFile);
 			}
 		}
 		else {
