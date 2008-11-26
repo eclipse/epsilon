@@ -38,13 +38,9 @@ import org.eclipse.epsilon.etl.parse.EtlParser;
 
 public class EtlModule extends ErlModule implements IEtlModule {
 	
-	//protected EolLabeledBlock preBlock = null;
-	//protected EolLabeledBlock postBlock = null; 
 	protected TransformRules declaredTransformRules = null;
 	protected TransformRules transformRules = null;
 	protected IEtlContext context = null;
-	//protected IEolModel sourceModel;
-	//protected IEolModel targetModel;
 	
 	public EtlModule(){
 		reset();
