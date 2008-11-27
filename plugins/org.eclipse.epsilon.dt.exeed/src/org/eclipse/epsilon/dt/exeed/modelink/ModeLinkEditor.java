@@ -316,12 +316,6 @@ public class ModeLinkEditor extends MultiEditor {
     	
     	return createEditorTab(folder, e);
     }
-    
-	@Override
-	protected void activateEditor(IEditorPart part) {
-		super.activateEditor(part);
-		// System.err.println("Activated " + part.getTitle());
-	}
 	
 	@Override
 	public String getPartName() {
