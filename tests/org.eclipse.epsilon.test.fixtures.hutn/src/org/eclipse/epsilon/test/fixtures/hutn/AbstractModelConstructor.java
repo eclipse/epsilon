@@ -17,8 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
@@ -46,7 +46,7 @@ public abstract class AbstractModelConstructor<T> {
 		return false;
 	}
 	
-	protected static IModel constructModel(String hutn) {
+	protected static AbstractEmfModel constructModel(String hutn) {
 		try {
 			if (parse(hutn)) {
 				return hutnModule.generateEmfModel();	
@@ -82,7 +82,7 @@ public abstract class AbstractModelConstructor<T> {
 	}
 	
 	public T construct(String hutn) {
-		final IModel model = constructModel(addPreamble(hutn, getNsUris(), getConfigFiles()));
+		final AbstractEmfModel model = constructModel(addPreamble(hutn, getNsUris(), getConfigFiles()));
 		
 		try {
 			for (Object o : model.getAllOfKind(getRootElementType().getSimpleName())) {

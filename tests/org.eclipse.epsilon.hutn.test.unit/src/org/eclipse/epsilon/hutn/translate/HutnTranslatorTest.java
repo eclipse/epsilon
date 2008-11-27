@@ -23,7 +23,7 @@ import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 import org.eclipse.epsilon.hutn.util.EmfUtil;
-import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.AntlrAstFactory;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
@@ -34,7 +34,7 @@ public abstract class HutnTranslatorTest {
 	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
 		final Spec spec = new HutnTranslator().createIntermediateModel(ast);
 		
-		final IModel specModel = new InMemoryEmfModel(EmfUtil.createResourceFor(spec));
+		final AbstractEmfModel specModel = new InMemoryEmfModel(EmfUtil.createResourceFor(spec));
 		
 		final ModelWithEolAssertions model = new ModelWithEolAssertions(specModel);
 		

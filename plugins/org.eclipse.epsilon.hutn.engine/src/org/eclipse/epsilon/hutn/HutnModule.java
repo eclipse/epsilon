@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolLibraryModule;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
 import org.eclipse.epsilon.hutn.exceptions.HutnException;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
@@ -205,7 +205,7 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		}
 	}
 
-	public IModel generateEmfModel() throws HutnGenerationException {
+	public AbstractEmfModel generateEmfModel() throws HutnGenerationException {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		if (hasInferredMetaModel()) {
 			// TODO : Generate inferred meta-model and use it to generate model

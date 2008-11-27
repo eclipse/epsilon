@@ -13,8 +13,8 @@ package org.eclipse.epsilon.hutn;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 
@@ -26,7 +26,7 @@ public interface IHutnModule extends IEolLibraryModule {
 	
 	public void generateEmfModel(File destination, File metamodel) throws HutnGenerationException;
 	
-	public IModel generateEmfModel() throws HutnGenerationException;
+	public AbstractEmfModel generateEmfModel() throws HutnGenerationException;
 
 	public boolean hasInferredMetaModel();
 	

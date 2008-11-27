@@ -5,5 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.test.fixtures.hutn
 Bundle-Version: 0.8.1.1
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
- org.eclipse.epsilon.hutn.engine;visibility:=reexport
+ org.eclipse.epsilon.hutn.engine;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf;visibility:=reexport
 Export-Package: org.eclipse.epsilon.test.fixtures.hutn

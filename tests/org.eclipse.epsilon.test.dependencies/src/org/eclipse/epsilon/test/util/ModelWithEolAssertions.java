@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
@@ -32,7 +33,7 @@ import org.eclipse.epsilon.eol.EolEvaluator;
 
 public class ModelWithEolAssertions {
 	
-	private final EmfModel model;
+	private final AbstractEmfModel model;
 	private final EolEvaluator evaluator;
 	
 	private static Resource createResourceFor(EObject eObject) {
@@ -58,7 +59,7 @@ public class ModelWithEolAssertions {
 		this(new InMemoryEmfModel("Model", createResourceFor(eObject), ePackages));
 	}
 	
-	public ModelWithEolAssertions(EmfModel model) {
+	public ModelWithEolAssertions(AbstractEmfModel model) {
 		this.model = model;
 		evaluator  = new EolEvaluator(model);
 		

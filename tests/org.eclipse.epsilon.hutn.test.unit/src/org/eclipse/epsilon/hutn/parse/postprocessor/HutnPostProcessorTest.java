@@ -20,8 +20,8 @@ import java.util.List;
 import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
@@ -32,7 +32,7 @@ public abstract class HutnPostProcessorTest {
 	protected static ModelWithEolAssertions postProcessorTest(AST ast) {
 		problems.clear();
 		
-		final IModel astModel = new InMemoryEmfModel(new HutnPostProcessor(problems).process(ast).eResource());
+		final AbstractEmfModel astModel = new InMemoryEmfModel(new HutnPostProcessor(problems).process(ast).eResource());
 		final ModelWithEolAssertions model = new ModelWithEolAssertions(astModel);
 		
 		model.assertEquals(1, "Ast.allInstances().size()");
