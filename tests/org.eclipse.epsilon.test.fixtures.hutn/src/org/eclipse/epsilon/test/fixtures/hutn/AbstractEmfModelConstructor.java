@@ -18,12 +18,11 @@ import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 
-public abstract class AbstractModelConstructor<T> {
+public abstract class AbstractEmfModelConstructor {
 	
 	private static final IHutnModule hutnModule = new HutnModule(); 
 	
@@ -46,18 +45,6 @@ public abstract class AbstractModelConstructor<T> {
 		return false;
 	}
 	
-	protected static AbstractEmfModel constructModel(String hutn) {
-		try {
-			if (parse(hutn)) {
-				return hutnModule.generateEmfModel();	
-			}
-		} catch (HutnGenerationException e) {
-			e.printStackTrace();
-		} 
-
-		return null;
-	}
-	
 	protected static String addPreamble(String hutn, String nsUri, String configFile) {
 		return addPreamble(hutn, Collections.singletonList(nsUri), Collections.singletonList(configFile));
 	}
@@ -76,29 +63,23 @@ public abstract class AbstractModelConstructor<T> {
 		
 		return preamble + hutn;
 	}
-	
+
 	protected static String getConfigFilePreamble(String configFile) {
 		return (configFile == null) ? "" : "configFile = \"" + configFile + "\"";
 	}
 	
-	public T construct(String hutn) {
-		final AbstractEmfModel model = constructModel(addPreamble(hutn, getNsUris(), getConfigFiles()));
-		
+	public AbstractEmfModel constructModel(String hutn) {
 		try {
-			for (Object o : model.getAllOfKind(getRootElementType().getSimpleName())) {
-				if (getRootElementType().isInstance(o)) {
-					return getRootElementType().cast(o);
-				}
+			if (parse(addPreamble(hutn, getNsUris(), getConfigFiles()))) {
+				return hutnModule.generateEmfModel();	
 			}
-		} catch (EolModelElementTypeNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (HutnGenerationException e) {
 			e.printStackTrace();
-		}
+		} 
 
-		return null;	
+		return null;
 	}
 
 	protected abstract List<String> getNsUris();
 	protected abstract List<String> getConfigFiles();
-	protected abstract Class<T> getRootElementType();
 }
