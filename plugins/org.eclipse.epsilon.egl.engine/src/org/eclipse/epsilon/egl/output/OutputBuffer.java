@@ -20,7 +20,6 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.types.EolInteger;
 
 public class OutputBuffer {
@@ -57,40 +56,43 @@ public class OutputBuffer {
 		buffer.append(o == null ? "null" : o.toString());
 	}
 	
-	public void printdyn(Object o) {
-		int lastline = buffer.lastIndexOf("\n");
-		String str = StringUtil.toString(o);
-		String[] parts = str.split("\r\n");
-		String spaceStr = null; 
-		if (lastline == -1) {
-			spaceStr = buffer.substring(0, buffer.length());
+	private String getLastLineInBuffer() {
+		final int indexOfLastLine = buffer.lastIndexOf("\n");
+		
+		if (indexOfLastLine == -1) {
+			return buffer.substring(0, buffer.length());
 		}
 		else {
-			spaceStr = buffer.substring(lastline + 1, buffer.length());
+			return buffer.substring(indexOfLastLine + 1, buffer.length());
 		}
+	}
+	
+	private String calculateIndentationToMatch(String previousLine) {
+		final StringBuilder builder = new StringBuilder();
 		
-		String temp = "";
-		
-		for (char c : spaceStr.toCharArray()) {
+		for (char c : previousLine.toCharArray()) {
 			if (Character.isWhitespace(c)) {
-				temp = temp + c;
+				builder.append(c);
 			}
 			else {
-				temp = temp + " ";
+				builder.append(' ');
 			}
 		}
 		
-		spaceStr = temp;
+		return builder.toString();
+	}
+	
+	public void printdyn(Object o) {
+		final String indentation = calculateIndentationToMatch(getLastLineInBuffer());
+		final String[] lines = StringUtil.toString(o).split(FileUtil.NEWLINE);
 		
-		//spaceStr = spaceStr.replaceAll("^[\\s]*", " ");
-		
-		for (int i=0;i<parts.length;i++) {
-			//System.err.println(parts[i]);
-			if (i > 0) {
-				buffer.append("\n" + spaceStr + parts[i]);
-			}
-			else {
-				buffer.append(parts[i]);
+		for (int i=0;i<lines.length;i++) {
+			if (i == 0) {
+				// Any text before the first newline character should not be
+				// placed on a newline nor indented  
+				buffer.append(lines[i]);
+			} else {
+				buffer.append(FileUtil.NEWLINE + indentation + lines[i]);
 			}
 		}
 	}
