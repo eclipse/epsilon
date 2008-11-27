@@ -22,6 +22,7 @@ import org.eclipse.epsilon.hutn.translate.Associations;
 import org.eclipse.epsilon.hutn.translate.AttributeTypes;
 import org.eclipse.epsilon.hutn.translate.ClassifierLevelAttributes;
 import org.eclipse.epsilon.hutn.translate.Containment;
+import org.eclipse.epsilon.hutn.translate.ContainmentRepeatedFeatureName;
 import org.eclipse.epsilon.hutn.translate.DefaultValue;
 import org.eclipse.epsilon.hutn.translate.EmptyAst;
 import org.eclipse.epsilon.hutn.translate.Enumerations;
@@ -30,6 +31,7 @@ import org.eclipse.epsilon.hutn.translate.InferredIdentifier;
 import org.eclipse.epsilon.hutn.translate.InfixAssociation;
 import org.eclipse.epsilon.hutn.translate.MultiValuedAttribute;
 import org.eclipse.epsilon.hutn.translate.NonExistentConfigFile;
+import org.eclipse.epsilon.hutn.translate.RepeatedFeatureWithDifferentTypes;
 import org.eclipse.epsilon.hutn.translate.SingleClass;
 import org.eclipse.epsilon.hutn.translate.SingleClassWithAdjectives;
 import org.eclipse.epsilon.hutn.translate.SingleClassWithAttributes;
@@ -49,7 +51,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Containment.class, InferredAttributeValue.class, InferredIdentifier.class,
                NonExistentConfigFile.class, DefaultValue.class, Enumerations.class,
                ClassifierLevelAttributes.class, AssociationBlock.class,
-               InfixAssociation.class})
+               InfixAssociation.class,
+               ContainmentRepeatedFeatureName.class, RepeatedFeatureWithDifferentTypes.class})
 public class TranslatorSuite {
 
 	public static Test suite() {

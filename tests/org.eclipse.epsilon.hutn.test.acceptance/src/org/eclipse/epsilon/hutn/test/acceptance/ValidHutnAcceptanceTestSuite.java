@@ -25,6 +25,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.ClassifierLevelAttributes;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Comments;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Containment;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ContainmentEmpty;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.ContainmentRepeatedFeatureName;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.DefaultValue;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Enumerations;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReference;
@@ -43,7 +44,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
                AssociationBlock.class, InfixAssociation.class,
-               ExternalObjectReference.class, TwoMetamodels.class})
+               ExternalObjectReference.class, TwoMetamodels.class,
+               ContainmentRepeatedFeatureName.class})
 public class ValidHutnAcceptanceTestSuite {
 
 	public static Test suite() {

@@ -244,8 +244,12 @@ operation AntlrAst!AdjectiveNode getValue() : Boolean {
 }
 
 operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
-	var slot := n.children.first().toSlot();
-	slot.feature := n.text;
+	var slot := self.findSlot(n.text);
+	
+	if (slot.isUndefined() or slot.isDifferentTypeTo(n.children.first().toSlot())) {
+		slot := n.children.first().toSlot();
+		slot.feature := n.text;
+	}
 	
 	if (Intermediate!EnumSlot.isType(slot)) {
 		slot.value := n.children.first().getValue();
@@ -271,6 +275,10 @@ operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 	slot.addTraceabilityInfo(n);
 	
 	self.slots.add(slot);
+}
+
+operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
+	return self.eClass.name <> other.eClass.name;
 }
 
 -- Nulls --
