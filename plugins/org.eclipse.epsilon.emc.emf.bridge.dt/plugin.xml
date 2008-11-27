@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.epsilon.common.dt.modelType">
+      <modelType
+            class="org.eclipse.epsilon.emc.emf.bridge.BridgeEmfModel"
+            dialog="org.eclipse.epsilon.emc.emf.bridge.dt.BridgeEmfModelConfigurationDialog"
+            icon="icons/BridgeEMF.gif"
+            label="EMF Bridge Model"
+            type="BridgeEMF">
+      </modelType>
+   </extension>
+
+</plugin>
