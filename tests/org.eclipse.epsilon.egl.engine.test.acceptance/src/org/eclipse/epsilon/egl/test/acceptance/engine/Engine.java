@@ -51,7 +51,7 @@ public class Engine {
 		
 		} catch (EglRuntimeException ex) {
 			assertEquals(2,  ex.getLine());
-			assertEquals(10, ex.getColumn());
+			assertEquals(9, ex.getColumn());
 			throw ex;
 		}
 	}

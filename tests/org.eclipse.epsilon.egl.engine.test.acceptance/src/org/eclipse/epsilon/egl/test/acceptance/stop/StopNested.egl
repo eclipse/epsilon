@@ -1,3 +1,4 @@
 NestedBefore
 [% var t : Template := TemplateFactory.load('Stop.egl'); %]
-[%=t.process()%]NestedAfter
+[%=t.process()%]
+NestedAfter

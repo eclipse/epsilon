@@ -46,7 +46,7 @@ public class Output {
 	public void testProcessHierachy() throws IOException, EglRuntimeException, EolModelLoadingException {
 		final String expected = "Hello world from Template!"       + NEWLINE +
 		                        "Hello world from SubTemplate!"    + NEWLINE +
-		                        "Hello world from SubSubTemplate!" + NEWLINE;
+		                        "Hello world from SubSubTemplate!";
 		
 		AcceptanceTestUtil.test(hierachy, expected);
 	}

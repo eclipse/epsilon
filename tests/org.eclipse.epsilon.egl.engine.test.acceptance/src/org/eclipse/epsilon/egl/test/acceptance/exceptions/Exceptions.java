@@ -33,10 +33,6 @@ public class Exceptions {
 	private static File Load;
 	private static File Process;
 	private static File ProcessDeep;
-	private static File Invalid;
-	
-	private static File Store;
-	private static File Generate;
 	
 	@BeforeClass
 	public static void setUpOnce() {
@@ -49,10 +45,6 @@ public class Exceptions {
 		Load               = FileUtil.getFile("Load.egl",               Exceptions.class);
 		Process            = FileUtil.getFile("Process.egl",            Exceptions.class);
 		ProcessDeep        = FileUtil.getFile("ProcessDeep.egl",        Exceptions.class);
-		Invalid            = FileUtil.getFile("Inval*idPath.txt",       Exceptions.class);
-		
-		Store              = FileUtil.getFile("Store.egl",              Exceptions.class);
-		Generate           = FileUtil.getFile("Generate.egl",           Exceptions.class);
 	}
 	
 	
@@ -67,7 +59,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("There is no current region to stop preserving.", e.getReason());
 			assertEquals(1, e.getLine());
-			assertEquals(8, e.getColumn());
+			assertEquals(7, e.getColumn());
 		}
 	}
 	
@@ -80,7 +72,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Preservation of the current region must be stopped before preservation of another region may begin.", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(8, e.getColumn());
 		}
 	}
 	
@@ -93,7 +85,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Preservation of the current region must be stopped before preservation of another region may begin.", e.getReason());
 			assertEquals(5, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(8, e.getColumn());
 		}
 	}
 	
@@ -106,7 +98,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("A content type must be specified before using startPreserve(id, enabled).", e.getReason());
 			assertEquals(2, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(5, e.getColumn());
 		}
 	}
 	
@@ -119,7 +111,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("'NotAContentType' is not a recognised content type.", e.getReason());
 			assertEquals(2, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(5, e.getColumn());
 		}
 	}
 	
@@ -134,9 +126,9 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 			
 		} catch (EglRuntimeException e) {
-			assertEquals("Template not found 'include\\NotHere.egl'", e.getReason());
+			assertEquals("Template not found 'include/NotHere.egl'", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(17, e.getColumn());
+			assertEquals(16, e.getColumn());
 		}
 	}
 	
@@ -149,13 +141,13 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Could not process '" + StopPreserve.getName() + "'", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(4, e.getColumn());
+			assertEquals(6, e.getColumn());
 			
 			final EglRuntimeException cause = (EglRuntimeException)e.getCause();
 			
 			assertEquals("There is no current region to stop preserving.", cause.getReason());
 			assertEquals(1, cause.getLine());
-			assertEquals(8, cause.getColumn());
+			assertEquals(7, cause.getColumn());
 		}
 	}
 	
@@ -168,46 +160,18 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Could not process '" + Process.getName() + "'", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(4, e.getColumn());
+			assertEquals(6, e.getColumn());
 			
 			final EglRuntimeException cause = (EglRuntimeException)e.getCause();
 			assertEquals("Could not process '" + StopPreserve.getName() + "'", cause.getReason());
 			assertEquals(3, cause.getLine());
-			assertEquals(4, cause.getColumn());
+			assertEquals(6, cause.getColumn());
 			
 			final EglRuntimeException causeOfCause = (EglRuntimeException)cause.getCause();
 			
 			assertEquals("There is no current region to stop preserving.", causeOfCause.getReason());
 			assertEquals(1, causeOfCause.getLine());
-			assertEquals(8, causeOfCause.getColumn());
-		}
-	}
-	
-	
-	
-	@Test
-	public void generate() throws IOException, EolModelLoadingException {
-		try {
-			AcceptanceTestUtil.run(Generate);
-			fail("Expected EglRuntimeException");
-			
-		} catch (EglRuntimeException e) {
-			assertEquals("Could not write to " + Invalid.getAbsolutePath(), e.getReason());
-			assertEquals(3, e.getLine());
-			assertEquals(4, e.getColumn());
-		}
-	}
-	
-	@Test
-	public void store() throws IOException, EolModelLoadingException {
-		try {
-			AcceptanceTestUtil.run(Store);
-			fail("Expected EglRuntimeException");
-			
-		} catch (EglRuntimeException e) {
-			assertEquals("Could not write to " + Invalid.getAbsolutePath(), e.getReason());
-			assertEquals(3, e.getLine());
-			assertEquals(4, e.getColumn());
+			assertEquals(7, causeOfCause.getColumn());
 		}
 	}
 }
