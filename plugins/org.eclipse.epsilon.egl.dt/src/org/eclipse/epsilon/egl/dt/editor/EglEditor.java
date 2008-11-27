@@ -102,7 +102,7 @@ public class EglEditor extends AbstractModuleEditor {
 									"-- Pass parameters to the template\r\n" + 
 									"${templateName} := TemplateFactory.load('${templateName}.egl');\r\n" + 
 									"${templateName}.populate('${parameterName}', ${parameterValue});\r\n" + 
-									"${templateName}.store('${targetFile}', true);";
+									"${templateName}.store('${targetFile}');";
 			templates.add(new Template("store", "invoke other template and store results", "", storeTemplate, false));
 			
 			String processTemplate = "var ${templateName} : Template;\r\n" + 
