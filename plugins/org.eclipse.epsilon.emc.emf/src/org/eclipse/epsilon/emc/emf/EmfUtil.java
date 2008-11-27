@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class EmfUtil {
@@ -230,4 +231,35 @@ public class EmfUtil {
 		return Collections.unmodifiableList(results);
 	}
 	
+	
+	
+	private final static URI DEFAULT_URI = URI.createFileURI("foo.ecore");
+	
+	public static Resource createResource() {
+		return createResource(DEFAULT_URI);
+	}
+	
+	public static Resource createResource(URI uri) {
+		final ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
+
+		return resourceSet.createResource(uri);
+	}
+	
+	public static Resource createResourceFor(EObject rootObject) {
+		return createResourceFor(rootObject, DEFAULT_URI);
+	}
+	
+	public static Resource createResourceFor(EObject rootObject, URI uri) {
+		final Resource resource = createResource(uri);
+		resource.getContents().add(rootObject);
+		return resource;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> T clone(T object) {
+		final T cloned = (T)EcoreUtil.copy(object);
+		org.eclipse.epsilon.emc.emf.EmfUtil.createResourceFor(cloned);
+		return cloned;
+	}
 }
