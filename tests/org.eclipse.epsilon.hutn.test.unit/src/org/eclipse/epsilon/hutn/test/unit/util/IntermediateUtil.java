@@ -17,6 +17,7 @@ package org.eclipse.epsilon.hutn.test.unit.util;
 import java.util.Arrays;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
@@ -29,7 +30,6 @@ import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutn.StringSlot;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
 
 public abstract class IntermediateUtil {
 

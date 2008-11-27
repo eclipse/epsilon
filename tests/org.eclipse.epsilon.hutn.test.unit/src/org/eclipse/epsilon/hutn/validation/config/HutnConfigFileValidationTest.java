@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.Configuration;
@@ -26,7 +27,6 @@ import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigFactory;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigPackage;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.Rule;
 import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
 
 public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesMetaModel {
 
