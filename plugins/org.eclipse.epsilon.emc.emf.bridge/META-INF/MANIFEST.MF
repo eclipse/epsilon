@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMF Bridge Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.bridge
-Bundle-Version: 0.8.1.1
+Bundle-Version: 0.8.2.1
 Bundle-Activator: org.eclipse.epsilon.emc.emf.bridge.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,

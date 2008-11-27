@@ -395,4 +395,18 @@ both.&lt;/small&gt;
          version="0.8.2.1"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.bridge"
+         download-size="0"
+         install-size="0"
+         version="0.8.2.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.bridge.dt"
+         download-size="0"
+         install-size="0"
+         version="0.8.2.1"
+         unpack="false"/>
+
 </feature>
