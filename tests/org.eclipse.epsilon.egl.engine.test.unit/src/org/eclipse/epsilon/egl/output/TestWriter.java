@@ -25,7 +25,6 @@ import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 public class TestWriter {
 	
 	private static File VALID_PATH;
-	private static File INVALID_PATH;
 	private static File READ_ONLY_PATH;
 	
 	private int testNumber = 0;
@@ -33,7 +32,6 @@ public class TestWriter {
 	@BeforeClass
 	public static void setUpOnce() throws IOException {	
 		VALID_PATH     = FileUtil.getFile("Valid.txt", TestWriter.class);
-		INVALID_PATH   = FileUtil.getFile("Val*d.txt", TestWriter.class);
 		READ_ONLY_PATH = FileUtil.getFile("ReadOnly.txt", TestWriter.class);
 		
 		READ_ONLY_PATH.createNewFile();
@@ -43,7 +41,6 @@ public class TestWriter {
 	@AfterClass
 	public static void tearDownOnce() throws IOException {
 		if (VALID_PATH.exists())     VALID_PATH.delete();
-		if (INVALID_PATH.exists())   INVALID_PATH.delete();
 		if (READ_ONLY_PATH.exists()) READ_ONLY_PATH.delete();
 		
 	}
@@ -59,12 +56,6 @@ public class TestWriter {
 		new Writer(VALID_PATH, contents).write();
 		
 		assertEquals(contents, org.eclipse.epsilon.egl.util.FileUtil.read(VALID_PATH));
-	}
-	
-	@Test (expected=IOException.class)
-	public void testWriteInvalid() throws IOException {
-		final String contents = "Hello" + NEWLINE + "World!" + NEWLINE + testNumber;
-		new Writer(INVALID_PATH, contents).write();
 	}
 	
 	@Test (expected=IOException.class)

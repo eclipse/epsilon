@@ -15,26 +15,39 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestFileUtil {
 
-	private final File parent = new File("C:\\Test");
+	private static boolean OS_IS_WINDOWS;
+	private static File PARENT;
+	
+	@BeforeClass
+	public static void setup() {
+		OS_IS_WINDOWS = System.getProperty("os.name").contains("Windows");
+		
+		if (OS_IS_WINDOWS) {
+			PARENT = new File("C:\\Test");
+		} else {
+			PARENT = new File("/tmp/test"); 
+		}
+	}
 	
 	@Test
 	public void testResolveAbsolutePath() {
-		final String expected = "C:\\TestAbs\\Test.txt";
+		final String expected = OS_IS_WINDOWS ? "C:\\TestAbs\\Test.txt" : "/tmp/test-abs/Test.txt";
 		final String path     = expected;
-		final String actual   = FileUtil.resolve(path, parent);
+		final String actual   = FileUtil.resolve(path, PARENT);
 		
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testResolveRelativePath() {
-		final String expected = "C:\\Test\\Test.txt";
+		final String expected = OS_IS_WINDOWS ? "C:\\Test\\Test.txt" : "/tmp/test/Test.txt";
 		final String path     = "Test.txt";
-		final String actual   = FileUtil.resolve(path, parent);
+		final String actual   = FileUtil.resolve(path, PARENT);
 		
 		assertEquals(expected, actual);
 	}

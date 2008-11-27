@@ -110,7 +110,7 @@ public class TestPreprocessor {
 	@Test
 	public void testOutput() {
 		final String egl = "[%=foo%]";
-		final String eol = "out.print(foo);";
+		final String eol = "out.printdyn(foo);";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -256,8 +256,9 @@ public class TestPreprocessor {
 		                       "*]"                  + NEWLINE +
 		                       "[%var x := 5;%]";
 
-		System.err.println(preprocess(program));
-		System.err.println(preprocessor.getTrace());
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
 		
 		assertEquals(5, preprocessor.getTrace().getEglLineNumberFor(1));
 	}
@@ -337,7 +338,7 @@ public class TestPreprocessor {
 //		System.err.println(preprocess(program));
 //		System.err.println(preprocessor.getTrace());
 		
-		final int offset = "out.print(".length();
+		final int offset = "out.printdyn(".length();
 		
 		assertEquals( 4, preprocessor.getTrace().getEglColumnNumberFor(1, offset + 1));
 		assertEquals(12, preprocessor.getTrace().getEglColumnNumberFor(2, offset + 1));
@@ -359,7 +360,7 @@ public class TestPreprocessor {
 //		System.err.println(preprocess(program));
 //		System.err.println(preprocessor.getTrace());
 		
-		final int offset = "out.print(".length();
+		final int offset = "out.printdyn(".length();
 		
 		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(1));
 		assertEquals(2, preprocessor.getTrace().getEglLineNumberFor(2));
@@ -372,7 +373,7 @@ public class TestPreprocessor {
 		assertEquals(5,  preprocessor.getTrace().getEglColumnNumberFor(2, 1));
 		assertEquals(1,  preprocessor.getTrace().getEglColumnNumberFor(3, 1));
 		assertEquals(6,  preprocessor.getTrace().getEglColumnNumberFor(4, offset + 1));
-		assertEquals(11, preprocessor.getTrace().getEglColumnNumberFor(5, offset + 1));
+		assertEquals(14, preprocessor.getTrace().getEglColumnNumberFor(5, offset + 1));
 		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(6, 1));
 	}
 	

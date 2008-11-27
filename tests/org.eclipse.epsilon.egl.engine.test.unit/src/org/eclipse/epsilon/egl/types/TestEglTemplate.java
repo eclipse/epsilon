@@ -38,7 +38,6 @@ public class TestEglTemplate {
 	
 	private static File SIMPLE;
 	private static File ABSENT;
-	private static File INVALID;
 	
 	private static File POPULATE;
 	private static File EXISTING;
@@ -49,7 +48,6 @@ public class TestEglTemplate {
 	public static void setUpOnce() {
 		SIMPLE   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Simple.egl", TestEglTemplate.class);
 		ABSENT   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Absent.egl", TestEglTemplate.class);
-		INVALID  = org.eclipse.epsilon.commons.util.FileUtil.getFile("Inval*d.egl", TestEglTemplate.class);
 		
 		POPULATE = org.eclipse.epsilon.commons.util.FileUtil.getFile("Populate.egl", TestEglTemplate.class);
 		
@@ -96,13 +94,6 @@ public class TestEglTemplate {
 	@Test (expected = EglRuntimeException.class)
 	public void testAbsent() throws EglRuntimeException, URISyntaxException {
 		template = new EglTemplate(UriUtil.fileToUri(ABSENT), new MockContext());
-		
-		template.process();
-	}
-	
-	@Test (expected = EglRuntimeException.class)
-	public void testInvalid() throws EglRuntimeException, URISyntaxException {
-		template = new EglTemplate(UriUtil.fileToUri(INVALID), new MockContext());
 		
 		template.process();
 	}

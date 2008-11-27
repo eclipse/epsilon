@@ -38,7 +38,6 @@ public class TestEglFileGeneratingTemplate {
 	private static File OUTPUT4;
 	private static File EXISTING;
 	private static File GENERATED;
-	private static File INVALID;
 	
 	private EglFileGeneratingTemplate template;
 	private int testNumber = 1;
@@ -52,7 +51,6 @@ public class TestEglFileGeneratingTemplate {
 		OUTPUT4   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Output4.txt",   TestEglFileGeneratingTemplate.class);
 		EXISTING  = org.eclipse.epsilon.commons.util.FileUtil.getFile("Existing.txt",  TestEglFileGeneratingTemplate.class);
 		GENERATED = org.eclipse.epsilon.commons.util.FileUtil.getFile("Generated.txt", TestEglFileGeneratingTemplate.class);
-		INVALID   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Inval*d.egl",   TestEglFileGeneratingTemplate.class);
 		
 		if (!EXISTING.exists()) EXISTING.createNewFile();
 	}
@@ -201,15 +199,6 @@ public class TestEglFileGeneratingTemplate {
 		template.generate(OUTPUT4.getName());
 		
 		assertEquals(expected, FileUtil.read(OUTPUT4));
-	}
-	
-	@Test (expected=EglRuntimeException.class)
-	public void testGenerateInvalidPath() throws IOException, EglRuntimeException, URISyntaxException {
-		final IEglContext context = new MockContext();
-		context.getPartitioner().addPartitioner(new CommentBlockPartitioner("//", null));
-		
-		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), context, UriUtil.fileToUri(PROGRAM.getParentFile()));
-		template.generate(INVALID.getName());
 	}
 }
 
