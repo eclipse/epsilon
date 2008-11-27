@@ -57,7 +57,9 @@ public abstract class UriUtil {
 	}
 	
 	public static URI fileToUri(File file) throws URISyntaxException {
-		return new URI("file:///" + UriUtil.encode(file.getAbsolutePath(), file.isDirectory())); 
+		final String encoded = UriUtil.encode(file.getAbsolutePath(), file.isDirectory());
+		
+		return new URI("file://" + (encoded.startsWith("/") ? encoded : '/' + encoded));
 	}
 
 	public static String getName(URI uri) {
