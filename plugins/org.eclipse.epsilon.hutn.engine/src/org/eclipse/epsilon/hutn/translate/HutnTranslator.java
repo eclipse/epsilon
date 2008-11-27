@@ -18,6 +18,7 @@ import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.IEtlModule;
@@ -31,7 +32,7 @@ import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstPackage;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
+import org.eclipse.epsilon.hutn.util.EmcUtil;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 import org.eclipse.epsilon.hutn.util.StringUtil;
 import org.eclipse.epsilon.hutn.validation.config.HutnConfigFileValidator;
@@ -49,9 +50,9 @@ public class HutnTranslator {
 	}
 	
 	private static void registerMetaModels() throws HutnMetaModelRegistrationException {
-		EmfUtil.register(HutnPackage.eNS_URI,         HutnPackage.eINSTANCE);
-		EmfUtil.register(HutnConfigPackage.eNS_URI,   HutnConfigPackage.eINSTANCE);
-		EmfUtil.register(HutnAntlrAstPackage.eNS_URI, HutnAntlrAstPackage.eINSTANCE);
+		EmcUtil.register(HutnPackage.eNS_URI,         HutnPackage.eINSTANCE);
+		EmcUtil.register(HutnConfigPackage.eNS_URI,   HutnConfigPackage.eINSTANCE);
+		EmcUtil.register(HutnAntlrAstPackage.eNS_URI, HutnAntlrAstPackage.eINSTANCE);
 	}
 	
 	private static Node findNodeWithText(List<Node> nodes, String text) {

@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnMetaModelRegistrationException;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigPackage;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
+import org.eclipse.epsilon.hutn.util.EmcUtil;
 import org.eclipse.epsilon.hutn.validation.AbstractValidator;
 
 public class HutnConfigFileValidator extends AbstractValidator {
@@ -34,7 +34,7 @@ public class HutnConfigFileValidator extends AbstractValidator {
 	}
 	
 	private static void registerMetaModels() throws HutnMetaModelRegistrationException {
-		EmfUtil.register(HutnConfigPackage.eNS_URI, HutnConfigPackage.eINSTANCE);
+		EmcUtil.register(HutnConfigPackage.eNS_URI, HutnConfigPackage.eINSTANCE);
 	}
 	
 	public List<ParseProblem> getProblemsForConfigurationModel(IModel configModel, String metaModelNsUri) throws HutnValidationException {

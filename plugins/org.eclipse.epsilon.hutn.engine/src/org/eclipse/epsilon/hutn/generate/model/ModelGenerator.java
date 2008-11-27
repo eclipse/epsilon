@@ -31,6 +31,7 @@ import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.generate.AbstractGenerator;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
+import org.eclipse.epsilon.hutn.util.EmcUtil;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 
 public class ModelGenerator extends AbstractGenerator {
@@ -67,7 +68,7 @@ public class ModelGenerator extends AbstractGenerator {
 			EmfUtil.register(URI.createFileURI(metaModelFile.getAbsolutePath()), EPackage.Registry.INSTANCE);
 			
 			source = new InMemoryEmfModel("Intermediate", spec.eResource(), HutnPackage.eINSTANCE);
-			metaModel = org.eclipse.epsilon.hutn.util.EmfUtil.loadMetaModel("MetaModel", metaModelFile);
+			metaModel = EmcUtil.loadMetaModel("MetaModel", metaModelFile);
 		
 		} catch (Exception e) {
 			throw new HutnGenerationException(e);

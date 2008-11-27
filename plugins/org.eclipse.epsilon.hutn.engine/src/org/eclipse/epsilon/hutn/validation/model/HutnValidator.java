@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -24,7 +25,6 @@ import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
 import org.eclipse.epsilon.hutn.validation.AbstractValidator;
 
 public class HutnValidator extends AbstractValidator {

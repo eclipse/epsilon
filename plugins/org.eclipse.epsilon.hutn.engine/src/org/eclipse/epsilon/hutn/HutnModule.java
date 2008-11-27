@@ -28,6 +28,7 @@ import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
@@ -43,7 +44,6 @@ import org.eclipse.epsilon.hutn.parse.HutnLexer;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
 import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 
 public class HutnModule extends EolLibraryModule implements IHutnModule {

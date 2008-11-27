@@ -12,46 +12,16 @@ package org.eclipse.epsilon.hutn.util;
 
 import java.io.File;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.exceptions.HutnMetaModelRegistrationException;
 
-public abstract class EmfUtil {
+public abstract class EmcUtil {
 
-	private EmfUtil() {}
-	
-	private final static URI DEFAULT_URI = URI.createFileURI("foo.ecore");
-	
-	public static Resource createResource() {
-		return createResource(DEFAULT_URI);
-	}
-	
-	public static Resource createResource(URI uri) {
-		final ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
-
-		return resourceSet.createResource(uri);
-	}
-	
-	public static Resource createResourceFor(EObject rootObject) {
-		return createResourceFor(rootObject, DEFAULT_URI);
-	}
-	
-	public static Resource createResourceFor(EObject rootObject, URI uri) {
-		final Resource resource = createResource(uri);
-		resource.getContents().add(rootObject);
-		return resource;
-	}
+	private EmcUtil() {}
 	
 	private static EmfModel initialiseModel(String modelName, File modelFile) {
 		final EmfModel model = new EmfModel();
@@ -76,13 +46,6 @@ public abstract class EmfUtil {
 				
 		model.load();
 		return model;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T extends EObject> T clone(T object) {
-		final T cloned = (T)EcoreUtil.copy(object);
-		createResourceFor(cloned);
-		return cloned;
 	}
 	
 	public static IModel loadMetaModel(String modelName, File metaModelFile) throws EolModelLoadingException {

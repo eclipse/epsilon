@@ -15,8 +15,8 @@ import java.io.File;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
-import org.eclipse.epsilon.hutn.util.EmfUtil;
 
 public abstract class AbstractGenerator {
 
