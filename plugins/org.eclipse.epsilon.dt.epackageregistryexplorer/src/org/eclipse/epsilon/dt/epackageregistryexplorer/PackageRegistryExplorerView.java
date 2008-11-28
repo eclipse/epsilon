@@ -26,7 +26,9 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -36,6 +38,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
@@ -43,9 +46,11 @@ public class PackageRegistryExplorerView extends ViewPart {
 	
 	protected boolean backRunning = false;
 	protected TreeViewer classViewer;
+	protected ViewForm featureViewerForm;
 	protected TreeViewer featureViewer;
 	protected ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
 	protected List<TreePath> history = new ArrayList<TreePath>();
+	protected CLabel selectedClassLabel = null;
 	
 	public List<EPackage> getEPackages() {
 		return ePackages;
@@ -95,7 +100,13 @@ public class PackageRegistryExplorerView extends ViewPart {
 		//ToolBarManager m = new ToolBarManager(t);
 		//m.add(new RefreshAction());
 		
-		featureViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		featureViewerForm = new ViewForm(sashForm, SWT.NONE);
+		
+		selectedClassLabel = new CLabel(featureViewerForm, SWT.NONE);
+		featureViewerForm.setTopLeft(selectedClassLabel);
+		
+		featureViewer = new TreeViewer(featureViewerForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		featureViewerForm.setContent(featureViewer.getControl());
 		featureViewer.setContentProvider(new FeatureViewerContentProvider(this));
 		featureViewer.setLabelProvider(eCoreLabelProvider);
 		featureViewer.setSorter(new AlphabeticalSorter());
@@ -132,6 +143,11 @@ public class PackageRegistryExplorerView extends ViewPart {
 
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+			TreeItem[] selectedItems = classViewer.getTree().getSelection();
+			if (selectedItems.length > 0) {
+				selectedClassLabel.setText(selectedItems[0].getText());
+				selectedClassLabel.setImage(selectedItems[0].getImage());
+			}
 			featureViewer.setInput(selection.getFirstElement());
 		}
 		
