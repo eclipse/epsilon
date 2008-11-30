@@ -18,13 +18,24 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.viewers.ITableFontProvider;
+import org.eclipse.jface.resource.FontRegistry;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class ECoreLabelProvider extends LabelProvider implements ITableFontProvider {
+public class ECoreLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
+	
+	protected PackageRegistryExplorerView view;
+	
+	public ECoreLabelProvider(PackageRegistryExplorerView view) {
+		this.view = view;
+	}
+	
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof EPackage) {
@@ -32,7 +43,7 @@ public class ECoreLabelProvider extends LabelProvider implements ITableFontProvi
 		}
 		else if (element instanceof EClass) {
 			if (BridgeSupport.isBridge((EClass)element)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emc.emf.dt", "icons/Bridge.gif").createImage();
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Bridge.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EClass.gif").createImage();	
 		}
@@ -45,18 +56,18 @@ public class ECoreLabelProvider extends LabelProvider implements ITableFontProvi
 		else if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
 			if (BridgeSupport.isBridgeEnd(eReference)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emc.emf.dt", "icons/BridgeEnd.gif").createImage();
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/BridgeEnd.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EReference.gif").createImage();
 		}
 		else if (element instanceof BridgeEndDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emc.emf.dt", "icons/BridgeFeature.gif").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/BridgeFeature.gif").createImage();			
 		}
 		else if (element instanceof SubTypesDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emc.emf.dt", "icons/Subtypes.png").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Subtypes.png").createImage();			
 		}
 		else if (element instanceof SuperTypesDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emc.emf.dt", "icons/Supertypes.png").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Supertypes.png").createImage();			
 		}
 		else return super.getImage(element);
 	}
@@ -93,8 +104,49 @@ public class ECoreLabelProvider extends LabelProvider implements ITableFontProvi
 		else return element.toString();
 	}
 
-	public Font getFont(Object element, int columnIndex) {
+	public Color getBackground(Object element) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Color getForeground(Object element) {
+//		if (element instanceof EClass) {
+//			EClass eClass = (EClass) element;
+//			if (eClass.isAbstract()) {
+//				return Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+//			}
+//		}
+//		else 
+//		if (element instanceof EReference) {
+//			EReference eReference = (EReference) element;
+//			if (eReference.isContainment()) {
+//				return Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
+//			}
+//		}
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Font getFont(Object element) {
+		FontRegistry reg = JFaceResources.getFontRegistry();
+		if (element instanceof EClass) {
+			EClass eClass = (EClass) element;
+			if (eClass.isAbstract()) {
+				return reg.getItalic("");
+			}
+		}
+		if (element instanceof EReference) {
+			EReference eReference = (EReference) element;
+			if (eReference.isContainment()) {
+				return reg.getBold("");
+			}
+		}
+		if (element instanceof EStructuralFeature) {
+			EStructuralFeature eStructuralFeature = (EStructuralFeature) element;
+			if (eStructuralFeature.isDerived()) {
+				return reg.getItalic("");
+			}
+		}
 		return null;
 	}
 	

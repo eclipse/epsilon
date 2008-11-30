@@ -11,17 +11,11 @@
 
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Collection;
 
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -34,11 +28,36 @@ public class FeatureViewerContentProvider implements ITreeContentProvider {
 		this.view = view;
 	}
 	
+	protected Collection<EStructuralFeature> getFeatures(EClass eClass) {
+		Collection<EStructuralFeature> features;
+		
+		if (view.isShowInheritedFeatures()) {
+			features = eClass.getEAllStructuralFeatures();
+		}
+		else {
+			features = eClass.getEStructuralFeatures();
+		}
+		
+		if (view.isShowDerivedFeatures()) {
+			return features;
+		}
+		else {
+			ArrayList<EStructuralFeature> filtered = new ArrayList<EStructuralFeature>();
+			for (EStructuralFeature sf : features) {
+				if (!sf.isDerived()) {
+					filtered.add(sf);
+				}
+			}
+			return filtered;
+		}
+		
+	}
+	
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof EClass) {
 			ArrayList<Object> eStructuralFeatures = new ArrayList<Object>();
-			eStructuralFeatures.addAll(((EClass) inputElement).getEAllStructuralFeatures());
-			eStructuralFeatures.addAll(BridgeSupport.getBridgeEnds((EClass)inputElement, view.getEPackages()));
+			eStructuralFeatures.addAll(getFeatures((EClass) inputElement));
+			eStructuralFeatures.addAll(BridgeSupport.getBridgeEnds((EClass)inputElement, view.getEPackages(), view.isShowInheritedFeatures()));
 			return eStructuralFeatures.toArray();
 		}
 		else if (inputElement instanceof EEnum) {

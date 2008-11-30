@@ -34,15 +34,15 @@ public class BridgeSupport {
 		return eStructuralFeature.getEAnnotation("bridge.end") != null;
 	}
 	
-	protected static boolean isSubtypeOf(EClass subtype, EClassifier supertype) {
+	protected static boolean areCompatible(EClass subtype, EClassifier supertype, boolean inherited) {
 		if (subtype == supertype || subtype.getName().equalsIgnoreCase(supertype.getName())) return true;
-		if (subtype.getEAllSuperTypes().contains(supertype)) {
+		if (inherited && subtype.getEAllSuperTypes().contains(supertype)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public static Set<BridgeEndDescriptor> getBridgeEnds(EClass eClass, List<EPackage> ePackages) {
+	public static Set<BridgeEndDescriptor> getBridgeEnds(EClass eClass, List<EPackage> ePackages, boolean inherited) {
 			
 			Set<BridgeEndDescriptor> bridgeEnds = new HashSet<BridgeEndDescriptor>();
 			
@@ -52,11 +52,7 @@ public class BridgeSupport {
 						EClass bridge = (EClass) o;
 						if (isBridge(bridge)) {
 							for (EStructuralFeature bridgeEnd : bridge.getEStructuralFeatures()) {
-								if (eClass.getName().equalsIgnoreCase("ControlFlow") && bridgeEnd.getName().equalsIgnoreCase("probability")) {
-									System.err.println("Somewhere");
-									System.err.println(isBridgeEnd(bridgeEnd));
-								}
-								if (isBridgeEnd(bridgeEnd) && isSubtypeOf(eClass, bridgeEnd.getEType())) {
+								if (isBridgeEnd(bridgeEnd) && areCompatible(eClass, bridgeEnd.getEType(), inherited)) {
 									for (EStructuralFeature sf : bridge.getEAllStructuralFeatures()) {
 										if (sf != bridgeEnd) {
 											bridgeEnds.add(new BridgeEndDescriptor(sf));

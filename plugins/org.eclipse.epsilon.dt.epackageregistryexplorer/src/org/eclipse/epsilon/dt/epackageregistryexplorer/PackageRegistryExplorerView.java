@@ -12,19 +12,36 @@
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.content.IContentTypeManager.ISelectionPolicy;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
@@ -38,12 +55,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySource;
 
-public class PackageRegistryExplorerView extends ViewPart {
+public class PackageRegistryExplorerView extends ViewPart implements ISelectionProvider{
 	
+	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 	protected boolean backRunning = false;
 	protected TreeViewer classViewer;
 	protected ViewForm featureViewerForm;
@@ -51,7 +71,37 @@ public class PackageRegistryExplorerView extends ViewPart {
 	protected ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
 	protected List<TreePath> history = new ArrayList<TreePath>();
 	protected CLabel selectedClassLabel = null;
+	protected boolean showInheritedFeatures = true;
+	protected boolean showDerivedFeatures = true;
+	protected boolean showOppositeReference = false;
 	
+	public boolean isShowOppositeReference() {
+		return showOppositeReference;
+	}
+
+	public void setShowOppositeReference(boolean showOppositeReference) {
+		this.showOppositeReference = showOppositeReference;
+		featureViewer.refresh();
+	}
+
+	public boolean isShowInheritedFeatures() {
+		return showInheritedFeatures;
+	}
+
+	public void setShowInheritedFeatures(boolean showInheritedFeatures) {
+		this.showInheritedFeatures = showInheritedFeatures;
+		featureViewer.refresh();
+	}
+
+	public boolean isShowDerivedFeatures() {
+		return showDerivedFeatures;
+	}
+
+	public void setShowDerivedFeatures(boolean showDerivedFeatures) {
+		this.showDerivedFeatures = showDerivedFeatures;
+		featureViewer.refresh();
+	}
+
 	public List<EPackage> getEPackages() {
 		return ePackages;
 	}
@@ -60,7 +110,7 @@ public class PackageRegistryExplorerView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		
-		ECoreLabelProvider eCoreLabelProvider = new ECoreLabelProvider();
+		ECoreLabelProvider eCoreLabelProvider = new ECoreLabelProvider(this);
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
@@ -70,6 +120,7 @@ public class PackageRegistryExplorerView extends ViewPart {
 		classViewer.addSelectionChangedListener(new ClassViewerSelectionChangedListener());
 		classViewer.setSorter(new AlphabeticalSorter());
 		classViewer.setInput(getViewSite());
+		getSite().setSelectionProvider(this);		
 		
 		classViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -102,9 +153,6 @@ public class PackageRegistryExplorerView extends ViewPart {
 		
 		featureViewerForm = new ViewForm(sashForm, SWT.NONE);
 		
-		selectedClassLabel = new CLabel(featureViewerForm, SWT.NONE);
-		featureViewerForm.setTopLeft(selectedClassLabel);
-		
 		featureViewer = new TreeViewer(featureViewerForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		featureViewerForm.setContent(featureViewer.getControl());
 		featureViewer.setContentProvider(new FeatureViewerContentProvider(this));
@@ -128,6 +176,26 @@ public class PackageRegistryExplorerView extends ViewPart {
 			}
 			
 		});
+		
+		featureViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			public void selectionChanged(SelectionChangedEvent event) {
+				notifySelectionChangedListeners(featureViewer);
+			}
+			
+		});
+		
+		selectedClassLabel = new CLabel(featureViewerForm, SWT.NONE);
+		featureViewerForm.setTopLeft(selectedClassLabel);
+		
+		ToolBar featureViewerToolBar= new ToolBar(featureViewerForm, SWT.FLAT | SWT.WRAP);
+		featureViewerForm.setTopCenter(featureViewerToolBar);
+		ToolBarManager manager = new ToolBarManager(featureViewerToolBar);
+		manager.add(new ShowOppositeReferenceAction(this));
+		manager.add(new ShowDerivedFeaturesAction(this));
+		manager.add(new ShowInheritedFeaturesAction(this));
+		manager.update(true);
+		
 		//layout(parent);
 		contributeToActionBars();
 	}
@@ -147,6 +215,7 @@ public class PackageRegistryExplorerView extends ViewPart {
 			if (selectedItems.length > 0) {
 				selectedClassLabel.setText(selectedItems[0].getText());
 				selectedClassLabel.setImage(selectedItems[0].getImage());
+				notifySelectionChangedListeners(classViewer);
 			}
 			featureViewer.setInput(selection.getFirstElement());
 		}
@@ -274,6 +343,44 @@ public class PackageRegistryExplorerView extends ViewPart {
 	
 	@Override
 	public void setFocus() {
+		
+	}
+
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		selectionChangedListeners.add(listener);
+	}
+
+	public ISelection getSelection() {
+		return null;
+	}
+
+	public void notifySelectionChangedListeners(Viewer viewer) {
+		for (ISelectionChangedListener listener : selectionChangedListeners) {
+			final Object selected = ((IStructuredSelection)viewer.getSelection()).getFirstElement();
+			
+			IAdaptable adaptable = new IAdaptable() {
+
+				public Object getAdapter(Class adapter) {
+					
+					if (selected instanceof EObject && adapter == IPropertySource.class) {
+						
+						return new PropertySource(selected, new ReflectiveItemProvider(new ReflectiveItemProviderAdapterFactory()));
+					}
+					return null;
+				}
+				
+			};
+			listener.selectionChanged(new SelectionChangedEvent(this, new StructuredSelection(adaptable)));
+		}
+	}
+	
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+		selectionChangedListeners.remove(listener);
+		
+	}
+
+	public void setSelection(ISelection selection) {
 		// TODO Auto-generated method stub
 		
 	}
