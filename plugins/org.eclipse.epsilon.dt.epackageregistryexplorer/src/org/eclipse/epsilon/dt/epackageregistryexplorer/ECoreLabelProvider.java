@@ -87,6 +87,12 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 			if (sf.getEType() != null) {
 				signature = signature + " : " + sf.getEType().getName();
 			}
+			if (view.isShowOppositeReference() && sf instanceof EReference) {
+				EReference opposite = ((EReference) sf).getEOpposite();
+				if (opposite != null) {
+					signature = signature + "#" + opposite.getName();
+				}
+			}
 			if (sf.isMany()) {
 				signature = signature + " [*]";
 			}
@@ -105,25 +111,10 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 	}
 
 	public Color getBackground(Object element) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Color getForeground(Object element) {
-//		if (element instanceof EClass) {
-//			EClass eClass = (EClass) element;
-//			if (eClass.isAbstract()) {
-//				return Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
-//			}
-//		}
-//		else 
-//		if (element instanceof EReference) {
-//			EReference eReference = (EReference) element;
-//			if (eReference.isContainment()) {
-//				return Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
-//			}
-//		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 
