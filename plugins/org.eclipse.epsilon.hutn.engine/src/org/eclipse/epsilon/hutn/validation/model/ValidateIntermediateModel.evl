@@ -173,13 +173,38 @@ operation ClassObject toClass() : Metamodel!EClass {
 	return self.getEClass();
 } 
 
+operation Metamodel!EClass getAllClassObjects() : Collection(ClassObject) {
+	return ClassObject.all.select(c|c.hasEClass() and c.getEClass().name = self.name);
+}
+
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
 	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
 }
 
-operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {
-    return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name));
+operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject) : Boolean {
+	if (self.eOpposite.isDefined()) {
+		for (class in r.eOpposite.eContainingClass.getAllClassObjects()) {
+			var slot := class.findSlot(r.name);
+			
+			if (slot.isDefined() {
+				if (slot.isKindOf(ReferenceSlot) and slot.identifiers.includes(classObject.identifier)) {
+					return true;
+					
+				} elsif (slot.isKindOf(ContainmentSlot) and slot.classObjects.includes(classObject)) {
+					return true;
+				}
+			}
+		}
+	}
+	
+	return false;
 }
+
+operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {
+    return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name) and not r.hasOppositeReferencing(self));
+}
+
+
 
 operation Sequence toString() : String {
 	var result : String := '';
