@@ -183,14 +183,14 @@ operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(ERefer
 
 operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject) : Boolean {
 	if (self.eOpposite.isDefined()) {
-		for (class in r.eOpposite.eContainingClass.getAllClassObjects()) {
-			var slot := class.findSlot(r.name);
+		for (class in self.eOpposite.eContainingClass.getAllClassObjects()) {
+			var slot := class.findSlot(self.eOpposite.name);
 			
-			if (slot.isDefined() {
+			if (slot.isDefined()) {
 				if (slot.isKindOf(ReferenceSlot) and slot.identifiers.includes(classObject.identifier)) {
 					return true;
 					
-				} elsif (slot.isKindOf(ContainmentSlot) and slot.classObjects.includes(classObject)) {
+				} else if (slot.isKindOf(ContainmentSlot) and slot.classObjects.includes(classObject)) {
 					return true;
 				}
 			}
@@ -201,7 +201,7 @@ operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject)
 }
 
 operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequence(EReference) {
-    return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name) and not r.hasOppositeReferencing(self));
+    return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name) or r.hasOppositeReferencing(self));
 }
 
 
