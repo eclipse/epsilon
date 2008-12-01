@@ -49,7 +49,7 @@ public abstract class EpsilonUtil {
 		validator.setUnsatisfiedConstraintFixer(fixer);
 		
 		model.setReadOnLoad(true);
-		model.setStoredOnDisposal(false);
+		model.setStoredOnDisposal(true); // Fixes may be applied, so we should store the model
 		
 		validator.getContext().getModelRepository().addModel(model);
 		

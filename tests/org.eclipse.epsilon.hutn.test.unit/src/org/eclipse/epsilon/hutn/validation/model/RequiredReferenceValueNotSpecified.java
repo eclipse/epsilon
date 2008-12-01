@@ -36,6 +36,6 @@ public class RequiredReferenceValueNotSpecified extends HutnModelValidationTest 
 	
 	@Test
 	public void reasonShouldBeRequiredValueNotSpecified() {
-		assertEquals("York must specify a value for the following reference features: families", problems.get(0).getReason());
+		assertEquals("York must specify a value for the following reference features: dogs", problems.get(0).getReason());
 	}
 }

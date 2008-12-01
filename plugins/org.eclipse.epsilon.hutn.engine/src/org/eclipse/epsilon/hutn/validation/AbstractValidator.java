@@ -34,6 +34,14 @@ public abstract class AbstractValidator {
 	}
 	
 	protected List<ParseProblem> validate(IModel model, IModel... extraModels) throws HutnValidationException {
+		do {
+			doValidate(model, extraModels);
+		} while (fixer.hasAppliedFixes());
+		
+		return fixer.getParseProblems();
+	}
+	
+	private void doValidate(IModel model, IModel... extraModels) throws HutnValidationException {
 		try {		
 			final IEvlModule validator = EpsilonUtil.initialseEvlModule(fixer, model, extraModels);
 		
@@ -42,8 +50,6 @@ public abstract class AbstractValidator {
 		} catch (Exception e) {
 			throw new HutnValidationException(e);
 		}
-		
-		return fixer.getParseProblems();
 	}
 
 }

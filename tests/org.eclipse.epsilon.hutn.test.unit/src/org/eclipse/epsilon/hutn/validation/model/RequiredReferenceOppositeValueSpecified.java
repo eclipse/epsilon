@@ -29,6 +29,9 @@ public class RequiredReferenceOppositeValueSpecified extends HutnModelValidation
 	public static void validateModel() throws HutnValidationException {
 		problems = modelValidationTest(createSpec("families", createPackage(createClass("York", "District"),
 		                                                                    createClass("The Smiths", "Family",
+		                                                                                createReferenceSlot("district", "York")
+		                                                                    ),
+		                                                                    createClass("Fido", "Dog",
 		                                                                                createReferenceSlot("district", "York")))));
 	}
 	

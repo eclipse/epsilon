@@ -21,17 +21,51 @@ import org.eclipse.epsilon.evl.IEvlModule;
 
 public abstract class AbstractFixer implements IEvlFixer {
 
-	private final List<ParseProblem> problems = new ArrayList<ParseProblem>();
-	
-	protected abstract ParseProblem interpretUnsatisfiedConstraint(EvlUnsatisfiedConstraint constraint);
+	private IEvlModule module = null;
+	private boolean appliedFixes = false;
 	
 	public void fix(IEvlModule module) throws EolRuntimeException {
+		this.module = module; 
+		applyFixes();
+	}
+	
+	private void applyFixes() throws EolRuntimeException {
+		appliedFixes = false;
+
 		for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
-			problems.add(interpretUnsatisfiedConstraint(constraint));
+			if (!constraint.getFixes().isEmpty()) {				
+				appliedFixes = applyFix(constraint);
+			}
 		}
+	}
+
+	public boolean hasAppliedFixes() {
+		return appliedFixes ;
 	}
 	
 	public List<ParseProblem> getParseProblems() {
+		final List<ParseProblem> problems = new ArrayList<ParseProblem>();
+		
+		if (module != null) {
+			for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
+				problems.add(interpretUnsatisfiedConstraint(constraint));
+			}
+		}
+		
 		return problems;
 	}
+	
+	/**
+	 * Clients should override this method if fixes are used by the
+	 * validator. Returning true causes validation to be invoked again.
+	 * 
+	 * @param constraint The unsatisifed constraint for which a fix will be applied. 
+	 * @return true if and only if the fix caused the model to be changed.
+	 * @throws EolRuntimeException 
+	 */
+	protected boolean applyFix(EvlUnsatisfiedConstraint constraint) throws EolRuntimeException {
+		return false;
+	}
+	
+	protected abstract ParseProblem interpretUnsatisfiedConstraint(EvlUnsatisfiedConstraint constraint);
 }

@@ -33,6 +33,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Dog" eSuperTypes="#//Pet">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="loud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="breed" lowerBound="1" eType="#//DogBreed"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="district" eType="#//District"
+        eOpposite="#//District/dogs"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DogBreed">
     <eLiterals name="poodle" value="1"/>
@@ -41,5 +43,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="District">
     <eStructuralFeatures xsi:type="ecore:EReference" name="families" lowerBound="1"
         upperBound="-1" eType="#//Family" containment="true" eOpposite="#//Family/district"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dogs" lowerBound="1" upperBound="-1"
+        eType="#//Dog" containment="true" eOpposite="#//Dog/district"/>
   </eClassifiers>
 </ecore:EPackage>

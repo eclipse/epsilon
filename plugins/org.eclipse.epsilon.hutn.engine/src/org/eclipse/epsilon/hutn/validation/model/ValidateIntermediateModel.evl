@@ -33,6 +33,25 @@ context ClassObject {
 		guard: self.satisfies('ClassMustNotBeAbstract')
 		check: self.getAllReferencesThatRequireAValueButDontHaveOne().isEmpty() 
 		message: self.identifier + ' must specify a value for the following reference features: ' + self.getAllReferencesThatRequireAValueButDontHaveOne().collect(f|f.name).toString()
+		
+		fix {
+			title : 'Infer empty instances'
+			do {			
+				for (reference in self.getAllReferencesThatRequireAValueButDontHaveOne()) {
+					-- An instance can be infered if no values are required					
+					if (reference.aValueCanBeInferred()) {
+						var instance := new Intermediate!ClassObject;
+						instance.type := reference.eType.name;
+						
+						var slot := new Intermediate!ContainmentSlot;
+						slot.feature := reference.name;
+						slot.classObjects.add(instance);
+						
+						self.slots.add(slot);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -177,13 +196,17 @@ operation Metamodel!EClass getAllClassObjects() : Collection(ClassObject) {
 	return ClassObject.all.select(c|c.hasEClass() and c.getEClass().name = self.name);
 }
 
+operation Metamodel!EClass getAllFeaturesThatRequireAValue() : Sequence(EReference) {
+	return self.eAllStructuralFeatures.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
+}
+
 operation Metamodel!EClass getAllReferencesThatRequireAValue() : Sequence(EReference) {
 	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
 }
 
 operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject) : Boolean {
 	if (self.eOpposite.isDefined()) {
-		for (class in self.eOpposite.eContainingClass.getAllClassObjects()) {
+		for (class in self.eType.getAllClassObjects()) {
 			var slot := class.findSlot(self.eOpposite.name);
 			
 			if (slot.isDefined()) {
@@ -193,7 +216,8 @@ operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject)
 				} else if (slot.isKindOf(ContainmentSlot) and slot.classObjects.includes(classObject)) {
 					return true;
 				}
-			}
+			
+			} 
 		}
 	}
 	
@@ -204,6 +228,9 @@ operation ClassObject getAllReferencesThatRequireAValueButDontHaveOne() : Sequen
     return self.toClass().getAllReferencesThatRequireAValue().reject(r|self.slots.exists(s|s.feature = r.name) or r.hasOppositeReferencing(self));
 }
 
+operation Metamodel!EReference aValueCanBeInferred() : Boolean {
+	return self.isContainment and self.eType.getAllFeaturesThatRequireAValue().isEmpty();
+}
 
 
 operation Sequence toString() : String {
