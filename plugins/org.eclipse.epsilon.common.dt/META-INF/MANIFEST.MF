@@ -23,6 +23,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.variables
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.common.dt.actions,
  org.eclipse.epsilon.common.dt.console,
  org.eclipse.epsilon.common.dt.editor,
  org.eclipse.epsilon.common.dt.editor.contentassist,
