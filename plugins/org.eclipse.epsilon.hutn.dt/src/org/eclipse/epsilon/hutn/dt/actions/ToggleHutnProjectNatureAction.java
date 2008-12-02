@@ -13,6 +13,7 @@ package org.eclipse.epsilon.hutn.dt.actions;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.hutn.dt.nature.HutnNature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
