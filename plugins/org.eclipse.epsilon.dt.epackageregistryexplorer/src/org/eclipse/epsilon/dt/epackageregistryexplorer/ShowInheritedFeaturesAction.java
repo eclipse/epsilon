@@ -21,7 +21,7 @@ public class ShowInheritedFeaturesAction extends Action {
 		this.view = view;
 		this.setChecked(view.isShowInheritedFeatures());
 		this.setText("Show inherited features");
-		this.setImageDescriptor(Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Supertypes.png"));
+		this.setImageDescriptor(Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/supertypes.png"));
 	}
 	
 	@Override

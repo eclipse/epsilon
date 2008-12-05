@@ -43,7 +43,7 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		else if (element instanceof EClass) {
 			if (BridgeSupport.isBridge((EClass)element)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Bridge.gif").createImage();
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridge.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EClass.gif").createImage();	
 		}
@@ -56,18 +56,18 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 		else if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
 			if (BridgeSupport.isBridgeEnd(eReference)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/BridgeEnd.gif").createImage();
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridgeEnd.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EReference.gif").createImage();
 		}
 		else if (element instanceof BridgeEndDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/BridgeFeature.gif").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridgeFeature.gif").createImage();			
 		}
 		else if (element instanceof SubTypesDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Subtypes.png").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/subtypes.png").createImage();			
 		}
 		else if (element instanceof SuperTypesDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/Supertypes.png").createImage();			
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/supertypes.png").createImage();			
 		}
 		else return super.getImage(element);
 	}
