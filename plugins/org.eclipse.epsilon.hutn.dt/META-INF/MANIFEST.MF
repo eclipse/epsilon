@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation Development Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true
-Bundle-Version: 0.7.2.1
+Bundle-Version: 0.7.3
 Export-Package: org.eclipse.epsilon.hutn.dt.actions,
  org.eclipse.epsilon.hutn.dt.editor
 Require-Bundle: org.eclipse.epsilon.eol.dt,
