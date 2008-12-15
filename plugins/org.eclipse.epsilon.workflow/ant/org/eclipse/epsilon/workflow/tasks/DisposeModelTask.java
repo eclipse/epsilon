@@ -14,17 +14,18 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
-
+ 
 public class DisposeModelTask extends EpsilonTask {
-	
+	 
 	protected String model;
 	
-	@Override
+	@Override 
 	public void executeImpl() throws BuildException {
-		if (profile) Profiler.INSTANCE.start("Dispose model : " + model);
+		if (profile) Profiler.INSTANCE.start("Dispose model : " + model); 
 		try {
 			IModel eolModel = getProjectRepository().getModelByName(model);
 			eolModel.dispose();
+			getProjectRepository().getModels().remove(eolModel);
 		} catch (EolModelNotFoundException e) {
 			throw new BuildException(e);
 		}

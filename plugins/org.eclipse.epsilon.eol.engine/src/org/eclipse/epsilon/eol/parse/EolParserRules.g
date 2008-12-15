@@ -78,7 +78,9 @@ tokens {
 	TYPE;
 	ENUMERATION_VALUE;
 	IMPORT;
-	ModelDeclaration;
+	MODELDECLARATION;
+	NAMESPACE;
+	ALIAS;
 }
 
 @members {
@@ -93,14 +95,21 @@ operationDeclarationOrAnnotationBlock
 	: operationDeclaration|annotationBlock
 	;
 
-/*
 modelDeclaration
-	:	'model' NAME modelAlias? (':' NAME)? ';';
+	:	'model' NAME modelAlias? modelNamespace? ';'
+	-> ^(MODELDECLARATION NAME (modelAlias)? (modelNamespace)?)
+	;
+	
+modelNamespace
+	:   ':' NAME (',' NAME)*
+	-> ^(NAMESPACE NAME*)
+	;
 
 modelAlias
-	:  ('alias' NAME (',' NAME)*)
-*/
-
+	:  'alias' NAME (',' NAME)*
+	-> ^(ALIAS NAME*)
+	;
+	
 operationDeclaration
 	//:	'operation' (ctx=typeName {$ctx.setType(TYPE);})? operationName=NAME '(' formalParameterList ')' (':' returnType=typeName {$returnType.setType(TYPE);})? statementBlock
 	:	'operation' (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME '(' formalParameterList? ')' (':' returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock

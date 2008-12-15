@@ -12,7 +12,9 @@ package org.eclipse.epsilon.dt.exeed;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
+import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
@@ -20,6 +22,13 @@ public class JavaEmfPropertySetter extends AbstractPropertySetter {
 	
 	EmfPropertySetter emf = new EmfPropertySetter();
 	JavaPropertySetter java = new JavaPropertySetter();
+	
+	public JavaEmfPropertySetter() {
+		EolContext context = new EolContext();
+		EclipseContextManager.setup(context);
+		emf.setContext(context);
+		java.setContext(context);
+	}
 	
 	public void invoke(Object value) throws EolRuntimeException {
 		if (object instanceof EObject) {

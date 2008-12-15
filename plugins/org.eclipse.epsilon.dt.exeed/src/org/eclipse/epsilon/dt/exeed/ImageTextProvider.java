@@ -101,12 +101,13 @@ public class ImageTextProvider {
 		if (!(object instanceof EObject)) return def;
 		//if (((EObject) object).eIsProxy()) return def;
 		//if (!model.allInstances().contains(object)) return def;
+		String labelCode = "";
 		
 		try {
 			EObject eObject = (EObject) object;
 			module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 			module.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-			String labelCode = getEClassAnnotationDetail(eObject, "exeed", "label");
+			labelCode = getEClassAnnotationDetail(eObject, "exeed", "label");
 			if (labelCode != null) {
 				
 				module.parse(labelCode);
@@ -118,6 +119,9 @@ public class ImageTextProvider {
 				return addStructuralInfo(object,label,forReference);
 			}
 		} catch (Exception e) {
+			
+			System.err.println("The offending code is " + labelCode);
+			
 			LogUtil.log(e);
 		}
 		return addStructuralInfo(object,def,forReference);

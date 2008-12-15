@@ -20,6 +20,7 @@ public class DisposeModelsTask extends EpsilonTask {
 		for (IModel model : getProjectRepository().getModels()) {
 			model.dispose();
 		}
+		getProjectRepository().getModels().clear();
 	}
 
 }

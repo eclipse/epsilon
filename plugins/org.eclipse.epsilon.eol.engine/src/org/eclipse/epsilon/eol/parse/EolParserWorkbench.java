@@ -78,7 +78,7 @@ public class EolParserWorkbench {
 		
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
-		Tree tree = parser.annotationBlock().tree;
+		Tree tree = parser.eolModule().tree;
 		
 		for (ParseProblem problem : EpsilonParseProblemManager.INSTANCE.getParseProblems()) {
 			System.err.println(problem);
@@ -86,11 +86,11 @@ public class EolParserWorkbench {
 		
 		new V2V3Viewer(tree, EolParser.class);
 		
-		//print(((Tree)parser.eolModule().getTree()), 0);
+		print(((Tree)parser.eolModule().getTree()), 0);
 	}
 	
 	public void print(Tree tree, int indent) {
-		System.err.println(getIndent(indent) + tree.getText() + "->" + r.getField(tree.getType()) + " [" + tree.getLine() + ":" + tree.getCharPositionInLine() + "]");
+		System.err.println(getIndent(indent) + tree.getText());// + "->" + r.getField(tree.getType()) + " [" + tree.getLine() + ":" + tree.getCharPositionInLine() + "]");
 		for (int i=0;i<tree.getChildCount();i++) {
 			print(tree.getChild(i), indent+1);
 		}

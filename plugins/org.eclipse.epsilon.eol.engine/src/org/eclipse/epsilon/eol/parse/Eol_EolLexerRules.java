@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2008-09-01 17:23:25
+// $ANTLR 3.1b1 EolLexerRules.g 2008-12-08 11:37:11
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -84,6 +84,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int ELSE=29;
     public static final int EOLMODULE=54;
     public static final int PARAMLIST=22;
+    public static final int MODELDECLARATION=60;
     public static final int INT=6;
     public static final int DELETE=46;
     public static final int T__85=85;
@@ -92,12 +93,14 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__86=86;
     public static final int HELPERMETHOD=25;
     public static final int T__89=89;
+    public static final int NAMESPACE=61;
     public static final int T__88=88;
     public static final int CollectionType=38;
     public static final int T__71=71;
     public static final int WS=17;
     public static final int T__72=72;
     public static final int T__70=70;
+    public static final int ALIAS=62;
     public static final int JavaIDDigit=15;
     public static final int Annotation=20;
     public static final int T__76=76;
@@ -117,16 +120,16 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__67=67;
     public static final int T__64=64;
     public static final int T__65=65;
-    public static final int T__62=62;
     public static final int PARAMETERS=40;
     public static final int T__63=63;
     public static final int POINT=7;
+    public static final int T__116=116;
+    public static final int T__114=114;
+    public static final int T__115=115;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int FLOAT=4;
     public static final int EXECUTABLEANNOTATION=45;
-    public static final int T__61=61;
-    public static final int T__60=60;
     public static final int IF=28;
     public static final int ModelElementType=39;
     public static final int BOOLEAN=10;
@@ -140,6 +143,8 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__106=106;
     public static final int T__111=111;
     public static final int T__110=110;
+    public static final int T__113=113;
+    public static final int T__112=112;
     public static final int COLLECTION=36;
     public static final int DIGIT=5;
     public static final int EXPRRANGE=49;
@@ -148,7 +153,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=112;
+    public static final int Tokens=117;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;

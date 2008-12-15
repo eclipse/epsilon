@@ -89,8 +89,8 @@ package org.eclipse.epsilon.eol.parse;
 eolModule
 	:
 	(importStatement)*
+	(modelDeclaration)*
 	block
 	(operationDeclarationOrAnnotationBlock)*
-	-> ^(EOLMODULE importStatement* block (operationDeclarationOrAnnotationBlock)*)
+	-> ^(EOLMODULE importStatement* modelDeclaration* block (operationDeclarationOrAnnotationBlock)*)
 	;
-
