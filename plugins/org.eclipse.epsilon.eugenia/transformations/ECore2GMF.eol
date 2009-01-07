@@ -208,7 +208,7 @@ for (containment in getDiagramClass().getContainmentReferences()) {
 for (phantom in getPhantomNodes()) {
 	var topNodeReference := new GmfMap!TopNodeReference;
 	mapping.nodes.add(topNodeReference);
-	phantom.~nodeMapping.~nested := true;
+	--phantom.~nodeMapping.~nested := true;
 	topNodeReference.ownedChild := phantom.~nodeMapping;
 	phantom.~topNodeReference := topNodeReference;
 }
@@ -306,7 +306,9 @@ for (class in getNodes()) {
 -- Delete unused GmfMap node mappings
 
 for (nodeMapping in GmfMap!NodeMapping.all.clone()) {
-	if (nodeMapping.~nested.isUndefined()) delete nodeMapping;
+	if (nodeMapping.~nested.isUndefined() 
+		and (not nodeMapping.domainMetaElement.isPhantom()))
+	 delete nodeMapping;
 }
 
 -- Process Link EClasses
