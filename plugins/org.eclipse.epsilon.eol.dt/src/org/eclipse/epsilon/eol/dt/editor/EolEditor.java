@@ -24,7 +24,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class EolEditor extends AbstractModuleEditor {
 	
 	public EolEditor(){
-		
+        setRulerContextMenuId("editor.rulerMenu");
 	}
 	
 	@Override

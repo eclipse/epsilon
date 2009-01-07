@@ -21,6 +21,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.epsilon.common.dt
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.eol.dt.debug,
  org.eclipse.epsilon.eol.dt.editor,
  org.eclipse.epsilon.eol.dt.editor.outline,
  org.eclipse.epsilon.eol.dt.launching,

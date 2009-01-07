@@ -65,11 +65,12 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 
-public abstract class AbstractModuleEditor extends TextEditor implements
+public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor implements
 		IPropertyListener {
 	
 	protected Color backgroundColor = null;

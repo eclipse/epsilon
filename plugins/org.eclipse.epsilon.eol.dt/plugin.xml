@@ -6,7 +6,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationDelegate"
             id="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate"
-            modes="run"
+            modes="run, debug"
             name="EOL Program">
       </launchConfigurationType>
    </extension>
@@ -49,5 +49,47 @@
          </description>
       </wizard>
    </extension>
-
+   <extension
+         point="org.eclipse.debug.core.breakpoints">
+      <breakpoint
+            class="org.eclipse.epsilon.eol.dt.debug.EolBreakpoint"
+            id="org.eclipse.epsilon.eol.dt.debug.EolBreakpoint"
+            markerType="org.eclipse.epsilon.eol.dt.debug.breakpointMarker"
+            name="EOL Breakpoint">
+      </breakpoint>
+   </extension>
+   <extension
+         id="debug.breakpointMarker"
+         name="EOL Breakpoint Marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.debug.core.lineBreakpointMarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.epsilon.eol.dt.editor.EolEditor"
+            class="org.eclipse.epsilon.eol.dt.debug.EolEditorAdapterFactory">
+         <adapter
+               type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <viewerContribution
+            id="editor.rulerActions"
+            targetID="editor.rulerMenu">
+         <action
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               id="org.eclipse.epsilon.eol.dt.debug.ToggleBreakpointActionDelegate"
+               label="Toggle Breakpoint"
+               menubarPath="debug">
+         </action>
+      </viewerContribution>
+   </extension>
 </plugin>

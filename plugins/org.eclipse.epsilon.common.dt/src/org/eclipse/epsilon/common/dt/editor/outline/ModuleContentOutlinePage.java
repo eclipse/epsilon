@@ -98,7 +98,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 		// Update problem markers
 		// Delete all the old markers and add new
 		try {
-			file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
+			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 			for (ParseProblem problem : module.getParseProblems()) {
 				Map attr = new HashMap();
 				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));

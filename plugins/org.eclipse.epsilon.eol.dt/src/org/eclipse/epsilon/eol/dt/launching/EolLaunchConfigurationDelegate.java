@@ -11,17 +11,29 @@
 package org.eclipse.epsilon.eol.dt.launching;
  
 import java.io.File;
+import java.util.ArrayList;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.debug.core.model.IDebugTarget;
+import org.eclipse.debug.core.model.IProcess;
+import org.eclipse.debug.internal.ui.viewers.update.DebugTargetProxy;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dt.debug.EolBreakpoint;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
+import org.eclipse.epsilon.eol.dt.debug.EolProcess;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
@@ -29,24 +41,24 @@ public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	// TODO : Remove some duplication between LaunchConfigurationDelegates
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		
-		//new Exception().printStackTrace(System.err);
-		
 		EpsilonConsole.getInstance().clear();
 		
 		IEolModule module = createEolModule();
-		//EolProgram engine = new EolProgram();
-		//module.getContext().setDefaultDebugStream(EpsilonConsole.getInstance().getDebugStream());
-		//module.getContext().setDefaultErrorStream(EpsilonConsole.getInstance().getErrorStream());
-		
-		//ArrayList list = new ArrayList();
-		//list.add(1.2f);
-		//list.add(2);
-		//list.add(3);
-		//module.getContext().getScope().put(Variable.createReadOnlyVariable("list",list));
-		//engine.getContext().setDefaultDebugStream(ConsoleUtil.getInstance().getPrintStream());
 		boolean parsed = false;
 		
-		String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "")));
+		String fileName = file.getRawLocation().toOSString();
+		
+		ArrayList<EolBreakpoint> breakpoints = new ArrayList<EolBreakpoint>();
+		
+		if (mode.equalsIgnoreCase("debug")) {
+			IBreakpoint[] allBreakPoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("eol.debugModel");
+			for (IBreakpoint breakpoint : allBreakPoints) {
+				if (breakpoint.getMarker().getResource().equals(file)){
+					breakpoints.add((EolBreakpoint) breakpoint);
+				}
+			}
+		}
 		
 		String subtask = "Parsing " + fileName;
 		progressMonitor.subTask(subtask);
@@ -75,26 +87,19 @@ public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			subtask = "Executing";
 			progressMonitor.subTask(subtask);
 			progressMonitor.beginTask(subtask, 100);
-			module.execute();
+
+			if (mode.equals(ILaunchManager.DEBUG_MODE)) { 
+				IDebugTarget target = new EolDebugTarget(launch, module);
+				launch.addDebugTarget(target);
+			}
+			else {
+				module.execute();
+			}
+			
+			//module.execute();
 		} catch (EolRuntimeException e) {
 			e.printStackTrace();
 			module.getContext().getErrorStream().println(e.toString());
-			/*
-			ListIterator li = module.getContext().getScope().getFrames();
-			while (li.hasNext()){
-				Frame frame = (Frame) li.next();
-				String f = "  at " + frame.getLabel() + " " + frame.getType();
-				if (frame.getEntryPoint() != null) {
-					EolAst ast = (EolAst) frame.getEntryPoint();
-					String file = "unknown";
-					if (ast.getFile() != null) file = ast.getFile().getAbsolutePath();
-					f += " (" + file + "@" + ast.getLine() + ":" + ast.getColumn() + ")";
-				}
-				module.getContext().getDefaultErrorStream().println(f);
-			}*/
-			//e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			//EpsilonConsole.getInstance().reportException(e);
-			//ConsoleUtil.getInstance().getPrintStream().println(e.toString());
 			progressMonitor.setCanceled(true);
 		}
 		finally{

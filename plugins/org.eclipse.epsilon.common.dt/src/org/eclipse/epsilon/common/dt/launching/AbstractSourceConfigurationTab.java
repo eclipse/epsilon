@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
@@ -182,17 +184,24 @@ public abstract class AbstractSourceConfigurationTab
 		@Override
 		public boolean canSave(){
 			
-			String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
+			IFile file = null;
 			
-			java.io.File f = new java.io.File(workspacePath + filePath.getText());
-			if (!f.exists()){
-				setErrorMessage("Selected file " + workspacePath + filePath.getText() + " does not exist");
+			try {
+				file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath.getText()));
+			}
+			catch (Exception ex) {
+				// do nothing
+			}
+			
+			if (file == null || !file.exists()){
+				setErrorMessage("Selected file " + filePath.getText() + " does not exist");
 				return false;
 			}
 			else {
 				setErrorMessage(null);
 				return true;			
 			}
+			
 		}
 		
 		public class SelectSourceListener implements Listener{
