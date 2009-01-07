@@ -4,6 +4,11 @@ operation getNodes() {
 }
 
 @cached
+operation getPhantomNodes() {
+	return ECore!EClass.all.select(c|c.isPhantom());
+}
+
+@cached
 operation getLinks() {
 	return ECore!EClass.all.select(c|c.isLink());
 }
@@ -190,6 +195,16 @@ operation ECore!EClass getLabelPattern() {
 	
 	return self.getAnnotationValue(ann, 'label.pattern');
 	
+}
+
+@cached
+operation ECore!EClass isPhantom() {
+	if (self.isNode()) {
+		return self.getAnnotationValue('gmf.node', 'phantom') = 'true';
+	}
+	else {
+		return false;
+	}
 }
 
 operation ECore!EClass getLabelClass() {
