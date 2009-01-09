@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 
@@ -39,7 +41,9 @@ public class EglTask extends ExecutableModuleTask {
 
 	@Override
 	protected void initialize() throws Exception {
-		
+		EglModule module = (EglModule) this.module;
+		File file = getFile(src);
+		module.getContext().getTemplateFactory().setRoot(UriUtil.fileToUri(file.getParentFile()));
 	}
 
 	public String getTarget() {
