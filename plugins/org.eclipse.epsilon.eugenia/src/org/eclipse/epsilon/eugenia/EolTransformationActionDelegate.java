@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 public abstract class EolTransformationActionDelegate implements IObjectActionDelegate {
 
@@ -59,8 +60,14 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 					// from being logged
 					LogUtil.log(ex);
 					
-					MessageDialog.openError(shell, "Error",
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+
+						public void run() {
+							MessageDialog.openError(shell, "Error",
 							"An error has occured. Please see the Error Log.");
+						}
+						
+					});
 				}
 				return Status.OK_STATUS;
 			}
