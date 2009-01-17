@@ -378,7 +378,7 @@ for (class in getLinks()) {
 }
 
 for (reference in getReferenceLinks()) {
-	var referenceName := reference.eContainingClass.name + reference.name.firstToUpperCase();
+	var referenceName := reference.getLongName();
 
 	-- Create GmfTool creation tool
 	var creationTool := createReferenceCreationTool(reference.name.firstToUpperCase());

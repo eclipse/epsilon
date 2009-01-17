@@ -37,6 +37,23 @@ for (class in getDiagramClass().getAllConcreteSubTypes() + Sequence{getDiagramCl
 	}
 }
 
+-- Process incoming annotations
+for (link in getReferenceLinks()) {
+	setIncoming(link.getLongName(), link.getLinkIncoming());
+}
+
+for (link in getLinks()) {
+	setIncoming(link.name, link.getLinkIncoming());
+}
+
+operation setIncoming(name : String, value : Boolean) {
+	var genEditPart := GmfGen!GenLink.all.selectOne(l|l.editPartClassName = name + 'EditPart');
+		
+	if (genEditPart.isDefined()) {
+		genEditPart.incomingCreationAllowed := value;
+	}
+}
+
 -*
 for (node in getNodes()) {
 	

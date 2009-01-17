@@ -68,6 +68,12 @@ operation GmfGraph!Figure formatNode(e : ECore!EModelElement) {
 		self.backgroundColor := createColor(backgroundColor);
 	}
 	
+	var size := e.getFormatOption('size');
+	
+	if (size.isDefined()) {
+		self.preferredSize := createDimension(size);
+	}
+	
 	self.formatLine(e.getFormatOption('border.color'),e.getFormatOption('border.width'),e.getFormatOption('border.style'));
 	
 }
@@ -125,6 +131,14 @@ operation createColor(rgb : String) : GmfGraph!Color {
 	color.green := parts.at(1).asInteger();
 	color.blue := parts.at(2).asInteger();
 	return color;
+}
+
+operation createDimension(size : String) : GmfGraph!Dimension {
+	var parts := size.split(',');
+	var dimension := new GmfGraph!Dimension;
+	dimension.dx := parts.first.asInteger();
+	dimension.dy := parts.last.asInteger();
+	return dimension;
 }
 
 operation ECore!EModelElement getFormatOption(option : String) : String {

@@ -75,6 +75,16 @@ operation ECore!EReference getLinkLabel() : String {
 }
 
 @cached
+operation ECore!EReference getLongName() : String {
+	return self.eContainingClass.name + self.name.firstToUpperCase();
+}
+
+@cached
+operation ECore!EReference getLinkIncoming() : Boolean {
+	return self.getAnnotationValue('gmf.link', 'incoming') = 'true';
+}
+
+@cached
 operation ECore!EClass getConcreteSubtypes() {
 	return ECore!EClass.all.select(e|(not e.abstract) and (e.eAllSuperTypes.includes(self) or e = self));
 }
@@ -107,6 +117,11 @@ operation ECore!EClass getNodeSize() {
 operation ECore!EClass getLinkEndFeature(name : String) {
 	var featureName := self.getAnnotationValue('gmf.link', name);
 	return self.eAllStructuralFeatures.selectOne(sf|sf.name = featureName);
+}
+
+@cached
+operation ECore!EClass getLinkIncoming() : Boolean {
+	return self.getAnnotationValue('gmf.link', 'incoming') = 'true';
 }
 
 @cached
