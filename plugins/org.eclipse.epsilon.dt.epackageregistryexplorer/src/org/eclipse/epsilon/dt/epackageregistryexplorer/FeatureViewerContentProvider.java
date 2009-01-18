@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -58,6 +59,7 @@ public class FeatureViewerContentProvider implements ITreeContentProvider {
 			ArrayList<Object> eStructuralFeatures = new ArrayList<Object>();
 			eStructuralFeatures.addAll(getFeatures((EClass) inputElement));
 			eStructuralFeatures.addAll(BridgeSupport.getBridgeEnds((EClass)inputElement, view.getEPackages(), view.isShowInheritedFeatures()));
+			eStructuralFeatures.addAll(((EClass)inputElement).getEAllOperations());
 			return eStructuralFeatures.toArray();
 		}
 		else if (inputElement instanceof EEnum) {

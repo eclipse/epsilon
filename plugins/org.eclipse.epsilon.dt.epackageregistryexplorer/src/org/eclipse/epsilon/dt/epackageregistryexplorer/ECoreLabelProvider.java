@@ -11,11 +11,15 @@
 
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
+import java.util.ListIterator;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.resource.FontRegistry;
@@ -52,6 +56,9 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		else if (element instanceof EAttribute) {
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EAttribute.gif").createImage();
+		}
+		else if (element instanceof EOperation) {
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EOperation.gif").createImage();
 		}
 		else if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
@@ -98,6 +105,19 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 			}
 			return signature;
 		}
+		else if (element instanceof EOperation) {
+			EOperation eOperation = (EOperation) element;
+			String signature = eOperation.getName() + "(";
+			ListIterator<EParameter> li = eOperation.getEParameters().listIterator();
+			while (li.hasNext()) {
+				EParameter parameter = (EParameter) li.next();
+				signature = signature + parameter.getName() + ":" + getTypeName(parameter.getEType());
+				if (li.hasNext()) signature = signature + ", ";
+			}
+			signature = signature + ")";
+			signature = signature + " : " + getTypeName(eOperation.getEType());
+			return signature;
+		}
 		else if (element instanceof BridgeEndDescriptor) {
 			return getText(((BridgeEndDescriptor) element).getEStructuralFeature());
 		}
@@ -109,7 +129,16 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		else return element.toString();
 	}
-
+	
+	protected String getTypeName(EClassifier classifier) {
+		if (classifier == null) {
+			return "void";
+		}
+		else {
+			return classifier.getName();
+		}
+	}
+	
 	public Color getBackground(Object element) {
 		return null;
 	}
