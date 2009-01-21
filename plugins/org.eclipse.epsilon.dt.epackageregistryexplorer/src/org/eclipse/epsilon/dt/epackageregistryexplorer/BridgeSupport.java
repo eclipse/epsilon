@@ -65,8 +65,6 @@ public class BridgeSupport {
 				}
 			}
 			
-			System.err.println(bridgeEnds);
-			
 			return bridgeEnds;
 			
 		}

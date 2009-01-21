@@ -50,8 +50,6 @@ public class SubTypesDescriptor {
 	
 	public boolean hasSubtypes(Collection<EPackage> ePackages) {
 		
-		Collection<EClass> subtypes = new ArrayList<EClass>();
-		
 		for (EPackage p : ePackages) {
 			for (EClassifier o : p.getEClassifiers()) {
 				if (o instanceof EClass) {

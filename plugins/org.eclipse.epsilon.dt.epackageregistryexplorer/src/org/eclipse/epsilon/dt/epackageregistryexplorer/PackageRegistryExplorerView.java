@@ -13,22 +13,17 @@ package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.content.IContentTypeManager.ISelectionPolicy;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -74,6 +69,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 	protected boolean showInheritedFeatures = true;
 	protected boolean showDerivedFeatures = true;
 	protected boolean showOppositeReference = false;
+	protected boolean showOperations = false;
 	
 	public boolean isShowOppositeReference() {
 		return showOppositeReference;
@@ -81,6 +77,15 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 
 	public void setShowOppositeReference(boolean showOppositeReference) {
 		this.showOppositeReference = showOppositeReference;
+		featureViewer.refresh();
+	}
+
+	public boolean isShowOperations() {
+		return showOperations;
+	}
+
+	public void setShowOperations(boolean showOperations) {
+		this.showOperations = showOperations;
 		featureViewer.refresh();
 	}
 
@@ -164,8 +169,8 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection s = (IStructuredSelection) event.getSelection();
 				if (s.getFirstElement() != null) {
-					if (s.getFirstElement() instanceof EStructuralFeature) {
-						EStructuralFeature f = (EStructuralFeature) s.getFirstElement();
+					if (s.getFirstElement() instanceof ETypedElement) {
+						ETypedElement f = (ETypedElement) s.getFirstElement();
 						classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f.getEType().getEPackage(), f.getEType()})));
 					}
 					else if (s.getFirstElement() instanceof BridgeEndDescriptor) {
@@ -191,6 +196,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		ToolBar featureViewerToolBar= new ToolBar(featureViewerForm, SWT.FLAT | SWT.WRAP);
 		featureViewerForm.setTopCenter(featureViewerToolBar);
 		ToolBarManager manager = new ToolBarManager(featureViewerToolBar);
+		manager.add(new ShowOperationsAction(this));
 		manager.add(new ShowOppositeReferenceAction(this));
 		manager.add(new ShowDerivedFeaturesAction(this));
 		manager.add(new ShowInheritedFeaturesAction(this));
@@ -237,7 +243,6 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			backRunning = true;
 			
 			if (history.size() > 1) {
-				System.err.println(history.size());
 				classViewer.setSelection(new TreeSelection(history.get(1)));
 				history.remove(1);
 			}
@@ -312,7 +317,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 	    button1Data.bottom = new FormAttachment(100, 0);
 	    classViewer.getControl().setLayoutData(button1Data);
 
-	    final int limit = 20, percent = 50;
+	    int percent = 50;
 	    final FormData sashData = new FormData();
 	    sashData.left = new FormAttachment(percent, 0);
 	    sashData.top = new FormAttachment(0, 0);
