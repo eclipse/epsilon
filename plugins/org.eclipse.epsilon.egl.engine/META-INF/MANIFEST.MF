@@ -6,8 +6,7 @@ Bundle-Version: 0.8.3
 Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.commons,
- org.eclipse.epsilon.emc.emf
+ org.eclipse.epsilon.commons
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.beautify,
