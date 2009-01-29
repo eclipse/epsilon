@@ -129,13 +129,14 @@ public abstract class EpsilonTask extends Task {
 		return new File(getProject().getBaseDir(),"\\");
 	}
 	
+	/*
 	protected File getFile(String path) {
 		File file = new File(path);
 		if (!file.isAbsolute()) {
 			file = new File(getBaseDir(), path);
 		}
 		return file;
-	}
+	}*/
 	
 	public boolean isProfile() {
 		return profile;

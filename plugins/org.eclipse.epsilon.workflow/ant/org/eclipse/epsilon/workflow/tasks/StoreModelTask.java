@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+import java.io.File;
+
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -18,7 +20,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 public class StoreModelTask extends EpsilonTask {
 	
 	protected String model;
-	protected String target;
+	protected File target;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -26,7 +28,7 @@ public class StoreModelTask extends EpsilonTask {
 		try {
 			IModel eolModel = getProjectRepository().getModelByName(model);
 			if (target!=null) {
-				eolModel.store(getFile(target).getAbsolutePath());
+				eolModel.store(target.getAbsolutePath());
 			}
 			else {
 				eolModel.store();
@@ -47,11 +49,11 @@ public class StoreModelTask extends EpsilonTask {
 		this.model = model;
 	}
 
-	public String getTarget() {
+	public File getTarget() {
 		return target;
 	}
 
-	public void setTarget(String target) {
+	public void setTarget(File target) {
 		this.target = target;
 	}
 	

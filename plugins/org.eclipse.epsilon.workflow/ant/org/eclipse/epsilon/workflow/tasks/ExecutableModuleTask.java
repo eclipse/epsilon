@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected List<VariableNestedElement> usesVariableNestedElements = new ArrayList();
 	protected List<VariableNestedElement> exportsVariableNestedElements = new ArrayList();
 	protected List<ParameterNestedElement> parameterNestedElements = new ArrayList();
-	protected String src;
+	protected File src;
 	protected String code = "";
 	protected IEolExecutableModule module;
 	protected boolean assertions = true;
@@ -62,19 +63,19 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	
 	@Override
 	public String getTaskName() {
-		return src;
+		return src.getName();
 	}
 
 	@Override
 	public void executeImpl() throws BuildException {
 		if (src!=null && profile) {
-			Profiler.INSTANCE.start(src, "", new FileMarker(getFile(src),0,0));
+			Profiler.INSTANCE.start(src.getName(), "", new FileMarker(src,0,0));
 		}
 		
 		try {
 			module = createModule();
 			if (src!=null) {
-				module.parse(getFile(src));
+				module.parse(src);
 			}
 			else {
 				module.parse(code);
@@ -105,10 +106,10 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			module.execute();
 			exportVariables();
 			examine();
-			if (src!=null && profile) Profiler.INSTANCE.stop(src);
+			if (src!=null && profile) Profiler.INSTANCE.stop(src.getName());
 		}
 		catch (Throwable t) {
-			if (profile) Profiler.INSTANCE.stop(src);
+			if (profile) Profiler.INSTANCE.stop(src.getName());
 			if (t instanceof BuildException) {
 				throw (BuildException) t;
 			}
@@ -157,11 +158,11 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return parameterNestedElement;
 	}
 	
-	public String getSrc() {
+	public File getSrc() {
 		return src;
 	}
 
-	public void setSrc(String src) {
+	public void setSrc(File src) {
 		this.src = src;
 	}
 	
