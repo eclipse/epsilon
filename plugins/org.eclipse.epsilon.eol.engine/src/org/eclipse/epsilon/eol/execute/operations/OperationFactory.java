@@ -38,6 +38,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.ErrOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.ErrlnOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.HasPropertyOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.IdOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.IfUndefinedOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.IsDefinedOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.IsKindOfOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.IsTypeOfOperation;
@@ -100,6 +101,7 @@ public class OperationFactory {
 		operationCache.put("isTypeOf", new IsTypeOfOperation());
 		operationCache.put("isKindOf", new IsKindOfOperation());
 		operationCache.put("isUndefined", new IsUndefinedOperation());
+		operationCache.put("ifUndefined", new IfUndefinedOperation());
 		operationCache.put("last", new LastOperation());
 		operationCache.put("nativeType", new NativeTypeOperation());
 		operationCache.put("owningModel", new OwningModelOperation());
