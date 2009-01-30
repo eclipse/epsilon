@@ -30,7 +30,7 @@ public class LoadEmfModel extends EpsilonTask {
 	protected File metamodelFile;
 	protected String metamodelUri;
 	protected boolean read = true;
-	protected boolean store = true;
+	protected boolean store = false;
 	protected boolean expand = false;
 	
 	@Override
