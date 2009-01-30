@@ -29,8 +29,8 @@ public class LoadEmfModel extends EpsilonTask {
 	protected File modelFile;
 	protected File metamodelFile;
 	protected String metamodelUri;
-	protected boolean readOnLoad = true;
-	protected boolean storedOnDisposal = true;
+	protected boolean read = true;
+	protected boolean store = true;
 	protected boolean expand = false;
 	
 	@Override
@@ -44,7 +44,8 @@ public class LoadEmfModel extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, alias + "");
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, (metamodelUri == null) + "");
-		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
+		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
+		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
 		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFile + "");
@@ -99,25 +100,21 @@ public class LoadEmfModel extends EpsilonTask {
 		this.metamodelUri = metamodelUri;
 	}
 
-	public boolean isReadOnLoad() {
-		return readOnLoad;
+	public boolean isRead() {
+		return read;
 	}
 
-	public void setReadOnLoad(boolean readOnLoad) {
-		this.readOnLoad = readOnLoad;
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
-	public boolean isStoredOnDisposal() {
-		return storedOnDisposal;
+	public boolean isStore() {
+		return store;
 	}
 
-	public void setStoredOnDisposal(boolean storedOnDisposal) {
-		this.storedOnDisposal = storedOnDisposal;
-	}
-
-
-	
-	
+	public void setStore(boolean store) {
+		this.store = store;
+	}	
 	
 }
  
