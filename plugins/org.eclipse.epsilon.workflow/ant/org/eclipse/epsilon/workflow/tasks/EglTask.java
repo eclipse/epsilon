@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 
 public class EglTask extends ExecutableModuleTask {
 	
-	protected String target;
+	protected File target;
 	
 	@Override
 	protected IEolExecutableModule createModule() {
@@ -30,8 +30,7 @@ public class EglTask extends ExecutableModuleTask {
 	@Override
 	protected void examine() throws Exception {
 		if (target!=null) {
-			String path = FileUtil.getAbsolutePath(getBaseDir().getAbsolutePath(), target);
-			FileOutputStream fos = new FileOutputStream(path);
+			FileOutputStream fos = new FileOutputStream(target);
 			String output = (((EglModule) module).getContext()).getOutputBuffer().toString();
 			fos.write(output.getBytes());
 			fos.flush();
@@ -45,11 +44,11 @@ public class EglTask extends ExecutableModuleTask {
 		module.getContext().getTemplateFactory().setRoot(UriUtil.fileToUri(src.getParentFile()));
 	}
 
-	public String getTarget() {
+	public File getTarget() {
 		return target;
 	}
 
-	public void setTarget(String output) {
+	public void setTarget(File output) {
 		this.target = output;
 	}
 	
