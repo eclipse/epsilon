@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon ANTLR Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.antlr
-Bundle-Version: 0.8.3
+Bundle-Version: 0.8.4
 Bundle-ClassPath: antlr-runtime-3.1b1.jar
 Bundle-Vendor: Eclipse.org
 Export-Package: org.antlr.runtime,

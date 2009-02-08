@@ -35,7 +35,7 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 	
 	@Override
 	protected String getModelName() {
-		return "EMF meta-model";
+		return "Registered EPackage";
 	}
 	
 	@Override

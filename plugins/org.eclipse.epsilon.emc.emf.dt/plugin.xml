@@ -21,7 +21,7 @@
             class="org.eclipse.epsilon.emc.emf.EmfMetaModel"
             dialog="org.eclipse.epsilon.emc.emf.dt.EmfMetaModelConfigurationDialog"
             icon="icons/emf.gif"
-            label="EMF Metamodel"
+            label="Registered EPackage"
             type="EMF_M2">
       </modelType>
       <modelType

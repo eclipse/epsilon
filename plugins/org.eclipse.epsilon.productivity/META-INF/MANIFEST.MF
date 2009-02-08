@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Productivity Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.productivity;singleton:=true
-Bundle-Version: 0.8.3
+Bundle-Version: 0.8.4
 Bundle-Activator: org.eclipse.epsilon.productivity.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.egl.engine,

@@ -413,8 +413,12 @@ public abstract class EolCollection extends EolAny{
 	 * @return EolSequence
 	 */
 	public EolCollection excluding(Object o){
-		EolCollection result = createCollection(this.storage);
-		result.remove(o);
+		EolCollection result = createCollection();
+		for (Object item : storage) {
+			if (item != o) {
+				result.add(item);
+			}
+		}
 		return result;
 	}
 	
