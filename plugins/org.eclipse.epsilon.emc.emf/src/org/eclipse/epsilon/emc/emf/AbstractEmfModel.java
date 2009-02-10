@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -443,33 +444,42 @@ public abstract class AbstractEmfModel extends Model{
 	// See how we can run store inside a WorkbenchModificationOperation
 	public boolean store(String fileName) {
 		
-		FileOutputStream fos = null;
-		
+		//FileOutputStream fos = null;
+		/*
 		if (modelImpl instanceof XMLResource) {
 			Map<Object, Object> options = ((XMLResource)modelImpl).getDefaultSaveOptions();
 			options.put(
 					XMLResource.OPTION_PROCESS_DANGLING_HREF, 
 					XMLResource.OPTION_PROCESS_DANGLING_HREF_RECORD);
 			options.put(XMLResource.OPTION_EXTENDED_META_DATA, true);
-		}
+		}*/
 
 		try {
-			fos = new FileOutputStream(fileName);
-			modelImpl.save(fos, null);
+			
+			//URI uri = URI.createURI(fileName);
+			
+			//if (!"platform".equals(uri.scheme())) {
+			//	uri = URI.createFileURI(fileName);
+			//}
+			
+			//fos = new FileOutputStream(fileName);
+			modelImpl.setURI(EmfUtil.createURI(fileName));
+			modelImpl.save(null);
+			//modelImpl.save(fos, null);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		finally {
-			try {
-				fos.flush();
-				fos.close();
-			}
-			catch (Exception ex){
-				ex.printStackTrace();
-			}
-		}
+		//finally {
+		//	try {
+		//		fos.flush();
+		//		fos.close();
+		//	}
+		//	catch (Exception ex){
+		//		ex.printStackTrace();
+		//	}
+		//}
 		return true;
 	}
 	

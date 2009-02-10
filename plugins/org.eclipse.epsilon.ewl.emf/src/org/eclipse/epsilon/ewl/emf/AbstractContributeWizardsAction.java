@@ -265,7 +265,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
 			String namespaceURI = preference.getNamespaceURI();
 			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
-				wizardURIs.add(new File(EclipseUtil.getWorkspacePath() + "/" + preference.getWizards()).toURI());
+				//wizardURIs.add(new File(EclipseUtil.getWorkspacePath() + "/" + preference.getWizards()).toURI());
+				wizardURIs.add(new File(EclipseUtil.getWorkspaceFileAbsolutePath(preference.getWizards())).toURI());
 			}
 		}
 		

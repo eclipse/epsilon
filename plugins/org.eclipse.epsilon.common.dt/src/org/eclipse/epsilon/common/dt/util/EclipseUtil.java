@@ -47,6 +47,10 @@ public class EclipseUtil {
 		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
 	}
 	
+	public static String getWorkspaceFileAbsolutePath(String workspacePath) {
+		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getLocation().toOSString();
+	}
+	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
 		
 		if (file == null) return;

@@ -46,8 +46,8 @@ public class EmfModel extends AbstractEmfModel {
 	//DONE : Re-implement the isTypeOf and isKindOf locally
 	
 	protected String metamodelUri;
-	protected String metamodelFile;
-	protected String modelFile;
+	//protected String metamodelFile;
+	//protected String modelFile;
 	protected List<EPackage> packages;
 	protected boolean isMetamodelFileBased;
 	protected URI modelFileUri = null;
@@ -58,17 +58,50 @@ public class EmfModel extends AbstractEmfModel {
 		super.load(properties, basePath);
 	}
 	
+	public static void main(String[] args) {
+		
+		//System.err.println(EmfUtil.createURI("c:/some.txt"));
+		//System.err.println(EmfUtil.createURI("project1/some.txt").authority());
+		//System.err.println(EmfUtil.createURI("file:/resource/project1/some.txt"));
+		
+		diagnose(URI.createURI("platform:/resource/file.txt"));
+		diagnose(URI.createURI("c:/file.txt"));
+		diagnose(URI.createURI("resources/file.txt"));
+		
+	}
+	
+	static void diagnose(URI uri) {
+		System.err.println("uri -> " + uri);
+		System.err.println("uri.scheme() -> " + uri.scheme());
+		System.err.println("uri.isArchive() -> " + uri.isArchive());
+		System.err.println("uri.isPrefix() -> " + uri.isPrefix());
+		System.err.println("uri.isPlatformPlugin() -> " + uri.isPlatformPlugin());
+		System.err.println("uri.isHierarchical() -> " + uri.isHierarchical());
+		System.err.println("uri.isPlatform() -> " + uri.isPlatform());
+		System.err.println("uri.authority() -> " + uri.authority());
+		System.err.println("uri.isFile() -> " + uri.isFile());
+		System.err.println("uri.toFileString() -> " + uri.toFileString());
+		System.err.println("uri.isRelative() -> " + uri.isRelative());
+	}
+	
 	@Override
 	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
 		super.load(properties, basePath);
 		this.metamodelUri = properties.getProperty(PROPERTY_METAMODEL_URI);
 		this.expand = properties.getBooleanProperty(PROPERTY_EXPAND, true);
 		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, false);
-		this.modelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_MODEL_FILE);
-		this.metamodelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_METAMODEL_FILE);
+		//this.modelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_MODEL_FILE);
+		//this.metamodelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_METAMODEL_FILE);
 		
+		String modelFile = properties.getProperty(PROPERTY_MODEL_FILE);
+		String metamodelFile = properties.getProperty(PROPERTY_METAMODEL_FILE);
 		
+		this.modelFileUri = EmfUtil.createURI(modelFile);
+		if (isMetamodelFileBased) {
+			this.metamodelFileUri = EmfUtil.createURI(metamodelFile);
+		}
 		
+		/*
 		if (StringUtil.isEmpty(basePath)) {
 			this.modelFileUri = URI.createFileURI(modelFile);
 			if (isMetamodelFileBased) {
@@ -81,6 +114,7 @@ public class EmfModel extends AbstractEmfModel {
 				this.metamodelFileUri = URI.createPlatformResourceURI(properties.getProperty(PROPERTY_METAMODEL_FILE), true);
 			}
 		}
+		*/
 		
 		load();
 	}
@@ -190,11 +224,22 @@ public class EmfModel extends AbstractEmfModel {
 	}
 
 	public boolean store() {
-		return store(this.modelFile);
+		
+		try {
+			modelImpl.save(null);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		//return store(this.modelFile);
 	}
 
 	public String getMetamodelFile() {
-		return metamodelFile;
+		return EmfUtil.getFile(metamodelFileUri);
+		//return null;
+		//return metamodelFile;
 	}
 
 	public boolean isMetamodelFileBased() {
@@ -206,7 +251,10 @@ public class EmfModel extends AbstractEmfModel {
 	}
 
 	public String getModelFile() {
-		return modelFile;
+		return EmfUtil.getFile(modelFileUri);
+		//return null;
+		//return modelFile;
+		//return getModelFileUri().toString();
 	}
 
 	public URI getModelFileUri() {
@@ -230,12 +278,12 @@ public class EmfModel extends AbstractEmfModel {
 	}
 
 	public void setMetamodelFile(String metamodelFile) {
-		this.metamodelFile = metamodelFile;
+		//this.metamodelFile = metamodelFile;
 		this.metamodelFileUri = URI.createFileURI(metamodelFile);
 	}
 
 	public void setModelFile(String modelFile) {
-		this.modelFile = modelFile;
+		//this.modelFile = modelFile;
 		this.modelFileUri = URI.createFileURI(modelFile);
 	}
 

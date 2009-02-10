@@ -46,7 +46,7 @@ public abstract class AbstractECoreModelAction implements IObjectActionDelegate 
 				properties.put(EmfModel.PROPERTY_READONLOAD, "true");
 				properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
 				try {
-					model.load(properties, EclipseUtil.getWorkspacePath());
+					model.load(properties, null);
 					perform(file, model);
 				} catch (Exception e) {
 					LogUtil.log(e);

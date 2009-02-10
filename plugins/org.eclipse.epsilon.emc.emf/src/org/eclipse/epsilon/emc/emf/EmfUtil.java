@@ -56,6 +56,29 @@ public class EmfUtil {
 		}
 	}
 	
+	public static URI createURI(String s) {
+		URI uri = URI.createURI(s);
+		
+		if ("platform".equals(uri.scheme())) {
+			return uri;
+		}
+		else if (uri.isRelative()) {
+			return URI.createPlatformResourceURI(s, true);
+		}
+		else {
+			return URI.createFileURI(s);
+		}
+	}
+	
+	public static String getFile(URI uri) {
+		if (uri.isFile()) {
+			return uri.toFileString();
+		}
+		else {
+			return uri.toString();
+		}
+	}
+	
 	public static EPackage getTopEPackage(EObject object) {
 		return getTopEPackage(object.eClass().getEPackage());
 	}

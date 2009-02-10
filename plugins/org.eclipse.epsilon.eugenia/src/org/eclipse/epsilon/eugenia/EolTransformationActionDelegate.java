@@ -124,7 +124,9 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		
-		model.load(properties, EclipseUtil.getWorkspacePath());
+		//model.load(properties, EclipseUtil.getWorkspacePath());
+		model.load(properties, null);
+		
 		return model;
 	}
 	

@@ -49,7 +49,8 @@ public class EmfM0Model extends EmfModel{
 		for (int i=0;i<aliases.length;i++){
 			this.aliases.add(aliases[i].trim());
 		}
-		this.metamodelFile = basePath + properties.getProperty("metamodelFile");
+		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
+		//this.metamodelFile = basePath + properties.getProperty("metamodelFile");
 		this.metamodelUri = properties.getProperty("metamodelUri");
 		//this.isMetamodel = Boolean.parseBoolean(properties.getProperty("isMetamodel"));
 		//if (this.isMetamodel){
@@ -202,9 +203,9 @@ public class EmfM0Model extends EmfModel{
 	public void setEolModule(IEolModule eolModule) {
 		this.eolModule = eolModule;
 	}
-
+/*
 	public static void main(String[] args) throws Exception{
-		/*
+		
 		String basePath = "E:/Projects/Eclipse/3.2.1/workspace/org.eclipse.epsilon.eol.models.emf/src/org/epsilon/eol/models/emf/m0/";
 		
 		EmfM0Model model = new EmfM0Model();
@@ -233,7 +234,7 @@ public class EmfM0Model extends EmfModel{
 		catch (Exception ex){
 			ex.printStackTrace();
 		}
-		*/
+		
 	}
-	
+*/	
 }
