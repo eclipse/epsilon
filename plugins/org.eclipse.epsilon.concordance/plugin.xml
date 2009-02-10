@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="builder"
+         name="Concordance Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.eclipse.epsilon.concordance.builder.ConcordanceBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="nature"
+         name="Concordance Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.epsilon.concordance.builder.ConcordanceNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.eclipse.epsilon.concordance.builder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="org.eclipse.epsilon.concordance.contribution1">
+         <action
+               class="org.eclipse.epsilon.concordance.ui.ToggleNatureAction"
+               enablesFor="+"
+               icon="images/index.png"
+               id="org.eclipse.epsilon.concordance.addRemoveNatureAction"
+               label="Enable Concordance Nature"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="danglingCrossReference"
+         name="Dangling Cross Reference"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.epsilon.concordance.ui.CrossReferenceIndexView"
+            icon="images/index.png"
+            id="org.eclipse.epsilon.concordance.ui,CrossReferenceIndexView"
+            name="Concordance Index"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.eclipse.epsilon.concordance.builder.WorkspaceMonitor">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ltk.core.refactoring.moveParticipants">
+      <moveParticipant
+            class="org.eclipse.epsilon.concordance.MoveParticipant"
+            id="org.eclipse.epsilon.concordance.MoveParticipant"
+            name="name">
+         <enablement>
+            <adapt
+                  type="org.eclipse.core.resources.IFile">
+            </adapt>
+         </enablement>
+      </moveParticipant>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="Epsilon"
+            class="org.eclipse.epsilon.concordance.ui.ModelExtensionsPreferencePage"
+            id="ModelExtensionsPreferencePage"
+            name="Model Extensions">
+      </page>
+   </extension>
+
+</plugin>
