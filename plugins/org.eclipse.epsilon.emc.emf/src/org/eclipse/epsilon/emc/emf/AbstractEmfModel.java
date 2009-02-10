@@ -266,12 +266,9 @@ public abstract class AbstractEmfModel extends Model{
 				}
 					
 				for (Resource resource : resources) {
-					if (resource.getURI().toString().length() > 0) {
-						
-						Iterator<EObject> it = resource.getAllContents();
-						while (it.hasNext()){
-							allInstances.add(it.next());
-						}
+					Iterator<EObject> it = resource.getAllContents();
+					while (it.hasNext()){
+						allInstances.add(it.next());
 					}
 				}
 			}
