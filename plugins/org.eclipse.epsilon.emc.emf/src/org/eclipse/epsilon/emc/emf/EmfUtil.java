@@ -59,7 +59,7 @@ public class EmfUtil {
 	public static URI createURI(String s) {
 		URI uri = URI.createURI(s);
 		
-		if ("platform".equals(uri.scheme())) {
+		if (uri.scheme() != null && uri.scheme().length() > 1) {
 			return uri;
 		}
 		else if (uri.isRelative()) {

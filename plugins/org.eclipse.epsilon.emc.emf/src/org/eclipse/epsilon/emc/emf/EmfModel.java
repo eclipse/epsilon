@@ -60,13 +60,14 @@ public class EmfModel extends AbstractEmfModel {
 	
 	public static void main(String[] args) {
 		
-		//System.err.println(EmfUtil.createURI("c:/some.txt"));
-		//System.err.println(EmfUtil.createURI("project1/some.txt").authority());
-		//System.err.println(EmfUtil.createURI("file:/resource/project1/some.txt"));
+		System.err.println(EmfUtil.createURI("c:/files/some.txt"));
+		System.err.println(EmfUtil.createURI("/project1/some.txt"));
+		System.err.println(EmfUtil.createURI("platform:/resource/project1/some.txt"));
+		System.err.println(EmfUtil.createURI("bundle:/resource/project1/some.txt"));
 		
-		diagnose(URI.createURI("platform:/resource/file.txt"));
-		diagnose(URI.createURI("c:/file.txt"));
-		diagnose(URI.createURI("resources/file.txt"));
+		//diagnose(URI.createURI("platform:/resource/file.txt"));
+		//diagnose(URI.createURI("c:/file.txt"));
+		//diagnose(URI.createURI("resources/file.txt"));
 		
 	}
 	
