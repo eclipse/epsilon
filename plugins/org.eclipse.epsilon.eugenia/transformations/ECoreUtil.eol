@@ -47,6 +47,12 @@ operation getDiagramContainmentReference(class : ECore!EClass) {
 	}
 }
 
+operation getOneSuitableContainmentReference(class : ECore!EClass) {
+	for (ref in ECore!EReference.all.select(sf|sf.containment)){
+		if (class.eAllSuperTypes.includes(ref.eType) or class = ref.eType) return ref;
+	}
+}
+
 @cached
 operation ECore!EClass getContainmentReferences() {
 	return self.eAllStructuralFeatures.select(sf : ECore!EReference | sf.containment);

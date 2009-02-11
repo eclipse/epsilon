@@ -316,8 +316,20 @@ for (nodeMapping in GmfMap!NodeMapping.all.clone()) {
 for (class in getLinks()) {
 	
 	-- Do not create links for classes that cannot be contained
-	-- in the root
-	if (getDiagramContainmentReference(class).isUndefined()) continue;
+	-- in the diagram or in the opposite of their sourceFeature
+	
+	var containmentFeature := getDiagramContainmentReference(class);
+	if (containmentFeature.isUndefined()){
+	
+		var opposite := class.getLinkSourceFeature().eOpposite;
+		
+		if (opposite.isDefined() and opposite.containment) {
+			containmentFeature := opposite;
+		}
+		else {
+			continue;
+		}
+	}
 	
 	-- Create GmfTool creation tool
 	var creationTool := createClassCreationTool(class.name);
@@ -344,7 +356,7 @@ for (class in getLinks()) {
 	-- Create GmfMap link mapping
 	var linkMapping : new GmfMap!LinkMapping;
 	mapping.links.add(linkMapping);
-	linkMapping.containmentFeature := getDiagramContainmentReference(class);
+	linkMapping.containmentFeature := containmentFeature;
 	linkMapping.diagramLink := connection;
 	linkMapping.domainMetaElement := class;
 	linkMapping.tool := creationTool;
@@ -457,6 +469,10 @@ nodesToolGroup.tools := nodesToolGroup.tools.sortBy(t|t.title);
 if (linksToolGroup.isDefined()) {
 	linksToolGroup.tools := linksToolGroup.tools.sortBy(t|t.title);
 }
+
+-- Delete empty tool groups
+if (nodesToolGroup.tools.size() = 0) delete nodesToolGroup;
+if (linksToolGroup.tools.size() = 0) delete linksToolGroup;
 
 -- Store models
 
