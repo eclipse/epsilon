@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Generation Language Engine (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.egl.engine
-Bundle-Version: 0.8.4
+Bundle-Version: 0.8.4.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
