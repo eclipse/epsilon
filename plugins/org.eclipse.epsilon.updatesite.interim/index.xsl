@@ -4,17 +4,17 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
   <html>
   <body>
-    <h2>Epsilon <font color="red">Interim</font> Update Site</h2>
+    <h2>Epsilon Interim Update Site</h2>
     This site is designed to be used through the Eclipse update manager, which is accessible
     within Eclipse under <b>Help->Software Updates</b>. For instructions on how to install Epsilon using this site, please refer to
     the <a href="http://www.eclipse.org/gmt/epsilon/doc/P2InstallationGuide.pdf">installation guide</a>.
     
     <p>
 	    <b><font color="red">Caution: </font></b>
-	    This is the interim update site which means that the version
+	    This is an interim update site, which means that the version
 	    available here contains the latest features of Epsilon but 
-	    some of them may not have been properly tested yet. For a stable 
-	    version please install Epsilon from the <a href="http://download.eclipse.org/modeling/gmt/epsilon/updates/">main update site</a> instead.
+	    some of them may not have been properly tested yet. For the latest stable 
+	    version of Epsilon, please use the <a href="http://download.eclipse.org/modeling/gmt/epsilon/updates/">main update site</a> instead.
     </p>
     
     <h2>Features</h2>
