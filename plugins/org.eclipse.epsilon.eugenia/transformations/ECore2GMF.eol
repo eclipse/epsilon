@@ -17,12 +17,11 @@ nodesToolGroup.collapsible := true;
 palette.tools.add(nodesToolGroup);
 
 var linksToolGroup;
-if (getLinks().size()+getReferenceLinks().size() > 0) {
-	linksToolGroup := new GmfTool!ToolGroup;
-	linksToolGroup.title := 'Connections';
-	linksToolGroup.collapsible := true;
-	palette.tools.add(linksToolGroup);
-}
+linksToolGroup := new GmfTool!ToolGroup;
+linksToolGroup.title := 'Connections';
+linksToolGroup.collapsible := true;
+palette.tools.add(linksToolGroup);
+
 -- Greate GmfGraph basics
 
 var canvas : new GmfGraph!Canvas;
