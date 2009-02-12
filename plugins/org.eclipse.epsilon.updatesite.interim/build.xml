@@ -1,0 +1,6 @@
+<project default="main">
+	<target name="main">
+		<xslt in="site.xml" out="index.html" style="index.xsl">
+		</xslt>
+	</target>
+</project>
