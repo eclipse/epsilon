@@ -13,12 +13,10 @@ package org.eclipse.epsilon.concordance.index;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -30,13 +28,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.ContentHandler;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.URIHandler;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -62,8 +57,21 @@ public class CrossReferenceIndexManager {
 		return index;
 	}
 	
+	
 	protected String getURI(IFile file) {
 		return URI.createPlatformResourceURI(file.getFullPath().toOSString(), true).toString();		
+	}
+	
+	public Collection<CrossReference> getIncomingCrossReferences(EObject eObject) {
+		String id = eObject.eResource().getURIFragment(eObject);
+		String resource = eObject.eResource().getURI().toString();
+		return index.searchByTargetResourceAndId(resource, id);
+	}
+	
+	public Collection<CrossReference> getOutgoingCrossReferences(EObject eObject) {
+		String id = eObject.eResource().getURIFragment(eObject);
+		String resource = eObject.eResource().getURI().toString();
+		return index.searchBySourceResourceAndId(resource, id);
 	}
 	
 	public boolean isModel(IResource resource) {

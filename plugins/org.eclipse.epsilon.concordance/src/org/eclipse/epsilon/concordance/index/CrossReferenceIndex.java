@@ -9,11 +9,17 @@ import java.util.Iterator;
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.index.IndexModifier;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MultiTermQuery;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.search.BooleanClause.Occur;
 
 public class CrossReferenceIndex {
 	
@@ -129,11 +135,12 @@ public class CrossReferenceIndex {
 		}
 	}
 	
-	protected Collection<CrossReference> searchByField(String query, String field) {
+	protected Collection<CrossReference> getCrossReferences(Query query) {
 		Collection<CrossReference> results = new ArrayList<CrossReference>();
 		try {
 			IndexSearcher indexSearcher = new IndexSearcher(indexDirectory);
-			Hits hits = indexSearcher.search(new TermQuery(new Term(field, query)));
+			
+			Hits hits = indexSearcher.search(query);
 			Iterator<Object> it = hits.iterator();
 			while (it.hasNext()) {
 				Hit hit = (Hit) it.next();
@@ -142,8 +149,26 @@ public class CrossReferenceIndex {
 			indexSearcher.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		return results;
+		}		
+		return results;		
+	}
+
+	protected Collection<CrossReference> searchBySourceResourceAndId(String resource, String id) {
+		BooleanQuery query = new BooleanQuery();
+		query.add(new TermQuery(new Term(CrossReference.SOURCERESOURCE, resource)), Occur.MUST);
+		query.add(new TermQuery(new Term(CrossReference.SOURCEELEMENTID, id)), Occur.MUST);
+		return getCrossReferences(query);
+	}
+	
+	protected Collection<CrossReference> searchByTargetResourceAndId(String resource, String id) {
+		BooleanQuery query = new BooleanQuery();
+		query.add(new TermQuery(new Term(CrossReference.TARGETRESOURCE, resource)), Occur.MUST);
+		query.add(new TermQuery(new Term(CrossReference.TARGETELEMENTID, id)), Occur.MUST);
+		return getCrossReferences(query);
+	}
+	
+	protected Collection<CrossReference> searchByField(String query, String field) {
+		return getCrossReferences(new TermQuery(new Term(field, query)));
 	}
 	
 	/**

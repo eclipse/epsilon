@@ -71,19 +71,6 @@
       </startup>
    </extension>
    <extension
-         point="org.eclipse.ltk.core.refactoring.moveParticipants">
-      <moveParticipant
-            class="org.eclipse.epsilon.concordance.MoveParticipant"
-            id="org.eclipse.epsilon.concordance.MoveParticipant"
-            name="name">
-         <enablement>
-            <adapt
-                  type="org.eclipse.core.resources.IFile">
-            </adapt>
-         </enablement>
-      </moveParticipant>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="Epsilon"
