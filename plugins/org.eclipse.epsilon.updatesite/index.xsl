@@ -8,6 +8,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     This site is designed to be used through the Eclipse update manager, which is accessible
     within Eclipse under <b>Help->Software Updates</b>. For instructions on how to install Epsilon using this site, please refer to
     the <a href="http://www.eclipse.org/gmt/epsilon/doc/P2InstallationGuide.pdf">installation guide</a>.
+    
+    <p>
+    	<b><font color="green">Note:</font></b> This update site contains the
+    	latest stable version of Epsilon. For a more recent - but potentially
+    	unstable - version of Epsilon, please use the <a href="http://download.eclipse.org/modeling/gmt/epsilon/interim/">interim update site</a> instead.
+    </p>
+    
     <h2>Features</h2>
     <table border="1">
     <tr bgcolor="#666699" style="color:#ffffff">
