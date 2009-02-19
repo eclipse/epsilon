@@ -92,5 +92,6 @@ eolModule
 	(modelDeclaration)*
 	block
 	(operationDeclarationOrAnnotationBlock)*
+	EOF
 	-> ^(EOLMODULE importStatement* modelDeclaration* block (operationDeclarationOrAnnotationBlock)*)
 	;

@@ -25,6 +25,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.ParserRuleReturnScope;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.module.AbstractModuleElement;
 import org.eclipse.epsilon.commons.module.IModule;
@@ -177,7 +178,12 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			getParseProblems().add(problem);
 		}*/
 		catch (Throwable ex) {
-			ex.printStackTrace();
+			ParseProblem problem = new ParseProblem();
+			Token next = parser.input.LT(1);
+			problem.setLine(next.getLine());
+			problem.setColumn(next.getCharPositionInLine());
+			problem.setReason("mismatched input: '" + next.getText() + "'");
+			getParseProblems().add(problem);
 		}
 		
 		parseProblems.addAll(EpsilonParseProblemManager.INSTANCE.getParseProblems());

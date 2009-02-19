@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g 2008-09-01 17:25:32
+// $ANTLR 3.1b1 E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g 2009-02-17 10:15:27
 
 package org.eclipse.epsilon.ecl.parse;
 
@@ -51,13 +51,13 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "Letter", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "WHILE", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "TYPE", "ENUMERATION_VALUE", "IMPORT", "PRE", "POST", "EXTENDS", "GUARD", "MATCH", "COMPARE", "DO", "ECLMODULE", "'operation'", "'('", "')'", "':'", "'import'", "';'", "'{'", "'}'", "','", "'$'", "'!'", "'::'", "'#'", "'Native'", "'Collection'", "'Sequence'", "'Bag'", "'Set'", "'OrderedSet'", "'for'", "'in'", "'if'", "'else'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'='", "'>'", "'<'", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'|'", "'new'", "'var'", "'pre'", "'post'", "'guard'", "'extends'", "'rule'", "'match'", "'with'", "'compare'", "'do'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "Letter", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "WHILE", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "TYPE", "ENUMERATION_VALUE", "IMPORT", "MODELDECLARATION", "NAMESPACE", "ALIAS", "PRE", "POST", "EXTENDS", "GUARD", "MATCH", "COMPARE", "DO", "ECLMODULE", "'model'", "';'", "':'", "','", "'alias'", "'operation'", "'('", "')'", "'import'", "'{'", "'}'", "'$'", "'!'", "'::'", "'#'", "'Native'", "'Collection'", "'Sequence'", "'Bag'", "'Set'", "'OrderedSet'", "'for'", "'in'", "'if'", "'else'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'='", "'>'", "'<'", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'|'", "'new'", "'var'", "'pre'", "'post'", "'guard'", "'extends'", "'rule'", "'match'", "'with'", "'compare'", "'do'"
     };
-    public static final int StatementBlock=26;
     public static final int WHILE=30;
+    public static final int StatementBlock=26;
     public static final int StrangeNameLiteral=13;
     public static final int NEW=43;
-    public static final int DO=66;
+    public static final int DO=69;
     public static final int FeatureCall=53;
     public static final int EOF=-1;
     public static final int BREAK=32;
@@ -91,17 +91,19 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final int TRANSACTION=35;
     public static final int ELSE=29;
     public static final int EOLMODULE=54;
+    public static final int MODELDECLARATION=60;
     public static final int PARAMLIST=22;
-    public static final int MATCH=64;
+    public static final int MATCH=67;
     public static final int INT=6;
     public static final int DELETE=46;
-    public static final int ECLMODULE=67;
+    public static final int ECLMODULE=70;
     public static final int T__85=85;
     public static final int T__84=84;
     public static final int T__87=87;
     public static final int T__86=86;
     public static final int HELPERMETHOD=25;
     public static final int T__89=89;
+    public static final int NAMESPACE=61;
     public static final int T__88=88;
     public static final int CollectionType=38;
     public static final int T__126=126;
@@ -111,22 +113,25 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final int T__71=71;
     public static final int WS=17;
     public static final int T__72=72;
-    public static final int T__70=70;
+    public static final int T__129=129;
+    public static final int ALIAS=62;
     public static final int JavaIDDigit=15;
-    public static final int GUARD=63;
+    public static final int GUARD=66;
     public static final int Annotation=20;
     public static final int T__76=76;
     public static final int T__75=75;
     public static final int T__74=74;
+    public static final int T__130=130;
     public static final int T__73=73;
+    public static final int T__131=131;
     public static final int EscapeSequence=11;
     public static final int Letter=14;
     public static final int THROW=47;
+    public static final int T__132=132;
     public static final int T__79=79;
+    public static final int T__133=133;
     public static final int T__78=78;
     public static final int T__77=77;
-    public static final int T__68=68;
-    public static final int T__69=69;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
@@ -142,7 +147,7 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
-    public static final int PRE=60;
+    public static final int PRE=63;
     public static final int T__120=120;
     public static final int FLOAT=4;
     public static final int EXECUTABLEANNOTATION=45;
@@ -157,7 +162,7 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final int T__104=104;
     public static final int T__105=105;
     public static final int T__106=106;
-    public static final int COMPARE=65;
+    public static final int COMPARE=68;
     public static final int T__111=111;
     public static final int T__110=110;
     public static final int T__113=113;
@@ -174,10 +179,10 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
     public static final int FORMAL=21;
-    public static final int POST=61;
+    public static final int POST=64;
     public static final int ARROW=9;
     public static final int ASSIGNMENT=23;
-    public static final int EXTENDS=62;
+    public static final int EXTENDS=65;
     public static final int STRING=12;
 
     // delegates
@@ -216,23 +221,26 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     };
 
     // $ANTLR start eclModule
-    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:93:1: eclModule : ( importStatement )* ( eclModuleContent )* -> ^( ECLMODULE ( importStatement )* ( eclModuleContent )* ) ;
+    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:93:1: eclModule : ( importStatement )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( eclModuleContent )* ) ;
     public final EclParser.eclModule_return eclModule() throws RecognitionException {
         EclParser.eclModule_return retval = new EclParser.eclModule_return();
         retval.start = input.LT(1);
 
         CommonTree root_0 = null;
 
+        Token EOF3=null;
         Ecl_EolParserRules.importStatement_return importStatement1 = null;
 
         EclParser.eclModuleContent_return eclModuleContent2 = null;
 
 
+        CommonTree EOF3_tree=null;
+        RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleSubtreeStream stream_eclModuleContent=new RewriteRuleSubtreeStream(adaptor,"rule eclModuleContent");
         RewriteRuleSubtreeStream stream_importStatement=new RewriteRuleSubtreeStream(adaptor,"rule importStatement");
         try {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:94:2: ( ( importStatement )* ( eclModuleContent )* -> ^( ECLMODULE ( importStatement )* ( eclModuleContent )* ) )
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:94:4: ( importStatement )* ( eclModuleContent )*
+            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:94:2: ( ( importStatement )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( eclModuleContent )* ) )
+            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:94:4: ( importStatement )* ( eclModuleContent )* EOF
             {
             // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:94:4: ( importStatement )*
             loop1:
@@ -240,7 +248,7 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==72) ) {
+                if ( (LA1_0==79) ) {
                     alt1=1;
                 }
 
@@ -270,7 +278,7 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0==Annotation||LA2_0==68||LA2_0==77||(LA2_0>=120 && LA2_0<=121)||LA2_0==124) ) {
+                if ( (LA2_0==Annotation||LA2_0==76||LA2_0==82||(LA2_0>=125 && LA2_0<=126)||LA2_0==129) ) {
                     alt2=1;
                 }
 
@@ -294,10 +302,13 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                 }
             } while (true);
 
+            EOF3=(Token)match(input,EOF,FOLLOW_EOF_in_eclModule84); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_EOF.add(EOF3);
+
 
 
             // AST REWRITE
-            // elements: importStatement, eclModuleContent
+            // elements: eclModuleContent, importStatement
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -368,15 +379,15 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
         CommonTree root_0 = null;
 
-        Ecl_ErlParserRules.pre_return pre3 = null;
+        Ecl_ErlParserRules.pre_return pre4 = null;
 
-        Ecl_EolParserRules.annotationBlock_return annotationBlock4 = null;
+        Ecl_EolParserRules.annotationBlock_return annotationBlock5 = null;
 
-        Ecl_EclParserRules.matchRule_return matchRule5 = null;
+        Ecl_EclParserRules.matchRule_return matchRule6 = null;
 
-        Ecl_EolParserRules.operationDeclaration_return operationDeclaration6 = null;
+        Ecl_EolParserRules.operationDeclaration_return operationDeclaration7 = null;
 
-        Ecl_ErlParserRules.post_return post7 = null;
+        Ecl_ErlParserRules.post_return post8 = null;
 
 
 
@@ -384,28 +395,28 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
             // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.ecl.engine\\src\\org\\eclipse\\epsilon\\ecl\\parse\\Ecl.g:99:2: ( pre | annotationBlock | matchRule | operationDeclaration | post )
             int alt3=5;
             switch ( input.LA(1) ) {
-            case 120:
+            case 125:
                 {
                 alt3=1;
                 }
                 break;
             case Annotation:
-            case 77:
+            case 82:
                 {
                 alt3=2;
                 }
                 break;
-            case 124:
+            case 129:
                 {
                 alt3=3;
                 }
                 break;
-            case 68:
+            case 76:
                 {
                 alt3=4;
                 }
                 break;
-            case 121:
+            case 126:
                 {
                 alt3=5;
                 }
@@ -424,12 +435,12 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_pre_in_eclModuleContent106);
-                    pre3=pre();
+                    pushFollow(FOLLOW_pre_in_eclModuleContent108);
+                    pre4=pre();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, pre3.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, pre4.getTree());
 
                     }
                     break;
@@ -438,12 +449,12 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_annotationBlock_in_eclModuleContent110);
-                    annotationBlock4=annotationBlock();
+                    pushFollow(FOLLOW_annotationBlock_in_eclModuleContent112);
+                    annotationBlock5=annotationBlock();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, annotationBlock4.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, annotationBlock5.getTree());
 
                     }
                     break;
@@ -452,12 +463,12 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_matchRule_in_eclModuleContent114);
-                    matchRule5=matchRule();
+                    pushFollow(FOLLOW_matchRule_in_eclModuleContent116);
+                    matchRule6=matchRule();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, matchRule5.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, matchRule6.getTree());
 
                     }
                     break;
@@ -466,12 +477,12 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_operationDeclaration_in_eclModuleContent118);
-                    operationDeclaration6=operationDeclaration();
+                    pushFollow(FOLLOW_operationDeclaration_in_eclModuleContent120);
+                    operationDeclaration7=operationDeclaration();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, operationDeclaration6.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, operationDeclaration7.getTree());
 
                     }
                     break;
@@ -480,12 +491,12 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_post_in_eclModuleContent122);
-                    post7=post();
+                    pushFollow(FOLLOW_post_in_eclModuleContent124);
+                    post8=post();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, post7.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, post8.getTree());
 
                     }
                     break;
@@ -512,75 +523,79 @@ public class EclParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     // $ANTLR end eclModuleContent
 
     // Delegated rules
-    public Ecl_EclParserRules.matchRule_return matchRule() throws RecognitionException { return gEclParserRules.matchRule(); }
-    public Ecl_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
-    public Ecl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Ecl_EclParserRules.doBlock_return doBlock() throws RecognitionException { return gEclParserRules.doBlock(); }
-    public Ecl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Ecl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Ecl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Ecl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
-    public Ecl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Ecl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Ecl_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Ecl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
-    public Ecl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Ecl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Ecl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Ecl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
-    public Ecl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
     public Ecl_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Ecl_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
-    public Ecl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Ecl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Ecl_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
-    public Ecl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Ecl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Ecl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Ecl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
-    public Ecl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Ecl_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Ecl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
-    public Ecl_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Ecl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Ecl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Ecl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Ecl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Ecl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
     public Ecl_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
-    public Ecl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Ecl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Ecl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Ecl_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
+    public Ecl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
+    public Ecl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
+    public Ecl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Ecl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Ecl_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
     public Ecl_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
     public Ecl_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
-    public Ecl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Ecl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Ecl_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
-    public Ecl_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Ecl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Ecl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Ecl_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
-    public Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Ecl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Ecl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Ecl_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
-    public Ecl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
-    public Ecl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Ecl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Ecl_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Ecl_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
     public Ecl_EclParserRules.compareBlock_return compareBlock() throws RecognitionException { return gEclParserRules.compareBlock(); }
-    public Ecl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Ecl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Ecl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Ecl_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Ecl_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
     public Ecl_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Ecl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
+    public Ecl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Ecl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Ecl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Ecl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Ecl_EclParserRules.matchRule_return matchRule() throws RecognitionException { return gEclParserRules.matchRule(); }
+    public Ecl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Ecl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
     public Ecl_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Ecl_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Ecl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Ecl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
+    public Ecl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
+    public Ecl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
+    public Ecl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Ecl_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
+    public Ecl_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Ecl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Ecl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Ecl_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Ecl_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
+    public Ecl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Ecl_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Ecl_EolParserRules.modelNamespace_return modelNamespace() throws RecognitionException { return gEolParserRules.modelNamespace(); }
+    public Ecl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Ecl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Ecl_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Ecl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Ecl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
+    public Ecl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Ecl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
     public Ecl_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
+    public Ecl_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
+    public Ecl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
+    public Ecl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Ecl_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Ecl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Ecl_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Ecl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Ecl_EclParserRules.doBlock_return doBlock() throws RecognitionException { return gEclParserRules.doBlock(); }
+    public Ecl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Ecl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
 
 
  
 
-    public static final BitSet FOLLOW_importStatement_in_eclModule76 = new BitSet(new long[]{0x0000000000100002L,0x1300000000002110L});
-    public static final BitSet FOLLOW_eclModuleContent_in_eclModule80 = new BitSet(new long[]{0x0000000000100002L,0x1300000000002010L});
-    public static final BitSet FOLLOW_pre_in_eclModuleContent106 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_annotationBlock_in_eclModuleContent110 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_matchRule_in_eclModuleContent114 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_operationDeclaration_in_eclModuleContent118 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_post_in_eclModuleContent122 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_importStatement_in_eclModule76 = new BitSet(new long[]{0x0000000000100000L,0x6000000000049000L,0x0000000000000002L});
+    public static final BitSet FOLLOW_eclModuleContent_in_eclModule80 = new BitSet(new long[]{0x0000000000100000L,0x6000000000041000L,0x0000000000000002L});
+    public static final BitSet FOLLOW_EOF_in_eclModule84 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pre_in_eclModuleContent108 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_annotationBlock_in_eclModuleContent112 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_matchRule_in_eclModuleContent116 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_operationDeclaration_in_eclModuleContent120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_post_in_eclModuleContent124 = new BitSet(new long[]{0x0000000000000002L});
 
 }

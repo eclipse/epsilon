@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2008-09-01 17:23:42
+// $ANTLR 3.1b1 EolLexerRules.g 2009-02-17 10:17:02
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -50,8 +50,8 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int StatementBlock=26;
     public static final int StrangeNameLiteral=13;
     public static final int NEW=43;
-    public static final int DO=66;
-    public static final int EWLMODULE=67;
+    public static final int DO=69;
+    public static final int EWLMODULE=70;
     public static final int FeatureCall=53;
     public static final int EOF=-1;
     public static final int BREAK=32;
@@ -86,6 +86,7 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int ELSE=29;
     public static final int EOLMODULE=54;
     public static final int PARAMLIST=22;
+    public static final int MODELDECLARATION=60;
     public static final int INT=6;
     public static final int DELETE=46;
     public static final int T__85=85;
@@ -94,30 +95,34 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__86=86;
     public static final int HELPERMETHOD=25;
     public static final int T__89=89;
+    public static final int NAMESPACE=61;
     public static final int T__88=88;
     public static final int CollectionType=38;
     public static final int T__126=126;
     public static final int T__125=125;
+    public static final int T__128=128;
+    public static final int T__127=127;
     public static final int T__71=71;
     public static final int WS=17;
     public static final int T__72=72;
-    public static final int T__70=70;
+    public static final int T__129=129;
+    public static final int ALIAS=62;
     public static final int JavaIDDigit=15;
-    public static final int GUARD=63;
+    public static final int GUARD=66;
     public static final int Annotation=20;
     public static final int T__76=76;
     public static final int T__75=75;
     public static final int T__74=74;
+    public static final int T__130=130;
     public static final int T__73=73;
+    public static final int T__131=131;
     public static final int EscapeSequence=11;
     public static final int Letter=14;
     public static final int THROW=47;
-    public static final int WIZARD=64;
+    public static final int WIZARD=67;
     public static final int T__79=79;
     public static final int T__78=78;
     public static final int T__77=77;
-    public static final int T__68=68;
-    public static final int T__69=69;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
@@ -129,13 +134,13 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__115=115;
     public static final int T__124=124;
     public static final int T__123=123;
-    public static final int T__122=122;
     public static final int FOR=27;
-    public static final int ENUMERATION_VALUE=58;
+    public static final int T__122=122;
     public static final int T__121=121;
+    public static final int ENUMERATION_VALUE=58;
     public static final int FLOAT=4;
-    public static final int PRE=60;
     public static final int T__120=120;
+    public static final int PRE=63;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
     public static final int ModelElementType=39;
@@ -160,17 +165,17 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=127;
+    public static final int Tokens=132;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
     public static final int FORMAL=21;
-    public static final int POST=61;
+    public static final int POST=64;
     public static final int ARROW=9;
     public static final int ASSIGNMENT=23;
-    public static final int EXTENDS=62;
+    public static final int EXTENDS=65;
     public static final int STRING=12;
-    public static final int TITLE=65;
+    public static final int TITLE=68;
 
     // delegates
     // delegators

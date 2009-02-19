@@ -91,7 +91,7 @@ package org.eclipse.epsilon.etl.parse;
 }
 
 etlModule
-	:	importStatement* (etlModuleContent)*
+	:	importStatement* (etlModuleContent)* EOF
 	-> ^(ETLMODULE importStatement* etlModuleContent*)
 	;
 

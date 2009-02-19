@@ -91,7 +91,7 @@ package org.eclipse.epsilon.ewl.parse;
 }
 
 ewlModule
-	:	importStatement* (ewlModuleContent)*
+	:	importStatement* (ewlModuleContent)* EOF
 	-> ^(EWLMODULE importStatement* ewlModuleContent*)
 	;
 

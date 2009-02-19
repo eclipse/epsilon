@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol;
 import java.io.File;
 
 import org.eclipse.epsilon.commons.parse.Antlr3TreeViewer;
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolWorkbench {
@@ -22,15 +23,20 @@ public class EolWorkbench {
 		
 		EolModule module = new EolModule();
 		
-		String path = "E:\\Projects\\Eclipse\\3.3\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\test.eol";		
-		module.parse(new File(path));
-		
+		String path = "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\test.eol";		
 		try {
-			module.execute();
+			//module.parse(new File(path));
+			module.parse("var i : Integer; \r\n -- A comment \r\n -- Another comment \r\n //var b : String;");
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
-			new Antlr3TreeViewer(module.getAst(), EolParser.class);
+			int index = module.parser.getTokenStream().index();
+			System.err.println(index);
+		}
+		//System.err.println(module.parser.);
+		//System.err.println(module.parser.getNumberOfSyntaxErrors());
+		
+		for (ParseProblem problem : module.getParseProblems()) {
+			System.err.println(problem);
 		}
 	}
 	

@@ -1,5 +1,5 @@
 Sequence{1,2}->collect(x|x.foo()).println();
 
-operation Integer foo() {
-	return self + 1;
+  //for (i in Sequence{1..10}) {
+	i.println();
 }
