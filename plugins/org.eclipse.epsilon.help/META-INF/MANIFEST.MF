@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Help
+Bundle-SymbolicName: org.eclipse.epsilon.help;singleton:=true
+Bundle-Version: 0.8.4.qualifier
+Bundle-Localization: plugin
+Bundle-Vendor: The University of York
