@@ -225,6 +225,7 @@ public class EmfModel extends AbstractEmfModel {
 	}
 
 	public boolean store() {
+		if (modelImpl == null) return false;
 		
 		try {
 			modelImpl.save(null);
