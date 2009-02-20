@@ -94,7 +94,7 @@ package org.eclipse.epsilon.hutn.parse;
 package org.eclipse.epsilon.hutn.parse;	
 }
 
-document: pkg*;
+document: pkg* EOF -> pkg*;
 
 pkg: NAME^ TEXTUAL_VALUE? LBRACKET! pkg_contents* RBRACKET!;
 
