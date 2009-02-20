@@ -76,6 +76,13 @@ operation ECore!EReference isListLayout() : Boolean {
 }
 
 @cached
+operation ECore!EReference isCollapsible() : Boolean {
+	var label := self.getAnnotationValue('gmf.compartment', 'collapsible');
+	if (label = 'false') return false;
+	else return true;
+}
+
+@cached
 operation ECore!EReference getLinkLabel() : String {
 	return self.getAnnotationValue('gmf.link', 'label');
 }

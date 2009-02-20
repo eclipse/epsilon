@@ -48,6 +48,7 @@ for (class in getNodes()) {
 		var genCompartments := GmfGen!GenCompartment.all.select(c|c.title = class.name + ref.name.firstToUpperCase() + 'Compartment');
 		for (genCompartment in genCompartments) {
 			genCompartment.listLayout := ref.isListLayout();
+			genCompartment.canCollapse := ref.isCollapsible();
 			genCompartment.hideIfEmpty := true;
 		}
 	}
