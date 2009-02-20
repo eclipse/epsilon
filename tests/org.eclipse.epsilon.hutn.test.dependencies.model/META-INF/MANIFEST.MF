@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation Test Models (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.test.dependencies.model;singleton:=true
+Bundle-Version: 0.7.3
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.epsilon.hutn.test.model,
+ org.eclipse.epsilon.hutn.test.model.bankAccounts,
+ org.eclipse.epsilon.hutn.test.model.bankAccounts.impl,
+ org.eclipse.epsilon.hutn.test.model.bankAccounts.util,
+ org.eclipse.epsilon.hutn.test.model.families,
+ org.eclipse.epsilon.hutn.test.model.families.impl,
+ org.eclipse.epsilon.hutn.test.model.families.util,
+ org.eclipse.epsilon.hutn.test.models,
+ org.eclipse.epsilon.hutn.test.models.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.junit4,
+ org.eclipse.epsilon.emc.emf
+Bundle-ActivationPolicy: lazy
