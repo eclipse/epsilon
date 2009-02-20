@@ -46,7 +46,7 @@ canvasMapping.palette := palette;
 for (class in getNodes()) {
 	
 	-- Create GmfTool creation tool
-	var creationTool := createClassCreationTool(class.name);
+	var creationTool := createCreationTool(class);
 	nodesToolGroup.tools.add(creationTool);
 	
 	class.~creationTool := creationTool;
@@ -331,7 +331,7 @@ for (class in getLinks()) {
 	}
 	
 	-- Create GmfTool creation tool
-	var creationTool := createClassCreationTool(class.name);
+	var creationTool := createCreationTool(class);
 	linksToolGroup.tools.add(creationTool);
 	
 	-- Create GmfGraph figure descriptor
@@ -392,7 +392,7 @@ for (reference in getReferenceLinks()) {
 	var referenceName := reference.getLongName();
 
 	-- Create GmfTool creation tool
-	var creationTool := createReferenceCreationTool(reference.name.firstToUpperCase());
+	var creationTool := createCreationTool(reference);
 	linksToolGroup.tools.add(creationTool);
 	
 	-- Create GmfGraph figure descriptor
@@ -508,13 +508,51 @@ operation createFigureDescriptor(name : String) {
 	return figureDescriptor;
 }
 
-operation createClassCreationTool(name : String) {
+operation createCreationTool(element : Any) {
+
+	var annotation : String;
+	if (element.isTypeOf(ECore!EClass) and element.isNode()) {
+		annotation := 'gmf.node';
+	}
+	else {
+		annotation := 'gmf.link';
+	}
+
+	var toolName := element.getAnnotationValue(annotation, 'tool.name');
+	if (toolName.isUndefined()) {
+		if (element.isTypeOf(ECore!EClass)) {
+			toolName := element.name;
+		}
+		else {
+			toolName := element.name.firstToUpperCase();
+		}
+	}
+	
+	var toolDescription := element.getAnnotationValue(annotation, 'tool.description');
+	if (toolDescription.isUndefined()) {
+		toolDescription := 'Create new ' + toolName;
+	}
+	
 	var creationTool := new GmfTool!CreationTool;
-	creationTool.title := name;
-	creationTool.description := 'Create new ' + name;
-	creationTool.smallIcon := new GmfTool!DefaultImage;
-	creationTool.largeIcon := new GmfTool!DefaultImage;
+	creationTool.title := toolName;
+	creationTool.description := toolDescription;
+	
+	creationTool.smallIcon := createToolImage(element.getAnnotationValue(annotation, 'tool.small.path'), element.getAnnotationValue(annotation, 'tool.small.bundle'));
+	creationTool.largeIcon := createToolImage(element.getAnnotationValue(annotation, 'tool.large.path'), element.getAnnotationValue(annotation, 'tool.large.bundle'));
+	
 	return creationTool;
+}
+
+operation createToolImage(path : String, bundle : String) {
+	if (path.isUndefined()) {
+		return new GmfTool!DefaultImage;
+	}
+	else {
+		var bundleImage := new GmfTool!BundleImage;
+		bundleImage.path := path;
+		bundleImage.bundle := bundle;
+		return bundleImage;
+	}
 }
 
 operation createReferenceCreationTool(name : String) {
