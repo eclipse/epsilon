@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Generation Language Test Dependencies (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.egl.engine.test.dependencies
-Bundle-Version: 0.8.1.1
+Bundle-Version: 0.8.4.qualifier
 Bundle-ClassPath: dependencies.jar,
  lib/junit-4.1.jar
 Export-Package: org.eclipse.epsilon.egl.test
