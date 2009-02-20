@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
+import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 
 public class HutnModelValidationTest extends HutnTestWithFamiliesMetaModel {
 

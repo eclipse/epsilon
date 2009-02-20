@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class InvalidConfigFile extends InvalidHutnAcceptanceTest {
 
-	private static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies/models/org/eclipse/epsilon/hutn/test/acceptance/models/InvalidFamiliesConfig.model";
+	private static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies.model/models/org/eclipse/epsilon/hutn/test/models/InvalidFamiliesConfig.model";
 	
 	private static List<ParseProblem> problems;
 	private static ParseProblem problem;

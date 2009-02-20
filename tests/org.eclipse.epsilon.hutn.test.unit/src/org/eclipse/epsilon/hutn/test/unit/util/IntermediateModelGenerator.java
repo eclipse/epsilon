@@ -30,7 +30,7 @@ import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.parse.HutnLexer;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
-import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
+import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 
 public class IntermediateModelGenerator {

@@ -31,6 +31,8 @@ import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 
 public abstract class HutnTranslatorTest {
 	
+	protected static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies.model/models/org/eclipse/epsilon/hutn/test/models/FamiliesConfig.model";
+	
 	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
 		final Spec spec = new HutnTranslator().createIntermediateModel(ast);
 		

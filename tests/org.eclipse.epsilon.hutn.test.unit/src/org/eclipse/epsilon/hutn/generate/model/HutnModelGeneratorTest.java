@@ -16,7 +16,7 @@ package org.eclipse.epsilon.hutn.generate.model;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
+import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.AfterClass;
 

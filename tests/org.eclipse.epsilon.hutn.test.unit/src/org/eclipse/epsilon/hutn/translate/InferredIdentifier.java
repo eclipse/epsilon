@@ -22,8 +22,6 @@ import org.junit.Test;
 
 public class InferredIdentifier extends HutnTranslatorTest {
 	
-	private static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies/models/org/eclipse/epsilon/hutn/test/acceptance/models/FamiliesConfig.model";
-	
 	private static ModelWithEolAssertions model;
 	
 	@BeforeClass

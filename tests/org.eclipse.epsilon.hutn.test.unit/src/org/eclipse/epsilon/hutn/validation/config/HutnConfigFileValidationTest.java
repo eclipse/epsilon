@@ -26,7 +26,7 @@ import org.eclipse.epsilon.hutn.model.config.hutnConfig.DefaultValueRule;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigFactory;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigPackage;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.Rule;
-import org.eclipse.epsilon.hutn.test.util.HutnTestWithFamiliesMetaModel;
+import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 
 public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesMetaModel {
 

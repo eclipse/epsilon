@@ -7,10 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.antlr.gunit,
- org.eclipse.epsilon.hutn.test.acceptance.models,
  org.eclipse.epsilon.hutn.test.util
 Require-Bundle: org.eclipse.epsilon.hutn.engine;visibility:=reexport,
  org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.emc.emf;visibility:=reexport,
- org.eclipse.epsilon.test.dependencies;visibility:=reexport
+ org.eclipse.epsilon.test.dependencies;visibility:=reexport,
+ org.eclipse.epsilon.hutn.test.dependencies.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
