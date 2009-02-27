@@ -1,5 +1,4 @@
-model Left alias Source : "http://uml";
+foo.println();
 
-operation main() {
-
-}
+operation a() {}
+operation b() {}

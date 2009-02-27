@@ -86,12 +86,16 @@ package org.eclipse.epsilon.eol.parse;
 package org.eclipse.epsilon.eol.parse;	
 }
 
+/**
+	Ignores statements between operations 
+	to better support EGL
+*/
 eolModule
 	:
 	(importStatement)*
 	(modelDeclaration)*
 	block
-	(operationDeclarationOrAnnotationBlock)*
+	(operationDeclarationOrAnnotationBlock (statement | operationDeclarationOrAnnotationBlock)*)?
 	EOF
 	-> ^(EOLMODULE importStatement* modelDeclaration* block (operationDeclarationOrAnnotationBlock)*)
 	;

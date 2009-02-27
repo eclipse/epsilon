@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2009-02-17 09:49:40
+// $ANTLR 3.1b1 EolParserRules.g 2009-02-27 10:20:53
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -6661,17 +6661,18 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     static final String DFA37_eofS =
         "\1\uffff\1\3\6\uffff";
     static final String DFA37_minS =
-        "\1\20\1\7\1\4\1\uffff\1\7\1\uffff\1\4\1\7";
+        "\1\20\2\4\1\uffff\1\7\1\uffff\1\4\1\7";
     static final String DFA37_maxS =
-        "\1\20\1\160\1\164\1\uffff\1\162\1\uffff\1\164\1\162";
+        "\1\20\2\164\1\uffff\1\162\1\uffff\1\164\1\162";
     static final String DFA37_acceptS =
         "\3\uffff\1\1\1\uffff\1\2\2\uffff";
     static final String DFA37_specialS =
         "\10\uffff}>";
     static final String[] DFA37_transitionS = {
             "\1\1",
-            "\3\3\12\uffff\1\3\53\uffff\1\3\1\uffff\1\3\1\uffff\1\3\1\2\1"+
-            "\3\2\uffff\2\3\26\uffff\20\3",
+            "\1\3\1\uffff\5\3\1\uffff\1\3\3\uffff\1\3\3\uffff\1\3\53\uffff"+
+            "\1\3\1\uffff\1\3\1\uffff\1\3\1\2\1\3\2\uffff\2\3\3\uffff\7\3"+
+            "\1\uffff\1\3\1\uffff\32\3\1\uffff\2\3",
             "\1\3\1\uffff\1\3\3\uffff\1\3\1\uffff\1\3\3\uffff\1\4\64\uffff"+
             "\2\3\7\uffff\6\3\32\uffff\1\3\2\uffff\1\3\1\uffff\2\3",
             "",
@@ -6914,9 +6915,9 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     static final String DFA46_eofS =
         "\1\uffff\1\11\12\uffff";
     static final String DFA46_minS =
-        "\1\4\1\7\1\uffff\1\0\10\uffff";
+        "\2\4\1\uffff\1\0\10\uffff";
     static final String DFA46_maxS =
-        "\1\164\1\160\1\uffff\1\0\10\uffff";
+        "\2\164\1\uffff\1\0\10\uffff";
     static final String DFA46_acceptS =
         "\2\uffff\1\2\1\uffff\1\5\1\7\1\10\1\11\1\1\1\6\1\3\1\4";
     static final String DFA46_specialS =
@@ -6924,8 +6925,9 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     static final String[] DFA46_transitionS = {
             "\1\2\1\uffff\1\2\3\uffff\1\2\1\uffff\1\2\3\uffff\1\3\64\uffff"+
             "\1\5\10\uffff\1\4\5\1\37\uffff\1\6\1\7",
-            "\3\11\12\uffff\1\11\53\uffff\1\11\1\uffff\1\11\1\uffff\3\11"+
-            "\1\uffff\1\10\2\11\26\uffff\20\11",
+            "\1\11\1\uffff\5\11\1\uffff\1\11\3\uffff\1\11\3\uffff\1\11\53"+
+            "\uffff\1\11\1\uffff\1\11\1\uffff\3\11\1\uffff\1\10\2\11\3\uffff"+
+            "\7\11\1\uffff\1\11\1\uffff\32\11\1\uffff\2\11",
             "",
             "\1\uffff",
             "",
