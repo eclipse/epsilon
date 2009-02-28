@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.util;
 
+import java.util.List;
+
 import org.eclipse.epsilon.emc.emf.tools.EmfTool;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -77,6 +79,11 @@ public abstract class EpsilonUtil {
 
 			public boolean knowsAbout(String clazz) {
 				return "org.eclipse.epsilon.emc.emf.tools.EmfTool".equals(clazz);
+			}
+
+			public Object createInstance(String clazz, List<Object> parameters,
+					IEolContext context) throws EolRuntimeException {
+				return createInstance(clazz, context);
 			}
 		});
 	}
