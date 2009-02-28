@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
+import org.eclipse.epsilon.eol.types.EolType;
 
 
 public class TypeExecutor extends AbstractExecutor{
@@ -70,17 +71,21 @@ public class TypeExecutor extends AbstractExecutor{
 		else if (typeName.equals("Nothing")) {
 			return EolNoType.Instance;
 		}
+		
 		try {
-			return EolModelElementType.forName(typeName ,context);
+			EolType type = EolModelElementType.forName(typeName ,context);
+			return type;
 		}
 		catch (EolModelNotFoundException ex){
 			// Ignore
 		}
 		catch (EolModelElementTypeNotFoundException mex){
-			throw new EolTypeNotFoundException(typeName,ast);
+			// throw new EolTypeNotFoundException(typeName,ast);
 		}
 		
-		throw new EolTypeNotFoundException(typeName, ast);
+		return new EolNativeType(ast, context);
+		
+		//throw new EolTypeNotFoundException(typeName, ast);
 		
 	}
 

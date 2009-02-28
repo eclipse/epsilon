@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
@@ -36,9 +39,15 @@ public class EolNativeType extends EolAnyType {
 
 	@Override
 	public Object createInstance() throws EolRuntimeException {
-		return delegate.createInstance(clazz, context);
+		return delegate.createInstance(clazz, Collections.EMPTY_LIST, context);
 	}
-
+	
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		return delegate.createInstance(clazz, parameters, context);
+	}
+	
 	@Override
 	public String getName() {
 		return "Native (" + clazz + ")";

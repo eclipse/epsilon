@@ -28,6 +28,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 
 public class CopyTextAsHtmlActionDelegate implements IEditorActionDelegate {
 
@@ -45,8 +46,8 @@ public class CopyTextAsHtmlActionDelegate implements IEditorActionDelegate {
 		IWorkbenchPage page = win.getActivePage();
 		IEditorPart part = page.getActiveEditor();
 		
-		if (part instanceof TextEditor) {
-			TextEditor editor = (TextEditor) part;
+		if (part instanceof AbstractDecoratedTextEditor) {
+			AbstractDecoratedTextEditor editor = (AbstractDecoratedTextEditor) part;
 			ISelection selection =  editor.getSelectionProvider().getSelection();
 			Document document = (Document) editor.getDocumentProvider().getDocument(editor.getEditorInput());
 			TextSelection textSelection = (TextSelection) selection;	

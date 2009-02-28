@@ -352,7 +352,7 @@ declarativeFeatureCall
 	;
 
 newExpression
-	:	'new'^ tn=typeName {setTokenType(tn,TYPE);}
+	:	'new'^ tn=typeName {setTokenType(tn,TYPE);} parameterList?
 	{if (root_0.getToken() != null) root_0.getToken().setType(NEW);}
 	
 	;
@@ -366,8 +366,8 @@ variableDeclarationExpression
 		retval.tree.getToken().setText(txt);
 	}
 	//:	'var' NAME (':' 'new'? t=typeName {setTokenType(t, TYPE);})?
-	:	'var' NAME (':' n='new'? t=typeName {setTokenType(t, TYPE);})?
-	->	^(VAR NAME typeName?)
+	:	'var' NAME (':' n='new'? t=typeName {setTokenType(t, TYPE);} parameterList?)? 
+	->	^(VAR NAME typeName? parameterList?)
 	;
 
 litteralCollection

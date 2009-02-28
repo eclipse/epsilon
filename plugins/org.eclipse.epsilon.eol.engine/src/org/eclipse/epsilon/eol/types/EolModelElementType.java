@@ -12,7 +12,9 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -139,6 +141,12 @@ public class EolModelElementType extends EolType{
 		return model.createInstance(typeName);
 	}
 
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		throw new EolIllegalOperationParametersException("createInstance");
+	}
+	
 	@Override
 	public boolean isKind(Object o) {
 		try {

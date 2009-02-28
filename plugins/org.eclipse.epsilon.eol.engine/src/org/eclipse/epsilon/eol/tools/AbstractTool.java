@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
+import java.util.List;
+
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class AbstractTool implements ITool {
@@ -26,6 +28,10 @@ public class AbstractTool implements ITool {
 
 	public IEolContext getContext() {
 		return context;
+	}
+
+	public void initialize(List<Object> parameters) {
+		
 	}
 
 }

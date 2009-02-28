@@ -10,6 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.List;
+
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+
 public class EolPrimitiveType extends EolType{
 
 	private Class clazz;
@@ -26,6 +31,12 @@ public class EolPrimitiveType extends EolType{
 		this.name = name;
 	}
 
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		throw new EolIllegalOperationParametersException("createInstance");
+	}
+	
 	@Override
 	public boolean isType(Object o) {
 		if (o == null) return true;

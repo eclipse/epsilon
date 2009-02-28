@@ -10,7 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.lang.reflect.Constructor;
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelegate{
 
@@ -23,12 +29,33 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		return true;
 	}
 
-	public Object createInstance(String clazz) throws EolInternalException {
+	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
 		try {
-			return Class.forName(clazz).newInstance();
-		} catch (Exception e) {
+			Class c = Class.forName(clazz);
+			if (parameters.size() > 0) {
+				Constructor con = c.getConstructor(getTypes(parameters));
+				return con.newInstance(parameters.toArray());
+			}
+			else {
+				return c.newInstance();
+			}
+		} 
+		catch (NoSuchMethodException mex) {
+			throw new EolRuntimeException("Native type " + clazz + " does not define a suitable constructor for arguments " + parameters);
+		}
+		catch (Exception e) {
 			throw new EolInternalException(e);
 		}
 	}
 
+	public Class[] getTypes(Collection objects) {
+		Class[] types = new Class[objects.size()];
+		int i = 0;
+		for (Object o : objects) {
+			types[i] = o.getClass();
+			i++;
+		}
+		return types;
+	}
+	
 }

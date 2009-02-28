@@ -10,11 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
+import java.util.List;
+
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface ITool {
 	
 	public void setContext(IEolContext context);
 	public IEolContext getContext();
-	
+	public void initialize(List<Object> parameters);
 }

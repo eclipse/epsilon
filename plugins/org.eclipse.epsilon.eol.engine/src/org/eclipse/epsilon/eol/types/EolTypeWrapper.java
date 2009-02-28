@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +55,22 @@ public class EolTypeWrapper {
 		} else {
 			return o;
 		}
+	}
+	
+	public List<Object> unwrapAll(List<Object> objects) {
+		ArrayList<Object> unwrapped = new ArrayList<Object>();
+		for (Object o : objects) {
+			unwrapped.add(unwrap(o));
+		}
+		return unwrapped;
+	}
+	
+	public List<Object> wrapAll(List<Object> objects) {
+		ArrayList<Object> wrapped = new ArrayList<Object>();
+		for (Object o : objects) {
+			wrapped.add(wrap(o));
+		}
+		return wrapped;
 	}
 	
 	public Object unwrap(Object o){

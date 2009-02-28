@@ -11,9 +11,11 @@
 package org.eclipse.epsilon.eol.dt;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.epsilon.common.dt.launching.extensions.ToolExtension;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.AbstractToolNativeTypeDelegate;
 
 public class ExtensionPointToolNativeTypeDelegate extends AbstractToolNativeTypeDelegate{
@@ -26,8 +28,8 @@ public class ExtensionPointToolNativeTypeDelegate extends AbstractToolNativeType
 		}
 	}
 	
-	public Object createInstance(String clazz) throws EolRuntimeException {
-		return tools.get(clazz).createTool();
+	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
+		return tools.get(clazz).createTool(parameters);
 	}
 
 	public boolean knowsAbout(String clazz) {

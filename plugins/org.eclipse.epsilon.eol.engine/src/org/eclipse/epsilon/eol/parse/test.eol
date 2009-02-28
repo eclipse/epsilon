@@ -1,4 +1,7 @@
-foo.println();
+var x : new Native('com.x.y')(foo);
 
-operation a() {}
-operation b() {}
+var x := new "com.x.y"();
+
+operation foo(x : "java.lang.Integer") {
+
+}

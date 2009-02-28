@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.List;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public abstract class EolType {
@@ -22,4 +24,5 @@ public abstract class EolType {
 	
 	public abstract Object createInstance() throws EolRuntimeException;
 	
+	public abstract Object createInstance(List<Object> parameters) throws EolRuntimeException;
 }

@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.common.dt.launching.extensions;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -19,6 +20,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.tools.ITool;
 
 public class ToolExtension {
 	
@@ -82,9 +84,13 @@ public class ToolExtension {
 		return configurationElement.getAttribute("description");
 	}
 	
-	public Object createTool() throws EolRuntimeException {
+	public Object createTool(List<Object> parameters) throws EolRuntimeException {
 		try { 
-			return configurationElement.createExecutableExtension("class");
+			Object tool = configurationElement.createExecutableExtension("class");
+			if (tool instanceof ITool) {
+				
+			}
+			return tool;
 		}
 		catch (Exception ex) {
 			throw new EolInternalException(ex);

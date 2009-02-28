@@ -104,6 +104,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 	public AbstractModuleEditor() {
 		super();
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
+		setEditorContextMenuId("#TextEditorContext");
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}
 	
@@ -288,10 +289,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
-
+		
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
-
+		
 		return viewer;
 	}
 	

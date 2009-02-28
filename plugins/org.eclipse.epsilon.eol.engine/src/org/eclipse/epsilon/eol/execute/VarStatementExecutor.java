@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -18,6 +20,7 @@ import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
+import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 
 // TODO: Is it worth making collections strongly typed?
@@ -27,6 +30,10 @@ public class VarStatementExecutor extends AbstractExecutor{
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
 		AST variableNameAst = ast.getFirstChild();
 		AST variableTypeAst = variableNameAst.getNextSibling();
+		AST parametersAst = null;
+		if (variableTypeAst != null) {
+			parametersAst = variableTypeAst.getNextSibling();
+		}
 		//AST variableCollectionMemberTypeAst = null;
 		//Variable resultVariable = null;
 		
@@ -42,12 +49,18 @@ public class VarStatementExecutor extends AbstractExecutor{
 		}
 		
 		//TODO : Add try-catch and support for EolInstanciationExceptions
-		
 		if (variableType instanceof EolPrimitiveType || variableType instanceof EolCollectionType){
 			newInstance = variableType.createInstance();
 		}
 		else if (ast.getText().equalsIgnoreCase("new")) {
-			newInstance = variableType.createInstance();
+			
+			if (parametersAst != null) {
+				List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
+				newInstance = variableType.createInstance(EolTypeWrapper.getInstance().unwrapAll(parameters));
+			}
+			else {
+				newInstance = variableType.createInstance();
+			}
 		}
 		//if (ast.getText().compareTo("new") == 0 && variableType instanceof EolModelElementType){
 		//	newInstance = ((EolModelElementType) variableType).createInstance();

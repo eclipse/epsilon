@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.types;
 
+import java.util.List;
+
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class EglComplexType extends EolType{
@@ -45,6 +49,12 @@ public class EglComplexType extends EolType{
 		}
 	}
 
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		throw new EolIllegalOperationParametersException("createInstance");
+	}
+	
 	@Override
 	public String getName() {
 		return name;

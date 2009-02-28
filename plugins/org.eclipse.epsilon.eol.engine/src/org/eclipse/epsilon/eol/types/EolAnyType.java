@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.List;
+
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolAnyType extends EolType{
@@ -34,10 +37,17 @@ public class EolAnyType extends EolType{
 	public Object createInstance() throws EolRuntimeException {
 		return null;
 	}
-
+	
+	
 	@Override
 	public String getName() {
 		return "Any";
+	}
+
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		throw new EolIllegalOperationParametersException("createInstance");
 	}
 
 }

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -19,6 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.eol.types.EolNativeType;
 
 
 public class NameExecutor extends AbstractExecutor{
@@ -78,9 +80,19 @@ public class NameExecutor extends AbstractExecutor{
 		//	}
 		//}
 		
-		// Finally look for a model element type without !
+		// Look for a model element type without !
 		if (variable == null) {
 			variable = getModelElementType(name, context);
+		}
+		
+		// Finally look for a native type
+		if (variable == null) {
+			try {
+				variable = Variable.createReadOnlyVariable(name, new EolNativeType(ast, context));
+			}
+			catch (EolTypeNotFoundException ex) {
+				// Ignore
+			}
 		}
 		
 		if (variable == null) throw new EolUndefinedVariableException(name, ast);
