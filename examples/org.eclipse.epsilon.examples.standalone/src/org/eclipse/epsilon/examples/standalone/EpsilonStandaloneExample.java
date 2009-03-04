@@ -62,7 +62,7 @@ public abstract class EpsilonStandaloneExample {
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		properties.put(EmfModel.PROPERTY_METAMODEL_FILE, getFile(metamodel).getAbsolutePath());
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, getFile(model).getAbsolutePath());
+		properties.put(EmfModel.PROPERTY_MODEL_FILE, "file:/" + getFile(model).getAbsolutePath());
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "true");
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
@@ -75,7 +75,7 @@ public abstract class EpsilonStandaloneExample {
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodel);
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, getFile(model).getAbsolutePath());
+		properties.put(EmfModel.PROPERTY_MODEL_FILE, "file:/" + getFile(model).getAbsolutePath());
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
