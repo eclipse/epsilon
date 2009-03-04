@@ -1,3 +1,5 @@
 for (t in Tree.all) {
 	t.label.println();
 }
+
+Model.modelFile.println();
