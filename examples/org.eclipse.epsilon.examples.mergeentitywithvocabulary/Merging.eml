@@ -1,25 +1,7 @@
-pre {
-	
-	Target.allInstances.size().println();
-	
-	var printMatchTrace : Boolean := false;
-	
-	if (printMatchTrace) {
-		for (m in matchTrace.matches) {
-			if (m.left.isTypeOf(Source!Entity) and (not m.right.isTypeOf(Vocabulary!Vocabulary))) {
-				m.right.println();
-				(m.left.name + '<->' + m.right.name + ':' + m.matching).println();
-			}
-		}
-	}
-}
-
 rule MergeEntityWithTerm
 	merge s : Source!Entity
 	with t : Vocabulary!Term
 	into m : Target!Entity {
-	
-	'm1'.println();
 	
 	m.name := t.name;
 	m.inDomain := true;
@@ -31,8 +13,6 @@ rule MergeSystemWithVocabulary
 	with v : Vocabulary!Vocabulary
 	into t : Target!System {
 	
-	'm2'.println();
-	
 	t.entity := s.entity.equivalent();
 }
 
@@ -40,14 +20,6 @@ rule TransformEntity
 	transform s : Source!Entity
 	to t : Target!Entity {
 	
-	't1'.println();
-	
 	t.name := s.name;
 	t.inDomain := false;
-}
-
-post {
-	--for (i in Target.allInstances) {
-	--	i.println();
-	--}
 }
