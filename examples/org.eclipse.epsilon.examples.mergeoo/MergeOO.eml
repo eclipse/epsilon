@@ -97,28 +97,23 @@ rule MergeDatatype
 	
 }
 rule MergeOperation
-	merge l : Left!"Operation"
-	with r : Right!"Operation" 
-	into t : Target!"Operation" {
+	merge l : Left!Operation
+	with r : Right!Operation 
+	into t : Target!Operation {
 	
  
-	t."name" := l."name";
- 
-	t."visibility" := l."visibility";
- 
-	t."owner" ::= l."owner";
- 
-	t."type" ::= l."type";
- 
-	t."annotations" ::= l."annotations" + r."annotations";
- 
-	t."parameters" ::= l."parameters" + r."parameters";
+	t.name := l.name;
+	t.visibility := l.visibility;
+	t.owner ::= l.owner;
+	t.type ::= l.type;
+	t.annotations ::= l.annotations + r.annotations;
+	t.parameters ::= l.parameters + r.parameters;
 	
 }
 rule MergeParameter
-	merge l : Left!"Parameter"
-	with r : Right!"Parameter" 
-	into t : Target!"Parameter" {
+	merge l : Left!Parameter
+	with r : Right!Parameter
+	into t : Target!Parameter {
 	
  
 	t."name" := l."name";

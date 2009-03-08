@@ -38,22 +38,20 @@
 	</target>
 	
 	<target name="compare">
-		
-		<epsilon.ecl src="MatchOO.ecl" exportmatchtrace="trace">
+		<epsilon.ecl src="MatchOO.ecl" 
+				exportmatchtrace="trace">
 			<model ref="Left"/>
 			<model ref="Right"/>
 		</epsilon.ecl>
-		
 	</target>
 	
 	<target name="merge">
-		
-		<epsilon.eml src="MergeOO.eml" usematchtrace="trace">
+		<epsilon.eml src="MergeOO.eml" 
+				usematchtrace="trace">
 			<model ref="Left"/>
 			<model ref="Right"/>
 			<model ref="Target"/>
 		</epsilon.eml>
-		
 	</target>
 	
 </project>

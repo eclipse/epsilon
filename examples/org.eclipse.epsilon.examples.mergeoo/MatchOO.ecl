@@ -54,8 +54,9 @@ rule Operations
 	extends Features {
 	
 	compare { 
-		return l.parameters.size() = r.parameters.size() and 
-		l.parameters.forAll(lp|lp.matches(r.parameters.at(l.parameters.indexOf(lp))));
+	  return l.parameters.size() = r.parameters.size() and 
+	    l.parameters.forAll(lp|lp.matches(r.parameters.
+		  at(l.parameters.indexOf(lp))));
 	}
 }
 
