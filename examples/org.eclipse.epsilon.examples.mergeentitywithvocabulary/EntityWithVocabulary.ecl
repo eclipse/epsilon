@@ -13,6 +13,6 @@ rule MatchEntityWithTerm
 
 	compare {
 		return s.name = t.name or 
-		t.alias.exists(a|a.name = s.name);
+		t."alias".exists(a|a.name = s.name);
 	}
 }
