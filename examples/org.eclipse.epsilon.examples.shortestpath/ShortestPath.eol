@@ -1,4 +1,5 @@
--- This script implements the Dijkstra shortest path algorighm
+-- This script implements Dijkstra's shortest 
+-- path algorighm
 
 var s : Node;
 s := Node.allInstances.select(n|n.label = 'a').first();

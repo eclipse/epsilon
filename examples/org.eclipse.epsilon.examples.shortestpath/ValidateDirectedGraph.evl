@@ -2,7 +2,8 @@ context Node {
 	
 	constraint NotInCycle {
 		check : not self.allIncoming().includes(self)
-		message : 'Node ' + self.label + ' is part of a directed cycle'
+		message : 'Node ' + self.label + 
+			' is part of a directed cycle'
 	}
 	
 }
@@ -25,11 +26,13 @@ context Edge {
 	
 	constraint PositiveWeight {
 		
-		guard : self.satisfies('MustDefineSource') and self.satisfies('MustDefineTarget')
+		guard : self.satisfies('MustDefineSource') and 
+			self.satisfies('MustDefineTarget')
 		
 		check : self.weight >= 0
 		
-		message : 'Edge ' + self.source.label + '->' + self.target.label + ' has a negative weight' 
+		message : 'Edge ' + self.source.label + '->' + 
+			self.target.label + ' has a negative weight' 
 		
 	}
 	
