@@ -5,7 +5,7 @@ rule Tree2Node
 	n.name := t.label;
 	if (t.parent.isDefined()) {
 		var e : new Graph!Edge;
-		e.source ::= t.parent; -- The node transformed from t.parent
+		e.source ::= t.parent;
 		e.target := n;
 	}	
 }
