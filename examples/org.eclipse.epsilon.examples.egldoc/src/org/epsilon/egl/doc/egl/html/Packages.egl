@@ -1,3 +1,5 @@
+[%
+%]
 <h1>Packages</h1>
 <ul>
 [% for (p in EPackage.allInstances().sortBy(p|p.name)) { %]
