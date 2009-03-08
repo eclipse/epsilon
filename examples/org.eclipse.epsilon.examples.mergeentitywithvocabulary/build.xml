@@ -35,7 +35,7 @@
 	
 	<target name="compare">
 		
-		<epsilon.ecl src="EntityWithVocabulary.ecl">
+		<epsilon.ecl src="Comparison.ecl">
 			<model ref="Source"/>
 			<model ref="Vocabulary"/>
 			<exports ref="matchTrace" as="eclMatchTrace"/>
@@ -45,7 +45,7 @@
 	
 	<target name="merge">
 		
-		<epsilon.eml src="EntityWithVocabulary.eml" matchtrace="eclMatchTrace">
+		<epsilon.eml src="Merging.eml" matchtrace="eclMatchTrace">
 			<model ref="Source"/>
 			<model ref="Vocabulary"/>
 			<model ref="Target"/>

@@ -5,6 +5,6 @@
 <listEntry value="#&#13;&#10;#Sun Mar 08 00:29:40 GMT 2009&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=Vocabulary&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=false&#13;&#10;aliases=&#13;&#10;metamodelUri=DomainVocabulary&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mergeentitywithvocabulary/models/Vocabulary.model&#13;&#10;expand=false&#13;&#10;metamodelFile=/org.eclipse.epsilon.examples.mergeentitywithvocabulary/metamodels/DomainVocabulary.ecore&#13;&#10;"/>
 <listEntry value="#&#13;&#10;#Sun Mar 08 00:29:50 GMT 2009&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=Target&#13;&#10;readOnLoad=false&#13;&#10;storeOnDisposal=true&#13;&#10;aliases=&#13;&#10;metamodelUri=Entity&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mergeentitywithvocabulary/models/Target.model&#13;&#10;expand=false&#13;&#10;metamodelFile=/org.eclipse.epsilon.examples.mergeentitywithvocabulary/metamodels/Entity.ecore&#13;&#10;"/>
 </listAttribute>
-<stringAttribute key="source" value="\org.eclipse.epsilon.examples.mergeentitywithvocabulary\EntityWithVocabulary.eml"/>
-<stringAttribute key="source.ecl" value="\org.eclipse.epsilon.examples.mergeentitywithvocabulary\EntityWithVocabulary.ecl"/>
+<stringAttribute key="source" value="\org.eclipse.epsilon.examples.mergeentitywithvocabulary\Merging.eml"/>
+<stringAttribute key="source.ecl" value="\org.eclipse.epsilon.examples.mergeentitywithvocabulary\Comparison.ecl"/>
 </launchConfiguration>
