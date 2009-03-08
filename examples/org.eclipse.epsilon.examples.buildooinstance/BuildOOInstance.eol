@@ -1,17 +1,12 @@
-var "model" : Model;
-"model" := new Model;
--- Alternatively we could have used:
--- var model : new Model; (creates a typed variable)
--- var model : Model := new Model; (creates a typed variable)
--- var model := new Model; (creates an untyped variable)
+var m : new Model;
 
-"model".name := 'm';
+m.name := 'm';
 
 -- Create five packages
 for (i in Sequence{1..5}){
 	var package : Package := new Package;
 	package.name := 'p' + i;
-	package.package := "model";
+	package.package := m;
 
 	-- Create three classes in each package
 	for (j in Sequence{1..3}) {
