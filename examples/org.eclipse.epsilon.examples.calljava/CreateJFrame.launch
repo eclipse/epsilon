@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
+<listAttribute key="models"/>
+<stringAttribute key="source" value="\org.eclipse.epsilon.examples.calljava\CreateJFrame.eol"/>
+</launchConfiguration>
