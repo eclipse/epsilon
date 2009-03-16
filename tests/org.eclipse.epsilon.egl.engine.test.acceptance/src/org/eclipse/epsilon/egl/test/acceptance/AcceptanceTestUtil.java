@@ -45,7 +45,6 @@ public class AcceptanceTestUtil {
 		module.reset();
 		
 		loadModels(models);
-		configureTemplateFactory(program);
 		
 		module.parse(program);
 		
@@ -60,7 +59,6 @@ public class AcceptanceTestUtil {
 		module.reset();
 		
 		loadModels(models);
-		configureTemplateFactory(program);
 		
 		module.parse(program);
 		module.execute();
@@ -76,25 +74,10 @@ public class AcceptanceTestUtil {
 		}
 	}
 	
-	private static void configureTemplateFactory(File program) throws EglRuntimeException {
-		try {
-			final TemplateFactory tf = module.getContext().getTemplateFactory();
-			
-			final URI rootUri = UriUtil.fileToUri(program.getParentFile());
-			
-			tf.setRoot(rootUri);
-		
-		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path to: "+program, e, new MockContext().getModule().getAst());
-		}
-	}
-	
 	private static void report() {
 		for (StatusMessage message : module.getContext().getStatusMessages()) {
 			System.out.println(message);
 		}
-		
-		//System.out.println(module.getContext().getTemplate());
 	}
 	
 	public static List<StatusMessage> getStatusMessages() {

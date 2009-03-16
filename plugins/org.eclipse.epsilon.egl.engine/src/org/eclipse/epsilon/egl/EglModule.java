@@ -20,23 +20,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.output.Output;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -94,6 +91,8 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 				this.sourceFile = new File(uri);
 			}
 			
+			context.getTemplateFactory().setRoot(uri);
+			
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 			lexer = new EglLexer(reader);
 			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(null);
@@ -113,6 +112,12 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	public boolean parse(File file) throws IOException {
 		try {
 			this.sourceFile = file;
+
+			// Attempt to set the root of the template factory to the source file
+			try {
+				context.getTemplateFactory().setRoot(new URI("file://" + file.getAbsolutePath()));
+			} catch (URISyntaxException e) {}
+			
 			reader = new BufferedReader(new FileReader(file));
 			lexer = new EglLexer(reader);
 			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);

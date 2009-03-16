@@ -56,16 +56,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		final String fileName          = workspaceLocation + configuration.getAttribute(SOURCE, "");
 		final File   file              = new File(fileName);
 		
-		// Configure root of TemplateFactory
-		try {
-			final URI rootUri = UriUtil.fileToUri(file.getParentFile());
-			
-			module.getContext().getTemplateFactory().setRoot(rootUri);
-		} catch (URISyntaxException e) {
-			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			return;
-		}
-		
 		// Parse
 		subTask = "Parsing " + fileName;
 		progressMonitor.subTask(subTask);
