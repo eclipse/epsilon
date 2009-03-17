@@ -24,6 +24,7 @@ public class ExistsOperation extends AbstractOperation {
 	public Object execute(Object obj, AST ast, IEolContext context)  throws EolRuntimeException{
 
 		SelectOperation selectOperation = new SelectOperation();
+		selectOperation.setReturnOnFirstMatch(true);
 		EolCollection selected = (EolCollection) selectOperation.execute(obj, ast, context);
 		
 		return new EolBoolean(selected.size().intValue() > 0);

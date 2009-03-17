@@ -83,16 +83,29 @@ public class ClosureOperation extends AbstractOperation {
 		while (li.hasNext()){
 			Object listItem = li.next();
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, expressionAST);
-				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
-				//if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
-				if (bodyResult != null && closure.includes(bodyResult).not().booleanValue()) {
-					closure.add(bodyResult);
-					closure(EolCollection.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
-				}
+				//if (closure.includes(listItem).not().booleanValue()) {
+					scope.enter(FrameType.UNPROTECTED, expressionAST);
+					scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
+					Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
+					//if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
+					if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
+						for (Object result : EolCollection.asCollection(bodyResult).getStorage()) {
+							if (result != null && closure.includes(result).not().booleanValue()) {
+								closure.add(result);
+								closure(EolCollection.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
+							}
+						}
+						//if (bodyResult instanceof EolCollection) {
+						//	closure.addAll((EolCollection)bodyResult);
+						//}
+						//else {
+						//	closure.add(bodyResult);
+						//}
+						//closure(EolCollection.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
+					}
+					//}
+					scope.leave(expressionAST);
 				//}
-				scope.leave(expressionAST);
 			}
 		}
 	}

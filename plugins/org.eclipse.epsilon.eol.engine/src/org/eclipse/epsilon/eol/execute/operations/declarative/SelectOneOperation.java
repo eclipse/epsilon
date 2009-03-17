@@ -20,6 +20,7 @@ public class SelectOneOperation extends SelectOperation {
 
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
+		setReturnOnFirstMatch(true);
 		EolCollection result = (EolCollection) super.execute(obj, ast, context);
 		return result.first();
 	}

@@ -27,6 +27,17 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class SelectOperation extends AbstractOperation {
 	
+	protected boolean returnOnFirstMatch = false;
+	
+	public boolean isReturnOnFirstMatch() {
+		return returnOnFirstMatch;
+	}
+
+
+	public void setReturnOnFirstMatch(boolean returnOnFirstMatch) {
+		this.returnOnFirstMatch = returnOnFirstMatch;
+	}
+
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
 		
@@ -64,6 +75,10 @@ public class SelectOperation extends AbstractOperation {
 				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
 				if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
 					result.add(listItem);
+					if (isReturnOnFirstMatch()) {
+						scope.leave(ast);
+						return result;
+					}
 				}
 				scope.leave(ast);
 			}
