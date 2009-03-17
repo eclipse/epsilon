@@ -209,7 +209,9 @@ public class EmfModel extends AbstractEmfModel {
 		
 		if (this.readOnLoad){
 			try {
-				HashMap<String, String> options = new HashMap<String, String>();
+				HashMap<String, Object> options = new HashMap<String, Object>();
+				options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+				options.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
 				options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 				model.load(options);
 				if (expand) {
