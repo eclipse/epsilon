@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class EmfUtil {
-	
+		
 	public static EStructuralFeature getEStructuralFeature(EClass eClass, String featureName) {
 		try {
 			EStructuralFeature feature = eClass.getEStructuralFeature(featureName);

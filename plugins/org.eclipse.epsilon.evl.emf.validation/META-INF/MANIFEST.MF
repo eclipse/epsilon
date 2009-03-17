@@ -20,6 +20,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.editor,
  org.eclipse.emf.edit,
  org.eclipse.emf.edit.ui,
- org.eclipse.gmf.runtime.diagram.ui
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.emf.ocl;resolution:=optional,
+ org.eclipse.ocl;resolution:=optional,
+ org.eclipse.ocl.ecore;resolution:=optional
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.epsilon.evl.emf.validation

@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -127,7 +128,8 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		//model.setMetamodelFileBased(false);
 		
 		StringProperties properties = new StringProperties();
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + containerName + "/" + fileName);
+		//properties.put(EmfModel.PROPERTY_MODEL_FILE, "file://" + ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + containerName + "/" + fileName);
+		properties.put(EmfModel.PROPERTY_MODEL_FILE, URI.createPlatformResourceURI(containerName + "/" + fileName, true).toString());
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri);
 		properties.put(Model.PROPERTY_READONLOAD, false);
 		
@@ -145,6 +147,8 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		}
 		
 		model.store();
+		model.dispose();
+		
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,null);
 		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(containerName + "/" + fileName));
 		// Open the new model for editing
@@ -155,6 +159,7 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 				try {
 					IDE.openEditor(page, file, true);
 				} catch (PartInitException e) {
+					LogUtil.log(e);
 				}
 			}
 		});

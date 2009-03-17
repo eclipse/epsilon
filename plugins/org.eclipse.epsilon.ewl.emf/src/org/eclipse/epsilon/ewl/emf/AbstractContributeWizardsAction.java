@@ -245,7 +245,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		
 		
 		for (EObject eObject : eObjects) {
-			eObjectURIs.add(EmfUtil.getTopEPackage(eObject).getNsURI());
+			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
+			eObjectURIs.add(eObjectNsURI);
 		}
 		
 		
