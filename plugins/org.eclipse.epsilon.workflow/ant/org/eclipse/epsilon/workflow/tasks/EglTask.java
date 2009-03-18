@@ -39,10 +39,7 @@ public class EglTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected void initialize() throws Exception {
-		EglModule module = (EglModule) this.module;
-		module.getContext().getTemplateFactory().setRoot(UriUtil.fileToUri(src.getParentFile()));
-	}
+	protected void initialize() throws Exception {}
 
 	public File getTarget() {
 		return target;
