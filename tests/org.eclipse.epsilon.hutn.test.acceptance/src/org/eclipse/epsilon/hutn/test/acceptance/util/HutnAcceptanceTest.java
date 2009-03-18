@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.test.acceptance.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
@@ -38,7 +38,7 @@ public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 			for (ParseProblem p : module.getParseProblems()) {
 				System.err.println(p);
 			}
-			assertTrue("Could not parse HUTN.", false);
+			fail("Could not parse HUTN.");
 		}
 		
 		final ModelWithEolAssertions result = new ModelWithEolAssertions(module.generateEmfModel());
