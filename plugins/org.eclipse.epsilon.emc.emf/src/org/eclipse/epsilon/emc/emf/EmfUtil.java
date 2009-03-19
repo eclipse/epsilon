@@ -242,7 +242,6 @@ public class EmfUtil {
 	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
 		final List<T> results = new LinkedList<T>();
 		
-		System.out.println(modelElement.eResource());
 		final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
 		
 		while (iterator.hasNext()) {
