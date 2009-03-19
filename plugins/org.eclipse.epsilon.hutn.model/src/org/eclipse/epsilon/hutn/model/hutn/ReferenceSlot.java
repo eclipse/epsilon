@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ReferenceSlot extends AssociativeSlot {
 	/**
-	 * Returns the value of the '<em><b>Identifiers</b></em>' attribute list.
+	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -43,10 +43,10 @@ public interface ReferenceSlot extends AssociativeSlot {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Identifiers</em>' attribute list.
-	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getReferenceSlot_Identifiers()
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getReferenceSlot_Values()
 	 * @model unique="false"
 	 * @generated
 	 */
-	EList<String> getIdentifiers();
+	EList<String> getValues();
 
 } // ReferenceSlot

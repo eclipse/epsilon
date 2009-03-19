@@ -237,7 +237,7 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 	 */
 	public boolean typeCompatibleWith(EStructuralFeature feature) {	
 		if (feature.getEType() instanceof EClass) {
-			final EClass type           = (EClass)feature.getEType();
+			final EClass type = (EClass)feature.getEType();
 			
 			for (ClassObject classObject : getClassObjects()) {
 				final EClass containedType = classObject.getEClass();
@@ -295,18 +295,7 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 		}
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	protected int getSize() {
-		return getClassObjects().size();
-	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -316,6 +305,17 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 	@Override
 	public void addClassObject(ClassObject classObject) {
 		getClassObjects().add(classObject);
+	}
+
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	public EList<ClassObject> getValues() {
+		return getClassObjects();
 	}
 	
 } //ContainmentSlotImpl

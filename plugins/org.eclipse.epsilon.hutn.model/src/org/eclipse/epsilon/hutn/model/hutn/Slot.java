@@ -14,6 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
@@ -149,5 +150,13 @@ public interface Slot extends ModelElement {
 	 * @generated
 	 */
 	boolean hasEStructuralFeature();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<?> getValues();
 
 } // Slot

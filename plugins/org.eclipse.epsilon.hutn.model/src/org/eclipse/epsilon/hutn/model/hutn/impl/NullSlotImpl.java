@@ -14,6 +14,8 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -67,16 +69,14 @@ public class NullSlotImpl extends SlotImpl implements NullSlot {
 	public boolean typeCompatibleWith(EStructuralFeature feature) {
 		return false;
 	}
-
+	
 	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
+	 * <!-- begin-user-doc -->
+	 * Get the contents of this slot.
 	 * @generated NOT
 	 */
-	@Override
-	protected int getSize() {
-		return 0;
+	public EList<?> getValues() {
+		return new BasicEList<Object>();
 	}
+	
 } //NullSlotImpl

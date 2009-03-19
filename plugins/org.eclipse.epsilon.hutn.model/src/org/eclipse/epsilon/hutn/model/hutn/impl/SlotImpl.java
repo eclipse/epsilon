@@ -14,8 +14,10 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
+import java.lang.Object;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -182,8 +184,8 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * @generated NOT
 	 */
 	public boolean multiplicityCompatibleWith(EStructuralFeature feature) {
-		return getSize() >= feature.getLowerBound() &&
-		       getSize() <= feature.getUpperBound();
+		return getNumberOfValues() >= feature.getLowerBound() &&
+		       getNumberOfValues() <= feature.getUpperBound();
 	}
 
 	/**
@@ -193,7 +195,9 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * @model
 	 * @generated NOT
 	 */
-	protected abstract int getSize();
+	protected int getNumberOfValues() {
+		return getValues().size();
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -229,6 +233,13 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	public boolean hasEStructuralFeature() {
 		return getEStructuralFeature() != null;
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Get the contents of this slot.
+	 * @generated NOT
+	 */
+	public abstract EList<?> getValues();
 
 	/**
 	 * <!-- begin-user-doc -->

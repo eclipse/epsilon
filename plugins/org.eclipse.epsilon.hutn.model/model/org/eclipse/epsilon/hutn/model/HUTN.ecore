@@ -60,6 +60,7 @@
     </eOperations>
     <eOperations name="getEStructuralFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eOperations name="hasEStructuralFeature" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="getValues" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="feature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//ClassObject"
         eOpposite="#//ClassObject/slots"/>
@@ -87,9 +88,11 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NullSlot" eSuperTypes="#//Slot"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ContainmentSlot" eSuperTypes="#//AssociativeSlot #//ClassObjectContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContainmentSlot" eSuperTypes="#//AssociativeSlot #//ClassObjectContainer">
+    <eOperations name="getValues" upperBound="-1" eType="#//ClassObject"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceSlot" eSuperTypes="#//AssociativeSlot">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifiers" unique="false"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EnumSlot" eSuperTypes="#//Slot">

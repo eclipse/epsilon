@@ -35,7 +35,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ReferenceSlotImpl#getIdentifiers <em>Identifiers</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.ReferenceSlotImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,14 +43,14 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  */
 public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceSlot {
 	/**
-	 * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' attribute list.
+	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIdentifiers()
+	 * @see #getValues()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> identifiers;
+	protected EList<String> values;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,11 +76,11 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getIdentifiers() {
-		if (identifiers == null) {
-			identifiers = new EDataTypeEList<String>(String.class, this, HutnPackage.REFERENCE_SLOT__IDENTIFIERS);
+	public EList<String> getValues() {
+		if (values == null) {
+			values = new EDataTypeEList<String>(String.class, this, HutnPackage.REFERENCE_SLOT__IDENTIFIERS);
 		}
-		return identifiers;
+		return values;
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HutnPackage.REFERENCE_SLOT__IDENTIFIERS:
-				return getIdentifiers();
+				return getValues();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -107,8 +107,8 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HutnPackage.REFERENCE_SLOT__IDENTIFIERS:
-				getIdentifiers().clear();
-				getIdentifiers().addAll((Collection<? extends String>)newValue);
+				getValues().clear();
+				getValues().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,7 +123,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case HutnPackage.REFERENCE_SLOT__IDENTIFIERS:
-				getIdentifiers().clear();
+				getValues().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -138,7 +138,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case HutnPackage.REFERENCE_SLOT__IDENTIFIERS:
-				return identifiers != null && !identifiers.isEmpty();
+				return values != null && !values.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -153,8 +153,8 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (identifiers: ");
-		result.append(identifiers);
+		result.append(" (values: ");
+		result.append(values);
 		result.append(')');
 		return result.toString();
 	}
@@ -166,7 +166,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	 */
 	public void append(Slot slot) {
 		if (slot instanceof ReferenceSlot) {
-			this.getIdentifiers().addAll(((ReferenceSlot)slot).getIdentifiers());
+			this.getValues().addAll(((ReferenceSlot)slot).getValues());
 		
 		} else {
 			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a ReferenceSlot");
@@ -181,7 +181,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	public EList<ClassObject> getClassObjects() {
 		final EList<ClassObject> classObjects = new BasicEList<ClassObject>();
 		
-		for (String identifier : getIdentifiers()) {
+		for (String identifier : getValues()) {
 			final ClassObject classObject = getClassObject(identifier);
 			
 			if (classObject != null)
@@ -191,6 +191,11 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 		return classObjects;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	private ClassObject getClassObject(String identifier) {
 		for (ClassObject classObject : eAllClassObjects()) {
 			if (identifier.equals(classObject.getIdentifier())) {
@@ -211,7 +216,7 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 			final EClass type           = (EClass)feature.getEType();
 			final List<EClass> eClasses = EmfUtil.getAllEClassesFromSameMetamodelAs(feature);
 			
-			for (String identifier : getIdentifiers()) {
+			for (String identifier : getValues()) {
 				final EClass eClass = findClassByIdentifier(identifier, eClasses);
 				
 				if (eClass != null && !type.isSuperTypeOf(eClass)) {
@@ -249,18 +254,6 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 	private List<ClassObject> eAllClassObjects() {
 		return EmfUtil.getAllModelElementsOfType(this, ClassObject.class);
 	}
-	
-	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	protected int getSize() {
-		return getIdentifiers().size();
-	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -273,6 +266,6 @@ public class ReferenceSlotImpl extends AssociativeSlotImpl implements ReferenceS
 		if (classObject.getIdentifier() == null)
 			throw new IllegalArgumentException("ClassObjects must have an identifier if they are to be added to a ReferenceSlot.");
 		
-		getIdentifiers().add(classObject.getIdentifier());
+		getValues().add(classObject.getIdentifier());
 	}
 } //ReferenceSlotImpl

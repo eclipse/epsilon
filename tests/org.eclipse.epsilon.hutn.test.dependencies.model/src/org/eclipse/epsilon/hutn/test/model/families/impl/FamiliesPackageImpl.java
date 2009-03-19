@@ -31,6 +31,7 @@ import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.eclipse.epsilon.hutn.test.model.families.Family;
+import org.eclipse.epsilon.hutn.test.model.families.Model;
 import org.eclipse.epsilon.hutn.test.model.families.NamedElement;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
 import org.eclipse.epsilon.hutn.test.model.families.Pet;
@@ -83,6 +84,13 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * @generated
 	 */
 	private EClass districtEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -385,6 +393,24 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getModel() {
+		return modelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModel_Contents() {
+		return (EReference)modelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDogBreed() {
 		return dogBreedEEnum;
 	}
@@ -446,6 +472,9 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		districtEClass = createEClass(DISTRICT);
 		createEReference(districtEClass, DISTRICT__FAMILIES);
 		createEReference(districtEClass, DISTRICT__DOGS);
+
+		modelEClass = createEClass(MODEL);
+		createEReference(modelEClass, MODEL__CONTENTS);
 
 		// Create enums
 		dogBreedEEnum = createEEnum(DOG_BREED);
@@ -517,6 +546,9 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		initEClass(districtEClass, District.class, "District", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDistrict_Families(), this.getFamily(), this.getFamily_District(), "families", null, 1, -1, District.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDistrict_Dogs(), this.getDog(), this.getDog_District(), "dogs", null, 1, -1, District.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getModel_Contents(), this.getNamedElement(), null, "contents", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(dogBreedEEnum, DogBreed.class, "DogBreed");

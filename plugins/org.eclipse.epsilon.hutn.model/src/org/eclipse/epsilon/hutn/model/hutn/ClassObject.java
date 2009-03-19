@@ -130,8 +130,8 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 	
 	/**
 	 * <!-- begin-user-doc -->
-	 * Indicates whether every Slot contained in this ClassObject
-	 * has the same type as some EStructuralFeature contained in eClass
+	 * Indicates whether every Slot contained in this ClassObject is
+	 * type compatible with some EStructuralFeature contained in eClass
 	 * <!-- end-user-doc -->
 	 * @model required="true" eClassRequired="true"
 	 * @generated

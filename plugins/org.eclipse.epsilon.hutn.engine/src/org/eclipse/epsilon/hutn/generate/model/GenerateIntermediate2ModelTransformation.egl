@@ -44,7 +44,7 @@ pre {
 [% } %]
 
 operation ReferenceSlot getEObjects() : Sequence {
-	return self.identifiers.collect(i:String | i.getEObject(self));
+	return self.values.collect(i:String | i.getEObject(self));
 }
 
 operation ContainmentSlot getEObjects() : Sequence {
@@ -58,6 +58,6 @@ operation String getEObject(slot : ReferenceSlot) : Any {
 	
 	} else {
 		-- Internal object reference, located in current model
-		return slot.getClassObjects.selectOne(c|c.identifier = self).equivalent();
+		return slot.getClassObjects().selectOne(c|c.identifier = self).equivalent();
 	}
 }

@@ -64,5 +64,5 @@ public abstract class AssociativeSlotImpl extends SlotImpl implements Associativ
 	 * @generated NOT
 	 */
 	public abstract void addClassObject(ClassObject classObject);
-
+	
 } //AssociativeSlotImpl

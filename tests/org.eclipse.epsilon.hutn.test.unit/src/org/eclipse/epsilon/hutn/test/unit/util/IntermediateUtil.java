@@ -75,7 +75,7 @@ public abstract class IntermediateUtil {
 		final ReferenceSlot slot = HutnFactory.eINSTANCE.createReferenceSlot();
 		slot.setFeature(feature);
 		
-		slot.getIdentifiers().addAll(Arrays.asList(identifiers));
+		slot.getValues().addAll(Arrays.asList(identifiers));
 		
 		return slot;
 	}

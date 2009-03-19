@@ -180,16 +180,5 @@ public class StringSlotImpl extends SlotImpl implements StringSlot {
 	public boolean typeCompatibleWith(EStructuralFeature feature) {
 		return "java.lang.String".equals(feature.getEType().getInstanceTypeName());
 	}
-
-	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	protected int getSize() {
-		return getValues().size();
-	}
+	
 } //StringSlotImpl

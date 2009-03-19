@@ -389,6 +389,34 @@ public interface FamiliesPackage extends EPackage {
 	int DISTRICT_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl <em>Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl
+	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getModel()
+	 * @generated
+	 */
+	int MODEL = 6;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__CONTENTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -396,7 +424,7 @@ public interface FamiliesPackage extends EPackage {
 	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getDogBreed()
 	 * @generated
 	 */
-	int DOG_BREED = 6;
+	int DOG_BREED = 7;
 
 
 	/**
@@ -658,6 +686,27 @@ public interface FamiliesPackage extends EPackage {
 	EReference getDistrict_Dogs();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.test.model.families.Model <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Model
+	 * @generated
+	 */
+	EClass getModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.hutn.test.model.families.Model#getContents <em>Contents</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Contents</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Model#getContents()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Contents();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -892,6 +941,24 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DISTRICT__DOGS = eINSTANCE.getDistrict_Dogs();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl <em>Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl
+		 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getModel()
+		 * @generated
+		 */
+		EClass MODEL = eINSTANCE.getModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__CONTENTS = eINSTANCE.getModel_Contents();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.

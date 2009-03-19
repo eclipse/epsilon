@@ -758,6 +758,11 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 
 		addEOperation(slotEClass, ecorePackage.getEBoolean(), "hasEStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(slotEClass, null, "set", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "value", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(slotEClass, ecorePackage.getEJavaObject(), "get", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(associativeSlotEClass, AssociativeSlot.class, "AssociativeSlot", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		addEOperation(associativeSlotEClass, this.getClassObject(), "getClassObjects", 0, -1, IS_UNIQUE, IS_ORDERED);

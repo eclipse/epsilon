@@ -15,13 +15,12 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -192,16 +191,20 @@ public class EnumSlotImpl extends SlotImpl implements EnumSlot {
 		return feature.getEType() instanceof EEnum;
 	}
 	
+	
 	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
+	 * <!-- begin-user-doc -->
+	 * Get the contents of this slot.
 	 * @generated NOT
 	 */
-	@Override
-	protected int getSize() {
-		return getValue() == null ? 0 : 1;
+	public EList<?> getValues() {
+		final EList<String> list = new BasicEList<String>();
+		
+		if (getValue() != null) {
+			list.add(getValue());
+		}
+		
+		return list;
 	}
 
 } //EnumSlotImpl

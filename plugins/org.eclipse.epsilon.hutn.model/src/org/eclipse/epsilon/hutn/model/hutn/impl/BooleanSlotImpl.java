@@ -182,17 +182,5 @@ public class BooleanSlotImpl extends SlotImpl implements BooleanSlot {
 		
 		return "java.lang.Boolean".equals(type) || "boolean".equals(type);
 	}
-
-	/**
-	 * * <!-- begin-user-doc -->
-	 * Returns the size of the contents of this Slot.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	protected int getSize() {
-		return getValues().size();
-	}
 	
 } //BooleanSlotImpl

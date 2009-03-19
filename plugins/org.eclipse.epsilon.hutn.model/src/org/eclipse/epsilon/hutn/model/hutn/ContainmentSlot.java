@@ -14,6 +14,8 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -27,4 +29,12 @@ package org.eclipse.epsilon.hutn.model.hutn;
  */
 public interface ContainmentSlot extends AssociativeSlot, ClassObjectContainer {
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<ClassObject> getValues();
+	
 } // ContainmentSlot
