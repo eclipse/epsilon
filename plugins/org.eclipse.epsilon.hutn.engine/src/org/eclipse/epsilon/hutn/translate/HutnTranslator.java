@@ -159,7 +159,7 @@ public class HutnTranslator {
 			final IModel astModel = new InMemoryEmfModel("AntlrAst", ast.eResource(), HutnAntlrAstPackage.eINSTANCE);
 			
 			final Spec spec = HutnFactory.eINSTANCE.createSpec();
-			final EmfModel intermediateModel = new InMemoryEmfModel("Intermediate", EmfUtil.createResourceFor(spec), HutnPackage.eINSTANCE);
+			final EmfModel intermediateModel = new InMemoryEmfModel("Intermediate", EmfUtil.createResource(spec), HutnPackage.eINSTANCE);
 			intermediateModel.setMetamodelFileBased(false);
 			intermediateModel.setMetamodelUri(HutnPackage.eNS_URI);
 			

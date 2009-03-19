@@ -34,7 +34,7 @@ public class HutnValidator extends AbstractValidator {
 	}
 	
 	private static Resource resourceFor(Spec hutn) {
-		return hutn.eResource() == null ? EmfUtil.createResourceFor(hutn) : hutn.eResource();
+		return hutn.eResource() == null ? EmfUtil.createResource(hutn) : hutn.eResource();
 	}
 	
 	public List<ParseProblem> getProblemsForIntermediateModel(Spec hutn) throws HutnValidationException {

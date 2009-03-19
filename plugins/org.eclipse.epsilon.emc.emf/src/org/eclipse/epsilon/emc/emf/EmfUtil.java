@@ -242,6 +242,7 @@ public class EmfUtil {
 	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
 		final List<T> results = new LinkedList<T>();
 		
+		System.out.println(modelElement.eResource());
 		final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
 		
 		while (iterator.hasNext()) {
@@ -263,26 +264,30 @@ public class EmfUtil {
 	}
 	
 	public static Resource createResource(URI uri) {
+		return createResource(null, uri);
+	}
+	
+	public static Resource createResource(EObject rootObject) {
+		return createResource(rootObject, DEFAULT_URI);
+	}
+	
+	public static Resource createResource(EObject rootObject, URI uri) {
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
 
-		return resourceSet.createResource(uri);
-	}
-	
-	public static Resource createResourceFor(EObject rootObject) {
-		return createResourceFor(rootObject, DEFAULT_URI);
-	}
-	
-	public static Resource createResourceFor(EObject rootObject, URI uri) {
-		final Resource resource = createResource(uri);
-		resource.getContents().add(rootObject);
+		final Resource resource = resourceSet.createResource(uri);
+		
+		if (rootObject != null) {
+			resource.getContents().add(rootObject);
+		}
+		
 		return resource;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends EObject> T clone(T object) {
 		final T cloned = (T)EcoreUtil.copy(object);
-		org.eclipse.epsilon.emc.emf.EmfUtil.createResourceFor(cloned);
+		org.eclipse.epsilon.emc.emf.EmfUtil.createResource(cloned);
 		return cloned;
 	}
 }

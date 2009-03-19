@@ -36,7 +36,7 @@ public abstract class HutnTranslatorTest {
 	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
 		final Spec spec = new HutnTranslator().createIntermediateModel(ast);
 		
-		final AbstractEmfModel specModel = new InMemoryEmfModel(EmfUtil.createResourceFor(spec));
+		final AbstractEmfModel specModel = new InMemoryEmfModel(EmfUtil.createResource(spec));
 		
 		final ModelWithEolAssertions model = new ModelWithEolAssertions(specModel);
 		
@@ -48,7 +48,7 @@ public abstract class HutnTranslatorTest {
 	
 	protected static Ast initialiseAst() {
 		final Ast ast = AntlrAstFactory.eINSTANCE.createAst();
-		EmfUtil.createResourceFor(ast);
+		EmfUtil.createResource(ast);
 		
 		return ast;
 	}

@@ -122,7 +122,7 @@ public abstract class IntermediateUtil {
 	
 	public static Spec createSpec(String nsUri, PackageObject... packages) {
 		final Spec spec = HutnFactory.eINSTANCE.createSpec();
-		EmfUtil.createResourceFor(spec);
+		EmfUtil.createResource(spec);
 		
 		if (nsUri != null) {
 			final NsUri uri = HutnFactory.eINSTANCE.createNsUri();

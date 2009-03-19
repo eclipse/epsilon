@@ -34,7 +34,7 @@ public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesM
 		EmfModel model = null;
 		
 		try {
-			model = new InMemoryEmfModel("Config", EmfUtil.createResourceFor(configuration));
+			model = new InMemoryEmfModel("Config", EmfUtil.createResource(configuration));
 			model.setMetamodelFileBased(false);
 			model.setMetamodelUri(HutnConfigPackage.eNS_URI);
 		
@@ -48,7 +48,7 @@ public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesM
 	
 	public static Configuration createConfiguration(Rule... rules) {
 		final Configuration config = HutnConfigFactory.eINSTANCE.createConfiguration();
-		EmfUtil.createResourceFor(config);
+		EmfUtil.createResource(config);
 		
 		for (Rule rule : rules) {
 			config.getRules().add(rule);
