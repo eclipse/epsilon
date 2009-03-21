@@ -16,7 +16,7 @@ package org.eclipse.epsilon.hutn.validation.model;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createClass;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createPackage;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createSpec;
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createContainmentSlot;
+import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createAttributeSlot;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
@@ -29,8 +29,8 @@ public class IncorrectTypeForContainment extends HutnModelValidationTest {
 	public static void validateModel() throws HutnValidationException {
 		problems = modelValidationTest(createSpec("families", createPackage(createClass("The Smiths",
 		                                                                                "Family",
-		                                                                                createContainmentSlot("members",
-		                                                                                                      createClass("Fido", "Pet"))))));
+		                                                                                createAttributeSlot("members",
+		                                                                                                    createClass("Fido", "Pet"))))));
 	}
 	
 	@Test

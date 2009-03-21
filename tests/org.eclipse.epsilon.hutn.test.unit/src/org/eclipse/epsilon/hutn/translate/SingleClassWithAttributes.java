@@ -48,11 +48,6 @@ public class SingleClassWithAttributes extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void firstSlotShouldBeCorrectType() {
-		model.assertTrue("StringSlot.isType(slot1)");
-	}
-	
-	@Test
 	public void firstSlotShouldHaveCorrectFeatureName() {
 		model.assertEquals("name", "slot1.feature");
 	}
@@ -65,11 +60,6 @@ public class SingleClassWithAttributes extends HutnTranslatorTest {
 	@Test
 	public void firstSlotShouldHaveCorrectValue() {
 		model.assertEquals("The Smiths", "slot1.values.first()");
-	}
-	
-	@Test
-	public void secondSlotShouldBeCorrectType() {
-		model.assertTrue("IntegerSlot.isType(slot2)");
 	}
 	
 	@Test

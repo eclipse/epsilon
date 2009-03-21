@@ -41,11 +41,6 @@ public class SingleClassWithAdjectives extends HutnTranslatorTest {
 		model.setVariable("slot1", "class.slots.at(0)");
 		model.setVariable("slot2", "class.slots.at(1)");
 	}
-		
-	@Test
-	public void firstSlotShouldBeABooleanSlot() {
-		model.assertTrue("BooleanSlot.isType(slot1)");
-	}
 	
 	@Test
 	public void firstSlotShouldHaveCorrectFeatureName() {
@@ -60,11 +55,6 @@ public class SingleClassWithAdjectives extends HutnTranslatorTest {
 	@Test
 	public void firstSlotShouldHaveCorrectValue() {
 		model.assertEquals(true, "slot1.values.first()");
-	}
-	
-	@Test
-	public void secondSlotShouldBeABooleanSlot() {
-		model.assertTrue("BooleanSlot.isType(slot2)");
 	}
 	
 	@Test

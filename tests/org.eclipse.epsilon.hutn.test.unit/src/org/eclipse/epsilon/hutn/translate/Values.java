@@ -20,14 +20,9 @@ import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.junit.Test;
 
-public class AttributeTypes extends HutnTranslatorTest {
-	
-	private void attributeTest(Node attributeNode, String expectedType) throws HutnTranslationException {
-		attributeTest(attributeNode, expectedType, null);
-	}
-	
+public class Values extends HutnTranslatorTest {
+		
 	private void attributeTest(Node attributeNode,
-	                           String expectedType,
 	                           Object expectedValue) throws HutnTranslationException {
 		
 		final Node classNode = createClass("Family", "The Smiths");
@@ -43,55 +38,55 @@ public class AttributeTypes extends HutnTranslatorTest {
 		model.setVariable("package", "spec.objects.first()");
 		model.setVariable("class",   "package.classObjects.first()");
 		model.setVariable("slot" ,   "class.slots.at(0)");
-		
-		model.assertTrue(expectedType + ".isType(slot)");
-		
-		if (expectedValue != null)
+				
+		if (expectedValue == null)
+			model.assertTrue("slot.values.isEmpty()");
+		else
 			model.assertEquals(expectedValue, "slot.values.first()");
 	}
 	
 	@Test
-	public void typeShouldBeNullSlot() throws HutnTranslationException {
-		attributeTest(createNullAttribute("null"), "NullSlot");
+	public void valueShouldBeNull() throws HutnTranslationException {
+		attributeTest(createNullAttribute("null"), null);
 	}
 	
 	@Test
 	public void typeShouldBeStringSlot() throws HutnTranslationException {
-		attributeTest(createAttribute("name", "The Smiths"), "StringSlot", "The Smiths");
+		attributeTest(createAttribute("name", "The Smiths"), "The Smiths");
 	}
 	
 	@Test
 	public void typeShouldBeIntegerSlot() throws HutnTranslationException {
-		attributeTest(createAttribute("numberOfChildren", 2), "IntegerSlot", 2);
+		attributeTest(createAttribute("numberOfChildren", 2), 2);
 	}
 	
 	@Test
 	public void typeShouldBeFloatSlot() throws HutnTranslationException {
-		attributeTest(createAttribute("averageAge", 23.5), "FloatSlot", 23.5);
+		attributeTest(createAttribute("averageAge", 23.5), 23.5);
 	}
 	
 	@Test
 	public void typeShouldBeBooleanSlotWhenTrue() throws HutnTranslationException {
-		attributeTest(createAttribute("migrant", true), "BooleanSlot", true);
+		attributeTest(createAttribute("migrant", true), true);
 	}
 	
 	@Test
 	public void typeShouldBeBooleanSlotWhenFalse() throws HutnTranslationException {
-		attributeTest(createAttribute("nuclear", false), "BooleanSlot", false);
+		attributeTest(createAttribute("nuclear", false), false);
 	}
 	
 	@Test
 	public void typeShouldBeBooleanSlotWhenPositiveAdjective() throws HutnTranslationException {
-		attributeTest(createAdjective("nuclear"), "BooleanSlot", true);
+		attributeTest(createAdjective("nuclear"), true);
 	}
 	
 	@Test
 	public void typeShouldBeBooleanSlotWhenExplicitPositiveAdjective() throws HutnTranslationException {
-		attributeTest(createAdjective("#nuclear"), "BooleanSlot", true);
+		attributeTest(createAdjective("#nuclear"), true);
 	}
 	
 	@Test
 	public void typeShouldBeBooleanSlotWhenNegativeAdjective() throws HutnTranslationException {
-		attributeTest(createAdjective("~nuclear"), "BooleanSlot", false);
+		attributeTest(createAdjective("~nuclear"), false);
 	}
 }

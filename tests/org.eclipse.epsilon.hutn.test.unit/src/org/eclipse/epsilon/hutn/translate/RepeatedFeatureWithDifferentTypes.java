@@ -58,28 +58,23 @@ public class RepeatedFeatureWithDifferentTypes extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void slot1ShouldBeCorrectType() {
-		model.assertTrue("ContainmentSlot.isType(slot1)");
-	}
-	
-	@Test
 	public void slot1ShouldHaveCorrectFeatureName() {
 		model.assertEquals("members", "slot1.feature");
 	}
 	
 	@Test
+	public void slot1ShouldContainOneValue() {
+		model.assertEquals(1, "slot1.values.size()");
+	}
+	
+	@Test
 	public void slot1ShouldContainOneClassObjects() {
-		model.assertEquals(1, "slot1.classObjects.size()");
+		model.assertEquals(1, "slot1.values.size()");
 	}
 	
 	@Test
 	public void slot1ShouldContainFirstClassObject() {
-		model.assertEquals("John", "slot1.classObjects.first.identifier");
-	}
-	
-	@Test
-	public void slot2ShouldBeCorrectType() {
-		model.assertTrue("StringSlot.isType(slot2)");
+		model.assertEquals("John", "slot1.values.first.identifier");
 	}
 	
 	@Test

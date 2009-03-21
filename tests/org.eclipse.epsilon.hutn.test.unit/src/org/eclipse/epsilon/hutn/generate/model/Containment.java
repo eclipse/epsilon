@@ -24,15 +24,15 @@ import org.junit.Test;
 public class Containment extends HutnModelGeneratorTest {
 
 	private static ClassObject createPerson(String name) {
-		return createClass(name, "Person", createStringSlot("name", name));
+		return createClass(name, "Person", createAttributeSlot("name", name));
 	}
 	
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
 		model = modelGeneratorTest(createSpec("families", createPackage(createClass("The Smiths", "Family",
 		                                                                            createContainmentSlot("members",
-		                                                                                                  createPerson("John"),
-		                                                                                                  createPerson("Gill"))))));
+		                                                                                                createPerson("John"),
+		                                                                                                createPerson("Gill"))))));
 		
 		model.setVariable("family", "Family.allInstances().first()");
 	}

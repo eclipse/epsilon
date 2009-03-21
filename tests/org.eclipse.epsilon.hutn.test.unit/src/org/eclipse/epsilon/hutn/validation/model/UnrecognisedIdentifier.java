@@ -29,7 +29,7 @@ public class UnrecognisedIdentifier extends HutnModelValidationTest {
 	public static void validateModel() throws HutnValidationException {
 		problems = modelValidationTest(createSpec("families", createPackage(createClass("The Smiths",
 		                                                                                "Family",
-		                                                                                createReferenceSlot("members", "John")))));
+		                                                                                createReferenceSlot("pets", "Fido")))));
 	}
 	
 	@Test
@@ -39,6 +39,6 @@ public class UnrecognisedIdentifier extends HutnModelValidationTest {
 	
 	@Test
 	public void reasonShouldBeUnrecognisedIdentifier() {
-		assertEquals("Unrecognised identifier: John", problems.get(0).getReason());
+		assertEquals("Unrecognised identifier: Fido", problems.get(0).getReason());
 	}
 }

@@ -15,7 +15,7 @@ package org.eclipse.epsilon.hutn.validation.model;
 
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createClass;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createPackage;
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createStringSlot;
+import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createAttributeSlot;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createSpec;
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +29,7 @@ public class TooManyValues extends HutnModelValidationTest {
 	public static void validateModel() throws HutnValidationException {
 		problems = modelValidationTest(createSpec("families", createPackage(createClass("The Smiths",
 		                                                                                "Family",
-		                                                                                createStringSlot("name", "The Smiths", "The Does")))));
+		                                                                                createAttributeSlot("name", "The Smiths", "The Does")))));
 	}
 	
 	@Test

@@ -44,7 +44,7 @@ class HutnFixer extends AbstractFixer {
 	private boolean applyFixForClassMustSpecifyRequiredReferences(EvlUnsatisfiedConstraint constraint) throws EolRuntimeException {
 		final ClassObject object = (ClassObject)constraint.getInstance();
 		
-		final List<Slot> originalSlots = defensiveCopy(object.getSlots());
+		final List<Slot<?>> originalSlots = defensiveCopy(object.getSlots());
 		
 		((EvlFixInstance)constraint.getFixes().get(0)).perform();
 		

@@ -1,6 +1,8 @@
 @namespace(uri="http://www.eclipse.org/gmt/epsilon/hutn", prefix="hutn")
 package hutn;
 
+import "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore";
+
 class Spec {
   val NsUri[*] nsUris;
   val PackageObject[*] objects;
@@ -17,49 +19,48 @@ class ModelElement {
 
 abstract class Object extends ModelElement {
   attr String type;
-  val Slot[*]#owner slots;
   attr String identifier;
 }
 
 class PackageObject extends Object {
+  op ecore.EClass[*] getAllEClasses();
+  ref ecore.EPackage[*] metamodel;
+  val ClassObject[*] classObjects;
 }
 
 class ClassObject extends Object {
+  op Slot<?> findSlot(String feature);
+  op PackageObject[1] getPackageObject();
+  op ecore.EClass getEClass();
+  op boolean[1] hasEClass();
+  op boolean[1] typeCompatibleWith(ecore.EClass[1] eClass);
+  val Slot<?>[*]#owner slots;
 }
 
-abstract class Slot extends ModelElement {
+abstract class Slot <T>  extends ModelElement {
+  op boolean[1] typeCompatibleWith(ecore.EStructuralFeature[1] eStructuralFeature);
+  op boolean[1] multiplicityCompatibleWith(ecore.EStructuralFeature[1] eStructuralFeature);
+  op boolean[1] compatibleWith(ecore.EStructuralFeature[1] eStructuralFeature);
+  op ecore.EStructuralFeature getEStructuralFeature();
+  op boolean[1] hasEStructuralFeature();
   attr String feature;
-  ref Object[1]#slots owner;
+  ref ClassObject[1]#slots owner;
+  !unique readonly attr T[*] values;
 }
 
-class StringSlot extends Slot {
-  !unique attr String[*] values;
+class AttributeSlot extends Slot<EJavaObject> {
 }
 
-class BooleanSlot extends Slot {
-  !unique attr Boolean[*] values;
+abstract class ClassObjectSlot <T>  extends Slot<T> {
+  op ClassObject[*] getClassObjects();
+  op void setClassObjects(ClassObject[*] classObjects);
+  op void addClassObject(ClassObject classObject);
 }
 
-class IntegerSlot extends Slot {
-  !unique attr Integer[*] values;
+class ContainmentSlot extends ClassObjectSlot<ClassObject> {
+  val ClassObject[*] classObjects;
 }
 
-class FloatSlot extends Slot {
-  !unique attr Float[*] values;
-}
-
-class NullSlot extends Slot {
-}
-
-class ContainmentSlot extends Slot {
-  val Object[*] objects;
-}
-
-class ReferenceSlot extends Slot {
-  !unique attr String[*] identifiers;
-}
-
-class EnumSlot extends Slot {
-  !unique attr String value;
+class ReferenceSlot extends ClassObjectSlot<String> {
 }
 

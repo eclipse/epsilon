@@ -10,20 +10,23 @@
  *     Louis Rose - initial API and implementation
  * ******************************************************************************
  *
- * $Id: NullSlot.java,v 1.3 2008/08/15 10:05:57 dkolovos Exp $
+ * $Id$
  */
 package org.eclipse.epsilon.hutn.model.hutn;
+
+import java.lang.Object;
 
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Null Slot</b></em>'.
+ * A representation of the model object '<em><b>Attribute Slot</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getNullSlot()
- * @model
+ * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getAttributeSlot()
+ * @model superTypes="org.eclipse.epsilon.hutn.model.hutn.Slot<org.eclipse.emf.ecore.EJavaObject>"
  * @generated
  */
-public interface NullSlot extends Slot {
-} // NullSlot
+public interface AttributeSlot extends Slot<Object> {
+
+} // AttributeSlot

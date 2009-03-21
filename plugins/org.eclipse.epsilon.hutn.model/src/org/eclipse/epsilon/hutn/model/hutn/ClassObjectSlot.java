@@ -16,19 +16,24 @@ package org.eclipse.epsilon.hutn.model.hutn;
 
 import org.eclipse.emf.common.util.EList;
 
+
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Associative Slot</b></em>'.
+ * A representation of the model object '<em><b>Class Object Slot</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getAssociativeSlot()
+ * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getClassObjectSlot()
  * @model abstract="true"
  * @generated
  */
-public interface AssociativeSlot extends Slot {
+public interface ClassObjectSlot<T> extends Slot<T> {
+
 	/**
 	 * <!-- begin-user-doc -->
+	 * Returns a list of the class objects in this slot.
+	 * The list might not be modifiable; use {@link #setClassObjects}
+	 * to change the contents of the slot.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -37,10 +42,19 @@ public interface AssociativeSlot extends Slot {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Replaces the class objects in this slot.
 	 * <!-- end-user-doc -->
-	 * @model classObjectRequired="true"
+	 * @model classObjectsMany="true"
+	 * @generated
+	 */
+	void setClassObjects(EList<ClassObject> classObjects);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
 	 * @generated
 	 */
 	void addClassObject(ClassObject classObject);
 
-} // AssociativeSlot
+} // ClassObjectSlot

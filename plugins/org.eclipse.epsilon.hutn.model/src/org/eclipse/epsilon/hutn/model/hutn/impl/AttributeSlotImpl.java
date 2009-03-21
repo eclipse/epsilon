@@ -14,30 +14,30 @@
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
-import org.eclipse.emf.common.util.EList;
-
+import java.lang.Object;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.epsilon.hutn.model.hutn.AssociativeSlot;
-import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Associative Slot</b></em>'.
+ * An implementation of the model object '<em><b>Attribute Slot</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public abstract class AssociativeSlotImpl extends SlotImpl implements AssociativeSlot {
+public class AttributeSlotImpl extends SlotImpl<Object> implements AttributeSlot {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AssociativeSlotImpl() {
+	protected AttributeSlotImpl() {
 		super();
 	}
 
@@ -48,21 +48,36 @@ public abstract class AssociativeSlotImpl extends SlotImpl implements Associativ
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return HutnPackage.Literals.ASSOCIATIVE_SLOT;
+		return HutnPackage.Literals.ATTRIBUTE_SLOT;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean typeCompatibleWith(EStructuralFeature structuralFeature) {
+		for (Object value : getValues()) {
+			if (!typeCompatible(structuralFeature.getEType(), value)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private static boolean typeCompatible(EClassifier type, Object value) {
+		if (type instanceof EEnum) {
+			return (((EEnum)type).getEEnumLiteralByLiteral(value.toString()) != null);
+			
+		} else {
+			return type.isInstance(value);
+		}
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public abstract EList<ClassObject> getClassObjects();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public abstract void addClassObject(ClassObject classObject);
-	
-} //AssociativeSlotImpl
+} //AttributeSlotImpl

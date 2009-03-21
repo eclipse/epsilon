@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EPackage;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getMetamodel <em>Metamodel</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.PackageObject#getClassObjects <em>Class Objects</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,7 +37,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @model
  * @generated
  */
-public interface PackageObject extends org.eclipse.epsilon.hutn.model.hutn.Object, ClassObjectContainer {
+public interface PackageObject extends org.eclipse.epsilon.hutn.model.hutn.Object {
 
 	/**
 	 * Returns the value of the '<em><b>Metamodel</b></em>' reference list.
@@ -53,6 +54,22 @@ public interface PackageObject extends org.eclipse.epsilon.hutn.model.hutn.Objec
 	 * @generated
 	 */
 	EList<EPackage> getMetamodel();
+
+	/**
+	 * Returns the value of the '<em><b>Class Objects</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.hutn.model.hutn.ClassObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Class Objects</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Class Objects</em>' containment reference list.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getPackageObject_ClassObjects()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ClassObject> getClassObjects();
 
 	/**
 	 * <!-- begin-user-doc -->

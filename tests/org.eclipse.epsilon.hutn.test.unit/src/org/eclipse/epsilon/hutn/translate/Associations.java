@@ -64,16 +64,16 @@ public class Associations extends HutnTranslatorTest {
 	
 	@Test
 	public void slotShouldHaveTwoIdentifiers() {
-		model.assertEquals(2, "slot.identifiers.size()");
+		model.assertEquals(2, "slot.values.size()");
 	}
 	
 	@Test
 	public void slotShouldContainFirstIdentifier() {
-		model.assertEquals("Fido", "slot.identifiers.at(0)");
+		model.assertEquals("Fido", "slot.values.at(0)");
 	}
 	
 	@Test
 	public void slotShouldContainSecondIdentifier() {
-		model.assertEquals("Lassie", "slot.identifiers.at(1)");
+		model.assertEquals("Lassie", "slot.values.at(1)");
 	}
 }

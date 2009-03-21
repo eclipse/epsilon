@@ -19,7 +19,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.hutn.translate.AssociationBlock;
 import org.eclipse.epsilon.hutn.translate.Associations;
-import org.eclipse.epsilon.hutn.translate.AttributeTypes;
+import org.eclipse.epsilon.hutn.translate.Values;
 import org.eclipse.epsilon.hutn.translate.ClassifierLevelAttributes;
 import org.eclipse.epsilon.hutn.translate.Containment;
 import org.eclipse.epsilon.hutn.translate.ContainmentRepeatedFeatureName;
@@ -47,7 +47,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({EmptyAst.class, SinglePackage.class, TwoPackages.class,
                SinglePackageWithSpec.class, SingleClass.class, TwoClasses.class,
                SingleClassWithAdjectives.class, SingleClassWithAttributes.class,
-               AttributeTypes.class, MultiValuedAttribute.class, Associations.class,
+               Values.class, MultiValuedAttribute.class, Associations.class,
                Containment.class, InferredAttributeValue.class, InferredIdentifier.class,
                NonExistentConfigFile.class, DefaultValue.class, Enumerations.class,
                ClassifierLevelAttributes.class, AssociationBlock.class,

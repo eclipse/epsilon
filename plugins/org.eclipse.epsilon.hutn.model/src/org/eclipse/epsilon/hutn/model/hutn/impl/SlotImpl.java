@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
@@ -36,12 +37,13 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SlotImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SlotImpl#getOwner <em>Owner</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SlotImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class SlotImpl extends ModelElementImpl implements Slot {
+public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	/**
 	 * The default value of the '{@link #getFeature() <em>Feature</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -61,6 +63,16 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 	 * @ordered
 	 */
 	protected String feature = FEATURE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValues()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<T> values;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -145,19 +157,23 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Appends the contents of slot to the contents of this Slot.
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	public abstract void append(Slot slot);
-	
+	public EList<T> getValues() {
+		if (values == null) {
+			values = new EDataTypeEList<T>(Object.class, this, HutnPackage.SLOT__VALUES);
+		}
+		return values;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public abstract boolean typeCompatibleWith(EStructuralFeature eStructuralFeature);
-
+	public abstract boolean typeCompatibleWith(EStructuralFeature structuralFeature);
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * Indicates whether the contents of this Slot has the same
@@ -236,13 +252,6 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Get the contents of this slot.
-	 * @generated NOT
-	 */
-	public abstract EList<?> getValues();
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -297,6 +306,8 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 				return getFeature();
 			case HutnPackage.SLOT__OWNER:
 				return getOwner();
+			case HutnPackage.SLOT__VALUES:
+				return getValues();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -349,6 +360,8 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 				return FEATURE_EDEFAULT == null ? feature != null : !FEATURE_EDEFAULT.equals(feature);
 			case HutnPackage.SLOT__OWNER:
 				return getOwner() != null;
+			case HutnPackage.SLOT__VALUES:
+				return values != null && !values.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -365,6 +378,8 @@ public abstract class SlotImpl extends ModelElementImpl implements Slot {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (feature: ");
 		result.append(feature);
+		result.append(", values: ");
+		result.append(values);
 		result.append(')');
 		return result.toString();
 	}

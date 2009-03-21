@@ -50,11 +50,6 @@ public class InferredAttributeValue extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void slotShouldBeCorrectType() {
-		model.assertTrue("StringSlot.isType(slot)");
-	}
-	
-	@Test
 	public void slotShouldHaveCorrectFeatureName() {
 		model.assertEquals("id", "slot.feature");
 	}

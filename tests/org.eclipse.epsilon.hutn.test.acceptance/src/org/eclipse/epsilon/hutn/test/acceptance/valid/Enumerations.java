@@ -44,7 +44,7 @@ public class Enumerations extends HutnAcceptanceTest {
 	}
 	
 	@Test
-	public void fidoShouldBeALabrador() {
+	public void fidoShouldBeALabrador() throws Throwable {
 		model.assertEquals("DogBreed#labrador", "fido.breed");
 	}
 }

@@ -48,11 +48,6 @@ public class DefaultValue extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void slotShouldBeCorrectType() {
-		model.assertTrue("IntegerSlot.isType(slot)");
-	}
-	
-	@Test
 	public void slotShouldHaveCorrectFeatureName() {
 		model.assertEquals("numberOfChildren", "slot.feature");
 	}

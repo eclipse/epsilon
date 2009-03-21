@@ -86,7 +86,7 @@ operation AntlrAst!AssociationInstanceNode createReferences(package : Intermedia
 			}
 		
 		} else {
-			slot.identifiers.add(cls.identifier);
+			slot.values.add(cls.identifier);
 		}
 		
 		currentChildIsSource := not currentChildIsSource;
@@ -120,7 +120,7 @@ operation Intermediate!Object addIdentifier(node : AntlrAst!Node, infer : Boolea
 		self.identifier := identifierNode.text.stripQuotes();
 	
 	} else if (infer) {
-		var nameSlot : Intermediate!StringSlot := self.slots.select(s: Intermediate!StringSlot | s.feature = self.getIdentifierAttributeName()).first();
+		var nameSlot : Intermediate!AttributeSlot := self.slots.select(s: Intermediate!AttributeSlot | s.feature = self.getIdentifierAttributeName()).first();
 		
 		if (nameSlot.isDefined() and nameSlot.values.size() = 1) {
 			self.identifier := nameSlot.values.first();
@@ -129,8 +129,8 @@ operation Intermediate!Object addIdentifier(node : AntlrAst!Node, infer : Boolea
 }
 
 operation Intermediate!ClassObject inferAttributeValueFromIdentifier() {
-	if (self.identifier.isDefined() and self.getIdentifierAttributeName().isDefined() and not self.slots.exists(s : Intermediate!StringSlot | s.feature = self.getIdentifierAttributeName())) {
-		var slot := new Intermediate!StringSlot;
+	if (self.identifier.isDefined() and self.getIdentifierAttributeName().isDefined() and not self.slots.exists(s : Intermediate!AttributeSlot | s.feature = self.getIdentifierAttributeName())) {
+		var slot := new Intermediate!AttributeSlot;
 		slot.feature := self.getIdentifierAttributeName();
 		slot.values.add(self.identifier);
 		self.slots.add(slot);
@@ -152,7 +152,7 @@ operation Intermediate!ClassObject addDefaultValuesForAttributes() {
 		var attribute         := cla.children.first().text;
 		var defaultValues := cla.children.first().children.collect(node | node.text.stripQuotes());
 	
-		if (not self.slots.exists(s : Intermediate!Slot | s.feature = attribute)) {
+		if (not self.slots.exists(s : Intermediate!AttributeSlot | s.feature = attribute)) {
 			self.slots.add(createSlotFor(defaultValues, attribute).addTraceabilityInfo(cla));
 		}
 	}
@@ -160,7 +160,7 @@ operation Intermediate!ClassObject addDefaultValuesForAttributes() {
 	var defaultValueRules := config.rules.select(r : Config!DefaultValueRule | r.classifier = self.type);
 	
 	for (defaultValueRule in defaultValueRules) {
-		if (not self.slots.exists(s : Intermediate!Slot | s.feature = defaultValueRule.attribute)) {
+		if (not self.slots.exists(s : Intermediate!AttributeSlot | s.feature = defaultValueRule.attribute)) {
 			self.slots.add(createSlotFor(defaultValueRule.defaultValue, defaultValueRule.attribute));
 		}
 	}
@@ -221,7 +221,7 @@ operation String stripQuotes() : String {
 }
 
 operation Intermediate!ClassObject addAdjective(a : AntlrAst!AdjectiveNode) {
-	var slot := new Intermediate!BooleanSlot;
+	var slot := new Intermediate!AttributeSlot;
 	slot.feature := a.getFeature();
 	slot.values.add(a.getValue());
 	
@@ -251,19 +251,11 @@ operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 		slot.feature := n.text;
 	}
 	
-	if (Intermediate!EnumSlot.isType(slot)) {
-		slot.value := n.children.first().getValue();
-	
-	} else if (Intermediate!ReferenceSlot.isType(slot)) {
+	if (Intermediate!ReferenceSlot.isType(slot)) {
 		for (valueNode in n.children) {
-			slot.identifiers.add(valueNode.getValue());
+			slot.values.add(valueNode.getValue());
 		}
-		
-	} else if (Intermediate!ContainmentSlot.isType(slot)) {
-		for (containedObject in n.children) {
-			slot.classObjects.add(containedObject.getValue());
-		}
-			
+				
 	} else {
 		for (valueNode in n.children) {
 			if (valueNode.text.isDefined()) {
@@ -283,16 +275,16 @@ operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
 
 -- Nulls --
 operation AntlrAst!NullNode toSlot() : Intermediate!Slot {
-	return new Intermediate!NullSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 -- Booleans --
 operation Boolean toSlot() : Intermediate!Slot {
-	return new Intermediate!BooleanSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!TrueNode toSlot() : Intermediate!Slot {
-	return new Intermediate!BooleanSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!TrueNode getValue() : Boolean {
@@ -300,7 +292,7 @@ operation AntlrAst!TrueNode getValue() : Boolean {
 }
 
 operation AntlrAst!FalseNode toSlot() : Intermediate!Slot {
-	return new Intermediate!BooleanSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!FalseNode getValue() : Boolean {
@@ -309,11 +301,11 @@ operation AntlrAst!FalseNode getValue() : Boolean {
 
 -- Strings --
 operation String toSlot() : Intermediate!Slot {
-	return new Intermediate!StringSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!TextualValueNode toSlot() : Intermediate!Slot {
-	return new Intermediate!StringSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!TextualValueNode getValue() : String {
@@ -322,11 +314,11 @@ operation AntlrAst!TextualValueNode getValue() : String {
 
 -- Numbers --
 operation Integer toSlot() : Intermediate!Slot {
-	return new Intermediate!IntegerSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation Real toSlot() : Intermediate!Slot {
-	return new Intermediate!FloatSlot;
+	return new Intermediate!AttributeSlot;
 }
 
 operation String isReal() : Boolean {
@@ -334,11 +326,7 @@ operation String isReal() : Boolean {
 }
 
 operation AntlrAst!NumericValueNode toSlot() : Intermediate!Slot {
-	if (self.text.isReal()) {
-		return new Intermediate!FloatSlot;
-	} else {
-		return new Intermediate!IntegerSlot;
-	}
+	return new Intermediate!AttributeSlot;
 }
 
 operation AntlrAst!NumericValueNode getValue() : Any {
@@ -361,7 +349,7 @@ operation AntlrAst!ReferenceNode getValue() : Any {
 -- Containment and Enumerations --
 operation AntlrAst!NameNode toSlot() : Intermediate!Slot {
 	if (self.children.isEmpty()) {
-		return new Intermediate!EnumSlot;
+		return new Intermediate!AttributeSlot;
 		
 	} else {
 		return new Intermediate!ContainmentSlot;

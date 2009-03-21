@@ -10,25 +10,21 @@
  *     Louis Rose - initial API and implementation
  * ******************************************************************************
  *
- * $Id: ContainmentSlotImpl.java,v 1.3 2008/08/15 10:05:57 dkolovos Exp $
+ * $Id$
  */
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
-import org.eclipse.epsilon.hutn.model.hutn.ClassObjectContainer;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
-import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
-import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,7 +39,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Slot;
  *
  * @generated
  */
-public class ContainmentSlotImpl extends AssociativeSlotImpl implements ContainmentSlot {
+public class ContainmentSlotImpl extends ClassObjectSlotImpl<ClassObject> implements ContainmentSlot {
 	/**
 	 * The cached value of the '{@link #getClassObjects() <em>Class Objects</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -53,6 +49,7 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 	 * @ordered
 	 */
 	protected EList<ClassObject> classObjects;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,44 +68,50 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 	protected EClass eStaticClass() {
 		return HutnPackage.Literals.CONTAINMENT_SLOT;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<ClassObject> getClassObjects() {
-		if (classObjects == null) {
-			classObjects = new EObjectContainmentWithInverseEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS, HutnPackage.CLASS_OBJECT__CONTAINER);
-		}
-		return classObjects;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * Returns the PackageObject that contains this ClassObjectContainer.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public PackageObject getPackageObject() {
-		return getOwner().getPackageObject();
+	@Override
+	public EList<ClassObject> getValues() {
+		// Overridden so that values are stored in the containment list, classObjects
+		return getClassObjects();
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassObjects()).basicAdd(otherEnd, msgs);
+	public EList<ClassObject> getClassObjects() {
+		if (classObjects == null) {
+			classObjects = new EObjectContainmentEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS);
 		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
+		return classObjects;
 	}
-
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setClassObjects(EList<ClassObject> classObjects) {
+		getClassObjects().clear();
+		getClassObjects().addAll(classObjects);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void addClassObject(ClassObject classObject) {
+		getClassObjects().add(classObject);
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -183,139 +186,4 @@ public class ContainmentSlotImpl extends AssociativeSlotImpl implements Containm
 		return super.eIsSet(featureID);
 	}
 
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ClassObjectContainer.class) {
-			switch (derivedFeatureID) {
-				case HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS: return HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ClassObjectContainer.class) {
-			switch (baseFeatureID) {
-				case HutnPackage.CLASS_OBJECT_CONTAINER__CLASS_OBJECTS: return HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void append(Slot slot) {
-		if (slot instanceof ContainmentSlot) {
-			this.getClassObjects().addAll(((ContainmentSlot)slot).getClassObjects());
-		
-		} else {
-			throw new IllegalArgumentException("Cannot append the contents of a " + slot.getClass().getSimpleName() + " to a ContainmentSlot");
-		}
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean typeCompatibleWith(EStructuralFeature feature) {	
-		if (feature.getEType() instanceof EClass) {
-			final EClass type = (EClass)feature.getEType();
-			
-			for (ClassObject classObject : getClassObjects()) {
-				final EClass containedType = classObject.getEClass();
-				
-				if (containedType == null || !isSuperType(type, containedType)) {
-					return false;
-				}
-			}
-			
-			return true;
-			
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	private boolean isSuperType(EClass type, EClass candidate) {
-		if (type == null || candidate == null) return false;
-		
-		if (equals(type, candidate)) return true;
-		
-		for (EClass supertypeOfCandidate : candidate.getEAllSuperTypes()) {
-			if (equals(type, supertypeOfCandidate)) return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	private boolean equals(EClass c, EClass other) {		
-		final boolean namesEqual = (c.getName() == null     ?
-		                            other.getName() == null :
-		                            c.getName().equals(other.getName())
-		                           );
-		
-		if (c.getEPackage() == null || other.getEPackage() == null) {
-			return namesEqual;
-		
-		} else {
-			final boolean nsUriEqual = (c.getEPackage().getNsURI() == null     ?
-			                            other.getEPackage().getNsURI() == null :
-	                                    c.getEPackage().getNsURI().equals(other.getEPackage().getNsURI())
-	                                   );
-			
-			return namesEqual && nsUriEqual;
-		}
-	}
-	
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	@Override
-	public void addClassObject(ClassObject classObject) {
-		getClassObjects().add(classObject);
-	}
-
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	public EList<ClassObject> getValues() {
-		return getClassObjects();
-	}
-	
 } //ContainmentSlotImpl

@@ -50,17 +50,17 @@ public class Enumerations extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void slotShouldBeCorrectType() {
-		model.assertTrue("EnumSlot.isType(slot)");
-	}
-	
-	@Test
 	public void slotShouldHaveCorrectFeatureName() {
 		model.assertEquals("breed", "slot.feature");
 	}
 	
 	@Test
+	public void slotShouldHaveOneValue() {
+		model.assertEquals(1, "slot.values.size()");
+	}
+	
+	@Test
 	public void slotShouldHaveCorrectValue() {
-		model.assertEquals("labrador", "slot.value");
+		model.assertEquals("labrador", "slot.values.first");
 	}
 }

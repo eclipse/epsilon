@@ -17,7 +17,7 @@ import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createCla
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createPackage;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createSpec;
 import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createReferenceSlot;
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createEnumSlot;
+import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createAttributeSlot;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
@@ -28,7 +28,7 @@ public class ReferenceWithSubtype extends HutnModelValidationTest {
 
 	@BeforeClass
 	public static void validateModel() throws HutnValidationException {
-		problems = modelValidationTest(createSpec("families", createPackage(createClass("Fido", "Dog", createEnumSlot("breed", "poodle")),
+		problems = modelValidationTest(createSpec("families", createPackage(createClass("Fido", "Dog", createAttributeSlot("breed", "poodle")),
 		                                                                    createClass("The Smiths",
 		                                                                                "Family",
 		                                                                                createReferenceSlot("pets", "Fido")))));

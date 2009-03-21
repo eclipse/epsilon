@@ -79,49 +79,13 @@ public interface HutnFactory extends EFactory {
 	ClassObject createClassObject();
 
 	/**
-	 * Returns a new object of class '<em>String Slot</em>'.
+	 * Returns a new object of class '<em>Attribute Slot</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>String Slot</em>'.
+	 * @return a new object of class '<em>Attribute Slot</em>'.
 	 * @generated
 	 */
-	StringSlot createStringSlot();
-
-	/**
-	 * Returns a new object of class '<em>Boolean Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Boolean Slot</em>'.
-	 * @generated
-	 */
-	BooleanSlot createBooleanSlot();
-
-	/**
-	 * Returns a new object of class '<em>Integer Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Integer Slot</em>'.
-	 * @generated
-	 */
-	IntegerSlot createIntegerSlot();
-
-	/**
-	 * Returns a new object of class '<em>Float Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Float Slot</em>'.
-	 * @generated
-	 */
-	FloatSlot createFloatSlot();
-
-	/**
-	 * Returns a new object of class '<em>Null Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Null Slot</em>'.
-	 * @generated
-	 */
-	NullSlot createNullSlot();
+	AttributeSlot createAttributeSlot();
 
 	/**
 	 * Returns a new object of class '<em>Containment Slot</em>'.
@@ -140,15 +104,6 @@ public interface HutnFactory extends EFactory {
 	 * @generated
 	 */
 	ReferenceSlot createReferenceSlot();
-
-	/**
-	 * Returns a new object of class '<em>Enum Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Enum Slot</em>'.
-	 * @generated
-	 */
-	EnumSlot createEnumSlot();
 
 	/**
 	 * Returns the package supported by this factory.

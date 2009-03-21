@@ -17,26 +17,18 @@ package org.eclipse.epsilon.hutn.model.hutn.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.epsilon.hutn.model.hutn.BooleanSlot;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
-import org.eclipse.epsilon.hutn.model.hutn.EnumSlot;
-import org.eclipse.epsilon.hutn.model.hutn.FloatSlot;
 import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
-import org.eclipse.epsilon.hutn.model.hutn.IntegerSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ModelElement;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
-import org.eclipse.epsilon.hutn.model.hutn.NullSlot;
 import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.model.hutn.StringSlot;
 
 /**
  * <!-- begin-user-doc -->
@@ -87,14 +79,9 @@ public class HutnFactoryImpl extends EFactoryImpl implements HutnFactory {
 			case HutnPackage.MODEL_ELEMENT: return createModelElement();
 			case HutnPackage.PACKAGE_OBJECT: return createPackageObject();
 			case HutnPackage.CLASS_OBJECT: return createClassObject();
-			case HutnPackage.STRING_SLOT: return createStringSlot();
-			case HutnPackage.BOOLEAN_SLOT: return createBooleanSlot();
-			case HutnPackage.INTEGER_SLOT: return createIntegerSlot();
-			case HutnPackage.FLOAT_SLOT: return createFloatSlot();
-			case HutnPackage.NULL_SLOT: return createNullSlot();
+			case HutnPackage.ATTRIBUTE_SLOT: return createAttributeSlot();
 			case HutnPackage.CONTAINMENT_SLOT: return createContainmentSlot();
 			case HutnPackage.REFERENCE_SLOT: return createReferenceSlot();
-			case HutnPackage.ENUM_SLOT: return createEnumSlot();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -155,49 +142,9 @@ public class HutnFactoryImpl extends EFactoryImpl implements HutnFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StringSlot createStringSlot() {
-		StringSlotImpl stringSlot = new StringSlotImpl();
-		return stringSlot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public BooleanSlot createBooleanSlot() {
-		BooleanSlotImpl booleanSlot = new BooleanSlotImpl();
-		return booleanSlot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IntegerSlot createIntegerSlot() {
-		IntegerSlotImpl integerSlot = new IntegerSlotImpl();
-		return integerSlot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public FloatSlot createFloatSlot() {
-		FloatSlotImpl floatSlot = new FloatSlotImpl();
-		return floatSlot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NullSlot createNullSlot() {
-		NullSlotImpl nullSlot = new NullSlotImpl();
-		return nullSlot;
+	public AttributeSlot createAttributeSlot() {
+		AttributeSlotImpl attributeSlot = new AttributeSlotImpl();
+		return attributeSlot;
 	}
 
 	/**
@@ -218,16 +165,6 @@ public class HutnFactoryImpl extends EFactoryImpl implements HutnFactory {
 	public ReferenceSlot createReferenceSlot() {
 		ReferenceSlotImpl referenceSlot = new ReferenceSlotImpl();
 		return referenceSlot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EnumSlot createEnumSlot() {
-		EnumSlotImpl enumSlot = new EnumSlotImpl();
-		return enumSlot;
 	}
 
 	/**

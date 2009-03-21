@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getOwner <em>Owner</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Slot#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,7 +36,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model abstract="true"
  * @generated
  */
-public interface Slot extends ModelElement {
+public interface Slot<T> extends ModelElement {
 	/**
 	 * Returns the value of the '<em><b>Feature</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -91,14 +92,21 @@ public interface Slot extends ModelElement {
 	void setOwner(ClassObject value);
 
 	/**
+	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
+	 * The list contents are of type {@link T}.
 	 * <!-- begin-user-doc -->
-	 * Appends the contents of slot to the contents of this Slot.
+	 * <p>
+	 * If the meaning of the '<em>Values</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @model
+	 * @return the value of the '<em>Values</em>' attribute list.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getSlot_Values()
+	 * @model unique="false" changeable="false"
 	 * @generated
 	 */
-	void append(Slot slot);
-	
+	EList<T> getValues();
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * Indicates whether the contents of this Slot has the same
@@ -150,13 +158,5 @@ public interface Slot extends ModelElement {
 	 * @generated
 	 */
 	boolean hasEStructuralFeature();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	EList<?> getValues();
 
 } // Slot

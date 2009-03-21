@@ -36,16 +36,16 @@ context ClassObject {
 		
 		fix {
 			title : 'Infer empty instances'
-			do {			
+			do {
 				for (reference in self.getAllReferencesThatRequireAValueButDontHaveOne()) {
-					-- An instance can be infered if no values are required					
+					-- An instance can be inferred if no values are required	
 					if (reference.aValueCanBeInferred()) {
 						var instance := new Intermediate!ClassObject;
 						instance.type := reference.eType.name;
 						
 						var slot := new Intermediate!ContainmentSlot;
 						slot.feature := reference.name;
-						slot.classObjects.add(instance);
+						slot.values.add(instance);
 						
 						self.slots.add(slot);
 					}
@@ -73,33 +73,7 @@ context Slot {
 		check: self.typeCompatibleWith(self.getEStructuralFeature())
 		message: 'Expected ' + self.getEStructuralFeature().eType.name + ' for: ' + self.feature
 	}
-}
-
-context StringSlot {
-	constraint SingleValuedFeatureCannotTakeMultipleValues {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.getEStructuralFeature().isMany() or self.values.size = 1
-		message: 'Multiple values not permitted for: ' + self.feature
-	}
-}
-
-context IntegerSlot {	
-	constraint SingleValuedFeatureCannotTakeMultipleValues {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.getEStructuralFeature().isMany() or self.values.size = 1
-		message: 'Multiple values not permitted for: ' + self.feature
-	}
-}
-
-context FloatSlot {
-	constraint SingleValuedFeatureCannotTakeMultipleValues {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.getEStructuralFeature().isMany() or self.values.size = 1
-		message: 'Multiple values not permitted for: ' + self.feature
-	}
-}
-
-context BooleanSlot {
+	
 	constraint SingleValuedFeatureCannotTakeMultipleValues {
 		guard: self.satisfies('FeatureMustExist')
 		check: self.getEStructuralFeature().isMany() or self.values.size = 1
@@ -109,23 +83,9 @@ context BooleanSlot {
 
 context ReferenceSlot {
 	constraint ReferencedIdentifiersMustExist {
-		check: self.identifiers.forAll(i|i.isRecognisedIdentifier())
-		message: self.identifiers.selectOne(i|not i.isRecognisedIdentifier()).getMessage()
+		check: self.values.forAll(i|i.isRecognisedIdentifier())
+		message: self.values.selectOne(i|not i.isRecognisedIdentifier()).getMessage()
 				 
-	}
-
-	constraint SingleValuedFeatureCannotTakeMultipleValues {
-		guard: self.satisfies('FeatureMustExist') and self.satisfies('ReferencedIdentifiersMustExist')
-		check: self.getEStructuralFeature().isMany() or self.identifiers.size = 1
-		message: 'Multiple values not permitted for: ' + self.feature
-	}
-}
-
-context ContainmentSlot {
-	constraint SingleValuedFeatureCannotTakeMultipleValues {
-		guard: self.satisfies('FeatureMustExist')
-		check: self.getEStructuralFeature().isMany() or self.classObjects.size = 1
-		message: 'Multiple values not permitted for: ' + self.feature
 	}
 }
 
@@ -210,10 +170,10 @@ operation Metamodel!EReference hasOppositeReferencing(classObject : ClassObject)
 			var slot := class.findSlot(self.eOpposite.name);
 			
 			if (slot.isDefined()) {
-				if (slot.isKindOf(ReferenceSlot) and slot.identifiers.includes(classObject.identifier)) {
+				if (slot.isKindOf(ReferenceSlot) and slot.values.includes(classObject.identifier)) {
 					return true;
 					
-				} else if (slot.isKindOf(ContainmentSlot) and slot.classObjects.includes(classObject)) {
+				} else if (slot.classObjects.includes(classObject)) {
 					return true;
 				}
 			

@@ -24,7 +24,7 @@ import org.junit.Test;
 public class Enumerations extends HutnModelGeneratorTest {
 
 	private static ClassObject createDog(String name, String breed) {
-		return createClass(name, "Dog", createStringSlot("name", name), createEnumSlot("breed", breed));
+		return createClass(name, "Dog", createAttributeSlot("name", name), createAttributeSlot("breed", breed));
 	}
 	
 	@BeforeClass

@@ -25,8 +25,8 @@ public class SingleClassWithAttributes extends HutnModelGeneratorTest {
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
 		model = modelGeneratorTest(createSpec("families", createPackage(createClass("The Smiths", "Family",
-		                                                                            createStringSlot("name", "The Smiths"),
-		                                                                            createIntegerSlot("numberOfChildren", 2)))));
+		                                                                            createAttributeSlot("name", "The Smiths"),
+		                                                                            createAttributeSlot("numberOfChildren", 2)))));
 		
 		model.setVariable("family", "Family.allInstances().first()");
 	}

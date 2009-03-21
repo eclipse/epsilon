@@ -23,8 +23,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/identifier"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="HUTN.ecore#//ClassObjectContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObjectContainer/classObjects"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObjectContainer/getPackageObject"/>
+    </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//PackageObject">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HUTN.ecore#//PackageObject/metamodel"/>
+      <genOperations ecoreOperation="HUTN.ecore#//PackageObject/getAllEClasses"/>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//ClassObject">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObject/slots"/>
@@ -32,42 +37,31 @@
       <genOperations ecoreOperation="HUTN.ecore#//ClassObject/findSlot">
         <genParameters ecoreParameter="HUTN.ecore#//ClassObject/findSlot/feature"/>
       </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/getPackageObject"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/getEClass"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/hasEClass"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/typeCompatibleWith">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObject/typeCompatibleWith/eClass"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//Slot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Slot/feature"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference HUTN.ecore#//Slot/owner"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute HUTN.ecore#//Slot/values"/>
       <genOperations ecoreOperation="HUTN.ecore#//Slot/append">
         <genParameters ecoreParameter="HUTN.ecore#//Slot/append/slot"/>
       </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//StringSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//StringSlot/values"/>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//BooleanSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//BooleanSlot/values"/>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//IntegerSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//IntegerSlot/values"/>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//FloatSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//FloatSlot/values"/>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//NullSlot"/>
-    <genClasses ecoreClass="HUTN.ecore#//ContainmentSlot"/>
-    <genClasses ecoreClass="HUTN.ecore#//ReferenceSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//ReferenceSlot/identifiers"/>
-    </genClasses>
-    <genClasses ecoreClass="HUTN.ecore#//EnumSlot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//EnumSlot/value"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="HUTN.ecore#//ClassObjectContainer">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObjectContainer/classObjects"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="HUTN.ecore#//AssociativeSlot">
-      <genOperations ecoreOperation="HUTN.ecore#//AssociativeSlot/getClassObjects"/>
-      <genOperations ecoreOperation="HUTN.ecore#//AssociativeSlot/addClassObject">
-        <genParameters ecoreParameter="HUTN.ecore#//AssociativeSlot/addClassObject/classObject"/>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/typeCompatibleWith">
+        <genParameters ecoreParameter="HUTN.ecore#//Slot/typeCompatibleWith/eStructuralFeature"/>
       </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/multiplicityCompatibleWith">
+        <genParameters ecoreParameter="HUTN.ecore#//Slot/multiplicityCompatibleWith/eStructuralFeature"/>
+      </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/compatibleWith">
+        <genParameters ecoreParameter="HUTN.ecore#//Slot/compatibleWith/eStructuralFeature"/>
+      </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/getEStructuralFeature"/>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/hasEStructuralFeature"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Ecore" basePackage="org.eclipse.emf" ecorePackage="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#/">

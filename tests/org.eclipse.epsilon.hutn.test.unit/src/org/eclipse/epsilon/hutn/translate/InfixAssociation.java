@@ -70,11 +70,11 @@ public class InfixAssociation extends HutnTranslatorTest {
 	
 	@Test
 	public void slotShouldHaveOneIdentifier() {
-		model.assertEquals(1, "slot.identifiers.size()");
+		model.assertEquals(1, "slot.values.size()");
 	}
 	
 	@Test
 	public void slotShouldContainCorrectIdentifier() {
-		model.assertEquals("Fido", "slot.identifiers.first()");
+		model.assertEquals("Fido", "slot.values.first()");
 	}
 }

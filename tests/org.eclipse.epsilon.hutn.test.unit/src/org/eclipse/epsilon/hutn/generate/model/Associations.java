@@ -24,8 +24,8 @@ public class Associations extends HutnModelGeneratorTest {
 
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
-		model = modelGeneratorTest(createSpec("families", createPackage(createClass("Fido",   "Pet", createStringSlot("name", "Fido")),
-		                                                                createClass("Lassie", "Pet", createStringSlot("name", "Lassie")),
+		model = modelGeneratorTest(createSpec("families", createPackage(createClass("Fido",   "Pet", createAttributeSlot("name", "Fido")),
+		                                                                createClass("Lassie", "Pet", createAttributeSlot("name", "Lassie")),
 																		createClass("The Smiths", "Family",
 		                                                                            createReferenceSlot("pets", "Fido", "Lassie")))));
 		

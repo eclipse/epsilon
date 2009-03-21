@@ -53,11 +53,6 @@ public class ClassifierLevelAttributes extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void firstSlotShouldBeCorrectType() {
-		model.assertTrue("IntegerSlot.isType(slot1)");
-	}
-	
-	@Test
 	public void firstSlotShouldHaveCorrectFeatureName() {
 		model.assertEquals("numberOfChildren", "slot1.feature");
 	}
@@ -70,11 +65,6 @@ public class ClassifierLevelAttributes extends HutnTranslatorTest {
 	@Test
 	public void firstSlotShouldHaveCorrectValue() {
 		model.assertEquals(2, "slot1.values.first()");
-	}
-	
-	@Test
-	public void secondSlotShouldBeCorrectType() {
-		model.assertTrue("StringSlot.isType(slot2)");
 	}
 	
 	@Test
