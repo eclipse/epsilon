@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.*;
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
@@ -24,12 +24,12 @@ import org.junit.Test;
 public class Enumerations extends HutnModelGeneratorTest {
 
 	private static ClassObject createDog(String name, String breed) {
-		return createClass(name, "Dog", createAttributeSlot("name", name), createAttributeSlot("breed", breed));
+		return createClassObject(name, "Dog", createAttributeSlot("name", name), createAttributeSlot("breed", breed));
 	}
 	
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
-		model = modelGeneratorTest(createSpec("families", createPackage(createDog("Fido", "labrador"), createDog("Lassie", "poodle"))));
+		model = modelGeneratorTest(createSpec("families", createPackageObject(createDog("Fido", "labrador"), createDog("Lassie", "poodle"))));
 		
 		model.setVariable("fido",   "Dog.allInstances().selectOne(d|d.name='Fido')");
 		model.setVariable("lassie", "Dog.allInstances().selectOne(d|d.name='Lassie')");

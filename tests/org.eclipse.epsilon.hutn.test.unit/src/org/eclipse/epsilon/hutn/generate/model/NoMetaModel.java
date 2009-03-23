@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.createSpec;
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createSpec;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.junit.Test;

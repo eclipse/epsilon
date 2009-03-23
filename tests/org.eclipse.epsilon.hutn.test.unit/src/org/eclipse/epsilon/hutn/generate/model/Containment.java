@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.*;
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
@@ -24,12 +24,12 @@ import org.junit.Test;
 public class Containment extends HutnModelGeneratorTest {
 
 	private static ClassObject createPerson(String name) {
-		return createClass(name, "Person", createAttributeSlot("name", name));
+		return createClassObject(name, "Person", createAttributeSlot("name", name));
 	}
 	
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
-		model = modelGeneratorTest(createSpec("families", createPackage(createClass("The Smiths", "Family",
+		model = modelGeneratorTest(createSpec("families", createPackageObject(createClassObject("The Smiths", "Family",
 		                                                                            createContainmentSlot("members",
 		                                                                                                createPerson("John"),
 		                                                                                                createPerson("Gill"))))));

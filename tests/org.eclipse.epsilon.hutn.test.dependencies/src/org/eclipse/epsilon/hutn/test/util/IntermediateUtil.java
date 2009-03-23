@@ -12,7 +12,7 @@
  *
  * $Id: IntermediateUtil.java,v 1.4 2008/08/08 17:19:01 louis Exp $
  */
-package org.eclipse.epsilon.hutn.test.unit.util;
+package org.eclipse.epsilon.hutn.test.util;
 
 import java.util.Arrays;
 
@@ -59,11 +59,11 @@ public abstract class IntermediateUtil {
 		return slot;
 	}
 	
-	public static ClassObject createClass(String identifier, String type, Slot<?>... slots) {
-		return createClass(identifier, type, 0, 0, slots);
+	public static ClassObject createClassObject(String identifier, String type, Slot<?>... slots) {
+		return createClassObject(identifier, type, 0, 0, slots);
 	}
 	
-	public static ClassObject createClass(String identifier, String type, int line, int column, Slot<?>... slots) {
+	public static ClassObject createClassObject(String identifier, String type, int line, int column, Slot<?>... slots) {
 		final ClassObject cls = HutnFactory.eINSTANCE.createClassObject();
 		cls.setIdentifier(identifier);
 		cls.setType(type);
@@ -76,7 +76,7 @@ public abstract class IntermediateUtil {
 		return cls;
 	}
 	
-	public static PackageObject createPackage(ClassObject... classes) {
+	public static PackageObject createPackageObject(ClassObject... classes) {
 		final PackageObject pkg = HutnFactory.eINSTANCE.createPackageObject();
 		
 		for (ClassObject cls : classes) {

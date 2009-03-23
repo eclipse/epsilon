@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.*;
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.junit.BeforeClass;
@@ -24,9 +24,9 @@ public class Associations extends HutnModelGeneratorTest {
 
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
-		model = modelGeneratorTest(createSpec("families", createPackage(createClass("Fido",   "Pet", createAttributeSlot("name", "Fido")),
-		                                                                createClass("Lassie", "Pet", createAttributeSlot("name", "Lassie")),
-																		createClass("The Smiths", "Family",
+		model = modelGeneratorTest(createSpec("families", createPackageObject(createClassObject("Fido",   "Pet", createAttributeSlot("name", "Fido")),
+		                                                                createClassObject("Lassie", "Pet", createAttributeSlot("name", "Lassie")),
+																		createClassObject("The Smiths", "Family",
 		                                                                            createReferenceSlot("pets", "Fido", "Lassie")))));
 		
 		model.setVariable("family", "Family.allInstances().first()");

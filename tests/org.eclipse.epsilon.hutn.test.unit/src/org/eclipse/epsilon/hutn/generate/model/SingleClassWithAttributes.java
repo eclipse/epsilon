@@ -14,7 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import static org.eclipse.epsilon.hutn.test.unit.util.IntermediateUtil.*;
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.junit.BeforeClass;
@@ -24,7 +24,7 @@ public class SingleClassWithAttributes extends HutnModelGeneratorTest {
 
 	@BeforeClass
 	public static void generateModel() throws HutnGenerationException {
-		model = modelGeneratorTest(createSpec("families", createPackage(createClass("The Smiths", "Family",
+		model = modelGeneratorTest(createSpec("families", createPackageObject(createClassObject("The Smiths", "Family",
 		                                                                            createAttributeSlot("name", "The Smiths"),
 		                                                                            createAttributeSlot("numberOfChildren", 2)))));
 		
