@@ -59,6 +59,15 @@ public abstract class IntermediateUtil {
 		return slot;
 	}
 	
+	
+	public static ClassObject createClassObject(Slot<?>... slots) {
+		return createClassObject(null, slots);
+	}
+	
+	public static ClassObject createClassObject(String type, Slot<?>... slots) {
+		return createClassObject(null, type, slots);
+	}
+	
 	public static ClassObject createClassObject(String identifier, String type, Slot<?>... slots) {
 		return createClassObject(identifier, type, 0, 0, slots);
 	}
@@ -76,8 +85,20 @@ public abstract class IntermediateUtil {
 		return cls;
 	}
 	
+	
 	public static PackageObject createPackageObject(ClassObject... classes) {
+		return createPackageObject(null, classes);
+	}
+	
+	public static PackageObject createPackageObject(String type, ClassObject... classes) {
+		return createPackageObject(null, type, classes);
+	}
+	
+	public static PackageObject createPackageObject(String identifier, String type, ClassObject... classes) {
 		final PackageObject pkg = HutnFactory.eINSTANCE.createPackageObject();
+		
+		pkg.setType(type);
+		pkg.setIdentifier(identifier);
 		
 		for (ClassObject cls : classes) {
 			pkg.getClassObjects().add(cls);
@@ -85,6 +106,8 @@ public abstract class IntermediateUtil {
 		
 		return pkg;
 	}
+	
+	
 	
 	public static Spec createSpec(PackageObject... packages) {
 		return createSpec(null, packages);
@@ -102,7 +125,10 @@ public abstract class IntermediateUtil {
 		
 		for (PackageObject pkg : packages) {
 			spec.getObjects().add(pkg);
-			pkg.getMetamodel().add(EPackage.Registry.INSTANCE.getEPackage(nsUri));
+			
+			if (nsUri != null) {
+				pkg.getMetamodel().add(EPackage.Registry.INSTANCE.getEPackage(nsUri));
+			}
 		}
 		
 		return spec;
