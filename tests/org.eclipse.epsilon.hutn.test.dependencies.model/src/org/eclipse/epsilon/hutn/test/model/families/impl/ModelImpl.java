@@ -39,6 +39,7 @@ import org.eclipse.epsilon.hutn.test.model.families.NamedElement;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.ModelImpl#getContents2 <em>Contents2</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,6 +55,16 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 * @ordered
 	 */
 	protected EList<NamedElement> contents;
+
+	/**
+	 * The cached value of the '{@link #getContents2() <em>Contents2</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContents2()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<NamedElement> contents2;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,11 +102,25 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<NamedElement> getContents2() {
+		if (contents2 == null) {
+			contents2 = new EObjectContainmentEList<NamedElement>(NamedElement.class, this, FamiliesPackage.MODEL__CONTENTS2);
+		}
+		return contents2;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case FamiliesPackage.MODEL__CONTENTS:
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+			case FamiliesPackage.MODEL__CONTENTS2:
+				return ((InternalEList<?>)getContents2()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -110,6 +135,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case FamiliesPackage.MODEL__CONTENTS:
 				return getContents();
+			case FamiliesPackage.MODEL__CONTENTS2:
+				return getContents2();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -127,6 +154,10 @@ public class ModelImpl extends EObjectImpl implements Model {
 				getContents().clear();
 				getContents().addAll((Collection<? extends NamedElement>)newValue);
 				return;
+			case FamiliesPackage.MODEL__CONTENTS2:
+				getContents2().clear();
+				getContents2().addAll((Collection<? extends NamedElement>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -142,6 +173,9 @@ public class ModelImpl extends EObjectImpl implements Model {
 			case FamiliesPackage.MODEL__CONTENTS:
 				getContents().clear();
 				return;
+			case FamiliesPackage.MODEL__CONTENTS2:
+				getContents2().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -156,6 +190,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case FamiliesPackage.MODEL__CONTENTS:
 				return contents != null && !contents.isEmpty();
+			case FamiliesPackage.MODEL__CONTENTS2:
+				return contents2 != null && !contents2.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

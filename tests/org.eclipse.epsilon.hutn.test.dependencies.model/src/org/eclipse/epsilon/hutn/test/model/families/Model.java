@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Model#getContents <em>Contents</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Model#getContents2 <em>Contents2</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,5 +50,21 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	EList<NamedElement> getContents();
+
+	/**
+	 * Returns the value of the '<em><b>Contents2</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.hutn.test.model.families.NamedElement}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Contents2</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Contents2</em>' containment reference list.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage#getModel_Contents2()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<NamedElement> getContents2();
 
 } // Model

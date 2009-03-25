@@ -408,13 +408,22 @@ public interface FamiliesPackage extends EPackage {
 	int MODEL__CONTENTS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Contents2</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__CONTENTS2 = 1;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 1;
+	int MODEL_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.
@@ -707,6 +716,17 @@ public interface FamiliesPackage extends EPackage {
 	EReference getModel_Contents();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.hutn.test.model.families.Model#getContents2 <em>Contents2</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Contents2</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Model#getContents2()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Contents2();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -959,6 +979,14 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODEL__CONTENTS = eINSTANCE.getModel_Contents();
+
+		/**
+		 * The meta object literal for the '<em><b>Contents2</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__CONTENTS2 = eINSTANCE.getModel_Contents2();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.

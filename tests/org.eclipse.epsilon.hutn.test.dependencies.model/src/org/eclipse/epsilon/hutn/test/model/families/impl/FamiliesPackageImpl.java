@@ -411,6 +411,15 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getModel_Contents2() {
+		return (EReference)modelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDogBreed() {
 		return dogBreedEEnum;
 	}
@@ -475,6 +484,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 
 		modelEClass = createEClass(MODEL);
 		createEReference(modelEClass, MODEL__CONTENTS);
+		createEReference(modelEClass, MODEL__CONTENTS2);
 
 		// Create enums
 		dogBreedEEnum = createEEnum(DOG_BREED);
@@ -549,6 +559,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModel_Contents(), this.getNamedElement(), null, "contents", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Contents2(), this.getNamedElement(), null, "contents2", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(dogBreedEEnum, DogBreed.class, "DogBreed");
