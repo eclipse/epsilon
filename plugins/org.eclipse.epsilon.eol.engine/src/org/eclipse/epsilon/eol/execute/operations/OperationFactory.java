@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IterateOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.OneOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.Select2Operation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
@@ -80,6 +81,7 @@ public class OperationFactory {
 		operationCache.put("iterate", new IterateOperation());
 		operationCache.put("reject", new RejectOperation());
 		operationCache.put("select", new SelectOperation());
+		operationCache.put("select2", new Select2Operation());
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());

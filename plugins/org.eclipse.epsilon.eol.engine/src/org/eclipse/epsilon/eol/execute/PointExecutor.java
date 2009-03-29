@@ -131,14 +131,14 @@ public class PointExecutor extends AbstractExecutor{
 			return context.getOperationFactory().executeOperation(source, featureCallAst, context);
 		}
 		
-		// If method starts with _ we execute it with unwrapped parameters
+		// If method starts with _ we execute it with wrapped parameters
 		if (featureCallAst.getText().startsWith("_")) {
 			String methodName = featureCallAst.getText().substring(1);
 			ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
-			Method method = ReflectionUtil.getMethodFor(source, methodName, parameters.toArray(), true);
+			Method method = ReflectionUtil.getMethodFor(source, methodName, parameters.toArray(), false);
 			if (method != null) {
 				//FIXED : Do not recalculate method when calling execute() - call another execute!
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), true, featureCallAst));
+				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
 			}
 			else {
 				throw new EolIllegalOperationException(source, methodName, featureCallAst);
@@ -163,7 +163,7 @@ public class PointExecutor extends AbstractExecutor{
 		
 		// Reflection
 		Method method = null;
-		
+
 		// First try with unwrapped parameters
 		method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), true);
 		if (method != null) {
@@ -178,10 +178,6 @@ public class PointExecutor extends AbstractExecutor{
 			//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), false, featureCallAst));
 			return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
 		}
-		
-		
-		
-
 		
 		// Operations
 		// operation = context.getOperationFactory().getOperationFor(featureCallAst, context);

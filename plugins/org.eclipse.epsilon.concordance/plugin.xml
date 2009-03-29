@@ -79,5 +79,25 @@
             name="Model Extensions">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="org.eclipse.epsilon.concordance.ui.ProjectResourceDecorator"
+            icon="icons/sample_decorator.gif"
+            id="org.eclipse.epsilon.concordance.decorator"
+            label="Resource Decorator"
+            lightweight="true"
+            location="TOP_RIGHT"
+            state="true">
+         <enablement>
+            <and>
+               <objectClass
+                     name="org.eclipse.core.resources.IProject">
+               </objectClass>
+            </and>
+         </enablement>
+      </decorator>
+   </extension>
 
 </plugin>

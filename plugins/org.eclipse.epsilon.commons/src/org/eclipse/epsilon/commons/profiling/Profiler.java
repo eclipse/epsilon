@@ -27,7 +27,7 @@ public class Profiler {
 	protected Map<String, Long> targets;
 	protected List<String> targetNames;
 	
-	private Profiler() {
+	public Profiler() {
 		stopwatch = new Stopwatch();
 		root = new ProfilerTarget("", stopwatch, "", null);
 		reset();
@@ -115,6 +115,12 @@ public class Profiler {
 	public List<String> getTargetNames() {
 		//return targets.keySet();
 		return targetNames;
+	}
+	
+	public void print() {
+		for (String targetName : getTargetNames()) {
+			System.err.println(targetName + " -> " + getTotalTime(targetName, true) + "/" + getExecutionCount(targetName));
+		}
 	}
 	
 	public long getTotalTime(String targetName, boolean aggregate) {

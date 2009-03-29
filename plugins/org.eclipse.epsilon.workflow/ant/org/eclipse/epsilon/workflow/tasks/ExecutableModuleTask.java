@@ -52,7 +52,6 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected boolean assertions = true;
 	
 	static {
-		
 		for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
 			if (c instanceof IOConsole) {
 				IOConsole ioConsole = ((IOConsole) c);
@@ -72,7 +71,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			Profiler.INSTANCE.start(src.getName(), "", new FileMarker(src,0,0));
 		}
 		
-		try {
+		try { 
 			module = createModule();
 			if (src!=null) {
 				module.parse(src);
