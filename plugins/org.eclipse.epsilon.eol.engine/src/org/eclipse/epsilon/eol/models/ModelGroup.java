@@ -21,6 +21,10 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class ModelGroup extends Model {
 	
@@ -185,5 +189,49 @@ public class ModelGroup extends Model {
 		}
 		return false;
 	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new DelegatingModelElementPropertyGetter();
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new DelegatingModelElementPropertySetter();
+	}
+	
+	public class DelegatingModelElementPropertyGetter extends AbstractPropertyGetter {
 
+		public Object invoke(Object object, String property)
+				throws EolRuntimeException {
+			for (IModel model : models) {
+				if (model.owns(object)) {
+					return model.getPropertyGetter().invoke(object, property);
+				}
+			}
+			return null;
+		}
+		
+	}
+	
+	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {
+
+		IPropertySetter delegate = null;
+		
+		@Override
+		public void setObject(Object object) {
+			super.setObject(object);
+			for (IModel model : models) {
+				if (model.owns(object)) {
+					delegate = model.getPropertySetter();
+				}
+			}
+		}
+		
+		public void invoke(Object value) throws EolRuntimeException {
+			delegate.invoke(value);
+		}
+		
+	}
+	
 }
