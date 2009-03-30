@@ -58,6 +58,7 @@
      	name="epsilon.loadCompositeModel"
         classname="org.eclipse.epsilon.workflow.tasks.LoadCompositeModel"
       />
+      
      <!--taskdef
      	name="epsilon.egl"
         classname="org.eclipse.epsilon.workflow.tasks.EglTask"
