@@ -46,7 +46,7 @@ public class NameExecutor extends AbstractExecutor{
 		}
 		//}
 		
-		/*
+		
 		// First look for a model element type
 		// if the name contains a !
 		if (variable == null) {
@@ -54,7 +54,6 @@ public class NameExecutor extends AbstractExecutor{
 				variable = getModelElementType(name, context);
 			}
 		}
-		*/
 		
 		// Then look for a model with that name
 		if (variable == null) {
@@ -74,6 +73,14 @@ public class NameExecutor extends AbstractExecutor{
 			catch (EolModelNotFoundException mex) {
 				// Ignore this exception and go for a 
 				// variable in the scope
+			}
+		}
+		
+		if (variable == null) {
+			AbstractExecutor typeExecutor = context.getExecutorFactory().getExecutorFor(EolParser.TYPE);
+			EolType type = (EolType) typeExecutor.execute(ast, context);
+			if (type != null) {
+				variable = Variable.createReadOnlyVariable(type.getName(), type);
 			}
 		}
 		
@@ -100,14 +107,6 @@ public class NameExecutor extends AbstractExecutor{
 			}
 		}
 		*/
-		
-		if (variable == null) {
-			AbstractExecutor typeExecutor = context.getExecutorFactory().getExecutorFor(EolParser.TYPE);
-			EolType type = (EolType) typeExecutor.execute(ast, context);
-			if (type != null) {
-				variable = Variable.createReadOnlyVariable(type.getName(), type);
-			}
-		}
 		
 		if (variable == null) throw new EolUndefinedVariableException(name, ast);
 
