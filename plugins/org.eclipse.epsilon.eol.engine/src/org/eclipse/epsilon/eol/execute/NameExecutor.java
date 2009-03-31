@@ -19,8 +19,10 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNativeType;
+import org.eclipse.epsilon.eol.types.EolType;
 
 
 public class NameExecutor extends AbstractExecutor{
@@ -44,6 +46,7 @@ public class NameExecutor extends AbstractExecutor{
 		}
 		//}
 		
+		/*
 		// First look for a model element type
 		// if the name contains a !
 		if (variable == null) {
@@ -51,6 +54,7 @@ public class NameExecutor extends AbstractExecutor{
 				variable = getModelElementType(name, context);
 			}
 		}
+		*/
 		
 		// Then look for a model with that name
 		if (variable == null) {
@@ -80,6 +84,7 @@ public class NameExecutor extends AbstractExecutor{
 		//	}
 		//}
 		
+		/*
 		// Look for a model element type without !
 		if (variable == null) {
 			variable = getModelElementType(name, context);
@@ -92,6 +97,15 @@ public class NameExecutor extends AbstractExecutor{
 			}
 			catch (EolTypeNotFoundException ex) {
 				// Ignore
+			}
+		}
+		*/
+		
+		if (variable == null) {
+			AbstractExecutor typeExecutor = context.getExecutorFactory().getExecutorFor(EolParser.TYPE);
+			EolType type = (EolType) typeExecutor.execute(ast, context);
+			if (type != null) {
+				variable = Variable.createReadOnlyVariable(type.getName(), type);
 			}
 		}
 		
