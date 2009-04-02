@@ -13,18 +13,27 @@ package org.eclipse.epsilon.eol.execute;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.parse.EolParser;
 
 
 public class StatementBlockExecutor extends AbstractExecutor {
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		
+				
 		AST statementAst = ast.getFirstChild();
 		while (statementAst != null){
+			
+			if (statementAst.getType() == EolParser.OPERATOR && "=".equals(statementAst.getText())) {
+								
+				statementAst.getToken().setType(EolParser.ASSIGNMENT);
+				statementAst.getToken().setText(":=");
+			}
+			
 			context.getExecutorFactory().executeAST(statementAst, context);
 			statementAst = statementAst.getNextSibling();
 		}
+				
 		return null;
 	}
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<stringAttribute key="bad_container_name" value="/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eo/parse"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.epsilon.antlr.dev/lib/antlr-3.1b1.jar"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.antlr.Tool"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-o ${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse} ${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/Eol.g}"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.antlr.dev"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse}"/>
+</launchConfiguration>
