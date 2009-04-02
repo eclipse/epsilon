@@ -7,3 +7,4 @@ Require-Bundle: org.eclipse.epsilon.hutn.test.dependencies,
  org.eclipse.epsilon.hutn.test.acceptance,
  org.eclipse.epsilon.hutn.test.unit
 Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.epsilon.hutn.test

@@ -22,9 +22,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({UnitTestSuite.class, AcceptanceTestSuite.class})
-public class EglEngineSuite {
+public class EglTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(EglEngineSuite.class);
+		return new JUnit4TestAdapter(EglTestSuite.class);
 	}
 }
