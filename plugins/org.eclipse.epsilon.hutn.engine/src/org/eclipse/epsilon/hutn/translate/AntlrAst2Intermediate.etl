@@ -197,8 +197,8 @@ operation String inferType() : Any {
 		return self.asInteger();
 		
 	-- Real?
-	} else if (self = '0.0' or  self.asReal().toString()  = self) {
-		return self.asReal();
+	} else if (self = '0.0' or  self.asFloat().toString()  = self) {
+		return self.asFloat();
 	
 	-- String
 	} else {
@@ -331,7 +331,7 @@ operation AntlrAst!NumericValueNode toSlot() : Intermediate!Slot {
 
 operation AntlrAst!NumericValueNode getValue() : Any {
 	if (self.text.isReal()) {
-		return self.text.asReal();
+		return self.text.asFloat();
 	} else {
 		return self.text.asInteger();
 	}
