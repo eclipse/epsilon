@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Test Suite (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.test
+Bundle-Version: 0.8.4.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine.test.acceptance,
+ org.eclipse.epsilon.egl.engine.test,
+ org.eclipse.epsilon.hutn.test,
+ org.junit4
