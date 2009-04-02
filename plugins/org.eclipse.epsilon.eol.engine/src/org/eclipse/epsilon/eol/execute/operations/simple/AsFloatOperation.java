@@ -18,15 +18,15 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolReal;
 
 
-public class AsRealOperation extends AbstractSimpleOperation {
+public class AsFloatOperation extends AbstractSimpleOperation {
 
-	public AsRealOperation() {
+	public AsFloatOperation() {
 		super();
 	}
 
 	@Override
 	public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
-		return new EolReal(String.valueOf(source), true);
+		return new EolReal(String.valueOf(source), false);
 	}
 
 }

@@ -20,7 +20,21 @@ public class RealExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		return new EolReal(ast.getText());
+		String text = "";
+		boolean doublePrecision = false;
+		if (ast.getText().endsWith("f")) {
+			text = ast.getText().substring(0, ast.getText().length() - 1);
+			doublePrecision = false;
+		}
+		else if (ast.getText().endsWith("d")) {
+			text = ast.getText().substring(0, ast.getText().length() - 1);
+			doublePrecision = true;		
+		}
+		else {
+			text = ast.getText();
+			doublePrecision = true;			
+		}
+		return new EolReal(text, doublePrecision);
 	}
 
 }

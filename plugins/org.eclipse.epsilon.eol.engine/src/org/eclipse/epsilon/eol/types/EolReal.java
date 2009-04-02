@@ -12,30 +12,46 @@ package org.eclipse.epsilon.eol.types;
 
 public class EolReal extends EolPrimitive implements Comparable {
 	
-	protected float value = 0.0f;
+	protected double value = 0.0d;
+	
+	protected boolean doublePrecision;
+	
+	public void setDoublePrecision(boolean doublePrecision) {
+		this.doublePrecision = doublePrecision;
+	}
+	
+	public boolean isDoublePrecision() {
+		return doublePrecision;
+	}
 	
 	public EolReal(){
-		this.value = 0.0f;
+		this.value = 0.0d;
 	}
 	
-	public EolReal(float value){
+	public EolReal(double value, boolean doublePrecision){
 		this.value = value;
+		this.doublePrecision = doublePrecision;
 	}
 	
-	public EolReal(String value){
+	public EolReal(String value, boolean doublePrecision){
 		try {
-			this.value = Float.parseFloat(value);
+			this.value = Double.parseDouble(value);
+			this.doublePrecision = doublePrecision;
 		}
 		catch (Exception ex){
-			this.value = 0.0f;
+			this.value = 0.0d;
 		}
 	}
 	
-	public float getValue(){
+	public float floatValue() {
+		return Float.parseFloat(value + "");
+	}
+	
+	public double getValue(){
 		return value;
 	}
 	
-	public void setValue(float value){
+	public void setValue(double value){
 		this.value = value;
 	}
 	
@@ -45,19 +61,19 @@ public class EolReal extends EolPrimitive implements Comparable {
 	}
 	
 	public EolReal add(EolReal i){
-		return new EolReal(this.value + i.getValue());
+		return new EolReal(this.value + i.getValue(), this.isDoublePrecision() || i.isDoublePrecision());
 	}
 	
 	public EolReal subtract(EolReal i){
-		return new EolReal(this.value - i.getValue());
+		return new EolReal(this.value - i.getValue(), this.isDoublePrecision() || i.isDoublePrecision());
 	}
 	
 	public EolReal multiply(EolReal i){
-		return new EolReal(this.value * i.getValue());
+		return new EolReal(this.value * i.getValue(), this.isDoublePrecision() || i.isDoublePrecision());
 	}
 	
 	public EolReal abs(){
-		return new EolReal(Math.abs(this.value));
+		return new EolReal(Math.abs(this.value), this.isDoublePrecision());
 	}
 	
 	public EolBoolean greaterThan(EolReal i){
@@ -73,25 +89,25 @@ public class EolReal extends EolPrimitive implements Comparable {
 		return new EolBoolean(this.value == i.value);
 	}
 	
-	public float floatValue(){
+	public double doubleValue(){
 		return value;
 	}
 
 	public EolReal divide(EolReal i) {
-		return new EolReal(this.floatValue() / i.floatValue()); 
+		return new EolReal(this.doubleValue() / i.doubleValue(), this.isDoublePrecision() || i.isDoublePrecision()); 
 	}
 
 	public EolReal negative() {
-		return new EolReal(0-this.floatValue());
+		return new EolReal(0-this.doubleValue(), this.isDoublePrecision());
 	}
 	
 	public EolReal max(EolReal compareTo){
-		if (this.floatValue() > compareTo.floatValue()) return this;
+		if (this.doubleValue() > compareTo.doubleValue()) return this;
 		else return compareTo;
 	}
 
 	public EolReal min(EolReal compareTo){
-		if (this.floatValue() > compareTo.floatValue()) return compareTo;
+		if (this.doubleValue() > compareTo.doubleValue()) return compareTo;
 		else return this;
 	}
 	
@@ -108,7 +124,7 @@ public class EolReal extends EolPrimitive implements Comparable {
 		if (opposite == null) return -1;
 		
 		if (opposite.getClass().equals(this.getClass())){
-			return Float.compare(this.value, ((EolReal)opposite).value);
+			return Double.compare(this.value, ((EolReal)opposite).value);
 		}
 		
 		return -1;

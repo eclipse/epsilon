@@ -14,13 +14,16 @@ public class EolInteger extends EolReal{
 	
 	public EolInteger(){
 		this.value = 0;
+		this.doublePrecision = false;
 	}
 	
 	public EolInteger(int value){
 		this.value = value;
+		this.doublePrecision = false;
 	}
 	
 	public EolInteger(String value){
+		this.doublePrecision = false;
 		try {
 			this.value = Integer.parseInt(value);
 		}
@@ -36,8 +39,8 @@ public class EolInteger extends EolReal{
 	} 
 	 
 	@Override
-	public float getValue(){
-		return new Float(value).intValue();
+	public double getValue(){
+		return new Double(value).intValue();
 	}
 	
 	public void setValue(int value){
@@ -50,7 +53,7 @@ public class EolInteger extends EolReal{
 	}
 	
 	public int intValue(){
-		return Math.round(value);
+		return (int) Math.round(value);
 	}
 
 	public EolInteger add(EolInteger i) {

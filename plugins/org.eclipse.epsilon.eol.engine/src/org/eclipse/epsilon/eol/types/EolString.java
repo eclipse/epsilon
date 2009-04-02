@@ -149,6 +149,10 @@ public class EolString extends EolPrimitive{
 	}
 	
 	public EolReal asReal() {
-		return new EolReal(value);
+		return new EolReal(value, true);
+	}
+	
+	public EolReal asFloat() {
+		return new EolReal(value, false);
 	}
 }

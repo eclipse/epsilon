@@ -37,9 +37,9 @@ public class EolTypeWrapper {
 		} else if (o instanceof String){
 			return new EolString(o.toString());
 		} else if (o instanceof Float) {
-			return new EolReal(((Float)o).floatValue());
+			return new EolReal(((Float)o).floatValue() + "", false);
 		} else if (o instanceof Double) {
-			return new EolReal(((Double)o).floatValue());
+			return new EolReal(((Double)o).doubleValue(), true);
 		} else if (o instanceof Iterator){
 			return new EolSequence((Iterator)o);
 		} else if (o instanceof List){
@@ -81,7 +81,9 @@ public class EolTypeWrapper {
 			return new Integer(((EolInteger)o).intValue());
 		} else if (o instanceof EolString){
 			return new String(((EolString)o).stringValue());
-		} else if (o instanceof EolReal){
+		} else if (o instanceof EolReal && ((EolReal)o).isDoublePrecision()){
+			return new Double(((EolReal)o).doubleValue());
+		} else if (o instanceof EolReal && !((EolReal)o).isDoublePrecision()){
 			return new Float(((EolReal)o).floatValue());
 		} else if (o instanceof EolBoolean){
 			return new Boolean(((EolBoolean)o).booleanValue());

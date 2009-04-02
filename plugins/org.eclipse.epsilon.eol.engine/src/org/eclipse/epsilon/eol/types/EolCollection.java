@@ -438,10 +438,10 @@ public abstract class EolCollection extends EolAny{
 		Iterator it = this.storage.iterator();
 		
 		if (isEmpty().value) {
-			return new EolReal(0.0f);
+			return new EolReal(0.0, true);
 		}
 		
-		EolReal product = new EolReal(1.0f);
+		EolReal product = new EolReal(1.0, true);
 		
 		while (it.hasNext()){
 			Object next = it.next();

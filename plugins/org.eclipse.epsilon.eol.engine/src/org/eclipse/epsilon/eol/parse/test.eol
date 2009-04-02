@@ -1,7 +1,2 @@
-var x : new Native('com.x.y')(foo);
-
-var x := new "com.x.y"();
-
-operation foo(x : "java.lang.Integer") {
-
-}
+var x := 1.2f;
+var u := 1.2d;
