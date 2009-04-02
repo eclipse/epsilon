@@ -26,6 +26,7 @@ public class EolReal extends EolPrimitive implements Comparable {
 	
 	public EolReal(){
 		this.value = 0.0d;
+		this.doublePrecision = false;
 	}
 	
 	public EolReal(double value, boolean doublePrecision){

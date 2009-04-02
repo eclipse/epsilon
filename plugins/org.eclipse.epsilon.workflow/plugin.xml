@@ -69,14 +69,14 @@
             name="epsilon.loadCompositeModel">
       </antTask>
       <antTask
-            class="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModel"
+            class="org.eclipse.epsilon.workflow.tasks.emf.LoadModel"
             library="lib/org.eclipse.epsilon.workflow.jar"
-            name="epsilon.loadEmfModel">
+            name="epsilon.emf.loadModel">
       </antTask>
       <antTask
-            class="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredEmfMetaModel"
+            class="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModel"
             library="lib/org.eclipse.epsilon.workflow.jar"
-            name="epsilon.loadRegisteredEmfMetamodel">
+            name="epsilon.emf.loadRegisteredMetamodel">
       </antTask>
    </extension>
    <extension

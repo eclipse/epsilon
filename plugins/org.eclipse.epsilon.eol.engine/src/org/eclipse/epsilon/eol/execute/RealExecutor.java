@@ -32,7 +32,7 @@ public class RealExecutor extends AbstractExecutor{
 		}
 		else {
 			text = ast.getText();
-			doublePrecision = true;			
+			doublePrecision = false;			
 		}
 		return new EolReal(text, doublePrecision);
 	}

@@ -62,7 +62,12 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	
 	@Override
 	public String getTaskName() {
-		return src.getName();
+		if (src != null) {
+			return super.getTaskName() + " - " + src.getName();
+		}
+		else {
+			return super.getTaskName();
+		}
 	}
 
 	@Override

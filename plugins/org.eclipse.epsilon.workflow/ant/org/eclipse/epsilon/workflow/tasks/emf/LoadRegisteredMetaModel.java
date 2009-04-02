@@ -19,10 +19,10 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
-public class LoadRegisteredEmfMetaModel extends EpsilonTask {
+public class LoadRegisteredMetaModel extends EpsilonTask {
 
 	protected String name;
-	protected String alias;
+	protected String aliases;
 	protected String metamodelUri;
 	
 	@Override
@@ -34,7 +34,7 @@ public class LoadRegisteredEmfMetaModel extends EpsilonTask {
 		
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
-		properties.put(EmfModel.PROPERTY_ALIASES, alias + "");
+		properties.put(EmfModel.PROPERTY_ALIASES, aliases + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
 		
 		try {
@@ -55,12 +55,12 @@ public class LoadRegisteredEmfMetaModel extends EpsilonTask {
 		this.name = name;
 	}
 
-	public String getAlias() {
-		return alias;
+	public String getAliases() {
+		return aliases;
 	}
 
-	public void setAlias(String alias) {
-		this.alias = alias;
+	public void setAliases(String aliases) {
+		this.aliases = aliases;
 	}
 
 	public String getMetamodelUri() {
