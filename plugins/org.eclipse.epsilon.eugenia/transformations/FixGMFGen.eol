@@ -1,9 +1,11 @@
+
 import 'ECoreUtil.eol';
 
 var ePackage := ECore!EPackage.all.first();
 
 var genDiagram := GmfGen!GenDiagram.all.first();
 var genEditorGenerator := GmfGen!GenEditorGenerator.all.first();
+
 
 --Set same file for model and diagram
 var onefile := getDiagramClass().getAnnotationValue('gmf.diagram','onefile');
@@ -30,8 +32,14 @@ if (units.isDefined()) {
 }
 
 -- Enable shortcuts
-genDiagram.containsShortcutsTo := Sequence{genEditorGenerator.domainFileExtension};
-genDiagram.shortcutsProvidedFor := Sequence{genEditorGenerator.domainFileExtension};
+if (modelExtension.isDefined()) {
+	genDiagram.containsShortcutsTo := Sequence{genEditorGenerator.domainFileExtension};
+	genDiagram.shortcutsProvidedFor := Sequence{genEditorGenerator.domainFileExtension};
+}
+else {
+	genDiagram.containsShortcutsTo := Sequence{ePackage.name};
+	genDiagram.shortcutsProvidedFor := Sequence{ePackage.name};
+}
 
 -- Enable validation
 genDiagram.validationDecorators := true;
