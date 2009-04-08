@@ -23,10 +23,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.model.hutn.ContainmentSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectSlot;
+import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.epsilon.hutn.model.hutn.PackageObject;
+import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
 /**
@@ -99,6 +103,56 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 		
 		return null;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public AttributeSlot findOrCreateAttributeSlot(String feature) {
+		return findOrCreateSlot(feature, AttributeSlot.class, HutnPackage.eINSTANCE.getAttributeSlot());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ReferenceSlot findOrCreateReferenceSlot(String feature) {
+		return findOrCreateSlot(feature, ReferenceSlot.class, HutnPackage.eINSTANCE.getReferenceSlot());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ContainmentSlot findOrCreateContainmentSlot(String feature) {
+		return findOrCreateSlot(feature, ContainmentSlot.class, HutnPackage.eINSTANCE.getContainmentSlot());
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private <T extends Slot<?>> T findOrCreateSlot(String feature, Class<T> type, EClass eClass) {
+		final Slot<?> existingSlot = findSlot(feature);
+		
+		if (existingSlot == null) {
+			final T newSlot = type.cast(HutnFactory.eINSTANCE.create(eClass));
+			newSlot.setFeature(feature);
+			newSlot.setOwner(this);
+			return newSlot;
+			
+		} else if (type.isInstance(existingSlot)) {
+			return type.cast(existingSlot);
+		
+		} else {
+			return null;
+		}
+	}
+	
 
 	/**
 	 * <!-- begin-user-doc -->

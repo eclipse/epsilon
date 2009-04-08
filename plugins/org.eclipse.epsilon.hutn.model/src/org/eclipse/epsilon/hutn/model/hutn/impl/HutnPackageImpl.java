@@ -583,6 +583,15 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		op = addEOperation(classObjectEClass, ecorePackage.getEBoolean(), "typeCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEClass(), "eClass", 1, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(classObjectEClass, this.getAttributeSlot(), "findOrCreateAttributeSlot", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(classObjectEClass, this.getReferenceSlot(), "findOrCreateReferenceSlot", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(classObjectEClass, this.getContainmentSlot(), "findOrCreateContainmentSlot", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(slotEClass, Slot.class, "Slot", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSlot_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlot_Owner(), this.getClassObject(), this.getClassObject_Slots(), "owner", null, 1, 1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

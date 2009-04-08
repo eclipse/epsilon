@@ -40,6 +40,15 @@
     <eOperations name="typeCompatibleWith" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="eClass" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
     </eOperations>
+    <eOperations name="findOrCreateAttributeSlot" eType="#//AttributeSlot">
+      <eParameters name="feature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="findOrCreateReferenceSlot" eType="#//ReferenceSlot">
+      <eParameters name="feature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="findOrCreateContainmentSlot" eType="#//ContainmentSlot">
+      <eParameters name="feature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="slots" upperBound="-1"
         containment="true" eOpposite="#//Slot/owner">
       <eGenericType eClassifier="#//Slot">

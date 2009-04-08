@@ -106,5 +106,32 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 	 * @generated
 	 */
 	boolean typeCompatibleWith(EClass eClass);
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	AttributeSlot findOrCreateAttributeSlot(String feature);
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	ReferenceSlot findOrCreateReferenceSlot(String feature);
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	ContainmentSlot findOrCreateContainmentSlot(String feature);
 	
 } // ClassObject
