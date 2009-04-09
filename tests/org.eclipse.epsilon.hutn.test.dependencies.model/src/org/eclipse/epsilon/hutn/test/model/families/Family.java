@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Family#getAverageAge <em>Average Age</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Family#getDogs <em>Dogs</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Family#getDistrict <em>District</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Family#getLotteryNumbers <em>Lottery Numbers</em>}</li>
  * </ul>
  * </p>
  *
@@ -235,5 +236,21 @@ public interface Family extends NamedElement {
 	 * @generated
 	 */
 	void setDistrict(District value);
+
+	/**
+	 * Returns the value of the '<em><b>Lottery Numbers</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Integer}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Lottery Numbers</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Lottery Numbers</em>' attribute list.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage#getFamily_LotteryNumbers()
+	 * @model
+	 * @generated
+	 */
+	EList<Integer> getLotteryNumbers();
 
 } // Family

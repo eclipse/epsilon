@@ -285,6 +285,15 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getFamily_LotteryNumbers() {
+		return (EAttribute)familyEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPet() {
 		return petEClass;
 	}
@@ -465,6 +474,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		createEAttribute(familyEClass, FAMILY__AVERAGE_AGE);
 		createEReference(familyEClass, FAMILY__DOGS);
 		createEReference(familyEClass, FAMILY__DISTRICT);
+		createEAttribute(familyEClass, FAMILY__LOTTERY_NUMBERS);
 
 		petEClass = createEClass(PET);
 		createEAttribute(petEClass, PET__MALE);
@@ -540,6 +550,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		initEAttribute(getFamily_AverageAge(), ecorePackage.getEFloat(), "averageAge", null, 0, 1, Family.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFamily_Dogs(), this.getDog(), null, "dogs", null, 1, -1, Family.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getFamily_District(), this.getDistrict(), this.getDistrict_Families(), "district", null, 0, 1, Family.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFamily_LotteryNumbers(), ecorePackage.getEInt(), "lotteryNumbers", null, 0, -1, Family.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(petEClass, Pet.class, "Pet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPet_Male(), ecorePackage.getEBoolean(), "male", null, 0, 1, Pet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

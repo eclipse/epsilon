@@ -54,6 +54,7 @@ import org.eclipse.epsilon.hutn.test.model.families.Pet;
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.FamilyImpl#getAverageAge <em>Average Age</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.FamilyImpl#getDogs <em>Dogs</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.FamilyImpl#getDistrict <em>District</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.FamilyImpl#getLotteryNumbers <em>Lottery Numbers</em>}</li>
  * </ul>
  * </p>
  *
@@ -179,6 +180,16 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 * @ordered
 	 */
 	protected EList<Dog> dogs;
+
+	/**
+	 * The cached value of the '{@link #getLotteryNumbers() <em>Lottery Numbers</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLotteryNumbers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Integer> lotteryNumbers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -377,6 +388,18 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Integer> getLotteryNumbers() {
+		if (lotteryNumbers == null) {
+			lotteryNumbers = new EDataTypeUniqueEList<Integer>(Integer.class, this, FamiliesPackage.FAMILY__LOTTERY_NUMBERS);
+		}
+		return lotteryNumbers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -444,6 +467,8 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 				return getDogs();
 			case FamiliesPackage.FAMILY__DISTRICT:
 				return getDistrict();
+			case FamiliesPackage.FAMILY__LOTTERY_NUMBERS:
+				return getLotteryNumbers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -484,6 +509,10 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 			case FamiliesPackage.FAMILY__DISTRICT:
 				setDistrict((District)newValue);
 				return;
+			case FamiliesPackage.FAMILY__LOTTERY_NUMBERS:
+				getLotteryNumbers().clear();
+				getLotteryNumbers().addAll((Collection<? extends Integer>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -520,6 +549,9 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 			case FamiliesPackage.FAMILY__DISTRICT:
 				setDistrict((District)null);
 				return;
+			case FamiliesPackage.FAMILY__LOTTERY_NUMBERS:
+				getLotteryNumbers().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -550,6 +582,8 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 				return dogs != null && !dogs.isEmpty();
 			case FamiliesPackage.FAMILY__DISTRICT:
 				return getDistrict() != null;
+			case FamiliesPackage.FAMILY__LOTTERY_NUMBERS:
+				return lotteryNumbers != null && !lotteryNumbers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -574,6 +608,8 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 		result.append(nuclear);
 		result.append(", averageAge: ");
 		result.append(averageAge);
+		result.append(", lotteryNumbers: ");
+		result.append(lotteryNumbers);
 		result.append(')');
 		return result.toString();
 	}

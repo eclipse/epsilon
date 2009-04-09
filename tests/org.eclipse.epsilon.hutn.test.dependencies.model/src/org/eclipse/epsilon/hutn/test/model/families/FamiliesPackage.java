@@ -196,13 +196,22 @@ public interface FamiliesPackage extends EPackage {
 	int FAMILY__DISTRICT = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Lottery Numbers</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FAMILY__LOTTERY_NUMBERS = NAMED_ELEMENT_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Family</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FAMILY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int FAMILY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.PetImpl <em>Pet</em>}' class.
@@ -567,6 +576,17 @@ public interface FamiliesPackage extends EPackage {
 	EReference getFamily_District();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.hutn.test.model.families.Family#getLotteryNumbers <em>Lottery Numbers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Lottery Numbers</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Family#getLotteryNumbers()
+	 * @see #getFamily()
+	 * @generated
+	 */
+	EAttribute getFamily_LotteryNumbers();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.test.model.families.Pet <em>Pet</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -857,6 +877,14 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FAMILY__DISTRICT = eINSTANCE.getFamily_District();
+
+		/**
+		 * The meta object literal for the '<em><b>Lottery Numbers</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FAMILY__LOTTERY_NUMBERS = eINSTANCE.getFamily_LotteryNumbers();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.PetImpl <em>Pet</em>}' class.
