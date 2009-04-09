@@ -90,8 +90,12 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Finds a slot with the specified feature for this object.
-	 * Returns null when no such slot exists.
+	 * Finds an AttributeSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * AttributeSlot, this method returns a new AttributeSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching AttributeSlot, this method returns 
+	 * any one of the matching AttributeSlots.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
@@ -106,6 +110,12 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 	
 	/**
 	 * <!-- begin-user-doc -->
+	 * Finds an AttributeSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * AttributeSlot, this method returns a new AttributeSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching AttributeSlot, this method returns 
+	 * any one of the matching AttributeSlots.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
@@ -115,6 +125,12 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Finds a ReferenceSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * ReferenceSlot, this method returns a new ReferenceSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching ReferenceSlot, this method returns 
+	 * any one of the matching ReferenceSlots.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
@@ -124,6 +140,12 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Finds a ContainmentSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * ContainmentSlot, this method returns a new ContainmentSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching ContainmentSlot, this method returns 
+	 * any one of the matching ContainmentSlots.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
@@ -138,18 +160,15 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 	 */
 	private <T extends Slot<?>> T findOrCreateSlot(String feature, Class<T> type, EClass eClass) {
 		final Slot<?> existingSlot = findSlot(feature);
+
+		if (type.isInstance(existingSlot)) {
+			return type.cast(existingSlot);
 		
-		if (existingSlot == null) {
+		} else {
 			final T newSlot = type.cast(HutnFactory.eINSTANCE.create(eClass));
 			newSlot.setFeature(feature);
 			newSlot.setOwner(this);
 			return newSlot;
-			
-		} else if (type.isInstance(existingSlot)) {
-			return type.cast(existingSlot);
-		
-		} else {
-			return null;
 		}
 	}
 	

@@ -58,11 +58,60 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Finds a Slot contained in this ClassObject with the 
+	 * specified feature. If this ClassObject contains no 
+	 * such Slot, this method returns null. If this ClassObject
+	 * contains more than one matching Slot, this method returns 
+	 * any one of the matching Slots.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
 	Slot<?> findSlot(String feature);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Finds an AttributeSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * AttributeSlot, this method returns a new AttributeSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching AttributeSlot, this method returns 
+	 * any one of the matching AttributeSlots.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	AttributeSlot findOrCreateAttributeSlot(String feature);
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Finds a ReferenceSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * ReferenceSlot, this method returns a new ReferenceSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching ReferenceSlot, this method returns 
+	 * any one of the matching ReferenceSlots.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	ReferenceSlot findOrCreateReferenceSlot(String feature);
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Finds a ContainmentSlot contained in this ClassObject with
+	 * the specified feature. If this ClassObject contains no such
+	 * ContainmentSlot, this method returns a new ContainmentSlot
+	 * with the feature specified. If this ClassObject contains
+	 * more than one matching ContainmentSlot, this method returns 
+	 * any one of the matching ContainmentSlots.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	ContainmentSlot findOrCreateContainmentSlot(String feature);
 
 
 	/**
@@ -106,32 +155,5 @@ public interface ClassObject extends org.eclipse.epsilon.hutn.model.hutn.Object 
 	 * @generated
 	 */
 	boolean typeCompatibleWith(EClass eClass);
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	AttributeSlot findOrCreateAttributeSlot(String feature);
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ReferenceSlot findOrCreateReferenceSlot(String feature);
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ContainmentSlot findOrCreateContainmentSlot(String feature);
 	
 } // ClassObject
