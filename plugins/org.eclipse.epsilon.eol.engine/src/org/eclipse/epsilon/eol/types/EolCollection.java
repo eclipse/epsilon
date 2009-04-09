@@ -545,13 +545,8 @@ public abstract class EolCollection extends EolAny{
 		}
 		
 		public int compare(Object o1, Object o2) {
-			
-			if (o1 instanceof EolReal && o2 instanceof EolReal) {
-				return ((EolReal)o1).compareTo(o2);
-			
-			} else if (o1 instanceof EolInteger && o2 instanceof EolInteger) {
-				return ((EolInteger)o1).compareTo(o2);
-			
+			if (o1 instanceof Comparable && o2 instanceof Comparable) {
+				return ((Comparable)o1).compareTo(o2);
 			} else {
 				return ppm.toString(o1).compareTo(ppm.toString(o2));
 			}
