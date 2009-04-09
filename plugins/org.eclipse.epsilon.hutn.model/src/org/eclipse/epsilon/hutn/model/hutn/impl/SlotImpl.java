@@ -224,6 +224,9 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	 * @generated NOT
 	 */
 	public EStructuralFeature getEStructuralFeature() {
+		if (getOwner() == null)
+			return null;
+		
 		final EClass owner = getOwner().getEClass();
 		
 		if (getFeature() == null || owner == null)
