@@ -21,6 +21,11 @@ public class EolWorkbench {
 	
 	public static void main(String[] args) throws Exception {
 		
+		EolEvaluator evaluator = new EolEvaluator();
+		evaluator.execute("var a : Foo;");
+		
+		if (true) return;
+		
 		EolModule module = new EolModule();
 		
 		String path = "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\test.eol";		
