@@ -83,11 +83,11 @@ public class TypeExecutor extends AbstractExecutor{
 			// throw new EolTypeNotFoundException(typeName,ast);
 		}
 		
-		return null;
+		//return null;
 		
 		//return new EolNativeType(ast, context);
 		
-		//throw new EolTypeNotFoundException(typeName, ast);
+		throw new EolTypeNotFoundException(typeName, ast);
 		
 	}
 
