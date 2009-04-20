@@ -242,13 +242,15 @@ public class EmfUtil {
 	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
 		final List<T> results = new LinkedList<T>();
 		
-		final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
-		
-		while (iterator.hasNext()) {
-			final EObject object = iterator.next();
+		if (modelElement.eResource() != null) {
+			final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
 			
-			if (type.isInstance(object))
-				results.add((T)object);
+			while (iterator.hasNext()) {
+				final EObject object = iterator.next();
+				
+				if (type.isInstance(object))
+					results.add((T)object);
+			}
 		}
 		
 		return Collections.unmodifiableList(results);
