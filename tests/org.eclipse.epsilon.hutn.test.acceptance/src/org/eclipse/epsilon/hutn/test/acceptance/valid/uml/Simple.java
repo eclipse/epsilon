@@ -21,17 +21,18 @@ public class Simple extends HutnUmlAcceptanceTest {
 	
 	@BeforeClass
 	public static void executeHutn() throws Exception {
-		final String hutn = "@Spec {"                                                                   + 
-		                    "  MetaModel \"uml\" {"                                                     +
-		                    "    nsUri = \"http://www.eclipse.org/uml2/2.1.0/UML\""                     +
-		                    "  }"                                                                       +
-		                    "}"                                                                         +
-		                    ""                                                                          +
-		                    "Packages {"                                                                +
-		                    "  Package \"Pk\" {"                                                        +
-		                    "    name: \"package\""                                                     +
-		                    "    ownedType: isLeaf isAbstract isActive Class \"C\" { name: \"class\" }" +
-		                    "  }"                                                                       +
+		final String hutn = "@Spec {"                                                      + 
+		                    "  MetaModel \"uml\" {"                                        +
+		                    "    nsUri = \"http://www.eclipse.org/uml2/2.1.0/UML\""        +
+		                    "  }"                                                          +
+		                    "}"                                                            +
+		                    ""                                                             +
+		                    "Packages {"                                                   +
+		                    "  Package \"Pk\" {"                                           +
+		                    "    name: \"package\""                                        +
+		                    "    ownedType: Class \"C\""                                   +
+		                    "  }"                                                          +
+		                    "  isLeaf isAbstract isActive Class \"C\" { name: \"class\" }" +
 		                    "}";
 
 		

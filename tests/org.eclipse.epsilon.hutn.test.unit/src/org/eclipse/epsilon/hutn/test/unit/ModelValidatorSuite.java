@@ -17,7 +17,9 @@ package org.eclipse.epsilon.hutn.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.hutn.validation.model.ContainmentForReference;
 import org.eclipse.epsilon.hutn.validation.model.IncorrectTypeForContainment;
+import org.eclipse.epsilon.hutn.validation.model.ReferenceForContainment;
 import org.eclipse.epsilon.hutn.validation.model.RequiredReferenceOppositeValueSpecified;
 import org.eclipse.epsilon.hutn.validation.model.UnchangeableReferencesNeedNotSpecifyAValue;
 import org.eclipse.epsilon.hutn.validation.model.DuplicateIdentifiers;
@@ -48,7 +50,8 @@ import org.junit.runners.Suite.SuiteClasses;
                IncorrectTypeForReference.class, ReferenceWithSubtype.class,
                IncorrectTypeForContainment.class, Traceability.class, InstantiateEnum.class,
                RequiredReferenceValueNotSpecified.class, RequiredReferenceOppositeValueSpecified.class,
-               ModelValidatorExternalRefSuite.class, UnchangeableReferencesNeedNotSpecifyAValue.class})
+               ModelValidatorExternalRefSuite.class, UnchangeableReferencesNeedNotSpecifyAValue.class,
+               ReferenceForContainment.class, ContainmentForReference.class})
 public class ModelValidatorSuite {
 
 	public static Test suite() {

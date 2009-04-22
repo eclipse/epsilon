@@ -28,9 +28,8 @@ public class InferEmptyInstanceForRequiredReference extends HutnAcceptanceTest {
 	                        "	}"                                 +
 	                        "}"                                    +
                             "Families {"                           +
-                            "   Dog \"Fido\" {}"                   +
                             "   District \"York\" {"               +
-                            "     dogs: Dog \"Fido\""              +
+                            "     dogs: Dog \"Fido\" {}"           +
                             "   }"                                 +
                             "}";
 		

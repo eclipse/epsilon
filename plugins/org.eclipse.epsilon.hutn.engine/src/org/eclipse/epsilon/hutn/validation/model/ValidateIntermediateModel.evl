@@ -82,10 +82,27 @@ context Slot {
 }
 
 context ReferenceSlot {
+	constraint FeatureMustBeReference {
+		guard: self.satisfies('MustBeTypeCompatibleWithFeature')
+		check: not self.getEStructuralFeature().isContainment
+		message: 'A reference value was specified for the containment feature ' +
+		         self.owner.type + '#' + self.feature + '.'
+	}
+
 	constraint ReferencedIdentifiersMustExist {
+		guard: self.satisfies('FeatureMustBeReference')
 		check: self.values.forAll(i|i.isRecognisedIdentifier())
 		message: self.values.selectOne(i|not i.isRecognisedIdentifier()).getMessage()
 				 
+	}
+}
+
+context ContainmentSlot {
+	constraint FeatureMustBeContainment {
+		guard: self.satisfies('MustBeTypeCompatibleWithFeature')
+		check: self.getEStructuralFeature().isContainment
+		message: 'A contained object was specified for the non-containment feature ' +
+		         self.owner.type + '#' + self.feature + '.'
 	}
 }
 

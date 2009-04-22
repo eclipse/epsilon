@@ -9,37 +9,37 @@
  *     Louis Rose - initial API and implementation
  ******************************************************************************
  *
- * $Id: UnrecognisedIdentifier.java,v 1.1 2008/08/07 14:51:11 louis Exp $
+ * $Id: UnrecognisedFeature.java,v 1.1 2008/08/07 14:51:11 louis Exp $
  */
-package org.eclipse.epsilon.hutn.validation.model.externalrefs;
+package org.eclipse.epsilon.hutn.validation.model;
 
+import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createReferenceSlot;
 import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createClassObject;
 import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createPackageObject;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createReferenceSlot;
 import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createSpec;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
-import org.eclipse.epsilon.hutn.validation.model.HutnModelValidationTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class NonExistentModelElementXpath extends HutnModelValidationTest {
+public class ReferenceForContainment extends HutnModelValidationTest {
 
 	@BeforeClass
 	public static void validateModel() throws HutnValidationException {
-		problems = modelValidationTest(createSpec("families", createPackageObject(createClassObject("John",
-		                                                                                "Person",
-		                                                                                createReferenceSlot("sharedAccounts", BANK_ACCOUNTS_MODEL_URI + "#//@foo.0")))));
+		problems = modelValidationTest(createSpec("families", createPackageObject(createClassObject("The Smiths",
+		                                                                                            "Family", 
+		                                                                                            createReferenceSlot("members", "John")),
+		                                                                          createClassObject("John", "Person"))));
 	}
 	
 	@Test
-	public void validationShouldReportNoProblems() {
+	public void validationShouldReportOneProblem() {
 		assertEquals(1, problems.size());
 	}
 	
 	@Test
-	public void reasonShouldBeUnrecognisedIdentifier() {
-		assertEquals("Model element not found: //@foo.0", problems.get(0).getReason());
+	public void reasonShouldBeReferenceForContainment() {
+		assertEquals("A reference value was specified for the containment feature Family#members.", problems.get(0).getReason());
 	}
 }

@@ -30,7 +30,7 @@ public class NonExistentModel extends HutnModelValidationTest {
 	public static void validateModel() throws HutnValidationException {
 		problems = modelValidationTest(createSpec("families", createPackageObject(createClassObject("John",
 		                                                                                "Person",
-		                                                                                createReferenceSlot("accounts", "/foo/foo.model#//@accounts.0")))));
+		                                                                                createReferenceSlot("sharedAccounts", "/foo/foo.model#//@accounts.0")))));
 	}
 	
 	@Test
