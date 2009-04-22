@@ -201,6 +201,8 @@ TEXT_LETTER
     |    ':'
     |    '.'
     |    ' '
+    |    '?'
+    |    '!'
     ;
     
 fragment
