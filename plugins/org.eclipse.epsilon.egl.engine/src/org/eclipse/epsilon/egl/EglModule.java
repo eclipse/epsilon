@@ -115,7 +115,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 			// Attempt to set the root of the template factory to the source file
 			try {
-				context.getTemplateFactory().setRoot(new URI("file://" + file.getAbsolutePath()));
+				context.getTemplateFactory().setRoot(UriUtil.fileToUri(file.getParentFile()));
 			} catch (URISyntaxException e) {}
 			
 			reader = new BufferedReader(new FileReader(file));

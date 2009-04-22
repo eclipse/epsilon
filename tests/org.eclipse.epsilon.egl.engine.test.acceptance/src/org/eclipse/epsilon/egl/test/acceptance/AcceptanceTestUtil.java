@@ -10,26 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
-import org.eclipse.epsilon.egl.test.models.Model;
-import org.eclipse.epsilon.commons.util.UriUtil;
-import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.template.TemplateFactory;
-import org.eclipse.epsilon.egl.test.MockContext;
+import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class AcceptanceTestUtil {
 	

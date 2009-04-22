@@ -18,8 +18,6 @@ import static org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttribu
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -29,9 +27,8 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.util.UriUtil;
-import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
