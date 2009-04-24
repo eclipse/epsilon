@@ -4,7 +4,8 @@ Bundle-Name: Human Usable Textual Notation Development Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true
 Bundle-Version: 0.7.4.qualifier
 Export-Package: org.eclipse.epsilon.hutn.dt.actions,
- org.eclipse.epsilon.hutn.dt.editor
+ org.eclipse.epsilon.hutn.dt.editor,
+ org.eclipse.epsilon.hutn.dt.util
 Require-Bundle: org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.hutn.engine,

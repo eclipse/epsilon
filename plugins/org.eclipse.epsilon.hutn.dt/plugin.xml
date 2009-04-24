@@ -59,12 +59,23 @@
          </action>
       </objectContribution>
       <objectContribution
+            id="org.eclipse.epsilon.hutn.dt.GenerateModel"
+            nameFilter="*.hutn"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.hutn.dt.actions.GenerateModelAction"
+               icon="icons/hutn.png"
+               id="org.eclipse.epsilon.dt.actions.GenerateModel"
+               label="Generate Model">
+         </action>
+      </objectContribution>
+      <objectContribution
             id="org.eclipse.epsilon.hutn.dt.GenerateHutnDebugInformation"
             nameFilter="*.hutn"
             objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.hutn.dt.actions.GenerateDebugInformation"
-               icon="icons/hutn.png"
+               icon="icons/debug.gif"
                id="org.eclipse.epsilon.dt.actions.GenerateDebugInformation"
                label="Generate Debugging Information">
          </action>

@@ -10,10 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.builder;
 
-import java.io.File;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -21,12 +19,9 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.hutn.HutnModule;
-import org.eclipse.epsilon.hutn.IHutnModule;
-import org.eclipse.epsilon.hutn.dt.util.WorkspaceUtil;
+import org.eclipse.epsilon.hutn.dt.util.HutnUtil;
 
 public class HutnBuilder extends IncrementalProjectBuilder {
 	
@@ -66,7 +61,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 				
 				public boolean visit(IResourceDelta delta) {
 					if (delta.getKind() == IResourceDelta.ADDED || delta.getKind() == IResourceDelta.CHANGED)
-						buildHutn(delta.getResource(), monitor);
+						HutnUtil.buildHutn(delta.getResource(), monitor);
 					
 					return true; // visit children too
 				}
@@ -84,7 +79,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 			getProject().accept(new IResourceVisitor() {
 
 				public boolean visit(IResource resource) throws CoreException {
-					buildHutn(resource, monitor);
+					HutnUtil.buildHutn(resource, monitor);
 					return true; // visit children too
 				}
 				
@@ -92,44 +87,6 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 			
 		} catch (CoreException e) {
 			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
-		}
-	}
-	
-	private static void buildHutn(IResource resource, IProgressMonitor monitor) {
-		try {
-			if (resource instanceof IFile && "hutn".equals(resource.getFileExtension())) {
-				final IFile file = (IFile)resource;
-				
-				final IHutnModule hutnModule = new HutnModule();
-				
-				hutnModule.setConfigFileDirectory(WorkspaceUtil.getAbsolutePath(file.getParent()));
-				
-				if (hutnModule.parse(file.getRawLocationURI())) {
-					final IPath modelPath = file.getLocation().removeFileExtension().addFileExtension("model");
-					
-					if (hutnModule.hasInferredMetaModel()) {
-						final File metamodel = modelPath.removeFileExtension().addFileExtension("ecore").toFile();
-						
-						hutnModule.generateEmfMetaModel(metamodel);
-						EpsilonConsole.getInstance().getInfoStream().println("Inferred " + metamodel);
-						
-						hutnModule.generateEmfModel(modelPath.toFile(), metamodel);
-						
-					} else {
-						hutnModule.generateEmfModel(modelPath.toFile());
-					}
-					
-					EpsilonConsole.getInstance().getInfoStream().println("Generated " + modelPath.toFile());
-					file.getProject().getFile(modelPath).refreshLocal(0, monitor);
-
-				} else {
-					EpsilonConsole.getInstance().getErrorStream().println(hutnModule.getParseProblems());
-				}
-			}
-			
-		} catch (Exception e) {
-			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
-			e.printStackTrace();
 		}
 	}
 }
