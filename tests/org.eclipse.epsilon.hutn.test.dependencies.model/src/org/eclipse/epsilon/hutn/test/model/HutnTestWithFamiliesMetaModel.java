@@ -16,8 +16,11 @@ package org.eclipse.epsilon.hutn.test.model;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.hutn.test.model.bankAccounts.BankAccountsPackage;
+import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.eclipse.epsilon.hutn.test.models.BankAccounts;
 import org.eclipse.epsilon.hutn.test.models.Families;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public class HutnTestWithFamiliesMetaModel {
@@ -33,5 +36,11 @@ public class HutnTestWithFamiliesMetaModel {
 	public static void registerMetaModels() throws Exception {
 		EmfUtil.register(Families.getMetaModelUri(), EPackage.Registry.INSTANCE);
 		EmfUtil.register(BankAccounts.getMetaModelUri(), EPackage.Registry.INSTANCE);
+	}
+	
+	@AfterClass
+	public static void unregisterMetaModels() throws Exception {
+		EPackage.Registry.INSTANCE.remove(FamiliesPackage.eNS_URI);
+		EPackage.Registry.INSTANCE.remove(BankAccountsPackage.eNS_URI);
 	}
 }
