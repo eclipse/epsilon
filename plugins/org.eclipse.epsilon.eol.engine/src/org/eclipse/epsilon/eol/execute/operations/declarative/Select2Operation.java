@@ -77,9 +77,7 @@ public class Select2Operation extends AbstractOperation {
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
 		
-		AstViewer viewer = new AstViewer(ast);
-		
-		viewer.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		new AstViewer(ast);
 		
 		AST declarationsAst = ast.getFirstChild();
 		AST bodyAst = declarationsAst.getNextSibling();
