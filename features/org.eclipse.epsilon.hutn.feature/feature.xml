@@ -212,4 +212,25 @@ both.&lt;/small&gt;
          version="0.7.4.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.epsilon.hutn.xmi"
+         download-size="0"
+         install-size="0"
+         version="0.7.4.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.hutn.xmi.dt"
+         download-size="0"
+         install-size="0"
+         version="0.7.4.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.hutn.unparser"
+         download-size="0"
+         install-size="0"
+         version="0.7.4.qualifier"
+         unpack="false"/>
+
 </feature>
