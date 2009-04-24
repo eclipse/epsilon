@@ -19,6 +19,7 @@ import junit.framework.Test;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
+import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -26,7 +27,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EolAcceptanceTestSuite.class, EglTestSuite.class,
-               HutnTestSuite.class, HutnXmiTestSuite.class})
+               HutnTestSuite.class,
+               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
