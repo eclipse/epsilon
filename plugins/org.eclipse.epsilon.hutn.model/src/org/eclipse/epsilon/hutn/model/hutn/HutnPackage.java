@@ -96,13 +96,22 @@ public interface HutnPackage extends EPackage {
 	int SPEC__OBJECTS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Model File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPEC__MODEL_FILE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Spec</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPEC_FEATURE_COUNT = 2;
+	int SPEC_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.ModelElementImpl <em>Model Element</em>}' class.
@@ -741,6 +750,17 @@ public interface HutnPackage extends EPackage {
 	EReference getSpec_Objects();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getModelFile <em>Model File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model File</em>'.
+	 * @see org.eclipse.epsilon.hutn.model.hutn.Spec#getModelFile()
+	 * @see #getSpec()
+	 * @generated
+	 */
+	EAttribute getSpec_ModelFile();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.model.hutn.NsUri <em>Ns Uri</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1019,6 +1039,14 @@ public interface HutnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SPEC__OBJECTS = eINSTANCE.getSpec_Objects();
+
+		/**
+		 * The meta object literal for the '<em><b>Model File</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SPEC__MODEL_FILE = eINSTANCE.getSpec_ModelFile();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.model.hutn.impl.NsUriImpl <em>Ns Uri</em>}' class.

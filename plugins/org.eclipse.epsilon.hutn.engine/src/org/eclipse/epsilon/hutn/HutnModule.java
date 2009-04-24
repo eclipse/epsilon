@@ -169,18 +169,8 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		this.configFileDirectory = configFileDirectory;
 	}
 	
-	public void generateEmfMetaModel(File destination) throws HutnGenerationException {
-		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
-		new MetaModelGenerator(spec).generate(destination);
-	}
-	
 	public boolean hasValidMetaModel() {
 		return metaModelIsValid;
-	}
-	
-	public boolean hasInferredMetaModel() {
-		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
-		return spec.getNsUris().isEmpty();
 	}
 	
 	public List<String> getNsUris() {
@@ -195,31 +185,67 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		return Collections.unmodifiableList(nsUris);
 	}
 	
-	public void generateEmfModel(File destination) throws HutnGenerationException {
-		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
-		if (hasInferredMetaModel()) {
-			// TODO : Generate inferred meta-model and use it to generate model
-			throw new IllegalStateException("Support for inferred meta-models is not yet included.");
-		} else {
-			new ModelGenerator(spec).generate(destination);
+	public String getModelFile() {
+		if (spec != null) {
+			return spec.getModelFile();
 		}
+		
+		return null;
 	}
-
+	
 	public AbstractEmfModel generateEmfModel() throws HutnGenerationException {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		if (hasInferredMetaModel()) {
-			// TODO : Generate inferred meta-model and use it to generate model
-			throw new IllegalStateException("Support for inferred meta-models is not yet included.");
+			throw new IllegalStateException("Cannot generate an in-memory model when the metamodel needs to be inferred.");
 		} else {
-			return new ModelGenerator(spec).generate();
+			return new ModelGenerator(spec).generate(spec.getModelFile());
 		}
 	}
 	
-	public void generateEmfModel(File destination, File metamodel) throws HutnGenerationException {
+	public List<File> storeEmfModel(File baseDirectory, String defaultModelPath, String inferredMetamodelPath) throws HutnGenerationException {
+		final List<File> generated = new LinkedList<File>();
+		
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
-		new ModelGenerator(spec, metamodel).generate(destination);
+		// Construct new generator based on whether a metamodel needs to be inferred
+		final ModelGenerator generator;
+		
+		if (hasInferredMetaModel()) {
+			final File metamodel = new File(baseDirectory, inferredMetamodelPath);
+			generateEmfMetaModel(metamodel);
+			generator = new ModelGenerator(spec, metamodel);
+			
+			generated.add(metamodel);
+			
+		} else {
+			generator = new ModelGenerator(spec);
+		}
+			
+		// Generate and store model based on whether a model file has been specified in the @Spec
+		final File model;
+		
+		if (spec.getModelFile() == null) {
+			model = new File(baseDirectory, defaultModelPath);
+		} else {
+			model = new File(baseDirectory, spec.getModelFile());
+		}
+		
+		generator.store(model);
+		generated.add(model);
+		
+		return generated;
 	}
+	
+	private boolean hasInferredMetaModel() {
+		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
+		return spec.getNsUris().isEmpty();
+	}
+	
+	private void generateEmfMetaModel(File destination) throws HutnGenerationException {
+		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
+		new MetaModelGenerator(spec).store(destination);
+	}
+	
 	
 	public Spec getIntermediateModel() {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");

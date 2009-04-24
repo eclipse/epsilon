@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getNsUris <em>Ns Uris</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getModelFile <em>Model File</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,5 +68,31 @@ public interface Spec extends EObject {
 	 * @generated
 	 */
 	EList<PackageObject> getObjects();
+
+	/**
+	 * Returns the value of the '<em><b>Model File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Model File</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Model File</em>' attribute.
+	 * @see #setModelFile(String)
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getSpec_ModelFile()
+	 * @model
+	 * @generated
+	 */
+	String getModelFile();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getModelFile <em>Model File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model File</em>' attribute.
+	 * @see #getModelFile()
+	 * @generated
+	 */
+	void setModelFile(String value);
 
 } // Spec

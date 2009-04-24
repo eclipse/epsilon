@@ -16,6 +16,7 @@ package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -23,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -42,6 +44,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Spec;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getNsUris <em>Ns Uris</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getModelFile <em>Model File</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +70,26 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 * @ordered
 	 */
 	protected EList<PackageObject> objects;
+
+	/**
+	 * The default value of the '{@link #getModelFile() <em>Model File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String MODEL_FILE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModelFile() <em>Model File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected String modelFile = MODEL_FILE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,6 +139,27 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getModelFile() {
+		return modelFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelFile(String newModelFile) {
+		String oldModelFile = modelFile;
+		modelFile = newModelFile;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HutnPackage.SPEC__MODEL_FILE, oldModelFile, modelFile));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -139,6 +183,8 @@ public class SpecImpl extends EObjectImpl implements Spec {
 				return getNsUris();
 			case HutnPackage.SPEC__OBJECTS:
 				return getObjects();
+			case HutnPackage.SPEC__MODEL_FILE:
+				return getModelFile();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -160,6 +206,9 @@ public class SpecImpl extends EObjectImpl implements Spec {
 				getObjects().clear();
 				getObjects().addAll((Collection<? extends PackageObject>)newValue);
 				return;
+			case HutnPackage.SPEC__MODEL_FILE:
+				setModelFile((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -178,6 +227,9 @@ public class SpecImpl extends EObjectImpl implements Spec {
 			case HutnPackage.SPEC__OBJECTS:
 				getObjects().clear();
 				return;
+			case HutnPackage.SPEC__MODEL_FILE:
+				setModelFile(MODEL_FILE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -194,8 +246,26 @@ public class SpecImpl extends EObjectImpl implements Spec {
 				return nsUris != null && !nsUris.isEmpty();
 			case HutnPackage.SPEC__OBJECTS:
 				return objects != null && !objects.isEmpty();
+			case HutnPackage.SPEC__MODEL_FILE:
+				return MODEL_FILE_EDEFAULT == null ? modelFile != null : !MODEL_FILE_EDEFAULT.equals(modelFile);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (modelFile: ");
+		result.append(modelFile);
+		result.append(')');
+		return result.toString();
 	}
 
 } //SpecImpl

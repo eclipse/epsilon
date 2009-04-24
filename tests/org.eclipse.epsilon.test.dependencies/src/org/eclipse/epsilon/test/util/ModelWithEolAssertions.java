@@ -208,4 +208,8 @@ public class ModelWithEolAssertions {
 		model.getModelImpl().setURI(URI.createFileURI(path));
 		model.store(path);
 	}
+	
+	public Resource getResource() {
+		return model.getModelImpl();
+	}
 }

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.hutn.dt.actions;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
-import org.eclipse.epsilon.hutn.dt.util.HutnUtil;
+import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 
@@ -21,7 +21,7 @@ public class GenerateModelAction extends AbstractObjectActionDelegate implements
 	
 	public void run(IAction action) {
 		if (getFirstElementInSelection() instanceof IFile) {
-			HutnUtil.buildHutn((IFile)getFirstElementInSelection());
+			new HutnBuilderHelper((IFile)getFirstElementInSelection()).buildHutn();
 		}
 	}
 }

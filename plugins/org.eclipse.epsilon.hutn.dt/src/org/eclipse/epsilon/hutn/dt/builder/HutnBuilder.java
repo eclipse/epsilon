@@ -12,6 +12,7 @@ package org.eclipse.epsilon.hutn.dt.builder;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -21,7 +22,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.hutn.dt.util.HutnUtil;
+import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
 
 public class HutnBuilder extends IncrementalProjectBuilder {
 	
@@ -61,7 +62,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 				
 				public boolean visit(IResourceDelta delta) {
 					if (delta.getKind() == IResourceDelta.ADDED || delta.getKind() == IResourceDelta.CHANGED)
-						HutnUtil.buildHutn(delta.getResource(), monitor);
+						buildHutn(delta.getResource(), monitor);
 					
 					return true; // visit children too
 				}
@@ -79,7 +80,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 			getProject().accept(new IResourceVisitor() {
 
 				public boolean visit(IResource resource) throws CoreException {
-					HutnUtil.buildHutn(resource, monitor);
+					buildHutn(resource, monitor);
 					return true; // visit children too
 				}
 				
@@ -89,4 +90,12 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
 		}
 	}
+
+	private void buildHutn(IResource resource, IProgressMonitor monitor) {
+		if (resource instanceof IFile && "hutn".equals(resource.getFileExtension())) {
+			new HutnBuilderHelper((IFile)resource, monitor).buildHutn();
+		}
+	}
+	
+	
 }

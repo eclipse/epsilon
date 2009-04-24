@@ -6,6 +6,7 @@ import "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore";
 class Spec {
   val NsUri[*] nsUris;
   val PackageObject[*] objects;
+  attr ecore.EString modelFile;
 }
 
 class NsUri extends ModelElement {
@@ -34,6 +35,9 @@ class ClassObject extends Object {
   op ecore.EClass getEClass();
   op boolean[1] hasEClass();
   op boolean[1] typeCompatibleWith(ecore.EClass[1] eClass);
+  op AttributeSlot findOrCreateAttributeSlot(String feature);
+  op ReferenceSlot findOrCreateReferenceSlot(String feature);
+  op ContainmentSlot findOrCreateContainmentSlot(String feature);
   val Slot<?>[*]#owner slots;
 }
 

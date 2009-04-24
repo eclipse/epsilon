@@ -25,7 +25,7 @@ public class HutnModelGeneratorTest extends HutnTestWithFamiliesMetaModel {
 	protected static ModelWithEolAssertions model;
 	
 	protected static ModelWithEolAssertions modelGeneratorTest(Spec spec) throws HutnGenerationException {
-		return new ModelWithEolAssertions(new ModelGenerator(spec).generate());
+		return new ModelWithEolAssertions(new ModelGenerator(spec).generate((String)null));
 	}
 	
 	@AfterClass

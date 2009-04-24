@@ -6,8 +6,24 @@ pre {
 	
 	for (root in ast.roots) {
 		if (AntlrAst!NameNode.isType(root) and root.text = '@Spec') {		
-			for (child in root.children) {
-				for (grandchild in child.children.select(n : AntlrAst!NameNode | n.text = 'nsUri')) {
+			for (child in root.children) {		
+			
+				-- process @Spec.model package	
+				if (child.text.toLowerCase() = 'model') {
+					var modelFileAttribute := child.children.selectOne(n : AntlrAst!NameNode | n.text = 'file');
+					
+					if (modelFileAttribute.isDefined()) {
+						var modelFileValue := modelFileAttribute.children.selectOne(t : AntlrAst!TextualValueNode | true);
+						
+						if (modelFileValue.isDefined()) {
+							spec.modelFile = modelFileValue.getValue();	
+						}
+					}
+
+				-- process all other @Spec packages as metamodel specifications
+				} else {
+				
+					for (grandchild in child.children.select(n : AntlrAst!NameNode | n.text = 'nsUri')) {
 						for (valueNode in grandchild.children.select(t : AntlrAst!TextualValueNode | true)) {
 							var nsUri := new Intermediate!NsUri;
 							nsUri.value := valueNode.getValue();
@@ -15,6 +31,7 @@ pre {
 							spec.nsUris.add(nsUri);
 						}
 					}
+				}
 			}
 		} else {
 			if (root.equivalent().isDefined()) {

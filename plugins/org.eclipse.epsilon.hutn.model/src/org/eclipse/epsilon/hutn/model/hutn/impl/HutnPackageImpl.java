@@ -226,6 +226,15 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSpec_ModelFile() {
+		return (EAttribute)specEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNsUri() {
 		return nsUriEClass;
 	}
@@ -450,6 +459,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		specEClass = createEClass(SPEC);
 		createEReference(specEClass, SPEC__NS_URIS);
 		createEReference(specEClass, SPEC__OBJECTS);
+		createEAttribute(specEClass, SPEC__MODEL_FILE);
 
 		nsUriEClass = createEClass(NS_URI);
 		createEAttribute(nsUriEClass, NS_URI__VALUE);
@@ -543,6 +553,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEClass(specEClass, Spec.class, "Spec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSpec_NsUris(), this.getNsUri(), null, "nsUris", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpec_Objects(), this.getPackageObject(), null, "objects", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpec_ModelFile(), theEcorePackage.getEString(), "modelFile", null, 0, 1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nsUriEClass, NsUri.class, "NsUri", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNsUri_Value(), ecorePackage.getEString(), "value", null, 1, 1, NsUri.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

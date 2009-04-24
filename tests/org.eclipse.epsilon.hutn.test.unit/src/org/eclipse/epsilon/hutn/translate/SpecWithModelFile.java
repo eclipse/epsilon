@@ -20,57 +20,32 @@ import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SinglePackageWithSpec extends HutnTranslatorTest {
+public class SpecWithModelFile extends HutnTranslatorTest {
 	
 	private static ModelWithEolAssertions model;
 	
 	@BeforeClass
 	public static void createAstModel() throws Exception {
-		final Node familyPackage = createPackage("FamilyPackage");
+//		final Node familyPackage = createPackage("FamilyPackage");
 		
-		final Node nsUriAttribute = createAttribute("nsUri", "families");
+		final Node modelFileAttribute = createAttribute("file", "other.model");
 		
-		final Node metaModelClass = createClass("Metamodel", "FamiliesMetaModel");
-		metaModelClass.getChildren().add(nsUriAttribute);
+		final Node modelClass = createClass("model");
+		modelClass.getChildren().add(modelFileAttribute);
 		
 		final Node specPackage = createPackage("@Spec");
-		specPackage.getChildren().add(metaModelClass);
+		specPackage.getChildren().add(modelClass);
 		
 		final Ast ast = initialiseAst();
 		ast.getRoots().add(specPackage);
-		ast.getRoots().add(familyPackage);
+//		ast.getRoots().add(familyPackage);
 		
 		model = translatorTest(ast);
 		model.setVariable("object", "spec.objects.first()");
 	}
 	
 	@Test
-	public void specShouldHaveOneNsUri() {
-		model.assertEquals(1, "spec.nsUris.size()");
-	}
-	
-	@Test
-	public void nsUriShouldHaveCorrectValue() {
-		model.assertEquals("families", "spec.nsUris.first().value");
-	}
-	
-	@Test
-	public void specShouldHaveNoModelFile() {
-		model.assertUndefined("spec.modelFile");
-	}
-	
-	@Test
-	public void specShouldHaveOneObject() {
-		model.assertEquals(1, "spec.objects.size()");
-	}
-	
-	@Test
-	public void objectShouldBePackage() {
-		model.assertTrue("PackageObject.isType(object)");
-	}
-	
-	@Test
-	public void objectShouldHaveCorrectType() {
-		model.assertEquals("FamilyPackage", "object.type");
+	public void specShouldHaveCorrectModelFile() {
+		model.assertEquals("other.model", "spec.modelFile");
 	}
 }

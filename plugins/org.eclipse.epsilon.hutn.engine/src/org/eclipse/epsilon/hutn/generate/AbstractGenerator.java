@@ -20,15 +20,23 @@ import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 
 public abstract class AbstractGenerator {
 
-	public EmfModel generate() throws HutnGenerationException {
-		return generate(EmfUtil.createResource());
+	public EmfModel generate(String uri) throws HutnGenerationException {
+		final Resource resource;
+		
+		if (uri == null) {
+			resource = EmfUtil.createResource();	
+		} else {
+			resource = EmfUtil.createResource(URI.createURI(uri));
+		}
+		
+		return generate(resource);
 	}
 	
-	public void generate(File path) throws HutnGenerationException {
+	public void store(File path) throws HutnGenerationException {
 		EmfModel target = null;
 		
 		try {
-			final Resource resource = EmfUtil.createResource(URI.createFileURI(path.getAbsolutePath()));
+			final Resource resource = EmfUtil.createResource(URI.createFileURI(path.getAbsolutePath())); 
 			target = generate(resource);
 			
 			target.store(path.getAbsolutePath());

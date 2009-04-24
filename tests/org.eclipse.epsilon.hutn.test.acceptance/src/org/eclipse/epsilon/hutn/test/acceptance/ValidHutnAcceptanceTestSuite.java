@@ -27,6 +27,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.Containment;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ContainmentEmpty;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ContainmentRepeatedFeatureName;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.DefaultValue;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.DifferentFile;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Enumerations;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InferEmptyInstanceForRequiredReference;
@@ -40,7 +41,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({SpecOnly.class, Simple.class, Comments.class, Adjectives.class,
+@SuiteClasses({SpecOnly.class, DifferentFile.class, Simple.class, Comments.class, Adjectives.class,
                Associations.class, Containment.class, ContainmentEmpty.class,
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
