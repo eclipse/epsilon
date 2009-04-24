@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.epsilon.hutn.xmi.dt.GenerateHutn"
+            nameFilter="*.model"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.hutn.xmi.dt.actions.GenerateHutn"
+               icon="icons/hutn.png"
+               id="org.eclipse.epsilon.dt.actions.GenerateHutn"
+               label="Generate HUTN">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="org.eclipse.epsilon.hutn.xmi.dt.CheckModel"
+            nameFilter="*.model"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.hutn.xmi.dt.actions.CheckModelAction"
+               icon="icons/check.gif"
+               id="org.eclipse.epsilon.dt.actions.CheckModel"
+               label="Check Consistency">
+         </action>
+      </objectContribution>
+   </extension>
+</plugin>
