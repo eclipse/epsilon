@@ -10,13 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.xmi.dt.actions;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
-import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
+import org.eclipse.epsilon.hutn.model.hutn.Spec;
+import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 import org.eclipse.jface.action.IAction;
@@ -26,7 +28,7 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 	
 	private IFile file;
 	private MarkerManager markerManager;
-	private String hutn;
+	private Spec hutnModel;
 	
 	public void run(IAction action) {
 		try {
@@ -45,21 +47,20 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 	}
 	
 	private void generateHutn() throws HutnXmiBridgeException {
-		hutn = new Xmi2Hutn(file.getRawLocationURI()).getHutn();
+		hutnModel = new Xmi2Hutn(file.getRawLocationURI()).getSpec();
 	}
 	
-	private void checkHutn() throws Exception {
-		if (hutn != null) {
-			final IHutnModule hutnModule = HutnBuilderHelper.initialiseHutnModule(file);
+	private void checkHutn() throws Exception {		
+		if (hutnModel != null) {
+			final List<ParseProblem> problems = new HutnValidator().getProblemsForIntermediateModel(hutnModel);
 			
-			if (hutnModule.parse(hutn)) {
+			if (problems.isEmpty()) {
 				EpsilonConsole.getInstance().getInfoStream().println(file.getName() + " is consistent with its metamodel.");
 			} else {						
-				for (ParseProblem problem : hutnModule.getParseProblems()) {
+				for (ParseProblem problem : problems) {
 					markerManager.addErrorMarker(problem.getReason(), 1);
 				}
 			}
 		}
 	}
-
 }
