@@ -20,7 +20,7 @@ import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.unparser.internal.AbstractSlotUnparserTest;
 import org.junit.Test;
 
-public class UnrecognisedValue extends AbstractSlotUnparserTest {
+public class UnrecognisedValue {
 	
 	@Test(expected=IllegalStateException.class)
 	public void setup() {
@@ -28,6 +28,6 @@ public class UnrecognisedValue extends AbstractSlotUnparserTest {
 		slot.setFeature("unrecognised");
 		slot.getValues().add(new File("unrecognised.txt")); // java.io.File is not a HUTN type
 		
-		slotTest(slot);
+		AbstractSlotUnparserTest.slotTest(slot);
 	}
 }
