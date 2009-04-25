@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.unparser.slot;
+package org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.reference;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
@@ -21,13 +21,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({StringValue.class, IntegerValue.class, FloatValue.class, BooleanValue.class,
-               EnumValue.class, ManyValues.class, MixedValues.class,
-               ReferencedClassObject.class, ContainedClassObject.class,
-               NonExistentReferenceValue.class,
-               UnrecognisedValue.class})
-public class UnparserSlotSuite {
+@SuiteClasses({NonExistentReferenceValue.class})
+public class InconsistentReferenceSlotSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(UnparserSlotSuite.class);
+		return new JUnit4TestAdapter(InconsistentReferenceSlotSuite.class);
 	}
 }

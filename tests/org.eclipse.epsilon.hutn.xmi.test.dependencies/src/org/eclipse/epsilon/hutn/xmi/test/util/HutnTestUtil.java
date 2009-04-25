@@ -40,7 +40,11 @@ public abstract class HutnTestUtil {
 				final ClassObject value     = ((ClassObjectSlot<?>)slot).getClassObjects().get(index);
 				final Object expectedValue = expectedValues[index];
 				
-				assertEquals(expectedValue, value.getType());
+				if (value == null) {
+					assertEquals(expectedValue, null);
+				} else {
+					assertEquals(expectedValue, value.getType());
+				}
 			}
 		
 		

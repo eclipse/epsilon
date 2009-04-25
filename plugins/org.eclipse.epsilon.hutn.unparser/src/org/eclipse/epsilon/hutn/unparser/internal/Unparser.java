@@ -55,18 +55,22 @@ abstract class Unparser {
 	
 	
 	protected void appendSignature(Object co) {
-		unparseType(co);
-		unparseIdentifier(co);
+		appendSignature(co.getType(), co.getIdentifier());
 	}
 	
-	private void unparseType(Object co) {
-		builder.append(co.getType());
+	protected void appendSignature(String type, String identifier) {
+		unparseType(type);
+		unparseIdentifier(identifier);
+	}
+	
+	private void unparseType(String type) {
+		builder.append(type);
 		appendSpace();
 	}
 	
-	private void unparseIdentifier(Object co) {
-		if(co.getIdentifier() != null) {
-			appendStringValue(co.getIdentifier());
+	private void unparseIdentifier(String identifier) {
+		if(identifier != null) {
+			appendStringValue(identifier);
 		}
 	}
 }

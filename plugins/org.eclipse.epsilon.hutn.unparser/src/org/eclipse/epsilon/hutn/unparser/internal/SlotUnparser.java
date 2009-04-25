@@ -51,7 +51,15 @@ class SlotUnparser extends Unparser {
 			final Object value = slot.getValues().get(index);
 		
 			if (slot instanceof ReferenceSlot) {
-				appendSignature(((ReferenceSlot)slot).getClassObjects().get(index));
+				final ClassObject co = ((ReferenceSlot)slot).getClassObjects().get(index);
+				
+				if (co == null) {
+					appendSignature("UnknownType", (String)value);
+					
+				} else {
+					appendSignature(co);
+				}
+				
 			} else {
 				unparseValue(value);
 			}

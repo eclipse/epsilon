@@ -83,10 +83,13 @@ public abstract class ClassObjectSlotImpl<T> extends SlotImpl<T> implements Clas
 			final EClass typeOfFeature = (EClass)feature.getEType();
 			
 			for (ClassObject classObject : getClassObjects()) {
-				final EClass typeOfValue = classObject.getEClass();
+				if (classObject != null) {
 				
-				if (typeOfValue == null || !isSuperType(typeOfFeature, typeOfValue)) {
-					return false;
+					final EClass typeOfValue = classObject.getEClass();
+					
+					if (typeOfValue == null || !isSuperType(typeOfFeature, typeOfValue)) {
+						return false;
+					}
 				}
 			}
 			

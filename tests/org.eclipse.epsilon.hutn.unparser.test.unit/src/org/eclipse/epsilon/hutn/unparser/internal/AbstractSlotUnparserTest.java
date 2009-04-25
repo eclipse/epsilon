@@ -17,6 +17,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -53,12 +55,22 @@ public abstract class AbstractSlotUnparserTest {
 	}
 	
 	public static void referenceSlotTest(String featureName, ClassObject[] classObjects, String[] hutns) {
+		final List<String> referenceValues = new LinkedList<String>();
+		
+		for (ClassObject classObject : classObjects) {
+			referenceValues.add(classObject.getIdentifier());
+		}
+		
+		referenceSlotTest(featureName, referenceValues.toArray(new String[]{}), classObjects, hutns);
+	}
+	
+	public static void referenceSlotTest(String featureName, String[] referenceValues, ClassObject[] classObjects, String[] hutns) {
 		AbstractSlotUnparserTest.expectedFeatureName = featureName;
 		AbstractSlotUnparserTest.expectedHutns       = hutns;
 		
 		final ReferenceSlot slot = HutnFactory.eINSTANCE.createReferenceSlot();
 		slot.setFeature(expectedFeatureName);
-		slot.setClassObjects(new BasicEList<ClassObject>(Arrays.asList(classObjects)));
+		slot.getValues().addAll(Arrays.asList(referenceValues));
 		
 		final Resource resource = EmfUtil.createResource();
 		resource.getContents().addAll(Arrays.asList(classObjects));
