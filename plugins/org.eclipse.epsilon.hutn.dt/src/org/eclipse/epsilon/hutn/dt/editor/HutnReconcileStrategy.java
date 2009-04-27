@@ -28,7 +28,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
@@ -45,8 +44,6 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 	}
 	
 	private List<ParseProblem> collectHutnParseErrors(IRegion partition) {
-		final List<ParseProblem> problems = new LinkedList<ParseProblem>();
-		
 		try {
 			final String text = document.get(partition.getOffset(), partition.getLength());
 			
@@ -58,23 +55,12 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 				hutnModule.setConfigFileDirectory(WorkspaceUtil.getAbsolutePath(hutn.getParent()));
 			}
 			
-			boolean parsed = false;
-			
 			try {
-				parsed = hutnModule.parse(text);
-			} catch (Exception e) {
-//				e.printStackTrace();
-			}
+				hutnModule.parse(text);
+			} catch (Exception e) {}
 			
-			if (parsed || !hutnModule.hasValidMetaModel()) {
-				if (keywordManager.updateKeywordsFrom(hutnModule.getNsUris())) {
-					// Force a refresh of the syntax highlighting
-					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-						public void run() {
-							document.set(text);
-						}
-					});
-				}
+			if (keywordManager.keywordsHaveChanged(hutnModule.getNsUris())) {
+				keywordManager.updateKeywordsFrom(hutnModule.getNsUris());
 			}
 			
 			return hutnModule.getParseProblems();
@@ -83,7 +69,7 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return problems;
+			return new LinkedList<ParseProblem>();
 		}
 	}
 

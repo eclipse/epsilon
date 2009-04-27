@@ -25,35 +25,42 @@ final class HutnKeywordManager {
 	
 	private final HutnScanner scanner;
 	
-	private List<String> keywords;
-	private List<String> cachedKeywords = new LinkedList<String>();;
+	private List<String> cachedKeywords = new LinkedList<String>();
 	
 	public HutnKeywordManager(HutnScanner scanner) {
 		this.scanner = scanner;
 	}
 	
-	private void addKeywordsFrom(IModel metamodel, String type) throws EolModelElementTypeNotFoundException {
-		final Iterator<?> iterator = metamodel.getAllOfKind(type).iterator();
-		
-		while (iterator.hasNext()) {
-			final ENamedElement element = (ENamedElement)iterator.next();
-			keywords.add(element.getName());
-		}
-	}
 	
 	public boolean updateKeywordsFrom(List<String> nsUris) {
 		if (nsUris == null)
 			throw new IllegalArgumentException("nsUris cannot be null");
 		
-		keywords = new LinkedList<String>();
+		if (!keywordsHaveChanged(nsUris))
+			return false;
 		
+		
+		final List<String> keywords = getKeywordsFor(nsUris);
+		scanner.setKeywords(keywords);
+		cachedKeywords = keywords;
+		
+		return true;
+	}
+	
+	public boolean keywordsHaveChanged(List<String> nsUris) {
+		return !cachedKeywords.equals(getKeywordsFor(nsUris));
+	}
+	
+	private List<String> getKeywordsFor(List<String> nsUris) {
+		final List<String> keywords = new LinkedList<String>();
+
 		for (String nsUri : nsUris) {
 			try {
 				final IModel metamodel = new EmfMetaModel(nsUri);
 				metamodel.load();
 				
-				addKeywordsFrom(metamodel, "EClassifier");
-				addKeywordsFrom(metamodel, "EPackage");
+				keywords.addAll(addKeywordsFrom(metamodel, "EClassifier"));
+				keywords.addAll(addKeywordsFrom(metamodel, "EPackage"));
 				
 			} catch (EolModelLoadingException e) {
 				// Ignore, as this is reported during as a parse problem
@@ -62,13 +69,19 @@ final class HutnKeywordManager {
 			}
 		}
 		
-		scanner.setKeywords(keywords);
+		return keywords;
+	}
+	
+	private List<String> addKeywordsFrom(IModel metamodel, String type) throws EolModelElementTypeNotFoundException {
+		final List<String> keywords = new LinkedList<String>();
 		
-		if (cachedKeywords.equals(keywords)) {
-			return false;
-		} else {
-			cachedKeywords = keywords;
-			return true;
+		final Iterator<?> iterator = metamodel.getAllOfKind(type).iterator();
+		
+		while (iterator.hasNext()) {
+			final ENamedElement element = (ENamedElement)iterator.next();
+			keywords.add(element.getName());
 		}
+		
+		return keywords;
 	}
 }
