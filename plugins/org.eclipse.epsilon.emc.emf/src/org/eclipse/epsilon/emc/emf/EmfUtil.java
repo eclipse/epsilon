@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.commons.util.OperatingSystem;
 
 public class EmfUtil {
 		
@@ -56,19 +57,28 @@ public class EmfUtil {
 		}
 	}
 	
-	public static URI createURI(String s) {
-		URI uri = URI.createURI(s);
-		
-		if (uri.scheme() != null && uri.scheme().length() > 1) {
-			return uri;
-		}
-		else if (uri.isRelative()) {
-			return URI.createPlatformResourceURI(s, true);
-		}
-		else {
-			return URI.createFileURI(s);
-		}
-	}
+    public static URI createURI(String s) {
+        URI uri = URI.createURI(s);
+        
+        if (uri.scheme() != null) {
+        	// If we are under Windows and s starts with x: it is an absolute path
+        	if (OperatingSystem.isWindows() && uri.scheme().length() == 1) {
+        		return URI.createFileURI(s);
+        	}
+        	// otherwise it is a proper uri
+        	else {
+    			return uri;
+    		}
+        }
+        // Handle paths that start with / under Unix e.g. /local/foo.txt
+        else if (OperatingSystem.isUnix() && s.startsWith("/")) { 
+            return URI.createFileURI(s);
+        }
+        // ... otherwise it is a platform resource uri
+        else {
+            return URI.createPlatformResourceURI(s, true);
+        }
+    }
 	
 	public static String getFile(URI uri) {
 		if (uri.isFile()) {
