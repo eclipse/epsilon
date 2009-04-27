@@ -9,4 +9,5 @@ Require-Bundle: org.eclipse.epsilon.eol.engine.test.acceptance,
  org.eclipse.epsilon.hutn.test,
  org.eclipse.epsilon.hutn.unparser.test.unit,
  org.eclipse.epsilon.hutn.xmi.test,
- org.junit4
+ org.junit4,
+ org.eclipse.epsilon.emc.emf.test
