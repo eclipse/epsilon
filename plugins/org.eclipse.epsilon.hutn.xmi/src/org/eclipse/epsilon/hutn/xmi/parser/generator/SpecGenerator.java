@@ -158,6 +158,10 @@ public class SpecGenerator {
 	public ClassObject getCurrentClassObject() {
 		return stack.peek();
 	}
+	
+	public boolean hasCurrentClassObject() {
+		return !stack.isEmpty();
+	}
 
 	public void stopGeneratingCurrentClassObject() {
 		stack.pop();

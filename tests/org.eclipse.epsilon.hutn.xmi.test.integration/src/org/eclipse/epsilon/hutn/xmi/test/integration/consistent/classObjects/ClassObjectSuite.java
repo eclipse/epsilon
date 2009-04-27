@@ -22,7 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({TwoObjectsWithDifferentFeatures.class, TwoObjectsWithSameFeature.class,
-               NestedObjects.class})
+               NestedObjects.class, TwoTopLevelObjects.class})
 public class ClassObjectSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(ClassObjectSuite.class);

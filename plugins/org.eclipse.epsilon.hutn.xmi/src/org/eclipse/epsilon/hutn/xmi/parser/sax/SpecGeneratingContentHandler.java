@@ -36,7 +36,6 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
 		generator.initialise(uri);
 	}
 
-	private boolean firstElement = true;
 	private boolean alreadyPoppedCurrentElement = false;
 	private String currentElementName;
 	
@@ -44,9 +43,14 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     public void startElement (String uri, String name, String qName, Attributes atts) {
 		currentElementName = name;
 		
-    	if (firstElement) {
-	    	generator.generateTopLevelClassObject(atts.getValue("xmi:id"), name);
-	    	firstElement = false;
+    	if (!generator.hasCurrentClassObject()) {
+    		
+    		// Don't add xmi:XMI elements, which are present in documents
+    		// with more than one top level object
+    		if (qName.equals("xmi:XMI"))
+    			return;
+    		
+    		generator.generateTopLevelClassObject(atts.getValue("xmi:id"), name);
     	
     	} else {
     		
@@ -75,7 +79,7 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     
     @Override
     public void endElement (String uri, String name, String qName) {
-    	if (!alreadyPoppedCurrentElement) {
+    	if (generator.hasCurrentClassObject() && !alreadyPoppedCurrentElement) {
     		generator.stopGeneratingCurrentClassObject();
     	}
     	
