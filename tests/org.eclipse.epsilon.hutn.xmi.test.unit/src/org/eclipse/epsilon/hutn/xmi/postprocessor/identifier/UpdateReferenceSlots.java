@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.postprocessor;
+package org.eclipse.epsilon.hutn.xmi.postprocessor.identifier;
 
 import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 import static org.junit.Assert.*;
@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
+import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
 import org.junit.Test;
 
 public class UpdateReferenceSlots {
@@ -39,5 +40,17 @@ public class UpdateReferenceSlots {
 		assertEquals("Person1", slot.getValues().get(0));
 		assertEquals("Family1", slot.getValues().get(1));
 		assertEquals("Person2", slot.getValues().get(2));
+	}
+	
+	@Test
+	public void nonExistentReferenceValue() {
+		final ReferenceSlot slot = createReferenceSlot("elements", "_unusedId");
+		final ClassObject referencer = createClassObject("Referencer", slot);
+		
+		final Spec spec = createSpec(createPackageObject(referencer));
+		
+		new IdentifierPostProcessor(spec).process();
+		
+		assertEquals("_unusedId", slot.getValues().get(0));
 	}
 }

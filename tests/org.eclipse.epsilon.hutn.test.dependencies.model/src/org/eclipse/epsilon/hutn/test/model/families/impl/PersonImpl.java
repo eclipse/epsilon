@@ -40,6 +40,7 @@ import org.eclipse.epsilon.hutn.test.model.families.Person;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.PersonImpl#getSharedAccounts <em>Shared Accounts</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.PersonImpl#getAccounts <em>Accounts</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.PersonImpl#getFriends <em>Friends</em>}</li>
  * </ul>
  * </p>
  *
@@ -65,6 +66,16 @@ public class PersonImpl extends NamedElementImpl implements Person {
 	 * @ordered
 	 */
 	protected EList<Account> accounts;
+
+	/**
+	 * The cached value of the '{@link #getFriends() <em>Friends</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFriends()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Person> friends;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -114,6 +125,18 @@ public class PersonImpl extends NamedElementImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Person> getFriends() {
+		if (friends == null) {
+			friends = new EObjectResolvingEList<Person>(Person.class, this, FamiliesPackage.PERSON__FRIENDS);
+		}
+		return friends;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -135,6 +158,8 @@ public class PersonImpl extends NamedElementImpl implements Person {
 				return getSharedAccounts();
 			case FamiliesPackage.PERSON__ACCOUNTS:
 				return getAccounts();
+			case FamiliesPackage.PERSON__FRIENDS:
+				return getFriends();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,6 +181,10 @@ public class PersonImpl extends NamedElementImpl implements Person {
 				getAccounts().clear();
 				getAccounts().addAll((Collection<? extends Account>)newValue);
 				return;
+			case FamiliesPackage.PERSON__FRIENDS:
+				getFriends().clear();
+				getFriends().addAll((Collection<? extends Person>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -174,6 +203,9 @@ public class PersonImpl extends NamedElementImpl implements Person {
 			case FamiliesPackage.PERSON__ACCOUNTS:
 				getAccounts().clear();
 				return;
+			case FamiliesPackage.PERSON__FRIENDS:
+				getFriends().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -190,6 +222,8 @@ public class PersonImpl extends NamedElementImpl implements Person {
 				return sharedAccounts != null && !sharedAccounts.isEmpty();
 			case FamiliesPackage.PERSON__ACCOUNTS:
 				return accounts != null && !accounts.isEmpty();
+			case FamiliesPackage.PERSON__FRIENDS:
+				return friends != null && !friends.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

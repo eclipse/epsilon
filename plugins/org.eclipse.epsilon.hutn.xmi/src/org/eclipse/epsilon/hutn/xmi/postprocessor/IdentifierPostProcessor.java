@@ -73,7 +73,15 @@ public class IdentifierPostProcessor {
 			final List<String> newValues = new LinkedList<String>();
 			
 			for (String identifier : slot.getValues()) {
-				newValues.add(renamings.get(identifier));
+				final String newValue;
+				
+				if (renamings.containsKey(identifier)) {
+					newValue = renamings.get(identifier);
+				} else {
+					newValue = identifier;
+				}
+				
+				newValues.add(newValue);
 			}
 			
 			slot.getValues().clear();

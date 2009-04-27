@@ -339,6 +339,15 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getPerson_Friends() {
+		return (EReference)personEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDog() {
 		return dogEClass;
 	}
@@ -482,6 +491,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		personEClass = createEClass(PERSON);
 		createEReference(personEClass, PERSON__SHARED_ACCOUNTS);
 		createEReference(personEClass, PERSON__ACCOUNTS);
+		createEReference(personEClass, PERSON__FRIENDS);
 
 		dogEClass = createEClass(DOG);
 		createEAttribute(dogEClass, DOG__LOUD);
@@ -558,6 +568,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPerson_SharedAccounts(), theBankAccountsPackage.getAccount(), null, "sharedAccounts", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPerson_Accounts(), theBankAccountsPackage.getAccount(), null, "accounts", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerson_Friends(), this.getPerson(), null, "friends", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dogEClass, Dog.class, "Dog", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDog_Loud(), ecorePackage.getEBoolean(), "loud", null, 0, 1, Dog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

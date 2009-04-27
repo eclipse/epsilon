@@ -31,6 +31,8 @@
         eType="ecore:EClass BankAccounts.ecore#//Account"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="accounts" upperBound="-1"
         eType="ecore:EClass BankAccounts.ecore#//Account" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="friends" upperBound="-1"
+        eType="#//Person"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dog" eSuperTypes="#//Pet">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="loud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

@@ -18,6 +18,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.attribute.InconsistentAttributeSlotSuite;
 import org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.containment.InconsistentClassObjectSuite;
+import org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.reference.InconsistentReferenceSlotSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -25,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({InconsistentAttributeSlotSuite.class,
                InconsistentClassObjectSuite.class,
+               InconsistentReferenceSlotSuite.class,
                SeveralSlotsWithNoFeature.class})
 public class InconsistentSlotSuite {
 	public static Test suite() {

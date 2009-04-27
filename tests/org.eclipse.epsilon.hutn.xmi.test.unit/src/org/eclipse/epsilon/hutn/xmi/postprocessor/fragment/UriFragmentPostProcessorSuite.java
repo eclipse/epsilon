@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.postprocessor;
+package org.eclipse.epsilon.hutn.xmi.postprocessor.fragment;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
@@ -21,9 +21,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({RenameClassObjects.class, UpdateReferenceSlots.class})
-public class IdentifierPostProcessorSuite {
+@SuiteClasses({UriFragmentResolverTest.class})
+public class UriFragmentPostProcessorSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(IdentifierPostProcessorSuite.class);
+		return new JUnit4TestAdapter(UriFragmentPostProcessorSuite.class);
 	}
 }

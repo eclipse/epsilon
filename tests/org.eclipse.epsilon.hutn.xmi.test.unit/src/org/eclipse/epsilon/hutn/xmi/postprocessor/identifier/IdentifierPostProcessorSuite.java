@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2009 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.multiValued;
+package org.eclipse.epsilon.hutn.xmi.postprocessor.identifier;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
@@ -21,11 +21,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ManyStringValues.class, ManyIntegerValues.class,
-               ManyReferenceValues.class, ManyFragmentReferenceValues.class,
-               MixedUUIDAndFragmentReferenceValues.class})
-public class ManyValuedSlotSuite {
+@SuiteClasses({RenameClassObjects.class, UpdateReferenceSlots.class})
+public class IdentifierPostProcessorSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(ManyValuedSlotSuite.class);
+		return new JUnit4TestAdapter(IdentifierPostProcessorSuite.class);
 	}
 }

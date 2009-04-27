@@ -27,6 +27,7 @@ import org.eclipse.epsilon.hutn.test.model.bankAccounts.Account;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Person#getSharedAccounts <em>Shared Accounts</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Person#getAccounts <em>Accounts</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.Person#getFriends <em>Friends</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,5 +67,21 @@ public interface Person extends NamedElement {
 	 * @generated
 	 */
 	EList<Account> getAccounts();
+
+	/**
+	 * Returns the value of the '<em><b>Friends</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.hutn.test.model.families.Person}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Friends</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Friends</em>' reference list.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage#getPerson_Friends()
+	 * @model
+	 * @generated
+	 */
+	EList<Person> getFriends();
 
 } // Person

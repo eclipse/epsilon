@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.postprocessor;
+package org.eclipse.epsilon.hutn.xmi.postprocessor.identifier;
 
 import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
 import static org.junit.Assert.*;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
+import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
 import org.junit.Test;
 
 public class RenameClassObjects {

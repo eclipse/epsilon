@@ -288,13 +288,22 @@ public interface FamiliesPackage extends EPackage {
 	int PERSON__ACCOUNTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Friends</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__FRIENDS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Person</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int PERSON_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.DogImpl <em>Dog</em>}' class.
@@ -640,6 +649,17 @@ public interface FamiliesPackage extends EPackage {
 	EReference getPerson_Accounts();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.epsilon.hutn.test.model.families.Person#getFriends <em>Friends</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Friends</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Person#getFriends()
+	 * @see #getPerson()
+	 * @generated
+	 */
+	EReference getPerson_Friends();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.test.model.families.Dog <em>Dog</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -929,6 +949,14 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PERSON__ACCOUNTS = eINSTANCE.getPerson_Accounts();
+
+		/**
+		 * The meta object literal for the '<em><b>Friends</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PERSON__FRIENDS = eINSTANCE.getPerson_Friends();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.DogImpl <em>Dog</em>}' class.

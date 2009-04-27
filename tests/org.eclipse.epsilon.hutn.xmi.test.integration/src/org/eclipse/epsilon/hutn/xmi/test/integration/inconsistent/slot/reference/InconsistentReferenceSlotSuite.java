@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({NonExistentReferenceValue.class})
+@SuiteClasses({NonExistentReferenceValue.class, NonExistentUriFragmentReferenceValue.class})
 public class InconsistentReferenceSlotSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(InconsistentReferenceSlotSuite.class);

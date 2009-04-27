@@ -24,6 +24,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparser;
 import org.eclipse.epsilon.hutn.xmi.parser.XmiParser;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
+import org.eclipse.epsilon.hutn.xmi.postprocessor.UriFragmentPostProcessor;
 import org.xml.sax.SAXException;
 
 public class Xmi2Hutn {
@@ -35,6 +36,7 @@ public class Xmi2Hutn {
 		try {
 			spec     = new XmiParser(xmi).parse();
 			
+			new UriFragmentPostProcessor(spec).process();
 			new IdentifierPostProcessor(spec).process();
 			
 			unparser = new HutnUnparser(spec);
