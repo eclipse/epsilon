@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gmfmap:Mapping xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gmfmap="http://www.eclipse.org/gmf/2008/mappings" xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition" xmi:id="_TvCEs4POEd2U17be8iKuEg">
+  <nodes xmi:id="_TvL1s4POEd2U17be8iKuEg">
+    <containmentFeature href="friends.ecore#_TuvJw4POEd2U17be8iKuEg"/>
+    <ownedChild xmi:id="_TvL1sYPOEd2U17be8iKuEg">
+      <domainMetaElement href="friends.ecore#_TuvJxIPOEd2U17be8iKuEg"/>
+      <labelMappings xsi:type="gmfmap:FeatureLabelMapping" xmi:id="_TvL1soPOEd2U17be8iKuEg">
+        <diagramLabel href="friends.gmfgraph#_TvCEvIPOEd2U17be8iKuEg"/>
+        <features href="friends.ecore#_TuvJyoPOEd2U17be8iKuEg"/>
+      </labelMappings>
+      <tool xsi:type="gmftool:CreationTool" href="friends.gmftool#_TvCEtYPOEd2U17be8iKuEg"/>
+      <diagramNode href="friends.gmfgraph#_TvCEu4POEd2U17be8iKuEg"/>
+    </ownedChild>
+  </nodes>
+  <links xmi:id="_TvL1wIPOEd2U17be8iKuEg">
+    <labelMappings xsi:type="gmfmap:DesignLabelMapping" xmi:id="_TvL1wYPOEd2U17be8iKuEg" readOnly="true">
+      <diagramLabel href="friends.gmfgraph#_TvL1uoPOEd2U17be8iKuEg"/>
+    </labelMappings>
+    <tool xsi:type="gmftool:CreationTool" href="friends.gmftool#_TvL1tIPOEd2U17be8iKuEg"/>
+    <diagramLink href="friends.gmfgraph#_TvL1vIPOEd2U17be8iKuEg"/>
+    <linkMetaFeature xsi:type="ecore:EReference" href="friends.ecore#_TuvJzIPOEd2U17be8iKuEg"/>
+  </links>
+  <links xmi:id="_TvU_qoPOEd2U17be8iKuEg">
+    <labelMappings xsi:type="gmfmap:DesignLabelMapping" xmi:id="_TvU_q4POEd2U17be8iKuEg" readOnly="true">
+      <diagramLabel href="friends.gmfgraph#_TvU_pIPOEd2U17be8iKuEg"/>
+    </labelMappings>
+    <tool xsi:type="gmftool:CreationTool" href="friends.gmftool#_TvL1woPOEd2U17be8iKuEg"/>
+    <diagramLink href="friends.gmfgraph#_TvU_poPOEd2U17be8iKuEg"/>
+    <linkMetaFeature xsi:type="ecore:EReference" href="friends.ecore#_TuvJ1IPOEd2U17be8iKuEg"/>
+  </links>
+  <diagram xmi:id="_TvCEtIPOEd2U17be8iKuEg">
+    <diagramCanvas href="friends.gmfgraph#_TvCEsYPOEd2U17be8iKuEg"/>
+    <domainModel href="friends.ecore#_TuvJwIPOEd2U17be8iKuEg"/>
+    <domainMetaElement href="friends.ecore#_TuvJwYPOEd2U17be8iKuEg"/>
+    <palette href="friends.gmftool#_Tu4TsYPOEd2U17be8iKuEg"/>
+  </diagram>
+</gmfmap:Mapping>

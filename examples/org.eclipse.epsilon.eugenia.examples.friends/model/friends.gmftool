@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gmftool:ToolRegistry xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition" xmi:id="_Tu4TsIPOEd2U17be8iKuEg">
+  <palette xmi:id="_Tu4TsYPOEd2U17be8iKuEg" title="friendsPalette">
+    <tools xsi:type="gmftool:ToolGroup" xmi:id="_Tu4TsoPOEd2U17be8iKuEg" title="Objects" collapsible="true">
+      <tools xsi:type="gmftool:CreationTool" xmi:id="_TvCEtYPOEd2U17be8iKuEg" title="Person" description="Create new Person">
+        <smallIcon xsi:type="gmftool:DefaultImage" xmi:id="_TvCEtoPOEd2U17be8iKuEg"/>
+        <largeIcon xsi:type="gmftool:DefaultImage" xmi:id="_TvCEt4POEd2U17be8iKuEg"/>
+      </tools>
+    </tools>
+    <tools xsi:type="gmftool:ToolGroup" xmi:id="_TvCEsIPOEd2U17be8iKuEg" title="Connections" collapsible="true">
+      <tools xsi:type="gmftool:CreationTool" xmi:id="_TvL1tIPOEd2U17be8iKuEg" title="FriendOf" description="Create new FriendOf">
+        <smallIcon xsi:type="gmftool:BundleImage" xmi:id="_TvL1tYPOEd2U17be8iKuEg" path="icons/Link.gif" bundle="org.eclipse.epsilon.eugenia.runtime"/>
+        <largeIcon xsi:type="gmftool:BundleImage" xmi:id="_TvL1toPOEd2U17be8iKuEg" path="icons/Link.gif" bundle="org.eclipse.epsilon.eugenia.runtime"/>
+      </tools>
+      <tools xsi:type="gmftool:CreationTool" xmi:id="_TvL1woPOEd2U17be8iKuEg" title="EnemyOf" description="Create new EnemyOf">
+        <smallIcon xsi:type="gmftool:BundleImage" xmi:id="_TvL1w4POEd2U17be8iKuEg" path="icons/Link.gif" bundle="org.eclipse.epsilon.eugenia.runtime"/>
+        <largeIcon xsi:type="gmftool:BundleImage" xmi:id="_TvU_oIPOEd2U17be8iKuEg" path="icons/Link.gif" bundle="org.eclipse.epsilon.eugenia.runtime"/>
+      </tools>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>
