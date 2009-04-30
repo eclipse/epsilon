@@ -101,6 +101,10 @@ public abstract class AbstractEmfModel extends Model{
 		}
 	}
 	
+	public void addMetamodelUri(String nsUri) {
+		modelImpl.getResourceSet().getPackageRegistry().put(nsUri, EPackage.Registry.INSTANCE.get(nsUri));
+	}
+	
 	protected Registry getPackageRegistry() {
 		return modelImpl.getResourceSet().getPackageRegistry();
 	}
