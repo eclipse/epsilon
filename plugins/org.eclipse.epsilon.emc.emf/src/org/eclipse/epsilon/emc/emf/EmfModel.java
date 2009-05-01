@@ -178,7 +178,6 @@ public class EmfModel extends AbstractEmfModel {
 		
 		model = resourceSet.createResource(modelFileUri);
 		
-		System.err.println("model.getClass() -> " + model.getClass()); //REMOVE_ME
 		//EcoreResourceFactoryImpl f;
 		
 		if (this.readOnLoad){
