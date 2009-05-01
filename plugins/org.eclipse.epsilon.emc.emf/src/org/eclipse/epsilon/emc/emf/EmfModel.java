@@ -12,9 +12,7 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
@@ -23,14 +21,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.commons.util.StringProperties;
-import org.eclipse.epsilon.commons.util.StringUtil;
-import org.eclipse.epsilon.emc.emf.bmi.BmiResourceFactory;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class EmfModel extends AbstractEmfModel {
@@ -56,33 +51,6 @@ public class EmfModel extends AbstractEmfModel {
 	
 	public void basicLoad(StringProperties properties, String basePath) throws EolModelLoadingException {
 		super.load(properties, basePath);
-	}
-	
-	public static void main(String[] args) {
-		
-		System.err.println(EmfUtil.createURI("c:/files/some.txt"));
-		System.err.println(EmfUtil.createURI("/project1/some.txt"));
-		System.err.println(EmfUtil.createURI("platform:/resource/project1/some.txt"));
-		System.err.println(EmfUtil.createURI("bundle:/resource/project1/some.txt"));
-		
-		//diagnose(URI.createURI("platform:/resource/file.txt"));
-		//diagnose(URI.createURI("c:/file.txt"));
-		//diagnose(URI.createURI("resources/file.txt"));
-		
-	}
-	
-	static void diagnose(URI uri) {
-		System.err.println("uri -> " + uri);
-		System.err.println("uri.scheme() -> " + uri.scheme());
-		System.err.println("uri.isArchive() -> " + uri.isArchive());
-		System.err.println("uri.isPrefix() -> " + uri.isPrefix());
-		System.err.println("uri.isPlatformPlugin() -> " + uri.isPlatformPlugin());
-		System.err.println("uri.isHierarchical() -> " + uri.isHierarchical());
-		System.err.println("uri.isPlatform() -> " + uri.isPlatform());
-		System.err.println("uri.authority() -> " + uri.authority());
-		System.err.println("uri.isFile() -> " + uri.isFile());
-		System.err.println("uri.toFileString() -> " + uri.toFileString());
-		System.err.println("uri.isRelative() -> " + uri.isRelative());
 	}
 	
 	@Override
@@ -132,7 +100,6 @@ public class EmfModel extends AbstractEmfModel {
 		// so that they get moved when their containment changes
 		
 		if (modelImpl != null) {
-			//Profiler.INSTANCE.start("Adding containment listeners");
 			for (EObject eObject : allContents()) {
 				boolean isAdapted = false;
 				for (Adapter adapter : eObject.eAdapters()) {
@@ -144,13 +111,21 @@ public class EmfModel extends AbstractEmfModel {
 					eObject.eAdapters().add(new ContainmentChangeAdapter(eObject, eObject.eResource()));
 				}
 			}
-			//Profiler.INSTANCE.stop();
 		}
 	}
 	
 	public void loadModel() throws EolModelLoadingException {
 		ResourceSet resourceSet = new EmfModelResourceSet(); //new ResourceSetImpl();
 		
+		//Factory defaultFactory = Resource.Factory.Registry.INSTANCE.getFactory(modelFileUri);
+		
+		//if (defaultFactory instanceof XMIResourceFactoryImpl) {
+		
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", EmfModelResourceFactory.getInstance());
+		
+		//}
+		
+		/*
 		Map<String, Object> etfm = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
 		if(!etfm.containsKey("*")) {
 			etfm.put("*", EmfModelResourceFactory.getInstance());
@@ -161,8 +136,8 @@ public class EmfModel extends AbstractEmfModel {
 					return new BinaryResourceImpl(uri);
 				}
 			});
-			//etfm.put("bmi", new BmiResourceFactory());
 		}
+		*/
 		
 		if (EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) == null) {
 			EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
@@ -201,19 +176,14 @@ public class EmfModel extends AbstractEmfModel {
 		}
 		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
-		//for (String s : resourceSet.getPackageRegistry().keySet()) {
-		//	System.err.println(s);
-		//}
-		
 		model = resourceSet.createResource(modelFileUri);
+		
+		System.err.println("model.getClass() -> " + model.getClass()); //REMOVE_ME
+		//EcoreResourceFactoryImpl f;
 		
 		if (this.readOnLoad){
 			try {
-				HashMap<String, Object> options = new HashMap<String, Object>();
-				options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
-				options.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
-				options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
-				model.load(options);
+				model.load(null);
 				if (expand) {
 					EcoreUtil.resolveAll(model);
 				}

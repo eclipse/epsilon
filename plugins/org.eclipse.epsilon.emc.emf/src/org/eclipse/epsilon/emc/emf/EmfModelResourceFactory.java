@@ -11,9 +11,12 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
@@ -40,11 +43,32 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			return resourceMap.get(uri.toString());
 		}
 		else {
+			
+			Resource resource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri);
+			
+			if (resource instanceof XMLResource) {
+				relax((XMLResource)resource);
+				//resource = new IDXMIResource(uri);
+			}
+			
+			resource.setTrackingModification(false);
+			resourceMap.put(uri.toString(), resource);
+			return resource;
+			
+			/*
 			Resource resource = new IDXMIResource(uri);
 			resource.setTrackingModification(false);
 			resourceMap.put(uri.toString(), resource);
 			return resource;
+			*/
 		}
+	}
+	
+	public void relax(XMLResource resource) {
+		Map<Object, Object> loadOptions = resource.getDefaultLoadOptions();
+		loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+		loadOptions.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
+		loadOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 	}
 	
 	public void removeCachedResource(URI uri) {
@@ -104,6 +128,11 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 
 		public IDXMIResource(URI uri) {
 			super(uri);
+			
+			Map<Object, Object> loadOptions = this.getDefaultLoadOptions();
+			loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+			loadOptions.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
+			loadOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		}
 		
 		@Override
