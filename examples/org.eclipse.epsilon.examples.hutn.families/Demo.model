@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:Families="families">
+  <Families:Family name="The Smiths" pets="#/1 #/2" numberOfChildren="2"/>
+  <Families:Pet name="Fido" male="true"/>
+  <Families:Pet name="Lassie" male="false"/>
+</xmi:XMI>
