@@ -19,6 +19,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.hutn.translate.AssociationBlock;
 import org.eclipse.epsilon.hutn.translate.Associations;
+import org.eclipse.epsilon.hutn.translate.CaseInsensitiveSpec;
 import org.eclipse.epsilon.hutn.translate.SpecWithModelFile;
 import org.eclipse.epsilon.hutn.translate.Values;
 import org.eclipse.epsilon.hutn.translate.ClassifierLevelAttributes;
@@ -47,7 +48,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({EmptyAst.class, SinglePackage.class, TwoPackages.class,
                SinglePackageWithSpec.class, SpecWithModelFile.class,
-               SingleClass.class, TwoClasses.class,
+               SingleClass.class, CaseInsensitiveSpec.class, TwoClasses.class,
                SingleClassWithAdjectives.class, SingleClassWithAttributes.class,
                Values.class, MultiValuedAttribute.class, Associations.class,
                Containment.class, InferredAttributeValue.class, InferredIdentifier.class,

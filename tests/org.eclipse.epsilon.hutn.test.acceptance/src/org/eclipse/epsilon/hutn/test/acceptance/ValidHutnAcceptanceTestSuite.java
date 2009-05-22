@@ -20,6 +20,7 @@ import junit.framework.Test;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Adjectives;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.AssociationBlock;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Associations;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.CaseInsensitiveSpec;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ClassifierLevelAttributePrecedence;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ClassifierLevelAttributes;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Comments;
@@ -41,7 +42,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({SpecOnly.class, DifferentFile.class, Simple.class, Comments.class, Adjectives.class,
+@SuiteClasses({SpecOnly.class, DifferentFile.class,
+               Simple.class, CaseInsensitiveSpec.class, 
+               Comments.class, Adjectives.class,
                Associations.class, Containment.class, ContainmentEmpty.class,
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 

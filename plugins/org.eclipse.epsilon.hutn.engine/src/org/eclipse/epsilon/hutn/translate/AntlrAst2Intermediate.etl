@@ -5,7 +5,7 @@ pre {
 	var spec := Intermediate!Spec.allInstances().first();
 	
 	for (root in ast.roots) {
-		if (AntlrAst!NameNode.isType(root) and root.text = '@Spec') {		
+		if (AntlrAst!NameNode.isType(root) and root.text.toLowerCase() = '@spec') {		
 			for (child in root.children) {		
 			
 				-- process @Spec.model package	
@@ -23,7 +23,7 @@ pre {
 				-- process all other @Spec packages as metamodel specifications
 				} else {
 				
-					for (grandchild in child.children.select(n : AntlrAst!NameNode | n.text = 'nsUri')) {
+					for (grandchild in child.children.select(n : AntlrAst!NameNode | n.text.toLowerCase() = 'nsuri')) {
 						for (valueNode in grandchild.children.select(t : AntlrAst!TextualValueNode | true)) {
 							var nsUri := new Intermediate!NsUri;
 							nsUri.value := valueNode.getValue();
@@ -45,7 +45,7 @@ rule NameNode2PackageObject
 	transform n : AntlrAst!NameNode
 	to p : Intermediate!PackageObject {
 	
-	guard : n.parent.isUndefined() and n.text <> '@Spec'
+	guard : n.parent.isUndefined() and n.text.toLowerCase() <> '@spec'
 	
 	p.type := n.text;
 	p.addIdentifier(n, false);
@@ -75,7 +75,7 @@ rule NameNode2ClassObject
 	transform n : AntlrAst!NameNode
 	to c : Intermediate!ClassObject {
 	
-	guard : n.isClass() and n.parent.text <> '@Spec'
+	guard : n.isClass() and n.parent.text.toLowerCase() <> '@spec'
 	
 	createClassObject(c, n);
 }
