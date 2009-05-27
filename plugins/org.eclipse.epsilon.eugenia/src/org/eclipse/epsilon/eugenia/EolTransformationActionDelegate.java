@@ -10,12 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eugenia;
 
+import java.io.File;
 import java.net.URI;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -84,29 +86,52 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 		return file;
 	}
 	
-	public abstract String getEolPath();
+	public abstract String getBuiltinTransformation();
+	
+	public abstract String getCustomizationTransformation();
 	
 	public void runImpl(IAction action) throws Exception {
 					  
-		EolModule module = new EolModule();
-		URI uri = Activator.getDefault().getBundle().getResource(getEolPath()).toURI();
-		module.parse(uri);
+		EolModule builtin = new EolModule();
+		EolModule customization = new EolModule();
+		
+		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
+		builtin.parse(uri);
 		
 		for (EmfModel model : getModels()) {
-			module.getContext().getModelRepository().addModel(model);
+			builtin.getContext().getModelRepository().addModel(model);
 		}
 		
-		module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-		module.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+		String customizationPath = getSelectedFile().getParent().getFile(new Path(getCustomizationTransformation())).getLocation().toOSString();
+		File customizationFile = new File(customizationPath);
+		
+		builtin.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+		builtin.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+		EpsilonConsole.getInstance().clear();
+		
 		try {
-			module.execute();
+			builtin.execute();
+			if (customizationFile.exists()) {
+				customization.parse(customizationFile);
+				if (customization.getParseProblems().size() == 0) {
+					customization.getContext().setModelRepository(builtin.getContext().getModelRepository());
+					customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+					customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+					customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
+					customization.execute();
+				}
+				else {
+					LogUtil.log("Syntax error(s) in " + customizationPath, null);
+				}
+			}
 		}
 		catch (Exception ex) {
 			throw ex;
 		}
 		finally {
-			module.getContext().getModelRepository().dispose();
-			module.getContext().dispose();
+			builtin.getContext().getModelRepository().dispose();
+			builtin.getContext().dispose();
+			customization.getContext().dispose();
 			getSelectedFile().getParent().refreshLocal(1, null);
 		}
 	}

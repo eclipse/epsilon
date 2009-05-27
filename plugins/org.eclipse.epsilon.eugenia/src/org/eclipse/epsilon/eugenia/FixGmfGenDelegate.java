@@ -20,10 +20,15 @@ import org.eclipse.gmf.codegen.gmfgen.GMFGenPackage;
 public class FixGmfGenDelegate extends EolTransformationActionDelegate {
 	
 	@Override
-	public String getEolPath() {
+	public String getBuiltinTransformation() {
 		return "transformations/FixGMFGen.eol";
 	}
 
+	@Override
+	public String getCustomizationTransformation() {
+		return "FixGMFGen.eol";
+	}
+	
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		

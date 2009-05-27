@@ -26,10 +26,15 @@ public class GenerateToolGraphMapDelegate extends EolTransformationActionDelegat
 	}
 
 	@Override
-	public String getEolPath() {
+	public String getBuiltinTransformation() {
 		return "transformations/ECore2GMF.eol";
 	}
 
+	@Override
+	public String getCustomizationTransformation() {
+		return "ECore2GMF.eol";
+	}
+	
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
@@ -51,5 +56,7 @@ public class GenerateToolGraphMapDelegate extends EolTransformationActionDelegat
 	public String getTitle() {
 		return "Generating GMF .gmfgraph, .gmftool and .gmfmap models";
 	}
+
+
 
 }

@@ -268,7 +268,7 @@ for (class in getNodes()) {
 		
 		var compartment := new GmfGraph!Compartment;
 		compartment.name := referenceName + 'Compartment';
-		compartment.collapsible := true;
+		compartment.collapsible := containment.isCollapsible();
 		compartment.figure := class.~figureDescriptor;
 		canvas.compartments.add(compartment);
 		compartment.accessor := compartmentChildAccess;

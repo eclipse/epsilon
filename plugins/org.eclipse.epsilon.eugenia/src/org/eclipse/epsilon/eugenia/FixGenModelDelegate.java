@@ -20,10 +20,15 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 public class FixGenModelDelegate extends EolTransformationActionDelegate {
 	
 	@Override
-	public String getEolPath() {
+	public String getBuiltinTransformation() {
 		return "transformations/FixGenModel.eol";
 	}
 
+	@Override
+	public String getCustomizationTransformation() {
+		return "FixGenModel.eol";
+	}
+	
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
