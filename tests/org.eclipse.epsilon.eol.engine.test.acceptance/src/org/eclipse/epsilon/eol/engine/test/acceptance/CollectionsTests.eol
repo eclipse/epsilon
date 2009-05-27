@@ -1,0 +1,53 @@
+@test
+operation testFirst() {
+	assertEquals(Sequence{1,2,3}.first(),1);
+}
+
+@test
+operation testLast() {
+	assertEquals(Sequence{1,2,3}.last(),3);
+}
+
+@test
+operation testSequenceEquals() {
+	assertEquals(Sequence{1,2}, Sequence{1,2});
+}
+
+@test
+operation testModifiedSetUniqueness() {
+	var s = Set{1,2,3};
+	s.add(1);
+	assertEquals(s.size(), 3);
+}
+
+@test
+operation testDeclaredSetUniqueness() {
+	assertEquals(Set{1,1,2,3}.size(), 3);
+}
+
+
+@test
+operation testConvertedSetUniqueness() {
+	assertEquals(Sequence{1,1,2,3}.asSet().size(), 3);
+}
+
+
+@test
+operation testCount() {
+	assertEquals(Sequence{1,2,2,3}.count(2), 2);
+}
+
+@test
+operation testRandom() {
+	assertEquals(Sequence{1,1,1}.random(), 1);
+}
+
+@test
+operation testIncluding() {
+	assertEquals(Sequence{1,2,3}.including(4).size(), 4);
+}
+
+@test
+operation testReorderedSetEquals() {
+	assertEquals(Set{1,2,3}, Set{2,1,3});
+}

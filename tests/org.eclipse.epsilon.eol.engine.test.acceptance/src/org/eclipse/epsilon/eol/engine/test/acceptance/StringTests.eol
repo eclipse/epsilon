@@ -1,0 +1,76 @@
+@test
+operation testStringsEqual() {
+	assertEquals('foo','foo');
+}
+
+@test
+operation testTrim() {
+	assertEquals(' foo '.trim(), 'foo');
+}
+
+@test
+operation testSplit() {
+	assertEquals('foo,bar,buz'.split(',').size(), 3);
+}
+
+@test
+operation testConvertBoolean() {
+	assertEquals(true.asString(), 'true');
+}
+
+@test
+operation testAsCharSequence() {
+	assertEquals('abc'.toCharSequence().size(), 3);
+}
+
+@test
+operation testAsSequence() {
+	assertEquals('abc'.asSequence().size(), 1);
+}
+
+@test
+operation testNotEmptyStringIsDefined() {
+	assertEquals(''.isDefined(), false);
+}
+
+@test
+operation testEmptyStringIsUndefined() {
+	assertEquals(''.isUndefined(), true);
+}
+
+@test
+operation testSize() {
+	assertEquals('abc'.size(), 1);
+}
+
+@test
+operation testLength() {
+	assertEquals('abc'.length(), 3);
+}
+
+@test
+operation testConcat() {
+	assertEquals('abc'.concat('def'), 'abcdef');
+}
+
+@test
+operation testStartsWith() {
+	assertEquals('abcd'.startsWith('ab'), true);
+}
+
+@test
+operation testEndsWith() {
+	assertEquals('abcd'.endsWith('cd'), true);
+}
+
+@test
+operation testSubstring() {
+	assertEquals('abcd'.substring(2), 'cd');
+}
+
+@test
+operation testIsSubstringOf() {
+	assertEquals('ab'.isSubstringOf('abcd'), true);
+}
+
+

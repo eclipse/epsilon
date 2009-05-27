@@ -1,0 +1,40 @@
+@test
+operation testAssignment() {
+	var a; 
+	a := 1 + 2;
+	assertEquals(a, 3);	
+}
+
+@test
+operation testAssignmentToResultOfEquality() {
+	var a; 
+	a := 1 = 1;
+	assertEquals(a, true);	
+}
+
+@test
+operation testEqualityActsAsAssignment() {
+	var a; 
+	a = 1 + 2;
+	assertEquals(a, 3);	
+}
+
+@test
+operation testOuterEqualityActsAsAssignment() {
+	var a; 
+	a = 1 = 1;
+	assertEquals(a, true);	
+}
+
+@test
+operation testOtherRelationalExpressionIsUnaffected() {
+	var a; 
+	a := 2 > 1;
+	assertEquals(a, true);	
+}
+
+@test
+operation testOtherRelationalExpressionIsUnaffectedByRewrite() {
+	var a; a = 2 > 1;
+	assertEquals(a, true);	
+}

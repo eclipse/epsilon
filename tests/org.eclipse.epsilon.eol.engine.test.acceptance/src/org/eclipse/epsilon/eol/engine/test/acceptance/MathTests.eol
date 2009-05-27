@@ -1,0 +1,59 @@
+@test
+operation testAdd() {
+	assertEquals(1+1, 2);
+}
+
+@test
+operation testAddNegative() {
+	assertEquals(1+(-2), -1);
+}
+
+@test
+operation testIntegerEqualsDouble() {
+	assertEquals(1.0d.asInteger(), 1);
+}
+
+@test
+operation testIntegerEqualsFloat() {
+	assertEquals(1.0f.asInteger(), 1);
+}
+
+@test
+operation testFloatEqualsDouble() {
+	assertEquals(1.0f, 1.0d);
+}
+
+@test
+operation testConvertIllegalStringToInteger() {
+	assertEquals('foo'.asInteger(), 0);
+}
+
+@test
+operation testConvertStringToReal() {
+	assertEquals('2.0'.asReal(), 2.0d);
+}
+
+@test
+operation testMultiply() {
+	assertEquals(2*4, 8);
+}
+
+@test
+operation testMultiplyWithFloat() {
+	assertEquals(3*0.5, 1.5);
+}
+
+@test
+operation testDivide() {
+	assertEquals(4/2, 2.0);
+}
+
+@test
+operation testDivideWithFloatResult() {
+	assertEquals(2/4, 0.5);
+}
+
+@test
+operation testDivideByZero() {
+	assertError(1/0);
+}

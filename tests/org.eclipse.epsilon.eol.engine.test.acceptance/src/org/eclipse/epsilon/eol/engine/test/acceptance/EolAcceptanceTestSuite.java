@@ -16,13 +16,12 @@ package org.eclipse.epsilon.eol.engine.test.acceptance;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement.EqualityBecomesAssignmentInStatements;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EqualityBecomesAssignmentInStatements.class})
+@SuiteClasses({AssignmentTests.class, CollectionsTests.class, MathTests.class, StringTests.class})
 public class EolAcceptanceTestSuite {
 
 	public static Test suite() {
