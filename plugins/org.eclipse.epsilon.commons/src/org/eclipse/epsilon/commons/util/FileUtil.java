@@ -26,6 +26,14 @@ public class FileUtil {
 		writer.close();
 	}
 	
+	public static String replaceExtension(String filename, String newExtension) {
+		int dotIndex = filename.lastIndexOf('.');
+		if (dotIndex > -1) {
+			filename = filename.substring(0, dotIndex+1) + newExtension;
+		}
+		return filename;
+	}
+	
 	public static String getFileContents(File file) throws Exception {
 		FileReader reader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(reader);

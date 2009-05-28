@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
@@ -151,7 +152,6 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 		
 		//model.load(properties, EclipseUtil.getWorkspacePath());
 		model.load(properties, null);
-		
 		return model;
 	}
 	

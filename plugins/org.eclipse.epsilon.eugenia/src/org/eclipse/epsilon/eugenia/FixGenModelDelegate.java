@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 
 public class FixGenModelDelegate extends EolTransformationActionDelegate {
@@ -33,7 +34,7 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 	public List<EmfModel> getModels() throws Exception {
 		
 		String genModelPath = getSelectedFile().getFullPath().toOSString();
-		String ecorePath = getSelectedFile().getFullPath().toOSString().replaceAll("genmodel", "ecore");
+		String ecorePath = FileUtil.replaceExtension(genModelPath, "ecore");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, false, true));

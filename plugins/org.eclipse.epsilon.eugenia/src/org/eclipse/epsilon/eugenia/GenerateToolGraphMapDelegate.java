@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.gmf.gmfgraph.GMFGraphPackage;
 import org.eclipse.gmf.mappings.GMFMapPackage;
@@ -39,9 +40,9 @@ public class GenerateToolGraphMapDelegate extends EolTransformationActionDelegat
 	public List<EmfModel> getModels() throws Exception {
 		
 		String ecorePath = getSelectedFile().getLocationURI().toString();
-		String gmfGraphPath = ecorePath.replaceAll("ecore", "gmfgraph");
-		String gmfToolPath = ecorePath.replaceAll("ecore", "gmftool");
-		String gmfMapPath = ecorePath.replaceAll("ecore", "gmfmap");
+		String gmfGraphPath = FileUtil.replaceExtension(ecorePath, "gmfgraph");
+		String gmfToolPath = FileUtil.replaceExtension(ecorePath, "gmftool");
+		String gmfMapPath = FileUtil.replaceExtension(ecorePath, "gmfmap");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, true, true));
