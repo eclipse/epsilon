@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Composite Model Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.composite
-Bundle-Version: 0.8.6.qualifier
+Bundle-Version: 0.8.5.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.composite.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,
