@@ -56,6 +56,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.ToEnumOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.ToStringOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.TypeOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.UnwrapOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertEqualsOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertErrorOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperation;
 
@@ -74,6 +75,7 @@ public class OperationFactory {
 		
 		// Operations declaring variables
 		operationCache.put("assert", new AssertOperation());
+		operationCache.put("assertEquals", new AssertEqualsOperation());
 		operationCache.put("assertError", new AssertErrorOperation());
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());

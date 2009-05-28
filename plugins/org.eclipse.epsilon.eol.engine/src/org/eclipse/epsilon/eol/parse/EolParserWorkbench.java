@@ -26,15 +26,6 @@ public class EolParserWorkbench {
 	
 	public static void main(String[] args) throws Exception {
 		
-		double c = 0.1d;
-		double d = 0.1f;
-		
-		Object x = new Double(0.1d).floatValue();
-		
-		System.err.println(x);
-		
-		if (true) return;
-		
 		new EolParserWorkbench().work();
 	}
 	

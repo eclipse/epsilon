@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.analysis.ResourceAnalyzer;
 import org.eclipse.epsilon.concordance.index.CrossReferenceIndexManager;
 import org.xml.sax.SAXException;
@@ -40,10 +41,11 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
 			
-			
 			if (!manager.isModel(resource)) return true;
 			
 			IFile file = (IFile) resource;
+			
+			Profiler.INSTANCE.start("Concordance");
 			
 			try {
 				
@@ -52,7 +54,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 					//System.err.println("Added");
 					//System.err.println(delta.getMovedToPath());
 					
-					System.err.println("Adding...");
+					//System.err.println("Adding...");
 					
 					manager.addModelToIndex(file);
 				}
@@ -87,6 +89,8 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 			catch (Exception ex) {
 				// Ignore exception and continue
 			}
+			
+			Profiler.INSTANCE.stop();
 			
 			//return true to continue visiting children.
 			return true;

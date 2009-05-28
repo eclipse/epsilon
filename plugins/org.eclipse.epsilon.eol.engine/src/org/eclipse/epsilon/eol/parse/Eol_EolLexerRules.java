@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-04-02 16:16:45
+// $ANTLR 3.1b1 EolLexerRules.g 2009-05-23 08:23:40
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -65,8 +65,8 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int NewExpression=41;
     public static final int VAR=42;
     public static final int ANNOTATIONBLOCK=44;
-    public static final int ABORT=37;
     public static final int COMMENT=18;
+    public static final int ABORT=37;
     public static final int NativeType=50;
     public static final int T__99=99;
     public static final int T__98=98;
@@ -124,6 +124,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__63=63;
     public static final int POINT=7;
     public static final int T__116=116;
+    public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
     public static final int FOR=27;
@@ -133,8 +134,8 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int IF=28;
     public static final int ModelElementType=39;
     public static final int BOOLEAN=10;
-    public static final int T__107=107;
     public static final int CONTINUE=34;
+    public static final int T__107=107;
     public static final int T__108=108;
     public static final int T__109=109;
     public static final int T__103=103;
@@ -153,7 +154,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=117;
+    public static final int Tokens=118;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;

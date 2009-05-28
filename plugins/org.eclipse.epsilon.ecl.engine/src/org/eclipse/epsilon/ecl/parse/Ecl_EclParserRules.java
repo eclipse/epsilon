@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 EclParserRules.g 2009-04-15 14:58:29
+// $ANTLR 3.1b1 EclParserRules.g 2009-05-28 09:48:47
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -127,6 +127,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     public static final int T__79=79;
     public static final int T__133=133;
     public static final int T__78=78;
+    public static final int T__134=134;
     public static final int T__77=77;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int PARAMETERS=40;
@@ -252,7 +253,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            r=(Token)match(input,129,FOLLOW_129_in_matchRule46); if (state.failed) return retval;
+            r=(Token)match(input,130,FOLLOW_130_in_matchRule46); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (CommonTree)adaptor.create(r);
             root_0 = (CommonTree)adaptor.becomeRoot(r_tree, root_0);
@@ -262,14 +263,14 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             rule_tree = (CommonTree)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,130,FOLLOW_130_in_matchRule53); if (state.failed) return retval;
+            string_literal1=(Token)match(input,131,FOLLOW_131_in_matchRule53); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_matchRule56);
             formalParameter2=gEcl.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,131,FOLLOW_131_in_matchRule58); if (state.failed) return retval;
+            string_literal3=(Token)match(input,132,FOLLOW_132_in_matchRule58); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_matchRule61);
             formalParameter4=gEcl.formalParameter();
 
@@ -280,7 +281,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==128) ) {
+            if ( (LA1_0==129) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -304,7 +305,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==127) ) {
+            if ( (LA2_0==128) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -327,7 +328,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==132) ) {
+            if ( (LA3_0==133) ) {
                 alt3=1;
             }
             switch (alt3) {
@@ -350,7 +351,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==133) ) {
+            if ( (LA4_0==134) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -421,7 +422,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            c=(Token)match(input,132,FOLLOW_132_in_compareBlock96); if (state.failed) return retval;
+            c=(Token)match(input,133,FOLLOW_133_in_compareBlock96); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (CommonTree)adaptor.create(c);
             root_0 = (CommonTree)adaptor.becomeRoot(c_tree, root_0);
@@ -483,7 +484,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            d=(Token)match(input,133,FOLLOW_133_in_doBlock115); if (state.failed) return retval;
+            d=(Token)match(input,134,FOLLOW_134_in_doBlock115); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             d_tree = (CommonTree)adaptor.create(d);
             root_0 = (CommonTree)adaptor.becomeRoot(d_tree, root_0);
@@ -525,21 +526,21 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
  
 
-    public static final BitSet FOLLOW_129_in_matchRule46 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_NAME_in_matchRule51 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000004L});
-    public static final BitSet FOLLOW_130_in_matchRule53 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule56 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
-    public static final BitSet FOLLOW_131_in_matchRule58 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule61 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010000L,0x0000000000000001L});
+    public static final BitSet FOLLOW_130_in_matchRule46 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_matchRule51 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_131_in_matchRule53 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule56 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000010L});
+    public static final BitSet FOLLOW_132_in_matchRule58 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule61 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010000L,0x0000000000000002L});
     public static final BitSet FOLLOW_extendz_in_matchRule64 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_80_in_matchRule67 = new BitSet(new long[]{0x0000000000000000L,0x8000000000020000L,0x0000000000000030L});
-    public static final BitSet FOLLOW_guard_in_matchRule70 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L,0x0000000000000030L});
-    public static final BitSet FOLLOW_compareBlock_in_matchRule73 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_80_in_matchRule67 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L,0x0000000000000061L});
+    public static final BitSet FOLLOW_guard_in_matchRule70 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L,0x0000000000000060L});
+    public static final BitSet FOLLOW_compareBlock_in_matchRule73 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L,0x0000000000000040L});
     public static final BitSet FOLLOW_doBlock_in_matchRule76 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
     public static final BitSet FOLLOW_81_in_matchRule79 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_132_in_compareBlock96 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010200L});
+    public static final BitSet FOLLOW_133_in_compareBlock96 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010200L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_compareBlock99 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_133_in_doBlock115 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010200L});
+    public static final BitSet FOLLOW_134_in_doBlock115 = new BitSet(new long[]{0x0000000000000000L,0x0000000000010200L});
     public static final BitSet FOLLOW_statementBlock_in_doBlock118 = new BitSet(new long[]{0x0000000000000002L});
 
 }

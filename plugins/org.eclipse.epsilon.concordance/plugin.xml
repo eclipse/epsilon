@@ -41,6 +41,11 @@
                label="Enable Concordance Nature"
                menubarPath="additions">
          </action>
+         <action
+               class="org.eclipse.epsilon.concordance.util.LoadAllModelsAction"
+               id="org.eclipse.epsilon.concordance.action1"
+               label="Load all models">
+         </action>
       </objectContribution>
    </extension>
    <extension

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Concordance Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.concordance;singleton:=true
-Bundle-Version: 0.8.5.qualifier
+Bundle-Version: 0.8.6.qualifier
 Bundle-Activator: org.eclipse.epsilon.concordance.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.ui.ide,
- org.eclipse.epsilon.common.dt
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.commons
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.concordance,

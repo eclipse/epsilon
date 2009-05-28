@@ -32,7 +32,9 @@ public class RandomOperation extends AbstractSimpleOperation {
 		if (!(source instanceof EolCollection)) throw new EolNotApplicableOperationException("random", EolCollectionType.Collection, ast);	
 		EolCollection col = (EolCollection) source;
 		int index = (int) Math.round((Math.random() * col.size().intValue()) + 0.5);
-		return col.at(new EolInteger(index-1));
+		Object ret = col.at(new EolInteger(index-1));
+		//System.err.println(ret.getClass());
+		return ret;
 	}
 
 }

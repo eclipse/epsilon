@@ -42,6 +42,38 @@ public abstract class EolCollection extends EolAny{
 		storage = new ArrayList();
 	}
 	
+	/*
+	public boolean equals(Object other) {
+		if (other instanceof EolCollection) {
+			EolCollection col = (EolCollection) other;
+			if (isUnique()) {
+				if (!col.size().equals(size())) return false;
+				
+				for (int i = 0; i < col.size().intValue(); i++) {
+					if (!col.at(new EolInteger(i)).equals(this.at(new EolInteger(i)))) {
+						return false;
+					}
+				}
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	*/
+	
+	public boolean isOrdered() {
+		return this instanceof EolSequence || this instanceof EolOrderedSet;
+	}
+	
+	public boolean isUnique() {
+		return this instanceof EolSet || this instanceof EolOrderedSet;
+	}
+	
 	public EolCollection(Object[] array){
 		storage = new ArrayList();
 		for (int i=0; i<array.length;i++){

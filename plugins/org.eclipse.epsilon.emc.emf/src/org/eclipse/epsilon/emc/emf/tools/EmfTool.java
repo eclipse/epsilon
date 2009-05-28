@@ -20,10 +20,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.eclipse.epsilon.emc.emf.EmfModelResourceSet;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.tools.AbstractTool;
@@ -72,6 +75,15 @@ public class EmfTool extends AbstractTool{
 			model = new InMemoryEmfModel(name, eObject.eResource());
 			context.getModelRepository().addModel(model);
 		}
+	}
+	
+	public IModel createModel2(EObject eObject, String name, String uri) {
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.createResource(EmfUtil.createURI(uri));
+		r.getContents().add(eObject);
+		IModel model = new InMemoryEmfModel(name, r);
+		context.getModelRepository().addModel(model);
+		return model;
 	}
 	
 	public void registerEPackage(EPackage ePackage) {

@@ -87,6 +87,9 @@ public class OperatorExecutor extends AbstractExecutor{
 			else if (operator.compareTo("=") == 0){
 				return equals(operand1, operand2);
 			}
+			else if (operator.compareTo("==") == 0){
+				return equals(operand1, operand2);
+			}
 			else if (operator.compareTo("<>") == 0){
 				return equals(operand1, operand2).not();
 			}

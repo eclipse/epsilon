@@ -67,7 +67,7 @@ public class ResourceAnalyzer {
 				if (value != null) values.add(value);
 			}
 			
-			System.err.println("Values = " + values.size());
+			//System.err.println("Values = " + values.size());
 			
 			for (Object value : values) {
 				

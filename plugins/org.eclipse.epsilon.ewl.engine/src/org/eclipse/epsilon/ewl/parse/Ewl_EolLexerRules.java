@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-04-15 14:50:48
+// $ANTLR 3.1b1 EolLexerRules.g 2009-05-28 10:08:09
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -46,8 +46,8 @@ import java.util.HashMap;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 public class Ewl_EolLexerRules extends Lexer {
-    public static final int WHILE=30;
     public static final int StatementBlock=26;
+    public static final int WHILE=30;
     public static final int StrangeNameLiteral=13;
     public static final int NEW=43;
     public static final int DO=69;
@@ -119,6 +119,7 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int EscapeSequence=11;
     public static final int Letter=14;
     public static final int THROW=47;
+    public static final int T__132=132;
     public static final int WIZARD=67;
     public static final int T__79=79;
     public static final int T__78=78;
@@ -165,7 +166,7 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=132;
+    public static final int Tokens=133;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;

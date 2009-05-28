@@ -51,7 +51,9 @@ public class CollectionExecutor extends AbstractExecutor{
 				AST statementAst = expressionListAst.getFirstChild();
 				while (statementAst != null){
 					Object value = context.getExecutorFactory().executeAST(statementAst, context);
-					collection.add(EolTypeWrapper.getInstance().unwrap(value));
+					//collection.add(EolTypeWrapper.getInstance().unwrap(value));
+					//collection.add(EolTypeWrapper.getInstance().wrap(value));
+					collection.add(value);
 					statementAst = statementAst.getNextSibling();
 				}
 			}
@@ -64,8 +66,8 @@ public class CollectionExecutor extends AbstractExecutor{
 				
 				if (rangeStart instanceof EolInteger && rangeEnd instanceof EolInteger){
 					for (int i=((EolInteger)rangeStart).intValue(); i<=((EolInteger)rangeEnd).intValue(); i++){
-						//collection.add(new EolInteger(i));
-						collection.add(i);
+						collection.add(new EolInteger(i));
+						//collection.add(i);
 					}
 				}
 				else {

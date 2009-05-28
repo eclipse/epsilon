@@ -294,7 +294,7 @@ public class CrossReferenceIndexManager {
 	
 	protected void addErrorMarker(String uri, String error, int line) {
 		IFile file = getFile(uri);
-		if (file != null) {
+		if (file != null && file.exists()) {
 			addErrorMarker(file, error, line);
 		}
 	}
@@ -369,13 +369,13 @@ public class CrossReferenceIndexManager {
 			updateStatus(toUpdateStatus);
 		}
 		
-		System.err.println("+" + analytics.getCrossReferences().size());
+		//System.err.println("+" + analytics.getCrossReferences().size());
 		
 		index.addAll(analytics.getCrossReferences());
 		
 		index.commitChanges();
 		
-		System.err.println("=" + CrossReferenceIndexManager.INSTANCE.getCrossReferenceIndex().getAll().size());
+		//System.err.println("=" + CrossReferenceIndexManager.INSTANCE.getCrossReferenceIndex().getAll().size());
 		
 		
 	}
