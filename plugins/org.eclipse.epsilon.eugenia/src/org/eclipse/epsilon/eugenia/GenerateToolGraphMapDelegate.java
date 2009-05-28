@@ -38,10 +38,10 @@ public class GenerateToolGraphMapDelegate extends EolTransformationActionDelegat
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String ecorePath = getSelectedFile().getFullPath().toOSString();
-		String gmfGraphPath = getSelectedFile().getFullPath().toOSString().replaceAll("ecore", "gmfgraph");
-		String gmfToolPath = getSelectedFile().getFullPath().toOSString().replaceAll("ecore", "gmftool");
-		String gmfMapPath = getSelectedFile().getFullPath().toOSString().replaceAll("ecore", "gmfmap");
+		String ecorePath = getSelectedFile().getLocationURI().toString();
+		String gmfGraphPath = ecorePath.replaceAll("ecore", "gmfgraph");
+		String gmfToolPath = ecorePath.replaceAll("ecore", "gmftool");
+		String gmfMapPath = ecorePath.replaceAll("ecore", "gmfmap");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, true, true));

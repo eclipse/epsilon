@@ -32,8 +32,8 @@ public class FixGmfGenDelegate extends EolTransformationActionDelegate {
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String gmfGenPath = getSelectedFile().getFullPath().toOSString();
-		String ecorePath = getSelectedFile().getFullPath().toOSString().replaceAll("gmfgen", "ecore");
+		String gmfGenPath = getSelectedFile().getLocationURI().toString();
+		String ecorePath = gmfGenPath.replaceAll("gmfgen", "ecore");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, false, true));
