@@ -40,7 +40,7 @@ public abstract class AbstractECoreModelAction implements IObjectActionDelegate 
 				IFile file = (IFile) it.next();
 				EmfModel model = new EmfModel();
 				StringProperties properties = new StringProperties();
-				properties.put(EmfModel.PROPERTY_MODEL_FILE, file.getFullPath().toOSString());
+				properties.put(EmfModel.PROPERTY_MODEL_FILE, file.getLocationURI().toString());
 				properties.put(EmfModel.PROPERTY_METAMODEL_URI, EcorePackage.eINSTANCE.getNsURI());
 				properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 				properties.put(EmfModel.PROPERTY_READONLOAD, "true");
