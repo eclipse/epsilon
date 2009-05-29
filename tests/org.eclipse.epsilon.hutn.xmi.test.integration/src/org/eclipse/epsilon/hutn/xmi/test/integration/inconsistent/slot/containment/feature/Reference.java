@@ -14,10 +14,11 @@
 package org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.containment.feature;
 
 import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
+import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.xmi.test.integration.HutnXmiBridgeIntegrationTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,6 +34,11 @@ public class Reference extends HutnXmiBridgeIntegrationTest {
 	
 	@Test
 	public void animalsSlot() {
-		slotTest(getFirstSlotOfFamily(), AttributeSlot.class, "animals", "_4yG-UBiFEd6-Eob-hyWntQ _HiVRYBiGEd6-Eob-hyWntQ");
+		slotTest(getFirstSlotOfFamily(), ReferenceSlot.class, "animals", "Pet", "Pet"); //"_4yG-UBiFEd6-Eob-hyWntQ _HiVRYBiGEd6-Eob-hyWntQ");
+	}
+	
+	@Test
+	public void familyDoesNotContainOldAttributeSlot() {
+		assertEquals(1, getFamily().getSlots().size());
 	}
 }

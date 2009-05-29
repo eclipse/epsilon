@@ -56,12 +56,16 @@ public abstract class EmfUtil {
 		return getAllModelElementsOfType(metamodelElement, EClass.class);
 	}
 	
+	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {
+		return getAllModelElementsOfType(modelElement.eResource(), type);
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
+	public static <T extends EObject> List<T> getAllModelElementsOfType(Resource resource, Class<T> type) {
 		final List<T> results = new LinkedList<T>();
 		
-		if (modelElement.eResource() != null) {
-			final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();
+		if (resource != null) {
+			final TreeIterator<EObject> iterator = resource.getAllContents();
 			
 			while (iterator.hasNext()) {
 				final EObject object = iterator.next();

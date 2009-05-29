@@ -17,6 +17,7 @@ package org.eclipse.epsilon.hutn.model.hutn;
 import java.lang.Object;
 
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Attribute Slot</b></em>'.

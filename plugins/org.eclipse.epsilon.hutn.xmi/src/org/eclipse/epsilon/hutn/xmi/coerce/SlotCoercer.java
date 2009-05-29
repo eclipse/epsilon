@@ -13,27 +13,25 @@
  */
 package org.eclipse.epsilon.hutn.xmi.coerce;
 
-import org.junit.Test;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
+import org.eclipse.epsilon.hutn.xmi.util.EListUtil;
 
-public class CoerceStringToBoolean extends AbstractCoercionTest {
-
-	@Test
-	public void truue() {
-		coercionTest(true, "true");
+public class SlotCoercer {
+	
+	private AttributeSlot slot;
+	
+	public Slot<?> coerce(AttributeSlot slot) {
+		this.slot = slot;
+				
+		if (slotContainsOnlyStrings()) {
+			return AbstractCoercionStrategy.getCoercerFor(slot).coerce();
+		}
+		
+		return slot;
 	}
 	
-	@Test
-	public void faalse() {
-		coercionTest(false, "false");
-	}
-	
-	@Test
-	public void stringContainingBooleanValue() {
-		coercionTest("truely", "truely");
-	}
-	
-	@Test
-	public void stringContainingBooleanValuedWord() {
-		coercionTest("that's true you know", "that's true you know");
+	private boolean slotContainsOnlyStrings() {
+		return EListUtil.elementsAreAllInstancesOf(slot.getValues(), String.class);			
 	}
 }

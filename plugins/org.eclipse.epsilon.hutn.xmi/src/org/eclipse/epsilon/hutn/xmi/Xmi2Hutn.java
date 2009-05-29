@@ -23,6 +23,7 @@ import java.net.URI;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparser;
 import org.eclipse.epsilon.hutn.xmi.parser.XmiParser;
+import org.eclipse.epsilon.hutn.xmi.postprocessor.CoercionPostProcessor;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.UriFragmentPostProcessor;
 import org.xml.sax.SAXException;
@@ -35,8 +36,15 @@ public class Xmi2Hutn {
 	public Xmi2Hutn(String xmi) throws HutnXmiBridgeException {
 		try {
 			spec     = new XmiParser(xmi).parse();
-			
+
+			// URI fragments become UUIDs
 			new UriFragmentPostProcessor(spec).process();
+			
+			// so no need to specify coercion logic for URI fragments,
+			// just for string to int, float, boolean and UUIDs
+			new CoercionPostProcessor(spec).process();
+			
+			// convert UUIDs to human friendly identifiers
 			new IdentifierPostProcessor(spec).process();
 			
 			unparser = new HutnUnparser(spec);

@@ -36,7 +36,7 @@ public class TwoMultiValuedSlots extends HutnXmiBridgeIntegrationTest {
 
 	@Test
 	public void insuranceSlot() {
-		slotTest(getFamily().findSlot("insurance"), AttributeSlot.class, "insurance", "665544", "889900");
+		slotTest(getFamily().findSlot("insurance"), AttributeSlot.class, "insurance", 665544, 889900);
 	}
 	
 	@Test

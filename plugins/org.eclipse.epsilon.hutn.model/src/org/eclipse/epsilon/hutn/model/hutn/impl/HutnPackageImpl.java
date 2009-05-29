@@ -517,9 +517,6 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-
 		// Create type parameters
 		ETypeParameter slotEClass_T = addETypeParameter(slotEClass, "T");
 		ETypeParameter classObjectSlotEClass_T = addETypeParameter(classObjectSlotEClass, "T");
@@ -553,7 +550,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEClass(specEClass, Spec.class, "Spec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSpec_NsUris(), this.getNsUri(), null, "nsUris", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpec_Objects(), this.getPackageObject(), null, "objects", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSpec_ModelFile(), theEcorePackage.getEString(), "modelFile", null, 0, 1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpec_ModelFile(), ecorePackage.getEString(), "modelFile", null, 0, 1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nsUriEClass, NsUri.class, "NsUri", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNsUri_Value(), ecorePackage.getEString(), "value", null, 1, 1, NsUri.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -567,10 +564,10 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEAttribute(getObject_Identifier(), ecorePackage.getEString(), "identifier", null, 0, 1, org.eclipse.epsilon.hutn.model.hutn.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(packageObjectEClass, PackageObject.class, "PackageObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPackageObject_Metamodel(), theEcorePackage.getEPackage(), null, "metamodel", null, 0, -1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPackageObject_Metamodel(), ecorePackage.getEPackage(), null, "metamodel", null, 0, -1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPackageObject_ClassObjects(), this.getClassObject(), null, "classObjects", null, 0, -1, PackageObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(packageObjectEClass, theEcorePackage.getEClass(), "getAllEClasses", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(packageObjectEClass, ecorePackage.getEClass(), "getAllEClasses", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(classObjectEClass, ClassObject.class, "ClassObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(this.getSlot());
@@ -587,12 +584,12 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 
 		addEOperation(classObjectEClass, this.getPackageObject(), "getPackageObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(classObjectEClass, theEcorePackage.getEClass(), "getEClass", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(classObjectEClass, ecorePackage.getEClass(), "getEClass", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(classObjectEClass, ecorePackage.getEBoolean(), "hasEClass", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(classObjectEClass, ecorePackage.getEBoolean(), "typeCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEClass(), "eClass", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEClass(), "eClass", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(classObjectEClass, this.getAttributeSlot(), "findOrCreateAttributeSlot", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -610,17 +607,21 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEAttribute(getSlot_Values(), g1, "values", null, 0, -1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "typeCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "multiplicityCompatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(slotEClass, ecorePackage.getEBoolean(), "compatibleWith", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEStructuralFeature(), "eStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(slotEClass, theEcorePackage.getEStructuralFeature(), "getEStructuralFeature", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(slotEClass, ecorePackage.getEStructuralFeature(), "getEStructuralFeature", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(slotEClass, ecorePackage.getEBoolean(), "hasEStructuralFeature", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(slotEClass, null, "setValues", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(slotEClass_T);
+		addEParameter(op, g1, "values", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(attributeSlotEClass, AttributeSlot.class, "AttributeSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

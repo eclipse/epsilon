@@ -28,16 +28,19 @@ import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 
-public abstract class IntermediateUtil {
+public abstract class HutnUtil {
 
-	private IntermediateUtil() {}
+	private HutnUtil() {}
+	
+	public static AttributeSlot createAttributeSlot(Object... values) {
+		final AttributeSlot slot = HutnFactory.eINSTANCE.createAttributeSlot();
+		slot.getValues().addAll(Arrays.asList(values));
+		return slot;
+	}
 	
 	public static AttributeSlot createAttributeSlot(String feature, Object... values) {
-		final AttributeSlot slot = HutnFactory.eINSTANCE.createAttributeSlot();
-		slot.setFeature(feature);
-		
-		slot.getValues().addAll(Arrays.asList(values));
-		
+		final AttributeSlot slot = createAttributeSlot(values);
+		slot.setFeature(feature);		
 		return slot;
 	}
 	

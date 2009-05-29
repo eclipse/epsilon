@@ -13,10 +13,10 @@
  */
 package org.eclipse.epsilon.hutn.validation.model.externalrefs;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createClassObject;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createPackageObject;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createReferenceSlot;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createSpec;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createClassObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createPackageObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createReferenceSlot;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;

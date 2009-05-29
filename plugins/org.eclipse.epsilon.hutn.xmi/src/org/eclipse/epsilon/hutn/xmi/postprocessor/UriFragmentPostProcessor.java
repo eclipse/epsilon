@@ -13,9 +13,10 @@
  */
 package org.eclipse.epsilon.hutn.xmi.postprocessor;
 
-import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
@@ -38,14 +39,13 @@ public class UriFragmentPostProcessor {
 	
 	private void resolveReferences() {
 		for (ReferenceSlot slot : allReferenceSlots()) {
-			final List<String> newValues = new LinkedList<String>();
+			final EList<String> newValues = new BasicEList<String>();
 			
 			for (String value : slot.getValues()) {
 				newValues.add(resolve(value));
 			}
 			
-			slot.getValues().clear();
-			slot.getValues().addAll(newValues);
+			slot.setValues(newValues);
 		}
 	}
 	

@@ -159,4 +159,12 @@ public interface Slot<T> extends ModelElement {
 	 */
 	boolean hasEStructuralFeature();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model valuesMany="true"
+	 * @generated
+	 */
+	void setValues(EList<T> values);
+
 } // Slot

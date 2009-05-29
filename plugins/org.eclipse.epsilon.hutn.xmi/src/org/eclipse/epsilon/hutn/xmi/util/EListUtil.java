@@ -13,12 +13,22 @@
  */
 package org.eclipse.epsilon.hutn.xmi.util;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 public abstract class EListUtil {
 
 	private EListUtil() {}
+	
+	public static <T> EList<T> asEList(T... array) {
+		final EList<T> list = new BasicEList<T>();
+		
+		list.addAll(Arrays.asList(array));
+		
+		return list;
+	}
 	
 	public static <T> EList<T> singletonEList(T original) {
 		final EList<T> list = new BasicEList<T>();

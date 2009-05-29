@@ -23,7 +23,6 @@ import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
 
-
 public abstract class HutnUtil {
 
 	private HutnUtil() {}

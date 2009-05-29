@@ -13,8 +13,8 @@
  */
 package org.eclipse.epsilon.hutn.unparser.packageObject;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createClassObject;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createPackageObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createClassObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createPackageObject;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.unparser.internal.AbstractPackageObjectUnparserTest;

@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.unparser.spec;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createSpec;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.unparser.internal.AbstractSpecUnparserTest;

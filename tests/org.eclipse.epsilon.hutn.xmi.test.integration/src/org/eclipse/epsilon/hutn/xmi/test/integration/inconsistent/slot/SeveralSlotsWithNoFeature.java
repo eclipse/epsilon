@@ -42,7 +42,7 @@ public class SeveralSlotsWithNoFeature extends HutnXmiBridgeIntegrationTest {
 	
 	@Test
 	public void ageSlot() {
-		slotTest(getModel().findSlot("age"), AttributeSlot.class, "age", "12");
+		slotTest(getModel().findSlot("age"), AttributeSlot.class, "age", 12);
 	}
 	
 	@Test

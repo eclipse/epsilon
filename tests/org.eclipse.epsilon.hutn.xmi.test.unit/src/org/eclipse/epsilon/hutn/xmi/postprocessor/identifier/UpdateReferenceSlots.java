@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.postprocessor.identifier;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.*;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.*;
 import static org.junit.Assert.*;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;

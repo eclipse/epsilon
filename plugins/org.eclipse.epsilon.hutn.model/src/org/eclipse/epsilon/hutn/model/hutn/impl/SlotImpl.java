@@ -256,6 +256,16 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setValues(EList<T> values) {
+		getValues().clear();
+		getValues().addAll(values);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

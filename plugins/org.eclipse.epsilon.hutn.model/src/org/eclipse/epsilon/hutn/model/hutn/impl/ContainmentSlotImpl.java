@@ -99,8 +99,7 @@ public class ContainmentSlotImpl extends ClassObjectSlotImpl<ClassObject> implem
 	 * @generated NOT
 	 */
 	public void setClassObjects(EList<ClassObject> classObjects) {
-		getClassObjects().clear();
-		getClassObjects().addAll(classObjects);
+		setValues(classObjects);
 	}
 	
 	/**

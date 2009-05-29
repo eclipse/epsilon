@@ -13,35 +13,31 @@
  */
 package org.eclipse.epsilon.hutn.xmi.coerce;
 
-abstract class AbstractCoercionStrategy<T> {
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
+import org.eclipse.epsilon.hutn.model.hutn.Slot;
+import org.eclipse.epsilon.hutn.xmi.util.EListUtil;
 
-	protected final ValueCoercer coercer;
-	private final Class<T> clazz;
-	
-	protected T value;
-	
-	public AbstractCoercionStrategy(ValueCoercer coercer, Class<T> clazz) {
-		this.coercer = coercer;
-		this.clazz   = clazz;
-	}
-	
-	public boolean applicable(Object value) {
-		if (!clazz.isInstance(value))
-			return false;
-		
-		setValue(value);
-		return isApplicable();
-	}
-	
-	public Object coerce(Object value) {
-		setValue(value);
-		return doCoerce();
-	}
-	
-	private void setValue(Object value) {
-		this.value = clazz.cast(value);
-	}
+public abstract class AbstractCoercionStrategy {
 
-	protected abstract boolean isApplicable();
-	protected abstract Object doCoerce();
+	protected final AttributeSlot slot;
+	protected final EList<String> values;
+
+	public AbstractCoercionStrategy(AttributeSlot slot) {
+		this.slot   = slot;
+		this.values = EListUtil.castElements(slot.getValues(), String.class);
+	}
+	
+	public abstract boolean isApplicable();
+	public abstract Slot<?> coerce();
+	
+	
+	public static AbstractCoercionStrategy getCoercerFor(AttributeSlot slot) {
+		if (new ReferenceCoercionStrategy(slot).isApplicable()) {
+			return new ReferenceCoercionStrategy(slot);
+			
+		} else {
+			return new PrimitiveCoercionStrategy(slot);
+		}
+	}
 }

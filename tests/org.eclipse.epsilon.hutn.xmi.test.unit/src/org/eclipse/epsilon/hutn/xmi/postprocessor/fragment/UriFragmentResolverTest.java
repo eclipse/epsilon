@@ -13,9 +13,9 @@
  */
 package org.eclipse.epsilon.hutn.xmi.postprocessor.fragment;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createClassObject;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createContainmentSlot;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createPackageObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createClassObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createContainmentSlot;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createPackageObject;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
@@ -34,7 +34,7 @@ public class UriFragmentResolverTest {
 	}
 	
 	private static Spec createSpec(ClassObject... contents) {
-		return org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createSpec(createPackageObject(contents)); 
+		return org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec(createPackageObject(contents)); 
 	}
 	
 	private void resolveTest(String uriFragment, Spec spec, ClassObject expected) {

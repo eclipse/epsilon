@@ -195,8 +195,7 @@ public class SpecGenerator {
 			
 			slot = getCurrentClassObject().findOrCreateReferenceSlot(featureName);
 		
-		} else 
-			if (slot == null) {
+		} else if (slot == null) {
 			slot = getCurrentClassObject().findOrCreateAttributeSlot(featureName);
 		}
 		

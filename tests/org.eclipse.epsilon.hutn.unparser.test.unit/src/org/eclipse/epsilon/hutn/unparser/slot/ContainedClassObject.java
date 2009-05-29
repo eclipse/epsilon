@@ -13,8 +13,8 @@
  */
 package org.eclipse.epsilon.hutn.unparser.slot;
 
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createAttributeSlot;
-import static org.eclipse.epsilon.hutn.test.util.IntermediateUtil.createClassObject;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createAttributeSlot;
+import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createClassObject;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.unparser.internal.AbstractSlotUnparserTest;

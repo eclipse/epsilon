@@ -21,9 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CoerceStringToInteger.class, CoerceStringToFloat.class,
-               CoerceStringToBoolean.class, CoerceList.class,
-               CoerceStringToEObject.class})
+@SuiteClasses({SlotCoercerTest.class})
 public class CoerceSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(CoerceSuite.class);

@@ -31,6 +31,6 @@ public class SingleValued extends HutnXmiBridgeIntegrationTest {
 	
 	@Test
 	public void numberOfCarsSlot() {
-		slotTest(getFirstSlotOfFamily(), AttributeSlot.class, "numberOfCars", "2");
+		slotTest(getFirstSlotOfFamily(), AttributeSlot.class, "numberOfCars", 2);
 	}
 }

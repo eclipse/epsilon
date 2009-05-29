@@ -50,6 +50,8 @@ abstract class Slot <T>  extends ModelElement {
   attr String feature;
   ref ClassObject[1]#slots owner;
   !unique readonly attr T[*] values;
+  
+   op void setValues(T[*] values);
 }
 
 class AttributeSlot extends Slot<EJavaObject> {

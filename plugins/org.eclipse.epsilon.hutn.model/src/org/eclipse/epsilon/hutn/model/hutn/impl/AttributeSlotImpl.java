@@ -50,7 +50,7 @@ public class AttributeSlotImpl extends SlotImpl<Object> implements AttributeSlot
 	protected EClass eStaticClass() {
 		return HutnPackage.Literals.ATTRIBUTE_SLOT;
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

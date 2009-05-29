@@ -34,6 +34,6 @@ public class MultiValued extends HutnXmiBridgeIntegrationTest {
 	
 	@Test
 	public void insuranceSlot() {
-		slotTest(getFirstSlotOfFamily(), AttributeSlot.class, "insurance", "665544", "889900");
+		slotTest(getFirstSlotOfFamily(), AttributeSlot.class, "insurance", 665544, 889900);
 	}
 }
