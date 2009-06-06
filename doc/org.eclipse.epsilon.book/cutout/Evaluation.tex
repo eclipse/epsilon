@@ -1,0 +1,467 @@
+\chapter{Evaluation}
+\label{chp:Evaluation}
+
+In this thesis a novel approach to the construction of uniform, consistent, and interoperable task-specific languages for model management has been proposed. This chapter provides an evaluation of the research hypothesis stated in Section \ref{sec:Analysis.Hypothesis}, the process that was followed to investigate it, and of the obtained research results, from several viewpoints. In Section \ref{sec:Evaluation.CaseStudy}, an extensive case study that requires use of a number of languages developed in this thesis is presented. The aim of the case study is to demonstrate the engineering qualities and practicality of the proposed solution. The description of the case study was set up by the organizers of the Model Driven Tools Implementers Forum (MDD-TIF) \cite{MDDTIF} in 2007, and besides the implementation using Epsilon, a number of additional implementations using state-of-the-art MDE tools and languages were presented during the workshop \cite{MDDTIF}.
+
+In Section \ref{sec:Evaluation.Impact}, the impact of the work on the Model Driven Engineering community is assessed. Several factors are taken into consideration for this purpose; namely, the publications produced as a result of this work and their visibility, the acceptance and visibility of the proposed solution in the MDE community, and the exploitation of the research outcome in the context of the ModelWare and ModelPlex research projects.
+
+Section \ref{sec:Evaluation.Reuse} demonstrates the benefits, in terms of reuse, delivered by the layered nature of the proposed architecture. Reuse is measured in terms of the size of the code required to implement the concrete syntax, execution engine and development tools of each language in the platform. Section \ref{sec:Evaluation.Limitations} discusses the limitations and shortcomings of this work; most notably the absence of mathematically expressed formal semantics. Section \ref{sec:Evaluation.ReferenceImplementation} evaluates the qualities of the reference implementation and provides directions for its evolution.
+
+\input{EvaluationCaseStudy}
+
+\section{Impact}
+\label{sec:Evaluation.Impact}
+
+This section evaluates the impact of this work on the Model Driven Engineering community.
+
+\subsection{The Eclipse GMT Research Incubator Project}
+\label{sec:GMT}
+
+In November 2006, Epsilon was invited to become a component of the Eclipse Generative Modeling Technologies (GMT) project \cite{GMT}. The GMT project is the research incubator project of the top-level Eclipse Modelling Project (EMP) \cite{EMP} which is generally recognized to be the most active community in the field of model driven engineering at present. As its research incubator, GMT hosts a limited number of research-oriented components (11 in May 2008) which have been selected through a rigorous process. 
+
+Since its incorporation in GMT, a growing community of users of Epsilon is forming. Evidence of this is the related activity in the respective public newsgroup (news://eclipse.modeling.gmt) and the number of visits to the project website (around 14000 page loads, 7800 unique visitors and 2090 returning visitors from January 2007 to May 2008)\footnote{Metrics obtained using the StatCoutner service (http://www.statcounter.com)}.
+
+\subsection{Publications}
+\label{sec:Publications}
+
+The results of this research have been presented in a number of academic papers in journals, international conferences and workshops. At the time of writing (May 2008), the list of publications includes one book chapter, two journal papers, eight conference papers and nineteen workshop/symposium papers. In the following publications, the author of this thesis has been the primary contributor.
+
+\begin{enumerate}
+	\item Dimitrios S. Kolovos, Richard F. Paige, Louis M. Rose, Fiona A.C. Polack. Unit Testing Model Management Operations. In Proc. 5th Workshop on Model Driven Engineering Verification and Validation (MoDeVVa), IEEE ICST, Lillehammer, Norway, April, 2008
+	\item Dimitrios S. Kolovos, Richard F. Paige, Fiona A.C. Polack. A Framework for Composing Modular and Interoperable Model Management Tasks. In Proc. Workshop on Model Driven Tool and Process Integration (MDTPI), ECMDA, Berlin, Germany, June, 2008
+	\item Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack. The Epsilon Transformation Language. In Proc. 1st International Conference on Model Transformation, Zurich, Switzerland, July, 2008
+	\item Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack. Novel Features in Model Management Languages of the Epsilon Platform, Proc. 2nd Workshop on Modeling in Software Engineering (MISE), ICSE '08, Leipzig, Germany, May 2008
+	\item Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack. Detecting and Repairing Inconsistencies Across Heterogeneous Models, Proc. 1st IEEE International Conference on Software Testing, Verification and Validation, ICST 08, Lillehammer, Norway, April 2008
+	\item Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack. On the Evolution of OCL for Capturing Structural Constraints in Modelling Languages, Proc. Dagstuhl Workshop on Rigorous Methods for Software Construction and Analysis
+	\item Dimitrios S. Kolovos, Richard F. Paige, Louis M. Rose, Fiona A.C. Polack. Bridging the Epsilon Wizard Language and the Eclipse Graphical Modeling Framework, Modeling Symposium, Eclipse Summit Europe 2007
+	\item Dimitrios S. Kolovos, Richard F. Paige, Fiona A.C. Polack. Agile Model Editing in the Eclipse Modeling Framework using Executable Metamodel Annotations, 1st Towers of Models Workshop, TOOLS EUROPE 2007
+	\item Dimitrios S. Kolovos, Richard F. Paige, Louis M. Rose and Fiona A.C. Polack. Implementing the Interactive Applications Case Study using Epsilon, Model-Driven Development Tool Implementers Forum (MDD-TIF 07), TOOLS EUROPE 2007
+	\item Dimitrios S. Kolovos, Richard F. Paige, Fiona A.C. Polack, Louis M. Rose Update Transformations in the Small with the Epsilon Wizard Language, TOOLS EUROPE 2007, Journal of Object Technology (JOT)
+	\item Dimitrios S. Kolovos, Richard F. Paige, Fiona A.C. Polack. Aligning OCL with Domain-Specific Languages to Support Instance-Level Model Queries, Electronic Communications of the EASST, 2007
+	\item Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack. Epsilon Development Tools for Eclipse, Eclipse Modeling Symposium, Eclipse Summit Europe 2006, Esslingen, Germany, 2006
+	\item Dimitrios S. Kolovos, Richard F. Paige, and Fiona A.C. Polack. Towards Using OCL for Instance-Level Queries in Domain Specific Languages, in Proc. OCLApps 2006: OCL for (Meta-)Models in Multiple Application Domains, Models/UML 2006, Genova, Italy, October 2006.
+	\item Dimitrios S. Kolovos, Richard F. Paige, and Fiona A.C. Polack. Merging Models with the Epsilon Merging Language (EML), in Proc. ACM/IEEE 9th International Conference on Model Driven Engineering Languages and Systems (Models/UML 2006), Genova, Italy, October 2006.
+	\item Dimitrios S. Kolovos, Richard F. Paige, and Fiona A.C. Polack. On-Demand Merging of Traceability Links with Models, in Proc. 2nd EC-MDA Workshop on Traceability, Bilbao, Spain, July 2006.
+	\item Dimitrios S. Kolovos, Richard F. Paige, Tim Kelly, and Fiona A.C. Polack. Requirements for Domain-Specific Languages, in Proc. 1st ECOOP Workshop on Domain-Specific Program Development (DSPD 2006), Nantes, France, July 2006.
+	\item Dimitrios S. Kolovos, Richard F. Paige, and Fiona A.C. Polack. Model Comparison: a Foundation for Model Composition and Model Transformation Testing, in Proc. First International Workshop on Global Integrated Model Management (G@MMA) 2006, IEEE/ACM ICSE'06, Shanghai, China, May 2006.
+	\item Dimitrios S. Kolovos, Richard F. Paige, and Fiona A.C. Polack. The Epsilon Object Language (EOL), in Proc. European Conference in Model Driven Architecture (EC-MDA) 2006, Bilbao, Spain, July 2006.
+	\item Richard F. Paige, Dimitrios S. Kolovos and Fiona A.C. Polack. Adding an Action Semantics to MOF 2.0, ACM Symposium on Applied Computing (SAC), April 23-27, 2006, Dijon, France
+	\item Richard F. Paige, Dimitrios S. Kolovos, and Fiona A.C. Polack. Refinement via Consistency Checking for MDA, in Proc. Refinenet Workshop 2005, ENTCS, Surrey, UK, April 2005.
+
+\end{enumerate}
+
+In the following publications the author has been a secondary contributor. In each publication, a short description of the contribution of the author is provided.
+
+\begin{enumerate}
+
+
+	\item Louis M. Rose, Richard F. Paige, Dimitrios S. Kolovos, Fiona A.C. Polack. The Epsilon Generation Language (EGL). In Proc. European Conference in Model Driven Architecture (ECMDA), 2008
+	\subitem In this work the author provided an early prototype which was then developed by the first author into the Epsilon Generation Language.
+	
+	\item Nicholas Drivalos, Richard F. Paige, Kiran J. Fernandes, Dimitrios S. Kolovos. Towards Rigorously Defined Model-to-Model Traceability. In Proc. 4th Traceability Workshop, ECMDA, Berlin, Germany, June, 2008
+	\subitem In this work the author contributed to the establishment of a methodology for capturing rigorous model traceability information.
+	
+	\item Richard F. Paige, Goran K. Olsen, Dimitrios S. Kolovos, and Steffen Zschaler. Building Model-Driven Engineering Traceability Classifications. In Proc. 4th Workshop on Traceability, ECMDA, Berlin, Germany, July, 2008
+	\subitem In this work the author contributed to the definition of a methogology for building MDE traceability classifications.
+	
+	\item George Despotou, Dimitrios S. Kolovos, Tim P. Kelly, Richard F. Paige. Defining a Framework for the Development and Management of Dependability Cases. In Proc. 26th International System Safety Conference, Vancouver, Canada, August, 2008
+	\subitem In this work the author contributed technical expertise in defining an EMF-based metamodel for software assurance and supporting model management operations. 
+	
+	\item Boris Gruschko, Dimitrios S. Kolovos, Richard F. Paige. Towards Synchronizing Models with Evolving Metamodels, in Workshop on Model-Driven Software Evolution (MODSE), 11th European Conference on Software Maintenance and Reengineering, Amsterdam, the Netherlands
+	\subitem In this work, the Epsilon Transformation Language (ETL) was used to facilitate migration of models when the metamodels they conform to change. The contribution of the author was to propose model transformation with ETL as a technique for achieving synchronization between models and metamodels and to implement a case study that demonstrated the practicality of the proposed approach.
+	
+	\item George Despotou, Dimitrios S. Kolovos, Richard F. Paige, Fiona A.C. Polack, Tim Kelly. Towards a Meta-model for Dependability Cases, in OMG 1st Software Assurance Workshop, March 2007, Washington, USA
+	\subitem In this work the author contributed to the definition of a meta-model for dependability cases.
+	
+	\item Jean Bezivin, Salim Bouzitouna, Marcos Didonet Del Fabro, Marie-Pierre Gervais, Frederic Jouault, Dimitrios Kolovos, Ivan Kurtev, and Richard F. Paige. A Canonical Scheme for Model Composition, in Proc. European Conference in Model Driven Architecture (EC-MDA) 2006, Bilbao, Spain, July 2006.
+	\subitem In this work the author contributed experiences and expertise obtained through the development of the Epsilon Comparison and Merging languages in a common effort to establish a common vocabulary for model composition/integration.
+	
+	\item Klaus-D. Engel, Richard F. Paige, and Dimitrios S. Kolovos. Using a Model Merging Language for Reconciling Model Versions, in Proc. European Conference in Model Driven Architecture (EC-MDA) 2006, Bilbao, Spain, July 2006.
+	\subitem In this work the author demonstrated using EML for merging different versions of models.
+	
+	\item Netta Aizenbud-Reshef, Richard F. Paige, Julia Rubin, Yael Shaham-Gafni and Dimitrios S. Kolovos. Operational Semantics for Traceability, in Proc. EC-MDA Traceability workshop, Nuremberg, November 2005
+	\subitem In this work the author contributed to demonstrating the usefulness of operational semantics for achieving traceability.
+	
+\end{enumerate}
+
+The number of publications suggests that the results of this research are well-communicated and established with the research community.
+
+\subsection{ModelWare and ModelPlex}
+\label{sec:EUProjects}
+
+Languages from Epsilon have been used in the context of the EU ModelWare \cite{ModelWare} and ModelPlex \cite{ModelPlex} projects to implement case studies established by industrial partners such as IBM, SAP, Telefonica, Western Geco (WGO) and Thales Information Systems. Most notably, EOL has been used to perform performance simulation on UML2 Activity Diagrams in the context of a SAP-provided case study, EVL, ETL and EOL are being used in the context of a sensor network modelling case study provided by Western Geco, and ECL and EML have been used in a protocol composition case study in collaboration with SINTEF. Moreover, concepts and facilities from EVL are being considered by ModelPlex partners for proposal to the OMG as extensions for future revisions of the OCL standard.
+
+This section provides an overview of one of the cases where Epsilon was used by the author in ModelPlex: the SAP UML2 Activity Diagram performance simulation case study.
+
+\subsubsection{SAP: UML2 Activity Diagram Simulation}
+
+The aim of this case study was to simulate UML2 activity diagrams annotated with performance-related information, in order to identify potential performance problems during early design phases. For this purpose, the SAP team involved in ModelPlex have designed a UML2 profile that allows users to annotate activity control flows with probabilities to simulate non-deterministic execution, and annotating activities with three types of costs: the CPU time it requires to execute, the time it requires to access the underlying database and the number of database table rows it needs to access. An exemplar UML2 activity diagram provided for this case study is displayed in Figure \ref{fig:SAPExample}\footnote{The performance-related information is included in the underlying model but does not appear in the graphical notation}.
+
+\begin{landscape}
+\begin{figure}
+	\centering
+	\includegraphics[width=18cm]{images/SAPExample.png}
+	\caption{Exemplar Performance-Annotated UML2 Activity Diagram}
+	\label{fig:SAPExample}
+\end{figure}
+\end{landscape}
+
+The implementation of this case study using Epsilon consisted of two steps. In the first step, EVL was used to validate the activity diagram to ensure that the sum of probabilities of the non-deterministic transitions of each decision node is exactly 1. Listing \ref{lst:SAP.EVL} demonstrates the \emph{ProbabilitiesSumTo1} constraint specification using EVL. 
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Performance-Annotated Activity Diagram Constraints using EVL, label=lst:SAP.EVL, language=EVL, tabsize=2]
+import 'UML2.lib.eol';
+
+context DecisionNode {
+	
+	constraint ProbabilitiesSumTo1 {
+		
+		guard : self.outgoing.exists(cf|cf.
+			getStereotypeApplication('ExecutionProbability').
+			isDefined())
+		
+		check {
+			var sum : Real := 0;
+			for (cf in self.outgoing) {
+				var sa := cf.getStereotypeApplication
+					('ExecutionProbability');
+				if (sa.isDefined()) {
+					sum := sum + sa.Probability;
+				}
+			}
+			return sum = 1.0;
+		}
+		
+		message : 'Sum of probabilities of decision node ' 
+			+ self.name + ' is ' + sum 
+		
+	}
+	
+}
+\end{lstlisting}
+
+The next step was to simulate the execution of the model. For this purpose, non-invasive user defined operations (discussed in Section \ref{sec:Design.EOL.Operations}) were defined on the executable parts of the model using EOL. Listing \ref{lst:SAP.EOL} demonstrates the simulation specification in EOL. In line \ref{line:DecisionNode.execute} the \emph{DesicionNode.execute()} operation randomly selects one of the outgoing control flows of the decision node (based on their probabilities) and calls the \emph{walk()} operation on it. In line \ref{line:ControlFlow.walk}, the \emph{walk()} operation executes the target of the control flow. Operation \emph{Action.execute()} in line \ref{line:Action.execute} executes an action by adding its costs to the global variables defined in lines \ref{line:cpuTime} -- \ref{line:dbRows}. Finally, the \emph{JoinNode.execute()} operation defines that all incoming control flows must be first traversed before the outgoing control flows of a join-node can be executed.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Simulation using EOL, label=lst:SAP.EOL, language=EOL, tabsize=2]
+import 'UML2.lib.eol';
+
+var initialNode : InitialNode := InitialNode.allInstances().first();
+
+var cpuTime : Integer := 0; /*@\label{line:cpuTime}@*/
+var dbAccess : Integer := 0;
+var dbRows : Integer := 0; /*@\label{line:dbRows}@*/
+var joinNodes : new Native('java.util.HashMap');
+var finished : Boolean := false;
+
+initialNode.execute();
+'Simulation trace : '.println();
+('	CPUTime : ' + cpuTime).println();
+('	DBAccess : ' + dbAccess).println();
+('	DBRows : ' + dbRows).println();
+
+operation DecisionNode execute() { /*@\label{line:DecisionNode.execute}@*/
+	var poll : Sequence;
+	for (cf in self.outgoing) {
+		for (i in Sequence{0..(cf.
+			getStereotypeApplication('ExecutionProbability').Probability 
+			* 100).asInteger() - 1}){
+			poll.add(cf);
+		}
+	}
+	poll.random().walk();
+}
+
+operation Action execute() { /*@\label{line:Action.execute}@*/
+	self.name.println();
+	cpuTime := cpuTime + self.getCPUTime();
+	dbAccess := dbAccess + self.getDBAccess();
+	dbRows := dbRows + self.getDBRows();
+	self.outgoing.first().walk();
+}
+
+operation ControlNode execute() { /*@\label{line:ControlNode.execute}@*/
+	for (o in self.outgoing) {
+		o.walk();
+	}
+}
+
+operation JoinNode execute(cf : ControlFlow) { /*@\label{line:JoinNode.execute}@*/
+	if (joinNodes.get(self).isUndefined()) {
+		joinNodes.put(self, Set{cf});
+	}
+	else {
+		joinNodes.get(self).add(cf);
+	}
+	if (joinNodes.get(self).size() = self.incoming.size()) {
+		for (o in self.outgoing) {
+			o.walk();
+		}
+		joinNodes.put(self, Set{});
+	}
+}
+
+operation ActivityFinalNode execute() { /*@\label{line:ActivityFinalNode.execute}@*/
+	finished := true;
+}
+
+operation ControlFlow walk() { /*@\label{line:ControlFlow.walk}@*/
+	
+	-- If a final node has been reached
+	-- by some other path return
+	if (finished) {return;}
+
+	if (self.target.isTypeOf(JoinNode)){
+		self.target.execute(self);
+	}
+	else {
+		self.target.execute();
+	}
+}
+\end{lstlisting}
+
+A sample output of the simulation program appears in Listing \ref{lst:SAP.Output}.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Sample output of the simulation program of Listing \ref{lst:SAP.EOL}, label=lst:SAP.Output, tabsize=2]
+CreateOrder
+Check Data Completness
+ChangeRequest
+Change Order
+Check Data Completness
+ChangeRequest
+Change Order
+Check Data Completness
+Check Consistency
+Check Product Availability and Reserve
+ConfirmOrder
+Request Invoicing
+Request Requirement, Reserve Fulfill
+Simulation trace : 
+	CPUTime : 2440
+	DBAccess : 357
+	DBRows : 347
+\end{lstlisting}
+
+It is worth noting that despite their different purposes, both the EVL constraints module in Listing \ref{lst:SAP.EVL} and the EOL simulation module in Listing \ref{lst:SAP.EOL} import the \emph{Uml.lib.eol} library which is displayed in Listing \ref{lst:SAP.UMLLib} to reuse the getStereotypeApplication() operation it contains.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=The shared Uml.lib.eol library, label=lst:SAP.UMLLib, language=EOL, tabsize=2]
+operation Element getStereotypeApplication(stereotype : String) {
+	var s : Stereotype := self.getAppliedStereotypes().
+		select(s|s.name = stereotype).first();
+	if (s.isDefined()) {
+		return self.getStereotypeApplication(s);
+	}
+}
+\end{lstlisting}
+
+Through this case study, the capabilities of Epsilon for programmatic model manipulation were demonstrated to the SAP team which provided positive feedback and expressed interest for further experiments in the context of performance-driven model engineering using Epsilon.
+
+\subsection{External References}
+
+Through a web survey, a number of external publications ( currently \cite{Zito2006,Langlois2006,Queralt2006,Boronat2006,Conmy2006,Karlsch2006,Eessaar2006,Costa2007,MinimalOCL,AlgebraicView,CrosscuttingMT,FeatureOriented,Weise2007,Pons08,Brauer2007,Rubin2008,VORA,Markovic2008,BrauerThesis,Reiter22007,Pons2007,Lazar2007,ReiterPetri2007,Zamani2007,Jeanneret2008}) in which the respective work is compared to, or uses, the work performed in the context of this thesis have been identified. This provides further evidence of the novelty of this work and its impact and acceptance in the MDE research community.
+
+\subsection{Uses in other Projects}
+
+\subsubsection{INESS Project}
+The department of Computer Science will explore the use of Epsilon in the context of the European FP7 project ``INESS'' (Integrated European Signalling System) (starting in autumn 2008) for validation of functional requirements for rail signalling systems across Europe. This will include: capture of functional and safety requirements for rail signalling systems; simulation of these requirements; transformation of models into formal representations (e.g., in B and Circus); and generation of reports. As such, the project expects to use Epsilon languages like ETL, EGL, and EVL.
+
+\subsubsection{SSEI Project}
+
+In the context of the SSEI project\footnote{http://www.ssei.org.uk}, the department of Computer Science will use Epsilon for model-based systems integration, involving systems that exist solely as code (both source and binary) as well as models stored in a variety of formats. The project envisions using ECL for model comparison of both structure and behaviour; and EML for integration. Additional effort will need to be made to support the production of models from text representations; this may involve integration of components from the AMMA and openArchitectureWare platforms, or the development of new Epsilon components. 
+
+\subsection{Internal and External Collaborations}
+\label{sec:Collaborations}
+
+The results of this work have been used in a number of internal and external collaborations. This section summarizes the most important of them.
+
+\paragraph{University of Seville,  Group MaCMAS (Methodology for Analysing Complex MultiAgent Sytems)}
+
+The MaCMAS group has implemented an extension to the ArgoUML modelling tool to support complex multi-agent systems. During this collaboration, their modelling tool was enhanced with support for specifying and executing Epsilon Object Language (EOL) programs which allowed the group to further automate the model refinement process.
+
+\paragraph{Boris Gruschko, SAP, Karlsruhe}
+
+In this work ETL was used to perform automated migration of models as a response to changes in the metamodels they conform to. The outcome of this work was presented in \cite{Gruschko2007}.
+
+\paragraph{Philippa Conmy, HISE, York}
+
+In this work EOL was used to perform mutation of processor-network models for failure analysis and ETL was used to transform models into a suitable format for a proprietary tool that implements FPTC (Failure Propagation Transformation Calculus).
+
+\paragraph{George Despotou, HISE, York}
+
+In this work, EVL constraints were used to express the constraints of a metamodel for Dependability Cases and EWL wizards were used to automate the model composition and refinement process.
+
+\paragraph{Jules White, Vanderbilt University, Nashville}
+
+There is ongoing work on integrating EWL with the GEMS \cite{GEMS} framework to enable execution of EWL wizards within GEMS-based editors.
+
+\section{Evaluating Reuse}
+\label{sec:Evaluation.Reuse}
+
+The research hypothesis stated that despite their differences and task-specific requirements, \textit{...all those different model management tasks can be supported with a family of integrated task-specific languages that builds on a platform that provides a set of common reusable
+features to maximize reuse, uniformity and interoperability}. To justify the claim for reuse, the amount of infrastructure functionality that can be reused when implementing task-specific languages should be considerable.
+
+This section provides evidence about reuse metrics in the Epsilon prototype. To measure reuse, this section provides metrics of the amount of source code that has been required to provide tool-support for the base language (EOL) and the task-specific languages built atop it.
+
+\subsection{Runtime}
+
+Table \ref{tab:LinesOfJavaCodeLanguage} shows the total lines of code required to implement the runtime (interpreter and internal object model) of each language in the platform. These figures suggest the benefit from reuse as the size of the runtime of each task-specific language is around 50\% of the size of the shared infrastructure.
+
+\begin{table}
+	\centering
+		\begin{tabular}{|l|l|}\hline
+		\textbf{Language} & \textbf{Lines of Code} \\\hline
+		EOL	& 13335 \\\hline
+		ETL	& 6683 \\\hline
+		EML	& 6878 \\\hline
+		EVL	& 7216 \\\hline
+		ECL	& 6804 \\\hline
+		EWL	& 6169 \\\hline
+		EGL	& 2609 \\\hline
+		\end{tabular}		
+	\caption{Lines of Java Code for each Language Runtime}
+	\label{tab:LinesOfJavaCodeLanguage}
+\end{table}
+
+However, not all source code required for constructing a language runtime has been hand-crafted. Instead, a part of the code has been generated from the grammar that specifies the textual concrete syntax of each language. Table \ref{tab:LinesOfGrammarAndGeneratedCode} demonstrates the lines of code of the grammar of each language and the code generated from it by the parser generator component (which is ANTLR \cite{ANTLR} for the specific implementation).
+
+\begin{table}
+	\centering
+		\begin{tabular}{|l|l|l|}\hline
+		\textbf{Language} & \textbf{Grammar LOC} & \textbf{Generated LOC} \\\hline
+		EOL	& 1005 &5441\\\hline
+		ETL & 95 & 5962\\\hline
+		EML & 64 & 6141\\\hline	
+		EVL & 119 & 6400\\\hline
+		ECL & 109 & 6055\\\hline	
+		EWL & 74 & 5904\\\hline	
+		EGL & 0 & 0\\\hline	
+		\end{tabular}
+	\caption{Lines of Grammar and Generated Code for each Language Runtime}
+	\label{tab:LinesOfGrammarAndGeneratedCode}
+\end{table}
+
+To obtain more representative source code metrics, the size of the generated code for each language parser is replaced with the size of the grammar from which it has been automatically generated. The updated results appear in Table \ref{tab:HandCraftedCode}.
+
+\begin{table}
+	\centering
+		\begin{tabular}{|l|l|}\hline
+			\textbf{Language} & \textbf{Hand-Crafted Grammar and Code LOC} \\\hline
+		EOL	& 8899 \\\hline
+		ETL	& 816 \\\hline
+		EML	& 801 \\\hline
+		EVL	& 935 \\\hline
+		ECL	& 858 \\\hline
+		EWL	& 339 \\\hline
+		EGL	& 2609 \\\hline
+		\end{tabular}
+	\caption{Lines of Hand-Crafted Grammar and Code for each Language Runtime}
+	\label{tab:HandCraftedCode}
+\end{table}
+
+According to the results, to construct a new task-specific language, an approximate figure of 800 lines of hand-crafted Java code and ANTLR grammar is required. This figure excludes the Epsilon Generation Language (EGL) which deviates significantly by requiring almost three times as much code (2609 lines) to implement. The reason for this is that unlike the rest of the languages which are rule-based, EGL is of a radically different nature and as such it requires a considerable amount of code to accommodate the requirements of the task it has been designed for (file management, content preservation etc.).
+
+\subsection{Development Tools (DT)}
+
+Table \ref{tab:DTCode} provides metrics for the lines of code required for the Eclipse-based development tools (DT) of each language.
+
+\begin{table}
+	\centering
+		\begin{tabular}{|l|l|l|l|}\hline
+			\textbf{Language} & \textbf{Lines of DT Code} \\\hline
+		EOL	& 2990\\\hline
+		ETL	&	439 \\\hline
+		EML	&	325 \\\hline
+		EVL	&	457 \\\hline
+		ECL	&	374 \\\hline
+		EWL	&	552 \\\hline
+		EGL	&	921 \\\hline
+		\end{tabular}
+	\caption{Lines of Code Required for the Development Tools}
+	\label{tab:DTCode}
+\end{table}
+
+According to the figures above, the layered architecture has an impact on the amount of code required to implement development tools for task-specific languages.
+
+Summing up the figures provided in Tables \ref{tab:HandCraftedCode} and \ref{tab:DTCode} produces the final figures of lines of code required to implement both runtime and end-user tool-support a new task-specific language are displayed in Table \ref{tab:DTAndHandCraftedCode}.
+
+\begin{table}
+	\centering
+		\begin{tabular}{|l|l|l|l|}\hline
+			\textbf{Language} & \textbf{Runtime LOC} & \textbf{DT LOC} & \textbf{Total LOC} \\\hline
+		EOL	& 8899 & 2990 & 11889\\\hline
+		ETL	&	816 & 439 & 1255\\\hline
+		EML	&	801 & 325 & 1126\\\hline
+		EVL	&	935 & 457 & 1392\\\hline
+		ECL	&	858 & 374 & 1232\\\hline
+		EWL	&	339 & 552 & 891\\\hline
+		EGL	&	2609 & 921 & 3530\\\hline
+		\end{tabular}
+	\caption{Total Lines of Code Required for Supporting each Language}
+	\label{tab:DTAndHandCraftedCode}
+\end{table}
+
+The metrics displayed in Table \ref{tab:DTAndHandCraftedCode} show that, with the exception of EGL as discussed above, implementing a new task-specific language requires 1000-1500 lines of grammar and application code which is roughly 10\% of the infrastructure code. This validates the original hypothesis that different model management tasks share a significant amount of functionality and can therefore be implemented with enhanced reuse atop a platform, such as Epsilon, that provides a common shared infrastructure.
+
+%\subsection{Comparison with Standalone Model Management Languages}
+%
+%To further demonstrate the benefits of a layered approach to model management, this section provides metrics of three stand-alone model management languages that have a similar functionality and operate in the same environment (Eclipse) as Epsilon. The languages of choice were MOFScript which is a model-to-text language and ATL and TefKat which are model-to-model transformation languages. Table \ref{tab:StandaloneLanguagesMetrics} demonstrates the size of the source code of each language. More details about obtaining the metrics for these languages are provided in Appendix XXX.
+%
+%\begin{table}
+%	\centering
+%		\begin{tabular}{|l|l|l|l|}\hline
+%			Language & Hand-Crafted Grammar and Code LOC & DT LOC & Total LOC \\\hline
+%		MOFScript	& 9358 & 3796 & 13154\\\hline
+%		ATL	&	10401 & 9027 & 19428\\\hline
+%		TefKat	&	10067 & 2011 & 12078\\\hline
+%		\end{tabular}
+%	\caption{Total Lines of Code Required for Supporting each Language}
+%	\label{tab:DTAndHandCraftedCode}
+%\end{table}
+%
+%\begin{table}
+%	\centering
+%		\begin{tabular}{|l|l|l|l|}\hline
+%			Language & Hand-Crafted Grammar and Code LOC & DT LOC & Total LOC \\\hline
+%		ETL	&	9715 & 3429 & 13144\\\hline
+%		EML	&	9700 & 3315 & 13015\\\hline
+%		EVL	&	9834 & 3447 & 13281\\\hline
+%		ECL	&	9757 & 3364 & 13121\\\hline
+%		EWL	&	9238 & 3542 & 12780\\\hline
+%		EGL	&	11508 & 3911 & 15419\\\hline
+%		\end{tabular}
+%	\caption{Cumulative Size of Epsilon Task-Specific Languages}
+%	\label{tab:CumulativeSize}
+%\end{table}
+
+\section{Limitations and Shortcomings}
+\label{sec:Evaluation.Limitations}
+
+This section presents the main limitations and shortcomings of the proposed approach and reference implementation, explains why these limitations could not be addressed in the context of this work, and provides directions to overcoming them in future design and implementation iterations.
+
+\subsection{Lack of Formal Execution Semantics}
+\label{sec:ExecutionSemanticsEvaluation}
+
+As discussed in Section \ref{sec:Design.EOL}, different approaches can be used to specify the execution semantics of software languages. With respect to the time constraints of this project, a decision had to be made early in the process as to whether formal semantics (e.g. translational/denotational semantics) or a reference implementation should be employed to specify the execution semantics of the languages designed within the project.
+
+The decision to provide a reference implementation instead of a formal semantics was predominantly influenced by the setting in which the project was carried out. More specifically, the project was realized within two large EU projects (ModelWare and ModelPlex) where research results needed to be exploitable by industrial partners on their case studies. A concrete reference implementation made it possible to implement several case studies provided by industrial partners and thus, receive valuable feedback from them that has partly driven the evolution of the architecture of the platform and the individual languages to their current state. Also, through the reference implementation, Epsilon has become visible and accessible to external users through the respective Eclipse GMT component, as discussed in Section \ref{sec:GMT}. This has generated substantial feedback from external users, that has been valuable for identifying and repairing design and technical defects in the languages.
+
+At this point it should be stressed that the aim of this discussion is to justify the choice of a reference implementation over a formal semantics under the imposed constraints, not to underrate the value of formal semantics. An established formal semantics of the languages would enable formal analysis, refinement and proof of model management programs, which are all desirable capabilities in the context of model driven engineering, particularly when used to construct safety- (and otherwise) critical systems.
+
+\section{Reference Implementation}
+\label{sec:Evaluation.ReferenceImplementation}
+
+This aim of this section is to evaluate the reference implementation that has been realized to examine the validity of the hypothesis. 
+
+As examples of hierarchically layered families of languages, particularly on model management, are practically non-existent in the literature, it was realized early in the process that defining the final syntax and semantics of the languages would require many change cycles - as it eventually has.
+
+To reduce ripple effects triggered by frequent changes in the languages, the architecture and technical design of the platform were predominantly driven by modifiability and extensibility. Therefore, the reference implementation intentionally fails to provide support for lower priority - but nevertheless useful - features such as static type checking, context-sensitive editing features and debugging support.
+
+Extensive ripple effects introduced by such facilities would influence the evolution of the languages negatively since they would require significant effort to address and thus gradually become a burden for experimenting with novel features that would require changes to the syntax and the semantics of the languages. This intuition proved to be reasonable during the development life-cycle of the languages and their supporting tools. Due to its flexibility, the established architecture enabled experimentation with novel features such as user-interactivity, transactions and native-object access without significant ripple effects. 
+
+Nevertheless, the flexible architecture of the implementation has had an impact on performance and usability. By choosing a lightweight interpreter-based approach instead of a compiler-based approach, the runtime performance of the languages is impacted negatively, as expected. Moreover, the development tools lack productivity features such as automated support for refactoring and coding assistance which are important for large-scale industrial use.
+
+Overall, the trade-off between flexibility and performance/usability is considered to be fair as the purpose of the project was not to produce industrial strength tools, but to validate the hypothesis that a layered platform of languages with emphasis on reuse, uniformity and consistency can be used to address diverse model management tasks in a meaningful way.
+
+\section{Chapter Summary}
+
+This chapter has confirmed the validity of the hypothesis stated in Chapter \ref{chp:Analysis} using a number of criteria such as: applicability in a complex externally-defined case study, reuse metrics, publications and acceptance by the research community, establishment of a user community, internal and external collaborations, and use of the reference implementation for several case studies in the context of the ModelWare and ModelPlex research projects.
+
+The evaluation has demonstrated significant benefits in terms of applicability, reuse, modularity and interoperability and has identified limitations such as the lack of a formal semantics and the need for more sophisticated development tools.

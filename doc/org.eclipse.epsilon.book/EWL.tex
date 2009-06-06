@@ -1,0 +1,122 @@
+\chapter{The Epsilon Wizard Language (EWL)}
+\label{sec:EWL}
+
+There are two types of model-to-model transformations: mapping and update transformations \cite{Czarnecki2003}. Mapping transformations typically transform a source model into a set of target models expressed in (potentially) different modelling languages by creating zero or more model elements in the target models for each model element of the source model. By contrast, update transformations perform in-place modifications in the source model itself. They can be further classified into two subcategories: transformations in the small and in the large. Update transformations in the large apply to sets of model elements calculated using well-defined rules in a batch manner. An example of this category of transformations is a transformation that automatically adds accessor and mutator operations for all attributes in a UML model. On the other hand, update transformations in the small are applied in a user-driven manner on model elements that have been explicitly selected by the user. An example of this kind of transformations is a transformation that renames a \emph{user-specified} UML class and all its incoming associations consistently.
+
+In Epsilon, mapping transformations can be specified using ETL as discussed in Section \ref{sec:ETL}, and update transformations in the large can be implemented either using the model modification features of EOL or using an ETL transformation in which the source and target models are the same model. By contrast, update transformations in the small cannot be effectively addressed by any of the languages presented so far.
+
+The following section discusses the importance of update transformations in the small and motivates the definition of a task-specific language (Epsilon Wizard Language (EWL)) that provides tailored and effective support for defining and executing update transformations on models of diverse metamodels.
+
+\section{Motivation}
+\label{sec:EwlMotivation}
+
+Constructing and refactoring models is undoubtedly a mentally intensive process. However, during modelling, recurring patterns of model update activities typically appear. As an example, when renaming a class in a UML class diagram, the user also needs to manually update the names of association ends that link to the renamed class. Thus, when renaming a class from \emph{Chapter} to \emph{Section}, all associations ends that point to the class and are named \emph{chapter} or \emph{chapters} should be also renamed to \emph{section} and \emph{sections} respectively. As another example, when a modeller needs to refactor a UML class into a singleton \cite{Larman}, they need to go through a number of well-defined, but trivial, steps such as attaching a stereotype ($<<singleton>>$), defining a static \emph{instance} attribute and adding a static \emph{getInstance()} method that returns the unique instance of the singleton.
+
+It is generally accepted that performing repetitive tasks manually is both counter-productive and error-prone \cite{CG.InAction}. On the other hand, failing to complete such tasks correctly and precisely compromises the consistency, and thus the quality, of the models. In Model Driven Engineering, this is particularly important since models are increasingly used to automatically produce (parts of) working systems. 
+
+\subsection{Automating the Construction and Refactoring Process}
+
+Contemporary modelling tools provide built-in transformations (\textit{wizards}) for automating common repetitive tasks. However, according to the architecture of the designed system and the specific problem domain, additional repetitive tasks typically appear, which cannot be addressed by the pre-conceived built-in wizards of a modelling tool. To address the automation problem in its general case, users must be able to easily define update transformations (wizards) that are tailored to their specific needs.
+
+To an extent, this can be achieved via the extensible architecture that state-of-the-art modelling tools often provide and which enables users to add functionality to the tool via scripts or application code using the implementation language of the tool. Nevertheless, as discussed in \cite{EOL}, the majority of modelling tools provide an API through which they expose an edited model, which requires significant effort to learn and use. Also, since each API is proprietary, such scripts and extensions are not portable to other tools. Finally, API scripting languages and third-generation languages such as Java and C++ are not particularly suitable for model navigation and modification \cite{EOL}.
+
+Furthermore, existing languages for mapping transformations, such as QVT, ATL and ETL, cannot be used as-is for this purpose, because these languages have been designed to operate in a batch manner without human involvement in the process. By contrast, as discussed above, the task of constructing and refactoring models is inherently user-driven.
+
+\section{Update Transformations in the Small}
+\label{sec:ModelTransformationInTheSmall}
+
+Update transformations are actions that automatically create, update or delete model elements based on a selection of existing elements in the model and information obtained otherwise (e.g. through user input), in a user-driven fashion. In this section such actions are referred to as \textit{wizards} instead of \textit{rules} to reduce confusion between them and rules of mapping transformation languages. In the following sections the desirable characteristics of wizards are elaborated informally. 
+
+\subsection{Structure of Wizards}
+
+In its simplest form, a wizard only needs to define the actions it will perform when it is applied to a selection of model elements. The structure of such a wizard that transforms a UML class into a \textit{singleton} is shown using pseudo-code in Listing \ref{lst:Basic}.\\
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The simplest form of a wizard for refactoring a class into a singleton, label=lst:Basic, language=EWL, tabsize=2]
+do :
+	attach the singleton stereotype
+	create the instance attribute
+	create the getInstance method
+\end{lstlisting}
+
+Since not all wizards apply to all types of elements in the model, each wizard needs to specify the types of elements to which it applies. For example, the wizard of Listing \ref{lst:Basic}, which automatically transforms a class into a singleton, applies only when the selected model element is a class. The simplest approach to ensuring that the wizard will only be applied on classes is to enclose its body in an \emph{if} condition as shown in Listing \ref{lst:WithoutGuard}.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:Basic} enhanced with an $if$ condition, label=lst:WithoutGuard, language=EWL, tabsize=2]
+do : 
+	if (selected element is a class) {
+		attach the singleton stereotype
+		create the instance attribute
+		create the getInstance method
+	}
+\end{lstlisting}
+
+A more modular approach is to separate this condition from the body of the wizard. This is shown in Listing \ref{lst:WithGuard} where the condition of the wizard is specified as a separate \emph{guard} stating that the wizard applies only to elements of type Class. The latter is preferable since it enables filtering out wizards that are not applicable to the current selection of elements by evaluating only their \emph{guard} parts and rejecting those that return \emph{false}. Thus, at any time, the user can be provided with only the wizards that are applicable to the current selection of elements. Filtering out irrelevant wizards reduces confusion and enhances usability, particularly as the list of specified wizards grows.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:WithoutGuard} with an explicit $guard$ instead of the $if$ condition, label=lst:WithGuard, language=EWL, tabsize=2]
+guard : selected element is a class
+do : 
+	attach the singleton stereotype
+	create the instance attribute
+	create the getInstance method
+\end{lstlisting}
+
+To enhance usability, a wizard also needs to define a short human-readable description of its functionality. To achieve this, another field named \emph{title} has been added. There are two options for defining the title of a wizard: the first is to use a static string and the second to use a dynamic expression. The latter is preferable since it enables definition of context-aware titles.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:WithGuard} enhanced with a $title$ part, label=lst:FinalForm, language=EWL, tabsize=2]
+guard : selected element is a class
+title : Convert class <class-name> into a singleton
+do : 
+	attach the singleton stereotype
+	create the instance attribute
+	create the getInstance method
+\end{lstlisting}
+
+\subsection{Capabilities of Wizards}
+
+The \emph{guard} and \emph{title} parts of a wizard need to be expressed using a language that provides model querying and navigation facilities. Moreover, the \emph{do} part also requires model modification capabilities to implement the transformation. To achieve complex transformations, it is essential that the user can provide additional information. For instance, to implement a wizard that addresses the class renaming scenario discussed in Section \ref{sec:EwlMotivation}, the information provided by the selected class does not suffice; the user must also provide the new name of the class. Therefore, EWL must also provide mechanisms for capturing user input.
+
+\section{Abstract Syntax}
+
+Since EWL is built atop Epsilon, its abstract and concrete syntax need only to define the concepts that are relevant to the task it addresses; they can reuse lower-level constructs from EOL. A graphical overview of the abstract syntax of the language is provided in Figure \ref{fig:EwlAbstractSyntax}. 
+
+The basic concept of the EWL abstract syntax is a \emph{Wizard}. A wizard defines a \emph{name}, a \emph{guard} part, a \emph{title} part and a $do$ part. Wizards are organized in \emph{Modules}. The \emph{name} of a wizard acts as an identifier and must be unique in the context of a module. The \emph{guard} and \emph{title} parts of a wizard are of type \emph{ExpressionOrStatementBlock}, inherited from EOL. An \emph{ExpressionOrStatementBlock} is either a single EOL expression or a block of EOL statements that include one or more \emph{return} statements. This construct allows users to express simple declarative calculations as single expressions and complex calculations as blocks of imperative statements. The usefulness of this construct is further discussed in the examples presented in Section \ref{sec:EwlExamples}. Finally, the \emph{do} part of the wizard is a block of EOL statements that specify the effects of the wizard when applied to a compatible selection of model elements. 
+
+\begin{figure}
+	\centering
+		\includegraphics{images/EwlAbstractSyntax.png}
+	\caption{EWL Abstract Syntax}
+	\label{fig:EwlAbstractSyntax}
+\end{figure}
+
+\clearpage
+
+\section{Concrete Syntax}
+
+Listing \ref{lst:EwlConcreteSyntax} presents the concrete syntax of EWL wizards.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of EWL wizards, label=lst:EwlConcreteSyntax, language=EWL, tabsize=2]
+wizard <name> {
+	(guard (:expression)|({statementBlock}))?
+	(title (:expression)|({statementBlock}))?
+	do {
+		statementBlock
+	}
+}
+\end{lstlisting}
+
+\section{Execution Semantics}
+The process of executing EWL wizards is inherently user-driven and as such it depends on the environment in which they are used. In general, each time the selection of model elements changes (i.e. the user selects or deselects a model element in the modelling tool), the guards of all wizards are evaluated. If the guard of a wizard is satisfied, the \emph{title} part is also evaluated and the wizard is added to a list of \textit{applicable} wizards. Then, the user can select a wizard and execute its \emph{do} part to perform the intended transformation.
+
+In EWL, variables defined and initialized in the \emph{guard} part of the wizard can be accessed both by the \emph{title} and the \emph{do} parts. In this way, results of calculations performed in the \emph{guard} part can be re-used, instead of re-calculated in the subsequent parts.  The practicality of this approach is discussed in more detail in the examples that follow. Also, the execution of the \emph{do} part of each wizard is performed in a transactional mode by exploiting the transaction capabilities of the underlying model connectivity framework, so that possible logical errors in the \emph{do} part of a wizard do not leave the edited model in an inconsistent state. 
+
+\section{Examples}
+\label{sec:EwlExamples}
+
+This section presents three concrete examples of EWL wizards for refactoring UML 1.4 models. The aim of this section is not to provide complete implementations that address all the sub-cases of each scenario but to provide enhanced understanding of the concrete syntax, the features and the capabilities of EWL to the reader. Moreover, it should be stressed again that although the examples in this section are based on UML models, by building on Epsilon, EWL can be used to capture wizards for diverse modelling languages and technologies.
+
+\input{ClassToSingleton}
+\input{ClassRename}
+\input{MoveToPackage}
+
+\section{Summary}
+
+This section has presented the Epsilon Wizard Language (EWL), a language for specifying and executing update transformations in the small on models of diverse metamodels. EWL provides a textual concrete syntax tailored to the task and features such as dynamically calculated wizard titles, transactional execution of the \emph{do} parts of wizards and user interaction.

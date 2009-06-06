@@ -1,0 +1,8 @@
+\subsection{Model Merging Task}
+
+The \emph{epsilon.eml} task executes an EML module, defined using the \emph{src} attribute on the models that are specified using the \emph{model} nested elements. In addition to the attributes defined by the ExecutableModuleTask, this task also provides the following attributes:
+
+\begin{itemize}
+	\item \emph{useMatchTrace} : As discussed in \ref{sec:EML}, to merge a set of models, an EML module needs an established match-trace between elements of the models. The \emph{useMatchTrace} attribute enables the EML task to use a match-trace exported by a preceeding ECL task (using its \emph{exportMatchTrace} attribute).
+	\item \emph{exportMergeTrace, exportTransformationTrace} : Similarly to ETL, through these attributes an EML task can export the internal traces calculated during merging for subsequent tasks to use.
+\end{itemize}

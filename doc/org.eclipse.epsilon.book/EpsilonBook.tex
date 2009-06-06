@@ -1,0 +1,96 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[12pt]{report}
+
+\usepackage{charter}
+\usepackage{courier}
+%\usepackage[scaled]{helvet}
+%\renewcommand{\ttdefault}{pcr}
+\normalfont % in case the EC fonts aren't available
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{setspace}
+\usepackage{pdflscape}
+\usepackage{soul}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{eso-pic}
+
+\newcommand\BackgroundPic{
+\put(0,0){
+\parbox[b][\paperheight]{\paperwidth}{%
+\vfill
+\centering
+\includegraphics[width=\paperwidth,height=\paperheight,
+keepaspectratio]{background.png}%
+\vfill
+}}}
+
+\lstset{escapeinside={/*@}{@*/}}
+\definecolor{codebackground}{rgb}{0.95,0.95,0.95}
+\lstset{backgroundcolor=\color{codebackground}}
+%\pagestyle{fancy}
+%\usepackage{subfigure}
+%\usepackage{portland}
+
+\title{\fontfamily{put}\selectfont{\huge{\bfseries{Epsilon}}}}
+\author{
+Dimitrios S. Kolovos, Richard F. Paige, \\Louis M. Rose and Fiona A.C. Polack\\\\ 
+Department of Computer Science,\\\\The University of York
+}
+
+%\date{June 2008}
+\input{listings/EOLFormat}
+\input{listings/ECLFormat}
+\input{listings/ETLFormat}
+\input{listings/EMLFormat}
+\input{listings/EWLFormat}
+\input{listings/EVLFormat}
+\input{listings/OCLFormat}
+\input{listings/MofScriptFormat}
+
+%two column float page must be 90% full
+\renewcommand\dblfloatpagefraction{.99}
+%two column top float can cover up to 80% of page
+\renewcommand\dbltopfraction{.99}
+%float page must be 90% full
+\renewcommand\floatpagefraction{.99}
+%top float can cover up to 80% of page
+\renewcommand\topfraction{.99}
+%bottom float can cover up to 80% of page
+\renewcommand\bottomfraction{.99}
+%at least 10% of a normal page must contain text
+\renewcommand\textfraction{.01}
+
+\begin{document}
+\AddToShipoutPicture*{\BackgroundPic}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\onehalfspacing
+%\maketitle
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{Introduction}
+
+\input{InstallingEpsilon}
+
+\input{Design} %change to infrastructure
+
+\input{TaskSpecificLanguages}
+
+\input{Workflow}
+
+\bibliographystyle{unsrt}
+\bibliography{Bibliography}
+
+\end{document}

@@ -1,0 +1,10 @@
+\subsection{Model Validation Task}
+\label{sec:EvlTask}
+
+The \emph{epsilon.evl} task executes an EVL module, defined using the \emph{src} attribute on the models that are specified using the \emph{model} nested elements. In addition to the attributes defined by the ExecutableModuleTask, this task also provides the following attributes:
+
+\begin{itemize}
+	\item \emph{failOnErrors} : Errors are the results of unsatisfied constraints. Setting the value of this attribute to \emph{true} (default is \emph{false}) causes a \emph{BuildException} to be raised if one or more errors are identified during the validation process.
+	\item \emph{failOnWarnings} : Similarly to errors, warnings are the results of unsatisfied critiques. Setting the value of this atrribute to \emph{true} (default is also \emph{false}) causes a \emph{BuildException} to be raised if one or more warnings are identified during the validation process.
+	\item \emph{exportConstraintTrace} : This attribute enables developers to export the internal constraint trace constructed during model validation to the project context so that it can be later accessed by other tasks - which could for example attempt to automatically repair the identified inconsistencies. 
+\end{itemize}

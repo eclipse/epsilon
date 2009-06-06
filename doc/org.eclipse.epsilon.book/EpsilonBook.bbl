@@ -1,0 +1,162 @@
+\begin{thebibliography}{10}
+
+\bibitem{OCL}
+{Object Management Group}.
+\newblock {UML 2.0 OCL Specification}.
+\newblock {http://www.omg.org/docs/ptc/03-10-14.pdf}.
+
+\bibitem{Larman}
+{Craig Larman}.
+\newblock {\em {Applying UML and Patterns : An Introduction to Object-Oriented
+  Analysis and Design and Iterative Development}}.
+\newblock {Prentice Hall PTR}, {3rd} edition, {October} {2004}.
+
+\bibitem{Meyer97}
+{B. Meyer}.
+\newblock {\em {Object-Oriented Software Construction}}.
+\newblock {Prentice-Hall}, {2} edition, {1997}.
+
+\bibitem{EVL}
+{Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack}.
+\newblock {On the Evolution of OCL for Capturing Structural Constraints in
+  Modelling Languages}.
+\newblock In {\em {Proc. Dagstuhl Workshop on Rigorous Methods for Software
+  Construction and Analysis}}, {2008}.
+
+\bibitem{ETL}
+{Dimitrios S. Kolovos, Richard F. Paige and Fiona A.C. Polack}.
+\newblock {The Epsilon Transformation Language}.
+\newblock In {\em {Proc. 1st International Conference on Model
+  Transformation}}, {Zurich, Switzerland}, {July} {2008}.
+
+\bibitem{ATL}
+{Fr\'ed\'eric Jouault and Ivan Kurtev}.
+\newblock {Transforming Models with the ATL}.
+\newblock In {Jean-Michel Bruel}, editor, {\em {Proceedings of the Model
+  Transformations in Practice Workshop at MoDELS 2005}}, volume {3844} of {\em
+  {LNCS}}, pages {128--138}, {Montego Bay, Jamaica}, {October} {2005}.
+
+\bibitem{QVT}
+{Object Management Group}.
+\newblock {MOF QVT Final Adopted Specification}.
+\newblock {http://www.omg.org/cgi-bin/doc?ptc/05-11-01.pdf}.
+
+\bibitem{Czarnecki2003}
+{Krzysztof Czarnecki and Simon Helsen}.
+\newblock {Classification of Model Transformation Approaches}.
+\newblock In {\em {OOPSLA '03 Workshop on Generative Techniques in the Context
+  of Model-Driven Architecture}}, {2003}.
+
+\bibitem{CG.InAction}
+{Jack Herrington}.
+\newblock {\em {Code Generation in Action}}.
+\newblock {Manning}, {2003}.
+\newblock {ISBN: 1930110979}.
+
+\bibitem{EOL}
+{Dimitrios S. Kolovos, Richard F.Paige and Fiona A.C. Polack}.
+\newblock {The Epsilon Object Language}.
+\newblock In {\em {Proc. European Conference in Model Driven Architecture
+  (EC-MDA) 2006}}, volume {4066} of {\em {LNCS}}, pages {128--142}, {Bilbao,
+  Spain}, {July} {2006}.
+
+\bibitem{Wordnet}
+{George A. Miller}.
+\newblock {WordNet: a lexical database for English}.
+\newblock {\em {Communications of ACM}}, {38}({11}):{39--41}, {1995}.
+
+\bibitem{FuzzyStringMatching}
+{G. Navarro}.
+\newblock {A guided tour to approximate string matching}.
+\newblock {\em {ACM Computing Surveys (CSUR)}}, {33}({1}):{31--88}, {2001}.
+
+\bibitem{Simmetrics}
+{SimMetrics Similarity Metrics Library}.
+\newblock {http://www.dcs.shef.ac.uk/\verb|~|sam/simmetrics.html}.
+
+\bibitem{Levenshtein}
+{V. I. Levenshtein}.
+\newblock {Binary codes capable of correcting deletions, insertions, and
+  reversals}.
+\newblock {\em {Soviet Physics Doklady}}, {10}:{707--710}, {1966}.
+
+\bibitem{MDAGuide}
+{Object Management Group, Jishnu Mukerji, Joaquin Miller}.
+\newblock {MDA Guide version 1.0.1}, {2001}.
+\newblock {http://www.omg.org/cgi-bin/doc?omg/03-06-01.pdf}.
+
+\bibitem{Pottinger2003}
+{Rachel A. Pottinger and Philip A. Bernstein}.
+\newblock {Merging Models Based on Given Correspondences}.
+\newblock Technical Report {UW-CSE-03-02-03}, {University of Washington},
+  {2003}.
+\newblock {Technical report}.
+
+\bibitem{Batini1986}
+{C. Batini, M. Lenzerini, S.B. Navathe}.
+\newblock {A Comparative Analysis of Methodologies for Database Schema
+  Integration}.
+\newblock {\em {ACM Computing Surveys}}, {18}({4}):{323--364}, {December}
+  {1986}.
+
+\bibitem{Letkeman2005}
+{Kim Letkeman}.
+\newblock {Comparing and merging UML models in IBM Rational Software
+  Architect}.
+\newblock {IBM Developerworks}, {July} {2005}.
+\newblock
+  {http://www-128.ibm.com/developerworks/rational/library/05/712\_comp}.
+
+\bibitem{Melnik2003}
+{S. Melnik, E. Rahm and P. A. Bernstein}.
+\newblock {Rondo: A Programming Platform for Generic Model Management}.
+\newblock In {\em {Proc. SIGMOD}}, pages {193--204}, {2003}.
+
+\bibitem{EUnit}
+{Dimitrios S. Kolovos, Richard F. Paige, Louis M. Rose, Fiona A.C. Polack}.
+\newblock {Unit Testing Model Management Operations}.
+\newblock In {\em {Proc. 5th Workshop on Model Driven Engineering Verification
+  and Validation (MoDeVVa), IEEE ICST}}, {Lillehammer, Norway}, {April} {2008}.
+
+\bibitem{ANT}
+{The Apache Ant Project}.
+\newblock {http://ant.apache.org}.
+
+\bibitem{AntBook}
+{Steve Holzner}.
+\newblock {\em {Ant: The Definitive Guide, Second Edition}}.
+\newblock {O'Reilly}, {April} {2005}.
+\newblock {ISBN 0-596-00609-8}.
+
+\bibitem{GnuMake}
+{GNU Make, Official Web-Site}.
+\newblock {http://www.gnu.org/software/make/}.
+
+\bibitem{Maven}
+{Apache Maven Project}.
+\newblock {http://maven.apache.org}.
+
+\bibitem{AntVsMaven}
+{Julien Dubois}.
+\newblock {Master and Commander}.
+\newblock {Mastering J2EE Application Development Series}.
+\newblock {http://www.oracle.com/
+  technology/pub/articles/masterj2ee/files/j2ee2.pdf}.
+
+\bibitem{AntExternalTasks}
+{ANT External Tools and Tasks}.
+\newblock {http://ant.apache.org/external.html}.
+
+\bibitem{AMMA}
+{Atlas Model Management Architecture}.
+\newblock {http://www.sciences.univ-nantes.fr/lina/atl/AMMAROOT/}.
+
+\bibitem{TCS}
+{Fr\'ederic Jouault, Jean B\'ezivin, and Ivan Kurtev}.
+\newblock {TCS: a DSL for the Specification of Textual Concrete Syntaxes in
+  Model Engineering}.
+\newblock In {\em {Proc GPCE'06: Proceedings of the fifth international
+  conference on Generative programming and Component Engineering}}, pages
+  {249--254}, {2006}.
+
+\end{thebibliography}

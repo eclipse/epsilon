@@ -1,0 +1,4 @@
+\subsection{Model Comparison Task}
+
+The \emph{epsilon.ecl} task executes an ECL module, defined using the \emph{src} attribute to establish matches between elements of the models that are specified using the \emph{model} nested elements. In addition to the attributes defined by the ExecutableModuleTask, this task also provides the \emph{exportMatchTrace} attribute that enables users to export the match-trace calculated during the comparison to the project context so that subsequent tasks can reuse it. For example, as discussed in the sequel, an EML model merging task can use it as a means of identifying correspondences on which to perform merging. In another example, the match-trace can be stored by a subsequent EOL task in the form of an stand-alone weaving model.
+

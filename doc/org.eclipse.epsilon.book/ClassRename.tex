@@ -1,0 +1,77 @@
+\subsubsection{Renaming a Class}
+\label{sec:RenameClass}
+
+The most widely used convention for naming attributes and association ends of a given class is to use a lower-case version of the name of the class as the name of the attribute or the association end. For instance, the two ends of a one-to-many association that links classes \texttt{Book} and \texttt{Chapter} are most likely to be named \texttt{book} and \texttt{chapters} respectively. When renaming a class (e.g. from \texttt{Chapter} to \texttt{Section}) the user must then manually traverse the model to find all attributes and association ends of this type and update their names (i.e. from \texttt{chapter} or \texttt{bookChapter} to \texttt{section} and \texttt{bookSection} respectively). This can be a daunting process especially in the context of large models. Wizard \texttt{RenameClass} presented in Listing \ref{lst:RenameClass} automates this process.
+
+\begin{lstlisting}[
+	basicstyle=\ttfamily\footnotesize, 
+	flexiblecolumns=true, 
+	numbers=none, 
+	nolol=true, 
+	caption=Implementation of the RenameClass Wizard,
+	label=lst:RenameClass, 
+	numbers=left, 
+	language=EWL, 
+	tabsize=2
+]
+wizard RenameClass {
+	
+	-- The wizard applies when a Class is selected
+	guard : self.isKindOf(Class)
+	
+	title : 'Rename class ' + self.name
+	
+	do {
+		var newName : String;
+		
+		-- Prompt the user for the new name of the class
+		newName := UserInput.prompt('New name for class ' + self.name);
+		if (newName.isDefined()) {
+			var affectedElements : Sequence;
+			
+			-- Collect the AssociationEnds and Attributes
+			-- that are affected by the rename
+			affectedElements.addAll(
+				AssociationEnd.allInstances.select(ae|ae.participant=self));
+			affectedElements.addAll(
+				Attribute.allInstances.select(a|a.type = self));
+			
+			var oldNameToLower : String;
+			oldNameToLower := self.name.firstToLowerCase();
+			var newNameToLower : String;
+			newNameToLower := newName.firstToLowerCase();
+			
+			-- Update the names of the affected AssociationEnds
+			-- and Attributes
+			for (ae in affectedElements) {
+					ae.replaceInName(oldNameToLower, newNameToLower);
+					ae.replaceInName(self.name, newName);
+			}
+			self.name := newName;
+		}
+	}
+	
+}
+
+-- Renames the ModelElement on which it is invoked
+operation ModelElement replaceInName
+	(oldString : String, newString : String) {
+	
+	if (oldString.isSubstringOf(self.name)) {
+		-- Calculate the new name
+		var newName : String;
+		newName := self.name.replace(oldString, newString);
+		
+		-- Prompt the user for confirmation of the rename
+		if (UserInput.confirm
+			('Rename ' + self.name + ' to ' + newName + '?')) {
+			-- Perform the rename
+			self.name := newName;
+		}
+	}
+}
+\end{lstlisting}
+%\vspace{-8pt}
+As with the \texttt{ClassToSingleton} wizard, the \texttt{guard} part of \texttt{RenameClass} specifies that the wizard is applicable only when the selection is a simple class and the \emph{title} provides a context-aware description of the functionality of the wizard. 
+
+As discussed in Section \ref{sec:ModelTransformationInTheSmall}, the information provided by the selected class itself does not suffice in the case of renaming since the new name of the class is not specified anywhere in the existing model. In EWL, and in all languages that build on EOL, user input can be obtained using the built-in \texttt{UserInput} facility. Thus, in line 12 the user is prompted for the new name of the class using the \texttt{UserInput.prompt()} operation. Then, all the association ends and attributes that refer to the class are collected in the \texttt{affectedElements} sequence (lines 14-21). Using the \texttt{replaceInName} operation (lines 31 and 32), the name of each one is examined for a substring of the upper-case or the lower-case version of the old name of the class. In case the check returns true, the user is prompted to confirm (line 48) that the feature needs to be renamed. This further highlights the importance of user input for implementing update transformations with fine-grained user control. 

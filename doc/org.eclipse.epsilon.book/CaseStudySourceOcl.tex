@@ -1,0 +1,53 @@
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=OCL Module for Validating Singletons, label=lst:CaseStudyOcl, numbers=left, language=OCL2, tabsize=2]
+package Foundation::Core
+    
+		context Class 
+
+		def isSingleton :
+			let isSingleton : Boolean =
+			self.stereotype->exists(s|s.name = 'singleton')
+        
+		def getInstanceOperation  : 
+			let getInstanceOperation : Operation =
+			self.feature->select(f|f.oclIsTypeOf(Operation) 
+			and f.name = 'getInstance')->first().oclAsType(Operation)
+
+		inv DefinesGetInstanceOperation : 
+			if isSingleton 
+				then getInstanceOperation.isDefined
+				else true
+			endif
+    	
+		inv GetInstanceOperationIsStatic :
+			if isSingleton then
+				if getInstanceOperation.isDefined 
+					then getInstanceOperation.ownerScope = #classifier 
+					else false
+				endif
+			else 
+				true
+			endif
+    	
+		inv GetOperationReturnsSame :
+			if isSingleton then
+				if getInstanceOperation.isDefined then
+					if getInstanceOperation.returnParameter.isDefined
+						then getInstanceOperation.returnParameter.type = self 
+						else false
+					endif
+				else
+					false
+				endif
+			else 
+				true
+			endif
+    	
+    context Operation
+        
+		def returnParameter :
+			let returnParameter : Parameter =
+			self.parameter->select(p|p.kind = #return)->first()
+
+endpackage
+
+\end{lstlisting}

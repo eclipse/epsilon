@@ -1,0 +1,154 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{What is Epsilon?}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{How To Read This Book}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{Questions and Feedback}{chapter.1}
+\BOOKMARK [1][-]{section.1.4}{Additional Resources}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.4.1}{Epsilon Eclipse GMT}{section.1.4}
+\BOOKMARK [2][-]{subsection.1.4.2}{EpsilonLabs}{section.1.4}
+\BOOKMARK [2][-]{subsection.1.4.3}{Epsilon Weblog}{section.1.4}
+\BOOKMARK [0][-]{chapter.2}{Installing Epsilon}{}
+\BOOKMARK [1][-]{section.2.1}{Prerequisites}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{Installing using the Eclipse Update Manager/P2}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{Checking out the Source Code from CVS/SVN}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{Which Option Should I Use?}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{The Epsilon Model Connectivity Layer \(EMC\)}{}
+\BOOKMARK [1][-]{section.3.1}{The IModel interface}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{Loading and Persistence}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{Type-related Services}{chapter.3}
+\BOOKMARK [1][-]{section.3.4}{Ownership}{chapter.3}
+\BOOKMARK [1][-]{section.3.5}{Creation, Deletion and Modifications}{chapter.3}
+\BOOKMARK [1][-]{section.3.6}{The IModelTransactionSupport interface}{chapter.3}
+\BOOKMARK [1][-]{section.3.7}{The ModelRepository class}{chapter.3}
+\BOOKMARK [1][-]{section.3.8}{The ModelGroup class}{chapter.3}
+\BOOKMARK [1][-]{section.3.9}{Assumptions about the underlying modelling technologies}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{The Epsilon Object Language \(EOL\)}{}
+\BOOKMARK [1][-]{section.4.1}{Module Organization}{chapter.4}
+\BOOKMARK [1][-]{section.4.2}{User-Defined Operations}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.2.1}{Annotations}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.2}{Pre/post conditions in user-defined operations}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.3}{Operation Result Caching}{section.4.2}
+\BOOKMARK [1][-]{section.4.3}{Types}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.3.1}{Primitive Types}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.2}{Collections and Maps}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.3}{Native Types}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.4}{Model Element Types}{section.4.3}
+\BOOKMARK [1][-]{section.4.4}{Expressions}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.4.1}{Feature Navigation}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.2}{Arithmetical and Comparison Operators}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.3}{Logical Operators}{section.4.4}
+\BOOKMARK [1][-]{section.4.5}{Statements}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.5.1}{Variable Declaration Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.2}{Assignment Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.3}{Special Assignment Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.4}{If Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.5}{While Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.6}{For Statement}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.7}{Break, BreakAll and Continue Statements}{section.4.5}
+\BOOKMARK [2][-]{subsection.4.5.8}{Transaction Statement}{section.4.5}
+\BOOKMARK [1][-]{section.4.6}{Extended Properties}{chapter.4}
+\BOOKMARK [1][-]{section.4.7}{Context-Independent User Input}{chapter.4}
+\BOOKMARK [1][-]{section.4.8}{Task-Specific Languages}{chapter.4}
+\BOOKMARK [0][-]{chapter.5}{The Epsilon Validation Language \(EVL\)}{}
+\BOOKMARK [1][-]{section.5.1}{Motivation}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.1.1}{Limited user feedback}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.2}{No support for warnings/critiques}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.3}{No support for dependent constraints}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.4}{Limited flexibility in context definition}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.5}{No support for repairing inconsistencies}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.6}{No support for inter-model constraints}{section.5.1}
+\BOOKMARK [1][-]{section.5.2}{Abstract Syntax}{chapter.5}
+\BOOKMARK [1][-]{section.5.3}{Concrete Syntax}{chapter.5}
+\BOOKMARK [1][-]{section.5.4}{Execution Semantics}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.4.1}{Capturing Dependencies Between Invariants}{section.5.4}
+\BOOKMARK [1][-]{section.5.5}{Intra-Model Consistency Checking Example}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.5.1}{Scenario: The Singleton Pattern}{section.5.5}
+\BOOKMARK [2][-]{subsection.5.5.2}{Using OCL to Express the Invariants}{section.5.5}
+\BOOKMARK [2][-]{subsection.5.5.3}{Using EVL to Express the Invariants}{section.5.5}
+\BOOKMARK [1][-]{section.5.6}{Inter-Model Consistency Checking Example}{chapter.5}
+\BOOKMARK [1][-]{section.5.7}{Summary}{chapter.5}
+\BOOKMARK [0][-]{chapter.6}{The Epsilon Transformation Language \(ETL\)}{}
+\BOOKMARK [1][-]{section.6.1}{Style}{chapter.6}
+\BOOKMARK [1][-]{section.6.2}{Source and Target Models}{chapter.6}
+\BOOKMARK [1][-]{section.6.3}{Abstract Syntax}{chapter.6}
+\BOOKMARK [1][-]{section.6.4}{Concrete Syntax}{chapter.6}
+\BOOKMARK [1][-]{section.6.5}{Execution Semantics}{chapter.6}
+\BOOKMARK [2][-]{subsection.6.5.1}{Rule and Block Overriding}{section.6.5}
+\BOOKMARK [2][-]{subsection.6.5.2}{Rule Execution Scheduling}{section.6.5}
+\BOOKMARK [2][-]{subsection.6.5.3}{Source Elements Resolution}{section.6.5}
+\BOOKMARK [2][-]{subsection.6.5.4}{Overriding the semantics of the EOL SpecialAssignmentOperator}{section.6.5}
+\BOOKMARK [1][-]{section.6.6}{Interactive Transformations}{chapter.6}
+\BOOKMARK [1][-]{section.6.7}{Summary}{chapter.6}
+\BOOKMARK [0][-]{chapter.7}{The Epsilon Wizard Language \(EWL\)}{}
+\BOOKMARK [1][-]{section.7.1}{Motivation}{chapter.7}
+\BOOKMARK [2][-]{subsection.7.1.1}{Automating the Construction and Refactoring Process}{section.7.1}
+\BOOKMARK [1][-]{section.7.2}{Update Transformations in the Small}{chapter.7}
+\BOOKMARK [2][-]{subsection.7.2.1}{Structure of Wizards}{section.7.2}
+\BOOKMARK [2][-]{subsection.7.2.2}{Capabilities of Wizards}{section.7.2}
+\BOOKMARK [1][-]{section.7.3}{Abstract Syntax}{chapter.7}
+\BOOKMARK [1][-]{section.7.4}{Concrete Syntax}{chapter.7}
+\BOOKMARK [1][-]{section.7.5}{Execution Semantics}{chapter.7}
+\BOOKMARK [1][-]{section.7.6}{Examples}{chapter.7}
+\BOOKMARK [1][-]{section.7.7}{Summary}{chapter.7}
+\BOOKMARK [0][-]{chapter.8}{The Epsilon Generation Language \(EGL\)}{}
+\BOOKMARK [1][-]{section.8.1}{Abstract Syntax}{chapter.8}
+\BOOKMARK [1][-]{section.8.2}{Concrete Syntax}{chapter.8}
+\BOOKMARK [1][-]{section.8.3}{Parsing and Preprocessing}{chapter.8}
+\BOOKMARK [1][-]{section.8.4}{Deriving EGL from EOL}{chapter.8}
+\BOOKMARK [1][-]{section.8.5}{Co-ordination}{chapter.8}
+\BOOKMARK [1][-]{section.8.6}{Merge Engine}{chapter.8}
+\BOOKMARK [1][-]{section.8.7}{Readability and traceability}{chapter.8}
+\BOOKMARK [2][-]{subsection.8.7.1}{Tool Support}{section.8.7}
+\BOOKMARK [0][-]{chapter.9}{The Epsilon Comparison Language \(ECL\)}{}
+\BOOKMARK [1][-]{section.9.1}{Abstract Syntax}{chapter.9}
+\BOOKMARK [1][-]{section.9.2}{Concrete Syntax}{chapter.9}
+\BOOKMARK [1][-]{section.9.3}{Execution Semantics}{chapter.9}
+\BOOKMARK [2][-]{subsection.9.3.1}{Rule and Block Overriding}{section.9.3}
+\BOOKMARK [2][-]{subsection.9.3.2}{Comparison Outcome}{section.9.3}
+\BOOKMARK [2][-]{subsection.9.3.3}{Rule Execution Scheduling}{section.9.3}
+\BOOKMARK [2][-]{subsection.9.3.4}{The matches\(\) built-in operation}{section.9.3}
+\BOOKMARK [2][-]{subsection.9.3.5}{Cyclic invocation of matches\(\)}{section.9.3}
+\BOOKMARK [1][-]{section.9.4}{Fuzzy and Dictionary-based String Matching}{chapter.9}
+\BOOKMARK [1][-]{section.9.5}{Interactive Matching}{chapter.9}
+\BOOKMARK [1][-]{section.9.6}{Exploiting the Comparison Outcome}{chapter.9}
+\BOOKMARK [0][-]{chapter.10}{The Epsilon Merging Language \(EML\)}{}
+\BOOKMARK [1][-]{section.10.1}{Motivation}{chapter.10}
+\BOOKMARK [2][-]{subsection.10.1.1}{Phases of Model Merging}{section.10.1}
+\BOOKMARK [2][-]{subsection.10.1.2}{Relationship between Model Merging and Model Transformation}{section.10.1}
+\BOOKMARK [1][-]{section.10.2}{Realizing a Model Merging Process with Epsilon}{chapter.10}
+\BOOKMARK [1][-]{section.10.3}{Abstract Syntax}{chapter.10}
+\BOOKMARK [1][-]{section.10.4}{Concrete Syntax}{chapter.10}
+\BOOKMARK [1][-]{section.10.5}{Execution Semantics}{chapter.10}
+\BOOKMARK [2][-]{subsection.10.5.1}{Rule and Block Overriding}{section.10.5}
+\BOOKMARK [2][-]{subsection.10.5.2}{Rule Scheduling}{section.10.5}
+\BOOKMARK [2][-]{subsection.10.5.3}{Rule Applicability}{section.10.5}
+\BOOKMARK [2][-]{subsection.10.5.4}{Source Elements Resolution}{section.10.5}
+\BOOKMARK [1][-]{section.10.6}{Homogeneous Model Merging Example}{chapter.10}
+\BOOKMARK [0][-]{chapter.11}{Implementing a New Task-Specific Language}{}
+\BOOKMARK [1][-]{section.11.1}{Identifying the need for a new language}{chapter.11}
+\BOOKMARK [1][-]{section.11.2}{Eliciting higher-level constructs from recurring patterns}{chapter.11}
+\BOOKMARK [1][-]{section.11.3}{Implement Execution Semantics and Scheduling}{chapter.11}
+\BOOKMARK [1][-]{section.11.4}{Overriding Semantics}{chapter.11}
+\BOOKMARK [0][-]{chapter.12}{Orchestration Workflow}{}
+\BOOKMARK [1][-]{section.12.1}{Motivation}{chapter.12}
+\BOOKMARK [1][-]{section.12.2}{The ANT Tool}{chapter.12}
+\BOOKMARK [2][-]{subsection.12.2.1}{Structure}{section.12.2}
+\BOOKMARK [2][-]{subsection.12.2.2}{Concrete Syntax}{section.12.2}
+\BOOKMARK [2][-]{subsection.12.2.3}{Extending ANT}{section.12.2}
+\BOOKMARK [1][-]{section.12.3}{Integration Challenges}{chapter.12}
+\BOOKMARK [1][-]{section.12.4}{Framework Design and Core Tasks}{chapter.12}
+\BOOKMARK [2][-]{subsection.12.4.1}{The EpsilonTask task}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.2}{Model Loading Task}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.3}{Model Storing Task}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.4}{Model Disposal Tasks}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.5}{The StartTransaction Task}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.6}{The CommitTransaction and RollbackTransaction Tasks}{section.12.4}
+\BOOKMARK [2][-]{subsection.12.4.7}{The Abstract Executable Module Task}{section.12.4}
+\BOOKMARK [1][-]{section.12.5}{Model Management Tasks}{chapter.12}
+\BOOKMARK [2][-]{subsection.12.5.1}{Generic Model Management Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.2}{Model Validation Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.3}{Model-to-Model Transformation Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.4}{Model Comparison Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.5}{Model Merging Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.6}{Model-to-Text Transformation Task}{section.12.5}
+\BOOKMARK [2][-]{subsection.12.5.7}{Adding a new Model Management Task}{section.12.5}
+\BOOKMARK [1][-]{section.12.6}{Chapter Summary}{chapter.12}
