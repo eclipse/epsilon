@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.slot.attribute.feature;
 
-import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.eclipse.epsilon.test.util.HutnTestUtil.slotTest;
 
 import java.io.IOException;
 

@@ -11,7 +11,7 @@
  *
  * $Id: GUnitGenerator.java,v 1.1 2008/08/08 14:31:56 louis Exp $
  */
-package org.eclipse.epsilon.hutn.test.util;
+package org.eclipse.epsilon.test.util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

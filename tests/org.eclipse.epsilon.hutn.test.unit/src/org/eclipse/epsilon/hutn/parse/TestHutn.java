@@ -500,7 +500,7 @@ public class TestHutn extends TestCase {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace(); System.exit(1);
 		} catch (InvocationTargetException e) {
-			return e.getCause().toString();
+			e.printStackTrace(); System.exit(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace(); System.exit(1);
 		} catch (Exception e) {

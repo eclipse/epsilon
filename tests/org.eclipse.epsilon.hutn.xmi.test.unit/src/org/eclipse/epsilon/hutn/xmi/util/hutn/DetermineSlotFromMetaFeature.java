@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.util.hutn;
 
-import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.eclipse.epsilon.test.util.HutnTestUtil.slotTest;
 import static org.junit.Assert.assertNull;
 
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;

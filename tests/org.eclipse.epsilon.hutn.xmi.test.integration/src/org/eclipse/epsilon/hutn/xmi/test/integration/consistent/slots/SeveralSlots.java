@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots;
 
-import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.eclipse.epsilon.test.util.HutnTestUtil.slotTest;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;

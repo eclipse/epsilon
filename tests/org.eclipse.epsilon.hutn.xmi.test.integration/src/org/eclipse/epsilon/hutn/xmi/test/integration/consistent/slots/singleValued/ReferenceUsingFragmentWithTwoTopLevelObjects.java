@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued;
 
-import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.eclipse.epsilon.test.util.HutnTestUtil.slotTest;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;

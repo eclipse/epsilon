@@ -6,6 +6,8 @@ Bundle-Version: 0.8.4.qualifier
 Require-Bundle: org.junit4;visibility:=reexport,
  org.eclipse.epsilon.dependencies;visibility:=reexport,
  org.eclipse.epsilon.eol.engine;visibility:=reexport,
- org.eclipse.epsilon.emc.emf;visibility:=reexport
+ org.eclipse.epsilon.emc.emf;visibility:=reexport,
+ org.eclipse.epsilon.hutn.engine;visibility:=reexport
 Bundle-Vendor: Eclipse.org
-Export-Package: org.eclipse.epsilon.test.util
+Export-Package: org.antlr.gunit,
+ org.eclipse.epsilon.test.util

@@ -13,12 +13,12 @@
  */
 package org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued;
 
-import static org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.slotTest;
+import static org.eclipse.epsilon.test.util.HutnTestUtil.slotTest;
 
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.test.integration.HutnXmiBridgeIntegrationTest;
-import org.eclipse.epsilon.hutn.xmi.test.util.HutnTestUtil.EnumValue;
+import org.eclipse.epsilon.test.util.HutnTestUtil.EnumValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
