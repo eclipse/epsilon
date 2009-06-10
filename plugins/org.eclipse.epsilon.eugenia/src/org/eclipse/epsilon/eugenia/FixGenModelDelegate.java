@@ -33,7 +33,7 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String genModelPath = getSelectedFile().getFullPath().toOSString();
+		String genModelPath = getSelectedFile().getLocationURI().toString();
 		String ecorePath = FileUtil.replaceExtension(genModelPath, "ecore");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
