@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.util.emf;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
@@ -24,12 +25,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.osgi.storagemanager.ManagedOutputStream;
 
 public class EmfRegistryManager {
 
 	protected static EmfRegistryManager instance = null;
-
+	protected HashMap<String, List<EPackage>> managedMetamodels = new HashMap<String, List<EPackage>>();
+	
 	public static EmfRegistryManager getInstance() {
 		if (instance == null) {
 			instance = new EmfRegistryManager();
@@ -41,9 +46,9 @@ public class EmfRegistryManager {
 
 		for (String metamodel : getMetamodels()) {
 			try {
-				EmfUtil.register(URI.createPlatformResourceURI(metamodel, true), EPackage.Registry.INSTANCE);
+				registerMetamodel(metamodel);
 			} catch (Exception ex) {
-				System.err.println(ex);
+				LogUtil.log(ex);
 			}
 		}
 		initChangeListener();
@@ -119,13 +124,36 @@ public class EmfRegistryManager {
 		};
 		workspace.addResourceChangeListener(listener);
 	}
-
-	public void addMetamodel(String fileName) {
+	
+	public void addMetamodel(String fileName) throws Exception {
+		registerMetamodel(fileName);
 		List<String> metamodels = getMetamodels();
 		if (!metamodels.contains(fileName)) {
 			metamodels.add(fileName);
 			setMetamodels(metamodels);
 		}
+	}
+	
+	protected void registerMetamodel(String fileName) throws Exception{
+		List<EPackage> ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+		managedMetamodels.put(fileName, ePackages);
+	}
+	
+	public void removeMetamodel(String fileName) {
+		
+		//for (String registered : managedMetamodels.keySet()) {
+		//	System.err.println("registered -> " + registered); //REMOVE_ME
+		//}
+		//System.err.println("fileName -> " + fileName); //REMOVE_ME
+		
+		List<EPackage> ePackages = managedMetamodels.get(fileName);
+		
+		if (ePackages == null) return;
+		
+		for (EPackage ePackage : ePackages) {
+			EPackage.Registry.INSTANCE.remove(ePackage.getNsURI());
+		}
+		
 	}
 	
 	/*

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.util.emf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
@@ -35,6 +36,7 @@ public class EmfRegistryPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
 	private List<String> metamodels = null;
+	private List<String> removedMetamodels = new ArrayList<String>();
 	private TableViewer metamodelsViewer;
 
 	public EmfRegistryPreferencePage() {
@@ -119,8 +121,10 @@ public class EmfRegistryPreferencePage extends PreferencePage implements
 		public void handleEvent(Event event) {
 			IStructuredSelection selection = (IStructuredSelection) metamodelsViewer.getSelection();
 			if (selection.getFirstElement() == null) return;
+			String metamodel = selection.getFirstElement().toString();
 			int index = metamodels.indexOf(selection.getFirstElement());
 			metamodels.remove(index);
+			removedMetamodels.add(metamodel);
 			metamodelsViewer.refresh(true);
 		}
 		
@@ -148,6 +152,9 @@ public class EmfRegistryPreferencePage extends PreferencePage implements
 	@Override
 	public boolean performOk() {
 		EmfRegistryManager.getInstance().setMetamodels(metamodels);
+		for (String removedMetamodel : removedMetamodels) {
+			EmfRegistryManager.getInstance().removeMetamodel(removedMetamodel);
+		}
 		return super.performOk();
 	}
 

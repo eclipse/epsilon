@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.concordance;
 
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.concordance.builder.ConcordanceNature;
 import org.eclipse.epsilon.concordance.index.CrossReferenceIndex;
 import org.eclipse.epsilon.concordance.index.CrossReferenceIndexManager;
@@ -40,7 +41,13 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		CrossReferenceIndexManager.INSTANCE.getCrossReferenceIndex().shutdown();
+		try {
+			CrossReferenceIndexManager.INSTANCE.getCrossReferenceIndex().shutdown();
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+		}
+		
 	}
 	
 	/**
