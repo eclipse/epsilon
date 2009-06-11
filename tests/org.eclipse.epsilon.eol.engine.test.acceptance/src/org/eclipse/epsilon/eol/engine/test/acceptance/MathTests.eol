@@ -57,3 +57,8 @@ operation testDivideWithFloatResult() {
 operation testDivideByZero() {
 	assertError(1/0);
 }
+
+@test
+operation testDivideString() {
+	assertError('foo'/2);
+}
