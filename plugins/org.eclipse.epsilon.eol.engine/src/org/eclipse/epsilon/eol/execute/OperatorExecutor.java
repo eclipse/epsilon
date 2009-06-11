@@ -157,14 +157,14 @@ public class OperatorExecutor extends AbstractExecutor{
 		return new Integer(0);
 	}
 
-	private Object divide(Object o1, Object o2){
+	private Object divide(Object o1, Object o2) throws EolRuntimeException {
 		if (o1 instanceof EolInteger && o2 instanceof EolInteger){
 			return ((EolInteger) o1).divide((EolInteger)o2);
 		}
 		else if (o1 instanceof EolReal && o2 instanceof EolReal){
 			return ((EolReal) o1).divide((EolReal)o2);
 		}
-		return new Integer(0);
+		throw new EolRuntimeException("Cannot divide " + context.getPrettyPrinterManager().toString(o1) + " by " + context.getPrettyPrinterManager().toString(o2));
 	}
 	
 	public EolBoolean greaterThan(Object o1, Object o2){

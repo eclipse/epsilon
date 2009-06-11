@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+
 public class EolReal extends EolPrimitive implements Comparable {
 	
 	protected double value = 0.0d;
@@ -94,7 +96,8 @@ public class EolReal extends EolPrimitive implements Comparable {
 		return value;
 	}
 
-	public EolReal divide(EolReal i) {
+	public EolReal divide(EolReal i) throws EolRuntimeException {
+		if (i.getValue() == 0) throw new EolRuntimeException("Divide by zero");
 		return new EolReal(this.doubleValue() / i.doubleValue(), this.isDoublePrecision() || i.isDoublePrecision()); 
 	}
 

@@ -15,6 +15,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAModelElementException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.eol.types.EolSequence;
 
 
 public class DeleteStatementExecutor extends AbstractExecutor {
@@ -25,21 +27,31 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		Object instance = null;
+		Object target = null;
 		if (ast.getFirstChild() != null){
-			instance = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
+			target = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
 		
-		//if (context.getModelRepository().isModelElement(instance)) {
-		IModel model = context.getModelRepository().getOwningModel(instance);
-			
-		if (model != null) {
-			model.deleteElement(instance);
-		}	
+		EolCollection col = null;
+		
+		if (target instanceof EolCollection) {
+			col = (EolCollection) target;
+		}
 		else {
-			throw new EolNotAModelElementException(ast.getFirstChild(), instance, context);
+			col = EolSequence.asSequence(target);
 		}
 		
+		for (Object instance : col.clone().getStorage()) {
+			//if (context.getModelRepository().isModelElement(instance)) {
+			IModel model = context.getModelRepository().getOwningModel(instance);
+				
+			if (model != null) {
+				model.deleteElement(instance);
+			}	
+			//else {
+			//	throw new EolNotAModelElementException(ast.getFirstChild(), instance, context);
+			//}
+		}
 		return null;
 	}
 
