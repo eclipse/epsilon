@@ -1,5 +1,5 @@
 import 'ECoreUtil.eol';
 
-for (genFeature in GenModel!GenFeature.all) {
-	genFeature.ecoreFeature.getAnnotationValue('gmf.property','category').println();
-}
+-- Set copyright
+var genModel := GenModel!GenModel.all.first();
+genModel.copyrightText := copyright;

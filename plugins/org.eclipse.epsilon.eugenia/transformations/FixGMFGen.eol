@@ -6,6 +6,8 @@ var ePackage := ECore!EPackage.all.first();
 var genDiagram := GmfGen!GenDiagram.all.first();
 var genEditorGenerator := GmfGen!GenEditorGenerator.all.first();
 
+--Set copyright
+genEditorGenerator.copyrightText := copyright;
 
 --Set same file for model and diagram
 var onefile := getDiagramClass().getAnnotationValue('gmf.diagram','onefile');

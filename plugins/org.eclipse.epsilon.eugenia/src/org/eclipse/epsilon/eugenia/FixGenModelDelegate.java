@@ -17,6 +17,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class FixGenModelDelegate extends EolTransformationActionDelegate {
 	
@@ -42,6 +43,13 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 		return models;
 	}
 
+	@Override
+	public List<Variable> getExtraVariables() {
+		ArrayList<Variable> variables = new ArrayList<Variable>();
+		variables.add(CopyrightProvider.getCopyrightVariable(getSelectedFile()));
+		return variables;
+	}
+	
 	@Override
 	public String getTitle() {
 		return "Synchronizing .genmodel model";

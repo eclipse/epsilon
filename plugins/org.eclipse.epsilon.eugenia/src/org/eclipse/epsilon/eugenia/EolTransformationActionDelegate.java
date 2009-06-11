@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eugenia;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -27,6 +28,7 @@ import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -91,6 +93,10 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 	
 	public abstract String getCustomizationTransformation();
 	
+	public List<Variable> getExtraVariables() {
+		return Collections.EMPTY_LIST;
+	}
+	
 	public void runImpl(IAction action) throws Exception {
 					  
 		EolModule builtin = new EolModule();
@@ -98,6 +104,10 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 		
 		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
 		builtin.parse(uri);
+		
+		for (Variable variable : getExtraVariables()) {
+			builtin.getContext().getFrameStack().put(variable);
+		}
 		
 		for (EmfModel model : getModels()) {
 			builtin.getContext().getModelRepository().addModel(model);
@@ -119,6 +129,9 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 					customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 					customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
 					customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
+					for (Variable variable : getExtraVariables()) {
+						customization.getContext().getFrameStack().put(variable);
+					}
 					customization.execute();
 				}
 				else {
