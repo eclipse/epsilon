@@ -1,0 +1,9 @@
+@test
+operation testJavaEquality() {
+	if (1 == 1) {
+		assertEquals(true, true);
+	}
+	else {
+		assertEquals(true, false);
+	}
+}
