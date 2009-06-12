@@ -89,7 +89,6 @@ public class EmfRegistryManager {
 				try {
 					rootDelta.accept(visitor);
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -105,13 +104,20 @@ public class EmfRegistryManager {
 					List<String> metamodels = getMetamodels();
 					if (metamodels.contains(metamodel)) {
 						if (delta.getKind() == IResourceDelta.REMOVED) {
-							metamodels.remove(metamodel);
-							setMetamodels(metamodels);
+							removeMetamodel(metamodel);
+							if (delta.getMovedToPath() != null) {
+								try {
+									addMetamodel(delta.getMovedToPath().toOSString());
+								} catch (Exception e) {
+									LogUtil.log(e);
+								}
+							}
 						}
 						else {
 							try {
 								//System.err.println(metamodel);
-								EmfUtil.register(URI.createPlatformResourceURI(metamodel, true), EPackage.Registry.INSTANCE);
+								//EmfUtil.register(URI.createPlatformResourceURI(metamodel, true), EPackage.Registry.INSTANCE);
+								registerMetamodel(metamodel);
 							}
 							catch (Exception ex) {
 								ex.printStackTrace();
@@ -134,17 +140,12 @@ public class EmfRegistryManager {
 		}
 	}
 	
-	protected void registerMetamodel(String fileName) throws Exception{
+	private void registerMetamodel(String fileName) throws Exception{
 		List<EPackage> ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
 		managedMetamodels.put(fileName, ePackages);
 	}
 	
 	public void removeMetamodel(String fileName) {
-		
-		//for (String registered : managedMetamodels.keySet()) {
-		//	System.err.println("registered -> " + registered); //REMOVE_ME
-		//}
-		//System.err.println("fileName -> " + fileName); //REMOVE_ME
 		
 		List<EPackage> ePackages = managedMetamodels.get(fileName);
 		
@@ -153,6 +154,11 @@ public class EmfRegistryManager {
 		for (EPackage ePackage : ePackages) {
 			EPackage.Registry.INSTANCE.remove(ePackage.getNsURI());
 		}
+		
+		managedMetamodels.remove(fileName);
+		List<String> metamodels = getMetamodels();
+		metamodels.remove(fileName);
+		setMetamodels(metamodels);
 		
 	}
 	
@@ -246,8 +252,9 @@ public class EmfRegistryManager {
 		}
 		return metamodels;
 	}
-
-	public void setMetamodels(List<String> metamodels) {
+	
+	
+	private void setMetamodels(List<String> metamodels) {
 		StringBuffer sb = new StringBuffer();
 		ListIterator li = metamodels.listIterator();
 		while (li.hasNext()) {

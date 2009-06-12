@@ -151,7 +151,6 @@ public class EmfRegistryPreferencePage extends PreferencePage implements
 
 	@Override
 	public boolean performOk() {
-		EmfRegistryManager.getInstance().setMetamodels(metamodels);
 		for (String removedMetamodel : removedMetamodels) {
 			EmfRegistryManager.getInstance().removeMetamodel(removedMetamodel);
 		}
