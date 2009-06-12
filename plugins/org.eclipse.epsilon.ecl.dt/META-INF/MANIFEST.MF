@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Comparison Language Development Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.ecl.dt;singleton:=true
-Bundle-Version: 0.8.5.qualifier
+Bundle-Version: 0.8.6.qualifier
 Bundle-Activator: org.eclipse.epsilon.ecl.dt.EclPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,

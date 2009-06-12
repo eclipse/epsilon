@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon EMF Virtual Model Support (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.virtual;singleton:=true
-Bundle-Version: 0.8.5.qualifier
+Bundle-Version: 0.8.6.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
