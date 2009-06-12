@@ -36,10 +36,11 @@ public abstract class AbstractGenerator {
 		EmfModel target = null;
 		
 		try {
-			final Resource resource = EmfUtil.createResource(URI.createFileURI(path.getAbsolutePath())); 
-			target = generate(resource);
+			final URI fileUri = URI.createFileURI(path.getAbsolutePath());
 			
-			target.store(path.getAbsolutePath());
+			target = generate(EmfUtil.createResource(fileUri));
+			
+			target.store(fileUri);
 	
 		} finally {
 			// Ensure that the model is always disposed, so that
