@@ -438,49 +438,24 @@ public abstract class AbstractEmfModel extends Model{
 		
 	}
 	
+	public boolean store(String fileName) {
+		return store(EmfUtil.createURI(fileName));
+	}
 	
 	// If expand == true, save the other resources in the 
 	// resource set as well
-	
 	// See how we can run store inside a WorkbenchModificationOperation
-	public boolean store(String fileName) {
-		
-		//FileOutputStream fos = null;
-		/*
-		if (modelImpl instanceof XMLResource) {
-			Map<Object, Object> options = ((XMLResource)modelImpl).getDefaultSaveOptions();
-			options.put(
-					XMLResource.OPTION_PROCESS_DANGLING_HREF, 
-					XMLResource.OPTION_PROCESS_DANGLING_HREF_RECORD);
-			options.put(XMLResource.OPTION_EXTENDED_META_DATA, true);
-		}*/
+	public boolean store(URI uri) {
 
 		try {
-			
-			//URI uri = URI.createURI(fileName);
-			
-			//if (!"platform".equals(uri.scheme())) {
-			//	uri = URI.createFileURI(fileName);
-			//}
-			
-			//fos = new FileOutputStream(fileName);
-			modelImpl.setURI(EmfUtil.createURI(fileName));
+			modelImpl.setURI(uri);
 			modelImpl.save(null);
-			//modelImpl.save(fos, null);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		//finally {
-		//	try {
-		//		fos.flush();
-		//		fos.close();
-		//	}
-		//	catch (Exception ex){
-		//		ex.printStackTrace();
-		//	}
-		//}
+
 		return true;
 	}
 	
