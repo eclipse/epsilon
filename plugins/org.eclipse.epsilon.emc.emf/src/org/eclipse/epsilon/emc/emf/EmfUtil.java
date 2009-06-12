@@ -71,9 +71,9 @@ public class EmfUtil {
     		}
         }
         // Handle paths that start with / under Unix e.g. /local/foo.txt
-        else if (OperatingSystem.isUnix() && s.startsWith("/")) { 
-            return URI.createFileURI(s);
-        }
+        // else if (OperatingSystem.isUnix() && s.startsWith("/")) { 
+        //    return URI.createFileURI(s);
+        // }
         // ... otherwise it is a platform resource uri
         else {
             return URI.createPlatformResourceURI(s, true);
