@@ -79,6 +79,12 @@ public abstract class AbstractEmfModelConstructor {
 
 		return null;
 	}
+	
+	public AbstractEmfModel constructModel(String name, String hutn) {
+		final AbstractEmfModel model = constructModel(hutn);
+		model.setName(name);
+		return model;
+	}
 
 	protected abstract List<String> getNsUris();
 	protected abstract List<String> getConfigFiles();
