@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Migration Language Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.migration.engine
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.hutn.model;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf;visibility:=reexport
+Export-Package: org.eclipse.epsilon.migration,
+ org.eclipse.epsilon.migration.copy,
+ org.eclipse.epsilon.migration.model,
+ org.eclipse.epsilon.migration.parse

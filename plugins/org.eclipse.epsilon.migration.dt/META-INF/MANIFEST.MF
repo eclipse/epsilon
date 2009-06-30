@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Migration Language Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.migration.dt;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: org.eclipse.epsilon.migration.dt.MigrationPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.epsilon.migration.engine,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.eol.dt,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.views,
+ org.eclipse.jface.text,
+ org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ org.eclipse.core.resources,
+ org.eclipse.epsilon.common.dt
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.epsilon.migration.dt,
+ org.eclipse.epsilon.migration.dt.editor,
+ org.eclipse.epsilon.migration.dt.editor.outline,
+ org.eclipse.epsilon.migration.dt.launching,
+ org.eclipse.epsilon.migration.dt.launching.tabs,
+ org.eclipse.epsilon.migration.dt.wizards
