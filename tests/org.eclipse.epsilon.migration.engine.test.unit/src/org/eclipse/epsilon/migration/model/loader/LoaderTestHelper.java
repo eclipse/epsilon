@@ -1,0 +1,45 @@
+package org.eclipse.epsilon.migration.model.loader;
+
+import java.util.Arrays;
+
+import org.antlr.runtime.CommonToken;
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.migration.parse.MigrationParser;
+
+public abstract class LoaderTestHelper {
+	
+	private LoaderTestHelper() {}
+	
+	static AST createMigrationStrategyAst(AST... rules) {
+		final AST strategy = createAST(MigrationParser.STRATEGY, "STRATEGY");
+		strategy.addChildren(Arrays.asList(rules));
+		return strategy;
+	}
+	
+	static AST createMigrationRuleAst(String originalType, String targetType, AST guard, AST block) {
+		final AST rule = createAST(MigrationParser.MIGRATE, "MIGRATE");
+		rule.addChild(createAST(MigrationParser.NAME, originalType));
+		
+		if (targetType != null)
+			rule.addChild(createAST(MigrationParser.NAME, targetType));
+		
+		if (guard != null)
+			rule.addChild(guard);
+		
+		rule.addChild(block);
+		
+		return rule;
+	}
+	
+	static AST createGuard() {
+		return createAST(MigrationParser.BOOLEAN, "true");
+	}
+	
+	static AST createBody() {
+		return createAST(MigrationParser.BLOCK, "BLOCK");
+	}
+	
+	static AST createAST(int token, String text) {
+		return new AST(new CommonToken(token, text), null);
+	}
+}

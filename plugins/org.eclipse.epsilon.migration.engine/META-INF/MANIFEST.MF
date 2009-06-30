@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
 Export-Package: org.eclipse.epsilon.migration,
  org.eclipse.epsilon.migration.copy,
  org.eclipse.epsilon.migration.model,
+ org.eclipse.epsilon.migration.model.loader,
  org.eclipse.epsilon.migration.parse

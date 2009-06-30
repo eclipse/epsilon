@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Migration__.g 2009-06-13 21:57:19
+// $ANTLR 3.1b1 Migration__.g 2009-06-30 16:58:00
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -62,6 +62,7 @@ public class MigrationLexer extends Lexer {
     public static final int NAME=16;
     public static final int T__90=90;
     public static final int RETURN=31;
+    public static final int STRATEGY=63;
     public static final int NewExpression=41;
     public static final int VAR=42;
     public static final int ANNOTATIONBLOCK=44;
@@ -101,7 +102,7 @@ public class MigrationLexer extends Lexer {
     public static final int T__72=72;
     public static final int T__70=70;
     public static final int ALIAS=62;
-    public static final int MIGRATE=63;
+    public static final int MIGRATE=64;
     public static final int JavaIDDigit=15;
     public static final int Annotation=20;
     public static final int T__76=76;
@@ -119,7 +120,6 @@ public class MigrationLexer extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__64=64;
     public static final int T__65=65;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
@@ -129,6 +129,7 @@ public class MigrationLexer extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
@@ -158,7 +159,7 @@ public class MigrationLexer extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=122;
+    public static final int Tokens=123;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
@@ -181,36 +182,16 @@ public class MigrationLexer extends Lexer {
     }
     public String getGrammarFileName() { return "Migration__.g"; }
 
-    // $ANTLR start T__64
-    public final void mT__64() throws RecognitionException {
+    // $ANTLR start T__65
+    public final void mT__65() throws RecognitionException {
         try {
-            int _type = T__64;
+            int _type = T__65;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Migration__.g:44:7: ( 'model' )
             // Migration__.g:44:9: 'model'
             {
             match("model"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__64
-
-    // $ANTLR start T__65
-    public final void mT__65() throws RecognitionException {
-        try {
-            int _type = T__65;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:45:7: ( ';' )
-            // Migration__.g:45:9: ';'
-            {
-            match(';'); 
 
             }
 
@@ -227,10 +208,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:46:7: ( ':' )
-            // Migration__.g:46:9: ':'
+            // Migration__.g:45:7: ( ';' )
+            // Migration__.g:45:9: ';'
             {
-            match(':'); 
+            match(';'); 
 
             }
 
@@ -247,10 +228,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:47:7: ( ',' )
-            // Migration__.g:47:9: ','
+            // Migration__.g:46:7: ( ':' )
+            // Migration__.g:46:9: ':'
             {
-            match(','); 
+            match(':'); 
 
             }
 
@@ -267,11 +248,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:48:7: ( 'alias' )
-            // Migration__.g:48:9: 'alias'
+            // Migration__.g:47:7: ( ',' )
+            // Migration__.g:47:9: ','
             {
-            match("alias"); 
-
+            match(','); 
 
             }
 
@@ -288,10 +268,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:49:7: ( 'operation' )
-            // Migration__.g:49:9: 'operation'
+            // Migration__.g:48:7: ( 'alias' )
+            // Migration__.g:48:9: 'alias'
             {
-            match("operation"); 
+            match("alias"); 
 
 
             }
@@ -309,10 +289,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:50:7: ( '(' )
-            // Migration__.g:50:9: '('
+            // Migration__.g:49:7: ( 'operation' )
+            // Migration__.g:49:9: 'operation'
             {
-            match('('); 
+            match("operation"); 
+
 
             }
 
@@ -329,10 +310,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:51:7: ( ')' )
-            // Migration__.g:51:9: ')'
+            // Migration__.g:50:7: ( '(' )
+            // Migration__.g:50:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -349,11 +330,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:52:7: ( 'import' )
-            // Migration__.g:52:9: 'import'
+            // Migration__.g:51:7: ( ')' )
+            // Migration__.g:51:9: ')'
             {
-            match("import"); 
-
+            match(')'); 
 
             }
 
@@ -370,10 +350,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:53:7: ( '{' )
-            // Migration__.g:53:9: '{'
+            // Migration__.g:52:7: ( 'import' )
+            // Migration__.g:52:9: 'import'
             {
-            match('{'); 
+            match("import"); 
+
 
             }
 
@@ -390,10 +371,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:54:7: ( '}' )
-            // Migration__.g:54:9: '}'
+            // Migration__.g:53:7: ( '{' )
+            // Migration__.g:53:9: '{'
             {
-            match('}'); 
+            match('{'); 
 
             }
 
@@ -410,10 +391,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:55:7: ( '$' )
-            // Migration__.g:55:9: '$'
+            // Migration__.g:54:7: ( '}' )
+            // Migration__.g:54:9: '}'
             {
-            match('$'); 
+            match('}'); 
 
             }
 
@@ -430,10 +411,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:56:7: ( '!' )
-            // Migration__.g:56:9: '!'
+            // Migration__.g:55:7: ( '$' )
+            // Migration__.g:55:9: '$'
             {
-            match('!'); 
+            match('$'); 
 
             }
 
@@ -450,11 +431,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:57:7: ( '::' )
-            // Migration__.g:57:9: '::'
+            // Migration__.g:56:7: ( '!' )
+            // Migration__.g:56:9: '!'
             {
-            match("::"); 
-
+            match('!'); 
 
             }
 
@@ -471,10 +451,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:58:7: ( '#' )
-            // Migration__.g:58:9: '#'
+            // Migration__.g:57:7: ( '::' )
+            // Migration__.g:57:9: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -491,11 +472,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:59:7: ( 'Native' )
-            // Migration__.g:59:9: 'Native'
+            // Migration__.g:58:7: ( '#' )
+            // Migration__.g:58:9: '#'
             {
-            match("Native"); 
-
+            match('#'); 
 
             }
 
@@ -512,10 +492,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__80;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:60:7: ( 'Collection' )
-            // Migration__.g:60:9: 'Collection'
+            // Migration__.g:59:7: ( 'Native' )
+            // Migration__.g:59:9: 'Native'
             {
-            match("Collection"); 
+            match("Native"); 
 
 
             }
@@ -533,10 +513,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__81;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:61:7: ( 'Sequence' )
-            // Migration__.g:61:9: 'Sequence'
+            // Migration__.g:60:7: ( 'Collection' )
+            // Migration__.g:60:9: 'Collection'
             {
-            match("Sequence"); 
+            match("Collection"); 
 
 
             }
@@ -554,10 +534,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__82;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:62:7: ( 'Bag' )
-            // Migration__.g:62:9: 'Bag'
+            // Migration__.g:61:7: ( 'Sequence' )
+            // Migration__.g:61:9: 'Sequence'
             {
-            match("Bag"); 
+            match("Sequence"); 
 
 
             }
@@ -575,10 +555,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__83;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:63:7: ( 'Set' )
-            // Migration__.g:63:9: 'Set'
+            // Migration__.g:62:7: ( 'Bag' )
+            // Migration__.g:62:9: 'Bag'
             {
-            match("Set"); 
+            match("Bag"); 
 
 
             }
@@ -596,10 +576,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__84;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:64:7: ( 'OrderedSet' )
-            // Migration__.g:64:9: 'OrderedSet'
+            // Migration__.g:63:7: ( 'Set' )
+            // Migration__.g:63:9: 'Set'
             {
-            match("OrderedSet"); 
+            match("Set"); 
 
 
             }
@@ -617,10 +597,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__85;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:65:7: ( 'for' )
-            // Migration__.g:65:9: 'for'
+            // Migration__.g:64:7: ( 'OrderedSet' )
+            // Migration__.g:64:9: 'OrderedSet'
             {
-            match("for"); 
+            match("OrderedSet"); 
 
 
             }
@@ -638,10 +618,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__86;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:66:7: ( 'in' )
-            // Migration__.g:66:9: 'in'
+            // Migration__.g:65:7: ( 'for' )
+            // Migration__.g:65:9: 'for'
             {
-            match("in"); 
+            match("for"); 
 
 
             }
@@ -659,10 +639,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__87;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:67:7: ( 'if' )
-            // Migration__.g:67:9: 'if'
+            // Migration__.g:66:7: ( 'in' )
+            // Migration__.g:66:9: 'in'
             {
-            match("if"); 
+            match("in"); 
 
 
             }
@@ -680,10 +660,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__88;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:68:7: ( 'else' )
-            // Migration__.g:68:9: 'else'
+            // Migration__.g:67:7: ( 'if' )
+            // Migration__.g:67:9: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -701,10 +681,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__89;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:69:7: ( 'while' )
-            // Migration__.g:69:9: 'while'
+            // Migration__.g:68:7: ( 'else' )
+            // Migration__.g:68:9: 'else'
             {
-            match("while"); 
+            match("else"); 
 
 
             }
@@ -722,10 +702,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__90;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:70:7: ( 'return' )
-            // Migration__.g:70:9: 'return'
+            // Migration__.g:69:7: ( 'while' )
+            // Migration__.g:69:9: 'while'
             {
-            match("return"); 
+            match("while"); 
 
 
             }
@@ -743,10 +723,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__91;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:71:7: ( 'throw' )
-            // Migration__.g:71:9: 'throw'
+            // Migration__.g:70:7: ( 'return' )
+            // Migration__.g:70:9: 'return'
             {
-            match("throw"); 
+            match("return"); 
 
 
             }
@@ -764,10 +744,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__92;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:72:7: ( 'delete' )
-            // Migration__.g:72:9: 'delete'
+            // Migration__.g:71:7: ( 'throw' )
+            // Migration__.g:71:9: 'throw'
             {
-            match("delete"); 
+            match("throw"); 
 
 
             }
@@ -785,10 +765,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__93;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:73:7: ( 'break' )
-            // Migration__.g:73:9: 'break'
+            // Migration__.g:72:7: ( 'delete' )
+            // Migration__.g:72:9: 'delete'
             {
-            match("break"); 
+            match("delete"); 
 
 
             }
@@ -806,10 +786,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__94;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:74:7: ( 'breakAll' )
-            // Migration__.g:74:9: 'breakAll'
+            // Migration__.g:73:7: ( 'break' )
+            // Migration__.g:73:9: 'break'
             {
-            match("breakAll"); 
+            match("break"); 
 
 
             }
@@ -827,10 +807,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__95;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:75:7: ( 'continue' )
-            // Migration__.g:75:9: 'continue'
+            // Migration__.g:74:7: ( 'breakAll' )
+            // Migration__.g:74:9: 'breakAll'
             {
-            match("continue"); 
+            match("breakAll"); 
 
 
             }
@@ -848,10 +828,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__96;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:76:7: ( 'abort' )
-            // Migration__.g:76:9: 'abort'
+            // Migration__.g:75:7: ( 'continue' )
+            // Migration__.g:75:9: 'continue'
             {
-            match("abort"); 
+            match("continue"); 
 
 
             }
@@ -869,10 +849,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:77:7: ( 'transaction' )
-            // Migration__.g:77:9: 'transaction'
+            // Migration__.g:76:7: ( 'abort' )
+            // Migration__.g:76:9: 'abort'
             {
-            match("transaction"); 
+            match("abort"); 
 
 
             }
@@ -890,10 +870,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:78:7: ( ':=' )
-            // Migration__.g:78:9: ':='
+            // Migration__.g:77:7: ( 'transaction' )
+            // Migration__.g:77:9: 'transaction'
             {
-            match(":="); 
+            match("transaction"); 
 
 
             }
@@ -911,10 +891,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:79:7: ( '::=' )
-            // Migration__.g:79:9: '::='
+            // Migration__.g:78:7: ( ':=' )
+            // Migration__.g:78:9: ':='
             {
-            match("::="); 
+            match(":="); 
 
 
             }
@@ -932,10 +912,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:80:8: ( 'or' )
-            // Migration__.g:80:10: 'or'
+            // Migration__.g:79:8: ( '::=' )
+            // Migration__.g:79:10: '::='
             {
-            match("or"); 
+            match("::="); 
 
 
             }
@@ -953,10 +933,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:81:8: ( 'and' )
-            // Migration__.g:81:10: 'and'
+            // Migration__.g:80:8: ( 'or' )
+            // Migration__.g:80:10: 'or'
             {
-            match("and"); 
+            match("or"); 
 
 
             }
@@ -974,10 +954,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:82:8: ( 'xor' )
-            // Migration__.g:82:10: 'xor'
+            // Migration__.g:81:8: ( 'and' )
+            // Migration__.g:81:10: 'and'
             {
-            match("xor"); 
+            match("and"); 
 
 
             }
@@ -995,10 +975,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:83:8: ( 'implies' )
-            // Migration__.g:83:10: 'implies'
+            // Migration__.g:82:8: ( 'xor' )
+            // Migration__.g:82:10: 'xor'
             {
-            match("implies"); 
+            match("xor"); 
 
 
             }
@@ -1016,10 +996,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:84:8: ( '==' )
-            // Migration__.g:84:10: '=='
+            // Migration__.g:83:8: ( 'implies' )
+            // Migration__.g:83:10: 'implies'
             {
-            match("=="); 
+            match("implies"); 
 
 
             }
@@ -1037,10 +1017,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:85:8: ( '=' )
-            // Migration__.g:85:10: '='
+            // Migration__.g:84:8: ( '==' )
+            // Migration__.g:84:10: '=='
             {
-            match('='); 
+            match("=="); 
+
 
             }
 
@@ -1057,10 +1038,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:86:8: ( '>' )
-            // Migration__.g:86:10: '>'
+            // Migration__.g:85:8: ( '=' )
+            // Migration__.g:85:10: '='
             {
-            match('>'); 
+            match('='); 
 
             }
 
@@ -1077,10 +1058,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:87:8: ( '<' )
-            // Migration__.g:87:10: '<'
+            // Migration__.g:86:8: ( '>' )
+            // Migration__.g:86:10: '>'
             {
-            match('<'); 
+            match('>'); 
 
             }
 
@@ -1097,11 +1078,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:88:8: ( '>=' )
-            // Migration__.g:88:10: '>='
+            // Migration__.g:87:8: ( '<' )
+            // Migration__.g:87:10: '<'
             {
-            match(">="); 
-
+            match('<'); 
 
             }
 
@@ -1118,10 +1098,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:89:8: ( '<=' )
-            // Migration__.g:89:10: '<='
+            // Migration__.g:88:8: ( '>=' )
+            // Migration__.g:88:10: '>='
             {
-            match("<="); 
+            match(">="); 
 
 
             }
@@ -1139,10 +1119,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:90:8: ( '<>' )
-            // Migration__.g:90:10: '<>'
+            // Migration__.g:89:8: ( '<=' )
+            // Migration__.g:89:10: '<='
             {
-            match("<>"); 
+            match("<="); 
 
 
             }
@@ -1160,10 +1140,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:91:8: ( '+' )
-            // Migration__.g:91:10: '+'
+            // Migration__.g:90:8: ( '<>' )
+            // Migration__.g:90:10: '<>'
             {
-            match('+'); 
+            match("<>"); 
+
 
             }
 
@@ -1180,10 +1161,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:92:8: ( '-' )
-            // Migration__.g:92:10: '-'
+            // Migration__.g:91:8: ( '+' )
+            // Migration__.g:91:10: '+'
             {
-            match('-'); 
+            match('+'); 
 
             }
 
@@ -1200,10 +1181,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:93:8: ( '*' )
-            // Migration__.g:93:10: '*'
+            // Migration__.g:92:8: ( '-' )
+            // Migration__.g:92:10: '-'
             {
-            match('*'); 
+            match('-'); 
 
             }
 
@@ -1220,10 +1201,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:94:8: ( '/' )
-            // Migration__.g:94:10: '/'
+            // Migration__.g:93:8: ( '*' )
+            // Migration__.g:93:10: '*'
             {
-            match('/'); 
+            match('*'); 
 
             }
 
@@ -1240,11 +1221,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:95:8: ( 'not' )
-            // Migration__.g:95:10: 'not'
+            // Migration__.g:94:8: ( '/' )
+            // Migration__.g:94:10: '/'
             {
-            match("not"); 
-
+            match('/'); 
 
             }
 
@@ -1261,10 +1241,11 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:96:8: ( '|' )
-            // Migration__.g:96:10: '|'
+            // Migration__.g:95:8: ( 'not' )
+            // Migration__.g:95:10: 'not'
             {
-            match('|'); 
+            match("not"); 
+
 
             }
 
@@ -1281,11 +1262,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:97:8: ( 'new' )
-            // Migration__.g:97:10: 'new'
+            // Migration__.g:96:8: ( '|' )
+            // Migration__.g:96:10: '|'
             {
-            match("new"); 
-
+            match('|'); 
 
             }
 
@@ -1302,10 +1282,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:98:8: ( 'var' )
-            // Migration__.g:98:10: 'var'
+            // Migration__.g:97:8: ( 'new' )
+            // Migration__.g:97:10: 'new'
             {
-            match("var"); 
+            match("new"); 
 
 
             }
@@ -1323,10 +1303,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__119;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:99:8: ( 'migrate' )
-            // Migration__.g:99:10: 'migrate'
+            // Migration__.g:98:8: ( 'var' )
+            // Migration__.g:98:10: 'var'
             {
-            match("migrate"); 
+            match("var"); 
 
 
             }
@@ -1344,10 +1324,10 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__120;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Migration__.g:100:8: ( 'to' )
-            // Migration__.g:100:10: 'to'
+            // Migration__.g:99:8: ( 'migrate' )
+            // Migration__.g:99:10: 'migrate'
             {
-            match("to"); 
+            match("migrate"); 
 
 
             }
@@ -1365,6 +1345,27 @@ public class MigrationLexer extends Lexer {
         try {
             int _type = T__121;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Migration__.g:100:8: ( 'to' )
+            // Migration__.g:100:10: 'to'
+            {
+            match("to"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__121
+
+    // $ANTLR start T__122
+    public final void mT__122() throws RecognitionException {
+        try {
+            int _type = T__122;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // Migration__.g:101:8: ( 'when' )
             // Migration__.g:101:10: 'when'
             {
@@ -1379,421 +1380,421 @@ public class MigrationLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T__121
+    // $ANTLR end T__122
 
     public void mTokens() throws RecognitionException {
-        // Migration__.g:1:8: ( T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | EolLexerRules. Tokens )
+        // Migration__.g:1:8: ( T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens )
         int alt1=59;
         alt1 = dfa1.predict(input);
         switch (alt1) {
             case 1 :
-                // Migration__.g:1:10: T__64
-                {
-                mT__64(); 
-
-                }
-                break;
-            case 2 :
-                // Migration__.g:1:16: T__65
+                // Migration__.g:1:10: T__65
                 {
                 mT__65(); 
 
                 }
                 break;
-            case 3 :
-                // Migration__.g:1:22: T__66
+            case 2 :
+                // Migration__.g:1:16: T__66
                 {
                 mT__66(); 
 
                 }
                 break;
-            case 4 :
-                // Migration__.g:1:28: T__67
+            case 3 :
+                // Migration__.g:1:22: T__67
                 {
                 mT__67(); 
 
                 }
                 break;
-            case 5 :
-                // Migration__.g:1:34: T__68
+            case 4 :
+                // Migration__.g:1:28: T__68
                 {
                 mT__68(); 
 
                 }
                 break;
-            case 6 :
-                // Migration__.g:1:40: T__69
+            case 5 :
+                // Migration__.g:1:34: T__69
                 {
                 mT__69(); 
 
                 }
                 break;
-            case 7 :
-                // Migration__.g:1:46: T__70
+            case 6 :
+                // Migration__.g:1:40: T__70
                 {
                 mT__70(); 
 
                 }
                 break;
-            case 8 :
-                // Migration__.g:1:52: T__71
+            case 7 :
+                // Migration__.g:1:46: T__71
                 {
                 mT__71(); 
 
                 }
                 break;
-            case 9 :
-                // Migration__.g:1:58: T__72
+            case 8 :
+                // Migration__.g:1:52: T__72
                 {
                 mT__72(); 
 
                 }
                 break;
-            case 10 :
-                // Migration__.g:1:64: T__73
+            case 9 :
+                // Migration__.g:1:58: T__73
                 {
                 mT__73(); 
 
                 }
                 break;
-            case 11 :
-                // Migration__.g:1:70: T__74
+            case 10 :
+                // Migration__.g:1:64: T__74
                 {
                 mT__74(); 
 
                 }
                 break;
-            case 12 :
-                // Migration__.g:1:76: T__75
+            case 11 :
+                // Migration__.g:1:70: T__75
                 {
                 mT__75(); 
 
                 }
                 break;
-            case 13 :
-                // Migration__.g:1:82: T__76
+            case 12 :
+                // Migration__.g:1:76: T__76
                 {
                 mT__76(); 
 
                 }
                 break;
-            case 14 :
-                // Migration__.g:1:88: T__77
+            case 13 :
+                // Migration__.g:1:82: T__77
                 {
                 mT__77(); 
 
                 }
                 break;
-            case 15 :
-                // Migration__.g:1:94: T__78
+            case 14 :
+                // Migration__.g:1:88: T__78
                 {
                 mT__78(); 
 
                 }
                 break;
-            case 16 :
-                // Migration__.g:1:100: T__79
+            case 15 :
+                // Migration__.g:1:94: T__79
                 {
                 mT__79(); 
 
                 }
                 break;
-            case 17 :
-                // Migration__.g:1:106: T__80
+            case 16 :
+                // Migration__.g:1:100: T__80
                 {
                 mT__80(); 
 
                 }
                 break;
-            case 18 :
-                // Migration__.g:1:112: T__81
+            case 17 :
+                // Migration__.g:1:106: T__81
                 {
                 mT__81(); 
 
                 }
                 break;
-            case 19 :
-                // Migration__.g:1:118: T__82
+            case 18 :
+                // Migration__.g:1:112: T__82
                 {
                 mT__82(); 
 
                 }
                 break;
-            case 20 :
-                // Migration__.g:1:124: T__83
+            case 19 :
+                // Migration__.g:1:118: T__83
                 {
                 mT__83(); 
 
                 }
                 break;
-            case 21 :
-                // Migration__.g:1:130: T__84
+            case 20 :
+                // Migration__.g:1:124: T__84
                 {
                 mT__84(); 
 
                 }
                 break;
-            case 22 :
-                // Migration__.g:1:136: T__85
+            case 21 :
+                // Migration__.g:1:130: T__85
                 {
                 mT__85(); 
 
                 }
                 break;
-            case 23 :
-                // Migration__.g:1:142: T__86
+            case 22 :
+                // Migration__.g:1:136: T__86
                 {
                 mT__86(); 
 
                 }
                 break;
-            case 24 :
-                // Migration__.g:1:148: T__87
+            case 23 :
+                // Migration__.g:1:142: T__87
                 {
                 mT__87(); 
 
                 }
                 break;
-            case 25 :
-                // Migration__.g:1:154: T__88
+            case 24 :
+                // Migration__.g:1:148: T__88
                 {
                 mT__88(); 
 
                 }
                 break;
-            case 26 :
-                // Migration__.g:1:160: T__89
+            case 25 :
+                // Migration__.g:1:154: T__89
                 {
                 mT__89(); 
 
                 }
                 break;
-            case 27 :
-                // Migration__.g:1:166: T__90
+            case 26 :
+                // Migration__.g:1:160: T__90
                 {
                 mT__90(); 
 
                 }
                 break;
-            case 28 :
-                // Migration__.g:1:172: T__91
+            case 27 :
+                // Migration__.g:1:166: T__91
                 {
                 mT__91(); 
 
                 }
                 break;
-            case 29 :
-                // Migration__.g:1:178: T__92
+            case 28 :
+                // Migration__.g:1:172: T__92
                 {
                 mT__92(); 
 
                 }
                 break;
-            case 30 :
-                // Migration__.g:1:184: T__93
+            case 29 :
+                // Migration__.g:1:178: T__93
                 {
                 mT__93(); 
 
                 }
                 break;
-            case 31 :
-                // Migration__.g:1:190: T__94
+            case 30 :
+                // Migration__.g:1:184: T__94
                 {
                 mT__94(); 
 
                 }
                 break;
-            case 32 :
-                // Migration__.g:1:196: T__95
+            case 31 :
+                // Migration__.g:1:190: T__95
                 {
                 mT__95(); 
 
                 }
                 break;
-            case 33 :
-                // Migration__.g:1:202: T__96
+            case 32 :
+                // Migration__.g:1:196: T__96
                 {
                 mT__96(); 
 
                 }
                 break;
-            case 34 :
-                // Migration__.g:1:208: T__97
+            case 33 :
+                // Migration__.g:1:202: T__97
                 {
                 mT__97(); 
 
                 }
                 break;
-            case 35 :
-                // Migration__.g:1:214: T__98
+            case 34 :
+                // Migration__.g:1:208: T__98
                 {
                 mT__98(); 
 
                 }
                 break;
-            case 36 :
-                // Migration__.g:1:220: T__99
+            case 35 :
+                // Migration__.g:1:214: T__99
                 {
                 mT__99(); 
 
                 }
                 break;
-            case 37 :
-                // Migration__.g:1:226: T__100
+            case 36 :
+                // Migration__.g:1:220: T__100
                 {
                 mT__100(); 
 
                 }
                 break;
-            case 38 :
-                // Migration__.g:1:233: T__101
+            case 37 :
+                // Migration__.g:1:227: T__101
                 {
                 mT__101(); 
 
                 }
                 break;
-            case 39 :
-                // Migration__.g:1:240: T__102
+            case 38 :
+                // Migration__.g:1:234: T__102
                 {
                 mT__102(); 
 
                 }
                 break;
-            case 40 :
-                // Migration__.g:1:247: T__103
+            case 39 :
+                // Migration__.g:1:241: T__103
                 {
                 mT__103(); 
 
                 }
                 break;
-            case 41 :
-                // Migration__.g:1:254: T__104
+            case 40 :
+                // Migration__.g:1:248: T__104
                 {
                 mT__104(); 
 
                 }
                 break;
-            case 42 :
-                // Migration__.g:1:261: T__105
+            case 41 :
+                // Migration__.g:1:255: T__105
                 {
                 mT__105(); 
 
                 }
                 break;
-            case 43 :
-                // Migration__.g:1:268: T__106
+            case 42 :
+                // Migration__.g:1:262: T__106
                 {
                 mT__106(); 
 
                 }
                 break;
-            case 44 :
-                // Migration__.g:1:275: T__107
+            case 43 :
+                // Migration__.g:1:269: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 45 :
-                // Migration__.g:1:282: T__108
+            case 44 :
+                // Migration__.g:1:276: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 46 :
-                // Migration__.g:1:289: T__109
+            case 45 :
+                // Migration__.g:1:283: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 47 :
-                // Migration__.g:1:296: T__110
+            case 46 :
+                // Migration__.g:1:290: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 48 :
-                // Migration__.g:1:303: T__111
+            case 47 :
+                // Migration__.g:1:297: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 49 :
-                // Migration__.g:1:310: T__112
+            case 48 :
+                // Migration__.g:1:304: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 50 :
-                // Migration__.g:1:317: T__113
+            case 49 :
+                // Migration__.g:1:311: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 51 :
-                // Migration__.g:1:324: T__114
+            case 50 :
+                // Migration__.g:1:318: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 52 :
-                // Migration__.g:1:331: T__115
+            case 51 :
+                // Migration__.g:1:325: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 53 :
-                // Migration__.g:1:338: T__116
+            case 52 :
+                // Migration__.g:1:332: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 54 :
-                // Migration__.g:1:345: T__117
+            case 53 :
+                // Migration__.g:1:339: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 55 :
-                // Migration__.g:1:352: T__118
+            case 54 :
+                // Migration__.g:1:346: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
-            case 56 :
-                // Migration__.g:1:359: T__119
+            case 55 :
+                // Migration__.g:1:353: T__119
                 {
                 mT__119(); 
 
                 }
                 break;
-            case 57 :
-                // Migration__.g:1:366: T__120
+            case 56 :
+                // Migration__.g:1:360: T__120
                 {
                 mT__120(); 
 
                 }
                 break;
-            case 58 :
-                // Migration__.g:1:373: T__121
+            case 57 :
+                // Migration__.g:1:367: T__121
                 {
                 mT__121(); 
 
                 }
                 break;
+            case 58 :
+                // Migration__.g:1:374: T__122
+                {
+                mT__122(); 
+
+                }
+                break;
             case 59 :
-                // Migration__.g:1:380: EolLexerRules. Tokens
+                // Migration__.g:1:381: EolLexerRules. Tokens
                 {
                 gEolLexerRules.mTokens(); 
 
@@ -2230,7 +2231,7 @@ public class MigrationLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | EolLexerRules. Tokens );";
+            return "1:1: Tokens : ( T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens );";
         }
     }
  

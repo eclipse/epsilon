@@ -10,6 +10,33 @@ public class TestMigration extends TestCase {
 	String stdout;
 	String stderr;
 
+	public void testMigrationStrategy1() throws Exception {
+		// test input: ""
+		Object retval = execParser("migrationStrategy", "", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "STRATEGY";
+
+		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+	}
+
+	public void testMigrationStrategy2() throws Exception {
+		// test input: "migrate Person { name := nom; }"
+		Object retval = execParser("migrationStrategy", "migrate Person { name := nom; }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))))";
+
+		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+	}
+
+	public void testMigrationStrategy3() throws Exception {
+		// test input: "migrate Person { name := nom; } migrate Animal { name := nom; }"
+		Object retval = execParser("migrationStrategy", "migrate Person { name := nom; } migrate Animal { name := nom; }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))";
+
+		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+	}
+
 	public void testMigrationRule1() throws Exception {
 		// test input: "migrate Person { }"
 		Object retval = execParser("migrationRule", "migrate Person { }", false);

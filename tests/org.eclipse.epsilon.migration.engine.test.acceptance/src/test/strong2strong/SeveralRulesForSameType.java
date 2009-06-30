@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SingleGuard extends Strong2StrongMigrationAcceptanceTest {
+public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person to NamedPerson "    +
 	                                       "when: original.name.isDefined() {" +

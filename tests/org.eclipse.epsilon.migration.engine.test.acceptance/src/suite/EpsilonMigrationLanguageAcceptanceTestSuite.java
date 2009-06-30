@@ -22,13 +22,14 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import test.strong2strong.AutomaticallyCopyModelElementsThatHaveNoStrategy;
 import test.strong2strong.MigrateToDifferentType;
+import test.strong2strong.SeveralRules;
 import test.strong2strong.Simple;
-import test.strong2strong.SingleGuard;
+import test.strong2strong.Guard;
 
 @RunWith(Suite.class)
-@SuiteClasses({Simple.class, AutomaticallyCopyModelElementsThatHaveNoStrategy.class,
+@SuiteClasses({Simple.class, AutomaticallyCopyModelElementsThatHaveNoStrategy.class, SeveralRules.class,
                MigrateToDifferentType.class,
-               SingleGuard.class})
+               Guard.class})
 public class EpsilonMigrationLanguageAcceptanceTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonMigrationLanguageAcceptanceTestSuite.class);

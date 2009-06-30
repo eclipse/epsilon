@@ -11,33 +11,22 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration.model;
+package org.eclipse.epsilon.migration.model.loader;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.eclipse.epsilon.migration.parse.MigrationParser;
 
-/**
- * Walks the AST, constructing an equivalent domain model
- * containing MigrationRule objects.
- * 
- * @author lrose
- */
-public class MigrationStrategyLoader {
+public class MigrationRuleLoader {
 
 	private AST ast;
 	
-	public MigrationStrategyLoader(AST ast) {
+	public MigrationRuleLoader(AST ast) {
 		this.ast = ast;
 	}
 	
-	public MigrationStrategy run() {
-		final MigrationStrategy strategy = new MigrationStrategy();
-		
-		if (ast != null) {
-			strategy.addRule(new MigrationRule(getSourceType(), getTargetType(), getGuard(), getBody()));
-		}
-		
-		return strategy;
+	public MigrationRule run() {
+		return new MigrationRule(getSourceType(), getTargetType(), getGuard(), getBody());
 	}
 
 	private String getSourceType() {

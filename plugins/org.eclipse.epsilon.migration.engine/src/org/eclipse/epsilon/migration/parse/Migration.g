@@ -42,7 +42,7 @@ options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.ec
 import EolLexerRules, EolParserRules;
 
 tokens {
-  MIGRATE;
+  STRATEGY; MIGRATE;
 }
 
 @header {
@@ -89,6 +89,9 @@ package org.eclipse.epsilon.migration.parse;
  ******************************************************************************/
 package org.eclipse.epsilon.migration.parse;
 }
+
+migrationStrategy
+  : migrationRule* -> ^(STRATEGY migrationRule*);
 
 migrationRule
   : 'migrate' sourceType=NAME ('to' targetType=NAME)? ('when' expressionOrStatementBlock)? '{' block '}' 

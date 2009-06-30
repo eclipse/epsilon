@@ -32,23 +32,6 @@ public class MigrationRule {
 		this.guard        = guard;
 		this.body         = body;
 	}
-
-	// These accessors are used only by unit tests
-	String getSourceType() {
-		return originalType;
-	}
-	
-	String getTargetType() {
-		return targetType;
-	}
-
-	AST getGuard() {
-		return guard;
-	}
-	
-	AST getBody() {
-		return body;
-	}
 	
 	@Override
 	public String toString() {

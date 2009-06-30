@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.migration.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-06-13 21:57:21
+// $ANTLR 3.1b1 EolLexerRules.g 2009-06-30 16:58:01
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -62,6 +62,7 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int NAME=16;
     public static final int T__90=90;
     public static final int RETURN=31;
+    public static final int STRATEGY=63;
     public static final int NewExpression=41;
     public static final int VAR=42;
     public static final int ANNOTATIONBLOCK=44;
@@ -101,7 +102,7 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int T__72=72;
     public static final int T__70=70;
     public static final int ALIAS=62;
-    public static final int MIGRATE=63;
+    public static final int MIGRATE=64;
     public static final int JavaIDDigit=15;
     public static final int Annotation=20;
     public static final int T__76=76;
@@ -119,7 +120,6 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__64=64;
     public static final int T__65=65;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
@@ -129,6 +129,7 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
@@ -158,7 +159,7 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=122;
+    public static final int Tokens=123;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;

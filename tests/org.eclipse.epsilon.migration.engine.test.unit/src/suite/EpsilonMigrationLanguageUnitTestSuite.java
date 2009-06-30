@@ -18,8 +18,8 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.migration.model.MigrationRuleExecuteTest;
 import org.eclipse.epsilon.migration.model.MigrationRuleGuardTest;
-import org.eclipse.epsilon.migration.model.MigrationStrategyLoaderTest;
 import org.eclipse.epsilon.migration.model.MigrationStrategyTest;
+import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoaderTest;
 import org.eclipse.epsilon.migration.parse.TestMigration;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
