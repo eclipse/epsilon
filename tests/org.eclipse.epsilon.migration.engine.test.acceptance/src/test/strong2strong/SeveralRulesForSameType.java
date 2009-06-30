@@ -24,27 +24,31 @@ import org.junit.Test;
 
 public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate Person to NamedPerson "    +
-	                                       "when: original.name.isDefined() {" +
+	private static final String strategy = "migrate Person " +
+	                                       "when: ' '.isSubstringOf(original.name) {" +
 	                                       "	target.name := original.name;" +
+	                                       "}" +
+	                                       "migrate Person " +
+	                                       "when: original.name.isDefined() {" +
+	                                       "	target.name := original.name + ' Smith';" +
+	                                       "}" +
+	                                       "migrate Person {" +
+	                                       "	target.name := 'John Doe';"   +
 	                                       "}";
 	
-	private static final String originalModel = "Families {"             +
-	                                            "	Person {"            +
-	                                            "		name: \"John\""  +
-	                                            "	}"                   +
-	                                            "	Person {"            +
-	                                            "	}"                   +
+	private static final String originalModel = "Families {"                   +
+	                                            "	Person {"                  +
+	                                            "		name: \"Jack\""        +
+	                                            "	}"                         +
+	                                            "	Person {"                  +
+	                                            "		name: \"Joe Bloggs\""  +
+	                                            "	}"                         +
+	                                            "	Person {"                  +
+	                                            "	}"                         +
 	                                            "}";
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
 	                                                 	.with(anEClass().named("Person")
-	                                                 		.with(anEAttribute()
-	                                                 			.named("name")
-	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
-	                                               			)
-	                                               		)
-	                                                 	.with(anEClass().named("NamedPerson")
 	                                                 		.with(anEAttribute()
 	                                                 			.named("name")
 	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
@@ -55,17 +59,23 @@ public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTes
 	public static void setup() throws Exception {
 		migrate(strategy, originalModel, evolvedMetamodel);
 		
-		migrated.setVariable("person",      "Person.all.first");
-		migrated.setVariable("namedperson", "NamedPerson.all.first");
+		migrated.setVariable("jack", "Person.all.selectOne(p|p.name.startsWith('Jack'))");
+		migrated.setVariable("joe",  "Person.all.selectOne(p|p.name.startsWith('Joe'))");
+		migrated.setVariable("john", "Person.all.selectOne(p|p.name.startsWith('John'))");
 	}
 	
 	@Test
-	public void personHasNoName() {
-		migrated.assertUndefined("person.name");
+	public void personWithSurnameIsUnchanged() {
+		migrated.assertEquals("Joe Bloggs", "joe.name");
 	}
 	
 	@Test
-	public void namedPersonHasSameName() {
-		migrated.assertEquals("John", "namedperson.name");
+	public void personWithoutSurnameNowHasSmithAsSurname() {
+		migrated.assertEquals("Jack Smith", "jack.name");
+	}
+	
+	@Test
+	public void anonymousPersonIsNowNamedJohnDoe() {
+		migrated.assertEquals("John Doe", "john.name");
 	}
 }
