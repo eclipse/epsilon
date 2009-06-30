@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.migration.engine.test.unit;bundle-version="0.0.1",
  org.eclipse.epsilon.migration.engine.test.acceptance;bundle-version="0.0.1",
  org.eclipse.epsilon.migration.engine.test.dependencies;bundle-version="0.0.1"
+Export-Package: org.eclipse.epsilon.migration.test

@@ -22,15 +22,17 @@ import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
+import org.eclipse.epsilon.migration.test.EpsilonMigrationLanguageTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EolAcceptanceTestSuite.class, EglTestSuite.class,
+@SuiteClasses({EmfTestSuite.class,
+               EolAcceptanceTestSuite.class, EglTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
-               EmfTestSuite.class})
+               EpsilonMigrationLanguageTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
