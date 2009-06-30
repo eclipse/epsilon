@@ -27,3 +27,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.emf;resolution:=optional,
  org.eclipse.epsilon.emc.composite
 Eclipse-LazyStart: true
+Export-Package: org.eclipse.epsilon.workflow.tasks,
+ org.eclipse.epsilon.workflow.tasks.emf,
+ org.eclipse.epsilon.workflow.tasks.nestedelements,
+ org.eclipse.epsilon.workflow.tasks.transactions
