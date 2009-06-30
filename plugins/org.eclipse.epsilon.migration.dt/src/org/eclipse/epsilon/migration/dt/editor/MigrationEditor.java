@@ -28,6 +28,7 @@ public class MigrationEditor extends EolEditor{
 		final List<String> keywords = new ArrayList<String>(super.getKeywords());
 		
 		keywords.add("migrate");
+		keywords.add("when");
 		
 		return keywords;
 	}
