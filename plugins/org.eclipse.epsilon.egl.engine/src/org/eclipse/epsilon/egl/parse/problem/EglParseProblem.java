@@ -27,8 +27,7 @@ public class EglParseProblem extends ParseProblem {
 	}
 	
 	@Override
-	public int getLine(){
-		return (Integer.parseInt(trace.getEglLineNumberFor(problem.getLine()).toString()));
+	public int getLine() {
+		return trace.getEglLineNumberFor(problem.getLine());
 	}
-	
 }

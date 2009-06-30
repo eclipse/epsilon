@@ -24,7 +24,7 @@ public class Trace {
 	private int maximumEglLineNumber = 1;
 
 	
-	public Integer getEglLineNumberFor(int eolLine) {
+	public int getEglLineNumberFor(int eolLine) {
 		if (lineNumberMapping.containsKey(eolLine))
 			return lineNumberMapping.get(eolLine);
 		
