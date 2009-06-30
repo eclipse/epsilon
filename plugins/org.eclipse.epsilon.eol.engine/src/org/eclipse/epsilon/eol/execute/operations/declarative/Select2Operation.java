@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.awt.Dialog.ModalExclusionType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
