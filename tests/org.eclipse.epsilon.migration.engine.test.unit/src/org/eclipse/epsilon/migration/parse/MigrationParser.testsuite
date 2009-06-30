@@ -1,0 +1,30 @@
+gunit Migration;
+@header{package org.eclipse.epsilon.migration.parse;}
+
+migrationRule:
+	// Empty body. Unfortunately valud - EOL allows empty blocks 
+	"migrate Person { }" -> "(MIGRATE Person BLOCK)"
+
+  // Missing braces
+  "migrate Person name := nom; }"  FAIL
+  "migrate Person { name := nom; " FAIL
+	
+	// Statement
+	"migrate Person { name := nom; }" -> "(MIGRATE Person (BLOCK (:= name nom)))"
+	
+	// To part
+	"migrate Animal to Dog { }" -> "(MIGRATE Animal Dog BLOCK)"
+	
+	// Missing type, to
+	"migrate Animal Dog { }" FAIL
+	"migrate Animal to { }" FAIL
+	
+	// Guard
+	"migrate Person when: original.name.isDefined() {}" -> "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) BLOCK)"
+	
+	// Guard with no statement, no when
+	"migrate Person when {}" FAIL
+	"migrate Person original.name.isDefined(); {}" FAIL
+	
+	// Guard with semicolon
+  "migrate Person when: original.name.isDefined(); {}" FAIL
