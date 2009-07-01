@@ -13,11 +13,11 @@ package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class BridgeEndDescriptor {
+public class DecoratorHookDescriptor {
 	
 	protected EStructuralFeature sf;
 	
-	public BridgeEndDescriptor(EStructuralFeature sf) {
+	public DecoratorHookDescriptor(EStructuralFeature sf) {
 		this.sf = sf;
 	}
 	

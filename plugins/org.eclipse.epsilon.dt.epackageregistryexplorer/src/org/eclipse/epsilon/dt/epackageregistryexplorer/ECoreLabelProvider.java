@@ -46,8 +46,8 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EPackage.gif").createImage();
 		}
 		else if (element instanceof EClass) {
-			if (BridgeSupport.isBridge((EClass)element)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridge.gif").createImage();
+			if (DecoratorSupport.isDecorator((EClass)element)) {
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/decorator.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EClass.gif").createImage();	
 		}
@@ -62,13 +62,13 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		else if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
-			if (BridgeSupport.isBridgeEnd(eReference)) {
-				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridgeEnd.gif").createImage();
+			if (DecoratorSupport.isHook(eReference)) {
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/hook.gif").createImage();
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EReference.gif").createImage();
 		}
-		else if (element instanceof BridgeEndDescriptor) {
-			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bridgeFeature.gif").createImage();			
+		else if (element instanceof DecoratorHookDescriptor) {
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/hookFeature.gif").createImage();			
 		}
 		else if (element instanceof SubTypesDescriptor) {
 			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/subtypes.png").createImage();			
@@ -118,8 +118,8 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 			signature = signature + " : " + getTypeName(eOperation.getEType());
 			return signature;
 		}
-		else if (element instanceof BridgeEndDescriptor) {
-			return getText(((BridgeEndDescriptor) element).getEStructuralFeature());
+		else if (element instanceof DecoratorHookDescriptor) {
+			return getText(((DecoratorHookDescriptor) element).getEStructuralFeature());
 		}
 		else if (element instanceof SubTypesDescriptor) {
 			return "";

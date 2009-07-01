@@ -57,7 +57,7 @@ public class FeatureViewerContentProvider implements ITreeContentProvider {
 		if (inputElement instanceof EClass) {
 			ArrayList<Object> eStructuralFeatures = new ArrayList<Object>();
 			eStructuralFeatures.addAll(getFeatures((EClass) inputElement));
-			eStructuralFeatures.addAll(BridgeSupport.getBridgeEnds((EClass)inputElement, view.getEPackages(), view.isShowInheritedFeatures()));
+			eStructuralFeatures.addAll(DecoratorSupport.getHooks((EClass)inputElement, view.getEPackages(), view.isShowInheritedFeatures()));
 			if (view.isShowOperations()) {
 				eStructuralFeatures.addAll(((EClass)inputElement).getEAllOperations());
 			}

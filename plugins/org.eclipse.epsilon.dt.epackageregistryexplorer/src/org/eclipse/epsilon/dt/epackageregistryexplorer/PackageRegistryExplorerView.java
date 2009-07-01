@@ -173,8 +173,8 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 						ETypedElement f = (ETypedElement) s.getFirstElement();
 						classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f.getEType().getEPackage(), f.getEType()})));
 					}
-					else if (s.getFirstElement() instanceof BridgeEndDescriptor) {
-						EStructuralFeature f = ((BridgeEndDescriptor) s.getFirstElement()).getEStructuralFeature();
+					else if (s.getFirstElement() instanceof DecoratorHookDescriptor) {
+						EStructuralFeature f = ((DecoratorHookDescriptor) s.getFirstElement()).getEStructuralFeature();
 						classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f.getEContainingClass().getEPackage(), f.getEContainingClass()})));	
 					}
 				}

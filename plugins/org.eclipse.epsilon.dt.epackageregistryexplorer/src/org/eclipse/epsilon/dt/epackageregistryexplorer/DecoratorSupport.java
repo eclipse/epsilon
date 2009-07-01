@@ -20,18 +20,18 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class BridgeSupport {
+public class DecoratorSupport {
 	
-	public static boolean isBridge(EClass eClass) {
-		if (eClass.getEAnnotation("bridge") != null) return true;
+	public static boolean isDecorator(EClass eClass) {
+		if (eClass.getEAnnotation("decorator") != null) return true;
 		for (EClass superType : eClass.getEAllSuperTypes()) {
-			if (isBridge(superType)) return true;
+			if (isDecorator(superType)) return true;
 		}
 		return false;
 	}
 	
-	public static boolean isBridgeEnd(EStructuralFeature eStructuralFeature) {
-		return eStructuralFeature.getEAnnotation("bridge.end") != null;
+	public static boolean isHook(EStructuralFeature eStructuralFeature) {
+		return eStructuralFeature.getEAnnotation("decorator.hook") != null;
 	}
 	
 	protected static boolean areCompatible(EClass subtype, EClassifier supertype, boolean inherited) {
@@ -42,20 +42,20 @@ public class BridgeSupport {
 		return false;
 	}
 	
-	public static Set<BridgeEndDescriptor> getBridgeEnds(EClass eClass, List<EPackage> ePackages, boolean inherited) {
+	public static Set<DecoratorHookDescriptor> getHooks(EClass eClass, List<EPackage> ePackages, boolean inherited) {
 			
-			Set<BridgeEndDescriptor> bridgeEnds = new HashSet<BridgeEndDescriptor>();
+			Set<DecoratorHookDescriptor> hooks = new HashSet<DecoratorHookDescriptor>();
 			
 			for (EPackage p : ePackages) {
 				for (EClassifier o : p.getEClassifiers()) {
 					if (o instanceof EClass) {
-						EClass bridge = (EClass) o;
-						if (isBridge(bridge)) {
-							for (EStructuralFeature bridgeEnd : bridge.getEStructuralFeatures()) {
-								if (isBridgeEnd(bridgeEnd) && areCompatible(eClass, bridgeEnd.getEType(), inherited)) {
-									for (EStructuralFeature sf : bridge.getEAllStructuralFeatures()) {
-										if (sf != bridgeEnd) {
-											bridgeEnds.add(new BridgeEndDescriptor(sf));
+						EClass decorator = (EClass) o;
+						if (isDecorator(decorator)) {
+							for (EStructuralFeature hook : decorator.getEStructuralFeatures()) {
+								if (isHook(hook) && areCompatible(eClass, hook.getEType(), inherited)) {
+									for (EStructuralFeature sf : decorator.getEAllStructuralFeatures()) {
+										if (sf != hook) {
+											hooks.add(new DecoratorHookDescriptor(sf));
 										}
 									}
 								}
@@ -65,7 +65,7 @@ public class BridgeSupport {
 				}
 			}
 			
-			return bridgeEnds;
+			return hooks;
 			
 		}
 }
