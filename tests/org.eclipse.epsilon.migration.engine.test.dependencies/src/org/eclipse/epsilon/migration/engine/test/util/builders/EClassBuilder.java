@@ -37,6 +37,11 @@ public class EClassBuilder {
 		eClass.getEStructuralFeatures().add(eAttributeBuilder.build());
 		return this;
 	}
+	
+	public EClassBuilder with(EReferenceBuilder eReferenceBuilder) {
+		eClass.getEStructuralFeatures().add(eReferenceBuilder.build());
+		return this;
+	}
 
 	public EClass build() {
 		return eClass;

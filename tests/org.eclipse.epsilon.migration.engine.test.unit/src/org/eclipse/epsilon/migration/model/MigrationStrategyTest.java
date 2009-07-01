@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class MigrationStrategyTest {
 	
-	private final MigrationContext context = new MigrationContext(null, null);
+	private final MigrationContext context = new MigrationContext();
 	
 	private MockCopier copier;
 	private MigrationStrategy strategy;
@@ -45,29 +45,38 @@ public class MigrationStrategyTest {
 	public void delegatesToApplicableRule() {	
 		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
 		
-		assertTrue("rule.migrate was not called",              rule.migrateCalled);
-		assertFalse("copier.copy should not have been called", copier.copyCalled);
+		assertTrue("rule.migrate was not called", rule.migrateCalled);
+		
+		assertTrue("copier.copy was not called", copier.copyCalled);
 	}
 	
 	@Test
-	public void delegatesToAllApplicableRules() {
+	public void delegatesToOnlyFirstApplicableRule() {
 		final MockMigrationRule secondRule = new MockMigrationRule("Person");
 		strategy.addRule(secondRule);
 		
 		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
 		
-		assertTrue("firstRule.migrate was not called",  rule.migrateCalled);
-		assertTrue("secondRule.migrate was not called", secondRule.migrateCalled);
+		assertTrue("firstRule.migrate was not called",                rule.migrateCalled);
+		assertFalse("secondRule.migrate should not have been called", secondRule.migrateCalled);
 		
-		assertFalse("copier.copy should not have been called", copier.copyCalled);
+		assertTrue("copier.copy was not called", copier.copyCalled);
 	}
 	
 	@Test
-	public void delegatesToCopierWhenNoApplicableRuleSpecified() {
+	public void delegatesToCopierWhenNoApplicableRule() {
 		strategy.migrate(FamiliesFactory.eINSTANCE.createDog(), context);
 		
 		assertFalse("rule.migrate should not have been called", rule.migrateCalled);
 		assertTrue("copier.copy was not called", copier.copyCalled);
+	}
+	
+	@Test
+	public void delegatesToCopierWhenApplicableRule() {
+		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
+		
+		assertTrue("copier.copy was not called", copier.copyCalled);
+		assertTrue("rule.migrate was not called", rule.migrateCalled);
 	}
 	
 	private static class MockMigrationRule extends MigrationRule {
@@ -79,7 +88,7 @@ public class MigrationStrategyTest {
 		public boolean migrateCalled = false;
 		
 		@Override
-		public void migrate(EObject original, MigrationContext context) {
+		public void migrate(EObject original, EObject target, MigrationContext context) {
 			migrateCalled = true;
 		}
 	}
@@ -89,8 +98,9 @@ public class MigrationStrategyTest {
 		public boolean copyCalled;
 		
 		@Override
-		public void copy(EObject object, AbstractEmfModel target) {
+		public EObject copy(EObject object, String targetType, AbstractEmfModel target) {
 			copyCalled = true;
+			return object;
 		}
 	}
 }

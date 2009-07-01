@@ -33,6 +33,10 @@ public class MigrationRule {
 		this.body         = body;
 	}
 	
+	public String getTargetType() {
+		return targetType;
+	}
+	
 	@Override
 	public String toString() {
 		return originalType + " to " + targetType + " when " + guard + " do " + body;
@@ -77,10 +81,10 @@ public class MigrationRule {
 	}
 	
 
-	public void migrate(EObject original, MigrationContext context) {
+	public void migrate(EObject original, EObject target, MigrationContext context) {
 		try {
 			final Variable originalVar = Variable.createReadOnlyVariable("original", original);
-			final Variable targetVar   = Variable.createReadOnlyVariable("target",   context.createModelElementInTarget(targetType));
+			final Variable targetVar   = Variable.createReadOnlyVariable("target",   target);
 					
 			context.executeBlock(body, originalVar, targetVar);
 			

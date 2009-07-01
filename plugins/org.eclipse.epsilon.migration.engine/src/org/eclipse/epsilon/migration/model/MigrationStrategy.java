@@ -47,25 +47,24 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(EObject object, MigrationContext context) {
-		final List<MigrationRule> applicableRules = getApplicableRulesFor(object, context);
+	public void migrate(EObject object, MigrationContext context) {		
+		final MigrationRule applicableRule = getFirstApplicableRuleFor(object, context);
 		
-		if (applicableRules.isEmpty()) {
+		if (applicableRule == null) {
 			copier.copy(object, context.getTargetModel());
-		} else
-			for (MigrationRule rule : applicableRules) {
-				rule.migrate(object, context);
-			}
+			
+		} else {
+			final EObject copied = copier.copy(object, applicableRule.getTargetType(), context.getTargetModel());
+			applicableRule.migrate(object, copied, context);
+		}
 	}
 	
-	private List<MigrationRule> getApplicableRulesFor(EObject object, MigrationContext context) {
-		final List<MigrationRule> applicableRules = new LinkedList<MigrationRule>();
-		
+	private MigrationRule getFirstApplicableRuleFor(EObject object, MigrationContext context) {
 		for (MigrationRule rule : rules) {
 			if (rule.appliesFor(object, context))
-				applicableRules.add(rule);
+				return rule;
 		}
 		
-		return applicableRules;
+		return null;
 	}
 }

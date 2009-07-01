@@ -21,18 +21,24 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 
 public class Copier {
 
-	public void copy(EObject object, AbstractEmfModel target) {
+	public EObject copy(EObject object, AbstractEmfModel targetModel) {
+		return copy(object, object.eClass().getName(), targetModel);
+	}
+
+	public EObject copy(EObject object, String targetType, AbstractEmfModel targetModel) {
 		try {
-			final EObject copied = (EObject)target.createInstance(object.eClass().getName());
+			final EObject copied = (EObject)targetModel.createInstance(targetType);
 			
 			for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures()) {
 				final Object value = object.eGet(feature);
 				
 				final EStructuralFeature equivalentFeature = copied.eClass().getEStructuralFeature(feature.getName());
 
-				if (equivalentFeature != null) // TODO should be an error when equivalentFeature is null?
+				if (equivalentFeature != null && equivalentFeature.isChangeable()) // TODO should be an error when equivalentFeature is null and value is non-empty and non-null?
 					copied.eSet(equivalentFeature, value);
 			}
+			
+			return copied;
 		
 		} catch (EolModelElementTypeNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -41,6 +47,8 @@ public class Copier {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 }

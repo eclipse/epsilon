@@ -34,32 +34,16 @@ public class MigrationRuleExecuteTest {
 		final AST ast = new AST();
 		final MigrationRule rule = new MigrationRule("Person", "Person", null, ast);
 		final MockMigrationContext context = new MockMigrationContext(1);		
-		rule.migrate(EcoreFactory.eINSTANCE.createEObject(), context);
+		rule.migrate(EcoreFactory.eINSTANCE.createEObject(), EcoreFactory.eINSTANCE.createEObject(), context);
 		
 		assertEquals(1, context.timesExecutedBlockCalled);
 		assertEquals(ast, context.block);
-
-		assertEquals("Person", context.elementCreated);
-	}
-	
-	@Test
-	public void createsModelElementOfTargetType() {
-		final AST ast = new AST();
-		final MigrationRule rule = new MigrationRule("Animal", "Dog", null, ast);
-		final MockMigrationContext context = new MockMigrationContext(1);		
-		rule.migrate(EcoreFactory.eINSTANCE.createEObject(), context);
-		
-		assertEquals(1, context.timesExecutedBlockCalled);
-		assertEquals(ast, context.block);
-
-		assertEquals("Dog", context.elementCreated);
 	}
 	
 	private static class MockMigrationContext extends MigrationContext {
 
 		private int timesExecutedBlockCalled = 0;
 		private AST block;
-		private String elementCreated;
 		
 		private final int numberOfOriginalModelElements;
 		
@@ -70,13 +54,6 @@ public class MigrationRuleExecuteTest {
 		@Override
 		public Collection<EObject> getOriginalModelElements(String type) throws EolModelElementTypeNotFoundException {
 			return Collections.nCopies(numberOfOriginalModelElements, EcoreFactory.eINSTANCE.createEObject());
-		}
-		
-		@Override
-		public Object createModelElementInTarget(String type) throws EolRuntimeException {
-			elementCreated = type;
-			
-			return EcoreFactory.eINSTANCE.createEObject();
 		}
 
 		@Override

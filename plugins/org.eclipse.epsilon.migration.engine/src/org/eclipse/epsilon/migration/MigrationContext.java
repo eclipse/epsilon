@@ -59,10 +59,6 @@ public class MigrationContext extends EolContext {
 		return getOriginalModel().getAllOfKind(type);
 	}
 	
-	public Object createModelElementInTarget(String type) throws EolRuntimeException {
-		return getTargetModel().createInstance(type);
-	}
-	
 	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
 		enterProtectedFrame(block, variables);
 		
