@@ -336,20 +336,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.emc.emf.bridge"
-         download-size="0"
-         install-size="0"
-         version="0.8.6.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.emf.bridge.dt"
-         download-size="0"
-         install-size="0"
-         version="0.8.6.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.epsilon.concordance"
          download-size="0"
          install-size="0"
@@ -361,6 +347,20 @@ This Agreement is governed by the laws of the State of New York and the intellec
          download-size="0"
          install-size="0"
          version="0.8.6.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.decorator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.emf.decorator.dt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
