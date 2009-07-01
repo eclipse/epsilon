@@ -13,12 +13,6 @@
  */
 package test.strong2strong;
 
-import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttributeBuilder.anEAttribute;
-import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
-
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,17 +41,9 @@ public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTes
 	                                            "	}"                         +
 	                                            "}";
 	
-	private static final EPackage evolvedMetamodel = aMetamodel()
-	                                                 	.with(anEClass().named("Person")
-	                                                 		.with(anEAttribute()
-	                                                 			.named("name")
-	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
-	                                               			)
-	                                               		).build();
-	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrate(strategy, originalModel, evolvedMetamodel);
+		migrateFamiliesToFamilies(strategy, originalModel);
 		
 		migrated.setVariable("jack", "Person.all.selectOne(p|p.name.startsWith('Jack'))");
 		migrated.setVariable("joe",  "Person.all.selectOne(p|p.name.startsWith('Joe'))");

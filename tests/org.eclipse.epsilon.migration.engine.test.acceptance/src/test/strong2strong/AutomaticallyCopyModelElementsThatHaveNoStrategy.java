@@ -33,7 +33,7 @@ public class AutomaticallyCopyModelElementsThatHaveNoStrategy extends Strong2Str
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrate(strategy, originalModel);
+		migrateFamiliesToFamilies(strategy, originalModel);
 		
 		migrated.setVariable("person", "Person.all.first");
 		migrated.setVariable("dog",    "Dog.all.first");

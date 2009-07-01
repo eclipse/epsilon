@@ -32,7 +32,7 @@ public class ConservativeCopy extends Strong2StrongMigrationAcceptanceTest {
 		
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrate(strategy, originalModel);
+		migrateFamiliesToFamilies(strategy, originalModel);
 		
 		migrated.setVariable("family", "Family.all.first");
 	}

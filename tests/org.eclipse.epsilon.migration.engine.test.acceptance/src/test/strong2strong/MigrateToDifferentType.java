@@ -44,7 +44,7 @@ public class MigrateToDifferentType extends Strong2StrongMigrationAcceptanceTest
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrate(strategy, originalModel, evolvedMetamodel);
+		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
 		
 		migrated.setVariable("salesperson", "Salesperson.all.first");
 	}

@@ -53,7 +53,7 @@ public class Guard extends Strong2StrongMigrationAcceptanceTest {
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrate(strategy, originalModel, evolvedMetamodel);
+		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
 		
 		migrated.setVariable("person",      "Person.all.first");
 		migrated.setVariable("namedperson", "NamedPerson.all.first");

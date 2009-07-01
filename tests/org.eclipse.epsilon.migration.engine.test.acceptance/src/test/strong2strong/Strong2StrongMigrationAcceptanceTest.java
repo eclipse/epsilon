@@ -21,7 +21,6 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.eclipse.epsilon.migration.IMigrationModule;
 import org.eclipse.epsilon.migration.MigrationModule;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
@@ -33,31 +32,23 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 	protected static ModelWithEolAssertions migrated;
 	
 
-	protected static void migrate(String strategy, String originalModel) throws Exception {
-		final IMigrationModule migrator = new MigrationModule();
-		
-		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
-			final InMemoryEmfModel target   = new InMemoryEmfModel("Target", EmfUtil.createResource(), "families");
-					
-			migrated = new ModelWithEolAssertions(migrator.execute(original, target));
-			
-		} else {
-			for (ParseProblem problem : migrator.getParseProblems()) {
-				System.err.println(problem);
-			}
-			fail("Could not parse migration strategy.");
-		}
+	protected static void migrateFamiliesToFamilies(String strategy, String hutnForOriginalModel) throws Exception {
+		final InMemoryEmfModel targetModel = new InMemoryEmfModel("Target", EmfUtil.createResource(), "families");
+		migrate(strategy, hutnForOriginalModel, targetModel);
+	}
+	
+	protected static void migrateFamiliesTo(EPackage evolvedMetamodel, String strategy, String hutnForOriginalModel) throws Exception {
+		final InMemoryEmfModel targetModel = new InMemoryEmfModel("Target", EmfUtil.createResource(), evolvedMetamodel);
+		migrate(strategy, hutnForOriginalModel, targetModel);
 	}
 	
 	
-	// FIXME ! Move - this is a helper for migration module
-	protected static void migrate(String strategy, String originalModel, EPackage evolvedMetamodel) throws Exception {
+	// FIXME ! Move - some of this is a helper for migration module
+	private static void migrate(String strategy, String originalModel, InMemoryEmfModel target) throws Exception {
 		final IMigrationModule migrator = new MigrationModule();
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
-			final InMemoryEmfModel target   = new InMemoryEmfModel("Target", EmfUtil.createResource(), evolvedMetamodel);
 					
 			migrated = new ModelWithEolAssertions(migrator.execute(original, target));
 			
