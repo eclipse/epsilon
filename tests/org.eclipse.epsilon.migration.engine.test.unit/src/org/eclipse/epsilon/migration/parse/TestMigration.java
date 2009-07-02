@@ -101,6 +101,24 @@ public class TestMigration extends TestCase {
 	}
 
 	public void testMigrationRule8() throws Exception {
+		// test input: "migrate Person to Salesperson"
+		Object retval = execParser("migrationRule", "migrate Person to Salesperson", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(MIGRATE Person Salesperson BLOCK)";
+
+		assertEquals("testing rule "+"migrationRule", expecting, actual);
+	}
+
+	public void testMigrationRule9() throws Exception {
+		// test input: "migrate Person"
+		Object retval = execParser("migrationRule", "migrate Person", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"migrationRule", expecting, actual);
+	}
+
+	public void testMigrationRule10() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined() {}"
 		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined() {}", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -109,7 +127,7 @@ public class TestMigration extends TestCase {
 		assertEquals("testing rule "+"migrationRule", expecting, actual);
 	}
 
-	public void testMigrationRule9() throws Exception {
+	public void testMigrationRule11() throws Exception {
 		// test input: "migrate Person when {}"
 		Object retval = execParser("migrationRule", "migrate Person when {}", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -118,7 +136,7 @@ public class TestMigration extends TestCase {
 		assertEquals("testing rule "+"migrationRule", expecting, actual);
 	}
 
-	public void testMigrationRule10() throws Exception {
+	public void testMigrationRule12() throws Exception {
 		// test input: "migrate Person original.name.isDefined(); {}"
 		Object retval = execParser("migrationRule", "migrate Person original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -127,7 +145,7 @@ public class TestMigration extends TestCase {
 		assertEquals("testing rule "+"migrationRule", expecting, actual);
 	}
 
-	public void testMigrationRule11() throws Exception {
+	public void testMigrationRule13() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined(); {}"
 		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);

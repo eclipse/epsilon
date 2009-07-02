@@ -94,7 +94,14 @@ migrationStrategy
   : migrationRule* -> ^(STRATEGY migrationRule*);
 
 migrationRule
-  : 'migrate' sourceType=NAME ('to' targetType=NAME)? ('when' expressionOrStatementBlock)? '{' block '}' 
+  : fullMigrationRule | shorthandMigrationRule;
+  
+fullMigrationRule
+  : 'migrate' sourceType=NAME ('to' targetType=NAME)? ('when' guard=expressionOrStatementBlock)? '{' block '}' 
     -> 
-    ^(MIGRATE $sourceType $targetType? expressionOrStatementBlock? block);
+    ^(MIGRATE $sourceType $targetType? $guard? block);
 
+shorthandMigrationRule
+  : 'migrate' sourceType=NAME 'to' targetType=NAME ('when' guard=expressionOrStatementBlock)?
+    -> 
+    ^(MIGRATE $sourceType $targetType $guard? BLOCK);

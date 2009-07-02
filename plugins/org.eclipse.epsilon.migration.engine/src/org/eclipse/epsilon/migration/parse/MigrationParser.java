@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g 2009-06-30 16:57:58
+// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g 2009-07-02 16:46:57
 
 package org.eclipse.epsilon.migration.parse;
 
@@ -312,32 +312,131 @@ public class MigrationParser extends org.eclipse.epsilon.commons.parse.EpsilonPa
     };
 
     // $ANTLR start migrationRule
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:96:1: migrationRule : 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' expressionOrStatementBlock )? '{' block '}' -> ^( MIGRATE $sourceType ( $targetType)? ( expressionOrStatementBlock )? block ) ;
+    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:96:1: migrationRule : ( fullMigrationRule | shorthandMigrationRule );
     public final MigrationParser.migrationRule_return migrationRule() throws RecognitionException {
         MigrationParser.migrationRule_return retval = new MigrationParser.migrationRule_return();
         retval.start = input.LT(1);
 
         CommonTree root_0 = null;
 
+        MigrationParser.fullMigrationRule_return fullMigrationRule2 = null;
+
+        MigrationParser.shorthandMigrationRule_return shorthandMigrationRule3 = null;
+
+
+
+        try {
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:3: ( fullMigrationRule | shorthandMigrationRule )
+            int alt2=2;
+            int LA2_0 = input.LA(1);
+
+            if ( (LA2_0==120) ) {
+                int LA2_1 = input.LA(2);
+
+                if ( (synpred2_Migration()) ) {
+                    alt2=1;
+                }
+                else if ( (true) ) {
+                    alt2=2;
+                }
+                else {
+                    if (state.backtracking>0) {state.failed=true; return retval;}
+                    NoViableAltException nvae =
+                        new NoViableAltException("", 2, 1, input);
+
+                    throw nvae;
+                }
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return retval;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 2, 0, input);
+
+                throw nvae;
+            }
+            switch (alt2) {
+                case 1 :
+                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:5: fullMigrationRule
+                    {
+                    root_0 = (CommonTree)adaptor.nil();
+
+                    pushFollow(FOLLOW_fullMigrationRule_in_migrationRule94);
+                    fullMigrationRule2=fullMigrationRule();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, fullMigrationRule2.getTree());
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:25: shorthandMigrationRule
+                    {
+                    root_0 = (CommonTree)adaptor.nil();
+
+                    pushFollow(FOLLOW_shorthandMigrationRule_in_migrationRule98);
+                    shorthandMigrationRule3=shorthandMigrationRule();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, shorthandMigrationRule3.getTree());
+
+                    }
+                    break;
+
+            }
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end migrationRule
+
+    public static class fullMigrationRule_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start fullMigrationRule
+    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:99:1: fullMigrationRule : 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' guard= expressionOrStatementBlock )? '{' block '}' -> ^( MIGRATE $sourceType ( $targetType)? ( $guard)? block ) ;
+    public final MigrationParser.fullMigrationRule_return fullMigrationRule() throws RecognitionException {
+        MigrationParser.fullMigrationRule_return retval = new MigrationParser.fullMigrationRule_return();
+        retval.start = input.LT(1);
+
+        CommonTree root_0 = null;
+
         Token sourceType=null;
         Token targetType=null;
-        Token string_literal2=null;
-        Token string_literal3=null;
         Token string_literal4=null;
-        Token char_literal6=null;
-        Token char_literal8=null;
-        Migration_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock5 = null;
+        Token string_literal5=null;
+        Token string_literal6=null;
+        Token char_literal7=null;
+        Token char_literal9=null;
+        Migration_EolParserRules.expressionOrStatementBlock_return guard = null;
 
-        Migration_EolParserRules.block_return block7 = null;
+        Migration_EolParserRules.block_return block8 = null;
 
 
         CommonTree sourceType_tree=null;
         CommonTree targetType_tree=null;
-        CommonTree string_literal2_tree=null;
-        CommonTree string_literal3_tree=null;
         CommonTree string_literal4_tree=null;
-        CommonTree char_literal6_tree=null;
-        CommonTree char_literal8_tree=null;
+        CommonTree string_literal5_tree=null;
+        CommonTree string_literal6_tree=null;
+        CommonTree char_literal7_tree=null;
+        CommonTree char_literal9_tree=null;
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
         RewriteRuleTokenStream stream_121=new RewriteRuleTokenStream(adaptor,"token 121");
         RewriteRuleTokenStream stream_122=new RewriteRuleTokenStream(adaptor,"token 122");
@@ -347,30 +446,30 @@ public class MigrationParser extends org.eclipse.epsilon.commons.parse.EpsilonPa
         RewriteRuleSubtreeStream stream_expressionOrStatementBlock=new RewriteRuleSubtreeStream(adaptor,"rule expressionOrStatementBlock");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:3: ( 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' expressionOrStatementBlock )? '{' block '}' -> ^( MIGRATE $sourceType ( $targetType)? ( expressionOrStatementBlock )? block ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:5: 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' expressionOrStatementBlock )? '{' block '}'
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:3: ( 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' guard= expressionOrStatementBlock )? '{' block '}' -> ^( MIGRATE $sourceType ( $targetType)? ( $guard)? block ) )
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:5: 'migrate' sourceType= NAME ( 'to' targetType= NAME )? ( 'when' guard= expressionOrStatementBlock )? '{' block '}'
             {
-            string_literal2=(Token)match(input,120,FOLLOW_120_in_migrationRule94); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_120.add(string_literal2);
+            string_literal4=(Token)match(input,120,FOLLOW_120_in_fullMigrationRule110); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_120.add(string_literal4);
 
-            sourceType=(Token)match(input,NAME,FOLLOW_NAME_in_migrationRule98); if (state.failed) return retval; 
+            sourceType=(Token)match(input,NAME,FOLLOW_NAME_in_fullMigrationRule114); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(sourceType);
 
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:31: ( 'to' targetType= NAME )?
-            int alt2=2;
-            int LA2_0 = input.LA(1);
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:31: ( 'to' targetType= NAME )?
+            int alt3=2;
+            int LA3_0 = input.LA(1);
 
-            if ( (LA2_0==121) ) {
-                alt2=1;
+            if ( (LA3_0==121) ) {
+                alt3=1;
             }
-            switch (alt2) {
+            switch (alt3) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:32: 'to' targetType= NAME
+                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:32: 'to' targetType= NAME
                     {
-                    string_literal3=(Token)match(input,121,FOLLOW_121_in_migrationRule101); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_121.add(string_literal3);
+                    string_literal5=(Token)match(input,121,FOLLOW_121_in_fullMigrationRule117); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_121.add(string_literal5);
 
-                    targetType=(Token)match(input,NAME,FOLLOW_NAME_in_migrationRule105); if (state.failed) return retval; 
+                    targetType=(Token)match(input,NAME,FOLLOW_NAME_in_fullMigrationRule121); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NAME.add(targetType);
 
 
@@ -379,50 +478,50 @@ public class MigrationParser extends org.eclipse.epsilon.commons.parse.EpsilonPa
 
             }
 
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:55: ( 'when' expressionOrStatementBlock )?
-            int alt3=2;
-            int LA3_0 = input.LA(1);
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:55: ( 'when' guard= expressionOrStatementBlock )?
+            int alt4=2;
+            int LA4_0 = input.LA(1);
 
-            if ( (LA3_0==122) ) {
-                alt3=1;
+            if ( (LA4_0==122) ) {
+                alt4=1;
             }
-            switch (alt3) {
+            switch (alt4) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:56: 'when' expressionOrStatementBlock
+                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:100:56: 'when' guard= expressionOrStatementBlock
                     {
-                    string_literal4=(Token)match(input,122,FOLLOW_122_in_migrationRule110); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_122.add(string_literal4);
+                    string_literal6=(Token)match(input,122,FOLLOW_122_in_fullMigrationRule126); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_122.add(string_literal6);
 
-                    pushFollow(FOLLOW_expressionOrStatementBlock_in_migrationRule112);
-                    expressionOrStatementBlock5=expressionOrStatementBlock();
+                    pushFollow(FOLLOW_expressionOrStatementBlock_in_fullMigrationRule130);
+                    guard=expressionOrStatementBlock();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_expressionOrStatementBlock.add(expressionOrStatementBlock5.getTree());
+                    if ( state.backtracking==0 ) stream_expressionOrStatementBlock.add(guard.getTree());
 
                     }
                     break;
 
             }
 
-            char_literal6=(Token)match(input,74,FOLLOW_74_in_migrationRule116); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_74.add(char_literal6);
+            char_literal7=(Token)match(input,74,FOLLOW_74_in_fullMigrationRule134); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_74.add(char_literal7);
 
-            pushFollow(FOLLOW_block_in_migrationRule118);
-            block7=block();
+            pushFollow(FOLLOW_block_in_fullMigrationRule136);
+            block8=block();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) stream_block.add(block7.getTree());
-            char_literal8=(Token)match(input,75,FOLLOW_75_in_migrationRule120); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_75.add(char_literal8);
+            if ( state.backtracking==0 ) stream_block.add(block8.getTree());
+            char_literal9=(Token)match(input,75,FOLLOW_75_in_fullMigrationRule138); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_75.add(char_literal9);
 
 
 
             // AST REWRITE
-            // elements: targetType, expressionOrStatementBlock, block, sourceType
+            // elements: guard, block, targetType, sourceType
             // token labels: sourceType, targetType
-            // rule labels: retval
+            // rule labels: retval, guard
             // token list labels: 
             // rule list labels: 
             if ( state.backtracking==0 ) {
@@ -430,28 +529,29 @@ public class MigrationParser extends org.eclipse.epsilon.commons.parse.EpsilonPa
             RewriteRuleTokenStream stream_sourceType=new RewriteRuleTokenStream(adaptor,"token sourceType",sourceType);
             RewriteRuleTokenStream stream_targetType=new RewriteRuleTokenStream(adaptor,"token targetType",targetType);
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_guard=new RewriteRuleSubtreeStream(adaptor,"token guard",guard!=null?guard.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 98:5: -> ^( MIGRATE $sourceType ( $targetType)? ( expressionOrStatementBlock )? block )
+            // 101:5: -> ^( MIGRATE $sourceType ( $targetType)? ( $guard)? block )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:99:5: ^( MIGRATE $sourceType ( $targetType)? ( expressionOrStatementBlock )? block )
+                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:102:5: ^( MIGRATE $sourceType ( $targetType)? ( $guard)? block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MIGRATE, "MIGRATE"), root_1);
 
                 adaptor.addChild(root_1, stream_sourceType.nextNode());
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:99:27: ( $targetType)?
+                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:102:27: ( $targetType)?
                 if ( stream_targetType.hasNext() ) {
                     adaptor.addChild(root_1, stream_targetType.nextNode());
 
                 }
                 stream_targetType.reset();
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:99:40: ( expressionOrStatementBlock )?
-                if ( stream_expressionOrStatementBlock.hasNext() ) {
-                    adaptor.addChild(root_1, stream_expressionOrStatementBlock.nextTree());
+                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:102:40: ( $guard)?
+                if ( stream_guard.hasNext() ) {
+                    adaptor.addChild(root_1, stream_guard.nextTree());
 
                 }
-                stream_expressionOrStatementBlock.reset();
+                stream_guard.reset();
                 adaptor.addChild(root_1, stream_block.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -480,77 +580,250 @@ public class MigrationParser extends org.eclipse.epsilon.commons.parse.EpsilonPa
         }
         return retval;
     }
-    // $ANTLR end migrationRule
+    // $ANTLR end fullMigrationRule
+
+    public static class shorthandMigrationRule_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start shorthandMigrationRule
+    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:104:1: shorthandMigrationRule : 'migrate' sourceType= NAME 'to' targetType= NAME ( 'when' guard= expressionOrStatementBlock )? -> ^( MIGRATE $sourceType $targetType ( $guard)? BLOCK ) ;
+    public final MigrationParser.shorthandMigrationRule_return shorthandMigrationRule() throws RecognitionException {
+        MigrationParser.shorthandMigrationRule_return retval = new MigrationParser.shorthandMigrationRule_return();
+        retval.start = input.LT(1);
+
+        CommonTree root_0 = null;
+
+        Token sourceType=null;
+        Token targetType=null;
+        Token string_literal10=null;
+        Token string_literal11=null;
+        Token string_literal12=null;
+        Migration_EolParserRules.expressionOrStatementBlock_return guard = null;
+
+
+        CommonTree sourceType_tree=null;
+        CommonTree targetType_tree=null;
+        CommonTree string_literal10_tree=null;
+        CommonTree string_literal11_tree=null;
+        CommonTree string_literal12_tree=null;
+        RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
+        RewriteRuleTokenStream stream_121=new RewriteRuleTokenStream(adaptor,"token 121");
+        RewriteRuleTokenStream stream_122=new RewriteRuleTokenStream(adaptor,"token 122");
+        RewriteRuleTokenStream stream_120=new RewriteRuleTokenStream(adaptor,"token 120");
+        RewriteRuleSubtreeStream stream_expressionOrStatementBlock=new RewriteRuleSubtreeStream(adaptor,"rule expressionOrStatementBlock");
+        try {
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:105:3: ( 'migrate' sourceType= NAME 'to' targetType= NAME ( 'when' guard= expressionOrStatementBlock )? -> ^( MIGRATE $sourceType $targetType ( $guard)? BLOCK ) )
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:105:5: 'migrate' sourceType= NAME 'to' targetType= NAME ( 'when' guard= expressionOrStatementBlock )?
+            {
+            string_literal10=(Token)match(input,120,FOLLOW_120_in_shorthandMigrationRule177); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_120.add(string_literal10);
+
+            sourceType=(Token)match(input,NAME,FOLLOW_NAME_in_shorthandMigrationRule181); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_NAME.add(sourceType);
+
+            string_literal11=(Token)match(input,121,FOLLOW_121_in_shorthandMigrationRule183); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_121.add(string_literal11);
+
+            targetType=(Token)match(input,NAME,FOLLOW_NAME_in_shorthandMigrationRule187); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_NAME.add(targetType);
+
+            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:105:52: ( 'when' guard= expressionOrStatementBlock )?
+            int alt5=2;
+            int LA5_0 = input.LA(1);
+
+            if ( (LA5_0==122) ) {
+                alt5=1;
+            }
+            switch (alt5) {
+                case 1 :
+                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:105:53: 'when' guard= expressionOrStatementBlock
+                    {
+                    string_literal12=(Token)match(input,122,FOLLOW_122_in_shorthandMigrationRule190); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_122.add(string_literal12);
+
+                    pushFollow(FOLLOW_expressionOrStatementBlock_in_shorthandMigrationRule194);
+                    guard=expressionOrStatementBlock();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) stream_expressionOrStatementBlock.add(guard.getTree());
+
+                    }
+                    break;
+
+            }
+
+
+
+            // AST REWRITE
+            // elements: guard, sourceType, targetType
+            // token labels: sourceType, targetType
+            // rule labels: retval, guard
+            // token list labels: 
+            // rule list labels: 
+            if ( state.backtracking==0 ) {
+            retval.tree = root_0;
+            RewriteRuleTokenStream stream_sourceType=new RewriteRuleTokenStream(adaptor,"token sourceType",sourceType);
+            RewriteRuleTokenStream stream_targetType=new RewriteRuleTokenStream(adaptor,"token targetType",targetType);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_guard=new RewriteRuleSubtreeStream(adaptor,"token guard",guard!=null?guard.tree:null);
+
+            root_0 = (CommonTree)adaptor.nil();
+            // 106:5: -> ^( MIGRATE $sourceType $targetType ( $guard)? BLOCK )
+            {
+                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:107:5: ^( MIGRATE $sourceType $targetType ( $guard)? BLOCK )
+                {
+                CommonTree root_1 = (CommonTree)adaptor.nil();
+                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MIGRATE, "MIGRATE"), root_1);
+
+                adaptor.addChild(root_1, stream_sourceType.nextNode());
+                adaptor.addChild(root_1, stream_targetType.nextNode());
+                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:107:39: ( $guard)?
+                if ( stream_guard.hasNext() ) {
+                    adaptor.addChild(root_1, stream_guard.nextTree());
+
+                }
+                stream_guard.reset();
+                adaptor.addChild(root_1, (CommonTree)adaptor.create(BLOCK, "BLOCK"));
+
+                adaptor.addChild(root_0, root_1);
+                }
+
+            }
+
+            retval.tree = root_0;retval.tree = root_0;}
+            }
+
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end shorthandMigrationRule
+
+    // $ANTLR start synpred2_Migration
+    public final void synpred2_Migration_fragment() throws RecognitionException {   
+        // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:5: ( fullMigrationRule )
+        // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.migration.engine/src/org/eclipse/epsilon/migration/parse/Migration.g:97:5: fullMigrationRule
+        {
+        pushFollow(FOLLOW_fullMigrationRule_in_synpred2_Migration94);
+        fullMigrationRule();
+
+        state._fsp--;
+        if (state.failed) return ;
+
+        }
+    }
+    // $ANTLR end synpred2_Migration
 
     // Delegated rules
-    public Migration_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Migration_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Migration_EolParserRules.modelNamespace_return modelNamespace() throws RecognitionException { return gEolParserRules.modelNamespace(); }
+    public Migration_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
+    public Migration_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
+    public Migration_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Migration_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Migration_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Migration_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Migration_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Migration_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Migration_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
     public Migration_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
     public Migration_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Migration_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
-    public Migration_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Migration_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Migration_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Migration_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Migration_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Migration_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Migration_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
-    public Migration_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Migration_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
-    public Migration_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Migration_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
-    public Migration_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Migration_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Migration_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Migration_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
-    public Migration_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Migration_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Migration_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
-    public Migration_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Migration_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Migration_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Migration_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Migration_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Migration_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
     public Migration_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
-    public Migration_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Migration_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
-    public Migration_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Migration_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Migration_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Migration_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Migration_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
     public Migration_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Migration_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
+    public Migration_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
+    public Migration_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Migration_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
     public Migration_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
     public Migration_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Migration_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
-    public Migration_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Migration_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Migration_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
     public Migration_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Migration_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
-    public Migration_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Migration_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
-    public Migration_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+    public Migration_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Migration_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
     public Migration_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Migration_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Migration_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
-    public Migration_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Migration_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Migration_EolParserRules.modelNamespace_return modelNamespace() throws RecognitionException { return gEolParserRules.modelNamespace(); }
-    public Migration_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Migration_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Migration_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Migration_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Migration_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Migration_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
+    public Migration_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
     public Migration_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Migration_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Migration_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Migration_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
+    public Migration_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Migration_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Migration_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Migration_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Migration_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
+    public Migration_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
     public Migration_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Migration_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
-    public Migration_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Migration_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
+    public Migration_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Migration_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Migration_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Migration_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Migration_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Migration_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Migration_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Migration_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+
+    public final boolean synpred2_Migration() {
+        state.backtracking++;
+        int start = input.mark();
+        try {
+            synpred2_Migration_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !state.failed;
+        input.rewind(start);
+        state.backtracking--;
+        state.failed=false;
+        return success;
+    }
 
 
  
 
     public static final BitSet FOLLOW_migrationRule_in_migrationStrategy74 = new BitSet(new long[]{0x0000000000000002L,0x0100000000000000L});
-    public static final BitSet FOLLOW_120_in_migrationRule94 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_NAME_in_migrationRule98 = new BitSet(new long[]{0x0000000000000000L,0x0600000000000400L});
-    public static final BitSet FOLLOW_121_in_migrationRule101 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_NAME_in_migrationRule105 = new BitSet(new long[]{0x0000000000000000L,0x0400000000000400L});
-    public static final BitSet FOLLOW_122_in_migrationRule110 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000408L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_migrationRule112 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_74_in_migrationRule116 = new BitSet(new long[]{0x0000000000011450L,0x00D20007FD7F0880L});
-    public static final BitSet FOLLOW_block_in_migrationRule118 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000800L});
-    public static final BitSet FOLLOW_75_in_migrationRule120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_fullMigrationRule_in_migrationRule94 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_shorthandMigrationRule_in_migrationRule98 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_120_in_fullMigrationRule110 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_fullMigrationRule114 = new BitSet(new long[]{0x0000000000000000L,0x0600000000000400L});
+    public static final BitSet FOLLOW_121_in_fullMigrationRule117 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_fullMigrationRule121 = new BitSet(new long[]{0x0000000000000000L,0x0400000000000400L});
+    public static final BitSet FOLLOW_122_in_fullMigrationRule126 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000408L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_fullMigrationRule130 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000400L});
+    public static final BitSet FOLLOW_74_in_fullMigrationRule134 = new BitSet(new long[]{0x0000000000011450L,0x00D20007FD7F0880L});
+    public static final BitSet FOLLOW_block_in_fullMigrationRule136 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000800L});
+    public static final BitSet FOLLOW_75_in_fullMigrationRule138 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_120_in_shorthandMigrationRule177 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_shorthandMigrationRule181 = new BitSet(new long[]{0x0000000000000000L,0x0200000000000000L});
+    public static final BitSet FOLLOW_121_in_shorthandMigrationRule183 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_shorthandMigrationRule187 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L});
+    public static final BitSet FOLLOW_122_in_shorthandMigrationRule190 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000408L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_shorthandMigrationRule194 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_fullMigrationRule_in_synpred2_Migration94 = new BitSet(new long[]{0x0000000000000002L});
 
 }

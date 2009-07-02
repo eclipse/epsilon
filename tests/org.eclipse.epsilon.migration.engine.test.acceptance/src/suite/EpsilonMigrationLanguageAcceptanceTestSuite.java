@@ -23,13 +23,16 @@ import org.junit.runners.Suite.SuiteClasses;
 import test.strong2strong.AutomaticallyCopyModelElementsThatHaveNoStrategy;
 import test.strong2strong.ConservativeCopy;
 import test.strong2strong.MigrateToDifferentType;
+import test.strong2strong.ShorthandRule;
 import test.strong2strong.SeveralRules;
+import test.strong2strong.SeveralRulesForSameType;
 import test.strong2strong.Simple;
 import test.strong2strong.Guard;
 
 @RunWith(Suite.class)
-@SuiteClasses({Simple.class, AutomaticallyCopyModelElementsThatHaveNoStrategy.class, SeveralRules.class,
-               MigrateToDifferentType.class,
+@SuiteClasses({Simple.class, AutomaticallyCopyModelElementsThatHaveNoStrategy.class,
+               SeveralRules.class, SeveralRulesForSameType.class,
+               MigrateToDifferentType.class, ShorthandRule.class,
                Guard.class,
                ConservativeCopy.class})
 public class EpsilonMigrationLanguageAcceptanceTestSuite {
