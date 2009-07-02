@@ -19,7 +19,6 @@ import java.io.InputStream;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.EolLibraryModule;
@@ -65,12 +64,7 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 	// FIXME ! Could tidy up the return type of execute with a generic?
 	
 	public AbstractEmfModel execute(MigrationContext context) {
-	
-		for (EObject object : context.getOriginalModelElements()) {
-			strategy.migrate(object, context);
-		}
-		
-		return context.getTargetModel();
+		return context.execute(strategy);
 	}
 	
 	public AbstractEmfModel execute(AbstractEmfModel original, AbstractEmfModel target) {

@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolBoolean;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationContext extends EolContext {
 
@@ -50,9 +50,18 @@ public class MigrationContext extends EolContext {
 		return target;
 	}
 	
-	public Collection<EObject> getOriginalModelElements() {
+	public AbstractEmfModel execute(MigrationStrategy strategy) {
+		for (EObject original : getOriginalModelElements()) {
+			strategy.migrate(original, this);
+		}
+		
+		return target;
+	}
+	
+	private Collection<EObject> getOriginalModelElements() {
 		return getOriginalModel().allContents();
 	}
+	
 	
 	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
 		enterProtectedFrame(block, variables);
