@@ -97,6 +97,34 @@ public class Variable {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Variable))
+			return false;
+		
+		final Variable other = (Variable)obj;
+		
+		return equals(name,     other.name)  &&
+		       equals(value,    other.value) &&
+		       equals(type,     other.type)  &&
+		       equals(readOnly, other.readOnly);
+	}
+	
+	private boolean equals(Object first, Object second) {
+		return first == null ? second == null : first.equals(second);
+	}
+	
+	@Override
+	public int hashCode() {
+		// equal objects must have same hashcode,
+		// but non-equal objects do not have to have
+		// different hashcodes (although this may improve lookup
+		// times in collections)
+		//   => name is a decent approximation
+		
+		return name == null ? 0 : name.hashCode();
+	}
+	
+	@Override
 	public String toString(){
 		return value + " " + type;
 	}
