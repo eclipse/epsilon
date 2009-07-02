@@ -47,7 +47,7 @@ public class EolIllegalPropertyException extends EolRuntimeException{
 	@Override
 	public String getReason(){
 		//return "Object " + object + " does not support this property: " + property;
-		return "Property '" + property + "' not found in object " + context.getPrettyPrinterManager().toString(object);
+		return "Property '" + property + "' not found in object " + (context == null ? object : context.getPrettyPrinterManager().toString(object));
 	}
 	
 }
