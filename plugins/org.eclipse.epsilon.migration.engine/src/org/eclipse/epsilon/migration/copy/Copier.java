@@ -20,35 +20,37 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 
 public class Copier {
-
-	public EObject copy(EObject object, AbstractEmfModel targetModel) {
-		return copy(object, object.eClass().getName(), targetModel);
+	
+	protected final EObject original;
+	protected final AbstractEmfModel targetModel;
+	
+	private EObject copy;
+	
+	public Copier(EObject original, AbstractEmfModel targetModel) {
+		this.original    = original;
+		this.targetModel = targetModel;
+	}
+	
+	public EObject copy() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		return copy(original.eClass().getName());
 	}
 
-	public EObject copy(EObject object, String targetType, AbstractEmfModel targetModel) {
-		try {
-			final EObject copied = (EObject)targetModel.createInstance(targetType);
-			
-			for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures()) {
-				final Object value = object.eGet(feature);
-				
-				final EStructuralFeature equivalentFeature = copied.eClass().getEStructuralFeature(feature.getName());
-
-				if (equivalentFeature != null && equivalentFeature.isChangeable()) // TODO should be an error when equivalentFeature is null and value is non-empty and non-null?
-					copied.eSet(equivalentFeature, value);
-			}
-			
-			return copied;
+	public EObject copy(String targetType) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		copy = (EObject)targetModel.createInstance(targetType);
 		
-		} catch (EolModelElementTypeNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EolNotInstantiableModelElementTypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (EStructuralFeature feature : original.eClass().getEAllStructuralFeatures()) {
+			copyFeature(feature);
 		}
 		
-		return null;
+		return copy;
+	}
+
+	private void copyFeature(EStructuralFeature feature) {
+		final EStructuralFeature equivalentFeature = copy.eClass().getEStructuralFeature(feature.getName());
+
+		// TODO should be an error when equivalentFeature is null and value is non-empty and non-null?
+		if (equivalentFeature != null && equivalentFeature.isChangeable())
+			copy.eSet(equivalentFeature, original.eGet(feature));
 	}
 
 }

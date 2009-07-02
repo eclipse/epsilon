@@ -36,6 +36,42 @@ public class MigrationRule {
 	public String getTargetType() {
 		return targetType;
 	}
+
+	
+	public boolean appliesFor(EObject object, MigrationContext context) {
+		return isOfOriginalType(object) && satisfiesGuard(object, context);
+	}
+	
+	private boolean isOfOriginalType(EObject object) {
+		return originalType.equals(object.eClass().getName());
+	}
+
+	private boolean satisfiesGuard(EObject object, MigrationContext context) {
+		if (guard == null)
+			return true;
+		
+		return context.executeGuard(guard, createOriginalVariable(object));
+	}
+	
+
+	public void migrate(EObject original, EObject target, MigrationContext context) {
+		try {
+			context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
+			
+		} catch (EolRuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private Variable createOriginalVariable(EObject object) {
+		return Variable.createReadOnlyVariable("original", object);
+	}
+	
+	private Variable createTargetVariable(EObject target) {
+		return Variable.createReadOnlyVariable("target", target);
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -60,37 +96,5 @@ public class MigrationRule {
 			return second == null;
 		else
 			return first.equals(second);
-	}
-	
-	
-	public boolean appliesFor(EObject object, MigrationContext context) {
-		return isOfOriginalType(object) && satisfiesGuard(object, context);
-	}
-	
-	private boolean isOfOriginalType(EObject object) {
-		return originalType.equals(object.eClass().getName());
-	}
-
-	private boolean satisfiesGuard(EObject object, MigrationContext context) {
-		if (guard == null)
-			return true;
-		
-		final Variable originalVar = Variable.createReadOnlyVariable("original", object);
-			
-		return context.executeGuard(guard, originalVar);
-	}
-	
-
-	public void migrate(EObject original, EObject target, MigrationContext context) {
-		try {
-			final Variable originalVar = Variable.createReadOnlyVariable("original", original);
-			final Variable targetVar   = Variable.createReadOnlyVariable("target",   target);
-					
-			context.executeBlock(body, originalVar, targetVar);
-			
-		} catch (EolRuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

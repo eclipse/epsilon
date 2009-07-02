@@ -25,11 +25,20 @@ public class EClassBuilder {
 	public static EClassBuilder anEClass() {
 		return new EClassBuilder();
 	}
+	
+	public static EClassBuilder anAbstractEClass() {
+		return anEClass().isAbstract();
+	}
 
 	private final EClass eClass = EcoreFactory.eINSTANCE.createEClass();
 	
 	public EClassBuilder named(String name) {
 		eClass.setName(name);
+		return this;
+	}
+	
+	public EClassBuilder isAbstract() {
+		eClass.setAbstract(true);
 		return this;
 	}
 	

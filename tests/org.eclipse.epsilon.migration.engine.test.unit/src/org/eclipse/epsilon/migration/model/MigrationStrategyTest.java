@@ -13,14 +13,19 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import static org.eclipse.epsilon.hutn.test.model.factories.DogFactory.createDog;
+import static org.eclipse.epsilon.hutn.test.model.factories.PersonFactory.createPerson;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
+import org.eclipse.epsilon.hutn.test.model.families.Dog;
+import org.eclipse.epsilon.hutn.test.model.families.Person;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.eclipse.epsilon.migration.copy.Copier;
+import org.eclipse.epsilon.migration.copy.CopierFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,26 +33,36 @@ public class MigrationStrategyTest {
 	
 	private final MigrationContext context = new MigrationContext();
 	
+	private final Person person = createPerson();
+	private final Dog    dog    = createDog();
+	
 	private MockCopier copier;
 	private MigrationStrategy strategy;
 	private MockMigrationRule rule;
 	
 	@Before
 	public void setup() {
-		copier = new MockCopier();
-		strategy = new MigrationStrategy(copier);
-		rule = new MockMigrationRule("Person");
+		strategy = new MigrationStrategy(new CopierFactory() {
+
+			@Override
+			public Copier createCopier(EObject original, AbstractEmfModel targetModel) {
+				copier = new MockCopier(original);
+				return copier;
+			}
+			
+		});
 		
+		rule = new MockMigrationRule("Person");
 		strategy.addRule(rule);
 	}
 	
 	@Test
 	public void delegatesToApplicableRule() {	
-		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
+		strategy.migrate(person, context);
 		
 		assertTrue("rule.migrate was not called", rule.migrateCalled);
 		
-		assertTrue("copier.copy was not called", copier.copyCalled);
+		assertEquals("person was not copied", person, copier.copied);
 	}
 	
 	@Test
@@ -55,27 +70,27 @@ public class MigrationStrategyTest {
 		final MockMigrationRule secondRule = new MockMigrationRule("Person");
 		strategy.addRule(secondRule);
 		
-		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
+		strategy.migrate(person, context);
 		
 		assertTrue("firstRule.migrate was not called",                rule.migrateCalled);
 		assertFalse("secondRule.migrate should not have been called", secondRule.migrateCalled);
 		
-		assertTrue("copier.copy was not called", copier.copyCalled);
+		assertEquals("person was not copied", person, copier.copied);
 	}
 	
 	@Test
 	public void delegatesToCopierWhenNoApplicableRule() {
-		strategy.migrate(FamiliesFactory.eINSTANCE.createDog(), context);
+		strategy.migrate(dog, context);
 		
 		assertFalse("rule.migrate should not have been called", rule.migrateCalled);
-		assertTrue("copier.copy was not called", copier.copyCalled);
+		assertEquals("dog was not copied", dog, copier.copied);
 	}
 	
 	@Test
 	public void delegatesToCopierWhenApplicableRule() {
-		strategy.migrate(FamiliesFactory.eINSTANCE.createPerson(), context);
+		strategy.migrate(person, context);
 		
-		assertTrue("copier.copy was not called", copier.copyCalled);
+		assertEquals("person was not copied", person, copier.copied);
 		assertTrue("rule.migrate was not called", rule.migrateCalled);
 	}
 	
@@ -95,12 +110,17 @@ public class MigrationStrategyTest {
 	
 	public static class MockCopier extends Copier {
 
+		public EObject copied;
 		public boolean copyCalled;
 		
+		public MockCopier(EObject original) {
+			super(original, null);
+		}
+		
 		@Override
-		public EObject copy(EObject object, String targetType, AbstractEmfModel target) {
-			copyCalled = true;
-			return object;
+		public EObject copy(String targetType) {
+			copied = original;
+			return original;
 		}
 	}
 }

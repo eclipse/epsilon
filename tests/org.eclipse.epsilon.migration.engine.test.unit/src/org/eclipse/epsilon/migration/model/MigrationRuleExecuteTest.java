@@ -14,53 +14,58 @@
 package org.eclipse.epsilon.migration.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.junit.Test;
 
 public class MigrationRuleExecuteTest {
 	
+	private final MockMigrationContext context = new MockMigrationContext();
+	
 	@Test
 	public void executesBlock() {
-		final AST ast = new AST();
-		final MigrationRule rule = new MigrationRule("Person", "Person", null, ast);
-		final MockMigrationContext context = new MockMigrationContext(1);		
-		rule.migrate(EcoreFactory.eINSTANCE.createEObject(), EcoreFactory.eINSTANCE.createEObject(), context);
+		final AST body = new AST();
+		final MigrationRule rule = new MigrationRule("Person", "Person", null, body);
+				
+		final EObject original = createEObject();
+		final EObject target   = createEObject();
 		
-		assertEquals(1, context.timesExecutedBlockCalled);
-		assertEquals(ast, context.block);
+		rule.migrate(original, target, context);
+		
+		assertEquals(1,    context.timesExecutedBlockCalled);
+		assertEquals(body, context.executedBlock);
+				
+		assertTrue(context.variables.contains(Variable.createReadOnlyVariable("original", original)));
+		assertTrue(context.variables.contains(Variable.createReadOnlyVariable("target",   target)));
 	}
+	
 	
 	private static class MockMigrationContext extends MigrationContext {
 
 		private int timesExecutedBlockCalled = 0;
-		private AST block;
-		
-		private final int numberOfOriginalModelElements;
-		
-		public MockMigrationContext(int numberOfOriginalModelElements) {
-			this.numberOfOriginalModelElements = numberOfOriginalModelElements;
-		}
-
-		@Override
-		public Collection<EObject> getOriginalModelElements(String type) throws EolModelElementTypeNotFoundException {
-			return Collections.nCopies(numberOfOriginalModelElements, EcoreFactory.eINSTANCE.createEObject());
-		}
+		private AST executedBlock;
+		private List<Variable> variables;
 
 		@Override
 		public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
 			timesExecutedBlockCalled++;
-			this.block = block;
+			executedBlock = block;
+			this.variables = Arrays.asList(variables);
 			return null; 
 		}
+	}
+	
+	
+	private static final EObject createEObject() {
+		return EcoreFactory.eINSTANCE.createEObject();
 	}
 }

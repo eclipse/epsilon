@@ -16,6 +16,9 @@ package org.eclipse.epsilon.migration.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import static org.eclipse.epsilon.hutn.test.model.factories.DogFactory.createDog;
+import static org.eclipse.epsilon.hutn.test.model.factories.FamilyFactory.createFamily;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -23,8 +26,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.hutn.test.model.families.Dog;
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.junit.Test;
 
@@ -34,8 +35,8 @@ public class MigrationRuleGuardTest {
 	public void appliesOnlyForObjectOfSourceType() {
 		final MigrationRule rule = new MigrationRule("Dog", "Animal", null, new AST());
 
-		assertTrue(rule.appliesFor(FamiliesFactory.eINSTANCE.createDog(), new MigrationContext()));
-		assertFalse(rule.appliesFor(FamiliesFactory.eINSTANCE.createFamily(), new MigrationContext()));
+		assertTrue(rule.appliesFor(createDog(), new MigrationContext()));
+		assertFalse(rule.appliesFor(createFamily(), new MigrationContext()));
 	}
 
 	@Test
@@ -52,7 +53,7 @@ public class MigrationRuleGuardTest {
 		final AST guard = parseGuard("undefined");
 		final MigrationRule rule = new MigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertFalse(rule.appliesFor(FamiliesFactory.eINSTANCE.createDog(), new MigrationContext()));
+		assertFalse(rule.appliesFor(createDog(), new MigrationContext()));
 	}
 	
 	
@@ -63,12 +64,5 @@ public class MigrationRuleGuardTest {
 		final AST result = (AST)parser.expressionOrStatementBlock().getTree();
 				
 		return result;
-	}
-	
-	
-	private static Dog createDog(String name) {
-		final Dog dog = FamiliesFactory.eINSTANCE.createDog();
-		dog.setName(name);
-		return dog;
 	}
 }

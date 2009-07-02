@@ -13,7 +13,9 @@
  */
 package org.eclipse.epsilon.migration.copy;
 
+import static org.eclipse.epsilon.hutn.test.model.factories.DogFactory.createDog;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttributeBuilder.anEAttribute;
+import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anAbstractEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 import static org.junit.Assert.assertEquals;
@@ -25,93 +27,92 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.hutn.test.model.families.Dog;
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.junit.Test;
 
 public class CopierTest {
+	
+	private AbstractEmfModel target;
+	
+	private Copier createCopier(EObject original, EPackage targetMetamodel) {
+		target = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
+		return new Copier(original, target);
+	}
+	
+	@Test
+	public void copiesObject() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		final EPackage targetMetamodel = aMetamodel()
+		                                 	.withNsURI("families2")
+                                       		.with(anEClass().named("Dog").
+                                         		with(anEAttribute().
+                                         			named("name").
+                                         			withType(EcorePackage.eINSTANCE.getEString())
+                                       			)
+                                       		).build();
+		
+		final EObject copy = createCopier(createDog(), targetMetamodel).copy();
+		
+		assertEquals(1, target.allContents().size());
+		assertTrue(target.allContents().contains(copy));
+		
+		assertEquals("Dog", copy.eClass().getName());
+		assertEquals("families2", copy.eClass().getEPackage().getNsURI());
+	}
+	
+	
+	@Test
+	public void copiesSlot() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		final EPackage targetMetamodel = aMetamodel()
+		                                 	.with(anEClass().named("Dog")
+		                                 		.with(anEAttribute()
+		                                 			.named("name")
+		                                 			.withType(EcorePackage.eINSTANCE.getEString())
+		                                 		)
+		                                 	).build();
 
-	@Test
-	public void copiesObject() {
-		final EPackage targetMetamodel = aMetamodel()
-		                                 	.withNsURI("families2")
-                                       		.with(anEClass().named("Dog").
-                                         		with(anEAttribute().
-                                         			named("name").
-                                         			withType(EcorePackage.eINSTANCE.getEString())
-                                       			)
-                                       		).build();
-		
-		final Copier copier = new Copier();
-		final AbstractEmfModel target = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
-		
-		final EObject copiedDog = copier.copy(createDog(), target);
+		final EObject copy = createCopier(createDog("Lassie"), targetMetamodel).copy();
 		
 		assertEquals(1, target.allContents().size());
-		assertTrue(target.allContents().contains(copiedDog));
+		assertTrue(target.allContents().contains(copy));
 		
-		assertEquals("Dog", copiedDog.eClass().getName());
-		assertEquals("families2", copiedDog.eClass().getEPackage().getNsURI());
+		assertEquals("Dog", copy.eClass().getName());
+		
+		assertEquals("Lassie", copy.eGet(copy.eClass().getEStructuralFeature("name")));
 	}
 	
 	
 	@Test
-	public void copiesSlot() {
+	public void copiesObjectWhenTypesDiffer() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		final EPackage targetMetamodel = aMetamodel()
-		                                 	.withNsURI("families2")
-                                       		.with(anEClass().named("Dog").
-                                         		with(anEAttribute().
-                                         			named("name").
-                                         			withType(EcorePackage.eINSTANCE.getEString())
-                                       			)
-                                       		).build();
+		                                 	.with(anEClass().named("Puppy")
+		                                 		.with(anEAttribute()
+		                                 			.named("name")
+		                                 			.withType(EcorePackage.eINSTANCE.getEString())
+		                                 		)
+		                                 	).build();
 		
-		final Copier copier = new Copier();
-		final AbstractEmfModel target = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
-		
-		final EObject copiedDog = copier.copy(createDog("Lassie"), target);
+		final EObject copy = createCopier(createDog(), targetMetamodel).copy("Puppy");
 		
 		assertEquals(1, target.allContents().size());
-		assertTrue(target.allContents().contains(copiedDog));
+		assertTrue(target.allContents().contains(copy));
 		
-		assertEquals("Dog", copiedDog.eClass().getName());
-		assertEquals("families2", copiedDog.eClass().getEPackage().getNsURI());
-		
-		assertEquals("Lassie", copiedDog.eGet(copiedDog.eClass().getEStructuralFeature("name")));
+		assertEquals("Puppy", copy.eClass().getName());
 	}
 	
+	@Test(expected=EolModelElementTypeNotFoundException.class)
+	public void errorWhenTargetTypeDoesntExist() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		final EPackage targetMetamodel = aMetamodel().build();
+		
+		createCopier(createDog(), targetMetamodel).copy("Puppy");
+	}
 	
-	@Test
-	public void copiesObjectWhenTypesDiffer() {
+	@Test(expected=EolNotInstantiableModelElementTypeException.class)
+	public void errorWhenTargetTypeIsAbstract() throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		final EPackage targetMetamodel = aMetamodel()
-		                                 	.withNsURI("families2")
-                                       		.with(anEClass().named("Puppy").
-                                         		with(anEAttribute().
-                                         			named("name").
-                                         			withType(EcorePackage.eINSTANCE.getEString())
-                                       			)
-                                       		).build();
+		                                 	.with(anAbstractEClass().named("Animal"))
+		                                 	.build();
 		
-		final Copier copier = new Copier();
-		final AbstractEmfModel target = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
-		
-		final EObject puppy = copier.copy(createDog(), "Puppy", target);
-		
-		assertEquals(1, target.allContents().size());
-		assertTrue(target.allContents().contains(puppy));
-		
-		assertEquals("Puppy", puppy.eClass().getName());
-		assertEquals("families2", puppy.eClass().getEPackage().getNsURI());
-	}
-	
-	
-	private static Dog createDog() {
-		return FamiliesFactory.eINSTANCE.createDog();
-	}
-	
-	private static Dog createDog(String name) {
-		final Dog dog = createDog();
-		dog.setName(name);
-		return dog;
+		createCopier(createDog(), targetMetamodel).copy("Animal");
 	}
 }

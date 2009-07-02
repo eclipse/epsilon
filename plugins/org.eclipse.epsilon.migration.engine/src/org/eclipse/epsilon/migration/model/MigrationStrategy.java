@@ -17,22 +17,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.eclipse.epsilon.migration.copy.Copier;
+import org.eclipse.epsilon.migration.copy.CopierFactory;
 
 public class MigrationStrategy {
 
 	private final List<MigrationRule> rules = new LinkedList<MigrationRule>();
 	
-	private final Copier copier;
+	private final CopierFactory copiers;
 	
 	public MigrationStrategy() {
-		this(new Copier());
+		this(new CopierFactory());
 	}
 	
 	// used by unit tests
-	MigrationStrategy(Copier copier) {
-		this.copier = copier;
+	MigrationStrategy(CopierFactory copiers) {
+		this.copiers = copiers;
 	}
 	
 	public void addRule(MigrationRule rule) {
@@ -48,14 +51,24 @@ public class MigrationStrategy {
 	}
 	
 	public void migrate(EObject object, MigrationContext context) {		
+		final Copier copier = copiers.createCopier(object, context.getTargetModel());
 		final MigrationRule applicableRule = getFirstApplicableRuleFor(object, context);
-		
-		if (applicableRule == null) {
-			copier.copy(object, context.getTargetModel());
+	
+		try {
+			if (applicableRule == null) {
+				copier.copy();
+				
+			} else {
+				final EObject copied = copier.copy(applicableRule.getTargetType());
+				applicableRule.migrate(object, copied, context);
+			}
 			
-		} else {
-			final EObject copied = copier.copy(object, applicableRule.getTargetType(), context.getTargetModel());
-			applicableRule.migrate(object, copied, context);
+		} catch (EolModelElementTypeNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EolNotInstantiableModelElementTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
