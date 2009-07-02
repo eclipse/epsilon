@@ -11,23 +11,22 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.test.unit.util;
+package org.eclipse.epsilon.hutn.test.model.factories;
 
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
-import org.eclipse.epsilon.hutn.test.model.families.Model;
-import org.eclipse.epsilon.hutn.test.model.families.NamedElement;
+import org.eclipse.epsilon.hutn.test.model.families.Pet;
 
-public abstract class ModelFactory {
+public abstract class PetFactory {
 
-	private ModelFactory() {}
+	private PetFactory() {}
 	
-	public static Model createModel(NamedElement... contents) {
-		final Model model = FamiliesFactory.eINSTANCE.createModel();
-		
-		for (NamedElement content : contents) {
-			model.getContents().add(content);
-		}
-		
-		return model;
+	public static Pet createPet() {
+		return createPet(null);
+	}
+	
+	public static Pet createPet(String name) {
+		final Pet pet = FamiliesFactory.eINSTANCE.createPet();
+		pet.setName(name);
+		return pet;
 	}
 }

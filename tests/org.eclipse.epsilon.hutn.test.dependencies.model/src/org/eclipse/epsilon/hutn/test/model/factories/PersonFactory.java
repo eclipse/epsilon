@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.test.unit.util;
+package org.eclipse.epsilon.hutn.test.model.factories;
 
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
 import org.eclipse.epsilon.hutn.test.model.families.Person;

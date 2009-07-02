@@ -11,22 +11,22 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.test.unit.util;
+package org.eclipse.epsilon.hutn.test.model.factories;
 
+import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
-import org.eclipse.epsilon.hutn.test.model.families.Pet;
 
-public abstract class PetFactory {
+public abstract class DogFactory {
 
-	private PetFactory() {}
+	private DogFactory() {}
 	
-	public static Pet createPet() {
-		return createPet(null);
+	public static Dog createDog() {
+		return createDog(null);
 	}
 	
-	public static Pet createPet(String name) {
-		final Pet pet = FamiliesFactory.eINSTANCE.createPet();
-		pet.setName(name);
-		return pet;
+	public static Dog createDog(String name) {
+		final Dog dog = FamiliesFactory.eINSTANCE.createDog();
+		dog.setName(name);
+		return dog;
 	}
 }
