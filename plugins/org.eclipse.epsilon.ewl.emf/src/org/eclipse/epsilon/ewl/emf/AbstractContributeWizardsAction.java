@@ -100,8 +100,10 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 	
 	public Menu getMenu(Menu parent) {
-		wizardsMenu = new Menu(parent);
-		wizardsMenu.addMenuListener(this);
+		if (wizardsMenu == null) {
+			wizardsMenu = new Menu(parent);
+			wizardsMenu.addMenuListener(this);
+		}
 		return wizardsMenu;
 	}
 	
