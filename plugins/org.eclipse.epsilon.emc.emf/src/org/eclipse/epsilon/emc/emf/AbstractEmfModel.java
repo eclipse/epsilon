@@ -284,7 +284,7 @@ public abstract class AbstractEmfModel extends Model{
 		
 		EClass eClass = classForName(type);
 		//if (eClass == null) throw new EolModelElementTypeNotFoundException(this.getName(), type);
-		//if (eClass.isAbstract()) throw new EolNotInstantiableModelElementTypeException(this.name, type);
+		if (eClass.isAbstract()) throw new EolNotInstantiableModelElementTypeException(this.name, type);
 		
 		EObject instance = eClass.getEPackage().getEFactoryInstance().create(eClass);
 		modelImpl.getContents().add(instance);
