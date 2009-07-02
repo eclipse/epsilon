@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -190,6 +191,19 @@ public class EolContext implements IEolContext{
 
 	public List<AsyncStatement> getAsyncStatementsQueque() {
 		return asyncStatementsQueque;
+	}
+	
+
+	protected void enterProtectedFrame(AST ast, Variable... variables) {
+		getFrameStack().enter(FrameType.PROTECTED, ast);
+		
+		for (Variable variable : variables) {
+			getFrameStack().put(variable);
+		}
+	}
+
+	protected void leaveFrame(AST ast) {
+		getFrameStack().leave(ast);
 	}
 	
 }

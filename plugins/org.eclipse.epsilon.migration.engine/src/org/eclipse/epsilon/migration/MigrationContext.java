@@ -21,7 +21,6 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 
@@ -55,10 +54,6 @@ public class MigrationContext extends EolContext {
 		return getOriginalModel().allContents();
 	}
 	
-	public Collection<EObject> getOriginalModelElements(String type) throws EolModelElementTypeNotFoundException {
-		return getOriginalModel().getAllOfKind(type);
-	}
-	
 	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
 		enterProtectedFrame(block, variables);
 		
@@ -77,18 +72,5 @@ public class MigrationContext extends EolContext {
 		leaveFrame(guard);
 		
 		return guardSatisfied.booleanValue();
-	}
-	
-	
-	private void enterProtectedFrame(AST ast, Variable... variables) {
-		getFrameStack().enter(FrameType.PROTECTED, ast);
-		
-		for (Variable variable : variables) {
-			getFrameStack().put(variable);
-		}
-	}
-	
-	private void leaveFrame(AST ast) {
-		getFrameStack().leave(ast);
 	}
 }
