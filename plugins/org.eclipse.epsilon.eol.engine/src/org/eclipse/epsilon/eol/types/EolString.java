@@ -46,7 +46,7 @@ public class EolString extends EolPrimitive{
 	}
 	
 	public EolBoolean isSubstringOf(EolString str) {
-		return new EolBoolean(str.value.indexOf(this.value) > -1);
+		return new EolBoolean(str == null ? false : str.value.indexOf(this.value) > -1);
 	}
 	
 	public EolBoolean matches(EolString expression){
