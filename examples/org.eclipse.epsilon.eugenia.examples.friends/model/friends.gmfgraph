@@ -1,37 +1,96 @@
 <?xml version="1.0" encoding="ASCII"?>
-<gmfgraph:Canvas xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition" xmi:id="_TvCEsYPOEd2U17be8iKuEg" name="friends">
-  <figures xmi:id="_TvCEsoPOEd2U17be8iKuEg" name="Default">
-    <figures xsi:type="gmfgraph:PolylineDecoration" xmi:id="_TvL1vYPOEd2U17be8iKuEg" name="PersonFriendOfFigureSourceDecoration"/>
-    <figures xsi:type="gmfgraph:PolylineDecoration" xmi:id="_TvL1voPOEd2U17be8iKuEg" name="PersonFriendOfFigureTargetDecoration"/>
-    <figures xsi:type="gmfgraph:PolylineDecoration" xmi:id="_TvU_p4POEd2U17be8iKuEg" name="PersonEnemyOfFigureSourceDecoration"/>
-    <figures xsi:type="gmfgraph:PolylineDecoration" xmi:id="_TvU_qIPOEd2U17be8iKuEg" name="PersonEnemyOfFigureTargetDecoration"/>
-    <descriptors xmi:id="_TvCEuIPOEd2U17be8iKuEg" name="PersonFigure">
-      <actualFigure xsi:type="gmfgraph:CustomFigure" xmi:id="_TvCEuYPOEd2U17be8iKuEg" name="PersonFigure" qualifiedClassName="figures.PersonFigure"/>
+<gmfgraph:Canvas xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition" name="friends">
+  <figures
+      name="Default">
+    <figures
+        xsi:type="gmfgraph:PolylineDecoration"
+        name="PersonFriendOfFigureSourceDecoration"/>
+    <figures
+        xsi:type="gmfgraph:PolylineDecoration"
+        name="PersonFriendOfFigureTargetDecoration"/>
+    <figures
+        xsi:type="gmfgraph:PolylineDecoration"
+        name="PersonEnemyOfFigureSourceDecoration"/>
+    <figures
+        xsi:type="gmfgraph:PolylineDecoration"
+        name="PersonEnemyOfFigureTargetDecoration"/>
+    <descriptors
+        name="PersonFigure">
+      <actualFigure
+          xsi:type="gmfgraph:CustomFigure"
+          name="PersonFigure"
+          qualifiedClassName="figures.PersonFigure"/>
     </descriptors>
-    <descriptors xmi:id="_TvL1sIPOEd2U17be8iKuEg" name="PersonLabelFigure">
-      <actualFigure xsi:type="gmfgraph:Label" xmi:id="_TvCEuoPOEd2U17be8iKuEg" name="PersonLabelFigure" text="Person"/>
+    <descriptors
+        name="PersonLabelFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Label"
+          name="PersonLabelFigure"
+          text="Person"/>
     </descriptors>
-    <descriptors xmi:id="_TvL1t4POEd2U17be8iKuEg" name="PersonFriendOfFigure">
-      <actualFigure xsi:type="gmfgraph:PolylineConnection" xmi:id="_TvL1u4POEd2U17be8iKuEg" name="PersonFriendOfFigure" lineWidth="2" lineKind="LINE_DASH" sourceDecoration="_TvL1vYPOEd2U17be8iKuEg" targetDecoration="_TvL1voPOEd2U17be8iKuEg">
-        <foregroundColor xsi:type="gmfgraph:RGBColor" xmi:id="_TvL1v4POEd2U17be8iKuEg" green="255"/>
+    <descriptors
+        name="PersonFriendOfFigure">
+      <actualFigure
+          xsi:type="gmfgraph:PolylineConnection"
+          name="PersonFriendOfFigure"
+          lineWidth="2"
+          lineKind="LINE_DASH"
+          sourceDecoration="//@figures.0/@figures.0"
+          targetDecoration="//@figures.0/@figures.1">
+        <foregroundColor
+            xsi:type="gmfgraph:RGBColor"
+            green="255"/>
       </actualFigure>
     </descriptors>
-    <descriptors xmi:id="_TvL1uIPOEd2U17be8iKuEg" name="PersonFriendOfExternalLabelFigure">
-      <actualFigure xsi:type="gmfgraph:Label" xmi:id="_TvL1uYPOEd2U17be8iKuEg" name="PersonFriendOfExternalLabel"/>
+    <descriptors
+        name="PersonFriendOfExternalLabelFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Label"
+          name="PersonFriendOfExternalLabel"/>
     </descriptors>
-    <descriptors xmi:id="_TvU_oYPOEd2U17be8iKuEg" name="PersonEnemyOfFigure">
-      <actualFigure xsi:type="gmfgraph:PolylineConnection" xmi:id="_TvU_pYPOEd2U17be8iKuEg" name="PersonEnemyOfFigure" lineWidth="2" lineKind="LINE_DASH" sourceDecoration="_TvU_p4POEd2U17be8iKuEg" targetDecoration="_TvU_qIPOEd2U17be8iKuEg">
-        <foregroundColor xsi:type="gmfgraph:RGBColor" xmi:id="_TvU_qYPOEd2U17be8iKuEg" red="255"/>
+    <descriptors
+        name="PersonEnemyOfFigure">
+      <actualFigure
+          xsi:type="gmfgraph:PolylineConnection"
+          name="PersonEnemyOfFigure"
+          lineWidth="2"
+          lineKind="LINE_DASH"
+          sourceDecoration="//@figures.0/@figures.2"
+          targetDecoration="//@figures.0/@figures.3">
+        <foregroundColor
+            xsi:type="gmfgraph:RGBColor"
+            red="255"/>
       </actualFigure>
     </descriptors>
-    <descriptors xmi:id="_TvU_ooPOEd2U17be8iKuEg" name="PersonEnemyOfExternalLabelFigure">
-      <actualFigure xsi:type="gmfgraph:Label" xmi:id="_TvU_o4POEd2U17be8iKuEg" name="PersonEnemyOfExternalLabel"/>
+    <descriptors
+        name="PersonEnemyOfExternalLabelFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Label"
+          name="PersonEnemyOfExternalLabel"/>
     </descriptors>
   </figures>
-  <nodes xmi:id="_TvCEu4POEd2U17be8iKuEg" name="Person" figure="_TvCEuIPOEd2U17be8iKuEg"/>
-  <connections xmi:id="_TvL1vIPOEd2U17be8iKuEg" name="PersonFriendOf" figure="_TvL1t4POEd2U17be8iKuEg"/>
-  <connections xmi:id="_TvU_poPOEd2U17be8iKuEg" name="PersonEnemyOf" figure="_TvU_oYPOEd2U17be8iKuEg"/>
-  <labels xmi:id="_TvCEvIPOEd2U17be8iKuEg" name="PersonLabel" figure="_TvL1sIPOEd2U17be8iKuEg" elementIcon="false"/>
-  <labels xmi:id="_TvL1uoPOEd2U17be8iKuEg" name="PersonFriendOfExternalLabel" figure="_TvL1uIPOEd2U17be8iKuEg" elementIcon="false"/>
-  <labels xmi:id="_TvU_pIPOEd2U17be8iKuEg" name="PersonEnemyOfExternalLabel" figure="_TvU_ooPOEd2U17be8iKuEg" elementIcon="false"/>
+  <nodes
+      name="Person"
+      figure="PersonFigure"/>
+  <connections
+      name="PersonFriendOf"
+      figure="PersonFriendOfFigure"/>
+  <connections
+      name="PersonEnemyOf"
+      figure="PersonEnemyOfFigure"/>
+  <labels
+      name="PersonLabel"
+      figure="PersonLabelFigure"
+      elementIcon="false"/>
+  <labels
+      name="PersonFriendOfExternalLabel"
+      figure="PersonFriendOfExternalLabelFigure"
+      elementIcon="false"/>
+  <labels
+      name="PersonEnemyOfExternalLabel"
+      figure="PersonEnemyOfExternalLabelFigure"
+      elementIcon="false"/>
 </gmfgraph:Canvas>

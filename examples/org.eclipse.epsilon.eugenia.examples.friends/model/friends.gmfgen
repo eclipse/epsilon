@@ -1,121 +1,318 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gmfgen:GenEditorGenerator xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gmfgen="http://www.eclipse.org/gmf/2008/GenModel" xmi:id="_VIl4oIPOEd2U17be8iKuEg">
-  <diagram xmi:id="_VIl4oYPOEd2U17be8iKuEg" visualID="79" editPartClassName="WorldEditPart" itemSemanticEditPolicyClassName="WorldItemSemanticEditPolicy" notationViewFactoryClassName="WorldViewFactory" canonicalEditPolicyClassName="WorldCanonicalEditPolicy" iconProviderPriority="Low" validationProviderPriority="Low" validationEnabled="true" validationDecorators="true" liveValidationUIFeedback="true">
-    <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Diagram"/>
-    <elementType xsi:type="gmfgen:MetamodelType" xmi:id="_VIl4ooPOEd2U17be8iKuEg" editHelperClassName="WorldEditHelper"/>
-    <viewmap xsi:type="gmfgen:FigureViewmap" xmi:id="_VIl4o4POEd2U17be8iKuEg" figureQualifiedClassName="org.eclipse.draw2d.FreeformLayer"/>
+<gmfgen:GenEditorGenerator xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmfgen="http://www.eclipse.org/gmf/2008/GenModel">
+  <diagram
+      visualID="1000"
+      editPartClassName="WorldEditPart"
+      itemSemanticEditPolicyClassName="WorldItemSemanticEditPolicy"
+      notationViewFactoryClassName="WorldViewFactory"
+      canonicalEditPolicyClassName="WorldCanonicalEditPolicy"
+      iconProviderPriority="Low"
+      validationProviderPriority="Low"
+      validationEnabled="true"
+      validationDecorators="true"
+      liveValidationUIFeedback="true">
+    <diagramRunTimeClass
+        href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Diagram"/>
+    <elementType
+        xsi:type="gmfgen:MetamodelType"
+        editHelperClassName="WorldEditHelper"/>
+    <viewmap
+        xsi:type="gmfgen:FigureViewmap"
+        figureQualifiedClassName="org.eclipse.draw2d.FreeformLayer"/>
     <containsShortcutsTo>friends</containsShortcutsTo>
     <shortcutsProvidedFor>friends</shortcutsProvidedFor>
-    <domainDiagramElement href="friends.genmodel#//friends/World"/>
-    <topLevelNodes xmi:id="_VIl4pIPOEd2U17be8iKuEg" visualID="1001" editPartClassName="PersonEditPart" itemSemanticEditPolicyClassName="PersonItemSemanticEditPolicy" notationViewFactoryClassName="PersonViewFactory" canonicalEditPolicyClassName="PersonCanonicalEditPolicy" graphicalNodeEditPolicyClassName="PersonGraphicalNodeEditPolicy" createCommandClassName="PersonCreateCommand">
-      <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-      <elementType xsi:type="gmfgen:MetamodelType" xmi:id="_VIl4pYPOEd2U17be8iKuEg" editHelperClassName="PersonEditHelper"/>
-      <viewmap xsi:type="gmfgen:FigureViewmap" xmi:id="_VIl4poPOEd2U17be8iKuEg" figureQualifiedClassName="figures.PersonFigure">
+    <domainDiagramElement
+        href="friends.genmodel#//friends/World"/>
+    <topLevelNodes
+        visualID="2001"
+        editPartClassName="PersonEditPart"
+        itemSemanticEditPolicyClassName="PersonItemSemanticEditPolicy"
+        notationViewFactoryClassName="PersonViewFactory"
+        canonicalEditPolicyClassName="PersonCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="PersonGraphicalNodeEditPolicy"
+        createCommandClassName="PersonCreateCommand">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:MetamodelType"
+          editHelperClassName="PersonEditHelper"/>
+      <viewmap
+          xsi:type="gmfgen:FigureViewmap"
+          figureQualifiedClassName="figures.PersonFigure">
         <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
         <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
       </viewmap>
-      <modelFacet xmi:id="_VIl4p4POEd2U17be8iKuEg">
-        <metaClass href="friends.genmodel#//friends/Person"/>
-        <containmentMetaFeature href="friends.genmodel#//friends/World/people"/>
-        <childMetaFeature href="friends.genmodel#//friends/World/people"/>
+      <modelFacet>
+        <metaClass
+            href="friends.genmodel#//friends/Person"/>
+        <containmentMetaFeature
+            href="friends.genmodel#//friends/World/people"/>
+        <childMetaFeature
+            href="friends.genmodel#//friends/World/people"/>
       </modelFacet>
-      <labels xsi:type="gmfgen:GenExternalNodeLabel" xmi:id="_VIl4qIPOEd2U17be8iKuEg" visualID="4001" editPartClassName="PersonNameEditPart" itemSemanticEditPolicyClassName="PersonNameItemSemanticEditPolicy" notationViewFactoryClassName="PersonNameViewFactory">
-        <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-        <viewmap xsi:type="gmfgen:InnerClassViewmap" xmi:id="_VIl4qYPOEd2U17be8iKuEg" className="PersonLabelFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonLabelFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonLabelFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;this.setText(&quot;Person&quot;);&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;">
+      <labels
+          xsi:type="gmfgen:GenExternalNodeLabel"
+          visualID="5001"
+          editPartClassName="PersonNameEditPart"
+          itemSemanticEditPolicyClassName="PersonNameItemSemanticEditPolicy"
+          notationViewFactoryClassName="PersonNameViewFactory">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:InnerClassViewmap"
+            className="PersonLabelFigure"
+            classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonLabelFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonLabelFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;this.setText(&quot;Person&quot;);&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;">
           <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
           <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
         </viewmap>
-        <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" xmi:id="_VIl4qoPOEd2U17be8iKuEg">
-          <metaFeatures href="friends.genmodel#//friends/Person/name"/>
+        <modelFacet
+            xsi:type="gmfgen:FeatureLabelModelFacet">
+          <metaFeatures
+              href="friends.genmodel#//friends/Person/name"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
-    <links xmi:id="_VIl4q4POEd2U17be8iKuEg" visualID="3001" editPartClassName="PersonFriendOfEditPart" itemSemanticEditPolicyClassName="PersonFriendOfItemSemanticEditPolicy" notationViewFactoryClassName="PersonFriendOfViewFactory" createCommandClassName="PersonFriendOfCreateCommand" reorientCommandClassName="PersonFriendOfReorientCommand">
-      <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
-      <elementType xsi:type="gmfgen:SpecializationType" xmi:id="_VIl4rIPOEd2U17be8iKuEg"/>
-      <viewmap xsi:type="gmfgen:InnerClassViewmap" xmi:id="_VIl4rYPOEd2U17be8iKuEg" className="PersonFriendOfFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonFriendOfFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonFriendOfFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setSourceDecoration(createSourceDecoration());&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createSourceDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 255, 0);&#xA;&#xA;">
-        <attributes xsi:type="gmfgen:StyleAttributes" xmi:id="_VIl4roPOEd2U17be8iKuEg" fixedForeground="true"/>
+    <links
+        visualID="4001"
+        editPartClassName="PersonFriendOfEditPart"
+        itemSemanticEditPolicyClassName="PersonFriendOfItemSemanticEditPolicy"
+        notationViewFactoryClassName="PersonFriendOfViewFactory"
+        createCommandClassName="PersonFriendOfCreateCommand"
+        reorientCommandClassName="PersonFriendOfReorientCommand">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
+      <elementType
+          xsi:type="gmfgen:SpecializationType"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="PersonFriendOfFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonFriendOfFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonFriendOfFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setSourceDecoration(createSourceDecoration());&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createSourceDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 255, 0);&#xA;&#xA;">
+        <attributes
+            xsi:type="gmfgen:StyleAttributes"
+            fixedForeground="true"/>
         <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
         <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
       </viewmap>
-      <modelFacet xsi:type="gmfgen:FeatureLinkModelFacet" xmi:id="_VIl4r4POEd2U17be8iKuEg">
-        <metaFeature href="friends.genmodel#//friends/Person/friendOf"/>
+      <modelFacet
+          xsi:type="gmfgen:FeatureLinkModelFacet">
+        <metaFeature
+            href="friends.genmodel#//friends/Person/friendOf"/>
       </modelFacet>
-      <labels xmi:id="_VIl4sIPOEd2U17be8iKuEg" visualID="4002" editPartClassName="PersonFriendOfExternalLabelEditPart" itemSemanticEditPolicyClassName="PersonFriendOfExternalLabelItemSemanticEditPolicy" notationViewFactoryClassName="PersonFriendOfExternalLabelViewFactory" readOnly="true">
-        <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-        <viewmap xsi:type="gmfgen:FigureViewmap" xmi:id="_VIl4sYPOEd2U17be8iKuEg" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel">
-          <attributes xsi:type="gmfgen:LabelOffsetAttributes" xmi:id="_VIl4soPOEd2U17be8iKuEg" y="40"/>
+      <labels
+          visualID="6001"
+          editPartClassName="WrappingLabelEditPart"
+          itemSemanticEditPolicyClassName="WrappingLabelItemSemanticEditPolicy"
+          notationViewFactoryClassName="WrappingLabelViewFactory"
+          readOnly="true">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:FigureViewmap"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel">
+          <attributes
+              xsi:type="gmfgen:LabelOffsetAttributes"
+              y="40"/>
           <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
           <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
         </viewmap>
-        <modelFacet xsi:type="gmfgen:DesignLabelModelFacet" xmi:id="_VIl4s4POEd2U17be8iKuEg"/>
+        <modelFacet
+            xsi:type="gmfgen:DesignLabelModelFacet"/>
       </labels>
     </links>
-    <links xmi:id="_VIl4tIPOEd2U17be8iKuEg" visualID="3002" editPartClassName="PersonEnemyOfEditPart" itemSemanticEditPolicyClassName="PersonEnemyOfItemSemanticEditPolicy" notationViewFactoryClassName="PersonEnemyOfViewFactory" createCommandClassName="PersonEnemyOfCreateCommand" reorientCommandClassName="PersonEnemyOfReorientCommand">
-      <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
-      <elementType xsi:type="gmfgen:SpecializationType" xmi:id="_VIl4tYPOEd2U17be8iKuEg"/>
-      <viewmap xsi:type="gmfgen:InnerClassViewmap" xmi:id="_VIl4toPOEd2U17be8iKuEg" className="PersonEnemyOfFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonEnemyOfFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonEnemyOfFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setSourceDecoration(createSourceDecoration());&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createSourceDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 255, 0, 0);&#xA;&#xA;">
-        <attributes xsi:type="gmfgen:StyleAttributes" xmi:id="_VIl4t4POEd2U17be8iKuEg" fixedForeground="true"/>
+    <links
+        visualID="4002"
+        editPartClassName="PersonEnemyOfEditPart"
+        itemSemanticEditPolicyClassName="PersonEnemyOfItemSemanticEditPolicy"
+        notationViewFactoryClassName="PersonEnemyOfViewFactory"
+        createCommandClassName="PersonEnemyOfCreateCommand"
+        reorientCommandClassName="PersonEnemyOfReorientCommand">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
+      <elementType
+          xsi:type="gmfgen:SpecializationType"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="PersonEnemyOfFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class PersonEnemyOfFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public PersonEnemyOfFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setSourceDecoration(createSourceDecoration());&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createSourceDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 255, 0, 0);&#xA;&#xA;">
+        <attributes
+            xsi:type="gmfgen:StyleAttributes"
+            fixedForeground="true"/>
         <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
         <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
       </viewmap>
-      <modelFacet xsi:type="gmfgen:FeatureLinkModelFacet" xmi:id="_VIl4uIPOEd2U17be8iKuEg">
-        <metaFeature href="friends.genmodel#//friends/Person/enemyOf"/>
+      <modelFacet
+          xsi:type="gmfgen:FeatureLinkModelFacet">
+        <metaFeature
+            href="friends.genmodel#//friends/Person/enemyOf"/>
       </modelFacet>
-      <labels xmi:id="_VIl4uYPOEd2U17be8iKuEg" visualID="4003" editPartClassName="PersonEnemyOfExternalLabelEditPart" itemSemanticEditPolicyClassName="PersonEnemyOfExternalLabelItemSemanticEditPolicy" notationViewFactoryClassName="PersonEnemyOfExternalLabelViewFactory" readOnly="true">
-        <diagramRunTimeClass href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-        <viewmap xsi:type="gmfgen:FigureViewmap" xmi:id="_VIl4uoPOEd2U17be8iKuEg" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel">
-          <attributes xsi:type="gmfgen:LabelOffsetAttributes" xmi:id="_VIl4u4POEd2U17be8iKuEg" y="40"/>
+      <labels
+          visualID="6002"
+          editPartClassName="WrappingLabel2EditPart"
+          itemSemanticEditPolicyClassName="WrappingLabel2ItemSemanticEditPolicy"
+          notationViewFactoryClassName="WrappingLabel2ViewFactory"
+          readOnly="true">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:FigureViewmap"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel">
+          <attributes
+              xsi:type="gmfgen:LabelOffsetAttributes"
+              y="40"/>
           <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
           <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
         </viewmap>
-        <modelFacet xsi:type="gmfgen:DesignLabelModelFacet" xmi:id="_VIl4vIPOEd2U17be8iKuEg"/>
+        <modelFacet
+            xsi:type="gmfgen:DesignLabelModelFacet"/>
       </labels>
     </links>
-    <palette xmi:id="_VIl4vYPOEd2U17be8iKuEg">
-      <groups xmi:id="_VIl4voPOEd2U17be8iKuEg" title="Objects" collapse="true">
-        <entries xsi:type="gmfgen:ToolEntry" xmi:id="_VIl4v4POEd2U17be8iKuEg" title="Person" description="Create new Person" genNodes="_VIl4pIPOEd2U17be8iKuEg"/>
+    <palette>
+      <groups
+          title="Objects"
+          collapse="true">
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="Person"
+            description="Create new Person"
+            genNodes="//@diagram/@topLevelNodes.0"/>
       </groups>
-      <groups xmi:id="_VIl4wIPOEd2U17be8iKuEg" title="Connections" collapse="true">
-        <entries xsi:type="gmfgen:ToolEntry" xmi:id="_VIl4wYPOEd2U17be8iKuEg" title="FriendOf" description="Create new FriendOf" largeIconPath="/org.eclipse.epsilon.eugenia.runtime/icons/Link.gif" smallIconPath="/org.eclipse.epsilon.eugenia.runtime/icons/Link.gif" genLinks="_VIl4q4POEd2U17be8iKuEg"/>
-        <entries xsi:type="gmfgen:ToolEntry" xmi:id="_VIl4woPOEd2U17be8iKuEg" title="EnemyOf" description="Create new EnemyOf" largeIconPath="/org.eclipse.epsilon.eugenia.runtime/icons/Link.gif" smallIconPath="/org.eclipse.epsilon.eugenia.runtime/icons/Link.gif" genLinks="_VIl4tIPOEd2U17be8iKuEg"/>
+      <groups
+          title="Connections"
+          collapse="true">
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="EnemyOf"
+            description="Create new EnemyOf"
+            genLinks="//@diagram/@links.1"/>
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="FriendOf"
+            description="Create new FriendOf"
+            genLinks="//@diagram/@links.0"/>
       </groups>
     </palette>
-    <preferencePages xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4w4POEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.general" name="Friends Diagram">
-      <children xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4xIPOEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.appearance" name="Appearance" kind="Appearance"/>
-      <children xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4xYPOEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.connections" name="Connections" kind="Connections"/>
-      <children xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4xoPOEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.printing" name="Printing" kind="Printing"/>
-      <children xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4x4POEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.rulersAndGrid" name="Rulers And Grid" kind="RulersAndGrid"/>
-      <children xsi:type="gmfgen:GenStandardPreferencePage" xmi:id="_VIl4yIPOEd2U17be8iKuEg" iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.pathmaps" name="Pathmaps" kind="Pathmaps"/>
+    <preferencePages
+        xsi:type="gmfgen:GenStandardPreferencePage"
+        iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.general"
+        name="Friends Diagram">
+      <children
+          xsi:type="gmfgen:GenStandardPreferencePage"
+          iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.appearance"
+          name="Appearance"
+          kind="Appearance"/>
+      <children
+          xsi:type="gmfgen:GenStandardPreferencePage"
+          iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.connections"
+          name="Connections"
+          kind="Connections"/>
+      <children
+          xsi:type="gmfgen:GenStandardPreferencePage"
+          iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.printing"
+          name="Printing"
+          kind="Printing"/>
+      <children
+          xsi:type="gmfgen:GenStandardPreferencePage"
+          iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.rulersAndGrid"
+          name="Rulers And Grid"
+          kind="RulersAndGrid"/>
+      <children
+          xsi:type="gmfgen:GenStandardPreferencePage"
+          iD="org.eclipse.epsilon.eugenia.examples.friends.diagram.pathmaps"
+          name="Pathmaps"
+          kind="Pathmaps"/>
     </preferencePages>
   </diagram>
-  <plugin xmi:id="_VIl4yYPOEd2U17be8iKuEg" printingEnabled="true"/>
-  <editor xmi:id="_VIl4yoPOEd2U17be8iKuEg"/>
-  <navigator xmi:id="_VIl4y4POEd2U17be8iKuEg">
-    <childReferences xmi:id="_VIl4zIPOEd2U17be8iKuEg" child="_VIl4oYPOEd2U17be8iKuEg"/>
-    <childReferences xmi:id="_VIl4zYPOEd2U17be8iKuEg" parent="_VIl4oYPOEd2U17be8iKuEg" child="_VIl4pIPOEd2U17be8iKuEg"/>
-    <childReferences xmi:id="_VIl4zoPOEd2U17be8iKuEg" parent="_VIl4oYPOEd2U17be8iKuEg" child="_VIl4q4POEd2U17be8iKuEg" groupName="links" groupIcon="icons/linksNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl4z4POEd2U17be8iKuEg" parent="_VIl4q4POEd2U17be8iKuEg" child="_VIl4pIPOEd2U17be8iKuEg" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl40IPOEd2U17be8iKuEg" parent="_VIl4pIPOEd2U17be8iKuEg" child="_VIl4q4POEd2U17be8iKuEg" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl40YPOEd2U17be8iKuEg" parent="_VIl4q4POEd2U17be8iKuEg" child="_VIl4pIPOEd2U17be8iKuEg" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl40oPOEd2U17be8iKuEg" parent="_VIl4pIPOEd2U17be8iKuEg" child="_VIl4q4POEd2U17be8iKuEg" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl404POEd2U17be8iKuEg" parent="_VIl4oYPOEd2U17be8iKuEg" child="_VIl4tIPOEd2U17be8iKuEg" groupName="links" groupIcon="icons/linksNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl41IPOEd2U17be8iKuEg" parent="_VIl4tIPOEd2U17be8iKuEg" child="_VIl4pIPOEd2U17be8iKuEg" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl41YPOEd2U17be8iKuEg" parent="_VIl4pIPOEd2U17be8iKuEg" child="_VIl4tIPOEd2U17be8iKuEg" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl41oPOEd2U17be8iKuEg" parent="_VIl4tIPOEd2U17be8iKuEg" child="_VIl4pIPOEd2U17be8iKuEg" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
-    <childReferences xmi:id="_VIl414POEd2U17be8iKuEg" parent="_VIl4pIPOEd2U17be8iKuEg" child="_VIl4tIPOEd2U17be8iKuEg" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
+  <plugin
+      printingEnabled="true"/>
+  <editor/>
+  <navigator>
+    <childReferences
+        child="//@diagram"/>
+    <childReferences
+        parent="//@diagram"
+        child="//@diagram/@topLevelNodes.0"/>
+    <childReferences
+        parent="//@diagram"
+        child="//@diagram/@links.0"
+        groupName="links"
+        groupIcon="icons/linksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.0"
+        child="//@diagram/@topLevelNodes.0"
+        referenceType="out_target"
+        groupName="target"
+        groupIcon="icons/linkTargetNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@topLevelNodes.0"
+        child="//@diagram/@links.0"
+        referenceType="in_source"
+        groupName="incoming links"
+        groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.0"
+        child="//@diagram/@topLevelNodes.0"
+        referenceType="in_source"
+        groupName="source"
+        groupIcon="icons/linkSourceNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@topLevelNodes.0"
+        child="//@diagram/@links.0"
+        referenceType="out_target"
+        groupName="outgoing links"
+        groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram"
+        child="//@diagram/@links.1"
+        groupName="links"
+        groupIcon="icons/linksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.1"
+        child="//@diagram/@topLevelNodes.0"
+        referenceType="out_target"
+        groupName="target"
+        groupIcon="icons/linkTargetNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@topLevelNodes.0"
+        child="//@diagram/@links.1"
+        referenceType="in_source"
+        groupName="incoming links"
+        groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.1"
+        child="//@diagram/@topLevelNodes.0"
+        referenceType="in_source"
+        groupName="source"
+        groupIcon="icons/linkSourceNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@topLevelNodes.0"
+        child="//@diagram/@links.1"
+        referenceType="out_target"
+        groupName="outgoing links"
+        groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
   </navigator>
-  <diagramUpdater xmi:id="_VIl42IPOEd2U17be8iKuEg"/>
-  <propertySheet xmi:id="_VIl42YPOEd2U17be8iKuEg">
-    <tabs xsi:type="gmfgen:GenStandardPropertyTab" xmi:id="_VIl42oPOEd2U17be8iKuEg" iD="appearance"/>
-    <tabs xsi:type="gmfgen:GenStandardPropertyTab" xmi:id="_VIl424POEd2U17be8iKuEg" iD="diagram"/>
-    <tabs xsi:type="gmfgen:GenCustomPropertyTab" xmi:id="_VIl43IPOEd2U17be8iKuEg" iD="domain" label="Core">
-      <filter xsi:type="gmfgen:TypeTabFilter" xmi:id="_VIl43YPOEd2U17be8iKuEg">
+  <diagramUpdater/>
+  <propertySheet>
+    <tabs
+        xsi:type="gmfgen:GenStandardPropertyTab"
+        iD="appearance"/>
+    <tabs
+        xsi:type="gmfgen:GenStandardPropertyTab"
+        iD="diagram"/>
+    <tabs
+        xsi:type="gmfgen:GenCustomPropertyTab"
+        iD="domain"
+        label="Core">
+      <filter
+          xsi:type="gmfgen:TypeTabFilter">
         <types>org.eclipse.gmf.runtime.notation.View</types>
         <types>org.eclipse.gef.EditPart</types>
         <generatedTypes>abstractNavigatorItem</generatedTypes>
       </filter>
     </tabs>
   </propertySheet>
-  <domainGenModel href="friends.genmodel#/"/>
+  <domainGenModel
+      href="friends.genmodel#/"/>
 </gmfgen:GenEditorGenerator>
