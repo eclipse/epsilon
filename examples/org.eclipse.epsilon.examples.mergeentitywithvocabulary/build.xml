@@ -7,26 +7,29 @@
 	
 	<target name="loadModels">
 		
+		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Entity.ecore"/>
+		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/DomainVocabulary.ecore"/>
+		
 		<epsilon.loadModel name="Source" type="EMF" profile="true">
 			<parameter name="modelFile" file="models/Source.model"/>
-			<parameter name="metamodelFile" file="metamodels/Entity.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="metamodelUri" value="Entity"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>
 			<parameter name="storeOnDisposal" value="false"/>
 		</epsilon.loadModel>
 
 		<epsilon.loadModel name="Target" type="EMF" profile="true">
 			<parameter name="modelFile" file="models/Target.model"/>
-			<parameter name="metamodelFile" file="metamodels/Entity.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="metamodelUri" value="Entity"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="false"/>
 			<parameter name="storeOnDisposal" value="true"/>
 		</epsilon.loadModel>
 		
 		<epsilon.loadModel name="Vocabulary" type="EMF" profile="true">
 			<parameter name="modelFile" file="models/Vocabulary.model"/>
-			<parameter name="metamodelFile" file="metamodels/DomainVocabulary.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="metamodelUri" value="DomainVocabulary"/>
+			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>
 			<parameter name="storeOnDisposal" value="false"/>
 		</epsilon.loadModel>
@@ -35,17 +38,16 @@
 	
 	<target name="compare">
 		
-		<epsilon.ecl src="Comparison.ecl">
+		<epsilon.ecl src="Comparison.ecl" exportmatchtrace="eclMatchTrace">
 			<model ref="Source"/>
 			<model ref="Vocabulary"/>
-			<exports ref="matchTrace" as="eclMatchTrace"/>
 		</epsilon.ecl>
 		
 	</target>
 	
 	<target name="merge">
 		
-		<epsilon.eml src="Merging.eml" matchtrace="eclMatchTrace">
+		<epsilon.eml src="Merging.eml" usematchtrace="eclMatchTrace">
 			<model ref="Source"/>
 			<model ref="Vocabulary"/>
 			<model ref="Target"/>

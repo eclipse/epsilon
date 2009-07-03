@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<Entity:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:Entity="Entity" xmi:id="_Iha8cAt4Ed6tCvOilyvb-g">
-  <entity xmi:id="_Iha8cQt4Ed6tCvOilyvb-g" name="Publication" inDomain="true"/>
-  <entity xmi:id="_Iha8cgt4Ed6tCvOilyvb-g" name="Writer" inDomain="true"/>
-  <entity xmi:id="_Iha8cwt4Ed6tCvOilyvb-g" name="Publishing Organization" inDomain="true"/>
-  <entity xmi:id="_Iha8dAt4Ed6tCvOilyvb-g" name="Chapter" inDomain="false"/>
+<Entity:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:Entity="Entity">
+  <entity name="Publication" inDomain="true"/>
+  <entity name="Writer" inDomain="true"/>
+  <entity name="Publishing Organization" inDomain="true"/>
+  <entity name="Chapter" inDomain="false"/>
 </Entity:System>
