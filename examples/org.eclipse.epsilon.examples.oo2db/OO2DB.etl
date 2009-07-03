@@ -4,7 +4,15 @@ pre {
 }
 
 post {
-	'Done'.println();
+	-- Store traceability links in custom model
+	var trace : new Trace!Trace;
+	for (t in transTrace.transformations) {
+		var link : new Trace!TraceLink;
+		link.sources.add(t.source);
+		link.targets := t.targets;
+		link.description := 'Transformed by ' + t.getRule().name;
+		trace.links.add(link);
+	}
 }
 
 -- Transforms a class into a table and 

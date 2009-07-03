@@ -13,42 +13,50 @@
 -->
 
 <project default="main">
- 	<target name="init">
-		<property name="models" location="${basedir}/models"/>
-		<property name="metamodels" location="${basedir}/metamodels"/>
- 	</target>
- 	
+
  	<target name="loadModels">
-		<epsilon.loadModel name="OO" type="EMF">
-			<parameter name="modelFile" value="${models}/OOInstance.model"/>
-			<parameter name="metamodelFile" value="${metamodels}/OO.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+		
+ 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/OO.ecore"/>
+ 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/DB.ecore"/>
+ 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/SimpleTrace.ecore"/>
+ 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/TM.ecore"/>
+ 		 		
+ 		<epsilon.loadModel name="OO" type="EMF">
+			<parameter name="modelFile" file="models/OOInstance.model"/>
+			<parameter name="metamodelUri" value="OO"/>
 			<parameter name="readOnLoad" value="true"/>
 			<parameter name="storeOnDisposal" value="false"/>
 		</epsilon.loadModel>
 		
 		<epsilon.loadModel name="OO2DB" type="EMF">
-			<parameter name="modelFile" value="${models}/OO2DB.model"/>
-			<parameter name="metamodelFile" value="${metamodels}/TM.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="modelFile" file="models/OO2DB.model"/>
+			<parameter name="metamodelUri" value="TM"/>
 			<parameter name="readOnLoad" value="true"/>
 			<parameter name="storeOnDisposal" value="false"/>
 		</epsilon.loadModel>
 		
 		<epsilon.loadModel name="DB" type="EMF">
-			<parameter name="modelFile" value="${models}/DBInstance.model"/>
-			<parameter name="metamodelFile" value="${metamodels}/DB.ecore"/>
-			<parameter name="isMetamodelFileBased" value="true"/>
+			<parameter name="modelFile" file="models/DBInstance.model"/>
+			<parameter name="metamodelUri" value="DB"/>
 			<parameter name="readOnLoad" value="false"/>
 			<parameter name="storeOnDisposal" value="true"/>
 		</epsilon.loadModel>
- 	 </target>
+		
+ 		<epsilon.loadModel name="Trace" type="EMF">
+			<parameter name="modelFile" file="models/Trace.model"/>
+			<parameter name="metamodelUri" value="SimpleTrace"/>
+			<parameter name="readOnLoad" value="false"/>
+			<parameter name="storeOnDisposal" value="true"/>
+		</epsilon.loadModel>
+	
+ 	</target>
  	
-	<target name="main" depends="init,loadModels">		
-		<epsilon.etl src="${basedir}/OO2DB.etl">
+	<target name="main" depends="loadModels">		
+		<epsilon.etl src="OO2DB.etl">
 			<model ref="OO"/>
 			<model ref="OO2DB"/>
 			<model ref="DB"/>
+			<model ref="Trace"/>
 		</epsilon.etl>
 	</target>
 </project>
