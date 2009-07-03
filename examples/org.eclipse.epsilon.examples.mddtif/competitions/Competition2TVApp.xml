@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project default="main">
+	
+	<epsilon.emf.register file="../metamodels/CompetitionDsl.ecore"/>
+	<epsilon.emf.register file="../metamodels/TVAppDsl.ecore"/>
+		
+	<epsilon.loadModel name="Competition" type="EMF">
+		<parameter name="modelFile" file="models/WorldCup.model"/>
+		<parameter name="metamodelUri" value="CompetitionDsl"/>
+		<parameter name="isMetamodelFileBased" value="false"/>
+		<parameter name="readOnLoad" value="true"/>
+	</epsilon.loadModel>
+	
+	<epsilon.loadModel name="TVApp" type="EMF">
+		<parameter name="modelFile" file="models/TVApp3.model"/>
+		<parameter name="metamodelUri" value="TVAppDsl"/>
+		<parameter name="isMetamodelFileBased" value="false"/>
+		<parameter name="readOnLoad" value="false"/>
+	</epsilon.loadModel>
+
+	<target name="main">
+
+		<epsilon.evl src="ValidateCompetition.evl">
+			<model ref="Competition"/>
+		</epsilon.evl>		
+		
+		<epsilon.etl src="Competition2TVApp.etl">
+			<model ref="TVApp"/>
+			<model ref="Competition"/>
+		</epsilon.etl>
+		
+		<epsilon.storeModel model="TVApp"/>
+		
+	</target>
+	
+</project>
