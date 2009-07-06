@@ -91,7 +91,7 @@ public class IntrospectionManager {
 		
 		defaultPropertySetter.setProperty(property);
 		defaultPropertySetter.setObject(object);
-		defaultPropertyGetter.setContext(context);
+		defaultPropertySetter.setContext(context);
 		return defaultPropertySetter;
 		
 	}
