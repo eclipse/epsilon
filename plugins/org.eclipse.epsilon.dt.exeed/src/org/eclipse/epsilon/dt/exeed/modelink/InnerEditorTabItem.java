@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
 
-import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.ui.IEditorPart;
@@ -27,11 +26,5 @@ public class InnerEditorTabItem extends CTabItem {
 	public IEditorPart getEditor() {
 		return editor;
 	}
-
-	public void setEditor(ExeedEditor editor) {
-		this.editor = editor;
-	}
-	
-	
 	
 }
