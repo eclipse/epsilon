@@ -93,6 +93,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	}
 	
 	protected void safeRemove(Resource toRemove) {
+		
 		if (!resourceMap.containsValue(toRemove)) return;
 		boolean shouldRemove = true;
 		for (Resource resource : resourceMap.values()) {
@@ -104,7 +105,12 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 		if (shouldRemove) {
 			//System.err.println("Removing " + toRemove.getURI());
 			resourceMap.remove(toRemove.getURI().toString());
-			toRemove.unload();
+			try {
+				toRemove.unload();
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
 			//System.err.println(toString("Current resources"));
 			for (Resource resource : toRemove.getResourceSet().getResources()) {
 				safeRemove(resource);
