@@ -69,7 +69,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 					storeLaunchConfiguration();
 					
 					EpsilonConsole.getInstance().getInfoStream().println("Generated debug info for " + file.getLocation().toFile());
-					file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+					refreshProjectContaining(file);
 
 				} else {
 					EpsilonConsole.getInstance().getErrorStream().println(hutnModule.getParseProblems());

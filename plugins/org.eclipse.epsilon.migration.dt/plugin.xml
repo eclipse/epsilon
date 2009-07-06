@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+   <extension-point id="strategy" name="Migration Strategy" schema="schema/strategy.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -43,5 +44,27 @@
             icon="icons/migration.png"
             id="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
             name="Epsilon Migration"/>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.epsilon.migration.dt.ExecuteMigration"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
+               icon="icons/migration.png"
+               id="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
+               label="Execute Migration">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="org.eclipse.epsilon.migration.dt.RestoreBackup"
+            nameFilter="*_backup*"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.migration.dt.actions.RestoreBackup"
+               id="org.eclipse.epsilon.migration.dt.actions.RestoreBackup"
+               label="Restore Backup">
+         </action>
+      </objectContribution>
    </extension>
 </plugin>

@@ -40,7 +40,7 @@ public class GenerateHutn extends AbstractObjectActionDelegate {
 				generateHutn();
 				storeHutnInFile();
 				
-				refreshProject();
+				refreshProjectContaining(file);
 			}
 			
 		} catch (Exception e) {
@@ -69,10 +69,4 @@ public class GenerateHutn extends AbstractObjectActionDelegate {
 	private String getFilePrefix() {
 		return file.getLocation().removeFileExtension().lastSegment();
 	}
-	
-	
-	private void refreshProject() throws CoreException {
-		file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-	}
-
 }

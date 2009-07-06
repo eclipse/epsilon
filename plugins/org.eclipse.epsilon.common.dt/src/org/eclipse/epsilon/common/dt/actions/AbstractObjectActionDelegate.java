@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.actions;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -40,4 +43,10 @@ public abstract class AbstractObjectActionDelegate implements IObjectActionDeleg
 	}
 	
 	public abstract void run(IAction action);
+	
+	
+	
+	protected static void refreshProjectContaining(IFile file) throws CoreException {
+		file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+	}
 }
