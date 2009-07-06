@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.emc.emf.decorator.dt;
 import org.eclipse.epsilon.emc.emf.dt.EmfModelConfigurationDialog;
+import org.eclipse.swt.widgets.Composite;
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -24,5 +25,11 @@ public class DecoratorEmfModelConfigurationDialog extends EmfModelConfigurationD
 		return "EMFDecorator";
 	}
 	
+	@Override
+	protected void createEmfGroup(Composite parent) {
+		super.createEmfGroup(parent);
+		expandButton.setSelection(false);
+		expandButton.setEnabled(false);
+	}
 }
  

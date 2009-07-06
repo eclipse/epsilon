@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.epsilon.common.dt.modelType">
       <modelType
-            class="org.eclipse.epsilon.emc.emf.bridge.BridgeEmfModel"
+            class="org.eclipse.epsilon.emc.emf.decorator.DecoratorEmfModel"
             dialog="org.eclipse.epsilon.emc.emf.decorator.dt.DecoratorEmfModelConfigurationDialog"
-            icon="icons/BridgeEMF.gif"
+            icon="icons/Decorator.gif"
             label="EMF Decorator Model"
-            type="BridgeEMF">
+            type="EMFDecorator">
       </modelType>
    </extension>
 
