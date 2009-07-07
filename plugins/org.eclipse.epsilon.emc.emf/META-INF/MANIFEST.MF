@@ -15,5 +15,6 @@ Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.m0,
  org.eclipse.epsilon.emc.emf.tools,
  org.eclipse.epsilon.emc.emf.transactions,
+ org.eclipse.epsilon.emc.emf.util,
  org.eclipse.epsilon.emc.emf.xml
 Bundle-ClassPath: org.eclipse.epsilon.emc.emf.jar
