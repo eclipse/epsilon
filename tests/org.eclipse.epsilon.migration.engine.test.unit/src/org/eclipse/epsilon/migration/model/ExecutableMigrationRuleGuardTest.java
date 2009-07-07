@@ -26,34 +26,34 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.execution.ExecutionContext;
 import org.junit.Test;
 
-public class MigrationRuleGuardTest {
+public class ExecutableMigrationRuleGuardTest {
 	
 	@Test
 	public void appliesOnlyForObjectOfSourceType() {
-		final MigrationRule rule = new MigrationRule("Dog", "Animal", null, new AST());
+		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", null, new AST());
 
-		assertTrue(rule.appliesFor(createDog(), new MigrationContext()));
-		assertFalse(rule.appliesFor(createFamily(), new MigrationContext()));
+		assertTrue(rule.appliesFor(createDog(), new ExecutionContext()));
+		assertFalse(rule.appliesFor(createFamily(), new ExecutionContext()));
 	}
 
 	@Test
 	public void appliesOnlyWhenObjectSatisfiesGuard() throws RecognitionException {
 		final AST guard = parseGuard("original.name = 'Fido'");
-		final MigrationRule rule = new MigrationRule("Dog", "Animal", guard, new AST());
+		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertTrue(rule.appliesFor(createDog("Fido"), new MigrationContext()));
-		assertFalse(rule.appliesFor(createDog("Lassie"), new MigrationContext()));
+		assertTrue(rule.appliesFor(createDog("Fido"), new ExecutionContext()));
+		assertFalse(rule.appliesFor(createDog("Lassie"), new ExecutionContext()));
 	}
 	
 	@Test
 	public void falseReturnedWhenErrorExecutingGuard() throws RecognitionException {
 		final AST guard = parseGuard("undefined");
-		final MigrationRule rule = new MigrationRule("Dog", "Animal", guard, new AST());
+		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertFalse(rule.appliesFor(createDog(), new MigrationContext()));
+		assertFalse(rule.appliesFor(createDog(), new ExecutionContext()));
 	}
 	
 	

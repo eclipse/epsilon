@@ -16,16 +16,18 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.migration.model.ExecutableMigrationRuleGuardTest;
+import org.eclipse.epsilon.migration.model.ExecutableMigrationRuleMigrateTest;
+import org.eclipse.epsilon.migration.model.MigrationStrategyTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ParserSuite.class,
-               DomainModelSuite.class, CopierSuite.class,
-               FrontEndSuite.class})
-public class EpsilonMigrationLanguageUnitTestSuite {
+@SuiteClasses({MigrationStrategyTest.class,
+               ExecutableMigrationRuleGuardTest.class, ExecutableMigrationRuleMigrateTest.class})
+public class DomainModelSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonMigrationLanguageUnitTestSuite.class);
+		return new JUnit4TestAdapter(DomainModelSuite.class);
 	}
 }

@@ -16,16 +16,21 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.migration.copy.AttributeValueTest;
+import org.eclipse.epsilon.migration.copy.ContainedObjectTest;
+import org.eclipse.epsilon.migration.copy.ContainedObjectsTest;
+import org.eclipse.epsilon.migration.copy.NonExistentAttributeValueTest;
+import org.eclipse.epsilon.migration.copy.ObjectTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ParserSuite.class,
-               DomainModelSuite.class, CopierSuite.class,
-               FrontEndSuite.class})
-public class EpsilonMigrationLanguageUnitTestSuite {
+@SuiteClasses({ObjectTest.class,
+               AttributeValueTest.class, NonExistentAttributeValueTest.class,
+               ContainedObjectTest.class, ContainedObjectsTest.class})
+public class CopierSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonMigrationLanguageUnitTestSuite.class);
+		return new JUnit4TestAdapter(CopierSuite.class);
 	}
 }

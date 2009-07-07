@@ -24,9 +24,9 @@ import org.junit.Test;
 
 public class Guard extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate Person to NamedPerson "    +
-	                                       "when: original.name.isDefined() {" +
-	                                       "	target.name := original.name;" +
+
+	private static final String strategy = "migrate Person when: original.name.isDefined() {" +
+	                                       "	target.name := original.name + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
@@ -43,29 +43,23 @@ public class Guard extends Strong2StrongMigrationAcceptanceTest {
 	                                                 			.named("name")
 	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
 	                                               			)
-	                                               		)
-	                                                 	.with(anEClass().named("NamedPerson")
-	                                                 		.with(anEAttribute()
-	                                                 			.named("name")
-	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
-	                                               			)
 	                                               		).build();
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
 		
-		migrated.setVariable("person",      "Person.all.first");
-		migrated.setVariable("namedperson", "NamedPerson.all.first");
+		migrated.setVariable("named",     "Person.all.at(0)");
+		migrated.setVariable("anonymous", "Person.all.at(1)");
 	}
 	
 	@Test
-	public void personHasNoName() {
-		migrated.assertUndefined("person.name");
+	public void namedHasSurname() {
+		migrated.assertEquals("John Smith", "named.name");
 	}
 	
 	@Test
-	public void namedPersonHasSameName() {
-		migrated.assertEquals("John", "namedperson.name");
+	public void anonymousHasNoName() {
+		migrated.assertUndefined("anonymous.name");
 	}
 }

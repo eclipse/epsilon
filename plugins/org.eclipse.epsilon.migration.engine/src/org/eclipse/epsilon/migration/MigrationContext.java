@@ -13,73 +13,69 @@
  */
 package org.eclipse.epsilon.migration;
 
-import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
+import org.eclipse.epsilon.migration.copy.Copier;
+import org.eclipse.epsilon.migration.copy.CopyingException;
+import org.eclipse.epsilon.migration.copy.Equivalence;
+import org.eclipse.epsilon.migration.execution.ExecutionContext;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
-public class MigrationContext extends EolContext {
+public class MigrationContext extends EolContext implements IMigrationContext {
 
-	private final AbstractEmfModel original;
-	private final AbstractEmfModel target;
+	private final AbstractEmfModel originalModel;
+	private final AbstractEmfModel targetModel;
+	private final ExecutionContext executionContext;
+	
+	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
 	
 	public MigrationContext() {
-		original = null;
-		target   = null;
+		this(null, null);
 	}
 	
 	public MigrationContext(AbstractEmfModel original, AbstractEmfModel target) {
-		this.original = original;
-		this.target   = target;
+		this.originalModel = original;
+		this.targetModel   = target;
 		
-		getModelRepository().addModel(original);
-		getModelRepository().addModel(target);
-	}
-
-	AbstractEmfModel getOriginalModel() {
-		return original;
+		executionContext = new ExecutionContext(originalModel, targetModel);
 	}
 	
-	public AbstractEmfModel getTargetModel() {
-		return target;
-	}
 	
 	public AbstractEmfModel execute(MigrationStrategy strategy) {
-		for (EObject original : getOriginalModelElements()) {
-			strategy.migrate(original, this);
+		return execute(strategy, new Copier(targetModel));
+	}
+	
+	AbstractEmfModel execute(MigrationStrategy strategy, Copier copier) {
+		try {
+			reset();
+			createCopies(copier);
+			migrateUsing(strategy);
+			
+		} catch (CopyingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return target;
-	}
-	
-	private Collection<EObject> getOriginalModelElements() {
-		return getOriginalModel().allContents();
-	}
-	
-	
-	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
-		enterProtectedFrame(block, variables);
-		
-		final Object result = getExecutorFactory().executeAST(block, this);
-		
-		leaveFrame(block);
-		
-		return result;
+		return targetModel;
 	}
 
-	public boolean executeGuard(final AST guard, Variable originalVar) {
-		enterProtectedFrame(guard, originalVar);
-		
-		final EolBoolean guardSatisfied = (EolBoolean)getExecutorFactory().executeBlockOrExpressionAst(guard, this, EolBoolean.FALSE);
-		
-		leaveFrame(guard);
-		
-		return guardSatisfied.booleanValue();
+	private void reset() {
+		equivalences.clear();
+	}
+	
+	private void createCopies(Copier copier) throws CopyingException {
+		for (EObject original : originalModel.contents()) {
+			equivalences.addAll(copier.deepCopy(original));
+		}
+	}
+	
+	private void migrateUsing(MigrationStrategy strategy) {
+		for (Equivalence equivalence : equivalences) {
+			strategy.migrate(equivalence.getOriginal(), equivalence.getCopy(), executionContext);
+		}
 	}
 }

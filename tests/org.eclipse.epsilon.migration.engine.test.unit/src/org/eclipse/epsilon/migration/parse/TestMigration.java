@@ -119,10 +119,10 @@ public class TestMigration extends TestCase {
 	}
 
 	public void testMigrationRule10() throws Exception {
-		// test input: "migrate Person when: original.name.isDefined() {}"
-		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined() {}", false);
+		// test input: "migrate Person when: original.name.isDefined() { name := nom; }"
+		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined() { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) BLOCK)";
+		Object expecting = "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) (BLOCK (:= name nom)))";
 
 		assertEquals("testing rule "+"migrationRule", expecting, actual);
 	}

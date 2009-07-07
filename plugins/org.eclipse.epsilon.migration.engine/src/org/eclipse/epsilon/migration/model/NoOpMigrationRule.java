@@ -16,7 +16,24 @@ package org.eclipse.epsilon.migration.model;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.migration.execution.ExecutionContext;
 
-public interface MigrationRule {
+public class NoOpMigrationRule implements MigrationRule {
 	
-	public void migrate(EObject original, EObject target, ExecutionContext context);
+	public void migrate(EObject original, EObject target, ExecutionContext context) {
+		// Do nothing
+	}
+	
+	@Override
+	public String toString() {
+		return "DefaultMigrationRule";
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof NoOpMigrationRule;
+	}
+	
+	@Override
+	public int hashCode() {
+		return 1;
+	}
 }

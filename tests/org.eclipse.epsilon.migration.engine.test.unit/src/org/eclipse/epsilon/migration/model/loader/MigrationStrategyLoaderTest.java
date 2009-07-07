@@ -19,7 +19,7 @@ import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.create
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.migration.model.MigrationRule;
+import org.eclipse.epsilon.migration.model.ExecutableMigrationRule;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class MigrationStrategyLoaderTest {
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
 		assertEquals(1, strategy.numberOfRules());
-		assertEquals(new MigrationRule("Person", "Person", null, body), strategy.getRule(0));
+		assertEquals(new ExecutableMigrationRule("Person", "Person", null, body), strategy.getRule(0));
 	}
 	
 	
@@ -59,8 +59,8 @@ public class MigrationStrategyLoaderTest {
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
 		assertEquals(2, strategy.numberOfRules());
-		assertEquals(new MigrationRule("Person", "Person", null, personBody), strategy.getRule(0));
-		assertEquals(new MigrationRule("Animal", "Animal", null, animalBody), strategy.getRule(1));
+		assertEquals(new ExecutableMigrationRule("Person", "Person", null, personBody), strategy.getRule(0));
+		assertEquals(new ExecutableMigrationRule("Animal", "Animal", null, animalBody), strategy.getRule(1));
 	}
 	
 	private static MigrationStrategy runMigrationStrategyLoaderOn(AST strategy) {

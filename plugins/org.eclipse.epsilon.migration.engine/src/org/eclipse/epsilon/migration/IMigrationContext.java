@@ -11,12 +11,13 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration.model;
+package org.eclipse.epsilon.migration;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
-public interface MigrationRule {
+public interface IMigrationContext extends IEolContext {
 	
-	public void migrate(EObject original, EObject target, ExecutionContext context);
+	public AbstractEmfModel execute(MigrationStrategy strategy);
 }

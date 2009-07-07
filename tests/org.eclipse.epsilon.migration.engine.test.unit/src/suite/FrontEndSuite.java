@@ -11,12 +11,20 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration.model;
+package suite;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
-public interface MigrationRule {
-	
-	public void migrate(EObject original, EObject target, ExecutionContext context);
+import org.eclipse.epsilon.migration.MigrationContextTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+@RunWith(Suite.class)
+@SuiteClasses({MigrationContextTest.class})
+public class FrontEndSuite {
+	public static Test suite() {
+		return new JUnit4TestAdapter(FrontEndSuite.class);
+	}
 }

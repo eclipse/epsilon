@@ -13,36 +13,32 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.migration.MigrationContext;
-import org.eclipse.epsilon.migration.copy.Copier;
-import org.eclipse.epsilon.migration.copy.CopierFactory;
+import org.eclipse.epsilon.migration.execution.ExecutionContext;
 
 public class MigrationStrategy {
 
-	private final List<MigrationRule> rules = new LinkedList<MigrationRule>();
+	private final List<ExecutableMigrationRule> rules = new LinkedList<ExecutableMigrationRule>();
 	
-	private final CopierFactory copiers;
+	public MigrationStrategy() {}
 	
-	public MigrationStrategy() {
-		this(new CopierFactory());
+	public MigrationStrategy(ExecutableMigrationRule... rules) {
+		addRules(rules);
 	}
 	
-	// used by unit tests
-	MigrationStrategy(CopierFactory copiers) {
-		this.copiers = copiers;
-	}
-	
-	public void addRule(MigrationRule rule) {
+	public void addRule(ExecutableMigrationRule rule) {
 		rules.add(rule);
 	}
 	
-	public MigrationRule getRule(int index) {
+	public void addRules(ExecutableMigrationRule... rules) {
+		this.rules.addAll(Arrays.asList(rules));
+	}
+	
+	public ExecutableMigrationRule getRule(int index) {
 		return rules.get(index);
 	}
 	
@@ -50,34 +46,16 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(EObject object, MigrationContext context) {		
-		final Copier copier = copiers.createCopier(object, context.getTargetModel());
-		final MigrationRule applicableRule = getFirstApplicableRuleFor(object, context);
-	
-		try {
-			if (applicableRule == null) {
-				copier.copy();
-				
-			} else {
-				final EObject copied = copier.copy(applicableRule.getTargetType());
-				applicableRule.migrate(object, copied, context);
-			}
-			
-		} catch (EolModelElementTypeNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EolNotInstantiableModelElementTypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void migrate(EObject original, EObject target, ExecutionContext context) {
+		getFirstApplicableRuleFor(original, context).migrate(original, target, context);
 	}
 	
-	private MigrationRule getFirstApplicableRuleFor(EObject object, MigrationContext context) {
-		for (MigrationRule rule : rules) {
+	MigrationRule getFirstApplicableRuleFor(EObject object, ExecutionContext context) {
+		for (ExecutableMigrationRule rule : rules) {
 			if (rule.appliesFor(object, context))
 				return rule;
 		}
 		
-		return null;
+		return new NoOpMigrationRule();
 	}
 }

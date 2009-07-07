@@ -29,11 +29,11 @@ migrationRule:
 	"migrate Person" FAIL
 	
 	// Guard
-	"migrate Person when: original.name.isDefined() {}" -> "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) BLOCK)"
+	"migrate Person when: original.name.isDefined() { name := nom; }" -> "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) (BLOCK (:= name nom)))"
 	
 	// Guard with no statement, no when
 	"migrate Person when {}" FAIL
 	"migrate Person original.name.isDefined(); {}" FAIL
 	
 	// Guard with semicolon
-  "migrate Person when: original.name.isDefined(); {}" FAIL
+ 	"migrate Person when: original.name.isDefined(); {}" FAIL

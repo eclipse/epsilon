@@ -11,14 +11,30 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration;
+package org.eclipse.epsilon.migration.emc.intermediate;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
-public interface IMigrationModule extends IEolLibraryModule {
-	
-	public AbstractEmfModel execute(IMigrationContext context);
-	
-	public AbstractEmfModel execute(AbstractEmfModel original, AbstractEmfModel target);
+public class IntermediateModel extends AbstractEmfModel {
+
+	public IntermediateModel(AbstractEmfModel target) {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void load() throws EolModelLoadingException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean store() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setTypeOf(EObject instance, String type) {
+		
+	}
 }
