@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EasyMock 2.4
+Bundle-SymbolicName: org.easymock
+Bundle-Version: 2.4
+Bundle-ClassPath: easymock.jar
+Bundle-Vendor: EasyMock.org
+Export-Package: org.easymock,
+ org.easymock.classextension
