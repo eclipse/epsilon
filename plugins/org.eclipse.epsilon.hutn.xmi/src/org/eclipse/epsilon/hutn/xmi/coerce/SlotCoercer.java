@@ -13,9 +13,9 @@
  */
 package org.eclipse.epsilon.hutn.xmi.coerce;
 
+import org.eclipse.epsilon.emc.emf.util.EListUtil;
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
-import org.eclipse.epsilon.hutn.xmi.util.EListUtil;
 
 public class SlotCoercer {
 	

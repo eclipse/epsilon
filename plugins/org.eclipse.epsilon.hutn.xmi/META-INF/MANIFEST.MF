@@ -7,7 +7,8 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.epsilon.hutn.model;visibility:=reexport,
- org.eclipse.epsilon.hutn.unparser
+ org.eclipse.epsilon.hutn.unparser,
+ org.eclipse.epsilon.emc.emf
 Export-Package: org.eclipse.epsilon.hutn.xmi,
  org.eclipse.epsilon.hutn.xmi.coerce,
  org.eclipse.epsilon.hutn.xmi.parser,

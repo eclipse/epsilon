@@ -15,8 +15,8 @@ package org.eclipse.epsilon.hutn.xmi.coerce;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.epsilon.emc.emf.util.EListUtil;
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
-import org.eclipse.epsilon.hutn.xmi.util.EListUtil;
 
 public class PrimitiveCoercionStrategy extends AbstractCoercionStrategy {
 
