@@ -151,7 +151,7 @@ public class DogImpl extends PetImpl implements Dog {
 	 * @generated
 	 */
 	public District getDistrict() {
-		if (eContainerFeatureID != FamiliesPackage.DOG__DISTRICT) return null;
+		if (eContainerFeatureID() != FamiliesPackage.DOG__DISTRICT) return null;
 		return (District)eContainer();
 	}
 
@@ -171,7 +171,7 @@ public class DogImpl extends PetImpl implements Dog {
 	 * @generated
 	 */
 	public void setDistrict(District newDistrict) {
-		if (newDistrict != eInternalContainer() || (eContainerFeatureID != FamiliesPackage.DOG__DISTRICT && newDistrict != null)) {
+		if (newDistrict != eInternalContainer() || (eContainerFeatureID() != FamiliesPackage.DOG__DISTRICT && newDistrict != null)) {
 			if (EcoreUtil.isAncestor(this, newDistrict))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -223,7 +223,7 @@ public class DogImpl extends PetImpl implements Dog {
 	 */
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case FamiliesPackage.DOG__DISTRICT:
 				return eInternalContainer().eInverseRemove(this, FamiliesPackage.DISTRICT__DOGS, District.class, msgs);
 		}
@@ -239,7 +239,7 @@ public class DogImpl extends PetImpl implements Dog {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case FamiliesPackage.DOG__LOUD:
-				return isLoud() ? Boolean.TRUE : Boolean.FALSE;
+				return isLoud();
 			case FamiliesPackage.DOG__BREED:
 				return getBreed();
 			case FamiliesPackage.DOG__DISTRICT:
@@ -257,7 +257,7 @@ public class DogImpl extends PetImpl implements Dog {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case FamiliesPackage.DOG__LOUD:
-				setLoud(((Boolean)newValue).booleanValue());
+				setLoud((Boolean)newValue);
 				return;
 			case FamiliesPackage.DOG__BREED:
 				setBreed((DogBreed)newValue);

@@ -56,4 +56,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contents2" upperBound="-1"
         eType="#//NamedElement" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bike">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rider" eType="#//Person"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

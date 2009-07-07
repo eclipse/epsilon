@@ -13,27 +13,23 @@
  */
 package org.eclipse.epsilon.hutn.test.model.factories;
 
-import org.eclipse.epsilon.hutn.test.model.families.Dog;
-import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
+import org.eclipse.epsilon.hutn.test.model.families.Bike;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
+import org.eclipse.epsilon.hutn.test.model.families.Person;
 
-public abstract class DogFactory {
+public abstract class BikeFactory {
 
-	private DogFactory() {}
+	private BikeFactory() {}
 	
-	public static Dog createDog() {
-		return FamiliesFactory.eINSTANCE.createDog();
+	public static Bike createBike() {
+		return FamiliesFactory.eINSTANCE.createBike();
 	}
 	
-	public static Dog createDog(String name) {
-		final Dog dog = createDog();
-		dog.setName(name);
-		return dog;
-	}
-	
-	public static Dog createDog(DogBreed breed) {
-		final Dog dog = createDog();
-		dog.setBreed(breed);
-		return dog;
+	public static Bike createBike(Person rider) {
+		final Bike bike = createBike();
+		
+		bike.setRider(rider);
+		
+		return bike;
 	}
 }

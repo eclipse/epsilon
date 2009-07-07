@@ -25,6 +25,7 @@ import org.eclipse.epsilon.hutn.test.model.bankAccounts.BankAccountsPackage;
 
 import org.eclipse.epsilon.hutn.test.model.bankAccounts.impl.BankAccountsPackageImpl;
 
+import org.eclipse.epsilon.hutn.test.model.families.Bike;
 import org.eclipse.epsilon.hutn.test.model.families.District;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
@@ -97,6 +98,13 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass bikeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum dogBreedEEnum = null;
 
 	/**
@@ -126,20 +134,10 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this
-	 * model, and for any others upon which it depends.  Simple
-	 * dependencies are satisfied by calling this method on all
-	 * dependent packages before doing anything else.  This method drives
-	 * initialization for interdependent packages directly, in parallel
-	 * with this package, itself.
-	 * <p>Of this package and its interdependencies, all packages which
-	 * have not yet been registered by their URI values are first created
-	 * and registered.  The packages are then initialized in two steps:
-	 * meta-model objects for all of the packages are created before any
-	 * are initialized, since one package's meta-model objects may refer to
-	 * those of another.
-	 * <p>Invocation of this method will not affect any packages that have
-	 * already been initialized.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link FamiliesPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
@@ -151,7 +149,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		if (isInited) return (FamiliesPackage)EPackage.Registry.INSTANCE.getEPackage(FamiliesPackage.eNS_URI);
 
 		// Obtain or create and register package
-		FamiliesPackageImpl theFamiliesPackage = (FamiliesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof FamiliesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new FamiliesPackageImpl());
+		FamiliesPackageImpl theFamiliesPackage = (FamiliesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof FamiliesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new FamiliesPackageImpl());
 
 		isInited = true;
 
@@ -169,6 +167,9 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		// Mark meta-data to indicate it can't be changed
 		theFamiliesPackage.freeze();
 
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(FamiliesPackage.eNS_URI, theFamiliesPackage);
 		return theFamiliesPackage;
 	}
 
@@ -438,6 +439,24 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBike() {
+		return bikeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBike_Rider() {
+		return (EReference)bikeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDogBreed() {
 		return dogBreedEEnum;
 	}
@@ -505,6 +524,9 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		modelEClass = createEClass(MODEL);
 		createEReference(modelEClass, MODEL__CONTENTS);
 		createEReference(modelEClass, MODEL__CONTENTS2);
+
+		bikeEClass = createEClass(BIKE);
+		createEReference(bikeEClass, BIKE__RIDER);
 
 		// Create enums
 		dogBreedEEnum = createEEnum(DOG_BREED);
@@ -582,6 +604,9 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModel_Contents(), this.getNamedElement(), null, "contents", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_Contents2(), this.getNamedElement(), null, "contents2", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(bikeEClass, Bike.class, "Bike", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBike_Rider(), this.getPerson(), null, "rider", null, 0, 1, Bike.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(dogBreedEEnum, DogBreed.class, "DogBreed");

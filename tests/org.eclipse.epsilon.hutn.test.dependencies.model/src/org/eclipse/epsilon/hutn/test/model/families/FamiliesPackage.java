@@ -444,6 +444,34 @@ public interface FamiliesPackage extends EPackage {
 	int MODEL_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl <em>Bike</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl
+	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getBike()
+	 * @generated
+	 */
+	int BIKE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Rider</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIKE__RIDER = 0;
+
+	/**
+	 * The number of structural features of the '<em>Bike</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIKE_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,7 +479,7 @@ public interface FamiliesPackage extends EPackage {
 	 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getDogBreed()
 	 * @generated
 	 */
-	int DOG_BREED = 7;
+	int DOG_BREED = 8;
 
 
 	/**
@@ -767,6 +795,27 @@ public interface FamiliesPackage extends EPackage {
 	EReference getModel_Contents2();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.hutn.test.model.families.Bike <em>Bike</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Bike</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Bike
+	 * @generated
+	 */
+	EClass getBike();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.epsilon.hutn.test.model.families.Bike#getRider <em>Rider</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Rider</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Bike#getRider()
+	 * @see #getBike()
+	 * @generated
+	 */
+	EReference getBike_Rider();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1043,6 +1092,24 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODEL__CONTENTS2 = eINSTANCE.getModel_Contents2();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl <em>Bike</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl
+		 * @see org.eclipse.epsilon.hutn.test.model.families.impl.FamiliesPackageImpl#getBike()
+		 * @generated
+		 */
+		EClass BIKE = eINSTANCE.getBike();
+
+		/**
+		 * The meta object literal for the '<em><b>Rider</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BIKE__RIDER = eINSTANCE.getBike_Rider();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.

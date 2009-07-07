@@ -87,6 +87,15 @@ public interface FamiliesFactory extends EFactory {
 	Model createModel();
 
 	/**
+	 * Returns a new object of class '<em>Bike</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Bike</em>'.
+	 * @generated
+	 */
+	Bike createBike();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

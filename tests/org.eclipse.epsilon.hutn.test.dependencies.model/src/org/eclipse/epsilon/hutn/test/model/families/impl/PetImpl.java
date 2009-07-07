@@ -105,7 +105,7 @@ public class PetImpl extends NamedElementImpl implements Pet {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case FamiliesPackage.PET__MALE:
-				return isMale() ? Boolean.TRUE : Boolean.FALSE;
+				return isMale();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -119,7 +119,7 @@ public class PetImpl extends NamedElementImpl implements Pet {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case FamiliesPackage.PET__MALE:
-				setMale(((Boolean)newValue).booleanValue());
+				setMale((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

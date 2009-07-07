@@ -348,7 +348,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 * @generated
 	 */
 	public District getDistrict() {
-		if (eContainerFeatureID != FamiliesPackage.FAMILY__DISTRICT) return null;
+		if (eContainerFeatureID() != FamiliesPackage.FAMILY__DISTRICT) return null;
 		return (District)eContainer();
 	}
 
@@ -368,7 +368,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 * @generated
 	 */
 	public void setDistrict(District newDistrict) {
-		if (newDistrict != eInternalContainer() || (eContainerFeatureID != FamiliesPackage.FAMILY__DISTRICT && newDistrict != null)) {
+		if (newDistrict != eInternalContainer() || (eContainerFeatureID() != FamiliesPackage.FAMILY__DISTRICT && newDistrict != null)) {
 			if (EcoreUtil.isAncestor(this, newDistrict))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -434,7 +434,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case FamiliesPackage.FAMILY__DISTRICT:
 				return eInternalContainer().eInverseRemove(this, FamiliesPackage.DISTRICT__FAMILIES, District.class, msgs);
 		}
@@ -454,15 +454,15 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 			case FamiliesPackage.FAMILY__PETS:
 				return getPets();
 			case FamiliesPackage.FAMILY__NUMBER_OF_CHILDREN:
-				return new Integer(getNumberOfChildren());
+				return getNumberOfChildren();
 			case FamiliesPackage.FAMILY__MEMBERS:
 				return getMembers();
 			case FamiliesPackage.FAMILY__ID:
 				return getId();
 			case FamiliesPackage.FAMILY__NUCLEAR:
-				return isNuclear() ? Boolean.TRUE : Boolean.FALSE;
+				return isNuclear();
 			case FamiliesPackage.FAMILY__AVERAGE_AGE:
-				return new Float(getAverageAge());
+				return getAverageAge();
 			case FamiliesPackage.FAMILY__DOGS:
 				return getDogs();
 			case FamiliesPackage.FAMILY__DISTRICT:
@@ -491,7 +491,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 				getPets().addAll((Collection<? extends Pet>)newValue);
 				return;
 			case FamiliesPackage.FAMILY__NUMBER_OF_CHILDREN:
-				setNumberOfChildren(((Integer)newValue).intValue());
+				setNumberOfChildren((Integer)newValue);
 				return;
 			case FamiliesPackage.FAMILY__MEMBERS:
 				getMembers().clear();
@@ -501,10 +501,10 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 				setId((String)newValue);
 				return;
 			case FamiliesPackage.FAMILY__NUCLEAR:
-				setNuclear(((Boolean)newValue).booleanValue());
+				setNuclear((Boolean)newValue);
 				return;
 			case FamiliesPackage.FAMILY__AVERAGE_AGE:
-				setAverageAge(((Float)newValue).floatValue());
+				setAverageAge((Float)newValue);
 				return;
 			case FamiliesPackage.FAMILY__DISTRICT:
 				setDistrict((District)newValue);

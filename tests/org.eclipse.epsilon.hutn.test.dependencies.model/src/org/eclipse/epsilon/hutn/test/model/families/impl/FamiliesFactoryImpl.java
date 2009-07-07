@@ -74,6 +74,7 @@ public class FamiliesFactoryImpl extends EFactoryImpl implements FamiliesFactory
 			case FamiliesPackage.DOG: return createDog();
 			case FamiliesPackage.DISTRICT: return createDistrict();
 			case FamiliesPackage.MODEL: return createModel();
+			case FamiliesPackage.BIKE: return createBike();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -167,6 +168,16 @@ public class FamiliesFactoryImpl extends EFactoryImpl implements FamiliesFactory
 	public Model createModel() {
 		ModelImpl model = new ModelImpl();
 		return model;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Bike createBike() {
+		BikeImpl bike = new BikeImpl();
+		return bike;
 	}
 
 	/**
