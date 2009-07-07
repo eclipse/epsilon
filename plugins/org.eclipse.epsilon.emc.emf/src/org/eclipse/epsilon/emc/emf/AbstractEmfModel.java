@@ -119,7 +119,8 @@ public abstract class AbstractEmfModel extends Model{
 							getFullyQualifiedName(classifier).equals(enumeration))){
 						EEnum eEnum = (EEnum) classifier;
 						EEnumLiteral literal = eEnum.getEEnumLiteral(label);
-						return literal;
+						
+						if (literal != null) return literal;
 					}
 				}
 			}
@@ -278,6 +279,15 @@ public abstract class AbstractEmfModel extends Model{
 		}
 		return allInstances;
 		
+	}
+	
+	/**
+	 * Returns the top-level objects contained in this EMF model.
+	 * Use {@link #allContents()} to retrieve all objects contained
+	 * in this EMF model.
+	 */
+	public Collection<EObject> contents() {
+		return modelImpl.getContents();
 	}
 	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {

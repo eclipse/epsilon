@@ -19,7 +19,9 @@ import junit.framework.Test;
 import org.eclipse.epsilon.migration.copy.AttributeValueTest;
 import org.eclipse.epsilon.migration.copy.ContainedObjectTest;
 import org.eclipse.epsilon.migration.copy.ContainedObjectsTest;
+import org.eclipse.epsilon.migration.copy.EnumValueTest;
 import org.eclipse.epsilon.migration.copy.NonExistentAttributeValueTest;
+import org.eclipse.epsilon.migration.copy.NonExistentEnumValueTest;
 import org.eclipse.epsilon.migration.copy.ObjectTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -28,7 +30,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ObjectTest.class,
                AttributeValueTest.class, NonExistentAttributeValueTest.class,
-               ContainedObjectTest.class, ContainedObjectsTest.class})
+               ContainedObjectTest.class, ContainedObjectsTest.class,
+               EnumValueTest.class, NonExistentEnumValueTest.class})
 public class CopierSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(CopierSuite.class);

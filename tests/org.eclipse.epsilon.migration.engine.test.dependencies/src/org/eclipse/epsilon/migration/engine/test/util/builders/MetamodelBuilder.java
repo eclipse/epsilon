@@ -19,7 +19,7 @@ package org.eclipse.epsilon.migration.engine.test.util.builders;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 
@@ -30,7 +30,7 @@ public class MetamodelBuilder {
 		return new MetamodelBuilder();
 	}
 
-	private final List<EClass> eClasses = new LinkedList<EClass>();
+	private final List<EClassifier> eClassifiers = new LinkedList<EClassifier>();
 	private String nsURI;
 	
 	public MetamodelBuilder withNsURI(String nsURI) {
@@ -38,12 +38,12 @@ public class MetamodelBuilder {
 		return this;
 	}
 	
-	public MetamodelBuilder with(EClassBuilder eClassBuilder) {
-		return with(eClassBuilder.build());
+	public MetamodelBuilder with(EClassifierBuilder eClassifierBuilder) {
+		return with(eClassifierBuilder.build());
 	}
 	
-	public MetamodelBuilder with(EClass eClass) {
-		eClasses.add(eClass);
+	public MetamodelBuilder with(EClassifier eClassifier) {
+		eClassifiers.add(eClassifier);
 		return this;
 	}
 	
@@ -52,8 +52,8 @@ public class MetamodelBuilder {
 		
 		ePackage.setNsURI(nsURI);
 		
-		for (EClass eClass : eClasses) {
-			ePackage.getEClassifiers().add(eClass);
+		for (EClassifier eClassifier : eClassifiers) {
+			ePackage.getEClassifiers().add(eClassifier);
 		}
 		
 		return ePackage;

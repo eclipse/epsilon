@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 
-public class EClassBuilder {
+public class EClassBuilder implements EClassifierBuilder {
 	
 	public static EClassBuilder anEClass() {
 		return new EClassBuilder();
