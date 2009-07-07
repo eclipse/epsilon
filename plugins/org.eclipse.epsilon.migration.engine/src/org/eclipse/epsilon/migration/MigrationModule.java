@@ -22,7 +22,6 @@ import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.EolLibraryModule;
-import org.eclipse.epsilon.migration.emc.intermediate.IntermediateModel;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.migration.parse.MigrationLexer;
