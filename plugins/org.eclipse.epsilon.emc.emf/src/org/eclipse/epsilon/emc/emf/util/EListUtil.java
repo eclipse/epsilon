@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.xmi.util;
+package org.eclipse.epsilon.emc.emf.util;
 
 import java.util.Arrays;
 
