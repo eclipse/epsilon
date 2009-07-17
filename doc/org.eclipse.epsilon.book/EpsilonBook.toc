@@ -35,7 +35,8 @@
 \contentsline {section}{\numberline {4.4}Expressions}{44}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Feature Navigation}{44}{subsection.4.4.1}
 \contentsline {subsection}{\numberline {4.4.2}Arithmetical and Comparison Operators}{46}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Logical Operators}{47}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.3}Enumerations}{47}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}Logical Operators}{48}{subsection.4.4.4}
 \contentsline {section}{\numberline {4.5}Statements}{49}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}Variable Declaration Statement}{49}{subsection.4.5.1}
 \contentsline {paragraph}{Scope}{49}{section*.4}

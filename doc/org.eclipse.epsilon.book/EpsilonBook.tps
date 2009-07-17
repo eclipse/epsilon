@@ -5,7 +5,7 @@ Version=2
 [SessionInfo]
 ActiveTab=0
 FrameCount=9
-ActiveFrame=8
+ActiveFrame=5
 
 [Frame0]
 Columns=1
@@ -90,9 +90,9 @@ cxCur=406
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=0
-Cursor.column=0
-TopSubLine=0
+Cursor.row=365
+Cursor.column=9
+TopSubLine=732
 
 [Frame3]
 Columns=1
@@ -155,8 +155,8 @@ TopSubLine=263
 [Frame5]
 Columns=1
 Rows=1
-Flags=0
-ShowCmd=1
+Flags=2
+ShowCmd=3
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -169,17 +169,17 @@ Class=CLatexEdit
 Document=Workflow.tex
 
 [Frame5_Row0]
-cyCur=522
+cyCur=790
 cyMin=10
 
 [Frame5_Col0]
-cxCur=259
+cxCur=623
 cxMin=10
 
 [Frame5_View0,0]
-Cursor.row=194
-Cursor.column=0
-TopSubLine=805
+Cursor.row=197
+Cursor.column=615
+TopSubLine=376
 
 [Frame6]
 Columns=1
@@ -208,7 +208,7 @@ cxMin=10
 [Frame6_View0,0]
 Cursor.row=91
 Cursor.column=0
-TopSubLine=86
+TopSubLine=90
 
 [Frame7]
 Columns=1
@@ -235,15 +235,15 @@ cxCur=831
 cxMin=10
 
 [Frame7_View0,0]
-Cursor.row=43
-Cursor.column=48
-TopSubLine=33
+Cursor.row=50
+Cursor.column=0
+TopSubLine=40
 
 [Frame8]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -256,11 +256,11 @@ Class=CLatexEdit
 Document=Introduction.tex
 
 [Frame8_Row0]
-cyCur=817
+cyCur=548
 cyMin=10
 
 [Frame8_Col0]
-cxCur=643
+cxCur=831
 cxMin=10
 
 [Frame8_View0,0]

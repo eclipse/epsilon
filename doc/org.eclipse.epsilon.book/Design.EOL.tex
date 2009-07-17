@@ -363,7 +363,7 @@ The Map type represents an array of key-value pairs in which the keys are unique
 	
 			containsKey(key : Any) : Boolean & Returns true if the map contains the specified key\\\hline
 	
-			keys() : Set & Returns the keys of the map\\\hline
+			keySet() : Set & Returns the keys of the map\\\hline
 			
 			values() : Bag & Returns the values of the map\\\hline
 			
@@ -508,6 +508,10 @@ EOL provides common operators for performing arithmetical computations and compa
 			$<=$ & For reals/integers returns true if the left hand side is less or equal to then right hand side number \\\hline
 		
 \end{longtable}
+
+\subsection{Enumerations}
+
+EOL provides the \# operator for accessing enumeration literals. For example, the VisibilityEnum\#vk\_public expression returns the value of the literal \emph{vk\_public} of the \emph{VisibilityEnum} enumeration. For EMF metamodels, \emph{VisibilityEnum\#vk\_public.instance} can also be used.
 
 \subsection{Logical Operators}
 
