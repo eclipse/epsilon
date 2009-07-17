@@ -45,8 +45,10 @@ public class FixGmfGenDelegate extends EolTransformationActionDelegate {
 		String ecorePath = FileUtil.replaceExtension(gmfGenPath, "ecore");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
+		
 		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, false, true));
-		models.add(loadModel("GmfGen", gmfGenPath, GMFGenPackage.eNS_URI, true, true, false));
+		models.add(loadModel("GmfGen", gmfGenPath, GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
+		
 		return models;
 	}
 
