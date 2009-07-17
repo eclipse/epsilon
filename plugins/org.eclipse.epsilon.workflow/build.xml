@@ -3,4 +3,4 @@
 		<echo>Building ANT jar</echo>
 		<jar destfile="lib/org.eclipse.epsilon.workflow.jar" basedir="bin"></jar>
 	</target>
-</project>
+</project> 
