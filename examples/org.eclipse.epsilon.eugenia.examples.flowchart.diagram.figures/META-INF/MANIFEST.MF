@@ -9,5 +9,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.draw2d,
  org.eclipse.gmf.runtime.draw2d.ui
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures
