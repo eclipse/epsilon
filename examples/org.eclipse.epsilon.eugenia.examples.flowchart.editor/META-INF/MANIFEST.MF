@@ -7,7 +7,6 @@ Bundle-ClassPath: .
 Bundle-Activator: flowchart.presentation.FlowchartEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: flowchart.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
