@@ -19,6 +19,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 
@@ -26,13 +27,17 @@ public abstract class EpsilonStandaloneExample {
 	
 	protected IEolExecutableModule module;
 	
+	protected Object result;
+	
 	public abstract IEolExecutableModule createModule();
 	
 	public abstract String getSource() throws Exception;
 	
 	public abstract List<IModel> getModels() throws Exception;
 	
-	public abstract void postProcess();
+	public void postProcess() {};
+	
+	public void preProcess() {};
 	
 	public void execute() throws Exception {
 		
@@ -51,10 +56,15 @@ public abstract class EpsilonStandaloneExample {
 			module.getContext().getModelRepository().addModel(model);
 		}
 		
-		module.execute();
+		preProcess();
+		result = execute(module);
 		postProcess();
 		
 		module.getContext().getModelRepository().dispose();
+	}
+	
+	protected Object execute(IEolExecutableModule module) throws EolRuntimeException {
+		return module.execute();
 	}
 	
 	protected EmfModel createEmfModel(String name, String model, String metamodel, boolean readOnLoad, boolean storeOnDisposal) throws EolModelLoadingException, URISyntaxException {

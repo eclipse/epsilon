@@ -11,10 +11,13 @@
 package org.eclipse.epsilon.examples.standalone.eol;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
 
@@ -24,10 +27,10 @@ import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
  * of Epsilon, in a stand-alone manner 
  * @author Dimitrios Kolovos
  */
-public class EolStandaloneExample extends EpsilonStandaloneExample {
+public class EolReturnStandaloneExample extends EpsilonStandaloneExample {
 	
 	public static void main(String[] args) throws Exception {
-		new EolStandaloneExample().execute();
+		new EolReturnStandaloneExample().execute();
 	}
 	
 	@Override
@@ -46,10 +49,17 @@ public class EolStandaloneExample extends EpsilonStandaloneExample {
 	public String getSource() throws Exception {
 		return "eol/Return.eol";
 	}
-
+	
+	@Override
+	protected Object execute(IEolExecutableModule module)
+			throws EolRuntimeException {
+		EolOperation operation = module.getDeclaredOperations().get(0);
+		return operation.execute(null, Collections.EMPTY_LIST, module.getContext());
+	}
+	
 	@Override
 	public void postProcess() {
-		
+		System.err.println(result);
 	}
 	
 }
