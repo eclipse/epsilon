@@ -187,8 +187,11 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 			} else if (ex.getInternal() instanceof EglRuntimeException) {
 				throw new EglRuntimeException(ex, preprocessor.getTrace());
 			
-			} else {
-				context.getErrorStream().println(ex);
+			} else if (ex instanceof EolRuntimeException) {
+				throw new EglRuntimeException((EolRuntimeException)ex, preprocessor.getTrace()); 
+			}
+			else {
+				context.getErrorStream().print(ex.getStackTrace());
 			}
 			
 		} catch (EolRuntimeException ex){
