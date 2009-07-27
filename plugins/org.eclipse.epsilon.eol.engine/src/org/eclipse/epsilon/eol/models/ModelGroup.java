@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.commons.util.StringProperties;
@@ -70,12 +71,20 @@ public class ModelGroup extends Model {
 		return allOfType;
 	}
 	
-	public Collection allContents() {
-		ArrayList allInstances = new ArrayList();
+	public Collection<Object> allContents() {
+		final List<Object> allContents = new ArrayList<Object>();
 		for (IModel model : models) {
-			allInstances.addAll(model.allContents());
+			allContents.addAll(model.allContents());
 		}
-		return allInstances;
+		return allContents;
+	}
+	
+	public Collection<Object> contents() {
+		final List<Object> contents = new ArrayList<Object>();
+		for (IModel model : models) {
+			contents.addAll(model.contents());
+		}
+		return contents;
 	}
 
 	public Object getTypeOf(Object instance) {
@@ -83,6 +92,15 @@ public class ModelGroup extends Model {
 			if (model.owns(instance)) return model.getTypeOf(instance);
 		}
 		return null;
+	}
+
+	public String getTypeNameOf(Object instance) {
+		for (IModel model : models) {
+			if (model.isModelElement(instance))
+				return model.getTypeNameOf(instance);
+		}
+		
+		throw new IllegalArgumentException("No grouped model can contain: " + instance + " (" + instance.getClass().getCanonicalName() + ")");
 	}
 
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
@@ -171,6 +189,15 @@ public class ModelGroup extends Model {
 	public boolean isInstantiable(String metaClass) {
 		return ((IModel) models.get(0)).isInstantiable(metaClass);
 	}
+	
+	public Collection<String> getPropertiesOf(Object instance) {
+		for (IModel model : models) {
+			if (model.owns(instance))
+				return model.getPropertiesOf(instance);
+		}
+	
+		throw new IllegalArgumentException("No grouped model contains: " + instance + " (" + instance.getClass().getCanonicalName() + ")");
+	}
 
 	public boolean hasType(String metaClass) {
 		return ((IModel) models.get(0)).hasType(metaClass);
@@ -233,5 +260,4 @@ public class ModelGroup extends Model {
 		}
 		
 	}
-	
 }

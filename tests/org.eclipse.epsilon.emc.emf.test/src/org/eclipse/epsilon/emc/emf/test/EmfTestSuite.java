@@ -14,12 +14,14 @@ package org.eclipse.epsilon.emc.emf.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.emc.emf.AbstractEmfModelTests;
+import org.eclipse.epsilon.emc.emf.URITest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses(URITest.class)
+@SuiteClasses({URITest.class, AbstractEmfModelTests.class})
 public class EmfTestSuite {
 
 	public static Test suite() {

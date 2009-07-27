@@ -11,8 +11,10 @@
 package org.eclipse.epsilon.eol.models.java;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -44,13 +46,24 @@ public class JavaObjectModel extends Model{
 	}
 	
 	protected Collection<Object> contents = new HashSet<Object>();
-	protected ArrayList<String> importedPackages = new ArrayList<String>();
+	protected List<String> importedPackages = new ArrayList<String>();
 	
-	public Collection allContents() {
+	public JavaObjectModel() {}
+	
+	// used by tests
+	JavaObjectModel(String... importedPackages) {
+		this.importedPackages = Arrays.asList(importedPackages);
+	}
+	
+	public Collection<Object> allContents() {
 		return contents;
 	}
+	
+	public Collection<?> contents() {
+		return allContents();
+	}
 
-	public ArrayList<String> getImportedPackages() {
+	public List<String> getImportedPackages() {
 		return importedPackages;
 	}
 
@@ -71,20 +84,20 @@ public class JavaObjectModel extends Model{
 		
 	}
 
-	public Class classForName(String name) throws EolModelElementTypeNotFoundException {
+	public Class classForName(String type) throws EolModelElementTypeNotFoundException {
 		
 		Class clazz = null;
 		
-		clazz = getJavaClass(name);
+		clazz = getJavaClass(type);
 		
 		if (clazz == null) {
 			for (String p : importedPackages) {
-				clazz = getJavaClass(p + "." + name);
+				clazz = getJavaClass(p + "." + type);
 				if (clazz != null) return clazz;
 			}
 		}
 		
-		throw new EolModelElementTypeNotFoundException(this.name, name);
+		throw new EolModelElementTypeNotFoundException(this.name, type);
 	}
 	
 	protected Class getJavaClass(String name) {
@@ -154,6 +167,10 @@ public class JavaObjectModel extends Model{
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
 	}
+	
+	public String getTypeNameOf(Object instance) {
+		return instance.getClass().getCanonicalName();
+	}
 
 	public boolean hasType(String type) {
 		try {
@@ -164,6 +181,10 @@ public class JavaObjectModel extends Model{
 		}
 	}
 
+	public Collection<String> getPropertiesOf(Object instance) {
+		throw new UnsupportedOperationException("JavaModel does not yet support getPropertiesOf(Object instance)");
+	}
+	
 	public boolean isInstantiable(String type) {
 		return true;
 	}

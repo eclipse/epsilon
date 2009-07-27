@@ -56,6 +56,14 @@ public class EmptyModel extends Model{
 	public Object getTypeOf(Object instance) {
 		return null;
 	}
+	
+	public String getTypeNameOf(Object instance) {
+		throw new UnsupportedOperationException("An empty model contains no elements.");
+	}
+	
+	public Collection<String> getPropertiesOf(Object instance) {		
+		throw new UnsupportedOperationException("An empty model contains no elements.");
+	}
 
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return null;
@@ -94,7 +102,11 @@ public class EmptyModel extends Model{
 		
 	}
 
-	public Collection allContents() {
+	public Collection<?> allContents() {
+		return Collections.EMPTY_LIST;
+	}
+	
+	public Collection<?> contents() {
 		return Collections.EMPTY_LIST;
 	}
 

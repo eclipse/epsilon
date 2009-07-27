@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.emc.emf.test;
+package org.eclipse.epsilon.emc.emf;
 
 import junit.framework.Assert;
 

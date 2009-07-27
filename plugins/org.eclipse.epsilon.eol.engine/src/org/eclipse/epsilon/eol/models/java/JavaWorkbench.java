@@ -31,8 +31,8 @@ public class JavaWorkbench {
 		context.setErrorStream(System.err);
 		context.setOutputStream(System.out);
 		
-		Collection<Object> objects = new ArrayList();
-		Collection<Class> classes = new ArrayList<Class>();
+		Collection<Object> objects = new ArrayList<Object>();
+		Collection<Class<?>> classes = new ArrayList<Class<?>>();
 		classes.add(Tree.class);
 		
 		JavaModel javaModel = new JavaModel(objects, classes);

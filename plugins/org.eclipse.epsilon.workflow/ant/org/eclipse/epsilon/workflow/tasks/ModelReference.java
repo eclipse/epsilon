@@ -54,8 +54,12 @@ public class ModelReference implements IModel{
 		return aliases;
 	}
 	
-	public Collection allContents() {
+	public Collection<?> allContents() {
 		return target.allContents();
+	}
+	
+	public Collection<?> contents() {
+		return target.contents();
 	}
 
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
@@ -70,11 +74,11 @@ public class ModelReference implements IModel{
 		target.dispose();
 	}
 
-	public Collection getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		return target.getAllOfKind(type);
 	}
 
-	public Collection getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		return target.getAllOfType(type);
 	}
 
@@ -100,6 +104,10 @@ public class ModelReference implements IModel{
 
 	public Object getTypeOf(Object instance) {
 		return target.getTypeOf(instance);
+	}
+	
+	public String getTypeNameOf(Object instance) {
+		return target.getTypeNameOf(instance);
 	}
 
 	public boolean hasType(String type) {
@@ -161,6 +169,10 @@ public class ModelReference implements IModel{
 	public Object get(String property) throws Exception {
 		return new JavaPropertyGetter().invoke(target, property);
 	}
+	
+	public Collection<String> getPropertiesOf(Object instance) {
+		return target.getPropertiesOf(instance);
+	}
 
 	public IModelTransactionSupport getTransactionSupport() {
 		return target.getTransactionSupport();
@@ -168,6 +180,5 @@ public class ModelReference implements IModel{
 
 	public boolean knowsAboutProperty(Object instance, String property) {
 		return target.knowsAboutProperty(instance, property);
-	}
-	
+	}	
 }

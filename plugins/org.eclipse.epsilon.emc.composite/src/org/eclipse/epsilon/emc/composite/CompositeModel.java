@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.profiling.ProfilerTarget;
@@ -137,9 +138,9 @@ public class CompositeModel extends Model {
 		}
 	}
 	
-	public Collection allContents() {
+	public Collection<?> allContents() {
 		
-		Collection all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<Object>();
 		
 		for (IModel m : models) {
 			all.addAll(m.allContents());
@@ -148,6 +149,19 @@ public class CompositeModel extends Model {
 		removeDuplicates(all);
 		
 		return all;
+	}
+	
+	public Collection<?> contents() {
+		
+		final Collection<Object> contents = new ArrayList<Object>();
+		
+		for (IModel m : models) {
+			contents.addAll(m.contents());
+		}
+		
+		removeDuplicates(contents);
+		
+		return contents;
 	}
 
 	public Object createInstance(String type)
@@ -223,6 +237,22 @@ public class CompositeModel extends Model {
 			if (m.owns(instance)) return m.getTypeOf(instance);
 		}
 		return false;
+	}
+	
+	public String getTypeNameOf(Object instance) {
+		for (IModel m : models) {
+			if (m.isModelElement(instance)) return m.getTypeNameOf(instance);
+		}
+
+		throw new IllegalArgumentException("Cannot be contained by this model: " + instance);
+	}
+	
+	public Collection<String> getPropertiesOf(Object instance) {		
+		for (IModel m : models) {
+			if (m.owns(instance)) return m.getPropertiesOf(instance);
+		}
+
+		throw new IllegalArgumentException("Not an element of this model: " + instance);
 	}
 
 	public boolean hasType(String type) {

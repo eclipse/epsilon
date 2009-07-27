@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -139,6 +140,17 @@ public abstract class AbstractEmfModel extends Model{
 			if (sf.getName().equals(property)) { return true; }
 		}
 		return false;
+	}
+	
+	public Collection<String> getPropertiesOf(Object instance) {
+		if (!owns(instance)) 
+			throw new IllegalArgumentException("Not an element of this model: " + instance);
+		
+		final Collection<String> properties = new LinkedList<String>();
+		for (EStructuralFeature feature : ((EObject)instance).eClass().getEAllStructuralFeatures()) {
+			properties.add(feature.getName());
+		}
+		return properties;
 	}
 	
 	protected void printPackages() {
@@ -281,11 +293,6 @@ public abstract class AbstractEmfModel extends Model{
 		
 	}
 	
-	/**
-	 * Returns the top-level objects contained in this EMF model.
-	 * Use {@link #allContents()} to retrieve all objects contained
-	 * in this EMF model.
-	 */
 	public Collection<EObject> contents() {
 		return modelImpl.getContents();
 	}
@@ -526,6 +533,13 @@ public abstract class AbstractEmfModel extends Model{
 	
 	public Object getTypeOf(Object instance) {
 		return ((EObject) instance).eClass();
+	}
+	
+	public String getTypeNameOf(Object instance) {
+		if (!isModelElement(instance))
+			throw new IllegalArgumentException("Not a valid EMF model element: " + instance + " (" + instance.getClass().getCanonicalName() + ") ");
+		
+		return ((EClass)getTypeOf(instance)).getName();
 	}
 
 	public boolean isInstantiable(String type) {

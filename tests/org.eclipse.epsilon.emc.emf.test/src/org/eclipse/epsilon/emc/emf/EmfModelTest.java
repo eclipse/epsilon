@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.emc.emf.test;
+package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -12,6 +12,8 @@ package org.eclipse.epsilon.eol.models.java;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -24,15 +26,34 @@ public class JavaModel extends Model {
 	
 
 	protected Collection<Object> objects;
-	protected Collection<Class> classes;
+	protected Collection<Class<?>> classes;
 	
-	public JavaModel(Collection<Object> objects, Collection<Class> classes) {
+	public JavaModel(Collection<Object> objects, Collection<Class<?>> classes) {
 		this.objects = objects;
 		this.classes = classes;
 	}
 	
-	public Collection allContents() {
+	// used by tests
+	JavaModel(Collection<Object> objects) {
+		this(objects, classesFor(objects));
+	}
+	
+	private static Collection<Class<?>> classesFor(Collection<Object> objects) {
+		final List<Class<?>> classes = new LinkedList<Class<?>>();
+		
+		for (Object object : objects) {
+			classes.add(object.getClass());
+		}
+		
+		return classes;
+	}
+	
+	public Collection<Object> allContents() {
 		return objects;
+	}
+	
+	public Collection<Object> contents() {
+		return allContents();
 	}
 	
 	public Class classForName(String name) {
@@ -143,6 +164,9 @@ public class JavaModel extends Model {
 		return instance.getClass();
 	}
 
+	public String getTypeNameOf(Object instance) {
+		return instance.getClass().getCanonicalName();
+	}
 	
 	public boolean hasType(String type) {
 		return classForName(type) != null;
@@ -153,6 +177,9 @@ public class JavaModel extends Model {
 		return isInstantiable(classForName(type));
 	}
 
+	public Collection<String> getPropertiesOf(Object instance) {
+		throw new UnsupportedOperationException("JavaModel does not yet support getPropertiesOf(Object instance)");
+	}
 	
 	public boolean isModelElement(Object instance) {
 		return true;

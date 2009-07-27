@@ -37,13 +37,39 @@ public interface IModel {
 	
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException;
 	
-	public Collection allContents();
+	/**
+	 * Returns a collection containing all of the objects contained in 
+	 * this model.
+	 * 
+	 * @return all of the objects contained in this model.
+	 */
+	public Collection<?> allContents();
 	
-	public Collection getAllOfType(String type) throws EolModelElementTypeNotFoundException;
+	/**
+	 * Returns a collection containing all of the top-level objects 
+	 * contained in this model.
+	 * 
+	 * @return all of the top-level objects contained in this model.
+	 */
+	public Collection<?> contents();
 	
-	public Collection getAllOfKind(String type) throws EolModelElementTypeNotFoundException;
+	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException;
+	
+	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException;
 	
 	public Object getTypeOf(Object instance);
+	
+	/**
+	 * Returns a string representing the type of the instance object. The value
+	 * returned by this function can be passed to createInstance to instantiate
+	 * another object of the same type as instance.
+	 * 
+	 * @param instance The model object whose type is to be determined.
+	 * @return the name of the type of the model object, instance.
+	 * 
+	 * @throws IllegalArgumentException when isModelElement(instance) returns false
+	 */
+	public String getTypeNameOf(Object instance);
 	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	
@@ -57,12 +83,35 @@ public interface IModel {
 
 	public boolean isOfType(Object instance, String type) throws EolModelElementTypeNotFoundException;
 	
+	/**
+	 * Used to test whether an object is contained in this model.
+	 *  
+	 * @param instance the Java object to test.
+	 * @return true if and only if instance is contained by this model.
+	 */
 	public boolean owns(Object instance);
 	
 	public boolean knowsAboutProperty(Object instance, String property);
 	
+	/**
+	 * Returns a collection containing all of the properties that instance
+	 * knows about.
+	 * 
+	 * @param instance The model object whose properties are to be determined.
+	 * @return all of the properties that instance knows about.
+	 * @throws IllegalArgumentException when owns(instance) returns false
+	 */
+	public Collection<String> getPropertiesOf(Object instance);
+	
 	public boolean isInstantiable(String type); 
 	
+	/**
+	 * Used to test whether a Java object can be contained by this model. For example,
+	 * EMF models can contain instances of EObject, but not instances of just Object.
+	 *  
+	 * @param instance the Java object to test.
+	 * @return true if and only if instance can be contained by this model.
+	 */
 	public boolean isModelElement(Object instance);
 	
 	public boolean hasType(String type);
