@@ -13,11 +13,11 @@
  */
 package org.eclipse.epsilon.migration;
 
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public interface IMigrationContext extends IEolContext {
 	
-	public AbstractEmfModel execute(MigrationStrategy strategy);
+	public IModel execute(MigrationStrategy strategy);
 }

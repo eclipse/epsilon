@@ -29,6 +29,16 @@ public class ExecutionContext extends EolContext {
 		}
 	}
 	
+	public String getTypeNameOf(Object instance) {
+		final IModel owningModel = getModelRepository().getOwningModel(instance);
+		
+		if (owningModel != null) {
+			return owningModel.getTypeNameOf(instance);
+		}
+		
+		return null;
+	}
+	
 	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
 		enterProtectedFrame(block, variables);
 		

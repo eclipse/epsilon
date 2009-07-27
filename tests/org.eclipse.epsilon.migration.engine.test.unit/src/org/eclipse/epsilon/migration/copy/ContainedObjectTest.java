@@ -60,7 +60,7 @@ public class ContainedObjectTest extends AbstractCopyTest {
 		
 		copyTest(targetMetamodel, bike);
 		
-		containedCopy = copy.eContents().get(0);
+		containedCopy = ((EObject)copy).eContents().get(0);
 	}
 	
 	@Test

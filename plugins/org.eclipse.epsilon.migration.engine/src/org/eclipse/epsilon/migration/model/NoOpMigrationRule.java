@@ -13,12 +13,11 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.migration.execution.ExecutionContext;
 
 public class NoOpMigrationRule implements MigrationRule {
 	
-	public void migrate(EObject original, EObject target, ExecutionContext context) {
+	public void migrate(Object original, Object target, ExecutionContext context) {
 		// Do nothing
 	}
 	

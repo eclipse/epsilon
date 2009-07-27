@@ -13,23 +13,22 @@
  */
 package org.eclipse.epsilon.migration.copy;
 
-import org.eclipse.emf.ecore.EObject;
 
 public class Equivalence {
 	
-	private final EObject original;
-	private final EObject copy;
+	private final Object original;
+	private final Object copy;
 	
-	public Equivalence(EObject original, EObject copy) {
+	public Equivalence(Object original, Object copy) {
 		this.original = original;
 		this.copy     = copy;
 	}
 	
-	public EObject getOriginal() {
+	public Object getOriginal() {
 		return original;
 	}
 
-	public EObject getCopy() {
+	public Object getCopy() {
 		return copy;
 	}
 

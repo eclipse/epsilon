@@ -16,9 +16,8 @@ package org.eclipse.epsilon.migration;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.copy.Copier;
 import org.eclipse.epsilon.migration.copy.CopyingException;
 import org.eclipse.epsilon.migration.copy.Equivalence;
@@ -27,8 +26,8 @@ import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
-	private final AbstractEmfModel originalModel;
-	private final AbstractEmfModel targetModel;
+	private final IModel originalModel;
+	private final IModel targetModel;
 	private final ExecutionContext executionContext;
 	
 	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
@@ -37,7 +36,7 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		this(null, null);
 	}
 	
-	public MigrationContext(AbstractEmfModel original, AbstractEmfModel target) {
+	public MigrationContext(IModel original, IModel target) {
 		this.originalModel = original;
 		this.targetModel   = target;
 		
@@ -45,11 +44,11 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	}
 	
 	
-	public AbstractEmfModel execute(MigrationStrategy strategy) {
-		return execute(strategy, new Copier(targetModel));
+	public IModel execute(MigrationStrategy strategy) {
+		return execute(strategy, new Copier(originalModel, targetModel));
 	}
 	
-	AbstractEmfModel execute(MigrationStrategy strategy, Copier copier) {
+	IModel execute(MigrationStrategy strategy, Copier copier) {
 		try {
 			reset();
 			createCopies(copier);
@@ -68,7 +67,7 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	}
 	
 	private void createCopies(Copier copier) throws CopyingException {
-		for (EObject original : originalModel.contents()) {
+		for (Object original : originalModel.contents()) {
 			equivalences.addAll(copier.deepCopy(original));
 		}
 	}

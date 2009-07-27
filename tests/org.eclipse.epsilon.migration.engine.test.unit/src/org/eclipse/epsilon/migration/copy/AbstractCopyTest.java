@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.junit.Test;
 
 public abstract class AbstractCopyTest {
@@ -30,20 +31,27 @@ public abstract class AbstractCopyTest {
 	protected static AbstractEmfModel targetModel;
 	protected static EPackage targetMetamodel;
 	protected static List<Equivalence> equivalences;
-	protected static EObject copy;
+	protected static Object copy;
 	
-	private static Copier createCopier(EPackage targetMetamodel) {
+	private static Copier createCopier(EPackage targetMetamodel, EObject original) {
+		final AbstractEmfModel originalModel = new InMemoryEmfModel("target", EmfUtil.createResource(original), FamiliesPackage.eINSTANCE);
+		
 		AbstractCopyTest.targetMetamodel = targetMetamodel;
 		targetModel = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
-		return new Copier(targetModel);
+		
+		return new Copier(originalModel, targetModel);
 	}
 	
 	protected static void copyTest(EPackage targetMetamodel, EObject original) throws CopyingException {
-		equivalences = createCopier(targetMetamodel).deepCopy(original);
+		equivalences = createCopier(targetMetamodel, original).deepCopy(original);
 		copy         = equivalences.get(0).getCopy();
 	}
 	
-	protected static void checkObject(EObject original, EObject copy, String type, Slot... slots) {
+	protected static void checkObject(Object original, Object copy, String type, Slot... slots) {
+		checkObject(original, (EObject)copy, type, slots);
+	}
+	
+	protected static void checkObject(Object original, EObject copy, String type, Slot... slots) {
 		final Equivalence equivalence = new Equivalence(original, copy);
 		assertTrue("equivalences did not contain: " + equivalence, equivalences.contains(equivalence));
 		

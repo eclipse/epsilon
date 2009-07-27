@@ -20,7 +20,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -87,8 +86,8 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 		EclipseContextManager.setup(context, launchConfig, monitor, launch);
 		
 		// FIXME - need GUI to configure this
-		context = new MigrationContext((AbstractEmfModel)context.getModelRepository().getModelByName("Original"),
-		                               (AbstractEmfModel)context.getModelRepository().getModelByName("Target"));
+		context = new MigrationContext(context.getModelRepository().getModelByName("Original"),
+		                               context.getModelRepository().getModelByName("Target"));
 		
 		finishedCurrentTask();
 	}

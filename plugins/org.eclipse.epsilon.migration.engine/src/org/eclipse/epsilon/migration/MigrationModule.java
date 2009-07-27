@@ -20,8 +20,8 @@ import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.migration.parse.MigrationLexer;
@@ -63,11 +63,11 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 
 	// FIXME ! Could tidy up the return type of execute with a generic?
 	
-	public AbstractEmfModel execute(IMigrationContext context) {
+	public IModel execute(IMigrationContext context) {
 		return context.execute(strategy);
 	}
 	
-	public AbstractEmfModel execute(AbstractEmfModel original, AbstractEmfModel target) {
+	public IModel execute(IModel original, IModel target) {
 		return execute(new MigrationContext(original, target));
 	}
 }

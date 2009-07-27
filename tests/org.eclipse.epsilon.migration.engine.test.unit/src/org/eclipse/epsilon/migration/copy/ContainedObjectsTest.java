@@ -21,6 +21,7 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EReference
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.hutn.test.model.families.Family;
@@ -66,11 +67,11 @@ public class ContainedObjectsTest extends AbstractCopyTest {
 	
 	@Test
 	public void firstContainedCopyIsPersonNamedJack() {
-		checkObject(jack, copy.eContents().get(0), "Person", new Slot("name", "Jack"));
+		checkObject(jack, ((EObject)copy).eContents().get(0), "Person", new Slot("name", "Jack"));
 	}
 	
 	@Test
 	public void secondContainedCopyIsPersonNamedJill() {
-		checkObject(jill, copy.eContents().get(1), "Person", new Slot("name", "Jill"));
+		checkObject(jill, ((EObject)copy).eContents().get(1), "Person", new Slot("name", "Jill"));
 	}
 }

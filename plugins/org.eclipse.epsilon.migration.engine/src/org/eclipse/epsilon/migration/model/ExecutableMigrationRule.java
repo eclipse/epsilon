@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -33,15 +32,15 @@ public class ExecutableMigrationRule implements MigrationRule {
 		this.body         = body;
 	}
 	
-	public boolean appliesFor(EObject object, ExecutionContext context) {
-		return isOfOriginalType(object) && satisfiesGuard(object, context);
+	public boolean appliesFor(Object object, ExecutionContext context) {
+		return isOfOriginalType(object, context) && satisfiesGuard(object, context);
 	}
 	
-	private boolean isOfOriginalType(EObject object) {
-		return originalType.equals(object.eClass().getName());
+	private boolean isOfOriginalType(Object object, ExecutionContext context) {
+		return originalType.equals(context.getTypeNameOf(object));
 	}
 
-	private boolean satisfiesGuard(EObject object, ExecutionContext context) {
+	private boolean satisfiesGuard(Object object, ExecutionContext context) {
 		if (guard == null)
 			return true;
 		
@@ -49,7 +48,7 @@ public class ExecutableMigrationRule implements MigrationRule {
 	}
 	
 
-	public void migrate(EObject original, EObject target, ExecutionContext context) {
+	public void migrate(Object original, Object target, ExecutionContext context) {
 		try {
 //			context.getTargetModel().setTypeOf(target, targetType);
 			
@@ -61,11 +60,11 @@ public class ExecutableMigrationRule implements MigrationRule {
 		}
 	}
 	
-	private Variable createOriginalVariable(EObject object) {
+	private Variable createOriginalVariable(Object object) {
 		return Variable.createReadOnlyVariable("original", object);
 	}
 	
-	private Variable createTargetVariable(EObject target) {
+	private Variable createTargetVariable(Object target) {
 		return Variable.createReadOnlyVariable("target", target);
 	}
 	

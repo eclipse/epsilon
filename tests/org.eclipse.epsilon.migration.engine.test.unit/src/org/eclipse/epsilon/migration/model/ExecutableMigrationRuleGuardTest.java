@@ -26,7 +26,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
 import org.junit.Test;
 
 public class ExecutableMigrationRuleGuardTest {
@@ -35,8 +34,8 @@ public class ExecutableMigrationRuleGuardTest {
 	public void appliesOnlyForObjectOfSourceType() {
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", null, new AST());
 
-		assertTrue(rule.appliesFor(createDog(), new ExecutionContext()));
-		assertFalse(rule.appliesFor(createFamily(), new ExecutionContext()));
+		assertTrue(rule.appliesFor(createDog(), new FakeExecutionContext()));
+		assertFalse(rule.appliesFor(createFamily(), new FakeExecutionContext()));
 	}
 
 	@Test
@@ -44,8 +43,8 @@ public class ExecutableMigrationRuleGuardTest {
 		final AST guard = parseGuard("original.name = 'Fido'");
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertTrue(rule.appliesFor(createDog("Fido"), new ExecutionContext()));
-		assertFalse(rule.appliesFor(createDog("Lassie"), new ExecutionContext()));
+		assertTrue(rule.appliesFor(createDog("Fido"), new FakeExecutionContext()));
+		assertFalse(rule.appliesFor(createDog("Lassie"), new FakeExecutionContext()));
 	}
 	
 	@Test
@@ -53,7 +52,7 @@ public class ExecutableMigrationRuleGuardTest {
 		final AST guard = parseGuard("undefined");
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertFalse(rule.appliesFor(createDog(), new ExecutionContext()));
+		assertFalse(rule.appliesFor(createDog(), new FakeExecutionContext()));
 	}
 	
 	

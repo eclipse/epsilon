@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.migration.execution.ExecutionContext;
 
 public class MigrationStrategy {
@@ -46,11 +45,11 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(EObject original, EObject target, ExecutionContext context) {
+	public void migrate(Object original, Object target, ExecutionContext context) {
 		getFirstApplicableRuleFor(original, context).migrate(original, target, context);
 	}
 	
-	MigrationRule getFirstApplicableRuleFor(EObject object, ExecutionContext context) {
+	MigrationRule getFirstApplicableRuleFor(Object object, ExecutionContext context) {
 		for (ExecutableMigrationRule rule : rules) {
 			if (rule.appliesFor(object, context))
 				return rule;
