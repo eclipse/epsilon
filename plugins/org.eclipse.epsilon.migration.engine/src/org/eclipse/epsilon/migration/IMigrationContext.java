@@ -16,10 +16,10 @@ package org.eclipse.epsilon.migration;
 import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface IMigrationContext extends IEolContext {
 
@@ -31,9 +31,9 @@ public interface IMigrationContext extends IEolContext {
 
 	public String typeNameOfOriginalModelElement(Object original);
 
-	public Object createTargetModelElement(String type) throws EolRuntimeException;
+	public Object createTargetModelElement(String type) throws MigrationExecutionException;
 
-	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException;
+	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException;
 
 	public boolean executeGuard(AST guard, Variable originalVar);
 }

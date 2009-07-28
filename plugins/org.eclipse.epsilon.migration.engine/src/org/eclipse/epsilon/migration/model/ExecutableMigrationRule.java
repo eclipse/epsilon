@@ -14,9 +14,9 @@
 package org.eclipse.epsilon.migration.model;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class ExecutableMigrationRule extends AbstractMigrationRule implements MigrationRule {
 
@@ -48,14 +48,9 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 	}
 	
 
-	public void migrate(Object original, Object target, IMigrationContext context) {
-		try {			
-			context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
-			
-		} catch (EolRuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void migrate(Object original, Object target, IMigrationContext context) throws MigrationExecutionException {
+		context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
+		
 	}
 	
 	private Variable createOriginalVariable(Object object) {

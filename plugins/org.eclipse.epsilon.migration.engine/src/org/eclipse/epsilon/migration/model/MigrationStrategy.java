@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class MigrationStrategy {
 
@@ -45,7 +46,7 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(Object original, Object target, IMigrationContext context) {
+	public void migrate(Object original, Object target, IMigrationContext context) throws MigrationExecutionException {
 		ruleFor(original, context).migrate(original, target, context);
 	}
 	

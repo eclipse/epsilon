@@ -13,18 +13,18 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 import org.junit.Test;
 
 public class ExecutableMigrationRuleMigrateTest {
@@ -32,7 +32,7 @@ public class ExecutableMigrationRuleMigrateTest {
 	private final IMigrationContext context = createMock(MigrationContext.class);
 	
 	@Test
-	public void executesBlock() throws EolRuntimeException {
+	public void executesBlock() throws MigrationExecutionException {
 		final AST body = new AST();
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Person", "Person", null, body);
 				

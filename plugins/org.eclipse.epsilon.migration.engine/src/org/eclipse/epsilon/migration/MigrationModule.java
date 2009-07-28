@@ -23,6 +23,7 @@ import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.execution.Migration;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.migration.parse.MigrationLexer;
@@ -66,11 +67,11 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 
 	// TODO ! Do these methods really need to return the target model? Don't clients already have it?
 	
-	public IModel execute(IModel original, IModel target) {
+	public IModel execute(IModel original, IModel target) throws MigrationExecutionException {
 		return execute(new MigrationContext(original, target));
 	}
 
-	public IModel execute(IMigrationContext context) {
+	public IModel execute(IMigrationContext context) throws MigrationExecutionException {
 		new Migration(strategy, context).run();
 		
 		return context.getTargetModel();

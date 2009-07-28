@@ -13,10 +13,8 @@
  */
 package org.eclipse.epsilon.migration.execution;
 
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.copy.Copier;
-import org.eclipse.epsilon.migration.copy.CopyingException;
 import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
@@ -32,40 +30,30 @@ public class Migration {
 		this.context  = context;
 	}
 	
-	public void run() {
-		try {
-			reset();
-			establishEquivalences();
-			copyAndMigrate();
-		
-		} catch (EolRuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		} catch (CopyingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void run() throws MigrationExecutionException {
+		reset();
+		establishEquivalences();
+		copyAndMigrate();
 	}
 	
 	private void reset() {
 		equivalences.clear();
 	}
 	
-	private void establishEquivalences() throws EolRuntimeException {
+	private void establishEquivalences() throws MigrationExecutionException {
 		for (Object original : context.getOriginalModelElements()) {
 			equivalences.add(establishEquivalence(original));
 		}
 	}
 	
-	private Equivalence establishEquivalence(Object original) throws EolRuntimeException {
+	private Equivalence establishEquivalence(Object original) throws MigrationExecutionException {
 		final MigrationRule rule = strategy.ruleFor(original, context);
 		final Object migrated = context.createTargetModelElement(rule.getTargetType());
 		
 		return new Equivalence(original, migrated);
 	}
 	
-	private void copyAndMigrate() throws CopyingException {
+	private void copyAndMigrate() throws MigrationExecutionException {
 		final Copier copier = new Copier(context.getOriginalModel(), context.getTargetModel(), equivalences);
 		
 		for (Equivalence equivalence : equivalences) {

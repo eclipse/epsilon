@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
@@ -60,18 +61,28 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		return originalModel.getTypeNameOf(original);
 	}
 	
-	public Object createTargetModelElement(String type) throws EolRuntimeException {
-		return targetModel.createInstance(type);
+	public Object createTargetModelElement(String type) throws MigrationExecutionException {
+		try {
+			return targetModel.createInstance(type);
+		
+		} catch (EolRuntimeException e) {
+			throw new MigrationExecutionException("Could not create a target model element of type: " + type, e);
+		}
 	}
 	
-	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
-		enterProtectedFrame(block, variables);
-		
-		final Object result = getExecutorFactory().executeAST(block, this);
-		
-		leaveFrame(block);
-		
-		return result;
+	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException {
+		try {
+			enterProtectedFrame(block, variables);
+			
+			final Object result = getExecutorFactory().executeAST(block, this);
+			
+			leaveFrame(block);
+			
+			return result;
+			
+		} catch (EolRuntimeException e) {
+			throw new MigrationExecutionException("Exception encountered while executing EOL block.", e);
+		}
 	}
 
 	public boolean executeGuard(AST guard, Variable originalVar) {

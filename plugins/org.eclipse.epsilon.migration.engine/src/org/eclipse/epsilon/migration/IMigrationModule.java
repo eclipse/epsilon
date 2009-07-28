@@ -15,10 +15,11 @@ package org.eclipse.epsilon.migration;
 
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface IMigrationModule extends IEolLibraryModule {
 	
-	public IModel execute(IMigrationContext context);
+	public IModel execute(IMigrationContext context) throws MigrationExecutionException;
 	
-	public IModel execute(IModel original, IModel target);
+	public IModel execute(IModel original, IModel target) throws MigrationExecutionException;
 }
