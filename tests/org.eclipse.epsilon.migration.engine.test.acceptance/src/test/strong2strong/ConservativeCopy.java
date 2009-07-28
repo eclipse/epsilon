@@ -43,7 +43,7 @@ public class ConservativeCopy extends Strong2StrongMigrationAcceptanceTest {
 	}
 	
 	@Test
-	public void numberOfChildShouldBeMigrated() {
+	public void numberOfChildrenShouldBeMigrated() {
 		migrated.assertEquals(3, "family.numberOfChildren");
 	}
 	
