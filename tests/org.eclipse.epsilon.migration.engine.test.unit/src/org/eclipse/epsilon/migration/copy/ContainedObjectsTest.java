@@ -19,10 +19,12 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttribute
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EReferenceBuilder.anEReference;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -68,7 +70,17 @@ public class ContainedObjectsTest extends AbstractCopyTest {
 	}
 	
 	@Test
-	public void copyIsAFamily() {
+	public void copyIsAFamilyWithEquivalentMembers() {
 		checkCopy("Family", new Slot("members", Arrays.asList(migratedJack, migratedJill)));
+	}
+	
+	@Test
+	public void copyContainsEquivalentOfJack() {
+		assertTrue(((EObject)copy).eContents().contains(migratedJack));
+	}
+	
+	@Test
+	public void copyContainsEquivalentOfJill() {
+		assertTrue(((EObject)copy).eContents().contains(migratedJill));
 	}
 }

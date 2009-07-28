@@ -19,8 +19,10 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttribute
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EReferenceBuilder.anEReference;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -63,7 +65,12 @@ public class ContainedObjectTest extends AbstractCopyTest {
 	}
 	
 	@Test
-	public void copyIsABike() {
+	public void copyIsABikeWithEquivalentRider() {
 		checkCopy("Bike", new Slot("rider", migratedRider));
+	}
+	
+	@Test
+	public void copyContainsEquivalentRider() {
+		assertTrue(((EObject)copy).eContents().contains(migratedRider));
 	}
 }
