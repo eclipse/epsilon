@@ -13,11 +13,27 @@
  */
 package org.eclipse.epsilon.migration;
 
+import java.util.Collection;
+
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public interface IMigrationContext extends IEolContext {
+
+	public IModel getOriginalModel();
 	
-	public IModel execute(MigrationStrategy strategy);
+	public IModel getTargetModel();
+
+	public Collection<?> getOriginalModelElements();
+
+	public String typeNameOfOriginalModelElement(Object original);
+
+	public Object createTargetModelElement(String type) throws EolRuntimeException;
+
+	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException;
+
+	public boolean executeGuard(AST guard, Variable originalVar);
 }

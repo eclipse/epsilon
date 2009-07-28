@@ -16,7 +16,7 @@ package org.eclipse.epsilon.migration.model;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.IMigrationContext;
 
 public class ExecutableMigrationRule extends AbstractMigrationRule implements MigrationRule {
 
@@ -32,15 +32,15 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		this.body         = body;
 	}
 	
-	public boolean appliesFor(Object object, MigrationContext context) {
+	public boolean appliesFor(Object object, IMigrationContext context) {
 		return isOfOriginalType(object, context) && satisfiesGuard(object, context);
 	}
 	
-	private boolean isOfOriginalType(Object object, MigrationContext context) {
+	private boolean isOfOriginalType(Object object, IMigrationContext context) {
 		return originalType.equals(context.typeNameOfOriginalModelElement(object));
 	}
 
-	private boolean satisfiesGuard(Object object, MigrationContext context) {
+	private boolean satisfiesGuard(Object object, IMigrationContext context) {
 		if (guard == null)
 			return true;
 		
@@ -48,7 +48,7 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 	}
 	
 
-	public void migrate(Object original, Object target, MigrationContext context) {
+	public void migrate(Object original, Object target, IMigrationContext context) {
 		try {			
 			context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
 			

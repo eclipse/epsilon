@@ -13,11 +13,11 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.IMigrationContext;
 
 public interface MigrationRule {
 	
 	public String getTargetType();
 	
-	public void migrate(Object original, Object target, MigrationContext context);
+	public void migrate(Object original, Object target, IMigrationContext context);
 }

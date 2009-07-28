@@ -20,13 +20,13 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
-import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MigrationStrategyTest {
 	
-	private final MigrationContext context = new FakeMigrationContext();
+	private final IMigrationContext context = new FakeMigrationContext();
 	
 	private final ExecutableMigrationRule personRule              = new ExecutableMigrationRule("Person", null, null, null);
 	private final ExecutableMigrationRule personToSalespersonRule = new ExecutableMigrationRule("Person", "Salesperson", null, null);

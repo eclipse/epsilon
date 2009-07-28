@@ -23,6 +23,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.IMigrationModule;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.eclipse.epsilon.migration.MigrationModule;
@@ -33,7 +34,7 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 	private ILaunch launch;
 	private IProgressMonitor monitor;
 
-	private MigrationContext context;
+	private IMigrationContext context;
 	private IMigrationModule module; 
 	
 	

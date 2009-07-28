@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.epsilon.migration.MigrationContext;
+import org.eclipse.epsilon.migration.IMigrationContext;
 
 public class NoOpMigrationRule extends AbstractMigrationRule implements MigrationRule {
 	
@@ -21,7 +21,7 @@ public class NoOpMigrationRule extends AbstractMigrationRule implements Migratio
 		super(type);
 	}
 	
-	public void migrate(Object original, Object target, MigrationContext context) {
+	public void migrate(Object original, Object target, IMigrationContext context) {
 		// Do nothing
 	}
 	
