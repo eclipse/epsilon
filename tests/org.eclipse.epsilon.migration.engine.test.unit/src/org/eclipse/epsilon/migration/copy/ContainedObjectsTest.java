@@ -20,10 +20,12 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuil
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EReferenceBuilder.anEReference;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.Family;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
 import org.junit.BeforeClass;
@@ -34,9 +36,11 @@ public class ContainedObjectsTest extends AbstractCopyTest {
 	private static Person jack   = createPerson("Jack");
 	private static Person jill   = createPerson("Jill");
 	private static Family family = createFamily(jack, jill);
+	
+	private static Object migratedJack, migratedJill;
 		
 	@BeforeClass
-	public static void setup() throws CopyingException {
+	public static void setup() throws CopyingException, EolRuntimeException {
 		final EClass personClass = anEClass()
 		                           	.named("Person")
 		                           	.with(anEAttribute()
@@ -57,21 +61,14 @@ public class ContainedObjectsTest extends AbstractCopyTest {
 		                                 	)
 		                                 .build();
 		
-		copyTest(targetMetamodel, family);
+		migratedJack = addEquivalence(targetMetamodel, jack, personClass);
+		migratedJill = addEquivalence(targetMetamodel, jill, personClass);
+		
+		copyTest(targetMetamodel, "Family", family);
 	}
 	
 	@Test
 	public void copyIsAFamily() {
-		checkObject(family, copy, "Family");
-	}
-	
-	@Test
-	public void firstContainedCopyIsPersonNamedJack() {
-		checkObject(jack, ((EObject)copy).eContents().get(0), "Person", new Slot("name", "Jack"));
-	}
-	
-	@Test
-	public void secondContainedCopyIsPersonNamedJill() {
-		checkObject(jill, ((EObject)copy).eContents().get(1), "Person", new Slot("name", "Jill"));
+		checkCopy("Family", new Slot("members", Arrays.asList(migratedJack, migratedJill)));
 	}
 }

@@ -53,7 +53,7 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	}
 	
 	public Collection<?> getOriginalModelElements() {
-		return originalModel.contents();
+		return originalModel.allContents();
 	}
 	
 	public String typeNameOfOriginalModelElement(Object original) {

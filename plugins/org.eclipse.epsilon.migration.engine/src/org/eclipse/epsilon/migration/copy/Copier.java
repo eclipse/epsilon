@@ -15,6 +15,7 @@ package org.eclipse.epsilon.migration.copy;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollection;
@@ -51,25 +52,30 @@ public class Copier {
 
 	// TODO should be an error when equivalentFeature is null and value is non-empty and non-null?
 	private void copyProperty(String property) throws CopyingException {
-		final Object originalValue = original.getProperty(property);
-		final Object copiedValue;
-		
-		if (copy.knowsAboutProperty(property)) {
+		try {
+			final Object originalValue = original.getProperty(property);
+			final Object copiedValue;
 			
-			if (originalValue instanceof Enumerator) {
-				copiedValue = getEquivalentEnumerationValue((Enumerator)originalValue);
-			
-			} else if (originalValue instanceof EolCollection && collectionContainsOnlyOriginalModelElements((EolCollection)originalValue)) {
-				copiedValue = getEquivalentModelElements((EolCollection)originalValue);
-			
-			} else if (originalModel.isModelElement(originalValue) && equivalences.hasEquivalent(originalValue)) {
-				copiedValue = equivalences.getEquivalent(originalValue);
-			
-			} else {
-				copiedValue = originalValue;
+			if (copy.knowsAboutProperty(property)) {
+				
+				if (originalValue instanceof Enumerator) {
+					copiedValue = getEquivalentEnumerationValue((Enumerator)originalValue);
+				
+				} else if (originalValue instanceof EolCollection && collectionContainsOnlyOriginalModelElements((EolCollection)originalValue)) {
+					copiedValue = getEquivalentModelElements((EolCollection)originalValue);
+				
+				} else if (originalModel.isModelElement(originalValue) && equivalences.hasEquivalent(originalValue)) {
+					copiedValue = equivalences.getEquivalent(originalValue);
+				
+				} else {
+					copiedValue = originalValue;
+				}
+							
+				copy.setProperty(property, copiedValue);
 			}
-						
-			copy.setProperty(property, copiedValue);
+			
+		} catch (EolRuntimeException e) {
+			throw new CopyingException("Exception encountered while reading or writing a property value.", e);
 		}
 	}
 	

@@ -15,6 +15,7 @@ package org.eclipse.epsilon.migration.copy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -23,6 +24,8 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.eclipse.epsilon.migration.execution.Equivalence;
 import org.eclipse.epsilon.migration.execution.Equivalences;
@@ -30,7 +33,7 @@ import org.junit.Test;
 
 public abstract class AbstractCopyTest {
 	
-	protected static AbstractEmfModel targetModel;
+	protected static IModel targetModel;
 	protected static EPackage targetMetamodel;
 	protected static Equivalences equivalences = new Equivalences();
 	protected static Object copy;
@@ -60,16 +63,8 @@ public abstract class AbstractCopyTest {
 	}
 	
 	protected static void checkCopy(String type, Slot... slots) {
-		checkObject((EObject)copy, type, slots);
-	}
-	
-	protected static void checkObject(Object copy, String type, Slot... slots) {
-		checkObject((EObject)copy, type, slots);
-	}
-	
-	protected static void checkObject(EObject copy, String type, Slot... slots) {
-		assertEquals(targetMetamodel, copy.eClass().getEPackage());
-		assertEquals(type, copy.eClass().getName());
+		assertTrue(targetModel.owns(copy));
+		assertEquals(type, targetModel.getTypeNameOf(copy));
 		
 		for (Slot slot : slots) {
 			slot.checkObjectHasSlot(copy);
@@ -85,8 +80,17 @@ public abstract class AbstractCopyTest {
 			this.value   = value;
 		}
 		
-		private void checkObjectHasSlot(EObject actual) {
-			assertEquals("Unexpected value for feature '" + feature + "'", value, actual.eGet(actual.eClass().getEStructuralFeature(feature)));
+		private void checkObjectHasSlot(Object actual) {
+			try {
+				final ModelElement actualElement = new ModelElement(targetModel, actual);
+				final Object actualValue = EolTypeWrapper.getInstance().unwrap(actualElement.getProperty(feature));
+				
+				assertEquals("Unexpected value for feature '" + feature + "'", value, actualValue);
+			
+			} catch (EolRuntimeException e) {
+				e.printStackTrace();
+				fail("Exception during check");
+			}
 		}
 	}
 	
@@ -98,6 +102,6 @@ public abstract class AbstractCopyTest {
 
 	@Test
 	public void targetContainsOneObject() {
-		assertEquals(1, targetModel.getModelImpl().getContents().size());
+		assertEquals(1, targetModel.allContents().size());
 	}
 }

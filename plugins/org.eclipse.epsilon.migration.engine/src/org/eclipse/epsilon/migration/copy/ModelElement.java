@@ -37,24 +37,14 @@ public class ModelElement {
 		return model.knowsAboutProperty(element, property);
 	}
 	
-	public Object getProperty(String property) throws CopyingException {
-		try {
-			return model.getPropertyGetter().invoke(element, property);
-		
-		} catch (EolRuntimeException ex) {
-			throw new CopyingException("Could not get the value of " + property + " on " + element, ex);
-		}
+	public Object getProperty(String property) throws EolRuntimeException {
+		return model.getPropertyGetter().invoke(element, property);
 	}
 	
-	public void setProperty(String property, Object value) throws CopyingException {
-		try {
-			final IPropertySetter setter = model.getPropertySetter();
-			setter.setObject(element);
-			setter.setProperty(property);
-			setter.invoke(value);
-		
-		} catch (EolRuntimeException ex) {
-			throw new CopyingException("Could not set " + property + " to " + value + " on " + element, ex);
-		}
+	public void setProperty(String property, Object value) throws EolRuntimeException {
+		final IPropertySetter setter = model.getPropertySetter();
+		setter.setObject(element);
+		setter.setProperty(property);
+		setter.invoke(value);
 	}
 }

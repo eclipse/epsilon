@@ -21,7 +21,6 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EReference
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -35,7 +34,7 @@ public class ContainedObjectTest extends AbstractCopyTest {
 	private static Person rider = createPerson("John");
 	private static Bike   bike  = createBike(rider);
 	
-	private static EObject containedCopy;
+	private static Object migratedRider;
 	
 	@BeforeClass
 	public static void setup() throws CopyingException, EolRuntimeException {
@@ -59,18 +58,12 @@ public class ContainedObjectTest extends AbstractCopyTest {
 		                                 	)
 		                                 .build();
 		
+		migratedRider = addEquivalence(targetMetamodel, rider, personClass);
 		copyTest(targetMetamodel, "Bike", bike);
-		
-		containedCopy = ((EObject)copy).eContents().get(0);
 	}
 	
 	@Test
 	public void copyIsABike() {
-		checkCopy("Bike");
-	}
-	
-	@Test
-	public void containedCopyIsAnInstanceOfClassInTargetMetamodel() {
-		checkObject(rider, containedCopy, "Person", new Slot("name", "John"));
+		checkCopy("Bike", new Slot("rider", migratedRider));
 	}
 }
