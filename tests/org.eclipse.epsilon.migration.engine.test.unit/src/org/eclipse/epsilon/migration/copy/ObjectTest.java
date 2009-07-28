@@ -18,6 +18,7 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuil
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,16 +28,16 @@ public class ObjectTest extends AbstractCopyTest {
 	private static final Dog dog = createDog();
 	
 	@BeforeClass
-	public static void setup() throws CopyingException {
+	public static void setup() throws CopyingException, EolRuntimeException {
 		final EPackage targetMetamodel = aMetamodel()
 		                                 	.with(anEClass().named("Dog"))
                                        	 .build();
 		
-		copyTest(targetMetamodel, dog);
+		copyTest(targetMetamodel, "Dog", dog);
 	}
 	
 	@Test
 	public void copyIsADog() {
-		checkObject(dog, copy, "Dog");
+		checkCopy("Dog");
 	}
 }

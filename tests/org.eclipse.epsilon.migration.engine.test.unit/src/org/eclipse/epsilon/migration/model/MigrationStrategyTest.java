@@ -20,13 +20,13 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.MigrationContext;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MigrationStrategyTest {
 	
-	private final ExecutionContext context = new FakeExecutionContext();
+	private final MigrationContext context = new FakeMigrationContext();
 	
 	private final ExecutableMigrationRule personRule              = new ExecutableMigrationRule("Person", null, null, null);
 	private final ExecutableMigrationRule personToSalespersonRule = new ExecutableMigrationRule("Person", "Salesperson", null, null);
@@ -43,7 +43,7 @@ public class MigrationStrategyTest {
 	
 	@Test
 	public void returnsDefaultMigrationRuleWhenNoRules() {
-		checkRuleFor(person, new NoOpMigrationRule());
+		checkRuleFor(person, new NoOpMigrationRule("Person"));
 	}
 	
 	@Test
@@ -61,15 +61,15 @@ public class MigrationStrategyTest {
 	@Test
 	public void returnsDefaultMigrationRuleWhenNoApplicableRules() {
 		configureStrategy(personRule);
-		checkRuleFor(dog, new NoOpMigrationRule());
-	}
+		checkRuleFor(dog, new NoOpMigrationRule("Dog"));
+	}	
 
 	private void configureStrategy(ExecutableMigrationRule... rules) {
 		strategy.addRules(rules);
 	}
 	
 	private void checkRuleFor(EObject original, MigrationRule expectedRule) {
-		final MigrationRule actualRule = strategy.getFirstApplicableRuleFor(original, context);
+		final MigrationRule actualRule = strategy.ruleFor(original, context);
 		assertEquals(expectedRule, actualRule);
 	}
 }

@@ -13,14 +13,15 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+public abstract class AbstractMigrationRule implements MigrationRule {
 
-public class FakeExecutionContext extends ExecutionContext {
-
-	@Override
-	public String getTypeNameOf(Object instance) {
-		return ((EObject)instance).eClass().getName();
+	protected final String targetType;
+	
+	public AbstractMigrationRule(String targetType) {
+		this.targetType = targetType;
 	}
-
+	
+	public String getTargetType() {
+		return targetType;
+	}
 }

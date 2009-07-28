@@ -13,64 +13,63 @@
  */
 package org.eclipse.epsilon.migration.copy;
 
-import static org.eclipse.epsilon.hutn.test.model.factories.BikeFactory.createBike;
-import static org.eclipse.epsilon.hutn.test.model.factories.PersonFactory.createPerson;
+import static org.eclipse.epsilon.hutn.test.model.factories.FamilyFactory.createFamily;
+import static org.eclipse.epsilon.hutn.test.model.factories.PetFactory.createPet;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EReferenceBuilder.anEReference;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.hutn.test.model.families.Bike;
-import org.eclipse.epsilon.hutn.test.model.families.Person;
+import org.eclipse.epsilon.hutn.test.model.families.Family;
+import org.eclipse.epsilon.hutn.test.model.families.Pet;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ContainedObjectTest extends AbstractCopyTest {
+public class ManyValuedReferenceTest extends AbstractCopyTest {
 	
-	private static Person rider = createPerson("John");
-	private static Bike   bike  = createBike(rider);
+	private static Pet    dino       = createPet("Dino");
+	private static Pet    babyPuss   = createPet("Baby Puss");
+
+	private static Family flintstones = createFamily(dino, babyPuss);
 	
-	private static EObject containedCopy;
+	private static Object migratedDino, migratedBabyPuss;
 	
 	@BeforeClass
 	public static void setup() throws CopyingException, EolRuntimeException {
-		final EClass personClass = anEClass()
-		                           	.named("Person")
-		                           	.with(anEAttribute()
-		                           		.named("name")
-		                           		.withType(EcorePackage.eINSTANCE.getEString()
-		                           	)	
-		                           ).build();
+		final EClass petClass = anEClass()
+		                         .named("Pet")
+		                         .with(anEAttribute()
+		                        	.named("name")
+		                        	.withType(EcorePackage.eINSTANCE.getEString()
+		                         )	
+		                        ).build();
        	
 
 		final EPackage targetMetamodel = aMetamodel()
-		                                 	.with(personClass)
+		                                 	.with(petClass)
 		                                 	.with(anEClass()
-		                                 		.named("Bike")
+		                                 		.named("Family")
 		                                 		.with(anEReference().
-		                                 				named("rider").
-		                                 				contains(0, 1, personClass)
+		                                 				named("pets").
+		                                 				references(0, -1, petClass)
 		                                 		)
 		                                 	)
 		                                 .build();
 		
-		copyTest(targetMetamodel, "Bike", bike);
+		migratedDino     = addEquivalence(targetMetamodel, dino,     petClass);
+		migratedBabyPuss = addEquivalence(targetMetamodel, babyPuss, petClass);
 		
-		containedCopy = ((EObject)copy).eContents().get(0);
+		copyTest(targetMetamodel, "Family", flintstones);
 	}
 	
 	@Test
-	public void copyIsABike() {
-		checkCopy("Bike");
-	}
-	
-	@Test
-	public void containedCopyIsAnInstanceOfClassInTargetMetamodel() {
-		checkObject(rider, containedCopy, "Person", new Slot("name", "John"));
+	public void copyIsAFamilyWithEquivalentPets() {
+		checkCopy("Family", new Slot("pets", Arrays.asList(migratedDino, migratedBabyPuss)));
 	}
 }

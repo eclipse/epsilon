@@ -13,24 +13,25 @@
  */
 package org.eclipse.epsilon.migration;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.migration.copy.Copier;
 import org.eclipse.epsilon.migration.copy.CopyingException;
-import org.eclipse.epsilon.migration.copy.Equivalence;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.execution.Equivalence;
+import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
 	private final IModel originalModel;
 	private final IModel targetModel;
-	private final ExecutionContext executionContext;
 	
-	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
+	private final Equivalences equivalences = new Equivalences();
 	
 	public MigrationContext() {
 		this(null, null);
@@ -40,19 +41,53 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		this.originalModel = original;
 		this.targetModel   = target;
 		
-		executionContext = new ExecutionContext(originalModel, targetModel);
+		addModel(original);
+		addModel(target);
+	}
+	
+	private void addModel(IModel model) {
+		if (model != null)
+			getModelRepository().addModel(model);
+	}
+	
+	public String typeNameOfOriginalModelElement(Object original) {
+		return originalModel.getTypeNameOf(original);
+	}
+	
+	public Object createTargetModelElement(String type) throws EolRuntimeException {
+		return targetModel.createInstance(type);
+	}
+	
+	public Object executeBlock(AST block, Variable... variables) throws EolRuntimeException {
+		enterProtectedFrame(block, variables);
+		
+		final Object result = getExecutorFactory().executeAST(block, this);
+		
+		leaveFrame(block);
+		
+		return result;
+	}
+
+	public boolean executeGuard(AST guard, Variable originalVar) {
+		enterProtectedFrame(guard, originalVar);
+		
+		final EolBoolean guardSatisfied = (EolBoolean)getExecutorFactory().executeBlockOrExpressionAst(guard, this, EolBoolean.FALSE);
+		
+		leaveFrame(guard);
+		
+		return guardSatisfied.booleanValue();
 	}
 	
 	
 	public IModel execute(MigrationStrategy strategy) {
-		return execute(strategy, new Copier(originalModel, targetModel));
-	}
-	
-	IModel execute(MigrationStrategy strategy, Copier copier) {
 		try {
 			reset();
-			createCopies(copier);
+			establishEquivalences(strategy);
 			migrateUsing(strategy);
+			
+		} catch (EolRuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			
 		} catch (CopyingException e) {
 			// TODO Auto-generated catch block
@@ -66,15 +101,24 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		equivalences.clear();
 	}
 	
-	private void createCopies(Copier copier) throws CopyingException {
+	void establishEquivalences(MigrationStrategy strategy) throws EolRuntimeException {
 		for (Object original : originalModel.contents()) {
-			equivalences.addAll(copier.deepCopy(original));
+			equivalences.add(establishEquivalence(strategy, original));
 		}
 	}
 	
-	private void migrateUsing(MigrationStrategy strategy) {
+	Equivalence establishEquivalence(MigrationStrategy strategy, Object original) throws EolRuntimeException {
+		final MigrationRule rule = strategy.ruleFor(original, this);
+		
+		return new Equivalence(original, createTargetModelElement(rule.getTargetType()));
+	}
+	
+	private void migrateUsing(MigrationStrategy strategy) throws CopyingException {
+		final Copier copier = new Copier(originalModel, targetModel, equivalences);
+		
 		for (Equivalence equivalence : equivalences) {
-			strategy.migrate(equivalence.getOriginal(), equivalence.getCopy(), executionContext);
+			copier.copy(equivalence.getOriginal(), equivalence.getCopy());
+			strategy.migrate(equivalence.getOriginal(), equivalence.getCopy(), this);
 		}
 	}
 }

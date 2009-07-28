@@ -20,9 +20,11 @@ import org.eclipse.epsilon.migration.copy.AttributeValueTest;
 import org.eclipse.epsilon.migration.copy.ContainedObjectTest;
 import org.eclipse.epsilon.migration.copy.ContainedObjectsTest;
 import org.eclipse.epsilon.migration.copy.EnumValueTest;
+import org.eclipse.epsilon.migration.copy.ManyValuedReferenceTest;
 import org.eclipse.epsilon.migration.copy.NonExistentAttributeValueTest;
 import org.eclipse.epsilon.migration.copy.NonExistentEnumValueTest;
 import org.eclipse.epsilon.migration.copy.ObjectTest;
+import org.eclipse.epsilon.migration.copy.ReferenceValueTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -31,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ObjectTest.class,
                AttributeValueTest.class, NonExistentAttributeValueTest.class,
                ContainedObjectTest.class, ContainedObjectsTest.class,
+               ReferenceValueTest.class, ManyValuedReferenceTest.class,
                EnumValueTest.class, NonExistentEnumValueTest.class})
 public class CopierSuite {
 	public static Test suite() {

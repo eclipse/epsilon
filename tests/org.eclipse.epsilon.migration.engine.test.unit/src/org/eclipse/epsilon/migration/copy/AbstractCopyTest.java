@@ -16,45 +16,58 @@ package org.eclipse.epsilon.migration.copy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
+import org.eclipse.epsilon.migration.execution.Equivalence;
+import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.junit.Test;
 
 public abstract class AbstractCopyTest {
 	
 	protected static AbstractEmfModel targetModel;
 	protected static EPackage targetMetamodel;
-	protected static List<Equivalence> equivalences;
+	protected static Equivalences equivalences = new Equivalences();
 	protected static Object copy;
 	
 	private static Copier createCopier(EPackage targetMetamodel, EObject original) {
 		final AbstractEmfModel originalModel = new InMemoryEmfModel("target", EmfUtil.createResource(original), FamiliesPackage.eINSTANCE);
 		
+		return new Copier(originalModel, targetModel, equivalences);
+	}
+	
+	protected static Object addEquivalence(EPackage targetMetamodel, Object original, EClass targetType) {
+		final Object target = targetMetamodel.getEFactoryInstance().create(targetType);
+		
+		equivalences.add(new Equivalence(original, target));
+		
+		return target;
+	}
+	
+	protected static void copyTest(EPackage targetMetamodel, String targetType, EObject original) throws CopyingException, EolRuntimeException {
 		AbstractCopyTest.targetMetamodel = targetMetamodel;
 		targetModel = new InMemoryEmfModel("target", EmfUtil.createResource(), targetMetamodel);
 		
-		return new Copier(originalModel, targetModel);
-	}
-	
-	protected static void copyTest(EPackage targetMetamodel, EObject original) throws CopyingException {
-		equivalences = createCopier(targetMetamodel, original).deepCopy(original);
-		copy         = equivalences.get(0).getCopy();
-	}
-	
-	protected static void checkObject(Object original, Object copy, String type, Slot... slots) {
-		checkObject(original, (EObject)copy, type, slots);
-	}
-	
-	protected static void checkObject(Object original, EObject copy, String type, Slot... slots) {
-		final Equivalence equivalence = new Equivalence(original, copy);
-		assertTrue("equivalences did not contain: " + equivalence, equivalences.contains(equivalence));
+		copy = targetModel.createInstance(targetType);
 		
+		createCopier(targetMetamodel, original).copy(original, copy);
+		equivalences.clear();
+	}
+	
+	protected static void checkCopy(String type, Slot... slots) {
+		checkObject((EObject)copy, type, slots);
+	}
+	
+	protected static void checkObject(Object copy, String type, Slot... slots) {
+		checkObject((EObject)copy, type, slots);
+	}
+	
+	protected static void checkObject(EObject copy, String type, Slot... slots) {
 		assertEquals(targetMetamodel, copy.eClass().getEPackage());
 		assertEquals(type, copy.eClass().getName());
 		

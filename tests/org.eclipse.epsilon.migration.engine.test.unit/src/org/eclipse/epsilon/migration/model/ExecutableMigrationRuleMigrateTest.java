@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.MigrationContext;
 import org.junit.Test;
 
 public class ExecutableMigrationRuleMigrateTest {
 		
-	private final ExecutionContext context = createMock(ExecutionContext.class);
+	private final MigrationContext context = createMock(MigrationContext.class);
 	
 	@Test
 	public void executesBlock() throws EolRuntimeException {

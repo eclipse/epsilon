@@ -13,104 +13,69 @@
  */
 package org.eclipse.epsilon.migration.copy;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.migration.execution.Equivalences;
 
 public class Copier {
 	
 	private final IModel originalModel;
 	private final IModel targetModel;
+	private final Equivalences equivalences;
 	
-	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
+	private ModelElement original;
+	private ModelElement copy;
 	
-	private Object original;
-	private Object copy;
-	
-	public Copier(IModel originalModel, IModel targetModel) {
+	public Copier(IModel originalModel, IModel targetModel, Equivalences equivalences) {
 		this.originalModel = originalModel;
 		this.targetModel   = targetModel;
+		this.equivalences  = equivalences;
 	}
 	
-	public List<Equivalence> deepCopy(Object original) throws CopyingException {	
-		this.original = original;
-		equivalences.clear();
+	public void copy(Object original, Object copy) throws CopyingException {	
+		this.original = new ModelElement(originalModel, original);
+		this.copy     = new ModelElement(targetModel,   copy);
 	
-		copyObject(original);
-	
-		return equivalences;
+		copyProperties();
 	}
 	
-	private void copyObject(Object original) throws CopyingException {
-		try {
-			copy = targetModel.createInstance(originalModel.getTypeNameOf(original));
-			equivalences.add(new Equivalence(original, copy));
-			
-			for (String feature : originalModel.getPropertiesOf(original)) {
-				copyFeature(feature);
-			}
-			
-		} catch (EolRuntimeException e) {
-			throw new CopyingException("Could not copy: " + original, e);	
+	private void copyProperties() throws CopyingException {
+		for (String property : original.getProperties()) {
+			copyProperty(property);
 		}
 	}
 
 	// TODO should be an error when equivalentFeature is null and value is non-empty and non-null?
-	private void copyFeature(String feature) throws CopyingException {
-		final Object originalValue = getFeatureOfOriginal(feature);
+	private void copyProperty(String property) throws CopyingException {
+		final Object originalValue = original.getProperty(property);
 		final Object copiedValue;
 		
-		if (targetModel.knowsAboutProperty(copy, feature)) {
-				
+		if (copy.knowsAboutProperty(property)) {
+			
 			if (originalValue instanceof Enumerator) {
 				copiedValue = getEquivalentEnumerationValue((Enumerator)originalValue);
 			
 			} else if (originalValue instanceof EolCollection && collectionContainsOnlyOriginalModelElements((EolCollection)originalValue)) {
-				copiedValue = copyContainedObjects((EolCollection)originalValue);
+				copiedValue = getEquivalentModelElements((EolCollection)originalValue);
 			
-			} else if (originalModel.owns(originalValue)) {
-				copiedValue = copyContainedObject(originalValue);
+			} else if (originalModel.isModelElement(originalValue) && equivalences.hasEquivalent(originalValue)) {
+				copiedValue = equivalences.getEquivalent(originalValue);
 			
 			} else {
 				copiedValue = originalValue;
 			}
-			
-			setFeatureOfCopy(feature, copiedValue);
-		}
-	}
-
-	private Object getFeatureOfOriginal(String feature) throws CopyingException {
-		try {
-			return originalModel.getPropertyGetter().invoke(original, feature);
-		
-		} catch (EolRuntimeException ex) {
-			throw new CopyingException("Could not get the value of " + feature + " on " + original, ex);
-		}
-	}
-	
-	private void setFeatureOfCopy(String feature, Object value) throws CopyingException {
-		try {
-			final IPropertySetter setter = targetModel.getPropertySetter();
-			setter.setObject(copy);
-			setter.setProperty(feature);
-			setter.invoke(value);
-		
-		} catch (EolRuntimeException ex) {
-			throw new CopyingException("Could not set " + feature + " to " + value + " on " + copy, ex);
+						
+			copy.setProperty(property, copiedValue);
 		}
 	}
 	
 	private boolean collectionContainsOnlyOriginalModelElements(EolCollection collection) {
 		for (Object element : collection.getStorage()) {
-			if (!originalModel.owns(element)) {
+			if (!originalModel.isModelElement(element)) {
 				return false;
 			}
 		}
@@ -135,20 +100,7 @@ public class Copier {
 		}
 	}
 
-	private EolCollection copyContainedObjects(EolCollection valueList) throws CopyingException {
-		final EolCollection copiedValues = new EolSequence();
-		
-		for (Object element : valueList.getStorage()) {
-			copiedValues.add(copyContainedObject(element));
-		}
-		
-		return copiedValues;
+	private EolCollection getEquivalentModelElements(EolCollection originalModelElements) throws CopyingException {
+		return new EolSequence(equivalences.getEquivalents(originalModelElements.getStorage()));
 	}
-
-	private Object copyContainedObject(Object containedObject) throws CopyingException {
-		final List<Equivalence> nestedEquivalences = new Copier(originalModel, targetModel).deepCopy(containedObject);
-		equivalences.addAll(nestedEquivalences);
-		return nestedEquivalences.get(0).getCopy();
-	}
-
 }

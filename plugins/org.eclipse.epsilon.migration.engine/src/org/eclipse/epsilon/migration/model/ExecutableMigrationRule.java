@@ -16,31 +16,31 @@ package org.eclipse.epsilon.migration.model;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.MigrationContext;
 
-public class ExecutableMigrationRule implements MigrationRule {
+public class ExecutableMigrationRule extends AbstractMigrationRule implements MigrationRule {
 
 	private final String originalType;
-	private final String targetType;
 	private final AST guard;
 	private final AST body;
 	
 	public ExecutableMigrationRule(String originalType, String targetType, AST guard, AST body) {
+		super(targetType);
+		
 		this.originalType = originalType;
-		this.targetType   = targetType;
 		this.guard        = guard;
 		this.body         = body;
 	}
 	
-	public boolean appliesFor(Object object, ExecutionContext context) {
+	public boolean appliesFor(Object object, MigrationContext context) {
 		return isOfOriginalType(object, context) && satisfiesGuard(object, context);
 	}
 	
-	private boolean isOfOriginalType(Object object, ExecutionContext context) {
-		return originalType.equals(context.getTypeNameOf(object));
+	private boolean isOfOriginalType(Object object, MigrationContext context) {
+		return originalType.equals(context.typeNameOfOriginalModelElement(object));
 	}
 
-	private boolean satisfiesGuard(Object object, ExecutionContext context) {
+	private boolean satisfiesGuard(Object object, MigrationContext context) {
 		if (guard == null)
 			return true;
 		
@@ -48,10 +48,8 @@ public class ExecutableMigrationRule implements MigrationRule {
 	}
 	
 
-	public void migrate(Object original, Object target, ExecutionContext context) {
-		try {
-//			context.getTargetModel().setTypeOf(target, targetType);
-			
+	public void migrate(Object original, Object target, MigrationContext context) {
+		try {			
 			context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
 			
 		} catch (EolRuntimeException e) {

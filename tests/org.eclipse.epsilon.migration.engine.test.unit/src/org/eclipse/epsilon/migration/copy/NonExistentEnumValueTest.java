@@ -21,6 +21,7 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelB
 
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;
 
@@ -45,8 +46,8 @@ public class NonExistentEnumValueTest extends AbstractCopyTest {
 	// FIXME This should be a warning (or maybe even ignored), rather than an exception
 	
 	@Test(expected=CopyingException.class)
-	public void expectError() throws CopyingException {
-		copyTest(targetMetamodel, createDog(DogBreed.LABRADOR));
+	public void expectError() throws CopyingException, EolRuntimeException {
+		copyTest(targetMetamodel, "Dog", createDog(DogBreed.LABRADOR));
 	}
 	
 	

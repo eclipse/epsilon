@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.MigrationContext;
 
 public class MigrationStrategy {
 
@@ -45,16 +45,16 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(Object original, Object target, ExecutionContext context) {
-		getFirstApplicableRuleFor(original, context).migrate(original, target, context);
+	public void migrate(Object original, Object target, MigrationContext context) {
+		ruleFor(original, context).migrate(original, target, context);
 	}
 	
-	MigrationRule getFirstApplicableRuleFor(Object object, ExecutionContext context) {
+	public MigrationRule ruleFor(Object object, MigrationContext context) {
 		for (ExecutableMigrationRule rule : rules) {
 			if (rule.appliesFor(object, context))
 				return rule;
 		}
 		
-		return new NoOpMigrationRule();
+		return new NoOpMigrationRule(context.typeNameOfOriginalModelElement(object));
 	}
 }

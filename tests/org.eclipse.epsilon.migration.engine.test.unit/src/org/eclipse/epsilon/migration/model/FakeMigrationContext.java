@@ -13,11 +13,14 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.migration.MigrationContext;
 
-public interface MigrationRule {
-	
-	public String getTargetType();
-	
-	public void migrate(Object original, Object target, MigrationContext context);
+public class FakeMigrationContext extends MigrationContext {
+
+	@Override
+	public String typeNameOfOriginalModelElement(Object instance) {
+		return ((EObject)instance).eClass().getName();
+	}
+
 }

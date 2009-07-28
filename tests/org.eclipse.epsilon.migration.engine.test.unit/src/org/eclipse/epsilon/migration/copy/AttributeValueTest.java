@@ -20,6 +20,7 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelB
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class AttributeValueTest extends AbstractCopyTest {
 	private static final Dog dog = createDog("Lassie");
 
 	@BeforeClass
-	public static void setup() throws CopyingException {
+	public static void setup() throws CopyingException, EolRuntimeException {
 		final EPackage targetMetamodel = aMetamodel()
 		                                 	.with(anEClass().named("Dog")
 		                                 		.with(anEAttribute()
@@ -39,11 +40,11 @@ public class AttributeValueTest extends AbstractCopyTest {
 		                                 	)
                                        	 .build();
 		
-		copyTest(targetMetamodel, dog);
+		copyTest(targetMetamodel, "Dog", dog);
 	}
 	
 	@Test
 	public void copyIsADog() {
-		checkObject(dog, copy, "Dog", new Slot("name", "Lassie"));
+		checkCopy("Dog", new Slot("name", "Lassie"));
 	}
 }

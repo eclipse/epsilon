@@ -34,8 +34,8 @@ public class ExecutableMigrationRuleGuardTest {
 	public void appliesOnlyForObjectOfSourceType() {
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", null, new AST());
 
-		assertTrue(rule.appliesFor(createDog(), new FakeExecutionContext()));
-		assertFalse(rule.appliesFor(createFamily(), new FakeExecutionContext()));
+		assertTrue(rule.appliesFor(createDog(), new FakeMigrationContext()));
+		assertFalse(rule.appliesFor(createFamily(), new FakeMigrationContext()));
 	}
 
 	@Test
@@ -43,8 +43,8 @@ public class ExecutableMigrationRuleGuardTest {
 		final AST guard = parseGuard("original.name = 'Fido'");
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertTrue(rule.appliesFor(createDog("Fido"), new FakeExecutionContext()));
-		assertFalse(rule.appliesFor(createDog("Lassie"), new FakeExecutionContext()));
+		assertTrue(rule.appliesFor(createDog("Fido"), new FakeMigrationContext()));
+		assertFalse(rule.appliesFor(createDog("Lassie"), new FakeMigrationContext()));
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class ExecutableMigrationRuleGuardTest {
 		final AST guard = parseGuard("undefined");
 		final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", guard, new AST());
 		
-		assertFalse(rule.appliesFor(createDog(), new FakeExecutionContext()));
+		assertFalse(rule.appliesFor(createDog(), new FakeMigrationContext()));
 	}
 	
 	

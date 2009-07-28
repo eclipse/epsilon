@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration.copy;
+package org.eclipse.epsilon.migration.execution;
 
 
 public class Equivalence {

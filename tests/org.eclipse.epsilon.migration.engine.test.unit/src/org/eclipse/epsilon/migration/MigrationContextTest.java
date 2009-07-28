@@ -13,59 +13,35 @@
  */
 package org.eclipse.epsilon.migration;
 
-import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.eclipse.epsilon.hutn.test.model.factories.DogFactory.createDog;
-import static org.eclipse.epsilon.hutn.test.model.factories.PersonFactory.createPerson;
 
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.migration.copy.Copier;
-import org.eclipse.epsilon.migration.copy.CopyingException;
-import org.eclipse.epsilon.migration.copy.Equivalence;
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
+import org.eclipse.epsilon.migration.model.NoOpMigrationRule;
 import org.junit.Test;
 
 public class MigrationContextTest {
 
 	@Test
-	public void copiesAndMigratesAllObjects() throws CopyingException {
-		executeTest(createPerson(), createDog());
-	}
-
-	@Test
-	public void copiesAndMigratesWhenNoObjects() throws CopyingException {
-		executeTest();
-	}
-	
-	
-	private void executeTest(EObject... originals) throws CopyingException {
-		final AbstractEmfModel originalModel = createMock(AbstractEmfModel.class);
+	public void createTargetModelElementBasedOnTargetTypeOfApplicableRule() throws EolRuntimeException {
+		final Object original = "Dummy model element";
 		
-		expect(originalModel.contents()).andReturn(Arrays.asList(originals));
+		final IModel targetModel = createMock(IModel.class); 
+		expect(targetModel.createInstance("Dog")).andReturn("Copied model element");
+		replay(targetModel);
 		
+		final MigrationContext context = new MigrationContext(null, targetModel);
 		
-		final Copier              copier = createMock(Copier.class);
 		final MigrationStrategy strategy = createMock(MigrationStrategy.class);
+		expect(strategy.ruleFor(original, context)).andReturn(new NoOpMigrationRule("Dog"));
+		replay(strategy);
 		
-		for (EObject original : originals) {
-			final EObject copy = EcoreFactory.eINSTANCE.createEObject();
-			expect(copier.deepCopy(original)).andReturn(Collections.singletonList(new Equivalence(original, copy)));
-			strategy.migrate(eq(original), eq(copy), isA(ExecutionContext.class));
-		}
+		context.establishEquivalence(strategy, original);
 		
-		replay(originalModel, copier, strategy);
-		
-		new MigrationContext(originalModel, null).execute(strategy, copier);
-		verify(copier, strategy);
+		verify(strategy, targetModel);
 	}
 }

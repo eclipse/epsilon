@@ -13,26 +13,33 @@
  */
 package org.eclipse.epsilon.migration.model;
 
-import org.eclipse.epsilon.migration.execution.ExecutionContext;
+import org.eclipse.epsilon.migration.MigrationContext;
 
-public class NoOpMigrationRule implements MigrationRule {
+public class NoOpMigrationRule extends AbstractMigrationRule implements MigrationRule {
 	
-	public void migrate(Object original, Object target, ExecutionContext context) {
+	public NoOpMigrationRule(String type) {
+		super(type);
+	}
+	
+	public void migrate(Object original, Object target, MigrationContext context) {
 		// Do nothing
 	}
 	
 	@Override
 	public String toString() {
-		return "DefaultMigrationRule";
+		return "NoOpMigrationRule for " + targetType;
 	}
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof NoOpMigrationRule;
+		if (!(other instanceof NoOpMigrationRule))
+			return false;
+		
+		return ((NoOpMigrationRule)other).targetType.equals(targetType);
 	}
 	
 	@Override
 	public int hashCode() {
-		return 1;
+		return targetType.hashCode();
 	}
 }
