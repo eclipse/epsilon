@@ -101,7 +101,8 @@ public class ExecuteMigration extends AbstractObjectActionDelegate {
 		final MigrationModule migrator = new MigrationModule();
 	
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			migrator.execute(original, target).store();
+			migrator.execute(original, target);
+			target.store();
 		
 		} else {
 			printError("Error(s) encountered while parsing migration strategy:");

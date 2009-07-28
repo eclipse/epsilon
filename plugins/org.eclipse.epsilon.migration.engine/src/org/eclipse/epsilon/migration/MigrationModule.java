@@ -63,18 +63,12 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	// FIXME ! Could tidy up the return type of execute with a generic?
-
-	// TODO ! Do these methods really need to return the target model? Don't clients already have it?
-	
-	public IModel execute(IModel original, IModel target) throws MigrationExecutionException {
-		return execute(new MigrationContext(original, target));
+	public void execute(IModel original, IModel target) throws MigrationExecutionException {
+		execute(new MigrationContext(original, target));
 	}
 
-	public IModel execute(IMigrationContext context) throws MigrationExecutionException {
+	public void execute(IMigrationContext context) throws MigrationExecutionException {
 		new Migration(strategy, context).run();
-		
-		return context.getTargetModel();
 	}
 }
 

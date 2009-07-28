@@ -19,7 +19,7 @@ import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface IMigrationModule extends IEolLibraryModule {
 	
-	public IModel execute(IMigrationContext context) throws MigrationExecutionException;
+	public void execute(IMigrationContext context) throws MigrationExecutionException;
 	
-	public IModel execute(IModel original, IModel target) throws MigrationExecutionException;
+	public void execute(IModel original, IModel target) throws MigrationExecutionException;
 }

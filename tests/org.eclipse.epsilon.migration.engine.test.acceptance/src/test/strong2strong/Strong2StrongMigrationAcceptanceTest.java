@@ -49,8 +49,10 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
-					
-			migrated = new ModelWithEolAssertions((AbstractEmfModel)migrator.execute(original, target));
+			
+			migrator.execute(original, target);
+			
+			migrated = new ModelWithEolAssertions(target);
 			
 		} else {
 			for (ParseProblem problem : migrator.getParseProblems()) {
