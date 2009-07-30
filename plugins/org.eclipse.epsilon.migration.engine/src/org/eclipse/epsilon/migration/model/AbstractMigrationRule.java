@@ -13,6 +13,10 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+
 public abstract class AbstractMigrationRule implements MigrationRule {
 
 	protected final String targetType;
@@ -21,7 +25,27 @@ public abstract class AbstractMigrationRule implements MigrationRule {
 		this.targetType = targetType;
 	}
 	
-	public String getTargetType() {
-		return targetType;
+	ModelElement createTargetModelElement(IMigrationContext context) throws MigrationExecutionException {
+		return context.createTargetModelElement(targetType);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof AbstractMigrationRule))
+			return false;
+		
+		return equals(targetType, ((AbstractMigrationRule)other).targetType);
+	}
+	
+	@Override
+	public int hashCode() {
+		return targetType.hashCode();
+	}
+	
+	protected boolean equals(Object first, Object second) {
+		if (first == null)
+			return second == null;
+		else
+			return first.equals(second);
 	}
 }

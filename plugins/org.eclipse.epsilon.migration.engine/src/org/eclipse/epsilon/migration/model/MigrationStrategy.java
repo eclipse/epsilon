@@ -18,6 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.Equivalence;
+import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class MigrationStrategy {
@@ -46,16 +49,29 @@ public class MigrationStrategy {
 		return rules.size();
 	}
 	
-	public void migrate(Object original, Object target, IMigrationContext context) throws MigrationExecutionException {
-		ruleFor(original, context).migrate(original, target, context);
+	public Equivalences establishEquivalences(IMigrationContext context) throws MigrationExecutionException {
+		final Equivalences equivalences = new Equivalences();
+		
+		for (ModelElement original : context.getOriginalModelElements()) {
+			equivalences.add(createEquivalenceFor(original, context));
+		}
+		
+		return equivalences;
 	}
 	
-	public MigrationRule ruleFor(Object object, IMigrationContext context) {
+	private Equivalence createEquivalenceFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
+		final AbstractMigrationRule rule = ruleFor(original, context);
+		final ModelElement migrated      = rule.createTargetModelElement(context);
+		
+		return new Equivalence(original, migrated, rule);
+	}
+	
+	private AbstractMigrationRule ruleFor(ModelElement original, IMigrationContext context) {
 		for (ExecutableMigrationRule rule : rules) {
-			if (rule.appliesFor(object, context))
+			if (rule.appliesFor(original, context))
 				return rule;
 		}
 		
-		return new NoOpMigrationRule(context.typeNameOfOriginalModelElement(object));
+		return new NoOpMigrationRule(original.getTypeName());
 	}
 }

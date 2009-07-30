@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.Bike;
 import org.eclipse.epsilon.hutn.test.model.families.Family;
+import org.eclipse.epsilon.migration.emc.wrappers.CopyingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

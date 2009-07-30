@@ -13,12 +13,13 @@
  */
 package org.eclipse.epsilon.migration.execution;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Equivalences implements Iterable<Equivalence> {
+import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+
+public class Equivalences {
 
 	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
 	
@@ -26,35 +27,18 @@ public class Equivalences implements Iterable<Equivalence> {
 		equivalences.add(equivalence);
 	}
 	
-	public void clear() {
-		equivalences.clear();
-	}
-	
-	public Iterator<Equivalence> iterator() {
-		return equivalences.iterator();
-	}
-	
-	public boolean hasEquivalent(Object original) {
-		return getEquivalent(original) != null;
-	}
-	
-	public Object getEquivalent(Object original) {
+	public ModelElement getEquivalent(ModelElement original) {
 		for (Equivalence candidate : equivalences) {
 			if (candidate.getOriginal().equals(original))
-				return candidate.getCopy();
+				return candidate.getEquivalent();
 		}
 		
 		return null;
 	}
-	
-	public Collection<Object> getEquivalents(Collection<?> originals) {
-		final List<Object> equivalents = new LinkedList<Object>();
-		
-		for (Object original : originals) {
-			if (hasEquivalent(original))
-				equivalents.add(getEquivalent(original));
+
+	public void populateEachEquivalent(IMigrationContext context) throws MigrationExecutionException {
+		for (Equivalence equivalence : equivalences) {
+			equivalence.populateEquivalent(this, context);
 		}
-		
-		return equivalents;
 	}
 }

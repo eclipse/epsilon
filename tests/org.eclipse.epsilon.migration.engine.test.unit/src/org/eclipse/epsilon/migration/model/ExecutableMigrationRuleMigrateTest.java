@@ -47,7 +47,7 @@ public class ExecutableMigrationRuleMigrateTest {
 		
 		replay(context);
 		
-		rule.migrate(original, target, context);
+		rule.applyTo(original, target, context);
 		verify(context);
 	}
 

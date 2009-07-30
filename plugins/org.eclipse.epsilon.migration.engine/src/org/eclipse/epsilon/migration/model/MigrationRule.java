@@ -14,11 +14,10 @@
 package org.eclipse.epsilon.migration.model;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface MigrationRule {
 	
-	public String getTargetType();
-	
-	public void migrate(Object original, Object target, IMigrationContext context) throws MigrationExecutionException;
+	public void applyTo(ModelElement original, ModelElement target, IMigrationContext context) throws MigrationExecutionException;
 }

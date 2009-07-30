@@ -20,6 +20,7 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelB
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.hutn.test.model.families.Dog;
+import org.eclipse.epsilon.migration.emc.wrappers.CopyingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

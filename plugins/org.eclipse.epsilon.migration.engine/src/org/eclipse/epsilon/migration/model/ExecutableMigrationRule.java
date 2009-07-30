@@ -16,6 +16,7 @@ package org.eclipse.epsilon.migration.model;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class ExecutableMigrationRule extends AbstractMigrationRule implements MigrationRule {
@@ -32,15 +33,15 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		this.body         = body;
 	}
 	
-	public boolean appliesFor(Object object, IMigrationContext context) {
-		return isOfOriginalType(object, context) && satisfiesGuard(object, context);
+	public boolean appliesFor(ModelElement original, IMigrationContext context) {
+		return isOfOriginalType(original) && satisfiesGuard(original, context);
 	}
 	
-	private boolean isOfOriginalType(Object object, IMigrationContext context) {
-		return originalType.equals(context.typeNameOfOriginalModelElement(object));
+	private boolean isOfOriginalType(ModelElement original) {
+		return originalType.equals(original.getTypeName());
 	}
 
-	private boolean satisfiesGuard(Object object, IMigrationContext context) {
+	private boolean satisfiesGuard(ModelElement object, IMigrationContext context) {
 		if (guard == null)
 			return true;
 		
@@ -48,19 +49,18 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 	}
 	
 
-	public void migrate(Object original, Object target, IMigrationContext context) throws MigrationExecutionException {
+	public void applyTo(ModelElement original, ModelElement target, IMigrationContext context) throws MigrationExecutionException {
 		context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
 		
 	}
 	
-	private Variable createOriginalVariable(Object object) {
-		return Variable.createReadOnlyVariable("original", object);
+	private Variable createOriginalVariable(ModelElement original) {
+		return original.createReadOnlyVariable("original");
 	}
 	
-	private Variable createTargetVariable(Object target) {
-		return Variable.createReadOnlyVariable("target", target);
+	private Variable createTargetVariable(ModelElement target) {
+		return target.createReadOnlyVariable("target");
 	}
-	
 	
 	@Override
 	public String toString() {
@@ -74,16 +74,17 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		
 		final ExecutableMigrationRule other = (ExecutableMigrationRule)object;
 		
-		return equals(originalType, other.originalType) &&
-		       equals(targetType,   other.targetType)   &&
+		return super.equals(other) &&
+		       equals(originalType, other.originalType) &&
 		       equals(guard,        other.guard)        &&
 		       equals(body,         other.body);
 	}
 	
-	private boolean equals(Object first, Object second) {
-		if (first == null)
-			return second == null;
-		else
-			return first.equals(second);
+	@Override
+	public int hashCode() {
+		return super.hashCode()        + 
+		       originalType.hashCode() + 
+		       guard.hashCode()        + 
+		       body.hashCode();
 	}
 }

@@ -25,9 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MigrationStrategyTest {
-	
-	private final IMigrationContext context = new FakeMigrationContext();
-	
+		
 	private final ExecutableMigrationRule personRule              = new ExecutableMigrationRule("Person", null, null, null);
 	private final ExecutableMigrationRule personToSalespersonRule = new ExecutableMigrationRule("Person", "Salesperson", null, null);
 	

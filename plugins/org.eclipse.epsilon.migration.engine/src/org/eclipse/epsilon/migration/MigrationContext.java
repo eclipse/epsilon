@@ -13,28 +13,28 @@
  */
 package org.eclipse.epsilon.migration;
 
-import java.util.Collection;
-
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
+import org.eclipse.epsilon.migration.emc.wrappers.Model;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
-	protected final IModel originalModel;
-	protected final IModel targetModel;
+	protected final Model originalModel;
+	protected final Model targetModel;
 		
 	public MigrationContext() {
 		this(null, null);
 	}
 	
 	public MigrationContext(IModel original, IModel target) {
-		this.originalModel = original;
-		this.targetModel   = target;
+		this.originalModel = new Model(original);
+		this.targetModel   = new Model(target);
 		
 		addModel(original);
 		addModel(target);
@@ -43,31 +43,6 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	private void addModel(IModel model) {
 		if (model != null)
 			getModelRepository().addModel(model);
-	}
-	
-	public IModel getOriginalModel() {
-		return originalModel;
-	}
-	
-	public IModel getTargetModel() {
-		return targetModel;
-	}
-	
-	public Collection<?> getOriginalModelElements() {
-		return originalModel.allContents();
-	}
-	
-	public String typeNameOfOriginalModelElement(Object original) {
-		return originalModel.getTypeNameOf(original);
-	}
-	
-	public Object createTargetModelElement(String type) throws MigrationExecutionException {
-		try {
-			return targetModel.createInstance(type);
-		
-		} catch (EolRuntimeException e) {
-			throw new MigrationExecutionException("Could not create a target model element of type: " + type, e);
-		}
 	}
 	
 	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException {
@@ -93,5 +68,18 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		leaveFrame(guard);
 		
 		return guardSatisfied.booleanValue();
+	}
+	
+	public Iterable<ModelElement> getOriginalModelElements() {
+		return originalModel.allContents();
+	}
+	
+	public ModelElement createTargetModelElement(String type) throws MigrationExecutionException {
+		try {
+			return targetModel.createInstance(type);
+		
+		} catch (EolRuntimeException e) {
+			throw new MigrationExecutionException("Could not create a target model element of type: " + type, e);
+		}
 	}
 }

@@ -22,7 +22,6 @@ import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.migration.execution.Migration;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoader;
@@ -68,7 +67,8 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 	}
 
 	public void execute(IMigrationContext context) throws MigrationExecutionException {
-		new Migration(strategy, context).run();
+		reset();
+		strategy.establishEquivalences(context).populateEachEquivalent(context);
 	}
 }
 

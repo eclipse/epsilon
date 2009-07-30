@@ -13,28 +13,38 @@
  */
 package org.eclipse.epsilon.migration.execution;
 
+import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 
 public class Equivalence {
 	
-	private final Object original;
-	private final Object copy;
+	private final ModelElement original;
+	private final ModelElement equivalent;
+	private final MigrationRule migrationRule;
 	
-	public Equivalence(Object original, Object copy) {
-		this.original = original;
-		this.copy     = copy;
+	public Equivalence(ModelElement original, ModelElement equivalent, MigrationRule migrationRule) {
+		this.original      = original;
+		this.equivalent    = equivalent;
+		this.migrationRule = migrationRule;
 	}
 	
-	public Object getOriginal() {
+	ModelElement getOriginal() {
 		return original;
 	}
 
-	public Object getCopy() {
-		return copy;
+	ModelElement getEquivalent() {
+		return equivalent;
 	}
 
+	void populateEquivalent(Equivalences equivalences, IMigrationContext context) throws MigrationExecutionException {
+		equivalent.conservativelyCopyPropertiesFrom(original, equivalences);
+		migrationRule.applyTo(original, equivalent, context);
+	}
+	
 	@Override
 	public String toString() {
-		return original + " <-> " + copy;
+		return original + " <-> " + equivalent + " via " + migrationRule;
 	}
 	
 	@Override
@@ -45,11 +55,12 @@ public class Equivalence {
 		final Equivalence other = (Equivalence)obj;
 		
 		return original.equals(other.original) &&
-		       copy.equals(other.copy);
+		       equivalent.equals(other.equivalent) &&
+		       migrationRule.equals(other.migrationRule);
 	}
 	
 	@Override
 	public int hashCode() {
-		return original.hashCode() + copy.hashCode();
+		return original.hashCode() + equivalent.hashCode() + migrationRule.hashCode();
 	}
 }

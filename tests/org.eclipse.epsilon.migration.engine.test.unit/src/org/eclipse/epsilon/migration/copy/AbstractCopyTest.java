@@ -27,8 +27,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
+import org.eclipse.epsilon.migration.emc.wrappers.CopyingException;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.Equivalence;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.model.NoOpMigrationRule;
 import org.junit.Test;
 
 public abstract class AbstractCopyTest {
@@ -38,16 +41,10 @@ public abstract class AbstractCopyTest {
 	protected static Equivalences equivalences = new Equivalences();
 	protected static Object copy;
 	
-	private static Copier createCopier(EPackage targetMetamodel, EObject original) {
-		final AbstractEmfModel originalModel = new InMemoryEmfModel("target", EmfUtil.createResource(original), FamiliesPackage.eINSTANCE);
-		
-		return new Copier(originalModel, targetModel, equivalences);
-	}
-	
 	protected static Object addEquivalence(EPackage targetMetamodel, Object original, EClass targetType) {
 		final Object target = targetMetamodel.getEFactoryInstance().create(targetType);
 		
-		equivalences.add(new Equivalence(original, target));
+		equivalences.add(new Equivalence(original, target, new NoOpMigrationRule(targetType.getName())));
 		
 		return target;
 	}
@@ -58,7 +55,9 @@ public abstract class AbstractCopyTest {
 		
 		copy = targetModel.createInstance(targetType);
 		
-		createCopier(targetMetamodel, original).copy(original, copy);
+		final AbstractEmfModel originalModel = new InMemoryEmfModel("original", EmfUtil.createResource(original), FamiliesPackage.eINSTANCE);
+		
+		new Copier(originalModel, targetModel, equivalences).copy(new ModelElement(originalModel, original), new ModelElement(targetModel, copy));
 		equivalences.clear();
 	}
 	
