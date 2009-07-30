@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.test.model.factories;
 
+import org.eclipse.epsilon.hutn.test.model.families.District;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
 import org.eclipse.epsilon.hutn.test.model.families.Family;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
@@ -61,6 +62,12 @@ public abstract class FamilyFactory {
 			family.getMembers().add(member);
 		}
 		
+		return family;
+	}
+	
+	public static Family createFamily(District district) {
+		final Family family = createFamily();
+		family.setDistrict(district);
 		return family;
 	}
 }

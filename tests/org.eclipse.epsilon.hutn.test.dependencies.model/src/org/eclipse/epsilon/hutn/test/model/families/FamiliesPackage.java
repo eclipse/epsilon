@@ -463,13 +463,22 @@ public interface FamiliesPackage extends EPackage {
 	int BIKE__RIDER = 0;
 
 	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIKE__OWNER = 1;
+
+	/**
 	 * The number of structural features of the '<em>Bike</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BIKE_FEATURE_COUNT = 1;
+	int BIKE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.
@@ -816,6 +825,17 @@ public interface FamiliesPackage extends EPackage {
 	EReference getBike_Rider();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.epsilon.hutn.test.model.families.Bike#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Owner</em>'.
+	 * @see org.eclipse.epsilon.hutn.test.model.families.Bike#getOwner()
+	 * @see #getBike()
+	 * @generated
+	 */
+	EReference getBike_Owner();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1110,6 +1130,14 @@ public interface FamiliesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BIKE__RIDER = eINSTANCE.getBike_Rider();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BIKE__OWNER = eINSTANCE.getBike_Owner();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.hutn.test.model.families.DogBreed <em>Dog Breed</em>}' enum.

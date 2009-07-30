@@ -457,6 +457,15 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBike_Owner() {
+		return (EReference)bikeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDogBreed() {
 		return dogBreedEEnum;
 	}
@@ -527,6 +536,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 
 		bikeEClass = createEClass(BIKE);
 		createEReference(bikeEClass, BIKE__RIDER);
+		createEReference(bikeEClass, BIKE__OWNER);
 
 		// Create enums
 		dogBreedEEnum = createEEnum(DOG_BREED);
@@ -607,6 +617,7 @@ public class FamiliesPackageImpl extends EPackageImpl implements FamiliesPackage
 
 		initEClass(bikeEClass, Bike.class, "Bike", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBike_Rider(), this.getPerson(), null, "rider", null, 0, 1, Bike.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBike_Owner(), this.getFamily(), null, "owner", null, 0, 1, Bike.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(dogBreedEEnum, DogBreed.class, "DogBreed");

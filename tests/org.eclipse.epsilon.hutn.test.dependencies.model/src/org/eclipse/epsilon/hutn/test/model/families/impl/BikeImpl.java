@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.epsilon.hutn.test.model.families.Bike;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
+import org.eclipse.epsilon.hutn.test.model.families.Family;
 import org.eclipse.epsilon.hutn.test.model.families.Person;
 
 /**
@@ -34,6 +35,7 @@ import org.eclipse.epsilon.hutn.test.model.families.Person;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl#getRider <em>Rider</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.test.model.families.impl.BikeImpl#getOwner <em>Owner</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,6 +51,16 @@ public class BikeImpl extends EObjectImpl implements Bike {
 	 * @ordered
 	 */
 	protected Person rider;
+
+	/**
+	 * The cached value of the '{@link #getOwner() <em>Owner</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOwner()
+	 * @generated
+	 * @ordered
+	 */
+	protected Family owner;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,6 +129,44 @@ public class BikeImpl extends EObjectImpl implements Bike {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Family getOwner() {
+		if (owner != null && owner.eIsProxy()) {
+			InternalEObject oldOwner = (InternalEObject)owner;
+			owner = (Family)eResolveProxy(oldOwner);
+			if (owner != oldOwner) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FamiliesPackage.BIKE__OWNER, oldOwner, owner));
+			}
+		}
+		return owner;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Family basicGetOwner() {
+		return owner;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOwner(Family newOwner) {
+		Family oldOwner = owner;
+		owner = newOwner;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FamiliesPackage.BIKE__OWNER, oldOwner, owner));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -136,6 +186,9 @@ public class BikeImpl extends EObjectImpl implements Bike {
 		switch (featureID) {
 			case FamiliesPackage.BIKE__RIDER:
 				return getRider();
+			case FamiliesPackage.BIKE__OWNER:
+				if (resolve) return getOwner();
+				return basicGetOwner();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -150,6 +203,9 @@ public class BikeImpl extends EObjectImpl implements Bike {
 		switch (featureID) {
 			case FamiliesPackage.BIKE__RIDER:
 				setRider((Person)newValue);
+				return;
+			case FamiliesPackage.BIKE__OWNER:
+				setOwner((Family)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -166,6 +222,9 @@ public class BikeImpl extends EObjectImpl implements Bike {
 			case FamiliesPackage.BIKE__RIDER:
 				setRider((Person)null);
 				return;
+			case FamiliesPackage.BIKE__OWNER:
+				setOwner((Family)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,6 +239,8 @@ public class BikeImpl extends EObjectImpl implements Bike {
 		switch (featureID) {
 			case FamiliesPackage.BIKE__RIDER:
 				return rider != null;
+			case FamiliesPackage.BIKE__OWNER:
+				return owner != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -13,32 +13,14 @@
  */
 package org.eclipse.epsilon.hutn.test.model.factories;
 
-import org.eclipse.epsilon.hutn.test.model.families.Bike;
+import org.eclipse.epsilon.hutn.test.model.families.District;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
-import org.eclipse.epsilon.hutn.test.model.families.Family;
-import org.eclipse.epsilon.hutn.test.model.families.Person;
 
-public abstract class BikeFactory {
+public abstract class DistrictFactory {
 
-	private BikeFactory() {}
+	private DistrictFactory() {}
 	
-	public static Bike createBike() {
-		return FamiliesFactory.eINSTANCE.createBike();
-	}
-	
-	public static Bike createBike(Person rider) {
-		final Bike bike = createBike();
-		
-		bike.setRider(rider);
-		
-		return bike;
-	}
-	
-	public static Bike createBike(Family owner) {
-		final Bike bike = createBike();
-		
-		bike.setOwner(owner);
-		
-		return bike;
+	public static District createDistrict() {
+		return FamiliesFactory.eINSTANCE.createDistrict();
 	}
 }

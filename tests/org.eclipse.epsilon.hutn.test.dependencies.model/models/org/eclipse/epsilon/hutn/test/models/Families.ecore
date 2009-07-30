@@ -59,5 +59,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Bike">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rider" eType="#//Person"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Family"/>
   </eClassifiers>
 </ecore:EPackage>
