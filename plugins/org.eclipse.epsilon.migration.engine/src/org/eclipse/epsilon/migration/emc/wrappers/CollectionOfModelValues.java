@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.migration.emc.wrappers;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,23 +26,15 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 
 	private final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
 	
-	CollectionOfModelValues(Model model, EolCollection underlyingModelObjects) {
-		super(model, underlyingModelObjects);
-		
-		wrapValues(underlyingModelObjects);
-	}
-	
-	private CollectionOfModelValues(Model model, Collection<ModelValue<?>> wrappedValues) {
-		super(model, null);
+	CollectionOfModelValues(Model model, Collection<ModelValue<?>> wrappedValues) {
 		modelValues.addAll(wrappedValues);
 	}
-
-	private void wrapValues(EolCollection underlyingModelObjects) {
-		for (Object underlyingModelObject : underlyingModelObjects.getStorage()) {
-			modelValues.add(model.wrapValue(underlyingModelObject));
-		}
+	
+	CollectionOfModelValues(Model model, ModelValue<?>... wrappedValues) {
+		this(model, Arrays.asList(wrappedValues));
 	}
 	
+	@Override
 	CollectionOfModelValues getEquivalentIn(Model model, Equivalences equivalences) throws CopyingException {
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
@@ -65,6 +58,19 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 
 	public Iterator<ModelValue<?>> iterator() {
 		return modelValues.iterator();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof CollectionOfModelValues))
+			return false;
+		
+		return modelValues.equals(((CollectionOfModelValues)o).modelValues);
+	}
+
+	@Override
+	public int hashCode() {
+		return modelValues.hashCode();
 	}
 	
 	@Override

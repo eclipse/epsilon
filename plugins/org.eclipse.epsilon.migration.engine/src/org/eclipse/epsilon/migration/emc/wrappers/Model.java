@@ -22,80 +22,73 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 public class Model {
 	
 	private final IModel underlyingModel;
+	private final ModelValueWrapper wrapper;
 	
 	public Model(IModel underlyingModel) {
 		this.underlyingModel = underlyingModel;
+		this.wrapper         = new ModelValueWrapper(this);
 	}
-
-	ModelValue<?> wrapValue(Object value) {
-		if (value instanceof ModelValue<?>) {
-			return (ModelValue<?>)value;
-		
-		} else if (value instanceof Enumerator) {
-			return new EnumValue(this, (Enumerator)value);
-			
-		} else if (underlyingModel.isModelElement(value)) {
-			return toModelElement(value);
-		
-		} else if(value instanceof EolCollection) {
-			return new CollectionOfModelValues(this, ((EolCollection)value));  
-		
-		} else {
-			return new AttributeValue(this, value);
-		}
+	
+	// Used by tests
+	Model(IModel underlyingModel, ModelValueWrapper wrapper) {
+		this.underlyingModel = underlyingModel;
+		this.wrapper         = wrapper;
 	}
 	
 	public ModelElement createInstance(String typeName) throws EolRuntimeException {
-		return toModelElement(underlyingModel.createInstance(typeName));
+		return wrapModelElement(underlyingModel.createInstance(typeName));
 	}
 	
 	public Iterable<ModelElement> allContents() {
 		final Collection<ModelElement> modelElements = new LinkedList<ModelElement>();
 		
 		for (Object unwrappedModelElement : underlyingModel.allContents()) {
-			modelElements.add(toModelElement(unwrappedModelElement));
+			modelElements.add(wrapModelElement(unwrappedModelElement));
 		}
 		
 		return modelElements;
 	}
 	
-	private ModelElement toModelElement(Object object) {
-		if (!underlyingModel.isModelElement(object)) 
-			throw new IllegalArgumentException("Object is not an element of this model: " + object);
-		
-		return new ModelElement(this, object);
+	ModelValue<?> wrapValue(Object value) {
+		return wrapper.wrapValue(value);
 	}
 	
+	private ModelElement wrapModelElement(Object object) {
+		return wrapper.wrapModelElement(object);
+	}
+	
+	boolean isModelElement(Object object) {
+		return underlyingModel.isModelElement(object);
+	}
 
-	public String getTypeNameOf(Object instance) {
+	String getTypeNameOf(Object instance) {
 		return underlyingModel.getTypeNameOf(instance);
 	}
 	
-	public boolean knowsAboutProperty(Object instance, String property) {
+	boolean knowsAboutProperty(Object instance, String property) {
 		return underlyingModel.knowsAboutProperty(instance, property);
 	}
 
-	public Collection<String> getPropertiesOf(Object instance) {
-		return underlyingModel.getPropertiesOf(instance);
+	Collection<String> getPropertiesOf(Object underlyingModelElement) {
+		return underlyingModel.getPropertiesOf(underlyingModelElement);
 	}
 
-	public ModelValue<?> getValueOfProperty(Object underlyingModelObject, String property) throws EolRuntimeException {
-		return wrapValue(underlyingModel.getPropertyGetter().invoke(underlyingModelObject, property));
+	ModelValue<?> getValueOfProperty(Object underlyingModelElement, String property) throws EolRuntimeException {
+		return wrapper.wrapValue(underlyingModel.getPropertyGetter().invoke(underlyingModelElement, property));
 	}
 
-	public void setValueOfProperty(Object underlyingModelObject, String property, ModelValue<?> value) throws EolRuntimeException {
+	void setValueOfProperty(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
 		final IPropertySetter setter = underlyingModel.getPropertySetter();
-		setter.setObject(underlyingModelObject);
+		setter.setObject(underlyingModelElement);
 		setter.setProperty(property);
 		setter.invoke(value.unwrap());
 	}
 
-	public Enumerator getEquivalent(Enumerator original) throws EolEnumerationValueNotFoundException {
+	Enumerator getEquivalent(Enumerator original) throws EolEnumerationValueNotFoundException {
 		final String enumeration;
 		
 		if (original instanceof EEnumLiteral) {

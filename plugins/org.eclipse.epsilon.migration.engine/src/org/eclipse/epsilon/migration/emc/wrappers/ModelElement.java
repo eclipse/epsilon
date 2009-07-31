@@ -14,11 +14,12 @@
 package org.eclipse.epsilon.migration.emc.wrappers;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.migration.execution.Equivalences;
 
-public class ModelElement extends AttributeValue {
+public class ModelElement extends BackedModelValue<Object> {
 	
 	ModelElement(Model model, Object underlyingModelElement) {
 		super(model, underlyingModelElement);
@@ -35,27 +36,29 @@ public class ModelElement extends AttributeValue {
 	
 	public void conservativelyCopyPropertiesFrom(ModelElement original, Equivalences equivalences) throws CopyingException {
 		try {
-			for (String propertyName : original.getProperties()) {
-				if (this.knowsAboutProperty(propertyName)) {
-					final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
-					
-					this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, equivalences));
-				}	
+			for (String propertyName : getPropertiesSharedWith(original)) {
+				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
+				
+				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, equivalences));
 			}
 		} catch (EolRuntimeException e) {
 			throw new CopyingException("Exception encountered while reading or writing a property value.", e);
 		}
 	}
+	
+	Collection<String> getPropertiesSharedWith(ModelElement other) {
+		final Collection<String> filteredProperties = new LinkedList<String>(other.getProperties());
+		
+		filteredProperties.retainAll(getProperties());
+	
+		return filteredProperties;
+	}
 
-	private Collection<String> getProperties() {
+	Collection<String> getProperties() {
 		return model.getPropertiesOf(underlyingModelObject);
 	}
 	
-	private boolean knowsAboutProperty(String property) {
-		return model.knowsAboutProperty(underlyingModelObject, property);
-	}
-	
-	private ModelValue<?> getValueOfProperty(String property) throws EolRuntimeException {
+	ModelValue<?> getValueOfProperty(String property) throws EolRuntimeException {
 		return model.getValueOfProperty(underlyingModelObject, property);
 	}
 	

@@ -16,16 +16,23 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.migration.emc.wrappers.AttributeValueTests;
+import org.eclipse.epsilon.migration.emc.wrappers.CollectionOfModelValuesTests;
+import org.eclipse.epsilon.migration.emc.wrappers.EnumValueTests;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelElementTests;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelTests;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelValueWrapperTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ParserSuite.class, DomainModelSuite.class,
-               EmcWrappersSuite.class,
-               FrontEndSuite.class})
-public class EpsilonMigrationLanguageUnitTestSuite {
+@SuiteClasses({ModelTests.class, ModelValueWrapperTests.class,
+               AttributeValueTests.class, EnumValueTests.class,
+               CollectionOfModelValuesTests.class,
+               ModelElementTests.class})
+public class EmcWrappersSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonMigrationLanguageUnitTestSuite.class);
+		return new JUnit4TestAdapter(EmcWrappersSuite.class);
 	}
 }

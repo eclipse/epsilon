@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.migration.execution.Equivalences;
 
-class EnumValue extends ModelValue<Enumerator> {
+class EnumValue extends BackedModelValue<Enumerator> {
 
 	EnumValue(Model model, Enumerator underlyingModelObject) {
 		super(model, underlyingModelObject);

@@ -18,45 +18,20 @@ import org.eclipse.epsilon.migration.execution.Equivalences;
 
 public abstract class ModelValue<UnwrappedType> {
 
-	protected final Model model;
-	protected final UnwrappedType underlyingModelObject;
-	
-	protected ModelValue(Model model, UnwrappedType underlyingModelObject) {
-		this.model                 = model;
-		this.underlyingModelObject = underlyingModelObject;
-	}
-
 	public Variable createReadOnlyVariable(String name) {
 		return Variable.createReadOnlyVariable(name, unwrap());
 	}
-	
-	UnwrappedType unwrap() {
-		return underlyingModelObject;
-	}
+
+	abstract UnwrappedType unwrap();
 	
 	abstract ModelValue<UnwrappedType> getEquivalentIn(Model model, Equivalences equivalences) throws CopyingException;
 	
 	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof ModelValue<?>))
-			return false;
-		
-		final ModelValue<?> other = (ModelValue<?>)o;
-		
-		return model.equals(other.model) &&
-		       underlyingModelObject == null ? 
-		       	other.underlyingModelObject == null : 
-		       	underlyingModelObject.equals(other.underlyingModelObject);
-	}
-	
+	public abstract boolean equals(Object o);
+
 	@Override
-	public int hashCode() {
-		return model.hashCode() + 
-		       (underlyingModelObject == null ? 0 : underlyingModelObject.hashCode());
-	}
-	
+	public abstract int hashCode();
+
 	@Override
-	public String toString() {
-		return "<" + underlyingModelObject + ">";
-	}
+	public abstract String toString();
 }

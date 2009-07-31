@@ -15,7 +15,7 @@ package org.eclipse.epsilon.migration.emc.wrappers;
 
 import org.eclipse.epsilon.migration.execution.Equivalences;
 
-class AttributeValue extends ModelValue<Object> {
+class AttributeValue extends BackedModelValue<Object> {
 
 	AttributeValue(Model model, Object underlyingModelObject) {
 		super(model, underlyingModelObject);
