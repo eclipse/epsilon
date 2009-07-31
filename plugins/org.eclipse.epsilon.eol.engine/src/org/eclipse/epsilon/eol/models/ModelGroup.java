@@ -78,14 +78,6 @@ public class ModelGroup extends Model {
 		}
 		return allContents;
 	}
-	
-	public Collection<Object> contents() {
-		final List<Object> contents = new ArrayList<Object>();
-		for (IModel model : models) {
-			contents.addAll(model.contents());
-		}
-		return contents;
-	}
 
 	public Object getTypeOf(Object instance) {
 		for (IModel model : models) {

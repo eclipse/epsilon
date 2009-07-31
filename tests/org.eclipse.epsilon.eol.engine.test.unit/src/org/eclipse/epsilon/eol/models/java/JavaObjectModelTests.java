@@ -34,12 +34,6 @@ public class JavaObjectModelTests {
 	}
 	
 	@Test
-	public void contentsReturnsBothModelElements() {
-		assertTrue(javaObjectModel.contents().contains(string));
-		assertTrue(javaObjectModel.contents().contains(integer));
-	}
-	
-	@Test
 	public void getTypeNameOf() {
 		assertEquals("java.lang.String",                      javaObjectModel.getTypeNameOf(string));
 		assertEquals("org.eclipse.emf.ecore.impl.EClassImpl", javaObjectModel.getTypeNameOf(EcoreFactory.eINSTANCE.createEClass()));

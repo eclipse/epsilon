@@ -26,11 +26,6 @@ public class EmptyModelTests {
 		assertEquals(0, empty.allContents().size());
 	}
 	
-	@Test
-	public void containsNoTopLevelObjects() {
-		assertEquals(0, empty.contents().size());
-	}
-	
 	@Test(expected=UnsupportedOperationException.class)
 	public void exceptionForGetTypeNameOf() {
 		empty.getTypeNameOf("foo");

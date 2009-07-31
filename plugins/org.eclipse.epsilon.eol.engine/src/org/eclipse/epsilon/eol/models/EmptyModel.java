@@ -105,10 +105,6 @@ public class EmptyModel extends Model{
 	public Collection<?> allContents() {
 		return Collections.EMPTY_LIST;
 	}
-	
-	public Collection<?> contents() {
-		return Collections.EMPTY_LIST;
-	}
 
 	public boolean isInstantiable(String metaClass) {
 		return false;

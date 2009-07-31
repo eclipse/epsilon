@@ -58,10 +58,6 @@ public class JavaObjectModel extends Model{
 	public Collection<Object> allContents() {
 		return contents;
 	}
-	
-	public Collection<?> contents() {
-		return allContents();
-	}
 
 	public List<String> getImportedPackages() {
 		return importedPackages;

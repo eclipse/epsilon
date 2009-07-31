@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.eol.models;
 
-import static org.easymock.classextension.EasyMock.expect;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -21,7 +21,6 @@ import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.emf.ecore.EObject;
@@ -70,21 +69,6 @@ public class ModelGroupTests {
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		assertEquals(Arrays.asList(pkg, cls), group.allContents());
-		verify(first, second);
-	}
-	
-	
-	@Test
-	public void contentsDelegatesToGroupedModels() throws EolModelNotFoundException {		
-		final EObject pkg = EcoreFactory.eINSTANCE.createEPackage();
-		
-		expect(first.contents()) .andReturn(Arrays.asList(pkg));		
-		expect(second.contents()).andReturn(new ArrayList<EObject>());
-		
-		replay(first, second);
-		
-		final ModelGroup group = new ModelGroup(repository, "Ecore");
-		assertEquals(Arrays.asList(pkg), group.contents());
 		verify(first, second);
 	}
 	

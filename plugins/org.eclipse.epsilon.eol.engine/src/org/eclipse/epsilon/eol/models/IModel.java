@@ -45,14 +45,6 @@ public interface IModel {
 	 */
 	public Collection<?> allContents();
 	
-	/**
-	 * Returns a collection containing all of the top-level objects 
-	 * contained in this model.
-	 * 
-	 * @return all of the top-level objects contained in this model.
-	 */
-	public Collection<?> contents();
-	
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException;
 	
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException;

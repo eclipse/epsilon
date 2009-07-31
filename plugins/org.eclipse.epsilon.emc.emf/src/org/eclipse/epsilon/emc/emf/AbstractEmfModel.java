@@ -293,10 +293,6 @@ public abstract class AbstractEmfModel extends Model{
 		
 	}
 	
-	public Collection<EObject> contents() {
-		return modelImpl.getContents();
-	}
-	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		
 		EClass eClass = classForName(type);

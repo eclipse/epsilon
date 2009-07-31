@@ -150,19 +150,6 @@ public class CompositeModel extends Model {
 		
 		return all;
 	}
-	
-	public Collection<?> contents() {
-		
-		final Collection<Object> contents = new ArrayList<Object>();
-		
-		for (IModel m : models) {
-			contents.addAll(m.contents());
-		}
-		
-		removeDuplicates(contents);
-		
-		return contents;
-	}
 
 	public Object createInstance(String type)
 			throws EolModelElementTypeNotFoundException,

@@ -52,10 +52,6 @@ public class JavaModel extends Model {
 		return objects;
 	}
 	
-	public Collection<Object> contents() {
-		return allContents();
-	}
-	
 	public Class classForName(String name) {
 		for (Class c : classes) {
 			if (c.getSimpleName().equals(name) || c.getCanonicalName().replaceAll("::", ".").equals(name)) {

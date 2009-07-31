@@ -30,11 +30,6 @@ public class JavaModelTests {
 	public void allContentsReturnsBothModelElements() {
 		assertEquals(Arrays.asList(string, integer), javaModel.allContents());
 	}
-
-	@Test
-	public void contentsReturnsBothModelElements() {
-		assertEquals(Arrays.asList(string, integer), javaModel.contents());
-	}
 	
 	@Test
 	public void getTypeNameOf() {

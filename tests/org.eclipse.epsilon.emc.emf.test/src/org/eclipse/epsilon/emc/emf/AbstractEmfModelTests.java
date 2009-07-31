@@ -17,14 +17,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 public class AbstractEmfModelTests {
@@ -37,20 +32,8 @@ public class AbstractEmfModelTests {
 	public static void setup() {
 		pkg = EcoreFactory.eINSTANCE.createEPackage();
 		cls = EcoreFactory.eINSTANCE.createEClass();
-		
-		pkg.getEClassifiers().add(cls);
 	
 		emfModel = new InMemoryEmfModel(EmfUtil.createResource(pkg));
-	}
-	
-	@Test
-	public void allContentsReturnsBothModelElements() {
-		assertEquals(Arrays.asList(pkg, cls), emfModel.allContents());
-	}
-
-	@Test
-	public void contentsReturnsOnlyTopLevelModelElement() {
-		assertEquals(Arrays.asList(pkg), emfModel.contents());
 	}
 	
 	@Test

@@ -57,10 +57,6 @@ public class ModelReference implements IModel{
 	public Collection<?> allContents() {
 		return target.allContents();
 	}
-	
-	public Collection<?> contents() {
-		return target.contents();
-	}
 
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return target.createInstance(type);
