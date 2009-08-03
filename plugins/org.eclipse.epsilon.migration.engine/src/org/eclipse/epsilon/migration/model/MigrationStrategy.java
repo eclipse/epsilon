@@ -41,14 +41,6 @@ public class MigrationStrategy {
 		this.rules.addAll(Arrays.asList(rules));
 	}
 	
-	public ExecutableMigrationRule getRule(int index) {
-		return rules.get(index);
-	}
-	
-	public int numberOfRules() {
-		return rules.size();
-	}
-	
 	public Equivalences establishEquivalences(IMigrationContext context) throws MigrationExecutionException {
 		final Equivalences equivalences = new Equivalences();
 		
@@ -59,14 +51,14 @@ public class MigrationStrategy {
 		return equivalences;
 	}
 	
-	private Equivalence createEquivalenceFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
+	Equivalence createEquivalenceFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
 		final AbstractMigrationRule rule = ruleFor(original, context);
 		final ModelElement migrated      = rule.createTargetModelElement(context);
 		
 		return new Equivalence(original, migrated, rule);
 	}
 	
-	private AbstractMigrationRule ruleFor(ModelElement original, IMigrationContext context) {
+	AbstractMigrationRule ruleFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
 		for (ExecutableMigrationRule rule : rules) {
 			if (rule.appliesFor(original, context))
 				return rule;

@@ -33,15 +33,15 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		this.body         = body;
 	}
 	
-	public boolean appliesFor(ModelElement original, IMigrationContext context) {
+	public boolean appliesFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
 		return isOfOriginalType(original) && satisfiesGuard(original, context);
 	}
 	
-	private boolean isOfOriginalType(ModelElement original) {
+	boolean isOfOriginalType(ModelElement original) {
 		return originalType.equals(original.getTypeName());
 	}
 
-	private boolean satisfiesGuard(ModelElement object, IMigrationContext context) {
+	boolean satisfiesGuard(ModelElement object, IMigrationContext context) throws MigrationExecutionException {
 		if (guard == null)
 			return true;
 		

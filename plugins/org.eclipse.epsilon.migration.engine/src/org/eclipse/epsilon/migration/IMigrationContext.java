@@ -23,7 +23,7 @@ public interface IMigrationContext extends IEolContext {
 
 	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException;
 
-	public boolean executeGuard(AST guard, Variable originalVar);
+	public boolean executeGuard(AST guard, Variable originalVar) throws MigrationExecutionException;
 	
 	public Iterable<ModelElement> getOriginalModelElements();
 
