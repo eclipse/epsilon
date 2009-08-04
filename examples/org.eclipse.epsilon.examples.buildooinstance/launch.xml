@@ -1,0 +1,34 @@
+<?xml version="1.0"?> 
+
+<!--
+	The following build script illustrates how to launch the example via ANT.
+	Ensure that External Tools Configuration specifies that the JRE to be used
+	is the same as the workspace.
+		1) Click External Tools Configuration... from the External Tools dropdown.
+		2) Select the ANT build for this build script.
+		3) Click the JRE tab.
+		4) Select the option that reads: "Run in the same JRE as the workspace."
+		5) Click Apply.
+		6) Click Run.
+-->
+
+<project default="main">
+
+ 	<target name="loadModels">
+ 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/OO.ecore"/>
+ 		 		
+ 		<epsilon.loadModel name="OO" type="EMF">
+			<parameter name="modelFile" file="models/OOInstance.model"/>
+			<parameter name="metamodelUri" value="OO"/>
+			<parameter name="readOnLoad" value="false"/>
+			<parameter name="storeOnDisposal" value="true"/>
+		</epsilon.loadModel>
+ 	</target>
+ 	
+	<target name="main" depends="loadModels">		
+		<epsilon.eol src="BuildOOInstance.eol">
+			<model ref="OO"/>
+		</epsilon.eol>
+	</target>
+</project>
+
