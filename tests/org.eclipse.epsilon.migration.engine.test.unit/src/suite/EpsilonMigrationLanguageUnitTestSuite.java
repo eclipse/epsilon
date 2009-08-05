@@ -23,8 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ParserSuite.class, DomainModelSuite.class,
                EmcWrappersSuite.class,
-               ExecutionSuite.class,
-               FrontEndSuite.class})
+               ExecutionSuite.class})
 public class EpsilonMigrationLanguageUnitTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonMigrationLanguageUnitTestSuite.class);
