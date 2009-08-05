@@ -19,7 +19,7 @@ import org.junit.Test;
 public class Simple extends Strong2WeakMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	target.notAFeature := original.name;" +
+	                                       "	migrated.notAFeature := original.name;" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +

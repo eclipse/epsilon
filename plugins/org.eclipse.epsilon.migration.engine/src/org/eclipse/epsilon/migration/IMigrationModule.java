@@ -21,5 +21,5 @@ public interface IMigrationModule extends IEolLibraryModule {
 	
 	public void execute(IMigrationContext context) throws MigrationExecutionException;
 	
-	public void execute(IModel original, IModel target) throws MigrationExecutionException;
+	public void execute(IModel original, IModel migrated) throws MigrationExecutionException;
 }

@@ -26,18 +26,18 @@ import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 public class MigrationContext extends EolContext implements IMigrationContext {
 
 	protected final Model originalModel;
-	protected final Model targetModel;
+	protected final Model migratedModel;
 		
 	public MigrationContext() {
 		this(null, null);
 	}
 	
-	public MigrationContext(IModel original, IModel target) {
+	public MigrationContext(IModel original, IModel migrated) {
 		this.originalModel = new Model(original);
-		this.targetModel   = new Model(target);
+		this.migratedModel = new Model(migrated);
 		
 		addModel(original);
-		addModel(target);
+		addModel(migrated);
 	}
 	
 	private void addModel(IModel model) {
@@ -74,12 +74,12 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		return originalModel.allContents();
 	}
 	
-	public ModelElement createTargetModelElement(String type) throws MigrationExecutionException {
+	public ModelElement createModelElementInMigratedModel(String type) throws MigrationExecutionException {
 		try {
-			return targetModel.createInstance(type);
+			return migratedModel.createInstance(type);
 		
 		} catch (EolRuntimeException e) {
-			throw new MigrationExecutionException("Could not create a target model element of type: " + type, e);
+			throw new MigrationExecutionException("Could not create in the migrated model a model element of type: " + type, e);
 		}
 	}
 }

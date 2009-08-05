@@ -35,11 +35,11 @@ import org.eclipse.swt.widgets.Label;
 
 public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements ModifyListener{
 	
-	protected Label sourceLabel;
-	protected Label targetLabel;
+	protected Label originalLabel;
+	protected Label migratedLabel;
 	
-	protected Combo sourceCombo;
-	protected Combo targetCombo;
+	protected Combo originalCombo;
+	protected Combo migratedCombo;
 	
 	protected Button browse;
 	
@@ -55,18 +55,18 @@ public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements Mo
 		GridData comboData = new GridData(GridData.FILL_HORIZONTAL);
 		control.setLayout(controlLayout);
 		
-		sourceLabel = new Label(control, SWT.NONE);
-		sourceLabel.setText("Source model:");
-		sourceCombo = new Combo(control, SWT.BORDER);
-		sourceCombo.setLayoutData(comboData);
+		originalLabel = new Label(control, SWT.NONE);
+		originalLabel.setText("Original model:");
+		originalCombo = new Combo(control, SWT.BORDER);
+		originalCombo.setLayoutData(comboData);
 		
-		targetLabel = new Label(control, SWT.NONE);
-		targetLabel.setText("Target model:");
-		targetCombo = new Combo(control, SWT.BORDER);
-		targetCombo.setLayoutData(comboData);
+		migratedLabel = new Label(control, SWT.NONE);
+		migratedLabel.setText("Migrated model:");
+		migratedCombo = new Combo(control, SWT.BORDER);
+		migratedCombo.setLayoutData(comboData);
 		
-		sourceCombo.addModifyListener(this);
-		targetCombo.addModifyListener(this);
+		originalCombo.addModifyListener(this);
+		migratedCombo.addModifyListener(this);
 		
 		control.layout();
 		control.pack();
@@ -93,8 +93,8 @@ public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements Mo
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		updateCombos(configuration);
 		try {
-			sourceCombo.setText(configuration.getAttribute(MigrationLaunchConfigurationAttributes.SOURCE_MODEL, ""));
-			targetCombo.setText(configuration.getAttribute(MigrationLaunchConfigurationAttributes.TARGET_MODEL, ","));
+			originalCombo.setText(configuration.getAttribute(MigrationLaunchConfigurationAttributes.ORIGINAL_MODEL, ""));
+			migratedCombo.setText(configuration.getAttribute(MigrationLaunchConfigurationAttributes.MIGRATED_MODEL, ","));
 			//String transformationStrategyId = configuration.getAttribute(EtlLaunchConfigurationAttributes.TRANSFORMATION_STRATEGY, 
 			//		TransformationStrategyManager.getInstance().getDefault().getId());
 			//String transformationStrategyTitle = TransformationStrategyManager.getInstance().getStrategyById(transformationStrategyId).getTitle();
@@ -105,8 +105,8 @@ public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements Mo
 	}
 
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(MigrationLaunchConfigurationAttributes.SOURCE_MODEL, sourceCombo.getText());
-		configuration.setAttribute(MigrationLaunchConfigurationAttributes.TARGET_MODEL, targetCombo.getText());
+		configuration.setAttribute(MigrationLaunchConfigurationAttributes.ORIGINAL_MODEL, originalCombo.getText());
+		configuration.setAttribute(MigrationLaunchConfigurationAttributes.MIGRATED_MODEL, migratedCombo.getText());
 	}
 
 	public String getName() {
@@ -118,12 +118,12 @@ public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements Mo
 		
 		String errorMessage = "";
 		
-		if (sourceCombo.getText() == ""){
-			errorMessage += "source, ";
+		if (originalCombo.getText() == ""){
+			errorMessage += "original, ";
 		}
 		
-		if (targetCombo.getText() == ""){
-			errorMessage += "target";
+		if (migratedCombo.getText() == ""){
+			errorMessage += "migrated";
 		}
 		
 		if (errorMessage.length() > 0){
@@ -162,14 +162,14 @@ public class ModelChoiceTab extends AbstractLaunchConfigurationTab implements Mo
 			i++;
 		}
 		
-		String left = sourceCombo.getText();
-		String right = targetCombo.getText();
+		String left = originalCombo.getText();
+		String right = migratedCombo.getText();
 		
-		sourceCombo.setItems(modelNames);
-		targetCombo.setItems(modelNames);
+		originalCombo.setItems(modelNames);
+		migratedCombo.setItems(modelNames);
 		
-		sourceCombo.setText(left);
-		targetCombo.setText(right);
+		originalCombo.setText(left);
+		migratedCombo.setText(right);
 		
 	}
 	

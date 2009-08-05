@@ -19,5 +19,5 @@ import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface MigrationRule {
 	
-	public void applyTo(ModelElement original, ModelElement target, IMigrationContext context) throws MigrationExecutionException;
+	public void applyTo(ModelElement original, ModelElement migrated, IMigrationContext context) throws MigrationExecutionException;
 }

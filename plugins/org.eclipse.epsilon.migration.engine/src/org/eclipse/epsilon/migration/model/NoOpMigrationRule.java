@@ -22,12 +22,12 @@ public class NoOpMigrationRule extends AbstractMigrationRule implements Migratio
 		super(type);
 	}
 	
-	public void applyTo(ModelElement original, ModelElement target, IMigrationContext context) {
+	public void applyTo(ModelElement original, ModelElement migrated, IMigrationContext context) {
 		// Do nothing
 	}
 	
 	@Override
 	public String toString() {
-		return "NoOpMigrationRule for " + targetType;
+		return "NoOpMigrationRule for " + migratedType;
 	}
 }

@@ -38,7 +38,7 @@ public class MigrationEditor extends EolEditor{
 		final List<String> builtIn = new ArrayList<String>(super.getBuiltinVariables());
 		
 		builtIn.add("original");
-		builtIn.add("target");
+		builtIn.add("migrated");
 		
 		
 		return builtIn;
@@ -66,7 +66,7 @@ public class MigrationEditor extends EolEditor{
 	public List<Template> getTemplates() {
 		if (templates == null) {
 			templates = super.getTemplates();
-			templates.add(new Template("migrate", "migration strategy", "", "migrate ${strategyname} ${sourcetype} {\r\n\t${cursor}\r\n}", false));
+			templates.add(new Template("migrate", "migration strategy", "", "migrate ${strategyname} ${originaltype} {\r\n\t${cursor}\r\n}", false));
 		}
 		return templates;
 	}

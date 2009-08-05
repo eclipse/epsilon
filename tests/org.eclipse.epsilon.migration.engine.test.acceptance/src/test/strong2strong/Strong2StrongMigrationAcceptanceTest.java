@@ -33,26 +33,24 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 	
 
 	protected static void migrateFamiliesToFamilies(String strategy, String hutnForOriginalModel) throws Exception {
-		final InMemoryEmfModel targetModel = new InMemoryEmfModel("Target", EmfUtil.createResource(), "families");
-		migrate(strategy, hutnForOriginalModel, targetModel);
+		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), "families");
+		migrate(strategy, hutnForOriginalModel, migratedModel);
 	}
 	
 	protected static void migrateFamiliesTo(EPackage evolvedMetamodel, String strategy, String hutnForOriginalModel) throws Exception {
-		final InMemoryEmfModel targetModel = new InMemoryEmfModel("Target", EmfUtil.createResource(), evolvedMetamodel);
-		migrate(strategy, hutnForOriginalModel, targetModel);
+		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), evolvedMetamodel);
+		migrate(strategy, hutnForOriginalModel, migratedModel);
 	}
 	
-	
-	// FIXME ! Move - some of this is a helper for migration module
-	private static void migrate(String strategy, String originalModel, InMemoryEmfModel target) throws Exception {
+	private static void migrate(String strategy, String originalModel, InMemoryEmfModel migratedModel) throws Exception {
 		final IMigrationModule migrator = new MigrationModule();
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
 			
-			migrator.execute(original, target);
+			migrator.execute(original, migratedModel);
 			
-			migrated = new ModelWithEolAssertions(target);
+			migrated = new ModelWithEolAssertions(migratedModel);
 			
 		} else {
 			for (ParseProblem problem : migrator.getParseProblems()) {

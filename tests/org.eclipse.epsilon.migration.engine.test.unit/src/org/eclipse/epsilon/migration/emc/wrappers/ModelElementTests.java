@@ -44,24 +44,24 @@ public class ModelElementTests {
 	
 	@Test
 	public void getEquivalentShouldDelegateToEquivalences() throws CopyingException {
-		final Model        dummyTargetModel = createMock(Model.class);
-		final Equivalences mockEquivalences = createMock(Equivalences.class);
+		final Model        dummyMigratedModel = createMock(Model.class);
+		final Equivalences mockEquivalences   = createMock(Equivalences.class);
 		
 		
 		// Expectations
 		
 		expect(mockEquivalences.getEquivalent(element))
-			.andReturn(new ModelElement(dummyTargetModel, "bar"));
+			.andReturn(new ModelElement(dummyMigratedModel, "bar"));
 		
-		replay(dummyTargetModel, mockEquivalences);
+		replay(dummyMigratedModel, mockEquivalences);
 		
 		
 		// Verification
 		
-		assertEquals(new ModelElement(dummyTargetModel, "bar"),
-		             element.getEquivalentIn(dummyTargetModel, mockEquivalences));
+		assertEquals(new ModelElement(dummyMigratedModel, "bar"),
+		             element.getEquivalentIn(dummyMigratedModel, mockEquivalences));
 		
-		verify(dummyTargetModel, mockEquivalences);
+		verify(dummyMigratedModel, mockEquivalences);
 	}
 	
 	@Test

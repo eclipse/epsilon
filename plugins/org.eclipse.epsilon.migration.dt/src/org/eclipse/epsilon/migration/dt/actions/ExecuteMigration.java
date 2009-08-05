@@ -94,15 +94,15 @@ public class ExecuteMigration extends AbstractObjectActionDelegate {
 	private void execute(MigrationStrategyExtension extension) throws EolModelLoadingException, Exception {
 		executeMigration(extension.getStrategyFile(),
 		                 extension.loadOriginalModel(modelFile.getLocation()),
-		                 extension.loadTargetModel(originalPath));
+		                 extension.loadMigratedModel(originalPath));
 	}
 
-	private void executeMigration(URI strategy, AbstractEmfModel original, AbstractEmfModel target) throws Exception {
+	private void executeMigration(URI strategy, AbstractEmfModel original, AbstractEmfModel migrated) throws Exception {
 		final MigrationModule migrator = new MigrationModule();
 	
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			migrator.execute(original, target);
-			target.store();
+			migrator.execute(original, migrated);
+			migrated.store();
 		
 		} else {
 			printError("Error(s) encountered while parsing migration strategy:");

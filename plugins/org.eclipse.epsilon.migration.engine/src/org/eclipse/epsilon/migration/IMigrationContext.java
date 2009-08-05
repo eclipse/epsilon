@@ -27,5 +27,5 @@ public interface IMigrationContext extends IEolContext {
 	
 	public Iterable<ModelElement> getOriginalModelElements();
 
-	public ModelElement createTargetModelElement(String targetType) throws MigrationExecutionException;
+	public ModelElement createModelElementInMigratedModel(String type) throws MigrationExecutionException;
 }

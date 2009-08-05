@@ -59,8 +59,8 @@ public class CollectionOfModelValuesTests {
 	
 	@Test
 	public void getEquivalentShouldDelegateToGetEquivalentOfEachElement() throws CopyingException {
-		final Model        dummyTargetModel  = createMock(Model.class);
-		final Equivalences dummyEquivalences = createMock(Equivalences.class);
+		final Model        dummyMigratedModel = createMock(Model.class);
+		final Equivalences dummyEquivalences  = createMock(Equivalences.class);
 		
 		final BackedModelValue firstMockModelValue  = createMock(BackedModelValue.class);
 		final BackedModelValue secondMockModelValue = createMock(BackedModelValue.class);
@@ -68,21 +68,21 @@ public class CollectionOfModelValuesTests {
 		
 		// Expectations
 		
-		expect(firstMockModelValue.getEquivalentIn(dummyTargetModel, dummyEquivalences))
-			.andReturn(new AttributeValue(dummyTargetModel, "foo"));
+		expect(firstMockModelValue.getEquivalentIn(dummyMigratedModel, dummyEquivalences))
+			.andReturn(new AttributeValue(dummyMigratedModel, "foo"));
 		
-		expect(secondMockModelValue.getEquivalentIn(dummyTargetModel, dummyEquivalences))
-			.andReturn(new AttributeValue(dummyTargetModel, "bar"));
+		expect(secondMockModelValue.getEquivalentIn(dummyMigratedModel, dummyEquivalences))
+			.andReturn(new AttributeValue(dummyMigratedModel, "bar"));
 		
-		replay(dummyTargetModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
+		replay(dummyMigratedModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
 		
 		
 		// Verification
 		
-		assertEquals(new CollectionOfModelValues(dummyTargetModel, new AttributeValue(dummyTargetModel, "foo"), new AttributeValue(dummyTargetModel, "bar")),
-		             new CollectionOfModelValues(dummyModel, firstMockModelValue, secondMockModelValue).getEquivalentIn(dummyTargetModel, dummyEquivalences));
+		assertEquals(new CollectionOfModelValues(dummyMigratedModel, new AttributeValue(dummyMigratedModel, "foo"), new AttributeValue(dummyMigratedModel, "bar")),
+		             new CollectionOfModelValues(dummyModel, firstMockModelValue, secondMockModelValue).getEquivalentIn(dummyMigratedModel, dummyEquivalences));
 		
-		verify(dummyTargetModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
+		verify(dummyMigratedModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
 	}
 	
 	

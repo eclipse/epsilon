@@ -26,15 +26,15 @@ public class MigrationRuleLoader {
 	}
 	
 	public ExecutableMigrationRule run() {
-		return new ExecutableMigrationRule(getSourceType(), getTargetType(), getGuard(), getBody());
+		return new ExecutableMigrationRule(getOriginalType(), getMigratedType(), getGuard(), getBody());
 	}
 
-	private String getSourceType() {
+	private String getOriginalType() {
 		return getFirstChild().getText();
 	}
 
-	private String getTargetType() {
-		return hasToPart() ? getSecondChild().getText() : getSourceType();
+	private String getMigratedType() {
+		return hasToPart() ? getSecondChild().getText() : getOriginalType();
 	}
 	
 	private AST getGuard() {

@@ -19,10 +19,10 @@ import org.junit.Test;
 public class SeveralRules extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	target.name := original.name + ' Smith';" +
+	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}" +
 	                                       "migrate Dog {" +
-	                                       "    target.name := original.name + ' Smith';" +
+	                                       "    migrated.name := original.name + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +

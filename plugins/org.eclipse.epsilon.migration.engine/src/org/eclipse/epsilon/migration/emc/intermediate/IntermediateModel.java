@@ -13,15 +13,10 @@
  */
 package org.eclipse.epsilon.migration.emc.intermediate;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class IntermediateModel extends AbstractEmfModel {
-
-	public IntermediateModel(AbstractEmfModel target) {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public void load() throws EolModelLoadingException {
@@ -32,9 +27,5 @@ public class IntermediateModel extends AbstractEmfModel {
 	public boolean store() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public void setTypeOf(EObject instance, String type) {
-		
 	}
 }

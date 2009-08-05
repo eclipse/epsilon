@@ -29,7 +29,7 @@ class EnumValue extends BackedModelValue<Enumerator> {
 			return new EnumValue(model, model.getEquivalent(underlyingModelObject));
 			
 		} catch (EolEnumerationValueNotFoundException e) {
-			throw new CopyingException("Could not find in target model an enumeration value equivalent to: " + underlyingModelObject, e);
+			throw new CopyingException("Could not find in migrated metamodel an enumeration value equivalent to: " + underlyingModelObject, e);
 		}
 	}
 }

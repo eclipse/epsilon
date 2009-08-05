@@ -16,7 +16,7 @@ public class MigrationStrategyExtension {
 	private final String pluginId;
 	private final URI strategyFile;
 	private final String originalMetamodelFile;
-	private final String targetMetamodelFile;
+	private final String migratedMetamodelFile;
 	
 	public MigrationStrategyExtension(IConfigurationElement extPoint) throws InvalidRegistryObjectException, URISyntaxException {
 		final Bundle bundle = Platform.getBundle(extPoint.getDeclaringExtension().getNamespaceIdentifier());
@@ -24,7 +24,7 @@ public class MigrationStrategyExtension {
 		this.pluginId              = extPoint.getDeclaringExtension().getNamespaceIdentifier();
 		this.strategyFile          = bundle.getResource(extPoint.getAttribute("strategyFile")).toURI();
 		this.originalMetamodelFile = extPoint.getAttribute("originalMetamodelFile");
-		this.targetMetamodelFile   = extPoint.getAttribute("targetMetamodelFile");
+		this.migratedMetamodelFile = extPoint.getAttribute("migratedMetamodelFile");
 
 	}
 	
@@ -36,8 +36,8 @@ public class MigrationStrategyExtension {
 		return loadEmfModel(modelFilePath, getMetamodelUri(originalMetamodelFile), true, false);
 	}
 
-	public EmfModel loadTargetModel(IPath modelFilePath) throws EolModelLoadingException {
-		return loadEmfModel(modelFilePath, getMetamodelUri(targetMetamodelFile), false, true);
+	public EmfModel loadMigratedModel(IPath modelFilePath) throws EolModelLoadingException {
+		return loadEmfModel(modelFilePath, getMetamodelUri(migratedMetamodelFile), false, true);
 	}
 	
 	private org.eclipse.emf.common.util.URI getMetamodelUri(String path) {
@@ -45,13 +45,13 @@ public class MigrationStrategyExtension {
 	}
 
 	private static EmfModel loadEmfModel(IPath modelFile, org.eclipse.emf.common.util.URI metamodelUri, boolean readOnLoad, boolean storeOnDisposal) throws EolModelLoadingException {
-		final EmfModel target = new EmfModel();
-		target.setMetamodelFileBased(true);
-		target.setMetamodelFileUri(metamodelUri);
-		target.setModelFile(modelFile.toOSString());
-		target.setReadOnLoad(readOnLoad);
-		target.setStoredOnDisposal(storeOnDisposal);
-		target.load();
-		return target;
+		final EmfModel model = new EmfModel();
+		model.setMetamodelFileBased(true);
+		model.setMetamodelFileUri(metamodelUri);
+		model.setModelFile(modelFile.toOSString());
+		model.setReadOnLoad(readOnLoad);
+		model.setStoredOnDisposal(storeOnDisposal);
+		model.load();
+		return model;
 	}
 }

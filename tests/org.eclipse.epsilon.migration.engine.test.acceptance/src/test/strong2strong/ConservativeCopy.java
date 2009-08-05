@@ -19,7 +19,7 @@ import org.junit.Test;
 public class ConservativeCopy extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Family { "    +
-	                                       "	target.numberOfChildren := original.numberOfChildren + 1;" +
+	                                       "	migrated.numberOfChildren := original.numberOfChildren + 1;" +
 	                                       "}";
 
 	private static final String originalModel = "Families {"                  +

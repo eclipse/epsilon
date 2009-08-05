@@ -14,8 +14,6 @@ import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 
 public interface MigrationLaunchConfigurationAttributes extends EolLaunchConfigurationAttributes{
 	
-	public static final String SOURCE_MODEL = "sourceModel";
-	public static final String TARGET_MODEL = "targetModel";
-	public static final String TRANSFORMATION_STRATEGY = "transformationStrategy";
-	
+	public static final String ORIGINAL_MODEL = "originalModel";
+	public static final String MIGRATED_MODEL = "migratedModel";	
 }

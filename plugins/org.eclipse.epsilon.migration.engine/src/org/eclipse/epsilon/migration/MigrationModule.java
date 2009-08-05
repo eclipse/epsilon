@@ -62,8 +62,8 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	public void execute(IModel original, IModel target) throws MigrationExecutionException {
-		execute(new MigrationContext(original, target));
+	public void execute(IModel original, IModel migrated) throws MigrationExecutionException {
+		execute(new MigrationContext(original, migrated));
 	}
 
 	public void execute(IMigrationContext context) throws MigrationExecutionException {

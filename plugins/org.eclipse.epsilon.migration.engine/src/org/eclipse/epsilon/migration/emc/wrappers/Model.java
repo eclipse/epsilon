@@ -65,12 +65,12 @@ public class Model {
 		return underlyingModel.isModelElement(object);
 	}
 
-	String getTypeNameOf(Object instance) {
-		return underlyingModel.getTypeNameOf(instance);
+	String getTypeNameOf(Object underlyingModelElement) {
+		return underlyingModel.getTypeNameOf(underlyingModelElement);
 	}
 	
-	boolean knowsAboutProperty(Object instance, String property) {
-		return underlyingModel.knowsAboutProperty(instance, property);
+	boolean knowsAboutProperty(Object underlyingModelElement, String property) {
+		return underlyingModel.knowsAboutProperty(underlyingModelElement, property);
 	}
 
 	Collection<String> getPropertiesOf(Object underlyingModelElement) {

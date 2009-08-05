@@ -25,8 +25,8 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 	private final AST guard;
 	private final AST body;
 	
-	public ExecutableMigrationRule(String originalType, String targetType, AST guard, AST body) {
-		super(targetType);
+	public ExecutableMigrationRule(String originalType, String migratedType, AST guard, AST body) {
+		super(migratedType);
 		
 		this.originalType = originalType;
 		this.guard        = guard;
@@ -41,16 +41,16 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		return originalType.equals(original.getTypeName());
 	}
 
-	boolean satisfiesGuard(ModelElement object, IMigrationContext context) throws MigrationExecutionException {
+	boolean satisfiesGuard(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
 		if (guard == null)
 			return true;
 		
-		return context.executeGuard(guard, createOriginalVariable(object));
+		return context.executeGuard(guard, createOriginalVariable(original));
 	}
 	
 
-	public void applyTo(ModelElement original, ModelElement target, IMigrationContext context) throws MigrationExecutionException {
-		context.executeBlock(body, createOriginalVariable(original), createTargetVariable(target));
+	public void applyTo(ModelElement original, ModelElement migrated, IMigrationContext context) throws MigrationExecutionException {
+		context.executeBlock(body, createOriginalVariable(original), createMigratedVariable(migrated));
 		
 	}
 	
@@ -58,13 +58,13 @@ public class ExecutableMigrationRule extends AbstractMigrationRule implements Mi
 		return original.createReadOnlyVariable("original");
 	}
 	
-	private Variable createTargetVariable(ModelElement target) {
-		return target.createReadOnlyVariable("target");
+	private Variable createMigratedVariable(ModelElement migrated) {
+		return migrated.createReadOnlyVariable("migrated");
 	}
 	
 	@Override
 	public String toString() {
-		return originalType + " to " + targetType + " when " + guard + " do " + body;
+		return originalType + " to " + migratedType + " when " + guard + " do " + body;
 	}
 	
 	@Override

@@ -19,14 +19,14 @@ import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public abstract class AbstractMigrationRule implements MigrationRule {
 
-	protected final String targetType;
+	protected final String migratedType;
 	
-	public AbstractMigrationRule(String targetType) {
-		this.targetType = targetType;
+	public AbstractMigrationRule(String migratedType) {
+		this.migratedType = migratedType;
 	}
 	
-	ModelElement createTargetModelElement(IMigrationContext context) throws MigrationExecutionException {
-		return context.createTargetModelElement(targetType);
+	ModelElement createMigratedModelElement(IMigrationContext context) throws MigrationExecutionException {
+		return context.createModelElementInMigratedModel(migratedType);
 	}
 	
 	@Override
@@ -34,12 +34,12 @@ public abstract class AbstractMigrationRule implements MigrationRule {
 		if (!(other instanceof AbstractMigrationRule))
 			return false;
 		
-		return equals(targetType, ((AbstractMigrationRule)other).targetType);
+		return equals(migratedType, ((AbstractMigrationRule)other).migratedType);
 	}
 	
 	@Override
 	public int hashCode() {
-		return targetType.hashCode();
+		return migratedType.hashCode();
 	}
 	
 	protected boolean equals(Object first, Object second) {

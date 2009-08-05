@@ -53,7 +53,7 @@ public class MigrationStrategy {
 	
 	Equivalence createEquivalenceFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
 		final AbstractMigrationRule rule = ruleFor(original, context);
-		final ModelElement migrated      = rule.createTargetModelElement(context);
+		final ModelElement migrated      = rule.createMigratedModelElement(context);
 		
 		return new Equivalence(original, migrated, rule);
 	}
@@ -65,5 +65,12 @@ public class MigrationStrategy {
 		}
 		
 		return new NoOpMigrationRule(original.getTypeName());
+	}
+	
+	
+	// Used by MigrationStrategyLoader tests
+	
+	public int numberOfRules() {
+		return rules.size();
 	}
 }

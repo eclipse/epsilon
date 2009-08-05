@@ -36,22 +36,22 @@ public class EnumValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws CopyingException, EolEnumerationValueNotFoundException {
-		final Model mockTargetModel          = createMock(Model.class);
+		final Model mockMigratedModel        = createMock(Model.class);
 		final Equivalences dummyEquivalences = createMock(Equivalences.class);
 		
 		// Expectations
 		
-		expect(mockTargetModel.getEquivalent(DogBreed.LABRADOR))
+		expect(mockMigratedModel.getEquivalent(DogBreed.LABRADOR))
 			.andReturn(DogBreed.POODLE);
 		
-		replay(mockTargetModel);
+		replay(mockMigratedModel);
 		
 		
 		// Verification
 		
-		assertEquals(new EnumValue(mockTargetModel, DogBreed.POODLE),
-		             value.getEquivalentIn(mockTargetModel, dummyEquivalences));
+		assertEquals(new EnumValue(mockMigratedModel, DogBreed.POODLE),
+		             value.getEquivalentIn(mockMigratedModel, dummyEquivalences));
 		
-		verify(mockTargetModel);
+		verify(mockMigratedModel);
 	}
 }

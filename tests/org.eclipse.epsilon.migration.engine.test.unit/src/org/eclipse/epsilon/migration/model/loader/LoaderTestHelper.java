@@ -29,12 +29,12 @@ public abstract class LoaderTestHelper {
 		return strategy;
 	}
 	
-	static AST createMigrationRuleAst(String originalType, String targetType, AST guard, AST block) {
+	static AST createMigrationRuleAst(String originalType, String migratedType, AST guard, AST block) {
 		final AST rule = createAST(MigrationParser.MIGRATE, "MIGRATE");
 		rule.addChild(createAST(MigrationParser.NAME, originalType));
 		
-		if (targetType != null)
-			rule.addChild(createAST(MigrationParser.NAME, targetType));
+		if (migratedType != null)
+			rule.addChild(createAST(MigrationParser.NAME, migratedType));
 		
 		if (guard != null)
 			rule.addChild(guard);

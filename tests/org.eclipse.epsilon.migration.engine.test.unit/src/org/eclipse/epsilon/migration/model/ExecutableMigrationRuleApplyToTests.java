@@ -35,7 +35,7 @@ public class ExecutableMigrationRuleApplyToTests {
 	private final ExecutableMigrationRule rule = new ExecutableMigrationRule("", "", null, body);
 	
 	private final Variable dummyOriginalVariable = createMock(Variable.class);
-	private final Variable dummyTargetVariable   = createMock(Variable.class);
+	private final Variable dummyMigratedVariable = createMock(Variable.class);
 	
 	private ModelElement mockOriginalModelElement = createMock(ModelElement.class);
 	private ModelElement mockMigratedModelElement = createMock(ModelElement.class);
@@ -47,8 +47,8 @@ public class ExecutableMigrationRuleApplyToTests {
 		expect(mockOriginalModelElement.createReadOnlyVariable("original"))
 			.andReturn(dummyOriginalVariable);
 		
-		expect(mockMigratedModelElement.createReadOnlyVariable("target"))
-			.andReturn(dummyTargetVariable);
+		expect(mockMigratedModelElement.createReadOnlyVariable("migrated"))
+			.andReturn(dummyMigratedVariable);
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class ExecutableMigrationRuleApplyToTests {
 
 		// Expectations
 		
-		expect(mockContext.executeBlock(body, dummyOriginalVariable, dummyTargetVariable))
+		expect(mockContext.executeBlock(body, dummyOriginalVariable, dummyMigratedVariable))
 			.andReturn(null);
 		
 		replay(mockOriginalModelElement, mockMigratedModelElement, mockContext);
@@ -75,7 +75,7 @@ public class ExecutableMigrationRuleApplyToTests {
 		
 		// Expectations
 		
-		expect(mockContext.executeBlock(body, dummyOriginalVariable, dummyTargetVariable))
+		expect(mockContext.executeBlock(body, dummyOriginalVariable, dummyMigratedVariable))
 			.andThrow(new MigrationExecutionException("Fake exception", null));
 		
 		replay(mockOriginalModelElement, mockMigratedModelElement, mockContext);

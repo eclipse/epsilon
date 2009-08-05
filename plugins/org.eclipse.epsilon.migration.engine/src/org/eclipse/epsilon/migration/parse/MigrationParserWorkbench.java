@@ -25,7 +25,7 @@ public class MigrationParserWorkbench {
 	
 	public void work() throws Exception {
 		final String source = "migrate Person {\n" + 
-		                      "	target.name := original.name + ' Smith';\n" +
+		                      "	migrated.name := original.name + ' Smith';\n" +
 		                      "}";
 		
 		final MigrationLexer lexer = new MigrationLexer(new ANTLRStringStream(source));		

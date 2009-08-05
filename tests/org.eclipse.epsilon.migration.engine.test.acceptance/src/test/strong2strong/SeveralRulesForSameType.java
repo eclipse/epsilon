@@ -20,14 +20,14 @@ public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTes
 
 	private static final String strategy = "migrate Person " +
 	                                       "when: ' '.isSubstringOf(original.name) {" +
-	                                       "	target.name := original.name;" +
+	                                       "	migrated.name := original.name;" +
 	                                       "}" +
 	                                       "migrate Person " +
 	                                       "when: original.name.isDefined() {" +
-	                                       "	target.name := original.name + ' Smith';" +
+	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}" +
 	                                       "migrate Person {" +
-	                                       "	target.name := 'John Doe';"   +
+	                                       "	migrated.name := 'John Doe';"   +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"                   +

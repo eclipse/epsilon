@@ -33,18 +33,18 @@ public class AttributeValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws CopyingException {
-		final Model dummyTargetModel         = createMock(Model.class);
+		final Model dummyMigratedModel       = createMock(Model.class);
 		final Equivalences dummyEquivalences = createMock(Equivalences.class);
 		
 		// Expectations
-		replay(dummyTargetModel, dummyEquivalences);
+		replay(dummyMigratedModel, dummyEquivalences);
 		
 		
 		// Verification
 		
-		assertEquals(new AttributeValue(dummyTargetModel, "foo"),
-		             value.getEquivalentIn(dummyTargetModel, dummyEquivalences));
+		assertEquals(new AttributeValue(dummyMigratedModel, "foo"),
+		             value.getEquivalentIn(dummyMigratedModel, dummyEquivalences));
 		
-		verify(dummyTargetModel, dummyEquivalences);
+		verify(dummyMigratedModel, dummyEquivalences);
 	}
 }

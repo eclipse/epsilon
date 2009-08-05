@@ -25,7 +25,7 @@ import org.junit.Test;
 public class MigrateToDifferentType extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person to Salesperson {" +
-	                                       "	target.name := original.name;" +
+	                                       "	migrated.name := original.name;" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +

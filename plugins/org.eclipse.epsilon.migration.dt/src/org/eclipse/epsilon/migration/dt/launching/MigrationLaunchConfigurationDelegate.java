@@ -89,7 +89,7 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 		
 		// FIXME - need GUI to configure this
 		context = new MigrationContext(context.getModelRepository().getModelByName("Original"),
-		                               context.getModelRepository().getModelByName("Target"));
+		                               context.getModelRepository().getModelByName("Migrated"));
 		
 		finishedCurrentTask();
 	}
