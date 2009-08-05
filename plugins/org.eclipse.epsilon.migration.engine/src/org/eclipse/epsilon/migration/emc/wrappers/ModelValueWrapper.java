@@ -56,7 +56,7 @@ class ModelValueWrapper {
 		final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
 		
 		for (Object underlyingModelObject : underlyingModelObjects.getStorage()) {
-			modelValues.add(model.wrapValue(underlyingModelObject));
+			modelValues.add(model.wrap(underlyingModelObject));
 		}
 		
 		return modelValues;

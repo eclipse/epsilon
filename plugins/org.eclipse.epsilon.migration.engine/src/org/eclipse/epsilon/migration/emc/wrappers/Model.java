@@ -64,14 +64,18 @@ public class Model {
 	}
 	
 	public boolean owns(ModelElement element) {
-		return underlyingModel.owns(element.unwrap());
+		return owns(element.unwrap());
 	}
 	
-	ModelValue<?> wrapValue(Object value) {
+	public boolean owns(Object unwrappedElement) {
+		return underlyingModel.owns(unwrappedElement);
+	}
+	
+	ModelValue<?> wrap(Object value) {
 		return wrapper.wrapValue(value);
 	}
 	
-	private ModelElement wrapModelElement(Object object) {
+	public ModelElement wrapModelElement(Object object) {
 		return wrapper.wrapModelElement(object);
 	}
 	

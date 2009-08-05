@@ -39,7 +39,7 @@ public class Equivalences {
 
 	public void populateEachEquivalent(IMigrationContext context) throws MigrationExecutionException {
 		for (Equivalence equivalence : equivalences) {
-			equivalence.populateEquivalent(this, context);
+			equivalence.populateEquivalent(context);
 		}
 	}
 	

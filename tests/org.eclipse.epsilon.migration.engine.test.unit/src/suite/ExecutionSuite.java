@@ -16,6 +16,8 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.migration.MigrationContextTests;
+import org.eclipse.epsilon.migration.MigrationStrategyRunnerTests;
 import org.eclipse.epsilon.migration.execution.EquivalenceTests;
 import org.eclipse.epsilon.migration.execution.EquivalencesTests;
 import org.junit.runner.RunWith;
@@ -23,7 +25,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EquivalencesTests.class, EquivalenceTests.class})
+@SuiteClasses({MigrationContextTests.class, MigrationStrategyRunnerTests.class,
+               EquivalencesTests.class, EquivalenceTests.class})
 public class ExecutionSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(ExecutionSuite.class);

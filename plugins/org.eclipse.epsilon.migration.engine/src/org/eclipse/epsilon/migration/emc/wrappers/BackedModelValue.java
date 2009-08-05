@@ -28,7 +28,7 @@ public abstract class BackedModelValue<UnwrappedType> extends ModelValue<Unwrapp
 	}
 	
 	@Override
-	UnwrappedType unwrap() {
+	public UnwrappedType unwrap() {
 		return underlyingModelObject;
 	}
 	

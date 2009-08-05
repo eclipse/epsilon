@@ -21,25 +21,54 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.migration.emc.wrappers.Model;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.operations.MigrationLanguageOperationFactory;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
+	private final MigrationStrategyRunner runner;
+	
 	private Model originalModel;
 	private Model migratedModel;
 		
 	public MigrationContext() {
-		this(null, null);
+		this(null, null, null);
 	}
 	
 	public MigrationContext(IModel original, IModel migrated) {
+		this(null, original, migrated);
+	}
+	
+	private MigrationContext(MigrationStrategyRunner runner, IModel original, IModel migrated) {
+		if (runner == null)
+			this.runner = new MigrationStrategyRunner(this);
+		else
+			this.runner = runner;
+		
+		initialiseModels(original, migrated);
+		setOperationFactory(new MigrationLanguageOperationFactory());
+	}
+	
+	// Used by tests
+	MigrationContext(MigrationStrategyRunner runner, Model original) {
+		this.runner        = runner;
+		this.originalModel = original;
+	}
+
+	private void initialiseModels(IModel original, IModel migrated) {
 		addModel(original);
 		addModel(migrated);
 		
 		setOriginalModel(original);
 		setMigratedModel(migrated);
 	}
-
+	
+	private void addModel(IModel model) {
+		if (model != null)
+			getModelRepository().addModel(model);
+	}
+	
 	public void setOriginalModel(IModel original) {
 		this.originalModel = new Model(original, getPrettyPrinterManager());
 	}
@@ -48,10 +77,7 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		this.migratedModel = new Model(migrated, getPrettyPrinterManager());
 	}
 	
-	private void addModel(IModel model) {
-		if (model != null)
-			getModelRepository().addModel(model);
-	}
+	
 	
 	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException {
 		try {
@@ -97,5 +123,29 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	
 	public boolean isElementInMigratedModel(ModelElement element) {
 		return migratedModel.owns(element);
+	}
+	
+	private boolean isElementInOriginalModel(Object unwrappedModelElement) {
+		return originalModel.owns(unwrappedModelElement);
+	}
+	
+	private ModelElement toElementInOriginalModel(Object unwrappedModelElement) {
+		return originalModel.wrapModelElement(unwrappedModelElement);
+	}
+
+	
+	public void run(EquivalenceEstablisher establisher) throws MigrationExecutionException {
+		runner.run(establisher);
+	}
+
+	public ModelElement getEquivalent(ModelElement originalModelElement) {
+		return runner.getEquivalent(originalModelElement);
+	}
+
+	public Object getUnwrappedEquivalent(Object unwrappedModelElement) {
+		if (!isElementInOriginalModel(unwrappedModelElement))
+			return null;
+		
+		return getEquivalent(toElementInOriginalModel(unwrappedModelElement)).unwrap();
 	}
 }

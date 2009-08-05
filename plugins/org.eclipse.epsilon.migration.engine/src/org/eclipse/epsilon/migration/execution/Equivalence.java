@@ -39,10 +39,10 @@ public class Equivalence {
 		return equivalent;
 	}
 
-	void populateEquivalent(Equivalences equivalences, IMigrationContext context) throws MigrationExecutionException {
+	void populateEquivalent(IMigrationContext context) throws MigrationExecutionException {
 		checkModelElementsStillResideInCorrectModels(context);
 		
-		equivalent.conservativelyCopyPropertiesFrom(original, equivalences);
+		equivalent.conservativelyCopyPropertiesFrom(original, context);
 		migrationRule.applyTo(original, equivalent, context);
 	}
 	

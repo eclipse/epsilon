@@ -13,12 +13,12 @@
  */
 package org.eclipse.epsilon.migration.emc.wrappers;
 
-import static org.junit.Assert.assertEquals;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
@@ -34,18 +34,18 @@ public class AttributeValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException {
-		final Model dummyMigratedModel       = createMock(Model.class);
-		final Equivalences dummyEquivalences = createMock(Equivalences.class);
+		final Model             dummyMigratedModel = createMock(Model.class);
+		final IMigrationContext dummyContext       = createMock(IMigrationContext.class);
 		
 		// Expectations
-		replay(dummyMigratedModel, dummyEquivalences);
+		replay(dummyMigratedModel, dummyContext);
 		
 		
 		// Verification
 		
 		assertEquals(new AttributeValue(dummyMigratedModel, "foo"),
-		             value.getEquivalentIn(dummyMigratedModel, dummyEquivalences));
+		             value.getEquivalentIn(dummyMigratedModel, dummyContext));
 		
-		verify(dummyMigratedModel, dummyEquivalences);
+		verify(dummyMigratedModel, dummyContext);
 	}
 }

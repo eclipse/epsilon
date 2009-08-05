@@ -106,11 +106,11 @@ public class ModelValueWrapperTests {
 		expectLastCall().anyTimes();
 		
 		// CollectionOfModelValues will use model to wrap values
-		expect(modelStub.wrapValue(oneOf(Arrays.asList(modelElements))))
+		expect(modelStub.wrap(oneOf(Arrays.asList(modelElements))))
 			.andReturn((BackedModelValue)new ModelElement(modelStub, "dummy model element"));
 		expectLastCall().anyTimes();
 		
-		expect(modelStub.wrapValue(isA(Object.class)))
+		expect(modelStub.wrap(isA(Object.class)))
 			.andReturn((BackedModelValue)new AttributeValue(modelStub, "dummy wrapped value"));
 		expectLastCall().anyTimes();
 		

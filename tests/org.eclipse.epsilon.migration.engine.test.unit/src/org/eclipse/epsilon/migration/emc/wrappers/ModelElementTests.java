@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,24 +45,24 @@ public class ModelElementTests {
 	
 	@Test
 	public void getEquivalentShouldDelegateToEquivalences() throws ConservativeCopyException {
-		final Model        dummyMigratedModel = createMock(Model.class);
-		final Equivalences mockEquivalences   = createMock(Equivalences.class);
+		final Model             dummyMigratedModel = createMock(Model.class);
+		final IMigrationContext mockContext        = createMock(IMigrationContext.class);
 		
 		
 		// Expectations
 		
-		expect(mockEquivalences.getEquivalent(element))
+		expect(mockContext.getEquivalent(element))
 			.andReturn(new ModelElement(dummyMigratedModel, "bar"));
 		
-		replay(dummyMigratedModel, mockEquivalences);
+		replay(dummyMigratedModel, mockContext);
 		
 		
 		// Verification
 		
 		assertEquals(new ModelElement(dummyMigratedModel, "bar"),
-		             element.getEquivalentIn(dummyMigratedModel, mockEquivalences));
+		             element.getEquivalentIn(dummyMigratedModel, mockContext));
 		
-		verify(dummyMigratedModel, mockEquivalences);
+		verify(dummyMigratedModel, mockContext);
 	}
 	
 	@Test
@@ -93,8 +93,8 @@ public class ModelElementTests {
 	public void conservativelyCopyPropertiesFromShouldRetrieveEachPropertyValueAndConvertToEquivalent() throws ConservativeCopyException, EolRuntimeException {
 		final ModelElement mockOriginalModelElement = createMock(ModelElement.class);
 		
-		final Model        dummyOriginalModel       = createMock(Model.class);
-		final Equivalences dummyEquivalences        = createMock(Equivalences.class);
+		final Model             dummyOriginalModel = createMock(Model.class);
+		final IMigrationContext dummyContext       = createMock(IMigrationContext.class);
 		
 		
 		// Expectations
@@ -112,13 +112,13 @@ public class ModelElementTests {
 
 		mockModel.setValueOfProperty("foo", "name", nameValue);
 		
-		replay(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyEquivalences);
+		replay(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyContext);
 
 
 		// Verification
 		
-		element.conservativelyCopyPropertiesFrom(mockOriginalModelElement, dummyEquivalences);
+		element.conservativelyCopyPropertiesFrom(mockOriginalModelElement, dummyContext);
 				
-		verify(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyEquivalences);
+		verify(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyContext);
 	}
 }

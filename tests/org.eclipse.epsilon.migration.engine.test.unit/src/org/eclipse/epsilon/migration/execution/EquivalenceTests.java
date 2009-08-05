@@ -25,12 +25,11 @@ import org.junit.Test;
 
 public class EquivalenceTests {
 
-	private final Equivalences dummyEquivalences = createMock("DummyEquivalences", Equivalences.class);
-	private final ModelElement dummyOriginal     = createMock("DummyOriginal",  ModelElement.class);
+	private final ModelElement dummyOriginal = createMock("DummyOriginal",  ModelElement.class);
 	
-	private final IMigrationContext mockContext      = createMock("MockContext", IMigrationContext.class);
-	private final ModelElement      mockEquivalent   = createMock("MockEquivalent", ModelElement.class);
-	private final MigrationRule     mockRule         = createMock("MockRule", MigrationRule.class);
+	private final IMigrationContext mockContext    = createMock("MockContext", IMigrationContext.class);
+	private final ModelElement      mockEquivalent = createMock("MockEquivalent", ModelElement.class);
+	private final MigrationRule     mockRule       = createMock("MockRule", MigrationRule.class);
 	
 	private final Equivalence equivalence = new Equivalence(dummyOriginal, mockEquivalent, mockRule);
 	
@@ -49,7 +48,7 @@ public class EquivalenceTests {
 		expect(mockContext.isElementInMigratedModel(mockEquivalent))
 			.andReturn(true);
 		
-		mockEquivalent.conservativelyCopyPropertiesFrom(dummyOriginal, dummyEquivalences);
+		mockEquivalent.conservativelyCopyPropertiesFrom(dummyOriginal, mockContext);
 		mockRule.applyTo(dummyOriginal, mockEquivalent, mockContext);
 		
 		replay(mockContext, mockEquivalent, mockRule);
@@ -57,7 +56,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(dummyEquivalences, mockContext);
+		equivalence.populateEquivalent(mockContext);
 		
 		verify(mockEquivalent, mockRule);
 	}
@@ -75,7 +74,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(dummyEquivalences, mockContext);
+		equivalence.populateEquivalent(mockContext);
 		
 		verify(mockContext);
 	}
@@ -95,7 +94,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(dummyEquivalences, mockContext);
+		equivalence.populateEquivalent(mockContext);
 		
 		verify(mockContext);
 	}

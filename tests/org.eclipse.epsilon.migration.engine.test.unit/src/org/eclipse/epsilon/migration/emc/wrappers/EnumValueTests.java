@@ -13,15 +13,15 @@
  */
 package org.eclipse.epsilon.migration.emc.wrappers;
 
-import static org.junit.Assert.assertEquals;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
@@ -37,8 +37,8 @@ public class EnumValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException, EolEnumerationValueNotFoundException {
-		final Model mockMigratedModel        = createMock(Model.class);
-		final Equivalences dummyEquivalences = createMock(Equivalences.class);
+		final Model             mockMigratedModel = createMock(Model.class);
+		final IMigrationContext dummyContext      = createMock(IMigrationContext.class);
 		
 		// Expectations
 		
@@ -51,7 +51,7 @@ public class EnumValueTests {
 		// Verification
 		
 		assertEquals(new EnumValue(mockMigratedModel, DogBreed.POODLE),
-		             value.getEquivalentIn(mockMigratedModel, dummyEquivalences));
+		             value.getEquivalentIn(mockMigratedModel, dummyContext));
 		
 		verify(mockMigratedModel);
 	}

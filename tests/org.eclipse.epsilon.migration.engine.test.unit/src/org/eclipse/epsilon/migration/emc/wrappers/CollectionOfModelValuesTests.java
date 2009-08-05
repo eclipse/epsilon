@@ -13,17 +13,17 @@
  */
 package org.eclipse.epsilon.migration.emc.wrappers;
 
-import static org.junit.Assert.assertEquals;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.easymock.classextension.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
@@ -60,8 +60,8 @@ public class CollectionOfModelValuesTests {
 	
 	@Test
 	public void getEquivalentShouldDelegateToGetEquivalentOfEachElement() throws ConservativeCopyException {
-		final Model        dummyMigratedModel = createMock(Model.class);
-		final Equivalences dummyEquivalences  = createMock(Equivalences.class);
+		final Model             dummyMigratedModel = createMock(Model.class);
+		final IMigrationContext dummyContext       = createMock(IMigrationContext.class);
 		
 		final BackedModelValue firstMockModelValue  = createMock(BackedModelValue.class);
 		final BackedModelValue secondMockModelValue = createMock(BackedModelValue.class);
@@ -69,21 +69,21 @@ public class CollectionOfModelValuesTests {
 		
 		// Expectations
 		
-		expect(firstMockModelValue.getEquivalentIn(dummyMigratedModel, dummyEquivalences))
+		expect(firstMockModelValue.getEquivalentIn(dummyMigratedModel, dummyContext))
 			.andReturn(new AttributeValue(dummyMigratedModel, "foo"));
 		
-		expect(secondMockModelValue.getEquivalentIn(dummyMigratedModel, dummyEquivalences))
+		expect(secondMockModelValue.getEquivalentIn(dummyMigratedModel, dummyContext))
 			.andReturn(new AttributeValue(dummyMigratedModel, "bar"));
 		
-		replay(dummyMigratedModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
+		replay(dummyMigratedModel, dummyContext, firstMockModelValue, secondMockModelValue);
 		
 		
 		// Verification
 		
 		assertEquals(new CollectionOfModelValues(dummyMigratedModel, new AttributeValue(dummyMigratedModel, "foo"), new AttributeValue(dummyMigratedModel, "bar")),
-		             new CollectionOfModelValues(dummyModel, firstMockModelValue, secondMockModelValue).getEquivalentIn(dummyMigratedModel, dummyEquivalences));
+		             new CollectionOfModelValues(dummyModel, firstMockModelValue, secondMockModelValue).getEquivalentIn(dummyMigratedModel, dummyContext));
 		
-		verify(dummyMigratedModel, dummyEquivalences, firstMockModelValue, secondMockModelValue);
+		verify(dummyMigratedModel, dummyContext, firstMockModelValue, secondMockModelValue);
 	}
 	
 	

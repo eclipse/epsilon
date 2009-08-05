@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 class CollectionOfModelValues extends ModelValue<EolCollection> implements Iterable<ModelValue<?>> {
@@ -36,18 +36,18 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 	}
 	
 	@Override
-	CollectionOfModelValues getEquivalentIn(Model model, Equivalences equivalences) throws ConservativeCopyException {
+	CollectionOfModelValues getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
 		for (ModelValue<?> modelValue : modelValues) {
-			copiedModelValues.add(modelValue.getEquivalentIn(model, equivalences));
+			copiedModelValues.add(modelValue.getEquivalentIn(model, context));
 		}
 		
 		return new CollectionOfModelValues(model, copiedModelValues);
 	}
 
 	@Override
-	EolCollection unwrap() {
+	public EolCollection unwrap() {
 		final EolCollection modelObjects = new EolSequence();
 		
 		for (ModelValue<?> modelValue : modelValues) {

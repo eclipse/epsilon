@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public interface IMigrationContext extends IEolContext {
@@ -37,4 +38,10 @@ public interface IMigrationContext extends IEolContext {
 	public boolean isElementInOriginalModel(ModelElement element);
 	
 	public boolean isElementInMigratedModel(ModelElement element);
+
+	public void run(EquivalenceEstablisher establisher) throws MigrationExecutionException;
+
+	public ModelElement getEquivalent(ModelElement modelElement);
+	
+	public Object getUnwrappedEquivalent(Object unwrappedModelElement);
 }

@@ -11,19 +11,13 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.migration.emc.wrappers;
+package org.eclipse.epsilon.migration.execution;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
-import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
-class AttributeValue extends BackedModelValue<Object> {
+public interface EquivalenceEstablisher {
 
-	AttributeValue(Model model, Object underlyingModelObject) {
-		super(model, underlyingModelObject);
-	}
-	
-	@Override
-	AttributeValue getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
-		return new AttributeValue(model, underlyingModelObject);
-	}
+	public Equivalences establishEquivalences(IMigrationContext context) throws MigrationExecutionException;
+
 }

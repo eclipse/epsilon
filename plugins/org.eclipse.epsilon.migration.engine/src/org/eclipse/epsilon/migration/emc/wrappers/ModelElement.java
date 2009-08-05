@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 public class ModelElement extends BackedModelValue<Object> {
@@ -27,20 +27,20 @@ public class ModelElement extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	ModelElement getEquivalentIn(Model model, Equivalences equivalences) {
-		return equivalences.getEquivalent(this);
+	ModelElement getEquivalentIn(Model model, IMigrationContext context) {
+		return context.getEquivalent(this);
 	}
 
 	public String getTypeName() {
 		return model.getTypeNameOf(underlyingModelObject);
 	}
 	
-	public void conservativelyCopyPropertiesFrom(ModelElement original, Equivalences equivalences) throws ConservativeCopyException {
+	public void conservativelyCopyPropertiesFrom(ModelElement original, IMigrationContext context) throws ConservativeCopyException {
 		try {
 			for (String propertyName : getPropertiesSharedWith(original)) {
 				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
 				
-				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, equivalences));
+				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, context));
 			}
 		} catch (EolRuntimeException e) {
 			throw new ConservativeCopyException("Exception encountered while reading or writing a property value.", e);

@@ -20,10 +20,11 @@ import java.util.List;
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.Equivalence;
+import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
-public class MigrationStrategy {
+public class MigrationStrategy implements EquivalenceEstablisher {
 
 	private final List<ExecutableMigrationRule> rules = new LinkedList<ExecutableMigrationRule>();
 	
