@@ -38,7 +38,7 @@ public class EolContext implements IEolContext{
 	protected IntrospectionManager introspectionManager = new IntrospectionManager();
 	protected ExecutorFactory executorFactory = new ExecutorFactory();
 	protected OperationFactory operationFactory = new OperationFactory();
-	protected PrettyPrinterManager prettyPrinterManager = new PrettyPrinterManager(this);
+	protected PrettyPrinterManager prettyPrinterManager = new PrettyPrinterManager();
 	protected PrintStream outputStream = System.out;
 	protected PrintStream errorStream = System.err;
 	protected IModule module = null;

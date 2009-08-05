@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 public class PrettyPrinterManager {
 	
 	protected ArrayList prettyPrinters = new ArrayList();
@@ -23,7 +21,7 @@ public class PrettyPrinterManager {
 	//protected EolPrettyPrinter eolPrettyPrinter;
 	//protected IEolContext context;
 	
-	public PrettyPrinterManager(IEolContext context){
+	public PrettyPrinterManager(){
 		defaultPrettyPrinter = new DefaultPrettyPrinter(this);
 		//eolPrettyPrinter = new EolPrettyPrinter(context);
 		//prettyPrinters.add(new EmfPrettyPrinter());
@@ -57,6 +55,10 @@ public class PrettyPrinterManager {
 		}
 		
 		return null;
+	}
+	
+	public String print(Object object) {
+		return getPrettyPrinterFor(object).print(object);
 	}
 	
 	/*
