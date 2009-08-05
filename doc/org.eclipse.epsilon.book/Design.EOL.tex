@@ -203,7 +203,7 @@ EOL provides four primitive types: String, Integer, Real and Boolean. The String
 			
 			replace(source : String, target : String) : String & Returns a new string in which all instances of \emph{source} have been replaced with instances of \emph{target}\\\hline 
 			
-			split(delimiter : String) : Sequence(String) & Splits the string based on the provided \emph{delimiter} and returns a sequence containing the parts\\\hline
+			split(reg : String) : Sequence(String) & Splits the string using as a delimiter the provided regular expression, \emph{reg}, and returns a sequence containing the parts\\\hline
 			
 			startsWith(str : String) : Boolean & Returns true iff the string starts with \emph{str}\\\hline
 			
