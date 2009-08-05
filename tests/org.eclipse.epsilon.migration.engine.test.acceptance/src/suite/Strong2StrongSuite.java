@@ -25,6 +25,7 @@ import test.strong2strong.ConservativeCopy;
 import test.strong2strong.ContainedObjects;
 import test.strong2strong.EquivalentOperation;
 import test.strong2strong.MigrateToDifferentType;
+import test.strong2strong.Operation;
 import test.strong2strong.ShorthandRule;
 import test.strong2strong.SeveralRules;
 import test.strong2strong.SeveralRulesForSameType;
@@ -36,7 +37,8 @@ import test.strong2strong.Guard;
                SeveralRules.class, SeveralRulesForSameType.class,
                MigrateToDifferentType.class, ShorthandRule.class,
                Guard.class,
-               ConservativeCopy.class, EquivalentOperation.class})
+               ConservativeCopy.class, EquivalentOperation.class,
+               Operation.class})
 public class Strong2StrongSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongSuite.class);

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.migration.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2009-08-05 11:01:11
+// $ANTLR 3.1b1 EolParserRules.g 2009-08-05 17:54:54
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -65,7 +65,6 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
     public static final int NAME=16;
     public static final int T__90=90;
     public static final int RETURN=31;
-    public static final int STRATEGY=63;
     public static final int NewExpression=41;
     public static final int VAR=42;
     public static final int ANNOTATIONBLOCK=44;
@@ -157,6 +156,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
     public static final int COLLECTION=36;
     public static final int DIGIT=5;
     public static final int EXPRRANGE=49;
+    public static final int MIGRATIONMODULE=63;
     public static final int OPERATOR=52;
     public static final int EXPRLIST=48;
     public static final int T__102=102;
@@ -382,7 +382,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: modelNamespace, modelAlias, NAME
+            // elements: modelNamespace, NAME, modelAlias
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -833,7 +833,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: formalParameterList, operationName, statementBlock, returnType, ctx
+            // elements: formalParameterList, operationName, ctx, statementBlock, returnType
             // token labels: operationName
             // rule labels: retval, ctx, returnType
             // token list labels: 
@@ -1192,7 +1192,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: typeName, NAME
+            // elements: NAME, typeName
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1407,7 +1407,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: logicalExpression, NAME
+            // elements: NAME, logicalExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2856,7 +2856,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: statementOrStatementBlock, logicalExpression, formalParameter
+            // elements: logicalExpression, statementOrStatementBlock, formalParameter
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3158,7 +3158,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: statementOrStatementBlock, logicalExpression
+            // elements: logicalExpression, statementOrStatementBlock
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5506,7 +5506,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
 
 
             // AST REWRITE
-            // elements: typeName, NAME, parameterList
+            // elements: NAME, parameterList, typeName
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6702,22 +6702,23 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
     protected DFA50 dfa50 = new DFA50(this);
     protected DFA51 dfa51 = new DFA51(this);
     static final String DFA18_eotS =
-        "\31\uffff";
+        "\32\uffff";
     static final String DFA18_eofS =
-        "\1\2\30\uffff";
+        "\1\2\31\uffff";
     static final String DFA18_minS =
-        "\1\7\1\0\27\uffff";
+        "\1\7\1\0\30\uffff";
     static final String DFA18_maxS =
-        "\1\170\1\0\27\uffff";
+        "\1\170\1\0\30\uffff";
     static final String DFA18_acceptS =
-        "\2\uffff\1\2\25\uffff\1\1";
+        "\2\uffff\1\2\26\uffff\1\1";
     static final String DFA18_specialS =
-        "\1\uffff\1\0\27\uffff}>";
+        "\1\uffff\1\0\30\uffff}>";
     static final String[] DFA18_transitionS = {
-            "\3\2\6\uffff\1\2\3\uffff\1\2\55\uffff\1\2\1\uffff\1\2\2\uffff"+
-            "\1\1\1\2\1\uffff\3\2\12\uffff\1\2\13\uffff\21\2\1\uffff\1\2"+
-            "\2\uffff\1\2",
+            "\3\2\6\uffff\1\2\3\uffff\1\2\55\uffff\1\2\1\uffff\1\2\1\uffff"+
+            "\1\2\1\1\1\2\1\uffff\3\2\12\uffff\1\2\13\uffff\21\2\1\uffff"+
+            "\1\2\2\uffff\1\2",
             "\1\uffff",
+            "",
             "",
             "",
             "",
@@ -6786,7 +6787,7 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
                         int index18_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred23_EolParserRules()) ) {s = 24;}
+                        if ( (synpred23_EolParserRules()) ) {s = 25;}
 
                         else if ( (true) ) {s = 2;}
 
@@ -7207,8 +7208,8 @@ public class Migration_EolParserRules extends org.eclipse.epsilon.commons.parse.
         "\10\uffff}>";
     static final String[] DFA40_transitionS = {
             "\1\1",
-            "\3\3\12\uffff\1\3\55\uffff\1\3\1\uffff\1\3\2\uffff\1\2\1\3\1"+
-            "\uffff\3\3\26\uffff\21\3\4\uffff\1\3",
+            "\3\3\12\uffff\1\3\55\uffff\1\3\1\uffff\1\3\1\uffff\1\3\1\2\1"+
+            "\3\1\uffff\3\3\26\uffff\21\3\4\uffff\1\3",
             "\1\3\1\uffff\1\3\3\uffff\1\3\1\uffff\1\3\3\uffff\1\4\66\uffff"+
             "\2\3\7\uffff\6\3\33\uffff\1\3\2\uffff\1\3\1\uffff\2\3",
             "",

@@ -1,11 +1,11 @@
 gunit Migration;
 @header{package org.eclipse.epsilon.migration.parse;}
 
-migrationStrategy:
+migrationModule:
 	// Empty, single rule, and many rules.
-	"" -> "STRATEGY"
-	"migrate Person { name := nom; }" -> "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))))"
-	"migrate Person { name := nom; } migrate Animal { name := nom; }" -> "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))"
+	"" -> "MIGRATIONMODULE"
+	"migrate Person { name := nom; }" -> "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))))"
+	"migrate Person { name := nom; } migrate Animal { name := nom; }" -> "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))"
 
 
 migrationRule:

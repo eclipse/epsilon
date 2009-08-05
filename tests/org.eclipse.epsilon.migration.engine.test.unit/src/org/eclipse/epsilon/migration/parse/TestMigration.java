@@ -10,31 +10,31 @@ public class TestMigration extends TestCase {
 	String stdout;
 	String stderr;
 
-	public void testMigrationStrategy1() throws Exception {
+	public void testMigrationModule1() throws Exception {
 		// test input: ""
-		Object retval = execParser("migrationStrategy", "", false);
+		Object retval = execParser("migrationModule", "", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "STRATEGY";
+		Object expecting = "MIGRATIONMODULE";
 
-		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+		assertEquals("testing rule "+"migrationModule", expecting, actual);
 	}
 
-	public void testMigrationStrategy2() throws Exception {
+	public void testMigrationModule2() throws Exception {
 		// test input: "migrate Person { name := nom; }"
-		Object retval = execParser("migrationStrategy", "migrate Person { name := nom; }", false);
+		Object retval = execParser("migrationModule", "migrate Person { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))))";
+		Object expecting = "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))))";
 
-		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+		assertEquals("testing rule "+"migrationModule", expecting, actual);
 	}
 
-	public void testMigrationStrategy3() throws Exception {
+	public void testMigrationModule3() throws Exception {
 		// test input: "migrate Person { name := nom; } migrate Animal { name := nom; }"
-		Object retval = execParser("migrationStrategy", "migrate Person { name := nom; } migrate Animal { name := nom; }", false);
+		Object retval = execParser("migrationModule", "migrate Person { name := nom; } migrate Animal { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(STRATEGY (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))";
+		Object expecting = "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))";
 
-		assertEquals("testing rule "+"migrationStrategy", expecting, actual);
+		assertEquals("testing rule "+"migrationModule", expecting, actual);
 	}
 
 	public void testMigrationRule1() throws Exception {

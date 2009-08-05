@@ -24,7 +24,7 @@ public abstract class LoaderTestHelper {
 	private LoaderTestHelper() {}
 	
 	static AST createMigrationStrategyAst(AST... rules) {
-		final AST strategy = createAST(MigrationParser.STRATEGY, "STRATEGY");
+		final AST strategy = createAST(MigrationParser.MIGRATIONMODULE, "MIGRATIONMODULE");
 		strategy.addChildren(Arrays.asList(rules));
 		return strategy;
 	}

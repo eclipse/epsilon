@@ -53,7 +53,7 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 	
 	@Override
 	public String getMainRule() {
-		return "migrationStrategy";
+		return "migrationModule";
 	}
 
 	@Override
@@ -71,9 +71,8 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 		execute(context);
 	}
 
-	public void execute(IMigrationContext context) throws MigrationExecutionException {
-		reset();
-		
+	public void execute(IMigrationContext context) throws MigrationExecutionException {	
+		context.setModule(this);
 		context.run(strategy);
 	}
 }

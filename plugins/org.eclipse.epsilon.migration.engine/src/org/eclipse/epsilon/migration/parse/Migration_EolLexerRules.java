@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.migration.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-08-05 11:01:13
+// $ANTLR 3.1b1 EolLexerRules.g 2009-08-05 17:54:57
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -62,7 +62,6 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int NAME=16;
     public static final int T__90=90;
     public static final int RETURN=31;
-    public static final int STRATEGY=63;
     public static final int NewExpression=41;
     public static final int VAR=42;
     public static final int ANNOTATIONBLOCK=44;
@@ -154,6 +153,7 @@ public class Migration_EolLexerRules extends Lexer {
     public static final int COLLECTION=36;
     public static final int DIGIT=5;
     public static final int EXPRRANGE=49;
+    public static final int MIGRATIONMODULE=63;
     public static final int OPERATOR=52;
     public static final int EXPRLIST=48;
     public static final int T__102=102;
