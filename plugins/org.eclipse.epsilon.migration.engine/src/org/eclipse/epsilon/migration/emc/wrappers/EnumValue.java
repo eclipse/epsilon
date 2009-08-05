@@ -16,6 +16,7 @@ package org.eclipse.epsilon.migration.emc.wrappers;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 class EnumValue extends BackedModelValue<Enumerator> {
 
@@ -24,12 +25,12 @@ class EnumValue extends BackedModelValue<Enumerator> {
 	}
 
 	@Override
-	EnumValue getEquivalentIn(Model model, Equivalences equivalences) throws CopyingException {
+	EnumValue getEquivalentIn(Model model, Equivalences equivalences) throws ConservativeCopyException {
 		try {
 			return new EnumValue(model, model.getEquivalent(underlyingModelObject));
 			
 		} catch (EolEnumerationValueNotFoundException e) {
-			throw new CopyingException("Could not find in migrated metamodel an enumeration value equivalent to: " + underlyingModelObject, e);
+			throw new ConservativeCopyException("Could not find in migrated metamodel an enumeration value equivalent to: " + underlyingModelObject, e);
 		}
 	}
 }

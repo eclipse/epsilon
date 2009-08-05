@@ -15,6 +15,7 @@ package org.eclipse.epsilon.migration.emc.wrappers;
 
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 public abstract class ModelValue<UnwrappedType> {
 
@@ -24,7 +25,7 @@ public abstract class ModelValue<UnwrappedType> {
 
 	abstract UnwrappedType unwrap();
 	
-	abstract ModelValue<UnwrappedType> getEquivalentIn(Model model, Equivalences equivalences) throws CopyingException;
+	abstract ModelValue<UnwrappedType> getEquivalentIn(Model model, Equivalences equivalences) throws ConservativeCopyException;
 	
 	@Override
 	public abstract boolean equals(Object o);

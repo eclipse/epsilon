@@ -19,6 +19,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
 public class AttributeValueTests {
@@ -32,7 +33,7 @@ public class AttributeValueTests {
 	}
 	
 	@Test
-	public void getEquivalentShouldCreateEquivalentValue() throws CopyingException {
+	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException {
 		final Model dummyMigratedModel       = createMock(Model.class);
 		final Equivalences dummyEquivalences = createMock(Equivalences.class);
 		

@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.migration.emc.wrappers.Model;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
@@ -41,11 +41,11 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	}
 
 	public void setOriginalModel(IModel original) {
-		this.originalModel = new Model(original);
+		this.originalModel = new Model(original, getPrettyPrinterManager());
 	}
 	
 	public void setMigratedModel(IModel migrated) {
-		this.migratedModel = new Model(migrated);
+		this.migratedModel = new Model(migrated, getPrettyPrinterManager());
 	}
 	
 	private void addModel(IModel model) {
@@ -89,5 +89,13 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		} catch (EolRuntimeException e) {
 			throw new MigrationExecutionException("Could not create in the migrated model a model element of type: " + type, e);
 		}
+	}
+
+	public boolean isElementInOriginalModel(ModelElement element) {
+		return originalModel.owns(element);
+	}
+	
+	public boolean isElementInMigratedModel(ModelElement element) {
+		return migratedModel.owns(element);
 	}
 }

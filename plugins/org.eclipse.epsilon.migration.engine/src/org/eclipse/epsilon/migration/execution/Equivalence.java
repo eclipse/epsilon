@@ -15,6 +15,8 @@ package org.eclipse.epsilon.migration.execution;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.exceptions.IllegalMigrationException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationRule;
 
 public class Equivalence {
@@ -38,10 +40,20 @@ public class Equivalence {
 	}
 
 	void populateEquivalent(Equivalences equivalences, IMigrationContext context) throws MigrationExecutionException {
+		checkModelElementsStillResideInCorrectModels(context);
+		
 		equivalent.conservativelyCopyPropertiesFrom(original, equivalences);
 		migrationRule.applyTo(original, equivalent, context);
 	}
 	
+	private void checkModelElementsStillResideInCorrectModels(IMigrationContext context) throws IllegalMigrationException {
+		if (!context.isElementInOriginalModel(original))
+			throw new IllegalMigrationException("Original model no longer contains the model element: " + original);
+		
+		if (!context.isElementInMigratedModel(equivalent))
+			throw new IllegalMigrationException("Migrated model no longer contains the model element: " + equivalent);
+	}
+
 	@Override
 	public String toString() {
 		return original + " <-> " + equivalent + " via " + migrationRule;

@@ -18,6 +18,7 @@ import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 public class ModelElement extends BackedModelValue<Object> {
 	
@@ -34,7 +35,7 @@ public class ModelElement extends BackedModelValue<Object> {
 		return model.getTypeNameOf(underlyingModelObject);
 	}
 	
-	public void conservativelyCopyPropertiesFrom(ModelElement original, Equivalences equivalences) throws CopyingException {
+	public void conservativelyCopyPropertiesFrom(ModelElement original, Equivalences equivalences) throws ConservativeCopyException {
 		try {
 			for (String propertyName : getPropertiesSharedWith(original)) {
 				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
@@ -42,7 +43,7 @@ public class ModelElement extends BackedModelValue<Object> {
 				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, equivalences));
 			}
 		} catch (EolRuntimeException e) {
-			throw new CopyingException("Exception encountered while reading or writing a property value.", e);
+			throw new ConservativeCopyException("Exception encountered while reading or writing a property value.", e);
 		}
 	}
 	
@@ -64,5 +65,10 @@ public class ModelElement extends BackedModelValue<Object> {
 	
 	private void setValueOfProperty(String property, ModelValue<?> value) throws EolRuntimeException {
 		model.setValueOfProperty(underlyingModelObject, property, value);
+	}
+	
+	@Override
+	public String toString() {
+		return "<" + model.getStringRepresentationOf(underlyingModelObject) + ">";
 	}
 }

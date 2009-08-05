@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 class CollectionOfModelValues extends ModelValue<EolCollection> implements Iterable<ModelValue<?>> {
 
@@ -35,7 +36,7 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 	}
 	
 	@Override
-	CollectionOfModelValues getEquivalentIn(Model model, Equivalences equivalences) throws CopyingException {
+	CollectionOfModelValues getEquivalentIn(Model model, Equivalences equivalences) throws ConservativeCopyException {
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
 		for (ModelValue<?> modelValue : modelValues) {

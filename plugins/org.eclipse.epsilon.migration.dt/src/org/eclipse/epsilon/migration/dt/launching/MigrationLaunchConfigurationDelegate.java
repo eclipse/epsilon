@@ -27,7 +27,7 @@ import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.IMigrationModule;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.eclipse.epsilon.migration.MigrationModule;
-import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
@@ -72,7 +72,10 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 	}
 	
 	private void reportRuntimeException(MigrationExecutionException ex) {
-		printErrorMessage(ex.getCause().toString());
+		if (ex.getCause() == null)
+			printErrorMessage(ex.toString());
+		else
+			printErrorMessage(ex.getCause().toString());
 		
 		monitor.setCanceled(true);
 	}

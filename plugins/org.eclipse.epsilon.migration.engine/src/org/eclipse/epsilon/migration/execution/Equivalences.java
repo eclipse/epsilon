@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class Equivalences {
 
@@ -40,5 +41,17 @@ public class Equivalences {
 		for (Equivalence equivalence : equivalences) {
 			equivalence.populateEquivalent(this, context);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		
+		for (Equivalence equivalence : equivalences) {
+			builder.append(equivalence);
+			builder.append('\n');
+		}
+		
+		return builder.toString();
 	}
 }

@@ -15,7 +15,7 @@ package org.eclipse.epsilon.migration;
 
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public interface IMigrationModule extends IEolLibraryModule {
 	

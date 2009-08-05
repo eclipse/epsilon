@@ -22,6 +22,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
 public class EnumValueTests {
@@ -35,7 +36,7 @@ public class EnumValueTests {
 	}
 	
 	@Test
-	public void getEquivalentShouldCreateEquivalentValue() throws CopyingException, EolEnumerationValueNotFoundException {
+	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException, EolEnumerationValueNotFoundException {
 		final Model mockMigratedModel        = createMock(Model.class);
 		final Equivalences dummyEquivalences = createMock(Equivalences.class);
 		

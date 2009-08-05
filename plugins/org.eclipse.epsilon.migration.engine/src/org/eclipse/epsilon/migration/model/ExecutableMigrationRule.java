@@ -17,7 +17,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class ExecutableMigrationRule extends AbstractMigrationRule implements MigrationRule {
 

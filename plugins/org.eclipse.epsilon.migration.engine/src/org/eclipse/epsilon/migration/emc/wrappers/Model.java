@@ -21,23 +21,33 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.IModel;
 
 public class Model {
 	
 	private final IModel underlyingModel;
+	private final PrettyPrinterManager printer;
 	private final ModelValueWrapper wrapper;
 	
-	public Model(IModel underlyingModel) {
+	public Model(IModel underlyingModel, PrettyPrinterManager printer) {
 		this.underlyingModel = underlyingModel;
+		this.printer         = printer;
 		this.wrapper         = new ModelValueWrapper(this);
 	}
 	
-	// Used by tests
+	// Used by tests to customise wrapper
 	Model(IModel underlyingModel, ModelValueWrapper wrapper) {
 		this.underlyingModel = underlyingModel;
+		this.printer         = new PrettyPrinterManager();
 		this.wrapper         = wrapper;
 	}
+	
+	// Used by tests that don't wish to supply a printer print manager
+	Model(IModel underlyingModel) {
+		this(underlyingModel, new PrettyPrinterManager());
+	}
+	
 	
 	public ModelElement createInstance(String typeName) throws EolRuntimeException {
 		return wrapModelElement(underlyingModel.createInstance(typeName));
@@ -51,6 +61,10 @@ public class Model {
 		}
 		
 		return modelElements;
+	}
+	
+	public boolean owns(ModelElement element) {
+		return underlyingModel.owns(element.unwrap());
 	}
 	
 	ModelValue<?> wrapValue(Object value) {
@@ -86,6 +100,10 @@ public class Model {
 		setter.setObject(underlyingModelElement);
 		setter.setProperty(property);
 		setter.invoke(value.unwrap());
+	}
+	
+	String getStringRepresentationOf(Object underlyingModelObject) {
+		return printer.print(underlyingModelObject);
 	}
 
 	Enumerator getEquivalent(Enumerator original) throws EolEnumerationValueNotFoundException {

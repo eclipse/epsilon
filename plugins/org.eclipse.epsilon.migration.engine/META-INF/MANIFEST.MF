@@ -11,6 +11,7 @@ Export-Package: org.eclipse.epsilon.migration,
  org.eclipse.epsilon.migration.emc.intermediate,
  org.eclipse.epsilon.migration.emc.wrappers,
  org.eclipse.epsilon.migration.execution,
+ org.eclipse.epsilon.migration.execution.exceptions,
  org.eclipse.epsilon.migration.model,
  org.eclipse.epsilon.migration.model.loader,
  org.eclipse.epsilon.migration.parse

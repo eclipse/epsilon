@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.migration.execution.Equivalences;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +44,7 @@ public class ModelElementTests {
 	}
 	
 	@Test
-	public void getEquivalentShouldDelegateToEquivalences() throws CopyingException {
+	public void getEquivalentShouldDelegateToEquivalences() throws ConservativeCopyException {
 		final Model        dummyMigratedModel = createMock(Model.class);
 		final Equivalences mockEquivalences   = createMock(Equivalences.class);
 		
@@ -89,7 +90,7 @@ public class ModelElementTests {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void conservativelyCopyPropertiesFromShouldRetrieveEachPropertyValueAndConvertToEquivalent() throws CopyingException, EolRuntimeException {
+	public void conservativelyCopyPropertiesFromShouldRetrieveEachPropertyValueAndConvertToEquivalent() throws ConservativeCopyException, EolRuntimeException {
 		final ModelElement mockOriginalModelElement = createMock(ModelElement.class);
 		
 		final Model        dummyOriginalModel       = createMock(Model.class);

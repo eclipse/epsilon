@@ -21,7 +21,7 @@ import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.Equivalence;
 import org.eclipse.epsilon.migration.execution.Equivalences;
-import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
+import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class MigrationStrategy {
 
