@@ -25,19 +25,27 @@ import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
-	protected final Model originalModel;
-	protected final Model migratedModel;
+	private Model originalModel;
+	private Model migratedModel;
 		
 	public MigrationContext() {
 		this(null, null);
 	}
 	
 	public MigrationContext(IModel original, IModel migrated) {
-		this.originalModel = new Model(original);
-		this.migratedModel = new Model(migrated);
-		
 		addModel(original);
 		addModel(migrated);
+		
+		setOriginalModel(original);
+		setMigratedModel(migrated);
+	}
+
+	public void setOriginalModel(IModel original) {
+		this.originalModel = new Model(original);
+	}
+	
+	public void setMigratedModel(IModel migrated) {
+		this.migratedModel = new Model(migrated);
 	}
 	
 	private void addModel(IModel model) {

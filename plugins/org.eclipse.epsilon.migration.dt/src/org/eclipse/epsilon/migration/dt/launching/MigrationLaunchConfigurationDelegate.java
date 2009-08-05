@@ -55,6 +55,9 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 			} else {
 				printParseProblems();
 			}
+		
+		} catch (MigrationExecutionException e) {
+			reportRuntimeException(e);
 			
 		} catch (Exception e) {
 			reportException(e);
@@ -67,17 +70,31 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 	private void teardownContext(IProgressMonitor progressMonitor) {
 		EclipseContextManager.teardown(context, progressMonitor);
 	}
+	
+	private void reportRuntimeException(MigrationExecutionException ex) {
+		printErrorMessage(ex.getCause().toString());
+		
+		monitor.setCanceled(true);
+	}
 
-	private void reportException(Exception e) {
-		EpsilonConsole.getInstance().getErrorStream().println(e.toString());
+	private void reportException(Exception ex) {
+		printErrorMessage(ex.getLocalizedMessage());
+		
+		for (StackTraceElement element : ex.getStackTrace()) {
+			printErrorMessage("\t" + element);
+		}
+		
 		monitor.setCanceled(true);
 	}
 
 	private void printParseProblems() {
 		for (ParseProblem problem : module.getParseProblems()) {
-			System.err.println(problem);
-			EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
+			printErrorMessage(problem.toString());
 		}
+	}
+	
+	private void printErrorMessage(String message) {
+		EpsilonConsole.getInstance().getErrorStream().println(message);
 	}
 
 	private void loadModels() throws EolRuntimeException {
@@ -88,8 +105,8 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 		EclipseContextManager.setup(context, launchConfig, monitor, launch);
 		
 		// FIXME - need GUI to configure this
-		context = new MigrationContext(context.getModelRepository().getModelByName("Original"),
-		                               context.getModelRepository().getModelByName("Migrated"));
+		context.setOriginalModel(context.getModelRepository().getModelByName("Original"));
+		context.setMigratedModel(context.getModelRepository().getModelByName("Migrated"));
 		
 		finishedCurrentTask();
 	}

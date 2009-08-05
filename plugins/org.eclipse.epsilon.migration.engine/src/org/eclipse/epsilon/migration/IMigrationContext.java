@@ -16,10 +16,15 @@ package org.eclipse.epsilon.migration;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.MigrationExecutionException;
 
 public interface IMigrationContext extends IEolContext {
+	
+	public void setOriginalModel(IModel original);
+	
+	public void setMigratedModel(IModel migrated);
 
 	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException;
 
