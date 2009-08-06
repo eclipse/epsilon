@@ -27,7 +27,7 @@ public class ModelElement extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	ModelValue<?> getEquivalentIn(Model model, IMigrationContext context) {
+	public ModelValue<?> getEquivalentIn(Model model, IMigrationContext context) {
 		// context.getEquivalent might be null, so ensure return value is wrapped
 		return model.wrap(context.getEquivalent(this));
 	}

@@ -75,11 +75,11 @@ public class Model {
 		return underlyingModel.owns(unwrappedElement);
 	}
 	
-	ModelValue<?> wrap(Object value) {
+	public ModelValue<?> wrap(Object value) {
 		return wrapper.wrapValue(value);
 	}
 	
-	public ModelElement wrapModelElement(Object object) {
+	ModelElement wrapModelElement(Object object) {
 		return wrapper.wrapModelElement(object);
 	}
 	

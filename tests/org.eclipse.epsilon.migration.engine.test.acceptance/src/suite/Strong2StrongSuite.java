@@ -24,7 +24,8 @@ import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveNoRules
 import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveARule;
 import test.strong2strong.copying.ConservativelyCopyNestedModelElements;
 import test.strong2strong.copying.DoNotCopyContainedObjectWithUnknownMigratedClass;
-import test.strong2strong.equivalences.EquivalentOperation;
+import test.strong2strong.equivalences.EquivalentOfCollectionOfModelElements;
+import test.strong2strong.equivalences.EquivalentOfModelElement;
 import test.strong2strong.equivalences.IgnoreInstancesWithUnknownMigratedClass;
 import test.strong2strong.rules.Guard;
 import test.strong2strong.rules.MigrateToDifferentType;
@@ -39,7 +40,7 @@ import test.strong2strong.rules.Simple;
                SeveralRules.class, SeveralRulesForSameType.class,
                MigrateToDifferentType.class, ShorthandRule.class,
                Guard.class,
-               ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOperation.class,
+               ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
                Operation.class,
                DoNotCopyContainedObjectWithUnknownMigratedClass.class,
                IgnoreInstancesWithUnknownMigratedClass.class})

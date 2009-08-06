@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
@@ -45,5 +46,5 @@ public interface IMigrationContext extends IEolContext {
 
 	public ModelElement getEquivalent(ModelElement modelElement);
 	
-	public Object getUnwrappedEquivalent(Object unwrappedModelElement);
+	public Object getUnwrappedEquivalent(Object unwrappedModelElement) throws ConservativeCopyException;
 }

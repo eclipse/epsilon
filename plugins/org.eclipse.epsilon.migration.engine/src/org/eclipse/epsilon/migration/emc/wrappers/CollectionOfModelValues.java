@@ -36,7 +36,7 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 	}
 	
 	@Override
-	CollectionOfModelValues getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
+	public CollectionOfModelValues getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
 		for (ModelValue<?> modelValue : modelValues) {

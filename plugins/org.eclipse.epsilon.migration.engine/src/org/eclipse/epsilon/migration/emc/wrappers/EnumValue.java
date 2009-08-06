@@ -25,7 +25,7 @@ class EnumValue extends BackedModelValue<Enumerator> {
 	}
 
 	@Override
-	EnumValue getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
+	public EnumValue getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
 		try {
 			return new EnumValue(model, model.getEquivalent(underlyingModelObject));
 			

@@ -16,72 +16,45 @@ package org.eclipse.epsilon.migration;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import org.eclipse.epsilon.migration.emc.wrappers.Model;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelValue;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
-import org.junit.Before;
 import org.junit.Test;
 
 public class MigrationContextTests {
 
-	private final Model                   mockOriginalModel = createMock(Model.class);
-	private final MigrationStrategyRunner mockRunner        = createMock(MigrationStrategyRunner.class);
-	
-	private final IMigrationContext context = new MigrationContext(mockRunner, mockOriginalModel);
-	
-	@Before
-	public void setup() {
-		reset(mockRunner, mockOriginalModel);
-	}
-	
-	
+	@SuppressWarnings("unchecked")
 	@Test
-	public void getUnwrappedEquivalentShouldWrapModelElementAndDelegateToRunner() throws MigrationExecutionException {	
-		final ModelElement dummyOriginalModelElement  = createMock(ModelElement.class);
+	public void getUnwrappedEquivalentShouldWrapModelElementAndDelegateToIt() throws MigrationExecutionException {
+		final Model mockOriginalModel  = createMock(Model.class);
+		final Model dummyMigratedModel = createMock(Model.class);
+		
+		final IMigrationContext context = new MigrationContext(mockOriginalModel, dummyMigratedModel);
+		
+		final ModelElement mockOriginalModelElement   = createMock(ModelElement.class);
 		final ModelElement mockEquivalentModelElement = createMock(ModelElement.class);;
 		
 		
-		// Expectations		
+		// Expectations				
+		expect(mockOriginalModel.wrap("dummy model element"))
+			.andReturn((ModelValue)mockOriginalModelElement);
 		
-		expect(mockOriginalModel.owns("dummy model element"))
-			.andReturn(true);
-		
-		expect(mockOriginalModel.wrapModelElement("dummy model element"))
-			.andReturn(dummyOriginalModelElement);
-		
-		expect(mockRunner.getEquivalent(dummyOriginalModelElement))
-			.andReturn(mockEquivalentModelElement);
+		expect(mockOriginalModelElement.getEquivalentIn(dummyMigratedModel, context))
+			.andReturn((ModelValue)mockEquivalentModelElement);
 		
 		expect(mockEquivalentModelElement.unwrap())
 			.andReturn("dummy equivalent model element");
 		
-		replay(mockOriginalModel, mockRunner, mockEquivalentModelElement);
+		replay(mockOriginalModel, mockOriginalModelElement, mockEquivalentModelElement);
 		
 		
 		// Verification
 		assertEquals("dummy equivalent model element", context.getUnwrappedEquivalent("dummy model element"));
 		
-		verify(mockOriginalModel, mockRunner, mockEquivalentModelElement);
-	}
-	
-	@Test
-	public void getUnwrappedEquivalentShouldReturnNullWhenArgumentIsNotAModelElement() throws MigrationExecutionException {			
-		// Expectations	
-		
-		expect(mockOriginalModel.owns("dummy model element"))
-			.andReturn(false);
-		
-		replay(mockOriginalModel, mockRunner);
-		
-		
-		// Verification
-		assertNull(context.getUnwrappedEquivalent("dummy model element"));
-		
-		verify(mockOriginalModel, mockRunner);
+		verify(mockOriginalModel, mockOriginalModelElement, mockEquivalentModelElement);
 	}
 }

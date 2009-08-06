@@ -16,13 +16,14 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.migration.IMigrationContext;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 
 public class EquivalentOperation extends AbstractSimpleOperation {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object execute(Object originalModelElement, List parameters, IEolContext context, AST ast) {
+	public Object execute(Object originalModelElement, List parameters, IEolContext context, AST ast) throws ConservativeCopyException {
 		return ((IMigrationContext)context).getUnwrappedEquivalent(originalModelElement);
 	}
 }

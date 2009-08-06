@@ -22,19 +22,21 @@ import org.eclipse.epsilon.migration.model.MigrationStrategy;
 public class MigrationStrategyRunner {
 
 	private final IMigrationContext context;
+	private final MigrationStrategy strategy;
 	
-	public MigrationStrategyRunner(IMigrationContext context) {
-		this.context = context;
+	public MigrationStrategyRunner(IMigrationContext context, MigrationStrategy strategy) {
+		this.context  = context;
+		this.strategy = strategy;
 	}
 	
 	private Equivalences equivalences;
 	
-	public void run(MigrationStrategy strategy) throws MigrationExecutionException {
-		establishEquivalences(strategy);
+	public void run() throws MigrationExecutionException {
+		establishEquivalences();
 		populateEachEquivalent();
 	}
 
-	private void establishEquivalences(MigrationStrategy strategy) throws MigrationExecutionException {
+	private void establishEquivalences() throws MigrationExecutionException {
 		equivalences = new EquivalenceEstablisher(strategy, context).establishEquivalences();
 	}
 

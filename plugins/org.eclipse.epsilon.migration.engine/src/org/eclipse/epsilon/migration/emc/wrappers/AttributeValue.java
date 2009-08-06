@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.migration.emc.wrappers;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
-import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 
 class AttributeValue extends BackedModelValue<Object> {
 
@@ -23,7 +22,7 @@ class AttributeValue extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	AttributeValue getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException {
+	public AttributeValue getEquivalentIn(Model model, IMigrationContext context) {
 		return new AttributeValue(model, underlyingModelObject);
 	}
 }

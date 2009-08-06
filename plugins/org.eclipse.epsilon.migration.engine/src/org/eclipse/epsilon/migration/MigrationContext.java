@@ -21,39 +21,30 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.migration.emc.wrappers.Model;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.migration.emc.wrappers.ModelValue;
+import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.execution.operations.MigrationLanguageOperationFactory;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
-	private final MigrationStrategyRunner runner;
-	
 	private Model originalModel;
 	private Model migratedModel;
 		
 	public MigrationContext() {
-		this(null, null, null);
+		this((IModel)null, (IModel)null);
 	}
 	
 	public MigrationContext(IModel original, IModel migrated) {
-		this(null, original, migrated);
-	}
-	
-	private MigrationContext(MigrationStrategyRunner runner, IModel original, IModel migrated) {
-		if (runner == null)
-			this.runner = new MigrationStrategyRunner(this);
-		else
-			this.runner = runner;
-		
 		initialiseModels(original, migrated);
 		setOperationFactory(new MigrationLanguageOperationFactory());
 	}
 	
 	// Used by tests
-	MigrationContext(MigrationStrategyRunner runner, Model original) {
-		this.runner        = runner;
+	MigrationContext(Model original, Model migrated) {
 		this.originalModel = original;
+		this.migratedModel = migrated;
 	}
 
 	private void initialiseModels(IModel original, IModel migrated) {
@@ -90,6 +81,7 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 			return result;
 			
 		} catch (EolRuntimeException e) {
+			e.printStackTrace();
 			throw new MigrationExecutionException("Exception encountered while executing EOL block.", e);
 		}
 	}
@@ -132,27 +124,22 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		return migratedModel.owns(element);
 	}
 	
-	private boolean isElementInOriginalModel(Object unwrappedModelElement) {
-		return originalModel.owns(unwrappedModelElement);
-	}
-	
-	private ModelElement toElementInOriginalModel(Object unwrappedModelElement) {
-		return originalModel.wrapModelElement(unwrappedModelElement);
+	private ModelValue<?> treatAsValueInOriginalModel(Object unwrappedModelElement) {
+		return originalModel.wrap(unwrappedModelElement);
 	}
 
+	private MigrationStrategyRunner runner;
 	
 	public void run(MigrationStrategy strategy) throws MigrationExecutionException {
-		runner.run(strategy);
+		runner = new MigrationStrategyRunner(this, strategy);
+		runner.run();
 	}
 
 	public ModelElement getEquivalent(ModelElement originalModelElement) {
 		return runner.getEquivalent(originalModelElement);
 	}
 
-	public Object getUnwrappedEquivalent(Object unwrappedModelElement) {
-		if (!isElementInOriginalModel(unwrappedModelElement))
-			return null;
-		
-		return getEquivalent(toElementInOriginalModel(unwrappedModelElement)).unwrap();
+	public Object getUnwrappedEquivalent(Object unwrappedModelElement) throws ConservativeCopyException {		
+		return treatAsValueInOriginalModel(unwrappedModelElement).getEquivalentIn(migratedModel, this).unwrap();
 	}
 }

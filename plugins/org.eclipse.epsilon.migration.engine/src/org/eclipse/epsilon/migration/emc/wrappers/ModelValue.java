@@ -25,7 +25,7 @@ public abstract class ModelValue<UnwrappedType> {
 
 	public abstract UnwrappedType unwrap();
 	
-	abstract ModelValue<?> getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException;
+	public abstract ModelValue<?> getEquivalentIn(Model model, IMigrationContext context) throws ConservativeCopyException;
 	
 	@Override
 	public abstract boolean equals(Object o);

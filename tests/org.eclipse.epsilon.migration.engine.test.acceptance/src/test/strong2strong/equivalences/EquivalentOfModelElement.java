@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
-public class EquivalentOperation extends Strong2StrongMigrationAcceptanceTest {
+public class EquivalentOfModelElement extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Family { "    +
 	                                       "	migrated.members.add(original.members.first.equivalent());" +
