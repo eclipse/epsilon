@@ -59,4 +59,11 @@ public class AbstractEmfModelTests {
 	public void getPropertiesOfForPlainJavaObject() {
 		emfModel.getPropertiesOf("foo");
 	}
+	
+	
+	@Test
+	public void isInstantiable() {
+		assertTrue(emfModel.isInstantiable("EClass"));
+		assertFalse(emfModel.isInstantiable("EStructuralFeature"));
+	}
 }

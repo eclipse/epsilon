@@ -540,7 +540,7 @@ public abstract class AbstractEmfModel extends Model{
 
 	public boolean isInstantiable(String type) {
 		try {
-			return classForName(type).isAbstract();
+			return !classForName(type).isAbstract();
 		} catch (EolModelElementTypeNotFoundException e) {
 			return false;
 		}
