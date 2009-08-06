@@ -23,6 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveNoRules;
 import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveARule;
 import test.strong2strong.copying.ConservativelyCopyNestedModelElements;
+import test.strong2strong.copying.DoNotCopyContainedObjectWithUnknownMigratedClass;
 import test.strong2strong.equivalences.EquivalentOperation;
 import test.strong2strong.equivalences.IgnoreInstancesWithUnknownMigratedClass;
 import test.strong2strong.rules.Guard;
@@ -40,6 +41,7 @@ import test.strong2strong.rules.Simple;
                Guard.class,
                ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOperation.class,
                Operation.class,
+               DoNotCopyContainedObjectWithUnknownMigratedClass.class,
                IgnoreInstancesWithUnknownMigratedClass.class})
 public class Strong2StrongSuite {
 	public static Test suite() {

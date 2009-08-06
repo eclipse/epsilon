@@ -72,6 +72,8 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 	}
 	
 	private void reportRuntimeException(MigrationExecutionException ex) {
+		ex.printStackTrace();
+		
 		if (ex.getCause() == null)
 			printErrorMessage(ex.toString());
 		else

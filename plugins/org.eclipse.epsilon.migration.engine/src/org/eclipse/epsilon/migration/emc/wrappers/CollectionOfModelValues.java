@@ -40,7 +40,11 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
 		for (ModelValue<?> modelValue : modelValues) {
-			copiedModelValues.add(modelValue.getEquivalentIn(model, context));
+			final ModelValue<?> equivalent = modelValue.getEquivalentIn(model, context);
+			
+			// EMF collections cannot contain nulls
+			if (equivalent.unwrap() != null)
+				copiedModelValues.add(equivalent);
 		}
 		
 		return new CollectionOfModelValues(model, copiedModelValues);

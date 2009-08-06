@@ -86,6 +86,34 @@ public class CollectionOfModelValuesTests {
 		verify(dummyMigratedModel, dummyContext, firstMockModelValue, secondMockModelValue);
 	}
 	
+	@Test
+	public void getEquivalentShouldExcludeValuesThatUnwrapToNull() throws ConservativeCopyException {
+		final Model             dummyMigratedModel = createMock(Model.class);
+		final IMigrationContext dummyContext       = createMock(IMigrationContext.class);
+		
+		final BackedModelValue mockOriginalModelValue    = createMock("OriginalValue",   BackedModelValue.class);
+		final BackedModelValue mockEquivalentModelValue  = createMock("EquivalentValue", BackedModelValue.class);
+
+		
+		// Expectations
+		
+		expect(mockOriginalModelValue.getEquivalentIn(dummyMigratedModel, dummyContext))
+			.andReturn(mockEquivalentModelValue);
+		
+		expect(mockEquivalentModelValue.unwrap())
+			.andReturn(null);
+		
+		replay(dummyMigratedModel, dummyContext, mockOriginalModelValue, mockEquivalentModelValue);
+		
+		
+		// Verification
+		
+		assertEquals(new CollectionOfModelValues(dummyMigratedModel),
+		             new CollectionOfModelValues(dummyModel, mockOriginalModelValue).getEquivalentIn(dummyMigratedModel, dummyContext));
+		
+		verify(dummyMigratedModel, dummyContext, mockOriginalModelValue, mockEquivalentModelValue);
+	}
+	
 	
 	private static void assertEolCollectionsEqual(EolCollection expected, EolCollection actual) {
 		assertEquals(expected.getStorage(), actual.getStorage());

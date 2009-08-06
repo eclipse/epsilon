@@ -43,26 +43,30 @@ public class ModelElementTests {
 		assertEquals("foo", element.unwrap());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void getEquivalentShouldDelegateToEquivalences() throws ConservativeCopyException {
-		final Model             dummyMigratedModel = createMock(Model.class);
+		final Model             mockMigratedModel = createMock(Model.class);
 		final IMigrationContext mockContext        = createMock(IMigrationContext.class);
 		
-		
+		final ModelElement dummyMigratedModelElement = new ModelElement(mockMigratedModel, "bar");
+
 		// Expectations
-		
 		expect(mockContext.getEquivalent(element))
-			.andReturn(new ModelElement(dummyMigratedModel, "bar"));
+			.andReturn(dummyMigratedModelElement);
 		
-		replay(dummyMigratedModel, mockContext);
+		expect(mockMigratedModel.wrap(dummyMigratedModelElement))
+			.andReturn((ModelValue)dummyMigratedModelElement);
+		
+		replay(mockMigratedModel, mockContext);
 		
 		
 		// Verification
 		
-		assertEquals(new ModelElement(dummyMigratedModel, "bar"),
-		             element.getEquivalentIn(dummyMigratedModel, mockContext));
+		assertEquals(dummyMigratedModelElement,
+		             element.getEquivalentIn(mockMigratedModel, mockContext));
 		
-		verify(dummyMigratedModel, mockContext);
+		verify(mockMigratedModel, mockContext);
 	}
 	
 	@Test

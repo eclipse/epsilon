@@ -27,8 +27,9 @@ public class ModelElement extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	ModelElement getEquivalentIn(Model model, IMigrationContext context) {
-		return context.getEquivalent(this);
+	ModelValue<?> getEquivalentIn(Model model, IMigrationContext context) {
+		// context.getEquivalent might be null, so ensure return value is wrapped
+		return model.wrap(context.getEquivalent(this));
 	}
 
 	public String getTypeName() {
@@ -37,7 +38,7 @@ public class ModelElement extends BackedModelValue<Object> {
 	
 	public void conservativelyCopyPropertiesFrom(ModelElement original, IMigrationContext context) throws ConservativeCopyException {
 		try {
-			for (String propertyName : getPropertiesSharedWith(original)) {
+			for (String propertyName : getPropertiesSharedWith(original)) {				
 				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
 				
 				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, context));
