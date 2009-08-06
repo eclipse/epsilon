@@ -29,10 +29,10 @@ import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionExce
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExecutableMigrationRuleSatisfiesGuardTests {
+public class MigrationRuleSatisfiesGuardTests {
 	
-	private static final AST dummyGuard               = createMock(AST.class); 
-	private static final ExecutableMigrationRule rule = new ExecutableMigrationRule("", "", dummyGuard, new AST());
+	private static final AST dummyGuard     = createMock(AST.class); 
+	private static final MigrationRule rule = new MigrationRule("", "", dummyGuard, new AST());
 	
 	private final Variable dummyVariable                = createMock(Variable.class);
 	private final ModelElement mockOriginalModelElement = createMock(ModelElement.class);

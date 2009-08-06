@@ -16,9 +16,9 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.model.ExecutableMigrationRuleIsOfOriginalTypeTests;
-import org.eclipse.epsilon.migration.model.ExecutableMigrationRuleApplyToTests;
-import org.eclipse.epsilon.migration.model.ExecutableMigrationRuleSatisfiesGuardTests;
+import org.eclipse.epsilon.migration.model.MigrationRuleIsOfOriginalTypeTests;
+import org.eclipse.epsilon.migration.model.MigrationRuleApplyToTests;
+import org.eclipse.epsilon.migration.model.MigrationRuleSatisfiesGuardTests;
 import org.eclipse.epsilon.migration.model.MigrationStrategyRuleForTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -26,8 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({MigrationStrategyRuleForTests.class,
-               ExecutableMigrationRuleIsOfOriginalTypeTests.class, ExecutableMigrationRuleSatisfiesGuardTests.class,
-               ExecutableMigrationRuleApplyToTests.class})
+               MigrationRuleIsOfOriginalTypeTests.class, MigrationRuleSatisfiesGuardTests.class,
+               MigrationRuleApplyToTests.class})
 public class DomainModelSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(DomainModelSuite.class);

@@ -20,25 +20,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import test.strong2strong.AutomaticallyCopyModelElementsThatHaveNoStrategy;
-import test.strong2strong.ConservativeCopy;
-import test.strong2strong.ContainedObjects;
-import test.strong2strong.EquivalentOperation;
-import test.strong2strong.MigrateToDifferentType;
-import test.strong2strong.Operation;
-import test.strong2strong.ShorthandRule;
-import test.strong2strong.SeveralRules;
-import test.strong2strong.SeveralRulesForSameType;
-import test.strong2strong.Simple;
-import test.strong2strong.Guard;
+import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveNoRules;
+import test.strong2strong.copying.ConservativelyCopyModelElementsThatHaveARule;
+import test.strong2strong.copying.ConservativelyCopyNestedModelElements;
+import test.strong2strong.equivalences.EquivalentOperation;
+import test.strong2strong.equivalences.IgnoreInstancesWithUnknownMigratedClass;
+import test.strong2strong.rules.Guard;
+import test.strong2strong.rules.MigrateToDifferentType;
+import test.strong2strong.rules.Operation;
+import test.strong2strong.rules.SeveralRules;
+import test.strong2strong.rules.SeveralRulesForSameType;
+import test.strong2strong.rules.ShorthandRule;
+import test.strong2strong.rules.Simple;
 
 @RunWith(Suite.class)
-@SuiteClasses({Simple.class, ContainedObjects.class, AutomaticallyCopyModelElementsThatHaveNoStrategy.class,
+@SuiteClasses({Simple.class, ConservativelyCopyNestedModelElements.class, ConservativelyCopyModelElementsThatHaveNoRules.class,
                SeveralRules.class, SeveralRulesForSameType.class,
                MigrateToDifferentType.class, ShorthandRule.class,
                Guard.class,
-               ConservativeCopy.class, EquivalentOperation.class,
-               Operation.class})
+               ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOperation.class,
+               Operation.class,
+               IgnoreInstancesWithUnknownMigratedClass.class})
 public class Strong2StrongSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongSuite.class);

@@ -18,8 +18,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public interface IMigrationContext extends IEolContext {
 	
@@ -34,12 +34,14 @@ public interface IMigrationContext extends IEolContext {
 	public Iterable<ModelElement> getOriginalModelElements();
 
 	public ModelElement createModelElementInMigratedModel(String type) throws MigrationExecutionException;
+	
+	public ModelElement createModelElementOfSameTypeInMigratedModel(ModelElement original) throws MigrationExecutionException;
 
 	public boolean isElementInOriginalModel(ModelElement element);
 	
 	public boolean isElementInMigratedModel(ModelElement element);
-
-	public void run(EquivalenceEstablisher establisher) throws MigrationExecutionException;
+	
+	public void run(MigrationStrategy strategy) throws MigrationExecutionException;
 
 	public ModelElement getEquivalent(ModelElement modelElement);
 	

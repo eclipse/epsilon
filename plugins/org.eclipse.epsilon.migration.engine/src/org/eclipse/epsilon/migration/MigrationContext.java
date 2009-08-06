@@ -21,9 +21,9 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.migration.emc.wrappers.Model;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.execution.operations.MigrationLanguageOperationFactory;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationContext extends EolContext implements IMigrationContext {
 
@@ -116,6 +116,13 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 			throw new MigrationExecutionException("Could not create in the migrated model a model element of type: " + type, e);
 		}
 	}
+	
+	public ModelElement createModelElementOfSameTypeInMigratedModel(ModelElement original) throws MigrationExecutionException {
+		if (migratedModel.hasType(original.getTypeName()))
+			return createModelElementInMigratedModel(original.getTypeName());
+		else
+			return null;
+	}
 
 	public boolean isElementInOriginalModel(ModelElement element) {
 		return originalModel.owns(element);
@@ -134,8 +141,8 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 	}
 
 	
-	public void run(EquivalenceEstablisher establisher) throws MigrationExecutionException {
-		runner.run(establisher);
+	public void run(MigrationStrategy strategy) throws MigrationExecutionException {
+		runner.run(strategy);
 	}
 
 	public ModelElement getEquivalent(ModelElement originalModelElement) {

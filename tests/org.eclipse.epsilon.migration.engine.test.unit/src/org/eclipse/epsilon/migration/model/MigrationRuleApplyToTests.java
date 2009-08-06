@@ -27,12 +27,12 @@ import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionExce
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExecutableMigrationRuleApplyToTests {
+public class MigrationRuleApplyToTests {
 		
 	private final IMigrationContext mockContext = createMock(IMigrationContext.class);
 	
 	private final AST body = new AST();
-	private final ExecutableMigrationRule rule = new ExecutableMigrationRule("", "", null, body);
+	private final MigrationRule rule = new MigrationRule("", "", null, body);
 	
 	private final Variable dummyOriginalVariable = createMock(Variable.class);
 	private final Variable dummyMigratedVariable = createMock(Variable.class);

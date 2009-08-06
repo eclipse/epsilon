@@ -83,7 +83,7 @@ public class EquivalencesTests {
 	}
 	
 	private Equivalence createEquivalence(ModelElement original, ModelElement equivalent) {
-		final Equivalence eq = createMock(Equivalence.class);
+		final Equivalence eq = createMock(RuleBasedEquivalence.class);
 		expect(eq.getOriginal()).andReturn(original).anyTimes();
 		expect(eq.getEquivalent()).andReturn(equivalent).anyTimes();
 		return eq;

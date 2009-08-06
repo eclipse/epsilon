@@ -17,6 +17,7 @@ import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public class MigrationStrategyRunner {
 
@@ -28,17 +29,17 @@ public class MigrationStrategyRunner {
 	
 	private Equivalences equivalences;
 	
-	public void run(EquivalenceEstablisher establisher) throws MigrationExecutionException {
-		establishEquivalences(establisher);
+	public void run(MigrationStrategy strategy) throws MigrationExecutionException {
+		establishEquivalences(strategy);
 		populateEachEquivalent();
 	}
 
-	private void establishEquivalences(EquivalenceEstablisher establisher) throws MigrationExecutionException {
-		equivalences = establisher.establishEquivalences(context);
+	private void establishEquivalences(MigrationStrategy strategy) throws MigrationExecutionException {
+		equivalences = new EquivalenceEstablisher(strategy, context).establishEquivalences();
 	}
 
 	private void populateEachEquivalent() throws MigrationExecutionException {
-		equivalences.populateEachEquivalent(context);
+		equivalences.populateEachEquivalent();
 	}
 	
 	public ModelElement getEquivalent(ModelElement originalModelElement) {

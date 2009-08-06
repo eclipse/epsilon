@@ -18,6 +18,7 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
@@ -30,9 +31,9 @@ public class MigrationStrategyRuleForTests {
 	private final ModelElement      dummyOriginalModelElement = createMock("DummyOriginalModelElement", ModelElement.class);
 	private final IMigrationContext dummyContext              = createMock("DummyContext", IMigrationContext.class);
 	
-	private ExecutableMigrationRule applicableRule;
-	private ExecutableMigrationRule inapplicableRule;
-	private ExecutableMigrationRule rule;
+	private MigrationRule applicableRule;
+	private MigrationRule inapplicableRule;
+	private MigrationRule rule;
 
 	@Before
 	public void setup() {
@@ -41,25 +42,25 @@ public class MigrationStrategyRuleForTests {
 		rule             = createRuleThatIsNotTestedForApplicability();
 	}
 	
-	private ExecutableMigrationRule createRuleThatIsNotTestedForApplicability() {
-		final ExecutableMigrationRule rule = createMock("RuleThatIsNotTestedForApplicability", ExecutableMigrationRule.class);
+	private MigrationRule createRuleThatIsNotTestedForApplicability() {
+		final MigrationRule rule = createMock("RuleThatIsNotTestedForApplicability", MigrationRule.class);
 		
 		replay(rule);
 		
 		return rule;
 	}
 
-	private ExecutableMigrationRule createInapplicableRule() {
+	private MigrationRule createInapplicableRule() {
 		return createRule("InapplicableRule", false);
 	}
 
-	private ExecutableMigrationRule createApplicableRule() {
+	private MigrationRule createApplicableRule() {
 		return createRule("ApplicableRule", true);
 	}
 
-	private ExecutableMigrationRule createRule(String name, boolean applicable) {
+	private MigrationRule createRule(String name, boolean applicable) {
 		try {
-			final ExecutableMigrationRule rule = createMock(name, ExecutableMigrationRule.class);
+			final MigrationRule rule = createMock(name, MigrationRule.class);
 			
 			expect(rule.appliesFor(dummyOriginalModelElement, dummyContext))
 				.andReturn(applicable);
@@ -111,22 +112,14 @@ public class MigrationStrategyRuleForTests {
 		verify(inapplicableRule, applicableRule);
 	}
 	
-	
 	@Test
-	public void ruleForShouldReturnNoOpMigrationRuleWhenNoApplicableRules() throws MigrationExecutionException {
+	public void ruleForShouldReturnNullWhenNoApplicableRules() throws MigrationExecutionException {
 		final MigrationStrategy strategy = new MigrationStrategy(inapplicableRule);
-		
-		// Expectations
-		expect(dummyOriginalModelElement.getTypeName())
-			.andReturn("dummy");
-		
-		replay(dummyOriginalModelElement);
-		
 		
 		// Verification
 		
-		assertEquals(new NoOpMigrationRule("dummy"), strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertNull(strategy.ruleFor(dummyOriginalModelElement, dummyContext));
 		
-		verify(dummyOriginalModelElement, inapplicableRule);
+		verify(inapplicableRule);
 	}
 }

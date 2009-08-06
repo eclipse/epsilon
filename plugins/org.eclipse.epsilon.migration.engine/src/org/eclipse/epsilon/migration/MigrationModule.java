@@ -23,15 +23,15 @@ import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
+import org.eclipse.epsilon.migration.model.MigrationStrategy;
 import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.migration.parse.MigrationLexer;
 import org.eclipse.epsilon.migration.parse.MigrationParser;
 
 public class MigrationModule extends EolLibraryModule implements IMigrationModule {
 	
-	private EquivalenceEstablisher strategy;
+	private MigrationStrategy strategy;
 	
 	// FIXME ! Could tidy up the next two methods with a generic?
 	

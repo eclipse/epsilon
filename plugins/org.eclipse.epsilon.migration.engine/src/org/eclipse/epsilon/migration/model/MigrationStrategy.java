@@ -19,53 +19,33 @@ import java.util.List;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.Equivalence;
-import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
-import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
-public class MigrationStrategy implements EquivalenceEstablisher {
+public class MigrationStrategy {
 
-	private final List<ExecutableMigrationRule> rules = new LinkedList<ExecutableMigrationRule>();
+	private final List<MigrationRule> rules = new LinkedList<MigrationRule>();
 	
 	public MigrationStrategy() {}
 	
-	public MigrationStrategy(ExecutableMigrationRule... rules) {
+	public MigrationStrategy(MigrationRule... rules) {
 		addRules(rules);
 	}
 	
-	public void addRule(ExecutableMigrationRule rule) {
+	public void addRule(MigrationRule rule) {
 		rules.add(rule);
 	}
 	
-	public void addRules(ExecutableMigrationRule... rules) {
+	public void addRules(MigrationRule... rules) {
 		this.rules.addAll(Arrays.asList(rules));
 	}
 	
-	public Equivalences establishEquivalences(IMigrationContext context) throws MigrationExecutionException {
-		final Equivalences equivalences = new Equivalences();
-		
-		for (ModelElement original : context.getOriginalModelElements()) {
-			equivalences.add(createEquivalenceFor(original, context));
-		}
-		
-		return equivalences;
-	}
-	
-	Equivalence createEquivalenceFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
-		final AbstractMigrationRule rule = ruleFor(original, context);
-		final ModelElement migrated      = rule.createMigratedModelElement(context);
-		
-		return new Equivalence(original, migrated, rule);
-	}
-	
-	AbstractMigrationRule ruleFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
-		for (ExecutableMigrationRule rule : rules) {
+	public MigrationRule ruleFor(ModelElement original, IMigrationContext context) throws MigrationExecutionException {
+		for (MigrationRule rule : rules) {
 			if (rule.appliesFor(original, context))
 				return rule;
 		}
 		
-		return new NoOpMigrationRule(original.getTypeName());
+		return null;
 	}
 	
 	

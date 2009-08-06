@@ -16,7 +16,6 @@ package org.eclipse.epsilon.migration.execution;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
@@ -24,7 +23,7 @@ public class Equivalences {
 
 	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
 	
-	public void add(Equivalence equivalence) {
+	void add(Equivalence equivalence) {
 		equivalences.add(equivalence);
 	}
 	
@@ -37,9 +36,9 @@ public class Equivalences {
 		return null;
 	}
 
-	public void populateEachEquivalent(IMigrationContext context) throws MigrationExecutionException {
+	public void populateEachEquivalent() throws MigrationExecutionException {
 		for (Equivalence equivalence : equivalences) {
-			equivalence.populateEquivalent(context);
+			equivalence.populateEquivalent();
 		}
 	}
 	

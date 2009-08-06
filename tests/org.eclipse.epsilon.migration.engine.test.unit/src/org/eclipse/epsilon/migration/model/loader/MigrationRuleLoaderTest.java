@@ -19,7 +19,7 @@ import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.create
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.migration.model.ExecutableMigrationRule;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.junit.Test;
 
 public class MigrationRuleLoaderTest {
@@ -29,9 +29,9 @@ public class MigrationRuleLoaderTest {
 		final AST body    = createBody();
 		final AST ruleAst = createMigrationRuleAst("Person", null, null, body);
 		
-		final ExecutableMigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final MigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
 		
-		assertEquals(new ExecutableMigrationRule("Person", "Person", null, body), rule);
+		assertEquals(new MigrationRule("Person", "Person", null, body), rule);
 	}
 	
 	@Test
@@ -39,9 +39,9 @@ public class MigrationRuleLoaderTest {
 		final AST body    = createBody();
 		final AST ruleAst = createMigrationRuleAst("Animal", "Dog", null, body);
 		
-		final ExecutableMigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final MigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
 		
-		assertEquals(new ExecutableMigrationRule("Animal", "Dog", null, body), rule);
+		assertEquals(new MigrationRule("Animal", "Dog", null, body), rule);
 	}
 	
 	@Test
@@ -50,9 +50,9 @@ public class MigrationRuleLoaderTest {
 		final AST guard   = createGuard();
 		final AST ruleAst = createMigrationRuleAst("Person", null, guard, body);
 		
-		final ExecutableMigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final MigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
 		
-		assertEquals(new ExecutableMigrationRule("Person", "Person", guard, body), rule);
+		assertEquals(new MigrationRule("Person", "Person", guard, body), rule);
 	}
 	
 	@Test
@@ -61,12 +61,12 @@ public class MigrationRuleLoaderTest {
 		final AST guard   = createGuard();
 		final AST ruleAst = createMigrationRuleAst("Animal", "Dog", guard, body);
 		
-		final ExecutableMigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final MigrationRule rule = runMigrationRuleLoaderOn(ruleAst);
 		
-		assertEquals(new ExecutableMigrationRule("Animal", "Dog", guard, body), rule);
+		assertEquals(new MigrationRule("Animal", "Dog", guard, body), rule);
 	}
 	
-	private static ExecutableMigrationRule runMigrationRuleLoaderOn(AST rule) {
+	private static MigrationRule runMigrationRuleLoaderOn(AST rule) {
 		return new MigrationRuleLoader(rule).run();
 	}
 }

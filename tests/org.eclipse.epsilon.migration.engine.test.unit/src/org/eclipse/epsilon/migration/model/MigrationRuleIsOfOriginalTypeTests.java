@@ -23,9 +23,9 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.junit.Test;
 
-public class ExecutableMigrationRuleIsOfOriginalTypeTests {
+public class MigrationRuleIsOfOriginalTypeTests {
 	
-	private static final ExecutableMigrationRule rule = new ExecutableMigrationRule("Dog", "Animal", new AST(), new AST());
+	private static final MigrationRule rule = new MigrationRule("Dog", "Animal", new AST(), new AST());
 	
 	@Test
 	public void isOfOriginalTypeShouldReturnTrueOnlyWhenTypeNamesMatch() {

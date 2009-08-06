@@ -13,66 +13,23 @@
  */
 package org.eclipse.epsilon.migration.execution;
 
-import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.exceptions.IllegalMigrationException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
-import org.eclipse.epsilon.migration.model.MigrationRule;
 
-public class Equivalence {
-	
-	private final ModelElement original;
-	private final ModelElement equivalent;
-	private final MigrationRule migrationRule;
-	
-	public Equivalence(ModelElement original, ModelElement equivalent, MigrationRule migrationRule) {
-		this.original      = original;
-		this.equivalent    = equivalent;
-		this.migrationRule = migrationRule;
-	}
-	
-	ModelElement getOriginal() {
-		return original;
-	}
+public interface Equivalence {
 
-	ModelElement getEquivalent() {
-		return equivalent;
-	}
+	public ModelElement getOriginal();
 
-	void populateEquivalent(IMigrationContext context) throws MigrationExecutionException {
-		checkModelElementsStillResideInCorrectModels(context);
-		
-		equivalent.conservativelyCopyPropertiesFrom(original, context);
-		migrationRule.applyTo(original, equivalent, context);
-	}
-	
-	private void checkModelElementsStillResideInCorrectModels(IMigrationContext context) throws IllegalMigrationException {
-		if (!context.isElementInOriginalModel(original))
-			throw new IllegalMigrationException("Original model no longer contains the model element: " + original);
-		
-		if (!context.isElementInMigratedModel(equivalent))
-			throw new IllegalMigrationException("Migrated model no longer contains the model element: " + equivalent);
-	}
+	public ModelElement getEquivalent();
+
+	public void populateEquivalent() throws MigrationExecutionException;
 
 	@Override
-	public String toString() {
-		return original + " <-> " + equivalent + " via " + migrationRule;
-	}
-	
+	public boolean equals(Object obj);
+
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Equivalence))
-			return false;
-		
-		final Equivalence other = (Equivalence)obj;
-		
-		return original.equals(other.original) &&
-		       equivalent.equals(other.equivalent) &&
-		       migrationRule.equals(other.migrationRule);
-	}
-	
+	public int hashCode();
+
 	@Override
-	public int hashCode() {
-		return original.hashCode() + equivalent.hashCode() + migrationRule.hashCode();
-	}
+	public String toString();
 }

@@ -14,7 +14,7 @@
 package org.eclipse.epsilon.migration.model.loader;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.migration.model.ExecutableMigrationRule;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.eclipse.epsilon.migration.parse.MigrationParser;
 
 public class MigrationRuleLoader {
@@ -25,8 +25,8 @@ public class MigrationRuleLoader {
 		this.ast = ast;
 	}
 	
-	public ExecutableMigrationRule run() {
-		return new ExecutableMigrationRule(getOriginalType(), getMigratedType(), getGuard(), getBody());
+	public MigrationRule run() {
+		return new MigrationRule(getOriginalType(), getMigratedType(), getGuard(), getBody());
 	}
 
 	private String getOriginalType() {

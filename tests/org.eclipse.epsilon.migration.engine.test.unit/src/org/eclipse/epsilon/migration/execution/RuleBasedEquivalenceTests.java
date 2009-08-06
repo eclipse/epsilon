@@ -23,7 +23,7 @@ import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EquivalenceTests {
+public class RuleBasedEquivalenceTests {
 
 	private final ModelElement dummyOriginal = createMock("DummyOriginal",  ModelElement.class);
 	
@@ -31,7 +31,7 @@ public class EquivalenceTests {
 	private final ModelElement      mockEquivalent = createMock("MockEquivalent", ModelElement.class);
 	private final MigrationRule     mockRule       = createMock("MockRule", MigrationRule.class);
 	
-	private final Equivalence equivalence = new Equivalence(dummyOriginal, mockEquivalent, mockRule);
+	private final Equivalence equivalence = new RuleBasedEquivalence(mockContext, dummyOriginal, mockEquivalent, mockRule);
 	
 	@Before
 	public void setup() {
@@ -56,7 +56,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(mockContext);
+		equivalence.populateEquivalent();
 		
 		verify(mockEquivalent, mockRule);
 	}
@@ -74,7 +74,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(mockContext);
+		equivalence.populateEquivalent();
 		
 		verify(mockContext);
 	}
@@ -94,7 +94,7 @@ public class EquivalenceTests {
 		
 		// Verification
 		
-		equivalence.populateEquivalent(mockContext);
+		equivalence.populateEquivalent();
 		
 		verify(mockContext);
 	}
