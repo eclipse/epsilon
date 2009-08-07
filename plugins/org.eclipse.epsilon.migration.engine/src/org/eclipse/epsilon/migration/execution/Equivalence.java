@@ -22,7 +22,9 @@ public interface Equivalence {
 
 	public ModelElement getEquivalent();
 
-	public void populateEquivalent() throws MigrationExecutionException;
+	public void automaticallyPopulateEquivalence() throws MigrationExecutionException;
+	
+	public void applyStrategyToPopulateEquivalence() throws MigrationExecutionException;
 
 	@Override
 	public boolean equals(Object obj);

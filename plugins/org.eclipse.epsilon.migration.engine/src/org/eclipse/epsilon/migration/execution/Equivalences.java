@@ -38,7 +38,11 @@ public class Equivalences {
 
 	public void populateEachEquivalent() throws MigrationExecutionException {
 		for (Equivalence equivalence : equivalences) {
-			equivalence.populateEquivalent();
+			equivalence.automaticallyPopulateEquivalence();
+		}
+		
+		for (Equivalence equivalence : equivalences) {
+			equivalence.applyStrategyToPopulateEquivalence();
 		}
 	}
 	

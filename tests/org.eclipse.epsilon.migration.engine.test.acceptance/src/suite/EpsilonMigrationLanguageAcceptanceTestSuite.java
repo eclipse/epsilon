@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({Strong2StrongSuite.class, Strong2StrongErrorsSuite.class})
+@SuiteClasses({Strong2StrongSuite.class})
 public class EpsilonMigrationLanguageAcceptanceTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonMigrationLanguageAcceptanceTestSuite.class);

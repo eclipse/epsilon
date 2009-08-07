@@ -31,11 +31,9 @@ public class RuleBasedEquivalence extends TypeBasedEquivalence implements Equiva
 		
 		this.migrationRule = migrationRule;
 	}
-	
-	@Override
-	public void populateEquivalent() throws MigrationExecutionException {
-		super.populateEquivalent();
 		
+	@Override
+	public void applyStrategyToPopulateEquivalence() throws MigrationExecutionException {
 		migrationRule.applyTo(original, equivalent, context);
 	}
 

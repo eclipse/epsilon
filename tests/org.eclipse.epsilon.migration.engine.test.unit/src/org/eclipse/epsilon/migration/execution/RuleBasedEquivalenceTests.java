@@ -13,11 +13,13 @@
  */
 package org.eclipse.epsilon.migration.execution;
 
-import static org.easymock.classextension.EasyMock.*;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.reset;
+import static org.easymock.classextension.EasyMock.verify;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.exceptions.IllegalMigrationException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.junit.Before;
@@ -25,77 +27,33 @@ import org.junit.Test;
 
 public class RuleBasedEquivalenceTests {
 
-	private final ModelElement dummyOriginal = createMock("DummyOriginal",  ModelElement.class);
+	private final ModelElement      dummyOriginal   = createMock("DummyOriginal",   ModelElement.class);
+	private final ModelElement      dummyEquivalent = createMock("DummyEquivalent", ModelElement.class);
+	private final IMigrationContext dummyContext    = createMock("DummyContext", IMigrationContext.class);
 	
-	private final IMigrationContext mockContext    = createMock("MockContext", IMigrationContext.class);
-	private final ModelElement      mockEquivalent = createMock("MockEquivalent", ModelElement.class);
-	private final MigrationRule     mockRule       = createMock("MockRule", MigrationRule.class);
+	private final MigrationRule mockRule = createMock("MockRule", MigrationRule.class);
 	
-	private final Equivalence equivalence = new RuleBasedEquivalence(mockContext, dummyOriginal, mockEquivalent, mockRule);
+	private final Equivalence equivalence = new RuleBasedEquivalence(dummyContext, dummyOriginal, dummyEquivalent, mockRule);
 	
 	@Before
 	public void setup() {
-		reset(mockContext, mockEquivalent, mockRule);
+		reset(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
 	}
 	
 	
 	@Test
-	public void shouldDelegateToCopyAndRule() throws MigrationExecutionException {
+	public void shouldDelegateToRule() throws MigrationExecutionException {
 		// Expectations
+			
+		mockRule.applyTo(dummyOriginal, dummyEquivalent, dummyContext);
 		
-		expect(mockContext.isElementInOriginalModel(dummyOriginal))
-			.andReturn(true);
-		expect(mockContext.isElementInMigratedModel(mockEquivalent))
-			.andReturn(true);
-		
-		mockEquivalent.conservativelyCopyPropertiesFrom(dummyOriginal, mockContext);
-		mockRule.applyTo(dummyOriginal, mockEquivalent, mockContext);
-		
-		replay(mockContext, mockEquivalent, mockRule);
+		replay(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
 		
 		
 		// Verification
 		
-		equivalence.populateEquivalent();
+		equivalence.applyStrategyToPopulateEquivalence();
 		
-		verify(mockEquivalent, mockRule);
-	}
-	
-	
-	@Test(expected=IllegalMigrationException.class)
-	public void shouldThrowExceptionWhenOriginalModelNoLongerOwnsOriginalModelElement() throws MigrationExecutionException {
-		// Expectations
-		
-		expect(mockContext.isElementInOriginalModel(dummyOriginal))
-			.andReturn(false);
-		
-		replay(mockContext);
-		
-		
-		// Verification
-		
-		equivalence.populateEquivalent();
-		
-		verify(mockContext);
-	}
-	
-	
-	@Test(expected=IllegalMigrationException.class)
-	public void shouldThrowExceptionWhenMigratedModelNoLongerOwnsMigratedModelElement() throws MigrationExecutionException {
-		// Expectations
-		
-		expect(mockContext.isElementInOriginalModel(dummyOriginal))
-			.andReturn(true);
-		expect(mockContext.isElementInMigratedModel(mockEquivalent))
-			.andReturn(false);
-		
-		replay(mockContext);
-		
-		
-		// Verification
-		
-		equivalence.populateEquivalent();
-		
-		verify(mockContext);
+		verify(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
 	}
 }

@@ -15,7 +15,6 @@ package org.eclipse.epsilon.migration.execution;
 
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.migration.execution.exceptions.IllegalMigrationException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class TypeBasedEquivalence implements Equivalence {
@@ -43,19 +42,13 @@ public class TypeBasedEquivalence implements Equivalence {
 		return equivalent;
 	}
 	
-	public void populateEquivalent() throws MigrationExecutionException {
-		checkModelElementsStillResideInCorrectModels();
-		
+	public void automaticallyPopulateEquivalence() throws MigrationExecutionException {
 		if (equivalent != null)
 			equivalent.conservativelyCopyPropertiesFrom(original, context);
-	}	
+	}
 	
-	private void checkModelElementsStillResideInCorrectModels() throws IllegalMigrationException {
-		if (!context.isElementInOriginalModel(original))
-			throw new IllegalMigrationException("Original model no longer contains the model element: " + original);
-		
-		if (equivalent != null && !context.isElementInMigratedModel(equivalent))
-			throw new IllegalMigrationException("Migrated model no longer contains the model element: " + equivalent);
+	public void applyStrategyToPopulateEquivalence() throws MigrationExecutionException {
+		// no rule applies
 	}
 	
 	@Override
