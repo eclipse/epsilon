@@ -13,26 +13,57 @@
  */
 package org.eclipse.epsilon.migration.model;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
-public class MigrationRule {
+public class MigrationRule implements ModuleElement {
 
 	private final String originalType;
 	private final String migratedType;
 	private final AST guard;
 	private final AST body;
+	private final AST ast;
 	
-	public MigrationRule(String originalType, String migratedType, AST guard, AST body) {
+	public MigrationRule(AST ast, String originalType, String migratedType, AST guard, AST body) {
+		this.ast          = ast;
 		this.originalType = originalType;
 		this.migratedType = migratedType;
 		this.guard        = guard;
 		this.body         = body;
 	}
 	
+	/**
+	 * Constructs a MigrationRule that has no underlying ANTLR parse tree.
+	 */
+	public MigrationRule(String originalType, String migratedType, AST guard, AST body) {
+		this(null, originalType, migratedType, guard, body);
+	}
+	
+	
+	public AST getAst() {
+		return ast;
+	}
+
+	public List<?> getChildren() {
+		return Collections.EMPTY_LIST;
+	}
+	
+	public String getOriginalType() {
+		return originalType;
+	}
+
+	public String getMigratedType() {
+		return migratedType;
+	}
+	
+
 	public ModelElement createMigratedModelElement(IMigrationContext context) throws MigrationExecutionException {
 		return context.createModelElementInMigratedModel(migratedType);
 	}

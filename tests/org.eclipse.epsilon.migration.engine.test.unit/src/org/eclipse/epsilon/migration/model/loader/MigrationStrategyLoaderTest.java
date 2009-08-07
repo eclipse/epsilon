@@ -31,7 +31,7 @@ public class MigrationStrategyLoaderTest {
 	public void empty() {
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(createMigrationStrategyAst());
 		
-		assertEquals(0, strategy.numberOfRules());
+		assertEquals(0, strategy.getRules().size());
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ public class MigrationStrategyLoaderTest {
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
-		assertEquals(1, strategy.numberOfRules());
+		assertEquals(1, strategy.getRules().size());
 	}
 	
 	
@@ -53,7 +53,7 @@ public class MigrationStrategyLoaderTest {
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
-		assertEquals(2, strategy.numberOfRules());
+		assertEquals(2, strategy.getRules().size());
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class MigrationStrategyLoaderTest {
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
-		assertEquals(0, strategy.numberOfRules());
+		assertEquals(0, strategy.getRules().size());
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class MigrationStrategyLoaderTest {
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
 		
-		assertEquals(0, strategy.numberOfRules());
+		assertEquals(0, strategy.getRules().size());
 	}
 	
 	

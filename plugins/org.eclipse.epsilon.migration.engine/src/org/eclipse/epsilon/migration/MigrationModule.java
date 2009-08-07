@@ -15,10 +15,13 @@ package org.eclipse.epsilon.migration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.eol.EolLibraryModule;
@@ -74,6 +77,17 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 	public void execute(IMigrationContext context) throws MigrationExecutionException {	
 		context.setModule(this);
 		context.run(strategy);
+	}
+	
+	@Override
+	public List<ModuleElement> getChildren(){
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
+		
+		children.addAll(getImports());
+		children.addAll(strategy.getRules());
+		children.addAll(getDeclaredOperations());
+		
+		return children;
 	}
 }
 

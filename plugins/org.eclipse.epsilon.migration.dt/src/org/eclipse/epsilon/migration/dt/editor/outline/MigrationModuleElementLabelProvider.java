@@ -11,14 +11,31 @@
 package org.eclipse.epsilon.migration.dt.editor.outline;
 
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
+import org.eclipse.epsilon.migration.dt.MigrationPlugin;
+import org.eclipse.epsilon.migration.model.MigrationRule;
 import org.eclipse.swt.graphics.Image;
 
 public class MigrationModuleElementLabelProvider extends EolModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
-		// TODO icons for outline view
-		return super.getImage(element);
+		if (element instanceof MigrationRule) {
+			return MigrationPlugin.getDefault().createImage("icons/migration.png");
+		} else {
+			return super.getImage(element);
+		}
 	}
-
+	
+	@Override
+	public String getText(Object element) {
+		// The implementation of MigrationRule#toString is good for tests and debugging,
+		// but looks messy in outline view, so overriding getText for MigrationRules
+		
+		if (element instanceof MigrationRule) {
+			return ((MigrationRule)element).getOriginalType() + " to " + ((MigrationRule)element).getMigratedType();
+		} else {
+			return super.getText(element);
+		}
+	}
+	
 }

@@ -14,6 +14,8 @@
 package org.eclipse.epsilon.migration.model;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,11 +49,8 @@ public class MigrationStrategy {
 		
 		return null;
 	}
-	
-	
-	// Used by MigrationStrategyLoader tests
-	
-	public int numberOfRules() {
-		return rules.size();
+
+	public Collection<MigrationRule> getRules() {
+		return Collections.unmodifiableCollection(rules);
 	}
 }

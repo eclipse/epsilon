@@ -26,7 +26,7 @@ public class MigrationRuleLoader {
 	}
 	
 	public MigrationRule run() {
-		return new MigrationRule(getOriginalType(), getMigratedType(), getGuard(), getBody());
+		return new MigrationRule(ast, getOriginalType(), getMigratedType(), getGuard(), getBody());
 	}
 
 	private String getOriginalType() {
