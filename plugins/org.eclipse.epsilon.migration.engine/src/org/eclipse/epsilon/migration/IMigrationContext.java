@@ -16,7 +16,6 @@ package org.eclipse.epsilon.migration;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.migration.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.migration.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
@@ -24,9 +23,9 @@ import org.eclipse.epsilon.migration.model.MigrationStrategy;
 
 public interface IMigrationContext extends IEolContext {
 	
-	public void setOriginalModel(IModel original);
+	public void setOriginalModel(int indexInRepository);
 	
-	public void setMigratedModel(IModel migrated);
+	public void setMigratedModel(int indexInRepository);
 
 	public Object executeBlock(AST block, Variable... variables) throws MigrationExecutionException;
 

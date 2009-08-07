@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -29,6 +30,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -40,8 +42,10 @@ import org.eclipse.swt.widgets.Listener;
 
 public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	private List models = new StringList();
+	protected List models = new StringList();
 	private TableViewer modelsViewer;
+	
+	private final List<Button> modelControls = new LinkedList<Button>();
 
 	public void createControl(Composite parent) {
 		
@@ -50,10 +54,28 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 
 		Composite control = new Composite(parent, SWT.FILL);
 		setControl(control);
-		GridLayout controlLayout = new GridLayout(2, false);
+		GridLayout controlLayout = new GridLayout(1, false);
 		control.setLayout(controlLayout);
+		
+		createModelViewerControl(control);
+		
+		createBottomControl(control);
+		
+		control.pack();
+		control.layout();
+		
+		canSave();
+	}
 
-		modelsViewer = new TableViewer(control, SWT.BORDER);
+	private void createModelViewerControl(Composite parent) {
+		Composite topControl = new Composite(parent, SWT.FILL);
+		GridLayout topControlLayout = new GridLayout(2, false);
+		topControl.setLayout(topControlLayout);
+		
+		GridData topControlData = new GridData(GridData.FILL_BOTH);
+		topControl.setLayoutData(topControlData);
+
+		modelsViewer = new TableViewer(topControl, SWT.BORDER);
 
 		modelsViewer.setContentProvider(new ListContentProvider());
 		modelsViewer.setLabelProvider(new ModelLabelProvider());
@@ -64,7 +86,7 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		GridData viewerData = new GridData(GridData.FILL_BOTH);
 		modelsViewer.getControl().setLayoutData(viewerData);
 
-		Composite buttons = new Composite(control, SWT.FILL | SWT.TOP);
+		Composite buttons = new Composite(topControl, SWT.FILL | SWT.TOP);
 		buttons.setLayoutData(buttonsData);
 
 		GridLayout buttonsLayout = new GridLayout(1, true);
@@ -77,11 +99,22 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		//createButton(buttons, "Up");
 		//createButton(buttons, "Down");
 		//createButton(buttons, "Test");
-		
-		control.pack();
-		control.layout();
-		
-		canSave();
+	}
+	
+	/**
+	 *  Subclasses may implement this method to populate the bottom portion
+	 *  of the tab with further controls
+	 */
+	protected void createBottomControl(Composite parent) {}
+	
+	/**
+	 *  The given listener will be notified of subsequent selections made on
+	 *  the buttons used to manage model choices.
+	 */
+	protected void addListenerToButtonControls(SelectionListener listener) {
+		for (Button control : modelControls) {
+			control.addSelectionListener(listener);
+		}
 	}
 
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
@@ -123,6 +156,9 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		Button button = new Button(parent, SWT.NONE);
 		button.setText(text);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		modelControls.add(button);
+		
 		return button;
 	}
 	

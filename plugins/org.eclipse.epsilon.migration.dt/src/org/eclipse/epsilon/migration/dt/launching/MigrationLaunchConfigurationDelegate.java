@@ -102,16 +102,15 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 		EpsilonConsole.getInstance().getErrorStream().println(message);
 	}
 
-	private void loadModels() throws EolRuntimeException {
+	private void loadModels() throws EolRuntimeException, CoreException {
 		startingTask("Loading models");
 		
 		context = new MigrationContext();
 		
 		EclipseContextManager.setup(context, launchConfig, monitor, launch);
 		
-		// FIXME - need GUI to configure this
-		context.setOriginalModel(context.getModelRepository().getModelByName("Original"));
-		context.setMigratedModel(context.getModelRepository().getModelByName("Migrated"));
+		context.setOriginalModel(launchConfig.getAttribute(MigrationLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
+		context.setMigratedModel(launchConfig.getAttribute(MigrationLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
 		
 		finishedCurrentTask();
 	}

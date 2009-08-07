@@ -51,8 +51,8 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		addModel(original);
 		addModel(migrated);
 		
-		setOriginalModel(original);
-		setMigratedModel(migrated);
+		this.originalModel = wrapModel(original);
+		this.migratedModel = wrapModel(migrated);
 	}
 	
 	private void addModel(IModel model) {
@@ -60,12 +60,20 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 			getModelRepository().addModel(model);
 	}
 	
-	public void setOriginalModel(IModel original) {
-		this.originalModel = new Model(original, getPrettyPrinterManager());
+	private Model wrapModel(IModel model) {
+		return new Model(model, getPrettyPrinterManager());
 	}
 	
-	public void setMigratedModel(IModel migrated) {
-		this.migratedModel = new Model(migrated, getPrettyPrinterManager());
+	public void setOriginalModel(int indexInRepository) {
+		this.originalModel = getModelFromRepositoryByIndex(indexInRepository);
+	}
+	
+	public void setMigratedModel(int indexInRepository) {
+		this.migratedModel = getModelFromRepositoryByIndex(indexInRepository);
+	}
+	
+	private Model getModelFromRepositoryByIndex(int index) {
+		return wrapModel(getModelRepository().getModels().get(index));
 	}
 	
 	

@@ -14,7 +14,7 @@ import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.migration.dt.launching.tabs.MigrationModelsConfigurationTab;
 import org.eclipse.epsilon.migration.dt.launching.tabs.MigrationSourceConfigurationTab;
 
 public class MigrationLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
@@ -23,11 +23,7 @@ public class MigrationLaunchConfigurationTabGroup extends AbstractLaunchConfigur
 		ILaunchConfigurationTab[] tabs = 
 			new ILaunchConfigurationTab[]{
 				new MigrationSourceConfigurationTab(),
-				new ModelsConfigurationTab(),
-				//new ModelChoiceTab(),
-				//new TransformationStrategyConfigurationTab(),
-				//new LibrariesConfigurationTab(),
-				//new ToolsConfigurationTab(),
+				new MigrationModelsConfigurationTab(),
 				new CommonTab()
 			};
 		setTabs(tabs);
