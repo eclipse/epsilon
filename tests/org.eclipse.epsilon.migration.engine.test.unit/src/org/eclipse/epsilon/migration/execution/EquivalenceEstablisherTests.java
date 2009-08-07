@@ -60,7 +60,7 @@ public class EquivalenceEstablisherTests {
 	}
 	
 	@Test
-	public void equivalenceForShouldReturnSameTypeEquivalenceWhenRuleForReturnsNullAndOriginalTypeExistsInMigratedMetamodel() throws MigrationExecutionException {
+	public void equivalenceForShouldReturnSameTypeEquivalenceWhenRuleForReturnsNull() throws MigrationExecutionException {
 		final MigrationStrategy mockStrategy = createMock("MockStrategy", MigrationStrategy.class);
 		final IMigrationContext mockContext  = createMock("MockContext",  IMigrationContext.class);
 		
@@ -75,7 +75,10 @@ public class EquivalenceEstablisherTests {
 		expect(mockStrategy.ruleFor(dummyOriginal, mockContext))
 			.andReturn(null);
 		
-		expect(mockContext.createModelElementOfSameTypeInMigratedModel(dummyOriginal))
+		expect(dummyOriginal.getTypeName())
+			.andReturn("foo");
+		
+		expect(mockContext.safelyCreateModelElementInMigratedModel("foo"))
 			.andReturn(dummyEquivalent);
 		
 		replay(mockStrategy, mockContext, dummyOriginal, dummyEquivalent);

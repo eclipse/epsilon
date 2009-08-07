@@ -22,11 +22,7 @@ public class RuleBasedEquivalence extends TypeBasedEquivalence implements Equiva
 	
 	private final MigrationRule migrationRule;
 	
-	public RuleBasedEquivalence(IMigrationContext context, ModelElement original, MigrationRule migrationRule) throws MigrationExecutionException {
-		this(context, original, migrationRule.createMigratedModelElement(context), migrationRule);
-	}
-	
-	RuleBasedEquivalence(IMigrationContext context, ModelElement original, ModelElement equivalent, MigrationRule migrationRule) {
+	public RuleBasedEquivalence(IMigrationContext context, ModelElement original, ModelElement equivalent, MigrationRule migrationRule) {
 		super(context, original, equivalent);
 		
 		this.migrationRule = migrationRule;

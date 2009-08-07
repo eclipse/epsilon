@@ -24,11 +24,7 @@ public class TypeBasedEquivalence implements Equivalence {
 	protected final ModelElement original;
 	protected final ModelElement equivalent;
 	
-	public TypeBasedEquivalence(IMigrationContext context, ModelElement original) throws MigrationExecutionException {
-		this(context, original, context.createModelElementOfSameTypeInMigratedModel(original));
-	}
-	
-	protected TypeBasedEquivalence(IMigrationContext context, ModelElement original, ModelElement equivalent) {
+	public TypeBasedEquivalence(IMigrationContext context, ModelElement original, ModelElement equivalent) {
 		this.original   = original;
 		this.equivalent = equivalent;
 		this.context    = context;

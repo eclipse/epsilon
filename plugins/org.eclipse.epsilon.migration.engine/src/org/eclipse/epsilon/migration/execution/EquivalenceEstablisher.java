@@ -41,12 +41,21 @@ public class EquivalenceEstablisher {
 	
 	Equivalence createEquivalenceFor(ModelElement original) throws MigrationExecutionException {
 		final MigrationRule rule = strategy.ruleFor(original, context);
-				
-		if (rule == null) {			
-			return new TypeBasedEquivalence(context, original);
+		
+		final ModelElement equivalent;
+		
+		if (rule == null) {
+			equivalent = context.safelyCreateModelElementInMigratedModel(original.getTypeName());
 		
 		} else {
-			return new RuleBasedEquivalence(context, original, rule);
+			equivalent = rule.createMigratedModelElement(context);
+		}
+		
+		if (rule == null) {
+			return new TypeBasedEquivalence(context, original, equivalent);
+		
+		} else {
+			return new RuleBasedEquivalence(context, original, equivalent, rule);
 		}
 	}
 }

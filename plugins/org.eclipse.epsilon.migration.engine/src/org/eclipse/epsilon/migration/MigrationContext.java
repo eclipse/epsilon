@@ -117,9 +117,9 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 		}
 	}
 	
-	public ModelElement createModelElementOfSameTypeInMigratedModel(ModelElement original) throws MigrationExecutionException {
-		if (migratedModel.isInstantiable(original.getTypeName()))
-			return createModelElementInMigratedModel(original.getTypeName());
+	public ModelElement safelyCreateModelElementInMigratedModel(String type) throws MigrationExecutionException {
+		if (migratedModel.isInstantiable(type))
+			return createModelElementInMigratedModel(type);
 		else
 			return null;
 	}

@@ -35,7 +35,7 @@ public interface IMigrationContext extends IEolContext {
 
 	public ModelElement createModelElementInMigratedModel(String type) throws MigrationExecutionException;
 	
-	public ModelElement createModelElementOfSameTypeInMigratedModel(ModelElement original) throws MigrationExecutionException;
+	public ModelElement safelyCreateModelElementInMigratedModel(String type) throws MigrationExecutionException;
 
 	public boolean isElementInOriginalModel(ModelElement element);
 	
