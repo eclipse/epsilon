@@ -26,14 +26,16 @@ public class MigrationParserWorkbench {
 	public void work() throws Exception {
 		final String source = "migrate Person {\n" + 
 		                      "	migrated.name := original.name + ' Smith';\n" +
-		                      "}";
+		                      "}" +
+		                      "@cached " +
+		                      "operation String inc() { self := self + 1}";
 		
 		final MigrationLexer lexer = new MigrationLexer(new ANTLRStringStream(source));		
 		
 		MigrationParser parser = new MigrationParser(new CommonTokenStream(lexer));
 		parser.prepareForGUnit();
 			
-		new Antlr3TreeViewer(parser.migrationRule().tree , MigrationParser.class);
+		new Antlr3TreeViewer(parser.migrationModule().tree , MigrationParser.class);
 	}
 }
 

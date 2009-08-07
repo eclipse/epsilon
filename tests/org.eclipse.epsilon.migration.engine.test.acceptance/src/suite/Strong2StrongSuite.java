@@ -27,6 +27,7 @@ import test.strong2strong.copying.DoNotCopyContainedObjectWithUnknownMigratedCla
 import test.strong2strong.equivalences.EquivalentOfCollectionOfModelElements;
 import test.strong2strong.equivalences.EquivalentOfModelElement;
 import test.strong2strong.equivalences.IgnoreInstancesWithUnknownMigratedClass;
+import test.strong2strong.rules.AnnotatedOperation;
 import test.strong2strong.rules.Guard;
 import test.strong2strong.rules.MigrateToDifferentType;
 import test.strong2strong.rules.Operation;
@@ -41,7 +42,7 @@ import test.strong2strong.rules.Simple;
                MigrateToDifferentType.class, ShorthandRule.class,
                Guard.class,
                ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
-               Operation.class,
+               Operation.class, AnnotatedOperation.class,
                DoNotCopyContainedObjectWithUnknownMigratedClass.class,
                IgnoreInstancesWithUnknownMigratedClass.class})
 public class Strong2StrongSuite {

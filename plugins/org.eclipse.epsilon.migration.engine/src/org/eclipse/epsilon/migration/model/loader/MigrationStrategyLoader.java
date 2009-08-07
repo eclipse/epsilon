@@ -13,8 +13,12 @@
  */
 package org.eclipse.epsilon.migration.model.loader;
 
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
+import org.eclipse.epsilon.migration.parse.MigrationParser;
 
 /**
  * Walks the AST, constructing an equivalent domain model
@@ -33,10 +37,14 @@ public class MigrationStrategyLoader {
 	public MigrationStrategy run() {
 		final MigrationStrategy strategy = new MigrationStrategy();
 		
-		for (AST ruleAst : ast.getChildren()) {
+		for (AST ruleAst : ruleAsts()) {
 			strategy.addRule(new MigrationRuleLoader(ruleAst).run());
 		}
 		
 		return strategy;
+	}
+
+	private List<AST> ruleAsts() {
+		return AstUtil.getChildren(ast, MigrationParser.MIGRATE);
 	}
 }

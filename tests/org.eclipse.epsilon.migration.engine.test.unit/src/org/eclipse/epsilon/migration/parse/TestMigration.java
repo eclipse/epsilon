@@ -37,6 +37,24 @@ public class TestMigration extends TestCase {
 		assertEquals("testing rule "+"migrationModule", expecting, actual);
 	}
 
+	public void testMigrationModule4() throws Exception {
+		// test input: "operation Integer inc() { self := self + 1; }"
+		Object retval = execParser("migrationModule", "operation Integer inc() { self := self + 1; }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(MIGRATIONMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))";
+
+		assertEquals("testing rule "+"migrationModule", expecting, actual);
+	}
+
+	public void testMigrationModule5() throws Exception {
+		// test input: "@cached operation Integer inc() { self := self + 1; }"
+		Object retval = execParser("migrationModule", "@cached operation Integer inc() { self := self + 1; }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(MIGRATIONMODULE (ANNOTATIONBLOCK @cached operation Integer inc() { self := self + 1; }))";
+
+		assertEquals("testing rule "+"migrationModule", expecting, actual);
+	}
+
 	public void testMigrationRule1() throws Exception {
 		// test input: "migrate Person { }"
 		Object retval = execParser("migrationRule", "migrate Person { }", false);

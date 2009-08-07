@@ -13,9 +13,12 @@
  */
 package org.eclipse.epsilon.migration.model.loader;
 
+import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createAnnotatedOperationAst;
 import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createBody;
+import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createBlock;
 import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createMigrationRuleAst;
 import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createMigrationStrategyAst;
+import static org.eclipse.epsilon.migration.model.loader.LoaderTestHelper.createOperationAst;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.commons.parse.AST;
@@ -52,6 +55,27 @@ public class MigrationStrategyLoaderTest {
 		
 		assertEquals(2, strategy.numberOfRules());
 	}
+	
+	@Test
+	public void operationsShouldBeIgnored() {
+		final AST operationAst = createOperationAst("String", "inc", createBlock());
+		final AST strategyAst  = createMigrationStrategyAst(operationAst);
+		
+		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
+		
+		assertEquals(0, strategy.numberOfRules());
+	}
+	
+	@Test
+	public void annotatedOperationsShouldBeIgnored() {
+		final AST operationAst = createAnnotatedOperationAst("@cached", "String", "inc()", "{ self := self + 1; }");
+		final AST strategyAst  = createMigrationStrategyAst(operationAst);
+		
+		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
+		
+		assertEquals(0, strategy.numberOfRules());
+	}
+	
 	
 	private static MigrationStrategy runMigrationStrategyLoaderOn(AST strategy) {
 		return new MigrationStrategyLoader(strategy).run();

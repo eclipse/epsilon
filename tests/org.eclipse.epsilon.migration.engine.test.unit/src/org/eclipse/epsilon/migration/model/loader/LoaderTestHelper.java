@@ -44,11 +44,31 @@ public abstract class LoaderTestHelper {
 		return rule;
 	}
 	
+	static AST createOperationAst(String context, String name, AST block) {
+		final AST rule = createAST(MigrationParser.HELPERMETHOD, "HELPERMETHOD");
+		rule.addChild(createAST(MigrationParser.NAME, context));
+		rule.addChild(createAST(MigrationParser.NAME, name));
+		rule.addChild(block);
+		
+		return rule;
+	}
+	
+	static AST createAnnotatedOperationAst(String annotation, String context, String name, String body) {
+		final AST rule = createAST(MigrationParser.ANNOTATIONBLOCK, "ANNOTATIONBLOCK");
+		rule.addChild(createAST(MigrationParser.Annotation, annotation + context + name + body));
+		
+		return rule;
+	}
+	
 	static AST createGuard() {
 		return createAST(MigrationParser.BOOLEAN, "true");
 	}
 	
 	static AST createBody() {
+		return createBlock();
+	}
+
+	static AST createBlock() {
 		return createAST(MigrationParser.BLOCK, "BLOCK");
 	}
 	

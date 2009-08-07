@@ -7,6 +7,9 @@ migrationModule:
 	"migrate Person { name := nom; }" -> "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))))"
 	"migrate Person { name := nom; } migrate Animal { name := nom; }" -> "(MIGRATIONMODULE (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))"
 
+	// Operations
+	"operation Integer inc() { self := self + 1; }" -> "(MIGRATIONMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))"
+	"@cached operation Integer inc() { self := self + 1; }" -> "(MIGRATIONMODULE (ANNOTATIONBLOCK @cached operation Integer inc() { self := self + 1; }))"
 
 migrationRule:
 	// Empty

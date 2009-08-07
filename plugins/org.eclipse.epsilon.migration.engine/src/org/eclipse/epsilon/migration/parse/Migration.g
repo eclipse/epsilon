@@ -96,7 +96,7 @@ migrationModule
 	;
 
 migrationModuleContent
-	:	migrationRule | operationDeclaration
+	:	migrationRule | operationDeclarationOrAnnotationBlock
 	;
 
 migrationRule
