@@ -86,7 +86,6 @@ public class MigrationRule implements ModuleElement {
 
 	public void applyTo(ModelElement original, ModelElement migrated, IMigrationContext context) throws MigrationExecutionException {
 		context.executeBlock(body, createOriginalVariable(original), createMigratedVariable(migrated));
-		
 	}
 	
 	private Variable createOriginalVariable(ModelElement original) {
