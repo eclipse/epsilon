@@ -11,44 +11,35 @@
  *
  * $Id$
  */
-package test.strong2strong.copying;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.warnings;
 
+import static org.junit.Assert.assertEquals;
+
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
-public class ConservativelyCopyModelElementsThatHaveNoRules extends Strong2StrongMigrationAcceptanceTest {
+public class RuleForUnknownOriginalType extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
+	private static final String strategy = "migrate Boat {" +
+	                                       "	migrated.name := 'HMS ' + original.name;" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
-	                                            "   Dog {"               +
-	                                            "       name: \"Fido\""  +
-	                                            "   }"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
-		
-		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void migratedPersonShouldHaveNewName() {
-		migrated.assertEquals("John Smith", "person.name");
-	}
-	
-		@Test
-	public void migratedDogShouldHaveOldName() {
-		migrated.assertDefined("dog");
-		migrated.assertEquals("Fido", "dog.name");
+	public void shouldHaveWarningForBoatRule() {
+		assertEquals(1, result.getWarnings().size());
+		assertEquals("Rule defined for migrating instances of Boat, but no type Boat was found in the original metamodel.", result.getWarnings().iterator().next());
 	}
 }

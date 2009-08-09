@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package test.strong2strong.copying;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.copying;
 
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EReferenceBuilder.anEReference;
@@ -19,10 +19,10 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelB
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
 public class DoNotCopyContainedObjectWithUnknownMigratedClass extends Strong2StrongMigrationAcceptanceTest {
 

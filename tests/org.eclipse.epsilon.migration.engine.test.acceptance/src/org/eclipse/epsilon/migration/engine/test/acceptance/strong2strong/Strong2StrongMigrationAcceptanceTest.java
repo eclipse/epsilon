@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package test.strong2strong;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong;
 
 import static org.junit.Assert.fail;
 

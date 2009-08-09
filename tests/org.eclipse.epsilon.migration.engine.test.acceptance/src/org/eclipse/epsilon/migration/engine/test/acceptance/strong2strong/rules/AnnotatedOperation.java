@@ -11,12 +11,12 @@
  *
  * $Id$
  */
-package test.strong2strong.rules;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.rules;
 
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
 public class AnnotatedOperation extends Strong2StrongMigrationAcceptanceTest {
 

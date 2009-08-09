@@ -11,28 +11,26 @@
  *
  * $Id$
  */
-package test.strong2strong.rules;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.rules;
 
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
-public class SeveralRules extends Strong2StrongMigrationAcceptanceTest {
+public class Operation extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
+	                                       "	migrated.name := original.name.smithise();" +
 	                                       "}" +
-	                                       "migrate Dog {" +
-	                                       "    migrated.name := original.name + ' Smith';" +
+	                                       "" +
+	                                       "operation String smithise() {" +
+	                                       "	return self + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
-	                                            "	}"                   +
-	                                            "	Dog {"               +
-	                                            "		name: \"Fido\""  +
 	                                            "	}"                   +
 	                                            "}";
 	
@@ -41,16 +39,10 @@ public class SeveralRules extends Strong2StrongMigrationAcceptanceTest {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
 		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void personHasSurname() {
+	public void migratedShouldHaveCorrectName() {
 		migrated.assertEquals("John Smith", "person.name");
-	}
-	
-	@Test
-	public void dogHasSurname() {
-		migrated.assertEquals("Fido Smith", "dog.name");
 	}
 }

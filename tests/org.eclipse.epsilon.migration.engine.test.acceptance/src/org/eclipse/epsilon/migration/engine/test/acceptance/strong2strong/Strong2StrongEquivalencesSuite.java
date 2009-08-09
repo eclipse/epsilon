@@ -11,27 +11,23 @@
  *
  * $Id$
  */
-package suite;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongCopyingSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongEquivalencesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongRulesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongWarningsSuite;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.equivalences.EquivalentOfCollectionOfModelElements;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.equivalences.EquivalentOfModelElement;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.equivalences.IgnoreInstancesWithUnknownMigratedClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({Strong2StrongRulesSuite.class,
-               Strong2StrongCopyingSuite.class,
-               Strong2StrongEquivalencesSuite.class,
-               Strong2StrongWarningsSuite.class})
-public class Strong2StrongSuite {
+@SuiteClasses({EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
+               IgnoreInstancesWithUnknownMigratedClass.class})
+public class Strong2StrongEquivalencesSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(Strong2StrongSuite.class);
+		return new JUnit4TestAdapter(Strong2StrongEquivalencesSuite.class);
 	}
 }

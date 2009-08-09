@@ -11,27 +11,20 @@
  *
  * $Id$
  */
-package suite;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongCopyingSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongEquivalencesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongRulesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongWarningsSuite;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.warnings.RuleForUnknownOriginalType;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({Strong2StrongRulesSuite.class,
-               Strong2StrongCopyingSuite.class,
-               Strong2StrongEquivalencesSuite.class,
-               Strong2StrongWarningsSuite.class})
-public class Strong2StrongSuite {
+@SuiteClasses({RuleForUnknownOriginalType.class})
+public class Strong2StrongWarningsSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(Strong2StrongSuite.class);
+		return new JUnit4TestAdapter(Strong2StrongWarningsSuite.class);
 	}
 }

@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package test.strong2strong.rules;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.rules;
 
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.migration.engine.test.util.builders.EClassBuilder.anEClass;
@@ -19,14 +19,16 @@ import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelB
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
-public class ShorthandRule extends Strong2StrongMigrationAcceptanceTest {
+public class MigrateToDifferentType extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate Person to Salesperson";
+	private static final String strategy = "migrate Person to Salesperson {" +
+	                                       "	migrated.name := original.name;" +
+	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +

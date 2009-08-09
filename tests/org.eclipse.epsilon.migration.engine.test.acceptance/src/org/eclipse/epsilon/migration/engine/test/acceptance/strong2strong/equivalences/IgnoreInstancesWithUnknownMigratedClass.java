@@ -11,16 +11,16 @@
  *
  * $Id$
  */
-package test.strong2strong.equivalences;
+package org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.equivalences;
 
 import static org.eclipse.epsilon.migration.engine.test.util.builders.MetamodelBuilder.aMetamodel;
 import static org.junit.Assert.assertFalse;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import test.strong2strong.Strong2StrongMigrationAcceptanceTest;
 
 public class IgnoreInstancesWithUnknownMigratedClass extends Strong2StrongMigrationAcceptanceTest {
 
