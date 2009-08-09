@@ -13,13 +13,25 @@
  */
 package org.eclipse.epsilon.migration;
 
-import org.eclipse.epsilon.eol.IEolLibraryModule;
-import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.LinkedList;
 
-public interface IMigrationModule extends IEolLibraryModule {
+public class MigrationResult {
+
+	private final Collection<String> warnings = new LinkedList<String>();
 	
-	public MigrationResult execute(IMigrationContext context) throws MigrationExecutionException;
+	void addWarning(String warning) {
+		warnings.add(warning);
+	}
 	
-	public MigrationResult execute(IModel original, IModel migrated) throws MigrationExecutionException;
+	public Collection<String> getWarnings() {
+		return warnings;
+	}
+	
+	public void printWarnings(PrintStream printStream) {
+		for (String warning : warnings) {
+			printStream.println(warning);
+		}
+	}
 }

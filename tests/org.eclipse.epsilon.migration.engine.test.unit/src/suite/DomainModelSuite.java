@@ -20,6 +20,7 @@ import org.eclipse.epsilon.migration.model.MigrationRuleIsOfOriginalTypeTests;
 import org.eclipse.epsilon.migration.model.MigrationRuleApplyToTests;
 import org.eclipse.epsilon.migration.model.MigrationRuleSatisfiesGuardTests;
 import org.eclipse.epsilon.migration.model.MigrationStrategyRuleForTests;
+import org.eclipse.epsilon.migration.model.checker.MigrationStrategyCheckerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -27,7 +28,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({MigrationStrategyRuleForTests.class,
                MigrationRuleIsOfOriginalTypeTests.class, MigrationRuleSatisfiesGuardTests.class,
-               MigrationRuleApplyToTests.class})
+               MigrationRuleApplyToTests.class,
+               MigrationStrategyCheckerTests.class})
 public class DomainModelSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(DomainModelSuite.class);

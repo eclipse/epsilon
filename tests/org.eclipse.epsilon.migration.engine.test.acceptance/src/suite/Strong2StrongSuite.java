@@ -35,6 +35,7 @@ import test.strong2strong.rules.SeveralRules;
 import test.strong2strong.rules.SeveralRulesForSameType;
 import test.strong2strong.rules.ShorthandRule;
 import test.strong2strong.rules.Simple;
+import test.strong2strong.warnings.RuleForUnknownOriginalType;
 
 @RunWith(Suite.class)
 @SuiteClasses({Simple.class, ConservativelyCopyNestedModelElements.class, ConservativelyCopyModelElementsThatHaveNoRules.class,
@@ -44,7 +45,8 @@ import test.strong2strong.rules.Simple;
                ConservativelyCopyModelElementsThatHaveARule.class, EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
                Operation.class, AnnotatedOperation.class,
                DoNotCopyContainedObjectWithUnknownMigratedClass.class,
-               IgnoreInstancesWithUnknownMigratedClass.class})
+               IgnoreInstancesWithUnknownMigratedClass.class,
+               RuleForUnknownOriginalType.class})
 public class Strong2StrongSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongSuite.class);

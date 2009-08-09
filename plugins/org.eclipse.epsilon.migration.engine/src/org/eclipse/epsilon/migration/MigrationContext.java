@@ -124,6 +124,10 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 			return null;
 	}
 
+	public boolean isTypeInOriginalMetamodel(String type) {
+		return originalModel.hasType(type);
+	}
+	
 	public boolean isElementInOriginalModel(ModelElement element) {
 		return originalModel.owns(element);
 	}
@@ -138,9 +142,11 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 
 	private MigrationStrategyRunner runner;
 	
-	public void run(MigrationStrategy strategy) throws MigrationExecutionException {
+	public MigrationResult run(MigrationStrategy strategy) throws MigrationExecutionException {
 		runner = new MigrationStrategyRunner(this, strategy);
 		runner.run();
+		
+		return result;
 	}
 
 	public ModelElement getEquivalent(ModelElement originalModelElement) {
@@ -149,5 +155,12 @@ public class MigrationContext extends EolContext implements IMigrationContext {
 
 	public Object getUnwrappedEquivalent(Object unwrappedModelElement) throws ConservativeCopyException {		
 		return treatAsValueInOriginalModel(unwrappedModelElement).getEquivalentIn(migratedModel, this).unwrap();
+	}
+
+	
+	private final MigrationResult result = new MigrationResult();
+	
+	public void addWarning(String warning) {
+		result.addWarning(warning);
 	}
 }

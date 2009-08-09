@@ -53,6 +53,10 @@ public class Model {
 		return wrapModelElement(underlyingModel.createInstance(typeName));
 	}
 	
+	public boolean hasType(String typeName) {
+		return underlyingModel.hasType(typeName);
+	}
+	
 	public boolean isInstantiable(String typeName) {
 		return underlyingModel.isInstantiable(typeName);
 	}

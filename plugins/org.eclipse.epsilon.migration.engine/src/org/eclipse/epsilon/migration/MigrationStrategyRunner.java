@@ -18,6 +18,7 @@ import org.eclipse.epsilon.migration.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.migration.execution.Equivalences;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 import org.eclipse.epsilon.migration.model.MigrationStrategy;
+import org.eclipse.epsilon.migration.model.checker.MigrationStrategyChecker;
 
 public class MigrationStrategyRunner {
 
@@ -32,8 +33,13 @@ public class MigrationStrategyRunner {
 	private Equivalences equivalences;
 	
 	public void run() throws MigrationExecutionException {
+		checkStrategyAgainstModels();
 		establishEquivalences();
 		populateEachEquivalent();
+	}
+	
+	private void checkStrategyAgainstModels() {
+		new MigrationStrategyChecker(strategy, context).check();
 	}
 
 	private void establishEquivalences() throws MigrationExecutionException {

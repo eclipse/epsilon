@@ -66,17 +66,17 @@ public class MigrationModule extends EolLibraryModule implements IMigrationModul
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	public void execute(IModel original, IModel migrated) throws MigrationExecutionException {
+	public MigrationResult execute(IModel original, IModel migrated) throws MigrationExecutionException {
 		final MigrationContext context = new MigrationContext(original, migrated);
 		
 		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
 		
-		execute(context);
+		return execute(context);
 	}
 
-	public void execute(IMigrationContext context) throws MigrationExecutionException {	
+	public MigrationResult execute(IMigrationContext context) throws MigrationExecutionException {	
 		context.setModule(this);
-		context.run(strategy);
+		return context.run(strategy);
 	}
 	
 	@Override

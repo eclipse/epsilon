@@ -12,6 +12,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.migration.MigrationModule;
+import org.eclipse.epsilon.migration.MigrationResult;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 
@@ -101,7 +102,10 @@ public class ExecuteMigration extends AbstractObjectActionDelegate {
 		final MigrationModule migrator = new MigrationModule();
 	
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			migrator.execute(original, migrated);
+			final MigrationResult result = migrator.execute(original, migrated);
+			
+			result.printWarnings(EpsilonConsole.getInstance().getWarningStream());
+			
 			migrated.store();
 		
 		} else {

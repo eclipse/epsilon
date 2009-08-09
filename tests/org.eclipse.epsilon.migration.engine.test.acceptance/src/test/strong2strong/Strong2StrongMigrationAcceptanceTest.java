@@ -23,6 +23,7 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.migration.IMigrationModule;
 import org.eclipse.epsilon.migration.MigrationModule;
+import org.eclipse.epsilon.migration.MigrationResult;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
 import util.FamiliesModelConstructor;
@@ -30,7 +31,7 @@ import util.FamiliesModelConstructor;
 public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	
 	protected static ModelWithEolAssertions migrated;
-	
+	protected static MigrationResult result;
 
 	protected static void migrateFamiliesToFamilies(String strategy, String hutnForOriginalModel) throws Exception {
 		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), "families");
@@ -48,7 +49,7 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
 			
-			migrator.execute(original, migratedModel);
+			result = migrator.execute(original, migratedModel);
 			
 			migrated = new ModelWithEolAssertions(migratedModel);
 			

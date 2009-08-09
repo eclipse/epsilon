@@ -37,13 +37,17 @@ public interface IMigrationContext extends IEolContext {
 	
 	public ModelElement safelyCreateModelElementInMigratedModel(String type) throws MigrationExecutionException;
 
+	public boolean isTypeInOriginalMetamodel(String type);
+	
 	public boolean isElementInOriginalModel(ModelElement element);
 	
 	public boolean isElementInMigratedModel(ModelElement element);
 	
-	public void run(MigrationStrategy strategy) throws MigrationExecutionException;
+	public MigrationResult run(MigrationStrategy strategy) throws MigrationExecutionException;
 
 	public ModelElement getEquivalent(ModelElement modelElement);
 	
 	public Object getUnwrappedEquivalent(Object unwrappedModelElement) throws ConservativeCopyException;
+	
+	public void addWarning(String message);
 }

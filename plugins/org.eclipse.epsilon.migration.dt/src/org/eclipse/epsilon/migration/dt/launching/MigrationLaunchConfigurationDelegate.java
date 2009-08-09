@@ -27,6 +27,7 @@ import org.eclipse.epsilon.migration.IMigrationContext;
 import org.eclipse.epsilon.migration.IMigrationModule;
 import org.eclipse.epsilon.migration.MigrationContext;
 import org.eclipse.epsilon.migration.MigrationModule;
+import org.eclipse.epsilon.migration.MigrationResult;
 import org.eclipse.epsilon.migration.execution.exceptions.MigrationExecutionException;
 
 public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
@@ -132,7 +133,9 @@ public class MigrationLaunchConfigurationDelegate extends EpsilonLaunchConfigura
 	private void executeMigration() throws MigrationExecutionException {
 		startingTask("Migrating");
 
-		module.execute(context);
+		final MigrationResult result = module.execute(context);
+		
+		result.printWarnings(EpsilonConsole.getInstance().getWarningStream());
 
 		finishedCurrentTask();
 	}
