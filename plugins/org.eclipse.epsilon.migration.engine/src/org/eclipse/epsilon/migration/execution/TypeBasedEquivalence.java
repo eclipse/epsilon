@@ -39,8 +39,7 @@ public class TypeBasedEquivalence implements Equivalence {
 	}
 	
 	public void automaticallyPopulateEquivalence() throws MigrationExecutionException {
-		if (equivalent != null)
-			equivalent.conservativelyCopyPropertiesFrom(original, context);
+		equivalent.conservativelyCopyPropertiesFrom(original, context);
 	}
 	
 	public void applyStrategyToPopulateEquivalence() throws MigrationExecutionException {
@@ -60,7 +59,7 @@ public class TypeBasedEquivalence implements Equivalence {
 		final TypeBasedEquivalence other = (TypeBasedEquivalence)obj;
 		
 		return original.equals(other.original) &&
-		       equivalent == null ? other.equivalent == null : equivalent.equals(other.equivalent);
+		       equivalent.equals(other.equivalent);
 	}
 	
 	@Override

@@ -33,7 +33,10 @@ public class EquivalenceEstablisher {
 		final Equivalences equivalences = new Equivalences();
 		
 		for (ModelElement original : context.getOriginalModelElements()) {
-			equivalences.add(createEquivalenceFor(original));
+			final Equivalence equivalence = createEquivalenceFor(original);
+			
+			if (equivalence != null)
+				equivalences.add(equivalence);
 		}
 		
 		return equivalences;
@@ -44,12 +47,19 @@ public class EquivalenceEstablisher {
 		
 		final ModelElement equivalent;
 		
+		// TODO : need some more examples to figure out how to refactor this
+		// Need to know whether different types of equivalence are needed,
+		// or different types of rule, or both
+		
 		if (rule == null) {
 			equivalent = context.safelyCreateModelElementInMigratedModel(original.getTypeName());
 		
 		} else {
 			equivalent = rule.createMigratedModelElement(context);
 		}
+		
+		if (equivalent == null)
+			return null;
 		
 		if (rule == null) {
 			return new TypeBasedEquivalence(context, original, equivalent);
