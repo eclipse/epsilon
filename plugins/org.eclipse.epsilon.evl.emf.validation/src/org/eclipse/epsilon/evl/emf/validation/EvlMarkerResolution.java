@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
+import java.util.Collections;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -50,6 +52,10 @@ public class EvlMarkerResolution implements IMarkerResolution {
 			fix.getContext().getModelRepository().addModel(model);
 			
 			EvlMarkerResolverManager.INSTANCE.getEditingDomain(marker).getCommandStack().execute(new ExecuteEvlFixCommand(fix, model));
+			
+			// 286126 - save resource so that any open GMF diagram editors are automatically refreshed
+			// see also: http://dev.eclipse.org/newslists/news.eclipse.modeling.gmf/msg04508.html
+			self.eResource().save(Collections.EMPTY_MAP);
 			
 			model.dispose();
 			marker.delete();
