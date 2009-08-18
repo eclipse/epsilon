@@ -48,13 +48,13 @@ operation GmfGraph!Figure formatLine(color : String, width : String, style : Str
 	
 	if (style.isDefined() and self.isKindOf(GmfGraph!Shape)) {
 		if (style = 'dash') {
-			self.lineKind := GmfGraph!LineKind#LINE_DASH.instance;
+			self.lineKind := GmfGraph!LineKind#LINE_DASH;
 		}
 		else if (style = 'dot') {
-			self.lineKind := GmfGraph!LineKind#LINE_DOT.instance;
+			self.lineKind := GmfGraph!LineKind#LINE_DOT;
 		}
 		else if (style = 'solid') {
-			self.lineKind := GmfGraph!LineKind#LINE_SOLID.instance;
+			self.lineKind := GmfGraph!LineKind#LINE_SOLID;
 		}
 	}
 	
@@ -155,7 +155,7 @@ operation createRhomb(filled:Boolean) : GmfGraph!PolygonDecoration {
 	
 	if (not filled) {
 		var bg := new GmfGraph!ConstantColor;
-		bg.value := GmfGraph!ColorConstants#white.instance;
+		bg.value := GmfGraph!ColorConstants#white;
 		rhomb.backgroundColor := bg;
 	}
 	
@@ -175,7 +175,7 @@ operation createClosedArrow(filled:Boolean) : GmfGraph!PolygonDecoration {
 	
 	if (not filled) {
 		var bg := new GmfGraph!ConstantColor;
-		bg.value := GmfGraph!ColorConstants#white.instance;
+		bg.value := GmfGraph!ColorConstants#white;
 		arrow.backgroundColor := bg;
 	}
 	
@@ -196,7 +196,7 @@ operation createSquare(filled:Boolean) : GmfGraph!PolygonDecoration {
 	
 	if (not filled) {
 		var bg := new GmfGraph!ConstantColor;
-		bg.value := GmfGraph!ColorConstants#white.instance;
+		bg.value := GmfGraph!ColorConstants#white;
 		rect.backgroundColor := bg;
 	}
 	

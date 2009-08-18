@@ -121,7 +121,7 @@ public abstract class AbstractEmfModel extends Model{
 						EEnum eEnum = (EEnum) classifier;
 						EEnumLiteral literal = eEnum.getEEnumLiteral(label);
 						
-						if (literal != null) return literal;
+						if (literal != null) return literal.getInstance();
 					}
 				}
 			}

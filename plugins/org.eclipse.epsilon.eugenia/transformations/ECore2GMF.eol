@@ -235,7 +235,7 @@ for (class in getNodes()) {
 			
 			-- Update affixed property
 			
-			child.~diagramNode.affixedParentSide := GmfGraph!Direction#NSEW.instance;
+			child.~diagramNode.affixedParentSide := GmfGraph!Direction#NSEW;
 			
 		}
 	}
