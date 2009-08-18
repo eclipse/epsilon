@@ -148,6 +148,26 @@ public class EolString extends EolPrimitive{
 		return new EolInteger(value);
 	}
 	
+	public EolBoolean isInteger() {
+		try {
+			Integer.parseInt(value);
+			return EolBoolean.TRUE;
+		}
+		catch (Exception ex) {
+			return EolBoolean.FALSE;
+		}
+	}
+	
+	public EolBoolean isReal() {
+		try {
+			Double.parseDouble(value);
+			return EolBoolean.TRUE;
+		}
+		catch (Exception ex) {
+			return EolBoolean.FALSE;
+		}
+	}
+	
 	public EolReal asReal() {
 		return new EolReal(value, true);
 	}
