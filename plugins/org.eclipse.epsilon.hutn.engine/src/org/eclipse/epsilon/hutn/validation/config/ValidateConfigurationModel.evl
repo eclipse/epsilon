@@ -60,13 +60,13 @@ operation String isCompatiableWith(type : String) : Boolean {
 		return type = 'java.lang.Boolean' or type = 'boolean';
 	}
 	
-	if (self = '0' or self.asInteger().toString() = self) {
+	if (self.isInteger()) {
 		return type = 'java.lang.Integer' or type = 'int';
 	}
 	
-	if (self = '0.0' or self.asReal().toString()  = self) {
+	if (self.isReal()) {
 		return type = 'java.lang.Float'    or type = 'float' or
-		            type = 'java.lang.Double' or type = 'double';
+		       type = 'java.lang.Double' or type = 'double';
 	}
 	
 	return type = 'java.lang.String';

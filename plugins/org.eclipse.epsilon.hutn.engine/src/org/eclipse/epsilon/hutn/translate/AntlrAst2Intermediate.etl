@@ -195,7 +195,7 @@ operation createSlotFor(defaultValues : Collection, attribute : String) : Interm
 	var slot : Intermediate!Slot := defaultValues.first().inferType().toSlot();
 
 	slot.feature := attribute;
-	
+
 	defaultValues.forAll(value | slot.values.add(value.inferType()));
 	
 	return slot;
@@ -210,11 +210,11 @@ operation String inferType() : Any {
 		return false;
 	
 	-- Int?
-	} else if (self = '0' or self.asInteger().toString() = self) {
+	} else if (self.isInteger()) {
 		return self.asInteger();
 		
 	-- Real?
-	} else if (self = '0.0' or  self.asFloat().toString()  = self) {
+	} else if (self.isReal()) {
 		return self.asFloat();
 	
 	-- String
