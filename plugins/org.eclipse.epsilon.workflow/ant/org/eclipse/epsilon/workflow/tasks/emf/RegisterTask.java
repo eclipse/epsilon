@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.util.emf.EmfRegistryManager;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
