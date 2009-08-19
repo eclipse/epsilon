@@ -17,6 +17,8 @@ package org.eclipse.epsilon.hutn.translate;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
@@ -28,10 +30,17 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.AntlrAstFactory;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
+import org.junit.BeforeClass;
 
 public abstract class HutnTranslatorTest {
 	
 	protected static final String CONFIG_FILE = "../org.eclipse.epsilon.hutn.test.dependencies.model/models/org/eclipse/epsilon/hutn/test/models/FamiliesConfig.model";
+	
+	// 287042 - Must register a resource factory for EmfModelResourceFactory to work 
+	@BeforeClass
+	public static void registerDefaultResourceFactory() {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+	}
 	
 	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
 		final Spec spec = new HutnTranslator().createIntermediateModel(ast);
