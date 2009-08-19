@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -48,7 +49,10 @@ public class LoadModel extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFile + "");
+		properties.put(EmfModel.PROPERTY_MODEL_FILE, URI.createFileURI(modelFile.getAbsolutePath()).toString());
+		if (metamodelFile != null) {
+			properties.put(EmfModel.PROPERTY_METAMODEL_FILE, URI.createFileURI(metamodelFile.getAbsolutePath()).toString());
+		}
 		
 		try {
 			model.load(properties, null);
