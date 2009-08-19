@@ -13,6 +13,8 @@ package org.eclipse.epsilon.workflow.tasks.emf;
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
@@ -33,7 +35,21 @@ public class RegisterTask extends EpsilonTask {
 		try {
 			EmfUtil.register(URI.createFileURI(file.getAbsolutePath()), EPackage.Registry.INSTANCE);
 			if (permanently) {
-				EmfRegistryManager.getInstance().addMetamodel(file.getAbsolutePath());
+			    // Map the absolute path to this file to an IFile
+			    java.net.URI location = file.toURI();
+			    IFile[] workspaceFiles
+			      = ResourcesPlugin.getWorkspace().getRoot()
+			                       .findFilesForLocationURI(location);
+			    if (workspaceFiles.length == 0) {
+			      fail("File " + file.getAbsolutePath()
+			           + " is not available in the current workspace");
+			    }
+			    else {
+			      // getFullPath() returns the workspace relative path
+			      // addMetamodel needs (as it uses URI#createPlatformResourceURI)
+				  EmfRegistryManager.getInstance().addMetamodel(
+				      workspaceFiles[0].getFullPath().toString());
+			    }
 			}
 		} catch (Exception e) {
 			fail(e.getMessage());
