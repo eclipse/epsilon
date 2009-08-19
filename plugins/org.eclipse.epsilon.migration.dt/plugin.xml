@@ -9,7 +9,7 @@
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             extensions="mig"
-            icon="icons/migration.png"
+            icon="icons/flock16.png"
             id="org.eclipse.epsilon.migration.dt.editor.MigrationEditor"
             name="Epsilon Migration Language Editor"/>
    </extension>
@@ -17,7 +17,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             configTypeID="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate"
-            icon="icons/migration.png"
+            icon="icons/flock16.png"
             id="EpsilonMigration"/>
    </extension>
    <extension
@@ -41,7 +41,7 @@
       <wizard
             category="org.eclipse.epsilon.dt"
             class="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
-            icon="icons/migration.png"
+            icon="icons/flock16.png"
             id="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
             name="Epsilon Migration"/>
    </extension>
@@ -51,7 +51,7 @@
             objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
-               icon="icons/migration.png"
+               icon="icons/flock16.png"
                id="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
                label="Execute Migration">
          </action>
