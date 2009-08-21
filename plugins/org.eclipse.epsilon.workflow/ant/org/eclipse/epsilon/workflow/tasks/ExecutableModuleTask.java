@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected String code = "";
 	protected IEolExecutableModule module;
 	protected boolean assertions = true;
-	
+	protected String uri;
+
 	static {
 		for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
 			if (c instanceof IOConsole) {
@@ -80,6 +82,9 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			module = createModule();
 			if (src!=null) {
 				module.parse(src);
+			}
+			else if (uri != null) {
+				module.parse(URI.create(uri));
 			}
 			else {
 				module.parse(code);
@@ -168,6 +173,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	public void setSrc(File src) {
 		this.src = src;
+	}
+	
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+	
+	public String getUri() {
+		return uri;
 	}
 	
 	protected void populateModelRepository() throws EolModelNotFoundException {

@@ -130,7 +130,7 @@ public class OperatorExecutor extends AbstractExecutor{
 		
 		PrettyPrinter prettyPrinter1 = context.getPrettyPrinterManager().getPrettyPrinterFor(o1);
 		PrettyPrinter prettyPrinter2 = context.getPrettyPrinterManager().getPrettyPrinterFor(o2);	
-		return new EolString(prettyPrinter1.print(o1) + prettyPrinter2.print(o2));
+		return new EolString(prettyPrinter1.print(o1) + prettyPrinter2.print(o2)); 
 	}
 
 	private Object subtract(Object o1, Object o2){
