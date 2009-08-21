@@ -217,6 +217,8 @@ EOL provides four primitive types: String, Integer, Real and Boolean. The String
 			
 			substring(index : Integer, size : Integer) : String & Returns a sub-string with the specified \emph{size}, starting from the specified \emph{index} \\\hline
 			
+			trim() : String & Returns a trimmed copy of the string \\\hline			
+			
 \end{longtable}
 
 The Real type represents real numbers and provides the following operations.
@@ -318,7 +320,9 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
 			at(index : Integer) : Any & Returns the item of the collection at the specified index \\\hline
 	
 			indexOf(item : Any) : Integer & Returns the index of the item in the collection or -1 if it does not exist \\\hline
-			
+
+			invert() : Collection & Returns an inverted copy of the collection\\\hline
+						
 \end{longtable}
 
 Also, EOL collection support the following first-order operations:
