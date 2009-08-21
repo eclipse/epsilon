@@ -55,7 +55,8 @@ public class EvlMarkerResolution implements IMarkerResolution {
 			
 			// 286126 - save resource so that any open GMF diagram editors are automatically refreshed
 			// see also: http://dev.eclipse.org/newslists/news.eclipse.modeling.gmf/msg04508.html
-			self.eResource().save(Collections.EMPTY_MAP);
+			//self.eResource().save(Collections.EMPTY_MAP);
+			self.eResource().setModified(true);
 			
 			model.dispose();
 			marker.delete();
