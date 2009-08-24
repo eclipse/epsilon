@@ -82,7 +82,7 @@ public class EvlValidator implements EValidator {
 			for (EvlUnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
 				diagnostics.add(createDiagnostic(unsatisfied));
 				for (Object fix : unsatisfied.getFixes()) {
-					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName);
+					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName, ePackageUri);
 				}
 			}
 			return false;

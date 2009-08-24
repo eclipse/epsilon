@@ -67,17 +67,7 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 
 	@Override
 	public String getElementResourceLocation(IMarker marker) {
-		// TODO Auto-generated method stub
-		//return super.getElementResourceLocation(marker);
-		//System.err.println("LOCATION : " + marker.getResource().getFullPath().toString());
-		
-			
-		//URI uri = URI.createURI(marker.getResource().getFullPath().toString());
-		String location = "platform:" + marker.getResource().getFullPath().toString();
-		
-		//System.err.println("GMF : " + location);
-		
-		return location;
+		return marker.getResource().getFullPath().toString();
 	}
 
 	@Override

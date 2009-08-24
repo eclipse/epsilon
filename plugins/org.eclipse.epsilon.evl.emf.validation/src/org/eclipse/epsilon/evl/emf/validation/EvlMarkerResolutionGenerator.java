@@ -36,6 +36,8 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	protected HashMap<EvlFixInstance, String> modelNames = new HashMap<EvlFixInstance, String>();
 	
+	protected HashMap<EvlFixInstance, String> ePackageUris = new HashMap<EvlFixInstance, String>();
+	
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		
 		if (this != INSTANCE) return INSTANCE.getResolutions(marker);
@@ -52,7 +54,7 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 			if (this.resolutions.get(elementId) != null) {
 				for (EvlFixInstance fix : this.resolutions.get(elementId)) {
 					if (message.equals(messages.get(fix))) {
-						resolutions.add(new EvlMarkerResolution(elementId, fix, modelNames.get(fix)));
+						resolutions.add(new EvlMarkerResolution(elementId, fix, modelNames.get(fix), ePackageUris.get(fix)));
 					}
 				}
 			}
@@ -106,11 +108,12 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 		return EcoreUtil.getURI((EObject) instance).toString();
 	}
 	
-	public void addResolution(String message, EvlFixInstance fix, String modelName) {
+	public void addResolution(String message, EvlFixInstance fix, String modelName, String ePackageUri) {
 
 		
 		messages.put(fix, message);
 		modelNames.put(fix, modelName);
+		ePackageUris.put(fix, ePackageUri);
 		
 		String elementId = getEObjectId(fix.getSelf());
 		Collection<EvlFixInstance> fixes;

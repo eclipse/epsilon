@@ -25,13 +25,15 @@ public class EvlMarkerResolution implements IMarkerResolution {
 	protected EvlFixInstance fix;
 	protected String elementId;
 	protected String modelName;
+	protected String ePackageUri;
 	
-	public EvlMarkerResolution(String elementId, EvlFixInstance fix, String modelName) {
+	public EvlMarkerResolution(String elementId, EvlFixInstance fix, String modelName, String ePackageUri) {
 		try {
 			this.label = fix.getTitle();
 			this.fix = fix;
 			this.elementId = elementId;
 			this.modelName = modelName;
+			this.ePackageUri = ePackageUri;
 		} catch (EolRuntimeException e) {
 			e.printStackTrace();
 		}
@@ -46,9 +48,8 @@ public class EvlMarkerResolution implements IMarkerResolution {
 		EObject self = EvlMarkerResolverManager.INSTANCE.resolve(marker); //getEObject(elementId);
 		
 		try {
-			
 			fix.setSelf(self);
-			InMemoryEmfModel model = new InMemoryEmfModel(modelName, self.eResource());
+			InMemoryEmfModel model = new InMemoryEmfModel(modelName, self.eResource(), ePackageUri);
 			fix.getContext().getModelRepository().addModel(model);
 			
 			EvlMarkerResolverManager.INSTANCE.getEditingDomain(marker).getCommandStack().execute(new ExecuteEvlFixCommand(fix, model));

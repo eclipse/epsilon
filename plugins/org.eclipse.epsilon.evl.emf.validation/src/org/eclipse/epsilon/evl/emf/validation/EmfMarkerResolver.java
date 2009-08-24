@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -49,13 +48,12 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		return self;
 	}
 	
-	public EditingDomain getEditingDomain(IMarker marker) {
-		String filePath = getElementResourceLocation(marker);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(getElementResourceLocation(marker)));
+	public EditingDomain getEditingDomain(IMarker marker) {	
+		final String filePath = getElementResourceLocation(marker);
+		
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath));
 		String editorId = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filePath).getId();
-		
-		//PlatformUI.getWorkbench().getEditorRegistry().
-		
+				
 		IEditorPart part = null;
 		
 		try {
@@ -77,12 +75,14 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		}		
 	}
 	
-	public String getElementResourceLocation(IMarker marker) {
-		String[] parts = getAbsoluteElementId(marker).split("#");
-		URI uri = URI.createURI(parts[0]);
-		//System.err.println("EMF " + parts[0]);
-		return uri.toPlatformString(true);
-		
+	protected String getElementResourceLocation(IMarker marker) {		
+		final String location = getAbsoluteElementId(marker).split("#")[0];
+
+		if (location.startsWith("platform:/resource")) {
+			return location.split("platform:/resource")[1];
+		} else {
+			return location;
+		}
 	}
 	
 	public String getRelativeElementId(IMarker marker) {
