@@ -10,25 +10,31 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
+import org.eclipse.epsilon.eol.types.EolReal;
+
 public class MathTool {
+	
+	public static void main(String[] args) {
+		
+	}
 	
 	public double random() {
 		return Math.random();
 	}
 	
-	public double sqrt(float d) {
+	public double sqrt(double d) {
 		return Math.sqrt(d);
 	}
 	
-	public double log(float d) {
+	public double log(double d) {
 		return Math.log(d);
 	}
 
-	public double asin(float d) {
+	public double asin(double d) {
 		return Math.asin(d);
 	}
 	
-	public double atan(float d) {
+	public double atan(double d) {
 		return Math.atan(d);
 	}
 	
@@ -50,6 +56,14 @@ public class MathTool {
 	
 	public int bitStringToInt(String s) {
 		return Integer.parseInt(s, 2);
+	}
+	
+	public int round(double d) {
+		return (int) Math.round(d);
+	}
+	
+	public double pow(double base, double exp) {
+		return Math.pow(base, exp);
 	}
 	
 }

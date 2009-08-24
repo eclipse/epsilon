@@ -28,7 +28,6 @@ public class EtlTask extends ExecutableModuleTask {
 	@Override
 	protected void initialize() throws Exception {
 		IEtlModule etlModule = (IEtlModule) module;
-		
 	}
 	
 	@Override
@@ -44,5 +43,4 @@ public class EtlTask extends ExecutableModuleTask {
 		}
 	}
 
-	
 }

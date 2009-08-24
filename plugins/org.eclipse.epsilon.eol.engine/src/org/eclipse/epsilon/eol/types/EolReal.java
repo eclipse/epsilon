@@ -123,6 +123,14 @@ public class EolReal extends EolPrimitive implements Comparable {
 		return new EolInteger((int)Math.ceil(value));
 	}
 	
+	public EolReal asFloat() {
+		return new EolReal(value, false);
+	}
+	
+	public EolReal asDouble() {
+		return new EolReal(value, true);
+	}
+	
 	@Override
 	public int compareTo(Object opposite){
 		if (opposite == null) return -1;

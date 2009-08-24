@@ -172,6 +172,10 @@ public class EolString extends EolPrimitive{
 		return new EolReal(value, true);
 	}
 	
+	public EolReal asDouble() {
+		return new EolReal(value, true);
+	}
+	
 	public EolReal asFloat() {
 		return new EolReal(value, false);
 	}
