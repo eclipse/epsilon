@@ -1,0 +1,23 @@
+context EClass {
+	
+	-- Dummy constraint to demonstrate the capabilities of EVL
+	constraint Unamed {
+	
+		check : self.name <> ''
+		
+		message : 'Unnamed class'
+		
+		fix {
+			
+			title : 'Create another one'
+			
+			do {
+				var eClass = new EClass;
+				eClass.name = 'foo';
+				self.eContainer().eClassifiers.add(eClass);
+			}
+			
+		}
+		
+	}
+}
