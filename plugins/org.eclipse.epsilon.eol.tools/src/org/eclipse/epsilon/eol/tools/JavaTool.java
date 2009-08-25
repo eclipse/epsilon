@@ -42,4 +42,12 @@ public class JavaTool {
 		return signature;
 	}
 	
+	public Class loadClass(String clazz) {
+		try {
+			return ClassLoader.getSystemClassLoader().loadClass(clazz);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+	
 }

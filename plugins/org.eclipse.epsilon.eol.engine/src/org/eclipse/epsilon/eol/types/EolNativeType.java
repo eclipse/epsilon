@@ -48,6 +48,14 @@ public class EolNativeType extends EolAnyType {
 		return delegate.createInstance(clazz, parameters, context);
 	}
 	
+	public Class getJavaClass() {
+		try {
+			return ClassLoader.getSystemClassLoader().loadClass(clazz);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+	
 	@Override
 	public String getName() {
 		return "Native (" + clazz + ")";

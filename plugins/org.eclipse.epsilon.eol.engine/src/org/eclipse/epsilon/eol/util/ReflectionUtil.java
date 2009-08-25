@@ -18,6 +18,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 
@@ -53,6 +54,45 @@ public class ReflectionUtil {
 				}
 			}
 		}
+		
+		// Find static methods
+		Class javaClass = null;
+		if (obj instanceof EolNativeType) {
+			javaClass = ((EolNativeType) obj).getJavaClass();
+		}
+		if (obj instanceof Class) {
+			javaClass = (Class) obj;
+		}
+		
+		if (javaClass != null) {
+			methods = javaClass.getMethods();
+			
+			for (int i=0;i<methods.length;i++){
+				boolean namesMatch = false;
+				
+				namesMatch = methods[i].getName().equalsIgnoreCase(methodName);
+				
+				if (namesMatch){
+					Method method = methods[i];
+					
+					Class[] parameterTypes = method.getParameterTypes();
+					boolean parametersMatch = parameterTypes.length == parameters.length;
+					if (parametersMatch){
+						//TODO: See why parameter type checking does not work with EolSequence
+						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
+							Class parameterType = parameterTypes[j];
+							Object parameter = unwrapParameters ? EolTypeWrapper.getInstance().unwrap(parameters[j]) : parameters[j];
+							parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+						}
+						
+						if (parametersMatch){
+							return method;
+						}
+					}
+				}
+			}
+		}
+		
 		
 		return null;
 	}	
