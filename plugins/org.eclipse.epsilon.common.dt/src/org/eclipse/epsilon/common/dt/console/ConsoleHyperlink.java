@@ -49,22 +49,5 @@ public class ConsoleHyperlink implements IHyperlink {
 			
 		}*/
 	}
-	
-	private void linkActivatedImpl() throws Exception {
-		
-		/*
-		String workbenchPath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString();
-		String relateivePath = file.replace(workbenchPath,"");
-		
-		IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().
-		findMember(new Path(relateivePath));
-		
-		FileEditorInput fileinput=new FileEditorInput(res);
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file);
-		AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId());		
-		IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
-		editor.selectAndReveal(doc.getLineOffset(line - 1) + column - 1,0);
-		*/
-	}
 
 }

@@ -54,9 +54,12 @@ public class EpsilonConsolePageParticipant implements IConsolePageParticipant {
 		*/
 	}
 
+	
 	public Object getAdapter(Class adapter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 }
