@@ -76,7 +76,7 @@ public class EolSequence extends EolCollection{
 	 * all the elements of the sequence plus
 	 * <code>o</code> in the beginning
 	 * @param o
-	 * @return XolSequence
+	 * @return EolSequence
 	 */
 	public EolSequence prepend(Object o){
 		EolSequence appended = new EolSequence(this.storage);

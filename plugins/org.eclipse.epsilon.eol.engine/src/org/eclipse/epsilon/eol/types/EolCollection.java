@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 
 public abstract class EolCollection extends EolAny{
-	
+		
 	//TODO : Add a modifiable property to check if the 
 	// collection is modifiable. Then add checks in all
 	// the functions that change the collection. Finally
@@ -117,7 +117,8 @@ public abstract class EolCollection extends EolAny{
 	 * @return XolBoolean
 	 */	
 	public EolBoolean includes(Object o){
-		return new EolBoolean(storage.contains(o));
+		DualStateObject dso = new DualStateObject(o);
+		return new EolBoolean(storage.contains(dso.getWrapped()) || storage.contains(dso.getUnwrapped()));
 	}
 	
 	/**
@@ -169,11 +170,13 @@ public abstract class EolCollection extends EolAny{
 	 */
 	public EolInteger count(Object o){
 		
+		DualStateObject dso = new DualStateObject(o);
+		
 		Iterator it = storage.iterator();
 		int count = 0;
 		while (it.hasNext()){
 			Object next = it.next();
-			if (next.equals(o)) {
+			if (dso.getWrapped().equals(next) || dso.getUnwrapped().equals(next)) {
 				count++;
 			}
 		}
@@ -245,7 +248,9 @@ public abstract class EolCollection extends EolAny{
 	 * @return
 	 */
 	public void remove(Object o){
-		storage.remove(o);
+		DualStateObject dso = new DualStateObject(o);
+		storage.remove(dso.getWrapped());
+		storage.remove(dso.getUnwrapped());
 	}
 	
 	/**
@@ -257,7 +262,9 @@ public abstract class EolCollection extends EolAny{
 	 */
 	public void removeAll(EolCollection col){
 		//TODO: Throw an unmodifiable collection exception in case that fails?
-		storage.removeAll(col.getStorage());
+		for (Object o : col.getStorage()) {
+			remove(o);
+		}
 	}
 	
 	/**
@@ -307,7 +314,8 @@ public abstract class EolCollection extends EolAny{
 		Iterator it = iterator();
 		while (it.hasNext()){
 			Object next = it.next();
-			if (!col.getStorage().contains(next)){
+			DualStateObject dso = new DualStateObject(next);
+			if (!col.includes(next).booleanValue()){
 				difference.add(next);
 			}
 		}
@@ -327,6 +335,22 @@ public abstract class EolCollection extends EolAny{
 		return storage.iterator();
 	}
 
+	/*
+	public boolean equals(Object other) {
+		if (other == null) return false;
+		if (other.getClass()!=this.getClass()) return false;
+		EolCollection otherCollection = (EolCollection) other;
+		
+		if (this.size().intValue() != otherCollection.size().intValue()) return false;
+		
+		if (this.isOrdered()) {
+			int index = 0;
+			for (Object otherObject : otherCollection.getStorage()) {
+				
+			}
+		}
+		
+	}*/
 	
 	public static EolCollection asCollection(Object obj) {
 		if (obj instanceof EolCollection)
@@ -361,55 +385,17 @@ public abstract class EolCollection extends EolAny{
 	 */
 	public EolInteger indexOf(Object o){
 		
-		//System.err.println("IndexOf : " + o.getClass() + "->" + o);
-		
 		Iterator it = storage.iterator();
+		DualStateObject dso = new DualStateObject(o);
 		int counter = 0;
 		
 		while (it.hasNext()){
 			Object next = it.next();
-			//System.err.println("Next = " + next.getClass() + "->" + next);
-			boolean equals = false;
 			
-			/*
-			if (o instanceof EolPrimitive){
-				//System.err.println("Primitive");
-				equals = ((EolAny) o).equals(next);
-				//System.err.println("Equals = " + equals);
-			} else {
-				
-				
-				
-				
-				//System.err.println("Not primitive");
-				equals = (o == next);
-				//System.err.println("Equals = " + equals);
-				
-				if (o instanceof String && next instanceof String) {
-					//System.err.println("Both are strings");
-					System.err.println(o + "<->" + next + "->" + (o == next));
-				
-					boolean e = ((String) o).equals((String) next);
-					System.err.println(e);
-				}
-				
-				
-			}
-			*/
-			
-			if (o == null && next == null) {
-				equals = true;
-			}
-			else if (o != null && next != null) {
-				equals = o.equals(next);
+			if (dso.getWrapped().equals(next) || dso.getUnwrapped().equals(next)) {
+				return new EolInteger(counter);
 			}
 			else {
-				equals = false;
-			}
-			
-			if (equals){
-				return new EolInteger(counter);
-			} else {
 				counter ++;
 			}
 		}
@@ -436,7 +422,7 @@ public abstract class EolCollection extends EolAny{
 		}
 		return null;
 	}
-	
+		
 	/**
 	 * Returns a new sequence that
 	 * contains the elements of this
@@ -445,22 +431,23 @@ public abstract class EolCollection extends EolAny{
 	 * @return EolSequence
 	 */
 	public EolCollection excluding(Object o){
+		DualStateObject dso = new DualStateObject(o);
 		EolCollection result = createCollection();
 		for (Object item : storage) {
-			if (item != o) {
+			if (!(dso.getWrapped().equals(item) || dso.getUnwrapped().equals(item))) {
 				result.add(item);
 			}
 		}
 		return result;
 	}
-	
+		
 	public EolReal sum() {
 		Iterator it = this.storage.iterator();
 		EolReal sum = new EolReal();
 		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof EolReal){
-				sum = sum.add((EolReal) next);
+			DualStateObject dso = new DualStateObject(it.next());
+			if (dso.getWrapped() instanceof EolReal){
+				sum = sum.add((EolReal) dso.getWrapped());
 			}
 		}
 		return sum;
@@ -476,9 +463,9 @@ public abstract class EolCollection extends EolAny{
 		EolReal product = new EolReal(1.0, true);
 		
 		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof EolReal){
-				product = product.multiply((EolReal) next);
+			DualStateObject dso = new DualStateObject(it.next());
+			if (dso.getWrapped() instanceof EolReal){
+				product = product.multiply((EolReal) dso.getWrapped());
 			}
 		}
 		return product;
@@ -506,9 +493,9 @@ public abstract class EolCollection extends EolAny{
 		Iterator it = this.storage.iterator();
 		EolReal max = null;
 		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof EolReal) {
-				EolReal nextReal = (EolReal) next;
+			DualStateObject dso = new DualStateObject(it.next());
+			if (dso.getWrapped() instanceof EolReal) {
+				EolReal nextReal = (EolReal) dso.getWrapped();
 				if (max == null) {
 					max = nextReal;
 				}
@@ -533,9 +520,9 @@ public abstract class EolCollection extends EolAny{
 		Iterator it = this.storage.iterator();
 		EolReal min = null;
 		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof EolReal) {
-				EolReal nextReal = (EolReal) next;
+			DualStateObject dso = new DualStateObject(it.next());
+			if (dso.getWrapped() instanceof EolReal) {
+				EolReal nextReal = (EolReal) dso.getWrapped();
 				if (min == null) {
 					min = nextReal;
 				}

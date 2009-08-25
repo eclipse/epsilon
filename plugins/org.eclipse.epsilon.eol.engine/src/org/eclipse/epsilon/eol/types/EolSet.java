@@ -16,23 +16,29 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.eclipse.epsilon.commons.util.ListSet;
 
 public class EolSet extends EolCollection{
 	
 	// No TreeSet as it creates problems when comparing
 	public EolSet(){
-		storage = new HashSet();
-		//storage = new TreeSet(new SimpleComparator());
+		//storage = new ArrayList();
+		//storage = new HashSet();
+		//storage = new TreeSet(new EntryOrderComparator());
+		storage = new ListSet();
 	}
 	
 	public EolSet(Collection col){
 		storage = col;
-		//removeDuplicates();
+		removeDuplicates();
 	}
 	
 	@Override
 	public void add(Object o){
-		if (!storage.contains(o)){
+		if (!includes(o).booleanValue()){
 			//System.err.println("EolSet " + storage.getClass() + " + " + o.getClass());
 			storage.add(o);
 		}
@@ -43,7 +49,7 @@ public class EolSet extends EolCollection{
 		Iterator it = col.getStorage().iterator();
 		while (it.hasNext()){
 			Object o = it.next();
-			if (!storage.contains(o)){
+			if (!includes(o).booleanValue()){
 				storage.add(o);
 			}
 		}
@@ -54,9 +60,9 @@ public class EolSet extends EolCollection{
 		List unique = new ArrayList();
 		Iterator it = storage.iterator();
 		while (it.hasNext()){
-			Object next = it.next();
-			if (!unique.contains(next)){
-				unique.add(next);
+			DualStateObject dso = new DualStateObject(it.next());
+			if (!unique.contains(dso.getWrapped()) && !unique.contains(dso.getUnwrapped())){
+				unique.add(dso.getUnwrapped());
 			}
 		}
 		
@@ -93,24 +99,19 @@ public class EolSet extends EolCollection{
 		return new EolSet(storage);
 	}
 	
-	class SimpleComparator implements Comparator {
+	class EntryOrderComparator implements Comparator {
 
-		public int compare(Object arg0, Object arg1) {
-			if (arg0 == null) {
-				if (arg1 == null) {
-					return 0;
-				}
-				else {
-					return 1;
-				}
-			}
-			else if (arg0 == arg1) {
-				return 0;
-			}
-			else if (arg0.equals(arg1)){
-				return 0;
-			}
-			else return 1;
+		public int compare(Object o1, Object o2) {
+			
+			if (o1 == null && o2 == null) return 0;
+			if (o1 == null || o2 == null) return 1;
+			
+			DualStateObject dso1 = new DualStateObject(o1);
+			DualStateObject dso2 = new DualStateObject(o2);
+			
+			if (dso1.getWrapped().equals(dso2.getWrapped()) || dso1.getUnwrapped().equals(dso2.getUnwrapped())) return 0;
+			
+			return 1;
 		}
 		
 	}
