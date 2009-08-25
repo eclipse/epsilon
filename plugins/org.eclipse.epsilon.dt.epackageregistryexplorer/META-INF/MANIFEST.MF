@@ -8,8 +8,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.ui.ide,
- org.eclipse.emf.edit;bundle-version="2.4.0",
- org.eclipse.emf.edit.ui;bundle-version="2.4.0"
+ org.eclipse.emf.edit,
+ org.eclipse.emf.edit.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.epsilon.dt.epackageregistryexplorer
