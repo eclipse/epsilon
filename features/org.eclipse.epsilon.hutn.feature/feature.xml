@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.hutn.feature"
       label="Human Usable Textual Notation (Incubation)"
-      version="0.7.6.qualifier"
+      version="0.7.7.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
@@ -247,56 +247,56 @@ litigation.
          id="org.eclipse.epsilon.hutn.dt"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.engine"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model.antlrAst"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model.config"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi.dt"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.unparser"
          download-size="0"
          install-size="0"
-         version="0.7.6.qualifier"
+         version="0.7.7.qualifier"
          unpack="false"/>
 
 </feature>

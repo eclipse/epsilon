@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation Configuration Model (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.config;singleton:=true
-Bundle-Version: 0.7.6.qualifier
+Bundle-Version: 0.7.7.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
