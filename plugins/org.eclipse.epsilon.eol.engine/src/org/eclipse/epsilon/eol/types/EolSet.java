@@ -23,12 +23,22 @@ import org.eclipse.epsilon.commons.util.ListSet;
 
 public class EolSet extends EolCollection{
 	
+	public static void main(String[] args) {
+				
+		EolSet set = new EolSet();
+		set.add(new EolInteger(1));
+		set.add(new EolInteger(2));
+		
+		System.err.println(set.includes(1));
+		
+	}
+	
 	// No TreeSet as it creates problems when comparing
 	public EolSet(){
 		//storage = new ArrayList();
-		//storage = new HashSet();
+		storage = new HashSet();
 		//storage = new TreeSet(new EntryOrderComparator());
-		storage = new ListSet();
+		//storage = new ListSet();
 	}
 	
 	public EolSet(Collection col){

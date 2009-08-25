@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 
 public abstract class EolCollection extends EolAny{
-		
+	
 	//TODO : Add a modifiable property to check if the 
 	// collection is modifiable. Then add checks in all
 	// the functions that change the collection. Finally
@@ -114,11 +115,17 @@ public abstract class EolCollection extends EolAny{
 	 * the declared object and false
 	 * otherwise
 	 * @param col The object
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */	
 	public EolBoolean includes(Object o){
 		DualStateObject dso = new DualStateObject(o);
-		return new EolBoolean(storage.contains(dso.getWrapped()) || storage.contains(dso.getUnwrapped()));
+		for (Object i : storage) {
+			if (i == null && o == null) return EolBoolean.TRUE;
+			if (i == null || o == null) continue;
+			if (dso.getWrapped().equals(i) || dso.getUnwrapped().equals(i)) return EolBoolean.TRUE;
+		}
+		return EolBoolean.FALSE;
+		//return new EolBoolean(storage.contains(dso.getWrapped()) || storage.contains(dso.getUnwrapped()));
 	}
 	
 	/**
@@ -126,7 +133,7 @@ public abstract class EolCollection extends EolAny{
 	 * the declared object and false
 	 * otherwise
 	 * @param col The object
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */
 	public EolBoolean excludes(Object o){
 		return includes(o).not();
@@ -137,7 +144,7 @@ public abstract class EolCollection extends EolAny{
 	 * all the declared elements and false
 	 * otherwise
 	 * @param col The collection of the included elemetns
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */	
 	public EolBoolean includesAll(EolCollection col){
 		Iterator it = storage.iterator();
@@ -152,7 +159,7 @@ public abstract class EolCollection extends EolAny{
 	 * all the declared elements and false
 	 * otherwise
 	 * @param col The collection of the excluded elemetns
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */
 	public EolBoolean excludesAll(EolCollection col){
 		Iterator it = storage.iterator();
@@ -166,7 +173,7 @@ public abstract class EolCollection extends EolAny{
 	 * Returns how many times object o
 	 * exists in the collection
 	 * @param o The object
-	 * @return XolInteger
+	 * @return EolInteger
 	 */
 	public EolInteger count(Object o){
 		
@@ -188,7 +195,7 @@ public abstract class EolCollection extends EolAny{
 	/**
 	 * Returns true if the collection is
 	 * empty
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */
 	public EolBoolean isEmpty(){
 		return new EolBoolean(storage.size() == 0);
@@ -196,7 +203,7 @@ public abstract class EolCollection extends EolAny{
 	
 	/**
 	 * Returns true if the collection is not empty
-	 * @return XolBoolean
+	 * @return EolBoolean
 	 */
 	public EolBoolean notEmpty(){
 		return isEmpty().not();
@@ -258,7 +265,7 @@ public abstract class EolCollection extends EolAny{
 	 * <code>col</code> collection
 	 * from this collection
 	 * @param col
-	 * @return XolVoid
+	 * @return EolVoid
 	 */
 	public void removeAll(EolCollection col){
 		//TODO: Throw an unmodifiable collection exception in case that fails?
@@ -422,7 +429,7 @@ public abstract class EolCollection extends EolAny{
 		}
 		return null;
 	}
-		
+	
 	/**
 	 * Returns a new sequence that
 	 * contains the elements of this
