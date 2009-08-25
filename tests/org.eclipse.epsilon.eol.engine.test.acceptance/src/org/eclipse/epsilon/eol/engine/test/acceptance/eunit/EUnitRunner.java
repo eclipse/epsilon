@@ -32,7 +32,7 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
-public class EUnitRunner extends Runner{
+public class EUnitRunner extends Runner {
 	
 	protected Class clazz;
 	protected EUnitModule module;

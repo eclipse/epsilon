@@ -21,16 +21,52 @@ operation testModifiedSetUniqueness() {
 }
 
 @test
+operation testRemoveDuplicates() {
+	var seq = Sequence{1,1,2,3};
+	assertEquals(seq.asSet().size(), 3);
+}
+
+@test
 operation testDeclaredSetUniqueness() {
 	assertEquals(Set{1,1,2,3}.size(), 3);
 }
 
+@test
+operation testSetIncludesObject() {
+	var eClass = EClass.all.random();
+	var set : Set;
+	set.add(eClass);
+	assertEquals(set.includes(eClass), true);
+}
+
+@test
+operation testSequenceIncludesObject() {
+	var eClass = EClass.all.random();
+	var seq : Sequence;
+	seq.add(eClass);
+	assertEquals(seq.includes(eClass), true);
+}
+
+@test
+operation testSetIncludesPrimitive() {
+	var prim = 1;
+	var set : Set;
+	set.add(prim);
+	assertEquals(set.includes(prim), true);
+}
+
+@test
+operation testSequenceIncludesPrimitive() {
+	var prim = 1;
+	var seq : Sequence;
+	seq.add(prim);
+	assertEquals(seq.includes(prim), true);
+}
 
 @test
 operation testConvertedSetUniqueness() {
 	assertEquals(Sequence{1,1,2,3}.asSet().size(), 3);
 }
-
 
 @test
 operation testCount() {
@@ -45,6 +81,11 @@ operation testRandom() {
 @test
 operation testIncluding() {
 	assertEquals(Sequence{1,2,3}.including(4).size(), 4);
+}
+
+@test
+operation testBagEquals() {
+	assertNotEquals(Bag{1,1,2}, Bag{1,2,2});
 }
 
 @test
