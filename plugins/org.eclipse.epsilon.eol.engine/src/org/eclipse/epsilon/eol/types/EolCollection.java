@@ -342,22 +342,33 @@ public abstract class EolCollection extends EolAny{
 		return storage.iterator();
 	}
 
-	/*
+	
 	public boolean equals(Object other) {
 		if (other == null) return false;
 		if (other.getClass()!=this.getClass()) return false;
 		EolCollection otherCollection = (EolCollection) other;
 		
+		if (this.getStorage() == otherCollection.getStorage()) return true;
 		if (this.size().intValue() != otherCollection.size().intValue()) return false;
 		
 		if (this.isOrdered()) {
 			int index = 0;
 			for (Object otherObject : otherCollection.getStorage()) {
-				
+				DualStateObject dso1 = new DualStateObject(this.at(new EolInteger(index)));
+				DualStateObject dso2 = new DualStateObject(otherObject);
+				if (!dso1.equals(dso2)) return false;
+				index++;
 			}
+			return true;
+		}
+		else {
+			for (Object otherObject : otherCollection.getStorage()) {
+				if (!this.count(otherObject).equals(otherCollection.count(otherObject))) return false;
+			}
+			return true;
 		}
 		
-	}*/
+	}
 	
 	public static EolCollection asCollection(Object obj) {
 		if (obj instanceof EolCollection)
