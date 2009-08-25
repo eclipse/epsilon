@@ -4,6 +4,12 @@ operation testFirst() {
 }
 
 @test
+operation testIncludesCollection() {
+	var seq = Sequence{Set{1,2}};
+	assertEquals(seq.includes(Set{1,2}), true);
+}
+
+@test
 operation testLast() {
 	assertEquals(Sequence{1,2,3}.last(),3);
 }
