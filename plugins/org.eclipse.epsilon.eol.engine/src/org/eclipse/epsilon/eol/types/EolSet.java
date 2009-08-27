@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,16 +23,6 @@ import java.util.TreeSet;
 import org.eclipse.epsilon.commons.util.ListSet;
 
 public class EolSet extends EolCollection{
-	
-	public static void main(String[] args) {
-				
-		EolSet set = new EolSet();
-		set.add(new EolInteger(1));
-		set.add(new EolInteger(2));
-		
-		System.err.println(set.includes(1));
-		
-	}
 	
 	// No TreeSet as it creates problems when comparing
 	public EolSet(){
@@ -43,7 +34,7 @@ public class EolSet extends EolCollection{
 	
 	public EolSet(Collection col){
 		storage = col;
-		removeDuplicates();
+		//removeDuplicates();
 	}
 	
 	@Override
@@ -65,7 +56,6 @@ public class EolSet extends EolCollection{
 		}
 	}
 	
-	
 	protected void removeDuplicates(){
 		List unique = new ArrayList();
 		Iterator it = storage.iterator();
@@ -75,12 +65,16 @@ public class EolSet extends EolCollection{
 				unique.add(dso.getUnwrapped());
 			}
 		}
-		
-		storage.clear();
-		it = unique.iterator();
-		while (it.hasNext()){
-			storage.add(it.next());
-		}
+		//try {
+			storage.clear();
+			it = unique.iterator();
+			while (it.hasNext()){
+				storage.add(it.next());
+			}
+		//}
+		//catch (Exception ex) {
+			// Unmodifiable collection - do nothing
+		//}
 	}
 	
 	public static EolSet asSet(Object obj){
