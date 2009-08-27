@@ -43,20 +43,12 @@ operation testEolSetFromUnmodifiableSet() {
 @test
 operation testSortByOnOrderedSet() {
 	
-	var a = 1;
-	a.~x = 3;
+	var a = 1; a.~x = 3;
+	var b = 2; b.~x = 2;
+	var c = 3; c.~x = 1;
 	
-	var b = 2;
-	b.~x = 2;
-	
-	var c = 3;
-	c.~x = 1;
-	
-	assertEquals(OrderedSet{a,b,c}.sortBy(i|i.~x), OrderedSet{c,a,b});
-	
+	assertEquals(OrderedSet{a,b,c}.sortBy(i|i.~x), OrderedSet{c, b, a});
 }
-
-
 
 @test
 operation testDeclaredSetUniqueness() {

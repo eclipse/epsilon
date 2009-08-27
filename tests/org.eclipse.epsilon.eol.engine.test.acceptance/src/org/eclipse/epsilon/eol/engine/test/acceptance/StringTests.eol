@@ -64,6 +64,11 @@ operation testSubstring() {
 }
 
 @test
+operation testSubstring2() {
+	assertEquals('abcdef'.substring(2,5), 'cde');
+}
+
+@test
 operation testIsSubstringOf() {
 	assertEquals('ab'.isSubstringOf('abcd'), true);
 }
