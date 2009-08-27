@@ -70,16 +70,11 @@ public class EolSet extends EolCollection{
 				unique.add(dso.getUnwrapped());
 			}
 		}
-		//try {
-			storage.clear();
-			it = unique.iterator();
-			while (it.hasNext()){
-				storage.add(it.next());
-			}
-		//}
-		//catch (Exception ex) {
-			// Unmodifiable collection - do nothing
-		//}
+		storage.clear();
+		it = unique.iterator();
+		while (it.hasNext()){
+			storage.add(it.next());
+		}
 	}
 	
 	public static EolSet asSet(Object obj){
