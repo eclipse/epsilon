@@ -33,6 +33,32 @@ operation testRemoveDuplicates() {
 }
 
 @test
+operation testEolSetFromUnmodifiableSet() {
+	var grp1 : Map;
+	grp1.put('a','aaa');
+	grp1.put('b','bbb');
+	grp1.keySet().println(); 
+}
+
+@test
+operation testSortByOnOrderedSet() {
+	
+	var a = 1;
+	a.~x = 3;
+	
+	var b = 2;
+	b.~x = 2;
+	
+	var c = 3;
+	c.~x = 1;
+	
+	assertEquals(OrderedSet{a,b,c}.sortBy(i|i.~x), OrderedSet{c,a,b});
+	
+}
+
+
+
+@test
 operation testDeclaredSetUniqueness() {
 	assertEquals(Set{1,1,2,3}.size(), 3);
 }
