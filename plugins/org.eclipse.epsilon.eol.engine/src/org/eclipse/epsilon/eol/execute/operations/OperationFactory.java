@@ -32,6 +32,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AsBagOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsBooleanOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsFloatOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsIntegerOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.AsOrderedSetOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsRealOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsSequenceOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AsSetOperation;
@@ -99,6 +100,7 @@ public class OperationFactory {
 		operationCache.put("asFloat", new AsFloatOperation());
 		operationCache.put("asSequence", new AsSequenceOperation());
 		operationCache.put("asSet", new AsSetOperation());
+		operationCache.put("asOrderedSet", new AsOrderedSetOperation());
 		operationCache.put("asString", new AsStringOperation());
 		
 		// Introspection etc
