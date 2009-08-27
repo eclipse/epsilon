@@ -20,7 +20,7 @@ public class MigrationModuleElementLabelProvider extends EolModuleElementLabelPr
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof MigrationRule) {
-			return MigrationPlugin.getDefault().createImage("icons/migration.png");
+			return MigrationPlugin.getDefault().createImage("icons/flock16.png");
 		} else {
 			return super.getImage(element);
 		}

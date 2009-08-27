@@ -23,7 +23,7 @@ public class MigrationSourceConfigurationTab extends AbstractSourceConfiguration
 
 	@Override
 	public String getImagePath() {
-		return "icons/migration.png";
+		return "icons/flock16.png";
 	}
 
 	@Override
