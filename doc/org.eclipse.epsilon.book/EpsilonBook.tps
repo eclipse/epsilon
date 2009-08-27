@@ -24,17 +24,17 @@ Class=CLatexEdit
 Document=Design.EOL.tex
 
 [Frame0_Row0]
-cyCur=790
+cyCur=966
 cyMin=10
 
 [Frame0_Col0]
-cxCur=623
+cxCur=1263
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=153
-Cursor.column=26
-TopSubLine=0
+Cursor.row=217
+Cursor.column=100
+TopSubLine=251
 
 [Frame1]
 Columns=1
@@ -121,5 +121,5 @@ cxMin=10
 [Frame3_View0,0]
 Cursor.row=84
 Cursor.column=1
-TopSubLine=68
+TopSubLine=82
 
