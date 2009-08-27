@@ -32,6 +32,11 @@ public class EolSet extends EolCollection{
 		//storage = new ListSet();
 	}
 	
+	/**
+	 * Creates a new EolSet from a collection
+	 * @pre col must not contain duplicates
+	 * @param col
+	 */
 	public EolSet(Collection col){
 		storage = col;
 		//removeDuplicates();
