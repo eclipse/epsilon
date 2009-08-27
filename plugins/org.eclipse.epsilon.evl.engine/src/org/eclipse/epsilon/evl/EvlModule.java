@@ -13,6 +13,7 @@ package org.eclipse.epsilon.evl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -24,6 +25,7 @@ import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
@@ -37,7 +39,8 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 public class EvlModule extends ErlModule implements IEvlModule {
 	
 	protected IEvlFixer fixer = null;
-	protected ArrayList<EvlConstraintContext> constraintContexts = new ArrayList<EvlConstraintContext>();
+	protected ArrayList<EvlConstraintContext> declaredConstraintContexts = new ArrayList<EvlConstraintContext>();
+	protected ArrayList<EvlConstraintContext> constraintContexts;
 	protected EvlConstraints constraints = new EvlConstraints();
 	protected IEvlContext context = null;
 	
@@ -68,6 +71,13 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 
 	@Override
+	public HashMap<String, Class> getImportConfiguration() {
+		HashMap<String, Class> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("evl", EvlModule.class);
+		return importConfiguration;
+	}
+	
+	@Override
 	public void buildModel() throws Exception {
 		
 		super.buildModel();
@@ -77,13 +87,11 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			AST matchRuleAst = (AST) it.next();
 			EvlConstraintContext constraintContext = new EvlConstraintContext();
 			constraintContext.build(matchRuleAst);
-			constraintContexts.add(constraintContext);
+			declaredConstraintContexts.add(constraintContext);
 		}
 		
 		// Cache all the constraints
-		it = constraintContexts.iterator();
-		while (it.hasNext()){
-			EvlConstraintContext constraintContext = (EvlConstraintContext) it.next();
+		for (EvlConstraintContext constraintContext : getConstraintContexts()) {
 			Iterator li = constraintContext.getConstraints().iterator();
 			while (li.hasNext()){
 				constraints.addConstraint((EvlConstraint)li.next());
@@ -91,10 +99,24 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 	}
 	
-	public ArrayList getConstraintContexts() {
-		return constraintContexts;
+	public ArrayList<EvlConstraintContext> getDeclaredConstraintContexts() {
+		return declaredConstraintContexts;
 	}
 
+	public ArrayList<EvlConstraintContext> getConstraintContexts() {
+		if (constraintContexts == null) {
+			constraintContexts = new ArrayList<EvlConstraintContext>();
+			for (EolImport import_ : imports) {
+				if (import_.isLoaded() && (import_.getModule() instanceof IEvlModule)) {
+					IEvlModule module = (IEvlModule) import_.getModule();
+					constraintContexts.addAll(module.getConstraintContexts());
+				}
+			}
+			constraintContexts.addAll(declaredConstraintContexts);
+		}
+		return constraintContexts;
+	}
+	
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
@@ -135,7 +157,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		List children = new ArrayList();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
-		children.addAll(constraintContexts);
+		children.addAll(getDeclaredConstraintContexts());
 		children.addAll(getDeclaredOperations());
 		children.addAll(getDeclaredPost());
 		return children;
@@ -144,7 +166,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	@Override
 	public void reset(){
 		super.reset();
-		constraintContexts = new ArrayList();
+		constraintContexts = null;
+		declaredConstraintContexts = new ArrayList();
 		context = new EvlContext();
 	}
 

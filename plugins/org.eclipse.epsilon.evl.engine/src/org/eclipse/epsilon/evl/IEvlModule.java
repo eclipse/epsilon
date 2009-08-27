@@ -10,12 +10,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl;
 
+import java.util.List;
+
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public interface IEvlModule extends IErlModule {
 	
 	public EvlConstraints getConstraints();
+	
+	public List<EvlConstraintContext> getDeclaredConstraintContexts();
+	
+	public List<EvlConstraintContext> getConstraintContexts();
 	
 	public IEvlContext getContext();
 	
