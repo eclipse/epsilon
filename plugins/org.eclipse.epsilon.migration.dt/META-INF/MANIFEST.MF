@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Migration Language Development Tools (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.migration.dt;singleton:=true
+Bundle-Name: Epsilon Flock Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.flock.dt;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.migration.dt.MigrationPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.epsilon.migration.engine,
+Require-Bundle: org.eclipse.epsilon.flock.engine,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.eol.dt,

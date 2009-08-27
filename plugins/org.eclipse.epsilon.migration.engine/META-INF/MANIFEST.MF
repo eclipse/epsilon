@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Migration Language Engine (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.migration.engine
+Bundle-Name: Epsilon Flock Engine (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.flock.engine
 Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,

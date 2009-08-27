@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Migration Language Engine Acceptance Tests (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.migration.engine.test.acceptance
+Bundle-Name: Epsilon Flock Engine Acceptance Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.flock.engine.test.acceptance
 Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.migration.engine.test.dependencies,
+Require-Bundle: org.eclipse.epsilon.flock.engine.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn
 Export-Package: suite
 

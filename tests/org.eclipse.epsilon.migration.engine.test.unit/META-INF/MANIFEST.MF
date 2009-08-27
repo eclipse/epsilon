@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Migration Language Unit Tests (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.migration.engine.test.unit
+Bundle-Name: Epsilon Flock Engine Unit Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.flock.engine.test.unit
 Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.migration.engine.test.dependencies
+Require-Bundle: org.eclipse.epsilon.flock.engine.test.dependencies
 Export-Package: suite

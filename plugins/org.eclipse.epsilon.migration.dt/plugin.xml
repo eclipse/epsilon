@@ -11,14 +11,14 @@
             extensions="mig"
             icon="icons/flock16.png"
             id="org.eclipse.epsilon.migration.dt.editor.MigrationEditor"
-            name="Epsilon Migration Language Editor"/>
+            name="Epsilon Flock Editor"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             configTypeID="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate"
             icon="icons/flock16.png"
-            id="EpsilonMigration"/>
+            id="EpsilonFlock"/>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
@@ -26,13 +26,13 @@
             delegate="org.eclipse.epsilon.migration.dt.launching.MigrationLaunchConfigurationDelegate"
             id="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate"
             modes="run"
-            name="Epsilon Migration"/>
+            name="Epsilon Flock Migration Strategy"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             class="org.eclipse.epsilon.migration.dt.launching.MigrationLaunchConfigurationTabGroup"
-            description="Create a configuration to launch an Epsilon Migration"
+            description="Create a configuration to launch an Epsilon Flock Migration Strategy"
             id="org.eclipse.epsilon.eclipse.dt.launching.MigrationLaunchConfigurationTabGroup"
             type="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate"/>
    </extension>
@@ -43,7 +43,7 @@
             class="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
             icon="icons/flock16.png"
             id="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
-            name="Epsilon Migration"/>
+            name="Epsilon Flock Migration Strategy"/>
    </extension>
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -53,7 +53,7 @@
                class="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
                icon="icons/flock16.png"
                id="org.eclipse.epsilon.migration.dt.actions.ExecuteMigration"
-               label="Execute Migration">
+               label="Execute Migration Strategy">
          </action>
       </objectContribution>
       <objectContribution
