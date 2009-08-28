@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Flock Development Tools (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.flock.dt;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: org.eclipse.epsilon.migration.dt.MigrationPlugin
+Bundle-Activator: org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.flock.engine,
@@ -19,9 +19,9 @@ Require-Bundle: org.eclipse.epsilon.flock.engine,
  org.eclipse.core.resources,
  org.eclipse.epsilon.common.dt
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.epsilon.migration.dt,
- org.eclipse.epsilon.migration.dt.editor,
- org.eclipse.epsilon.migration.dt.editor.outline,
- org.eclipse.epsilon.migration.dt.launching,
- org.eclipse.epsilon.migration.dt.launching.tabs,
- org.eclipse.epsilon.migration.dt.wizards
+Export-Package: org.eclipse.epsilon.flock.dt,
+ org.eclipse.epsilon.flock.dt.editor,
+ org.eclipse.epsilon.flock.dt.editor.outline,
+ org.eclipse.epsilon.flock.dt.launching,
+ org.eclipse.epsilon.flock.dt.launching.tabs,
+ org.eclipse.epsilon.flock.dt.wizards

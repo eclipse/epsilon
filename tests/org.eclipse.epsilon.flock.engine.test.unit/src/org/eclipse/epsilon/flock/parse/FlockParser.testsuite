@@ -1,0 +1,42 @@
+gunit Flock;
+@header{package org.eclipse.epsilon.flock.parse;}
+
+flockModule:
+	// Empty, single rule, and many rules.
+	"" -> "FLOCKMODULE"
+	"migrate Person { name := nom; }" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))))"
+	"migrate Person { name := nom; } migrate Animal { name := nom; }" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))"
+
+	// Operations
+	"operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))"
+	"@cached operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (ANNOTATIONBLOCK @cached operation Integer inc() { self := self + 1; }))"
+
+migrationRule:
+	// Empty
+	"migrate Person { }" -> "(MIGRATE Person BLOCK)"
+
+	// Missing braces
+	"migrate Person name := nom; }"  FAIL
+	"migrate Person { name := nom; " FAIL
+	
+	// Statement
+	"migrate Person { name := nom; }" -> "(MIGRATE Person (BLOCK (:= name nom)))"
+	
+	// To part
+	"migrate Animal to Dog { }" -> "(MIGRATE Animal Dog BLOCK)"
+	"migrate Animal Dog { }" FAIL
+	"migrate Animal to { }" FAIL
+	
+	// No body
+	"migrate Person to Salesperson" -> "(MIGRATE Person Salesperson BLOCK)"
+	"migrate Person" FAIL
+	
+	// Guard
+	"migrate Person when: original.name.isDefined() { name := nom; }" -> "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) (BLOCK (:= name nom)))"
+	
+	// Guard with no statement, no when
+	"migrate Person when {}" FAIL
+	"migrate Person original.name.isDefined(); {}" FAIL
+	
+	// Guard with semicolon
+ 	"migrate Person when: original.name.isDefined(); {}" FAIL

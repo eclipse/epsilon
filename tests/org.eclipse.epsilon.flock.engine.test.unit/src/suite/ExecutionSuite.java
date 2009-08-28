@@ -16,17 +16,17 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.MigrationContextTests;
-import org.eclipse.epsilon.migration.execution.EquivalenceEstablisherTests;
-import org.eclipse.epsilon.migration.execution.EquivalencesTests;
-import org.eclipse.epsilon.migration.execution.RuleBasedEquivalenceTests;
-import org.eclipse.epsilon.migration.execution.TypeBasedEquivalenceTests;
+import org.eclipse.epsilon.flock.FlockContextTests;
+import org.eclipse.epsilon.flock.execution.EquivalenceEstablisherTests;
+import org.eclipse.epsilon.flock.execution.EquivalencesTests;
+import org.eclipse.epsilon.flock.execution.RuleBasedEquivalenceTests;
+import org.eclipse.epsilon.flock.execution.TypeBasedEquivalenceTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({MigrationContextTests.class,
+@SuiteClasses({FlockContextTests.class,
                EquivalencesTests.class, RuleBasedEquivalenceTests.class, TypeBasedEquivalenceTests.class, EquivalenceEstablisherTests.class})
 public class ExecutionSuite {
 	public static Test suite() {

@@ -20,9 +20,9 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.flock.IFlockModule;
+import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.migration.IMigrationModule;
-import org.eclipse.epsilon.migration.MigrationModule;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
 import util.FamiliesModelConstructor;
@@ -45,7 +45,7 @@ public abstract class Strong2WeakMigrationAcceptanceTest extends HutnTestWithFam
 	
 	// FIXME ! Move - some of this is a helper for migration module
 	private static void migrate(String strategy, String originalModel, InMemoryEmfModel migratedModel) throws Exception {
-		final IMigrationModule migrator = new MigrationModule();
+		final IFlockModule migrator = new FlockModule();
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);

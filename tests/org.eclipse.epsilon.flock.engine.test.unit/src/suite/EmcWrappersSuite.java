@@ -16,12 +16,12 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.emc.wrappers.AttributeValueTests;
-import org.eclipse.epsilon.migration.emc.wrappers.CollectionOfModelValuesTests;
-import org.eclipse.epsilon.migration.emc.wrappers.EnumValueTests;
-import org.eclipse.epsilon.migration.emc.wrappers.ModelElementTests;
-import org.eclipse.epsilon.migration.emc.wrappers.ModelTests;
-import org.eclipse.epsilon.migration.emc.wrappers.ModelValueWrapperTests;
+import org.eclipse.epsilon.flock.emc.wrappers.AttributeValueTests;
+import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValuesTests;
+import org.eclipse.epsilon.flock.emc.wrappers.EnumValueTests;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelElementTests;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelTests;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelValueWrapperTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

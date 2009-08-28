@@ -16,10 +16,10 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongCopyingSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongEquivalencesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongRulesSuite;
-import org.eclipse.epsilon.migration.engine.test.acceptance.strong2strong.Strong2StrongWarningsSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongCopyingSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongEquivalencesSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongRulesSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongWarningsSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

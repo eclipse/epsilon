@@ -16,15 +16,15 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.model.loader.MigrationRuleLoaderTest;
-import org.eclipse.epsilon.migration.model.loader.MigrationStrategyLoaderTest;
-import org.eclipse.epsilon.migration.parse.TestMigration;
+import org.eclipse.epsilon.flock.model.loader.MigrationRuleLoaderTest;
+import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoaderTest;
+import org.eclipse.epsilon.flock.parse.TestFlock;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestMigration.class,
+@SuiteClasses({TestFlock.class,
                MigrationStrategyLoaderTest.class, MigrationRuleLoaderTest.class})
 public class ParserSuite {
 	public static Test suite() {

@@ -16,11 +16,11 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.migration.model.MigrationRuleIsOfOriginalTypeTests;
-import org.eclipse.epsilon.migration.model.MigrationRuleApplyToTests;
-import org.eclipse.epsilon.migration.model.MigrationRuleSatisfiesGuardTests;
-import org.eclipse.epsilon.migration.model.MigrationStrategyRuleForTests;
-import org.eclipse.epsilon.migration.model.checker.MigrationStrategyCheckerTests;
+import org.eclipse.epsilon.flock.model.MigrationRuleApplyToTests;
+import org.eclipse.epsilon.flock.model.MigrationRuleIsOfOriginalTypeTests;
+import org.eclipse.epsilon.flock.model.MigrationRuleSatisfiesGuardTests;
+import org.eclipse.epsilon.flock.model.MigrationStrategyRuleForTests;
+import org.eclipse.epsilon.flock.model.checker.MigrationStrategyCheckerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
