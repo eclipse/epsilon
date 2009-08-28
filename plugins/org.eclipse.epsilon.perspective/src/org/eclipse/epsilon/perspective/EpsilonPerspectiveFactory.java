@@ -75,6 +75,8 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         layout.addNewWizardShortcut("org.eclipse.epsilon.util.emf.NewRegisteredEPackageWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.dt.exeed.modelink.NewModeLinkWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.hutn.dt.wizards.NewHutnFileWizard");
+        layout.addNewWizardShortcut("org.eclipse.epsilon.flock.dt.wizards.NewMigrationFileWizard");
+
         
         //layout.addNewWizardShortcut("org.eclipse.weaver.WeaverWizardID");
         

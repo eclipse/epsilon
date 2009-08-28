@@ -42,7 +42,7 @@
             category="org.eclipse.epsilon.dt"
             class="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
             icon="icons/flock16.png"
-            id="org.eclipse.epsilon.migration.dt.wizards.NewMigrationFileWizard"
+            id="org.eclipse.epsilon.flock.dt.wizards.NewMigrationFileWizard"
             name="Epsilon Flock Migration Strategy"/>
    </extension>
    <extension point="org.eclipse.ui.popupMenus">
