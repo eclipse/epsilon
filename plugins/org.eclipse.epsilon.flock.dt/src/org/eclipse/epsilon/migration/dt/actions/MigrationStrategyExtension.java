@@ -33,19 +33,20 @@ public class MigrationStrategyExtension {
 	}
 	
 	public EmfModel loadOriginalModel(IPath modelFilePath) throws EolModelLoadingException {
-		return loadEmfModel(modelFilePath, getMetamodelUri(originalMetamodelFile), true, false);
+		return loadEmfModel("Original", modelFilePath, getMetamodelUri(originalMetamodelFile), true, false);
 	}
 
 	public EmfModel loadMigratedModel(IPath modelFilePath) throws EolModelLoadingException {
-		return loadEmfModel(modelFilePath, getMetamodelUri(migratedMetamodelFile), false, true);
+		return loadEmfModel("Migrated", modelFilePath, getMetamodelUri(migratedMetamodelFile), false, true);
 	}
 	
 	private org.eclipse.emf.common.util.URI getMetamodelUri(String path) {
 		return org.eclipse.emf.common.util.URI.createPlatformPluginURI("/" + pluginId + (path.startsWith("/") ? "" : "/") + path, true);
 	}
 
-	private static EmfModel loadEmfModel(IPath modelFile, org.eclipse.emf.common.util.URI metamodelUri, boolean readOnLoad, boolean storeOnDisposal) throws EolModelLoadingException {
+	private static EmfModel loadEmfModel(String name, IPath modelFile, org.eclipse.emf.common.util.URI metamodelUri, boolean readOnLoad, boolean storeOnDisposal) throws EolModelLoadingException {
 		final EmfModel model = new EmfModel();
+		model.setName(name);
 		model.setMetamodelFileBased(true);
 		model.setMetamodelFileUri(metamodelUri);
 		model.setModelFile(modelFile.toOSString());

@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.Platform;
 
 public class MigrationStrategyExtensionLocator {
 
-	private static final String MIGRATION_STRATEGY_EXT_POINT_ID = "org.eclipse.epsilon.migration.dt.strategy";
+	private static final String MIGRATION_STRATEGY_EXT_POINT_ID = "org.eclipse.epsilon.flock.dt.strategy";
 	
 	public MigrationStrategyExtension findMigrationStrategyExtensionFor(IFile file) throws MigrationStrategyExtensionLocatorException {
 		try {
