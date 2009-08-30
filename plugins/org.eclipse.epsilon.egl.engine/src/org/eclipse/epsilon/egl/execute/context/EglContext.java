@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
+import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
@@ -45,6 +46,7 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	public EglContext() {
 		populateScope();
+		setOperationFactory(new EglOperationFactory());
 	}
 	
 	public EglContext(IEglContext context) {
