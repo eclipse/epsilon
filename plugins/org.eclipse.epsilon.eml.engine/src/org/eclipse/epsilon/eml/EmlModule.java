@@ -32,6 +32,7 @@ import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.etl.execute.EtlExecutorFactory;
 
 
 public class EmlModule extends EtlModule {
@@ -163,7 +164,9 @@ public class EmlModule extends EtlModule {
 		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("thisModule", this));
 		
-		context.setExecutorFactory(new EmlExecutorFactory());
+		EmlExecutorFactory emlExecutorFactory = new EmlExecutorFactory();
+		emlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
+		context.setExecutorFactory(emlExecutorFactory);
 		
 		//if (preBlock != null){
 		//	context.getExecutorFactory().executeAST(preBlock.getAst(), context);

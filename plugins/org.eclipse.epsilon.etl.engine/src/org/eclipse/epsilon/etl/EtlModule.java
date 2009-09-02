@@ -134,7 +134,10 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		// Initialize the context
 		context.setModule(this);
 		context.setOperationFactory(new EtlOperationFactory());
-		context.setExecutorFactory(new EtlExecutorFactory());
+		
+		EtlExecutorFactory etlExecutorFactory = new EtlExecutorFactory();
+		etlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
+		context.setExecutorFactory(etlExecutorFactory);
 		
 		//context.getModelRepository().addModel(sourceModel);
 		//context.getModelRepository().addModel(targetModel);

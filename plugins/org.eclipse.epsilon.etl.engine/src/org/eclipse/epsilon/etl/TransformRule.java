@@ -64,6 +64,10 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return AstUtil.getChild(ast, EtlParser.EXTENDS);
 	}
 	
+	public List<EolFormalParameter> getTargetParameters() {
+		return targetParameters;
+	}
+	
 	@Override
 	public void parse(AST ast) {
 		

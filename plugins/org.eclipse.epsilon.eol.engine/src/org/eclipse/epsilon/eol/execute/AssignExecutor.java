@@ -55,7 +55,9 @@ public abstract class AssignExecutor extends AbstractExecutor{
 				setter.invoke(value);
 			}
 			catch (EolRuntimeException ex){
-				ex.setAst(setter.getAst());
+				if (ex.getAst() == null) {
+					ex.setAst(setter.getAst());
+				}
 				throw ex;
 			}
 			//TODO : Remove this

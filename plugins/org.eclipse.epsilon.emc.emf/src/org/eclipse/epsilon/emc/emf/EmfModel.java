@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.commons.util.StringProperties;
@@ -182,7 +184,9 @@ public class EmfModel extends AbstractEmfModel {
 		
 		if (this.readOnLoad){
 			try {
-				model.load(null);
+				HashMap options = new HashMap();
+				options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, true);
+				model.load(options);
 				if (expand) {
 					EcoreUtil.resolveAll(model);
 				}
