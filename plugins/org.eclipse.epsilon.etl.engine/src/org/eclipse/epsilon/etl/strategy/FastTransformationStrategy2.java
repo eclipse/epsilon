@@ -31,11 +31,11 @@ import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-public class FastTransformationStrategy implements ITransformationStrategy{
+public class FastTransformationStrategy2 implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
 	
-	public FastTransformationStrategy(){
+	public FastTransformationStrategy2(){
 		equivalentProvider = this;
 	}
 	
@@ -49,16 +49,27 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
-		throw new UnsupportedOperationException(
-				"FastTransformationStrategy cannot transform single objects. " +
-				"Please use DefaultTransformationStrategy instead.");
+		return flatTrace.get(source);
+		
+		/*
+		for (INamedRule rule : context.getModule().getTransformRules()) {
+			TransformRule transformRule = (TransformRule) rule;
+			if (transformRule.isLazy(context) || transformRule.appliesTo(source, context, false)) {
+				
+			}
+		}
+		*/
+		//throw new UnsupportedOperationException(
+		//		"FastTransformationStrategy cannot transform single objects. " +
+		//		"Please use DefaultTransformationStrategy instead.");
 		
 	}
 	
 	public EolCollection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-
-		return flatTrace.get(source);
+		return transform(source, context, rules);
+		
+		//return flatTrace.get(source);
 	}
 	
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {

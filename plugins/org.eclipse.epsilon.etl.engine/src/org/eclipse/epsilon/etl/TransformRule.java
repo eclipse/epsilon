@@ -334,13 +334,13 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return this.name + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
 	}
 	
+	protected Boolean isPrimary = null;
 	
-	public boolean isLazy(IEtlContext context) throws EolRuntimeException {
-		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", context);
-	}
-	
-	public boolean isPrimary(IEtlContext context) throws EolRuntimeException {
-		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "primary", context);
+	public boolean isPrimary() throws EolRuntimeException {
+		if (isPrimary == null) {
+			isPrimary = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "primary", null);
+		}
+		return isPrimary;
 	}
 	
 	public boolean canTransformExcluded(IEtlContext context) throws EolRuntimeException {

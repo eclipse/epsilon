@@ -24,38 +24,38 @@ import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 public abstract class ExtensibleNamedRule extends NamedRule {
 	
 	protected ArrayList superRulesAsts = new ArrayList();	
-	protected IEolContext context;
+	//protected IEolContext context;
 	protected NamedRules superRules = new NamedRules();
 	protected NamedRules allSuperRules = new NamedRules();
 	protected Boolean isGreedy = null;
 	protected Boolean isAbstract = null;
 	protected Boolean isLazy = null;
 	
-	public IEolContext getContext() {
-		return context;
-	}
+	//public IEolContext getContext() {
+	//	return context;
+	//}
 	
-	public void setContext(IEolContext context) {
-		this.context = context;
-	}
+	//public void setContext(IEolContext context) {
+	//	this.context = context;
+	//}
 	
 	public boolean isGreedy() throws EolRuntimeException {
 		if (isGreedy == null) {
-			isGreedy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "greedy", context);
+			isGreedy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "greedy", null);
 		}
 		return isGreedy;
 	}
 	
 	public boolean isAbstract() throws EolRuntimeException {
 		if (isAbstract == null) {
-			isAbstract = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "abstract", context);
+			isAbstract = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "abstract", null);
 		}
 		return isAbstract;
 	}
 	
 	public boolean isLazy() throws EolRuntimeException {
 		if (isLazy == null) {
-			isLazy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", context);
+			isLazy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", null);
 		}
 		return isLazy;
 	}

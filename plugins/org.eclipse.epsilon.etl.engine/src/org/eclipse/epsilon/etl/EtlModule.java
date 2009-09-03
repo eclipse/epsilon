@@ -136,7 +136,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		for (INamedRule rule : getTransformRules()) {
 			TransformRule transformRule = (TransformRule) rule;
 			try {
-				if (transformRule.isLazy(context)) {
+				if (transformRule.isLazy()) {
 					return true;
 				}
 			} catch (EolRuntimeException e) {}
@@ -155,11 +155,9 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		context.setExecutorFactory(etlExecutorFactory);
 		
 		if (hasLazyRules(context)) {
-			System.err.println("Going slow!");
 			context.setTransformationStrategy(new DefaultTransformationStrategy());
 		}
 		else {
-			System.err.println("Going fast!");
 			context.setTransformationStrategy(new FastTransformationStrategy());
 		}
 		

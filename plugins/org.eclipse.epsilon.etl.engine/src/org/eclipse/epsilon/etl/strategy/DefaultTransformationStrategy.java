@@ -77,7 +77,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 				
 				EolCollection transformed = transformRule.transform(source, context);
 				
-				if (!transformRule.isPrimary(context)) {
+				if (!transformRule.isPrimary()) {
 					targets.addAll(transformed);
 				}
 				else {
@@ -212,7 +212,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
-			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
+			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
 				transformRule.transformAll(context, getExcluded());
 			}
 		}
