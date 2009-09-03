@@ -127,7 +127,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			}
 		}
 		
-		System.err.println("Flattening trace");
+		//System.err.println("Flattening trace");
 		
 		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
 			
@@ -146,7 +146,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			
 		}
 		
-		System.err.println("Running rules");
+		//System.err.println("Running rules");
 		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
 			
 			transformation.getRule().transform(transformation.getSource(), transformation.getTargets(), context);

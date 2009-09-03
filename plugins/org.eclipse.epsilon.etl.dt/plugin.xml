@@ -49,8 +49,9 @@
          point="org.eclipse.epsilon.etl.dt.transformationStrategy">
       <transformationStrategy
             class="org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy"
-            label="No transformation strategy"
-            id="Default"/>
+            description="Supports @lazy rules"
+            id="Default"
+            label="Default transformation strategy"/>
    </extension>
 
 </plugin>

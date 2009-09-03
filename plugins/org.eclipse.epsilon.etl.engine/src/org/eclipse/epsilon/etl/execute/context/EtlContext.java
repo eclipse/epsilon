@@ -21,7 +21,7 @@ public class EtlContext extends EolContext implements IEtlContext{
 	
 	protected TransformationTrace transformationTrace = new TransformationTrace();
 	protected ITransformationStrategy transformationStrategy = new DefaultTransformationStrategy();
-	// protected ITransformationStrategy transformationStrategy = new FastTransformationStrategy();
+	//protected ITransformationStrategy transformationStrategy = new FastTransformationStrategy();
 	
 	public TransformationTrace getTransformationTrace() {
 		return transformationTrace;

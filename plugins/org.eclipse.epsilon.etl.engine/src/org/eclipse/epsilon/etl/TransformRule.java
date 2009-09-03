@@ -333,7 +333,8 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		return this.name + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
 	}
-
+	
+	
 	public boolean isLazy(IEtlContext context) throws EolRuntimeException {
 		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", context);
 	}

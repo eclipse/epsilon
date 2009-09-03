@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -79,24 +82,22 @@ public class TransformationStrategyExtension {
 		}
 	}	
 	
-	public static TransformationStrategyExtension forType(String type) {
+	public static List<TransformationStrategyExtension> getExtensions() {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extenstionPoint = registry.getExtensionPoint("org.eclipse.epsilon.etl.dt.transformationStrategy");
-		
+		List<TransformationStrategyExtension> extensions = new ArrayList<TransformationStrategyExtension>();
 		IConfigurationElement[] configurationElements = extenstionPoint.getConfigurationElements();
 		
 		for (int i=0;i<configurationElements.length;i++) {
 			IConfigurationElement configurationElement = configurationElements[i];
-			if (configurationElement.getAttribute("type").equalsIgnoreCase(type)){
-				TransformationStrategyExtension descriptor = new TransformationStrategyExtension();
-				descriptor.setLabel(configurationElement.getAttribute("label"));
-				descriptor.setType(configurationElement.getAttribute("type"));
-				descriptor.setConfigurationElement(configurationElement);
-				return descriptor;
-			}
+			TransformationStrategyExtension descriptor = new TransformationStrategyExtension();
+			descriptor.setLabel(configurationElement.getAttribute("label"));
+			descriptor.setType(configurationElement.getAttribute("type"));
+			descriptor.setConfigurationElement(configurationElement);
+			extensions.add(descriptor);
 		}
 		
-		return null;
+		return extensions;
 	}
 	
 }

@@ -28,12 +28,15 @@ import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.etl.execute.EtlExecutorFactory;
 import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
 import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
+import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
+import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 
 
 public class EtlModule extends ErlModule implements IEtlModule {
@@ -129,6 +132,18 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		return declaredTransformRules;
 	}
 
+	protected boolean hasLazyRules(IEtlContext context) {
+		for (INamedRule rule : getTransformRules()) {
+			TransformRule transformRule = (TransformRule) rule;
+			try {
+				if (transformRule.isLazy(context)) {
+					return true;
+				}
+			} catch (EolRuntimeException e) {}
+		}
+		return false;
+	}
+	
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
@@ -138,6 +153,15 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		EtlExecutorFactory etlExecutorFactory = new EtlExecutorFactory();
 		etlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
 		context.setExecutorFactory(etlExecutorFactory);
+		
+		if (hasLazyRules(context)) {
+			System.err.println("Going slow!");
+			context.setTransformationStrategy(new DefaultTransformationStrategy());
+		}
+		else {
+			System.err.println("Going fast!");
+			context.setTransformationStrategy(new FastTransformationStrategy());
+		}
 		
 		//context.getModelRepository().addModel(sourceModel);
 		//context.getModelRepository().addModel(targetModel);
