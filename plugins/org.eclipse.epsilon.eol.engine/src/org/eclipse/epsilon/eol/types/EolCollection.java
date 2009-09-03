@@ -429,12 +429,20 @@ public abstract class EolCollection extends EolAny{
 	 * @return java.lang.Object
 	 */
 	public Object at(EolInteger i){
-		Iterator it = storage.iterator();
+		
+		if (storage instanceof List<?>) {
+			try {
+				return ((List<?>) storage).get(i.intValue());
+			}
+			catch (Exception ex) {
+				return null;
+			}
+		}
+		
 		int counter = 0;
-		while (it.hasNext()){
-			Object next = it.next();
+		for (Object o : storage) {
 			if (i.intValue() == counter){
-				return next;
+				return o;
 			}
 			counter ++;
 		}

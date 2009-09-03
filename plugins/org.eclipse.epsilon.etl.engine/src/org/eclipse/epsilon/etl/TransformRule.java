@@ -118,8 +118,12 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	protected Collection rejected = new ArrayList<Object>();
 	
-	//TODO: Add support for rejected objects to other languages as well!
 	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule) throws EolRuntimeException {
+		return appliesTo(source, context, asSuperRule, true);
+	}
+	
+	//TODO: Add support for rejected objects to other languages as well!
+	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule, boolean checkTypes) throws EolRuntimeException {
 		
 		if (hasTransformed(source)) return true;
 		if (rejected.contains(source)) return false;
@@ -129,16 +133,16 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		boolean appliesToTypes;
 		
-		if (isGreedy() || asSuperRule) {
+		if (!checkTypes) {
+			appliesToTypes = true;
+		}
+		else if (isGreedy() || asSuperRule) {
 			appliesToTypes = getAllOfSourceKind(context).contains(source);
 		}
 		else {
 			appliesToTypes = getAllOfSourceType(context).contains(source);
-			
 		}
 		
-			
-			
 		boolean guardSatisfied = true;
 		
 		if (appliesToTypes && guardAst != null){

@@ -10,11 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolBag;
@@ -25,32 +28,12 @@ import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
+import org.eclipse.epsilon.etl.trace.Transformation;
+import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
 public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
-	//protected IModel sourceModel;
-	//protected IModel targetModel;
-	
-	//public IModel getSourceModel() {
-	//	return sourceModel;
-	//}
-
-	//public void setSourceModel(IModel sourceModel) {
-	//	this.sourceModel = sourceModel;
-	//}
-
-	//public IModel getTargetModel() {
-	//	return targetModel;
-	//}
-
-	//public void setTargetModel(IModel targetModel) {
-	//	this.targetModel = targetModel;
-	//}
-
-	//public void load(StringProperties properties) {
-	//	
-	//}
 	
 	public FastTransformationStrategy(){
 		equivalentProvider = this;
@@ -66,77 +49,16 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
-		EolSequence targets = new EolSequence();
+		throw new UnsupportedOperationException(
+				"FastTransformationStrategy cannot transform single objects. " +
+				"Please use DefaultTransformationStrategy instead.");
 		
-		//TODO : Change this to be less restrictive...
-		if (!canTransform(source)) return targets;
-		
-		for (INamedRule rule : context.getModule().getTransformRules().getRulesFor(source, context)) {
-			TransformRule transformRule = (TransformRule) rule;
-			if (rules == null || rules.contains(rule.getName())) {
-				
-				EolCollection transformed = transformRule.transform(source, context);
-				
-				if (!transformRule.isPrimary(context)) {
-					targets.addAll(transformed);
-				}
-				else {
-					int i = 0;
-					for (Object target : transformed.getStorage()) {
-						targets.add(new EolInteger(i), target);
-						i++;
-					}
-				}
-			}
-		}
-		
-		return targets;
-		
-		//return context.getTransformationTrace().getTransformations(source).getTargets();
-		
-		/*
-		Transformations transformations = context.getTransformationTrace().getTransformations(source);
-		EolCollection targets = new EolBag();
-		
-
-		if (!transformations.isEmpty()){
-			targets = transformations.getTargets();
-		}
-		else {
-			TransformRules transformRules = context.getModule().getTransformRules().getRulesFor(source, context);
-			//if (transformRules.isEmpty()){
-			//	transformRules = context.getModule().getTransformRules().getRulesFor(source, context, false);
-			//}
-			if (!transformRules.isEmpty()){
-				Iterator it = transformRules.iterator();
-				while (it.hasNext()){
-					TransformRule transformRule = (TransformRule) it.next();
-					targets.addAll(transformRule.transform(source, context));
-				}
-			} else {
-				//int b = context.getModule().getTargetModel().allInstances().size();
-				Object equivalent = autoTransform(source, context);
-				targets.add(equivalent);
-				if (equivalent == null) {
-					context.getTransformationTrace().add(source, targets, null);
-				}
-				//int a = context.getModule().getTargetModel().allInstances().size();
-				//if (b>a) {System.err.println(b + " : " + a);}
-			}
-			
-		}
-		*/
-		
-		//return targets;
 	}
 	
 	public EolCollection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		// First transform the source
-		return transform(source, context, rules);
-		// Then collect all the targets both implicit and explicit from
-		// the transformation trace and return them
-		//return context.getTransformationTrace().getTransformations(source).getTargets();
+
+		return flatTrace.get(source);
 	}
 	
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
@@ -151,30 +73,6 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			return null;
 		}
 		
-		/*
-		Transformations transformations = context.getTransformationTrace().getTransformations(source);
-		
-		for (Transformation transformation : transformations) {
-			if (transformation.getRule().isPrimary(context)) {
-				if (rules == null || rules.contains(transformation.getRule().getName())) {
-					return transformation.getTargets().first();
-				}
-			}
-		}
-		
-		if (!transformations.isEmpty()) {
-			return transformations.get(0).getTargets().at(new EolInteger(0));
-		}
-		*/
-		
-		/*
-		EolCollection equivalents = getEquivalents(source, context);
-		if (equivalents.getStorage().isEmpty()){
-			return null;
-		}
-		else {
-			return equivalents.first();
-		}*/
 	}
 	
 	public EolCollection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
@@ -195,33 +93,67 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		return equivalents;
 	}
 	
-	/*
-	public void transformModel2(IEtlContext context) throws EolRuntimeException {
-		Iterator it = sourceModel.allContents().iterator();
-		TransformationTrace trace = context.getTransformationTrace();
-		while (it.hasNext()){
-			Object sourceInstance = it.next();
-			if (trace.getTransformations(sourceInstance).size() == 0){
-				//autoTransform(sourceInstance, context);
-				transform(sourceInstance,context);
-			}
-		}		
-	}
-	*/
+	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
+		
+		System.err.println("Creating targets");
+		
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
 			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
-				transformRule.transformAll(context, getExcluded());
+				Collection<Object> sources;
+				
+				if (transformRule.isGreedy()) {
+					sources = transformRule.getAllOfSourceKind(context);
+				}
+				else {
+					sources = transformRule.getAllOfSourceType(context);
+				}
+				
+				for (Object instance : sources) {
+					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)){
+						
+						EolCollection targets = new EolSequence();
+						
+						for (EolFormalParameter target : transformRule.getTargetParameters()) {
+							targets.add(target.getType(context).createInstance());
+						}
+						
+						context.getTransformationTrace().add(instance, targets, transformRule);
+						
+					}
+				}
 			}
 		}
+		
+		System.err.println("Flattening trace");
+		
+		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
+			
+			if (flatTrace.containsKey(transformation.getSource())) {
+				if (transformation.getRule().isPrimary(context)) {
+					flatTrace.put(transformation.getSource(), 
+							transformation.getTargets().includingAll(flatTrace.get(transformation.getSource())));
+				}
+				else {
+					flatTrace.get(transformation.getSource()).addAll(transformation.getTargets());
+				}
+			}
+			else {
+				flatTrace.put(transformation.getSource(), transformation.getTargets().clone());
+			}
+			
+		}
+		
+		System.err.println("Running rules");
+		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
+			
+			transformation.getRule().transform(transformation.getSource(), transformation.getTargets(), context);
+		} 
+		
 	}
-	
-	//public String getId(){
-	//	return this.getClass().getCanonicalName();
-	//}
-	
+		
 	public void setEquivalentProvider(IEquivalentProvider equivalentProvider) {
 		this.equivalentProvider = equivalentProvider;
 	}

@@ -27,6 +27,9 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	protected IEolContext context;
 	protected NamedRules superRules = new NamedRules();
 	protected NamedRules allSuperRules = new NamedRules();
+	protected Boolean isGreedy = null;
+	protected Boolean isAbstract = null;
+	protected Boolean isLazy = null;
 	
 	public IEolContext getContext() {
 		return context;
@@ -37,15 +40,24 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	}
 	
 	public boolean isGreedy() throws EolRuntimeException {
-		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "greedy", context);
+		if (isGreedy == null) {
+			isGreedy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "greedy", context);
+		}
+		return isGreedy;
 	}
 	
 	public boolean isAbstract() throws EolRuntimeException {
-		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "abstract", context);
+		if (isAbstract == null) {
+			isAbstract = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "abstract", context);
+		}
+		return isAbstract;
 	}
 	
 	public boolean isLazy() throws EolRuntimeException {
-		return EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", context);
+		if (isLazy == null) {
+			isLazy = EolAnnotationsUtil.getBooleanAnnotationValue(ast, "lazy", context);
+		}
+		return isLazy;
 	}
 	
 	public void calculateSuperRules(NamedRules allRules) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException{

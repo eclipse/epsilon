@@ -13,6 +13,7 @@ package org.eclipse.epsilon.etl.execute.context;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
+import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
@@ -20,7 +21,8 @@ public class EtlContext extends EolContext implements IEtlContext{
 	
 	protected TransformationTrace transformationTrace = new TransformationTrace();
 	protected ITransformationStrategy transformationStrategy = new DefaultTransformationStrategy();
-	 
+	// protected ITransformationStrategy transformationStrategy = new FastTransformationStrategy();
+	
 	public TransformationTrace getTransformationTrace() {
 		return transformationTrace;
 	}
