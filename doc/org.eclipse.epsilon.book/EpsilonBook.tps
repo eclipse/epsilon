@@ -4,14 +4,14 @@ Version=2
 
 [SessionInfo]
 ActiveTab=0
-FrameCount=4
-ActiveFrame=0
+FrameCount=5
+ActiveFrame=4
 
 [Frame0]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -24,17 +24,17 @@ Class=CLatexEdit
 Document=Design.EOL.tex
 
 [Frame0_Row0]
-cyCur=966
+cyCur=439
 cyMin=10
 
 [Frame0_Col0]
-cxCur=1263
+cxCur=435
 cxMin=10
 
 [Frame0_View0,0]
 Cursor.row=217
 Cursor.column=100
-TopSubLine=251
+TopSubLine=445
 
 [Frame1]
 Columns=1
@@ -63,7 +63,7 @@ cxMin=10
 [Frame1_View0,0]
 Cursor.row=29
 Cursor.column=250
-TopSubLine=49
+TopSubLine=72
 
 [Frame2]
 Columns=1
@@ -121,5 +121,34 @@ cxMin=10
 [Frame3_View0,0]
 Cursor.row=84
 Cursor.column=1
-TopSubLine=82
+TopSubLine=89
+
+[Frame4]
+Columns=1
+Rows=1
+Flags=2
+ShowCmd=3
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-30
+NormalPos.left=88
+NormalPos.top=116
+NormalPos.right=1130
+NormalPos.bottom=784
+Class=CLatexEdit
+Document=ECL.tex
+
+[Frame4_Row0]
+cyCur=966
+cyMin=10
+
+[Frame4_Col0]
+cxCur=1263
+cxMin=10
+
+[Frame4_View0,0]
+Cursor.row=130
+Cursor.column=405
+TopSubLine=153
 
