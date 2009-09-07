@@ -30,7 +30,7 @@ public class IdOperation extends AbstractOperation{
 		}
 		//}
 		else {
-			throw new EolNotAModelElementException(operationAst.getFirstChild(), source, context);
+			throw new EolNotAModelElementException(operationAst, source, context);
 		}
 		
 		//return null;
