@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.trace;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.eol.types.EolCollection;
@@ -19,13 +20,14 @@ public class TransformationTrace {
 	
 	//List storage = new ArrayList();
 	HashMap<Object, Transformations> cache = new HashMap<Object, Transformations>();
+	Transformations transformations = new Transformations();
 	
 	public void add(Object source, EolCollection targets, TransformRule rule){
 		Transformation transformation = new Transformation();
 		transformation.setSource(source);
 		transformation.setTargets(targets);
 		transformation.setRule(rule);
-		//storage.add(transformation);
+		transformations.add(transformation);
 		//cache.put(source, transformation);
 		Transformations transformations = cache.get(source);
 		if (transformations == null) {
@@ -39,10 +41,11 @@ public class TransformationTrace {
 	}
 	
 	public Transformations getTransformations() {
+		/*
 		Transformations transformations = new Transformations();
 		for (Object key : cache.keySet()) {
 			transformations.addAll((Transformations)cache.get(key));
-		}
+		}*/
 		return transformations;
 	}
 	

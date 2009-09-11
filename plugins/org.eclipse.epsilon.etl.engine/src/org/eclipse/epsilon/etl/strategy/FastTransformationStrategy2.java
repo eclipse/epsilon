@@ -30,10 +30,12 @@ import org.eclipse.epsilon.etl.TransformRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
+import org.eclipse.epsilon.etl.trace.Transformations;
 
 public class FastTransformationStrategy2 implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
+	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
 	
 	public FastTransformationStrategy2(){
 		equivalentProvider = this;
@@ -49,16 +51,26 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 	
 	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
-		return flatTrace.get(source);
-		
-		/*
 		for (INamedRule rule : context.getModule().getTransformRules()) {
 			TransformRule transformRule = (TransformRule) rule;
-			if (transformRule.isLazy(context) || transformRule.appliesTo(source, context, false)) {
-				
+			if (transformRule.isLazy() && !transformRule.hasTransformed(source) && transformRule.appliesTo(source, context, false)) {
+				EolCollection targets = transformRule.transform(source, context);
+				if (flatTrace.containsKey(source)) {
+					if (transformRule.isPrimary()) {
+						flatTrace.put(source, targets.includingAll(flatTrace.get(source)));
+					}
+					else {
+						flatTrace.get(source).addAll(targets);
+					}
+				}
+				else {
+					flatTrace.put(source, targets.clone());
+				}
 			}
 		}
-		*/
+		
+		return flatTrace.get(source);
+		
 		//throw new UnsupportedOperationException(
 		//		"FastTransformationStrategy cannot transform single objects. " +
 		//		"Please use DefaultTransformationStrategy instead.");
@@ -104,11 +116,9 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 		return equivalents;
 	}
 	
-	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
-	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		
-		System.err.println("Creating targets");
+		// System.err.println("Creating targets");
 		
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
@@ -158,8 +168,7 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 		}
 		
 		//System.err.println("Running rules");
-		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
-			
+		for (Transformation transformation : (Transformations) context.getTransformationTrace().getTransformations().clone()) {
 			transformation.getRule().transform(transformation.getSource(), transformation.getTargets(), context);
 		} 
 		

@@ -13,11 +13,14 @@ package org.eclipse.epsilon.emc.emf.dt;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationDialog {
 
@@ -27,7 +30,8 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 	}
 	
 	protected Label metaModelUriLabel;
-	protected Combo metaModelUriCombo;
+	protected Text metaModelUriText;
+	protected Button browseMetamodelUri;
 	
 	public EmfMetaModelConfigurationDialog(){
 		super();
@@ -50,13 +54,18 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 		metaModelUriLabel = new Label(groupContent, SWT.NONE);
 		metaModelUriLabel.setText("Meta-model URI: ");
 		
-		metaModelUriCombo = new Combo(groupContent, SWT.BORDER|SWT.READ_ONLY);
-		
-		for (String key : EPackage.Registry.INSTANCE.keySet()){
-			metaModelUriCombo.add(key);
-		}
-		
-		metaModelUriCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		metaModelUriText = new Text(groupContent, SWT.BORDER);
+		metaModelUriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		browseMetamodelUri = new Button(groupContent, SWT.NONE);
+		browseMetamodelUri.setText("Browse EPackages...");
+		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
+
+			@Override
+			public void selectionChanged(EPackage ePackage) {
+				metaModelUriText.setText(ePackage.getNsURI());
+			}
+			
+		});
 		
 		Label emptyLabel = new Label(groupContent, SWT.NONE);
 		emptyLabel.setText("");
@@ -71,13 +80,13 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
-		metaModelUriCombo.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI));
+		metaModelUriText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI));
 	}
 	
 	@Override
 	protected void storeProperties(){
 		super.storeProperties();
-		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metaModelUriCombo.getText());
+		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metaModelUriText.getText());
 	}
 
 }
