@@ -33,10 +33,6 @@ pre {
 					}
 				}
 			}
-		} else {
-			if (root.equivalent().isDefined()) {
-				spec.objects.add(root.equivalent());
-			}
 		}
 	}
 }
@@ -46,6 +42,8 @@ rule NameNode2PackageObject
 	to p : Intermediate!PackageObject {
 	
 	guard : n.parent.isUndefined() and n.text.toLowerCase() <> '@spec'
+	
+	spec.objects.add(p);
 	
 	p.type := n.text;
 	p.addIdentifier(n, false);
@@ -80,6 +78,7 @@ rule NameNode2ClassObject
 	createClassObject(c, n);
 }
 
+-- TODO: refactor this to: rule AssocationInstanceNode2ReferenceSlot
 operation AntlrAst!AssociationInstanceNode createReferences(package : Intermediate!PackageObject) {
 
 	var slot : Intermediate!ReferenceSlot;	
