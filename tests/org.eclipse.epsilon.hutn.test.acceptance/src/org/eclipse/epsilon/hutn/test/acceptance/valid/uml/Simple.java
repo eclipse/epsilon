@@ -14,6 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.test.acceptance.valid.uml;
 
+import org.eclipse.uml2.uml.UMLPackage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class Simple extends HutnUmlAcceptanceTest {
 	public static void executeHutn() throws Exception {
 		final String hutn = "@Spec {"                                                      + 
 		                    "  MetaModel \"uml\" {"                                        +
-		                    "    nsUri = \"http://www.eclipse.org/uml2/2.1.0/UML\""        +
+		                    "    nsUri = \"" + UMLPackage.eNS_URI + "\"" +
 		                    "  }"                                                          +
 		                    "}"                                                            +
 		                    ""                                                             +
