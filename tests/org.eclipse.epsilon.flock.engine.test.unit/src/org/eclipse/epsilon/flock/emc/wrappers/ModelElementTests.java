@@ -101,7 +101,7 @@ public class ModelElementTests {
 	public void conservativelyCopyPropertiesFromShouldRetrieveEachPropertyValueAndConvertToEquivalent() throws ConservativeCopyException, EolRuntimeException {
 		final ModelElement mockOriginalModelElement = createMock(ModelElement.class);
 		
-		final Model             dummyOriginalModel = createMock(Model.class);
+		final Model         dummyOriginalModel = createMock(Model.class);
 		final IFlockContext dummyContext       = createMock(IFlockContext.class);
 		
 		
