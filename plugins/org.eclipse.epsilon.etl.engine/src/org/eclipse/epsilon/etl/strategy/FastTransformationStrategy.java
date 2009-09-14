@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,10 +26,8 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
-import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
-import org.eclipse.epsilon.etl.trace.TransformationTrace;
 import org.eclipse.epsilon.etl.trace.Transformations;
 
 public class FastTransformationStrategy implements ITransformationStrategy{
