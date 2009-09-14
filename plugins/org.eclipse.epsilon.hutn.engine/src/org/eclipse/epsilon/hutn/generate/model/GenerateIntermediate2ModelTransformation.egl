@@ -3,8 +3,7 @@ pre {
 }
 
 [% if (not PackageObject.all.isEmpty()) { %]
-	[% for (class in PackageObject.all.first.getAllEClasses()) { %]
-	[* for (class in EClass.allInstances()) { *]
+	[% for (class in getAllEClassesUsed()) { %]
 	rule Object2[%=class.name%]
 	  transform o : Intermediate!ClassObject
 	  to t : Model!"[%=class.name%]" {
@@ -69,3 +68,20 @@ operation String getEObject(slot : ReferenceSlot) : Any {
 		return slot.getClassObjects().selectOne(c|c.identifier = self).equivalent();
 	}
 }
+
+
+[%
+  operation getAllEClassesUsed() : Sequence {
+	var types := new Set;
+	var classes := new Sequence;
+
+	for (classObject in ClassObject.all) {
+		if (types.excludes(classObject.type)) {
+			types.add(classObject.type);
+			classes.add(classObject.getEClass());
+		}
+	}
+	
+	return classes;
+  }
+%]
