@@ -27,13 +27,17 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
+import org.eclipse.epsilon.etl.trace.Transformations;
 
 public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
+	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
+	protected HashMap<Object, Transformations> pendingTransformations = new HashMap<Object, Transformations>();
 	
 	public FastTransformationStrategy(){
 		equivalentProvider = this;
@@ -57,7 +61,12 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	public EolCollection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-
+		
+		if (pendingTransformations.containsKey(source)) {
+			Transformations transformations = pendingTransformations.remove(source);
+			executeTransformations(transformations, context);
+		}
+		
 		return flatTrace.get(source);
 	}
 	
@@ -93,11 +102,10 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		return equivalents;
 	}
 	
-	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		
-		System.err.println("Creating targets");
+		// System.err.println("Creating targets");
 		
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
@@ -144,16 +152,32 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 				flatTrace.put(transformation.getSource(), transformation.getTargets().clone());
 			}
 			
+			if (pendingTransformations.containsKey(transformation.getSource())) {
+				pendingTransformations.get(transformation.getSource()).add(transformation);
+			}
+			else {
+				Transformations transformations = new Transformations();
+				transformations.add(transformation);
+				pendingTransformations.put(transformation.getSource(), transformations);
+			}
+			
 		}
 		
 		//System.err.println("Running rules");
-		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
-			
-			transformation.getRule().transform(transformation.getSource(), transformation.getTargets(), context);
-		} 
+		executeTransformations(context.getTransformationTrace().getTransformations(), context);
 		
 	}
-		
+	
+	protected void executeTransformations(Transformations transformations, IEtlContext context) throws EolRuntimeException {
+		for (Transformation transformation : transformations) {
+			TransformRule rule = transformation.getRule();
+			if (!rule.hasTransformed(transformation.getSource())) {
+				rule.getTransformedElements().add(transformation.getSource());
+				rule.transform(transformation.getSource(), transformation.getTargets(), context);
+			}
+		} 		
+	}
+	
 	public void setEquivalentProvider(IEquivalentProvider equivalentProvider) {
 		this.equivalentProvider = equivalentProvider;
 	}
