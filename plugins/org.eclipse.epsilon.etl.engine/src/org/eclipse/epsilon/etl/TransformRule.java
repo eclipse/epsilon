@@ -251,15 +251,12 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	*/
 	
 	public EolCollection transform(Object source, EolCollection targets, IEtlContext context) throws EolRuntimeException {
+		transformedElements.add(source);
 		executeSuperRulesAndBody(source, targets, context);
 		return targets;
 	}
 	
 	protected Set<Object> transformedElements = new HashSet<Object>();
-	
-	public Set<Object> getTransformedElements() {
-		return transformedElements;
-	}
 	
 	public EolCollection transform(Object source, IEtlContext context) throws EolRuntimeException{
 		

@@ -172,7 +172,6 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		for (Transformation transformation : transformations) {
 			TransformRule rule = transformation.getRule();
 			if (!rule.hasTransformed(transformation.getSource())) {
-				rule.getTransformedElements().add(transformation.getSource());
 				rule.transform(transformation.getSource(), transformation.getTargets(), context);
 			}
 		} 		
