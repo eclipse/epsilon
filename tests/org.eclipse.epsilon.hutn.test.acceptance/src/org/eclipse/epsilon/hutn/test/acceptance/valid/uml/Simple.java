@@ -23,7 +23,7 @@ public class Simple extends HutnUmlAcceptanceTest {
 	public static void executeHutn() throws Exception {
 		final String hutn = "@Spec {"                                                      + 
 		                    "  MetaModel \"uml\" {"                                        +
-		                    "    nsUri = \"http://www.eclipse.org/uml2/3.0.0/UML\""        +
+		                    "    nsUri = \"http://www.eclipse.org/uml2/2.1.0/UML\""        +
 		                    "  }"                                                          +
 		                    "}"                                                            +
 		                    ""                                                             +
