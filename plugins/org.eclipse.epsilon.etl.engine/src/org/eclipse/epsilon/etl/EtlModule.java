@@ -155,16 +155,14 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		etlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
 		context.setExecutorFactory(etlExecutorFactory);
 		
-		/*
 		if (hasLazyRules(context)) {
 			context.setTransformationStrategy(new DefaultTransformationStrategy());
 		}
 		else {
 			context.setTransformationStrategy(new FastTransformationStrategy());
 		}
-		*/
 		
-		context.setTransformationStrategy(new FastTransformationStrategy2());
+		//context.setTransformationStrategy(new FastTransformationStrategy2());
 		
 		//context.getModelRepository().addModel(sourceModel);
 		//context.getModelRepository().addModel(targetModel);
