@@ -20,10 +20,10 @@ import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
+import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
-import org.eclipse.epsilon.migration.test.EpsilonMigrationLanguageTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
                EglTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
-               EpsilonMigrationLanguageTestSuite.class})
+               EpsilonFlockEngineTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
