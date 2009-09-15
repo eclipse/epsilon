@@ -63,9 +63,7 @@ public class AcceptanceTestUtil {
 	
 	private static void loadModels(Model... models) throws EolModelLoadingException {
 		for (Model model : models) {
-			final EmfModel emfModel = model.getEmfModel();
-			emfModel.load();
-			module.getContext().getModelRepository().addModel(emfModel);
+			module.getContext().getModelRepository().addModel(model.loadEmfModel());
 		}
 	}
 	

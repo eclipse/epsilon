@@ -14,6 +14,8 @@ import java.io.File;
 
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfModelFactory;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public enum Model {
 	OOInstance("OO", "OOInstance.ecore", "OO.ecore");
@@ -29,12 +31,7 @@ public enum Model {
 		metaModelFile = FileUtil.getFile(metaModelFileName, Model.class);
 	}
 	
-	public EmfModel getEmfModel() {
-		final EmfModel model = new EmfModel();
-		model.setModelFile(modelFile.getAbsolutePath());
-		model.setMetamodelFile(metaModelFile.getAbsolutePath());
-		model.setMetamodelFileBased(true);
-		model.setName(modelName);
-		return model;
+	public EmfModel loadEmfModel() throws EolModelLoadingException {
+		return EmfModelFactory.getInstance().loadEmfModel(modelName, modelFile, metaModelFile);
 	}
 }
