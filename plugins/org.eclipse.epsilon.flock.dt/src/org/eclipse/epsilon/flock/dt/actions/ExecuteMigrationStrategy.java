@@ -124,6 +124,9 @@ public class ExecuteMigrationStrategy extends AbstractObjectActionDelegate {
 				printError(problem);
 			}	
 		}
+		
+		original.dispose();
+		migrated.dispose();
 	}
 	
 	private static void printInfo(Object message) {
