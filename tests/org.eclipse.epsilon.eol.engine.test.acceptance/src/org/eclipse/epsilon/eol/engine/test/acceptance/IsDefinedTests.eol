@@ -1,0 +1,29 @@
+@test
+operation nullIsNotDefined() {
+	assert(not null.isDefined());
+}
+
+@test
+operation nullIsUndefined() {
+	assert(null.isUndefined());
+}
+
+@test
+operation nonEmptyStringIsDefined() {
+	assert('foo'.isDefined());
+}
+
+@test
+operation nonEmptyStringIsNotUndefined() {
+	assert(not 'foo'.isUndefined());
+}
+
+@test
+operation emptyStringIsNotDefined() {
+	assert(not ''.isDefined());
+}
+
+@test
+operation emptyStringIsUndefined() {
+	assert(''.isUndefined());
+}

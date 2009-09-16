@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({AssignmentTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class})
+@SuiteClasses({AssignmentTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class, IsDefinedTests.class})
 public class EolAcceptanceTestSuite {
 
 	public static Test suite() {

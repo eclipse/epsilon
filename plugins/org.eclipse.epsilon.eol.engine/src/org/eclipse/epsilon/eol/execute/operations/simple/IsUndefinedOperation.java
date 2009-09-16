@@ -16,12 +16,17 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.types.EolString;
 
 
 public class IsUndefinedOperation extends AbstractOperation{
 
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
+		if (obj instanceof EolString) {
+			return new EolBoolean(((EolString) obj).getValue().length() == 0);
+		}
+		
 		return new EolBoolean(obj==null || obj==EolNoType.NoInstance);
 	}
 
