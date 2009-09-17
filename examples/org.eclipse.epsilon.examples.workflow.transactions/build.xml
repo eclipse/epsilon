@@ -67,17 +67,22 @@
 	<target name="main" depends="loadModels">
 		<runtarget target="Transformation1"/>
 		<runtarget target="Validation1"/>		
+		
 		<trycatch>
 			<try>
+				<!--Start a transaction on M so that we can roll it back later on.-->
 				<epsilon.startTransaction name="Transaction1" models="M"/>
 				<runtarget target="Transformation2"/>
 				<runtarget target="Validation2"/>
+				<!-- No errors in the validation. Commit the transaction.-->
 				<epsilon.commitTransaction name="Transaction1"/>
 			</try>
 			<catch>
+				<!--If validation fails, roll back the transaction.-->
 				<epsilon.rollbackTransaction name="Transaction1"/>
 			</catch>
 		</trycatch>
+		
 		<runtarget target="Evaluation"/>
 	</target>
 	
