@@ -41,10 +41,6 @@ public abstract class EpsilonTask extends Task {
 			executeImpl();
 		}
 		catch (BuildException ex) {
-			for (IModel model : getProjectRepository().getModels()) {
-				model.setStoredOnDisposal(false);
-			}
-			getProjectRepository().dispose();
 			throw ex;
 		}
 	}
@@ -53,7 +49,7 @@ public abstract class EpsilonTask extends Task {
 	
 	protected void fail(String message) throws BuildException {
 		if (failOnErrors) {
-			getProjectRepository().dispose();
+			// getProjectRepository().dispose();
 			throw new BuildException(message);
 		}
 		else {
@@ -63,7 +59,7 @@ public abstract class EpsilonTask extends Task {
 	
 	protected void warn(String message) throws BuildException {
 		if (failOnWarnings) {
-			getProjectRepository().dispose();
+			// getProjectRepository().dispose();
 			throw new BuildException(message);
 		}
 		else {

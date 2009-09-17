@@ -29,7 +29,6 @@ public abstract class BuildFinishedListener implements BuildListener{
 
 	public void targetFinished(BuildEvent event) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void targetStarted(BuildEvent event) {

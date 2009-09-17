@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.Project;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public class ShutdownProjectRepositoryListener extends BuildFinishedListener {
@@ -34,6 +35,11 @@ public class ShutdownProjectRepositoryListener extends BuildFinishedListener {
 	
 	@Override
 	public void buildFinished(BuildEvent event) {
+		if (event.getException() != null) {
+			for (IModel model : repository.getModels()) {
+				model.setStoredOnDisposal(false);
+			}
+		}
 		repository.dispose();
 	}
 	
