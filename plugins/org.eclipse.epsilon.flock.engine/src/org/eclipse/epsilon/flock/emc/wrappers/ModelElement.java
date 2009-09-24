@@ -45,7 +45,15 @@ public class ModelElement extends BackedModelValue<Object> {
 			for (String propertyName : getPropertiesSharedWith(original)) {				
 				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
 				
-				this.setValueOfProperty(propertyName, originalValueOfProperty.getEquivalentIn(model, context));
+				final ModelValue<?> migratedValue = originalValueOfProperty.getEquivalentIn(model, context);
+				
+				try {
+					this.setValueOfProperty(propertyName, migratedValue);
+				} catch (Exception e) {
+					// TODO - note circumstances in which this block is entered and guard
+					//        setValueOfProperty statement with appropriate checks 
+					e.printStackTrace();
+				}
 			}
 		} catch (EolRuntimeException e) {
 			throw new ConservativeCopyException("Exception encountered while reading or writing a property value.", e);
