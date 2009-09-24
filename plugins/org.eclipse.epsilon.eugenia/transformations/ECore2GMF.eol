@@ -317,6 +317,9 @@ for (class in getLinks()) {
 	-- Do not create links for classes that cannot be contained
 	-- in the diagram or in the opposite of their sourceFeature
 	
+	if (getAllSuitableContainmentReferences(class).size() == 0) continue;
+	
+	-*
 	var containmentFeature := getDiagramContainmentReference(class);
 	if (containmentFeature.isUndefined()){
 	
@@ -329,6 +332,7 @@ for (class in getLinks()) {
 			continue;
 		}
 	}
+	*-
 	
 	-- Create GmfTool creation tool
 	var creationTool := createCreationTool(class);
@@ -352,16 +356,21 @@ for (class in getLinks()) {
 	connection.figure := figureDescriptor;
 	canvas.connections.add(connection);
 	
-	-- Create GmfMap link mapping
-	var linkMapping : new GmfMap!LinkMapping;
-	mapping.links.add(linkMapping);
-	linkMapping.containmentFeature := containmentFeature;
-	linkMapping.diagramLink := connection;
-	linkMapping.domainMetaElement := class;
-	linkMapping.tool := creationTool;
-	linkMapping.sourceMetaFeature := class.getLinkSourceFeature();
-	linkMapping.linkMetaFeature := class.getLinkTargetFeature();
-
+	var linkMappings : Sequence;
+	
+	for (containmentFeature in getAllSuitableContainmentReferences(class)) {
+		-- Create GmfMap link mapping
+		var linkMapping : new GmfMap!LinkMapping;
+		mapping.links.add(linkMapping);
+		linkMapping.containmentFeature := containmentFeature;
+		linkMapping.diagramLink := connection;
+		linkMapping.domainMetaElement := class;
+		linkMapping.tool := creationTool;
+		linkMapping.sourceMetaFeature := class.getLinkSourceFeature();
+		linkMapping.linkMetaFeature := class.getLinkTargetFeature();
+		linkMappings.add(linkMapping);
+	}
+	
 	-- Create connection label
 	var labelAttributes := class.getLabelAttributes();
 	var hasLabel := not labelAttributes.isEmpty();
@@ -383,7 +392,9 @@ for (class in getLinks()) {
 		featureLabelMapping.diagramLabel := diagramLabel;
 		featureLabelMapping.features.addAll(class.getLabelAttributes());
 		featureLabelMapping.readOnly := class.getLabelReadOnly();
-		linkMapping.labelMappings.add(featureLabelMapping);
+		for (linkMapping in linkMappings) {
+			linkMapping.labelMappings.add(featureLabelMapping);
+		}
 	}
 	
 }
