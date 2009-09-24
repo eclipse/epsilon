@@ -17,7 +17,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.Equivalence;
-import org.eclipse.epsilon.flock.execution.RuleBasedEquivalence;
+import org.eclipse.epsilon.flock.execution.MigrateRuleBasedEquivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class MigrateRule extends GuardedRule {
@@ -41,7 +41,7 @@ public class MigrateRule extends GuardedRule {
 	
 	
 	public Equivalence createEquivalence(ModelElement original, IFlockContext context) throws FlockRuntimeException {
-		return new RuleBasedEquivalence(context, original, context.createModelElementInMigratedModel(migratedType), body);
+		return new MigrateRuleBasedEquivalence(context, original, context.createModelElementInMigratedModel(migratedType), body);
 	}
 	
 	@Override
