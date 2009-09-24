@@ -12,15 +12,20 @@ package org.eclipse.epsilon.flock.dt.editor.outline;
 
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
-import org.eclipse.epsilon.flock.model.MigrationRule;
+import org.eclipse.epsilon.flock.model.DeleteRule;
+import org.eclipse.epsilon.flock.model.MigrateRule;
 import org.eclipse.swt.graphics.Image;
 
 public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof MigrationRule) {
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/flock16.png");
+		if (element instanceof MigrateRule) {
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/rules/migrate.gif");
+		
+		} else if (element instanceof DeleteRule) {
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/rules/delete.gif");
+			
 		} else {
 			return super.getImage(element);
 		}
@@ -31,8 +36,12 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 		// The implementation of MigrationRule#toString is good for tests and debugging,
 		// but looks messy in outline view, so overriding getText for MigrationRules
 		
-		if (element instanceof MigrationRule) {
-			return ((MigrationRule)element).getOriginalType() + " to " + ((MigrationRule)element).getMigratedType();
+		if (element instanceof MigrateRule) {
+			return ((MigrateRule)element).getOriginalType() + " to " + ((MigrateRule)element).migratedType;
+		
+		} else if (element instanceof DeleteRule) {
+			return "delete " + ((DeleteRule)element).getOriginalType();
+			
 		} else {
 			return super.getText(element);
 		}

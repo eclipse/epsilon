@@ -20,10 +20,8 @@ import static org.easymock.classextension.EasyMock.verify;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.Equivalence;
-import org.eclipse.epsilon.flock.execution.RuleBasedEquivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.MigrationRule;
+import org.eclipse.epsilon.flock.model.Body;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +31,7 @@ public class RuleBasedEquivalenceTests {
 	private final ModelElement      dummyEquivalent = createMock("DummyEquivalent", ModelElement.class);
 	private final IFlockContext dummyContext    = createMock("DummyContext", IFlockContext.class);
 	
-	private final MigrationRule mockRule = createMock("MockRule", MigrationRule.class);
+	private final Body mockRule = createMock("MockExecutableBlock", Body.class);
 	
 	private final Equivalence equivalence = new RuleBasedEquivalence(dummyContext, dummyOriginal, dummyEquivalent, mockRule);
 	

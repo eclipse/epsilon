@@ -18,24 +18,21 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.MigrationRule;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MigrationStrategyRuleForTests {
 		
-	private final ModelElement      dummyOriginalModelElement = createMock("DummyOriginalModelElement", ModelElement.class);
+	private final ModelElement  dummyOriginalModelElement = createMock("DummyOriginalModelElement", ModelElement.class);
 	private final IFlockContext dummyContext              = createMock("DummyContext", IFlockContext.class);
 	
-	private MigrationRule applicableRule;
-	private MigrationRule inapplicableRule;
-	private MigrationRule rule;
+	private MigrateRule applicableRule;
+	private MigrateRule inapplicableRule;
+	private MigrateRule rule;
 
 	@Before
 	public void setup() {
@@ -44,25 +41,25 @@ public class MigrationStrategyRuleForTests {
 		rule             = createRuleThatIsNotTestedForApplicability();
 	}
 	
-	private MigrationRule createRuleThatIsNotTestedForApplicability() {
-		final MigrationRule rule = createMock("RuleThatIsNotTestedForApplicability", MigrationRule.class);
+	private MigrateRule createRuleThatIsNotTestedForApplicability() {
+		final MigrateRule rule = createMock("RuleThatIsNotTestedForApplicability", MigrateRule.class);
 		
 		replay(rule);
 		
 		return rule;
 	}
 
-	private MigrationRule createInapplicableRule() {
+	private MigrateRule createInapplicableRule() {
 		return createRule("InapplicableRule", false);
 	}
 
-	private MigrationRule createApplicableRule() {
+	private MigrateRule createApplicableRule() {
 		return createRule("ApplicableRule", true);
 	}
 
-	private MigrationRule createRule(String name, boolean applicable) {
+	private MigrateRule createRule(String name, boolean applicable) {
 		try {
-			final MigrationRule rule = createMock(name, MigrationRule.class);
+			final MigrateRule rule = createMock(name, MigrateRule.class);
 			
 			expect(rule.appliesFor(dummyOriginalModelElement, dummyContext))
 				.andReturn(applicable);
@@ -115,13 +112,18 @@ public class MigrationStrategyRuleForTests {
 	}
 	
 	@Test
-	public void ruleForShouldReturnNullWhenNoApplicableRules() throws FlockRuntimeException {
+	public void ruleForShouldReturnCopyRuleWhenNoApplicableRules() throws FlockRuntimeException {
 		final MigrationStrategy strategy = new MigrationStrategy(inapplicableRule);
+		
+		expect(dummyOriginalModelElement.getTypeName())
+			.andReturn("Person");
+		
+		replay(dummyOriginalModelElement);
 		
 		// Verification
 		
-		assertNull(strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertEquals(new CopyRule("Person"), strategy.ruleFor(dummyOriginalModelElement, dummyContext));
 		
-		verify(inapplicableRule);
+		verify(inapplicableRule, dummyOriginalModelElement);
 	}
 }

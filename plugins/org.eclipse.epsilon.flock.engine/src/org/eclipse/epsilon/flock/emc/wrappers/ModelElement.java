@@ -36,6 +36,10 @@ public class ModelElement extends BackedModelValue<Object> {
 		return model.getTypeNameOf(underlyingModelObject);
 	}
 	
+	public boolean isKindOf(String originalType) {
+		return model.isKindOf(underlyingModelObject, originalType);
+	}
+	
 	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {
 		try {
 			for (String propertyName : getPropertiesSharedWith(original)) {				

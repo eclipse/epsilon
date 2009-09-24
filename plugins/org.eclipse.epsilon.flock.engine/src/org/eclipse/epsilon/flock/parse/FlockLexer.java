@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Flock__.g 2009-08-28 18:27:23
+// $ANTLR 3.1b1 Flock__.g 2009-09-24 14:33:19
 
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
@@ -104,6 +104,7 @@ public class FlockLexer extends Lexer {
     public static final int ALIAS=62;
     public static final int MIGRATE=64;
     public static final int JavaIDDigit=15;
+    public static final int GUARD=65;
     public static final int Annotation=20;
     public static final int T__76=76;
     public static final int T__75=75;
@@ -120,7 +121,6 @@ public class FlockLexer extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__65=65;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
     public static final int T__118=118;
@@ -129,12 +129,13 @@ public class FlockLexer extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__123=123;
     public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
-    public static final int T__120=120;
     public static final int FLOAT=4;
+    public static final int T__120=120;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
     public static final int ModelElementType=39;
@@ -159,7 +160,7 @@ public class FlockLexer extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=123;
+    public static final int Tokens=124;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
@@ -182,36 +183,16 @@ public class FlockLexer extends Lexer {
     }
     public String getGrammarFileName() { return "Flock__.g"; }
 
-    // $ANTLR start T__65
-    public final void mT__65() throws RecognitionException {
+    // $ANTLR start T__66
+    public final void mT__66() throws RecognitionException {
         try {
-            int _type = T__65;
+            int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Flock__.g:44:7: ( 'model' )
             // Flock__.g:44:9: 'model'
             {
             match("model"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__65
-
-    // $ANTLR start T__66
-    public final void mT__66() throws RecognitionException {
-        try {
-            int _type = T__66;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:45:7: ( ';' )
-            // Flock__.g:45:9: ';'
-            {
-            match(';'); 
 
             }
 
@@ -228,10 +209,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:46:7: ( ':' )
-            // Flock__.g:46:9: ':'
+            // Flock__.g:45:7: ( ';' )
+            // Flock__.g:45:9: ';'
             {
-            match(':'); 
+            match(';'); 
 
             }
 
@@ -248,10 +229,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:47:7: ( ',' )
-            // Flock__.g:47:9: ','
+            // Flock__.g:46:7: ( ':' )
+            // Flock__.g:46:9: ':'
             {
-            match(','); 
+            match(':'); 
 
             }
 
@@ -268,11 +249,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:48:7: ( 'alias' )
-            // Flock__.g:48:9: 'alias'
+            // Flock__.g:47:7: ( ',' )
+            // Flock__.g:47:9: ','
             {
-            match("alias"); 
-
+            match(','); 
 
             }
 
@@ -289,10 +269,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:49:7: ( 'operation' )
-            // Flock__.g:49:9: 'operation'
+            // Flock__.g:48:7: ( 'alias' )
+            // Flock__.g:48:9: 'alias'
             {
-            match("operation"); 
+            match("alias"); 
 
 
             }
@@ -310,10 +290,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:50:7: ( '(' )
-            // Flock__.g:50:9: '('
+            // Flock__.g:49:7: ( 'operation' )
+            // Flock__.g:49:9: 'operation'
             {
-            match('('); 
+            match("operation"); 
+
 
             }
 
@@ -330,10 +311,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:51:7: ( ')' )
-            // Flock__.g:51:9: ')'
+            // Flock__.g:50:7: ( '(' )
+            // Flock__.g:50:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -350,11 +331,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:52:7: ( 'import' )
-            // Flock__.g:52:9: 'import'
+            // Flock__.g:51:7: ( ')' )
+            // Flock__.g:51:9: ')'
             {
-            match("import"); 
-
+            match(')'); 
 
             }
 
@@ -371,10 +351,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:53:7: ( '{' )
-            // Flock__.g:53:9: '{'
+            // Flock__.g:52:7: ( 'import' )
+            // Flock__.g:52:9: 'import'
             {
-            match('{'); 
+            match("import"); 
+
 
             }
 
@@ -391,10 +372,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:54:7: ( '}' )
-            // Flock__.g:54:9: '}'
+            // Flock__.g:53:7: ( '{' )
+            // Flock__.g:53:9: '{'
             {
-            match('}'); 
+            match('{'); 
 
             }
 
@@ -411,10 +392,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:55:7: ( '$' )
-            // Flock__.g:55:9: '$'
+            // Flock__.g:54:7: ( '}' )
+            // Flock__.g:54:9: '}'
             {
-            match('$'); 
+            match('}'); 
 
             }
 
@@ -431,10 +412,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:56:7: ( '!' )
-            // Flock__.g:56:9: '!'
+            // Flock__.g:55:7: ( '$' )
+            // Flock__.g:55:9: '$'
             {
-            match('!'); 
+            match('$'); 
 
             }
 
@@ -451,11 +432,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:57:7: ( '::' )
-            // Flock__.g:57:9: '::'
+            // Flock__.g:56:7: ( '!' )
+            // Flock__.g:56:9: '!'
             {
-            match("::"); 
-
+            match('!'); 
 
             }
 
@@ -472,10 +452,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:58:7: ( '#' )
-            // Flock__.g:58:9: '#'
+            // Flock__.g:57:7: ( '::' )
+            // Flock__.g:57:9: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -492,11 +473,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__80;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:59:7: ( 'Native' )
-            // Flock__.g:59:9: 'Native'
+            // Flock__.g:58:7: ( '#' )
+            // Flock__.g:58:9: '#'
             {
-            match("Native"); 
-
+            match('#'); 
 
             }
 
@@ -513,10 +493,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__81;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:60:7: ( 'Collection' )
-            // Flock__.g:60:9: 'Collection'
+            // Flock__.g:59:7: ( 'Native' )
+            // Flock__.g:59:9: 'Native'
             {
-            match("Collection"); 
+            match("Native"); 
 
 
             }
@@ -534,10 +514,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__82;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:61:7: ( 'Sequence' )
-            // Flock__.g:61:9: 'Sequence'
+            // Flock__.g:60:7: ( 'Collection' )
+            // Flock__.g:60:9: 'Collection'
             {
-            match("Sequence"); 
+            match("Collection"); 
 
 
             }
@@ -555,10 +535,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__83;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:62:7: ( 'Bag' )
-            // Flock__.g:62:9: 'Bag'
+            // Flock__.g:61:7: ( 'Sequence' )
+            // Flock__.g:61:9: 'Sequence'
             {
-            match("Bag"); 
+            match("Sequence"); 
 
 
             }
@@ -576,10 +556,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__84;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:63:7: ( 'Set' )
-            // Flock__.g:63:9: 'Set'
+            // Flock__.g:62:7: ( 'Bag' )
+            // Flock__.g:62:9: 'Bag'
             {
-            match("Set"); 
+            match("Bag"); 
 
 
             }
@@ -597,10 +577,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__85;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:64:7: ( 'OrderedSet' )
-            // Flock__.g:64:9: 'OrderedSet'
+            // Flock__.g:63:7: ( 'Set' )
+            // Flock__.g:63:9: 'Set'
             {
-            match("OrderedSet"); 
+            match("Set"); 
 
 
             }
@@ -618,10 +598,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__86;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:65:7: ( 'for' )
-            // Flock__.g:65:9: 'for'
+            // Flock__.g:64:7: ( 'OrderedSet' )
+            // Flock__.g:64:9: 'OrderedSet'
             {
-            match("for"); 
+            match("OrderedSet"); 
 
 
             }
@@ -639,10 +619,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__87;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:66:7: ( 'in' )
-            // Flock__.g:66:9: 'in'
+            // Flock__.g:65:7: ( 'for' )
+            // Flock__.g:65:9: 'for'
             {
-            match("in"); 
+            match("for"); 
 
 
             }
@@ -660,10 +640,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__88;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:67:7: ( 'if' )
-            // Flock__.g:67:9: 'if'
+            // Flock__.g:66:7: ( 'in' )
+            // Flock__.g:66:9: 'in'
             {
-            match("if"); 
+            match("in"); 
 
 
             }
@@ -681,10 +661,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__89;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:68:7: ( 'else' )
-            // Flock__.g:68:9: 'else'
+            // Flock__.g:67:7: ( 'if' )
+            // Flock__.g:67:9: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -702,10 +682,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__90;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:69:7: ( 'while' )
-            // Flock__.g:69:9: 'while'
+            // Flock__.g:68:7: ( 'else' )
+            // Flock__.g:68:9: 'else'
             {
-            match("while"); 
+            match("else"); 
 
 
             }
@@ -723,10 +703,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__91;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:70:7: ( 'return' )
-            // Flock__.g:70:9: 'return'
+            // Flock__.g:69:7: ( 'while' )
+            // Flock__.g:69:9: 'while'
             {
-            match("return"); 
+            match("while"); 
 
 
             }
@@ -744,10 +724,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__92;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:71:7: ( 'throw' )
-            // Flock__.g:71:9: 'throw'
+            // Flock__.g:70:7: ( 'return' )
+            // Flock__.g:70:9: 'return'
             {
-            match("throw"); 
+            match("return"); 
 
 
             }
@@ -765,10 +745,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__93;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:72:7: ( 'delete' )
-            // Flock__.g:72:9: 'delete'
+            // Flock__.g:71:7: ( 'throw' )
+            // Flock__.g:71:9: 'throw'
             {
-            match("delete"); 
+            match("throw"); 
 
 
             }
@@ -786,10 +766,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__94;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:73:7: ( 'break' )
-            // Flock__.g:73:9: 'break'
+            // Flock__.g:72:7: ( 'delete' )
+            // Flock__.g:72:9: 'delete'
             {
-            match("break"); 
+            match("delete"); 
 
 
             }
@@ -807,10 +787,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__95;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:74:7: ( 'breakAll' )
-            // Flock__.g:74:9: 'breakAll'
+            // Flock__.g:73:7: ( 'break' )
+            // Flock__.g:73:9: 'break'
             {
-            match("breakAll"); 
+            match("break"); 
 
 
             }
@@ -828,10 +808,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__96;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:75:7: ( 'continue' )
-            // Flock__.g:75:9: 'continue'
+            // Flock__.g:74:7: ( 'breakAll' )
+            // Flock__.g:74:9: 'breakAll'
             {
-            match("continue"); 
+            match("breakAll"); 
 
 
             }
@@ -849,10 +829,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:76:7: ( 'abort' )
-            // Flock__.g:76:9: 'abort'
+            // Flock__.g:75:7: ( 'continue' )
+            // Flock__.g:75:9: 'continue'
             {
-            match("abort"); 
+            match("continue"); 
 
 
             }
@@ -870,10 +850,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:77:7: ( 'transaction' )
-            // Flock__.g:77:9: 'transaction'
+            // Flock__.g:76:7: ( 'abort' )
+            // Flock__.g:76:9: 'abort'
             {
-            match("transaction"); 
+            match("abort"); 
 
 
             }
@@ -891,10 +871,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:78:7: ( ':=' )
-            // Flock__.g:78:9: ':='
+            // Flock__.g:77:7: ( 'transaction' )
+            // Flock__.g:77:9: 'transaction'
             {
-            match(":="); 
+            match("transaction"); 
 
 
             }
@@ -912,10 +892,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:79:8: ( '::=' )
-            // Flock__.g:79:10: '::='
+            // Flock__.g:78:8: ( ':=' )
+            // Flock__.g:78:10: ':='
             {
-            match("::="); 
+            match(":="); 
 
 
             }
@@ -933,10 +913,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:80:8: ( 'or' )
-            // Flock__.g:80:10: 'or'
+            // Flock__.g:79:8: ( '::=' )
+            // Flock__.g:79:10: '::='
             {
-            match("or"); 
+            match("::="); 
 
 
             }
@@ -954,10 +934,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:81:8: ( 'and' )
-            // Flock__.g:81:10: 'and'
+            // Flock__.g:80:8: ( 'or' )
+            // Flock__.g:80:10: 'or'
             {
-            match("and"); 
+            match("or"); 
 
 
             }
@@ -975,10 +955,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:82:8: ( 'xor' )
-            // Flock__.g:82:10: 'xor'
+            // Flock__.g:81:8: ( 'and' )
+            // Flock__.g:81:10: 'and'
             {
-            match("xor"); 
+            match("and"); 
 
 
             }
@@ -996,10 +976,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:83:8: ( 'implies' )
-            // Flock__.g:83:10: 'implies'
+            // Flock__.g:82:8: ( 'xor' )
+            // Flock__.g:82:10: 'xor'
             {
-            match("implies"); 
+            match("xor"); 
 
 
             }
@@ -1017,10 +997,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:84:8: ( '==' )
-            // Flock__.g:84:10: '=='
+            // Flock__.g:83:8: ( 'implies' )
+            // Flock__.g:83:10: 'implies'
             {
-            match("=="); 
+            match("implies"); 
 
 
             }
@@ -1038,10 +1018,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:85:8: ( '=' )
-            // Flock__.g:85:10: '='
+            // Flock__.g:84:8: ( '==' )
+            // Flock__.g:84:10: '=='
             {
-            match('='); 
+            match("=="); 
+
 
             }
 
@@ -1058,10 +1039,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:86:8: ( '>' )
-            // Flock__.g:86:10: '>'
+            // Flock__.g:85:8: ( '=' )
+            // Flock__.g:85:10: '='
             {
-            match('>'); 
+            match('='); 
 
             }
 
@@ -1078,10 +1059,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:87:8: ( '<' )
-            // Flock__.g:87:10: '<'
+            // Flock__.g:86:8: ( '>' )
+            // Flock__.g:86:10: '>'
             {
-            match('<'); 
+            match('>'); 
 
             }
 
@@ -1098,11 +1079,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:88:8: ( '>=' )
-            // Flock__.g:88:10: '>='
+            // Flock__.g:87:8: ( '<' )
+            // Flock__.g:87:10: '<'
             {
-            match(">="); 
-
+            match('<'); 
 
             }
 
@@ -1119,10 +1099,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:89:8: ( '<=' )
-            // Flock__.g:89:10: '<='
+            // Flock__.g:88:8: ( '>=' )
+            // Flock__.g:88:10: '>='
             {
-            match("<="); 
+            match(">="); 
 
 
             }
@@ -1140,10 +1120,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:90:8: ( '<>' )
-            // Flock__.g:90:10: '<>'
+            // Flock__.g:89:8: ( '<=' )
+            // Flock__.g:89:10: '<='
             {
-            match("<>"); 
+            match("<="); 
 
 
             }
@@ -1161,10 +1141,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:91:8: ( '+' )
-            // Flock__.g:91:10: '+'
+            // Flock__.g:90:8: ( '<>' )
+            // Flock__.g:90:10: '<>'
             {
-            match('+'); 
+            match("<>"); 
+
 
             }
 
@@ -1181,10 +1162,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:92:8: ( '-' )
-            // Flock__.g:92:10: '-'
+            // Flock__.g:91:8: ( '+' )
+            // Flock__.g:91:10: '+'
             {
-            match('-'); 
+            match('+'); 
 
             }
 
@@ -1201,10 +1182,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:93:8: ( '*' )
-            // Flock__.g:93:10: '*'
+            // Flock__.g:92:8: ( '-' )
+            // Flock__.g:92:10: '-'
             {
-            match('*'); 
+            match('-'); 
 
             }
 
@@ -1221,10 +1202,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:94:8: ( '/' )
-            // Flock__.g:94:10: '/'
+            // Flock__.g:93:8: ( '*' )
+            // Flock__.g:93:10: '*'
             {
-            match('/'); 
+            match('*'); 
 
             }
 
@@ -1241,11 +1222,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:95:8: ( 'not' )
-            // Flock__.g:95:10: 'not'
+            // Flock__.g:94:8: ( '/' )
+            // Flock__.g:94:10: '/'
             {
-            match("not"); 
-
+            match('/'); 
 
             }
 
@@ -1262,10 +1242,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:96:8: ( '|' )
-            // Flock__.g:96:10: '|'
+            // Flock__.g:95:8: ( 'not' )
+            // Flock__.g:95:10: 'not'
             {
-            match('|'); 
+            match("not"); 
+
 
             }
 
@@ -1282,11 +1263,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:97:8: ( 'new' )
-            // Flock__.g:97:10: 'new'
+            // Flock__.g:96:8: ( '|' )
+            // Flock__.g:96:10: '|'
             {
-            match("new"); 
-
+            match('|'); 
 
             }
 
@@ -1303,10 +1283,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__119;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:98:8: ( 'var' )
-            // Flock__.g:98:10: 'var'
+            // Flock__.g:97:8: ( 'new' )
+            // Flock__.g:97:10: 'new'
             {
-            match("var"); 
+            match("new"); 
 
 
             }
@@ -1324,10 +1304,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__120;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:99:8: ( 'migrate' )
-            // Flock__.g:99:10: 'migrate'
+            // Flock__.g:98:8: ( 'var' )
+            // Flock__.g:98:10: 'var'
             {
-            match("migrate"); 
+            match("var"); 
 
 
             }
@@ -1345,10 +1325,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__121;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:100:8: ( 'to' )
-            // Flock__.g:100:10: 'to'
+            // Flock__.g:99:8: ( 'migrate' )
+            // Flock__.g:99:10: 'migrate'
             {
-            match("to"); 
+            match("migrate"); 
 
 
             }
@@ -1366,6 +1346,27 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__122;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Flock__.g:100:8: ( 'to' )
+            // Flock__.g:100:10: 'to'
+            {
+            match("to"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__122
+
+    // $ANTLR start T__123
+    public final void mT__123() throws RecognitionException {
+        try {
+            int _type = T__123;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // Flock__.g:101:8: ( 'when' )
             // Flock__.g:101:10: 'when'
             {
@@ -1380,421 +1381,421 @@ public class FlockLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T__122
+    // $ANTLR end T__123
 
     public void mTokens() throws RecognitionException {
-        // Flock__.g:1:8: ( T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens )
+        // Flock__.g:1:8: ( T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | EolLexerRules. Tokens )
         int alt1=59;
         alt1 = dfa1.predict(input);
         switch (alt1) {
             case 1 :
-                // Flock__.g:1:10: T__65
-                {
-                mT__65(); 
-
-                }
-                break;
-            case 2 :
-                // Flock__.g:1:16: T__66
+                // Flock__.g:1:10: T__66
                 {
                 mT__66(); 
 
                 }
                 break;
-            case 3 :
-                // Flock__.g:1:22: T__67
+            case 2 :
+                // Flock__.g:1:16: T__67
                 {
                 mT__67(); 
 
                 }
                 break;
-            case 4 :
-                // Flock__.g:1:28: T__68
+            case 3 :
+                // Flock__.g:1:22: T__68
                 {
                 mT__68(); 
 
                 }
                 break;
-            case 5 :
-                // Flock__.g:1:34: T__69
+            case 4 :
+                // Flock__.g:1:28: T__69
                 {
                 mT__69(); 
 
                 }
                 break;
-            case 6 :
-                // Flock__.g:1:40: T__70
+            case 5 :
+                // Flock__.g:1:34: T__70
                 {
                 mT__70(); 
 
                 }
                 break;
-            case 7 :
-                // Flock__.g:1:46: T__71
+            case 6 :
+                // Flock__.g:1:40: T__71
                 {
                 mT__71(); 
 
                 }
                 break;
-            case 8 :
-                // Flock__.g:1:52: T__72
+            case 7 :
+                // Flock__.g:1:46: T__72
                 {
                 mT__72(); 
 
                 }
                 break;
-            case 9 :
-                // Flock__.g:1:58: T__73
+            case 8 :
+                // Flock__.g:1:52: T__73
                 {
                 mT__73(); 
 
                 }
                 break;
-            case 10 :
-                // Flock__.g:1:64: T__74
+            case 9 :
+                // Flock__.g:1:58: T__74
                 {
                 mT__74(); 
 
                 }
                 break;
-            case 11 :
-                // Flock__.g:1:70: T__75
+            case 10 :
+                // Flock__.g:1:64: T__75
                 {
                 mT__75(); 
 
                 }
                 break;
-            case 12 :
-                // Flock__.g:1:76: T__76
+            case 11 :
+                // Flock__.g:1:70: T__76
                 {
                 mT__76(); 
 
                 }
                 break;
-            case 13 :
-                // Flock__.g:1:82: T__77
+            case 12 :
+                // Flock__.g:1:76: T__77
                 {
                 mT__77(); 
 
                 }
                 break;
-            case 14 :
-                // Flock__.g:1:88: T__78
+            case 13 :
+                // Flock__.g:1:82: T__78
                 {
                 mT__78(); 
 
                 }
                 break;
-            case 15 :
-                // Flock__.g:1:94: T__79
+            case 14 :
+                // Flock__.g:1:88: T__79
                 {
                 mT__79(); 
 
                 }
                 break;
-            case 16 :
-                // Flock__.g:1:100: T__80
+            case 15 :
+                // Flock__.g:1:94: T__80
                 {
                 mT__80(); 
 
                 }
                 break;
-            case 17 :
-                // Flock__.g:1:106: T__81
+            case 16 :
+                // Flock__.g:1:100: T__81
                 {
                 mT__81(); 
 
                 }
                 break;
-            case 18 :
-                // Flock__.g:1:112: T__82
+            case 17 :
+                // Flock__.g:1:106: T__82
                 {
                 mT__82(); 
 
                 }
                 break;
-            case 19 :
-                // Flock__.g:1:118: T__83
+            case 18 :
+                // Flock__.g:1:112: T__83
                 {
                 mT__83(); 
 
                 }
                 break;
-            case 20 :
-                // Flock__.g:1:124: T__84
+            case 19 :
+                // Flock__.g:1:118: T__84
                 {
                 mT__84(); 
 
                 }
                 break;
-            case 21 :
-                // Flock__.g:1:130: T__85
+            case 20 :
+                // Flock__.g:1:124: T__85
                 {
                 mT__85(); 
 
                 }
                 break;
-            case 22 :
-                // Flock__.g:1:136: T__86
+            case 21 :
+                // Flock__.g:1:130: T__86
                 {
                 mT__86(); 
 
                 }
                 break;
-            case 23 :
-                // Flock__.g:1:142: T__87
+            case 22 :
+                // Flock__.g:1:136: T__87
                 {
                 mT__87(); 
 
                 }
                 break;
-            case 24 :
-                // Flock__.g:1:148: T__88
+            case 23 :
+                // Flock__.g:1:142: T__88
                 {
                 mT__88(); 
 
                 }
                 break;
-            case 25 :
-                // Flock__.g:1:154: T__89
+            case 24 :
+                // Flock__.g:1:148: T__89
                 {
                 mT__89(); 
 
                 }
                 break;
-            case 26 :
-                // Flock__.g:1:160: T__90
+            case 25 :
+                // Flock__.g:1:154: T__90
                 {
                 mT__90(); 
 
                 }
                 break;
-            case 27 :
-                // Flock__.g:1:166: T__91
+            case 26 :
+                // Flock__.g:1:160: T__91
                 {
                 mT__91(); 
 
                 }
                 break;
-            case 28 :
-                // Flock__.g:1:172: T__92
+            case 27 :
+                // Flock__.g:1:166: T__92
                 {
                 mT__92(); 
 
                 }
                 break;
-            case 29 :
-                // Flock__.g:1:178: T__93
+            case 28 :
+                // Flock__.g:1:172: T__93
                 {
                 mT__93(); 
 
                 }
                 break;
-            case 30 :
-                // Flock__.g:1:184: T__94
+            case 29 :
+                // Flock__.g:1:178: T__94
                 {
                 mT__94(); 
 
                 }
                 break;
-            case 31 :
-                // Flock__.g:1:190: T__95
+            case 30 :
+                // Flock__.g:1:184: T__95
                 {
                 mT__95(); 
 
                 }
                 break;
-            case 32 :
-                // Flock__.g:1:196: T__96
+            case 31 :
+                // Flock__.g:1:190: T__96
                 {
                 mT__96(); 
 
                 }
                 break;
-            case 33 :
-                // Flock__.g:1:202: T__97
+            case 32 :
+                // Flock__.g:1:196: T__97
                 {
                 mT__97(); 
 
                 }
                 break;
-            case 34 :
-                // Flock__.g:1:208: T__98
+            case 33 :
+                // Flock__.g:1:202: T__98
                 {
                 mT__98(); 
 
                 }
                 break;
-            case 35 :
-                // Flock__.g:1:214: T__99
+            case 34 :
+                // Flock__.g:1:208: T__99
                 {
                 mT__99(); 
 
                 }
                 break;
-            case 36 :
-                // Flock__.g:1:220: T__100
+            case 35 :
+                // Flock__.g:1:214: T__100
                 {
                 mT__100(); 
 
                 }
                 break;
-            case 37 :
-                // Flock__.g:1:227: T__101
+            case 36 :
+                // Flock__.g:1:221: T__101
                 {
                 mT__101(); 
 
                 }
                 break;
-            case 38 :
-                // Flock__.g:1:234: T__102
+            case 37 :
+                // Flock__.g:1:228: T__102
                 {
                 mT__102(); 
 
                 }
                 break;
-            case 39 :
-                // Flock__.g:1:241: T__103
+            case 38 :
+                // Flock__.g:1:235: T__103
                 {
                 mT__103(); 
 
                 }
                 break;
-            case 40 :
-                // Flock__.g:1:248: T__104
+            case 39 :
+                // Flock__.g:1:242: T__104
                 {
                 mT__104(); 
 
                 }
                 break;
-            case 41 :
-                // Flock__.g:1:255: T__105
+            case 40 :
+                // Flock__.g:1:249: T__105
                 {
                 mT__105(); 
 
                 }
                 break;
-            case 42 :
-                // Flock__.g:1:262: T__106
+            case 41 :
+                // Flock__.g:1:256: T__106
                 {
                 mT__106(); 
 
                 }
                 break;
-            case 43 :
-                // Flock__.g:1:269: T__107
+            case 42 :
+                // Flock__.g:1:263: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 44 :
-                // Flock__.g:1:276: T__108
+            case 43 :
+                // Flock__.g:1:270: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 45 :
-                // Flock__.g:1:283: T__109
+            case 44 :
+                // Flock__.g:1:277: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 46 :
-                // Flock__.g:1:290: T__110
+            case 45 :
+                // Flock__.g:1:284: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 47 :
-                // Flock__.g:1:297: T__111
+            case 46 :
+                // Flock__.g:1:291: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 48 :
-                // Flock__.g:1:304: T__112
+            case 47 :
+                // Flock__.g:1:298: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 49 :
-                // Flock__.g:1:311: T__113
+            case 48 :
+                // Flock__.g:1:305: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 50 :
-                // Flock__.g:1:318: T__114
+            case 49 :
+                // Flock__.g:1:312: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 51 :
-                // Flock__.g:1:325: T__115
+            case 50 :
+                // Flock__.g:1:319: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 52 :
-                // Flock__.g:1:332: T__116
+            case 51 :
+                // Flock__.g:1:326: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 53 :
-                // Flock__.g:1:339: T__117
+            case 52 :
+                // Flock__.g:1:333: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 54 :
-                // Flock__.g:1:346: T__118
+            case 53 :
+                // Flock__.g:1:340: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
-            case 55 :
-                // Flock__.g:1:353: T__119
+            case 54 :
+                // Flock__.g:1:347: T__119
                 {
                 mT__119(); 
 
                 }
                 break;
-            case 56 :
-                // Flock__.g:1:360: T__120
+            case 55 :
+                // Flock__.g:1:354: T__120
                 {
                 mT__120(); 
 
                 }
                 break;
-            case 57 :
-                // Flock__.g:1:367: T__121
+            case 56 :
+                // Flock__.g:1:361: T__121
                 {
                 mT__121(); 
 
                 }
                 break;
-            case 58 :
-                // Flock__.g:1:374: T__122
+            case 57 :
+                // Flock__.g:1:368: T__122
                 {
                 mT__122(); 
 
                 }
                 break;
+            case 58 :
+                // Flock__.g:1:375: T__123
+                {
+                mT__123(); 
+
+                }
+                break;
             case 59 :
-                // Flock__.g:1:381: EolLexerRules. Tokens
+                // Flock__.g:1:382: EolLexerRules. Tokens
                 {
                 gEolLexerRules.mTokens(); 
 
@@ -2231,7 +2232,7 @@ public class FlockLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens );";
+            return "1:1: Tokens : ( T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | EolLexerRules. Tokens );";
         }
     }
  

@@ -55,121 +55,157 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"flockModule", expecting, actual);
 	}
 
-	public void testMigrationRule1() throws Exception {
+	public void testFullMigrateRule1() throws Exception {
 		// test input: "migrate Person { }"
-		Object retval = execParser("migrationRule", "migrate Person { }", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person { }", false);
 		Object actual = examineParserExecResult(8, retval);
 		Object expecting = "(MIGRATE Person BLOCK)";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule2() throws Exception {
-		// test input: "migrate Person name := nom; }"
-		Object retval = execParser("migrationRule", "migrate Person name := nom; }", false);
-		Object actual = examineParserExecResult(28, retval);
-		Object expecting = "FAIL";
-
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
-	}
-
-	public void testMigrationRule3() throws Exception {
+	public void testFullMigrateRule2() throws Exception {
 		// test input: "migrate Person { name := nom; "
-		Object retval = execParser("migrationRule", "migrate Person { name := nom; ", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person { name := nom; ", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule4() throws Exception {
+	public void testFullMigrateRule3() throws Exception {
 		// test input: "migrate Person { name := nom; }"
-		Object retval = execParser("migrationRule", "migrate Person { name := nom; }", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
 		Object expecting = "(MIGRATE Person (BLOCK (:= name nom)))";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule5() throws Exception {
+	public void testFullMigrateRule4() throws Exception {
 		// test input: "migrate Animal to Dog { }"
-		Object retval = execParser("migrationRule", "migrate Animal to Dog { }", false);
+		Object retval = execParser("fullMigrateRule", "migrate Animal to Dog { }", false);
 		Object actual = examineParserExecResult(8, retval);
 		Object expecting = "(MIGRATE Animal Dog BLOCK)";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule6() throws Exception {
-		// test input: "migrate Animal Dog { }"
-		Object retval = execParser("migrationRule", "migrate Animal Dog { }", false);
-		Object actual = examineParserExecResult(28, retval);
-		Object expecting = "FAIL";
-
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
-	}
-
-	public void testMigrationRule7() throws Exception {
+	public void testFullMigrateRule5() throws Exception {
 		// test input: "migrate Animal to { }"
-		Object retval = execParser("migrationRule", "migrate Animal to { }", false);
+		Object retval = execParser("fullMigrateRule", "migrate Animal to { }", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule8() throws Exception {
-		// test input: "migrate Person to Salesperson"
-		Object retval = execParser("migrationRule", "migrate Person to Salesperson", false);
-		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(MIGRATE Person Salesperson BLOCK)";
-
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
-	}
-
-	public void testMigrationRule9() throws Exception {
-		// test input: "migrate Person"
-		Object retval = execParser("migrationRule", "migrate Person", false);
-		Object actual = examineParserExecResult(28, retval);
-		Object expecting = "FAIL";
-
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
-	}
-
-	public void testMigrationRule10() throws Exception {
+	public void testFullMigrateRule6() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined() { name := nom; }"
-		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined() { name := nom; }", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person when: original.name.isDefined() { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(MIGRATE Person (. (. original name) (isDefined PARAMETERS)) (BLOCK (:= name nom)))";
+		Object expecting = "(MIGRATE Person (GUARD (. (. original name) (isDefined PARAMETERS))) (BLOCK (:= name nom)))";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule11() throws Exception {
+	public void testFullMigrateRule7() throws Exception {
 		// test input: "migrate Person when {}"
-		Object retval = execParser("migrationRule", "migrate Person when {}", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person when {}", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule12() throws Exception {
+	public void testFullMigrateRule8() throws Exception {
 		// test input: "migrate Person original.name.isDefined(); {}"
-		Object retval = execParser("migrationRule", "migrate Person original.name.isDefined(); {}", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
 	}
 
-	public void testMigrationRule13() throws Exception {
+	public void testFullMigrateRule9() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined(); {}"
-		Object retval = execParser("migrationRule", "migrate Person when: original.name.isDefined(); {}", false);
+		Object retval = execParser("fullMigrateRule", "migrate Person when: original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
-		assertEquals("testing rule "+"migrationRule", expecting, actual);
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
+	}
+
+	public void testFullMigrateRule10() throws Exception {
+		// test input: "migrate Person"
+		Object retval = execParser("fullMigrateRule", "migrate Person", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"fullMigrateRule", expecting, actual);
+	}
+
+	public void testShorthandMigrateRule1() throws Exception {
+		// test input: "migrate Person to Salesperson"
+		Object retval = execParser("shorthandMigrateRule", "migrate Person to Salesperson", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(MIGRATE Person Salesperson)";
+
+		assertEquals("testing rule "+"shorthandMigrateRule", expecting, actual);
+	}
+
+	public void testShorthandMigrateRule2() throws Exception {
+		// test input: "migrate Person"
+		Object retval = execParser("shorthandMigrateRule", "migrate Person", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"shorthandMigrateRule", expecting, actual);
+	}
+
+	public void testGuard1() throws Exception {
+		// test input: "when: original.name.isDefined()"
+		Object retval = execParser("guard", "when: original.name.isDefined()", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(GUARD (. (. original name) (isDefined PARAMETERS)))";
+
+		assertEquals("testing rule "+"guard", expecting, actual);
+	}
+
+	public void testGuard2() throws Exception {
+		// test input: "when { var n := original.name; return n.isDefined(); }"
+		Object retval = execParser("guard", "when { var n := original.name; return n.isDefined(); }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(GUARD (BLOCK (:= (var n) (. original name)) (RETURN (. n (isDefined PARAMETERS)))))";
+
+		assertEquals("testing rule "+"guard", expecting, actual);
+	}
+
+	public void testGuard3() throws Exception {
+		// test input: "original.name.isDefined()"
+		Object retval = execParser("guard", "original.name.isDefined()", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"guard", expecting, actual);
+	}
+
+	public void testDeleteRule1() throws Exception {
+		// test input: "delete Person"
+		Object retval = execParser("deleteRule", "delete Person", false);
+		Object actual = examineParserExecResult(10, retval);
+		Object expecting = "(DELETE Person)";
+
+		assertEquals("testing rule "+"deleteRule", expecting, actual);
+	}
+
+	public void testDeleteRule2() throws Exception {
+		// test input: "delete Person when: original.name.isUndefined()"
+		Object retval = execParser("deleteRule", "delete Person when: original.name.isUndefined()", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(DELETE Person (GUARD (. (. original name) (isUndefined PARAMETERS))))";
+
+		assertEquals("testing rule "+"deleteRule", expecting, actual);
 	}
 
 	// Invoke target parser.rule

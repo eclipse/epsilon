@@ -16,7 +16,6 @@ package org.eclipse.epsilon.flock.execution;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.MigrationRule;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
 
 public class EquivalenceEstablisher {
@@ -33,39 +32,13 @@ public class EquivalenceEstablisher {
 		final Equivalences equivalences = new Equivalences();
 		
 		for (ModelElement original : context.getOriginalModelElements()) {
-			final Equivalence equivalence = createEquivalenceFor(original);
-			
-			if (equivalence != null)
-				equivalences.add(equivalence);
+			equivalences.add(createEquivalenceFor(original));
 		}
-		
+				
 		return equivalences;
 	}
 	
 	Equivalence createEquivalenceFor(ModelElement original) throws FlockRuntimeException {
-		final MigrationRule rule = strategy.ruleFor(original, context);
-		
-		final ModelElement equivalent;
-		
-		// TODO : need some more examples to figure out how to refactor this
-		// Need to know whether different types of equivalence are needed,
-		// or different types of rule, or both
-		
-		if (rule == null) {
-			equivalent = context.safelyCreateModelElementInMigratedModel(original.getTypeName());
-		
-		} else {
-			equivalent = rule.createMigratedModelElement(context);
-		}
-		
-		if (equivalent == null)
-			return null;
-		
-		if (rule == null) {
-			return new TypeBasedEquivalence(context, original, equivalent);
-		
-		} else {
-			return new RuleBasedEquivalence(context, original, equivalent, rule);
-		}
+		return strategy.ruleFor(original, context).createEquivalence(original, context);
 	}
 }

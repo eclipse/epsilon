@@ -24,6 +24,10 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Seve
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SeveralRulesForSameType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.ShorthandRule;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SimpleRule;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRule;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRuleAppliedToAbstractType;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRuleWithGuard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRuleWithInvalidSyntax;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,7 +38,8 @@ import org.junit.runners.Suite.SuiteClasses;
                MigrateToDifferentType.class,
                ShorthandRule.class,
                Guard.class,
-               Operation.class, AnnotatedOperation.class})
+               Operation.class, AnnotatedOperation.class,
+               DeleteRule.class, DeleteRuleWithGuard.class, DeleteRuleAppliedToAbstractType.class, DeleteRuleWithInvalidSyntax.class})
 public class Strong2StrongRulesSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongRulesSuite.class);

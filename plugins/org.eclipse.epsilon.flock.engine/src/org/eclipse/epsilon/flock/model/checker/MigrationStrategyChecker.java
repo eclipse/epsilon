@@ -14,8 +14,8 @@
 package org.eclipse.epsilon.flock.model.checker;
 
 import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.model.MigrationRule;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.Rule;
 
 public class MigrationStrategyChecker {
 
@@ -32,7 +32,7 @@ public class MigrationStrategyChecker {
 	}
 	
 	private void checkOriginalTypeOfEachRuleIsMemberOfOriginalMetamodel() {
-		for (MigrationRule rule : strategy.getRules()) {
+		for (Rule rule : strategy.getRules()) {
 			if (!context.isTypeInOriginalMetamodel(rule.getOriginalType())) {
 				addWarning("Rule defined for migrating instances of " + rule.getOriginalType() + ", " +
 				           "but no type " + rule.getOriginalType() + " was found in the original metamodel.");

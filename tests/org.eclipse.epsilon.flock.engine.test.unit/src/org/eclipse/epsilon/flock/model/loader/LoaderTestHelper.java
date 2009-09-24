@@ -29,7 +29,7 @@ public abstract class LoaderTestHelper {
 		return strategy;
 	}
 	
-	static AST createMigrationRuleAst(String originalType, String migratedType, AST guard, AST block) {
+	static AST createMigrateRuleAst(String originalType, String migratedType, AST guard, AST block) {
 		final AST rule = createAST(FlockParser.MIGRATE, "MIGRATE");
 		rule.addChild(createAST(FlockParser.NAME, originalType));
 		
@@ -40,6 +40,20 @@ public abstract class LoaderTestHelper {
 			rule.addChild(guard);
 		
 		rule.addChild(block);
+		
+		return rule;
+	}
+	
+	static AST createDeleteRuleAst(String type) {
+		return createDeleteRuleAst(type, null);
+	}
+	
+	static AST createDeleteRuleAst(String type, AST guard) {
+		final AST rule = createAST(FlockParser.DELETE, "DELETE");
+		rule.addChild(createAST(FlockParser.NAME, type));
+		
+		if (guard != null)
+			rule.addChild(guard);
 		
 		return rule;
 	}
@@ -61,7 +75,9 @@ public abstract class LoaderTestHelper {
 	}
 	
 	static AST createGuard() {
-		return createAST(FlockParser.BOOLEAN, "true");
+		final AST guard = createAST(FlockParser.GUARD, "GUARD");
+		guard.addChild(createAST(FlockParser.BOOLEAN, "true"));
+		return guard;
 	}
 	
 	static AST createBody() {

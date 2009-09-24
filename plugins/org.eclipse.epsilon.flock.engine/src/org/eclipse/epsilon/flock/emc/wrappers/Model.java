@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -93,6 +94,15 @@ public class Model {
 
 	String getTypeNameOf(Object underlyingModelElement) {
 		return underlyingModel.getTypeNameOf(underlyingModelElement);
+	}
+	
+	boolean isKindOf(Object underlyingModelElement, String originalType) {
+		try {
+			return underlyingModel.isOfKind(underlyingModelElement, originalType);
+			
+		} catch (EolModelElementTypeNotFoundException e) {
+			return false;
+		}
 	}
 	
 	boolean knowsAboutProperty(Object underlyingModelElement, String property) {

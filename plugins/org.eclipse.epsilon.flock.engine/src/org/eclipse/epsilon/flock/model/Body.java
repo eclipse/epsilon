@@ -13,44 +13,41 @@
  */
 package org.eclipse.epsilon.flock.model;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class MigrationStrategy {
+public class Body {
 
-	private final List<Rule> rules = new LinkedList<Rule>();
+	private final AST block;
 	
-	public MigrationStrategy() {}
-	
-	public MigrationStrategy(Rule... rules) {
-		addRules(rules);
+	public Body(AST block) {
+		this.block = block;
 	}
 	
-	public void addRule(Rule rule) {
-		rules.add(rule);
+	public void applyTo(ModelElement original, ModelElement migrated, IFlockContext context) throws FlockRuntimeException {
+		if (block != null)
+			context.executeBlock(block, original.createReadOnlyVariable("original"), migrated.createReadOnlyVariable("migrated"));
 	}
 	
-	public void addRules(Rule... rules) {
-		this.rules.addAll(Arrays.asList(rules));
+	@Override
+	public String toString() {
+		return "Body: " + block;
 	}
 	
-	public Rule ruleFor(ModelElement original, IFlockContext context) throws FlockRuntimeException {
-		for (Rule rule : rules) {
-			if (rule.appliesFor(original, context))
-				return rule;
-		}
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Body))
+			return false;
 		
-		return new CopyRule(original.getTypeName());
+		final Body other = (Body)object;
+		
+		return block == null ? other.block == null : block.equals(other.block);
 	}
-
-	public Collection<Rule> getRules() {
-		return Collections.unmodifiableCollection(rules);
+	
+	@Override
+	public int hashCode() {
+		return block.hashCode();
 	}
 }

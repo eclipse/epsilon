@@ -11,46 +11,47 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.model;
 
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.Body;
 
-public class RuleBasedEquivalence extends TypeBasedEquivalence implements Equivalence {
+public class Guard {
 	
-	private final Body block;
+	private final AST blockOrExpession;
 	
-	public RuleBasedEquivalence(IFlockContext context, ModelElement original, ModelElement equivalent, Body block) {
-		super(context, original, equivalent);
-		
-		this.block = block;
+	public Guard(AST blockOrExpession) {
+		this.blockOrExpession = blockOrExpession;
 	}
+	
+	public boolean isSatisifedBy(ModelElement original, IFlockContext context) throws FlockRuntimeException {
+		if (blockOrExpession == null)
+			return true;
 		
-	@Override
-	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException {
-		block.applyTo(original, equivalent, context);
+		return context.executeGuard(blockOrExpession, original.createReadOnlyVariable("original"));
 	}
-
+	
 	@Override
 	public String toString() {
-		return super.toString() + " via " + block;
+		return "Guard: " + blockOrExpession;
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof RuleBasedEquivalence))
+	public boolean equals(Object object) {
+		if (!(object instanceof Guard))
 			return false;
 		
-		final RuleBasedEquivalence other = (RuleBasedEquivalence)obj;
+		final Guard other = (Guard)object;
 		
-		return super.equals(other) &&
-		       block.equals(other.block);
+		return blockOrExpession == null ?
+		       other.blockOrExpession == null : 
+		       blockOrExpession.equals(other.blockOrExpession);
 	}
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode() + block.hashCode();
+		return blockOrExpession.hashCode();
 	}
 }

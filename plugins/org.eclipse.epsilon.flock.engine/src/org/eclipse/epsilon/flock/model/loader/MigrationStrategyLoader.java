@@ -13,10 +13,7 @@
  */
 package org.eclipse.epsilon.flock.model.loader;
 
-import java.util.List;
-
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
@@ -37,14 +34,18 @@ public class MigrationStrategyLoader {
 	public MigrationStrategy run() {
 		final MigrationStrategy strategy = new MigrationStrategy();
 		
-		for (AST ruleAst : ruleAsts()) {
-			strategy.addRule(new MigrationRuleLoader(ruleAst).run());
+		for (AST childAst : ast.getChildren()) {
+			switch (childAst.getType()) {
+				case FlockParser.MIGRATE:
+					strategy.addRule(new MigrateRuleLoader(childAst).run());
+					break;
+				
+				case FlockParser.DELETE:
+					strategy.addRule(new DeleteRuleLoader(childAst).run());
+					break;
+			}
 		}
 		
 		return strategy;
-	}
-
-	private List<AST> ruleAsts() {
-		return AstUtil.getChildren(ast, FlockParser.MIGRATE);
 	}
 }

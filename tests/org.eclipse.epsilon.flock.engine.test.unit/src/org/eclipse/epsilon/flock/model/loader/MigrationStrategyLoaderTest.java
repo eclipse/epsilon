@@ -16,7 +16,8 @@ package org.eclipse.epsilon.flock.model.loader;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createAnnotatedOperationAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createBlock;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createBody;
-import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrationRuleAst;
+import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createDeleteRuleAst;
+import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrateRuleAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrationStrategyAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createOperationAst;
 import static org.junit.Assert.assertEquals;
@@ -36,8 +37,19 @@ public class MigrationStrategyLoaderTest {
 	}
 	
 	@Test
-	public void singleRule() {
-		final AST rule        = createMigrationRuleAst("Person", null, null, createBody());
+	public void migrationRule() {
+		final AST rule        = createMigrateRuleAst("Person", null, null, createBody());
+		final AST strategyAst = createMigrationStrategyAst(rule);
+		
+		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
+		
+		assertEquals(1, strategy.getRules().size());
+//		assertTrue(1, strategy.getRules().iterator().next());
+	}
+	
+	@Test
+	public void deleteRule() {
+		final AST rule        = createDeleteRuleAst("Person");
 		final AST strategyAst = createMigrationStrategyAst(rule);
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
@@ -48,8 +60,8 @@ public class MigrationStrategyLoaderTest {
 	
 	@Test
 	public void severalRules() {
-		final AST personRule  = createMigrationRuleAst("Person", null, null, createBody());
-		final AST animalRule  = createMigrationRuleAst("Animal", null, null, createBody());
+		final AST personRule  = createMigrateRuleAst("Person", null, null, createBody());
+		final AST animalRule  = createMigrateRuleAst("Animal", null, null, createBody());
 		final AST strategyAst = createMigrationStrategyAst(personRule, animalRule);
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);

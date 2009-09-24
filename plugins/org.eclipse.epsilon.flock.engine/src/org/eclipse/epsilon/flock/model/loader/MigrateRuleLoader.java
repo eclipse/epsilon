@@ -14,19 +14,20 @@
 package org.eclipse.epsilon.flock.model.loader;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.model.MigrationRule;
+import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.flock.model.MigrateRule;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
-public class MigrationRuleLoader {
+public class MigrateRuleLoader {
 
 	private AST ast;
 	
-	public MigrationRuleLoader(AST ast) {
+	public MigrateRuleLoader(AST ast) {
 		this.ast = ast;
 	}
 	
-	public MigrationRule run() {
-		return new MigrationRule(ast, getOriginalType(), getMigratedType(), getGuard(), getBody());
+	public MigrateRule run() {
+		return new MigrateRule(ast, getOriginalType(), getMigratedType(), getGuard(), getBody());
 	}
 
 	private String getOriginalType() {
@@ -38,19 +39,15 @@ public class MigrationRuleLoader {
 	}
 	
 	private AST getGuard() {
-		return hasGuard() ? getPenultimateChild() : null;
+		return hasChildOfType(FlockParser.GUARD) ? getFirstChildOfType(FlockParser.GUARD).getFirstChild() : null;
 	}
 
 	private AST getBody() {
-		return getLastChild();
+		return getFirstChildOfType(FlockParser.BLOCK);
 	}
 	
 	private boolean hasToPart() {
 		return getSecondChild().getType() == FlockParser.NAME;
-	}
-		
-	private boolean hasGuard() {
-		return getPenultimateChild().getType() != FlockParser.NAME;
 	}
 	
 	
@@ -62,11 +59,11 @@ public class MigrationRuleLoader {
 		return ast.getChild(1);
 	}
 	
-	private AST getPenultimateChild() {
-		return ast.getChild(ast.getChildCount() - 2);
+	private boolean hasChildOfType(int type) {
+		return !AstUtil.getChildren(ast, type).isEmpty();
 	}
 	
-	private AST getLastChild() {
-		return ast.getChild(ast.getChildCount() - 1);
+	private AST getFirstChildOfType(int type) {
+		return hasChildOfType(type) ? AstUtil.getChildren(ast, type).get(0) : null;
 	}
 }

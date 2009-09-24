@@ -13,44 +13,53 @@
  */
 package org.eclipse.epsilon.flock.execution;
 
-import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.Body;
 
-public class RuleBasedEquivalence extends TypeBasedEquivalence implements Equivalence {
+public class NoEquivalence implements Equivalence {
+
+	public final ModelElement original;
 	
-	private final Body block;
-	
-	public RuleBasedEquivalence(IFlockContext context, ModelElement original, ModelElement equivalent, Body block) {
-		super(context, original, equivalent);
+	public NoEquivalence(ModelElement original) {
+		if (original == null)
+			throw new IllegalArgumentException("original cannot be null");
 		
-		this.block = block;
+		this.original = original;
 	}
-		
-	@Override
+	
+	public ModelElement getOriginal() {
+		return original; 
+	}
+	
+	public void automaticallyPopulateEquivalence() throws FlockRuntimeException {
+		// do nothing
+	}
+	
 	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException {
-		block.applyTo(original, equivalent, context);
+		// do nothing
 	}
 
+	public ModelElement getEquivalent() {
+		return null;
+	}
+	
 	@Override
 	public String toString() {
-		return super.toString() + " via " + block;
+		return original + " <-> null";
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof RuleBasedEquivalence))
+		if (!(obj instanceof NoEquivalence))
 			return false;
 		
-		final RuleBasedEquivalence other = (RuleBasedEquivalence)obj;
+		final NoEquivalence other = (NoEquivalence)obj;
 		
-		return super.equals(other) &&
-		       block.equals(other.block);
+		return original.equals(other.original);
 	}
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode() + block.hashCode();
+		return original.hashCode();
 	}
 }

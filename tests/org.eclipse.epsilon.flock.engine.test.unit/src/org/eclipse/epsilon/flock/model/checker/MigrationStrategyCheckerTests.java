@@ -18,8 +18,9 @@ import static org.easymock.classextension.EasyMock.*;
 import java.util.Collections;
 
 import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.model.MigrationRule;
+import org.eclipse.epsilon.flock.model.MigrateRule;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.Rule;
 import org.eclipse.epsilon.flock.model.checker.MigrationStrategyChecker;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class MigrationStrategyCheckerTests {
 	@Test
 	public void ruleForTypeNotKnownToOriginalMetamodelProducesWarning() {
 		final MigrationStrategy mockStrategy = createMock(MigrationStrategy.class);
-		final MigrationRule     mockRule     = createMock(MigrationRule.class);
+		final Rule              mockRule     = createMock(MigrateRule.class);
 		final IFlockContext mockContext  = createMock(IFlockContext.class);
 		
 		// Stubbed methods
@@ -63,7 +64,7 @@ public class MigrationStrategyCheckerTests {
 	@Test
 	public void ruleForTypeKnownToOriginalMetamodelDoesNotProduceWarning() {
 		final MigrationStrategy mockStrategy = createMock(MigrationStrategy.class);
-		final MigrationRule     mockRule     = createMock(MigrationRule.class);
+		final Rule              mockRule     = createMock(MigrateRule.class);
 		final IFlockContext mockContext  = createMock(IFlockContext.class);
 		
 		// Stubbed methods

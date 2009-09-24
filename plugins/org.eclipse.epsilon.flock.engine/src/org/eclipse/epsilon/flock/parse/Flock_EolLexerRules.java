@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-08-28 18:27:25
+// $ANTLR 3.1b1 EolLexerRules.g 2009-09-24 14:33:21
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     Louis Rose - initial API and implementation
+ *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
  * ANTLR 3 License
  * [The "BSD licence"]
@@ -104,6 +104,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int ALIAS=62;
     public static final int MIGRATE=64;
     public static final int JavaIDDigit=15;
+    public static final int GUARD=65;
     public static final int Annotation=20;
     public static final int T__76=76;
     public static final int T__75=75;
@@ -120,7 +121,6 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__65=65;
     public static final int PARAMETERS=40;
     public static final int POINT=7;
     public static final int T__118=118;
@@ -129,12 +129,13 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__123=123;
     public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
-    public static final int T__120=120;
     public static final int FLOAT=4;
+    public static final int T__120=120;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
     public static final int ModelElementType=39;
@@ -159,7 +160,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=123;
+    public static final int Tokens=124;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;

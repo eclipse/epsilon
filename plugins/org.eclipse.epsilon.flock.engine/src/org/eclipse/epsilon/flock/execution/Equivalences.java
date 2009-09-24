@@ -36,7 +36,7 @@ public class Equivalences {
 		return null;
 	}
 
-	public void populateEachEquivalent() throws FlockRuntimeException {
+	public void populateEachEquivalent() throws FlockRuntimeException {		
 		for (Equivalence equivalence : equivalences) {
 			equivalence.automaticallyPopulateEquivalence();
 		}
