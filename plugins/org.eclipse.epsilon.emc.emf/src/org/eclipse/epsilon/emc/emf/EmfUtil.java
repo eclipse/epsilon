@@ -124,6 +124,14 @@ public class EmfUtil {
 	
 	//protected HashMap<URI, List<EPackage>> cache = new HashMap<URI, List<EPackage>>();
 	
+	public static void initialiseResourceFactoryRegistry() {
+		final Map<String, Object> etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+		
+		if (!etfm.containsKey("*")) {
+			etfm.put("*", new XMIResourceFactoryImpl());
+		}
+	}
+	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
 		
 		List<EPackage> ePackages = new ArrayList();
@@ -137,11 +145,7 @@ public class EmfUtil {
 					+ fileName;
 		}
 */
-		Map etfm = Resource.Factory.Registry.INSTANCE
-				.getExtensionToFactoryMap();
-		if (!etfm.containsKey("*")) {
-			etfm.put("*", new XMIResourceFactoryImpl());
-		}
+		initialiseResourceFactoryRegistry();
 
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(),
