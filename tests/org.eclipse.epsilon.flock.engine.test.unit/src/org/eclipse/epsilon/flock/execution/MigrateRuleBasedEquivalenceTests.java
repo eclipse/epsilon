@@ -25,19 +25,19 @@ import org.eclipse.epsilon.flock.model.Body;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RuleBasedEquivalenceTests {
+public class MigrateRuleBasedEquivalenceTests {
 
-	private final ModelElement      dummyOriginal   = createMock("DummyOriginal",   ModelElement.class);
-	private final ModelElement      dummyEquivalent = createMock("DummyEquivalent", ModelElement.class);
+	private final ModelElement  dummyOriginal   = createMock("DummyOriginal",   ModelElement.class);
+	private final ModelElement  dummyEquivalent = createMock("DummyEquivalent", ModelElement.class);
 	private final IFlockContext dummyContext    = createMock("DummyContext", IFlockContext.class);
 	
-	private final Body mockRule = createMock("MockExecutableBlock", Body.class);
+	private final Body mockBody = createMock("MockExecutableBlock", Body.class);
 	
-	private final Equivalence equivalence = new RuleBasedEquivalence(dummyContext, dummyOriginal, dummyEquivalent, mockRule);
+	private final Equivalence equivalence = new MigrateRuleBasedEquivalence(dummyContext, dummyOriginal, dummyEquivalent, mockBody);
 	
 	@Before
 	public void setup() {
-		reset(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
+		reset(mockBody, dummyOriginal, dummyEquivalent, dummyContext);
 	}
 	
 	
@@ -45,15 +45,15 @@ public class RuleBasedEquivalenceTests {
 	public void shouldDelegateToRule() throws FlockRuntimeException {
 		// Expectations
 			
-		mockRule.applyTo(dummyOriginal, dummyEquivalent, dummyContext);
+		mockBody.applyTo(dummyOriginal, dummyEquivalent, dummyContext);
 		
-		replay(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
+		replay(mockBody, dummyOriginal, dummyEquivalent, dummyContext);
 		
 		
 		// Verification
 		
 		equivalence.applyStrategyToPopulateEquivalence();
 		
-		verify(mockRule, dummyOriginal, dummyEquivalent, dummyContext);
+		verify(mockBody, dummyOriginal, dummyEquivalent, dummyContext);
 	}
 }

@@ -23,7 +23,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.Equivalence;
 import org.eclipse.epsilon.flock.execution.Equivalences;
-import org.eclipse.epsilon.flock.execution.RuleBasedEquivalence;
+import org.eclipse.epsilon.flock.execution.MigrateRuleBasedEquivalence;
 import org.junit.Test;
 
 public class EquivalencesTests {
@@ -86,7 +86,7 @@ public class EquivalencesTests {
 	}
 	
 	private Equivalence createEquivalence(ModelElement original, ModelElement equivalent) {
-		final Equivalence eq = createMock(RuleBasedEquivalence.class);
+		final Equivalence eq = createMock(MigrateRuleBasedEquivalence.class);
 		expect(eq.getOriginal()).andReturn(original).anyTimes();
 		expect(eq.getEquivalent()).andReturn(equivalent).anyTimes();
 		return eq;
