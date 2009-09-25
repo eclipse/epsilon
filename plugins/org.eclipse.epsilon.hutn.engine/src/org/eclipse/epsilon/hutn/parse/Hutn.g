@@ -203,6 +203,8 @@ TEXT_LETTER
     |    ' '
     |    '?'
     |    '!'
+    |    '<'
+    |    '>'
     ;
     
 fragment

@@ -56,7 +56,10 @@ cls_contents:
 	// String attributes
 	"Address: \"7 Main Street\""  -> "(Address \\\"7 Main Street\\\")"
 	"Address = \"7 Main Street\"" -> "(Address \\\"7 Main Street\\\")"
-	"Address = \"\"" -> "(Address \\\"\\\")"
+	
+	// Empty string, and strings containing unusual characters
+	"Address = \"\""                -> "(Address \\\"\\\")"
+	"Formula = \"a > b and b < c\"" -> "(Formula \\\"a > b and b < c\\\")"
 	
 	// Null attribute
 	"Address: null"  -> "(Address null)"
