@@ -108,7 +108,12 @@ class SlotUnparser extends Unparser {
 	private String escape(String value) {
 		String escaped = value;
 
+		// replace a single slash with a double slash
+		//   first argument   - slashes are escape characters in Java string literals and in regular expressions formulated with Pattern.compile
+		//   second argument  - slashes are escaped characters in Java string literals and in replacement argument passed to Matcher.replaceAll
 		escaped = escaped.replaceAll("\\\\", "\\\\\\\\");
+		
+		// replace a single double quote with a backslash followed by a double quote
 		escaped = escaped.replaceAll("\\\"", "\\\\\"");
 		
 		return escaped;
