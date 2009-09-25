@@ -61,6 +61,9 @@ cls_contents:
 	"Address = \"\""                -> "(Address \\\"\\\")"
 	"Formula = \"a > b and b < c\"" -> "(Formula \\\"a > b and b < c\\\")"
 	
+	// Escape sequences
+	"Name = \"John \\\"Invisible\\\" Doe\"" -> "(Name \\\"John \\\"Invisible\\\" Doe\\\")"
+	
 	// Null attribute
 	"Address: null"  -> "(Address null)"
 	

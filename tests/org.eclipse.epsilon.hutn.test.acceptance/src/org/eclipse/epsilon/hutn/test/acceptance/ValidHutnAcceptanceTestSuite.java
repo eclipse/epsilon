@@ -37,6 +37,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.Inference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InfixAssociation;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Simple;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.SpecOnly;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.StringContainingQuotes;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.TwoMetamodels;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -44,7 +45,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({SpecOnly.class, DifferentFile.class,
-               Simple.class, EmptyString.class, CaseInsensitiveSpec.class, 
+               Simple.class, EmptyString.class, StringContainingQuotes.class, CaseInsensitiveSpec.class, 
                Comments.class, Adjectives.class,
                Associations.class, Containment.class, ContainmentEmpty.class,
                Inference.class, DefaultValue.class, Enumerations.class, 

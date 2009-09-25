@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({StringValue.class, IntegerValue.class, FloatValue.class, BooleanValue.class,
+@SuiteClasses({StringValue.class, StringValueContainingQuotes.class, IntegerValue.class, FloatValue.class, BooleanValue.class,
                EnumValue.class, ManyValues.class, MixedValues.class,
                ReferencedClassObject.class, ContainedClassObject.class,
                NonExistentReferenceValue.class,

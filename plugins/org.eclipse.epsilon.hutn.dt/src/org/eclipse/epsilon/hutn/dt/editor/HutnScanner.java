@@ -38,7 +38,7 @@ public class HutnScanner extends RuleBasedScanner {
 	public HutnScanner() {
 		basicRules.add(new EndOfLineRule("//", new Token(new TextAttribute(COMMENT))));
 		
-		basicRules.add(new SingleLineRule("\"", "\"", new Token(new TextAttribute(STRING))));
+		basicRules.add(new SingleLineRule("\"", "\"", new Token(new TextAttribute(STRING)), '\\'));
 		
 		final WordRule booleanRule = new WordRule(new HutnWordDetector());
 		booleanRule.addWord("true",  new Token(new TextAttribute(BOOLEAN)));

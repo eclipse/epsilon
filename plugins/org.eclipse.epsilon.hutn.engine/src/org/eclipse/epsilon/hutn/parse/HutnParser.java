@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-09-25 15:09:22
+// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-09-25 16:05:04
 
 package org.eclipse.epsilon.hutn.parse;
 
@@ -51,33 +51,34 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "TRUE", "FALSE", "NULL", "ADJECTIVE", "CLS_LVL_ATTRIBUTE", "ASSOC_INSTANCE", "REFERENCE", "NAME", "TEXTUAL_VALUE", "LBRACKET", "RBRACKET", "ASSIGNMENT", "ADJECTIVE_PREFIX", "COMMA", "NUMERIC_VALUE", "ID_START_LETTER", "ID_LETTER", "TEXT_LETTER", "DIGIT", "WS", "ML_COMMENT", "SL_COMMENT", "';'", "'.'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "TRUE", "FALSE", "NULL", "ADJECTIVE", "CLS_LVL_ATTRIBUTE", "ASSOC_INSTANCE", "REFERENCE", "NAME", "TEXTUAL_VALUE", "LBRACKET", "RBRACKET", "ASSIGNMENT", "ADJECTIVE_PREFIX", "COMMA", "NUMERIC_VALUE", "ID_START_LETTER", "ID_LETTER", "ESC", "TEXT_LETTER", "DIGIT", "WS", "ML_COMMENT", "SL_COMMENT", "';'", "'.'"
     };
     public static final int ID_START_LETTER=19;
+    public static final int T__28=28;
     public static final int T__27=27;
-    public static final int T__26=26;
     public static final int ID_LETTER=20;
     public static final int CLS_LVL_ATTRIBUTE=8;
+    public static final int ESC=21;
     public static final int NULL=6;
     public static final int REFERENCE=10;
     public static final int ADJECTIVE_PREFIX=16;
     public static final int EOF=-1;
     public static final int TRUE=4;
     public static final int LBRACKET=13;
-    public static final int ML_COMMENT=24;
+    public static final int ML_COMMENT=25;
     public static final int NAME=11;
-    public static final int WS=23;
+    public static final int WS=24;
     public static final int NUMERIC_VALUE=18;
     public static final int TEXTUAL_VALUE=12;
     public static final int COMMA=17;
-    public static final int SL_COMMENT=25;
+    public static final int SL_COMMENT=26;
     public static final int ASSIGNMENT=15;
-    public static final int DIGIT=22;
+    public static final int DIGIT=23;
     public static final int RBRACKET=14;
     public static final int ADJECTIVE=7;
     public static final int FALSE=5;
     public static final int ASSOC_INSTANCE=9;
-    public static final int TEXT_LETTER=21;
+    public static final int TEXT_LETTER=22;
 
     // delegates
     // delegators
@@ -351,7 +352,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             else if ( (LA4_0==NAME) ) {
                 switch ( input.LA(2) ) {
-                case 27:
+                case 28:
                     {
                     alt4=2;
                     }
@@ -617,7 +618,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree NAME14_tree=null;
         CommonTree char_literal16_tree=null;
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
-        RewriteRuleTokenStream stream_26=new RewriteRuleTokenStream(adaptor,"token 26");
+        RewriteRuleTokenStream stream_27=new RewriteRuleTokenStream(adaptor,"token 27");
         RewriteRuleSubtreeStream stream_simple_ref=new RewriteRuleSubtreeStream(adaptor,"rule simple_ref");
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:7: ( simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) )
@@ -638,8 +639,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_simple_ref.add(simple_ref15.getTree());
-            char_literal16=(Token)match(input,26,FOLLOW_26_in_infix_assoc200); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_26.add(char_literal16);
+            char_literal16=(Token)match(input,27,FOLLOW_27_in_infix_assoc200); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_27.add(char_literal16);
 
 
 
@@ -910,8 +911,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree char_literal28_tree=null;
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
         RewriteRuleTokenStream stream_ASSIGNMENT=new RewriteRuleTokenStream(adaptor,"token ASSIGNMENT");
-        RewriteRuleTokenStream stream_26=new RewriteRuleTokenStream(adaptor,"token 26");
         RewriteRuleTokenStream stream_27=new RewriteRuleTokenStream(adaptor,"token 27");
+        RewriteRuleTokenStream stream_28=new RewriteRuleTokenStream(adaptor,"token 28");
         RewriteRuleSubtreeStream stream_attr=new RewriteRuleSubtreeStream(adaptor,"rule attr");
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:7: ( NAME '.' NAME ASSIGNMENT attr ';' -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) ) )
@@ -920,8 +921,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             NAME23=(Token)match(input,NAME,FOLLOW_NAME_in_cls_level_attribute299); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME23);
 
-            char_literal24=(Token)match(input,27,FOLLOW_27_in_cls_level_attribute301); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_27.add(char_literal24);
+            char_literal24=(Token)match(input,28,FOLLOW_28_in_cls_level_attribute301); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_28.add(char_literal24);
 
             NAME25=(Token)match(input,NAME,FOLLOW_NAME_in_cls_level_attribute303); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME25);
@@ -935,8 +936,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_attr.add(attr27.getTree());
-            char_literal28=(Token)match(input,26,FOLLOW_26_in_cls_level_attribute309); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_26.add(char_literal28);
+            char_literal28=(Token)match(input,27,FOLLOW_27_in_cls_level_attribute309); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_27.add(char_literal28);
 
 
 
@@ -2361,20 +2362,20 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     public static final BitSet FOLLOW_assoc_block_in_assoc_instance178 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_simple_ref_in_infix_assoc194 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_NAME_in_infix_assoc196 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_simple_ref_in_infix_assoc198 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_infix_assoc200 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_simple_ref_in_infix_assoc198 = new BitSet(new long[]{0x0000000008000000L});
+    public static final BitSet FOLLOW_27_in_infix_assoc200 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_NAME_in_assoc_block234 = new BitSet(new long[]{0x0000000000002000L});
     public static final BitSet FOLLOW_LBRACKET_in_assoc_block236 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_assoc_contents_in_assoc_block238 = new BitSet(new long[]{0x0000000000004800L});
     public static final BitSet FOLLOW_RBRACKET_in_assoc_block241 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_simple_ref_in_assoc_contents274 = new BitSet(new long[]{0x0000000000004800L});
     public static final BitSet FOLLOW_simple_ref_in_assoc_contents276 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NAME_in_cls_level_attribute299 = new BitSet(new long[]{0x0000000008000000L});
-    public static final BitSet FOLLOW_27_in_cls_level_attribute301 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_NAME_in_cls_level_attribute299 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_28_in_cls_level_attribute301 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_NAME_in_cls_level_attribute303 = new BitSet(new long[]{0x0000000000008000L});
     public static final BitSet FOLLOW_ASSIGNMENT_in_cls_level_attribute305 = new BitSet(new long[]{0x0000000000041870L});
-    public static final BitSet FOLLOW_attr_in_cls_level_attribute307 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_cls_level_attribute309 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attr_in_cls_level_attribute307 = new BitSet(new long[]{0x0000000008000000L});
+    public static final BitSet FOLLOW_27_in_cls_level_attribute309 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_adjective_in_cls339 = new BitSet(new long[]{0x0000000000010800L});
     public static final BitSet FOLLOW_NAME_in_cls342 = new BitSet(new long[]{0x0000000000003000L});
     public static final BitSet FOLLOW_TEXTUAL_VALUE_in_cls345 = new BitSet(new long[]{0x0000000000002000L});

@@ -156,7 +156,19 @@ LBRACKET     : '{';
 RBRACKET     : '}';
 ASSIGNMENT  : ':' | '=';
 NAME         : ID_START_LETTER ID_LETTER*;
-TEXTUAL_VALUE: '"' TEXT_LETTER* '"';
+
+/** Code for handling escape sequences based on: http://stackoverflow.com/questions/504402/how-to-handle-escape-sequences-in-string-literals-in-antlr-3 */
+TEXTUAL_VALUE         
+@init{StringBuilder lBuf = new StringBuilder();}
+    :   
+           '"'
+           ( escaped=ESC {lBuf.append(getText());} | 
+             normal=TEXT_LETTER     {lBuf.append(normal.getText());} )*
+           '"'     
+           {setText('"' + lBuf.toString() + '"');}
+    ;
+
+
 NUMERIC_VALUE: ('-'|'+')? DIGIT+ ('.' DIGIT+)?;
 ADJECTIVE_PREFIX: '~' | '#';
 
@@ -192,11 +204,19 @@ ID_LETTER
     |    '-'
     |    '#'
     ;
-    
+
+fragment
+ESC
+    :   '\\'
+        (
+           '"'    {setText("\"");} |
+           '\\'   {setText("\\");}
+        )
+    ;
+  
 fragment
 TEXT_LETTER
     :    ID_LETTER
-    |    '\\'
     |    '/'
     |    ':'
     |    '.'
