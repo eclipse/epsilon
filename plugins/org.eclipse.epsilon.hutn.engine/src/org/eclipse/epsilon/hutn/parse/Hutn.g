@@ -225,6 +225,8 @@ TEXT_LETTER
     |    '!'
     |    '<'
     |    '>'
+    |    '('
+    |    ')'
     ;
     
 fragment

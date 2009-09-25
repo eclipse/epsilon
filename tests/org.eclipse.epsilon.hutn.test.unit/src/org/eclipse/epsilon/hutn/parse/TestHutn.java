@@ -191,6 +191,15 @@ public class TestHutn extends TestCase {
 	}
 
 	public void testCls_contents5() throws Exception {
+		// test input: "Formula = \"(a and b) or c)\""
+		Object retval = execParser("cls_contents", "Formula = \"(a and b) or c)\"", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(Formula \"(a and b) or c)\")";
+
+		assertEquals("testing rule "+"cls_contents", expecting, actual);
+	}
+
+	public void testCls_contents6() throws Exception {
 		// test input: "Name = \"John \\\"Invisible\\\" Doe\""
 		Object retval = execParser("cls_contents", "Name = \"John \\\"Invisible\\\" Doe\"", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -199,7 +208,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents6() throws Exception {
+	public void testCls_contents7() throws Exception {
 		// test input: "Address: null"
 		Object retval = execParser("cls_contents", "Address: null", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -208,7 +217,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents7() throws Exception {
+	public void testCls_contents8() throws Exception {
 		// test input: "Nuclear = true"
 		Object retval = execParser("cls_contents", "Nuclear = true", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -217,7 +226,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents8() throws Exception {
+	public void testCls_contents9() throws Exception {
 		// test input: "Nuclear = false"
 		Object retval = execParser("cls_contents", "Nuclear = false", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -226,7 +235,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents9() throws Exception {
+	public void testCls_contents10() throws Exception {
 		// test input: "NumberOfPets = 2"
 		Object retval = execParser("cls_contents", "NumberOfPets = 2", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -235,7 +244,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents10() throws Exception {
+	public void testCls_contents11() throws Exception {
 		// test input: "AverageAge   = 25.3"
 		Object retval = execParser("cls_contents", "AverageAge   = 25.3", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -244,7 +253,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents11() throws Exception {
+	public void testCls_contents12() throws Exception {
 		// test input: "Address = \"7 Main Street\", \"17 Fulford Road\""
 		Object retval = execParser("cls_contents", "Address = \"7 Main Street\", \"17 Fulford Road\"", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -253,7 +262,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents12() throws Exception {
+	public void testCls_contents13() throws Exception {
 		// test input: "Nuclear = true, false, false, true"
 		Object retval = execParser("cls_contents", "Nuclear = true, false, false, true", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -262,7 +271,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents13() throws Exception {
+	public void testCls_contents14() throws Exception {
 		// test input: "migrant"
 		Object retval = execParser("cls_contents", "migrant", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -271,7 +280,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents14() throws Exception {
+	public void testCls_contents15() throws Exception {
 		// test input: "~nuclear"
 		Object retval = execParser("cls_contents", "~nuclear", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -280,7 +289,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents15() throws Exception {
+	public void testCls_contents16() throws Exception {
 		// test input: "#migrant"
 		Object retval = execParser("cls_contents", "#migrant", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -289,7 +298,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents16() throws Exception {
+	public void testCls_contents17() throws Exception {
 		// test input: "breed = labrador"
 		Object retval = execParser("cls_contents", "breed = labrador", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -298,7 +307,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents17() throws Exception {
+	public void testCls_contents18() throws Exception {
 		// test input: "Friends: Family \"The Does\""
 		Object retval = execParser("cls_contents", "Friends: Family \"The Does\"", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -307,7 +316,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents18() throws Exception {
+	public void testCls_contents19() throws Exception {
 		// test input: "Friends: Family \"The Does\", Family \"The Bloggs\""
 		Object retval = execParser("cls_contents", "Friends: Family \"The Does\", Family \"The Bloggs\"", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -316,7 +325,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents19() throws Exception {
+	public void testCls_contents20() throws Exception {
 		// test input: "Friends: #migrant Family \"The Does\""
 		Object retval = execParser("cls_contents", "Friends: #migrant Family \"The Does\"", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -325,7 +334,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents20() throws Exception {
+	public void testCls_contents21() throws Exception {
 		// test input: "Pets: Pet \"Fido\" { Name: \"Fido\" }"
 		Object retval = execParser("cls_contents", "Pets: Pet \"Fido\" { Name: \"Fido\" }", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -334,7 +343,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
-	public void testCls_contents21() throws Exception {
+	public void testCls_contents22() throws Exception {
 		// test input: "Pets: #Male Pet \"Fido\" { Name: \"Fido\" }"
 		Object retval = execParser("cls_contents", "Pets: #Male Pet \"Fido\" { Name: \"Fido\" }", false);
 		Object actual = examineParserExecResult(8, retval);

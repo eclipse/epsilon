@@ -60,6 +60,8 @@ cls_contents:
 	// Empty string, and strings containing unusual characters
 	"Address = \"\""                -> "(Address \\\"\\\")"
 	"Formula = \"a > b and b < c\"" -> "(Formula \\\"a > b and b < c\\\")"
+    "Formula = \"(a and b) or c)\"" -> "(Formula \\\"(a and b) or c)\\\")"
+	
 	
 	// Escape sequences
 	"Name = \"John \\\"Invisible\\\" Doe\"" -> "(Name \\\"John \\\"Invisible\\\" Doe\\\")"
