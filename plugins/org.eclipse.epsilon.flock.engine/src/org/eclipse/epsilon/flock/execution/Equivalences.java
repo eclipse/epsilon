@@ -25,6 +25,9 @@ public class Equivalences {
 
 	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
 	
+	/**
+	 * Factory method for establishing original to migrated model Equivalences from a MigrationStrategy and an IFlockContext.
+	 */
 	public static Equivalences establishFrom(MigrationStrategy strategy, IFlockContext context) throws FlockRuntimeException {
 		final Equivalences equivalences = new Equivalences();
 		
