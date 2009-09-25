@@ -156,7 +156,7 @@ LBRACKET     : '{';
 RBRACKET     : '}';
 ASSIGNMENT  : ':' | '=';
 NAME         : ID_START_LETTER ID_LETTER*;
-TEXTUAL_VALUE: '"' TEXT_LETTER+ '"';
+TEXTUAL_VALUE: '"' TEXT_LETTER* '"';
 NUMERIC_VALUE: ('-'|'+')? DIGIT+ ('.' DIGIT+)?;
 ADJECTIVE_PREFIX: '~' | '#';
 

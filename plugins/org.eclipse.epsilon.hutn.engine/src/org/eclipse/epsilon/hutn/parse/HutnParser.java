@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-04-22 13:05:28
+// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-09-25 14:57:20
 
 package org.eclipse.epsilon.hutn.parse;
 
@@ -100,7 +100,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     }
 
     public String[] getTokenNames() { return HutnParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g"; }
+    public String getGrammarFileName() { return "/Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g"; }
 
 
     public static class document_return extends ParserRuleReturnScope {
@@ -109,7 +109,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start document
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:1: document : ( pkg )* EOF -> ( pkg )* ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:1: document : ( pkg )* EOF -> ( pkg )* ;
     public final HutnParser.document_return document() throws RecognitionException {
         HutnParser.document_return retval = new HutnParser.document_return();
         retval.start = input.LT(1);
@@ -124,10 +124,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleSubtreeStream stream_pkg=new RewriteRuleSubtreeStream(adaptor,"rule pkg");
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:9: ( ( pkg )* EOF -> ( pkg )* )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:11: ( pkg )* EOF
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:9: ( ( pkg )* EOF -> ( pkg )* )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:11: ( pkg )* EOF
             {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:11: ( pkg )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:11: ( pkg )*
             loop1:
             do {
                 int alt1=2;
@@ -140,7 +140,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: pkg
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: pkg
             	    {
             	    pushFollow(FOLLOW_pkg_in_document124);
             	    pkg1=pkg();
@@ -175,7 +175,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 97:20: -> ( pkg )*
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:23: ( pkg )*
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:97:23: ( pkg )*
                 while ( stream_pkg.hasNext() ) {
                     adaptor.addChild(root_0, stream_pkg.nextTree());
 
@@ -213,7 +213,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start pkg
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:1: pkg : NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:1: pkg : NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET ;
     public final HutnParser.pkg_return pkg() throws RecognitionException {
         HutnParser.pkg_return retval = new HutnParser.pkg_return();
         retval.start = input.LT(1);
@@ -233,8 +233,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree RBRACKET7_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:4: ( NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:6: NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:4: ( NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:6: NAME ( TEXTUAL_VALUE )? LBRACKET ( pkg_contents )* RBRACKET
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -243,7 +243,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             NAME3_tree = (CommonTree)adaptor.create(NAME3);
             root_0 = (CommonTree)adaptor.becomeRoot(NAME3_tree, root_0);
             }
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:12: ( TEXTUAL_VALUE )?
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:12: ( TEXTUAL_VALUE )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -252,7 +252,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: TEXTUAL_VALUE
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: TEXTUAL_VALUE
                     {
                     TEXTUAL_VALUE4=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_pkg142); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
@@ -266,7 +266,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
 
             LBRACKET5=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_pkg145); if (state.failed) return retval;
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:37: ( pkg_contents )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:99:37: ( pkg_contents )*
             loop3:
             do {
                 int alt3=2;
@@ -279,7 +279,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: pkg_contents
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: pkg_contents
             	    {
             	    pushFollow(FOLLOW_pkg_contents_in_pkg148);
             	    pkg_contents6=pkg_contents();
@@ -326,7 +326,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start pkg_contents
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:1: pkg_contents : ( cls | cls_level_attribute | assoc_instance );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:1: pkg_contents : ( cls | cls_level_attribute | assoc_instance );
     public final HutnParser.pkg_contents_return pkg_contents() throws RecognitionException {
         HutnParser.pkg_contents_return retval = new HutnParser.pkg_contents_return();
         retval.start = input.LT(1);
@@ -342,7 +342,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:13: ( cls | cls_level_attribute | assoc_instance )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:13: ( cls | cls_level_attribute | assoc_instance )
             int alt4=3;
             int LA4_0 = input.LA(1);
 
@@ -432,7 +432,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt4) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:15: cls
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:15: cls
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -446,7 +446,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:21: cls_level_attribute
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:21: cls_level_attribute
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -460,7 +460,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 3 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:43: assoc_instance
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:101:43: assoc_instance
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -501,7 +501,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start assoc_instance
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:1: assoc_instance : ( infix_assoc | assoc_block );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:1: assoc_instance : ( infix_assoc | assoc_block );
     public final HutnParser.assoc_instance_return assoc_instance() throws RecognitionException {
         HutnParser.assoc_instance_return retval = new HutnParser.assoc_instance_return();
         retval.start = input.LT(1);
@@ -515,7 +515,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:15: ( infix_assoc | assoc_block )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:15: ( infix_assoc | assoc_block )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -545,7 +545,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:17: infix_assoc
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:17: infix_assoc
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -559,7 +559,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:31: assoc_block
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:103:31: assoc_block
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -600,7 +600,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start infix_assoc
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:105:1: infix_assoc : simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:105:1: infix_assoc : simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) ;
     public final HutnParser.infix_assoc_return infix_assoc() throws RecognitionException {
         HutnParser.infix_assoc_return retval = new HutnParser.infix_assoc_return();
         retval.start = input.LT(1);
@@ -620,8 +620,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         RewriteRuleTokenStream stream_26=new RewriteRuleTokenStream(adaptor,"token 26");
         RewriteRuleSubtreeStream stream_simple_ref=new RewriteRuleSubtreeStream(adaptor,"rule simple_ref");
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:7: ( simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:11: simple_ref NAME simple_ref ';'
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:7: ( simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:11: simple_ref NAME simple_ref ';'
             {
             pushFollow(FOLLOW_simple_ref_in_infix_assoc194);
             simple_ref13=simple_ref();
@@ -656,7 +656,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 106:42: -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:45: ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:45: ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSOC_INSTANCE, (NAME14!=null?NAME14.getText():null)), root_1);
@@ -698,7 +698,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start assoc_block
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:109:1: assoc_block : NAME LBRACKET ( assoc_contents )+ RBRACKET -> ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:109:1: assoc_block : NAME LBRACKET ( assoc_contents )+ RBRACKET -> ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* ) ;
     public final HutnParser.assoc_block_return assoc_block() throws RecognitionException {
         HutnParser.assoc_block_return retval = new HutnParser.assoc_block_return();
         retval.start = input.LT(1);
@@ -719,8 +719,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         RewriteRuleTokenStream stream_RBRACKET=new RewriteRuleTokenStream(adaptor,"token RBRACKET");
         RewriteRuleSubtreeStream stream_assoc_contents=new RewriteRuleSubtreeStream(adaptor,"rule assoc_contents");
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:7: ( NAME LBRACKET ( assoc_contents )+ RBRACKET -> ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:11: NAME LBRACKET ( assoc_contents )+ RBRACKET
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:7: ( NAME LBRACKET ( assoc_contents )+ RBRACKET -> ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:11: NAME LBRACKET ( assoc_contents )+ RBRACKET
             {
             NAME17=(Token)match(input,NAME,FOLLOW_NAME_in_assoc_block234); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME17);
@@ -728,7 +728,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             LBRACKET18=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_assoc_block236); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_LBRACKET.add(LBRACKET18);
 
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:25: ( assoc_contents )+
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:25: ( assoc_contents )+
             int cnt6=0;
             loop6:
             do {
@@ -742,7 +742,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt6) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: assoc_contents
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: assoc_contents
             	    {
             	    pushFollow(FOLLOW_assoc_contents_in_assoc_block238);
             	    assoc_contents19=assoc_contents();
@@ -782,12 +782,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 110:50: -> ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:53: ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:53: ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSOC_INSTANCE, (NAME17!=null?NAME17.getText():null)), root_1);
 
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:82: ( assoc_contents )*
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:110:82: ( assoc_contents )*
                 while ( stream_assoc_contents.hasNext() ) {
                     adaptor.addChild(root_1, stream_assoc_contents.nextTree());
 
@@ -828,7 +828,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start assoc_contents
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:113:1: assoc_contents : simple_ref simple_ref ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:113:1: assoc_contents : simple_ref simple_ref ;
     public final HutnParser.assoc_contents_return assoc_contents() throws RecognitionException {
         HutnParser.assoc_contents_return retval = new HutnParser.assoc_contents_return();
         retval.start = input.LT(1);
@@ -842,8 +842,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:7: ( simple_ref simple_ref )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:11: simple_ref simple_ref
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:7: ( simple_ref simple_ref )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:11: simple_ref simple_ref
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -888,7 +888,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start cls_level_attribute
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:117:1: cls_level_attribute : NAME '.' NAME ASSIGNMENT attr ';' -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:117:1: cls_level_attribute : NAME '.' NAME ASSIGNMENT attr ';' -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) ) ;
     public final HutnParser.cls_level_attribute_return cls_level_attribute() throws RecognitionException {
         HutnParser.cls_level_attribute_return retval = new HutnParser.cls_level_attribute_return();
         retval.start = input.LT(1);
@@ -914,8 +914,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         RewriteRuleTokenStream stream_27=new RewriteRuleTokenStream(adaptor,"token 27");
         RewriteRuleSubtreeStream stream_attr=new RewriteRuleSubtreeStream(adaptor,"rule attr");
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:7: ( NAME '.' NAME ASSIGNMENT attr ';' -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:11: NAME '.' NAME ASSIGNMENT attr ';'
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:7: ( NAME '.' NAME ASSIGNMENT attr ';' -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:11: NAME '.' NAME ASSIGNMENT attr ';'
             {
             NAME23=(Token)match(input,NAME,FOLLOW_NAME_in_cls_level_attribute299); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME23);
@@ -941,7 +941,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
             // AST REWRITE
-            // elements: NAME, attr, NAME
+            // elements: attr, NAME, NAME
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -953,17 +953,17 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 118:45: -> ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:48: ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:48: ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CLS_LVL_ATTRIBUTE, "CLS_LVL_ATTRIBUTE"), root_1);
 
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:68: ^( NAME ^( NAME attr ) )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:68: ^( NAME ^( NAME attr ) )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot(stream_NAME.nextNode(), root_2);
 
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:75: ^( NAME attr )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:118:75: ^( NAME attr )
                 {
                 CommonTree root_3 = (CommonTree)adaptor.nil();
                 root_3 = (CommonTree)adaptor.becomeRoot(stream_NAME.nextNode(), root_3);
@@ -1010,7 +1010,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start cls
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:1: cls : ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:1: cls : ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET ;
     public final HutnParser.cls_return cls() throws RecognitionException {
         HutnParser.cls_return retval = new HutnParser.cls_return();
         retval.start = input.LT(1);
@@ -1032,12 +1032,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree RBRACKET34_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:4: ( ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:6: ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:4: ( ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:6: ( adjective )* NAME ( TEXTUAL_VALUE )? LBRACKET ( cls_contents )* RBRACKET
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:6: ( adjective )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:6: ( adjective )*
             loop7:
             do {
                 int alt7=2;
@@ -1059,7 +1059,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: adjective
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: adjective
             	    {
             	    pushFollow(FOLLOW_adjective_in_cls339);
             	    adjective29=adjective();
@@ -1081,7 +1081,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             NAME30_tree = (CommonTree)adaptor.create(NAME30);
             root_0 = (CommonTree)adaptor.becomeRoot(NAME30_tree, root_0);
             }
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:23: ( TEXTUAL_VALUE )?
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:23: ( TEXTUAL_VALUE )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1090,7 +1090,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: TEXTUAL_VALUE
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: TEXTUAL_VALUE
                     {
                     TEXTUAL_VALUE31=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_cls345); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
@@ -1104,7 +1104,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
 
             LBRACKET32=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_cls348); if (state.failed) return retval;
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:48: ( cls_contents )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:121:48: ( cls_contents )*
             loop9:
             do {
                 int alt9=2;
@@ -1117,7 +1117,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt9) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: cls_contents
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: cls_contents
             	    {
             	    pushFollow(FOLLOW_cls_contents_in_cls351);
             	    cls_contents33=cls_contents();
@@ -1164,7 +1164,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start adjective
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:123:1: adjective : ( ADJECTIVE_PREFIX )? NAME -> ^( ADJECTIVE[name] ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:123:1: adjective : ( ADJECTIVE_PREFIX )? NAME -> ^( ADJECTIVE[name] ) ;
     public final HutnParser.adjective_return adjective() throws RecognitionException {
         HutnParser.adjective_return retval = new HutnParser.adjective_return();
         retval.start = input.LT(1);
@@ -1183,10 +1183,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
           String name = "";
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:7: ( ( ADJECTIVE_PREFIX )? NAME -> ^( ADJECTIVE[name] ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:10: ( ADJECTIVE_PREFIX )? NAME
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:7: ( ( ADJECTIVE_PREFIX )? NAME -> ^( ADJECTIVE[name] ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:10: ( ADJECTIVE_PREFIX )? NAME
             {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:10: ( ADJECTIVE_PREFIX )?
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:10: ( ADJECTIVE_PREFIX )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1195,7 +1195,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt10) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:11: ADJECTIVE_PREFIX
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:11: ADJECTIVE_PREFIX
                     {
                     ADJECTIVE_PREFIX35=(Token)match(input,ADJECTIVE_PREFIX,FOLLOW_ADJECTIVE_PREFIX_in_adjective377); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ADJECTIVE_PREFIX.add(ADJECTIVE_PREFIX35);
@@ -1230,7 +1230,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 127:90: -> ^( ADJECTIVE[name] )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:93: ^( ADJECTIVE[name] )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:127:93: ^( ADJECTIVE[name] )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ADJECTIVE, name), root_1);
@@ -1269,7 +1269,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start cls_contents
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:1: cls_contents : ( feature | adjective );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:1: cls_contents : ( feature | adjective );
     public final HutnParser.cls_contents_return cls_contents() throws RecognitionException {
         HutnParser.cls_contents_return retval = new HutnParser.cls_contents_return();
         retval.start = input.LT(1);
@@ -1283,7 +1283,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:13: ( feature | adjective )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:13: ( feature | adjective )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -1316,7 +1316,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt11) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:15: feature
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:15: feature
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1330,7 +1330,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:25: adjective
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:130:25: adjective
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1371,7 +1371,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start feature
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:1: feature : NAME ASSIGNMENT feature_contents ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:1: feature : NAME ASSIGNMENT feature_contents ;
     public final HutnParser.feature_return feature() throws RecognitionException {
         HutnParser.feature_return retval = new HutnParser.feature_return();
         retval.start = input.LT(1);
@@ -1387,8 +1387,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree ASSIGNMENT40_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:8: ( NAME ASSIGNMENT feature_contents )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:10: NAME ASSIGNMENT feature_contents
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:8: ( NAME ASSIGNMENT feature_contents )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:132:10: NAME ASSIGNMENT feature_contents
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1433,7 +1433,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start feature_contents
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:1: feature_contents : ( attr | refs );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:1: feature_contents : ( attr | refs );
     public final HutnParser.feature_contents_return feature_contents() throws RecognitionException {
         HutnParser.feature_contents_return retval = new HutnParser.feature_contents_return();
         retval.start = input.LT(1);
@@ -1447,12 +1447,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:17: ( attr | refs )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:17: ( attr | refs )
             int alt12=2;
             alt12 = dfa12.predict(input);
             switch (alt12) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:19: attr
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:19: attr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1466,7 +1466,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:26: refs
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:26: refs
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1507,7 +1507,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start attr
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:1: attr : ( attr_value ( COMMA attr_value )* | NULL );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:1: attr : ( attr_value ( COMMA attr_value )* | NULL );
     public final HutnParser.attr_return attr() throws RecognitionException {
         HutnParser.attr_return retval = new HutnParser.attr_return();
         retval.start = input.LT(1);
@@ -1525,7 +1525,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree NULL47_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:5: ( attr_value ( COMMA attr_value )* | NULL )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:5: ( attr_value ( COMMA attr_value )* | NULL )
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -1544,7 +1544,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt14) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:7: attr_value ( COMMA attr_value )*
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:7: attr_value ( COMMA attr_value )*
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1554,7 +1554,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, attr_value44.getTree());
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:18: ( COMMA attr_value )*
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:18: ( COMMA attr_value )*
                     loop13:
                     do {
                         int alt13=2;
@@ -1567,7 +1567,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                         switch (alt13) {
                     	case 1 :
-                    	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:19: COMMA attr_value
+                    	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:19: COMMA attr_value
                     	    {
                     	    COMMA45=(Token)match(input,COMMA,FOLLOW_COMMA_in_attr444); if (state.failed) return retval;
                     	    pushFollow(FOLLOW_attr_value_in_attr447);
@@ -1589,7 +1589,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:41: NULL
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:41: NULL
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1629,7 +1629,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start attr_value
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:1: attr_value : ( TEXTUAL_VALUE | NUMERIC_VALUE | bool | enum_value );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:1: attr_value : ( TEXTUAL_VALUE | NUMERIC_VALUE | bool | enum_value );
     public final HutnParser.attr_value_return attr_value() throws RecognitionException {
         HutnParser.attr_value_return retval = new HutnParser.attr_value_return();
         retval.start = input.LT(1);
@@ -1647,7 +1647,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree NUMERIC_VALUE49_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:11: ( TEXTUAL_VALUE | NUMERIC_VALUE | bool | enum_value )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:11: ( TEXTUAL_VALUE | NUMERIC_VALUE | bool | enum_value )
             int alt15=4;
             switch ( input.LA(1) ) {
             case TEXTUAL_VALUE:
@@ -1681,7 +1681,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
             switch (alt15) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:13: TEXTUAL_VALUE
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:13: TEXTUAL_VALUE
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1694,7 +1694,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:29: NUMERIC_VALUE
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:29: NUMERIC_VALUE
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1707,7 +1707,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 3 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:45: bool
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:45: bool
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1721,7 +1721,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 4 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:52: enum_value
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:52: enum_value
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1762,7 +1762,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start bool
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:140:1: bool : ( TRUE | FALSE );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:140:1: bool : ( TRUE | FALSE );
     public final HutnParser.bool_return bool() throws RecognitionException {
         HutnParser.bool_return retval = new HutnParser.bool_return();
         retval.start = input.LT(1);
@@ -1774,8 +1774,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree set52_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:140:5: ( TRUE | FALSE )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:140:5: ( TRUE | FALSE )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1820,7 +1820,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start refs
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:1: refs : ref ( COMMA ref )* ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:1: refs : ref ( COMMA ref )* ;
     public final HutnParser.refs_return refs() throws RecognitionException {
         HutnParser.refs_return retval = new HutnParser.refs_return();
         retval.start = input.LT(1);
@@ -1836,8 +1836,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree COMMA54_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:5: ( ref ( COMMA ref )* )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:7: ref ( COMMA ref )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:5: ( ref ( COMMA ref )* )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:7: ref ( COMMA ref )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1847,7 +1847,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, ref53.getTree());
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:11: ( COMMA ref )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:11: ( COMMA ref )*
             loop16:
             do {
                 int alt16=2;
@@ -1860,7 +1860,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt16) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:12: COMMA ref
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:12: COMMA ref
             	    {
             	    COMMA54=(Token)match(input,COMMA,FOLLOW_COMMA_in_refs493); if (state.failed) return retval;
             	    pushFollow(FOLLOW_ref_in_refs496);
@@ -1907,7 +1907,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start ref
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:1: ref : ( simple_ref | containment );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:1: ref : ( simple_ref | containment );
     public final HutnParser.ref_return ref() throws RecognitionException {
         HutnParser.ref_return retval = new HutnParser.ref_return();
         retval.start = input.LT(1);
@@ -1921,7 +1921,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:4: ( simple_ref | containment )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:4: ( simple_ref | containment )
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -1968,7 +1968,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             }
             switch (alt17) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:6: simple_ref
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:6: simple_ref
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1982,7 +1982,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:19: containment
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:19: containment
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2023,7 +2023,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start simple_ref
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:146:1: simple_ref : NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:146:1: simple_ref : NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) ;
     public final HutnParser.simple_ref_return simple_ref() throws RecognitionException {
         HutnParser.simple_ref_return retval = new HutnParser.simple_ref_return();
         retval.start = input.LT(1);
@@ -2039,8 +2039,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         RewriteRuleTokenStream stream_TEXTUAL_VALUE=new RewriteRuleTokenStream(adaptor,"token TEXTUAL_VALUE");
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:7: ( NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:11: NAME TEXTUAL_VALUE
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:7: ( NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:11: NAME TEXTUAL_VALUE
             {
             NAME58=(Token)match(input,NAME,FOLLOW_NAME_in_simple_ref525); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME58);
@@ -2063,7 +2063,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             root_0 = (CommonTree)adaptor.nil();
             // 147:30: -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
             {
-                // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:33: ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:33: ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(REFERENCE, (NAME58!=null?NAME58.getText():null)), root_1);
@@ -2104,7 +2104,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start containment
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:1: containment : ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:1: containment : ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET ;
     public final HutnParser.containment_return containment() throws RecognitionException {
         HutnParser.containment_return retval = new HutnParser.containment_return();
         retval.start = input.LT(1);
@@ -2126,12 +2126,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree RBRACKET65_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:12: ( ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:14: ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:12: ( ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:14: ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:14: ( adjective )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:14: ( adjective )*
             loop18:
             do {
                 int alt18=2;
@@ -2153,7 +2153,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt18) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: adjective
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: adjective
             	    {
             	    pushFollow(FOLLOW_adjective_in_containment550);
             	    adjective60=adjective();
@@ -2181,7 +2181,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             adaptor.addChild(root_0, TEXTUAL_VALUE62_tree);
             }
             LBRACKET63=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_containment558); if (state.failed) return retval;
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:55: ( cls_contents )*
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:55: ( cls_contents )*
             loop19:
             do {
                 int alt19=2;
@@ -2194,7 +2194,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
                 switch (alt19) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: cls_contents
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: cls_contents
             	    {
             	    pushFollow(FOLLOW_cls_contents_in_containment561);
             	    cls_contents64=cls_contents();
@@ -2241,7 +2241,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start enum_value
-    // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:1: enum_value : NAME ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:1: enum_value : NAME ;
     public final HutnParser.enum_value_return enum_value() throws RecognitionException {
         HutnParser.enum_value_return retval = new HutnParser.enum_value_return();
         retval.start = input.LT(1);
@@ -2253,8 +2253,8 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         CommonTree NAME66_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:11: ( NAME )
-            // /Users/louis/Code/eclipse/workspaces/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:13: NAME
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:11: ( NAME )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:13: NAME
             {
             root_0 = (CommonTree)adaptor.nil();
 
