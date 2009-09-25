@@ -106,7 +106,12 @@ class SlotUnparser extends Unparser {
 	}
 	
 	private String escape(String value) {
-		return value.replaceAll("\\\"", "\\\\\"");
+		String escaped = value;
+
+		escaped = escaped.replaceAll("\\\\", "\\\\\\\\");
+		escaped = escaped.replaceAll("\\\"", "\\\\\"");
+		
+		return escaped;
 	}
 	
 	private void unparseValue(EEnumLiteral value) {
