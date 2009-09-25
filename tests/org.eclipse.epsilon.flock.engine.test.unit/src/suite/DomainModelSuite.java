@@ -18,14 +18,14 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.model.BodyTests;
 import org.eclipse.epsilon.flock.model.GuardTests;
-import org.eclipse.epsilon.flock.model.MigrationStrategyRuleForTests;
+import org.eclipse.epsilon.flock.model.MigrationStrategyCreateEquivalenceForTests;
 import org.eclipse.epsilon.flock.model.checker.MigrationStrategyCheckerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({MigrationStrategyRuleForTests.class,
+@SuiteClasses({MigrationStrategyCreateEquivalenceForTests.class,
                GuardTests.class,
                BodyTests.class,
                MigrationStrategyCheckerTests.class})

@@ -20,6 +20,8 @@ import static org.easymock.classextension.EasyMock.verify;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.Equivalence;
+import org.eclipse.epsilon.flock.execution.MigrateRuleBasedEquivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.Body;
 import org.junit.Before;
@@ -52,7 +54,7 @@ public class MigrateRuleBasedEquivalenceTests {
 		
 		// Verification
 		
-		equivalence.applyStrategyToPopulateEquivalence();
+		equivalence.applyStrategyToPopulateEquivalent();
 		
 		verify(mockBody, dummyOriginal, dummyEquivalent, dummyContext);
 	}

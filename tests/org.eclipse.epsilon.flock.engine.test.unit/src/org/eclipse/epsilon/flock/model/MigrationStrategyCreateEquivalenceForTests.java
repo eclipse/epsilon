@@ -21,14 +21,17 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.Equivalence;
+import org.eclipse.epsilon.flock.execution.EquivalenceCreator;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MigrationStrategyRuleForTests {
+public class MigrationStrategyCreateEquivalenceForTests {
 		
 	private final ModelElement  dummyOriginalModelElement = createMock("DummyOriginalModelElement", ModelElement.class);
 	private final IFlockContext dummyContext              = createMock("DummyContext", IFlockContext.class);
+	private final Equivalence   dummyEquivalence          = createMock("DummyEquivalence", Equivalence.class);
 	
 	private MigrateRule applicableRule;
 	private MigrateRule inapplicableRule;
@@ -50,11 +53,27 @@ public class MigrationStrategyRuleForTests {
 	}
 
 	private MigrateRule createInapplicableRule() {
-		return createRule("InapplicableRule", false);
+		final MigrateRule inapplicable = createRule("InapplicableRule", false);
+		
+		replay(inapplicable);
+		
+		return inapplicable;
 	}
 
 	private MigrateRule createApplicableRule() {
-		return createRule("ApplicableRule", true);
+		final MigrateRule applicable = createRule("ApplicableRule", true);
+		
+		try {
+			expect(applicable.createEquivalence(dummyOriginalModelElement, dummyContext))
+				.andReturn(dummyEquivalence);
+
+		} catch (FlockRuntimeException e) {
+			e.printStackTrace();
+		}
+		
+		replay(applicable);
+		
+		return applicable;
 	}
 
 	private MigrateRule createRule(String name, boolean applicable) {
@@ -63,8 +82,6 @@ public class MigrationStrategyRuleForTests {
 			
 			expect(rule.appliesFor(dummyOriginalModelElement, dummyContext))
 				.andReturn(applicable);
-			
-			replay(rule);
 			
 			return rule;
 			
@@ -77,53 +94,58 @@ public class MigrationStrategyRuleForTests {
 	
 	
 	@Test
-	public void ruleForShouldReturnApplicableRule() throws FlockRuntimeException {
+	public void shouldDelegateToApplicableRule() throws FlockRuntimeException {
 		final MigrationStrategy strategy = new MigrationStrategy(applicableRule);
 		
 		// Verification
 		
-		assertEquals(applicableRule, strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertEquals(dummyEquivalence, strategy.createEquivalenceFor(dummyOriginalModelElement, dummyContext));
 		
 		verify(applicableRule);
 	}
 
 
 	@Test
-	public void ruleForShouldReturnFirstApplicableRule() throws FlockRuntimeException {
+	public void shouldDelegateOnlyToFirstApplicableRule() throws FlockRuntimeException {
 		final MigrationStrategy strategy = new MigrationStrategy(applicableRule, rule);
 		
 		// Verification
 		
-		assertEquals(applicableRule, strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertEquals(dummyEquivalence, strategy.createEquivalenceFor(dummyOriginalModelElement, dummyContext));
 		
 		verify(applicableRule, rule);
 	}
 	
 	
 	@Test
-	public void ruleForShouldNotReturnInapplicableRule() throws FlockRuntimeException {
+	public void shouldNotDelegateToInapplicableRule() throws FlockRuntimeException {
 		final MigrationStrategy strategy = new MigrationStrategy(inapplicableRule, applicableRule);	
 		
 		// Verification
 		
-		assertEquals(applicableRule, strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertEquals(dummyEquivalence, strategy.createEquivalenceFor(dummyOriginalModelElement, dummyContext));
 		
 		verify(inapplicableRule, applicableRule);
 	}
 	
 	@Test
-	public void ruleForShouldReturnCopyRuleWhenNoApplicableRules() throws FlockRuntimeException {
+	public void shouldDelegateToCopyRuleWhenNoApplicableRules() throws FlockRuntimeException {
+		final EquivalenceCreator mockDefaultEquivalenceCreator = createMock("MockDefaultEquivalenceCreator", EquivalenceCreator.class);
+		
+		expect(mockDefaultEquivalenceCreator.createEquivalence(dummyOriginalModelElement, dummyContext))
+			.andReturn(dummyEquivalence);
+		
+		replay(mockDefaultEquivalenceCreator);
+		
+		
 		final MigrationStrategy strategy = new MigrationStrategy(inapplicableRule);
 		
-		expect(dummyOriginalModelElement.getTypeName())
-			.andReturn("Person");
-		
-		replay(dummyOriginalModelElement);
+		strategy.setDefaultEquivalenceCreator(mockDefaultEquivalenceCreator);
 		
 		// Verification
 		
-		assertEquals(new CopyRule("Person"), strategy.ruleFor(dummyOriginalModelElement, dummyContext));
+		assertEquals(dummyEquivalence, strategy.createEquivalenceFor(dummyOriginalModelElement, dummyContext));
 		
-		verify(inapplicableRule, dummyOriginalModelElement);
+		verify(inapplicableRule, mockDefaultEquivalenceCreator);
 	}
 }

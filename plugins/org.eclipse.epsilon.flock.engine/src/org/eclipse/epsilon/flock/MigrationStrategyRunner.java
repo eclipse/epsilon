@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.flock;
 
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.EquivalenceEstablisher;
 import org.eclipse.epsilon.flock.execution.Equivalences;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
@@ -43,7 +42,7 @@ public class MigrationStrategyRunner {
 	}
 
 	private void establishEquivalences() throws FlockRuntimeException {
-		equivalences = new EquivalenceEstablisher(strategy, context).establishEquivalences();
+		equivalences = Equivalences.establishFrom(strategy, context);
 	}
 
 	private void populateEachEquivalent() throws FlockRuntimeException {

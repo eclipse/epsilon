@@ -31,11 +31,11 @@ public class NoEquivalence implements Equivalence {
 		return original; 
 	}
 	
-	public void automaticallyPopulateEquivalence() throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent() throws FlockRuntimeException {
 		// do nothing
 	}
 	
-	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException {
+	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException {
 		// do nothing
 	}
 

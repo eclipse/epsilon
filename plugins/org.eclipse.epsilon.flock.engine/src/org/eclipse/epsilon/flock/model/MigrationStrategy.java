@@ -21,17 +21,22 @@ import java.util.List;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.DefaultEquivalenceCreator;
+import org.eclipse.epsilon.flock.execution.Equivalence;
+import org.eclipse.epsilon.flock.execution.EquivalenceCreator;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class MigrationStrategy {
-
+	
 	private final List<Rule> rules = new LinkedList<Rule>();
 	
-	public MigrationStrategy() {}
+	private EquivalenceCreator defaultEquivalenceCreator = DefaultEquivalenceCreator.getInstance();
+	
 	
 	public MigrationStrategy(Rule... rules) {
 		addRules(rules);
 	}
+	
 	
 	public void addRule(Rule rule) {
 		rules.add(rule);
@@ -41,16 +46,22 @@ public class MigrationStrategy {
 		this.rules.addAll(Arrays.asList(rules));
 	}
 	
-	public Rule ruleFor(ModelElement original, IFlockContext context) throws FlockRuntimeException {
-		for (Rule rule : rules) {
-			if (rule.appliesFor(original, context))
-				return rule;
-		}
-		
-		return new CopyRule(original.getTypeName());
-	}
-
 	public Collection<Rule> getRules() {
 		return Collections.unmodifiableCollection(rules);
+	}
+	
+	
+	public Equivalence createEquivalenceFor(ModelElement original, IFlockContext context) throws FlockRuntimeException {
+		for (Rule rule : rules) {
+			if (rule.appliesFor(original, context))
+				return rule.createEquivalence(original, context);
+		}
+		
+		return defaultEquivalenceCreator.createEquivalence(original, context);
+	}
+	
+	// Used by tests
+	void setDefaultEquivalenceCreator(EquivalenceCreator defaultEquivalenceCreator) {
+		this.defaultEquivalenceCreator = defaultEquivalenceCreator;
 	}
 }

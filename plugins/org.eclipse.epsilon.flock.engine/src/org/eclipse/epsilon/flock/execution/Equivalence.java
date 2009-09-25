@@ -22,9 +22,9 @@ public interface Equivalence {
 
 	public ModelElement getEquivalent();
 
-	public void automaticallyPopulateEquivalence() throws FlockRuntimeException;
+	public void automaticallyPopulateEquivalent() throws FlockRuntimeException;
 	
-	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException;
+	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException;
 
 	@Override
 	public boolean equals(Object obj);

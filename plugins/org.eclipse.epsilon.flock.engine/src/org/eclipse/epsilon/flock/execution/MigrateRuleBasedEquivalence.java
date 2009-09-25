@@ -29,7 +29,7 @@ public class MigrateRuleBasedEquivalence extends TypeBasedEquivalence implements
 	}
 		
 	@Override
-	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException {
+	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException {
 		migrateRuleBody.applyTo(original, equivalent, context);
 	}
 

@@ -38,11 +38,11 @@ public class TypeBasedEquivalence implements Equivalence {
 		return equivalent;
 	}
 	
-	public void automaticallyPopulateEquivalence() throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent() throws FlockRuntimeException {
 		equivalent.conservativelyCopyPropertiesFrom(original, context);
 	}
 	
-	public void applyStrategyToPopulateEquivalence() throws FlockRuntimeException {
+	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException {
 		// no rule applies
 	}
 	

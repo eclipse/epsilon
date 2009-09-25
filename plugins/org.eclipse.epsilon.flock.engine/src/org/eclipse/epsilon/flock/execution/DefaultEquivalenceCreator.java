@@ -16,29 +16,22 @@ package org.eclipse.epsilon.flock.execution;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
 
-public class EquivalenceEstablisher {
+public class DefaultEquivalenceCreator implements EquivalenceCreator {
 
-	private final MigrationStrategy strategy;
-	private final IFlockContext context;
+	private static final EquivalenceCreator instance = new DefaultEquivalenceCreator();
 	
-	public EquivalenceEstablisher(MigrationStrategy strategy, IFlockContext context) {
-		this.strategy = strategy;
-		this.context  = context;
+	public static EquivalenceCreator getInstance() {
+		return instance;
 	}
 	
-	public Equivalences establishEquivalences() throws FlockRuntimeException {
-		final Equivalences equivalences = new Equivalences();
+	public Equivalence createEquivalence(ModelElement original, IFlockContext context) throws FlockRuntimeException {
+		final ModelElement equivalent = context.safelyCreateModelElementInMigratedModel(original.getTypeName());
 		
-		for (ModelElement original : context.getOriginalModelElements()) {
-			equivalences.add(createEquivalenceFor(original));
+		if (equivalent == null) {
+			return new NoEquivalence(original);
+		} else {
+			return new TypeBasedEquivalence(context, original, equivalent);
 		}
-				
-		return equivalences;
-	}
-	
-	Equivalence createEquivalenceFor(ModelElement original) throws FlockRuntimeException {
-		return strategy.ruleFor(original, context).createEquivalence(original, context);
 	}
 }

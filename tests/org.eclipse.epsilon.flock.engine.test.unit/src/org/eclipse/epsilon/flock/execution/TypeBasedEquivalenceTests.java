@@ -52,7 +52,7 @@ public class TypeBasedEquivalenceTests {
 		
 		// Verification
 		
-		equivalence.automaticallyPopulateEquivalence();
+		equivalence.automaticallyPopulateEquivalent();
 		
 		verify(mockEquivalent, dummyOriginal, dummyContext);
 	}

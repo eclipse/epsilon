@@ -11,17 +11,14 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model;
+package org.eclipse.epsilon.flock.execution;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.EquivalenceCreator;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public interface Rule extends ModuleElement, EquivalenceCreator {
+public interface EquivalenceCreator {
 
-	public boolean appliesFor(ModelElement original, IFlockContext context) throws FlockRuntimeException;
+	public Equivalence createEquivalence(ModelElement original, IFlockContext context) throws FlockRuntimeException;
 
-	public String getOriginalType();
 }
