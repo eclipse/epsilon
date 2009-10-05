@@ -2,10 +2,11 @@ package org.eclipse.epsilon.flock.engine.test.util.builders;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class EReferenceBuilder {
+	
+	public static int MANY = -1;
 	
 	public static EReferenceBuilder anEReference() {
 		return new EReferenceBuilder();
@@ -31,7 +32,12 @@ public class EReferenceBuilder {
 		return this;
 	}
 	
-	public EStructuralFeature build() {
+	public EReferenceBuilder withType(EClassifier type) {
+		reference.setEType(type);
+		return this;
+	}
+	
+	public EReference build() {
 		return reference;
 	}
 }

@@ -17,6 +17,7 @@
 package org.eclipse.epsilon.flock.engine.test.util.builders;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 
@@ -39,6 +40,11 @@ public class EClassBuilder implements EClassifierBuilder {
 	
 	public EClassBuilder isAbstract() {
 		eClass.setAbstract(true);
+		return this;
+	}
+	
+	public EClassBuilder with(EStructuralFeature feature) {
+		eClass.getEStructuralFeatures().add(feature);
 		return this;
 	}
 	

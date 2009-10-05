@@ -18,10 +18,11 @@ package org.eclipse.epsilon.flock.engine.test.util.builders;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class EAttributeBuilder {
+	
+	public static int MANY = -1;
 	
 	public static EAttributeBuilder anEAttribute() {
 		return new EAttributeBuilder();
@@ -39,7 +40,13 @@ public class EAttributeBuilder {
 		return this;
 	}
 	
-	public EStructuralFeature build() {
+	public EAttribute build() {
 		return attribute;
+	}
+
+	public EAttributeBuilder withBounds(int lower, int upper) {
+		attribute.setLowerBound(lower);
+		attribute.setUpperBound(upper);
+		return this;
 	}
 }
