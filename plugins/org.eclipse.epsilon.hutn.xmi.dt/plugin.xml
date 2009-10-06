@@ -4,26 +4,31 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            id="org.eclipse.epsilon.hutn.xmi.dt.GenerateHutn"
+            id="org.eclipse.epsilon.hutn.xmi.dt.model"
             nameFilter="*.model"
             objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.hutn.xmi.dt.actions.GenerateHutn"
                icon="icons/hutn.png"
                id="org.eclipse.epsilon.dt.actions.GenerateHutn"
-               label="Generate HUTN">
+               label="Generate HUTN"
+               menubarPath="org.eclipse.epsilon.hutn.xmi.dt.model.menu/actions">
          </action>
-      </objectContribution>
-      <objectContribution
-            id="org.eclipse.epsilon.hutn.xmi.dt.CheckModel"
-            nameFilter="*.model"
-            objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.hutn.xmi.dt.actions.CheckModelAction"
                icon="icons/check.gif"
                id="org.eclipse.epsilon.dt.actions.CheckModel"
-               label="Check Consistency">
+               label="Check Consistency"
+               menubarPath="org.eclipse.epsilon.hutn.xmi.dt.model.menu/actions">
          </action>
+         <menu
+               id="org.eclipse.epsilon.hutn.xmi.dt.model.menu"
+               label="HUTN"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
       </objectContribution>
    </extension>
 </plugin>

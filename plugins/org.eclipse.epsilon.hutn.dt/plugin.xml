@@ -47,38 +47,52 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            id="org.eclipse.epsilon.hutn.dt.ToggleEpsilonNatureObjectContribution"
+            id="org.eclipse.epsilon.hutn.dt.project"
             objectClass="org.eclipse.core.resources.IProject">
          <action
                class="org.eclipse.epsilon.hutn.dt.actions.ToggleHutnProjectNatureAction"
                icon="icons/hutn.png"
                id="org.eclipse.epsilon.dt.actions.ToggleEpsilonProjectNatureAction"
                label="Enable HUTN Project Nature"
+               menubarPath="org.eclipse.epsilon.hutn.dt.project.menu/actions"
                state="false"
                style="toggle">
          </action>
+         <menu
+               id="org.eclipse.epsilon.hutn.dt.project.menu"
+               label="HUTN"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
       </objectContribution>
       <objectContribution
-            id="org.eclipse.epsilon.hutn.dt.GenerateModel"
-            nameFilter="*.hutn"
-            objectClass="org.eclipse.core.resources.IFile">
-         <action
-               class="org.eclipse.epsilon.hutn.dt.actions.GenerateModelAction"
-               icon="icons/hutn.png"
-               id="org.eclipse.epsilon.dt.actions.GenerateModel"
-               label="Generate Model">
-         </action>
-      </objectContribution>
-      <objectContribution
-            id="org.eclipse.epsilon.hutn.dt.GenerateHutnDebugInformation"
+            id="org.eclipse.epsilon.hutn.dt.source"
             nameFilter="*.hutn"
             objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.hutn.dt.actions.GenerateDebugInformation"
                icon="icons/debug.gif"
                id="org.eclipse.epsilon.dt.actions.GenerateDebugInformation"
-               label="Generate Debugging Information">
+               label="Generate Debugging Information"
+               menubarPath="org.eclipse.epsilon.hutn.dt.source.menu/actions">
          </action>
+         <action
+               class="org.eclipse.epsilon.hutn.dt.actions.GenerateModelAction"
+               icon="icons/hutn.png"
+               id="org.eclipse.epsilon.dt.actions.GenerateModel"
+               label="Generate Model"
+               menubarPath="org.eclipse.epsilon.hutn.dt.source.menu/actions">
+         </action>
+         <menu
+               id="org.eclipse.epsilon.hutn.dt.source.menu"
+               label="HUTN"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
       </objectContribution>
    </extension>
 	<extension
