@@ -58,10 +58,10 @@ cls_contents:
 	"Address = \"7 Main Street\"" -> "(Address \\\"7 Main Street\\\")"
 	
 	// Empty string, and strings containing unusual characters
-	"Address = \"\""                -> "(Address \\\"\\\")"
-	"Formula = \"a > b and b < c\"" -> "(Formula \\\"a > b and b < c\\\")"
-    "Formula = \"(a and b) or c)\"" -> "(Formula \\\"(a and b) or c)\\\")"
-	
+	"Address = \"\""                           -> "(Address \\\"\\\")"
+	"Formula = \"a > b and b < c\""            -> "(Formula \\\"a > b and b < c\\\")"
+    "Formula = \"(a and b) or c)\""            -> "(Formula \\\"(a and b) or c)\\\")"
+	"Address = \"The House, 120 Main Street\"" -> "(Address \\\"The House, 120 Main Street\\\")"
 	
 	// Escape sequences
 	"Name = \"John \\\"Invisible\\\" Doe\"" -> "(Name \\\"John \\\"Invisible\\\" Doe\\\")"
@@ -79,6 +79,7 @@ cls_contents:
 	
 	// Multi-valued
 	"Address = \"7 Main Street\", \"17 Fulford Road\"" -> "(Address \\\"7 Main Street\\\" \\\"17 Fulford Road\\\")"
+	"Address = \"The House, 120 Main Street\", \"17 Fulford Road\"" -> "(Address \\\"The House, 120 Main Street\\\" \\\"17 Fulford Road\\\")"
 	"Nuclear = true, false, false, true"               -> "(Nuclear true false false true)"
 	
 	// Keywords
