@@ -162,8 +162,11 @@ TEXTUAL_VALUE
 @init{StringBuilder lBuf = new StringBuilder();}
     :   
            '"'
-           ( escaped=ESC {lBuf.append(getText());} | 
-             normal=TEXT_LETTER     {lBuf.append(normal.getText());} )*
+           ( 
+             escaped=ESC        {lBuf.append(getText());} 
+             | 
+             normal=TEXT_LETTER {lBuf.append(normal.getText());}
+           )*
            '"'     
            {setText('"' + lBuf.toString() + '"');}
     ;
