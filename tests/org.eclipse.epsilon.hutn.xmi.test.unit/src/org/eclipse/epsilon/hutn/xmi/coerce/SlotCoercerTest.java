@@ -29,8 +29,23 @@ public class SlotCoercerTest {
 	private static final SlotCoercer coercer = new SlotCoercer();
 	
 	@Test
+	public void noCoercionOfEmptyString() {
+		coerceToAttributeSlotTest("", "");
+	}
+	
+	@Test
 	public void coercesToFloat() {
 		coerceToAttributeSlotTest("3.0", 3.0f);
+	}
+	
+	@Test
+	public void fractionCoercedToFloat() {
+		coerceToAttributeSlotTest(".5", .5f);
+	}
+	
+	@Test
+	public void noCoercionOfNumberFollowedByPoint() {
+		coerceToAttributeSlotTest("3.", "3.");
 	}
 	
 	@Test

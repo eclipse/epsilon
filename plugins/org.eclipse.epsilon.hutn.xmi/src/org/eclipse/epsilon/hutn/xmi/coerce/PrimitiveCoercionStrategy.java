@@ -78,7 +78,7 @@ public class PrimitiveCoercionStrategy extends AbstractCoercionStrategy {
 		}
 		
 		private boolean isInteger(String value) {
-			return value.matches("-?\\d*");
+			return value.matches("-?\\d+");
 		}
 		
 		private int toInteger(String value) {
@@ -86,8 +86,8 @@ public class PrimitiveCoercionStrategy extends AbstractCoercionStrategy {
 		}
 		
 		private boolean isFloat(String value) {
-			//                    -? \d* (. \d*)?
-			return value.matches("-?\\d*\\.\\d*");
+			//                    -? \d* (. \d+)?
+			return value.matches("-?\\d*\\.\\d+");
 		}
 		
 		private float toFloat(String value) {
