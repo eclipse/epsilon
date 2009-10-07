@@ -29,7 +29,15 @@ public class UriFragmentResolver {
 		this.spec = spec;
 	}
 
+	public static boolean isUriFragment(String value) {
+		return value.startsWith("#/");
+	}
+	
 	public ClassObject resolve(String uriFragment) {
+		if (!isUriFragment(uriFragment)) {
+			throw new IllegalArgumentException("Not a valid URI fragment: " + uriFragment);
+		}
+		
 		if (uriFragment.equals("#//")) {
 			return getTopLevelObject(0);
 		
@@ -42,11 +50,7 @@ public class UriFragmentResolver {
 				index = 0;
 				
 			} else {
-				try {
-					index = Integer.parseInt(segments.get(0));
-				} catch (NumberFormatException e) {
-					return null; // TODO - test for this
-				}
+				index = Integer.parseInt(segments.get(0));
 			}
 			
 			return resolveRelativeTo(getTopLevelObject(index), tail(segments));

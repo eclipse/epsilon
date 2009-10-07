@@ -54,7 +54,7 @@ public class UriFragmentPostProcessor {
 	}
 	
 	private String resolve(String value) {
-		if (isUriFragment(value)) {
+		if (UriFragmentResolver.isUriFragment(value)) {
 			final ClassObject object = resolver.resolve(value);
 			
 			if (object != null) {
@@ -68,12 +68,6 @@ public class UriFragmentPostProcessor {
 		}
 		
 		return value;
-	}
-
-	private boolean isUriFragment(String value) {
-		// EMF UUIDs are guaranteed to start with an underscore
-		// (see EcoreUtil.generateUUID)
-		return !value.startsWith("_");
 	}
 	
 	private void addUniqueIdentifier(ClassObject object) {

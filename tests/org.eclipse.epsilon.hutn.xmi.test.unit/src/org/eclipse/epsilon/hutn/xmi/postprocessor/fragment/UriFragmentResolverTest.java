@@ -37,8 +37,12 @@ public class UriFragmentResolverTest {
 		return org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec(createPackageObject(contents)); 
 	}
 	
+	private static ClassObject resolve(String uriFragment, Spec spec) {
+		return new UriFragmentResolver(spec).resolve(uriFragment);
+	}
+	
 	private void resolveTest(String uriFragment, Spec spec, ClassObject expected) {
-		assertEquals(expected, new UriFragmentResolver(spec).resolve(uriFragment));
+		assertEquals(expected, resolve(uriFragment, spec));
 	}
 	
 	@Test
@@ -132,6 +136,16 @@ public class UriFragmentResolverTest {
 		                             	createContainmentSlot("contents", pet)));
 		
 		resolveTest("#/1/@contents.0", spec, pet);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void tooShortToBeAURIFragment() {
+		resolve("a", createSpec());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void notAValidURIFragment() {
+		resolve("foobar", createSpec());
 	}
 	
 	// topLevelWithUnknownIndex
