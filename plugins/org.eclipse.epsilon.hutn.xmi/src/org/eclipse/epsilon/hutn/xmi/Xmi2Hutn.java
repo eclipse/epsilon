@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
 
 public class Xmi2Hutn {
 
+	private static final String NEW_LINE = System.getProperty("line.separator");
+
 	private final Spec spec;
 	private final HutnUnparser unparser;
 	
@@ -74,6 +76,7 @@ public class Xmi2Hutn {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				xmi.append(line);
+				xmi.append(NEW_LINE);
 			}
 			
 			return xmi.toString();

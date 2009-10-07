@@ -58,12 +58,15 @@ public abstract class HutnXmiBridgeIntegrationTest extends HutnTestWithFamiliesM
 		final StringBuilder builder = new StringBuilder();
 		
 		builder.append("<?xml version=\"1.0\" encoding=\"ASCII\"?>");
+		builder.append('\n');
 		
 		builder.append("<families:Model xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:families=\"families\" xmi:id=\"_I6yJURhKEd6d_-caKAfnUw\" ");
 		builder.append(attributes);
 		builder.append(">");
+		builder.append('\n');
 		
 		builder.append(contents);
+		builder.append('\n');
 		builder.append("</families:Model>");
 		
 		return builder.toString();

@@ -115,9 +115,14 @@ public class SlotCoercerTest {
 	
 	private static void slotCoercerTest(Object[] values, Class<? extends Slot<?>> expectedSlotType, Object... expectedCoercedValues) {
 		final AttributeSlot slot = HutnUtil.createAttributeSlot(values);
+		slot.setLine(4);
+		slot.setCol(2);
 		
 		final Slot<?> coerced = coercer.coerce(slot);
 
+		org.junit.Assert.assertEquals("Expected line number of slot to be preserved throughout coercion.", 4, coerced.getLine());
+		org.junit.Assert.assertEquals("Expected col number of slot to be preserved throughout coercion.", 2, coerced.getCol()); 
+		
 		assertTrue("Expected an " + expectedSlotType.getSimpleName() + ", but was: " + coerced, expectedSlotType.isInstance(coerced));
 		assertEquals(Arrays.asList(expectedCoercedValues), coerced.getValues());
 	}

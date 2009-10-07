@@ -58,9 +58,18 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 				EpsilonConsole.getInstance().getInfoStream().println(file.getName() + " conforms to its registered metamodel.");
 			} else {						
 				for (ParseProblem problem : problems) {
-					markerManager.addErrorMarker(problem.getReason(), 1);
+					markerManager.addErrorMarker(getReason(problem), problem.getLine());
 				}
 			}
+		}
+	}
+
+	private String getReason(ParseProblem problem) {
+		if ("Unrecognised classifier: UnknownType".equals(problem.getReason())) {
+			return "Unable to determine the type of this model element.";
+			
+		} else {
+			return problem.getReason();
 		}
 	}
 }

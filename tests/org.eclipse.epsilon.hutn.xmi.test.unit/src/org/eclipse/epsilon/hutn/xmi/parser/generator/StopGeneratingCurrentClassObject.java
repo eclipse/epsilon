@@ -21,13 +21,15 @@ import org.junit.Test;
 
 public class StopGeneratingCurrentClassObject {
 
+	private static final int DUMMY_LINE_NUMBER = -1;
+	
 	private SpecGenerator generator;
 	
 	@Before
 	public void setup() {
 		generator = new SpecGenerator();
 		generator.initialise();
-		generator.generateTopLevelClassObject("p", "parent");
+		generator.generateTopLevelClassObject("p", "parent", DUMMY_LINE_NUMBER);
 	}
 	
 	@Test
@@ -41,7 +43,7 @@ public class StopGeneratingCurrentClassObject {
 	public void parentAfterSimpleNesting() {
 		final ClassObject parent = generator.getCurrentClassObject();
 		
-		generator.generateContainedClassObject("foos", "f", "foo");
+		generator.generateContainedClassObject("foos", "f", "foo", DUMMY_LINE_NUMBER);
 		generator.stopGeneratingCurrentClassObject();
 		
 		assertEquals(parent, generator.getCurrentClassObject());
@@ -51,10 +53,10 @@ public class StopGeneratingCurrentClassObject {
 	public void parentAfterTwoSimpleNestings() {
 		final ClassObject parent = generator.getCurrentClassObject();
 		
-		generator.generateContainedClassObject("foos", "f", "foo");
+		generator.generateContainedClassObject("foos", "f", "foo", DUMMY_LINE_NUMBER);
 		generator.stopGeneratingCurrentClassObject();
 		
-		generator.generateContainedClassObject("bars", "b", "bar");
+		generator.generateContainedClassObject("bars", "b", "bar", DUMMY_LINE_NUMBER);
 		generator.stopGeneratingCurrentClassObject();
 		
 		assertEquals(parent, generator.getCurrentClassObject());
@@ -64,10 +66,10 @@ public class StopGeneratingCurrentClassObject {
 	public void secondLevelAfterThirdLevelNesting() {
 		final ClassObject foo;
 		
-		generator.generateContainedClassObject("foos", "f", "foo");
+		generator.generateContainedClassObject("foos", "f", "foo", DUMMY_LINE_NUMBER);
 		foo = generator.getCurrentClassObject();
 		
-		generator.generateContainedClassObject("bars", "b", "bar");
+		generator.generateContainedClassObject("bars", "b", "bar", DUMMY_LINE_NUMBER);
 		generator.stopGeneratingCurrentClassObject();
 		
 		assertEquals(foo, generator.getCurrentClassObject());

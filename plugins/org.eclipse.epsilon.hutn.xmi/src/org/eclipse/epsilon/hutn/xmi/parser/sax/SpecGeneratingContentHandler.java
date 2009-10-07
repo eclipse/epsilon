@@ -17,6 +17,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.xmi.parser.generator.SpecGenerator;
 import org.eclipse.epsilon.hutn.xmi.util.StringUtil;
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -26,6 +27,17 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
 	
 	public Spec getSpec() {
 		return generator.getSpec();
+	}
+	
+	private Locator locator;
+	
+	@Override
+	public void setDocumentLocator(Locator locator) {
+		this.locator = locator;
+	}
+	
+	private int getCurrentLineNumber() {
+		return locator.getLineNumber();
 	}
 	
 	@Override
@@ -50,16 +62,16 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     		if (qName.equals("xmi:XMI"))
     			return;
     		
-    		generator.generateTopLevelClassObject(atts.getValue("xmi:id"), name);
+    		generator.generateTopLevelClassObject(atts.getValue("xmi:id"), name, getCurrentLineNumber());
     	
     	} else {
     		
     		if (atts.getIndex("xsi:type") >= 0) {
-    			generator.generateContainedClassObject(name, atts.getValue("xmi:id"), getLocalName(atts.getValue("xsi:type")));
+    			generator.generateContainedClassObject(name, atts.getValue("xmi:id"), getLocalName(atts.getValue("xsi:type")), getCurrentLineNumber());
     			
 			} else {
 				// XMI doesn't include an xsi:type
-				generator.generateContainedClassObject(name, atts.getValue("xmi:id"));
+				generator.generateContainedClassObject(name, atts.getValue("xmi:id"), getCurrentLineNumber());
 			}
     		
     		
@@ -94,7 +106,7 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     	alreadyPoppedCurrentElement = true;
     	
     	// and replace with an attribute value
-    	generator.addAttributeValue(currentElementName, value);
+    	generator.addAttributeValue(currentElementName, value, getCurrentLineNumber());
     }
     
 
@@ -104,8 +116,8 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
 			if (atts.getQName(index).startsWith("xmi") || atts.getQName(index).startsWith("xsi")) {
 			  	  continue;
 			}
-			
-			generator.addAttributeValue(atts.getLocalName(index), atts.getValue(index));
+
+			generator.addAttributeValue(atts.getLocalName(index), atts.getValue(index), getCurrentLineNumber());
 		}
 	}
     

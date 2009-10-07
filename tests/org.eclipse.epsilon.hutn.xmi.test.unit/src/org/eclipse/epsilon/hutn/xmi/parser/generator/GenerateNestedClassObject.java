@@ -25,6 +25,8 @@ import org.junit.Test;
 
 public class GenerateNestedClassObject extends HutnTestWithFamiliesMetaModel {
 
+	private static final int DUMMY_LINE_NUMBER = -1;
+	
 	private SpecGenerator generator;
 	
 	@Before
@@ -35,8 +37,8 @@ public class GenerateNestedClassObject extends HutnTestWithFamiliesMetaModel {
 	
 	@Test
 	public void generatesNestedClassObject() {
-		generator.generateTopLevelClassObject("f", "Family");
-		generator.generateContainedClassObject("members", "p", "Person");
+		generator.generateTopLevelClassObject("f", "Family", DUMMY_LINE_NUMBER);
+		generator.generateContainedClassObject("members", "p", "Person", DUMMY_LINE_NUMBER);
 		
 		assertEquals(1, getFirstPackage().getClassObjects().size());
 		assertEquals(1, getFirstClassObject().getSlots().size());
@@ -48,31 +50,41 @@ public class GenerateNestedClassObject extends HutnTestWithFamiliesMetaModel {
 		assertEquals(getNestedClassObject(), generator.getCurrentClassObject());
 	}
 	
+	@Test
+	public void generatedContainmentSlotShouldHaveLineNumberOfFirstValue() {
+		generator.generateTopLevelClassObject("f", "Family", DUMMY_LINE_NUMBER);
+		generator.generateContainedClassObject("members", "p1", "Person", 1);
+		generator.stopGeneratingCurrentClassObject();
+		generator.generateContainedClassObject("members", "p2", "Person", 2);
+		
+		assertEquals(1, getFirstClassObject().getSlots().get(0).getLine());
+	}
+	
 	@Test(expected=IllegalStateException.class)
 	public void cannotCreateUnnestedContainedClassObject() {
-		generator.generateContainedClassObject("members", "p", "Person");
+		generator.generateContainedClassObject("members", "p", "Person", DUMMY_LINE_NUMBER);
 	}
 	
 	@Test
 	public void canInferTypeFromMetamodel() {
-		generator.generateTopLevelClassObject("f", "Family");
-		generator.generateContainedClassObject("members", "p");
+		generator.generateTopLevelClassObject("f", "Family", DUMMY_LINE_NUMBER);
+		generator.generateContainedClassObject("members", "p", DUMMY_LINE_NUMBER);
 		
 		slotTest(getFirstClassObject().getSlots().get(0), ContainmentSlot.class, "members", "Person");
 	}
 	
 	@Test
 	public void inferTypeForNonContainment() {
-		generator.generateTopLevelClassObject("f", "Family");
-		generator.generateContainedClassObject("name", "n");
+		generator.generateTopLevelClassObject("f", "Family", DUMMY_LINE_NUMBER);
+		generator.generateContainedClassObject("name", "n", DUMMY_LINE_NUMBER);
 		
 		slotTest(getFirstClassObject().getSlots().get(0), ContainmentSlot.class, "name", "UnknownType");
 	}
 	
 	@Test
 	public void cannotInferTypeForUnknownMetamodelFeature() {
-		generator.generateTopLevelClassObject("f", "Family");
-		generator.generateContainedClassObject("foobars", "x");
+		generator.generateTopLevelClassObject("f", "Family", DUMMY_LINE_NUMBER);
+		generator.generateContainedClassObject("foobars", "x", DUMMY_LINE_NUMBER);
 		
 		slotTest(getFirstClassObject().getSlots().get(0), ContainmentSlot.class, "foobars", "UnknownType");
 	}

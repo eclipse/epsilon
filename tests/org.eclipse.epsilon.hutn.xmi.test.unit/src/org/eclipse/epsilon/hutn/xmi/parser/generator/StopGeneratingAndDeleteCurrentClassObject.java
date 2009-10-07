@@ -22,20 +22,22 @@ import org.junit.Test;
 
 public class StopGeneratingAndDeleteCurrentClassObject {
 
+	private static final int DUMMY_LINE_NUMBER = -1;
+	
 	private SpecGenerator generator;
 	
 	@Before
 	public void setup() {
 		generator = new SpecGenerator();
 		generator.initialise();
-		generator.generateTopLevelClassObject("p", "parent");
+		generator.generateTopLevelClassObject("p", "parent", DUMMY_LINE_NUMBER);
 	}
 	
 	@Test
 	public void parentShouldNoLongerContainSlot() {
 		final ClassObject parent = generator.getCurrentClassObject();
 		
-		generator.generateContainedClassObject("f", "foos", "foo");
+		generator.generateContainedClassObject("f", "foos", "foo", DUMMY_LINE_NUMBER);
 		generator.stopGeneratingAndDeleteCurrentClassObject();
 		
 		assertEquals(parent, generator.getCurrentClassObject());

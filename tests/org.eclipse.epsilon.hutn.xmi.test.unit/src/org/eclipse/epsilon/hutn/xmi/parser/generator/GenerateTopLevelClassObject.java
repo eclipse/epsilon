@@ -22,12 +22,14 @@ import org.junit.Test;
 
 public class GenerateTopLevelClassObject {
 
+	private static final int DUMMY_LINE_NUMBER = -1;
+	
 	private static final SpecGenerator generator = new SpecGenerator();
 	
 	@BeforeClass
 	public static void setup() {
 		generator.initialise();
-		generator.generateTopLevelClassObject("f", "foo");
+		generator.generateTopLevelClassObject("f", "foo", DUMMY_LINE_NUMBER);
 	}
 	
 	@Test
@@ -52,7 +54,7 @@ public class GenerateTopLevelClassObject {
 	
 	@Test(expected=IllegalStateException.class)
 	public void cannotCreateNestedTopLevelClassObject() {
-		generator.generateTopLevelClassObject("b", "bar");
+		generator.generateTopLevelClassObject("b", "bar", DUMMY_LINE_NUMBER);
 	}
 	
 	

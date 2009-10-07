@@ -87,14 +87,14 @@ public class SpecGenerator {
 		addPackageObject(nsUri);
 	}
 
-	public void generateTopLevelClassObject(String identifier, String type) {
+	public void generateTopLevelClassObject(String identifier, String type, int lineNumber) {
 		if (getPackageObject() == null)
 			throw new IllegalStateException("Cannot create a top-level class object until initialise has been called");
 		
 		if (isGenerating())
 			throw new IllegalStateException("Cannot create a top-level class object when generating another class object");
 		
-		getPackageObject().getClassObjects().add(createClassObject(identifier, type));
+		getPackageObject().getClassObjects().add(createClassObject(identifier, type, lineNumber));
 	}
 	
 	/**
@@ -114,14 +114,14 @@ public class SpecGenerator {
 	 * 
 	 * ClassObject.
 	 */
-	public void generateContainedClassObject(String containingFeature, String identifier) {
+	public void generateContainedClassObject(String containingFeature, String identifier, int lineNumber) {
 		EStructuralFeature feature = HutnUtil.determineFeatureFromMetaClass(getCurrentClassObject(), containingFeature);
 		
 		if (EmfUtil.isContainmentReference(feature)) {
-			generateContainedClassObject(containingFeature, identifier, feature.getEType().getName());
+			generateContainedClassObject(containingFeature, identifier, feature.getEType().getName(), lineNumber);
 			
 		} else {
-			generateContainedClassObject(containingFeature, identifier, "UnknownType");
+			generateContainedClassObject(containingFeature, identifier, "UnknownType", lineNumber);
 		}
 	}
 	
@@ -146,13 +146,17 @@ public class SpecGenerator {
 	 * be created. Identifiers are used when adding values to 
 	 * reference slots. null is allowed, but this will create a
 	 * ClassObject that cannot be referenced.
+
+	 * @param lineNumber - the line number of the generated ClassObject 
 	 */
-	public void generateContainedClassObject(String containingFeature, String identifier, String type) {
+	public void generateContainedClassObject(String containingFeature, String identifier, String type, int lineNumber) {
 		if (!isGenerating())
 			throw new IllegalStateException("Cannot generate a contained class object when not generating any other class objects");
 		
 		containingSlot = stack.peek().findOrCreateContainmentSlot(containingFeature);
-		containingSlot.getClassObjects().add(createClassObject(identifier, type));
+		addButDoNotOverwriteLineNumberOf(containingSlot, lineNumber);
+		
+		containingSlot.getClassObjects().add(createClassObject(identifier, type, lineNumber));
 	}
 	
 	public ClassObject getCurrentClassObject() {
@@ -176,14 +180,15 @@ public class SpecGenerator {
 	}
 	
 	
-	public void addAttributeValue(String featureName, String value) {
+	public void addAttributeValue(String featureName, String value, int lineNumber) {
 		final Slot<?> slot = determineSlot(featureName);
+		
+		addButDoNotOverwriteLineNumberOf(slot, lineNumber);
 		
 		getCurrentClassObject().getSlots().add(slot);
 		
 		HutnUtil.addValueToSlot(slot, value);
 	}
-	
 	
 	private Slot<?> determineSlot(String featureName) {
 		Slot<?> slot = HutnUtil.determineSlotFromMetaFeature(getCurrentClassObject(), featureName);
@@ -200,6 +205,12 @@ public class SpecGenerator {
 		}
 		
 		return slot;
+	}
+	
+	private void addButDoNotOverwriteLineNumberOf(final Slot<?> slot, int lineNumber) {
+		if (slot.getLine() == 0) {
+			slot.setLine(lineNumber);
+		}
 	}
 	
 	
@@ -234,13 +245,15 @@ public class SpecGenerator {
 		spec.getNsUris().add(nsUriObject);
 	}
 	
-	private ClassObject createClassObject(String identifier, String type) {
+	private ClassObject createClassObject(String identifier, String type, int line) {
 		final ClassObject co = HutnFactory.eINSTANCE.createClassObject();
 		co.setType(type);
 		
 		if (identifier != null) {
 			co.setIdentifier(identifier);
 		}
+		
+		co.setLine(line);
 
 		stack.push(co);
 

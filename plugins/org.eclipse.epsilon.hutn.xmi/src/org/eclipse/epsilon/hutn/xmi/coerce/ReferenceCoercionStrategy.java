@@ -45,12 +45,19 @@ public class ReferenceCoercionStrategy extends AbstractCoercionStrategy {
 	public ReferenceSlot coerce() {
 		final ReferenceSlot coercedSlot = HutnExtendedFactory.createReferenceSlot(slot.getFeature(), slot.getOwner(), coercedReferenceValues());
 		
+		setTraceabilityInformation(coercedSlot);
+		
 		slot.setOwner(null);
 		
 		return coercedSlot;
 	}
-	
+
 	private EList<String> coercedReferenceValues() {
 		return EListUtil.asEList(value.split(" "));
+	}
+	
+	private void setTraceabilityInformation(final ReferenceSlot coercedSlot) {
+		coercedSlot.setLine(slot.getLine());
+		coercedSlot.setCol(slot.getCol());
 	}
 }
