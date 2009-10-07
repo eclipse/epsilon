@@ -55,7 +55,7 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 			final List<ParseProblem> problems = new HutnValidator().getProblemsForIntermediateModel(hutnModel);
 			
 			if (problems.isEmpty()) {
-				EpsilonConsole.getInstance().getInfoStream().println(file.getName() + " is consistent with its metamodel.");
+				EpsilonConsole.getInstance().getInfoStream().println(file.getName() + " conforms to its registered metamodel.");
 			} else {						
 				for (ParseProblem problem : problems) {
 					markerManager.addErrorMarker(problem.getReason(), 1);
