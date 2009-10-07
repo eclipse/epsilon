@@ -216,18 +216,7 @@ ESC
   
 fragment
 TEXT_LETTER
-    :    ID_LETTER
-    |    '/'
-    |    ':'
-    |    '.'
-    |    ','
-    |    ' '
-    |    '?'
-    |    '!'
-    |    '<'
-    |    '>'
-    |    '('
-    |    ')'
+    :    ~('\"' | '\\')   /* Anything but a speech mark or a slash (which delimit strings and escape characters respectively) */
     ;
     
 fragment
