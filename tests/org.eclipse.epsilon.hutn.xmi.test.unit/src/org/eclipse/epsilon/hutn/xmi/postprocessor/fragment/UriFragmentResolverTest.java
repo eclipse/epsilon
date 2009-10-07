@@ -60,6 +60,13 @@ public class UriFragmentResolverTest {
 	}
 	
 	@Test
+	public void singleWithoutHash() {
+		final ClassObject pet = createClassObject("Pet");
+
+		resolveTest("//@contents.0", createModel(pet), pet);
+	}
+	
+	@Test
 	public void secondElement() {
 		final ClassObject pet = createClassObject("Pet");
 		

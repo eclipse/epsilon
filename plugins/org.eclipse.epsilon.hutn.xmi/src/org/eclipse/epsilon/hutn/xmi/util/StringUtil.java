@@ -25,4 +25,11 @@ public abstract class StringUtil {
 	public static boolean isNotWhitespace(String s) {
     	return !isWhitespace(s);
     }
+	
+	public static String removeLeading(char toRemove, String s) {
+		if (s.length() == 0)
+			return s;
+		
+		return s.charAt(0) == toRemove ? s.substring(1) : s;
+	}
 }

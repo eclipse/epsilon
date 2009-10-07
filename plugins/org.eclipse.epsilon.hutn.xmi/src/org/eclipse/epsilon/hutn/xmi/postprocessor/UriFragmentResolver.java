@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.hutn.xmi.postprocessor;
 
+import static org.eclipse.epsilon.hutn.xmi.util.StringUtil.removeLeading;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class UriFragmentResolver {
 	}
 
 	public static boolean isUriFragment(String value) {
-		return value.startsWith("#/");
+		return value.startsWith("/") || value.startsWith("#/");
 	}
 	
 	public ClassObject resolve(String uriFragment) {
@@ -38,11 +40,11 @@ public class UriFragmentResolver {
 			throw new IllegalArgumentException("Not a valid URI fragment: " + uriFragment);
 		}
 		
-		if (uriFragment.equals("#//")) {
+		if (uriFragment.equals("//") || uriFragment.equals("#//")) {
 			return getTopLevelObject(0);
 		
 		} else {
-			final List<String> segments = Arrays.asList(uriFragment.substring(2).split("/"));
+			final List<String> segments = Arrays.asList(removePrefix(uriFragment).split("/"));
 			
 			final int index;
 			
@@ -55,6 +57,10 @@ public class UriFragmentResolver {
 			
 			return resolveRelativeTo(getTopLevelObject(index), tail(segments));
 		}
+	}
+
+	private String removePrefix(String uriFragment) {
+		return removeLeading('/', removeLeading('#', uriFragment));
 	}
 	
 	private ClassObject getTopLevelObject(int index) {
