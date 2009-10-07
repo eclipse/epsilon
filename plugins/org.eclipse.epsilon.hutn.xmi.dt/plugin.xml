@@ -18,7 +18,7 @@
                class="org.eclipse.epsilon.hutn.xmi.dt.actions.CheckModelAction"
                icon="icons/check.gif"
                id="org.eclipse.epsilon.dt.actions.CheckModel"
-               label="Check Consistency"
+               label="Check conformance to registered metamodel"
                menubarPath="org.eclipse.epsilon.hutn.xmi.dt.model.menu/actions">
          </action>
          <menu
