@@ -42,7 +42,11 @@ public class UriFragmentResolver {
 				index = 0;
 				
 			} else {
-				index = Integer.parseInt(segments.get(0));
+				try {
+					index = Integer.parseInt(segments.get(0));
+				} catch (NumberFormatException e) {
+					return null; // TODO - test for this
+				}
 			}
 			
 			return resolveRelativeTo(getTopLevelObject(index), tail(segments));
