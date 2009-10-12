@@ -132,7 +132,7 @@ public class ModelGenerator extends AbstractGenerator {
 			generator.getContext().getModelRepository().addModel(source);
 			generator.parse(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
 			
-			final String transformation = generator.execute().getGeneratedText();
+			final String transformation = generator.execute();
 //			System.err.println(transformation);
 			return transformation;
 	
