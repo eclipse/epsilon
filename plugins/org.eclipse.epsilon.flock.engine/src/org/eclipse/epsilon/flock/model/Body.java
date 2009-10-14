@@ -48,6 +48,6 @@ public class Body {
 	
 	@Override
 	public int hashCode() {
-		return block.hashCode();
+		return block == null ? 0 : block.hashCode();
 	}
 }

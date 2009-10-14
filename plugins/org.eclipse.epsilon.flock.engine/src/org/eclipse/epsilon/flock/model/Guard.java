@@ -52,6 +52,6 @@ public class Guard {
 	
 	@Override
 	public int hashCode() {
-		return blockOrExpession.hashCode();
+		return blockOrExpession == null ? 0 : blockOrExpession.hashCode();
 	}
 }
