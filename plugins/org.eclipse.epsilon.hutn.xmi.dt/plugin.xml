@@ -31,4 +31,10 @@
          </menu>
       </objectContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.eclipse.epsilon.hutn.xmi.dt.startup.CheckConformanceOnStartup">
+      </startup>
+   </extension>
 </plugin>

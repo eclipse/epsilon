@@ -77,17 +77,32 @@ public class UriFragmentResolver {
 	}
 	
 	private ClassObject resolveSegment(ClassObject base, String segment) {
-		// Segments take the form: @feature.index where index is numeric
-		// feature can contain full stops, so lastIndexOf is used
-		final String feature = segment.substring(1, segment.lastIndexOf('.'));
-		final int    index   = Integer.parseInt(segment.substring(segment.lastIndexOf('.') + 1));
-		
-		final Slot<?> slot = base.findSlot(feature);
-		
-		if (!(slot instanceof ContainmentSlot))
+		if (segment.startsWith("@")) {
+			// Segments take the form: @feature.index where index is numeric
+			// feature can contain full stops, so lastIndexOf is used
+			final int positionOfDelimiter = segment.lastIndexOf('.');
+			
+			if (positionOfDelimiter <= 1) {
+				System.err.println("!!!!!!!!!! " + segment);
+				return null;
+			}
+			
+			final String feature = segment.substring(1, positionOfDelimiter);
+			final int    index   = Integer.parseInt(segment.substring(positionOfDelimiter + 1));
+			
+			final Slot<?> slot = base.findSlot(feature);
+			
+			if (!(slot instanceof ContainmentSlot))
+				return null;
+			
+			return getClassObject((ContainmentSlot)slot, index);
+			
+		} else {
+			// Segments may also use the value of an identifying feature
+			// FIXME : support this
+			
 			return null;
-		
-		return getClassObject((ContainmentSlot)slot, index);
+		}
 	}
 	
 	private static <T> List<T> tail(List<T> list) {

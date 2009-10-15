@@ -13,10 +13,13 @@
  */
 package org.eclipse.epsilon.hutn.dt.markers;
 
+import java.util.Collection;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 
 public class MarkerManager {
 
@@ -27,8 +30,22 @@ public class MarkerManager {
 	public MarkerManager(IFile file) {
 		this.file = file;
 	}
-		
-	public void addErrorMarker(String error, int line) throws CoreException {
+	
+	public void replaceErrorMarkers(Collection<ParseProblem> problems) throws CoreException {
+		removeMarkers();
+		addErrorMarkers(problems);
+	}
+	
+	private void addErrorMarkers(Collection<ParseProblem> problems) throws CoreException {
+		for (ParseProblem problem : problems)
+			addErrorMarker(problem);
+	}
+	
+	private void addErrorMarker(ParseProblem problem) throws CoreException {
+		addErrorMarker(problem.getReason(), problem.getLine());
+	}
+	
+	private void addErrorMarker(String error, int line) throws CoreException {
 		final IMarker marker = file.createMarker(MARKER_ID);
 		marker.setAttribute(IMarker.MESSAGE, error);
 		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);

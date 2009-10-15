@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
 import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
+import org.eclipse.epsilon.hutn.xmi.dt.test.HutnXmiBridgeDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -33,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
                EolUnitTestSuite.class, EolAcceptanceTestSuite.class,
                EglTestSuite.class,
                HutnTestSuite.class,
-               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
+               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class, HutnXmiBridgeDevelopmentToolsTestSuite.class,
                EpsilonFlockEngineTestSuite.class})
 public class EpsilonTestSuite{
 

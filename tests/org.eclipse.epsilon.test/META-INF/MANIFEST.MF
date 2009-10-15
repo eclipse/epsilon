@@ -12,4 +12,5 @@ Require-Bundle: org.junit4,
  org.eclipse.epsilon.hutn.xmi.test,
  org.eclipse.epsilon.emc.emf.test,
  org.eclipse.epsilon.flock.engine.test,
- org.eclipse.epsilon.eol.engine.test.unit
+ org.eclipse.epsilon.eol.engine.test.unit,
+ org.eclipse.epsilon.hutn.xmi.dt.test

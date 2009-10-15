@@ -19,9 +19,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparser;
+import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 import org.eclipse.epsilon.hutn.xmi.parser.XmiParser;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.CoercionPostProcessor;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
@@ -106,5 +112,31 @@ public class Xmi2Hutn {
 	
 	public String getHutn() {
 		return unparser.unparse();
+	}
+	
+	public Collection<ParseProblem> checkConformanceWithRegisteredMetamodel() throws HutnXmiBridgeException {
+		if (spec == null)
+			return Collections.emptyList();
+		
+		try {
+			return improveReasonsOf(new HutnValidator().getProblemsForIntermediateModel(spec));
+		
+		} catch (HutnValidationException e) {
+			throw new HutnXmiBridgeException(e);
+		}
+	}
+
+	private List<ParseProblem> improveReasonsOf(List<ParseProblem> problems) {
+		for (ParseProblem problem : problems) {
+			improveReason(problem);
+		}
+		
+		return problems;
+	}
+		
+	private void improveReason(ParseProblem problem) {
+		if ("Unrecognised classifier: UnknownType".equals(problem.getReason())) {
+			problem.setReason("Unable to determine the type of this model element.");
+		}
 	}
 }
