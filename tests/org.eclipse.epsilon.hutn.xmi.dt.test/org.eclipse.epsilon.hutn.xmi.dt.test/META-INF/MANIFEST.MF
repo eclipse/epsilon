@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: HUTN XMI Bridge Development Tools Tests
+Bundle-Name: Human Usable Textual Notation XMI Bridge Development Tools Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.xmi.dt.test
 Bundle-Version: 0.7.7.qualifier
 Bundle-Vendor: Eclipse.org
