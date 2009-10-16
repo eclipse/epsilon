@@ -13,11 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,8 +31,6 @@ import org.eclipse.epsilon.hutn.xmi.postprocessor.UriFragmentPostProcessor;
 import org.xml.sax.SAXException;
 
 public class Xmi2Hutn {
-
-	private static final String NEW_LINE = System.getProperty("line.separator");
 
 	private final Spec spec;
 	private final HutnUnparser unparser;
@@ -67,44 +61,8 @@ public class Xmi2Hutn {
 	
 
 	public Xmi2Hutn(URI uri) throws HutnXmiBridgeException {
-		this(readXmiFromUri(uri));		
+		this(new UriContentReader(uri).readContents());
 	}
-	
-	private static String readXmiFromUri(URI uri) throws HutnXmiBridgeException {
-		BufferedReader reader = null;
-		
-		try {
-			final InputStream stream = uri.toURL().openStream();
-			reader = new BufferedReader(new InputStreamReader(stream));
-			
-			final StringBuilder xmi = new StringBuilder();
-			
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				xmi.append(line);
-				xmi.append(NEW_LINE);
-			}
-			
-			return xmi.toString();
-			
-		} catch (MalformedURLException e) {
-			throw new HutnXmiBridgeException(e);
-
-		} catch (IOException e) {
-			throw new HutnXmiBridgeException(e);
-		
-		} finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-				
-			} catch (IOException e) {
-				throw new HutnXmiBridgeException(e);
-			}
-		}
-	}
-
 
 	public Spec getSpec() {
 		return spec;
