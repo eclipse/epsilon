@@ -45,7 +45,7 @@ public class CheckConformanceOnStartup implements IStartup {
 
 		public IStatus run(IProgressMonitor monitor) {
 			try {
-				checkConformaceToRegisteredMetamodelOfEveryModelInTheWorkspace(monitor);
+				checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(monitor);
 	
 			} catch (Exception e) {
 				LogUtil.log("Error whilst running task to check conformance to registered metamodel of each model in the workspace.", e);
@@ -54,7 +54,7 @@ public class CheckConformanceOnStartup implements IStartup {
 			return Status.OK_STATUS;
 		}
 		
-		private void checkConformaceToRegisteredMetamodelOfEveryModelInTheWorkspace(IProgressMonitor monitor) throws CoreException, HutnXmiBridgeException {
+		private void checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(IProgressMonitor monitor) throws CoreException, HutnXmiBridgeException {
 			final Collection<IFile> modelFiles = new FileLocator(modelFileExtensions()).findAllMatchingFiles(workspaceRoot());
 
 			monitor.beginTask("Checking conformance to registered metamodel of each model in the workspace.", modelFiles.size());
@@ -63,14 +63,26 @@ public class CheckConformanceOnStartup implements IStartup {
 				if (monitor.isCanceled())
 					break;
 				
-				monitor.subTask("Checking conformance to registered metamodel of " + modelFile);
-				checkConformanceToRegisteredMetamodelOf(modelFile);
+				if (metamodelHasChangedFor(modelFile)) {
+					System.err.println("checking: " + modelFile);
+					monitor.subTask("Checking conformance to registered metamodel of " + modelFile);
+					checkConformanceToRegisteredMetamodelOf(modelFile);
+				
+				} else {
+					System.err.println("skipping: " + modelFile);
+					monitor.subTask("Skipping conformance check (no metamodel changes) for " + modelFile);
+				}
+				
 				monitor.worked(1);
 			}
 			
 			monitor.done();
 		}
 
+
+		private boolean metamodelHasChangedFor(IFile modelFile) {
+			return new ModelHashChecker(modelFile.getRawLocationURI()).hasHashChangedFor();
+		}
 
 		private void checkConformanceToRegisteredMetamodelOf(IFile file) throws CoreException, HutnXmiBridgeException {		
 			final Collection<ParseProblem> conformanceProblems = new Xmi2Hutn(file.getRawLocationURI()).checkConformanceWithRegisteredMetamodel();
