@@ -14,7 +14,7 @@
 /**
  * 
  */
-package org.eclipse.epsilon.flock.engine.test.util.builders;
+package org.eclipse.epsilon.test.util.builders.emf;
 
 import java.util.LinkedList;
 import java.util.List;

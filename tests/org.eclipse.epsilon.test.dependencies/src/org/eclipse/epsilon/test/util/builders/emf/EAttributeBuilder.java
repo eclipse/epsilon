@@ -14,7 +14,7 @@
 /**
  * 
  */
-package org.eclipse.epsilon.flock.engine.test.util.builders;
+package org.eclipse.epsilon.test.util.builders.emf;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;

@@ -13,9 +13,9 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules;
 
-import static org.eclipse.epsilon.flock.engine.test.util.builders.EAttributeBuilder.anEAttribute;
-import static org.eclipse.epsilon.flock.engine.test.util.builders.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.flock.engine.test.util.builders.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
+import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
+import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;

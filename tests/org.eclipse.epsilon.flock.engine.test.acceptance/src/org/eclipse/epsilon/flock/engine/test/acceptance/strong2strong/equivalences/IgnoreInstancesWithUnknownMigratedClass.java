@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.equivalences;
 
-import static org.eclipse.epsilon.flock.engine.test.util.builders.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
 import static org.junit.Assert.assertFalse;
 
 import org.eclipse.emf.ecore.EPackage;

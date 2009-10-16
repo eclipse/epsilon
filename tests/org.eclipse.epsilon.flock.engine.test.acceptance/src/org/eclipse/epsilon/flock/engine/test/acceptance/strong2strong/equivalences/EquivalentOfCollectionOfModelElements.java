@@ -13,10 +13,10 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.equivalences;
 
-import static org.eclipse.epsilon.flock.engine.test.util.builders.EAttributeBuilder.anEAttribute;
-import static org.eclipse.epsilon.flock.engine.test.util.builders.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.flock.engine.test.util.builders.EReferenceBuilder.anEReference;
-import static org.eclipse.epsilon.flock.engine.test.util.builders.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
+import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
+import static org.eclipse.epsilon.test.util.builders.emf.EReferenceBuilder.anEReference;
+import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
