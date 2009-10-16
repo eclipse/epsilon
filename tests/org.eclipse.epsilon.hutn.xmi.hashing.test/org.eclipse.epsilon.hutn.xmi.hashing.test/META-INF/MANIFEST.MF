@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation XMI Bridge EPackage Hashing Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.xmi.hashing.test
+Bundle-Version: 0.7.7.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
+ org.eclipse.epsilon.hutn.xmi.hashing,
+ org.eclipse.epsilon.hutn.test.dependencies.model;bundle-version="0.7.4"
+Export-Package: org.eclipse.epsilon.hutn.xmi.hashing.test
