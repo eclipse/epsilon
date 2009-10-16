@@ -17,12 +17,13 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.hutn.xmi.dt.startup.RegisteredMetamodelsTests;
+import org.eclipse.epsilon.hutn.xmi.hashing.test.HutnXmiHashingTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({RegisteredMetamodelsTests.class})
+@SuiteClasses({RegisteredMetamodelsTests.class, HutnXmiHashingTestSuite.class})
 public class HutnXmiBridgeDevelopmentToolsTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(RegisteredMetamodelsTests.class);
