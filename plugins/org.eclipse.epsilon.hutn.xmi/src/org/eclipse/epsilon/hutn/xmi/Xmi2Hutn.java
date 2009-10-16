@@ -28,7 +28,7 @@ import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparser;
 import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
-import org.eclipse.epsilon.hutn.xmi.parser.XmiParser;
+import org.eclipse.epsilon.hutn.xmi.parser.SpecGeneratingXmiParser;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.CoercionPostProcessor;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.IdentifierPostProcessor;
 import org.eclipse.epsilon.hutn.xmi.postprocessor.UriFragmentPostProcessor;
@@ -43,7 +43,7 @@ public class Xmi2Hutn {
 	
 	public Xmi2Hutn(String xmi) throws HutnXmiBridgeException {
 		try {
-			spec     = new XmiParser(xmi).parse();
+			spec     = new SpecGeneratingXmiParser(xmi).parse();
 
 			// URI fragments become UUIDs
 			new UriFragmentPostProcessor(spec).process();

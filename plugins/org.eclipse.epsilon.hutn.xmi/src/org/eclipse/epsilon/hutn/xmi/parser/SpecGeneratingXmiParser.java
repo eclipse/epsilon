@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class XmiParser {
+public class SpecGeneratingXmiParser {
 
 	private final String xmi;
 	
@@ -36,7 +36,7 @@ public class XmiParser {
 	private static final boolean DEBUG = false;
 	
 	
-	public XmiParser(String xmi) {
+	public SpecGeneratingXmiParser(String xmi) {
 		this.xmi = xmi;
 	}
 
