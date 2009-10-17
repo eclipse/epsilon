@@ -11,8 +11,9 @@ Require-Bundle: org.eclipse.epsilon.hutn.xmi,
  org.eclipse.ui,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
- org.eclipse.epsilon.hutn.xmi.hashing
-Export-Package: org.eclipse.epsilon.hutn.xmi.dt.actions,
+ org.eclipse.epsilon.hutn.xmi.hashing;visibility:=reexport
+Export-Package: org.eclipse.epsilon.hutn.xmi.dt,
+ org.eclipse.epsilon.hutn.xmi.dt.actions,
  org.eclipse.epsilon.hutn.xmi.dt.startup
 Bundle-Activator: org.eclipse.epsilon.hutn.xmi.dt.HutnXmiBridgeDevelopmentToolsPlugin
 Bundle-ActivationPolicy: lazy

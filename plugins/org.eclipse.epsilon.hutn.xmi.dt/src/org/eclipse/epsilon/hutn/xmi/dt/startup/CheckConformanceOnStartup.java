@@ -29,6 +29,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
 import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
+import org.eclipse.epsilon.hutn.xmi.hashing.HutnXmiBridgeHashingException;
 import org.eclipse.ui.IStartup;
 
 public class CheckConformanceOnStartup implements IStartup {
@@ -81,7 +82,13 @@ public class CheckConformanceOnStartup implements IStartup {
 
 
 		private boolean metamodelHasChangedFor(IFile modelFile) {
-			return new ModelHashChecker(modelFile.getRawLocationURI()).hasHashChangedFor();
+			try {
+				return new ModelHashChecker(modelFile.getRawLocationURI()).hasHashChangedFor();
+			
+			} catch (HutnXmiBridgeHashingException e) {
+				LogUtil.log("Error encountered while calculating hash for: " + modelFile, e);
+				return true;
+			}
 		}
 
 		private void checkConformanceToRegisteredMetamodelOf(IFile file) throws CoreException, HutnXmiBridgeException {		

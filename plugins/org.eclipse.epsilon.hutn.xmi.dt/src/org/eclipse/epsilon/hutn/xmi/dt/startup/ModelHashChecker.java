@@ -23,50 +23,51 @@ import org.eclipse.epsilon.hutn.xmi.hashing.Xmi2Hash;
 public class ModelHashChecker {
 
 	private final URI model;
+	private final Xmi2Hash hasher;
+	private final ModelHashCache hashCache;
 	
-	public ModelHashChecker(URI model) {
-		this.model = model;
+	public ModelHashChecker(URI model) throws HutnXmiBridgeHashingException {
+		this(model, new Xmi2Hash(model), HutnXmiBridgeDevelopmentToolsPlugin.getDefault().getModelHashCache());
 	}
 	
-	public boolean hasHashChangedFor() {		
-		try {
-			final boolean hashChanged;
-			final int currentHash = calculateCurrentHashOfModel();
-			
-			if (modelHasNoPreviousHash()) {
-				hashChanged = true;
-			
-			} else {
-				hashChanged = currentHash != previousHashOfModel();
-			}
-			
-			changeHashOfModelTo(currentHash);
-			
-			return hashChanged;
+	ModelHashChecker(URI model, Xmi2Hash hasher, ModelHashCache hashCache) {
+		this.model     = model;
+		this.hasher    = hasher;
+		this.hashCache = hashCache;
+	}
+	
+	
+	public boolean hasHashChangedFor() {
+		final int currentHash = calculateCurrentHash();
+		final boolean hashChanged = !matchesCachedHash(currentHash);
 		
-		} catch (HutnXmiBridgeHashingException e) {
-			return true; // if in doubt, signal that hash has changed;
+		updateCachedHash(currentHash);
+		
+		return hashChanged;
+	}
+
+	private boolean matchesCachedHash(int currentHash) {
+		if (noCachedHash()) {
+			return false;
+		
+		} else {
+			return currentHash == previousHash();
 		}
 	}
 
-	private boolean modelHasNoPreviousHash() {
-		return getModelHashCache().noHashFor(model);
-	}
-	
-	private int previousHashOfModel() {
-		return getModelHashCache().getHashFor(model);
+	private int calculateCurrentHash() {
+		return hasher.calculateMetamodelHash();
 	}
 
-	private int calculateCurrentHashOfModel() throws HutnXmiBridgeHashingException {
-		return new Xmi2Hash(model).calculateMetamodelHash();
+	private boolean noCachedHash() {
+		return hashCache.noHashFor(model);
 	}
 	
-	private void changeHashOfModelTo(int hash) {
-		getModelHashCache().updateHashFor(model, hash);
+	private int previousHash() {
+		return hashCache.getHashFor(model);
 	}
 	
-	
-	private static ModelHashCache getModelHashCache() {
-		return HutnXmiBridgeDevelopmentToolsPlugin.getDefault().getModelHashCache();
+	private void updateCachedHash(int hash) {
+		hashCache.updateHashFor(model, hash);
 	}
 }
