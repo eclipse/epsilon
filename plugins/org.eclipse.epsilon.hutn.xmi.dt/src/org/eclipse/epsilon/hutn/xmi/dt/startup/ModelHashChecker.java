@@ -41,8 +41,10 @@ public class ModelHashChecker {
 		final int currentHash = calculateCurrentHash();
 		final boolean hashChanged = !matchesCachedHash(currentHash);
 		
-		if (hashChanged)
+		if (hashChanged) {
+			System.err.println("Hash changed for: " + model + " (" + previousHash() + " -> " + currentHash + ")");
 			updateCachedHash(currentHash);
+		}
 		
 		return hashChanged;
 	}
