@@ -41,7 +41,8 @@ public class ModelHashChecker {
 		final int currentHash = calculateCurrentHash();
 		final boolean hashChanged = !matchesCachedHash(currentHash);
 		
-		updateCachedHash(currentHash);
+		if (hashChanged)
+			updateCachedHash(currentHash);
 		
 		return hashChanged;
 	}

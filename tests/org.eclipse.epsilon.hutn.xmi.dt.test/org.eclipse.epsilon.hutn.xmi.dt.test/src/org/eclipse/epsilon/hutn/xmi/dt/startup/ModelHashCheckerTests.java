@@ -60,9 +60,7 @@ public class ModelHashCheckerTests {
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(false);
 		expect(mockHashCache.getHashFor(modelUri)).andReturn(1);
-		
-		mockHashCache.updateHashFor(modelUri, 1);
-		
+				
 		replay(mockHasher, mockHashCache);
 		
 		
