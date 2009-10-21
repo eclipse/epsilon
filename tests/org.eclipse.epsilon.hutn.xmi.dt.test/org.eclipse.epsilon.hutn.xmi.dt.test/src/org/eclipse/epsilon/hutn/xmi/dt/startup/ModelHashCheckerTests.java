@@ -14,6 +14,7 @@
 package org.eclipse.epsilon.hutn.xmi.dt.startup;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -23,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.easymock.EasyMock;
 import org.eclipse.epsilon.hutn.xmi.dt.ModelHashCache;
 import org.eclipse.epsilon.hutn.xmi.hashing.Xmi2Hash;
 import org.junit.Test;
@@ -39,6 +41,7 @@ public class ModelHashCheckerTests {
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(false);
 		expect(mockHashCache.getHashFor(modelUri)).andReturn(2);
+		expectLastCall().atLeastOnce();
 		
 		mockHashCache.updateHashFor(modelUri, 1);
 		
@@ -60,6 +63,8 @@ public class ModelHashCheckerTests {
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(false);
 		expect(mockHashCache.getHashFor(modelUri)).andReturn(1);
+		expectLastCall().atLeastOnce();
+
 				
 		replay(mockHasher, mockHashCache);
 		
@@ -78,6 +83,7 @@ public class ModelHashCheckerTests {
 		
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(true);
+		expect(mockHashCache.getHashFor(modelUri)).andStubReturn(null);
 		
 		mockHashCache.updateHashFor(modelUri, 1);
 		
