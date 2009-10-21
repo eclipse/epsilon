@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2009-05-23 08:23:38
+// $ANTLR 3.1b1 EolParserRules.g 2009-10-15 10:00:25
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -377,7 +377,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: modelAlias, NAME, modelNamespace
+            // elements: NAME, modelNamespace, modelAlias
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -828,7 +828,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: statementBlock, operationName, returnType, ctx, formalParameterList
+            // elements: ctx, formalParameterList, statementBlock, returnType, operationName
             // token labels: operationName
             // rule labels: retval, ctx, returnType
             // token list labels: 
@@ -1402,7 +1402,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: logicalExpression, NAME
+            // elements: NAME, logicalExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2851,7 +2851,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: statementOrStatementBlock, logicalExpression, formalParameter
+            // elements: statementOrStatementBlock, formalParameter, logicalExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2987,7 +2987,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: elseStatement, logicalExpression, statementOrStatementBlock
+            // elements: logicalExpression, elseStatement, statementOrStatementBlock
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5501,7 +5501,7 @@ public class Eol_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
 
             // AST REWRITE
-            // elements: typeName, NAME, parameterList
+            // elements: parameterList, typeName, NAME
             // token labels: 
             // rule labels: retval
             // token list labels: 

@@ -121,14 +121,20 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 						AbstractModuleEditor.COMMENT, editor.getBackgroundColor(), SWT.NORMAL))),
 				new MultiLineRule("-*", "*-",new Token(new TextAttribute(
 						AbstractModuleEditor.COMMENT, editor.getBackgroundColor(), SWT.NORMAL))),
+				new EndOfLineRule("//", new Token(new TextAttribute(
+						AbstractModuleEditor.COMMENT, editor.getBackgroundColor(), SWT.NORMAL))),
+				new MultiLineRule("/*", "*/",new Token(new TextAttribute(
+						AbstractModuleEditor.COMMENT, editor.getBackgroundColor(), SWT.NORMAL))),
 				new EndOfLineRule("@", new Token(new TextAttribute(
 						AbstractModuleEditor.ANNOTATION, editor.getBackgroundColor(), SWT.NORMAL))),
 				new EndOfLineRule("$", new Token(new TextAttribute(
 						AbstractModuleEditor.EXECUTABLEANNOTATION, editor.getBackgroundColor(), SWT.NORMAL))),
 				new SingleLineRule("\"", "\"", new Token(new TextAttribute(
-						AbstractModuleEditor.DEFAULT, editor.getBackgroundColor(), SWT.NORMAL)), '\\'),
+						AbstractModuleEditor.STRING, editor.getBackgroundColor(), SWT.NORMAL)), '\\'),
 				new SingleLineRule("'", "'", new Token(new TextAttribute(
 						AbstractModuleEditor.STRING, editor.getBackgroundColor(), SWT.NORMAL)), '\\'),
+				new SingleLineRule("`", "`", new Token(new TextAttribute(
+						AbstractModuleEditor.DEFAULT, editor.getBackgroundColor(), SWT.ITALIC)), '\\'),
 				new WhitespaceRule(new IWhitespaceDetector() {
 					public boolean isWhitespace(char c) {
 						return Character.isWhitespace(c);

@@ -85,12 +85,12 @@ BOOLEAN :
 	;
 	
 STRING
-    :   '\'' ( EscapeSequence | ~('\''|'\\') )* '\''
+    :   ('\'' ( EscapeSequence | ~('\''|'\\') )* '\'' | '"' ( EscapeSequence | ~('\\'|'"') )* '"')
     {setText($text.substring(1,$text.length() - 1));}
     ;
 
 StrangeNameLiteral
-    :  '"' ( EscapeSequence | ~('\\'|'"') )* '"'
+    :  '`' ( EscapeSequence | ~('\\'|'`') )* '`'
     {$type=NAME; setText($text.substring(1,$text.length() - 1));}
     ;
 
@@ -183,11 +183,11 @@ WS  :  (
     ;
 
 COMMENT
-    :   '-*' ( options {greedy=false;} : . )* '*-' {$channel=HIDDEN;}
+    :   (('-*' ( options {greedy=false;} : . )* '*-')|('/*' ( options {greedy=false;} : . )* '*/')) {$channel=HIDDEN;}
     ;
 
 LINE_COMMENT
-    : '--' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    : (('--' ~('\n'|'\r')* '\r'? '\n')|('//' ~('\n'|'\r')* '\r'? '\n')) {$channel=HIDDEN;}
     ;
     
 Annotation
