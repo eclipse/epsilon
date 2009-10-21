@@ -3,7 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EasyMock 2.4
 Bundle-SymbolicName: org.easymock
 Bundle-Version: 2.4
-Bundle-ClassPath: easymock.jar
+Bundle-ClassPath: easymock.jar,
+ easymockclassextension.jar,
+ cglib-2.1_3-src.jar,
+ cglib-nodep-2.1_3.jar
 Bundle-Vendor: EasyMock.org
 Export-Package: org.easymock,
  org.easymock.classextension
