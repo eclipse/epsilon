@@ -6,7 +6,7 @@ pre {
 	[% for (class in getAllEClassesUsed()) { %]
 	rule Object2[%=class.name%]
 	  transform o : Intermediate!ClassObject
-	  to t : Model!"[%=class.name%]" {
+	  to t : Model!`[%=class.name%]` {
 		
 		guard: o.type = '[%=class.name%]'
 		
@@ -14,22 +14,22 @@ pre {
 		if (o.findSlot('[%=attribute.name%]').isDefined()) {
 			[% if (attribute.isMany()) { %]
 				for (value in o.findSlot('[%=attribute.name%]').values) {
-					t."[%=attribute.name%]".add(value);
+					t.`[%=attribute.name%]`.add(value);
 					[% if (EEnum.isType(attribute.eType)) { %]
 						var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
-						t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(value).instance;
+						t.`[%=attribute.name%]` := enum.getEEnumLiteralByLiteral(value).instance;
 						
 					[% } else { %]
-						t."[%=attribute.name%]".add(value);
+						t.`[%=attribute.name%]`.add(value);
 					[% } %]
 				}
 			[% } else { %]
 				[% if (EEnum.isType(attribute.eType)) { %]
 					var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
-					t."[%=attribute.name%]" := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').values.first).instance;
+					t.`[%=attribute.name%]` := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').values.first).instance;
 					
 				[% } else { %]
-					t."[%=attribute.name%]" := o.findSlot('[%=attribute.name%]').values.first;
+					t.`[%=attribute.name%]` := o.findSlot('[%=attribute.name%]').values.first;
 				[% } %]
 			[% } %]
 		}
@@ -39,10 +39,10 @@ pre {
 		if (o.findSlot('[%=reference.name%]').isDefined()) {
 			[% if (reference.isMany()) { %]
 				for (object in o.findSlot('[%=reference.name%]').getEObjects()) {
-					t."[%=reference.name%]".add(object);
+					t.`[%=reference.name%]`.add(object);
 				}
 			[% } else { %]
-				t."[%=reference.name%]" := o.findSlot('[%=reference.name%]').getEObjects().first();
+				t.`[%=reference.name%]` := o.findSlot('[%=reference.name%]').getEObjects().first();
 			[% } %]
 		}
 	[% } %]
