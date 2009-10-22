@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2009-09-24 14:33:18
+// $ANTLR 3.1b1 EolParserRules.g 2009-10-22 18:53:00
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -383,7 +383,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: NAME, modelAlias, modelNamespace
+            // elements: modelNamespace, modelAlias, NAME
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -834,7 +834,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: operationName, formalParameterList, returnType, ctx, statementBlock
+            // elements: operationName, statementBlock, returnType, ctx, formalParameterList
             // token labels: operationName
             // rule labels: retval, ctx, returnType
             // token list labels: 
@@ -1193,7 +1193,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: typeName, NAME
+            // elements: NAME, typeName
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2857,7 +2857,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: logicalExpression, formalParameter, statementOrStatementBlock
+            // elements: formalParameter, logicalExpression, statementOrStatementBlock
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3159,7 +3159,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: statementOrStatementBlock, logicalExpression
+            // elements: logicalExpression, statementOrStatementBlock
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5507,7 +5507,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.commons.parse.Epsi
 
 
             // AST REWRITE
-            // elements: parameterList, typeName, NAME
+            // elements: NAME, typeName, parameterList
             // token labels: 
             // rule labels: retval
             // token list labels: 
