@@ -37,42 +37,45 @@ public class AcceptanceTestUtil {
 	}
 	
 	public static void test(File program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
-		test((Object)program, expected, models);
-
-	}
-	
-	public static void test(String program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
-		test((Object)program, expected, models);
-	}
-	
-	private static void test(Object program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
-		module.reset();
-		
-		loadModels(models);
-		
-		if (program instanceof String)
-			module.parse((String)program);
-		else if (program instanceof File)
-			module.parse((File)program);
-		else
-			throw new IllegalArgumentException("Unsupported program type: " + program.getClass().getSimpleName());
-		
-		final String actual = module.execute();
-		
-		report();
+		final String actual = run(program, models);
 		
 		assertEquals(StringUtil.normalizeNewlines(expected), StringUtil.normalizeNewlines(actual));
 	}
 	
-	public static void run(File program, Model... models) throws EglRuntimeException, IOException, EolModelLoadingException {
+	
+	public static void testWithoutNormalizingNewlines(String program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
+		final String actual = run(program, models);
+		
+		assertEquals(expected, actual);
+	}
+	
+	
+	
+	public static String run(File program, Model... models) throws EglRuntimeException, IOException, EolModelLoadingException {
+		return run((Object)program, models);
+	}
+	
+	public static String run(String program, Model... models) throws EglRuntimeException, IOException, EolModelLoadingException {
+		return run((Object)program, models);
+	}
+	
+	private static String run(Object program, Model... models) throws EglRuntimeException, IOException, EolModelLoadingException {
 		module.reset();
 		
 		loadModels(models);
 		
-		module.parse(program);
-		module.execute();
+		if (program instanceof File)
+			module.parse((File)program);
+		else if (program instanceof String)
+			module.parse((String)program);
+		else
+			throw new IllegalArgumentException("Cannot run a program of type: " + program.getClass().getCanonicalName());
+		
+		final String result = module.execute();
 		
 		report();
+		
+		return result;
 	}
 	
 	private static void loadModels(Model... models) throws EolModelLoadingException {

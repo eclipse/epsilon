@@ -26,7 +26,7 @@ public class OutputNewlines {
 		final String programAndOutput = "Foo\r\n" +
 		                                "Bar";
 		
-		AcceptanceTestUtil.test(programAndOutput, programAndOutput);
+		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
 	}
 	
 	@Test
@@ -34,7 +34,7 @@ public class OutputNewlines {
 		final String programAndOutput = "Foo\n" +
 		                                "Bar";
 		
-		AcceptanceTestUtil.test(programAndOutput, programAndOutput);
+		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
 	}
 	
 	@Test
@@ -42,6 +42,6 @@ public class OutputNewlines {
 		final String programAndOutput = "Foo\r" +
 		                                "Bar";
 		
-		AcceptanceTestUtil.test(programAndOutput, programAndOutput);
+		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
 	}
 }
