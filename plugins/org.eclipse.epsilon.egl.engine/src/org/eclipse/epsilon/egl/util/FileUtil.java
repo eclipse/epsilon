@@ -23,6 +23,7 @@ public abstract class FileUtil {
 
 	public final static String FILE_SEP = System.getProperty("file.separator");
 	public final static String NEWLINE  = System.getProperty("line.separator");
+	public final static String ESCAPED_NEWLINE  = NEWLINE.replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n");
 	
 	/**
 	 * Returns the absolute path for the given path. The given path may 

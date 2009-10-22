@@ -23,7 +23,7 @@ import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.egl.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class AcceptanceTestUtil {
@@ -47,7 +47,7 @@ public class AcceptanceTestUtil {
 		
 		report();
 		
-		assertEquals(expected, actual);
+		assertEquals(StringUtil.normalizeNewlines(expected), StringUtil.normalizeNewlines(actual));
 	}
 	
 	public static void run(File program, Model... models) throws EglRuntimeException, IOException, EolModelLoadingException {

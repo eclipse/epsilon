@@ -1,3 +1,2 @@
-Before
-[% out.stop(); %]
+Before[% out.stop(); %]
 After

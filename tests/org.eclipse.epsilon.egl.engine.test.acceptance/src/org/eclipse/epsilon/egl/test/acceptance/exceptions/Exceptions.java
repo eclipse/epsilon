@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.egl.test.acceptance.exceptions;
 
 import static org.junit.Assert.*;
+import static org.eclipse.epsilon.egl.util.FileUtil.FILE_SEP;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +127,7 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 			
 		} catch (EglRuntimeException e) {
-			assertEquals("Template not found 'include/NotHere.egl'", e.getReason());
+			assertEquals("Template not found 'include" + FILE_SEP + "NotHere.egl'", e.getReason());
 			assertEquals(3, e.getLine());
 			assertEquals(16, e.getColumn());
 		}

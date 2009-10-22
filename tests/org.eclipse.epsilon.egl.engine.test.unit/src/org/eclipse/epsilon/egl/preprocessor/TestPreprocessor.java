@@ -12,6 +12,8 @@ package org.eclipse.epsilon.egl.preprocessor;
 
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
+import static org.eclipse.epsilon.egl.util.FileUtil.ESCAPED_NEWLINE;
+
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
@@ -53,9 +55,9 @@ public class TestPreprocessor {
 		final String egl = "Hello World!" + NEWLINE +
 		                   "foo";
 		final String eol = "out.print('Hello World!');" + NEWLINE +
-		                   "out.print('\\n');" + NEWLINE +
+		                   "out.print('" + ESCAPED_NEWLINE + "');" + NEWLINE +
 		                   "out.print('foo');";
-
+		
 		assertEquals(eol, preprocess(egl));
 	}
 	

@@ -33,7 +33,7 @@ public class Stop {
 	
 	@Test
 	public void stop() throws EglRuntimeException, IOException, EolModelLoadingException {
-		AcceptanceTestUtil.test(Stop, "Before" + FileUtil.NEWLINE);
+		AcceptanceTestUtil.test(Stop, "Before");
 	}
 	
 	@Test

@@ -14,12 +14,13 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.egl.util.TestFileUtil;
+import org.eclipse.epsilon.egl.util.TestStringUtil;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestFileUtil.class})
+@SuiteClasses({TestFileUtil.class, TestStringUtil.class})
 public class UtilSuite {
 
 	public static Test suite() {

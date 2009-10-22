@@ -15,6 +15,9 @@ public abstract class StringUtil {
 	// Uninstantiable class
 	private StringUtil() {}
 	
+	public static String normalizeNewlines(String s) {
+		return s.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+	}
 	
 	public static boolean isWhitespace(String s) {
 		char[] chars = s.toCharArray();
