@@ -17,6 +17,7 @@ import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
 import org.eclipse.epsilon.egl.test.acceptance.merge.Merge;
 import org.eclipse.epsilon.egl.test.acceptance.output.Output;
+import org.eclipse.epsilon.egl.test.acceptance.output.newlines.OutputNewlines;
 import org.eclipse.epsilon.egl.test.acceptance.stop.Stop;
 import org.eclipse.epsilon.egl.test.acceptance.traceability.Traceability;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({Engine.class,
-               Output.class,
+               Output.class, OutputNewlines.class,
                Merge.class,
                Traceability.class,
                Exceptions.class,

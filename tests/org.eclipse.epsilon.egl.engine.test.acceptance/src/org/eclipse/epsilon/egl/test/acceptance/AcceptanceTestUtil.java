@@ -37,11 +37,25 @@ public class AcceptanceTestUtil {
 	}
 	
 	public static void test(File program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
+		test((Object)program, expected, models);
+
+	}
+	
+	public static void test(String program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
+		test((Object)program, expected, models);
+	}
+	
+	private static void test(Object program, String expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
 		module.reset();
 		
 		loadModels(models);
 		
-		module.parse(program);
+		if (program instanceof String)
+			module.parse((String)program);
+		else if (program instanceof File)
+			module.parse((File)program);
+		else
+			throw new IllegalArgumentException("Unsupported program type: " + program.getClass().getSimpleName());
 		
 		final String actual = module.execute();
 		
