@@ -8,11 +8,10 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.hutn.dt.builder;
+package org.eclipse.epsilon.common.dt.nature;
 
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -22,13 +21,16 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
 
-public class HutnBuilder extends IncrementalProjectBuilder {
+/**
+ * An implementation of {@link IncrementalProjectBuilder} that visits every child
+ * of the project (in a full build) and every child of the changed resource (in
+ * an incremental build). Each resource to be built is passed to 
+ * {@link ResourceBuildingIncrementalProjectBuilder#buildResource(IResource, IProgressMonitor)}.
+ */
+public abstract class ResourceBuildingIncrementalProjectBuilder extends IncrementalProjectBuilder {
 	
-	public static final String ID = "org.eclipse.epsilon.hutn.dt.builder.HutnBuilder";
-	
-	private void refreshWorkspace(IProgressMonitor monitor) {
+	private void refreshProject(IProgressMonitor monitor) {
 		try {
 			getProject().refreshLocal(IProject.DEPTH_INFINITE, monitor);
 		} catch (CoreException e) {
@@ -40,6 +42,8 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) {
+		EpsilonConsole.getInstance().getInfoStream().println("BUILDING");
+		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -51,7 +55,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 			}
 		}
 		
-		refreshWorkspace(monitor);
+		refreshProject(monitor);
 		
 		return null;
 	}
@@ -62,7 +66,7 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 				
 				public boolean visit(IResourceDelta delta) {
 					if (delta.getKind() == IResourceDelta.ADDED || delta.getKind() == IResourceDelta.CHANGED)
-						buildHutn(delta.getResource(), monitor);
+						buildResource(delta.getResource(), monitor);
 					
 					return true; // visit children too
 				}
@@ -75,12 +79,10 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 
 	private void fullBuild(final IProgressMonitor monitor) {
 		try {
-			System.err.println("full build");
-			
 			getProject().accept(new IResourceVisitor() {
 
 				public boolean visit(IResource resource) throws CoreException {
-					buildHutn(resource, monitor);
+					buildResource(resource, monitor);
 					return true; // visit children too
 				}
 				
@@ -91,11 +93,5 @@ public class HutnBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	private void buildHutn(IResource resource, IProgressMonitor monitor) {
-		if (resource instanceof IFile && "hutn".equals(resource.getFileExtension())) {
-			new HutnBuilderHelper((IFile)resource, monitor).buildHutn();
-		}
-	}
-	
-	
+	protected abstract void buildResource(IResource resource, IProgressMonitor monitor);	
 }

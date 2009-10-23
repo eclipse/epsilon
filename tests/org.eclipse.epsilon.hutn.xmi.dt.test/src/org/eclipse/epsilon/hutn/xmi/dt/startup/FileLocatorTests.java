@@ -1,21 +1,15 @@
 package org.eclipse.epsilon.hutn.xmi.dt.startup;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.IsCollectionContaining.hasItem;
-import static org.junit.internal.matchers.IsCollectionContaining.hasItems;
 
-import java.io.ByteArrayInputStream;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.assertThat;
+
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.epsilon.hutn.xmi.dt.startup.FileLocator;
-import org.junit.After;
-import org.junit.Before;
+import org.eclipse.epsilon.common.dt.test.util.TestThatUsesAProject;
 import org.junit.Test;
 
 /*******************************************************************************
@@ -32,27 +26,15 @@ import org.junit.Test;
  * $Id$
  */
 
-public class FileLocatorTests {
-
-	private IProject base;
-	
-	@Before
-	public void createProject() throws CoreException {
-		base = createProject("base");
-	}
-	
-	@After
-	public void deleteProject() throws CoreException {
-		deleteResource(base);
-	}
+public class FileLocatorTests extends TestThatUsesAProject {
 	
 	@Test
 	public void shouldFindAllFilesWithOneSpecifiedExtension() throws CoreException {
-		final IFile modelFile     = createEmptyFile(base, "sample.model");
-		final IFile notAModelFile = createEmptyFile(base, "sample.xml");
+		final IFile modelFile     = createEmptyFile(project, "sample.model");
+		final IFile notAModelFile = createEmptyFile(project, "sample.xml");
 		
 		
-		final Collection<IFile> matchingFiles = new FileLocator("model").findAllMatchingFiles(base);
+		final Collection<IFile> matchingFiles = new FileLocator("model").findAllMatchingFiles(project);
 		
 		assertThat(matchingFiles, hasItem(modelFile));
 		assertThat(matchingFiles, not(hasItem(notAModelFile)));
@@ -60,35 +42,14 @@ public class FileLocatorTests {
 	
 	@Test
 	public void shouldFindAllFilesWithEverySpecifiedExtension() throws CoreException {
-		final IFile modelFile = createEmptyFile(base, "sample.model");
-		final IFile xmlFile   = createEmptyFile(base, "sample.xml");
-		final IFile txtFile   = createEmptyFile(base, "sample.txt");
+		final IFile modelFile = createEmptyFile(project, "sample.model");
+		final IFile xmlFile   = createEmptyFile(project, "sample.xml");
+		final IFile txtFile   = createEmptyFile(project, "sample.txt");
 		
 		
-		final Collection<IFile> matchingFiles = new FileLocator("model", "txt").findAllMatchingFiles(base);
+		final Collection<IFile> matchingFiles = new FileLocator("model", "txt").findAllMatchingFiles(project);
 		
 		assertThat(matchingFiles, hasItems(modelFile, txtFile));
 		assertThat(matchingFiles, not(hasItem(xmlFile)));
-	}
-
-
-	
-	private static IProject createProject(String name) throws CoreException {
-		final IProject base = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
-		
-		base.create(new NullProgressMonitor());
-		base.open(new NullProgressMonitor());
-		return base;
-	}
-	
-	private static void deleteResource(IResource resource) throws CoreException {
-		if (resource != null)
-			resource.delete(true, new NullProgressMonitor());
-	}
-	
-	private static IFile createEmptyFile(IProject project, String name) throws CoreException {
-		final IFile file = project.getFile(name);
-		file.create(new ByteArrayInputStream(new byte[0]), true, new NullProgressMonitor());
-		return file;
 	}
 }

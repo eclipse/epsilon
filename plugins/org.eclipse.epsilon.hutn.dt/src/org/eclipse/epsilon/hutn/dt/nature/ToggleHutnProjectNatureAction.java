@@ -10,15 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.nature;
 
-import org.eclipse.epsilon.common.dt.nature.BuilderConfiguringNature;
+import org.eclipse.epsilon.common.dt.nature.ToggleNatureAction;
 
-public class HutnNature extends BuilderConfiguringNature {
+public class ToggleHutnProjectNatureAction extends ToggleNatureAction {
 
-	static final String ID = "org.eclipse.epsilon.hutn.dt.nature.HutnNature";
-	
 	@Override
-	protected String getBuilderID() {
-		return HutnBuilder.ID;
+	protected String getNatureId() {
+		return HutnNature.ID;
 	}
-
 }

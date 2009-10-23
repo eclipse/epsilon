@@ -24,13 +24,14 @@
    </extension>
    <extension
          id="org.eclipse.epsilon.hutn.dt.builder.HutnBuilder"
+         name="HUTN Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             callOnEmptyDelta="true"
-            hasNature="false"
+            hasNature="true"
             isConfigurable="false">
          <run
-               class="org.eclipse.epsilon.hutn.dt.builder.HutnBuilder">
+               class="org.eclipse.epsilon.hutn.dt.nature.HutnBuilder">
          </run>
       </builder>
    </extension>
@@ -43,6 +44,9 @@
                class="org.eclipse.epsilon.hutn.dt.nature.HutnNature">
          </run>
       </runtime>
+      <builder
+            id="org.eclipse.epsilon.hutn.dt.builder.HutnBuilder">
+      </builder>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
@@ -50,7 +54,7 @@
             id="org.eclipse.epsilon.hutn.dt.project"
             objectClass="org.eclipse.core.resources.IProject">
          <action
-               class="org.eclipse.epsilon.hutn.dt.actions.ToggleHutnProjectNatureAction"
+               class="org.eclipse.epsilon.hutn.dt.nature.ToggleHutnProjectNatureAction"
                icon="icons/hutn.png"
                id="org.eclipse.epsilon.dt.actions.ToggleEpsilonProjectNatureAction"
                label="Enable HUTN Project Nature"
