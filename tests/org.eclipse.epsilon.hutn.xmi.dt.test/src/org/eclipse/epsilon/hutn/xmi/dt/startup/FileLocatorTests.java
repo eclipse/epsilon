@@ -1,10 +1,9 @@
 package org.eclipse.epsilon.hutn.xmi.dt.startup;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
@@ -36,8 +35,8 @@ public class FileLocatorTests extends TestThatUsesAProject {
 		
 		final Collection<IFile> matchingFiles = new FileLocator("model").findAllMatchingFiles(project);
 		
-		assertThat(matchingFiles, hasItem(modelFile));
-		assertThat(matchingFiles, not(hasItem(notAModelFile)));
+		assertTrue(matchingFiles.contains(modelFile));
+		assertFalse(matchingFiles.contains(notAModelFile));
 	}
 	
 	@Test
@@ -49,7 +48,7 @@ public class FileLocatorTests extends TestThatUsesAProject {
 		
 		final Collection<IFile> matchingFiles = new FileLocator("model", "txt").findAllMatchingFiles(project);
 		
-		assertThat(matchingFiles, hasItems(modelFile, txtFile));
-		assertThat(matchingFiles, not(hasItem(xmlFile)));
+		assertTrue(matchingFiles.containsAll(Arrays.asList(modelFile, txtFile)));
+		assertFalse(matchingFiles.contains(xmlFile));
 	}
 }
