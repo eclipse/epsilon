@@ -16,6 +16,7 @@ package org.eclipse.epsilon.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
 import org.eclipse.epsilon.hutn.xmi.dt.test.HutnXmiBridgeDevelopmentToolsPluggedInTestSuite;
 import org.junit.runner.RunWith;
@@ -23,7 +24,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EmfPluggedInTestSuite.class, HutnXmiBridgeDevelopmentToolsPluggedInTestSuite.class})
+@SuiteClasses({CommonDevelopmentToolsTestSuite.class,
+               EmfPluggedInTestSuite.class,
+               HutnXmiBridgeDevelopmentToolsPluggedInTestSuite.class})
 public class EpsilonPluggedInTestSuite{
 
 	public static Test suite() {
