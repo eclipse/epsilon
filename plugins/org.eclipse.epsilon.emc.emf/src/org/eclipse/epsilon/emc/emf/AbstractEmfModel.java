@@ -132,14 +132,10 @@ public abstract class AbstractEmfModel extends Model{
 	
 	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
-		
 		if (!owns(instance)) return false;
-		
-		EObject eObject = (EObject) instance;
-		for (EStructuralFeature sf : eObject.eClass().getEAllStructuralFeatures()) {
-			if (sf.getName().equals(property)) { return true; }
-		}
-		return false;
+		EObject eObject = (EObject) instance;		
+		return EmfUtil.getEStructuralFeature(eObject.eClass(), property) != null;
+
 	}
 	
 	public Collection<String> getPropertiesOf(Object instance) {
