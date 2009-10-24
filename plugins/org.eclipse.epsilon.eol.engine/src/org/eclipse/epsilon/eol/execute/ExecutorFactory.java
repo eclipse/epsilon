@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
@@ -179,11 +180,13 @@ public class ExecutorFactory {
 		try {
 			//TODO : See why the profiling view does not yield complete
 			//results when in manual mode
-			//Profiler.INSTANCE.start(ast.toStringList());
+			//Profiler.INSTANCE.start(ast.getText());
 			//if (ast.getType() == EolParserTokenTypes.POINT) Profiler.INSTANCE.start(ast.getType() + "");
 			return executor.execute(ast, context);
 			//if (ast.getType() == EolParserTokenTypes.POINT) Profiler.INSTANCE.stop(ast.getType() + "");
-			//Profiler.INSTANCE.stop(ast.toStringList());
+			//Profiler.INSTANCE.stop(ast.getText());
+			
+			//return result;
 			//return result;
 		}
 		catch (Exception ex){

@@ -23,8 +23,19 @@ public class EolReturnException extends EolRuntimeException{
 		this.returned = returned;
 	}
 	
+	public void setReturned(Object returned) {
+		this.returned = returned;
+	}
+	
 	public Object getReturned(){
 		return returned;
+	}
+	
+	// Make the exception faster - we don't need a stack trace
+	@Override
+	public Throwable fillInStackTrace() {
+		//return super.fillInStackTrace();
+		return this;
 	}
 	
 }

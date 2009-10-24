@@ -17,6 +17,7 @@ import java.util.TreeMap;
 
 import org.eclipse.epsilon.commons.module.AbstractModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;

@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.eol.types.EolMap;
 
 public class DefaultPrettyPrinter implements PrettyPrinter{
 	
@@ -39,6 +40,27 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 				Object next = li.next();
 				prettyPrinter = manager.getPrettyPrinterFor(next);
 				result = result + prettyPrinter.print(next);
+				if (li.hasNext()){
+					result = result + ", ";
+				}
+			}
+			result = result + "}";
+			
+			return result;
+		}
+		else if (o instanceof EolMap) {
+			String simpleClassName = o.getClass().getSimpleName();
+			String result = simpleClassName.substring(3, simpleClassName.length()) + " {";
+			Iterator li = ((EolMap) o).keySet().iterator();
+			
+			PrettyPrinter keyPrettyPrinter = null;
+			PrettyPrinter valuePrettyPrinter = null;
+			while (li.hasNext()){
+				Object key = li.next();
+				Object value = ((EolMap) o).get(key);
+				keyPrettyPrinter = manager.getPrettyPrinterFor(key);
+				valuePrettyPrinter = manager.getPrettyPrinterFor(value);
+				result = result + keyPrettyPrinter.print(key) + "->" + valuePrettyPrinter.print(value);
 				if (li.hasNext()){
 					result = result + ", ";
 				}

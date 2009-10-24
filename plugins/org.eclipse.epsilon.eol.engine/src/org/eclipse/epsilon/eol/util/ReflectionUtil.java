@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -24,12 +25,61 @@ import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 public class ReflectionUtil {
 	
+	public static boolean hasMethods(Object obj, String methodName) {
+		
+		if (obj == null) return false;
+		
+		for (Method method : obj.getClass().getMethods()) {
+			if (method.getName().equals(methodName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static Method getMethodFor2(Object obj, String methodName, Object[] parameters, boolean unwrapParameters) {
+		
+		if (obj == null) return null;
+		
+		// Do a first check that the object class has a method with that name
+		boolean matchByName = false;
+		for (Method method : obj.getClass().getMethods()) {
+			if (method.getName().equals(methodName)) {
+				matchByName = true;
+				break;
+			}
+		}
+		
+		if (!matchByName) return null;
+		
+		// If it has, do parameter type checking as well
+		Class[] parameterTypes = new Class[parameters.length];
+		
+		for (int i=0;i<parameters.length;i++) {
+			if (unwrapParameters) {
+				parameterTypes[i] = EolTypeWrapper.getInstance().unwrap(parameters[i]).getClass();
+			}
+			else {
+				parameterTypes[i] = EolTypeWrapper.getInstance().wrap(parameters[i]).getClass();
+			}
+		}
+		
+		try {
+			return obj.getClass().getMethod(methodName, parameterTypes);
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
 	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean unwrapParameters){
 		
 		if (obj == null) return null;
 		
 		Method[] methods = obj.getClass().getMethods();
 		
+		// Faster than for (Method method : methods)
+		// Custom search a lot faster than Class.getMethod(...)
 		for (int i=0;i<methods.length;i++){
 			boolean namesMatch = false;
 			

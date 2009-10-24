@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -19,12 +20,30 @@ import java.util.Set;
 public class EolTypeWrapper {
 	
 	private static EolTypeWrapper instance = new EolTypeWrapper();
+	protected HashMap wrappedCache = new HashMap();
+	protected HashMap unwrappedCache = new HashMap();
+	
 	
 	public static EolTypeWrapper getInstance(){
 		return instance;
 	}
 	
-	public Object wrap(Object o){
+	public Object wrap(Object o) {
+		
+		if (o instanceof EolAny) return o;
+		
+		Object cached = wrappedCache.get(o);
+		if (cached == null) {
+			cached = wrapImpl(o);
+			if (wrappedCache.size() > 10000) {
+				wrappedCache.clear();
+			}
+			wrappedCache.put(o, cached);
+		}
+		return cached;
+	}
+	
+	public Object wrapImpl(Object o){
 		
 		if (o == null) return o;
 		
@@ -73,7 +92,22 @@ public class EolTypeWrapper {
 		return wrapped;
 	}
 	
-	public Object unwrap(Object o){
+	public Object unwrap(Object o) {
+		
+		if (!(o instanceof EolAny)) return o;
+		
+		Object cached = unwrappedCache.get(o);
+		if (cached == null) {
+			cached = unwrapImpl(o);
+			if (unwrappedCache.size() > 10000) {
+				unwrappedCache.clear();
+			}
+			unwrappedCache.put(o, cached);
+		}
+		return cached;
+	}
+	
+	public Object unwrapImpl(Object o){
 		
 		if (o == null) return o;
 		

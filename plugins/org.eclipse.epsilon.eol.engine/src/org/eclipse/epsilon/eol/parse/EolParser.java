@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g 2009-10-15 10:00:24
+// $ANTLR 3.1b1 F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g 2009-10-21 22:52:34
 
 package org.eclipse.epsilon.eol.parse;
 
@@ -192,7 +192,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     }
 
     public String[] getTokenNames() { return EolParser.tokenNames; }
-    public String getGrammarFileName() { return "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g"; }
+    public String getGrammarFileName() { return "F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g"; }
 
 
     public static class eolModule_return extends ParserRuleReturnScope {
@@ -201,7 +201,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     };
 
     // $ANTLR start eolModule
-    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:89:1: eolModule : ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF -> ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* ) ;
+    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:89:1: eolModule : ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF -> ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* ) ;
     public final EolParser.eolModule_return eolModule() throws RecognitionException {
         EolParser.eolModule_return retval = new EolParser.eolModule_return();
         retval.start = input.LT(1);
@@ -230,10 +230,10 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
         RewriteRuleSubtreeStream stream_modelDeclaration=new RewriteRuleSubtreeStream(adaptor,"rule modelDeclaration");
         RewriteRuleSubtreeStream stream_operationDeclarationOrAnnotationBlock=new RewriteRuleSubtreeStream(adaptor,"rule operationDeclarationOrAnnotationBlock");
         try {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:94:2: ( ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF -> ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* ) )
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:2: ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF
+            // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:94:2: ( ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF -> ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* ) )
+            // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:2: ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )? EOF
             {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:2: ( importStatement )*
+            // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:2: ( importStatement )*
             loop1:
             do {
                 int alt1=2;
@@ -246,7 +246,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:3: importStatement
+            	    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:95:3: importStatement
             	    {
             	    pushFollow(FOLLOW_importStatement_in_eolModule64);
             	    importStatement1=importStatement();
@@ -263,7 +263,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                 }
             } while (true);
 
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:96:2: ( modelDeclaration )*
+            // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:96:2: ( modelDeclaration )*
             loop2:
             do {
                 int alt2=2;
@@ -276,7 +276,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
                 switch (alt2) {
             	case 1 :
-            	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:96:3: modelDeclaration
+            	    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:96:3: modelDeclaration
             	    {
             	    pushFollow(FOLLOW_modelDeclaration_in_eolModule70);
             	    modelDeclaration2=modelDeclaration();
@@ -299,7 +299,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block3.getTree());
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:2: ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )?
+            // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:2: ( operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )* )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -308,7 +308,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
             }
             switch (alt4) {
                 case 1 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:3: operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )*
+                    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:3: operationDeclarationOrAnnotationBlock ( statement | operationDeclarationOrAnnotationBlock )*
                     {
                     pushFollow(FOLLOW_operationDeclarationOrAnnotationBlock_in_eolModule79);
                     operationDeclarationOrAnnotationBlock4=operationDeclarationOrAnnotationBlock();
@@ -316,7 +316,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_operationDeclarationOrAnnotationBlock.add(operationDeclarationOrAnnotationBlock4.getTree());
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:41: ( statement | operationDeclarationOrAnnotationBlock )*
+                    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:41: ( statement | operationDeclarationOrAnnotationBlock )*
                     loop3:
                     do {
                         int alt3=3;
@@ -332,7 +332,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
                         switch (alt3) {
                     	case 1 :
-                    	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:42: statement
+                    	    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:42: statement
                     	    {
                     	    pushFollow(FOLLOW_statement_in_eolModule82);
                     	    statement5=statement();
@@ -344,7 +344,7 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:54: operationDeclarationOrAnnotationBlock
+                    	    // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:98:54: operationDeclarationOrAnnotationBlock
                     	    {
                     	    pushFollow(FOLLOW_operationDeclarationOrAnnotationBlock_in_eolModule86);
                     	    operationDeclarationOrAnnotationBlock6=operationDeclarationOrAnnotationBlock();
@@ -385,25 +385,25 @@ public class EolParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
             root_0 = (CommonTree)adaptor.nil();
             // 100:2: -> ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* )
             {
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:5: ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* )
+                // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:5: ^( EOLMODULE ( importStatement )* ( modelDeclaration )* block ( operationDeclarationOrAnnotationBlock )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EOLMODULE, "EOLMODULE"), root_1);
 
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:17: ( importStatement )*
+                // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:17: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
                     adaptor.addChild(root_1, stream_importStatement.nextTree());
 
                 }
                 stream_importStatement.reset();
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:34: ( modelDeclaration )*
+                // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:34: ( modelDeclaration )*
                 while ( stream_modelDeclaration.hasNext() ) {
                     adaptor.addChild(root_1, stream_modelDeclaration.nextTree());
 
                 }
                 stream_modelDeclaration.reset();
                 adaptor.addChild(root_1, stream_block.nextTree());
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:58: ( operationDeclarationOrAnnotationBlock )*
+                // F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g:100:58: ( operationDeclarationOrAnnotationBlock )*
                 while ( stream_operationDeclarationOrAnnotationBlock.hasNext() ) {
                     adaptor.addChild(root_1, stream_operationDeclarationOrAnnotationBlock.nextTree());
 

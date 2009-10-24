@@ -18,13 +18,22 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ReturnStatementExecutor extends AbstractExecutor {
 
+	protected EolReturnException exception = null;
+	
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 		Object result = null;
 		if (ast.getFirstChild() != null){
 			result = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
-		throw new EolReturnException(ast, result);
+		if (exception == null) {
+			exception = new EolReturnException(ast, result);
+		}
+		else {
+			exception.setAst(ast);
+			exception.setReturned(result);
+		}
+		throw exception;
 	}
 
 }

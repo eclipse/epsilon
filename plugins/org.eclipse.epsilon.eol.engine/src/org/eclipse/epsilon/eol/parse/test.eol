@@ -1,3 +1,1 @@
-if (x == 1) {
-	x = 1;
-}
+foo.aggregate(a|a.name, a.size, 0);

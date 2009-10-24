@@ -14,26 +14,37 @@ public class DualStateObject {
 	
 	protected boolean isWrapped;
 	protected Object o;
+	protected Object wrapped;
+	protected Object unwrapped;
 	
 	public DualStateObject(Object o) {
 		this.o = o;
 		this.isWrapped = o instanceof EolAny;
 	}
 	
+	public boolean isNull() {
+		return o == null;
+	}
+	
 	public Object getWrapped() {
 		if (isWrapped) return o;
-		else return EolTypeWrapper.getInstance().wrap(o);
+		else {
+			return EolTypeWrapper.getInstance().wrap(o);
+		}
 	}
 	
 	public Object getUnwrapped() {
 		if (!isWrapped) return o;
-		else return EolTypeWrapper.getInstance().unwrap(o);
+		else {
+			return EolTypeWrapper.getInstance().unwrap(o);
+		}
 	}
 	
 	// TODO : Optimize
 	public boolean equals(Object other) {
-		if (other == null || !(other instanceof DualStateObject) ) return false;
+		if (this.isNull() && other instanceof DualStateObject && ((DualStateObject) other).isNull()) return true;
+		if (other == null || this.isNull() || !(other instanceof DualStateObject) || ((DualStateObject) other).isNull()) return false;
 		DualStateObject dso = (DualStateObject) other;
-		return this.getWrapped().equals(dso.getWrapped()) || this.getUnwrapped().equals(dso.getUnwrapped());
+		return this.getUnwrapped().equals(dso.getUnwrapped()) || this.getWrapped().equals(dso.getWrapped());
 	}
 }

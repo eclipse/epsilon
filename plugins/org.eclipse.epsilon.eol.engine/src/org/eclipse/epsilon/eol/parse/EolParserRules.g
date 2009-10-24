@@ -349,7 +349,7 @@ parameterList
 	;
 
 declarativeFeatureCall
-	:	NAME^ '('! formalParameterList '|'! logicalExpression ')'!
+	:	NAME^ '('! formalParameterList '|'! logicalExpression (','! logicalExpression)* ')'!
 	;
 
 newExpression

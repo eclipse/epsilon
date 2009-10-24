@@ -32,6 +32,13 @@ public class ProfilerTool extends AbstractTool{
 		Profiler.INSTANCE.start(targetName, StringUtil.toString(data, ""), fileMarker);
 	}
 	
+	public void refresh() {
+		Profiler.INSTANCE.refresh();
+	}
+	
+	public void reset() {
+		Profiler.INSTANCE.reset();
+	}
 	
 	public void start(String targetName) {
 		start(targetName, "");

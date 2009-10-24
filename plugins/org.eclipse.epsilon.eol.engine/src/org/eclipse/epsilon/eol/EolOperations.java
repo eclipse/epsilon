@@ -18,10 +18,11 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
+// TODO : Overload add, addAll, remove et.al and add results to a hashtable for better performance
 public class EolOperations extends ArrayList<EolOperation>{
 
 	public EolOperation getOperation(String name) {
+		
 		ListIterator li = listIterator();
 		
 		while (li.hasNext()){

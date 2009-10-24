@@ -30,7 +30,7 @@ public class EolParserWorkbench {
 	}
 	
 	public void workPathName() throws Exception {
-		String basePath = "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
+		String basePath = "F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
 		
 		//r = new StaticFieldNameResolver(EolParser.class);
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));
@@ -66,7 +66,7 @@ public class EolParserWorkbench {
 	
 	
 	public void work() throws Exception {
-		String basePath = "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
+		String basePath = "F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
 		
 		//r = new StaticFieldNameResolver(EolParser.class);
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));

@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -163,20 +164,21 @@ public class PointExecutor extends AbstractExecutor{
 		
 		// Reflection
 		Method method = null;
-
-		// First try with unwrapped parameters
-		method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), true);
-		if (method != null) {
-			//FIXED : Do not recalculate method when calling execute() - call another execute!
-			//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), true, featureCallAst));
-			return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), true, featureCallAst));
-		}
-		
-		// Then try with wrapped parameters
-		method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), false);
-		if (method != null) {
-			//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), false, featureCallAst));
-			return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
+		if (ReflectionUtil.hasMethods(source, featureCallAst.getText())) {
+			// First try with unwrapped parameters
+			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), true);
+			if (method != null) {
+				//FIXED : Do not recalculate method when calling execute() - call another execute!
+				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), true, featureCallAst));
+				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), true, featureCallAst));
+			}
+			
+			// Then try with wrapped parameters
+			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), false);
+			if (method != null) {
+				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), false, featureCallAst));
+				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
+			}
 		}
 		
 		// Operations

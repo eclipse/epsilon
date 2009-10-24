@@ -97,16 +97,6 @@ public class IntrospectionManager {
 	}
 	
 	public IPropertyGetter getPropertyGetterFor(Object object, String property, IEolContext context){
-		/*
-		ListIterator li = propertyGetters.listIterator();
-		while (li.hasNext()){
-			PropertyGetter propertyGetter = (PropertyGetter) li.next();
-			if (propertyGetter.appliesTo(object, property)){
-				return (PropertyGetter) newInstance(propertyGetter);
-			}
-		}
-		return new JavaPropertyGetter();
-		*/
 		
 		if (property.startsWith("~")) {
 			ExtendedPropertyGetter propertyGetter = new ExtendedPropertyGetter(context);
@@ -114,20 +104,13 @@ public class IntrospectionManager {
 			return propertyGetter;
 		}
 		
-		ListIterator li = context.getModelRepository().getModels().listIterator();
-		while (li.hasNext()){
-			IModel model = (IModel) li.next();
+		for (IModel model : context.getModelRepository().getModels()) {
 			if (model.knowsAboutProperty(object, property)) {
 				IPropertyGetter pg = model.getPropertyGetter();
 				pg.setContext(context);
 				return pg;
 			}
 		}
-		
-		//return new JavaPropertyGetter();
-		
-		//System.err.println("J - " + object + " - " + property);
-		
 		
 		defaultPropertyGetter.setContext(context);
 		return defaultPropertyGetter;
