@@ -70,6 +70,12 @@ public class Profiler {
 		return target;
 	}
 	
+	public void refresh() {
+		for (IProfilerListener listener : listeners) {
+			listener.refresh();
+		}
+	}
+	
 	public void stop() {
 		stop(null);
 	}

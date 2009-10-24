@@ -14,5 +14,6 @@ public interface IProfilerListener {
 	
 	public void targetStarted(String target);
 	public void targetStopped(String target);
-
+	public void refresh();
+	
 }
