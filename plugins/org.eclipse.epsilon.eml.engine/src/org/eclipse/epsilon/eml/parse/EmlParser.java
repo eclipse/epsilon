@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g 2009-10-19 08:46:00
+// $ANTLR 3.1b1 E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g 2009-10-25 20:16:00
 
 package org.eclipse.epsilon.eml.parse;
 
@@ -215,7 +215,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     }
 
     public String[] getTokenNames() { return EmlParser.tokenNames; }
-    public String getGrammarFileName() { return "E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g"; }
+    public String getGrammarFileName() { return "E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g"; }
 
 
     public static class emlModule_return extends ParserRuleReturnScope {
@@ -224,7 +224,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     };
 
     // $ANTLR start emlModule
-    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:93:1: emlModule : ( importStatement )* ( emlModuleContent )* EOF -> ^( EMLMODULE ( importStatement )* ( emlModuleContent )* ) ;
+    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:93:1: emlModule : ( importStatement )* ( emlModuleContent )* EOF -> ^( EMLMODULE ( importStatement )* ( emlModuleContent )* ) ;
     public final EmlParser.emlModule_return emlModule() throws RecognitionException {
         EmlParser.emlModule_return retval = new EmlParser.emlModule_return();
         retval.start = input.LT(1);
@@ -242,10 +242,10 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
         RewriteRuleSubtreeStream stream_emlModuleContent=new RewriteRuleSubtreeStream(adaptor,"rule emlModuleContent");
         RewriteRuleSubtreeStream stream_importStatement=new RewriteRuleSubtreeStream(adaptor,"rule importStatement");
         try {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:2: ( ( importStatement )* ( emlModuleContent )* EOF -> ^( EMLMODULE ( importStatement )* ( emlModuleContent )* ) )
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:4: ( importStatement )* ( emlModuleContent )* EOF
+            // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:2: ( ( importStatement )* ( emlModuleContent )* EOF -> ^( EMLMODULE ( importStatement )* ( emlModuleContent )* ) )
+            // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:4: ( importStatement )* ( emlModuleContent )* EOF
             {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:4: ( importStatement )*
+            // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:4: ( importStatement )*
             loop1:
             do {
                 int alt1=2;
@@ -258,7 +258,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:0:0: importStatement
+            	    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:0:0: importStatement
             	    {
             	    pushFollow(FOLLOW_importStatement_in_emlModule79);
             	    importStatement1=importStatement();
@@ -275,7 +275,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                 }
             } while (true);
 
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:21: ( emlModuleContent )*
+            // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:21: ( emlModuleContent )*
             loop2:
             do {
                 int alt2=2;
@@ -288,7 +288,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
                 switch (alt2) {
             	case 1 :
-            	    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:22: emlModuleContent
+            	    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:94:22: emlModuleContent
             	    {
             	    pushFollow(FOLLOW_emlModuleContent_in_emlModule83);
             	    emlModuleContent2=emlModuleContent();
@@ -311,7 +311,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
 
             // AST REWRITE
-            // elements: importStatement, emlModuleContent
+            // elements: emlModuleContent, importStatement
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -323,18 +323,18 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
             root_0 = (CommonTree)adaptor.nil();
             // 95:2: -> ^( EMLMODULE ( importStatement )* ( emlModuleContent )* )
             {
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:5: ^( EMLMODULE ( importStatement )* ( emlModuleContent )* )
+                // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:5: ^( EMLMODULE ( importStatement )* ( emlModuleContent )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EMLMODULE, "EMLMODULE"), root_1);
 
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:17: ( importStatement )*
+                // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:17: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
                     adaptor.addChild(root_1, stream_importStatement.nextTree());
 
                 }
                 stream_importStatement.reset();
-                // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:34: ( emlModuleContent )*
+                // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:95:34: ( emlModuleContent )*
                 while ( stream_emlModuleContent.hasNext() ) {
                     adaptor.addChild(root_1, stream_emlModuleContent.nextTree());
 
@@ -375,7 +375,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     };
 
     // $ANTLR start emlModuleContent
-    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:98:1: emlModuleContent : ( pre | annotationBlock | transformationRule | mergeRule | operationDeclaration | post );
+    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:98:1: emlModuleContent : ( pre | annotationBlock | transformationRule | mergeRule | operationDeclaration | post );
     public final EmlParser.emlModuleContent_return emlModuleContent() throws RecognitionException {
         EmlParser.emlModuleContent_return retval = new EmlParser.emlModuleContent_return();
         retval.start = input.LT(1);
@@ -397,7 +397,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
 
         try {
-            // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:2: ( pre | annotationBlock | transformationRule | mergeRule | operationDeclaration | post )
+            // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:2: ( pre | annotationBlock | transformationRule | mergeRule | operationDeclaration | post )
             int alt3=6;
             switch ( input.LA(1) ) {
             case 125:
@@ -461,7 +461,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
 
             switch (alt3) {
                 case 1 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:4: pre
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:4: pre
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -475,7 +475,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     }
                     break;
                 case 2 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:10: annotationBlock
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:10: annotationBlock
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -489,7 +489,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     }
                     break;
                 case 3 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:28: transformationRule
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:28: transformationRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -503,7 +503,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     }
                     break;
                 case 4 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:49: mergeRule
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:49: mergeRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -517,7 +517,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     }
                     break;
                 case 5 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:61: operationDeclaration
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:61: operationDeclaration
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -531,7 +531,7 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
                     }
                     break;
                 case 6 :
-                    // E:\\Projects\\Eclipse\\3.4\\workspace3\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:84: post
+                    // E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eml.engine\\src\\org\\eclipse\\epsilon\\eml\\parse\\Eml.g:99:84: post
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -567,67 +567,67 @@ public class EmlParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
     // $ANTLR end emlModuleContent
 
     // Delegated rules
-    public Eml_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Eml_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Eml_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
-    public Eml_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
-    public Eml_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
-    public Eml_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Eml_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Eml_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
-    public Eml_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
-    public Eml_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Eml_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Eml_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Eml_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Eml_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Eml_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Eml_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
-    public Eml_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Eml_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Eml_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
-    public Eml_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
     public Eml_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Eml_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
-    public Eml_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
-    public Eml_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Eml_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
-    public Eml_EmlParserRules.mergeRule_return mergeRule() throws RecognitionException { return gEmlParserRules.mergeRule(); }
-    public Eml_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Eml_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
-    public Eml_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
+    public Eml_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
     public Eml_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
     public Eml_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
-    public Eml_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Eml_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Eml_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Eml_EtlParserRules.transformationRule_return transformationRule() throws RecognitionException { return gEtlParserRules.transformationRule(); }
-    public Eml_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Eml_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Eml_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
-    public Eml_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Eml_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Eml_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Eml_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Eml_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
-    public Eml_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
     public Eml_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Eml_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
-    public Eml_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Eml_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
     public Eml_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
-    public Eml_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
-    public Eml_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
-    public Eml_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
     public Eml_EolParserRules.modelNamespace_return modelNamespace() throws RecognitionException { return gEolParserRules.modelNamespace(); }
-    public Eml_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Eml_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Eml_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Eml_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Eml_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Eml_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Eml_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Eml_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Eml_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
     public Eml_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Eml_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Eml_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Eml_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Eml_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
+    public Eml_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
+    public Eml_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
+    public Eml_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Eml_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
+    public Eml_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
+    public Eml_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Eml_EmlParserRules.mergeRule_return mergeRule() throws RecognitionException { return gEmlParserRules.mergeRule(); }
+    public Eml_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
+    public Eml_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Eml_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
+    public Eml_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Eml_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Eml_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Eml_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
+    public Eml_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Eml_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Eml_EtlParserRules.transformationRule_return transformationRule() throws RecognitionException { return gEtlParserRules.transformationRule(); }
+    public Eml_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Eml_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Eml_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Eml_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Eml_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Eml_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Eml_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Eml_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Eml_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
+    public Eml_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Eml_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
+    public Eml_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
+    public Eml_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Eml_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
+    public Eml_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Eml_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Eml_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Eml_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Eml_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Eml_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
+    public Eml_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Eml_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Eml_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Eml_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+    public Eml_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Eml_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Eml_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Eml_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
+    public Eml_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Eml_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
 
 
  
