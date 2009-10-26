@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.eugenia.feature"
       label="Epsilon Eugenia (Incubation)"
-      version="0.8.7.qualifier"
+      version="0.8.8.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
@@ -231,14 +231,14 @@ litigation.
          id="org.eclipse.epsilon.eugenia"
          download-size="0"
          install-size="0"
-         version="0.8.7.qualifier"
+         version="0.8.8.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eugenia.runtime"
          download-size="0"
          install-size="0"
-         version="0.8.7.qualifier"
+         version="0.8.8.qualifier"
          unpack="false"/>
 
 </feature>
