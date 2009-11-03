@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -52,13 +53,14 @@ public class EwlWizard extends AbstractModuleElement{
 			context.getFrameStack().enter(FrameType.UNPROTECTED, guardBlock.getAst());
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
 			Object result = null;
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(guardBlock.getAst(), context);
-				throw new EolNoReturnException("Boolean", guardBlock.getAst(), context);
+			result = context.getExecutorFactory().executeBlockOrExpressionAst(guardBlock.getAst(), context);
+			if (result instanceof Return) {
+				result = Return.getValue(result);
 			}
-			catch (EolReturnException rex){
-				result = rex.getReturned();
+			else {
+				throw new EolNoReturnException("Boolean", guardBlock.getAst(), context);		
 			}
+		
 			//context.getScope().leave(guardBlock.getAst());
 			if (result instanceof EolBoolean){
 				return ((EolBoolean) result).getValue();
@@ -83,12 +85,14 @@ public class EwlWizard extends AbstractModuleElement{
 		context.getFrameStack().enter(FrameType.UNPROTECTED, titleBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		Object result = null;
-		try {
-			context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
+		result = context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
+		if (result instanceof Return) {
+			result = Return.getValue(result);
 		}
-		catch (EolReturnException rex){
-			result = rex.getReturned();
+		else {
+			throw new EolNoReturnException("String", titleBlock.getAst(), context);		
 		}
+		
 		context.getFrameStack().leave(titleBlock.getAst());
 		return String.valueOf(result);
 	}

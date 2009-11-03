@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -151,19 +152,20 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			context.getFrameStack().put(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 			
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
-				context.getFrameStack().leave(guardAst);
-				throw new EolNoReturnException("Boolean", guardAst, context);
-			}
-			catch (EolReturnException rex){
-				context.getFrameStack().leave(guardAst);
-				if (rex.getReturned() instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) rex.getReturned()).booleanValue();
+			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
+			context.getFrameStack().leave(guardAst);
+			
+			if (result instanceof Return) {
+				Object value = Return.getValue(result);
+				if (value instanceof EolBoolean){
+					guardSatisfied = ((EolBoolean) value).booleanValue();
 				}
 				else {
-					throw new EolIllegalReturnException("Boolean", rex.getReturned(), guardAst, context);
-				}
+					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
+				}	
+			}
+			else {
+				throw new EolNoReturnException("Boolean", guardAst, context);
 			}
 			
 		}

@@ -17,6 +17,7 @@ import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -53,17 +54,8 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	public Object execute() throws EolRuntimeException {
 		prepare();
 		
-		try {
-			context.getExecutorFactory().executeAST(main.getAst(), context);
-		}
+		return Return.getValue(context.getExecutorFactory().executeAST(main.getAst(), context));
 		
-		catch (EolReturnException rex){
-			return rex.getReturned();
-		}
-		
-		//context.getExecutorFactory().getExecutionController().report(context);
-		
-		return null;
 	}
 
 	public EolMain getMain() {

@@ -110,9 +110,11 @@ public class ForStatementExecutor extends AbstractExecutor{
 			context.getFrameStack().put(new Variable(iteratorName, next, iteratorType));
 			context.getFrameStack().put(new Variable("hasMore",new EolBoolean(li.hasNext()), EolPrimitiveType.Boolean, true));
 			context.getFrameStack().put(new Variable("loopCount",new EolInteger(loop++), EolPrimitiveType.Integer, true));
-
+			
+			Object result = null; 
+			
 			try {
-				context.getExecutorFactory().executeAST(bodyAst, context);
+				result = context.getExecutorFactory().executeAST(bodyAst, context);
 				context.getFrameStack().leave(ast);
 			}
 			catch (EolBreakException ex){
@@ -126,6 +128,9 @@ public class ForStatementExecutor extends AbstractExecutor{
 				context.getFrameStack().leave(ast);
 			}
 			
+			if (result instanceof Return) {
+				return result;
+			}
 			
 		}
 		

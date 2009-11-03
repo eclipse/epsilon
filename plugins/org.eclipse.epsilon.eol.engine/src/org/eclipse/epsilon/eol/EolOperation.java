@@ -23,12 +23,14 @@ import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolType;
 
@@ -44,12 +46,14 @@ public class EolOperation extends AbstractModuleElement{
 	private EolFormalParameterList formalParameters = null;
 	private AST ast;
 	
-	protected TreeMap cache = new TreeMap(new EqualsComparator());
+	//protected TreeMap cache = new TreeMap(new EqualsComparator());
+	protected EolMap cache = new EolMap();
 	
 	public void clearCache() {
 		cache.clear();
 	}
 	
+	/*
 	class EqualsComparator implements Comparator {
 
 		public int compare(Object arg0, Object arg1) {
@@ -61,7 +65,7 @@ public class EolOperation extends AbstractModuleElement{
 			return result;
 		}
 		
-	}
+	}*/
 	
 	//TODO: Add guards to helpers
 	//DONE: Go for context-less helpers
@@ -227,13 +231,13 @@ public class EolOperation extends AbstractModuleElement{
 		
 		Object result = null;
 		
-		try {
-			executeBody(context);
+		//try {
+			result = Return.getValue(executeBody(context));
 			//context.getExecutorFactory().executeAST(this.getBody(), context);
-		}
-		catch (EolReturnException rex){
-			result = rex.getReturned();
-		}
+		//}
+		//catch (EolReturnException rex){
+		//	result = rex.getReturned();
+		//}
 		
 		evaluatePostConditions(context, result);
 		
@@ -254,8 +258,8 @@ public class EolOperation extends AbstractModuleElement{
 		return result;
 	}
 	
-	protected void executeBody(IEolContext context) throws EolRuntimeException {
-		context.getExecutorFactory().executeAST(this.getBody(), context);
+	protected Object executeBody(IEolContext context) throws EolRuntimeException {
+		return context.getExecutorFactory().executeAST(this.getBody(), context);
 	}
 	
 	protected void evaluatePreConditions(IEolContext context) throws EolRuntimeException {

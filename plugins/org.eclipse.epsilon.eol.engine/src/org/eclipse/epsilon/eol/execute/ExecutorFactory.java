@@ -121,15 +121,15 @@ public class ExecutorFactory {
 	}
 	*/
 	
-	public void executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
+	public Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		
-		if (ast == null) return;
+		if (ast == null) return null;
 		
 		if (ast.getType() == EolParser.BLOCK){
-			executeAST(ast,context);
+			return executeAST(ast,context);
 		}
 		else {
-			throw new EolReturnException(ast, executeAST(ast,context));
+			return new Return(executeAST(ast,context));
 		}
 	}
 	
@@ -139,13 +139,11 @@ public class ExecutorFactory {
 		
 		try {
 			if (ast.getType() == EolParser.BLOCK){
-				try {
-					executeAST(ast,context);
-					return default_;
+				Object result = executeAST(ast,context);
+				if (result instanceof Return) {
+					return ((Return) result).getValue();
 				}
-				catch (EolReturnException rex) {
-					return rex.getReturned();
-				}
+				return default_;
 			}
 			else {
 				return executeAST(ast,context);
@@ -178,19 +176,9 @@ public class ExecutorFactory {
 		}
 		
 		try {
-			//TODO : See why the profiling view does not yield complete
-			//results when in manual mode
-			//Profiler.INSTANCE.start(ast.getText());
-			//if (ast.getType() == EolParserTokenTypes.POINT) Profiler.INSTANCE.start(ast.getType() + "");
 			return executor.execute(ast, context);
-			//if (ast.getType() == EolParserTokenTypes.POINT) Profiler.INSTANCE.stop(ast.getType() + "");
-			//Profiler.INSTANCE.stop(ast.getText());
-			
-			//return result;
-			//return result;
 		}
 		catch (Exception ex){
-			//if (ast.getType() == EolParserTokenTypes.POINT) Profiler.INSTANCE.stop(ast.getType() + "");
 			if (ex instanceof EolRuntimeException){
 				EolRuntimeException eolEx = (EolRuntimeException) ex;
 				if (eolEx.getAst() == null){

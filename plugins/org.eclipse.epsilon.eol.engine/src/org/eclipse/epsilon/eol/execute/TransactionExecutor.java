@@ -49,11 +49,21 @@ public class TransactionExecutor extends AbstractExecutor {
 		
 		try {
 			context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
-			context.getExecutorFactory().executeAST(AstUtil.getChild(ast, EolParser.BLOCK), context);
-			for (IModel model : models) {
-				model.getTransactionSupport().commitTransaction();
-			}
+			Object result = context.getExecutorFactory().executeAST(AstUtil.getChild(ast, EolParser.BLOCK), context);
 			context.getFrameStack().leave(ast);
+			
+			if (result instanceof Return) {
+				for (IModel model : models) {
+					model.getTransactionSupport().rollbackTransaction();
+				}
+				models.clear();
+				return result;
+			}
+			else {
+				for (IModel model : models) {
+					model.getTransactionSupport().commitTransaction();
+				}
+			}
 		}
 		catch (EolRuntimeException ex) {
 			context.getFrameStack().leave(ast);

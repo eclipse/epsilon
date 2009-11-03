@@ -22,15 +22,20 @@ public class StatementBlockExecutor extends AbstractExecutor {
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
 				
 		AST statementAst = ast.getFirstChild();
+		
 		while (statementAst != null){
 			
 			if (statementAst.getType() == EolParser.OPERATOR && "=".equals(statementAst.getText())) {
-								
 				statementAst.getToken().setType(EolParser.ASSIGNMENT);
 				statementAst.getToken().setText(":=");
 			}
 			
-			context.getExecutorFactory().executeAST(statementAst, context);
+			Object result = context.getExecutorFactory().executeAST(statementAst, context);
+			
+			if (result instanceof Return) {
+				return result;
+			}
+			
 			statementAst = statementAst.getNextSibling();
 		}
 				

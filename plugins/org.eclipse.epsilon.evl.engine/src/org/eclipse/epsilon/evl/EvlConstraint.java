@@ -26,6 +26,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolBoolean;
@@ -82,20 +83,19 @@ public class EvlConstraint extends AbstractModuleElement{
 		if (guard.getAst() != null) {
 			context.getFrameStack().enter(FrameType.PROTECTED, guard.getAst());
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));
-			Object result = null;
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(guard.getAst(), context);
-				throw new EolNoReturnException("Boolean", guard.getAst(), context);
-			}
-			catch (EolReturnException rex){
-				result = rex.getReturned();
-			}
-			context.getFrameStack().leave(guard.getAst());
-			if (result instanceof EolBoolean){
-				return ((EolBoolean) result).getValue();
+			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guard.getAst(), context);
+			
+			if (result instanceof Return) {
+				Object value = Return.getValue(result);
+				if (value instanceof EolBoolean){
+					return ((EolBoolean) value).getValue();
+				}
+				else {
+					throw new EolIllegalReturnException("Boolean",value,guard.getAst(),context);
+				}
 			}
 			else {
-				throw new EolIllegalReturnException("Boolean",result,guard.getAst(),context);
+				throw new EolNoReturnException("Boolean", guard.getAst(), context);
 			}
 		}
 		else {
@@ -114,64 +114,64 @@ public class EvlConstraint extends AbstractModuleElement{
 		
 		context.getFrameStack().enter(FrameType.UNPROTECTED, body.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
-		Object result = null;
-		try {
-			context.getExecutorFactory().executeBlockOrExpressionAst(body.getAst(), context);
-			throw new EolNoReturnException("Boolean", body.getAst(), context);
-		}
-		catch (EolReturnException rex){
-			result = rex.getReturned();
-		}
-		if (result instanceof EolBoolean){
-			boolean check = ((EolBoolean) result).booleanValue();
-			if (check == false){
-				
-				EvlUnsatisfiedConstraint unsatisfiedConstraint = new EvlUnsatisfiedConstraint();
-				unsatisfiedConstraint.setInstance(self);
-				unsatisfiedConstraint.setConstraint(this);
-				ListIterator li = fixes.listIterator();
-				while (li.hasNext()) {
-					EvlFix fix = (EvlFix) li.next();
-					EvlFixInstance fixInstance = new EvlFixInstance(context);
-					fixInstance.setFix(fix);
-					fixInstance.setSelf(self);
-					unsatisfiedConstraint.getFixes().add(fixInstance);
-				}
-				
-				String messageResult = null;
-				
-				if (message.getAst() != null) {
-					try {
-						context.getExecutorFactory().executeBlockOrExpressionAst(message.getAst(),context);
-						throw new EolNoReturnException("Any", message.getAst(), context);
+		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(body.getAst(), context);
+		if (result instanceof Return) {
+			result = Return.getValue(result);
+			if (result instanceof EolBoolean){
+				boolean check = ((EolBoolean) result).booleanValue();
+				if (check == false){
+					
+					EvlUnsatisfiedConstraint unsatisfiedConstraint = new EvlUnsatisfiedConstraint();
+					unsatisfiedConstraint.setInstance(self);
+					unsatisfiedConstraint.setConstraint(this);
+					ListIterator li = fixes.listIterator();
+					while (li.hasNext()) {
+						EvlFix fix = (EvlFix) li.next();
+						EvlFixInstance fixInstance = new EvlFixInstance(context);
+						fixInstance.setFix(fix);
+						fixInstance.setSelf(self);
+						unsatisfiedConstraint.getFixes().add(fixInstance);
 					}
-					catch (EolReturnException rex) {
-						messageResult = context.getPrettyPrinterManager().toString(rex.getReturned());
+					
+					String messageResult = null;
+					
+					if (message.getAst() != null) {
+						Object messageAstResult = context.getExecutorFactory().executeBlockOrExpressionAst(message.getAst(),context);
+						if (messageAstResult instanceof Return) {
+							messageResult = context.getPrettyPrinterManager().toString(Return.getValue(messageAstResult));	
+						}
+						else {
+							throw new EolNoReturnException("Any", message.getAst(), context);
+						}
 					}
+					else {
+						messageResult = "Invariant " + this.getName() + " failed for " + 
+							context.getPrettyPrinterManager().toString(self);
+					}
+					
+					unsatisfiedConstraint.setMessage(messageResult);
+					
+					context.getConstraintTrace().addChecked(this,self,false);
+					context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
+					// We don't dispose the frame we leave because it may be needed for fix parts
+					context.getFrameStack().leave(body.getAst(), false);
+					return false;
 				}
 				else {
-					messageResult = "Invariant " + this.getName() + " failed for " + 
-						context.getPrettyPrinterManager().toString(self);
+					context.getConstraintTrace().addChecked(this,self,true);
+					context.getFrameStack().leave(body.getAst());
+					return true;
 				}
-				
-				unsatisfiedConstraint.setMessage(messageResult);
-				
-				context.getConstraintTrace().addChecked(this,self,false);
-				context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
-				// We don't dispose the frame we leave because it may be needed for fix parts
-				context.getFrameStack().leave(body.getAst(), false);
-				return false;
 			}
 			else {
-				context.getConstraintTrace().addChecked(this,self,true);
 				context.getFrameStack().leave(body.getAst());
-				return true;
-			}
+				throw new EolIllegalReturnException("Boolean",result,body.getAst(),context);
+			}	
 		}
-		else {
-			context.getFrameStack().leave(body.getAst());
-			throw new EolIllegalReturnException("Boolean",result,body.getAst(),context);
+		else {	
+			throw new EolNoReturnException("Boolean", body.getAst(), context);
 		}
+		
 	}
 	
 	@Override

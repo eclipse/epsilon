@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -102,17 +103,19 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			context.getFrameStack().put(Variable.createReadOnlyVariable(rightParameter.getName(), right));
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 			
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
-				throw new EolNoReturnException("Boolean", guardAst, context);
-			}
-			catch (EolReturnException rex){
-				if (rex.getReturned() instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) rex.getReturned()).booleanValue();
+			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
+			
+			if (result instanceof Return) {
+				Object value = ((Return) result).getValue();
+				if (value instanceof EolBoolean){
+					guardSatisfied = ((EolBoolean) value).booleanValue();
 				}
 				else {
-					throw new EolIllegalReturnException("Boolean", rex.getReturned(), guardAst, context);
-				}
+					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
+				}	
+			}
+			else {
+				throw new EolNoReturnException("Boolean", guardAst, context);
 			}
 			
 		}
@@ -340,21 +343,22 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		//}
 		
 		if (compareAst != null) {
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(compareAst.getFirstChild(),context);
-				throw new EolNoReturnException("Boolean", compareAst, context);
-				//context.getExecutorFactory().executeAST(compareAst.getFirstChild(), context);
-				//throw new EolReturnException(compareAst.getFirstChild(), context.getExecutorFactory().executeBlockOrExpressionAst(compareAst.getFirstChild(),context));
-			}
-			catch (EolReturnException rex){
-				if (rex.getReturned() instanceof EolBoolean){
-					boolean matching = ((EolBoolean) rex.getReturned()).booleanValue();
+			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(compareAst.getFirstChild(),context);
+			
+			if (result instanceof Return) {
+				Object value = ((Return) result).getValue();
+				if (value instanceof EolBoolean){
+					boolean matching = ((EolBoolean) value).booleanValue();
 					match.setMatching(matching);
 				}
 				else {
-					throw new EolIllegalReturnException("Boolean", rex.getReturned(), compareAst, context);
-				}
+					throw new EolIllegalReturnException("Boolean", value, compareAst, context);
+				}	
 			}
+			else {
+				throw new EolNoReturnException("Boolean", compareAst, context);
+			}
+			
 		}
 		else {
 			//if (auto == true){

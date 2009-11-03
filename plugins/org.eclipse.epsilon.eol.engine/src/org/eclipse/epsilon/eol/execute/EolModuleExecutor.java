@@ -29,12 +29,7 @@ public class EolModuleExecutor extends EolBasicProgramExecutor{
 		AST blockAst = AstUtil.getChild(ast, EolParser.BLOCK);
 		
 		if (blockAst!= null){
-			try {
-				context.getExecutorFactory().executeAST(blockAst, context);
-			}
-			catch (EolReturnException rex){
-				return rex.getReturned();
-			}
+			return Return.getValue(context.getExecutorFactory().executeAST(blockAst, context));
 		}
 
 		return null;

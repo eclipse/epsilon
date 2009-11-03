@@ -38,15 +38,17 @@ public class IfStatementExecutor extends AbstractExecutor{
 		
 		if (!(condition instanceof EolBoolean)) throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
 		
+		Object result = null;
+		
 		if (((EolBoolean) condition).booleanValue()){
-			context.getExecutorFactory().executeAST(thenAst, context);
+			result = context.getExecutorFactory().executeAST(thenAst, context);
 		}
 		else if (elseAst != null){
-			context.getExecutorFactory().executeAST(elseAst, context);
+			result = context.getExecutorFactory().executeAST(elseAst, context);
 		}
 		
 		context.getFrameStack().leave(ast);
-		return null;
+		return result;
 	}
 
 }

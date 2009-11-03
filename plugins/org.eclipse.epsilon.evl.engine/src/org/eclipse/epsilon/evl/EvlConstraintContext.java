@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolBoolean;
@@ -94,12 +95,10 @@ public class EvlConstraintContext extends AbstractModuleElement {
 			if (guardAst != null) {
 				context.getFrameStack().enter(FrameType.UNPROTECTED,guardAst);
 				context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));
-				Object result = null;
-				try {
-					context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(),context);
-				}
-				catch (EolReturnException rex) {
-					result = rex.getReturned();
+				Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(),context);
+				
+				if (result instanceof Return) {
+					result = Return.getValue(result);
 				}
 				context.getFrameStack().leave(guardAst);
 				if (result instanceof EolBoolean){

@@ -66,9 +66,6 @@ public class EwlWizardInstance {
 			wizard.process(self, context);
 			context.getModelRepository().getTransactionSupport().commitTransaction();
 		}
-		catch (EolReturnException retx) {
-			context.getModelRepository().getTransactionSupport().commitTransaction();
-		}
 		catch (EolRuntimeException rex) {
 			context.getModelRepository().getTransactionSupport().rollbackTransaction();
 			throw rex;

@@ -44,10 +44,14 @@ public class WhileStatementExecutor extends AbstractExecutor{
 				throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
 			}
 			
+			Object result = null;
+			
 			if (((EolBoolean) condition).booleanValue()){
 				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount",new EolInteger(loop)));
+				
+				
 				try {
-					context.getExecutorFactory().executeAST(bodyAst, context);
+					result = context.getExecutorFactory().executeAST(bodyAst, context);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
@@ -72,6 +76,11 @@ public class WhileStatementExecutor extends AbstractExecutor{
 			}
 			
 			context.getFrameStack().leave(ast);
+		
+			if (result instanceof Return) {
+				return result;
+			}
+		
 		}
 		
 		return null;

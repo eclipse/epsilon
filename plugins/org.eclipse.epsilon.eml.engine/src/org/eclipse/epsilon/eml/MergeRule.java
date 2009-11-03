@@ -34,6 +34,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -127,18 +128,21 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 			context.getFrameStack().put(new Variable(rightParameter.getName(), right, rightParameter.getType(context), true));
 			context.getFrameStack().put(new Variable("self", this, EolAnyType.Instance, true));
 			
-			try {
-				context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
-				throw new EolNoReturnException("Boolean", guardAst, context);
-			}
-			catch (EolReturnException rex){
-				if (rex.getReturned() instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) rex.getReturned()).booleanValue();
+			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
+			
+			if (result instanceof Return) {
+				Object value = Return.getValue(result);
+				if (value instanceof EolBoolean){
+					guardSatisfied = ((EolBoolean) value).booleanValue();
 				}
 				else {
-					throw new EolIllegalReturnException("Boolean", rex.getReturned(), guardAst, context);
-				}
+					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
+				}	
 			}
+			else {
+				throw new EolNoReturnException("Boolean", guardAst, context);
+			}
+		
 		}
 		
 		

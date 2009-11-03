@@ -17,8 +17,10 @@ import org.eclipse.epsilon.commons.module.AbstractModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLabeledBlock;
+import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -46,13 +48,14 @@ public class EvlFix extends AbstractModuleElement{
 	public String getTitle(Object self, IEvlContext context) throws EolRuntimeException{
 		context.getFrameStack().enter(FrameType.UNPROTECTED, titleBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
-		Object result = null;
-		try {
-			context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
+		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
+		if (result instanceof Return) {
+			result = Return.getValue(result);
 		}
-		catch (EolReturnException rex){
-			result = rex.getReturned();
+		else {
+			throw new EolNoReturnException("String", titleBlock.getAst(), context);		
 		}
+
 		context.getFrameStack().leave(titleBlock.getAst());
 		return String.valueOf(result);
 	}

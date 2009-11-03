@@ -76,9 +76,6 @@ public class EvlFixInstance {
 			fix.execute(self,context);
 			context.getModelRepository().getTransactionSupport().commitTransaction();
 		}
-		catch (EolReturnException rex) {
-			context.getModelRepository().getTransactionSupport().commitTransaction();
-		}
 		catch(EolRuntimeException ex) {
 			context.getModelRepository().getTransactionSupport().rollbackTransaction();
 			throw ex;
