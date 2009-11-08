@@ -36,6 +36,7 @@ public class EolEditor extends AbstractModuleEditor {
 		//keywords.add("output");
 		keywords.add("if");
 		keywords.add("operation");
+		keywords.add("function");
 		keywords.add("new");
 		keywords.add("else");
 		keywords.add("for");
@@ -96,6 +97,7 @@ public class EolEditor extends AbstractModuleEditor {
 	public List<Template> getTemplates() {
 		if (templates == null) {
 			templates = new ArrayList<Template>();
+			templates.add(new Template("function", "function with return type", "", "function ${context} ${name} () : ${returntype} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("operation", "operation with return type", "", "operation ${context} ${name} () : ${returntype} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("for", "iterate over collection", "", "for (${iterator} in ${collection}) { \r\n\t${cursor}\r\n}",true));
 			templates.add(new Template("forp", "iterate over collection and print something", "", "for (${iterator} in ${collection}) { \r\n\t(${cursor}).println();\r\n}",true));

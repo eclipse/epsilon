@@ -112,7 +112,7 @@ modelAlias
 	
 operationDeclaration
 	//:	'operation' (ctx=typeName {$ctx.setType(TYPE);})? operationName=NAME '(' formalParameterList ')' (':' returnType=typeName {$returnType.setType(TYPE);})? statementBlock
-	:	'operation' (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME '(' formalParameterList? ')' (':' returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
+	:	('operation'|'function') (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME '(' formalParameterList? ')' (':' returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
 		-> ^(HELPERMETHOD $ctx? $operationName formalParameterList? $returnType? statementBlock)
 	;
 

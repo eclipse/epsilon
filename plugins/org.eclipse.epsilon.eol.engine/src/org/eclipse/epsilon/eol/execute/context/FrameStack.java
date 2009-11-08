@@ -11,10 +11,12 @@
 package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.types.EolMap;
 
 
 /**
@@ -29,12 +31,14 @@ public class FrameStack {
 	
 	protected ArrayList<Frame> frames = new ArrayList<Frame>();
 	protected Frame global = null;
+	protected HashMap<String, Variable> builtInVariables = new HashMap<String, Variable>();
 	/**
 	 * Creates a new frame stack
 	 */
 	
 	public FrameStack(){
 		global = enter(FrameType.UNPROTECTED, null);
+		builtInVariables.put("null", Variable.createReadOnlyVariable("null", null));
 		//enter(FrameType.LOCAL, null); 
 	}
 	
@@ -117,6 +121,9 @@ public class FrameStack {
 	 * @return The variable with the specified name or <code>null</code>
 	 */
 	public Variable get(String name){
+		
+		if (builtInVariables.containsKey(name)) return builtInVariables.get(name);
+		
 		//Profiler.INSTANCE.start("Variable");
 		ListIterator li = frames.listIterator();
 		

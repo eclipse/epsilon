@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-10-21 22:52:37
+// $ANTLR 3.1b1 EolLexerRules.g 2009-11-08 18:27:48
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -123,6 +123,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int PARAMETERS=40;
     public static final int T__63=63;
     public static final int POINT=7;
+    public static final int T__118=118;
     public static final int T__116=116;
     public static final int T__117=117;
     public static final int T__114=114;
@@ -154,7 +155,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=118;
+    public static final int Tokens=119;
     public static final int POINT_POINT=8;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
