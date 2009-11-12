@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="ASCII"?>
-<OO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OO="OO" xmi:id="_Ve1kMAtvEd6tCvOilyvb-g" name="educational and management">
-  <contents xsi:type="OO:Class" xmi:id="_Vg7O4AtvEd6tCvOilyvb-g" name="School" isAbstract="false">
-    <features xsi:type="OO:Reference" xmi:id="_VhEY0AtvEd6tCvOilyvb-g" name="classes" type="_VhEY0QtvEd6tCvOilyvb-g" isMany="true"/>
-    <features xsi:type="OO:Reference" xmi:id="_VhOJ0wtvEd6tCvOilyvb-g" name="principal" type="_VhEY1wtvEd6tCvOilyvb-g" isMany="false"/>
+<OO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OO="OO" name="educational and management">
+  <contents xsi:type="OO:Class" name="School" isAbstract="false">
+    <features xsi:type="OO:Reference" name="classes" type="//@contents.1" isMany="true"/>
+    <features xsi:type="OO:Reference" name="principal" type="//@contents.2" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Class" xmi:id="_VhEY0QtvEd6tCvOilyvb-g" name="Class" isAbstract="false">
-    <features xsi:type="OO:Attribute" xmi:id="_VhEY0gtvEd6tCvOilyvb-g" name="grade" type="_VhEY0wtvEd6tCvOilyvb-g" isMany="false"/>
-    <features xsi:type="OO:Reference" xmi:id="_VhEY1AtvEd6tCvOilyvb-g" name="students" type="_VhEY1QtvEd6tCvOilyvb-g" isMany="true"/>
-    <features xsi:type="OO:Reference" xmi:id="_VhEY2QtvEd6tCvOilyvb-g" name="modules" type="_VhOJ0AtvEd6tCvOilyvb-g" isMany="true"/>
+  <contents xsi:type="OO:Class" name="Class" isAbstract="false">
+    <features xsi:type="OO:Attribute" name="grade" type="//@contents.4" isMany="false"/>
+    <features xsi:type="OO:Reference" name="students" type="//@contents.3" isMany="true"/>
+    <features xsi:type="OO:Reference" name="modules" type="//@contents.5" isMany="true"/>
   </contents>
-  <contents xsi:type="OO:Class" xmi:id="_VhEY1wtvEd6tCvOilyvb-g" name="Teacher" isAbstract="false">
-    <features xsi:type="OO:Reference" xmi:id="_VhEY2AtvEd6tCvOilyvb-g" name="teaches" type="_VhEY0QtvEd6tCvOilyvb-g" isMany="true"/>
+  <contents xsi:type="OO:Class" name="Teacher" isAbstract="false">
+    <features xsi:type="OO:Reference" name="teaches" type="//@contents.1" isMany="true"/>
   </contents>
-  <contents xsi:type="OO:Class" xmi:id="_VhEY1QtvEd6tCvOilyvb-g" name="Student" isAbstract="false">
-    <features xsi:type="OO:Reference" xmi:id="_VhEY1gtvEd6tCvOilyvb-g" name="supervisor" type="_VhEY1wtvEd6tCvOilyvb-g" isMany="false"/>
+  <contents xsi:type="OO:Class" name="Student" isAbstract="false">
+    <features xsi:type="OO:Reference" name="supervisor" type="//@contents.2" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Datatype" xmi:id="_VhEY0wtvEd6tCvOilyvb-g" name="Integer"/>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ0AtvEd6tCvOilyvb-g" name="Module" isAbstract="false">
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ0QtvEd6tCvOilyvb-g" name="subject" type="_VhOJ0gtvEd6tCvOilyvb-g" isMany="false"/>
+  <contents xsi:type="OO:Datatype" name="Integer"/>
+  <contents xsi:type="OO:Class" name="Module" isAbstract="false">
+    <features xsi:type="OO:Attribute" name="subject" type="//@contents.6" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Datatype" xmi:id="_VhOJ0gtvEd6tCvOilyvb-g" name="String"/>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ1AtvEd6tCvOilyvb-g" name="School" isAbstract="false">
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ1QtvEd6tCvOilyvb-g" name="address" type="_VhOJ1gtvEd6tCvOilyvb-g" isMany="false"/>
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ1wtvEd6tCvOilyvb-g" name="acceptsPostcodes" type="_VhOJ1gtvEd6tCvOilyvb-g" isMany="true"/>
-    <features xsi:type="OO:Reference" xmi:id="_VhOJ2AtvEd6tCvOilyvb-g" name="employees" type="_VhOJ2QtvEd6tCvOilyvb-g" isMany="true"/>
+  <contents xsi:type="OO:Datatype" name="String"/>
+  <contents xsi:type="OO:Class" name="School" isAbstract="false">
+    <features xsi:type="OO:Attribute" name="address" type="//@contents.8" isMany="false"/>
+    <features xsi:type="OO:Attribute" name="acceptsPostcodes" type="//@contents.8" isMany="true"/>
+    <features xsi:type="OO:Reference" name="employees" type="//@contents.9" isMany="true"/>
   </contents>
-  <contents xsi:type="OO:Datatype" xmi:id="_VhOJ1gtvEd6tCvOilyvb-g" name="String"/>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ2QtvEd6tCvOilyvb-g" name="Employee" extends="_VhOJ2gtvEd6tCvOilyvb-g" extendedBy="_VhOJ3AtvEd6tCvOilyvb-g _VhOJ3QtvEd6tCvOilyvb-g" isAbstract="true">
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ3wtvEd6tCvOilyvb-g" name="salary" type="_VhX60AtvEd6tCvOilyvb-g" isMany="false"/>
-    <features xsi:type="OO:Reference" xmi:id="_VhX60QtvEd6tCvOilyvb-g" name="manager" type="_VhOJ2QtvEd6tCvOilyvb-g" isMany="false"/>
+  <contents xsi:type="OO:Datatype" name="String"/>
+  <contents xsi:type="OO:Class" name="Employee" extends="//@contents.10" extendedBy="//@contents.12 //@contents.13" isAbstract="true">
+    <features xsi:type="OO:Attribute" name="salary" type="//@contents.11" isMany="false"/>
+    <features xsi:type="OO:Reference" name="manager" type="//@contents.9" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ2gtvEd6tCvOilyvb-g" name="Person" extendedBy="_VhOJ2QtvEd6tCvOilyvb-g" isAbstract="true">
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ2wtvEd6tCvOilyvb-g" name="details" type="_VhOJ1gtvEd6tCvOilyvb-g" isMany="false"/>
+  <contents xsi:type="OO:Class" name="Person" extendedBy="//@contents.9" isAbstract="true">
+    <features xsi:type="OO:Attribute" name="details" type="//@contents.8" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Datatype" xmi:id="_VhX60AtvEd6tCvOilyvb-g" name="Real"/>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ3AtvEd6tCvOilyvb-g" name="Teacher" extends="_VhOJ2QtvEd6tCvOilyvb-g" isAbstract="false"/>
-  <contents xsi:type="OO:Class" xmi:id="_VhOJ3QtvEd6tCvOilyvb-g" name="Support" extends="_VhOJ2QtvEd6tCvOilyvb-g" isAbstract="false">
-    <features xsi:type="OO:Attribute" xmi:id="_VhOJ3gtvEd6tCvOilyvb-g" name="role" type="_VhOJ1gtvEd6tCvOilyvb-g" isMany="false"/>
+  <contents xsi:type="OO:Datatype" name="Real"/>
+  <contents xsi:type="OO:Class" name="Teacher" extends="//@contents.9" isAbstract="false"/>
+  <contents xsi:type="OO:Class" name="Support" extends="//@contents.9" isAbstract="false">
+    <features xsi:type="OO:Attribute" name="role" type="//@contents.8" isMany="false"/>
   </contents>
-  <contents xsi:type="OO:Datatype" xmi:id="_VhX60gtvEd6tCvOilyvb-g" name="Boolean"/>
+  <contents xsi:type="OO:Datatype" name="Boolean"/>
 </OO:Model>
