@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2009-10-25 20:16:01
+// $ANTLR 3.1b1 ErlParserRules.g 2009-11-08 18:54:46
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -127,6 +127,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     public static final int T__78=78;
     public static final int T__134=134;
     public static final int T__77=77;
+    public static final int T__135=135;
     public static final int EMLMODULE=69;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int PARAMETERS=40;
@@ -235,7 +236,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            p=(Token)match(input,125,FOLLOW_125_in_pre50); if (state.failed) return retval;
+            p=(Token)match(input,126,FOLLOW_126_in_pre50); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (CommonTree)adaptor.create(p);
             root_0 = (CommonTree)adaptor.becomeRoot(p_tree, root_0);
@@ -321,7 +322,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            p=(Token)match(input,126,FOLLOW_126_in_post72); if (state.failed) return retval;
+            p=(Token)match(input,127,FOLLOW_127_in_post72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (CommonTree)adaptor.create(p);
             root_0 = (CommonTree)adaptor.becomeRoot(p_tree, root_0);
@@ -405,7 +406,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            g=(Token)match(input,127,FOLLOW_127_in_guard94); if (state.failed) return retval;
+            g=(Token)match(input,128,FOLLOW_128_in_guard94); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (CommonTree)adaptor.create(g);
             root_0 = (CommonTree)adaptor.becomeRoot(g_tree, root_0);
@@ -471,7 +472,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            e=(Token)match(input,128,FOLLOW_128_in_extendz113); if (state.failed) return retval;
+            e=(Token)match(input,129,FOLLOW_129_in_extendz113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             e_tree = (CommonTree)adaptor.create(e);
             root_0 = (CommonTree)adaptor.becomeRoot(e_tree, root_0);
@@ -546,15 +547,15 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
  
 
-    public static final BitSet FOLLOW_125_in_pre50 = new BitSet(new long[]{0x0000000000010000L,0x0000000000008000L});
-    public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000010000L,0x0000000000008000L});
+    public static final BitSet FOLLOW_126_in_pre50 = new BitSet(new long[]{0x0000000000010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_statementBlock_in_pre56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_126_in_post72 = new BitSet(new long[]{0x0000000000010000L,0x0000000000008000L});
-    public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000010000L,0x0000000000008000L});
+    public static final BitSet FOLLOW_127_in_post72 = new BitSet(new long[]{0x0000000000010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_statementBlock_in_post78 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_127_in_guard94 = new BitSet(new long[]{0x0000000000010000L,0x0000000000008100L});
+    public static final BitSet FOLLOW_128_in_guard94 = new BitSet(new long[]{0x0000000000010000L,0x0000000000010100L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_guard97 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_128_in_extendz113 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_129_in_extendz113 = new BitSet(new long[]{0x0000000000010000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000200L});
     public static final BitSet FOLLOW_73_in_extendz119 = new BitSet(new long[]{0x0000000000010000L});
     public static final BitSet FOLLOW_NAME_in_extendz121 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000200L});

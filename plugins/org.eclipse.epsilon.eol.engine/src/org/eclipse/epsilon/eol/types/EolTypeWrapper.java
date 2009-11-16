@@ -20,32 +20,16 @@ import java.util.Set;
 public class EolTypeWrapper {
 	
 	private static EolTypeWrapper instance = new EolTypeWrapper();
-	protected HashMap wrappedCache = new HashMap();
-	protected HashMap unwrappedCache = new HashMap();
-	
-	
+
 	public static EolTypeWrapper getInstance(){
 		return instance;
 	}
 	
-	public Object wrap(Object o) {
-		
-		if (o instanceof EolAny) return o;
-		
-		Object cached = wrappedCache.get(o);
-		if (cached == null) {
-			cached = wrapImpl(o);
-			if (wrappedCache.size() > 10000) {
-				wrappedCache.clear();
-			}
-			wrappedCache.put(o, cached);
-		}
-		return cached;
-	}
-	
-	public Object wrapImpl(Object o){
+	public Object wrap(Object o){
 		
 		if (o == null) return o;
+		
+		if (o instanceof EolAny) return o;
 		
 		if (o instanceof Integer){
 			return new EolInteger(((Integer) o).intValue());
@@ -92,24 +76,11 @@ public class EolTypeWrapper {
 		return wrapped;
 	}
 	
-	public Object unwrap(Object o) {
-		
-		if (!(o instanceof EolAny)) return o;
-		
-		Object cached = unwrappedCache.get(o);
-		if (cached == null) {
-			cached = unwrapImpl(o);
-			if (unwrappedCache.size() > 10000) {
-				unwrappedCache.clear();
-			}
-			unwrappedCache.put(o, cached);
-		}
-		return cached;
-	}
-	
-	public Object unwrapImpl(Object o){
+	public Object unwrap(Object o){
 		
 		if (o == null) return o;
+		
+		if (!(o instanceof EolAny)) return o;
 		
 		if (o instanceof EolInteger){
 			return new Integer(((EolInteger)o).intValue());
