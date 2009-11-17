@@ -26,10 +26,8 @@ import org.eclipse.epsilon.hutn.xmi.util.EmfUtil;
 public class IdentifierPostProcessor {
 
 	private final Spec spec;
-
+	private final ClassObjectNamer classObjectNamer = new ClassObjectNamer();
 	private final Map<String, String> renamings = new HashMap<String, String>();
-	private final Map<String, Integer> counters = new HashMap<String, Integer>(); 
-
 	
 	public IdentifierPostProcessor(Spec spec) {
 		this.spec = spec;
@@ -42,30 +40,18 @@ public class IdentifierPostProcessor {
 	
 	private void renameClassObjects() {
 		for (ClassObject co : allClassObjects()) {
-			final String type = co.getType() == null ? "UnknownType" : co.getType();
-			final String newIdentifier = type + counterFor(type);
-			
-			renamings.put(co.getIdentifier(), newIdentifier);
-			co.setIdentifier(newIdentifier);
+			renameClassObject(co, classObjectNamer.name(co));
 		}
 	}
-	
 	
 	private List<ClassObject> allClassObjects() {
 		return EmfUtil.getAllModelElementsOfType(spec, ClassObject.class);
 	}
 	
-	private int counterFor(String type) {
-		if (!counters.containsKey(type)) {
-			counters.put(type, 1);
-		}
-		
-		int current = counters.get(type);
-		counters.put(type, current+1);
-		
-		return current;
+	private void renameClassObject(ClassObject co, String newIdentifier) {
+		renamings.put(co.getIdentifier(), newIdentifier);
+		co.setIdentifier(newIdentifier);
 	}
-	
 	
 	
 	private void updateReferenceSlots() {

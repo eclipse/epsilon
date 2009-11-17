@@ -75,4 +75,20 @@ public class RenameClassObjects {
 		
 		identifierTest(data);
 	}
+	
+	@Test
+	public void preferNameWhenAvailable() {
+		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		data.put(createClassObject("Person", createAttributeSlot("name", "John Doe")), "John Doe");
+		
+		identifierTest(data);
+	}
+	
+	@Test
+	public void onlyUseAttributeTypedNameAsIdentifier() {
+		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		data.put(createClassObject("Person", createContainmentSlot("name", createClassObject("Person"))), "Person1");
+		
+		identifierTest(data);
+	}
 }
