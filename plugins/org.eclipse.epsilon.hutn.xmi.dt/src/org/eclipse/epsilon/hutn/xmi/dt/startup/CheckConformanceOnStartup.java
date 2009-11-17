@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
@@ -65,12 +66,12 @@ public class CheckConformanceOnStartup implements IStartup {
 					break;
 				
 				if (metamodelHasChangedFor(modelFile)) {
-					System.err.println("checking: " + modelFile);
+					EpsilonConsole.getInstance().getInfoStream().println("checking: " + modelFile);
 					monitor.subTask("Checking conformance to registered metamodel of " + modelFile);
 					checkConformanceToRegisteredMetamodelOf(modelFile);
 				
 				} else {
-					System.err.println("skipping: " + modelFile);
+					EpsilonConsole.getInstance().getInfoStream().println("skipping: " + modelFile);
 					monitor.subTask("Skipping conformance check (no metamodel changes) for " + modelFile);
 				}
 				
