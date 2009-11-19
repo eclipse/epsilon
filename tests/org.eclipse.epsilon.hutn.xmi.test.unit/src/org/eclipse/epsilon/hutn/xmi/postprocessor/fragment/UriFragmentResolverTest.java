@@ -38,7 +38,7 @@ public class UriFragmentResolverTest {
 	}
 	
 	private static ClassObject resolve(String uriFragment, Spec spec) {
-		return new UriFragmentResolver(spec).resolve(uriFragment);
+		return new UriFragmentResolver(spec).resolve(uriFragment).iterator().next();
 	}
 	
 	private void resolveTest(String uriFragment, Spec spec, ClassObject expected) {

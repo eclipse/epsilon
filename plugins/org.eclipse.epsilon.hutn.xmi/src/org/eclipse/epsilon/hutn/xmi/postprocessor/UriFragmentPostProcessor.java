@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
@@ -34,15 +35,28 @@ public class UriFragmentPostProcessor {
 	}
 
 	public void process() {	
-		resolveReferences();
+		resolveUriFragmentValuesInReferenceSlots();
+		resolveUriFragmentValuesInAttributeSlots();
 	}
 	
-	private void resolveReferences() {
+	private void resolveUriFragmentValuesInReferenceSlots() {
 		for (ReferenceSlot slot : allReferenceSlots()) {
 			final EList<String> newValues = new BasicEList<String>();
 			
 			for (String value : slot.getValues()) {
-				newValues.add(resolve(value));
+				newValues.add(resolveOrReturn(value));
+			}
+			
+			slot.setValues(newValues);
+		}
+	}
+	
+	private void resolveUriFragmentValuesInAttributeSlots() {
+		for (AttributeSlot slot : allAttributeSlots()) {
+			final EList<Object> newValues = new BasicEList<Object>();
+				
+			for (Object value : slot.getValues()) {
+				newValues.add(resolveOrReturn(value));
 			}
 			
 			slot.setValues(newValues);
@@ -53,30 +67,57 @@ public class UriFragmentPostProcessor {
 		return EmfUtil.getAllModelElementsOfType(spec, ReferenceSlot.class);
 	}
 	
-	private String resolve(String value) {
-		if (UriFragmentResolver.isUriFragment(value)) {
-			final ClassObject object = resolver.resolve(value);
-			
-			if (object != null) {
-				if (object.getIdentifier() == null) {
-					addUniqueIdentifier(object);
-				}
-				
-				return object.getIdentifier();
-			}
+	private List<AttributeSlot> allAttributeSlots() {
+		return EmfUtil.getAllModelElementsOfType(spec, AttributeSlot.class);
+	}
+	
+	private Object resolveOrReturn(Object potentialUriFragment) {
+		if (potentialUriFragment instanceof String) {
+			return resolveOrReturn((String)potentialUriFragment);
+	
+		} else {
+			return potentialUriFragment;
+		}
+	}
+	
+	private String resolveOrReturn(String potentialUriFragment) {
+		if (UriFragmentResolver.isUriFragment(potentialUriFragment)) {
+			return resolveUriFragment(potentialUriFragment);
+	
+		} else {
+			return potentialUriFragment;
+		}
+	}
+	
+	private String resolveUriFragment(String uriFragment) {			
+		final StringBuilder identifiersOfResolvedObjects = new StringBuilder();
 		
+		for (ClassObject resolvedObject : resolver.resolve(uriFragment)) {
+			final String identifierOfResolvedObject;
+			
+			if (isAnUnknownClassObject(resolvedObject)) {
+				identifierOfResolvedObject = uriFragment;
+			
+			} else {
+				identifierOfResolvedObject = determineIdentifier(resolvedObject);
+			}
+			
+			identifiersOfResolvedObjects.append(identifierOfResolvedObject);
+			identifiersOfResolvedObjects.append(' ');
 		}
 		
-		return value;
+		return identifiersOfResolvedObjects.toString().trim();
+	}
+
+	private boolean isAnUnknownClassObject(ClassObject object) {
+		return object == null;
 	}
 	
-	private void addUniqueIdentifier(ClassObject object) {
-		object.setIdentifier(EcoreUtil.generateUUID());
-	}
-	
+	private String determineIdentifier(ClassObject object) {
+		if (object.getIdentifier() == null) {
+			object.setIdentifier(EcoreUtil.generateUUID());
+		}
 		
-	//       inconsistent: wrong index
-	//                     wrong feature name
-	//                     wrong type?
-	// nested
+		return object.getIdentifier();
+	}
 }

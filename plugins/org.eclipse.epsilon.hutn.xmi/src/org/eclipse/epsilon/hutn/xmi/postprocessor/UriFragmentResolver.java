@@ -16,6 +16,8 @@ package org.eclipse.epsilon.hutn.xmi.postprocessor;
 import static org.eclipse.epsilon.hutn.xmi.util.StringUtil.removeLeading;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
@@ -32,31 +34,53 @@ public class UriFragmentResolver {
 	}
 
 	public static boolean isUriFragment(String value) {
+		return isSingleUriFragment(value) || isManyUriFragments(value);
+	}
+	
+	public static boolean isSingleUriFragment(String value) {
 		return value.startsWith("/") || value.startsWith("#/");
 	}
 	
-	public ClassObject resolve(String uriFragment) {
-		if (!isUriFragment(uriFragment)) {
-			throw new IllegalArgumentException("Not a valid URI fragment: " + uriFragment);
+	public static boolean isManyUriFragments(String value) {
+		for (String potentialFragment : value.split(" ")) {
+			if (!isSingleUriFragment(potentialFragment))
+				return false;
 		}
 		
+		return true;
+	}
+	
+	public Collection<ClassObject> resolve(String value) {
+		if (!isUriFragment(value)) {
+			throw new IllegalArgumentException("Not a valid URI fragment: " + value);
+		}
+		
+		final Collection<ClassObject> resolved = new LinkedList<ClassObject>();
+		
+		for (String uriFragment : value.split(" ")) {
+			resolved.add(resolveUriFragment(uriFragment));
+		}
+		
+		return resolved;
+	}
+
+	private ClassObject resolveUriFragment(String uriFragment) {
 		if (uriFragment.equals("//") || uriFragment.equals("#//")) {
 			return getTopLevelObject(0);
-		
-		} else {
-			final List<String> segments = Arrays.asList(removePrefix(uriFragment).split("/"));
-			
-			final int index;
-			
-			if (segments.get(0).length() == 0) {
-				index = 0;
-				
-			} else {
-				index = Integer.parseInt(segments.get(0));
-			}
-			
-			return resolveRelativeTo(getTopLevelObject(index), tail(segments));
 		}
+		
+		
+		final List<String> segments = Arrays.asList(removePrefix(uriFragment).split("/"));
+		final int index;
+		
+		if (segments.get(0).length() == 0) {
+			index = 0;
+			
+		} else {
+			index = Integer.parseInt(segments.get(0));
+		}
+		
+		return resolveRelativeTo(getTopLevelObject(index), tail(segments));
 	}
 
 	private String removePrefix(String uriFragment) {
