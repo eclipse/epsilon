@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -44,7 +45,15 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 		}
 		else {
 			
-			Resource resource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri);
+			Factory resourceFactory = Resource.Factory.Registry.INSTANCE.getFactory(uri);
+			
+			Resource resource = null;
+			
+			if (resourceFactory == null) {
+				resourceFactory = new XMIResourceFactoryImpl();
+			}
+			
+			resource = resourceFactory.createResource(uri);
 			
 			if (resource instanceof XMLResource) {
 				relax((XMLResource)resource);
