@@ -164,9 +164,7 @@ public class ExecutorFactory {
 		
 		if (executionController != null){
 			if (executionController.isTerminated()) throw new EolTerminationException(ast);
-			//while (!executionController.canProceed(ast, context)){
-				
-			//}
+			while (!executionController.canProceed(ast, context)){}
 		}
 		
 		AbstractExecutor executor = getExecutorFor(ast.getType());
