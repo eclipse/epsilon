@@ -256,11 +256,12 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	public void storeIntermediateModel(File destination) {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
-		final Resource resource = EmfUtil.createResource(URI.createFileURI(destination.getAbsolutePath()));
+		final URI fileUri = URI.createFileURI(destination.getAbsolutePath());
+		final Resource resource = EmfUtil.createResource(fileUri);
 		resource.getContents().add(spec);
 		
 		final EmfModel model = new InMemoryEmfModel("Intermediate", resource, HutnPackage.eINSTANCE);
-		model.store(destination.getAbsolutePath());
+		model.store(fileUri);
 		model.dispose();
 	}
 	
