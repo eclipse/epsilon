@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-10-07 12:26:15
+// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2009-12-04 16:19:52
 
 package org.eclipse.epsilon.hutn.parse;
 
@@ -361,11 +361,11 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     int LA4_4 = input.LA(3);
 
-                    if ( (LA4_4==LBRACKET) ) {
-                        alt4=1;
-                    }
-                    else if ( (LA4_4==NAME) ) {
+                    if ( (LA4_4==NAME) ) {
                         alt4=3;
+                    }
+                    else if ( (LA4_4==LBRACKET) ) {
+                        alt4=1;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
@@ -601,7 +601,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start infix_assoc
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:105:1: infix_assoc : simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:105:1: infix_assoc : ref NAME ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] ref ref ) ;
     public final HutnParser.infix_assoc_return infix_assoc() throws RecognitionException {
         HutnParser.infix_assoc_return retval = new HutnParser.infix_assoc_return();
         retval.start = input.LT(1);
@@ -610,42 +610,42 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         Token NAME14=null;
         Token char_literal16=null;
-        HutnParser.simple_ref_return simple_ref13 = null;
+        HutnParser.ref_return ref13 = null;
 
-        HutnParser.simple_ref_return simple_ref15 = null;
+        HutnParser.ref_return ref15 = null;
 
 
         CommonTree NAME14_tree=null;
         CommonTree char_literal16_tree=null;
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
         RewriteRuleTokenStream stream_27=new RewriteRuleTokenStream(adaptor,"token 27");
-        RewriteRuleSubtreeStream stream_simple_ref=new RewriteRuleSubtreeStream(adaptor,"rule simple_ref");
+        RewriteRuleSubtreeStream stream_ref=new RewriteRuleSubtreeStream(adaptor,"rule ref");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:7: ( simple_ref NAME simple_ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:11: simple_ref NAME simple_ref ';'
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:7: ( ref NAME ref ';' -> ^( ASSOC_INSTANCE[$NAME.text] ref ref ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:11: ref NAME ref ';'
             {
-            pushFollow(FOLLOW_simple_ref_in_infix_assoc194);
-            simple_ref13=simple_ref();
+            pushFollow(FOLLOW_ref_in_infix_assoc194);
+            ref13=ref();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) stream_simple_ref.add(simple_ref13.getTree());
+            if ( state.backtracking==0 ) stream_ref.add(ref13.getTree());
             NAME14=(Token)match(input,NAME,FOLLOW_NAME_in_infix_assoc196); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(NAME14);
 
-            pushFollow(FOLLOW_simple_ref_in_infix_assoc198);
-            simple_ref15=simple_ref();
+            pushFollow(FOLLOW_ref_in_infix_assoc198);
+            ref15=ref();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) stream_simple_ref.add(simple_ref15.getTree());
+            if ( state.backtracking==0 ) stream_ref.add(ref15.getTree());
             char_literal16=(Token)match(input,27,FOLLOW_27_in_infix_assoc200); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_27.add(char_literal16);
 
 
 
             // AST REWRITE
-            // elements: simple_ref, simple_ref
+            // elements: ref, ref
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -655,15 +655,15 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 106:42: -> ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref )
+            // 106:28: -> ^( ASSOC_INSTANCE[$NAME.text] ref ref )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:45: ^( ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:106:31: ^( ASSOC_INSTANCE[$NAME.text] ref ref )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSOC_INSTANCE, (NAME14!=null?NAME14.getText():null)), root_1);
 
-                adaptor.addChild(root_1, stream_simple_ref.nextTree());
-                adaptor.addChild(root_1, stream_simple_ref.nextTree());
+                adaptor.addChild(root_1, stream_ref.nextTree());
+                adaptor.addChild(root_1, stream_ref.nextTree());
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -829,37 +829,37 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start assoc_contents
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:113:1: assoc_contents : simple_ref simple_ref ;
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:113:1: assoc_contents : ref ref ;
     public final HutnParser.assoc_contents_return assoc_contents() throws RecognitionException {
         HutnParser.assoc_contents_return retval = new HutnParser.assoc_contents_return();
         retval.start = input.LT(1);
 
         CommonTree root_0 = null;
 
-        HutnParser.simple_ref_return simple_ref21 = null;
+        HutnParser.ref_return ref21 = null;
 
-        HutnParser.simple_ref_return simple_ref22 = null;
+        HutnParser.ref_return ref22 = null;
 
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:7: ( simple_ref simple_ref )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:11: simple_ref simple_ref
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:7: ( ref ref )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:114:11: ref ref
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_simple_ref_in_assoc_contents274);
-            simple_ref21=simple_ref();
+            pushFollow(FOLLOW_ref_in_assoc_contents274);
+            ref21=ref();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, simple_ref21.getTree());
-            pushFollow(FOLLOW_simple_ref_in_assoc_contents276);
-            simple_ref22=simple_ref();
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, ref21.getTree());
+            pushFollow(FOLLOW_ref_in_assoc_contents276);
+            ref22=ref();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, simple_ref22.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, ref22.getTree());
 
             }
 
@@ -1434,7 +1434,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start feature_contents
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:1: feature_contents : ( attr | refs );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:1: feature_contents : ( attr | refs | containments );
     public final HutnParser.feature_contents_return feature_contents() throws RecognitionException {
         HutnParser.feature_contents_return retval = new HutnParser.feature_contents_return();
         retval.start = input.LT(1);
@@ -1445,11 +1445,13 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         HutnParser.refs_return refs43 = null;
 
+        HutnParser.containments_return containments44 = null;
+
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:17: ( attr | refs )
-            int alt12=2;
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:17: ( attr | refs | containments )
+            int alt12=3;
             alt12 = dfa12.predict(input);
             switch (alt12) {
                 case 1 :
@@ -1477,6 +1479,20 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, refs43.getTree());
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:134:33: containments
+                    {
+                    root_0 = (CommonTree)adaptor.nil();
+
+                    pushFollow(FOLLOW_containments_in_feature_contents438);
+                    containments44=containments();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, containments44.getTree());
 
                     }
                     break;
@@ -1515,15 +1531,15 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token COMMA45=null;
-        Token NULL47=null;
-        HutnParser.attr_value_return attr_value44 = null;
+        Token COMMA46=null;
+        Token NULL48=null;
+        HutnParser.attr_value_return attr_value45 = null;
 
-        HutnParser.attr_value_return attr_value46 = null;
+        HutnParser.attr_value_return attr_value47 = null;
 
 
-        CommonTree COMMA45_tree=null;
-        CommonTree NULL47_tree=null;
+        CommonTree COMMA46_tree=null;
+        CommonTree NULL48_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:5: ( attr_value ( COMMA attr_value )* | NULL )
@@ -1549,12 +1565,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_attr_value_in_attr441);
-                    attr_value44=attr_value();
+                    pushFollow(FOLLOW_attr_value_in_attr445);
+                    attr_value45=attr_value();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, attr_value44.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, attr_value45.getTree());
                     // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:18: ( COMMA attr_value )*
                     loop13:
                     do {
@@ -1570,13 +1586,13 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     	case 1 :
                     	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:136:19: COMMA attr_value
                     	    {
-                    	    COMMA45=(Token)match(input,COMMA,FOLLOW_COMMA_in_attr444); if (state.failed) return retval;
-                    	    pushFollow(FOLLOW_attr_value_in_attr447);
-                    	    attr_value46=attr_value();
+                    	    COMMA46=(Token)match(input,COMMA,FOLLOW_COMMA_in_attr448); if (state.failed) return retval;
+                    	    pushFollow(FOLLOW_attr_value_in_attr451);
+                    	    attr_value47=attr_value();
 
                     	    state._fsp--;
                     	    if (state.failed) return retval;
-                    	    if ( state.backtracking==0 ) adaptor.addChild(root_0, attr_value46.getTree());
+                    	    if ( state.backtracking==0 ) adaptor.addChild(root_0, attr_value47.getTree());
 
                     	    }
                     	    break;
@@ -1594,10 +1610,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    NULL47=(Token)match(input,NULL,FOLLOW_NULL_in_attr453); if (state.failed) return retval;
+                    NULL48=(Token)match(input,NULL,FOLLOW_NULL_in_attr457); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    NULL47_tree = (CommonTree)adaptor.create(NULL47);
-                    adaptor.addChild(root_0, NULL47_tree);
+                    NULL48_tree = (CommonTree)adaptor.create(NULL48);
+                    adaptor.addChild(root_0, NULL48_tree);
                     }
 
                     }
@@ -1637,15 +1653,15 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token TEXTUAL_VALUE48=null;
-        Token NUMERIC_VALUE49=null;
-        HutnParser.bool_return bool50 = null;
+        Token TEXTUAL_VALUE49=null;
+        Token NUMERIC_VALUE50=null;
+        HutnParser.bool_return bool51 = null;
 
-        HutnParser.enum_value_return enum_value51 = null;
+        HutnParser.enum_value_return enum_value52 = null;
 
 
-        CommonTree TEXTUAL_VALUE48_tree=null;
-        CommonTree NUMERIC_VALUE49_tree=null;
+        CommonTree TEXTUAL_VALUE49_tree=null;
+        CommonTree NUMERIC_VALUE50_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:138:11: ( TEXTUAL_VALUE | NUMERIC_VALUE | bool | enum_value )
@@ -1686,10 +1702,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    TEXTUAL_VALUE48=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_attr_value460); if (state.failed) return retval;
+                    TEXTUAL_VALUE49=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_attr_value464); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    TEXTUAL_VALUE48_tree = (CommonTree)adaptor.create(TEXTUAL_VALUE48);
-                    adaptor.addChild(root_0, TEXTUAL_VALUE48_tree);
+                    TEXTUAL_VALUE49_tree = (CommonTree)adaptor.create(TEXTUAL_VALUE49);
+                    adaptor.addChild(root_0, TEXTUAL_VALUE49_tree);
                     }
 
                     }
@@ -1699,10 +1715,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    NUMERIC_VALUE49=(Token)match(input,NUMERIC_VALUE,FOLLOW_NUMERIC_VALUE_in_attr_value464); if (state.failed) return retval;
+                    NUMERIC_VALUE50=(Token)match(input,NUMERIC_VALUE,FOLLOW_NUMERIC_VALUE_in_attr_value468); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    NUMERIC_VALUE49_tree = (CommonTree)adaptor.create(NUMERIC_VALUE49);
-                    adaptor.addChild(root_0, NUMERIC_VALUE49_tree);
+                    NUMERIC_VALUE50_tree = (CommonTree)adaptor.create(NUMERIC_VALUE50);
+                    adaptor.addChild(root_0, NUMERIC_VALUE50_tree);
                     }
 
                     }
@@ -1712,12 +1728,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_bool_in_attr_value468);
-                    bool50=bool();
+                    pushFollow(FOLLOW_bool_in_attr_value472);
+                    bool51=bool();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, bool50.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, bool51.getTree());
 
                     }
                     break;
@@ -1726,12 +1742,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_enum_value_in_attr_value472);
-                    enum_value51=enum_value();
+                    pushFollow(FOLLOW_enum_value_in_attr_value476);
+                    enum_value52=enum_value();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, enum_value51.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, enum_value52.getTree());
 
                     }
                     break;
@@ -1770,9 +1786,9 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token set52=null;
+        Token set53=null;
 
-        CommonTree set52_tree=null;
+        CommonTree set53_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:140:5: ( TRUE | FALSE )
@@ -1780,10 +1796,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            set52=(Token)input.LT(1);
+            set53=(Token)input.LT(1);
             if ( (input.LA(1)>=TRUE && input.LA(1)<=FALSE) ) {
                 input.consume();
-                if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set52));
+                if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set53));
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -1828,13 +1844,13 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token COMMA54=null;
-        HutnParser.ref_return ref53 = null;
+        Token COMMA55=null;
+        HutnParser.ref_return ref54 = null;
 
-        HutnParser.ref_return ref55 = null;
+        HutnParser.ref_return ref56 = null;
 
 
-        CommonTree COMMA54_tree=null;
+        CommonTree COMMA55_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:5: ( ref ( COMMA ref )* )
@@ -1842,12 +1858,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_ref_in_refs490);
-            ref53=ref();
+            pushFollow(FOLLOW_ref_in_refs494);
+            ref54=ref();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, ref53.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, ref54.getTree());
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:11: ( COMMA ref )*
             loop16:
             do {
@@ -1863,13 +1879,13 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             	case 1 :
             	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:142:12: COMMA ref
             	    {
-            	    COMMA54=(Token)match(input,COMMA,FOLLOW_COMMA_in_refs493); if (state.failed) return retval;
-            	    pushFollow(FOLLOW_ref_in_refs496);
-            	    ref55=ref();
+            	    COMMA55=(Token)match(input,COMMA,FOLLOW_COMMA_in_refs497); if (state.failed) return retval;
+            	    pushFollow(FOLLOW_ref_in_refs500);
+            	    ref56=ref();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, ref55.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, ref56.getTree());
 
             	    }
             	    break;
@@ -1908,146 +1924,30 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     };
 
     // $ANTLR start ref
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:1: ref : ( simple_ref | containment );
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:1: ref : NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) ;
     public final HutnParser.ref_return ref() throws RecognitionException {
         HutnParser.ref_return retval = new HutnParser.ref_return();
         retval.start = input.LT(1);
 
         CommonTree root_0 = null;
 
-        HutnParser.simple_ref_return simple_ref56 = null;
+        Token NAME57=null;
+        Token TEXTUAL_VALUE58=null;
 
-        HutnParser.containment_return containment57 = null;
-
-
-
-        try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:4: ( simple_ref | containment )
-            int alt17=2;
-            int LA17_0 = input.LA(1);
-
-            if ( (LA17_0==NAME) ) {
-                int LA17_1 = input.LA(2);
-
-                if ( (LA17_1==TEXTUAL_VALUE) ) {
-                    int LA17_3 = input.LA(3);
-
-                    if ( (LA17_3==LBRACKET) ) {
-                        alt17=2;
-                    }
-                    else if ( (LA17_3==EOF||LA17_3==NAME||LA17_3==RBRACKET||(LA17_3>=ADJECTIVE_PREFIX && LA17_3<=COMMA)) ) {
-                        alt17=1;
-                    }
-                    else {
-                        if (state.backtracking>0) {state.failed=true; return retval;}
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 17, 3, input);
-
-                        throw nvae;
-                    }
-                }
-                else if ( (LA17_1==NAME||LA17_1==ADJECTIVE_PREFIX) ) {
-                    alt17=2;
-                }
-                else {
-                    if (state.backtracking>0) {state.failed=true; return retval;}
-                    NoViableAltException nvae =
-                        new NoViableAltException("", 17, 1, input);
-
-                    throw nvae;
-                }
-            }
-            else if ( (LA17_0==ADJECTIVE_PREFIX) ) {
-                alt17=2;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return retval;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 17, 0, input);
-
-                throw nvae;
-            }
-            switch (alt17) {
-                case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:6: simple_ref
-                    {
-                    root_0 = (CommonTree)adaptor.nil();
-
-                    pushFollow(FOLLOW_simple_ref_in_ref505);
-                    simple_ref56=simple_ref();
-
-                    state._fsp--;
-                    if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, simple_ref56.getTree());
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:144:19: containment
-                    {
-                    root_0 = (CommonTree)adaptor.nil();
-
-                    pushFollow(FOLLOW_containment_in_ref509);
-                    containment57=containment();
-
-                    state._fsp--;
-                    if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, containment57.getTree());
-
-                    }
-                    break;
-
-            }
-            retval.stop = input.LT(-1);
-
-            if ( state.backtracking==0 ) {
-
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
-            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-
-        }
-        finally {
-        }
-        return retval;
-    }
-    // $ANTLR end ref
-
-    public static class simple_ref_return extends ParserRuleReturnScope {
-        CommonTree tree;
-        public Object getTree() { return tree; }
-    };
-
-    // $ANTLR start simple_ref
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:146:1: simple_ref : NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) ;
-    public final HutnParser.simple_ref_return simple_ref() throws RecognitionException {
-        HutnParser.simple_ref_return retval = new HutnParser.simple_ref_return();
-        retval.start = input.LT(1);
-
-        CommonTree root_0 = null;
-
-        Token NAME58=null;
-        Token TEXTUAL_VALUE59=null;
-
-        CommonTree NAME58_tree=null;
-        CommonTree TEXTUAL_VALUE59_tree=null;
+        CommonTree NAME57_tree=null;
+        CommonTree TEXTUAL_VALUE58_tree=null;
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
         RewriteRuleTokenStream stream_TEXTUAL_VALUE=new RewriteRuleTokenStream(adaptor,"token TEXTUAL_VALUE");
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:7: ( NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:11: NAME TEXTUAL_VALUE
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:145:7: ( NAME TEXTUAL_VALUE -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE ) )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:145:11: NAME TEXTUAL_VALUE
             {
-            NAME58=(Token)match(input,NAME,FOLLOW_NAME_in_simple_ref525); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_NAME.add(NAME58);
+            NAME57=(Token)match(input,NAME,FOLLOW_NAME_in_ref518); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_NAME.add(NAME57);
 
-            TEXTUAL_VALUE59=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_simple_ref527); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_TEXTUAL_VALUE.add(TEXTUAL_VALUE59);
+            TEXTUAL_VALUE58=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_ref520); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_TEXTUAL_VALUE.add(TEXTUAL_VALUE58);
 
 
 
@@ -2062,12 +1962,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 147:30: -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
+            // 145:30: -> ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:147:33: ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
+                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:145:33: ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(REFERENCE, (NAME58!=null?NAME58.getText():null)), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(REFERENCE, (NAME57!=null?NAME57.getText():null)), root_1);
 
                 adaptor.addChild(root_1, stream_TEXTUAL_VALUE.nextNode());
 
@@ -2097,7 +1997,94 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
         }
         return retval;
     }
-    // $ANTLR end simple_ref
+    // $ANTLR end ref
+
+    public static class containments_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start containments
+    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:148:1: containments : containment ( COMMA containment )* ;
+    public final HutnParser.containments_return containments() throws RecognitionException {
+        HutnParser.containments_return retval = new HutnParser.containments_return();
+        retval.start = input.LT(1);
+
+        CommonTree root_0 = null;
+
+        Token COMMA60=null;
+        HutnParser.containment_return containment59 = null;
+
+        HutnParser.containment_return containment61 = null;
+
+
+        CommonTree COMMA60_tree=null;
+
+        try {
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:148:13: ( containment ( COMMA containment )* )
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:148:15: containment ( COMMA containment )*
+            {
+            root_0 = (CommonTree)adaptor.nil();
+
+            pushFollow(FOLLOW_containment_in_containments543);
+            containment59=containment();
+
+            state._fsp--;
+            if (state.failed) return retval;
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, containment59.getTree());
+            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:148:27: ( COMMA containment )*
+            loop17:
+            do {
+                int alt17=2;
+                int LA17_0 = input.LA(1);
+
+                if ( (LA17_0==COMMA) ) {
+                    alt17=1;
+                }
+
+
+                switch (alt17) {
+            	case 1 :
+            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:148:28: COMMA containment
+            	    {
+            	    COMMA60=(Token)match(input,COMMA,FOLLOW_COMMA_in_containments546); if (state.failed) return retval;
+            	    pushFollow(FOLLOW_containment_in_containments549);
+            	    containment61=containment();
+
+            	    state._fsp--;
+            	    if (state.failed) return retval;
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, containment61.getTree());
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop17;
+                }
+            } while (true);
+
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end containments
 
     public static class containment_return extends ParserRuleReturnScope {
         CommonTree tree;
@@ -2112,19 +2099,19 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token NAME61=null;
-        Token TEXTUAL_VALUE62=null;
-        Token LBRACKET63=null;
-        Token RBRACKET65=null;
-        HutnParser.adjective_return adjective60 = null;
+        Token NAME63=null;
+        Token TEXTUAL_VALUE64=null;
+        Token LBRACKET65=null;
+        Token RBRACKET67=null;
+        HutnParser.adjective_return adjective62 = null;
 
-        HutnParser.cls_contents_return cls_contents64 = null;
+        HutnParser.cls_contents_return cls_contents66 = null;
 
 
-        CommonTree NAME61_tree=null;
-        CommonTree TEXTUAL_VALUE62_tree=null;
-        CommonTree LBRACKET63_tree=null;
-        CommonTree RBRACKET65_tree=null;
+        CommonTree NAME63_tree=null;
+        CommonTree TEXTUAL_VALUE64_tree=null;
+        CommonTree LBRACKET65_tree=null;
+        CommonTree RBRACKET67_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:12: ( ( adjective )* NAME TEXTUAL_VALUE LBRACKET ( cls_contents )* RBRACKET )
@@ -2156,12 +2143,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             	case 1 :
             	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: adjective
             	    {
-            	    pushFollow(FOLLOW_adjective_in_containment550);
-            	    adjective60=adjective();
+            	    pushFollow(FOLLOW_adjective_in_containment558);
+            	    adjective62=adjective();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, adjective60.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, adjective62.getTree());
 
             	    }
             	    break;
@@ -2171,17 +2158,17 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                 }
             } while (true);
 
-            NAME61=(Token)match(input,NAME,FOLLOW_NAME_in_containment553); if (state.failed) return retval;
+            NAME63=(Token)match(input,NAME,FOLLOW_NAME_in_containment561); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            NAME61_tree = (CommonTree)adaptor.create(NAME61);
-            root_0 = (CommonTree)adaptor.becomeRoot(NAME61_tree, root_0);
+            NAME63_tree = (CommonTree)adaptor.create(NAME63);
+            root_0 = (CommonTree)adaptor.becomeRoot(NAME63_tree, root_0);
             }
-            TEXTUAL_VALUE62=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_containment556); if (state.failed) return retval;
+            TEXTUAL_VALUE64=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_containment564); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            TEXTUAL_VALUE62_tree = (CommonTree)adaptor.create(TEXTUAL_VALUE62);
-            adaptor.addChild(root_0, TEXTUAL_VALUE62_tree);
+            TEXTUAL_VALUE64_tree = (CommonTree)adaptor.create(TEXTUAL_VALUE64);
+            adaptor.addChild(root_0, TEXTUAL_VALUE64_tree);
             }
-            LBRACKET63=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_containment558); if (state.failed) return retval;
+            LBRACKET65=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_containment566); if (state.failed) return retval;
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:150:55: ( cls_contents )*
             loop19:
             do {
@@ -2197,12 +2184,12 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             	case 1 :
             	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:0:0: cls_contents
             	    {
-            	    pushFollow(FOLLOW_cls_contents_in_containment561);
-            	    cls_contents64=cls_contents();
+            	    pushFollow(FOLLOW_cls_contents_in_containment569);
+            	    cls_contents66=cls_contents();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, cls_contents64.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, cls_contents66.getTree());
 
             	    }
             	    break;
@@ -2212,7 +2199,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
                 }
             } while (true);
 
-            RBRACKET65=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_containment564); if (state.failed) return retval;
+            RBRACKET67=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_containment572); if (state.failed) return retval;
 
             }
 
@@ -2249,9 +2236,9 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
         CommonTree root_0 = null;
 
-        Token NAME66=null;
+        Token NAME68=null;
 
-        CommonTree NAME66_tree=null;
+        CommonTree NAME68_tree=null;
 
         try {
             // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:152:11: ( NAME )
@@ -2259,10 +2246,10 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            NAME66=(Token)match(input,NAME,FOLLOW_NAME_in_enum_value572); if (state.failed) return retval;
+            NAME68=(Token)match(input,NAME,FOLLOW_NAME_in_enum_value580); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            NAME66_tree = (CommonTree)adaptor.create(NAME66);
-            root_0 = (CommonTree)adaptor.becomeRoot(NAME66_tree, root_0);
+            NAME68_tree = (CommonTree)adaptor.create(NAME68);
+            root_0 = (CommonTree)adaptor.becomeRoot(NAME68_tree, root_0);
             }
 
             }
@@ -2292,25 +2279,27 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\7\uffff";
+        "\11\uffff";
     static final String DFA12_eofS =
-        "\2\uffff\1\1\4\uffff";
+        "\2\uffff\1\1\1\uffff\1\7\4\uffff";
     static final String DFA12_minS =
-        "\1\4\1\uffff\1\13\1\uffff\3\13";
+        "\1\4\1\uffff\1\13\1\uffff\3\13\1\uffff\1\13";
     static final String DFA12_maxS =
-        "\1\22\1\uffff\1\21\1\uffff\1\20\1\13\1\20";
+        "\1\22\1\uffff\1\21\1\uffff\1\21\1\20\1\13\1\uffff\1\20";
     static final String DFA12_acceptS =
-        "\1\uffff\1\1\1\uffff\1\2\3\uffff";
+        "\1\uffff\1\1\1\uffff\1\3\3\uffff\1\2\1\uffff";
     static final String DFA12_specialS =
-        "\7\uffff}>";
+        "\11\uffff}>";
     static final String[] DFA12_transitionS = {
             "\3\1\4\uffff\1\2\1\1\3\uffff\1\3\1\uffff\1\1",
             "",
-            "\1\4\1\3\1\uffff\1\1\1\uffff\1\5\1\1",
+            "\1\5\1\4\1\uffff\1\1\1\uffff\1\6\1\1",
             "",
-            "\1\4\1\3\1\uffff\2\1\1\5",
-            "\1\6",
-            "\1\4\2\uffff\1\1\1\uffff\1\5"
+            "\1\7\1\uffff\1\3\1\7\1\uffff\2\7",
+            "\1\5\1\3\1\uffff\2\1\1\6",
+            "\1\10",
+            "",
+            "\1\5\2\uffff\1\1\1\uffff\1\6"
     };
 
     static final short[] DFA12_eot = DFA.unpackEncodedString(DFA12_eotS);
@@ -2343,7 +2332,7 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "134:1: feature_contents : ( attr | refs );";
+            return "134:1: feature_contents : ( attr | refs | containments );";
         }
     }
  
@@ -2360,16 +2349,16 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     public static final BitSet FOLLOW_assoc_instance_in_pkg_contents167 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_infix_assoc_in_assoc_instance174 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assoc_block_in_assoc_instance178 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_simple_ref_in_infix_assoc194 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_ref_in_infix_assoc194 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_NAME_in_infix_assoc196 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_simple_ref_in_infix_assoc198 = new BitSet(new long[]{0x0000000008000000L});
+    public static final BitSet FOLLOW_ref_in_infix_assoc198 = new BitSet(new long[]{0x0000000008000000L});
     public static final BitSet FOLLOW_27_in_infix_assoc200 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_NAME_in_assoc_block234 = new BitSet(new long[]{0x0000000000002000L});
     public static final BitSet FOLLOW_LBRACKET_in_assoc_block236 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_assoc_contents_in_assoc_block238 = new BitSet(new long[]{0x0000000000004800L});
     public static final BitSet FOLLOW_RBRACKET_in_assoc_block241 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_simple_ref_in_assoc_contents274 = new BitSet(new long[]{0x0000000000004800L});
-    public static final BitSet FOLLOW_simple_ref_in_assoc_contents276 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ref_in_assoc_contents274 = new BitSet(new long[]{0x0000000000004800L});
+    public static final BitSet FOLLOW_ref_in_assoc_contents276 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_NAME_in_cls_level_attribute299 = new BitSet(new long[]{0x0000000010000000L});
     public static final BitSet FOLLOW_28_in_cls_level_attribute301 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_NAME_in_cls_level_attribute303 = new BitSet(new long[]{0x0000000000008000L});
@@ -2391,28 +2380,30 @@ public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser 
     public static final BitSet FOLLOW_feature_contents_in_feature423 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_attr_in_feature_contents430 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_refs_in_feature_contents434 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_attr_value_in_attr441 = new BitSet(new long[]{0x0000000000020002L});
-    public static final BitSet FOLLOW_COMMA_in_attr444 = new BitSet(new long[]{0x0000000000041830L});
-    public static final BitSet FOLLOW_attr_value_in_attr447 = new BitSet(new long[]{0x0000000000020002L});
-    public static final BitSet FOLLOW_NULL_in_attr453 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_attr_value460 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NUMERIC_VALUE_in_attr_value464 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bool_in_attr_value468 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_enum_value_in_attr_value472 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_containments_in_feature_contents438 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attr_value_in_attr445 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_COMMA_in_attr448 = new BitSet(new long[]{0x0000000000041830L});
+    public static final BitSet FOLLOW_attr_value_in_attr451 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_NULL_in_attr457 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_attr_value464 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NUMERIC_VALUE_in_attr_value468 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bool_in_attr_value472 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_enum_value_in_attr_value476 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_bool0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ref_in_refs490 = new BitSet(new long[]{0x0000000000020002L});
-    public static final BitSet FOLLOW_COMMA_in_refs493 = new BitSet(new long[]{0x0000000000055870L});
-    public static final BitSet FOLLOW_ref_in_refs496 = new BitSet(new long[]{0x0000000000020002L});
-    public static final BitSet FOLLOW_simple_ref_in_ref505 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_containment_in_ref509 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NAME_in_simple_ref525 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_simple_ref527 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_adjective_in_containment550 = new BitSet(new long[]{0x0000000000014800L});
-    public static final BitSet FOLLOW_NAME_in_containment553 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_containment556 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_LBRACKET_in_containment558 = new BitSet(new long[]{0x0000000000014800L});
-    public static final BitSet FOLLOW_cls_contents_in_containment561 = new BitSet(new long[]{0x0000000000014800L});
-    public static final BitSet FOLLOW_RBRACKET_in_containment564 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NAME_in_enum_value572 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ref_in_refs494 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_COMMA_in_refs497 = new BitSet(new long[]{0x0000000000004800L});
+    public static final BitSet FOLLOW_ref_in_refs500 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_NAME_in_ref518 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_ref520 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_containment_in_containments543 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_COMMA_in_containments546 = new BitSet(new long[]{0x0000000000055870L});
+    public static final BitSet FOLLOW_containment_in_containments549 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_adjective_in_containment558 = new BitSet(new long[]{0x0000000000014800L});
+    public static final BitSet FOLLOW_NAME_in_containment561 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_TEXTUAL_VALUE_in_containment564 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_LBRACKET_in_containment566 = new BitSet(new long[]{0x0000000000014800L});
+    public static final BitSet FOLLOW_cls_contents_in_containment569 = new BitSet(new long[]{0x0000000000014800L});
+    public static final BitSet FOLLOW_RBRACKET_in_containment572 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NAME_in_enum_value580 = new BitSet(new long[]{0x0000000000000002L});
 
 }

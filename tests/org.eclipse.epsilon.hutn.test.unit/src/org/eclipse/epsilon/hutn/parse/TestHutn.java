@@ -451,6 +451,15 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"infix_assoc", expecting, actual);
 	}
 
+	public void testFeature_contents1() throws Exception {
+		// test input: "Family \"The Smiths\" { name: \"The Smiths\" }, Family \"The Does\""
+		Object retval = execParser("feature_contents", "Family \"The Smiths\" { name: \"The Smiths\" }, Family \"The Does\"", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"feature_contents", expecting, actual);
+	}
+
 	// Invoke target parser.rule
 	public Object execParser(String testRuleName, String testInput, boolean isFile) throws Exception {
 		CharStream input;

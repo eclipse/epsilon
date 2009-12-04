@@ -103,7 +103,7 @@ pkg_contents: cls | cls_level_attribute | assoc_instance;
 assoc_instance: infix_assoc | assoc_block;
 
 infix_assoc
-      :   simple_ref NAME simple_ref ';' -> ^(ASSOC_INSTANCE[$NAME.text] simple_ref simple_ref)
+      :   ref NAME ref ';' -> ^(ASSOC_INSTANCE[$NAME.text] ref ref)
       ;
 
 assoc_block
@@ -111,7 +111,7 @@ assoc_block
       ;
 
 assoc_contents
-      :   simple_ref simple_ref
+      :   ref ref
       ;
 
 cls_level_attribute
@@ -131,7 +131,7 @@ cls_contents: feature | adjective;
 
 feature: NAME^ ASSIGNMENT! feature_contents;
 
-feature_contents: attr | refs;
+feature_contents: attr | refs | containments;
 
 attr: attr_value (COMMA! attr_value)* | NULL;
 
@@ -141,11 +141,11 @@ bool: TRUE | FALSE;
 
 refs: ref (COMMA! ref)*;
 
-ref: simple_ref | containment;
-
-simple_ref
+ref
       :   NAME TEXTUAL_VALUE -> ^(REFERENCE[$NAME.text] TEXTUAL_VALUE)
       ;
+
+containments: containment (COMMA! containment)*;
 
 containment: adjective* NAME^ TEXTUAL_VALUE LBRACKET! cls_contents* RBRACKET!;
 

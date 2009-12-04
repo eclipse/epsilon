@@ -127,3 +127,8 @@ infix_assoc:
 	// Terminated and unterminated
 	"Family \"The Smiths\" vehicles Vehicle \"Honda\";" -> "(vehicles (Family \\\"The Smiths\\\") (Vehicle \\\"Honda\\\"))"
 	"Family \"The Smiths\" vehicles Vehicle \"Honda\"" FAIL
+	
+	
+feature_contents:
+	// Should not permit mixed reference and contaiment values
+	"Family \"The Smiths\" { name: \"The Smiths\" }, Family \"The Does\"" FAIL

@@ -19,6 +19,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.hutn.test.acceptance.invalid.ConfigFileSpecifiedWithoutNsUri;
 import org.eclipse.epsilon.hutn.test.acceptance.invalid.InvalidConfigFile;
+import org.eclipse.epsilon.hutn.test.acceptance.invalid.MixedValues;
 import org.eclipse.epsilon.hutn.test.acceptance.invalid.NonExistentConfigFile;
 import org.eclipse.epsilon.hutn.test.acceptance.invalid.UnrecognisedNsUri;
 import org.junit.runner.RunWith;
@@ -27,7 +28,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({UnrecognisedNsUri.class, NonExistentConfigFile.class,
-               ConfigFileSpecifiedWithoutNsUri.class, InvalidConfigFile.class})
+               ConfigFileSpecifiedWithoutNsUri.class, InvalidConfigFile.class,
+               MixedValues.class})
 public class InvalidHutnAcceptanceTestSuite {
 
 	public static Test suite() {
