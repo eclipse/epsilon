@@ -10,12 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.editor;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.epsilon.util.emf.EmfRegistryManager;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.ContentAssistAction;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
 public class HutnEditor extends TextEditor {
 		 
@@ -39,5 +44,22 @@ public class HutnEditor extends TextEditor {
 	
 	private IDocument getDocument() {
 		return getEditorInput() == null ? null : getDocumentProvider().getDocument(getEditorInput());
+	}
+	
+	
+	@Override
+	protected void createActions() {
+		super.createActions();
+		createContentAssistanceAction();
+	}
+	
+	
+	private void createContentAssistanceAction() {
+		final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.eclipse.epsilon.hutn.dt.editor.ContentAssistance");
+		
+		final Action action = new ContentAssistAction(resourceBundle, "ContentAssistProposal.", this); 
+		action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+		setAction("ContentAssistProposal", action); 
+		markAsStateDependentAction("ContentAssistProposal", true);
 	}
 }

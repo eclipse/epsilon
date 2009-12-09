@@ -5,24 +5,17 @@ Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt;singleton:=true
 Bundle-Version: 0.7.8.qualifier
 Export-Package: org.eclipse.epsilon.hutn.dt.actions,
  org.eclipse.epsilon.hutn.dt.editor,
+ org.eclipse.epsilon.hutn.dt.editor.contentAssist,
  org.eclipse.epsilon.hutn.dt.markers,
  org.eclipse.epsilon.hutn.dt.util
-Require-Bundle: org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.hamcrest,
+ org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.hutn.engine,
- org.eclipse.ui.views,
  org.eclipse.epsilon.common.dt,
- org.eclipse.swt,
- org.eclipse.ui,
- org.eclipse.jface.text,
+ org.eclipse.jface.text;visibility:=reexport,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.editors,
- org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.core.resources,
- org.eclipse.ui.ide,
  org.eclipse.emf.ecore.editor,
- org.eclipse.epsilon.util.emf,
- org.eclipse.epsilon.emc.emf.dt,
- org.eclipse.debug.core
+ org.eclipse.epsilon.util.emf
 Bundle-Vendor: Eclipse.org

@@ -10,8 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.editor;
 
+import org.eclipse.epsilon.hutn.dt.editor.contentAssist.HutnContentAssistProcessor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Region;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.reconciler.IReconciler;
@@ -56,5 +60,15 @@ public class HutnSourceViewerConfiguration extends SourceViewerConfiguration {
 	public void reconcile(IDocument document) {
 		strategy.setDocument(document);
 		strategy.reconcile(new Region(0, document.getLength()));
+	}
+	
+	
+	@Override
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+	    ContentAssistant ca = new ContentAssistant();
+	    IContentAssistProcessor pr = new HutnContentAssistProcessor();
+	    ca.setContentAssistProcessor(pr, IDocument.DEFAULT_CONTENT_TYPE);
+	    ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
+	    return ca;
 	}
 }

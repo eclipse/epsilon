@@ -10,16 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.editor;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.emc.emf.EmfMetaModel;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.models.IModel;
 
 final class HutnKeywordManager {
 	
@@ -56,30 +50,14 @@ final class HutnKeywordManager {
 
 		for (String nsUri : nsUris) {
 			try {
-				final IModel metamodel = new EmfMetaModel(nsUri);
-				metamodel.load();
+				final EmfMetamodelDirectory metamodel = new EmfMetamodelDirectory(nsUri);
 				
-				keywords.addAll(addKeywordsFrom(metamodel, "EClassifier"));
-				keywords.addAll(addKeywordsFrom(metamodel, "EPackage"));
+				keywords.addAll(metamodel.classifierNames());
+				keywords.addAll(metamodel.packageNames());
 				
 			} catch (EolModelLoadingException e) {
-				// Ignore, as this is reported during as a parse problem
-			} catch (EolModelElementTypeNotFoundException e) {
-				EpsilonConsole.getInstance().getErrorStream().println("Could not find the the type EClassifier for metamodel with nsUri: " + nsUri);
+				// Ignore, as this is reported as a parse problem
 			}
-		}
-		
-		return keywords;
-	}
-	
-	private List<String> addKeywordsFrom(IModel metamodel, String type) throws EolModelElementTypeNotFoundException {
-		final List<String> keywords = new LinkedList<String>();
-		
-		final Iterator<?> iterator = metamodel.getAllOfKind(type).iterator();
-		
-		while (iterator.hasNext()) {
-			final ENamedElement element = (ENamedElement)iterator.next();
-			keywords.add(element.getName());
 		}
 		
 		return keywords;
