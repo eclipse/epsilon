@@ -14,49 +14,54 @@
 package org.eclipse.epsilon.hutn.dt.editor.contentAssist;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.hutn.dt.editor.EmfMetamodelDirectory;
-import org.eclipse.epsilon.hutn.model.hutn.NsUri;
 import org.eclipse.epsilon.hutn.parse.spec.HutnPreamble;
 
 public class ContentAssistHelper {
 
-	private final LastWordLocator locator        = new LastWordLocator();
-	private final Contextualiser  contextualiser = new Contextualiser();
+	private final String content;
+	private final String context;
+	private final EmfMetamodelDirectory directory;
 	
-	public String lastWord(String text) {
-		return locator.lastWord(text);
+	private final LastWordLocator locator = new LastWordLocator();
+	
+	public ContentAssistHelper(String content) throws EolModelLoadingException {
+		this.content   = content;
+		this.context   = new Contextualiser().contextualise(content);
+		this.directory = new EmfMetamodelDirectory(new HutnPreamble().process(content).getNsUris());
+	}
+
+	public String lastWord() {
+		return locator.lastWord(content);
 	}
 	
-	public Collection<String> classifierNames(String doc) {
-		try {
-			final Collection<NsUri> nsUris = new HutnPreamble().process(doc).getNsUris();
-						
-			return new EmfMetamodelDirectory(nsUris).concreteClassNames();
-		
-		} catch (EolModelLoadingException e) {
-			return Collections.emptyList();
+	public Collection<String> computeCompletionProposals() {
+		if (contextIsClass()) {
+			return slotSuggestionsFor(context);
+			
+		} else {
+			return classObjectSuggestions();
 		}
 	}
 	
-	public Collection<String>  featureNamesFor(String className, String doc) {
-		try {
-			final Collection<NsUri> nsUris = new HutnPreamble().process(doc).getNsUris();
-						
-			return new EmfMetamodelDirectory(nsUris).featureNamesFor(className);
+	private boolean contextIsClass() {
+		return classObjectSuggestions().contains(context);
+	}
+	
+	private Collection<String> classObjectSuggestions() {
+		return directory.concreteClassNames();
+	}
+	
+	private Collection<String> slotSuggestionsFor(String type) {
+		final Collection<String> slotSuggestions = new LinkedList<String>();
 		
-		} catch (EolModelLoadingException e) {
-			return Collections.emptyList();
+		for (String feature : directory.featureNamesFor(type)) {
+			slotSuggestions.add(feature + ": ");
 		}
-	}
-
-	public boolean contextIsClass(String text) {
-		return classifierNames(text).contains(contextualiser.contextualise(text));
-	}
-
-	public String currentClassName(String text) {
-		return contextualiser.contextualise(text);
+		
+		return slotSuggestions;
 	}
 }

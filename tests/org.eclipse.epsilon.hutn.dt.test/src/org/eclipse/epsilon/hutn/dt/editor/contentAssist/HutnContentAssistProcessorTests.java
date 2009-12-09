@@ -18,21 +18,23 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsArrayContainingInOrder.arrayContaining;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Test;
 
 @SuppressWarnings("unchecked")
 public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaModel {
 
 	@Test
-	public void shouldSuggestConcreteClassNamesWhenAtPackageLevel() {
+	public void shouldSuggestConcreteClassNamesWhenAtPackageLevel() throws EolModelLoadingException {
 		final String text = "@Spec {"                    +
 		                    "	Metamodel {"             +
 		                    "		nsUri: \"families\"" + 
 		                    "	}"                       +
 		                    "}"                          +
 		                    "families { ";
-		
+				
 		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
 		           is(arrayContaining(completionProposal("Bike"),
 		                              completionProposal("District"),
@@ -46,7 +48,7 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 	
 	
 	@Test
-	public void shouldSuggestSlotNamesWhenAtClassLevel() {
+	public void shouldSuggestSlotNamesWhenAtClassLevel() throws EolModelLoadingException {
 		final String text = "@Spec {"                    +
 		                    "	Metamodel {"             +
 		                    "		nsUri: \"families\"" + 
@@ -61,5 +63,13 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                              completionProposal("name: "),
 		                              completionProposal("sharedAccounts: ")
 		                              )));
+	}
+	
+	
+	// For debugging
+	protected static void print(ICompletionProposal[] proposals) {
+		for (ICompletionProposal proposal : proposals) {
+			System.err.println(proposal.getDisplayString());
+		}
 	}
 }

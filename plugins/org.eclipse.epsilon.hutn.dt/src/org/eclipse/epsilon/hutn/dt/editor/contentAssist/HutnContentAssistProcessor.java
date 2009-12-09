@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor.contentAssist;
 
+import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -21,11 +23,15 @@ import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 
 public class HutnContentAssistProcessor implements IContentAssistProcessor {
-
-	private final ContentAssistHelper helper = new ContentAssistHelper();
 	
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
-		return computeCompletionProposals(getDocumentText(viewer, offset));
+		try {
+			return computeCompletionProposals(getDocumentText(viewer, offset));
+		
+		} catch (EolModelLoadingException e) {
+			LogUtil.log("Could not compute HUTN completion proposals.", e);
+			return new ICompletionProposal[0];
+		}
 	}
 	
 	private String getDocumentText(ITextViewer viewer, int offset) {
@@ -37,18 +43,13 @@ public class HutnContentAssistProcessor implements IContentAssistProcessor {
 		}
 	}
 	
-	public ICompletionProposal[] computeCompletionProposals(String text) {
-		final ProposalsFactory proposalsFactory = new ProposalsFactory(text.length(), helper.lastWord(text));
+	public ICompletionProposal[] computeCompletionProposals(String text) throws EolModelLoadingException {
+		final ContentAssistHelper helper = new ContentAssistHelper(text);
 		
-		if (helper.contextIsClass(text)) {
-			for (String feature : helper.featureNamesFor(helper.currentClassName(text), text)) {
-				proposalsFactory.propose(feature + ": ");
-			}
-			
-		} else {
-			for (String classifier : helper.classifierNames(text)) {
-				proposalsFactory.propose(classifier);
-			}
+		final ProposalsFactory proposalsFactory = new ProposalsFactory(text.length(), helper.lastWord());
+		
+		for (String proposal : helper.computeCompletionProposals()) {
+			proposalsFactory.propose(proposal);
 		}
 			
 		return proposalsFactory.proposals();
