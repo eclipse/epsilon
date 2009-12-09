@@ -20,6 +20,7 @@ import org.eclipse.epsilon.hutn.xmi.dt.HutnXmiBridgeDevelopmentToolsPlugin;
 import org.eclipse.epsilon.hutn.xmi.dt.ModelHashCache;
 import org.eclipse.epsilon.hutn.xmi.hashing.HutnXmiBridgeHashingException;
 import org.eclipse.epsilon.hutn.xmi.hashing.Xmi2Hash;
+import org.eclipse.ui.PlatformUI;
 
 public class ModelHashChecker {
 
@@ -43,15 +44,24 @@ public class ModelHashChecker {
 		final boolean hashChanged = !matchesCachedHash(currentHash);
 		
 		if (hashChanged) {
-			if (noCachedHash())
-				EpsilonConsole.getInstance().getInfoStream().println("No previous hash for: " + model + " (new hash value: " + currentHash + ")");
-			else
-				EpsilonConsole.getInstance().getInfoStream().println("Hash changed for: " + model + " (" + previousHash() + " -> " + currentHash + ")");
+			if (noCachedHash()) {
+				print("No previous hash for: " + model + " (new hash value: " + currentHash + ")");
+			} else {
+				print("Hash changed for: " + model + " (" + previousHash() + " -> " + currentHash + ")");
+			}
 				
 			updateCachedHash(currentHash);
 		}
 		
 		return hashChanged;
+	}
+
+	private void print(String msg) {
+		if (PlatformUI.isWorkbenchRunning()) {
+			EpsilonConsole.getInstance().getInfoStream().println(msg);
+		} else {
+			System.out.println(msg);
+		}
 	}
 
 	private boolean matchesCachedHash(int currentHash) {
