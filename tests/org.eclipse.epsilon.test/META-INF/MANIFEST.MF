@@ -4,7 +4,7 @@ Bundle-Name: Epsilon Test Suite (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.test
 Bundle-Version: 0.8.4.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.junit4,
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.eol.engine.test.acceptance,
  org.eclipse.epsilon.egl.engine.test,
  org.eclipse.epsilon.hutn.test,
