@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.easymock.EasyMock;
 import org.eclipse.epsilon.hutn.xmi.dt.ModelHashCache;
 import org.eclipse.epsilon.hutn.xmi.hashing.Xmi2Hash;
 import org.junit.Test;
@@ -40,6 +39,7 @@ public class ModelHashCheckerTests {
 		
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(false);
+		expectLastCall().atLeastOnce();
 		expect(mockHashCache.getHashFor(modelUri)).andReturn(2);
 		expectLastCall().atLeastOnce();
 		
@@ -83,6 +83,7 @@ public class ModelHashCheckerTests {
 		
 		expect(mockHasher.calculateMetamodelHash()).andReturn(1);
 		expect(mockHashCache.noHashFor(modelUri)).andReturn(true);
+		expectLastCall().atLeastOnce();
 		expect(mockHashCache.getHashFor(modelUri)).andStubReturn(null);
 		
 		mockHashCache.updateHashFor(modelUri, 1);
