@@ -17,5 +17,6 @@ Require-Bundle: org.hamcrest,
  org.eclipse.ui.editors,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.emf.ecore.editor,
- org.eclipse.epsilon.util.emf
+ org.eclipse.epsilon.util.emf,
+ org.eclipse.epsilon.emc.composite
 Bundle-Vendor: Eclipse.org

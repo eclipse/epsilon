@@ -43,4 +43,23 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                              completionProposal("Pet")
 		                              )));
 	}
+	
+	
+	@Test
+	public void shouldSuggestSlotNamesWhenAtClassLevel() {
+		final String text = "@Spec {"                    +
+		                    "	Metamodel {"             +
+		                    "		nsUri: \"families\"" + 
+		                    "	}"                       +
+		                    "}"                          +
+		                    "families { " +
+		                    "  Person { ";
+		
+		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
+		           is(arrayContaining(completionProposal("accounts: "),
+		                              completionProposal("friends: "),
+		                              completionProposal("name: "),
+		                              completionProposal("sharedAccounts: ")
+		                              )));
+	}
 }

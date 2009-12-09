@@ -23,7 +23,8 @@ import org.eclipse.epsilon.hutn.parse.spec.HutnPreamble;
 
 public class ContentAssistHelper {
 
-	private final LastWordLocator locator = new LastWordLocator();
+	private final LastWordLocator locator        = new LastWordLocator();
+	private final Contextualiser  contextualiser = new Contextualiser();
 	
 	public String lastWord(String text) {
 		return locator.lastWord(text);
@@ -38,5 +39,24 @@ public class ContentAssistHelper {
 		} catch (EolModelLoadingException e) {
 			return Collections.emptyList();
 		}
+	}
+	
+	public Collection<String>  featureNamesFor(String className, String doc) {
+		try {
+			final Collection<NsUri> nsUris = new HutnPreamble().process(doc).getNsUris();
+						
+			return new EmfMetamodelDirectory(nsUris).featureNamesFor(className);
+		
+		} catch (EolModelLoadingException e) {
+			return Collections.emptyList();
+		}
+	}
+
+	public boolean contextIsClass(String text) {
+		return classifierNames(text).contains(contextualiser.contextualise(text));
+	}
+
+	public String currentClassName(String text) {
+		return contextualiser.contextualise(text);
 	}
 }

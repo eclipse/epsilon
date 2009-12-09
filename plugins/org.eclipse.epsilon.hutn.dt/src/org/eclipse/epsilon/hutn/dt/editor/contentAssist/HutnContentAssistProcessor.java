@@ -38,12 +38,17 @@ public class HutnContentAssistProcessor implements IContentAssistProcessor {
 	}
 	
 	public ICompletionProposal[] computeCompletionProposals(String text) {
-		final String lastWord = helper.lastWord(text);
+		final ProposalsFactory proposalsFactory = new ProposalsFactory(text.length(), helper.lastWord(text));
 		
-		final ProposalsFactory proposalsFactory = new ProposalsFactory(text.length(), lastWord);
-				
-		for (String classifier : helper.classifierNames(text)) {
-			proposalsFactory.propose(classifier);
+		if (helper.contextIsClass(text)) {
+			for (String feature : helper.featureNamesFor(helper.currentClassName(text), text)) {
+				proposalsFactory.propose(feature + ": ");
+			}
+			
+		} else {
+			for (String classifier : helper.classifierNames(text)) {
+				proposalsFactory.propose(classifier);
+			}
 		}
 			
 		return proposalsFactory.proposals();
