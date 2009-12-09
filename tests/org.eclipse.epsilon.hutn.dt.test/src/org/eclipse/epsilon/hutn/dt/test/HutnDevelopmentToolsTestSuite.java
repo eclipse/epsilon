@@ -16,6 +16,7 @@ package org.eclipse.epsilon.hutn.dt.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.hutn.dt.editor.contentAssist.HutnContentAssistProcessorTests;
 import org.eclipse.epsilon.hutn.dt.editor.contentAssist.LastWordLocatorTests;
 import org.eclipse.epsilon.hutn.dt.editor.contentAssist.ProposalsFactoryTests;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({LastWordLocatorTests.class, ProposalsFactoryTests.class})
+@SuiteClasses({LastWordLocatorTests.class, ProposalsFactoryTests.class, HutnContentAssistProcessorTests.class})
 public class HutnDevelopmentToolsTestSuite {
 
 	public static Test suite() {

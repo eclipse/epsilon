@@ -20,34 +20,23 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.hutn.dt.editor.EmfMetamodelDirectory;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
 import org.eclipse.epsilon.hutn.parse.spec.HutnPreamble;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
 
-public class DocumentProcessor {
+public class ContentAssistHelper {
 
 	private final LastWordLocator locator = new LastWordLocator();
 	
-	public Collection<String> classifierNames(IDocument doc) {
+	public String lastWord(String text) {
+		return locator.lastWord(text);
+	}
+	
+	public Collection<String> classifierNames(String doc) {
 		try {
-			final Collection<NsUri> nsUris = new HutnPreamble().process(doc.get()).getNsUris();
-			
+			final Collection<NsUri> nsUris = new HutnPreamble().process(doc).getNsUris();
+						
 			return new EmfMetamodelDirectory(nsUris).concreteClassNames();
 		
 		} catch (EolModelLoadingException e) {
 			return Collections.emptyList();
-		}
-	}
-	
-	public String lastWord(IDocument doc, int offset) {
-		return locator.lastWord(getDocumentText(doc, offset));
-	}
-
-	private String getDocumentText(IDocument doc, int offset) {
-		try {
-			return doc.get(0, offset);
-		
-		} catch (BadLocationException e) {
-			throw new IllegalArgumentException("Offset, " + offset + " is past the end of this document, length: " + doc.getLength());
 		}
 	}
 }

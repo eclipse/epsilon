@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor.contentAssist;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -21,14 +22,27 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 
 public class HutnContentAssistProcessor implements IContentAssistProcessor {
 
-	private final DocumentProcessor documentProcessor = new DocumentProcessor();
+	private final ContentAssistHelper helper = new ContentAssistHelper();
 	
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
-		final String lastWord = documentProcessor.lastWord(viewer.getDocument(), offset);
+		return computeCompletionProposals(getDocumentText(viewer, offset));
+	}
+	
+	private String getDocumentText(ITextViewer viewer, int offset) {
+		try {
+			return viewer.getDocument().get(0, offset);
 		
-		final ProposalsFactory proposalsFactory = new ProposalsFactory(offset, lastWord);
+		} catch (BadLocationException e) {
+			throw new IllegalArgumentException("Offset, " + offset + " is past the end of this document, length: " + viewer.getDocument().getLength());
+		}
+	}
+	
+	public ICompletionProposal[] computeCompletionProposals(String text) {
+		final String lastWord = helper.lastWord(text);
+		
+		final ProposalsFactory proposalsFactory = new ProposalsFactory(text.length(), lastWord);
 				
-		for (String classifier : documentProcessor.classifierNames(viewer.getDocument())) {
+		for (String classifier : helper.classifierNames(text)) {
 			proposalsFactory.propose(classifier);
 		}
 			
