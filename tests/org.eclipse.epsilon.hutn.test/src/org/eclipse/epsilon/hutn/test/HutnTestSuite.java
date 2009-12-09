@@ -17,6 +17,7 @@ package org.eclipse.epsilon.hutn.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.hutn.dt.test.HutnDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.hutn.test.acceptance.HutnAcceptanceTestSuite;
 import org.eclipse.epsilon.hutn.test.unit.HutnUnitTestSuite;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({HutnUnitTestSuite.class, HutnAcceptanceTestSuite.class})
+@SuiteClasses({HutnUnitTestSuite.class, HutnAcceptanceTestSuite.class, HutnDevelopmentToolsTestSuite.class})
 public class HutnTestSuite {
 
 	public static Test suite() {
