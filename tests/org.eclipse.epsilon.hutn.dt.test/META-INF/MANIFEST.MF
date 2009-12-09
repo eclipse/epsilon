@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Human Usable Textual Notation Development Tool Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt.test
+Bundle-Version: 0.7.7.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.hutn.dt,
+ org.eclipse.epsilon.test.dependencies
+Export-Package: org.eclipse.epsilon.hutn.dt.test
