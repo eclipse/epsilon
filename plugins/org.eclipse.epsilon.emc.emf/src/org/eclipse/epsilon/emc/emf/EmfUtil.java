@@ -44,11 +44,15 @@ public class EmfUtil {
 			EStructuralFeature feature = eClass.getEStructuralFeature(featureName);
 			
 			//System.err.println(eClass + "-" + featureName + "-" + feature);
-			
+						
 			if (feature == null) {
-				feature = ExtendedMetaData.INSTANCE.getDocumentRoot(
-					eClass.getEPackage()).getEStructuralFeature(featureName);
+				final EClass documentRoot = ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage());
+
+				if (documentRoot != null) {
+					feature = documentRoot.getEStructuralFeature(featureName);
+				}
 			}
+			
 			return feature;
 		}
 			catch (Throwable t) {
