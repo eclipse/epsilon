@@ -86,6 +86,10 @@ public class CompositeModel extends Model {
 	protected Collection<IModel> models = new ArrayList<IModel>();
 	protected ArrayList<ArrayList<Object>> equivalents = new ArrayList<ArrayList<Object>>();
 	
+	public CompositeModel(Collection<IModel> models) {
+		this.models = models;
+	}
+	
 	public CompositeModel(Collection<IModel> models, MatchTrace matchTrace) {
 		this.models = models;
 		findEquivalents(matchTrace.getReduced());
