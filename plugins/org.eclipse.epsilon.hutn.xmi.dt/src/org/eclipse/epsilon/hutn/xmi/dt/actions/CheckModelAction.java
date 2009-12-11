@@ -10,37 +10,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.xmi.dt.actions;
 
-import java.util.Collection;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
-import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
+import org.eclipse.epsilon.hutn.xmi.dt.XmiConformanceChecker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 
 public class CheckModelAction extends AbstractObjectActionDelegate implements IObjectActionDelegate {
 		
-	public void run(IAction action) {
-		try {
-			if (getFirstElementInSelection() instanceof IFile) {
-				checkConformance((IFile)getFirstElementInSelection());				
-			}
-		} catch (Exception e) {
-			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
-			e.printStackTrace();
-		}
-	}
+	private final XmiConformanceChecker checker = new XmiConformanceChecker();
 	
-	private void checkConformance(IFile file) throws Exception {		
-		final Collection<ParseProblem> conformanceProblems = new Xmi2Hutn(file.getRawLocationURI()).checkConformanceWithRegisteredMetamodel();
-		
-		if (conformanceProblems.isEmpty()) {
-			EpsilonConsole.getInstance().getInfoStream().println(file.getName() + " conforms to its registered metamodel.");
-		} else {						
-			new MarkerManager(file).replaceErrorMarkers(conformanceProblems);
+	public void run(IAction action) {
+		if (getFirstElementInSelection() instanceof IFile) {
+			checker.reportConformanceOf((IFile)getFirstElementInSelection());				
 		}
 	}
 }
