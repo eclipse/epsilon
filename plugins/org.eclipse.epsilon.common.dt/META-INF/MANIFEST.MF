@@ -38,3 +38,4 @@ Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.variables,
  org.eclipse.epsilon.common.dt.wizards
 Bundle-ClassPath: org.eclipse.epsilon.common.dt.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

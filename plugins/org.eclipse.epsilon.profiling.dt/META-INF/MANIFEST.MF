@@ -13,3 +13,4 @@ Eclipse-LazyStart: true
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
 Export-Package: org.eclipse.epsilon.profiling.dt,
  org.eclipse.epsilon.profiling.dt.plot
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

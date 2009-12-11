@@ -23,3 +23,4 @@ Export-Package: org.eclipse.epsilon.ewl.dt,
  org.eclipse.epsilon.ewl.dt.editor,
  org.eclipse.epsilon.ewl.dt.editor.outline,
  org.eclipse.epsilon.ewl.dt.wizards
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

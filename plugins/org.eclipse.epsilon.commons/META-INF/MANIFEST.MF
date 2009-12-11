@@ -12,3 +12,4 @@ Export-Package: org.eclipse.epsilon.commons.module,
  org.eclipse.epsilon.commons.profiling,
  org.eclipse.epsilon.commons.util
 Require-Bundle: org.eclipse.epsilon.dependencies
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

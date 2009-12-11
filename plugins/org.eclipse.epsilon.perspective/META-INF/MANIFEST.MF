@@ -20,3 +20,4 @@ Eclipse-LazyStart: true
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.perspective,
  org.eclipse.epsilon.perspective.actions
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

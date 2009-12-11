@@ -14,3 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.commons,
  org.eclipse.epsilon.antlr.postprocessor.model
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy

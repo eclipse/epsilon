@@ -27,3 +27,4 @@ Export-Package: org.eclipse.epsilon.etl.dt,
  org.eclipse.epsilon.etl.dt.launching,
  org.eclipse.epsilon.etl.dt.launching.tabs,
  org.eclipse.epsilon.etl.dt.wizards
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

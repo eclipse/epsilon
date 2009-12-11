@@ -18,3 +18,4 @@ Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.util,
  org.eclipse.epsilon.emc.emf.xml
 Bundle-ClassPath: org.eclipse.epsilon.emc.emf.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

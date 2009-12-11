@@ -25,3 +25,4 @@ Export-Package: org.eclipse.epsilon.flock.dt,
  org.eclipse.epsilon.flock.dt.launching,
  org.eclipse.epsilon.flock.dt.launching.tabs,
  org.eclipse.epsilon.flock.dt.wizards
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

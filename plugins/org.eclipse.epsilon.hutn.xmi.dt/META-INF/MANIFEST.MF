@@ -17,3 +17,4 @@ Export-Package: org.eclipse.epsilon.hutn.xmi.dt,
  org.eclipse.epsilon.hutn.xmi.dt.startup
 Bundle-Activator: org.eclipse.epsilon.hutn.xmi.dt.HutnXmiBridgeDevelopmentToolsPlugin
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
