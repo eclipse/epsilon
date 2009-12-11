@@ -15,7 +15,6 @@ package org.eclipse.epsilon.hutn.dt.markers;
 
 import java.util.Collection;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -25,10 +24,10 @@ public class MarkerManager {
 
 	private static final String MARKER_ID = "org.eclipse.epsilon.hutn.dt.inconsistency";
 	
-	private final IFile file;
+	private final IResource resource;
 	
-	public MarkerManager(IFile file) {
-		this.file = file;
+	public MarkerManager(IResource resource) {
+		this.resource = resource;
 	}
 	
 	public void replaceErrorMarkers(Collection<ParseProblem> problems) throws CoreException {
@@ -46,13 +45,13 @@ public class MarkerManager {
 	}
 	
 	private void addErrorMarker(String error, int line) throws CoreException {
-		final IMarker marker = file.createMarker(MARKER_ID);
+		final IMarker marker = resource.createMarker(MARKER_ID);
 		marker.setAttribute(IMarker.MESSAGE, error);
 		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 		marker.setAttribute(IMarker.LINE_NUMBER, line);
 	}
 	
 	public void removeMarkers() throws CoreException {
-		file.deleteMarkers(MARKER_ID, true, IResource.DEPTH_ZERO);
+		resource.deleteMarkers(MARKER_ID, true, IResource.DEPTH_ZERO);
 	}
 }
