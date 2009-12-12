@@ -18,5 +18,5 @@ Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.emc.emf.dt
 Bundle-Activator: org.eclipse.epsilon.emc.emf.dt.Activator
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

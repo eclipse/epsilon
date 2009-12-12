@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.ui.console,
  org.eclipse.epsilon.erl.engine,
  org.eclipse.core.variables
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.actions,
  org.eclipse.epsilon.common.dt.console,

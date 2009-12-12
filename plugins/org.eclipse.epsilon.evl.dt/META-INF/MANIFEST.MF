@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.epsilon.common.dt,
  org.eclipse.ui.ide,
  org.eclipse.epsilon.erl.engine
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.evl.dt.jar
 Export-Package: org.eclipse.epsilon.evl.dt,
  org.eclipse.epsilon.evl.dt.editor,

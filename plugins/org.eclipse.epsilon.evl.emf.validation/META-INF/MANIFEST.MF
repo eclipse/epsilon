@@ -24,6 +24,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ocl;resolution:=optional,
  org.eclipse.ocl;resolution:=optional,
  org.eclipse.ocl.ecore;resolution:=optional
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.emf.validation
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

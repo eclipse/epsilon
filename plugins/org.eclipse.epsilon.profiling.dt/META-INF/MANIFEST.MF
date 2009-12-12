@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.commons,
  org.eclipse.epsilon.common.dt
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
 Export-Package: org.eclipse.epsilon.profiling.dt,
  org.eclipse.epsilon.profiling.dt.plot

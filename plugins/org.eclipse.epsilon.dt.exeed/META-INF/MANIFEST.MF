@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.epsilon.eol.dt
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.dt.exeed.jar,
  lib/jdom.jar
 Export-Package: org.eclipse.epsilon.dt.exeed,
