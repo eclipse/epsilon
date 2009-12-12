@@ -1,8 +1,8 @@
 package org.eclipse.epsilon.hutn.xmi.dt.startup;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.IsCollectionContaining.hasItem;
-import static org.junit.internal.matchers.IsCollectionContaining.hasItems;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 import java.util.Collection;
 
@@ -38,7 +38,7 @@ public class RegisteredMetamodelsTests {
 	
 		final Collection<String> fileExtensionsOfAllRegisteredMetamodels = RegisteredMetamodels.getInstance().getFileExtensionsOfAllRegisteredMetamodels();
 		
-		assertThat(fileExtensionsOfAllRegisteredMetamodels, hasItems("ecore", "genmodel"));
-		assertThat(fileExtensionsOfAllRegisteredMetamodels, not(hasItem("uml")));
+		assertThat(fileExtensionsOfAllRegisteredMetamodels, containsInAnyOrder("ecore", "genmodel"));
+		assertThat(fileExtensionsOfAllRegisteredMetamodels, not(contains("uml")));
 	}
 }

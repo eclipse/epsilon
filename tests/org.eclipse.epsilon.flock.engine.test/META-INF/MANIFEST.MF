@@ -8,3 +8,4 @@ Require-Bundle: org.eclipse.epsilon.flock.engine.test.unit;bundle-version="0.0.1
  org.eclipse.epsilon.flock.engine.test.acceptance;bundle-version="0.0.1",
  org.eclipse.epsilon.flock.engine.test.dependencies;bundle-version="0.0.1"
 Export-Package: org.eclipse.epsilon.flock.test
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
