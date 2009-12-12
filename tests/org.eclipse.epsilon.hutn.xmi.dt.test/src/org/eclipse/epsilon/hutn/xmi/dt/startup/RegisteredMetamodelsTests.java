@@ -38,7 +38,7 @@ public class RegisteredMetamodelsTests {
 	
 		final Collection<String> fileExtensionsOfAllRegisteredMetamodels = RegisteredMetamodels.getInstance().getFileExtensionsOfAllRegisteredMetamodels();
 		
-		assertThat(fileExtensionsOfAllRegisteredMetamodels, containsInAnyOrder("ecore", "genmodel"));
+		assertThat(fileExtensionsOfAllRegisteredMetamodels, containsInAnyOrder("ecore", "genmodel", "*"));
 		assertThat(fileExtensionsOfAllRegisteredMetamodels, not(contains("uml")));
 	}
 }
