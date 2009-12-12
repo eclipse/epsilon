@@ -27,9 +27,7 @@ public class NsUriIdentifyingParser {
 	
 	private XMLReader reader;
 	private NsUriIdentifyingContentHandler handler;
-	
-	private static final boolean DEBUG = false;
-	
+		
 	
 	public NsUriIdentifyingParser(String xmi) {
 		this.xmi = xmi;
@@ -47,12 +45,7 @@ public class NsUriIdentifyingParser {
 		reader  = XMLReaderFactory.createXMLReader();
 		handler = new NsUriIdentifyingContentHandler();
 		
-//		if (DEBUG) {
-//			reader.setContentHandler(new ContentHandlerMultiplexer(new DebugContentHandler(), handler));
-//		} else {
-			reader.setContentHandler(handler);
-
-//		}
+		reader.setContentHandler(handler);
 	}
 	
 	private void doParse() throws IOException, SAXException {
