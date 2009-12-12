@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.eol.engine.test.unit,
  org.eclipse.epsilon.hutn.xmi.dt.test,
  org.eclipse.epsilon.common.dt.test
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

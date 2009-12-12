@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.eol.models.java;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.junit.BeforeClass;

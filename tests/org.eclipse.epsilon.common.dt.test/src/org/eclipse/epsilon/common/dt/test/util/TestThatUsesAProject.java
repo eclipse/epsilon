@@ -29,13 +29,13 @@ public class TestThatUsesAProject {
 	protected IProject project;
 	
 	@Before
-	public void setup() throws CoreException {
+	public void setupProject() throws CoreException {
 		deleteResource(project);
 		project = createProject("sample");
 	}
 	
 	@After
-	public void teardown() throws CoreException {
+	public void teardownProject() throws CoreException {
 		deleteResource(project);
 	}
 	
@@ -56,6 +56,12 @@ public class TestThatUsesAProject {
 	protected static IFile createEmptyFile(IProject project, String name) throws CoreException {
 		final IFile file = project.getFile(name);
 		file.create(new ByteArrayInputStream(new byte[0]), true, new NullProgressMonitor());
+		return file;
+	}
+	
+	protected static IFile createFile(IProject project, String name, String contents) throws CoreException {
+		final IFile file = project.getFile(name);
+		file.create(new ByteArrayInputStream(contents.getBytes()), true, new NullProgressMonitor());
 		return file;
 	}
 }

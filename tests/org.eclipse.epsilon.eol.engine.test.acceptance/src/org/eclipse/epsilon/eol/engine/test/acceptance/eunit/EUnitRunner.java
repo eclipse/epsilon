@@ -34,13 +34,13 @@ import org.junit.runner.notification.RunNotifier;
 
 public class EUnitRunner extends Runner {
 	
-	protected Class clazz;
+	protected Class<?> clazz;
 	protected EUnitModule module;
 	protected HashMap<String, Description> descriptions = new HashMap<String, Description>();
 	protected Description testSuiteDescription;
 	protected String eolFile;
 	
-	public EUnitRunner(Class clazz) {
+	public EUnitRunner(Class<?> clazz) {
 		this.clazz = clazz;
 	}
 	
