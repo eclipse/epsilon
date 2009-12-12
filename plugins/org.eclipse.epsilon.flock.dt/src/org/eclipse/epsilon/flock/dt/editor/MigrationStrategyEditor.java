@@ -24,7 +24,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class MigrationStrategyEditor extends EolEditor{
 		
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		final List<String> keywords = new ArrayList<String>(super.getKeywords());
 		
 		keywords.add("migrate");
@@ -35,7 +35,7 @@ public class MigrationStrategyEditor extends EolEditor{
 	}
 	
 	@Override
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		final List<String> builtIn = new ArrayList<String>(super.getBuiltinVariables());
 		
 		builtIn.add("original");
