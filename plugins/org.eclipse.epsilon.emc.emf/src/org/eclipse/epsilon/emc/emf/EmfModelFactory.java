@@ -36,7 +36,11 @@ public final class EmfModelFactory {
 	public EmfModel createEmfModel(String name, File model, Object metamodel) {
 		final EmfModel emfModel = createEmfModel(name, model);
 		
-		if (metamodel instanceof EPackage) {
+		if (metamodel instanceof String) {
+			emfModel.setMetamodelFileBased(false);
+			emfModel.setMetamodelUri((String) metamodel);
+		
+		} else if (metamodel instanceof EPackage) {
 			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri(((EPackage)metamodel).getNsURI());
 		
