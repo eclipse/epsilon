@@ -16,6 +16,7 @@ package org.eclipse.epsilon.common.dt.test.util;
 import java.io.ByteArrayInputStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -48,9 +49,10 @@ public class TestThatUsesAProject {
 		return base;
 	}
 	
-	protected static void deleteResource(IResource resource) throws CoreException {
-		if (resource != null)
-			resource.delete(true, new NullProgressMonitor());
+	protected static IFolder createFolder(IProject project, String name) throws CoreException {
+		final IFolder folder = project.getFolder(name);
+		folder.create(true, true, null);
+		return folder;
 	}
 	
 	protected static IFile createEmptyFile(IProject project, String name) throws CoreException {
@@ -63,5 +65,20 @@ public class TestThatUsesAProject {
 		final IFile file = project.getFile(name);
 		file.create(new ByteArrayInputStream(contents.getBytes()), true, new NullProgressMonitor());
 		return file;
+	}
+	
+	protected static void changeFileContents(IFile file, String newContents) throws CoreException {
+		file.setContents(new ByteArrayInputStream(newContents.getBytes()), true, false, new NullProgressMonitor());
+	}
+	
+	protected static void moveResource(IResource resource, String newPath) throws CoreException {
+		if (resource != null) {
+			resource.move(resource.getProject().getFullPath().append(newPath), true, new NullProgressMonitor());
+		}
+	}
+	
+	protected static void deleteResource(IResource resource) throws CoreException {
+		if (resource != null)
+			resource.delete(true, new NullProgressMonitor());
 	}
 }
