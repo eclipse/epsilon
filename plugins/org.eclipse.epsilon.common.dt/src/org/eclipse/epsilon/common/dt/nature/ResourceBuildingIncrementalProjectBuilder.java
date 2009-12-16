@@ -42,8 +42,6 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 	@SuppressWarnings("unchecked")
 	@Override
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) {
-		EpsilonConsole.getInstance().getInfoStream().println("BUILDING");
-		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
