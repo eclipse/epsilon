@@ -384,13 +384,24 @@ public abstract class EolCollection extends EolAny{
 	}
 	
 	public Object first(){
-		if (this.isEmpty().booleanValue()) return null;
-		return this.at(new EolInteger(0));
+		return nth(0);
+	}
+	
+	public Object second(){
+		return nth(1);
+	}
+	
+	public Object third(){
+		return nth(2);
 	}
 	
 	public Object last(){
+		return nth(storage.size() - 1);
+	}
+
+	private Object nth(int index) {
 		if (this.isEmpty().booleanValue()) return null;
-		return this.at(new EolInteger(storage.size() - 1));
+		return this.at(new EolInteger(index));
 	}
 	
 	
