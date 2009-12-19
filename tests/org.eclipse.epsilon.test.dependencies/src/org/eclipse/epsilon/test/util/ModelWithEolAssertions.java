@@ -16,6 +16,8 @@ package org.eclipse.epsilon.test.util;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -93,19 +95,7 @@ public class ModelWithEolAssertions {
 	}
 	
 	public void assertEquals(String message, Object expected, String actual) {
-		if (expected instanceof String) {
-			final String expectedStr = (String)expected;
-			
-			// When the expected string contains a hash symbol assume that
-			// it is an enumeration literal, so don't wrap it in quotes
-			// Unless the expected string *starts* with a hash, then it's a
-			// positive adjective, so do wrap it in quotes
-			if (expectedStr.startsWith("#") || !expectedStr.contains("#")) {
-				expected = "'" + expected + "'";
-			}
-		}
-		
-		final Object expectedResult = evaluator.evaluate(expected);
+		final Object expectedResult = evaluator.evaluate(convert(expected));
 		final Object actualResult   = evaluator.evaluate(actual);
 		
 //		System.err.println(expectedResult.getClass() + " : " + expectedResult);
@@ -116,6 +106,39 @@ public class ModelWithEolAssertions {
 		else
 			org.junit.Assert.assertEquals(message, expectedResult, actualResult);
 	
+	}
+
+	private Object convert(Object expected) {
+		if (expected instanceof String) {
+			return convertString(expected);
+		
+		} else if (expected instanceof Collection<?>) {
+			return convertCollection(expected);
+		}
+ 		return expected;
+	}
+
+	private Object convertString(Object expected) {
+		final String expectedStr = (String)expected;
+		
+		// When the expected string contains a hash symbol assume that
+		// it is an enumeration literal, so don't wrap it in quotes
+		// Unless the expected string *starts* with a hash, then it's a
+		// positive adjective, so do wrap it in quotes
+		if (expectedStr.startsWith("#") || !expectedStr.contains("#")) {
+			expected = "'" + expected + "'";
+		}
+		return expected;
+	}
+	
+	private Object convertCollection(Object expected) {
+		final Collection<Object> converted  = new LinkedList<Object>();
+		
+		for (Object element : (Collection<?>) ((Collection<?>)expected)) {
+			converted.add(convert(element));
+		}
+		
+		return converted;
 	}
 	
 	public void assertTrue(String eolStatement) {
