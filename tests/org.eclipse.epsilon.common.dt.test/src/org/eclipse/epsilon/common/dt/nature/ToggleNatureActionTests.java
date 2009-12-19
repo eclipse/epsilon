@@ -22,10 +22,8 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.epsilon.common.dt.test.util.TestThatUsesAProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -100,13 +98,6 @@ public class ToggleNatureActionTests extends TestThatUsesAProject {
 		action.selectionChanged(mockActionProxy, selectionStub);
 		
 		verify(mockActionProxy, selectionStub);
-	}
-	
-	
-	private static void addNature(IProject project, String natureId) throws CoreException {
-		final IProjectDescription desc = project.getDescription();
-		desc.setNatureIds(new String[] {natureId});
-		project.setDescription(desc, new NullProgressMonitor());
 	}
 	
 	
