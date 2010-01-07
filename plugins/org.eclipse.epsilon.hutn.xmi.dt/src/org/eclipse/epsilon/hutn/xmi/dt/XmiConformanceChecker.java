@@ -29,10 +29,10 @@ public class XmiConformanceChecker {
 		try {
 			final Collection<ParseProblem> conformanceProblems = new Xmi2Hutn(resource.getRawLocationURI()).checkConformanceWithRegisteredMetamodel();
 			
+			new MarkerManager(resource).replaceErrorMarkers(conformanceProblems);
+			
 			if (conformanceProblems.isEmpty()) {
 				printInfo(resource.getName() + " conforms to its registered metamodel.");
-			} else {						
-				new MarkerManager(resource).replaceErrorMarkers(conformanceProblems);
 			}
 			
 		} catch (Exception e) {
