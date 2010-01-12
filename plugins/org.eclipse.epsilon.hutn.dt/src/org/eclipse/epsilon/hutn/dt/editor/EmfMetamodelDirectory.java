@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor;
 
-//import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.any;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,9 +30,9 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
 
-//import org.hamcrest.Description;
-//import org.hamcrest.Matcher;
-//import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 
 public class EmfMetamodelDirectory {
@@ -107,10 +107,10 @@ public class EmfMetamodelDirectory {
 	
 	
 	private Collection<String> namesOfTypedElements(String type) {
-		return namesOfTypedElements(type, TypeMatcher.any(EObject.class));
+		return namesOfTypedElements(type, any(EObject.class));
 	}
 	
-	private Collection<String> namesOfTypedElements(String type, Matcher filter) {
+	private Collection<String> namesOfTypedElements(String type, Matcher<?> filter) {
 		try {
 			final Collection<String> names = new LinkedList<String>();
 
@@ -128,40 +128,10 @@ public class EmfMetamodelDirectory {
 	}
 	
 	
-	/* Temporarily imitate Hamcrest until CQ 3580 is approved */
-	private static interface Matcher {
-		
-		public boolean matches(Object item);
-	}
-	
-	/* Temporarily imitate Hamcrest until CQ 3580 is approved */
-	private static class TypeMatcher implements Matcher {
+	private static class ConcreteClassMatcher extends TypeSafeMatcher<EObject> {
 
-		private final Class<?> type;
-		
-		private TypeMatcher(Class<?> type) {
-			this.type = type;
-		}
-		
-		public boolean matches(Object item) {
-			return type.isInstance(item);
-		}
-		
-		public static TypeMatcher any(Class<?> type) {
-			return new TypeMatcher(type);
-		}
-		
-	}
-	
-	
-	private static class ConcreteClassMatcher /*extends*/ implements Matcher {
-
-		/*@Override
+		@Override
 		protected boolean matchesSafely(EObject item) {
-			return item instanceof EClass && isConcrete((EClass)item);
-		}*/
-		
-		public boolean matches(Object item) {
 			return item instanceof EClass && isConcrete((EClass)item);
 		}
 		
@@ -169,9 +139,9 @@ public class EmfMetamodelDirectory {
 			return !cls.isAbstract();
 		}
 
-//		public void describeTo(Description description) {
-//			description.appendText("concrete class");
-//		}
+		public void describeTo(Description description) {
+			description.appendText("concrete class");
+		}
 		
 	}
 }
