@@ -395,6 +395,10 @@ public abstract class EolCollection extends EolAny{
 		return nth(2);
 	}
 	
+	public Object fourth(){
+		return nth(3);
+	}
+	
 	public Object last(){
 		return nth(storage.size() - 1);
 	}
