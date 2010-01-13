@@ -1,0 +1,24 @@
+@namespace(uri="flock", prefix="flock")
+
+package flock;
+
+abstract class EolModule {}
+
+class FlockModule extends EolModule {
+   val Rule[*] rules;
+} 
+
+abstract class Rule {
+   attr String[1] originalType;
+   ref EolExpressionOrStatementBlock[0..1] guard;
+}
+
+class DeleteRule extends Rule {}
+
+class MigrateRule extends Rule {
+   attr String[0..1] evolvedType;
+   ref EolStatementBlock[0..1] body;
+}
+
+class EolExpressionOrStatementBlock {}
+class EolStatementBlock {}
