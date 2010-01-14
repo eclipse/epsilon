@@ -13,7 +13,8 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
@@ -34,12 +35,14 @@ import org.junit.Test;
 
 public class ModelElementTests {
 
-	private static final Model        mockModel  = createMock(Model.class);
-	private static final ModelElement element     = new ModelElement(mockModel, "foo");
+	private static final Object       underlyingElement = "foo";
+	private static final Model        mockModel         = createMock(Model.class);
+	private static final ModelType    mockModelType     = createMock(ModelType.class);
+	private static final ModelElement element           = new ModelElement(mockModel, mockModelType, underlyingElement);
 	
 	@Before
 	public void resetDummyModel() {
-		reset(mockModel);
+		reset(mockModel, mockModelType);
 	}
 	
 	@Test
@@ -50,10 +53,10 @@ public class ModelElementTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getEquivalentShouldDelegateToEquivalences() throws ConservativeCopyException {
-		final Model             mockMigratedModel = createMock(Model.class);
-		final IFlockContext mockContext        = createMock(IFlockContext.class);
+		final Model         mockMigratedModel = createMock(Model.class);
+		final IFlockContext mockContext       = createMock(IFlockContext.class);
 		
-		final ModelElement dummyMigratedModelElement = new ModelElement(mockMigratedModel, "bar");
+		final ModelElement dummyMigratedModelElement = new ModelElement(mockMigratedModel, mockModelType, "bar");
 
 		// Expectations
 		expect(mockContext.getEquivalent(element))
@@ -74,59 +77,63 @@ public class ModelElementTests {
 	}
 	
 	@Test
-	public void propetiesSharedWithShouldKeepOnlyThosePropertiesKnownByBothModelElements() {
-		final ModelElement mockModelElement = createMock(ModelElement.class);
+	public void copyConformantValue() throws ConservativeCopyException, EolRuntimeException {				
+		final Model        dummyOriginalModel       = createMock(Model.class);
+		final ModelType    dummyOriginalModelType   = createMock(ModelType.class);
+		final ModelElement originalModelElementStub = createMock(ModelElement.class);		
 		
 		// Expectations
+		expect(originalModelElementStub.getType())
+			.andReturn(dummyOriginalModelType);
+		
+		expect(mockModelType.getPropertiesSharedWith(dummyOriginalModelType))
+			.andReturn(Arrays.asList("name"));
+		
+				
+		final AttributeValue nameValue = new AttributeValue(dummyOriginalModel, "John Smith");
+		expect(originalModelElementStub.getValueOfProperty("name"));
+		expectLastCall().andReturn(nameValue).anyTimes();
+		
+		expect(mockModel.conforms(underlyingElement, "name", nameValue)).andReturn(true);
+		mockModel.setValueOfProperty(underlyingElement, "name", nameValue);
+		
+		replay(mockModel, mockModelType, dummyOriginalModel, originalModelElementStub);
 
-		expect(mockModel.getPropertiesOf("foo"))
-			.andReturn(Arrays.asList("name", "age"));
-		
-		expect(mockModelElement.getProperties())
-			.andReturn(Arrays.asList("name", "address"));
-		
-		replay(mockModel, mockModelElement);
-		
-		
+
 		// Verification
 		
-		assertEquals(Arrays.asList("name"),
-		             element.getPropertiesSharedWith(mockModelElement));
-		
-		verify(mockModel, mockModelElement);
+		element.conservativelyCopyPropertiesFrom(originalModelElementStub, null);
+				
+		verify(mockModel, mockModelType, dummyOriginalModel, originalModelElementStub);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
-	public void conservativelyCopyPropertiesFromShouldRetrieveEachPropertyValueAndConvertToEquivalent() throws ConservativeCopyException, EolRuntimeException {
-		final ModelElement mockOriginalModelElement = createMock(ModelElement.class);
-		
-		final Model         dummyOriginalModel = createMock(Model.class);
-		final IFlockContext dummyContext       = createMock(IFlockContext.class);
-		
+	public void doNotCopyNonConformantValue() throws ConservativeCopyException, EolRuntimeException {				
+		final Model        dummyOriginalModel       = createMock(Model.class);
+		final ModelType    dummyOriginalModelType   = createMock(ModelType.class);
+		final ModelElement originalModelElementStub = createMock(ModelElement.class);		
 		
 		// Expectations
+		expect(originalModelElementStub.getType())
+			.andReturn(dummyOriginalModelType);
 		
-		expect(mockModel.getPropertiesOf("foo"))
-			.andReturn(Arrays.asList("name", "age"));
+		expect(mockModelType.getPropertiesSharedWith(dummyOriginalModelType))
+			.andReturn(Arrays.asList("name"));
 		
-		expect(mockOriginalModelElement.getProperties())
-			.andReturn(Arrays.asList("name", "address"));
+				
+		final AttributeValue nameValue = new AttributeValue(dummyOriginalModel, 14);
+		expect(originalModelElementStub.getValueOfProperty("name"));
+		expectLastCall().andReturn(nameValue).anyTimes();
 		
-		final AttributeValue nameValue = new AttributeValue(dummyOriginalModel, "John Smith");		
+		expect(mockModel.conforms(underlyingElement, "name", nameValue)).andReturn(false);
 		
-		expect(mockOriginalModelElement.getValueOfProperty("name"))
-			.andReturn((ModelValue)nameValue);
-
-		mockModel.setValueOfProperty("foo", "name", nameValue);
-		
-		replay(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyContext);
+		replay(mockModel, mockModelType, dummyOriginalModel, originalModelElementStub);
 
 
 		// Verification
 		
-		element.conservativelyCopyPropertiesFrom(mockOriginalModelElement, dummyContext);
+		element.conservativelyCopyPropertiesFrom(originalModelElementStub, null);
 				
-		verify(mockModel, dummyOriginalModel, mockOriginalModelElement, dummyContext);
+		verify(mockModel, mockModelType, dummyOriginalModel, originalModelElementStub);
 	}
 }

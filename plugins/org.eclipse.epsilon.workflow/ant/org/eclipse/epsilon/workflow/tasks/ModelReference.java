@@ -166,8 +166,8 @@ public class ModelReference implements IModel{
 		return new JavaPropertyGetter().invoke(target, property);
 	}
 	
-	public Collection<String> getPropertiesOf(Object instance) {
-		return target.getPropertiesOf(instance);
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		return target.getPropertiesOf(type);
 	}
 
 	public IModelTransactionSupport getTransactionSupport() {

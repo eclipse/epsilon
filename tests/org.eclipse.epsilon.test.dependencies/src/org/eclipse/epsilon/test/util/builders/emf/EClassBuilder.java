@@ -58,6 +58,11 @@ public class EClassBuilder implements EClassifierBuilder {
 		return this;
 	}
 
+	public EClassBuilder subclasses(EClass superclass) {
+		eClass.getESuperTypes().add(superclass);
+		return this;
+	}
+	
 	public EClass build() {
 		return eClass;
 	}

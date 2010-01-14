@@ -10,11 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.models.java;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.util.ReflectionUtil;
+import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -173,8 +177,28 @@ public class JavaModel extends Model {
 		return isInstantiable(classForName(type));
 	}
 
-	public Collection<String> getPropertiesOf(Object instance) {
-		throw new UnsupportedOperationException("JavaModel does not yet support getPropertiesOf(Object instance)");
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		final Class<?> clazz = classForName(type);
+		
+		if (clazz == null)
+			throw new EolModelElementTypeNotFoundException(this.name, type);
+		
+		
+		final Collection<String> properties = new LinkedList<String>();
+				
+		for (Method method : clazz.getMethods()) {
+			if (method.getName().startsWith("set")) {
+				properties.add(StringUtil.firstToLower(method.getName().substring(3)));
+			
+			} else if (method.getName().startsWith("is")) {
+				properties.add(StringUtil.firstToLower(method.getName().substring(2)));
+			
+			} else if (method.getName().startsWith("get") && method.getReturnType().isAssignableFrom(Collection.class)) {
+				properties.add(StringUtil.firstToLower(method.getName().substring(3)));
+			}
+		}
+		
+		return properties;
 	}
 	
 	public boolean isModelElement(Object instance) {

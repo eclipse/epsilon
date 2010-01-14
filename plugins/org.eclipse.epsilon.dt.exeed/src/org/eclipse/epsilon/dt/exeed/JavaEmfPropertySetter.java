@@ -13,6 +13,7 @@ package org.eclipse.epsilon.dt.exeed;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
@@ -36,6 +37,24 @@ public class JavaEmfPropertySetter extends AbstractPropertySetter {
 		}
 		else {
 			java.invoke(value);
+		}
+	}
+
+	public Object coerce(Object value) throws EolIllegalPropertyException {
+		if (object instanceof EObject) {
+			return emf.coerce(value);
+		}
+		else {
+			return java.coerce(value);
+		}
+	}
+
+	public boolean conforms(Object value) throws EolIllegalPropertyException {
+		if (object instanceof EObject) {
+			return emf.conforms(value);
+		}
+		else {
+			return java.conforms(value);
 		}
 	}
 

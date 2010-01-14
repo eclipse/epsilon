@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -20,63 +20,106 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
-public class EmfPropertySetter extends AbstractPropertySetter{
+public class EmfPropertySetter extends AbstractPropertySetter {
 
-	public void invoke(Object value) throws EolRuntimeException {
-		EObject eObject = (EObject) object;
-		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
+	public Object coerce(Object value) throws EolIllegalPropertyException {
+		if (getEStructuralFeature().isMany() && !(value instanceof EolCollection)) {
+			return new EolSequence(Arrays.asList(value));
+		}
 		
-		if (sf != null) {
-			
-			// Make all features changeable
-			// if (!sf.isChangeable()) sf.setChangeable(true);
-			
-			if (value != null) {
-				//eObject.eUnset(sf);
-				if (sf.isMany()){
-					Collection sourceValues = (Collection) eObject.eGet(sf);
-					if (value instanceof EolCollection){	
-						//System.err.println("Setting feature " + sf.getName() + " of class " + eObject.eClass().getName() + " with value " + new PrettyPrinterManager().toString(value));
-						copyCollectionValues(
-							((EolCollection)value).getStorage()
-							,sourceValues);
-					}
-					else {
-						throw new EolIllegalPropertyAssignmentException(
-								this.getProperty(), this.getAst());
-					}
+		return value;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean conforms(Object value) throws EolIllegalPropertyException {		
+		if (value instanceof EolCollection) {
+			final Collection<Object> collection = ((EolCollection)value).getStorage();
+		
+			return isConformantSizeForProperty(collection) && 
+			       allAreConformantTypeForProperty(collection);
+		
+		} else {
+			return isConformantTypeForProperty(value);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void invoke(Object value) throws EolRuntimeException {
+		EStructuralFeature sf = getEStructuralFeature();
+		
+		if (value != null) {
+			if (sf.isMany()){
+				Collection<Object> sourceValues = (Collection<Object>) getEObject().eGet(sf);
+				if (value instanceof EolCollection){	
+					copyCollectionValues(((EolCollection)value).getStorage(), sourceValues);
 				}
 				else {
-					//try {
-						eObject.eSet(sf, EolTypeWrapper.getInstance().unwrap(value));
-					//}
-					//catch (Exception ex) {
-						//System.err.println("Hit exception while setting the value of "
-						//		 + sf.getEContainingClass().getName() + "." + sf.getName() + 
-						//		 " to " + value);
-						//ex.printStackTrace();
-					//}
+					throw new EolIllegalPropertyAssignmentException(
+							this.getProperty(), this.getAst());
 				}
 			}
-			//else {
-				//eObject.eUnset(sf);
-			//}
-		}
-		else {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			else {
+				getEObject().eSet(sf, unwrap(value));
+			}
 		}
 	}
 	
-	protected void copyCollectionValues(Collection source, Collection target) {
+	protected void copyCollectionValues(Collection<?> source, Collection<Object> target) {
 		target.clear();
-		Iterator it = source.iterator();
-		while (it.hasNext()){
-			Object next = EolTypeWrapper.getInstance().unwrap(it.next());
-			//System.err.println(target.getClass() + " + " + next.getClass());
-			target.add(next);
+
+		for (Object element : source) {
+			target.add(unwrap(element));
 		}
 	}
 	
+	private static Object unwrap(Object value) {
+		return EolTypeWrapper.getInstance().unwrap(value);
+	}
+	
+	
+	private EObject getEObject() throws EolIllegalPropertyException {
+		if (object instanceof EObject)
+			return (EObject) object;
+		else
+			throw new EolIllegalPropertyException(object, property, ast, context);
+	}
+	
+	private EStructuralFeature getEStructuralFeature() throws EolIllegalPropertyException {
+		final EStructuralFeature sf = EmfUtil.getEStructuralFeature(getEObject().eClass(), property);
+		
+		if (sf == null)
+			throw new EolIllegalPropertyException(object, property, ast, context);
+		else
+			return sf;
+	}
+	
+	private boolean isConformantSizeForProperty(Collection<?> values) throws EolIllegalPropertyException {
+		return lowerbound() <= values.size() && values.size() <= upperbound();
+	}
+	
+	private int upperbound() throws EolIllegalPropertyException {
+		final int upperbound = getEStructuralFeature().getUpperBound();
+		
+		return upperbound == EStructuralFeature.UNBOUNDED_MULTIPLICITY ? Integer.MAX_VALUE : upperbound;
+	}
+	
+	private int lowerbound() throws EolIllegalPropertyException {
+		return getEStructuralFeature().getLowerBound();
+	}
+	
+	private boolean allAreConformantTypeForProperty(Collection<Object> values) throws EolIllegalPropertyException {
+		for (Object value : values) {
+			if (!isConformantTypeForProperty(value))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean isConformantTypeForProperty(Object value) throws EolIllegalPropertyException {
+		return getEStructuralFeature().getEType().isInstance(unwrap(value));
+	}	
 }

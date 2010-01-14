@@ -109,8 +109,8 @@ public class Model {
 		return underlyingModel.knowsAboutProperty(underlyingModelElement, property);
 	}
 
-	Collection<String> getPropertiesOf(Object underlyingModelElement) {
-		return underlyingModel.getPropertiesOf(underlyingModelElement);
+	Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		return underlyingModel.getPropertiesOf(type);
 	}
 
 	ModelValue<?> getValueOfProperty(Object underlyingModelElement, String property) throws EolRuntimeException {
@@ -121,7 +121,14 @@ public class Model {
 		final IPropertySetter setter = underlyingModel.getPropertySetter();
 		setter.setObject(underlyingModelElement);
 		setter.setProperty(property);
-		setter.invoke(value.unwrap());
+		setter.invoke(setter.coerce(value.unwrap()));
+	}
+	
+	boolean conforms(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
+		final IPropertySetter setter = underlyingModel.getPropertySetter();
+		setter.setObject(underlyingModelElement);
+		setter.setProperty(property);
+		return setter.conforms(value.unwrap());
 	}
 	
 	String getStringRepresentationOf(Object underlyingModelObject) {

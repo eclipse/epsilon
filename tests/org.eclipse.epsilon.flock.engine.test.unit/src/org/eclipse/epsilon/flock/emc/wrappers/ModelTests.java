@@ -53,6 +53,8 @@ public class ModelTests {
 		
 		mockPropertySetter.setProperty("foo");
 		mockPropertySetter.setObject("dummy model element");
+		
+		expect(mockPropertySetter.coerce("bar")).andReturn("bar");
 		mockPropertySetter.invoke("bar");
 		
 		expect(mockUnderlyingModel.getPropertySetter())
@@ -113,14 +115,14 @@ public class ModelTests {
 			.andReturn("foo");
 		
 		expect(mockWrapper.wrapModelElement("foo"))
-			.andReturn(new ModelElement(model, "foo"));
+			.andReturn(new ModelElement(model, new ModelType(model, "DummyType"), "foo"));
 		
 		replay(mockUnderlyingModel, mockWrapper);
 		
 		
 		// Verification
 		
-		assertEquals(new ModelElement(model, "foo"), model.createInstance("DummyType"));
+		assertEquals(new ModelElement(model, new ModelType(model, "DummyType"), "foo"), model.createInstance("DummyType"));
 		
 		verify(mockUnderlyingModel, mockWrapper);
 	}
@@ -133,6 +135,7 @@ public class ModelTests {
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
+		final ModelType dummyType = new ModelType(model, "DummyType");
 		
 		// Expectations
 		
@@ -140,13 +143,13 @@ public class ModelTests {
 			.andReturn((Collection)Arrays.asList("foo", "bar", "baz"));
 		
 		expect(mockWrapper.wrapModelElement("foo"))
-			.andReturn(new ModelElement(model, "foo"));
+			.andReturn(new ModelElement(model, dummyType, "foo"));
 		
 		expect(mockWrapper.wrapModelElement("bar"))
-			.andReturn(new ModelElement(model, "bar"));
+			.andReturn(new ModelElement(model, dummyType, "bar"));
 		
 		expect(mockWrapper.wrapModelElement("baz"))
-			.andReturn(new ModelElement(model, "baz"));
+			.andReturn(new ModelElement(model, dummyType, "baz"));
 		
 		replay(mockUnderlyingModel, mockWrapper);
 		
@@ -154,9 +157,9 @@ public class ModelTests {
 		// Verification
 		
 		assertEquals(Arrays.asList(
-		             	new ModelElement(model, "foo"),
-		             	new ModelElement(model, "bar"),
-		             	new ModelElement(model, "baz")
+		             	new ModelElement(model, dummyType, "foo"),
+		             	new ModelElement(model, dummyType, "bar"),
+		             	new ModelElement(model, dummyType, "baz")
 		             ), 
 		             model.allContents());
 		
@@ -188,6 +191,29 @@ public class ModelTests {
 	
 	@Test
 	public void getEquivalentForEEnumLiteralDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
+		final IModel mockUnderlyingModel = createMock(IModel.class);
+		
+		final Model model = new Model(mockUnderlyingModel);
+		
+		
+		// Expectations
+		
+		expect(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
+			.andReturn(DogBreed.LABRADOR);
+		
+		replay(mockUnderlyingModel);
+
+		
+		// Verification
+		
+		assertEquals(DogBreed.LABRADOR, model.getEquivalent(FamiliesPackage.eINSTANCE.getDogBreed().getEEnumLiteral("labrador")));
+		
+		verify(mockUnderlyingModel);
+	}
+	
+	
+	@Test
+	public void isManyDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
 		final IModel mockUnderlyingModel = createMock(IModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);

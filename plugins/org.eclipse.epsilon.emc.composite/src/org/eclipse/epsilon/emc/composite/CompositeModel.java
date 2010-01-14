@@ -238,12 +238,13 @@ public class CompositeModel extends Model {
 		throw new IllegalArgumentException("Cannot be contained by this model: " + instance);
 	}
 	
-	public Collection<String> getPropertiesOf(Object instance) {		
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {		
 		for (IModel m : models) {
-			if (m.owns(instance)) return m.getPropertiesOf(instance);
+			if (m.hasType(type))
+				return m.getPropertiesOf(type);
 		}
 
-		throw new IllegalArgumentException("Not an element of this model: " + instance);
+		throw new IllegalArgumentException("Not an element of this model: " + type);
 	}
 
 	public boolean hasType(String type) {

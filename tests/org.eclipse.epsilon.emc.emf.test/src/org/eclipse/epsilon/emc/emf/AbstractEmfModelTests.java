@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 public class AbstractEmfModelTests {
@@ -49,14 +50,14 @@ public class AbstractEmfModelTests {
 	
 	
 	@Test
-	public void getPropertiesOf() {
-		assertTrue(emfModel.getPropertiesOf(pkg).contains("name"));
-		assertTrue(emfModel.getPropertiesOf(pkg).contains("eClassifiers"));
-		assertFalse(emfModel.getPropertiesOf(pkg).contains("age"));
+	public void getPropertiesOf() throws EolModelElementTypeNotFoundException {
+		assertTrue(emfModel.getPropertiesOf("EPackage").contains("name"));
+		assertTrue(emfModel.getPropertiesOf("EPackage").contains("eClassifiers"));
+		assertFalse(emfModel.getPropertiesOf("EPackage").contains("age"));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void getPropertiesOfForPlainJavaObject() {
+	@Test(expected=EolModelElementTypeNotFoundException.class)
+	public void getPropertiesOfForUnknownType() throws EolModelElementTypeNotFoundException {
 		emfModel.getPropertiesOf("foo");
 	}
 	

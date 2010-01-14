@@ -37,9 +37,4 @@ public class JavaObjectModelTests {
 		assertEquals("java.lang.String",                      javaObjectModel.getTypeNameOf(string));
 		assertEquals("org.eclipse.emf.ecore.impl.EClassImpl", javaObjectModel.getTypeNameOf(EcoreFactory.eINSTANCE.createEClass()));
 	}
-	
-	@Test(expected=UnsupportedOperationException.class)
-	public void getPropertiesOf() {
-		javaObjectModel.getPropertiesOf(string);
-	}
 }

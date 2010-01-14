@@ -61,8 +61,8 @@ public class EmptyModel extends Model{
 		throw new UnsupportedOperationException("An empty model contains no elements.");
 	}
 	
-	public Collection<String> getPropertiesOf(Object instance) {		
-		throw new UnsupportedOperationException("An empty model contains no elements.");
+	public Collection<String> getPropertiesOf(String type) {		
+		return Collections.emptyList();
 	}
 
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {

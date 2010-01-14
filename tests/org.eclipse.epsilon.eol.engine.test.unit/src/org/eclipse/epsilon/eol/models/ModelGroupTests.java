@@ -26,6 +26,8 @@ import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -102,31 +104,26 @@ public class ModelGroupTests {
 	
 	
 	@Test
-	public void propertiesOfDelegatesToGroupedModels() throws EolModelNotFoundException {		
-		final EObject pkg = EcoreFactory.eINSTANCE.createEPackage();
+	public void propertiesOfDelegatesToGroupedModels() throws EolRuntimeException {				
+		expect(first.hasType("DummyType")) .andReturn(false);		
+		expect(second.hasType("DummyType")).andReturn(true);		
 		
-		expect(first.owns(pkg)) .andReturn(false);		
-		expect(second.owns(pkg)).andReturn(true);		
-		
-		expect(second.getPropertiesOf(pkg)).andReturn(Arrays.asList("name", "eClassifiers"));
+		expect(second.getPropertiesOf("DummyType")).andReturn(Arrays.asList("name", "eClassifiers"));
 		
 		replay(first, second);
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
-		assertEquals(Arrays.asList("name", "eClassifiers"), group.getPropertiesOf(pkg));
+		assertEquals(Arrays.asList("name", "eClassifiers"), group.getPropertiesOf("DummyType"));
 		verify(first, second);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void exceptionWhenNoGroupedModelKnowsPropertiesOfInstance() throws EolModelNotFoundException {		
-		final EObject pkg = EcoreFactory.eINSTANCE.createEPackage();
-		
-		expect(first.owns(pkg)) .andReturn(false);		
-		expect(second.owns(pkg)).andReturn(false);		
+	public void exceptionWhenNoGroupedModelKnowsPropertiesOfInstance() throws EolRuntimeException {				
+		expect(first.hasType("DummyType")) .andReturn(false);		
+		expect(second.hasType("DummyType")).andReturn(false);		
 				
 		replay(first, second);
 		
-		final ModelGroup group = new ModelGroup(repository, "Ecore");
-		group.getPropertiesOf(pkg);
+		new ModelGroup(repository, "Ecore").getPropertiesOf("DummyType");
 	}
 }

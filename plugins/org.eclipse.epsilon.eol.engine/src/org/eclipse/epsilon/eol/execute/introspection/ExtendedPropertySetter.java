@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.execute.introspection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -32,6 +33,14 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 			context.getExtendedProperties().put(object, extendedProperties);
 		}
 		extendedProperties.put(this.property, value);
+	}
+
+	public Object coerce(Object value) throws EolIllegalPropertyException {
+		return value;
+	}
+
+	public boolean conforms(Object value) throws EolIllegalPropertyException {
+		return true;
 	}
 
 }

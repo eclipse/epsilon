@@ -20,6 +20,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -132,6 +133,16 @@ public class EmfM0Model extends EmfModel{
 			if (propertySetter != null) {
 				propertySetter.execute(object,parameterValues,eolModule.getContext());
 			}
+		}
+
+		public Object coerce(Object value) throws EolIllegalPropertyException {
+			// TODO implement this method
+			throw new UnsupportedOperationException("Not yet implemented");
+		}
+
+		public boolean conforms(Object value) throws EolIllegalPropertyException {
+			// TODO implement this method
+			throw new UnsupportedOperationException("Not yet implemented");
 		}
 	}
 

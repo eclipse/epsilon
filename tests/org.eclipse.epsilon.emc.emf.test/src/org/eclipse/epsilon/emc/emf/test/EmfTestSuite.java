@@ -15,13 +15,16 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.emc.emf.AbstractEmfModelTests;
+import org.eclipse.epsilon.emc.emf.EmfPropertySetterCoerceTests;
+import org.eclipse.epsilon.emc.emf.EmfPropertySetterConformsTests;
 import org.eclipse.epsilon.emc.emf.URITest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({URITest.class, AbstractEmfModelTests.class})
+@SuiteClasses({URITest.class, AbstractEmfModelTests.class,
+               EmfPropertySetterConformsTests.class, EmfPropertySetterCoerceTests.class})
 public class EmfTestSuite {
 
 	public static Test suite() {

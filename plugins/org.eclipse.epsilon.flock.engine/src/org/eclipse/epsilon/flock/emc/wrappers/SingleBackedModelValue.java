@@ -13,16 +13,20 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import org.eclipse.epsilon.flock.IFlockContext;
 
-class AttributeValue extends SingleBackedModelValue<Object> {
+abstract class SingleBackedModelValue<UnwrappedType> extends BackedModelValue<UnwrappedType> {
 
-	AttributeValue(Model model, Object underlyingModelObject) {
+	protected SingleBackedModelValue(Model model, UnwrappedType underlyingModelObject) {
 		super(model, underlyingModelObject);
 	}
-	
+
 	@Override
-	public AttributeValue getEquivalentIn(Model model, IFlockContext context) {
-		return new AttributeValue(model, underlyingModelObject);
+	public int size() {
+		return 1;
+	}
+
+	@Override
+	public boolean isMany() {
+		return false;
 	}
 }

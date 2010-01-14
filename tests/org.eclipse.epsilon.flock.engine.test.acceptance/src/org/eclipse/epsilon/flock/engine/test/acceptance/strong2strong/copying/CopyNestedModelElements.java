@@ -18,37 +18,40 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ConservativelyCopyModelElementsThatHaveNoRules extends Strong2StrongMigrationAcceptanceTest {
+public class CopyNestedModelElements extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}";
 	
-	private static final String originalModel = "Families {"             +
-	                                            "	Person {"            +
-	                                            "		name: \"John\""  +
-	                                            "	}"                   +
-	                                            "   Dog {"               +
-	                                            "       name: \"Fido\""  +
-	                                            "   }"                   +
+	private static final String originalModel = "Families {"                        +
+	                                            "	Family {"                       +
+	                                            "		members: Person \"p\" {"    +
+	                                            "                	name: \"John\"" +
+	                                            "                }"                 +
+	                                            "	}"                              +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
+		migrated.setVariable("family", "Family.all.first");
 		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void migratedPersonShouldHaveNewName() {
-		migrated.assertEquals("John Smith", "person.name");
+	public void migratedShouldContainOnePerson() {
+		migrated.assertEquals(1, "Person.all.size()");
 	}
 	
-		@Test
-	public void migratedDogShouldHaveOldName() {
-		migrated.assertDefined("dog");
-		migrated.assertEquals("Fido", "dog.name");
+	@Test
+	public void familyShouldContainPerson() {
+		migrated.assertTrue("family.members.includes(person)");
+	}
+	
+	@Test
+	public void migratedPersonShouldHaveCorrectName() {
+		migrated.assertEquals("John Smith", "person.name");
 	}
 }

@@ -120,4 +120,13 @@ public class JavaPropertySetter extends AbstractPropertySetter{
 		
 	}
 
+	public Object coerce(Object value) throws EolIllegalPropertyException {
+		return value;
+	}
+
+	public boolean conforms(Object value) throws EolIllegalPropertyException {
+		// TODO implement this method
+		throw new UnsupportedOperationException("Not yet implemented.");
+	}
+
 }

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -138,14 +139,13 @@ public abstract class AbstractEmfModel extends Model{
 
 	}
 	
-	public Collection<String> getPropertiesOf(Object instance) {
-		if (!owns(instance)) 
-			throw new IllegalArgumentException("Not an element of this model: " + instance);
-		
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		final Collection<String> properties = new LinkedList<String>();
-		for (EStructuralFeature feature : ((EObject)instance).eClass().getEAllStructuralFeatures()) {
+		
+		for (EStructuralFeature feature : featuresForType(type)) {
 			properties.add(feature.getName());
 		}
+		
 		return properties;
 	}
 	
@@ -229,6 +229,10 @@ public abstract class AbstractEmfModel extends Model{
 			}
 		}
 		return null;
+	}
+	
+	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
+		return classForName(type).getEAllStructuralFeatures();
 	}
 	
 	//TODO: Change cache to <EClass, List<EObject>>

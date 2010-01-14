@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
-class EnumValue extends BackedModelValue<Enumerator> {
+class EnumValue extends SingleBackedModelValue<Enumerator> {
 
 	EnumValue(Model model, Enumerator underlyingModelObject) {
 		super(model, underlyingModelObject);

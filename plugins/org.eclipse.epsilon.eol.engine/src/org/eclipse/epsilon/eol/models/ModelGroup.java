@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -182,13 +183,13 @@ public class ModelGroup extends Model {
 		return ((IModel) models.get(0)).isInstantiable(metaClass);
 	}
 	
-	public Collection<String> getPropertiesOf(Object instance) {
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		for (IModel model : models) {
-			if (model.owns(instance))
-				return model.getPropertiesOf(instance);
+			if (model.hasType(type))
+				return model.getPropertiesOf(type);
 		}
 	
-		throw new IllegalArgumentException("No grouped model contains: " + instance + " (" + instance.getClass().getCanonicalName() + ")");
+		throw new IllegalArgumentException("No grouped model contains the type: " + type);
 	}
 
 	public boolean hasType(String metaClass) {
@@ -249,6 +250,14 @@ public class ModelGroup extends Model {
 		
 		public void invoke(Object value) throws EolRuntimeException {
 			delegate.invoke(value);
+		}
+
+		public Object coerce(Object value) throws EolIllegalPropertyException {
+			return delegate.coerce(value);
+		}
+
+		public boolean conforms(Object value) throws EolIllegalPropertyException {
+			return delegate.conforms(value);
 		}
 		
 	}

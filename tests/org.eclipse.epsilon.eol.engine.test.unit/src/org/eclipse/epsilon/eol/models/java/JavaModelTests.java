@@ -16,8 +16,11 @@ package org.eclipse.epsilon.eol.models.java;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.junit.Test;
 public class JavaModelTests {
@@ -37,8 +40,23 @@ public class JavaModelTests {
 		assertEquals("org.eclipse.emf.ecore.impl.EClassImpl", javaModel.getTypeNameOf(EcoreFactory.eINSTANCE.createEClass()));
 	}
 	
-	@Test(expected=UnsupportedOperationException.class)
-	public void getPropertiesOf() {
-		javaModel.getPropertiesOf(string);
+	@Test
+	public void getPropertiesOf() throws EolModelElementTypeNotFoundException {
+		final IModel javaModel = new JavaModel(Arrays.asList((Object)new TestSubject()));
+		
+		assertEquals(Arrays.asList("foo", "bar", "baz"),
+		            javaModel.getPropertiesOf(TestSubject.class.getCanonicalName()));
+	}
+	
+	public static class TestSubject {
+
+		public String getFoo() { return "foo"; }
+		
+		public void setFoo(String foo) {}
+		
+		public boolean isBar() { return true; }
+		
+		public Collection<?> getBaz() { return Collections.EMPTY_LIST; }
+		
 	}
 }

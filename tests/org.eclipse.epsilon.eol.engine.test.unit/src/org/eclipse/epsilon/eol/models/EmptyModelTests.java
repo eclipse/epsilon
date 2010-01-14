@@ -15,6 +15,9 @@ package org.eclipse.epsilon.eol.models;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collections;
+
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.junit.Test;
 
 public class EmptyModelTests {
@@ -31,8 +34,7 @@ public class EmptyModelTests {
 		empty.getTypeNameOf("foo");
 	}
 	
-	@Test(expected=UnsupportedOperationException.class)
-	public void exceptionForGetPropertiesOf() {
-		empty.getPropertiesOf("foo");
+	public void getPropertiesShouldReturnEmptyList() throws EolModelElementTypeNotFoundException {
+		assertEquals(Collections.emptyList(), empty.getPropertiesOf("foo"));
 	}
 }

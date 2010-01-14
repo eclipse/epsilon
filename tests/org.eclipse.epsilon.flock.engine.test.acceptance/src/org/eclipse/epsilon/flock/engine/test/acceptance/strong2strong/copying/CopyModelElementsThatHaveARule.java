@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ConservativelyCopyModelElementsThatHaveARule extends Strong2StrongMigrationAcceptanceTest {
+public class CopyModelElementsThatHaveARule extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Family { "    +
 	                                       "	migrated.numberOfChildren := original.numberOfChildren + 1;" +

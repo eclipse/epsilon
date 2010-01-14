@@ -14,16 +14,19 @@
 package org.eclipse.epsilon.flock.emc.wrappers;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
-public class ModelElement extends BackedModelValue<Object> {
+public class ModelElement extends SingleBackedModelValue<Object> {
 	
-	ModelElement(Model model, Object underlyingModelElement) {
+	private final ModelType type;
+	
+	ModelElement(Model model, ModelType type, Object underlyingModelElement) {
 		super(model, underlyingModelElement);
+		this.type = type;
 	}
 	
 	@Override
@@ -31,9 +34,13 @@ public class ModelElement extends BackedModelValue<Object> {
 		// context.getEquivalent might be null, so ensure return value is wrapped
 		return model.wrap(context.getEquivalent(this));
 	}
+	
+	public ModelType getType() {
+		return type;
+	}
 
 	public String getTypeName() {
-		return model.getTypeNameOf(underlyingModelObject);
+		return type.getName();
 	}
 	
 	public boolean isKindOf(String originalType) {
@@ -42,42 +49,37 @@ public class ModelElement extends BackedModelValue<Object> {
 	
 	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {
 		try {
-			for (String propertyName : getPropertiesSharedWith(original)) {				
-				final ModelValue<?> originalValueOfProperty = original.getValueOfProperty(propertyName);
+			for (String propertyName : this.getPropertiesSharedWith(original)) {
+				final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);
+				final ModelValue<?> equivalentValue = originalValue.getEquivalentIn(model, context);
 				
-				final ModelValue<?> migratedValue = originalValueOfProperty.getEquivalentIn(model, context);
-				
-				try {
-					this.setValueOfProperty(propertyName, migratedValue);
-				} catch (Exception e) {
-					// TODO - note circumstances in which this block is entered and guard
-					//        setValueOfProperty statement with appropriate checks 
-					e.printStackTrace();
-				}
+				if (conforms(propertyName, equivalentValue))
+					setValueOfProperty(propertyName, equivalentValue);
 			}
 		} catch (EolRuntimeException e) {
 			throw new ConservativeCopyException("Exception encountered while reading or writing a property value.", e);
 		}
 	}
-	
-	Collection<String> getPropertiesSharedWith(ModelElement other) {
-		final Collection<String> filteredProperties = new LinkedList<String>(other.getProperties());
-		
-		filteredProperties.retainAll(getProperties());
-	
-		return filteredProperties;
-	}
 
-	Collection<String> getProperties() {
-		return model.getPropertiesOf(underlyingModelObject);
+	Collection<String> getPropertiesSharedWith(ModelElement element) throws EolModelElementTypeNotFoundException {
+		return type.getPropertiesSharedWith(element.getType());
 	}
 	
 	ModelValue<?> getValueOfProperty(String property) throws EolRuntimeException {
 		return model.getValueOfProperty(underlyingModelObject, property);
 	}
 	
-	private void setValueOfProperty(String property, ModelValue<?> value) throws EolRuntimeException {
-		model.setValueOfProperty(underlyingModelObject, property, value);
+	boolean conforms(String property, ModelValue<?> value) throws EolRuntimeException {
+		return model.conforms(underlyingModelObject, property, value);
+	}
+	
+	void setValueOfProperty(String property, ModelValue<?> value) throws EolRuntimeException {
+		try {
+			model.setValueOfProperty(underlyingModelObject, property, value);
+		} catch (Exception e) {
+			// TODO - note circumstances in which this block is entered and guard with appropriate checks 
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

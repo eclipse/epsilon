@@ -27,6 +27,10 @@ public abstract class ModelValue<UnwrappedType> {
 	
 	public abstract ModelValue<?> getEquivalentIn(Model model, IFlockContext context) throws ConservativeCopyException;
 	
+	public abstract int size();
+	
+	public abstract boolean isMany();
+	
 	@Override
 	public abstract boolean equals(Object o);
 

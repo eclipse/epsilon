@@ -49,7 +49,7 @@ class ModelValueWrapper {
 		if (!model.isModelElement(object)) 
 			throw new IllegalArgumentException("Object is not an element of this model: " + object);
 		
-		return new ModelElement(model, object);
+		return new ModelElement(model, new ModelType(model, model.getTypeNameOf(object)), object);
 	}
 	
 	private Collection<ModelValue<?>> wrapValues(EolCollection underlyingModelObjects) {

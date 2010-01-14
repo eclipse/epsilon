@@ -113,9 +113,14 @@ public class ModelValueWrapperTests {
 			.andReturn(false);
 		expectLastCall().anyTimes();
 		
+		// Return dummy type for type of any object contained in modelElements
+		expect(modelStub.getTypeNameOf(oneOf(Arrays.asList(modelElements))))
+			.andReturn("dummy type");
+		expectLastCall().anyTimes();
+		
 		// CollectionOfModelValues will use model to wrap values
 		expect(modelStub.wrap(oneOf(Arrays.asList(modelElements))))
-			.andReturn((BackedModelValue)new ModelElement(modelStub, "dummy model element"));
+			.andReturn((BackedModelValue)new ModelElement(modelStub, new ModelType(modelStub, "dummy type"), "dummy model element"));
 		expectLastCall().anyTimes();
 		
 		expect(modelStub.wrap(isA(Object.class)))

@@ -36,7 +36,8 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                    "families { ";
 				
 		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
-		           is(arrayContaining(completionProposal("Bike"),
+		           is(arrayContaining(completionProposal("Band"),
+		                              completionProposal("Bike"),
 		                              completionProposal("District"),
 		                              completionProposal("Dog"),
 		                              completionProposal("Family"),
@@ -59,8 +60,10 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		
 		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
 		           is(arrayContaining(completionProposal("accounts: "),
+		                              completionProposal("allParents: "),
 		                              completionProposal("friends: "),
 		                              completionProposal("name: "),
+		                              completionProposal("parents: "),
 		                              completionProposal("sharedAccounts: ")
 		                              )));
 	}
