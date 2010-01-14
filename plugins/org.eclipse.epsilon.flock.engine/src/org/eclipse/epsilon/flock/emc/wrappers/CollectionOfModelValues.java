@@ -64,16 +64,6 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 	public Iterator<ModelValue<?>> iterator() {
 		return modelValues.iterator();
 	}
-	
-	@Override
-	public int size() {
-		return modelValues.size();
-	}
-	
-	@Override
-	public boolean isMany() {
-		return true;
-	}
 
 	@Override
 	public boolean equals(Object o) {

@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
-public class ModelElement extends SingleBackedModelValue<Object> {
+public class ModelElement extends BackedModelValue<Object> {
 	
 	private final ModelType type;
 	

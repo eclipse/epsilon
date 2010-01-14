@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 
 import org.eclipse.epsilon.flock.IFlockContext;
 
-class AttributeValue extends SingleBackedModelValue<Object> {
+class AttributeValue extends BackedModelValue<Object> {
 
 	AttributeValue(Model model, Object underlyingModelObject) {
 		super(model, underlyingModelObject);
