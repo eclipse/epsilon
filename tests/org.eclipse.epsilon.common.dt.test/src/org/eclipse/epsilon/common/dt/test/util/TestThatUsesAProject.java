@@ -81,6 +81,11 @@ public class TestThatUsesAProject {
 			createFile(file, newContents);
 	}
 	
+	protected static void refreshContents(IResource resource) throws CoreException, InterruptedException {
+		resource.refreshLocal(IResource.DEPTH_INFINITE, null);
+		Thread.sleep(1000);
+	}
+	
 	private static void createFile(IFile file, String contents) throws CoreException {
 		file.create(new ByteArrayInputStream(contents.getBytes()), true, new NullProgressMonitor());
 	}
