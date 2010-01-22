@@ -21,13 +21,16 @@ import org.eclipse.epsilon.commons.profiling.ProfilerTarget;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.eol.models.java.JavaObjectModel;
@@ -88,6 +91,11 @@ public class CompositeModel extends Model {
 	
 	public CompositeModel(Collection<IModel> models) {
 		this.models = models;
+	}
+	
+	public CompositeModel(String name, Collection<IModel> models) {
+		this(models);
+		setName(name);
 	}
 	
 	public CompositeModel(Collection<IModel> models, MatchTrace matchTrace) {
@@ -159,8 +167,12 @@ public class CompositeModel extends Model {
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		
-		throw new EolNotInstantiableModelElementTypeException(this.name, type);
+		for (IModel m : models) {
+			if (m.hasType(type))
+				return m.createInstance(type);
+		}
 		
+		throw new EolNotInstantiableModelElementTypeException(this.name, type);
 	}
 
 	public void deleteElement(Object instance) throws EolRuntimeException {
@@ -276,12 +288,27 @@ public class CompositeModel extends Model {
 		return false;
 	}
 
+	@Override
+	public void dispose() {
+		for (IModel m : models) {
+			m.dispose();
+		}
+		
+		super.dispose();
+	}
+	
 	public boolean store(String location) {
-		return false;
+		for (IModel m : models) {
+			if (!m.store(location)) return false;
+		}
+		return true;
 	}
 
 	public boolean store() {
-		return false;
+		for (IModel m : models) {
+			if (!m.store()) return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -335,4 +362,41 @@ public class CompositeModel extends Model {
 		
 	}
 	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new CompositePropertySetter();
+	}
+	
+	
+	private class CompositePropertySetter extends AbstractPropertySetter {
+
+		public Object coerce(Object value) throws EolIllegalPropertyException {
+			return getDelegate().coerce(value);
+		}
+
+		public boolean conforms(Object value) throws EolIllegalPropertyException {
+			return getDelegate().conforms(value);
+		}
+
+		public void invoke(Object value) throws EolRuntimeException {
+			getDelegate().invoke(value);
+		}
+		
+		
+		private IPropertySetter getDelegate() throws EolIllegalPropertyException {
+			for (IModel model : models) {
+				if (model.owns(object)) {
+					final IPropertySetter delegate = model.getPropertySetter();
+					delegate.setAst(ast);
+					delegate.setContext(context);
+					delegate.setObject(object);
+					delegate.setProperty(property);
+					return delegate;
+				}
+			}
+			
+			throw new EolIllegalPropertyException(object, property, ast, context);
+		}
+		
+	}
 }
