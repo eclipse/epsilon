@@ -86,11 +86,12 @@ public class EglFileGeneratingTemplate extends EglTemplate {
 			final String encodedPath = UriUtil.encode(path, false);
 			final URI resolved       = UriUtil.resolve(encodedPath, outputRoot);
 			
-			if (resolved.getScheme().equals("file"))
+			if ("file".equals(resolved.getScheme()))
 				return new File(resolved);
 			
-			else
-				return new File(new URI("file:///" + encodedPath));
+			else {
+				return new File(new URI("file://" + resolved.toString()));
+			}
 			
 		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: "+path, e, callersContext.getModule().getAst());
