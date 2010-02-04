@@ -15,7 +15,7 @@
          point="org.eclipse.emf.ecore.dynamic_package">
       <resource
             location="models/org/eclipse/epsilon/hutn/test/models/Families.ecore"
-            uri="familes">
+            uri="families">
       </resource>
    </extension>
    
@@ -23,7 +23,7 @@
          point="org.eclipse.emf.ecore.dynamic_package">
       <resource
             location="models/org/eclipse/epsilon/hutn/test/models/BankAccounts.ecore"
-            uri="familes">
+            uri="bankAccounts">
       </resource>
    </extension>
 
