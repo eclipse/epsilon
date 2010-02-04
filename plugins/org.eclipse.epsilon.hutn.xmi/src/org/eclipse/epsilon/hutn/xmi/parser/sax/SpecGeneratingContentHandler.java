@@ -66,7 +66,10 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     	
     	} else {
     		
-    		if (atts.getIndex("xsi:type") >= 0) {
+    		if (atts.getIndex("href") >= 0) {
+    			generator.addAttributeValue(name, atts.getValue("href"), getCurrentLineNumber());
+    			
+    		} else if (atts.getIndex("xsi:type") >= 0) {
     			generator.generateContainedClassObject(name, atts.getValue("xmi:id"), getLocalName(atts.getValue("xsi:type")), getCurrentLineNumber());
     			
 			} else {
@@ -113,14 +116,17 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
 	private void processAttributes(Attributes atts) {
 		for (int index = 0; index < atts.getLength(); index++) {
 			
-			if (atts.getQName(index).startsWith("xmi") || atts.getQName(index).startsWith("xsi")) {
+			if (attributeIsMetadata(atts.getQName(index))) {
 			  	  continue;
 			}
 
 			generator.addAttributeValue(atts.getLocalName(index), atts.getValue(index), getCurrentLineNumber());
 		}
 	}
-    
+
+	private boolean attributeIsMetadata(String attributeName) {
+		return attributeName.equals("href") || attributeName.startsWith("xmi") || attributeName.startsWith("xsi");
+	}
     
     private static String getLocalName(String qualifiedName) {
     	return qualifiedName.split(":")[1];
