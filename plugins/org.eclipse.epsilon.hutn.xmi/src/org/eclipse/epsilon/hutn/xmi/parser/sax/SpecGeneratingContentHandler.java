@@ -48,7 +48,7 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
 		generator.initialise(uri);
 	}
 
-	private boolean alreadyPoppedCurrentElement = false;
+	private boolean skipPopOnNextEndElement = false;
 	private String currentElementName;
 	
 	@Override
@@ -68,6 +68,7 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     		
     		if (atts.getIndex("href") >= 0) {
     			generator.addAttributeValue(name, atts.getValue("href"), getCurrentLineNumber());
+    			skipPopOnNextEndElement = true;
     			
     		} else if (atts.getIndex("xsi:type") >= 0) {
     			generator.generateContainedClassObject(name, atts.getValue("xmi:id"), getLocalName(atts.getValue("xsi:type")), getCurrentLineNumber());
@@ -94,11 +95,11 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
     
     @Override
     public void endElement (String uri, String name, String qName) {
-    	if (generator.hasCurrentClassObject() && !alreadyPoppedCurrentElement) {
+    	if (generator.hasCurrentClassObject() && !skipPopOnNextEndElement) {
     		generator.stopGeneratingCurrentClassObject();
     	}
     	
-    	alreadyPoppedCurrentElement = false;
+    	skipPopOnNextEndElement = false;
     }
     
     private void processMultiValuedAttribute(String value) {
@@ -106,7 +107,7 @@ public class SpecGeneratingContentHandler extends DefaultHandler {
   
     	// remove the pushed class object
     	generator.stopGeneratingAndDeleteCurrentClassObject();
-    	alreadyPoppedCurrentElement = true;
+    	skipPopOnNextEndElement = true;
     	
     	// and replace with an attribute value
     	generator.addAttributeValue(currentElementName, value, getCurrentLineNumber());

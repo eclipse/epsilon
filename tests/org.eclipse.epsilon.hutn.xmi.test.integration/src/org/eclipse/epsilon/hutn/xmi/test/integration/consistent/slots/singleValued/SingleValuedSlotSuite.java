@@ -30,7 +30,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({String.class, Integer.class, Float.class, Boolean.class, Enum.class,
                Reference.class, ReferenceWithSubType.class,
                ReferenceUsingFragment.class, ReferenceUsingFragmentWithoutLeadingHash.class, ReferenceUsingDeepFragment.class,
-               ReferenceUsingFragmentWithTwoTopLevelObjects.class})
+               ReferenceUsingFragmentWithTwoTopLevelObjects.class,
+               CrossReference.class})
 public class SingleValuedSlotSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(SingleValuedSlotSuite.class);
