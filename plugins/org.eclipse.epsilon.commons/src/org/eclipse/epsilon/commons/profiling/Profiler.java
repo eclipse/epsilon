@@ -134,7 +134,7 @@ public class Profiler {
 	}
 	
 	public long getExecutionCount(String targetName) {
-		return targets.get(targetName);
+		return targets.containsKey(targetName) ? targets.get(targetName) : 0;
 	}
 	
 	protected long getWorked(ProfilerTarget target, String targetName, boolean aggregate) {
