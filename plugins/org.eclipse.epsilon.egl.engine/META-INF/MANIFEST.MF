@@ -6,7 +6,8 @@ Bundle-Version: 0.8.8.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.commons
+ org.eclipse.epsilon.commons,
+ org.eclipse.epsilon.common.dt
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.beautify,
