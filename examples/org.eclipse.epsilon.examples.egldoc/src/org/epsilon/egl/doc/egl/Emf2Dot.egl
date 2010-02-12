@@ -2,5 +2,5 @@
 	TemplateFactory.setOutputRoot(outputDir + '/' + metaModelName);
 	
 	var mof2dot : Template := TemplateFactory.load('dot/Dot.egl');
-	mof2dot.store(metaModelName + '.dot', true);
+	mof2dot.generate(metaModelName + '.dot');
 %] 
