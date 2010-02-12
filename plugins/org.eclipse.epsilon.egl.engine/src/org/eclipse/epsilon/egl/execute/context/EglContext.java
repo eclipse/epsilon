@@ -31,7 +31,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EglContext extends EolContext implements IEglContext {
 
-	private final TemplateFactory tf = new FileGeneratingTemplateFactory(this);
+	private final TemplateFactory tf = createTemplateFactory();
 	
 	private OutputBuffer out;
 	private CompositePartitioner partitioner = new CompositePartitioner();
@@ -49,6 +49,17 @@ public class EglContext extends EolContext implements IEglContext {
 		setOperationFactory(new EglOperationFactory());
 	}
 	
+	/**
+	 * Factory method creating template factory of the correct type. 
+	 * Note this will be called during initialisation of EglContext, 
+	 * so it is not safe to access fields.
+	 * 
+	 * @return
+	 */
+	protected TemplateFactory createTemplateFactory() {
+		return new FileGeneratingTemplateFactory(this);
+	}
+
 	public EglContext(IEglContext context) {
 		parentContext = context;
 		
