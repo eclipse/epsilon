@@ -61,6 +61,6 @@ guard
 	;
 
 extendz
-	:	e='extends'^ NAME (',' NAME)*
+	:	e='extends'^ NAME (','! NAME)*
 	{$e.setType(EXTENDS);}
 	;

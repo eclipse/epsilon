@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2009-11-08 18:52:16
+// $ANTLR 3.1b1 ErlParserRules.g 2010-02-15 15:48:30
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -498,11 +498,7 @@ public class Ecl_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             	    // ErlParserRules.g:64:23: ',' NAME
             	    {
             	    char_literal7=(Token)match(input,74,FOLLOW_74_in_extendz119); if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) {
-            	    char_literal7_tree = (CommonTree)adaptor.create(char_literal7);
-            	    adaptor.addChild(root_0, char_literal7_tree);
-            	    }
-            	    NAME8=(Token)match(input,NAME,FOLLOW_NAME_in_extendz121); if (state.failed) return retval;
+            	    NAME8=(Token)match(input,NAME,FOLLOW_NAME_in_extendz122); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    NAME8_tree = (CommonTree)adaptor.create(NAME8);
             	    adaptor.addChild(root_0, NAME8_tree);
@@ -558,6 +554,6 @@ public class Ecl_ErlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     public static final BitSet FOLLOW_130_in_extendz113 = new BitSet(new long[]{0x0000000000010000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000400L});
     public static final BitSet FOLLOW_74_in_extendz119 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_NAME_in_extendz121 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000400L});
+    public static final BitSet FOLLOW_NAME_in_extendz122 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000400L});
 
 }

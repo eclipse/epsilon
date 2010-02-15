@@ -1,27 +1,16 @@
-pre {
-	doit();
+rule CopyChild
+    transform s : Source!Child
+    to t: Target!Child
+    extends CopyMom, CopyDad {     t.name := t.name;
 }
 
-post A {
-	doit();
+rule CopyMom
+    transform s : Source!Mom
+    to t : Target!Mom {     t.surname2 := t.surname2;
+    
 }
 
-rule A 
-	transform a : A
-	to b : B extends C2D {
-	
-	guard : true
-	
-	doit();
-	
-}
-
-rule B 
-	transform a : A 
-	to b : B, c : C {
-
-	guard {
-		return false;
-	}
-
-}
+rule CopyDad
+    transform s : Source!Dad
+    to t : Target!Dad {     t.surname := t.surname;
+} 
