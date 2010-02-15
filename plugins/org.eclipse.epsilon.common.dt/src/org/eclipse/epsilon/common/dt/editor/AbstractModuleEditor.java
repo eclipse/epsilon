@@ -10,47 +10,37 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.ITextDoubleClickStrategy;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
-import org.eclipse.jface.text.presentation.IPresentationReconciler;
-import org.eclipse.jface.text.presentation.PresentationReconciler;
-import org.eclipse.jface.text.rules.EndOfLineRule;
-import org.eclipse.jface.text.rules.IRule;
-import org.eclipse.jface.text.rules.IWhitespaceDetector;
-import org.eclipse.jface.text.rules.IWordDetector;
-import org.eclipse.jface.text.rules.MultiLineRule;
-import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.SingleLineRule;
-import org.eclipse.jface.text.rules.Token;
-import org.eclipse.jface.text.rules.WhitespaceRule;
-import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.jface.text.source.AnnotationModel;
-import org.eclipse.jface.text.source.DefaultAnnotationHover;
-import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
@@ -62,50 +52,42 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
+import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 
-public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor implements
-		IPropertyListener {
+public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor { //implements IPropertyListener {
 	
 	protected Color backgroundColor = null;
 	
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
-
 	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
-
-	//public static final Color EXECUTABLEANNOTATION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
-	public static final Color EXECUTABLEANNOTATION = ANNOTATION;//new Color(Display.getCurrent(), new RGB(212, 176, 123));
-
-	// static Color COMMENT = new Color(Display.getCurrent(), new RGB(128, 128,
-	// 128));
-	
+	public static final Color EXECUTABLEANNOTATION = ANNOTATION;
 	public static final Color STRING = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-
 	public static final Color DEFAULT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
-
 	public static final Color KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
-
 	public static final Color BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-	
 	public static final Color ASSERTION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
-	
-	//static Color TYPE = new Color(Display.getCurrent(), new RGB(127, 159, 191));
 	
 	public static final Color TYPE = new Color(Display.getCurrent(), new RGB(0, 192, 0));
 
-	private IContentOutlinePage outlinePage;
+	private ModuleContentOutlinePage outlinePage;
 
 	public AbstractModuleEditor() {
 		super();
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+		super.doSave(progressMonitor);
+		checkSyntax();
 	}
 	
 	public void insertText(String text) {
@@ -166,24 +148,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 		});
 	}
 	
-	/*
-	 * protected void createActions() { super.createActions(); Action action =
-	 * new ContentAssistAction(
-	 * ResourceBundle.getBundle("org.eclipse.escript.editor.messages"),
-	 * "ContentAssistProposal.", this);
-	 * action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-	 * setAction("ContentAssistProposal", action);
-	 * markAsStateDependentAction("ContentAssistProposal", true); }
-	 */
-	
-	
-	
 	@Override
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
-			if (outlinePage == null) {
-				outlinePage = createOutlinePage();
-			}
 			return outlinePage;
 		}
 
@@ -219,52 +186,19 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 
 	public abstract List getBuiltinVariables();
 
-	public abstract IContentOutlinePage createOutlinePage();
+	public ModuleContentOutlinePage createOutlinePage() {
+		ModuleContentOutlinePage outline = 
+			new ModuleContentOutlinePage(
+					this.getDocumentProvider(), 
+					this, 
+					createModuleElementLabelProvider());
+		return outline;
+	}
 
-	public abstract IModule getModule();
+	public abstract IModule createModule();
 
-	/*
-	 * class CompletionProcessor implements IContentAssistProcessor { private
-	 * final IContextInformation[] NO_CONTEXTS = new IContextInformation[0];
-	 * private final char[] PROPOSAL_ACTIVATION_CHARS = new char[] {
-	 * 's','f','p','n','m', }; private ICompletionProposal[] NO_COMPLETIONS =
-	 * new ICompletionProposal[0];
-	 * 
-	 * public ICompletionProposal[] computeCompletionProposals(ITextViewer
-	 * viewer, int offset) { try { IDocument document = viewer.getDocument();
-	 * ArrayList result = new ArrayList(); String prefix = lastWord(document,
-	 * offset); String indent = lastIndent(document, offset); EscriptModel model =
-	 * EscriptModel.getModel(document, null); model.getContentProposals(prefix,
-	 * indent, offset, result); return (ICompletionProposal[])
-	 * result.toArray(new ICompletionProposal[result.size()]); } catch
-	 * (Throwable e) { e.printStackTrace(); return NO_COMPLETIONS; } } private
-	 * String lastWord(IDocument doc, int offset) { try { for (int n = offset-1;
-	 * n >= 0; n--) if (!Character.isJavaIdentifierPart(doc.getChar(n))) return
-	 * doc.get(n + 1, offset-n-1); } catch (BadLocationException e) {
-	 * e.printStackTrace(); } return ""; } private String lastIndent(IDocument
-	 * doc, int offset) { try { int start = offset-1; while (start >= 0 &&
-	 * doc.getChar(start)!= '\n') start--; int end = start; while (end < offset &&
-	 * Character.isSpaceChar(doc.getChar(end))) end++; return doc.get(start+1,
-	 * end-start-1); } catch (BadLocationException e) { //e.printStackTrace(); }
-	 * return ""; } public IContextInformation[]
-	 * computeContextInformation(ITextViewer viewer, int offset) { return
-	 * NO_CONTEXTS; } public char[]
-	 * getCompletionProposalAutoActivationCharacters() { return
-	 * PROPOSAL_ACTIVATION_CHARS; } public char[]
-	 * getContextInformationAutoActivationCharacters() { return null; } public
-	 * IContextInformationValidator getContextInformationValidator() { return
-	 * null; } public String getErrorMessage() { return null; } }
-	 * 
-	 * public class TextHover implements ITextHover { public IRegion
-	 * getHoverRegion(ITextViewer textViewer, int offset) { return new
-	 * Region(offset, 0); } public String getHoverInfo(ITextViewer textViewer,
-	 * IRegion hoverRegion) { try { IDocument document =
-	 * textViewer.getDocument(); EscriptModel model =
-	 * EscriptModel.getModel(document, null); return
-	 * model.getElementAt(hoverRegion.getOffset()).getHoverHelp(); } catch
-	 * (Exception e) { return ""; } } }
-	 */
-
+	public abstract ModuleElementLabelProvider createModuleElementLabelProvider();
+	
 	ProjectionSupport projectionSupport;
 
 	AnnotationModel annotationModel;
@@ -303,7 +237,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 	public void updateFoldingStructure() {
 		if (!useCodeFolding) return;
 		
-		IModule module = getModule();
+		IModule module = createModule();
 		IDocument doc = this.getDocumentProvider().getDocument(
 				this.getEditorInput());
 		
@@ -363,7 +297,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 	
 	protected Position getPosition(AST ast){
 		Position pos = new Position(0);
-		Visitor visitor = new Visitor();
+		AstVisitor visitor = new AstVisitor();
 		visitor.visit(ast);
 		IDocument doc = this.getDocumentProvider().getDocument(
 				this.getEditorInput());
@@ -381,36 +315,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 		pos.setLength(endOffset-startOffset);
 		return pos;
 	}
-	
-	
-	
-	class Visitor {
-		public int startLine = 0;
-		public int startColumn = 0;
-		public int endLine = 0;
-		public int endColumn = 0;
-		
-		protected void visit(AST ast){
-			if (ast == null) return;
-			if (ast.getLine() < startLine ||
-					(ast.getLine() == startLine 
-							&& ast.getColumn() < startColumn)) {
-				startLine = ast.getLine();
-				startColumn = ast.getColumn();
-			}
-			if (ast.getLine() > endLine ||
-					(ast.getLine() == endLine 
-							&& ast.getColumn() > endColumn)) {
-				endLine = ast.getLine();
-				endColumn = ast.getColumn();
-			}		
-			AST child = ast.getFirstChild();
-			while (ast!=null){
-				visit(child);
-				ast = ast.getNextSibling();
-			}
-		}
-	}
+
 	
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
@@ -420,16 +325,57 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor i
 			e.printStackTrace();
 		}
 		setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
-		addPropertyListener(this);
+		outlinePage = createOutlinePage();
+		checkSyntax();
 	}
 
-	public void propertyChanged(Object source, int propId) {
-		if (propId == 257 && source == this) {
-			if (this.isDirty() == false) {
-				//TODO : Add a preference page for enabling/disabling code folding
-				//updateFoldingStructure();
-			}
+	protected IModule module;
+	protected IModule getModule() {
+		if (module == null) {
+			module = createModule();
 		}
+		return module;
+	}
+	
+	public void checkSyntax() {
+		FileEditorInput fileInputEditor = (FileEditorInput) getEditorInput();
+		IFile file = fileInputEditor.getFile();
+		
+		final IModule module = getModule();
+		
+		try {
+			module.reset();
+			module.parse(new File(file.getLocation().toOSString()));
+		} catch (Exception e) {}
+		
+		// Update problem markers
+		// Delete all the old markers and add new
+		try {
+			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			for (ParseProblem problem : module.getParseProblems()) {
+				Map attr = new HashMap();
+				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
+				attr.put(IMarker.MESSAGE, problem.getReason());				
+				int markerSeverity;
+				if (problem.getSeverity() == ParseProblem.ERROR) {
+					markerSeverity = IMarker.SEVERITY_ERROR;
+				}
+				else {
+					markerSeverity = IMarker.SEVERITY_WARNING;
+				}
+				attr.put(IMarker.SEVERITY, markerSeverity);
+				MarkerUtilities.createMarker(file, attr, IMarker.PROBLEM);
+			}
+		} catch (CoreException e1) {}
+		
+		Display.getCurrent().asyncExec(new Runnable() {
+			
+			public void run() {
+				while (!outlinePage.isReady());
+				outlinePage.updateModule(module);
+			}
+		});
+		
 	}
 
 	public Color getBackgroundColor() {

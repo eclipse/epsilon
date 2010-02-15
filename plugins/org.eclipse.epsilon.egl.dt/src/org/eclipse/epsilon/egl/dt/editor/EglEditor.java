@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
@@ -74,18 +75,7 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 
 	@Override
-	public IContentOutlinePage createOutlinePage() {
-		ModuleContentOutlinePage outline = 
-			new ModuleContentOutlinePage(
-					this.getDocumentProvider(), 
-					this, 
-					new EglModule(), 
-					new EglModuleElementLabelProvider());
-		return outline;
-	}
-
-	@Override
-	public IModule getModule() {
+	public IModule createModule() {
 		return new EglModule();
 	}
 
@@ -115,5 +105,10 @@ public class EglEditor extends AbstractModuleEditor {
 
 		}
 		return templates;
+	}
+
+	@Override
+	public ModuleElementLabelProvider createModuleElementLabelProvider() {
+		return new EglModuleElementLabelProvider();
 	}
 }

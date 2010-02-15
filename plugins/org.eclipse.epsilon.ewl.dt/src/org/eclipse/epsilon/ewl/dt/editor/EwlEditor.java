@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.ewl.EwlModule;
 import org.eclipse.epsilon.ewl.dt.editor.outline.EwlModuleElementLabelProvider;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EwlEditor extends EolEditor{
 		
@@ -37,29 +37,6 @@ public class EwlEditor extends EolEditor{
 		
 		return keywords;
 	}
-	/*
-	public List getBuiltinVariables() {
-		
-		ArrayList builtIn = new ArrayList();
-		
-		builtIn.add("constraintTrace");
-		
-		builtIn.addAll(super.getBuiltinVariables());
-		
-		return builtIn;
-	}
-*/
-	@Override
-	public IContentOutlinePage createOutlinePage() {
-		ModuleContentOutlinePage outline = 
-			new ModuleContentOutlinePage(
-					this.getDocumentProvider(), 
-					this, 
-					new EwlModule(), 
-					new EwlModuleElementLabelProvider());
-		
-		return outline;
-	}
 	
 	List<Template> templates = null;
 	public List<Template> getTemplates() {
@@ -71,7 +48,12 @@ public class EwlEditor extends EolEditor{
 	}
 	
 	@Override
-	public IModule getModule(){
+	public ModuleElementLabelProvider createModuleElementLabelProvider() {
+		return new EwlModuleElementLabelProvider();
+	}
+	
+	@Override
+	public IModule createModule(){
 		return new EwlModule();
 	}
 }

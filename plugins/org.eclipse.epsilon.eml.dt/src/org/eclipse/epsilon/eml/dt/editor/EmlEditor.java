@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.dt.editor.outline.EmlModuleElementLabelProvider;
@@ -51,21 +52,14 @@ public class EmlEditor extends EtlEditor {
 		
 		return emlBuiltin;
 	}
-
+	
 	@Override
-	public IContentOutlinePage createOutlinePage() {
-		ModuleContentOutlinePage outline = 
-			new ModuleContentOutlinePage(
-					this.getDocumentProvider(), 
-					this, 
-					new EmlModule(), 
-					new EmlModuleElementLabelProvider());
-		
-		return outline;
+	public ModuleElementLabelProvider createModuleElementLabelProvider() {
+		return new EmlModuleElementLabelProvider();
 	}
 	
 	@Override
-	public IModule getModule(){
+	public IModule createModule(){
 		return new EmlModule();
 	}
 	

@@ -50,11 +50,10 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 	protected Action linkWithEditorAction;
 	
 	public ModuleContentOutlinePage(IDocumentProvider documentProvider,
-			ITextEditor editor, IModule module, ModuleElementLabelProvider labelProvider) {
+			ITextEditor editor, ModuleElementLabelProvider labelProvider) {
 		super();
 		this.documentProvider = documentProvider;
 		this.editor = editor;
-		this.module = module;
 		this.labelProvider = labelProvider;
 		addSelectionChangedListener(this);
 		thiz = this;
@@ -63,7 +62,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-		editor.addPropertyListener(new PropertyListener());
+		//editor.addPropertyListener(new PropertyListener());
 		getTreeViewer().setContentProvider(new ModuleContentProvider());
 		getTreeViewer().setLabelProvider(labelProvider);
 		
@@ -72,9 +71,19 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
     	linkWithEditorAction = new LinkWithEditorAction();
     	toolbarManager.add(linkWithEditorAction);
     	
-		update();
+		//update();
 	}
-
+	
+	public void updateModule(IModule module) {
+		if (getTreeViewer() != null)
+		getTreeViewer().setInput(module);
+	}
+	
+	public boolean isReady() {
+		return getTreeViewer()!=null;
+	}
+	
+	/*
 	public void update() {
 		
 		// Parse the module
@@ -117,8 +126,8 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 			
 		}
 
-	}
-
+	}*/
+	/*
 	class PropertyListener implements IPropertyListener {
 
 		public void propertyChanged(Object source, int propId) {
@@ -128,7 +137,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 				}
 			}
 		}
-	}
+	}*/
 
 	public AST toAst(Object o) {
 		return (AST) o;
