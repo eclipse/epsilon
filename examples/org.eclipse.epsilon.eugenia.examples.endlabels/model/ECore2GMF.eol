@@ -31,10 +31,10 @@ operation ECore!EClass createLinkEndLabel(attribute:String, source:Boolean) {
 	-- Specify if the label will be placed at the beginning/end of the link
 	var alignmentFacet = new GmfGraph!AlignmentFacet;
 	if (source){
-		alignmentFacet.alignment = GmfGraph!Alignment#END.instance;
+		alignmentFacet.alignment = GmfGraph!Alignment#END;
 	}
 	else {
-		alignmentFacet.alignment = GmfGraph!Alignment#BEGINNING.instance;
+		alignmentFacet.alignment = GmfGraph!Alignment#BEGINNING;
 	}
 	diagramLabel.facets.add(alignmentFacet);
 	
