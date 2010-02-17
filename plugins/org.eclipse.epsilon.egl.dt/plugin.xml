@@ -57,7 +57,7 @@
             class="org.eclipse.epsilon.egl.dt.views.TemplateView"
             icon="icons/egl.png"
             id="org.eclipse.epsilon.egl.dt.views.TemplateView"
-            name="Output"/>
+            name="EGL Template Output"/>
    </extension>
 
 </plugin>
