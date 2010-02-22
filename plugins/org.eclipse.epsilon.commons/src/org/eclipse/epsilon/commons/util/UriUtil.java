@@ -43,7 +43,7 @@ public abstract class UriUtil {
 			}
 		}
 		
-		return uri;
+		return new URI("file://" + uri);
 	}
 	
 	public static String encode(String s, boolean isDirectory) {
