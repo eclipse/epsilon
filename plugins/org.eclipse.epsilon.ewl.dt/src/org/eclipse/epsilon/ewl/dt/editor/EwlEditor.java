@@ -13,7 +13,6 @@ package org.eclipse.epsilon.ewl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
@@ -24,9 +23,9 @@ import org.eclipse.jface.text.templates.Template;
 public class EwlEditor extends EolEditor{
 		
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		
-		List keywords = new ArrayList();
+		List<String> keywords = new ArrayList<String>();
 		
 		keywords.add("wizard");
 		keywords.add("guard");

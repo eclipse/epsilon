@@ -13,21 +13,19 @@ package org.eclipse.epsilon.ecl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.dt.editor.outline.EclModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EclEditor extends EolEditor{
 		
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		
-		List eclKeywords = new ArrayList();
+		List<String> eclKeywords = new ArrayList<String>();
 		
 		eclKeywords.add("match");
 		eclKeywords.add("auto");
@@ -47,9 +45,9 @@ public class EclEditor extends EolEditor{
 	}
 	
 	@Override
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		
-		ArrayList eclBuiltin = new ArrayList();
+		ArrayList<String> eclBuiltin = new ArrayList<String>();
 		
 		eclBuiltin.add("matchTrace");
 		eclBuiltin.add("autoCompare");

@@ -13,14 +13,12 @@ package org.eclipse.epsilon.evl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleElementLabelProvider;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EvlEditor extends EolEditor{
 		

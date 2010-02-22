@@ -13,21 +13,19 @@ package org.eclipse.epsilon.etl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.dt.editor.outline.EtlModuleElementLabelProvider;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EtlEditor extends EolEditor{
 		
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		
-		List keywords = new ArrayList();
+		List<String> keywords = new ArrayList<String>();
 		
 		keywords.add("transform");
 		keywords.add("auto");
@@ -45,9 +43,9 @@ public class EtlEditor extends EolEditor{
 	}
 	
 	@Override
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		
-		ArrayList builtIn = new ArrayList();
+		ArrayList<String> builtIn = new ArrayList<String>();
 		
 		builtIn.add("transTrace");
 		

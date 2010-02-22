@@ -13,21 +13,19 @@ package org.eclipse.epsilon.eml.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.dt.editor.outline.EmlModuleElementLabelProvider;
 import org.eclipse.epsilon.etl.dt.editor.EtlEditor;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EmlEditor extends EtlEditor {
 
 	@Override
-	public List getKeywords() {
+	public List<String> getKeywords() {
 		
-		List emlKeywords = new ArrayList();
+		List<String> emlKeywords = new ArrayList<String>();
 		
 		emlKeywords.add("merge");
 		emlKeywords.add("mid");
@@ -40,9 +38,9 @@ public class EmlEditor extends EtlEditor {
 	}
 	
 	@Override
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		
-		ArrayList emlBuiltin = new ArrayList();
+		ArrayList<String> emlBuiltin = new ArrayList<String>();
 		
 		emlBuiltin.add("matchTrace");
 		emlBuiltin.add("mergeTrace");
