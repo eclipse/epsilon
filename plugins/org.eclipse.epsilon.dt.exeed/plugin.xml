@@ -5,12 +5,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Exeed Editor"
-            extensions="ecore,xmi,model,xml,bim"
-            icon="icons/emfmodel.gif"
-            contributorClass="org.eclipse.epsilon.dt.exeed.ExeedActionBarContributor"
             class="org.eclipse.epsilon.dt.exeed.ExeedEditor"
-            id="org.eclipse.epsilon.dt.exeed.ExeedEditor">
+            contributorClass="org.eclipse.epsilon.dt.exeed.ExeedActionBarContributor"
+            default="true"
+            extensions="model,bim"
+            icon="icons/emfmodel.gif"
+            id="org.eclipse.epsilon.dt.exeed.ExeedEditor"
+            name="Exeed Editor">
       </editor>
       <editor
             class="org.eclipse.epsilon.dt.exeed.ExeedEditor"
@@ -19,6 +20,15 @@
             icon="icons/register.gif"
             id="org.eclipse.epsilon.dt.exeed.RegisteredEPackageEditor"
             name="Registered EPackage Viewer">
+      </editor>
+      <editor
+            class="org.eclipse.epsilon.dt.exeed.ExeedEditor"
+            contributorClass="org.eclipse.epsilon.dt.exeed.ExeedActionBarContributor"
+            default="false"
+            extensions="ecore,xmi,xml"
+            icon="icons/emfmodel.gif"
+            id="org.eclipse.epsilon.dt.exeed.ExeedEditor"
+            name="Exeed Editor">
       </editor>
    </extension>
    
