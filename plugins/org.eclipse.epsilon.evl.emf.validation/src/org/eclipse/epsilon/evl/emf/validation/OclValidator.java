@@ -12,6 +12,7 @@
 package org.eclipse.epsilon.evl.emf.validation;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreValidator;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreEnvironment;
 import org.eclipse.ocl.ecore.OCL;
@@ -46,7 +48,7 @@ public class OclValidator implements EValidator {
 		
 		try {
 			OCLInput oclInput = new OCLInput(source.toURL().openStream());
-		
+			
 			
 			class GlobalEnvironment extends EcoreEnvironment{
 				
@@ -58,8 +60,9 @@ public class OclValidator implements EValidator {
 			
 			OCL ocl = OCL.newInstance(new GlobalEnvironment());
 			
+			List<Constraint> constraints = ocl.parse(oclInput);
 			
-			for (Constraint constraint : ocl.parse(oclInput)) {
+			for (Constraint constraint : constraints) {
 				System.err.println(constraint.getName());
 				
 				if (constraint.getSpecification().getContextVariable().getType().isInstance(object)) {
@@ -74,7 +77,7 @@ public class OclValidator implements EValidator {
 			
 		}
 		catch (Exception ex) {
-			
+			LogUtil.log(ex);
 		}
 		
 		return true;
