@@ -27,7 +27,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 
 public abstract class AbstractAstPostProcessor {
 
-	private static List<AST> asList(AST ast) {
+	private static List<? extends AST> asList(AST ast) {
 		// AST will be nil if there are many packages
 		if (ast.isNil()) {
 			return ast.getChildren();
