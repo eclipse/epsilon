@@ -81,6 +81,9 @@ tokens {
 	MODELDECLARATION;
 	NAMESPACE;
 	ALIAS;
+	DRIVER;
+	MODELDECLARATIONPARAMETERS;
+	MODELDECLARATIONPARAMETER;
 }
 
 @members {
@@ -96,8 +99,8 @@ operationDeclarationOrAnnotationBlock
 	;
 
 modelDeclaration
-	:	'model' NAME modelAlias? modelNamespace? ';'
-	-> ^(MODELDECLARATION NAME (modelAlias)? (modelNamespace)?)
+	:	'model' NAME modelAlias? modelDriver? modelDeclarationParameters? ';'
+	-> ^(MODELDECLARATION NAME (modelAlias)? (modelDriver)? (modelDeclarationParameters)?)
 	;
 	
 modelNamespace
@@ -108,6 +111,21 @@ modelNamespace
 modelAlias
 	:  'alias' NAME (',' NAME)*
 	-> ^(ALIAS NAME*)
+	;
+
+modelDriver
+	:  'driver' NAME
+	-> ^(DRIVER NAME)
+	;
+
+modelDeclarationParameters
+	: '{' modelDeclarationParameter? (',' modelDeclarationParameter)* '}'
+	-> ^(MODELDECLARATIONPARAMETERS (modelDeclarationParameter)*)
+	;
+	
+modelDeclarationParameter
+	: NAME '=' STRING
+	-> ^(MODELDECLARATIONPARAMETER NAME STRING)
 	;
 	
 operationDeclaration

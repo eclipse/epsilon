@@ -25,12 +25,14 @@ import org.eclipse.epsilon.eol.EolModule;
 public class EolParserWorkbench {
 	
 	public static void main(String[] args) throws Exception {
-		
 		new EolParserWorkbench().work();
 	}
 	
+	static String basePath = "E:/Projects/Eclipse/3.5.1/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/validate/validation-test.eol";
+	
+	
 	public void workPathName() throws Exception {
-		String basePath = "F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
+		//String basePath = "E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
 		
 		//r = new StaticFieldNameResolver(EolParser.class);
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));
@@ -61,12 +63,10 @@ public class EolParserWorkbench {
 		//print(((Tree)parser.pathName().getTree()), 0);
 	}
 	
-	
 	StaticFieldNameResolver r;
 	
-	
 	public void work() throws Exception {
-		String basePath = "F:\\Projects\\Eclipse\\3.5\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
+		//String basePath = "E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
 		
 		//r = new StaticFieldNameResolver(EolParser.class);
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));

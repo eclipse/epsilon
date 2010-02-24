@@ -1,1 +1,4 @@
-foo.aggregate(a|a.name, a.size, 0);
+var x = 0;
+var x = 1;
+
+y.a(x.b.c.d);

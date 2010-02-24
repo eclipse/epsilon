@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2009-11-08 18:27:48
+// $ANTLR 3.1b1 EolLexerRules.g 2010-02-23 16:05:07
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -81,6 +81,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int LINE_COMMENT=19;
     public static final int BREAKALL=33;
     public static final int TRANSACTION=35;
+    public static final int DRIVER=63;
     public static final int ELSE=29;
     public static final int EOLMODULE=54;
     public static final int PARAMLIST=22;
@@ -118,18 +119,20 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__64=64;
-    public static final int T__65=65;
+    public static final int MODELDECLARATIONPARAMETER=65;
     public static final int PARAMETERS=40;
-    public static final int T__63=63;
     public static final int POINT=7;
     public static final int T__118=118;
+    public static final int T__119=119;
     public static final int T__116=116;
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
+    public static final int T__121=121;
+    public static final int T__120=120;
     public static final int FLOAT=4;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
@@ -155,8 +158,9 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=119;
+    public static final int Tokens=123;
     public static final int POINT_POINT=8;
+    public static final int MODELDECLARATIONPARAMETERS=64;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
     public static final int FORMAL=21;

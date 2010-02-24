@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Eol__.g 2009-11-08 18:27:47
+// $ANTLR 3.1b1 Eol__.g 2010-02-23 16:05:06
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -81,6 +81,7 @@ public class EolLexer extends Lexer {
     public static final int LINE_COMMENT=19;
     public static final int BREAKALL=33;
     public static final int TRANSACTION=35;
+    public static final int DRIVER=63;
     public static final int ELSE=29;
     public static final int EOLMODULE=54;
     public static final int PARAMLIST=22;
@@ -118,18 +119,20 @@ public class EolLexer extends Lexer {
     public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
-    public static final int T__64=64;
-    public static final int T__65=65;
+    public static final int MODELDECLARATIONPARAMETER=65;
     public static final int PARAMETERS=40;
-    public static final int T__63=63;
     public static final int POINT=7;
     public static final int T__118=118;
+    public static final int T__119=119;
     public static final int T__116=116;
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__122=122;
     public static final int FOR=27;
     public static final int ENUMERATION_VALUE=58;
+    public static final int T__121=121;
+    public static final int T__120=120;
     public static final int FLOAT=4;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
@@ -155,8 +158,9 @@ public class EolLexer extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=119;
+    public static final int Tokens=123;
     public static final int POINT_POINT=8;
+    public static final int MODELDECLARATIONPARAMETERS=64;
     public static final int BLOCK=55;
     public static final int FEATURECALL=56;
     public static final int FORMAL=21;
@@ -178,76 +182,16 @@ public class EolLexer extends Lexer {
     }
     public String getGrammarFileName() { return "Eol__.g"; }
 
-    // $ANTLR start T__63
-    public final void mT__63() throws RecognitionException {
+    // $ANTLR start T__66
+    public final void mT__66() throws RecognitionException {
         try {
-            int _type = T__63;
+            int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Eol__.g:44:7: ( 'model' )
             // Eol__.g:44:9: 'model'
             {
             match("model"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__63
-
-    // $ANTLR start T__64
-    public final void mT__64() throws RecognitionException {
-        try {
-            int _type = T__64;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:45:7: ( ';' )
-            // Eol__.g:45:9: ';'
-            {
-            match(';'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__64
-
-    // $ANTLR start T__65
-    public final void mT__65() throws RecognitionException {
-        try {
-            int _type = T__65;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:46:7: ( ':' )
-            // Eol__.g:46:9: ':'
-            {
-            match(':'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__65
-
-    // $ANTLR start T__66
-    public final void mT__66() throws RecognitionException {
-        try {
-            int _type = T__66;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:47:7: ( ',' )
-            // Eol__.g:47:9: ','
-            {
-            match(','); 
 
             }
 
@@ -264,11 +208,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:48:7: ( 'alias' )
-            // Eol__.g:48:9: 'alias'
+            // Eol__.g:45:7: ( ';' )
+            // Eol__.g:45:9: ';'
             {
-            match("alias"); 
-
+            match(';'); 
 
             }
 
@@ -285,11 +228,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:49:7: ( 'operation' )
-            // Eol__.g:49:9: 'operation'
+            // Eol__.g:46:7: ( ':' )
+            // Eol__.g:46:9: ':'
             {
-            match("operation"); 
-
+            match(':'); 
 
             }
 
@@ -306,11 +248,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:50:7: ( 'function' )
-            // Eol__.g:50:9: 'function'
+            // Eol__.g:47:7: ( ',' )
+            // Eol__.g:47:9: ','
             {
-            match("function"); 
-
+            match(','); 
 
             }
 
@@ -327,10 +268,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:51:7: ( '(' )
-            // Eol__.g:51:9: '('
+            // Eol__.g:48:7: ( 'alias' )
+            // Eol__.g:48:9: 'alias'
             {
-            match('('); 
+            match("alias"); 
+
 
             }
 
@@ -347,10 +289,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:52:7: ( ')' )
-            // Eol__.g:52:9: ')'
+            // Eol__.g:49:7: ( 'driver' )
+            // Eol__.g:49:9: 'driver'
             {
-            match(')'); 
+            match("driver"); 
+
 
             }
 
@@ -367,11 +310,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:53:7: ( 'import' )
-            // Eol__.g:53:9: 'import'
+            // Eol__.g:50:7: ( '{' )
+            // Eol__.g:50:9: '{'
             {
-            match("import"); 
-
+            match('{'); 
 
             }
 
@@ -388,10 +330,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:54:7: ( '{' )
-            // Eol__.g:54:9: '{'
+            // Eol__.g:51:7: ( '}' )
+            // Eol__.g:51:9: '}'
             {
-            match('{'); 
+            match('}'); 
 
             }
 
@@ -408,10 +350,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:55:7: ( '}' )
-            // Eol__.g:55:9: '}'
+            // Eol__.g:52:7: ( '=' )
+            // Eol__.g:52:9: '='
             {
-            match('}'); 
+            match('='); 
 
             }
 
@@ -428,10 +370,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:56:7: ( '$' )
-            // Eol__.g:56:9: '$'
+            // Eol__.g:53:7: ( 'operation' )
+            // Eol__.g:53:9: 'operation'
             {
-            match('$'); 
+            match("operation"); 
+
 
             }
 
@@ -448,10 +391,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:57:7: ( '!' )
-            // Eol__.g:57:9: '!'
+            // Eol__.g:54:7: ( 'function' )
+            // Eol__.g:54:9: 'function'
             {
-            match('!'); 
+            match("function"); 
+
 
             }
 
@@ -468,11 +412,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:58:7: ( '::' )
-            // Eol__.g:58:9: '::'
+            // Eol__.g:55:7: ( '(' )
+            // Eol__.g:55:9: '('
             {
-            match("::"); 
-
+            match('('); 
 
             }
 
@@ -489,10 +432,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:59:7: ( '#' )
-            // Eol__.g:59:9: '#'
+            // Eol__.g:56:7: ( ')' )
+            // Eol__.g:56:9: ')'
             {
-            match('#'); 
+            match(')'); 
 
             }
 
@@ -509,10 +452,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:60:7: ( 'Native' )
-            // Eol__.g:60:9: 'Native'
+            // Eol__.g:57:7: ( 'import' )
+            // Eol__.g:57:9: 'import'
             {
-            match("Native"); 
+            match("import"); 
 
 
             }
@@ -530,11 +473,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__80;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:61:7: ( 'Collection' )
-            // Eol__.g:61:9: 'Collection'
+            // Eol__.g:58:7: ( '$' )
+            // Eol__.g:58:9: '$'
             {
-            match("Collection"); 
-
+            match('$'); 
 
             }
 
@@ -551,11 +493,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__81;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:62:7: ( 'Sequence' )
-            // Eol__.g:62:9: 'Sequence'
+            // Eol__.g:59:7: ( '!' )
+            // Eol__.g:59:9: '!'
             {
-            match("Sequence"); 
-
+            match('!'); 
 
             }
 
@@ -572,10 +513,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__82;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:63:7: ( 'Bag' )
-            // Eol__.g:63:9: 'Bag'
+            // Eol__.g:60:7: ( '::' )
+            // Eol__.g:60:9: '::'
             {
-            match("Bag"); 
+            match("::"); 
 
 
             }
@@ -593,11 +534,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__83;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:64:7: ( 'Set' )
-            // Eol__.g:64:9: 'Set'
+            // Eol__.g:61:7: ( '#' )
+            // Eol__.g:61:9: '#'
             {
-            match("Set"); 
-
+            match('#'); 
 
             }
 
@@ -614,10 +554,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__84;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:65:7: ( 'OrderedSet' )
-            // Eol__.g:65:9: 'OrderedSet'
+            // Eol__.g:62:7: ( 'Native' )
+            // Eol__.g:62:9: 'Native'
             {
-            match("OrderedSet"); 
+            match("Native"); 
 
 
             }
@@ -635,10 +575,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__85;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:66:7: ( 'for' )
-            // Eol__.g:66:9: 'for'
+            // Eol__.g:63:7: ( 'Collection' )
+            // Eol__.g:63:9: 'Collection'
             {
-            match("for"); 
+            match("Collection"); 
 
 
             }
@@ -656,10 +596,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__86;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:67:7: ( 'in' )
-            // Eol__.g:67:9: 'in'
+            // Eol__.g:64:7: ( 'Sequence' )
+            // Eol__.g:64:9: 'Sequence'
             {
-            match("in"); 
+            match("Sequence"); 
 
 
             }
@@ -677,10 +617,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__87;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:68:7: ( 'if' )
-            // Eol__.g:68:9: 'if'
+            // Eol__.g:65:7: ( 'Bag' )
+            // Eol__.g:65:9: 'Bag'
             {
-            match("if"); 
+            match("Bag"); 
 
 
             }
@@ -698,10 +638,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__88;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:69:7: ( 'else' )
-            // Eol__.g:69:9: 'else'
+            // Eol__.g:66:7: ( 'Set' )
+            // Eol__.g:66:9: 'Set'
             {
-            match("else"); 
+            match("Set"); 
 
 
             }
@@ -719,10 +659,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__89;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:70:7: ( 'while' )
-            // Eol__.g:70:9: 'while'
+            // Eol__.g:67:7: ( 'OrderedSet' )
+            // Eol__.g:67:9: 'OrderedSet'
             {
-            match("while"); 
+            match("OrderedSet"); 
 
 
             }
@@ -740,10 +680,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__90;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:71:7: ( 'return' )
-            // Eol__.g:71:9: 'return'
+            // Eol__.g:68:7: ( 'for' )
+            // Eol__.g:68:9: 'for'
             {
-            match("return"); 
+            match("for"); 
 
 
             }
@@ -761,10 +701,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__91;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:72:7: ( 'throw' )
-            // Eol__.g:72:9: 'throw'
+            // Eol__.g:69:7: ( 'in' )
+            // Eol__.g:69:9: 'in'
             {
-            match("throw"); 
+            match("in"); 
 
 
             }
@@ -782,10 +722,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__92;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:73:7: ( 'delete' )
-            // Eol__.g:73:9: 'delete'
+            // Eol__.g:70:7: ( 'if' )
+            // Eol__.g:70:9: 'if'
             {
-            match("delete"); 
+            match("if"); 
 
 
             }
@@ -803,10 +743,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__93;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:74:7: ( 'break' )
-            // Eol__.g:74:9: 'break'
+            // Eol__.g:71:7: ( 'else' )
+            // Eol__.g:71:9: 'else'
             {
-            match("break"); 
+            match("else"); 
 
 
             }
@@ -824,10 +764,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__94;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:75:7: ( 'breakAll' )
-            // Eol__.g:75:9: 'breakAll'
+            // Eol__.g:72:7: ( 'while' )
+            // Eol__.g:72:9: 'while'
             {
-            match("breakAll"); 
+            match("while"); 
 
 
             }
@@ -845,10 +785,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__95;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:76:7: ( 'continue' )
-            // Eol__.g:76:9: 'continue'
+            // Eol__.g:73:7: ( 'return' )
+            // Eol__.g:73:9: 'return'
             {
-            match("continue"); 
+            match("return"); 
 
 
             }
@@ -866,10 +806,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__96;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:77:7: ( 'abort' )
-            // Eol__.g:77:9: 'abort'
+            // Eol__.g:74:7: ( 'throw' )
+            // Eol__.g:74:9: 'throw'
             {
-            match("abort"); 
+            match("throw"); 
 
 
             }
@@ -887,10 +827,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:78:7: ( 'transaction' )
-            // Eol__.g:78:9: 'transaction'
+            // Eol__.g:75:7: ( 'delete' )
+            // Eol__.g:75:9: 'delete'
             {
-            match("transaction"); 
+            match("delete"); 
 
 
             }
@@ -908,10 +848,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:79:7: ( ':=' )
-            // Eol__.g:79:9: ':='
+            // Eol__.g:76:7: ( 'break' )
+            // Eol__.g:76:9: 'break'
             {
-            match(":="); 
+            match("break"); 
 
 
             }
@@ -929,10 +869,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:80:7: ( '::=' )
-            // Eol__.g:80:9: '::='
+            // Eol__.g:77:7: ( 'breakAll' )
+            // Eol__.g:77:9: 'breakAll'
             {
-            match("::="); 
+            match("breakAll"); 
 
 
             }
@@ -950,10 +890,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:81:8: ( 'or' )
-            // Eol__.g:81:10: 'or'
+            // Eol__.g:78:8: ( 'continue' )
+            // Eol__.g:78:10: 'continue'
             {
-            match("or"); 
+            match("continue"); 
 
 
             }
@@ -971,10 +911,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:82:8: ( 'and' )
-            // Eol__.g:82:10: 'and'
+            // Eol__.g:79:8: ( 'abort' )
+            // Eol__.g:79:10: 'abort'
             {
-            match("and"); 
+            match("abort"); 
 
 
             }
@@ -992,10 +932,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:83:8: ( 'xor' )
-            // Eol__.g:83:10: 'xor'
+            // Eol__.g:80:8: ( 'transaction' )
+            // Eol__.g:80:10: 'transaction'
             {
-            match("xor"); 
+            match("transaction"); 
 
 
             }
@@ -1013,10 +953,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:84:8: ( 'implies' )
-            // Eol__.g:84:10: 'implies'
+            // Eol__.g:81:8: ( ':=' )
+            // Eol__.g:81:10: ':='
             {
-            match("implies"); 
+            match(":="); 
 
 
             }
@@ -1034,10 +974,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:85:8: ( '==' )
-            // Eol__.g:85:10: '=='
+            // Eol__.g:82:8: ( '::=' )
+            // Eol__.g:82:10: '::='
             {
-            match("=="); 
+            match("::="); 
 
 
             }
@@ -1055,10 +995,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:86:8: ( '=' )
-            // Eol__.g:86:10: '='
+            // Eol__.g:83:8: ( 'or' )
+            // Eol__.g:83:10: 'or'
             {
-            match('='); 
+            match("or"); 
+
 
             }
 
@@ -1075,10 +1016,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:87:8: ( '>' )
-            // Eol__.g:87:10: '>'
+            // Eol__.g:84:8: ( 'and' )
+            // Eol__.g:84:10: 'and'
             {
-            match('>'); 
+            match("and"); 
+
 
             }
 
@@ -1095,10 +1037,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:88:8: ( '<' )
-            // Eol__.g:88:10: '<'
+            // Eol__.g:85:8: ( 'xor' )
+            // Eol__.g:85:10: 'xor'
             {
-            match('<'); 
+            match("xor"); 
+
 
             }
 
@@ -1115,10 +1058,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:89:8: ( '>=' )
-            // Eol__.g:89:10: '>='
+            // Eol__.g:86:8: ( 'implies' )
+            // Eol__.g:86:10: 'implies'
             {
-            match(">="); 
+            match("implies"); 
 
 
             }
@@ -1136,10 +1079,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:90:8: ( '<=' )
-            // Eol__.g:90:10: '<='
+            // Eol__.g:87:8: ( '==' )
+            // Eol__.g:87:10: '=='
             {
-            match("<="); 
+            match("=="); 
 
 
             }
@@ -1157,11 +1100,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:91:8: ( '<>' )
-            // Eol__.g:91:10: '<>'
+            // Eol__.g:88:8: ( '>' )
+            // Eol__.g:88:10: '>'
             {
-            match("<>"); 
-
+            match('>'); 
 
             }
 
@@ -1178,10 +1120,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:92:8: ( '+' )
-            // Eol__.g:92:10: '+'
+            // Eol__.g:89:8: ( '<' )
+            // Eol__.g:89:10: '<'
             {
-            match('+'); 
+            match('<'); 
 
             }
 
@@ -1198,10 +1140,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:93:8: ( '-' )
-            // Eol__.g:93:10: '-'
+            // Eol__.g:90:8: ( '>=' )
+            // Eol__.g:90:10: '>='
             {
-            match('-'); 
+            match(">="); 
+
 
             }
 
@@ -1218,10 +1161,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:94:8: ( '*' )
-            // Eol__.g:94:10: '*'
+            // Eol__.g:91:8: ( '<=' )
+            // Eol__.g:91:10: '<='
             {
-            match('*'); 
+            match("<="); 
+
 
             }
 
@@ -1238,10 +1182,11 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:95:8: ( '/' )
-            // Eol__.g:95:10: '/'
+            // Eol__.g:92:8: ( '<>' )
+            // Eol__.g:92:10: '<>'
             {
-            match('/'); 
+            match("<>"); 
+
 
             }
 
@@ -1258,11 +1203,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:96:8: ( 'not' )
-            // Eol__.g:96:10: 'not'
+            // Eol__.g:93:8: ( '+' )
+            // Eol__.g:93:10: '+'
             {
-            match("not"); 
-
+            match('+'); 
 
             }
 
@@ -1279,10 +1223,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:97:8: ( '|' )
-            // Eol__.g:97:10: '|'
+            // Eol__.g:94:8: ( '-' )
+            // Eol__.g:94:10: '-'
             {
-            match('|'); 
+            match('-'); 
 
             }
 
@@ -1299,11 +1243,10 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:98:8: ( 'new' )
-            // Eol__.g:98:10: 'new'
+            // Eol__.g:95:8: ( '*' )
+            // Eol__.g:95:10: '*'
             {
-            match("new"); 
-
+            match('*'); 
 
             }
 
@@ -1320,8 +1263,90 @@ public class EolLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Eol__.g:99:8: ( 'var' )
-            // Eol__.g:99:10: 'var'
+            // Eol__.g:96:8: ( '/' )
+            // Eol__.g:96:10: '/'
+            {
+            match('/'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__118
+
+    // $ANTLR start T__119
+    public final void mT__119() throws RecognitionException {
+        try {
+            int _type = T__119;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Eol__.g:97:8: ( 'not' )
+            // Eol__.g:97:10: 'not'
+            {
+            match("not"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__119
+
+    // $ANTLR start T__120
+    public final void mT__120() throws RecognitionException {
+        try {
+            int _type = T__120;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Eol__.g:98:8: ( '|' )
+            // Eol__.g:98:10: '|'
+            {
+            match('|'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__120
+
+    // $ANTLR start T__121
+    public final void mT__121() throws RecognitionException {
+        try {
+            int _type = T__121;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Eol__.g:99:8: ( 'new' )
+            // Eol__.g:99:10: 'new'
+            {
+            match("new"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__121
+
+    // $ANTLR start T__122
+    public final void mT__122() throws RecognitionException {
+        try {
+            int _type = T__122;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Eol__.g:100:8: ( 'var' )
+            // Eol__.g:100:10: 'var'
             {
             match("var"); 
 
@@ -1334,407 +1359,414 @@ public class EolLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T__118
+    // $ANTLR end T__122
 
     public void mTokens() throws RecognitionException {
-        // Eol__.g:1:8: ( T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | EolLexerRules. Tokens )
-        int alt1=57;
+        // Eol__.g:1:8: ( T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens )
+        int alt1=58;
         alt1 = dfa1.predict(input);
         switch (alt1) {
             case 1 :
-                // Eol__.g:1:10: T__63
-                {
-                mT__63(); 
-
-                }
-                break;
-            case 2 :
-                // Eol__.g:1:16: T__64
-                {
-                mT__64(); 
-
-                }
-                break;
-            case 3 :
-                // Eol__.g:1:22: T__65
-                {
-                mT__65(); 
-
-                }
-                break;
-            case 4 :
-                // Eol__.g:1:28: T__66
+                // Eol__.g:1:10: T__66
                 {
                 mT__66(); 
 
                 }
                 break;
-            case 5 :
-                // Eol__.g:1:34: T__67
+            case 2 :
+                // Eol__.g:1:16: T__67
                 {
                 mT__67(); 
 
                 }
                 break;
-            case 6 :
-                // Eol__.g:1:40: T__68
+            case 3 :
+                // Eol__.g:1:22: T__68
                 {
                 mT__68(); 
 
                 }
                 break;
-            case 7 :
-                // Eol__.g:1:46: T__69
+            case 4 :
+                // Eol__.g:1:28: T__69
                 {
                 mT__69(); 
 
                 }
                 break;
-            case 8 :
-                // Eol__.g:1:52: T__70
+            case 5 :
+                // Eol__.g:1:34: T__70
                 {
                 mT__70(); 
 
                 }
                 break;
-            case 9 :
-                // Eol__.g:1:58: T__71
+            case 6 :
+                // Eol__.g:1:40: T__71
                 {
                 mT__71(); 
 
                 }
                 break;
-            case 10 :
-                // Eol__.g:1:64: T__72
+            case 7 :
+                // Eol__.g:1:46: T__72
                 {
                 mT__72(); 
 
                 }
                 break;
-            case 11 :
-                // Eol__.g:1:70: T__73
+            case 8 :
+                // Eol__.g:1:52: T__73
                 {
                 mT__73(); 
 
                 }
                 break;
-            case 12 :
-                // Eol__.g:1:76: T__74
+            case 9 :
+                // Eol__.g:1:58: T__74
                 {
                 mT__74(); 
 
                 }
                 break;
-            case 13 :
-                // Eol__.g:1:82: T__75
+            case 10 :
+                // Eol__.g:1:64: T__75
                 {
                 mT__75(); 
 
                 }
                 break;
-            case 14 :
-                // Eol__.g:1:88: T__76
+            case 11 :
+                // Eol__.g:1:70: T__76
                 {
                 mT__76(); 
 
                 }
                 break;
-            case 15 :
-                // Eol__.g:1:94: T__77
+            case 12 :
+                // Eol__.g:1:76: T__77
                 {
                 mT__77(); 
 
                 }
                 break;
-            case 16 :
-                // Eol__.g:1:100: T__78
+            case 13 :
+                // Eol__.g:1:82: T__78
                 {
                 mT__78(); 
 
                 }
                 break;
-            case 17 :
-                // Eol__.g:1:106: T__79
+            case 14 :
+                // Eol__.g:1:88: T__79
                 {
                 mT__79(); 
 
                 }
                 break;
-            case 18 :
-                // Eol__.g:1:112: T__80
+            case 15 :
+                // Eol__.g:1:94: T__80
                 {
                 mT__80(); 
 
                 }
                 break;
-            case 19 :
-                // Eol__.g:1:118: T__81
+            case 16 :
+                // Eol__.g:1:100: T__81
                 {
                 mT__81(); 
 
                 }
                 break;
-            case 20 :
-                // Eol__.g:1:124: T__82
+            case 17 :
+                // Eol__.g:1:106: T__82
                 {
                 mT__82(); 
 
                 }
                 break;
-            case 21 :
-                // Eol__.g:1:130: T__83
+            case 18 :
+                // Eol__.g:1:112: T__83
                 {
                 mT__83(); 
 
                 }
                 break;
-            case 22 :
-                // Eol__.g:1:136: T__84
+            case 19 :
+                // Eol__.g:1:118: T__84
                 {
                 mT__84(); 
 
                 }
                 break;
-            case 23 :
-                // Eol__.g:1:142: T__85
+            case 20 :
+                // Eol__.g:1:124: T__85
                 {
                 mT__85(); 
 
                 }
                 break;
-            case 24 :
-                // Eol__.g:1:148: T__86
+            case 21 :
+                // Eol__.g:1:130: T__86
                 {
                 mT__86(); 
 
                 }
                 break;
-            case 25 :
-                // Eol__.g:1:154: T__87
+            case 22 :
+                // Eol__.g:1:136: T__87
                 {
                 mT__87(); 
 
                 }
                 break;
-            case 26 :
-                // Eol__.g:1:160: T__88
+            case 23 :
+                // Eol__.g:1:142: T__88
                 {
                 mT__88(); 
 
                 }
                 break;
-            case 27 :
-                // Eol__.g:1:166: T__89
+            case 24 :
+                // Eol__.g:1:148: T__89
                 {
                 mT__89(); 
 
                 }
                 break;
-            case 28 :
-                // Eol__.g:1:172: T__90
+            case 25 :
+                // Eol__.g:1:154: T__90
                 {
                 mT__90(); 
 
                 }
                 break;
-            case 29 :
-                // Eol__.g:1:178: T__91
+            case 26 :
+                // Eol__.g:1:160: T__91
                 {
                 mT__91(); 
 
                 }
                 break;
-            case 30 :
-                // Eol__.g:1:184: T__92
+            case 27 :
+                // Eol__.g:1:166: T__92
                 {
                 mT__92(); 
 
                 }
                 break;
-            case 31 :
-                // Eol__.g:1:190: T__93
+            case 28 :
+                // Eol__.g:1:172: T__93
                 {
                 mT__93(); 
 
                 }
                 break;
-            case 32 :
-                // Eol__.g:1:196: T__94
+            case 29 :
+                // Eol__.g:1:178: T__94
                 {
                 mT__94(); 
 
                 }
                 break;
-            case 33 :
-                // Eol__.g:1:202: T__95
+            case 30 :
+                // Eol__.g:1:184: T__95
                 {
                 mT__95(); 
 
                 }
                 break;
-            case 34 :
-                // Eol__.g:1:208: T__96
+            case 31 :
+                // Eol__.g:1:190: T__96
                 {
                 mT__96(); 
 
                 }
                 break;
-            case 35 :
-                // Eol__.g:1:214: T__97
+            case 32 :
+                // Eol__.g:1:196: T__97
                 {
                 mT__97(); 
 
                 }
                 break;
-            case 36 :
-                // Eol__.g:1:220: T__98
+            case 33 :
+                // Eol__.g:1:202: T__98
                 {
                 mT__98(); 
 
                 }
                 break;
-            case 37 :
-                // Eol__.g:1:226: T__99
+            case 34 :
+                // Eol__.g:1:208: T__99
                 {
                 mT__99(); 
 
                 }
                 break;
-            case 38 :
-                // Eol__.g:1:232: T__100
+            case 35 :
+                // Eol__.g:1:214: T__100
                 {
                 mT__100(); 
 
                 }
                 break;
-            case 39 :
-                // Eol__.g:1:239: T__101
+            case 36 :
+                // Eol__.g:1:221: T__101
                 {
                 mT__101(); 
 
                 }
                 break;
-            case 40 :
-                // Eol__.g:1:246: T__102
+            case 37 :
+                // Eol__.g:1:228: T__102
                 {
                 mT__102(); 
 
                 }
                 break;
-            case 41 :
-                // Eol__.g:1:253: T__103
+            case 38 :
+                // Eol__.g:1:235: T__103
                 {
                 mT__103(); 
 
                 }
                 break;
-            case 42 :
-                // Eol__.g:1:260: T__104
+            case 39 :
+                // Eol__.g:1:242: T__104
                 {
                 mT__104(); 
 
                 }
                 break;
-            case 43 :
-                // Eol__.g:1:267: T__105
+            case 40 :
+                // Eol__.g:1:249: T__105
                 {
                 mT__105(); 
 
                 }
                 break;
-            case 44 :
-                // Eol__.g:1:274: T__106
+            case 41 :
+                // Eol__.g:1:256: T__106
                 {
                 mT__106(); 
 
                 }
                 break;
-            case 45 :
-                // Eol__.g:1:281: T__107
+            case 42 :
+                // Eol__.g:1:263: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 46 :
-                // Eol__.g:1:288: T__108
+            case 43 :
+                // Eol__.g:1:270: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 47 :
-                // Eol__.g:1:295: T__109
+            case 44 :
+                // Eol__.g:1:277: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 48 :
-                // Eol__.g:1:302: T__110
+            case 45 :
+                // Eol__.g:1:284: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 49 :
-                // Eol__.g:1:309: T__111
+            case 46 :
+                // Eol__.g:1:291: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 50 :
-                // Eol__.g:1:316: T__112
+            case 47 :
+                // Eol__.g:1:298: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 51 :
-                // Eol__.g:1:323: T__113
+            case 48 :
+                // Eol__.g:1:305: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 52 :
-                // Eol__.g:1:330: T__114
+            case 49 :
+                // Eol__.g:1:312: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 53 :
-                // Eol__.g:1:337: T__115
+            case 50 :
+                // Eol__.g:1:319: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 54 :
-                // Eol__.g:1:344: T__116
+            case 51 :
+                // Eol__.g:1:326: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 55 :
-                // Eol__.g:1:351: T__117
+            case 52 :
+                // Eol__.g:1:333: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 56 :
-                // Eol__.g:1:358: T__118
+            case 53 :
+                // Eol__.g:1:340: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
+            case 54 :
+                // Eol__.g:1:347: T__119
+                {
+                mT__119(); 
+
+                }
+                break;
+            case 55 :
+                // Eol__.g:1:354: T__120
+                {
+                mT__120(); 
+
+                }
+                break;
+            case 56 :
+                // Eol__.g:1:361: T__121
+                {
+                mT__121(); 
+
+                }
+                break;
             case 57 :
-                // Eol__.g:1:365: EolLexerRules. Tokens
+                // Eol__.g:1:368: T__122
+                {
+                mT__122(); 
+
+                }
+                break;
+            case 58 :
+                // Eol__.g:1:375: EolLexerRules. Tokens
                 {
                 gEolLexerRules.mTokens(); 
 
@@ -1748,76 +1780,78 @@ public class EolLexer extends Lexer {
 
     protected DFA1 dfa1 = new DFA1(this);
     static final String DFA1_eotS =
-        "\1\uffff\1\47\1\uffff\1\53\1\uffff\3\47\2\uffff\1\47\5\uffff\15"+
-        "\47\1\105\1\107\1\112\1\uffff\1\113\1\uffff\1\114\1\47\1\uffff\1"+
-        "\47\1\uffff\1\47\1\122\2\uffff\4\47\1\127\3\47\1\133\1\134\16\47"+
-        "\11\uffff\4\47\2\uffff\2\47\1\162\1\47\1\uffff\1\47\1\165\1\47\2"+
-        "\uffff\3\47\1\173\1\174\11\47\1\u0086\1\u0087\1\u0088\1\u0089\3"+
-        "\47\1\uffff\2\47\1\uffff\5\47\2\uffff\1\47\1\u0095\7\47\4\uffff"+
-        "\1\u009d\1\u009e\1\u009f\10\47\1\uffff\1\u00a8\1\47\1\u00aa\2\47"+
-        "\1\u00ae\1\47\3\uffff\2\47\1\u00b2\1\47\1\u00b4\3\47\1\uffff\1\u00b8"+
-        "\1\uffff\1\47\1\u00ba\1\47\1\uffff\3\47\1\uffff\1\u00bf\1\uffff"+
-        "\3\47\1\uffff\1\47\1\uffff\3\47\1\u00c7\1\uffff\1\47\1\u00c9\2\47"+
-        "\1\u00cc\1\u00cd\1\u00ce\1\uffff\1\47\1\uffff\2\47\3\uffff\1\u00d2"+
-        "\1\u00d3\1\47\2\uffff\1\u00d5\1\uffff";
+        "\1\uffff\1\47\1\uffff\1\53\1\uffff\2\47\2\uffff\1\62\2\47\2\uffff"+
+        "\1\47\3\uffff\14\47\1\110\1\113\1\uffff\1\114\1\uffff\1\115\1\47"+
+        "\1\uffff\1\47\1\uffff\1\47\1\123\2\uffff\5\47\2\uffff\1\47\1\132"+
+        "\3\47\1\136\1\137\15\47\7\uffff\4\47\2\uffff\2\47\1\164\3\47\1\uffff"+
+        "\1\47\1\171\1\47\2\uffff\3\47\1\177\1\u0080\10\47\1\u0089\1\u008a"+
+        "\1\u008b\1\u008c\3\47\1\uffff\4\47\1\uffff\5\47\2\uffff\1\47\1\u009a"+
+        "\6\47\4\uffff\1\u00a1\1\u00a2\1\u00a3\12\47\1\uffff\1\u00ae\1\47"+
+        "\1\u00b0\1\47\1\u00b3\1\47\3\uffff\1\u00b5\1\u00b6\2\47\1\u00b9"+
+        "\1\47\1\u00bb\3\47\1\uffff\1\u00bf\1\uffff\2\47\1\uffff\1\47\2\uffff"+
+        "\2\47\1\uffff\1\u00c5\1\uffff\3\47\1\uffff\4\47\1\u00cd\1\uffff"+
+        "\1\47\1\u00cf\2\47\1\u00d2\1\u00d3\1\u00d4\1\uffff\1\47\1\uffff"+
+        "\2\47\3\uffff\1\u00d8\1\u00d9\1\47\2\uffff\1\u00db\1\uffff";
     static final String DFA1_eofS =
-        "\u00d6\uffff";
+        "\u00dc\uffff";
     static final String DFA1_minS =
-        "\1\11\1\157\1\uffff\1\72\1\uffff\1\142\1\160\1\157\2\uffff\1\146"+
-        "\5\uffff\1\141\1\157\1\145\1\141\1\162\1\154\1\150\1\145\1\150\1"+
-        "\145\1\162\2\157\3\75\1\uffff\1\52\1\uffff\1\52\1\145\1\uffff\1"+
-        "\141\1\uffff\1\144\1\75\2\uffff\1\151\1\157\1\144\1\145\1\60\1\156"+
-        "\1\162\1\160\2\60\1\164\1\154\1\161\1\147\1\144\1\163\1\151\1\164"+
-        "\1\162\1\141\1\154\1\145\1\156\1\162\11\uffff\1\164\1\167\1\162"+
-        "\1\145\2\uffff\1\141\1\162\1\60\1\162\1\uffff\1\143\1\60\1\154\2"+
-        "\uffff\1\151\1\154\1\165\2\60\2\145\1\154\1\165\1\157\1\156\1\145"+
-        "\1\141\1\164\4\60\1\154\1\163\1\164\1\uffff\1\141\1\164\1\uffff"+
-        "\1\162\1\151\1\166\2\145\2\uffff\1\162\1\60\1\145\1\162\1\167\1"+
-        "\163\1\164\1\153\1\151\4\uffff\3\60\1\164\1\151\1\164\2\145\1\143"+
-        "\1\156\1\145\1\uffff\1\60\1\156\1\60\1\141\1\145\1\60\1\156\3\uffff"+
-        "\1\151\1\157\1\60\1\163\1\60\1\164\1\143\1\144\1\uffff\1\60\1\uffff"+
-        "\1\143\1\60\1\154\1\uffff\1\165\1\157\1\156\1\uffff\1\60\1\uffff"+
-        "\1\151\1\145\1\123\1\uffff\1\164\1\uffff\1\154\1\145\1\156\1\60"+
-        "\1\uffff\1\157\1\60\1\145\1\151\3\60\1\uffff\1\156\1\uffff\1\164"+
-        "\1\157\3\uffff\2\60\1\156\2\uffff\1\60\1\uffff";
+        "\1\11\1\157\1\uffff\1\72\1\uffff\1\142\1\145\2\uffff\1\75\1\160"+
+        "\1\157\2\uffff\1\146\3\uffff\1\141\1\157\1\145\1\141\1\162\1\154"+
+        "\1\150\1\145\1\150\1\162\2\157\2\75\1\uffff\1\52\1\uffff\1\52\1"+
+        "\145\1\uffff\1\141\1\uffff\1\144\1\75\2\uffff\1\151\1\157\1\144"+
+        "\1\151\1\154\2\uffff\1\145\1\60\1\156\1\162\1\160\2\60\1\164\1\154"+
+        "\1\161\1\147\1\144\1\163\1\151\1\164\1\162\1\141\1\145\1\156\1\162"+
+        "\7\uffff\1\164\1\167\1\162\1\145\2\uffff\1\141\1\162\1\60\1\166"+
+        "\1\145\1\162\1\uffff\1\143\1\60\1\154\2\uffff\1\151\1\154\1\165"+
+        "\2\60\2\145\1\154\1\165\1\157\1\156\1\141\1\164\4\60\1\154\1\163"+
+        "\1\164\1\uffff\1\145\1\164\1\141\1\164\1\uffff\1\162\1\151\1\166"+
+        "\2\145\2\uffff\1\162\1\60\1\145\1\162\1\167\1\163\1\153\1\151\4"+
+        "\uffff\3\60\1\162\1\145\1\164\1\151\1\164\2\145\1\143\1\156\1\145"+
+        "\1\uffff\1\60\1\156\1\60\1\141\1\60\1\156\3\uffff\2\60\1\151\1\157"+
+        "\1\60\1\163\1\60\1\164\1\143\1\144\1\uffff\1\60\1\uffff\1\143\1"+
+        "\154\1\uffff\1\165\2\uffff\1\157\1\156\1\uffff\1\60\1\uffff\1\151"+
+        "\1\145\1\123\1\uffff\1\164\1\154\1\145\1\156\1\60\1\uffff\1\157"+
+        "\1\60\1\145\1\151\3\60\1\uffff\1\156\1\uffff\1\164\1\157\3\uffff"+
+        "\2\60\1\156\2\uffff\1\60\1\uffff";
     static final String DFA1_maxS =
-        "\1\ufaff\1\157\1\uffff\1\75\1\uffff\1\156\1\162\1\165\2\uffff\1"+
-        "\156\5\uffff\1\141\1\157\1\145\1\141\1\162\1\154\1\150\1\145\1\162"+
-        "\1\145\1\162\2\157\2\75\1\76\1\uffff\1\76\1\uffff\1\57\1\157\1\uffff"+
-        "\1\141\1\uffff\1\144\1\75\2\uffff\1\151\1\157\1\144\1\145\1\ufaff"+
-        "\1\156\1\162\1\160\2\ufaff\1\164\1\154\1\164\1\147\1\144\1\163\1"+
-        "\151\1\164\1\162\1\141\1\154\1\145\1\156\1\162\11\uffff\1\164\1"+
-        "\167\1\162\1\145\2\uffff\1\141\1\162\1\ufaff\1\162\1\uffff\1\143"+
-        "\1\ufaff\1\157\2\uffff\1\151\1\154\1\165\2\ufaff\2\145\1\154\1\165"+
-        "\1\157\1\156\1\145\1\141\1\164\4\ufaff\1\154\1\163\1\164\1\uffff"+
-        "\1\141\1\164\1\uffff\1\162\1\151\1\166\2\145\2\uffff\1\162\1\ufaff"+
-        "\1\145\1\162\1\167\1\163\1\164\1\153\1\151\4\uffff\3\ufaff\1\164"+
-        "\1\151\1\164\2\145\1\143\1\156\1\145\1\uffff\1\ufaff\1\156\1\ufaff"+
-        "\1\141\1\145\1\ufaff\1\156\3\uffff\1\151\1\157\1\ufaff\1\163\1\ufaff"+
-        "\1\164\1\143\1\144\1\uffff\1\ufaff\1\uffff\1\143\1\ufaff\1\154\1"+
-        "\uffff\1\165\1\157\1\156\1\uffff\1\ufaff\1\uffff\1\151\1\145\1\123"+
-        "\1\uffff\1\164\1\uffff\1\154\1\145\1\156\1\ufaff\1\uffff\1\157\1"+
-        "\ufaff\1\145\1\151\3\ufaff\1\uffff\1\156\1\uffff\1\164\1\157\3\uffff"+
-        "\2\ufaff\1\156\2\uffff\1\ufaff\1\uffff";
+        "\1\ufaff\1\157\1\uffff\1\75\1\uffff\1\156\1\162\2\uffff\1\75\1\162"+
+        "\1\165\2\uffff\1\156\3\uffff\1\141\1\157\1\145\1\141\1\162\1\154"+
+        "\1\150\1\145\2\162\2\157\1\75\1\76\1\uffff\1\76\1\uffff\1\57\1\157"+
+        "\1\uffff\1\141\1\uffff\1\144\1\75\2\uffff\1\151\1\157\1\144\1\151"+
+        "\1\154\2\uffff\1\145\1\ufaff\1\156\1\162\1\160\2\ufaff\1\164\1\154"+
+        "\1\164\1\147\1\144\1\163\1\151\1\164\1\162\1\141\1\145\1\156\1\162"+
+        "\7\uffff\1\164\1\167\1\162\1\145\2\uffff\1\141\1\162\1\ufaff\1\166"+
+        "\1\145\1\162\1\uffff\1\143\1\ufaff\1\157\2\uffff\1\151\1\154\1\165"+
+        "\2\ufaff\2\145\1\154\1\165\1\157\1\156\1\141\1\164\4\ufaff\1\154"+
+        "\1\163\1\164\1\uffff\1\145\1\164\1\141\1\164\1\uffff\1\162\1\151"+
+        "\1\166\2\145\2\uffff\1\162\1\ufaff\1\145\1\162\1\167\1\163\1\153"+
+        "\1\151\4\uffff\3\ufaff\1\162\1\145\1\164\1\151\1\164\2\145\1\143"+
+        "\1\156\1\145\1\uffff\1\ufaff\1\156\1\ufaff\1\141\1\ufaff\1\156\3"+
+        "\uffff\2\ufaff\1\151\1\157\1\ufaff\1\163\1\ufaff\1\164\1\143\1\144"+
+        "\1\uffff\1\ufaff\1\uffff\1\143\1\154\1\uffff\1\165\2\uffff\1\157"+
+        "\1\156\1\uffff\1\ufaff\1\uffff\1\151\1\145\1\123\1\uffff\1\164\1"+
+        "\154\1\145\1\156\1\ufaff\1\uffff\1\157\1\ufaff\1\145\1\151\3\ufaff"+
+        "\1\uffff\1\156\1\uffff\1\164\1\157\3\uffff\2\ufaff\1\156\2\uffff"+
+        "\1\ufaff\1\uffff";
     static final String DFA1_acceptS =
-        "\2\uffff\1\2\1\uffff\1\4\3\uffff\1\10\1\11\1\uffff\1\13\1\14\1\15"+
-        "\1\16\1\20\20\uffff\1\61\1\uffff\1\63\2\uffff\1\66\1\uffff\1\71"+
-        "\2\uffff\1\44\1\3\30\uffff\1\52\1\53\1\56\1\54\1\57\1\60\1\55\1"+
-        "\62\1\64\4\uffff\1\45\1\17\4\uffff\1\46\3\uffff\1\30\1\31\25\uffff"+
-        "\1\47\2\uffff\1\27\5\uffff\1\25\1\24\11\uffff\1\50\1\65\1\67\1\70"+
-        "\13\uffff\1\32\7\uffff\1\1\1\5\1\42\10\uffff\1\33\1\uffff\1\35\3"+
-        "\uffff\1\37\3\uffff\1\12\1\uffff\1\21\3\uffff\1\34\1\uffff\1\36"+
-        "\4\uffff\1\51\7\uffff\1\7\1\uffff\1\23\2\uffff\1\40\1\41\1\6\3\uffff"+
-        "\1\22\1\26\1\uffff\1\43";
+        "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\7\1\10\3\uffff\1\14\1\15\1\uffff"+
+        "\1\17\1\20\1\22\16\uffff\1\62\1\uffff\1\64\2\uffff\1\67\1\uffff"+
+        "\1\72\2\uffff\1\46\1\3\5\uffff\1\54\1\11\24\uffff\1\57\1\55\1\60"+
+        "\1\61\1\56\1\63\1\65\4\uffff\1\47\1\21\6\uffff\1\50\3\uffff\1\32"+
+        "\1\33\24\uffff\1\51\4\uffff\1\31\5\uffff\1\27\1\26\10\uffff\1\52"+
+        "\1\66\1\70\1\71\15\uffff\1\34\6\uffff\1\1\1\5\1\44\12\uffff\1\35"+
+        "\1\uffff\1\37\2\uffff\1\41\1\uffff\1\6\1\40\2\uffff\1\16\1\uffff"+
+        "\1\23\3\uffff\1\36\5\uffff\1\53\7\uffff\1\13\1\uffff\1\25\2\uffff"+
+        "\1\42\1\43\1\12\3\uffff\1\24\1\30\1\uffff\1\45";
     static final String DFA1_specialS =
-        "\u00d6\uffff}>";
+        "\u00dc\uffff}>";
     static final String[] DFA1_transitionS = {
-            "\2\47\1\uffff\2\47\22\uffff\1\47\1\16\1\47\1\17\1\15\2\uffff"+
-            "\1\47\1\10\1\11\1\42\1\40\1\4\1\41\1\47\1\43\12\47\1\3\1\2\1"+
-            "\37\1\35\1\36\1\uffff\2\47\1\23\1\21\12\47\1\20\1\24\3\47\1"+
-            "\22\7\47\4\uffff\2\47\1\5\1\32\1\33\1\31\1\25\1\7\2\47\1\12"+
-            "\3\47\1\1\1\44\1\6\2\47\1\27\1\47\1\30\1\47\1\46\1\26\1\34\2"+
-            "\47\1\13\1\45\1\14\1\47\101\uffff\27\47\1\uffff\37\47\1\uffff"+
+            "\2\47\1\uffff\2\47\22\uffff\1\47\1\20\1\47\1\21\1\17\2\uffff"+
+            "\1\47\1\14\1\15\1\42\1\40\1\4\1\41\1\47\1\43\12\47\1\3\1\2\1"+
+            "\37\1\11\1\36\1\uffff\2\47\1\25\1\23\12\47\1\22\1\26\3\47\1"+
+            "\24\7\47\4\uffff\2\47\1\5\1\33\1\34\1\6\1\27\1\13\2\47\1\16"+
+            "\3\47\1\1\1\44\1\12\2\47\1\31\1\47\1\32\1\47\1\46\1\30\1\35"+
+            "\2\47\1\7\1\45\1\10\1\47\101\uffff\27\47\1\uffff\37\47\1\uffff"+
             "\u1f08\47\u1040\uffff\u0150\47\u0170\uffff\u0080\47\u0080\uffff"+
             "\u092e\47\u10d2\uffff\u5200\47\u5900\uffff\u0200\47",
             "\1\50",
@@ -1825,69 +1859,70 @@ public class EolLexer extends Lexer {
             "\1\51\2\uffff\1\52",
             "",
             "\1\55\11\uffff\1\54\1\uffff\1\56",
-            "\1\57\1\uffff\1\60",
-            "\1\62\5\uffff\1\61",
+            "\1\60\14\uffff\1\57",
             "",
             "",
-            "\1\65\6\uffff\1\63\1\64",
+            "\1\61",
+            "\1\63\1\uffff\1\64",
+            "\1\66\5\uffff\1\65",
+            "",
+            "",
+            "\1\71\6\uffff\1\67\1\70",
             "",
             "",
             "",
-            "",
-            "",
-            "\1\66",
-            "\1\67",
-            "\1\70",
-            "\1\71",
             "\1\72",
             "\1\73",
             "\1\74",
             "\1\75",
-            "\1\76\11\uffff\1\77",
+            "\1\76",
+            "\1\77",
             "\1\100",
             "\1\101",
-            "\1\102",
-            "\1\103",
+            "\1\102\11\uffff\1\103",
             "\1\104",
+            "\1\105",
             "\1\106",
-            "\1\110\1\111",
+            "\1\107",
+            "\1\111\1\112",
             "",
             "\1\47\2\uffff\1\47\20\uffff\1\47",
             "",
             "\1\47\4\uffff\1\47",
-            "\1\116\11\uffff\1\115",
-            "",
-            "\1\117",
+            "\1\117\11\uffff\1\116",
             "",
             "\1\120",
+            "",
             "\1\121",
+            "\1\122",
             "",
             "",
-            "\1\123",
             "\1\124",
             "\1\125",
             "\1\126",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\127",
             "\1\130",
+            "",
+            "",
             "\1\131",
-            "\1\132",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\133",
+            "\1\134",
             "\1\135",
-            "\1\136",
-            "\1\137\2\uffff\1\140",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\1\140",
             "\1\141",
-            "\1\142",
-            "\1\143",
+            "\1\142\2\uffff\1\143",
             "\1\144",
             "\1\145",
             "\1\146",
@@ -1896,57 +1931,58 @@ public class EolLexer extends Lexer {
             "\1\151",
             "\1\152",
             "\1\153",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\154",
             "\1\155",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\156",
             "\1\157",
-            "",
-            "",
             "\1\160",
             "\1\161",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "",
+            "",
+            "\1\162",
             "\1\163",
-            "",
-            "\1\164",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\167\2\uffff\1\166",
-            "",
+            "\1\165",
+            "\1\166",
+            "\1\167",
             "",
             "\1\170",
-            "\1\171",
-            "\1\172",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\173\2\uffff\1\172",
+            "",
+            "",
+            "\1\174",
             "\1\175",
             "\1\176",
-            "\1\177",
-            "\1\u0080",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
             "\1\u0081",
             "\1\u0082",
             "\1\u0083",
             "\1\u0084",
             "\1\u0085",
+            "\1\u0086",
+            "\1\u0087",
+            "\1\u0088",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
@@ -1963,103 +1999,97 @@ public class EolLexer extends Lexer {
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u008a",
-            "\1\u008b",
-            "\1\u008c",
-            "",
             "\1\u008d",
             "\1\u008e",
-            "",
             "\1\u008f",
+            "",
             "\1\u0090",
             "\1\u0091",
             "\1\u0092",
             "\1\u0093",
             "",
-            "",
             "\1\u0094",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\u0095",
             "\1\u0096",
             "\1\u0097",
             "\1\u0098",
+            "",
+            "",
             "\1\u0099",
-            "\1\u009a",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
             "\1\u009b",
             "\1\u009c",
-            "",
-            "",
-            "",
-            "",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\u009d",
+            "\1\u009e",
+            "\1\u009f",
             "\1\u00a0",
-            "\1\u00a1",
-            "\1\u00a2",
-            "\1\u00a3",
+            "",
+            "",
+            "",
+            "",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
             "\1\u00a4",
             "\1\u00a5",
             "\1\u00a6",
             "\1\u00a7",
+            "\1\u00a8",
+            "\1\u00a9",
+            "\1\u00aa",
+            "\1\u00ab",
+            "\1\u00ac",
+            "\1\u00ad",
             "",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00a9",
+            "\1\u00af",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00ab",
-            "\1\u00ac",
-            "\12\47\7\uffff\1\u00ad\31\47\4\uffff\1\47\1\uffff\32\47\105"+
+            "\1\u00b1",
+            "\12\47\7\uffff\1\u00b2\31\47\4\uffff\1\47\1\uffff\32\47\105"+
             "\uffff\27\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150"+
             "\47\u0170\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200"+
             "\47\u5900\uffff\u0200\47",
-            "\1\u00af",
+            "\1\u00b4",
             "",
             "",
             "",
-            "\1\u00b0",
-            "\1\u00b1",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00b3",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00b5",
-            "\1\u00b6",
             "\1\u00b7",
-            "",
+            "\1\u00b8",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "",
-            "\1\u00b9",
+            "\1\u00ba",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00bb",
-            "",
             "\1\u00bc",
             "\1\u00bd",
             "\1\u00be",
@@ -2071,42 +2101,55 @@ public class EolLexer extends Lexer {
             "",
             "\1\u00c0",
             "\1\u00c1",
+            "",
             "\1\u00c2",
             "",
+            "",
             "\1\u00c3",
-            "",
             "\1\u00c4",
-            "\1\u00c5",
-            "\1\u00c6",
+            "",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
             "",
+            "\1\u00c6",
+            "\1\u00c7",
             "\1\u00c8",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "",
+            "\1\u00c9",
             "\1\u00ca",
             "\1\u00cb",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
-            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
-            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
-            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
-            "\uffff\u0200\47",
+            "\1\u00cc",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
             "",
-            "\1\u00cf",
-            "",
+            "\1\u00ce",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
             "\1\u00d0",
             "\1\u00d1",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
+            "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
+            "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
+            "\uffff\u0200\47",
+            "",
+            "\1\u00d5",
+            "",
+            "\1\u00d6",
+            "\1\u00d7",
             "",
             "",
             "",
@@ -2118,7 +2161,7 @@ public class EolLexer extends Lexer {
             "\47\1\uffff\37\47\1\uffff\u1f08\47\u1040\uffff\u0150\47\u0170"+
             "\uffff\u0080\47\u0080\uffff\u092e\47\u10d2\uffff\u5200\47\u5900"+
             "\uffff\u0200\47",
-            "\1\u00d4",
+            "\1\u00da",
             "",
             "",
             "\12\47\7\uffff\32\47\4\uffff\1\47\1\uffff\32\47\105\uffff\27"+
@@ -2158,7 +2201,7 @@ public class EolLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | EolLexerRules. Tokens );";
+            return "1:1: Tokens : ( T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | EolLexerRules. Tokens );";
         }
     }
  
