@@ -47,6 +47,8 @@ public class EolAnnotationsUtil {
 					
 					//((EolAst) children.get(children.indexOf(child) + 1)).
 					//	setAnnotationsAst(child);
+				} else {
+					EolAnnotationsUtil.assignAnnotations(child);
 				}
 			//}
 		}

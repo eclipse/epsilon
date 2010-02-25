@@ -60,14 +60,16 @@ public class AstUtil {
 		}
 		return children;
 	}
-	public static List<AST> getChildren(AST parent, int type){
+	public static List<AST> getChildren(AST parent, int... type){
 		List<AST> children = new ArrayList<AST>();
 		
 		if (parent != null) {
 			AST child = parent.getFirstChild();
 			while (child != null){
-				if (child.getType() == type || type == -1){
-					children.add(child);
+				for (int i=0;i<type.length;i++) {
+					if (child.getType() == type[i] || type[i] == -1){
+						children.add(child);
+					}
 				}
 				child = child.getNextSibling();
 			}

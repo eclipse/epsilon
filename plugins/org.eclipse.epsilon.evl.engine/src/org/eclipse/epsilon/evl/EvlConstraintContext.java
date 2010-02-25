@@ -16,7 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.module.AbstractModuleElement;
+import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
@@ -44,31 +46,29 @@ public class EvlConstraintContext extends AbstractModuleElement {
 		super();
 	}
 
-	public List getChildren() {
-		return new ArrayList(constraints.values());
+	public List<ModuleElement> getChildren() {
+		return new ArrayList<ModuleElement>(constraints.values());
 	}
 	
 	public void build(AST ast) {
 		
 		this.ast = ast;
-		AST constraintAst = null;
+		
+		this.typeAst = ast.getFirstChild();
+		this.ofTypeOnly = false;
+		this.name = typeAst.getText();
+	
+		guardAst = AstUtil.getChild(ast, EvlParser.GUARD);
+			
+		for (AST constraintAst : AstUtil.getChildren(ast, EvlParser.CONSTRAINT, EvlParser.CRITIQUE)) {
+			EvlConstraint constraint = new EvlConstraint();
+			constraint.setConstraintContext(this);
+			constraint.build(constraintAst);
+			constraints.addConstraint(constraint);
+			constraintAst = constraintAst.getNextSibling();
+		}
 		
 		/*
-		if (AstUtil.getChild(ast, EvlParserTokenTypes.TYPEOF) != null) {
-			this.ofTypeOnly = true;
-			this.name = ast.getFirstChild().getText();
-			this.typeAst = ast.getFirstChild().getNextSibling().getNextSibling();
-		}
-		else if (AstUtil.getChild(ast, EvlParserTokenTypes.KINDOF) != null) {
-			this.ofTypeOnly = false;
-			this.name = ast.getFirstChild().getText();
-			this.typeAst = ast.getFirstChild().getNextSibling().getNextSibling();	}
-		else {*/
-			this.typeAst = ast.getFirstChild();
-			this.ofTypeOnly = false;
-			this.name = typeAst.getText();
-		/*}*/
-		
 		if (typeAst.getNextSibling() != null && typeAst.getNextSibling().getType() == EvlParser.GUARD) {
 			guardAst = typeAst.getNextSibling();
 			constraintAst = guardAst.getNextSibling();
@@ -84,7 +84,7 @@ public class EvlConstraintContext extends AbstractModuleElement {
 			constraints.addConstraint(constraint);
 			constraintAst = constraintAst.getNextSibling();
 		}
-		
+		*/
 	}
 	
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
