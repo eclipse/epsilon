@@ -43,7 +43,7 @@ public class Ecore2GenModelDelegate extends EolTransformationActionDelegate {
 	public List<EmfModel> getModels() throws Exception {
 		
 		String ecorePath = getSelectedFile().getLocationURI().toString();
-		String genModelPath = FileUtil.replaceExtension(ecorePath, "gen.genmodel");
+		String genModelPath = FileUtil.replaceExtension(ecorePath, "genmodel");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		
