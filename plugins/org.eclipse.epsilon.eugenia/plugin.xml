@@ -11,8 +11,17 @@
          <action
                class="org.eclipse.epsilon.eugenia.GenerateToolGraphMapDelegate"
                enablesFor="1"
+               icon="icons/gmfmaptool.png"
                id="org.eclipse.epsilon.eugenia.GenerateToolGraphMapDelegate"
                label="Generate GMF tool, graph and map models"
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/actions">
+         </action>
+         <action
+               class="org.eclipse.epsilon.eugenia.Ecore2GenModelDelegate"
+               enablesFor="1"
+               icon="icons/genmodel.png"
+               id="org.eclipse.epsilon.eugenia.Ecore2GenModelDelegate"
+               label="Generate EMF GenModel"
                menubarPath="org.eclipse.epsilon.eugenia.ecore/actions">
          </action>
          <menu
@@ -32,6 +41,7 @@
          <action
                class="org.eclipse.epsilon.eugenia.FixGmfGenDelegate"
                enablesFor="1"
+               icon="icons/gmfgen.png"
                id="org.eclipse.epsilon.eugenia.FixGmfGenDelegate"
                label="Synchronize GMF gen model"
                menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">

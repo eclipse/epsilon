@@ -24,10 +24,14 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -89,6 +93,14 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 		return file;
 	}
 	
+	public IEolExecutableModule createBuiltinModule() {
+		return new EolModule();
+	}
+	
+	public IEolExecutableModule createCustomizationModule() {
+		return new EolModule();
+	}
+	
 	public abstract String getBuiltinTransformation();
 	
 	public abstract String getCustomizationTransformation();
@@ -99,8 +111,8 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 	
 	public void runImpl(IAction action) throws Exception {
 					  
-		EolModule builtin = new EolModule();
-		EolModule customization = new EolModule();
+		IEolExecutableModule builtin = createBuiltinModule();
+		IEolExecutableModule customization = createCustomizationModule();
 		
 		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
 		builtin.parse(uri);
