@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
+<listAttribute key="models">
+<listEntry value="#&#13;&#10;#Tue Mar 02 11:44:27 GMT 2010&#13;&#10;name=UML&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=false&#13;&#10;aliases=&#13;&#10;isMetamodel=false&#13;&#10;type=MDR&#13;&#10;modelFile=/org.eclipse.epsilon.examples.mdr/bank-model.xmi&#13;&#10;isMetamodelFileRelative=true&#13;&#10;metamodelFile=/org.eclipse.epsilon.examples.mdr/uml14.xmi&#13;&#10;extent=UML&#13;&#10;isModelFileRelative=true&#13;&#10;"/>
+</listAttribute>
+<stringAttribute key="source" value="\org.eclipse.epsilon.examples.mdr\queryuml14.eol"/>
+</launchConfiguration>
