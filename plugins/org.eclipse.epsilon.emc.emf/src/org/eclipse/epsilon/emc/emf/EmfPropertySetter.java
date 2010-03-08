@@ -34,11 +34,15 @@ public class EmfPropertySetter extends AbstractPropertySetter {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean conforms(Object value) throws EolIllegalPropertyException {		
+	public boolean conforms(Object value) throws EolIllegalPropertyException {
+		if (propertyIsFixed())
+			return false;
+		
 		if (value instanceof EolCollection) {
 			final Collection<Object> collection = ((EolCollection)value).getStorage();
 		
-			return isConformantSizeForProperty(collection) && 
+			return propertyCanHoldCollections() &&
+			       isConformantSizeForProperty(collection) && 
 			       allAreConformantTypeForProperty(collection);
 		
 		} else {
@@ -94,6 +98,14 @@ public class EmfPropertySetter extends AbstractPropertySetter {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		else
 			return sf;
+	}
+	
+	private boolean propertyIsFixed() throws EolIllegalPropertyException {
+		return !getEStructuralFeature().isChangeable();
+	}
+	
+	private boolean propertyCanHoldCollections() throws EolIllegalPropertyException {
+		return getEStructuralFeature().isMany();
 	}
 	
 	private boolean isConformantSizeForProperty(Collection<?> values) throws EolIllegalPropertyException {
