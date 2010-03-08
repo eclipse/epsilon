@@ -32,23 +32,30 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 	
 	protected static ModelWithEolAssertions migrated;
 	protected static FlockResult result;
-
+	
+	protected static void migrateFamiliesToFamilies(String strategy, AbstractEmfModel original) throws Exception {
+		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), "families");
+		migrate(strategy, original, migratedModel);
+	}
+	
 	protected static void migrateFamiliesToFamilies(String strategy, String hutnForOriginalModel) throws Exception {
 		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), "families");
-		migrate(strategy, hutnForOriginalModel, migratedModel);
+		migrate(strategy, hutnToFamily(hutnForOriginalModel), migratedModel);
 	}
 	
 	protected static void migrateFamiliesTo(EPackage evolvedMetamodel, String strategy, String hutnForOriginalModel) throws Exception {
 		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), evolvedMetamodel);
-		migrate(strategy, hutnForOriginalModel, migratedModel);
+		migrate(strategy, hutnToFamily(hutnForOriginalModel), migratedModel);
 	}
 	
-	private static void migrate(String strategy, String originalModel, InMemoryEmfModel migratedModel) throws Exception {
+	private static AbstractEmfModel hutnToFamily(String hutnForOriginalModel) {
+		return new FamiliesModelConstructor().constructModel("Original", hutnForOriginalModel);
+	}
+	
+	private static void migrate(String strategy, AbstractEmfModel original, InMemoryEmfModel migratedModel) throws Exception {
 		final IFlockModule migrator = new FlockModule();
 		
-		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			final AbstractEmfModel original = new FamiliesModelConstructor().constructModel("Original", originalModel);
-			
+		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {		
 			result = migrator.execute(original, migratedModel);
 			
 			migrated = new ModelWithEolAssertions(migratedModel);
