@@ -22,6 +22,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.Co
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.CopyModelElementsThatHaveNoRules;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.CopyNestedModelElements;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.CopySingleValueToList;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.CopyValueFromAnotherModel;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyListToSingleValue;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyContainedObjectWithUnknownMigratedClass;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyListWhenLowerboundIncreases;
@@ -37,7 +38,8 @@ import org.junit.runners.Suite.SuiteClasses;
                DoNotCopyContainedObjectWithUnknownMigratedClass.class,
                CopySingleValueToList.class, DoNotCopyListToSingleValue.class,
                CopyListWhenUpperboundIncreases.class, DoNotCopyListWhenUpperboundDecreases.class,
-               CopyListWhenLowerboundDecreases.class, DoNotCopyListWhenLowerboundIncreases.class})
+               CopyListWhenLowerboundDecreases.class, DoNotCopyListWhenLowerboundIncreases.class,
+               CopyValueFromAnotherModel.class})
 public class Strong2StrongCopyingSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongCopyingSuite.class);
