@@ -66,6 +66,10 @@ public class FileUtil {
 		}
 	}
 	
+	public static File getDirectoryOf(Class<?> clazz) {
+		return getFile(clazz.getSimpleName() + ".class", clazz).getParentFile();
+	}
+	
 	public static String getPath(String name, Class<?> relativeTo) {
 		return getFile(name, relativeTo).getAbsolutePath();
 	}
