@@ -16,15 +16,30 @@ package org.eclipse.epsilon.emc.emf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.commons.util.OperatingSystem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EmfModelTest {
 	
-	private static final String UNIX_ABSOLUTE_PATH = "/test/Test.model";
+	private static String UNIX_ABSOLUTE_PATH;
+	
+	@BeforeClass
+	public static void createTempFile() throws IOException {
+		UNIX_ABSOLUTE_PATH = File.createTempFile("EpsilonEmfModelTest", "model").getAbsolutePath();
+	}
+	
+	@AfterClass
+	public static void removeFile() {
+		new File(UNIX_ABSOLUTE_PATH).delete();
+	}
 	
 	@Test
 	public void storeUnixAbsolutePath() throws Exception {	
@@ -37,7 +52,7 @@ public class EmfModelTest {
 	}
 	
 	@Test
-	public void storeFailsForAbsoultePathsWithoutASchema() throws Exception {	
+	public void storeFailsForAbsolutePathsWithoutASchema() throws Exception {	
 		final EmfModel model = new EmfModel();
 		model.setModelImpl(EmfUtil.createResource());
 			
