@@ -17,8 +17,8 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
-import org.eclipse.epsilon.egl.TemplateFactory;
-import org.eclipse.epsilon.egl.TemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Color;
@@ -75,7 +75,7 @@ public class EglEditor extends AbstractModuleEditor {
 
 	@Override
 	public IModule createModule() {
-		return new TemplateFactoryModuleAdapter(new TemplateFactory());
+		return new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	}
 
 	List<Template> templates = null;

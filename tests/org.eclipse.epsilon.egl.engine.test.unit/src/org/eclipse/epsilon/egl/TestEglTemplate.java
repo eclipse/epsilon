@@ -133,7 +133,7 @@ public class TestEglTemplate {
                                 "// protected region test end"                      + NEWLINE +
                                 "This text will appear after the protected region";
 		
-		final IEglContext context = new EglContext(new TemplateFactory());
+		final IEglContext context = new EglContext(new EglTemplateFactory());
 		context.getPartitioner().addPartitioner(new CommentBlockPartitioner("//", null));
 		
 		template = new EglTemplate(UriUtil.fileToUri(MERGE), context);

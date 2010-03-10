@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 
-public class CountingTemplateFactory extends FileGeneratingTemplateFactory {
+public class CountingTemplateFactory extends EglFileGeneratingTemplateFactory {
 
 	@Override
 	protected EglTemplate createTemplate(String name, URI resource) throws IOException {

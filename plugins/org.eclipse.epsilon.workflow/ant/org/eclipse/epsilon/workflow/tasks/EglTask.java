@@ -13,8 +13,8 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.TemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 
 public class EglTask extends ExecutableModuleTask {
@@ -23,7 +23,7 @@ public class EglTask extends ExecutableModuleTask {
 	
 	@Override
 	protected IEolExecutableModule createModule() {
-		return new TemplateFactoryModuleAdapter(new FileGeneratingTemplateFactory());
+		return new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 	}
 
 	@Override

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.egl.output;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -238,7 +238,7 @@ public class TestOutputBuffer {
 	}
 
 	private static CompositePartitioner getJavaPartitioner() {
-		return new XMLContentTypeRepository(new EglContext(new TemplateFactory())).partitionerFor("Java");
+		return new XMLContentTypeRepository(new EglContext(new EglTemplateFactory())).partitionerFor("Java");
 	}
 	
 	@Test (expected=EglRuntimeException.class)

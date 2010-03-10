@@ -27,7 +27,7 @@ import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
@@ -44,7 +44,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 
 		EpsilonConsole.getInstance().clear();
 		
-		final FileGeneratingTemplateFactory factory = new FileGeneratingTemplateFactory();
+		final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
 
 		String subTask = "";
 		

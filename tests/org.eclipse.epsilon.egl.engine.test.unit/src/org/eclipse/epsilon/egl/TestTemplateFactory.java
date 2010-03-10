@@ -22,11 +22,11 @@ import org.junit.Test;
 
 public class TestTemplateFactory {
 	
-	private TemplateFactory tf = new TemplateFactory(new MockContext());
+	private EglTemplateFactory tf = new EglTemplateFactory(new MockContext());
 	
 	@Before
 	public void setUp() {
-		tf = new TemplateFactory(new MockContext());
+		tf = new EglTemplateFactory(new MockContext());
 	}
 	
 	@Test

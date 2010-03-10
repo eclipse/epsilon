@@ -22,7 +22,7 @@ import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
-public class TemplateFactory {
+public class EglTemplateFactory {
 
 	protected final IEglContext context;
 	
@@ -32,11 +32,11 @@ public class TemplateFactory {
 	private String templateRootPath;
 	
 	
-	public TemplateFactory() {
+	public EglTemplateFactory() {
 		this.context = new EglContext(this);
 	}
 	
-	public TemplateFactory(IEglContext context) {
+	public EglTemplateFactory(IEglContext context) {
 		this.context = context;
 	}
 	

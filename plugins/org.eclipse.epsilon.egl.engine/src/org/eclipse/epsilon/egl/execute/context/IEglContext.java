@@ -16,7 +16,7 @@ import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -24,7 +24,7 @@ public interface IEglContext extends IEolContext {
 		
 	public List<String> getPartitioningProblems();	
 	
-	public TemplateFactory getTemplateFactory();
+	public EglTemplateFactory getTemplateFactory();
 	
 	public void copyInto(IEolContext context);
 

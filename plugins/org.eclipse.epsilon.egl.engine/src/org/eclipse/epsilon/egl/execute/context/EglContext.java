@@ -24,7 +24,7 @@ import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -33,7 +33,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EglContext extends EolContext implements IEglContext {
 
-	private final TemplateFactory templateFactory;
+	private final EglTemplateFactory templateFactory;
 	private final Stack<EglTemplateContext> templateContexts = new Stack<EglTemplateContext>();
 		
 	private CompositePartitioner partitioner = new CompositePartitioner();
@@ -43,7 +43,7 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	private IEglContext parentContext;
 	
-	public EglContext(TemplateFactory templateFactory) {
+	public EglContext(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
 		
 		populateScope();
@@ -56,7 +56,7 @@ public class EglContext extends EolContext implements IEglContext {
 		return (IEglModule)module;
 	}
 
-	public TemplateFactory getTemplateFactory() {
+	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
 	}
 

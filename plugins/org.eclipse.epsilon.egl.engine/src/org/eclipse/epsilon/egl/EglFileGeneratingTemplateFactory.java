@@ -16,14 +16,14 @@ import java.net.URI;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 
-public class FileGeneratingTemplateFactory extends TemplateFactory {
+public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	
 	protected URI   outputRoot;
 	protected String outputRootPath;
 	
-	public FileGeneratingTemplateFactory() {}
+	public EglFileGeneratingTemplateFactory() {}
 	
-	public FileGeneratingTemplateFactory(IEglContext context) {
+	public EglFileGeneratingTemplateFactory(IEglContext context) {
 		super(context);
 	}
 

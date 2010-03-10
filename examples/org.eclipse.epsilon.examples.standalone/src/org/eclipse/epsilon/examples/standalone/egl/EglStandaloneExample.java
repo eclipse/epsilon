@@ -13,8 +13,8 @@ package org.eclipse.epsilon.examples.standalone.egl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.egl.TemplateFactory;
-import org.eclipse.epsilon.egl.TemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
@@ -33,7 +33,7 @@ public class EglStandaloneExample extends EpsilonStandaloneExample {
 	
 	@Override
 	public IEolExecutableModule createModule() {
-		return new TemplateFactoryModuleAdapter(new TemplateFactory());
+		return new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	}
 
 	@Override

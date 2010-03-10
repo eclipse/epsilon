@@ -18,11 +18,11 @@ import java.net.URI;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -57,10 +57,10 @@ public class AcceptanceTestUtil {
 	}
 
 	public static String run(Object program, Model... models) throws EolModelLoadingException, EglRuntimeException {
-		return run(new FileGeneratingTemplateFactory(), program, models);
+		return run(new EglFileGeneratingTemplateFactory(), program, models);
 	}
 	
-	public static String run(TemplateFactory factory, Object program, Model... models) throws EglRuntimeException, EolModelLoadingException {
+	public static String run(EglTemplateFactory factory, Object program, Model... models) throws EglRuntimeException, EolModelLoadingException {
 		context = factory.getContext();
 		loadModels(models);
 

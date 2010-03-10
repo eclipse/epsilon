@@ -14,7 +14,7 @@ import java.net.URI;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
@@ -29,7 +29,7 @@ public abstract class AbstractECoreGenerationAction extends AbstractECoreModelAc
 		this.file = file;
 		this.model = model;
 		
-		final FileGeneratingTemplateFactory factory = new FileGeneratingTemplateFactory();
+		final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
 		
 		factory.getContext().getModelRepository().addModel(model);
 		name = file.getName().substring(0, file.getName().length() - 6);

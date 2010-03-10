@@ -26,7 +26,7 @@ import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.parse.EglLexer;
@@ -37,10 +37,10 @@ import org.eclipse.epsilon.eol.EolOperations;
 
 
 /**
- * Used internally by {@link TemplateFactory} and {@link EglTemplate}
+ * Used internally by {@link EglTemplateFactory} and {@link EglTemplate}
  * to parse and execute EGL, by transforming to EOL.
  * 
- * Most extensions should subclass {@link TemplateFactory} and/or
+ * Most extensions should subclass {@link EglTemplateFactory} and/or
  * {@link EglTemplate} rather than this class.
  *
  * @author lrose

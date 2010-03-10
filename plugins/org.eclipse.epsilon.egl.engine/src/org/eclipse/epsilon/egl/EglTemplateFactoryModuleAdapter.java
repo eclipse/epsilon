@@ -30,11 +30,11 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class TemplateFactoryModuleAdapter implements IEolExecutableModule {
+public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
-	private final TemplateFactory factory;
+	private final EglTemplateFactory factory;
 	
-	public TemplateFactoryModuleAdapter(TemplateFactory factory) {
+	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
 		this.factory = factory;
 	}
 

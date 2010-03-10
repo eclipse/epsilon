@@ -16,7 +16,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
-import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -29,7 +29,7 @@ public class IncludeOperation extends AbstractSimpleOperation {
 	public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 				
 		Variable templateFactoryVariable = context.getFrameStack().get("TemplateFactory");
-		TemplateFactory templateFactory = (TemplateFactory) templateFactoryVariable.getValue();
+		EglTemplateFactory templateFactory = (EglTemplateFactory) templateFactoryVariable.getValue();
 		
 		Variable outVariable = context.getFrameStack().get("out");
 		
