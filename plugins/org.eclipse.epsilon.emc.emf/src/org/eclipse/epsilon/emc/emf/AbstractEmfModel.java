@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -31,7 +29,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,7 +44,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public abstract class AbstractEmfModel extends Model{
+public abstract class AbstractEmfModel extends Model {
 	
 	//DONE : Improve support for file-based metamodels
 	//FIXME : If the user wants, they can load it as a local copy
@@ -139,16 +136,6 @@ public abstract class AbstractEmfModel extends Model{
 
 	}
 	
-	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		final Collection<String> properties = new LinkedList<String>();
-		
-		for (EStructuralFeature feature : featuresForType(type)) {
-			properties.add(feature.getName());
-		}
-		
-		return properties;
-	}
-	
 	protected void printPackages() {
 		System.err.println("---" + this.name + "---");
 		for(Object object : getPackageRegistry().values()) {
@@ -229,10 +216,6 @@ public abstract class AbstractEmfModel extends Model{
 			}
 		}
 		return null;
-	}
-	
-	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
-		return classForName(type).getEAllStructuralFeatures();
 	}
 	
 	//TODO: Change cache to <EClass, List<EObject>>

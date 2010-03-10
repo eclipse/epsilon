@@ -19,11 +19,12 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
-public class EmfPropertySetter extends AbstractPropertySetter {
+public class EmfPropertySetter extends AbstractPropertySetter implements IPropertySetterWithReflexiveAccess {
 
 	public Object coerce(Object value) throws EolIllegalPropertyException {
 		if (getEStructuralFeature().isMany() && !(value instanceof EolCollection)) {

@@ -12,25 +12,30 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
 
-public class EmfModel extends AbstractEmfModel {
+public class EmfModel extends AbstractEmfModel implements IModelWithReflexiveAccess {
 	
 	public static final String PROPERTY_METAMODEL_URI = "metamodelUri";
 	public static final String PROPERTY_EXPAND = "expand";
@@ -184,7 +189,7 @@ public class EmfModel extends AbstractEmfModel {
 		
 		if (this.readOnLoad){
 			try {
-				HashMap options = new HashMap();
+				final Map<Object, Object> options = new HashMap<Object, Object>();
 				options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, true);
 				model.load(options);
 				if (expand) {
@@ -266,5 +271,25 @@ public class EmfModel extends AbstractEmfModel {
 
 	public void setMetamodelFileBased(boolean isMetamodelFileBased) {
 		this.isMetamodelFileBased = isMetamodelFileBased;
+	}
+
+	
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		final Collection<String> properties = new LinkedList<String>();
+		
+		for (EStructuralFeature feature : featuresForType(type)) {
+			properties.add(feature.getName());
+		}
+		
+		return properties;
+	}
+	
+	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
+		return classForName(type).getEAllStructuralFeatures();
+	}
+	
+	@Override
+	public IPropertySetterWithReflexiveAccess getPropertySetter() {
+		return new EmfPropertySetter();
 	}
 }

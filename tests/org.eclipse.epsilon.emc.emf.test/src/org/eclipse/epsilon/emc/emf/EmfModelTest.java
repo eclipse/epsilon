@@ -20,9 +20,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.commons.util.OperatingSystem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -57,5 +59,21 @@ public class EmfModelTest {
 		model.setModelImpl(EmfUtil.createResource());
 			
 		assertFalse(model.store(UNIX_ABSOLUTE_PATH));
+	}
+	
+	@Test
+	public void getPropertiesOf() throws EolModelElementTypeNotFoundException {
+		final EmfModel emfModel = new InMemoryEmfModel(EmfUtil.createResource(EcoreFactory.eINSTANCE.createEPackage()));
+		
+		assertTrue(emfModel.getPropertiesOf("EPackage").contains("name"));
+		assertTrue(emfModel.getPropertiesOf("EPackage").contains("eClassifiers"));
+		assertFalse(emfModel.getPropertiesOf("EPackage").contains("age"));
+	}
+	
+	@Test(expected=EolModelElementTypeNotFoundException.class)
+	public void getPropertiesOfForUnknownType() throws EolModelElementTypeNotFoundException {
+		final EmfModel emfModel = new InMemoryEmfModel(EmfUtil.createResource(EcoreFactory.eINSTANCE.createEPackage()));
+
+		emfModel.getPropertiesOf("foo");
 	}
 }
