@@ -17,8 +17,8 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.epsilon.egl.EglModule;
-import org.eclipse.epsilon.egl.IEglModule;
+import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
@@ -127,12 +127,13 @@ public class ModelGenerator extends AbstractGenerator {
 	
 	public String generateTransformation() throws HutnGenerationException {
 		try {
-			final IEglModule generator = new EglModule();
+			final TemplateFactory generator = new TemplateFactory();
 //			generator.getContext().getModelRepository().addModel(metaModel);
 			generator.getContext().getModelRepository().addModel(source);
-			generator.parse(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
 			
-			final String transformation = generator.execute();
+			final EglTemplate template = generator.load(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
+			
+			final String transformation = template.process();
 //			System.err.println(transformation);
 			return transformation;
 	

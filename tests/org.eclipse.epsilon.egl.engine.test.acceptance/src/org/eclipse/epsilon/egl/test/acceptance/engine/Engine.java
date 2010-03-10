@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class Engine {
 	
-	private static File OO2JavaProgram;
+	private static File OO2JavaProgram, OO2JavaImportProgram;
 	private static File OO2JavaExpected;
 	private static File runtimeExceptionProgram;
 	private static File invalidPath;
@@ -33,15 +33,22 @@ public class Engine {
 	
 	@BeforeClass
 	public static void setUpOnce() {
-		OO2JavaProgram          = FileUtil.getFile("OO2Java.egl", Engine.class);
-		OO2JavaExpected         = FileUtil.getFile("OO2Java.txt", Engine.class);
+		OO2JavaProgram          = FileUtil.getFile("OO2Java.egl",       Engine.class);
+		OO2JavaImportProgram    = FileUtil.getFile("OO2JavaImport.egl", Engine.class);
+		OO2JavaExpected         = FileUtil.getFile("OO2Java.txt",       Engine.class);
+		
 		runtimeExceptionProgram = FileUtil.getFile("RuntimeException.egl", Engine.class);
-		invalidPath             = FileUtil.getFile("Inva*lid.egl", Engine.class);
+		invalidPath             = FileUtil.getFile("Inva*lid.egl",         Engine.class);
 	}
 	
 	@Test
 	public void testValid() throws IOException, EglRuntimeException, EolModelLoadingException {
 		AcceptanceTestUtil.test(OO2JavaProgram, OO2JavaExpected, Model.OOInstance);
+	}
+	
+	@Test
+	public void testImport() throws IOException, EglRuntimeException, EolModelLoadingException {
+		AcceptanceTestUtil.test(OO2JavaImportProgram, OO2JavaExpected, Model.OOInstance);
 	}
 	
 	@Test (expected=EglRuntimeException.class)
@@ -56,8 +63,8 @@ public class Engine {
 		}
 	}
 	
-	@Test (expected=IOException.class)
-	public void testParseInvalid() throws IOException, EglRuntimeException, EolModelLoadingException {
+	@Test (expected=EglRuntimeException.class)
+	public void testParseInvalid() throws EglRuntimeException, EolModelLoadingException {
 		AcceptanceTestUtil.run(invalidPath);
 	}
 }

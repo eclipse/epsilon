@@ -14,18 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
-import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
+import org.eclipse.epsilon.egl.TemplateFactory;
+import org.eclipse.epsilon.egl.TemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class EglEditor extends AbstractModuleEditor {
 	
@@ -76,7 +75,7 @@ public class EglEditor extends AbstractModuleEditor {
 
 	@Override
 	public IModule createModule() {
-		return new EglModule();
+		return new TemplateFactoryModuleAdapter(new TemplateFactory());
 	}
 
 	List<Template> templates = null;

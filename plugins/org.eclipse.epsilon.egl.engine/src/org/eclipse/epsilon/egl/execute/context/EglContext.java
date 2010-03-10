@@ -14,73 +14,41 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
-import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
+import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
+import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.template.FileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.template.TemplateFactory;
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EglContext extends EolContext implements IEglContext {
 
-	private final TemplateFactory tf = createTemplateFactory();
-	
-	private OutputBuffer out;
+	private final TemplateFactory templateFactory;
+	private final Stack<EglTemplateContext> templateContexts = new Stack<EglTemplateContext>();
+		
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	
-	private Template template = new Template();
-	
+		
 	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
 	
 	private IEglContext parentContext;
-	private IEolContext delegateContext;
 	
-	public EglContext() {
+	public EglContext(TemplateFactory templateFactory) {
+		this.templateFactory = templateFactory;
+		
 		populateScope();
 		setOperationFactory(new EglOperationFactory());
-	}
-	
-	/**
-	 * Factory method creating template factory of the correct type. 
-	 * Note this will be called during initialisation of EglContext, 
-	 * so it is not safe to access fields.
-	 * 
-	 * @return
-	 */
-	protected TemplateFactory createTemplateFactory() {
-		return new FileGeneratingTemplateFactory(this);
-	}
-
-	public EglContext(IEglContext context) {
-		parentContext = context;
-		
-		setErrorStream(context.getErrorStream());
-		setExecutorFactory(context.getExecutorFactory());
-		setIntrospectionManager(context.getIntrospectionManager());
-		setModelRepository(context.getModelRepository());
-		setOperationFactory(context.getOperationFactory());
-		setOutputStream(context.getOutputStream());
-		setUserInput(context.getUserInput());
-		setPartitioner(context.getPartitioner());
-		setContentTypeRepository(context.getContentTypeRepository());
-		setNativeTypeDelegates(context.getNativeTypeDelegates());
-		setExtendedProperties(context.getExtendedProperties());
-		
-		tf.imitate(context.getTemplateFactory());
-
-// Scope cloning only required if Templates did not have a populate method
-//		setScope(context.getScope().clone());
-		
-		populateScope();
+		setExecutorFactory(new EglExecutorFactory());
 	}
 	
 	@Override
@@ -89,31 +57,18 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 
 	public TemplateFactory getTemplateFactory() {
-		return tf;
-	}
-	
-	public OutputBuffer getOutputBuffer() {
-		return out;
-	}
-	
-	public void clearOutputBuffer() {
-		out = new OutputBuffer(this);
-		getFrameStack().put(Variable.createReadOnlyVariable("out", out));
+		return templateFactory;
 	}
 
 	private void populateScope() {
-		out = new OutputBuffer(this);
-		getFrameStack().put(Variable.createReadOnlyVariable("out", out));
-		getFrameStack().put(Variable.createReadOnlyVariable("TemplateFactory", tf));
+		getFrameStack().put(Variable.createReadOnlyVariable("TemplateFactory", templateFactory));
 		
 		getFrameStack().put(Variable.createReadOnlyVariable("openTag",       "[%"));
-		getFrameStack().put(Variable.createReadOnlyVariable("openOutputTag", "[=%"));
+		getFrameStack().put(Variable.createReadOnlyVariable("openOutputTag", "[%="));
 		getFrameStack().put(Variable.createReadOnlyVariable("closeTag",       "%]"));
 	}
 	
 	public void copyInto(IEolContext context) {
-		delegateContext = context;
-		
 		context.setErrorStream(getErrorStream());
 		context.setExecutorFactory(getExecutorFactory());
 		context.setIntrospectionManager(getIntrospectionManager());
@@ -145,6 +100,10 @@ public class EglContext extends EolContext implements IEglContext {
 		}
 	}
 	
+	public List<String> getPartitioningProblems() {
+		return getPartitioner().partition(current().getOutputBuffer().toString()).getProblems();
+	}
+	
 	public ContentTypeRepository getContentTypeRepository() {
 		return repository;
 	}
@@ -165,20 +124,39 @@ public class EglContext extends EolContext implements IEglContext {
 		return Collections.unmodifiableList(statusMessages);
 	}
 	
-	public Template getTemplate() {
-		return template;
-	}
-	
-	public void setTemplate(Template template) {
-		this.template = template;
-	}
-	
 	@Override
 	public void setOutputStream(PrintStream outputStream) {
 		super.setOutputStream(outputStream);
-		
-		if (delegateContext != null)
-			delegateContext.setOutputStream(outputStream);
 	}
 
+	
+	private Template base;
+	
+	public void enter(Template template) {
+		if (templateContexts.isEmpty()) {
+			base = template;
+		} else {
+			templateContexts.peek().getTemplate().add(template);
+		}
+		
+		getFrameStack().enter(FrameType.PROTECTED, null); // TODO pass an AST rather than null
+		templateContexts.push(new EglTemplateContext(this, template));
+	}
+	
+	private EglTemplateContext current() {
+		return templateContexts.peek();
+	}
+
+	public void exit() {
+		templateContexts.pop();
+		getFrameStack().leave(null); // TODO pass an AST rather than null
+	}
+
+	public OutputBuffer getOutputBuffer() {
+		return current().getOutputBuffer();
+	}
+	
+	public Template getBaseTemplate() {
+		return base;
+	}
 }

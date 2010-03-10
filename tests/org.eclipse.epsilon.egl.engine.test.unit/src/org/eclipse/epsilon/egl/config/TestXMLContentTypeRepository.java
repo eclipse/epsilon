@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
@@ -25,7 +26,7 @@ import org.junit.Test;
 
 public class TestXMLContentTypeRepository {
 
-	private final ContentTypeRepository repository = new XMLContentTypeRepository(new EglContext());
+	private final ContentTypeRepository repository = new XMLContentTypeRepository(new EglContext(new TemplateFactory()));
 	
 	private static String invalidPath;
 	private static String nonExistentPath;
@@ -76,7 +77,7 @@ public class TestXMLContentTypeRepository {
 	
 	@Test
 	public void testDefaultConfig() throws PersistenceException, FileNotFoundException {
-		final ContentTypeRepository repository = new XMLContentTypeRepository(new EglContext());		
+		final ContentTypeRepository repository = new XMLContentTypeRepository(new EglContext(new TemplateFactory()));		
 		
 		assertEquals(new CompositePartitioner(new CommentBlockPartitioner("//", null),
 		                                      new CommentBlockPartitioner("/*", "*/")),

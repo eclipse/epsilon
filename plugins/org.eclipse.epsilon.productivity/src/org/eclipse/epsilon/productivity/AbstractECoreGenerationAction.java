@@ -10,11 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.productivity;
 
-import java.io.FileOutputStream;
 import java.net.URI;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
@@ -28,18 +28,19 @@ public abstract class AbstractECoreGenerationAction extends AbstractECoreModelAc
 	protected void perform(IFile file, EmfModel model) throws Exception {
 		this.file = file;
 		this.model = model;
-		EglModule module = new EglModule();
-		module.parse(getTemplateUri());
-		module.getContext().getModelRepository().addModel(model);
-		name = file.getName().substring(0, file.getName().length() - 6);
-		module.getContext().getFrameStack().getGlobals().put(Variable.createReadOnlyVariable("eCoreName", name));
-		module.execute();
-		module.getContext().getModelRepository().dispose();
 		
-		FileOutputStream fos = new FileOutputStream(file.getParent().getLocation().toOSString() + "/" + getTargetFile());
-		fos.write(module.getContext().getOutputBuffer().toString().getBytes());
-		fos.flush();
-		fos.close();
+		final FileGeneratingTemplateFactory factory = new FileGeneratingTemplateFactory();
+		
+		factory.getContext().getModelRepository().addModel(model);
+		name = file.getName().substring(0, file.getName().length() - 6);
+		factory.getContext().getFrameStack().getGlobals().put(Variable.createReadOnlyVariable("eCoreName", name));
+		
+		// TODO cast is smelly
+		final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate)factory.load(getTemplateUri());
+		
+		template.generate(file.getParent().getLocation().toOSString() + "/" + getTargetFile());
+		
+		factory.getContext().getModelRepository().dispose();
 		
 		file.getParent().refreshLocal(1, null);
 

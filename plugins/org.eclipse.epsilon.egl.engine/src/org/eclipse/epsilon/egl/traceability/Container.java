@@ -42,6 +42,14 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	
 	@SuppressWarnings("unchecked")
 	public void add(E child) {
+		if (child.equals(this)) {
+			System.err.println("OH NOES");
+			try {
+				throw new IllegalArgumentException();
+			} catch(IllegalArgumentException ex) {
+				ex.printStackTrace();
+			}
+		}
 		// TODO : Fix unchecked assignment
 		child.setParent(this);
 		contents.add(child);
@@ -61,7 +69,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		if (!(o instanceof Container)) return false;
 		
 		final Container<?> that = (Container<?>)o;
-		
+				
 		return name.equals(that.name) &&
 		       uri == null ? that.uri == null : uri.equals(that.uri) &&
 		       contents.equals(that.contents);

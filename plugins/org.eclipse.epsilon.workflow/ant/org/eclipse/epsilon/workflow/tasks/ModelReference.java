@@ -57,6 +57,10 @@ public class ModelReference implements IModel{
 	public Collection<?> allContents() {
 		return target.allContents();
 	}
+	
+	public Collection<?> allContents(boolean expand) {
+		return target.allContents(expand);
+	}
 
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return target.createInstance(type);
@@ -144,6 +148,10 @@ public class ModelReference implements IModel{
 
 	public boolean owns(Object instance) {
 		return target.owns(instance);
+	}
+	
+	public boolean owns(Object instance, boolean expand) {
+		return target.owns(instance, expand);
 	}
 
 	public void setReadOnLoad(boolean readOnLoad) {

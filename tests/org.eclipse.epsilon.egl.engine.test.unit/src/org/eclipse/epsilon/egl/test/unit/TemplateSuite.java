@@ -13,13 +13,14 @@ package org.eclipse.epsilon.egl.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.egl.template.TestTemplateFactory;
+import org.eclipse.epsilon.egl.TestTemplateFactory;
+import org.eclipse.epsilon.egl.TestTemplateFactoryModuleAdapter;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestTemplateFactory.class})
+@SuiteClasses({TestTemplateFactory.class, TestTemplateFactoryModuleAdapter.class})
 public class TemplateSuite {
 
 	public static Test suite() {

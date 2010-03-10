@@ -16,15 +16,13 @@ import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.template.TemplateFactory;
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEglContext extends IEolContext {
-
-	public void clearOutputBuffer();
-	
-	public OutputBuffer getOutputBuffer();
+		
+	public List<String> getPartitioningProblems();	
 	
 	public TemplateFactory getTemplateFactory();
 	
@@ -43,8 +41,12 @@ public interface IEglContext extends IEolContext {
 	public void addStatusMessage(StatusMessage message);
 	
 	public List<StatusMessage> getStatusMessages();
+
+	public void enter(Template template);
+
+	public void exit();
+
+	public OutputBuffer getOutputBuffer();
 	
-	public Template getTemplate();
-	
-	public void setTemplate(Template template);
+	public Template getBaseTemplate();
 }

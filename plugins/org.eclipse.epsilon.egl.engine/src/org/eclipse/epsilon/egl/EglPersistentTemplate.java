@@ -8,9 +8,10 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.types;
+package org.eclipse.epsilon.egl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -27,18 +28,26 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	protected final URI outputRoot;
 	protected final String outputRootPath;
 
-	public EglPersistentTemplate(String name, URI path, IEglContext callersContext, URI outputRoot, String outputRootPath) throws EglRuntimeException {
-		super(name, path, callersContext);
+	public EglPersistentTemplate(String name, URI path, IEglContext context, URI outputRoot, String outputRootPath) throws IOException {
+		super(name, path, context);
 		
 		this.outputRoot     = outputRoot;
 		this.outputRootPath = outputRootPath;
 	}
+	
+	public EglPersistentTemplate(String code, IEglContext context, URI outputRoot, String outputRootPath) {
+		super(code, context);
+		
+		this.outputRoot     = outputRoot;
+		this.outputRootPath = outputRootPath;
+	}
+	
 
 	protected File resolveFile(String path) throws EglRuntimeException {
 		try {
 			final String encodedPath = UriUtil.encode(path, false);
 			final URI resolved = UriUtil.resolve(encodedPath, outputRoot);
-
+			
 			if ("file".equals(resolved.getScheme()))
 				return new File(resolved);
 
@@ -47,8 +56,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 			}
 
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + path, e,
-					callersContext.getModule().getAst());
+			throw new EglRuntimeException("Could not resolve path: " + path, e, module.getAst());
 		}
 	}
 
@@ -155,6 +163,6 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 
 	
 	protected void addMessage(String message) {
-		callersContext.addStatusMessage(new StatusMessage(message));
+		module.getContext().addStatusMessage(new StatusMessage(message));
 	}
 }

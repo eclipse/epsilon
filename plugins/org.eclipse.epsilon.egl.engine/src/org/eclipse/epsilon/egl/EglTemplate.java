@@ -8,74 +8,69 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.types;
+package org.eclipse.epsilon.egl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
-import org.eclipse.epsilon.egl.IEglModule;
-import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EglTemplate {
+public class EglTemplate extends AbstractEglTemplate {
 
-	protected final IEglModule module;
 	protected final String name;
+	protected final Template template;
 	
 	private String contents = "";
 	private boolean processed = false;
 	
-	protected final IEglContext callersContext;
-	
 	// For tests
-	protected EglTemplate(URI path, IEglContext callersContext) throws EglRuntimeException {
-		this(path.toString(), path, callersContext);
+	protected EglTemplate(URI path, IEglContext context) throws IOException {
+		this(path.toString(), path, context);
 	}
 	
-	public EglTemplate(String name, URI template, IEglContext callersContext) throws EglRuntimeException {
-		this.name = name;
-		this.callersContext = callersContext;
-		this.module = new EglModule(callersContext);
+	public EglTemplate(String name, URI resource, IEglContext context) throws IOException {
+		this(name, context, new Template(name, resource));
 		
-		try {	
-			module.parse(template);
-		} catch (IOException ex) {
-			String message = "Could not process";
-			
-			if (ex instanceof FileNotFoundException)
-				message = "Template not found";
-			
-			throw new EglRuntimeException(message + " '" + name + "'", ex, callersContext.getModule().getAst());
+		try {
+			module.parse(resource);
+		} catch (Exception e) {
+			if (e instanceof IOException)
+				throw (IOException)e;
+			else // TODO Auto-generated catch block
+				e.printStackTrace();
 		}
-		
-		module.getContext().setTemplate(new Template(name, template));
 	}
+
+	public EglTemplate(String code, IEglContext context) {
+		this("Anonymous", context, new Template());
+		
+		module.parse(code);
+	}
+	
+	private EglTemplate(String name, IEglContext context, Template template) {
+		super(new EglModule(context));
+		
+		this.name     = name;
+		this.template = template;
+	}
+	
 
 	public void populate(String name, Object value) {
-		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(name, value));
-		module.getContext().getTemplate().addVariable(name, value);
+		template.addVariable(name, value);
 	}
 	
-	public String process() throws EglRuntimeException {	
-		try {
-			contents = module.execute();
+	public String process() throws EglRuntimeException {			
+		contents = module.execute(template);
+		
+		processed = true;
 
-			callersContext.getTemplate().add(module.getContext().getTemplate());			
-			
-			processed = true;
-
-			return contents;
-			
-		} catch (EglRuntimeException ex) {
-			throw new EglRuntimeException("Could not process '" + name + "'", ex, callersContext.getModule().getAst());
-		}
+		return contents;
 	}
 	
 	public String merge(String existing) throws EglRuntimeException {
@@ -95,7 +90,7 @@ public class EglTemplate {
 	}
 	
 	protected void addProtectedRegionWarning(ProtectedRegionWarning warning) {
-		callersContext.addStatusMessage(warning);
+		module.getContext().addStatusMessage(warning);
 	}
 	
 	protected String getContents() {
@@ -105,4 +100,6 @@ public class EglTemplate {
 	protected boolean isProcessed() {
 		return processed;
 	}
+
+	// TODO merge traceability template class into here?
 }

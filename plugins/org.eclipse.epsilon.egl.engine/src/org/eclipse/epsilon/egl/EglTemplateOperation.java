@@ -15,7 +15,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -36,7 +35,6 @@ public class EglTemplateOperation extends EolOperation{
 		context.getFrameStack().put(Variable.createReadOnlyVariable("out", out));
 		super.executeBody(context);
 		return new Return(out.toString());
-		//throw new EolReturnException(this.getBody(), out.toString());
 	}
 	
 }

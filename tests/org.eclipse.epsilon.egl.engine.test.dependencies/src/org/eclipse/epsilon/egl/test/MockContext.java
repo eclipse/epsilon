@@ -10,20 +10,29 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test;
 
-import org.eclipse.epsilon.egl.IEglModule;
-import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.internal.EglModule;
+import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.commons.parse.AST;
 
 public class MockContext extends EglContext implements IEglContext {
 	
+	public MockContext() {
+		super(new TemplateFactory());
+	}
+
 	@Override
 	public EglModule getModule() {
-		return new MockModule();
+		return new MockModule(this);
 	}
 	
 	private static class MockModule extends EglModule implements IEglModule {
+
+		public MockModule(IEglContext context) {
+			super(context);
+		}
 
 		@Override
 		public AST getAst() {

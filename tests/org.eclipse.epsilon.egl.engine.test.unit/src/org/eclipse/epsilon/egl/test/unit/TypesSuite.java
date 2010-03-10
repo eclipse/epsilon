@@ -13,8 +13,8 @@ package org.eclipse.epsilon.egl.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.egl.types.TestEglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.types.TestEglTemplate;
+import org.eclipse.epsilon.egl.TestEglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.TestEglTemplate;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

@@ -11,9 +11,7 @@ Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.output,
  org.eclipse.epsilon.egl.parse,
  org.eclipse.epsilon.egl.preprocessor,
- org.eclipse.epsilon.egl.template,
  org.eclipse.epsilon.egl.test.unit,
- org.eclipse.epsilon.egl.types,
  org.eclipse.epsilon.egl.util
 Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies
 Bundle-Vendor: Eclipse.org

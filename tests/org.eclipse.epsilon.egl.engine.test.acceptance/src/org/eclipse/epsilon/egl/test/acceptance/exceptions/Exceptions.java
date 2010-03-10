@@ -140,15 +140,9 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 			
 		} catch (EglRuntimeException e) {
-			assertEquals("Could not process '" + StopPreserve.getName() + "'", e.getReason());
+			assertEquals("There is no current region to stop preserving.", e.getReason());
 			assertEquals(3, e.getLine());
 			assertEquals(6, e.getColumn());
-			
-			final EglRuntimeException cause = (EglRuntimeException)e.getCause();
-			
-			assertEquals("There is no current region to stop preserving.", cause.getReason());
-			assertEquals(1, cause.getLine());
-			assertEquals(7, cause.getColumn());
 		}
 	}
 	
@@ -159,20 +153,9 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 			
 		} catch (EglRuntimeException e) {
-			assertEquals("Could not process '" + Process.getName() + "'", e.getReason());
+			assertEquals("There is no current region to stop preserving.", e.getReason());
 			assertEquals(3, e.getLine());
 			assertEquals(6, e.getColumn());
-			
-			final EglRuntimeException cause = (EglRuntimeException)e.getCause();
-			assertEquals("Could not process '" + StopPreserve.getName() + "'", cause.getReason());
-			assertEquals(3, cause.getLine());
-			assertEquals(6, cause.getColumn());
-			
-			final EglRuntimeException causeOfCause = (EglRuntimeException)cause.getCause();
-			
-			assertEquals("There is no current region to stop preserving.", causeOfCause.getReason());
-			assertEquals(1, causeOfCause.getLine());
-			assertEquals(7, causeOfCause.getColumn());
 		}
 	}
 }

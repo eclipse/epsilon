@@ -29,6 +29,7 @@ public class Merge {
 	private static File StoreProgram;
 	private static File GenerateProgram;
 	private static File GenerateAbsentProgram;
+	private static File GenerateAbsentNestedProgram;
 	private static File OverwriteProgram;
 	private static File DuplicatePRProgram;
 	
@@ -46,11 +47,12 @@ public class Merge {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {
-		StoreProgram           = FileUtil.getFile("Store.egl", Merge.class);
-		GenerateProgram        = FileUtil.getFile("Generate.egl", Merge.class);
-		GenerateAbsentProgram  = FileUtil.getFile("GenerateAbsent.egl", Merge.class);
-		OverwriteProgram       = FileUtil.getFile("Overwrite.egl", Merge.class);
-		DuplicatePRProgram     = FileUtil.getFile("DuplicateProtectedRegion.egl", Merge.class);
+		StoreProgram                = FileUtil.getFile("Store.egl", Merge.class);
+		GenerateProgram             = FileUtil.getFile("Generate.egl", Merge.class);
+		GenerateAbsentProgram       = FileUtil.getFile("GenerateAbsent.egl", Merge.class);
+		GenerateAbsentNestedProgram = FileUtil.getFile("GenerateAbsentNested.egl", Merge.class);
+		OverwriteProgram            = FileUtil.getFile("Overwrite.egl", Merge.class);
+		DuplicatePRProgram          = FileUtil.getFile("DuplicateProtectedRegion.egl", Merge.class);
 		
 		PetOverwrite           = FileUtil.getFile("Pet_overwrite.txt", Merge.class);
 		PetGenerate            = FileUtil.getFile("Pet_generate.txt", Merge.class);
@@ -96,6 +98,32 @@ public class Merge {
 	@Test
 	public void mergeAbsent() throws IOException, EglRuntimeException, EolModelLoadingException {
 		AcceptanceTestUtil.run(GenerateAbsentProgram, Model.OOInstance);
+		assertEquals(ExpectedGenerateAbsent, PetGenerateAbsent);
+		
+		boolean javadocWarningFound = false;
+		boolean talkWarningFound    = false;
+		boolean sleepWarningFound   = false;
+		
+		for (StatusMessage message : AcceptanceTestUtil.getStatusMessages()) {
+			if (message instanceof ProtectedRegionWarning) {
+				final ProtectedRegionWarning prWarning = (ProtectedRegionWarning)message;
+				
+				if (prWarning.getId().equals("javadoc")) javadocWarningFound = true;
+				if (prWarning.getId().equals("talk"))    talkWarningFound = true;
+				if (prWarning.getId().equals("sleep"))   sleepWarningFound = true;
+			}
+		}
+		
+		assertTrue("Expected warning for protected region 'javadoc'", javadocWarningFound);
+		assertTrue("Expected warning for protected region 'talk'",    talkWarningFound);
+		assertTrue("Expected warning for protected region 'sleep'",   sleepWarningFound);
+	}
+	
+	@Test
+	public void mergeAbsentNested() throws IOException, EglRuntimeException, EolModelLoadingException {
+		org.eclipse.epsilon.egl.util.FileUtil.write(PetGenerateAbsent, org.eclipse.epsilon.egl.util.FileUtil.read(ExistingGenerate));
+		
+		AcceptanceTestUtil.run(GenerateAbsentNestedProgram, Model.OOInstance);
 		assertEquals(ExpectedGenerateAbsent, PetGenerateAbsent);
 		
 		boolean javadocWarningFound = false;

@@ -8,11 +8,12 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.types;
+package org.eclipse.epsilon.egl;
 
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
@@ -91,8 +92,8 @@ public class TestEglTemplate {
 		assertEquals(expected, template.process());
 	}
 	
-	@Test (expected = EglRuntimeException.class)
-	public void testAbsent() throws EglRuntimeException, URISyntaxException {
+	@Test (expected = IOException.class)
+	public void testAbsent() throws EglRuntimeException, URISyntaxException, IOException {
 		template = new EglTemplate(UriUtil.fileToUri(ABSENT), new MockContext());
 		
 		template.process();
@@ -132,7 +133,7 @@ public class TestEglTemplate {
                                 "// protected region test end"                      + NEWLINE +
                                 "This text will appear after the protected region";
 		
-		final IEglContext context = new EglContext();
+		final IEglContext context = new EglContext(new TemplateFactory());
 		context.getPartitioner().addPartitioner(new CommentBlockPartitioner("//", null));
 		
 		template = new EglTemplate(UriUtil.fileToUri(MERGE), context);

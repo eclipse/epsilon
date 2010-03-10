@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.template;
+package org.eclipse.epsilon.egl;
 
 import static org.junit.Assert.*;
 

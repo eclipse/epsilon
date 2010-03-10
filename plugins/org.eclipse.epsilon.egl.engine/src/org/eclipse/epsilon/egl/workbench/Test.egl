@@ -1,3 +1,0 @@
-[% for (i in Sequence{1..10}) { %]
-i is [%=i%]
-[% } %]

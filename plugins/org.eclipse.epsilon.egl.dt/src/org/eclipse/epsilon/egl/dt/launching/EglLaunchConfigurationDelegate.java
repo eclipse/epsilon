@@ -16,7 +16,6 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.OUTPUT_FILE_PATH;
 import static org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes.SOURCE;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -27,9 +26,10 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.egl.EglModule;
-import org.eclipse.epsilon.egl.IEglModule;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
@@ -44,31 +44,32 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 
 		EpsilonConsole.getInstance().clear();
 		
-		final IEglModule module = new EglModule();
+		final FileGeneratingTemplateFactory factory = new FileGeneratingTemplateFactory();
 
-		boolean parsed = false;
 		String subTask = "";
 		
 		final String workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
 		final String fileName          = workspaceLocation + configuration.getAttribute(SOURCE, "");
-		final File   file              = new File(fileName);
 		
 		// Parse
 		subTask = "Parsing " + fileName;
 		progressMonitor.subTask(subTask);
 		progressMonitor.beginTask(subTask, 100);
 		
+		final EglFileGeneratingTemplate template;
+		
 		try {
-			parsed = module.parse(file);
-		} catch (IOException e) {
+			// FIXME cast is smelly
+			template = (EglFileGeneratingTemplate) factory.load(fileName);
+		} catch (EglRuntimeException e) {
 			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
 			return;
 		}
 		
 		progressMonitor.done();
 		
-		if (!parsed){
-			for (ParseProblem problem : module.getParseProblems()){
+		if (!template.getParseProblems().isEmpty()){
+			for (ParseProblem problem : template.getParseProblems()){
 				EpsilonConsole.getInstance().getErrorStream().println(problem);
 			}
 			return;
@@ -80,23 +81,24 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			subTask = "Generating...";
 			progressMonitor.subTask(subTask);
 			progressMonitor.beginTask(subTask, 100);
-			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
+			EclipseContextManager.setup(factory.getContext(),configuration, progressMonitor, launch);
 			
 			final Display display = PlatformUI.getWorkbench().getDisplay();
 			display.syncExec(new Runnable() {
 
 				public void run() {
-					module.getContext().setOutputStream(EpsilonConsole.getInstance().newPrintStream(display.getSystemColor(SWT.COLOR_DARK_MAGENTA)));	
+					factory.getContext().setOutputStream(EpsilonConsole.getInstance().newPrintStream(display.getSystemColor(SWT.COLOR_DARK_MAGENTA)));	
 				}
 				
 			});
 			
-			final String output = module.execute();
+			final String output = template.process();
 			
 			if (output!=null && output.length() > 0) {
 				if (configuration.getAttribute(GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 					EpsilonConsole.getInstance().getDebugStream().println(output);
 				} else {
+					// FIXME use the template to write to file?
 					final String outputFilePath = configuration.getAttribute(OUTPUT_FILE_PATH, "");
 					
 					if (outputFilePath.length() > 0) {
@@ -108,18 +110,18 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 							EpsilonConsole.getInstance().getInfoStream().println("Output " + verb + " to " + outputFilePath);
 							
 						} catch (IOException e) {
-							module.getContext().getErrorStream().println("Could not write to " + outputFilePath + ":");
-							module.getContext().getErrorStream().print('\t');
-							module.getContext().getErrorStream().println(e);
+							factory.getContext().getErrorStream().println("Could not write to " + outputFilePath + ":");
+							factory.getContext().getErrorStream().print('\t');
+							factory.getContext().getErrorStream().println(e);
 						}
 					}
 				}
 			}
 			
-			for (StatusMessage message : module.getContext().getStatusMessages())
+			for (StatusMessage message : factory.getContext().getStatusMessages())
 				EpsilonConsole.getInstance().getInfoStream().println(message);
 			
-			CurrentTemplate.getInstance().setTemplate(module.getContext().getTemplate());
+			CurrentTemplate.getInstance().setTemplate(factory.getContext().getBaseTemplate());
 			
 			// Refresh the workspace
 			//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, progressMonitor);
@@ -127,12 +129,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			progressMonitor.done();
 			
 		} catch (EolRuntimeException e) {
-			module.getContext().getErrorStream().println(e.toString());
+			factory.getContext().getErrorStream().println(e.toString());
 			progressMonitor.setCanceled(true);
 			
 		} finally {
 			//module.getContext().getModelRepository().dispose();
-			EclipseContextManager.teardown(module.getContext());
+			EclipseContextManager.teardown(factory.getContext());
 		}
 		
 	}

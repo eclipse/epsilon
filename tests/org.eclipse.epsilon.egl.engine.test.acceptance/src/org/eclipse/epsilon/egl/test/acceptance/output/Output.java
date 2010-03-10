@@ -35,9 +35,15 @@ public class Output {
 	
 	@Test
 	public void testProcess() throws IOException, EglRuntimeException, EolModelLoadingException {
-		final String expected = "Hello world from SubTemplate1!" + NEWLINE +
+		final String expected = "Preprocess"                     + NEWLINE +
+		                        "Hello world from SubTemplate1!" + NEWLINE +
+		                        "Postprocess"                    + NEWLINE +
+		                        "Preprocess"                     + NEWLINE +
 		                        "Hello world from SubTemplate2!" + NEWLINE +
-		                        "Hello world from SubTemplate3!" + NEWLINE;
+		                        "Postprocess"                    + NEWLINE +
+		                        "Preprocess"                     + NEWLINE +
+		                        "Hello world from SubTemplate3!" + NEWLINE +
+		                        "Postprocess"                    + NEWLINE;
 		
 		AcceptanceTestUtil.test(process, expected);
 	}

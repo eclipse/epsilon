@@ -11,11 +11,10 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.commons.util.UriUtil;
-import org.eclipse.epsilon.egl.EglModule;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.FileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.TemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 
 public class EglTask extends ExecutableModuleTask {
@@ -24,17 +23,14 @@ public class EglTask extends ExecutableModuleTask {
 	
 	@Override
 	protected IEolExecutableModule createModule() {
-		return new EglModule();
+		return new TemplateFactoryModuleAdapter(new FileGeneratingTemplateFactory());
 	}
 
 	@Override
 	protected void examine() throws Exception {
 		if (target!=null) {
-			FileOutputStream fos = new FileOutputStream(target);
-			String output = (((EglModule) module).getContext()).getOutputBuffer().toString();
-			fos.write(output.getBytes());
-			fos.flush();
-			fos.close();
+			final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate)result;
+			template.generate(target.getAbsolutePath());
 		}
 	}
 

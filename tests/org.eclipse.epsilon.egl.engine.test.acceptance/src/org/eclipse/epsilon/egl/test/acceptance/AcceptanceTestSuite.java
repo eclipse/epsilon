@@ -15,6 +15,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
+import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
 import org.eclipse.epsilon.egl.test.acceptance.merge.Merge;
 import org.eclipse.epsilon.egl.test.acceptance.output.Output;
 import org.eclipse.epsilon.egl.test.acceptance.output.newlines.OutputNewlines;
@@ -30,7 +31,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Merge.class,
                Traceability.class,
                Exceptions.class,
-               Stop.class})
+               Stop.class,
+               Extensibility.class})
 public class AcceptanceTestSuite {
 
 	public static Test suite() {

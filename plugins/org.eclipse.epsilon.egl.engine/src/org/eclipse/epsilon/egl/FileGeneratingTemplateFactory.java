@@ -8,24 +8,25 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.template;
+package org.eclipse.epsilon.egl;
 
+import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.types.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.types.EglTemplate;
 
 public class FileGeneratingTemplateFactory extends TemplateFactory {
 	
-	private URI   outputRoot;
-	private String outputRootPath;
+	protected URI   outputRoot;
+	protected String outputRootPath;
+	
+	public FileGeneratingTemplateFactory() {}
 	
 	public FileGeneratingTemplateFactory(IEglContext context) {
 		super(context);
 	}
-	
+
 	public String getOutputRoot() {
 		return outputRootPath;
 	}
@@ -34,24 +35,17 @@ public class FileGeneratingTemplateFactory extends TemplateFactory {
 		outputRootPath = path;
 		outputRoot     = resolveRoot(path);
 	}
-	
+
 	@Override
-	public void imitate(TemplateFactory other) {
-		super.imitate(other);
-		
-		if (other instanceof FileGeneratingTemplateFactory) {
-			final FileGeneratingTemplateFactory fgtf = (FileGeneratingTemplateFactory)other;
-			outputRootPath = fgtf.outputRootPath;
-			outputRoot     = fgtf.outputRoot;
-		}
+	protected EglTemplate createTemplate(String name, URI resource) throws IOException {
+		return new EglFileGeneratingTemplate(name, resource, context, getOutputRootOrRoot(), outputRootPath);
 	}
 	
-	@Override
-	public EglTemplate load(String path) throws EglRuntimeException {
-		return new EglFileGeneratingTemplate(name(path),
-		                                     resolveTemplate(path),
-		                                     context,
-		                                     outputRoot != null ? outputRoot : root,
-		                                     outputRootPath);
+	protected EglTemplate createTemplate(String code) {
+		return new EglFileGeneratingTemplate(code, context, getOutputRootOrRoot(), outputRootPath);
+	}
+	
+	protected URI getOutputRootOrRoot() {
+		return outputRoot != null ? outputRoot : root;
 	}
 }

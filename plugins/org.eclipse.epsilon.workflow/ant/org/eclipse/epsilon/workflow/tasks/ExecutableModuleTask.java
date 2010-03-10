@@ -52,6 +52,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected IEolExecutableModule module;
 	protected boolean assertions = true;
 	protected String uri;
+	protected Object result;
 
 	static {
 		for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
@@ -112,7 +113,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			accessParameters();
 			useVariables();
 			initialize();
-			module.execute();
+			result = module.execute();
 			exportVariables();
 			examine();
 			if (src!=null && profile) Profiler.INSTANCE.stop(src.getName());

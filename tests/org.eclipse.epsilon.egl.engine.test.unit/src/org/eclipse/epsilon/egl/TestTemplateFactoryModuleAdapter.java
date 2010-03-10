@@ -16,14 +16,14 @@ import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestEglModuleImpl {
+public class TestTemplateFactoryModuleAdapter {
 
 	private static File VALID_PATH;
 	private static File INVALID_PATH;
@@ -33,25 +33,14 @@ public class TestEglModuleImpl {
 	private final static String invalid        = "[%  fr (i in Sequence{1..10}) { %]i is [%=i+2%]" + NEWLINE + "[% } %]";
 	private final static String invalidRuntime = "[% for (i in Sequence{1..10}) { %]i is [%=j+2%]" + NEWLINE + "[% } %]";
 	
-	private final IEglModule module = new EglModule();
-	
-	private final String output = "i is 3"  + NEWLINE +
-	                              "i is 4"  + NEWLINE +
-	                              "i is 5"  + NEWLINE +
-	                              "i is 6"  + NEWLINE +
-	                              "i is 7"  + NEWLINE +
-	                              "i is 8"  + NEWLINE +
-	                              "i is 9"  + NEWLINE +
-	                              "i is 10" + NEWLINE +
-	                              "i is 11" + NEWLINE +
-	                              "i is 12" + NEWLINE;
+	private final IEolExecutableModule module = new TemplateFactoryModuleAdapter(new TemplateFactory());
 	
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {	
-		VALID_PATH           = FileUtil.getFile("Valid.txt",          TestEglModuleImpl.class);
-		INVALID_PATH         = FileUtil.getFile("Invalid.txt",        TestEglModuleImpl.class);
-		INVALID_RUNTIME_PATH = FileUtil.getFile("InvalidRuntime.txt", TestEglModuleImpl.class);
+		VALID_PATH           = FileUtil.getFile("Valid.txt",          TestTemplateFactoryModuleAdapter.class);
+		INVALID_PATH         = FileUtil.getFile("Invalid.txt",        TestTemplateFactoryModuleAdapter.class);
+		INVALID_RUNTIME_PATH = FileUtil.getFile("InvalidRuntime.txt", TestTemplateFactoryModuleAdapter.class);
 		
 		org.eclipse.epsilon.egl.util.FileUtil.write(VALID_PATH,           valid);
 		org.eclipse.epsilon.egl.util.FileUtil.write(INVALID_PATH,         invalid);
@@ -72,51 +61,32 @@ public class TestEglModuleImpl {
 	}
 	
 	@Test
-	public void parseValidText() {
+	public void parseValidText() throws Exception {
 		assertTrue(module.parse(valid));
 	}
 	
 	@Test
-	public void parseInvalidText() {
+	public void parseInvalidText() throws Exception {
 		assertFalse(module.parse(invalid));
 	}
 	
 	@Test
-	public void parseInvalidRuntimeText() {
+	public void parseInvalidRuntimeText() throws Exception {
 		assertTrue(module.parse(invalidRuntime));
 	}
 	
 	@Test
-	public void parseValidFile() throws IOException {
+	public void parseValidFile() throws Exception {
 		assertTrue(module.parse(VALID_PATH));
 	}
 	
 	@Test
-	public void parseInvalidFile() throws IOException {
+	public void parseInvalidFile() throws Exception {
 		assertFalse(module.parse(INVALID_PATH));
 	}
 	
 	@Test
-	public void parseInvalidRuntimeFile() throws IOException {
+	public void parseInvalidRuntimeFile() throws Exception {
 		assertTrue(module.parse(INVALID_RUNTIME_PATH));
-	}
-	
-	@Test
-	public void execute() throws EglRuntimeException {
-		module.parse(valid);
-		
-		final String processed = module.execute();
-		
-		assertEquals(output, processed);
-	}
-	
-	@Test
-	public void executeTwice() throws EglRuntimeException {
-		module.parse(valid);
-		
-		module.execute();
-		final String processed = module.execute();
-		
-		assertEquals(output, processed);
 	}
 }

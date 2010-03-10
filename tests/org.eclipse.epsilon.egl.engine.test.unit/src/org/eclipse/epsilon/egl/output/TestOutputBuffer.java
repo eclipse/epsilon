@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.output;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.epsilon.egl.TemplateFactory;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -161,7 +162,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testSetContentType() throws EglRuntimeException {
-		final CompositePartitioner    expectedPartitioners = new XMLContentTypeRepository(new EglContext()).partitionerFor("Java");
+		final CompositePartitioner    expectedPartitioners = getJavaPartitioner();
 		final CommentBlockPartitioner partitioner          = expectedPartitioners.getDefaultPartitioner();
 		
 		final String contents = "This text will be preserved";
@@ -177,7 +178,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testSetContentTypeTwice() throws EglRuntimeException {
-		final CompositePartitioner    expectedPartitioners = new XMLContentTypeRepository(new EglContext()).partitionerFor("Java");
+		final CompositePartitioner    expectedPartitioners = getJavaPartitioner();
 		final CommentBlockPartitioner partitioner          = expectedPartitioners.getDefaultPartitioner();
 		
 		final String contents = "This text will be preserved";
@@ -197,7 +198,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testSetContentAndPreserveCustom() throws EglRuntimeException {
-		final CompositePartitioner    expectedPartitioners = new XMLContentTypeRepository(new EglContext()).partitionerFor("Java");
+		final CompositePartitioner    expectedPartitioners = getJavaPartitioner();
 		final CommentBlockPartitioner javaPartitioner      = expectedPartitioners.getDefaultPartitioner();
 		
 		expectedPartitioners.addPartitioner(partitioner);
@@ -217,7 +218,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testPreserveCustomAndSetContent() throws EglRuntimeException {
-		final CompositePartitioner    expectedPartitioners = new XMLContentTypeRepository(new EglContext()).partitionerFor("Java");
+		final CompositePartitioner    expectedPartitioners = getJavaPartitioner();
 		final CommentBlockPartitioner javaPartitioner      = expectedPartitioners.getDefaultPartitioner();
 		
 		expectedPartitioners.addPartitioner(partitioner);
@@ -234,6 +235,10 @@ public class TestOutputBuffer {
 		
 		assertEquals(expected, buffer.toString());
 		assertEquals(expectedPartitioners, context.getPartitioner());
+	}
+
+	private static CompositePartitioner getJavaPartitioner() {
+		return new XMLContentTypeRepository(new EglContext(new TemplateFactory())).partitionerFor("Java");
 	}
 	
 	@Test (expected=EglRuntimeException.class)

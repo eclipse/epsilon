@@ -13,14 +13,12 @@ package org.eclipse.epsilon.egl.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.egl.TestEglModuleImpl;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestEglModuleImpl.class,
-               OutputSuite.class,
+@SuiteClasses({OutputSuite.class,
                ParseSuite.class,
                PreprocessorSuite.class,
                TemplateSuite.class,

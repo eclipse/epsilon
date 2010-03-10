@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.types;
+package org.eclipse.epsilon.egl;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,12 +30,16 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private OutputFile currentOutputFile;
 
 	// For tests
-	protected EglFileGeneratingTemplate(URI path, IEglContext callersContext, URI outputRoot) throws EglRuntimeException {
-		this(path.toString(), path, callersContext, outputRoot, outputRoot.getPath());
+	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws IOException {
+		this(path.toString(), path, context, outputRoot, outputRoot.getPath());
 	}
 
-	public EglFileGeneratingTemplate(String name, URI path, IEglContext callersContext, URI outputRoot, String outputRootPath) throws EglRuntimeException {
-		super(name, path, callersContext, outputRoot, outputRootPath);
+	public EglFileGeneratingTemplate(String name, URI path, IEglContext context, URI outputRoot, String outputRootPath) throws IOException {
+		super(name, path, context, outputRoot, outputRootPath);
+	}
+	
+	public EglFileGeneratingTemplate(String code, IEglContext context, URI outputRoot, String outputRootPath) {
+		super(code, context, outputRoot, outputRootPath);
 	}
 
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
@@ -55,7 +59,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 				write(target, targetName, getContents(), "Successfully wrote to " + targetName);
 			}
 		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not generate to " + targetName, ex, callersContext.getModule().getAst());
+			throw new EglRuntimeException("Could not generate to " + targetName, ex, module.getAst());
 		}
 
 	}
@@ -66,15 +70,13 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 
 			addMessage(message);
 
-			currentOutputFile = module.getContext().getTemplate().addOutputFile(targetName, UriUtil.fileToUri(target));
+			currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
 
 		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not write to " + target, ex,
-					callersContext.getModule().getAst());
+			throw new EglRuntimeException("Could not write to " + target, ex, module.getAst());
 
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + target, e,
-					callersContext.getModule().getAst());
+			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
 		}
 	}
 

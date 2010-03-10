@@ -21,10 +21,7 @@ public class EglTypeExecutor extends TypeExecutor {
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		
-		String typeName = ast.getText();
-		
-		if (typeName.equals("Template")){
+		if (ast.getText().equals("Template")){
 			return EglComplexType.Template;
 		
 		} else {
