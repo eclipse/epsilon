@@ -29,6 +29,7 @@ import org.eclipse.epsilon.flock.FlockContext;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
@@ -106,12 +107,17 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	private void loadModels() throws EolRuntimeException, CoreException {
 		startingTask("Loading models");
 		
-		context = new FlockContext();
+		try {
+			context = new FlockContext();
+			
+			EclipseContextManager.setup(context, launchConfig, monitor, launch);
+			
+			context.setOriginalModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
+			context.setMigratedModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
 		
-		EclipseContextManager.setup(context, launchConfig, monitor, launch);
-		
-		context.setOriginalModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
-		context.setMigratedModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
+		} catch (FlockUnsupportedModelException e) {
+			printErrorMessage(e.getLocalizedMessage());
+		}
 		
 		finishedCurrentTask();
 	}
