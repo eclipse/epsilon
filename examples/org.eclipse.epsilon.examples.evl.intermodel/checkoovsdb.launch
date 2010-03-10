@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.evl.eclipse.dt.launching.EvlLaunchConfigurationDelegate">
+<listAttribute key="models">
+<listEntry value="#&#13;&#10;#Wed Mar 10 09:50:58 GMT 2010&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=OO&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=true&#13;&#10;aliases=&#13;&#10;metamodelUri=OO&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.evl.intermodel/oo.model&#13;&#10;expand=true&#13;&#10;metamodelFile=&#13;&#10;"/>
+<listEntry value="#&#13;&#10;#Wed Mar 10 09:51:10 GMT 2010&#13;&#10;isMetamodelFileBased=false&#13;&#10;name=DB&#13;&#10;readOnLoad=true&#13;&#10;storeOnDisposal=true&#13;&#10;aliases=&#13;&#10;metamodelUri=DB&#13;&#10;type=EMF&#13;&#10;modelFile=/org.eclipse.epsilon.examples.evl.intermodel/db.model&#13;&#10;expand=true&#13;&#10;metamodelFile=&#13;&#10;"/>
+</listAttribute>
+<stringAttribute key="source" value="\org.eclipse.epsilon.examples.evl.intermodel\checkoovsdb.evl"/>
+</launchConfiguration>
