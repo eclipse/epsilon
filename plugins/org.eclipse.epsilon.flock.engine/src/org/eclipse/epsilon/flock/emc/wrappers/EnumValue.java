@@ -25,12 +25,14 @@ class EnumValue extends BackedModelValue<Enumerator> {
 	}
 
 	@Override
-	public EnumValue getEquivalentIn(Model model, IFlockContext context) throws ConservativeCopyException {
+	public ModelValue<?> getEquivalentIn(Model model, IFlockContext context) throws ConservativeCopyException {
 		try {
 			return new EnumValue(model, model.getEquivalent(underlyingModelObject));
 			
 		} catch (EolEnumerationValueNotFoundException e) {
-			throw new ConservativeCopyException("Could not find in migrated metamodel an enumeration value equivalent to: " + underlyingModelObject, e);
+			context.addWarning("Could not find in migrated metamodel an enumeration value equivalent to: " + underlyingModelObject);
+		
+			return model.wrap(null);
 		}
 	}
 }
