@@ -16,17 +16,18 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.ReflectionUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
+import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
 import org.eclipse.epsilon.eol.models.Model;
 
-public class JavaModel extends Model {
+public class JavaModel extends Model implements IModelWithReflexiveAccess {
 	
 
 	protected Collection<Object> objects;
@@ -199,6 +200,11 @@ public class JavaModel extends Model {
 		}
 		
 		return properties;
+	}
+	
+	@Override
+	public IPropertySetterWithReflexiveAccess getPropertySetter() {
+		return new JavaPropertySetter();
 	}
 	
 	public boolean isModelElement(Object instance) {

@@ -16,10 +16,11 @@ package org.eclipse.epsilon.flock;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
 public interface IFlockModule extends IEolLibraryModule {
 	
 	public FlockResult execute(IFlockContext context) throws FlockRuntimeException;
 	
-	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException;
+	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException;
 }

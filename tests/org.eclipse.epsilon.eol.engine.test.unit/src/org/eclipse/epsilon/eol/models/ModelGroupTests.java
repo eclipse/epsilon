@@ -26,8 +26,6 @@ import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -100,30 +98,5 @@ public class ModelGroupTests {
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		group.getTypeNameOf("foo");
-	}
-	
-	
-	@Test
-	public void propertiesOfDelegatesToGroupedModels() throws EolRuntimeException {				
-		expect(first.hasType("DummyType")) .andReturn(false);		
-		expect(second.hasType("DummyType")).andReturn(true);		
-		
-		expect(second.getPropertiesOf("DummyType")).andReturn(Arrays.asList("name", "eClassifiers"));
-		
-		replay(first, second);
-		
-		final ModelGroup group = new ModelGroup(repository, "Ecore");
-		assertEquals(Arrays.asList("name", "eClassifiers"), group.getPropertiesOf("DummyType"));
-		verify(first, second);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void exceptionWhenNoGroupedModelKnowsPropertiesOfInstance() throws EolRuntimeException {				
-		expect(first.hasType("DummyType")) .andReturn(false);		
-		expect(second.hasType("DummyType")).andReturn(false);		
-				
-		replay(first, second);
-		
-		new ModelGroup(repository, "Ecore").getPropertiesOf("DummyType");
 	}
 }

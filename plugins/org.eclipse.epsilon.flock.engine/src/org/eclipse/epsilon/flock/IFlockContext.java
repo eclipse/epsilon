@@ -19,13 +19,14 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
 
 public interface IFlockContext extends IEolContext {
 	
-	public void setOriginalModel(int indexInRepository);
+	public void setOriginalModel(int indexInRepository) throws FlockUnsupportedModelException;
 	
-	public void setMigratedModel(int indexInRepository);
+	public void setMigratedModel(int indexInRepository) throws FlockUnsupportedModelException;
 
 	public Object executeBlock(AST block, Variable... variables) throws FlockRuntimeException;
 

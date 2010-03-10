@@ -85,16 +85,6 @@ public interface IModel {
 	
 	public boolean knowsAboutProperty(Object instance, String property);
 	
-	/**
-	 * Returns a collection containing all of the properties that instances
-	 * of type know about.
-	 * 
-	 * @param type The type of model object whose properties are to be determined.
-	 * @return all of the properties that instances of type knows about.
-	 * @throws EolModelElementTypeNotFoundException when this model has no such type
-	 */
-	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException;
-	
 	public boolean isInstantiable(String type); 
 	
 	/**

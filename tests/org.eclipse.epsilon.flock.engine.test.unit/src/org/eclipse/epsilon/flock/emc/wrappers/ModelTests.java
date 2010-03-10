@@ -25,8 +25,8 @@ import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
-import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
@@ -41,9 +41,9 @@ public class ModelTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void setPropertyValueShouldDelegateToPropertySetterAndUnwrapValue() throws EolRuntimeException {
-		final IModel          mockUnderlyingModel = createMock(IModel.class);
-		final IPropertySetter mockPropertySetter  = createMock(IPropertySetter.class);
-		final BackedModelValue      mockWrappedValue    = createMock(BackedModelValue.class);
+		final IModelWithReflexiveAccess          mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
+		final IPropertySetterWithReflexiveAccess mockPropertySetter  = createMock(IPropertySetterWithReflexiveAccess.class);
+		final BackedModelValue                   mockWrappedValue    = createMock(BackedModelValue.class);
 	
 		
 		// Expectations
@@ -73,9 +73,9 @@ public class ModelTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getPropertyValueShouldDelegateToPropertyGetterAndWrapValue() throws EolRuntimeException {
-		final IModel            mockUnderlyingModel = createMock(IModel.class);
-		final IPropertyGetter   mockPropertyGetter  = createMock(IPropertyGetter.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
+		final IPropertyGetter            mockPropertyGetter  = createMock(IPropertyGetter.class);
+		final ModelValueWrapper          mockWrapper         = createMock(ModelValueWrapper.class);
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
@@ -103,8 +103,8 @@ public class ModelTests {
 	
 	@Test
 	public void createInstanceDelegatesToUnderlyingModelAndWrapsValue() throws EolRuntimeException {
-		final IModel            mockUnderlyingModel = createMock(IModel.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
+		final ModelValueWrapper          mockWrapper         = createMock(ModelValueWrapper.class);
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
@@ -130,8 +130,8 @@ public class ModelTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void allContentsDelegatesToUnderlyingModelAndWrapsValues() throws EolRuntimeException {
-		final IModel            mockUnderlyingModel = createMock(IModel.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
+		final ModelValueWrapper          mockWrapper         = createMock(ModelValueWrapper.class);
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
@@ -169,7 +169,7 @@ public class ModelTests {
 	
 	@Test
 	public void getEquivalentForEnumeratorDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IModel mockUnderlyingModel = createMock(IModel.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
@@ -191,7 +191,7 @@ public class ModelTests {
 	
 	@Test
 	public void getEquivalentForEEnumLiteralDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IModel mockUnderlyingModel = createMock(IModel.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
@@ -214,7 +214,7 @@ public class ModelTests {
 	
 	@Test
 	public void isManyDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IModel mockUnderlyingModel = createMock(IModel.class);
+		final IModelWithReflexiveAccess  mockUnderlyingModel = createMock(IModelWithReflexiveAccess.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		

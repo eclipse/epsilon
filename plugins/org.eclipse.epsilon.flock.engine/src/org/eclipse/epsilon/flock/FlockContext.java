@@ -18,12 +18,14 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.execution.operations.FlockOperationFactory;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
 
@@ -32,11 +34,11 @@ public class FlockContext extends EolContext implements IFlockContext {
 	private Model originalModel;
 	private Model migratedModel;
 		
-	public FlockContext() {
+	public FlockContext() throws FlockUnsupportedModelException {
 		this((IModel)null, (IModel)null);
 	}
 	
-	public FlockContext(IModel original, IModel migrated) {
+	public FlockContext(IModel original, IModel migrated) throws FlockUnsupportedModelException {
 		initialiseModels(original, migrated);
 		setOperationFactory(new FlockOperationFactory());
 	}
@@ -47,7 +49,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 		this.migratedModel = migrated;
 	}
 
-	private void initialiseModels(IModel original, IModel migrated) {
+	private void initialiseModels(IModel original, IModel migrated) throws FlockUnsupportedModelException {
 		addModel(original);
 		addModel(migrated);
 		
@@ -60,19 +62,22 @@ public class FlockContext extends EolContext implements IFlockContext {
 			getModelRepository().addModel(model);
 	}
 	
-	private Model wrapModel(IModel model) {
-		return new Model(model, getPrettyPrinterManager());
+	private Model wrapModel(IModel model) throws FlockUnsupportedModelException {
+		if (model instanceof IModelWithReflexiveAccess)
+			return new Model((IModelWithReflexiveAccess)model, getPrettyPrinterManager());
+		else
+			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IModelWithReflexiveAccess. " + model.getName() + " does not.");
 	}
 	
-	public void setOriginalModel(int indexInRepository) {
+	public void setOriginalModel(int indexInRepository) throws FlockUnsupportedModelException {
 		this.originalModel = getModelFromRepositoryByIndex(indexInRepository);
 	}
 	
-	public void setMigratedModel(int indexInRepository) {
+	public void setMigratedModel(int indexInRepository) throws FlockUnsupportedModelException {
 		this.migratedModel = getModelFromRepositoryByIndex(indexInRepository);
 	}
 	
-	private Model getModelFromRepositoryByIndex(int index) {
+	private Model getModelFromRepositoryByIndex(int index) throws FlockUnsupportedModelException {
 		return wrapModel(getModelRepository().getModels().get(index));
 	}
 	

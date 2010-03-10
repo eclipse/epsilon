@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.profiling.ProfilerTarget;
@@ -249,15 +248,6 @@ public class CompositeModel extends Model {
 
 		throw new IllegalArgumentException("Cannot be contained by this model: " + instance);
 	}
-	
-	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {		
-		for (IModel m : models) {
-			if (m.hasType(type))
-				return m.getPropertiesOf(type);
-		}
-
-		throw new IllegalArgumentException("Not an element of this model: " + type);
-	}
 
 	public boolean hasType(String type) {
 		for (IModel m : models) {
@@ -369,14 +359,6 @@ public class CompositeModel extends Model {
 	
 	
 	private class CompositePropertySetter extends AbstractPropertySetter {
-
-		public Object coerce(Object value) throws EolIllegalPropertyException {
-			return getDelegate().coerce(value);
-		}
-
-		public boolean conforms(Object value) throws EolIllegalPropertyException {
-			return getDelegate().conforms(value);
-		}
 
 		public void invoke(Object value) throws EolRuntimeException {
 			getDelegate().invoke(value);

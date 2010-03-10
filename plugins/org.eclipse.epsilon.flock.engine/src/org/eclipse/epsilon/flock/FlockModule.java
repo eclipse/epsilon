@@ -27,6 +27,7 @@ import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
@@ -66,7 +67,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException {
+	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
 		final FlockContext context = new FlockContext(original, migrated);
 		
 		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
