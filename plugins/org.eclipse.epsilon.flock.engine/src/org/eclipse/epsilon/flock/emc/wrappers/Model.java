@@ -18,6 +18,7 @@ import java.util.LinkedList;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -145,5 +146,30 @@ public class Model {
 		}
 		
 		return (Enumerator)underlyingModel.getEnumerationValue(enumeration, original.getName());
+	}
+
+	/**
+	 * If the underlying model is an AbstractEmfModel and isExpand returns true, this
+	 * method turns off expansion, and returns true.
+	 * 
+	 * If the underlying model is not an AbstractEmfModel, this method does nothing
+	 * and returns false.
+	 * 
+	 * If the underlying model an AbstractEmfModel and isExpand returns false, this method
+	 * does nothing and returns false.
+	 * 
+	 * @return true if and only if isExpand was changed from true to false
+	 */
+	public boolean ensureExpandIsOff() {
+		if (!(underlyingModel instanceof AbstractEmfModel))
+			return false;
+		
+		final AbstractEmfModel underlyingEmfModel = (AbstractEmfModel) underlyingModel;
+			
+		if (!underlyingEmfModel.isExpand())
+			return false;
+		
+		underlyingEmfModel.setExpand(false);
+		return true;
 	}
 }

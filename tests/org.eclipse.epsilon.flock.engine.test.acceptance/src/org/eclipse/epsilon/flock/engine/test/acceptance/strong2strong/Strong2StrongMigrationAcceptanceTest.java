@@ -60,6 +60,8 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 			
 			migrated = new ModelWithEolAssertions(migratedModel);
 			
+			result.printWarnings(System.err);
+			
 		} else {
 			for (ParseProblem problem : migrator.getParseProblems()) {
 				System.err.println(problem);

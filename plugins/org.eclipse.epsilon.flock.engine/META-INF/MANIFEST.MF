@@ -6,7 +6,8 @@ Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.hutn.model;visibility:=reexport,
- org.eclipse.epsilon.emc.emf;visibility:=reexport
+ org.eclipse.epsilon.emc.emf;visibility:=reexport,
+ org.eclipse.epsilon.common.dt;bundle-version="0.8.8"
 Export-Package: org.eclipse.epsilon.flock,
  org.eclipse.epsilon.flock.emc.intermediate,
  org.eclipse.epsilon.flock.emc.wrappers,

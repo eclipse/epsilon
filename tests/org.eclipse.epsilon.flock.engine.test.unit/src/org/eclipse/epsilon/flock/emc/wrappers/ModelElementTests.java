@@ -36,7 +36,7 @@ import org.junit.Test;
 public class ModelElementTests {
 
 	private static final Object       underlyingElement = "foo";
-	private static final Model        mockModel         = createMock(Model.class);
+	private static final Model        mockModel         = createMock("mockModel", Model.class);
 	private static final ModelType    mockModelType     = createMock(ModelType.class);
 	private static final ModelElement element           = new ModelElement(mockModel, mockModelType, underlyingElement);
 	
@@ -52,28 +52,49 @@ public class ModelElementTests {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void getEquivalentShouldDelegateToEquivalences() throws ConservativeCopyException {
-		final Model         mockMigratedModel = createMock(Model.class);
+	public void getEquivalentShouldDelegateToEquivalencesWhenModelElementIsContainedInModel() throws ConservativeCopyException {
+		final Model         mockMigratedModel = createMock("mockMigratedModel",Model.class);
 		final IFlockContext mockContext       = createMock(IFlockContext.class);
 		
 		final ModelElement dummyMigratedModelElement = new ModelElement(mockMigratedModel, mockModelType, "bar");
 
 		// Expectations
+		expect(mockModel.owns(underlyingElement))
+			.andReturn(true);
+		
 		expect(mockContext.getEquivalent(element))
 			.andReturn(dummyMigratedModelElement);
 		
 		expect(mockMigratedModel.wrap(dummyMigratedModelElement))
 			.andReturn((ModelValue)dummyMigratedModelElement);
 		
-		replay(mockMigratedModel, mockContext);
+		replay(mockModel, mockMigratedModel, mockContext);
 		
 		
 		// Verification
-		
 		assertEquals(dummyMigratedModelElement,
 		             element.getEquivalentIn(mockMigratedModel, mockContext));
 		
-		verify(mockMigratedModel, mockContext);
+		verify(mockModel, mockMigratedModel, mockContext);
+	}
+	
+	@Test
+	public void getEquivalentShouldReturnTheModelElementWhenItIsNotContainedInTheModel() throws ConservativeCopyException {
+		final Model         dummyMigratedModel = createMock("mockMigratedModel",Model.class);
+		final IFlockContext dummyContext       = createMock(IFlockContext.class);
+		
+		// Expectations
+		expect(mockModel.owns(underlyingElement))
+			.andReturn(false);
+		
+		replay(mockModel, dummyMigratedModel, dummyContext);
+		
+		
+		// Verification
+		assertEquals(element,
+		             element.getEquivalentIn(dummyMigratedModel, dummyContext));
+		
+		verify(mockModel, dummyMigratedModel, dummyContext);
 	}
 	
 	@Test

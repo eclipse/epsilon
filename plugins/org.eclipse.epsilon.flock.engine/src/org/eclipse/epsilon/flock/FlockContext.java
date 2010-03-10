@@ -105,8 +105,17 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	public Iterable<ModelElement> getOriginalModelElements() {
+		ensureExpandIsOff();
+		
 		return originalModel.allContents();
 	}
+	
+	private void ensureExpandIsOff() {
+		if (originalModel.ensureExpandIsOff()) {
+			addWarning("Flock may produce unexpected results when the original model is expanded. Turning off expand and proceeding.");
+		}
+	}
+	
 	
 	public ModelElement createModelElementInMigratedModel(String type) throws FlockRuntimeException {
 		try {

@@ -32,9 +32,13 @@ public class ModelElement extends BackedModelValue<Object> {
 	@Override
 	public ModelValue<?> getEquivalentIn(Model model, IFlockContext context) {
 		// context.getEquivalent might be null, so ensure return value is wrapped
-		return model.wrap(context.getEquivalent(this));
+		return isExternal() ? this : model.wrap(context.getEquivalent(this));
 	}
 	
+	private boolean isExternal() {
+		return !model.owns(underlyingModelObject);
+	}
+
 	public ModelType getType() {
 		return type;
 	}
@@ -47,17 +51,27 @@ public class ModelElement extends BackedModelValue<Object> {
 		return model.isKindOf(underlyingModelObject, originalType);
 	}
 	
-	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {
+	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {		
 		try {
 			for (String propertyName : this.getPropertiesSharedWith(original)) {
-				final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);
-				final ModelValue<?> equivalentValue = originalValue.getEquivalentIn(model, context);
-				
-				if (conforms(propertyName, equivalentValue))
-					setValueOfProperty(propertyName, equivalentValue);
+				conservativelyCopyPropertyFrom(original, propertyName, context);
 			}
+			
+		} catch (EolModelElementTypeNotFoundException e) {
+			throw new ConservativeCopyException("Exception encountered while determining properties shared between " + original + " and " + this, e);
+		}
+	}
+	
+	private void conservativelyCopyPropertyFrom(ModelElement original, String propertyName, IFlockContext context) throws ConservativeCopyException {
+		try {
+			final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);
+			final ModelValue<?> equivalentValue = originalValue.getEquivalentIn(model, context);
+			
+			if (conforms(propertyName, equivalentValue))
+				setValueOfProperty(propertyName, equivalentValue);
+		
 		} catch (EolRuntimeException e) {
-			throw new ConservativeCopyException("Exception encountered while reading or writing a property value.", e);
+			throw new ConservativeCopyException("Exception encountered while copying '" + propertyName + "' from " + original + " to " + this, e);
 		}
 	}
 
