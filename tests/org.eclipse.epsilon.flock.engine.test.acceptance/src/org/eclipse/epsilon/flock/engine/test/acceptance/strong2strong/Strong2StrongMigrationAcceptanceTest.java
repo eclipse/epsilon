@@ -55,6 +55,8 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 	private static void migrate(String strategy, AbstractEmfModel original, InMemoryEmfModel migratedModel) throws Exception {
 		final IFlockModule migrator = new FlockModule();
 		
+		original.setExpand(false);
+		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {		
 			result = migrator.execute(original, migratedModel);
 			
