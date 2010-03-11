@@ -63,8 +63,12 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	private Model wrapModel(IModel model) throws FlockUnsupportedModelException {
-		if (model instanceof IModelWithReflexiveAccess)
+		if (model == null)
+			return null;
+		
+		else if (model instanceof IModelWithReflexiveAccess)
 			return new Model((IModelWithReflexiveAccess)model, getPrettyPrinterManager());
+		
 		else
 			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IModelWithReflexiveAccess. " + model.getName() + " does not.");
 	}
