@@ -58,6 +58,9 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 				printParseProblems();
 			}
 		
+		} catch (FlockUnsupportedModelException e) {
+			printErrorMessage(e.getLocalizedMessage());
+			
 		} catch (FlockRuntimeException e) {
 			reportRuntimeException(e);
 			
@@ -104,20 +107,15 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 		EpsilonConsole.getInstance().getErrorStream().println(message);
 	}
 
-	private void loadModels() throws EolRuntimeException, CoreException {
+	private void loadModels() throws EolRuntimeException, CoreException, FlockUnsupportedModelException {
 		startingTask("Loading models");
 		
-		try {
-			context = new FlockContext();
-			
-			EclipseContextManager.setup(context, launchConfig, monitor, launch);
-			
-			context.setOriginalModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
-			context.setMigratedModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
+		context = new FlockContext();
 		
-		} catch (FlockUnsupportedModelException e) {
-			printErrorMessage(e.getLocalizedMessage());
-		}
+		EclipseContextManager.setup(context, launchConfig, monitor, launch);
+		
+		context.setOriginalModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
+		context.setMigratedModel(launchConfig.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
 		
 		finishedCurrentTask();
 	}
