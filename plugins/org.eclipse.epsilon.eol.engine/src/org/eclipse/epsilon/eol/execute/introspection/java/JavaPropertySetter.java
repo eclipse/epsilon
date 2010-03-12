@@ -19,12 +19,12 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
-public class JavaPropertySetter extends AbstractPropertySetter implements IPropertySetterWithReflexiveAccess {
+public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 	
 	public void invoke(Object value) throws EolRuntimeException {
 		

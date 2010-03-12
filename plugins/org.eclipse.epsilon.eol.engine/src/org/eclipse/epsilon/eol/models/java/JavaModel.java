@@ -22,12 +22,12 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
-import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
 
-public class JavaModel extends Model implements IModelWithReflexiveAccess {
+public class JavaModel extends Model implements IReflectiveModel {
 	
 
 	protected Collection<Object> objects;
@@ -203,7 +203,7 @@ public class JavaModel extends Model implements IModelWithReflexiveAccess {
 	}
 	
 	@Override
-	public IPropertySetterWithReflexiveAccess getPropertySetter() {
+	public IReflectivePropertySetter getPropertySetter() {
 		return new JavaPropertySetter();
 	}
 	

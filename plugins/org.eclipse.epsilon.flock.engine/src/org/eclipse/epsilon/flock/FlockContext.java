@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -66,8 +66,8 @@ public class FlockContext extends EolContext implements IFlockContext {
 		if (model == null)
 			return null;
 		
-		else if (model instanceof IModelWithReflexiveAccess)
-			return new Model((IModelWithReflexiveAccess)model, getPrettyPrinterManager());
+		else if (model instanceof IReflectiveModel)
+			return new Model((IReflectiveModel)model, getPrettyPrinterManager());
 		
 		else
 			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IModelWithReflexiveAccess. " + model.getName() + " does not.");

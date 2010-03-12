@@ -28,7 +28,7 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolString;
@@ -124,7 +124,7 @@ public class EmfM0Model extends EmfModel{
 		}
 	}
 	
-	class EmfM0PropertySetter extends AbstractPropertySetter implements IPropertySetterWithReflexiveAccess {
+	class EmfM0PropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 		public void invoke(Object value) throws EolRuntimeException {
 			ArrayList parameterValues = new ArrayList();
@@ -151,7 +151,7 @@ public class EmfM0Model extends EmfModel{
 	}
 
 	@Override
-	public IPropertySetterWithReflexiveAccess getPropertySetter() {
+	public IReflectivePropertySetter getPropertySetter() {
 		return new EmfM0PropertySetter();
 	}
 

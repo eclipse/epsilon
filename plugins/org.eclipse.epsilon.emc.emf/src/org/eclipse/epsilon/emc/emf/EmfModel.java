@@ -32,10 +32,10 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
-import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
-public class EmfModel extends AbstractEmfModel implements IModelWithReflexiveAccess {
+public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	
 	public static final String PROPERTY_METAMODEL_URI = "metamodelUri";
 	public static final String PROPERTY_EXPAND = "expand";
@@ -289,7 +289,7 @@ public class EmfModel extends AbstractEmfModel implements IModelWithReflexiveAcc
 	}
 	
 	@Override
-	public IPropertySetterWithReflexiveAccess getPropertySetter() {
+	public IReflectivePropertySetter getPropertySetter() {
 		return new EmfPropertySetter();
 	}
 }

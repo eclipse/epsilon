@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.introspection;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 
-public interface IPropertySetterWithReflexiveAccess extends IPropertySetter {
+public interface IReflectivePropertySetter extends IPropertySetter {
 	
 	/**
 	 * Indicates whether the specified value is permitted for this property.

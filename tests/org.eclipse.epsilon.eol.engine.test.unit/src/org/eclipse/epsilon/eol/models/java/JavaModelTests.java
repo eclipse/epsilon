@@ -22,7 +22,7 @@ import java.util.Collections;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.junit.Test;
 public class JavaModelTests {
 
@@ -43,7 +43,7 @@ public class JavaModelTests {
 	
 	@Test
 	public void getPropertiesOf() throws EolModelElementTypeNotFoundException {
-		final IModelWithReflexiveAccess javaModel = new JavaModel(Arrays.asList((Object)new TestSubject()));
+		final IReflectiveModel javaModel = new JavaModel(Arrays.asList((Object)new TestSubject()));
 		
 		assertEquals(Arrays.asList("foo", "bar", "baz"),
 		            javaModel.getPropertiesOf(TestSubject.class.getCanonicalName()));

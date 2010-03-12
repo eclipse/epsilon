@@ -22,31 +22,31 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
-import org.eclipse.epsilon.eol.models.IModelWithReflexiveAccess;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
 public class Model {
 	
-	private final IModelWithReflexiveAccess underlyingModel;
+	private final IReflectiveModel underlyingModel;
 	private final PrettyPrinterManager printer;
 	private final ModelValueWrapper wrapper;
 	
-	public Model(IModelWithReflexiveAccess underlyingModel, PrettyPrinterManager printer) {
+	public Model(IReflectiveModel underlyingModel, PrettyPrinterManager printer) {
 		this.underlyingModel = underlyingModel;
 		this.printer         = printer;
 		this.wrapper         = new ModelValueWrapper(this);
 	}
 	
 	// Used by tests to customise wrapper
-	Model(IModelWithReflexiveAccess underlyingModel, ModelValueWrapper wrapper) {
+	Model(IReflectiveModel underlyingModel, ModelValueWrapper wrapper) {
 		this.underlyingModel = underlyingModel;
 		this.printer         = new PrettyPrinterManager();
 		this.wrapper         = wrapper;
 	}
 	
 	// Used by tests that don't wish to supply a printer print manager
-	Model(IModelWithReflexiveAccess underlyingModel) {
+	Model(IReflectiveModel underlyingModel) {
 		this(underlyingModel, new PrettyPrinterManager());
 	}
 	
@@ -119,14 +119,14 @@ public class Model {
 	}
 
 	void setValueOfProperty(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
-		final IPropertySetterWithReflexiveAccess setter = underlyingModel.getPropertySetter();
+		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
 		setter.setObject(underlyingModelElement);
 		setter.setProperty(property);
 		setter.invoke(setter.coerce(value.unwrap()));
 	}
 	
 	boolean conforms(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
-		final IPropertySetterWithReflexiveAccess setter = underlyingModel.getPropertySetter();
+		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
 		setter.setObject(underlyingModelElement);
 		setter.setProperty(property);
 		return setter.conforms(value.unwrap());

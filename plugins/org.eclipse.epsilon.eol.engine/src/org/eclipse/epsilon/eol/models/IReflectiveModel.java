@@ -16,9 +16,9 @@ package org.eclipse.epsilon.eol.models;
 import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetterWithReflexiveAccess;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
-public interface IModelWithReflexiveAccess extends IModel {
+public interface IReflectiveModel extends IModel {
 
 	/**
 	 * Returns a collection containing all of the properties that instances
@@ -30,5 +30,5 @@ public interface IModelWithReflexiveAccess extends IModel {
 	 */
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException;
 	
-	public IPropertySetterWithReflexiveAccess getPropertySetter();
+	public IReflectivePropertySetter getPropertySetter();
 }
