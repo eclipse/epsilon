@@ -55,8 +55,9 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	public void invoke(Object value) throws EolRuntimeException {
 		EStructuralFeature sf = getEStructuralFeature();
 		
-		if (value != null) {
-			if (sf.isMany()){
+		
+		if (sf.isMany()) {
+			if (value != null) {
 				Collection<Object> sourceValues = (Collection<Object>) getEObject().eGet(sf);
 				if (value instanceof EolCollection){	
 					copyCollectionValues(((EolCollection)value).getStorage(), sourceValues);
@@ -66,9 +67,9 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 							this.getProperty(), this.getAst());
 				}
 			}
-			else {
-				getEObject().eSet(sf, unwrap(value));
-			}
+		}
+		else {
+			getEObject().eSet(sf, unwrap(value));
 		}
 	}
 	

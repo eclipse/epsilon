@@ -20,6 +20,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Anno
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Guard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.MigrateToDifferentType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Operation;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SetToNull;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SeveralRules;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SeveralRulesForSameType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.ShorthandRule;
@@ -39,6 +40,7 @@ import org.junit.runners.Suite.SuiteClasses;
                ShorthandRule.class,
                Guard.class,
                Operation.class, AnnotatedOperation.class,
+               SetToNull.class,
                DeleteRule.class, DeleteRuleWithGuard.class, DeleteRuleAppliedToAbstractType.class, DeleteRuleWithInvalidSyntax.class})
 public class Strong2StrongRulesSuite {
 	public static Test suite() {
