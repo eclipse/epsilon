@@ -41,7 +41,6 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	public Resource createResource(URI uri) {
 		
 		if (resourceMap.containsKey(uri.toString())) {
-			System.err.println("returning cached resource");
 			return resourceMap.get(uri.toString());
 		}
 		else {
@@ -83,10 +82,6 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	
 	public void removeCachedResource(URI uri) {
 		
-		for (Object key : resourceMap.keySet()) {
-			System.err.println(key + " : " + resourceMap.get(key));
-		}
-
 		Resource toRemove = resourceMap.get(uri.toString());
 		
 		if (toRemove != null) {
@@ -117,7 +112,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			}
 		}
 		if (shouldRemove) {
-			//System.err.println("Removing " + toRemove.getURI());
+
 			resourceMap.remove(toRemove.getURI().toString());
 			try {
 				toRemove.unload();
@@ -125,14 +120,11 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			//System.err.println(toString("Current resources"));
+
 			for (Resource resource : toRemove.getResourceSet().getResources()) {
 				safeRemove(resource);
 			}
 		}
-		//else {
-		//	System.err.println("Should not remove " + toRemove.getURI());
-		//}
 	}
 	
 	protected String toString(String header) {
