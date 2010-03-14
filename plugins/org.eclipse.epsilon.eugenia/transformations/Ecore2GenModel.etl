@@ -39,7 +39,42 @@ rule EStructuralFeature2GenFeature
 	to t : GenModel!GenFeature {
 	
 	s.eContainer().equivalent().genFeatures.add(t);
+	t.ecoreFeature = s;
 	
+	var defaultProperty;
+	
+	if (s.isTypeOf(Ecore!EReference)) {
+		if (not s.container and not s.containment) {
+			if (s.changeable) {
+				defaultProperty = GenModel!GenPropertyKind#Editable;
+			}
+			else {
+				defaultProperty = GenModel!GenPropertyKind#Readonly;
+			}
+		}
+		else { 
+			defaultProperty = GenModel!GenPropertyKind#None;
+		}
+		t.children = s.getBooleanAnnotation("children", s.isContainment);
+		t.createChild = s.getBooleanAnnotation("createChild", t.isChildren and s.isChangeable);
+		t.notify = s.getBooleanAnnotation("notify", t.isChildren);
+	}
+	else {
+			if (s.changeable) {
+				defaultProperty = GenModel!GenPropertyKind#Editable;
+			}
+			else {
+				defaultProperty = GenModel!GenPropertyKind#Readonly;
+			}
+			t.children = s.getBooleanAnnotation("children", false);
+			t.createChild = s.getBooleanAnnotation("createChild", false);
+			t.notify = s.getBooleanAnnotation("notify", true);
+	}
+	
+	t.propertySortChoices = s.getBooleanAnnotation("propertySortChoices", s.isTypeOf(Ecore!EReference) and defaultProperty = GenModel!GenPropertyKind#Editable);
+	t.property = s.getEnumerationAnnotation("property", t, defaultProperty);
+	 
+	/*
 	if (s.isTypeOf(Ecore!EReference)) {
 		t.createChild = s.getBooleanAnnotation("createChild", s.isContainment);
 		t.children = s.getBooleanAnnotation("children", s.isContainment);
@@ -64,14 +99,6 @@ rule EStructuralFeature2GenFeature
 			}
 		}
 		
-		/*
-		if (s.name = "eModelElement") { 
-			s.volatile.println();
-			s.changeable.println();
-			defaultProperty.println(); 
-		}
-		*/
-		
 		 if (s.changeable and s.transient and (s.isTypeOf(Ecore!EReference) and s.container) ) { 
 		 	defaultProperty = GenModel!GenPropertyKind#None; 
 			t.propertySortChoices = s.getBooleanAnnotation("propertySortChoices", false);		 
@@ -79,8 +106,8 @@ rule EStructuralFeature2GenFeature
 		
 		t.property = s.getEnumerationAnnotation("property", t, defaultProperty);
 	}
+	*/
 	
-	t.ecoreFeature = s;
 	copyAnnotations(s, t);
 }
 
@@ -152,6 +179,7 @@ operation copyAnnotations(source : Any, target : Any) {
 	
 	for (booleanFeature in target.eClass().eAllStructuralFeatures.select(sf|not sf.isMany and (sf.eType.name = "Boolean" or sf.eType.name = "EBoolean"))) {
 		if (source.hasAnnotation(booleanFeature.name)) {
+			booleanFeature.name.println(); 
 			"Setting boolean feature".println();
 			target.eSet(booleanFeature, source.getBooleanAnnotation(booleanFeature.name, target.eGet(booleanFeature)));
 		}
