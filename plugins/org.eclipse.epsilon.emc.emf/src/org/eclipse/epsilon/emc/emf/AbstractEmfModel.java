@@ -441,6 +441,7 @@ public abstract class AbstractEmfModel extends Model {
 	// resource set as well
 	// See how we can run store inside a WorkbenchModificationOperation
 	public boolean store(URI uri) {
+		URI oldUri = modelImpl.getURI();
 
 		try {
 			modelImpl.setURI(uri);
@@ -449,6 +450,9 @@ public abstract class AbstractEmfModel extends Model {
 		catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+		finally {
+			modelImpl.setURI(oldUri);
 		}
 
 		return true;
@@ -461,7 +465,9 @@ public abstract class AbstractEmfModel extends Model {
 		clearCache();
 		//modelImpl.unload();
 		//resourceMap.remove("platform:/resource" + relativeModelFile);
+
 		if (modelImpl != null) {
+
 			//modelImpl.unload();
 			EmfModelResourceFactory.getInstance().removeCachedResource(modelImpl.getURI());
 			modelImpl = null;

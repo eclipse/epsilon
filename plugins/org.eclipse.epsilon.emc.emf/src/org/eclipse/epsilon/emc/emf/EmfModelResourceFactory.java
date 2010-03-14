@@ -41,6 +41,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	public Resource createResource(URI uri) {
 		
 		if (resourceMap.containsKey(uri.toString())) {
+			System.err.println("returning cached resource");
 			return resourceMap.get(uri.toString());
 		}
 		else {
@@ -82,6 +83,10 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	
 	public void removeCachedResource(URI uri) {
 		
+		for (Object key : resourceMap.keySet()) {
+			System.err.println(key + " : " + resourceMap.get(key));
+		}
+
 		Resource toRemove = resourceMap.get(uri.toString());
 		
 		if (toRemove != null) {
