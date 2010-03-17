@@ -84,6 +84,7 @@ tokens {
 	DRIVER;
 	MODELDECLARATIONPARAMETERS;
 	MODELDECLARATIONPARAMETER;
+	ITEMSELECTOR;
 }
 
 @members {
@@ -212,7 +213,7 @@ modelElementType
 	;
 
 collectionType
-	: 	('Collection'|'Sequence'|'Bag'|'Set'|'OrderedSet')^
+	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet')^
 		('('! tn=typeName {setTokenType(tn,TYPE);}')'!)?
 		{if (root_0.getToken() != null) root_0.getToken().setType(TYPE);}
 	
@@ -314,6 +315,7 @@ expressionStatement
 	:	logicalExpression ';'!
 	;
 
+
 logicalExpression
 	:	relationalExpression (('or'|'and'|'xor'|'implies')^ relationalExpression
 		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
@@ -340,10 +342,10 @@ unaryExpression
 	:	(('not'|'-')^)? postfixExpression
 		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);}
 	;
-
+	
 postfixExpression
-	:	primitiveExpression((POINT|ARROW)^ fc=featureCall
-		{setTokenType(fc,FEATURECALL);}
+	:	itemSelectorExpression ((POINT|ARROW)^ fc=featureCall
+		{setTokenType(fc,FEATURECALL);} ('['^ logicalExpression ']'! {if (root_0.getToken() != null) root_0.getToken().setType(ITEMSELECTOR);})*
 		//{
 		//	if (root_0.getToken() != null) {
 		//		root_0.getToken().setType(POINT);
@@ -352,6 +354,11 @@ postfixExpression
 		)*
 	;
 
+itemSelectorExpression 
+	: primitiveExpression ('['^ primitiveExpression ']'!
+		{if (root_0.getToken() != null) root_0.getToken().setType(ITEMSELECTOR);})*
+	;
+	
 featureCall
 	: simpleFeatureCall | declarativeFeatureCall
 	;
@@ -390,7 +397,7 @@ variableDeclarationExpression
 	;
 
 litteralCollection
-	:	('Collection'|'Sequence'|'Bag'|'Set'|'OrderedSet')^ '{'!  expressionListOrRange? '}'!
+	:	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet')^ '{'!  expressionListOrRange? '}'!
 	{if (root_0.getToken() != null) root_0.getToken().setType(COLLECTION);}
 	;
 

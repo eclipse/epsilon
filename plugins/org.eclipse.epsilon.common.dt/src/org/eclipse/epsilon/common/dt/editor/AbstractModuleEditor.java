@@ -178,7 +178,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		list.add("Set");
 		list.add("OrderedSet");
 		list.add("Native");
-		list.add("Nothing");
+		list.add("List");
 		return list;
 	}
 	

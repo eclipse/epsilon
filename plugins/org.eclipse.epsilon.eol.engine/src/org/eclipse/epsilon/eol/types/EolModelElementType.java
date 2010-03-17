@@ -144,7 +144,7 @@ public class EolModelElementType extends EolType{
 	@Override
 	public Object createInstance(List<Object> parameters)
 			throws EolRuntimeException {
-		throw new EolIllegalOperationParametersException("createInstance");
+		return model.createInstance(typeName, parameters);
 	}
 	
 	@Override

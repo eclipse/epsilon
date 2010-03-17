@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2010-02-23 16:05:07
+// $ANTLR 3.1b1 EolLexerRules.g 2010-03-17 00:45:31
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -70,6 +70,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int NativeType=50;
     public static final int T__99=99;
     public static final int T__98=98;
+    public static final int ITEMSELECTOR=66;
     public static final int T__97=97;
     public static final int T__96=96;
     public static final int MultiplicativeExpression=51;
@@ -97,6 +98,8 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int NAMESPACE=61;
     public static final int T__88=88;
     public static final int CollectionType=38;
+    public static final int T__126=126;
+    public static final int T__125=125;
     public static final int T__71=71;
     public static final int WS=17;
     public static final int T__72=72;
@@ -116,7 +119,6 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__77=77;
     public static final int T__68=68;
     public static final int T__69=69;
-    public static final int T__66=66;
     public static final int SPECIAL_ASSIGNMENT=24;
     public static final int T__67=67;
     public static final int MODELDECLARATIONPARAMETER=65;
@@ -128,18 +130,20 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
+    public static final int T__124=124;
+    public static final int T__123=123;
     public static final int T__122=122;
     public static final int FOR=27;
-    public static final int ENUMERATION_VALUE=58;
     public static final int T__121=121;
-    public static final int T__120=120;
+    public static final int ENUMERATION_VALUE=58;
     public static final int FLOAT=4;
+    public static final int T__120=120;
     public static final int EXECUTABLEANNOTATION=45;
     public static final int IF=28;
     public static final int ModelElementType=39;
     public static final int BOOLEAN=10;
-    public static final int CONTINUE=34;
     public static final int T__107=107;
+    public static final int CONTINUE=34;
     public static final int T__108=108;
     public static final int T__109=109;
     public static final int T__103=103;
@@ -158,7 +162,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=123;
+    public static final int Tokens=127;
     public static final int POINT_POINT=8;
     public static final int MODELDECLARATIONPARAMETERS=64;
     public static final int BLOCK=55;

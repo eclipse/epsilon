@@ -30,7 +30,7 @@ public class CollectionExecutor extends AbstractExecutor{
 		
 		EolCollection collection = null; 
 		
-		if (ast.getText().equals("Sequence")){
+		if (ast.getText().equals("Sequence") || ast.getText().equals("List")){
 			collection = new EolSequence();
 		}
 		else if (ast.getText().equals("Set")){

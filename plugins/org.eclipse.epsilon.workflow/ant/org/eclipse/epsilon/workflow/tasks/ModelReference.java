@@ -172,5 +172,11 @@ public class ModelReference implements IModel{
 
 	public boolean knowsAboutProperty(Object instance, String property) {
 		return target.knowsAboutProperty(instance, property);
+	}
+
+	public Object createInstance(String type, Collection<Object> parameters)
+			throws EolModelElementTypeNotFoundException,
+			EolNotInstantiableModelElementTypeException {
+		return target.createInstance(type, parameters);
 	}	
 }

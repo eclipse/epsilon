@@ -65,6 +65,8 @@ public interface IModel {
 	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	
+	public Object createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
+	
 	public Object getElementById(String id);
 	
 	public String getElementId(Object instance);

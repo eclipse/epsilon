@@ -66,6 +66,7 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.TYPE, new TypeExecutor());
 		//executorCache.put(EolParser.TYPEINIT, new TypeExecutor());
 		executorCache.put(EolParser.RETURN, new ReturnStatementExecutor());
+		executorCache.put(EolParser.ITEMSELECTOR, new ItemSelectorExecutor());
 		//executorCache.put(EolParser.ASYNC, new AsyncStatementExecutor());
 		executorCache.put(EolParser.BREAK, new BreakStatementExecutor());
 		executorCache.put(EolParser.BREAKALL, new BreakAllStatementExecutor());

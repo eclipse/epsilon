@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
@@ -58,6 +59,12 @@ public abstract class Model implements IModel{
 		for (int i=0;i<aliases.length;i++){
 			this.aliases.add(aliases[i].trim());
 		}
+	}
+	
+	public Object createInstance(String type, Collection<Object> parameters)
+			throws EolModelElementTypeNotFoundException,
+			EolNotInstantiableModelElementTypeException {
+		return createInstance(type);
 	}
 	
 	/*
