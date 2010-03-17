@@ -37,7 +37,7 @@ public class XmlModelConfigurationDialog extends AbstractModelConfigurationDialo
 	
 	@Override
 	protected String getModelName() {
-		return "XML model";
+		return "XML document backed by XSD (EMF)";
 	}
 	
 	@Override
@@ -58,7 +58,7 @@ public class XmlModelConfigurationDialog extends AbstractModelConfigurationDialo
 		
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "XML Documents in the workspace", "Select an XML document"));
 		
 		metaModelFileLabel = new Label(groupContent, SWT.NONE);
 		metaModelFileLabel.setText("XSD Schema file: ");

@@ -167,14 +167,16 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 	protected class BrowseWorkspaceForModelsListener implements Listener{
 		
 		private Text text = null;
+		private String title = "";
+		private String prompt = "";
 		
-		public BrowseWorkspaceForModelsListener(Text text){
+		public BrowseWorkspaceForModelsListener(Text text, String title, String prompt){
 			this.text = text;
 		}
 		
 		public void handleEvent(Event event) {
 			String file = BrowseWorkspaceUtil.browseFilePath(getShell(), 
-					"EMF models in the workspace", "Select an EMF model", "", null);
+					title, prompt, "", null);
 			if (file != null){
 				text.setText(file);
 			}

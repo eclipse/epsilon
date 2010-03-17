@@ -120,7 +120,7 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "EMF models in the workspace", "Select an EMF model"));
 		
 		metaModelFileLabel = new Label(groupContent, SWT.NONE);
 		metaModelFileLabel.setText("Meta-model file: ");

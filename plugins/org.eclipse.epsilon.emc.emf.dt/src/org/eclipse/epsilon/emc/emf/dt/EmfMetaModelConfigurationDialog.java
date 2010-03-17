@@ -24,14 +24,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationDialog {
 
-	@Override
-	protected String getModelType() {
-		return "EMF_M2";
-	}
-	
-	protected Label metaModelUriLabel;
-	protected Text metaModelUriText;
-	protected Button browseMetamodelUri;
 	
 	public EmfMetaModelConfigurationDialog(){
 		super();
@@ -41,6 +33,16 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 	protected String getModelName() {
 		return "Registered EPackage";
 	}
+	
+	@Override
+	protected String getModelType() {
+		return "EMF_M2";
+	}
+	
+	protected Label metaModelUriLabel;
+	protected Text metaModelUriText;
+	protected Button browseMetamodelUri;
+	
 	
 	@Override
 	protected void createGroups(Composite control) {

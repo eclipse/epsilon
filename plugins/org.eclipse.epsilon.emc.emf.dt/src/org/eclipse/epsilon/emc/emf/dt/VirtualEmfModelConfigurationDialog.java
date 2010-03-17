@@ -53,7 +53,7 @@ public class VirtualEmfModelConfigurationDialog extends AbstractModelConfigurati
 		
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "EMF models in the workspace", "Select an EMF model"));
 		
 		Label emptyLabel = new Label(groupContent, SWT.NONE);
 		emptyLabel.setText("");

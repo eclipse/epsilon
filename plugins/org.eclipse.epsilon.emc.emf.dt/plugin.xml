@@ -35,7 +35,7 @@
             class="org.eclipse.epsilon.emc.emf.xml.XmlModel"
             dialog="org.eclipse.epsilon.emc.emf.dt.XmlModelConfigurationDialog"
             icon="icons/xml.gif"
-            label="XML/XSD (EMF)"
+            label="XML document backed by XSD (EMF)"
             type="XML">
       </modelType>
    </extension>
