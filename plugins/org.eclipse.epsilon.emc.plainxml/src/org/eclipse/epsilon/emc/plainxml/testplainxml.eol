@@ -1,0 +1,30 @@
+var l = new Element("library");
+XML.document.appendChild(l);
+
+l.appendChild(createBook("Book1", "Author1"));
+l.appendChild(createBook("Book2", "Author2"));
+
+delete Element.all.selectOne(e|e.tagName = "book");
+
+operation createBook(title : String, author : String) : Element {
+	var book = new Element("book");
+	book.setAttribute("title", title);
+	book.setAttribute("author", author);
+	return book;
+}
+
+/*var items = Element.all.select(e|e.tagName = "item");
+
+for (item in items) {
+	item.title.text.println();
+	item.description.text.println();
+}*/
+
+/*var x : new XML!Element("library");
+
+for (book in XML!Element.select(e|e.tagName = "book")) {
+	book.title.println();
+	book.authors.println();
+	book.setAttribute("generated", "yes");
+	book.children.println();
+}*/
