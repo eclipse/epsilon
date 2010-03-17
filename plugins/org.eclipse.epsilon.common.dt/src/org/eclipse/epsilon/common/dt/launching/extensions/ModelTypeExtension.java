@@ -27,15 +27,25 @@ public class ModelTypeExtension {
 	protected Image image;
 	protected String clazz;
 	protected IConfigurationElement configurationElement;
+	protected boolean stable;
 	
 	public ModelTypeExtension() {
 		
 	}
 	
-	public ModelTypeExtension(String label, String type, Image image){
+	public ModelTypeExtension(String label, String type, Image image, boolean stable){
 		this.label = label;
 		this.type = type;
 		this.image = image;
+		this.stable = stable;
+	}
+
+	public void setStable(boolean stable) {
+		this.stable = stable;
+	}
+	
+	public boolean isStable() {
+		return stable;
 	}
 
 	public Image getImage() {

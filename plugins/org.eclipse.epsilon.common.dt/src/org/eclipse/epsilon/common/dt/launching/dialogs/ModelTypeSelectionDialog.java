@@ -32,16 +32,20 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelectionChangedListener {
 	
-	protected ArrayList modelTypes;
+	protected ArrayList<ModelTypeExtension> modelTypes;
 	protected TableViewer modelTypesViewer;
 	protected ModelTypeExtension modelType;
+	protected Button showAllButton;
 	
 	public ModelTypeSelectionDialog(Shell parentShell) {
 		super(parentShell);
@@ -85,13 +89,21 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		
 		modelTypesViewer = new TableViewer(control, SWT.BORDER);
 		
+		
 		GridData viewerData = new GridData(GridData.FILL_BOTH);
 		modelTypesViewer.getControl().setLayoutData(viewerData);
+		
+		showAllButton = new Button(control, SWT.CHECK);
+		GridData showAllButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
+		showAllButtonGridData.horizontalAlignment = SWT.END;
+		showAllButton.setLayoutData(showAllButtonGridData);
+		showAllButton.setText("Show all model types");
+		showAllButton.setSelection(false);
 		
 		//modelTypesViewer.getControl().setLayoutData(viewerData);
 		
 		modelTypesViewer.setContentProvider(new ListContentProvider());
-		modelTypesViewer.setInput(modelTypes);
+		modelTypesViewer.setInput(getStableModelTypeExtensions());
 		modelTypesViewer.addSelectionChangedListener(this);
 		modelTypesViewer.setLabelProvider(new ModelTypeLabelProvider());
 		modelTypesViewer.getControl().addMouseListener(new MouseListener() {
@@ -116,7 +128,37 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		});
 		modelTypesViewer.refresh();
 		
+
+		showAllButton.addListener(SWT.Selection, new Listener() {
+			
+			public void handleEvent(Event event) {
+				
+				ArrayList<ModelTypeExtension> filtered;
+				
+				if (showAllButton.getSelection()) {
+					filtered = modelTypes;
+				}
+				else {
+					filtered = getStableModelTypeExtensions();
+				}
+				
+				modelTypesViewer.setInput(filtered);
+				modelTypesViewer.refresh();
+				
+			}
+		});
+		
 		return control;
+	}
+	
+	private ArrayList<ModelTypeExtension> getStableModelTypeExtensions() {
+		ArrayList<ModelTypeExtension> filtered = new ArrayList<ModelTypeExtension>();
+		for (ModelTypeExtension ext : modelTypes) {
+			if (ext.isStable()) {
+				filtered.add(ext);
+			}
+		}
+		return filtered;
 	}
 	
 	private void findModelTypes() {		
@@ -131,6 +173,8 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 			modelType.setClazz(configurationElement.getAttribute("class"));
 			modelType.setType(configurationElement.getAttribute("type"));
 			modelType.setLabel(configurationElement.getAttribute("label"));
+			modelType.setStable(Boolean.parseBoolean(configurationElement.getAttribute("stable")));
+
 			String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
 			Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
 			modelType.setImage(image);

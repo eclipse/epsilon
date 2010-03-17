@@ -6,7 +6,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class PlainXmlModelConfigurationDialog extends AbstractModelConfigurationDialog {
@@ -26,17 +28,52 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 	protected Label uriTextLabel;
 	protected Text uriText;
 	protected Button browseModelFile;
-	
+	protected Button filebasedButton;
 	
 	@Override
 	protected void createGroups(Composite control) {
 		createNameAliasGroup(control);
 		createFilesGroup(control);
 		createLoadStoreOptionsGroup(control);
+		toggleEnabledFields();
+	}
+	
+	protected void toggleEnabledFields() {
+		if (filebasedButton.getSelection()) {
+			fileTextLabel.setEnabled(true);
+			fileText.setEnabled(true);
+			uriTextLabel.setEnabled(false);
+			uriText.setEnabled(false);
+			uriText.setText("");
+		}
+		else {
+			fileTextLabel.setEnabled(false);
+			fileText.setEnabled(false);
+			uriTextLabel.setEnabled(true);
+			uriText.setEnabled(true);
+			fileText.setText("");
+			storeOnDisposalCheckbox.setSelection(false);
+		}
 	}
 	
 	protected Composite createFilesGroup(Composite parent) {
 		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
+		
+		filebasedButton = new Button(groupContent, SWT.CHECK);
+		GridData filebasedButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
+		filebasedButtonGridData.horizontalSpan = 3;
+		filebasedButton.setSelection(true);
+		filebasedButton.setText("Workspace file");
+		filebasedButton.setLayoutData(filebasedButtonGridData);
+		filebasedButton.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+				toggleEnabledFields();
+			}
+			
+		});
+		
 		
 		fileTextLabel = new Label(groupContent, SWT.NONE);
 		fileTextLabel.setText("File: ");
@@ -68,6 +105,8 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 		if (properties == null) return;
 		fileText.setText(properties.getProperty(PlainXmlModel.PROPERTY_FILE));
 		uriText.setText(properties.getProperty(PlainXmlModel.PROPERTY_URI));
+		filebasedButton.setSelection(properties.getBooleanProperty("fileBased", true));
+		toggleEnabledFields();
 	}
 	
 	@Override
@@ -75,5 +114,6 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 		super.storeProperties();
 		properties.put(PlainXmlModel.PROPERTY_URI, uriText.getText());
 		properties.put(PlainXmlModel.PROPERTY_FILE, fileText.getText());
+		properties.put("fileBased", filebasedButton.getSelection() + "");
 	}
 }

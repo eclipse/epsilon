@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.epsilon.common.dt">
+<schema targetNamespace="org.eclipse.epsilon.common.dt" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.epsilon.common.dt" id="modelType" name="Model Type"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="modelType" minOccurs="1" maxOccurs="unbounded"/>
@@ -88,6 +93,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="stable" type="boolean">
+            <annotation>
+               <documentation>
+                  If the driver is stable (i.e. not experimental) it should be set to true.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -127,13 +139,5 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>

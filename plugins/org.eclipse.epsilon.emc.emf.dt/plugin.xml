@@ -10,6 +10,7 @@
             dialog="org.eclipse.epsilon.emc.emf.dt.EmfModelConfigurationDialog"
             icon="icons/emf.gif"
             label="EMF Model"
+            stable="true"
             type="EMF"/>
       <modelType
             class="org.eclipse.epsilon.emc.emf.m0.EmfM0Model"
@@ -20,8 +21,9 @@
       <modelType
             class="org.eclipse.epsilon.emc.emf.EmfMetaModel"
             dialog="org.eclipse.epsilon.emc.emf.dt.EmfMetaModelConfigurationDialog"
-            icon="icons/emf.gif"
+            icon="icons/register.png"
             label="Registered EMF EPackage"
+            stable="true"
             type="EMF_M2">
       </modelType>
       <modelType
