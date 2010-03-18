@@ -1,7 +1,15 @@
 var library = new Element("library");
 XMLDoc.document.appendChild(library);
 
-library.createBook("a", List{}, 12, 42);
+library.createBook("EMF Eclipse Modeling Framework", 
+	List{"Dave Steinberg", "Frank Budinsky", "Marcelo Paternostro", "Ed Merks"}, 
+	744, 2009);
+
+library.createBook("Eclipse Modeling Project: A Domain-Specific Language (DSL) Toolkit", 
+	List{"Richard Gronback"}, 736, 2009);
+
+library.createBook("Official Eclipse 3.0 FAQs", 
+	List{"John Arthorne", "Chris Laffra"}, 432, 2004);
 
 operation Element createBook(title : String, authors : Sequence(String), 
 	pages : Integer, published : Integer) {
