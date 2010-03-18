@@ -1,0 +1,5 @@
+var items = Element.all.select(e|e.tagName="item");
+
+for (item in items) {
+	item.title.text.println();
+}

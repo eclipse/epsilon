@@ -1,0 +1,20 @@
+<project default="main">
+	<target name="main">
+		
+		<epsilon.loadModel name="XML" type="PlainXML">
+			<parameter name="file" file="library.xml"/>
+			<parameter name="readOnLoad" value="true"/>
+		</epsilon.loadModel>
+		
+		<epsilon.loadModel name="RemoteXML" type="PlainXML">
+			<parameter name="uri" value="http://www.eclipse.org/forums/rdf.php?mode=m&amp;l=1&amp;basic=1&amp;frm=22&amp;n=10"/>
+			<parameter name="readOnLoad" value="true"/>
+		</epsilon.loadModel>
+		
+		<epsilon.eol>
+			<model ref="RemoteXML"/>
+			Element.all.random().println();
+		</epsilon.eol>
+		
+	</target>
+</project>
