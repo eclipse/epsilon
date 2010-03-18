@@ -52,7 +52,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 				return new File(resolved);
 
 			else {
-				return new File(new URI("file://" + resolved.toString()));
+				return new File(new URI("file:///" + resolved.toString()));
 			}
 
 		} catch (URISyntaxException e) {
