@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<library/>
+<library>
+	<book title="EMF Eclipse Modeling Framework" pages="744">
+		<author>Dave Steinberg</author>
+		<author>Frank Budinsky</author>
+		<author>Marcelo Paternostro</author>
+		<author>Ed Merks</author>
+		<published>2009</published>
+	</book>
+	<book title="Eclipse Modeling Project: A Domain-Specific Language (DSL) Toolkit">
+		<author>Richard Gronback</author>
+		<published>2009</published>
+	</book>
+</library>
