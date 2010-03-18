@@ -1,0 +1,14 @@
+// Print the titles of all books in the library
+for (book in Element.all.select(e|e.tagName = "book")) {
+	book.title.println();
+}
+
+// Print the publication year of each book
+for (book in Element.all.select(e|e.tagName = "book")) {
+	book.published.text.println();
+}
+
+// Print the author (?) of each book
+for (book in Element.all.select(e|e.tagName = "book")) {
+	book.author.println();
+}

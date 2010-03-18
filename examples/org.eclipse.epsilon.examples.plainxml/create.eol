@@ -1,3 +1,0 @@
-var l = new Element("library");
-XML.document.appendChild(l);
-l.println();

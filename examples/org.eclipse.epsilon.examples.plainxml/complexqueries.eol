@@ -1,0 +1,17 @@
+// Store all books in a collection variable
+var books = Element.all.select(e|e.tagName="book");
+
+// Print the total number of pages in all books
+books.collect(b|b.pages.asInteger()).sum().println();
+	
+// Print the titles of books with more than 1 authors
+for (book in books) {
+	if (book.authors.size() > 1) {
+		book.title.println();
+	}
+}
+
+// Print the title of the book with the most pages
+var maxPages = books.collect(b|b.pages.asInteger()).max;
+books.selectOne(b|b.pages.asInteger() = maxPages).title.println();
+
