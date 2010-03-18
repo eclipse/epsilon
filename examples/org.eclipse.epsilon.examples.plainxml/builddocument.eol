@@ -1,0 +1,32 @@
+var library = new Element("library");
+XMLDoc.document.appendChild(library);
+
+library.createBook("a", List{}, 12, 42);
+
+operation Element createBook(title : String, authors : Sequence(String), 
+	pages : Integer, published : Integer) {
+
+	// Create a new book element
+	var book = new Element("book");
+	
+	// Set its title
+	book.setAttribute("title", title);
+	
+	// Set its pages
+	book.setAttribute("pages", pages + "");
+	
+	// Create its author children
+	for (author in authors) {
+		var authorElement = new Element("author");
+		authorElement.text = author;
+		book.appendChild(authorElement);
+	}
+	
+	// Create its published child
+	var publishedElement = new Element("published");
+	publishedElement.text = published + "";
+	
+	// Add the book as a child
+	self.appendChild(book);
+
+}
