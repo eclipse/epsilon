@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <library>
-	<book generated="yes" title="Book0">
-		<author>Author1.1</author>
-	</book>
-	<book generated="yes">
-		<title>Book1</title>
-		<author>Author1.1</author>
-		<author>Author1.2</author>
-	</book>
+  <book title="Book1">
+    <author>Author1</author>
+  </book>
+  <book title="Book2">
+    <author>Author2</author>
+  </book>
 </library>

@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class Workbench {
@@ -24,12 +25,13 @@ public class Workbench {
 		module.parse(new File(dir + "testplainxml.eol"));
 
 		//module.getContext().getModelRepository().addModel(createModel("XML", "http://www.eclipse.org/forums/rdf.php?mode=m&l=1&basic=1&frm=22&n=10", false));
-		//module.getContext().getModelRepository().addModel(createModel("XML", dir + "test.xml", true));
+		module.getContext().getModelRepository().addModel(createModel("XML", dir + "test.xml", true));
 		//module.getContext().getModelRepository().addModel(createModel("XML2", dir + "test2.xml"));
-		module.getContext().getModelRepository().addModel(createModel("XML", dir + "test3.xml", true));
+		//module.getContext().getModelRepository().addModel(createModel("XML", dir + "test3.xml", true));
 		
 		module.execute();
 		module.getContext().getModelRepository().dispose();
+		
 		
 	}
 	

@@ -4,12 +4,14 @@ XML.document.appendChild(l);
 l.appendChild(createBook("Book1", "Author1"));
 l.appendChild(createBook("Book2", "Author2"));
 
-delete Element.all.selectOne(e|e.tagName = "book");
+// delete Element.all.selectOne(e|e.tagName = "book");
 
 operation createBook(title : String, author : String) : Element {
 	var book = new Element("book");
 	book.setAttribute("title", title);
-	book.setAttribute("author", author);
+	var authorElement = new Element("author");
+	authorElement.text = author;
+	book.appendChild(authorElement);
 	return book;
 }
 

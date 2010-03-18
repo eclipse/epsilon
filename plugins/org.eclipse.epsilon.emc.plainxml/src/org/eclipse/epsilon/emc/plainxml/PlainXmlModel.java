@@ -8,6 +8,7 @@ import java.util.Collections;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -83,14 +84,15 @@ public class PlainXmlModel extends Model {
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		
+		String tagName = "element";
+		
 		if (parameters.size() == 1) {
-			Element newElement = document.createElement(
-					parameters.iterator().next() + "");
-			createdElements.add(newElement);
-			return newElement;
+			tagName = parameters.iterator().next() + "";
 		}
 		
-		return null;
+		Element newElement = document.createElement(tagName);
+		createdElements.add(newElement);
+		return newElement;
 		
 	}
 
@@ -256,8 +258,9 @@ public class PlainXmlModel extends Model {
 	
 			// create Transformer for transformation
 			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty("indent", "yes");	//Java XML Indent
-	
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");	//Java XML Indent
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			
 			// transform and deliver content to client
 			transformer.transform(xmlSource, result);
 			return true;
