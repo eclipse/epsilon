@@ -50,7 +50,7 @@ public class TypeExecutor extends AbstractExecutor{
 		else if (typeName.equals("Map")){
 			return EolPrimitiveType.Map;
 		}
-		else if (typeName.equals("Sequence")){
+		else if (typeName.equals("Sequence") || typeName.equals("List")){
 			return EolCollectionType.Sequence;
 		}
 		else if (typeName.equals("Bag")){
