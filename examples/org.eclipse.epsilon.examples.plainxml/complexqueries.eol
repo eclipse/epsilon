@@ -15,3 +15,18 @@ for (book in books) {
 var maxPages = books.collect(b|b.pages.asInteger()).max;
 books.selectOne(b|b.pages.asInteger() = maxPages).title.println();
 
+// Print the title of all books written by Ed Merks.
+// Demonstrates navigating to the parent node.
+for (author in Element.all.select(e|e.tagName="author")) {
+	if (author.text = "Ed Merks") {
+		author.parentNode.title.println();
+	}
+}
+
+// Print the tag and text of all children 
+// of each book (author + published)
+for (book in books) {
+	for (child in book.children) {
+		(child.tagName + "->" + child.text).println();
+	}
+}
