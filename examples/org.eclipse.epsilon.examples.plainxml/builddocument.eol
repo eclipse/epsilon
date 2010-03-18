@@ -11,7 +11,7 @@ library.createBook("Eclipse Modeling Project: A Domain-Specific Language (DSL) T
 library.createBook("Official Eclipse 3.0 FAQs", 
 	List{"John Arthorne", "Chris Laffra"}, 432, 2004);
 
-operation Element createBook(title : String, authors : Sequence(String), 
+operation Element createBook(title : String, authors : List(String), 
 	pages : Integer, published : Integer) {
 
 	// Create a new book element
