@@ -22,6 +22,10 @@ public class LogUtil {
 		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(severity, "org.eclipse.epsilon.common.dt", code, message, ex));
 	}
 	
+	public static void logInfo(String message) {
+		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message));
+	}
+	
 	public static void log(String message, Exception ex) {
 		log(IStatus.ERROR, 0, message, ex);
 		//MessageDialog.openError(null, "Error", message + "\r\nPlease check the error log for further information");
