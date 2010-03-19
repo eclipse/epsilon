@@ -39,7 +39,10 @@ public class CheckConformanceOnStartup implements IStartup {
 		new ConformanceChecker().schedule();
 	}
 
-	private static class ConformanceChecker extends Job {
+	private static class ConformanceChecker extends Job {		
+
+		private final StringBuilder checked = new StringBuilder();
+		private final StringBuilder skipped = new StringBuilder();
 		
 		public ConformanceChecker() {
 			super("Checking conformance to registered metamodel of each model in the workspace.");
@@ -48,15 +51,14 @@ public class CheckConformanceOnStartup implements IStartup {
 		public IStatus run(IProgressMonitor monitor) {
 			try {
 				checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(monitor);
-	
-			} catch (Exception e) {
+			} catch (CoreException e) {
 				LogUtil.log("Error whilst running task to check conformance to registered metamodel of each model in the workspace.", e);
 			}
 			
 			return Status.OK_STATUS;
 		}
 		
-		private void checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(IProgressMonitor monitor) throws CoreException, HutnXmiBridgeException {
+		private void checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(IProgressMonitor monitor) throws CoreException {
 			final Collection<IFile> modelFiles = new FileLocator(modelFileExtensions()).findAllMatchingFiles(workspaceRoot());
 
 			monitor.beginTask("Checking conformance to registered metamodel of each model in the workspace.", modelFiles.size());
@@ -65,23 +67,29 @@ public class CheckConformanceOnStartup implements IStartup {
 				if (monitor.isCanceled())
 					break;
 				
-				if (metamodelHasChangedFor(modelFile)) {
-					EpsilonConsole.getInstance().getInfoStream().println("checking: " + modelFile);
-					monitor.subTask("Checking conformance to registered metamodel of " + modelFile);
-					checkConformanceToRegisteredMetamodelOf(modelFile);
-				
-				} else {
-					EpsilonConsole.getInstance().getInfoStream().println("skipping: " + modelFile);
-					monitor.subTask("Skipping conformance check (no metamodel changes) for " + modelFile);
+				try {
+					checkOrSkip(monitor, modelFile);
+				} catch (Exception e) {
+					LogUtil.log("Error whilst checking conformance of: " + modelFile, e);
 				}
 				
 				monitor.worked(1);
 			}
 			
+			printMessages();
+			
 			monitor.done();
 		}
 
-
+		private void checkOrSkip(IProgressMonitor monitor, IFile modelFile) throws CoreException, HutnXmiBridgeException {
+			if (metamodelHasChangedFor(modelFile)) {
+				check(monitor, modelFile);
+			
+			} else {
+				skip(monitor, modelFile);
+			}
+		}
+		
 		private boolean metamodelHasChangedFor(IFile modelFile) {
 			try {
 				return new ModelHashChecker(modelFile.getRawLocationURI()).hasHashChangedFor();
@@ -90,6 +98,36 @@ public class CheckConformanceOnStartup implements IStartup {
 				LogUtil.log("Error encountered while calculating hash for: " + modelFile, e);
 				return true;
 			}
+		}
+		
+		private void check(IProgressMonitor monitor, IFile modelFile) throws CoreException, HutnXmiBridgeException {
+			checked.append(modelFile);
+			checked.append('\n');
+			
+			monitor.subTask("Checking conformance to registered metamodel of " + modelFile);
+			
+			checkConformanceToRegisteredMetamodelOf(modelFile);
+		}
+		
+		private void skip(IProgressMonitor monitor, IFile modelFile) {
+			skipped.append(modelFile);
+			skipped.append('\n');
+			
+			monitor.subTask("Skipping conformance check (no metamodel changes) for " + modelFile);
+		}
+		
+		private void printMessages() {
+			if (checked.length() > 0) {
+				printMessage("Checked conformance of the following models: " + checked);
+			}
+			
+			if (skipped.length() > 0) {
+				printMessage("Skipped conformance check of (no metamodel changes for) the following models: " + skipped);
+			}
+		}
+
+		private void printMessage(String message) {
+			EpsilonConsole.getInstance().getInfoStream().println(message);
 		}
 
 		private void checkConformanceToRegisteredMetamodelOf(IFile file) throws CoreException, HutnXmiBridgeException {		

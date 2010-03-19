@@ -15,12 +15,10 @@ package org.eclipse.epsilon.hutn.xmi.dt.startup;
 
 import java.net.URI;
 
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.hutn.xmi.dt.HutnXmiBridgeDevelopmentToolsPlugin;
 import org.eclipse.epsilon.hutn.xmi.dt.ModelHashCache;
 import org.eclipse.epsilon.hutn.xmi.hashing.HutnXmiBridgeHashingException;
 import org.eclipse.epsilon.hutn.xmi.hashing.Xmi2Hash;
-import org.eclipse.ui.PlatformUI;
 
 public class ModelHashChecker {
 
@@ -44,24 +42,10 @@ public class ModelHashChecker {
 		final boolean hashChanged = !matchesCachedHash(currentHash);
 		
 		if (hashChanged) {
-			if (noCachedHash()) {
-				print("No previous hash for: " + model + " (new hash value: " + currentHash + ")");
-			} else {
-				print("Hash changed for: " + model + " (" + previousHash() + " -> " + currentHash + ")");
-			}
-				
 			updateCachedHash(currentHash);
 		}
 		
 		return hashChanged;
-	}
-
-	private void print(String msg) {
-		if (PlatformUI.isWorkbenchRunning()) {
-			EpsilonConsole.getInstance().getInfoStream().println(msg);
-		} else {
-			System.out.println(msg);
-		}
 	}
 
 	private boolean matchesCachedHash(int currentHash) {
