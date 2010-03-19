@@ -21,6 +21,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -68,7 +69,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 					
 					storeLaunchConfiguration();
 					
-					EpsilonConsole.getInstance().getInfoStream().println("Generated debug info for " + file.getLocation().toFile());
+					LogUtil.logInfo("Generated debug info for " + file.getLocation().toFile());
 					refreshProjectContaining(file);
 
 				} else {

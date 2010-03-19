@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
@@ -65,7 +66,7 @@ public class HutnBuilderHelper {
 				                                                           getFileName(base, "ecore"));   // eg: Inferred.metamodel
 				
 				for (File generatedFile : generatedFiles) {
-					EpsilonConsole.getInstance().getInfoStream().println("Generated " + generatedFile);
+					LogUtil.logInfo("Generated " + generatedFile);
 				}
 				
 				parent.refreshLocal(IResource.DEPTH_ONE, monitor);
