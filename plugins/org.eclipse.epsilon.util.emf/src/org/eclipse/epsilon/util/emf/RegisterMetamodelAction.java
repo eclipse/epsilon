@@ -50,7 +50,7 @@ public class RegisterMetamodelAction implements IObjectActionDelegate{
 			//String fileName = file.getRawLocation().toOSString();
 			try {
 				EmfRegistryManager.getInstance().addMetamodel(fileName);
-				EpsilonConsole.getInstance().getInfoStream().println("Metamodel " + fileName + " registered successfully");
+				LogUtil.logInfo("Metamodel " + fileName + " registered successfully");
 			}
 			catch (Exception ex) {
 				LogUtil.log("Metamodel " + fileName + " could not be registered", ex);
