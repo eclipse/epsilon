@@ -11,5 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.epsilon.emc.plainxml.dt
+Bundle-Vendor: Eclipse.org
