@@ -13,10 +13,13 @@
  */
 package org.eclipse.epsilon.hutn.xmi.dt.startup;
 
+import static org.eclipse.epsilon.hutn.xmi.dt.startup.ConformanceCheckingNature.hasConformanceCheckingNature;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -45,23 +48,35 @@ public class CheckConformanceOnStartup implements IStartup {
 		private final StringBuilder skipped = new StringBuilder();
 		
 		public ConformanceChecker() {
-			super("Checking conformance to registered metamodel of each model in the workspace.");
+			super("Checking conformance of models.");
 		}
 
 		public IStatus run(IProgressMonitor monitor) {
 			try {
-				checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(monitor);
+				checkConformanceOfModelsInProjectsWithConformanceCheckingNature(monitor);
 			} catch (CoreException e) {
-				LogUtil.log("Error whilst running task to check conformance to registered metamodel of each model in the workspace.", e);
+				LogUtil.log("Error whilst running task to check conformance of models.", e);
 			}
 			
 			return Status.OK_STATUS;
 		}
 		
-		private void checkConformanceOfEveryModelInWorkspaceWhoseMetamodelHasChanged(IProgressMonitor monitor) throws CoreException {
-			final Collection<IFile> modelFiles = new FileLocator(modelFileExtensions()).findAllMatchingFiles(workspaceRoot());
+		private void checkConformanceOfModelsInProjectsWithConformanceCheckingNature(IProgressMonitor monitor) throws CoreException {
+			final FileLocator modelFileLocator = new FileLocator(modelFileExtensions());
+			
+			for (IProject project : workspaceRoot().getProjects()) {
+				if (hasConformanceCheckingNature(project)) {
+					checkConformanceOf(modelFileLocator.findAllMatchingFiles(project), monitor);
+				}
+			}			
+			
+			printMessages();
+			
+			monitor.done();
+		}
 
-			monitor.beginTask("Checking conformance to registered metamodel of each model in the workspace.", modelFiles.size());
+		private void checkConformanceOf(final Collection<IFile> modelFiles, IProgressMonitor monitor) {
+			monitor.beginTask("Checking conformance of models.", modelFiles.size());
 			
 			for (IFile modelFile : modelFiles) {
 				if (monitor.isCanceled())
@@ -75,10 +90,6 @@ public class CheckConformanceOnStartup implements IStartup {
 				
 				monitor.worked(1);
 			}
-			
-			printMessages();
-			
-			monitor.done();
 		}
 
 		private void checkOrSkip(IProgressMonitor monitor, IFile modelFile) throws CoreException, HutnXmiBridgeException {
