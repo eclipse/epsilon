@@ -247,7 +247,9 @@ public class EmfUtil {
 				} else if (eDataType.getName().equals("Double")) {
 					instanceClass = "java.lang.Double";
 				}
-				eDataType.setInstanceClassName(instanceClass);
+				if (instanceClass.trim().length() > 0) {
+					eDataType.setInstanceClassName(instanceClass);
+				}
 			}
 		}
 	}
