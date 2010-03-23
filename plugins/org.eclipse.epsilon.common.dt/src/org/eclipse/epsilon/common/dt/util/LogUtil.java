@@ -23,7 +23,14 @@ public class LogUtil {
 	}
 	
 	public static void logInfo(String message) {
+		logInfo(message, false);
+	}
+	
+	public static void logInfo(String message, boolean openInfoDialog) {
 		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message));
+		if (openInfoDialog) {
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", message);
+		}
 	}
 	
 	public static void log(String message, Exception ex) {
