@@ -66,7 +66,7 @@ public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		progressMonitor.done();
 		
-		System.err.println("Transforming...");
+		//System.err.println("Transforming...");
 		
 		// Start executing
 		
