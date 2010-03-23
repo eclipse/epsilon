@@ -40,7 +40,7 @@ public class PlainXmlModel extends Model {
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_URI = "uri";
 	
-	@Override
+	
 	public Collection<?> allContents() {
 		ArrayList<Element> elements = new ArrayList<Element>();
 		collectAllElements(document, elements);
@@ -72,14 +72,14 @@ public class PlainXmlModel extends Model {
 		return document;
 	}
 
-	@Override
+	
 	public Object createInstance(String type)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		return createInstance(type, Collections.EMPTY_LIST);
 	}
 	
-	@Override
+	
 	public Object createInstance(String type, Collection<Object> parameters)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
@@ -96,7 +96,7 @@ public class PlainXmlModel extends Model {
 		
 	}
 
-	@Override
+	
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		if (instance instanceof Element) {
 			Element e = (Element) instance;
@@ -121,13 +121,13 @@ public class PlainXmlModel extends Model {
 		
 	}
 	
-	@Override
+	
 	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 		return getAllOfType(type);
 	}
 
-	@Override
+	
 	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		if ("Element".equalsIgnoreCase(type)) {
@@ -137,23 +137,23 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public Object getElementById(String id) {
 		return null;
 	}
 
-	@Override
+	
 	public String getElementId(Object instance) {
 		return null;
 	}
 
-	@Override
+	
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
 		return null;
 	}
 
-	@Override
+	
 	public String getTypeNameOf(Object instance) {
 		if (instance instanceof Element) {
 			return "Element";
@@ -163,27 +163,27 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
 	}
 
-	@Override
+	
 	public boolean hasType(String type) {
 		return "Element".equals(type);
 	}
 
-	@Override
+	
 	public boolean isInstantiable(String type) {
 		return hasType(type);
 	}
 
-	@Override
+	
 	public boolean isModelElement(Object instance) {
 		return (instance instanceof Element);
 	}
 	
-	@Override
+	
 	public void load() throws EolModelLoadingException {
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -206,7 +206,7 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public void load(StringProperties properties, String basePath)
 			throws EolModelLoadingException {
 		
@@ -225,7 +225,7 @@ public class PlainXmlModel extends Model {
 		load();
 	}
 	
-	@Override
+	
 	public boolean owns(Object instance) {
 		if (instance instanceof Element) {
 			Element e = (Element) instance;
@@ -246,7 +246,7 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public boolean store(String location) {
 		
 		try {
@@ -271,7 +271,7 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public boolean store() {
 		if (file != null) {
 			return store(file.getAbsolutePath());
@@ -281,12 +281,12 @@ public class PlainXmlModel extends Model {
 		}
 	}
 
-	@Override
+	
 	public IPropertyGetter getPropertyGetter() {
 		return new PlainXmlPropertyGetter();
 	}
 	
-	@Override
+	
 	public IPropertySetter getPropertySetter() {
 		return new PlainXmlPropertySetter();
 	}

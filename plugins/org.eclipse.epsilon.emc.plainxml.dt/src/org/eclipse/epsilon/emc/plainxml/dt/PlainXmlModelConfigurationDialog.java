@@ -13,12 +13,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class PlainXmlModelConfigurationDialog extends AbstractModelConfigurationDialog {
 
-	@Override
+	
 	protected String getModelName() {
 		return "Plain XML document";
 	}
 
-	@Override
+	
 	protected String getModelType() {
 		return "PlainXML";
 	}
@@ -30,7 +30,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 	protected Button browseModelFile;
 	protected Button filebasedButton;
 	
-	@Override
+	
 	protected void createGroups(Composite control) {
 		createNameAliasGroup(control);
 		createFilesGroup(control);
@@ -67,7 +67,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 		filebasedButton.setLayoutData(filebasedButtonGridData);
 		filebasedButton.addListener(SWT.Selection, new Listener() {
 
-			@Override
+			
 			public void handleEvent(Event event) {
 				toggleEnabledFields();
 			}
@@ -99,7 +99,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 	}
 
 	
-	@Override
+	
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
@@ -109,7 +109,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 		toggleEnabledFields();
 	}
 	
-	@Override
+	
 	protected void storeProperties(){
 		super.storeProperties();
 		properties.put(PlainXmlModel.PROPERTY_URI, uriText.getText());
