@@ -70,7 +70,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 			return new Model((IReflectiveModel)model, getPrettyPrinterManager());
 		
 		else
-			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IModelWithReflexiveAccess. " + model.getName() + " does not.");
+			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IReflectiveModel. " + model.getName() + " does not.");
 	}
 	
 	public void setOriginalModel(int indexInRepository) throws FlockUnsupportedModelException {
