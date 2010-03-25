@@ -1,15 +1,3 @@
-package org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore;
-import static org.junit.Assert.assertEquals;
-
-
-import java.util.Arrays;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore.Metafeatures;
-import org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder;
-import org.junit.Test;
-
-
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
  * All rights reserved. This program and the accompanying materials
@@ -23,6 +11,16 @@ import org.junit.Test;
  *
  * $Id$
  */
+package org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore.Metafeatures;
+import org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder;
+import org.junit.Test;
 
 public class FeaturesTests {
 
@@ -32,7 +30,7 @@ public class FeaturesTests {
 		
 		final EAttribute age = EAttributeBuilder.anEAttribute().named("age").withBounds(1, 1).build();
 		
-		assertEquals(features.getValuesToHashFrom(age), Arrays.asList((Object)"age", 1));
+		assertEquals(Arrays.asList((Object)"age", 1), features.getValuesToHashFrom(age));
 	}
 	
 	@Test
@@ -41,15 +39,15 @@ public class FeaturesTests {
 		
 		final EAttribute unnamed = EAttributeBuilder.anEAttribute().build();
 		
-		assertEquals(features.getValuesToHashFrom(unnamed), Arrays.asList((Object)null));
+		assertEquals(Arrays.asList((Object)null), features.getValuesToHashFrom(unnamed));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void throwsExceptionWhenObjectDoesNotHaveFeature() {
+	@Test
+	public void returnsNullWhenTypeDoesNotHaveFeature() {
 		final Metafeatures features = new Metafeatures("multiplicity");
 		
 		final EAttribute attribute = EAttributeBuilder.anEAttribute().withBounds(1, 1).build();
 		
-		features.getValuesToHashFrom(attribute);
+		assertEquals(Arrays.asList((Object)null), features.getValuesToHashFrom(attribute));
 	}
 }

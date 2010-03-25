@@ -1,11 +1,3 @@
-package org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
  * All rights reserved. This program and the accompanying materials
@@ -19,6 +11,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * $Id$
  */
+package org.eclipse.epsilon.hutn.xmi.hashing.hashers.ecore;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 class Metafeatures {
 
@@ -41,20 +41,10 @@ class Metafeatures {
 	private static Object getValueOfMetafeatureFrom(EModelElement metamodelElement, String metafeatureName) {
 		final EStructuralFeature metafeature = getMetafeatureFrom(metamodelElement, metafeatureName);
 		
-		if ("eOpposite".equals(metafeatureName)) {
-			System.err.println(metamodelElement.eGet(metafeature));
-		}
-		
-		return metamodelElement.eGet(metafeature);
+		return metafeature == null ? null : metamodelElement.eGet(metafeature);
 	}
 	
 	private static EStructuralFeature getMetafeatureFrom(EModelElement metamodelElement, String metafeatureName) {
-		final EStructuralFeature feature = metamodelElement.eClass().getEStructuralFeature(metafeatureName);
-		
-		if (feature == null) {
-			throw new IllegalArgumentException("No feature named '" + metafeatureName + "' found for: " + metamodelElement);
-		}
-		
-		return feature;
+		return metamodelElement.eClass().getEStructuralFeature(metafeatureName);
 	}
 }
