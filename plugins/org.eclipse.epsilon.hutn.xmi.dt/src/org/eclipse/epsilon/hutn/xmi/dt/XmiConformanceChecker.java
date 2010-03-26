@@ -17,37 +17,21 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
-import org.eclipse.ui.PlatformUI;
 
 public class XmiConformanceChecker {
 
 	private final ConformanceReporter reporter;
 	
 	public XmiConformanceChecker() {
-		this(initialiseInformer());
-	}
-
-	private static PrintStreamConformanceInformer initialiseInformer() {
-		final PrintStream infoStream, errorStream;
-		
-		if (PlatformUI.isWorkbenchRunning()) {
-			infoStream  = EpsilonConsole.getInstance().getInfoStream();
-			errorStream = EpsilonConsole.getInstance().getErrorStream();
-		} else {
-			infoStream  = System.out;
-			errorStream = System.err;
-		}
-		
-		return new PrintStreamConformanceInformer(infoStream, errorStream);
+		this(new PrintStreamConformanceInformer(System.out, System.err));
 	}
 	
-	public XmiConformanceChecker(ConformanceReporter informer) {
-		this.reporter = informer;
+	public XmiConformanceChecker(ConformanceReporter reporter) {
+		this.reporter = reporter;
 	}
 	
 	public void reportConformanceOf(IResource resource) {		
