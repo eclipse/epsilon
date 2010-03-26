@@ -36,6 +36,8 @@ public class PlainXmlModel extends Model {
 	protected String uri;
 	protected File file;
 	protected ArrayList<Element> createdElements = new ArrayList<Element>();
+	protected static String ELEMENT_TYPE = "Element";
+	protected static String DEFAULT_NEW_TAG_NAME = "element";
 	
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_URI = "uri";
@@ -84,14 +86,39 @@ public class PlainXmlModel extends Model {
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		
-		String tagName = "element";
+		String tagName = null;
+		boolean root = false;
 		
-		if (parameters.size() == 1) {
-			tagName = parameters.iterator().next() + "";
+		if (ELEMENT_TYPE.equals(type)) {
+			if (parameters.size() == 1) {
+				tagName = parameters.iterator().next() + "";
+			}
+			else {
+				tagName = DEFAULT_NEW_TAG_NAME;
+			}
+		}
+		else {
+			PlainXmlType plainXmlType = PlainXmlType.parse(type);
+			if (plainXmlType != null) {
+				tagName = plainXmlType.getTagName();
+			}
+			
+			if (parameters.size() == 1) {
+				Object param = parameters.iterator().next();
+				if (param instanceof Boolean) {
+					root = ((Boolean) param).booleanValue();
+				}
+			}
+			
 		}
 		
 		Element newElement = document.createElement(tagName);
-		createdElements.add(newElement);
+		if (root == false) {
+			createdElements.add(newElement);
+		}
+		else {
+			document.appendChild(newElement);
+		}
 		return newElement;
 		
 	}
@@ -104,6 +131,12 @@ public class PlainXmlModel extends Model {
 				e.getParentNode().removeChild(e);
 			}
 			createdElements.remove(e);
+			
+			// Also remove all its children
+			for (Element child : DomUtil.getChildren(e)) {
+				deleteElement(child);
+			}
+			
 		}
 	}
 	
@@ -130,10 +163,23 @@ public class PlainXmlModel extends Model {
 	
 	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
-		if ("Element".equalsIgnoreCase(type)) {
+		if (ELEMENT_TYPE.equals(type)) {
 			return allContents();
 		} else {
-			throw new EolModelElementTypeNotFoundException(this.getName(), type);
+			PlainXmlType plainXmlType = PlainXmlType.parse(type);
+			if (plainXmlType != null) {
+				ArrayList<Element> allOfType = new ArrayList<Element>();
+				for (Object o : allContents()) {
+					Element e = (Element) o;
+					if (e.getTagName().equals(plainXmlType.getTagName())) {
+						allOfType.add(e);
+					}
+				}
+				return allOfType;
+			}
+			else {
+				throw new EolModelElementTypeNotFoundException(this.getName(), type);
+			}
 		}
 	}
 
@@ -156,7 +202,7 @@ public class PlainXmlModel extends Model {
 	
 	public String getTypeNameOf(Object instance) {
 		if (instance instanceof Element) {
-			return "Element";
+			return "t_" + ((Element) instance).getTagName();
 		}
 		else {
 			return instance.getClass().getName();
@@ -170,7 +216,7 @@ public class PlainXmlModel extends Model {
 
 	
 	public boolean hasType(String type) {
-		return "Element".equals(type);
+		return ELEMENT_TYPE.equals(type) || (PlainXmlType.parse(type) != null);
 	}
 
 	
@@ -238,7 +284,7 @@ public class PlainXmlModel extends Model {
 				while (parent.getParentNode() != null) {
 					parent = parent.getParentNode();
 				}
-				return parent == document;
+				return parent == document || createdElements.contains(parent);
 			}
 		}
 		else {

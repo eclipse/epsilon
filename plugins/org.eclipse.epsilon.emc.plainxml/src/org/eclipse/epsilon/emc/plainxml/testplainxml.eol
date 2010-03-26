@@ -1,5 +1,4 @@
-var l = new Element("library");
-XML.document.appendChild(l);
+var l = new t_library(true);
 
 l.appendChild(createBook("Book1", "Author1"));
 l.appendChild(createBook("Book2", "Author2"));
@@ -10,12 +9,12 @@ for (book in l.c_book) {
 	book.b_published.println();
 }
 
-Element.all.select(e|e.tagName = "book").println();
+t_book.all.println();
 
-operation createBook(title : String, author : String) : Element {
-	var book = new Element("book");
+function createBook(title : String, author : String) : Element {
+	var book = new t_book;
 	book.a_title = title;
-	var authorElement = new Element("author");
+	var authorElement = new t_author;
 	book.i_pages = List{1..200}.random();
 	authorElement.a_name = author;
 	authorElement.text = "blah";
