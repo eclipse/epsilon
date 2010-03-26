@@ -77,9 +77,18 @@ public class LoadModel extends EpsilonTask {
 	}
 
 	public void setAlias(String alias) {
+		System.out.println("[WARNING] Attribute 'alias' is deprecated. Please use 'aliases' instead.");
 		this.alias = alias;
 	}
 
+	public void setAliases(String aliases) {
+		this.alias = aliases;
+	}
+	
+	public String getAliases() {
+		return this.alias;
+	}
+	
 	public File getModelFile() {
 		return modelFile;
 	}
