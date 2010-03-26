@@ -15,12 +15,14 @@ package org.eclipse.epsilon.flock.dt.util;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -63,7 +65,7 @@ public class MigrationStrategyExecutor {
 			refreshProject();
 		
 		} catch (Exception ex) {
-			printError(ex.getLocalizedMessage());
+			LogUtil.log("Error encountered whilst executing Flock migration strategy for: " + model.getLocation(), ex);
 		}
 	}	
 	
@@ -89,10 +91,7 @@ public class MigrationStrategyExecutor {
 			migrated.store();
 		
 		} else {
-			printError("Error(s) encountered while parsing migration strategy:");
-			for (ParseProblem problem : migrator.getParseProblems()) {
-				printError(problem);
-			}	
+			displayParseProblems(migrator.getParseProblems());	
 		}
 		
 		original.dispose();
@@ -111,7 +110,14 @@ public class MigrationStrategyExecutor {
 		model.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 	
-	private static void printError(Object message) {
-		EpsilonConsole.getInstance().getErrorStream().println(message);
+	private static void displayParseProblems(Collection<ParseProblem> problems) {
+		final StringBuilder message = new StringBuilder("Error(s) encountered while parsing migration strategy:");
+		
+		for (ParseProblem problem : problems) {
+			message.append('\n');
+			message.append(problem);
+		}
+		
+		LogUtil.logInfo(message, true);
 	}
 }
