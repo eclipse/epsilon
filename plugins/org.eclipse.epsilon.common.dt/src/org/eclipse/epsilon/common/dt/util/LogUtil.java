@@ -33,6 +33,10 @@ public class LogUtil {
 		}
 	}
 	
+	public static void logInfo(Object o) {
+		logInfo(o.toString());
+	}
+	
 	public static void log(String message, Exception ex) {
 		log(IStatus.ERROR, 0, message, ex);
 		//MessageDialog.openError(null, "Error", message + "\r\nPlease check the error log for further information");
