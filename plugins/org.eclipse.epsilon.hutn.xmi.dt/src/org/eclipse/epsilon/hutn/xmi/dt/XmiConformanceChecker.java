@@ -26,26 +26,28 @@ import org.eclipse.ui.PlatformUI;
 
 public class XmiConformanceChecker {
 
-	private final ConformanceReporter informer;
+	private final ConformanceReporter reporter;
 	
 	public XmiConformanceChecker() {
 		this(initialiseInformer());
 	}
 
 	private static PrintStreamConformanceInformer initialiseInformer() {
-		final PrintStream printStream;
+		final PrintStream infoStream, errorStream;
 		
 		if (PlatformUI.isWorkbenchRunning()) {
-			printStream = EpsilonConsole.getInstance().getInfoStream();
+			infoStream  = EpsilonConsole.getInstance().getInfoStream();
+			errorStream = EpsilonConsole.getInstance().getErrorStream();
 		} else {
-			printStream = System.out;
+			infoStream  = System.out;
+			errorStream = System.err;
 		}
 		
-		return new PrintStreamConformanceInformer(printStream);
+		return new PrintStreamConformanceInformer(infoStream, errorStream);
 	}
 	
 	public XmiConformanceChecker(ConformanceReporter informer) {
-		this.informer = informer;
+		this.reporter = informer;
 	}
 	
 	public void reportConformanceOf(IResource resource) {		
@@ -55,7 +57,9 @@ public class XmiConformanceChecker {
 			new MarkerManager(resource).replaceErrorMarkers(conformanceProblems);
 			
 			if (conformanceProblems.isEmpty()) {
-				informOfConformance(resource.getName());
+				reporter.reportConformant(resource.getName());
+			} else {
+				reporter.reportNonConformant(resource.getName(), conformanceProblems);
 			}
 			
 		} catch (Exception e) {
@@ -63,25 +67,32 @@ public class XmiConformanceChecker {
 		}
 	}
 	
-	private void informOfConformance(String name) {
-		informer.reportConformant(name);
-	}
-	
 	
 	public static interface ConformanceReporter {
 		public void reportConformant(String name);
+
+		public void reportNonConformant(String name, Collection<ParseProblem> conformanceProblems);
 	}
 	
 	private static class PrintStreamConformanceInformer implements ConformanceReporter {
 
-		private final PrintStream printStream;
+		private final PrintStream infoStream, errorStream;
 		
-		public PrintStreamConformanceInformer(PrintStream printStream) {
-			this.printStream = printStream;
+		public PrintStreamConformanceInformer(PrintStream infoStream, PrintStream errorStream) {
+			this.infoStream  = infoStream;
+			this.errorStream = errorStream;
 		}
 
 		public void reportConformant(String name) {
-			printStream.println(name + " conforms to its registered metamodel.");			
+			infoStream.println(name + " conforms to its registered metamodel.");			
+		}
+		
+		public void reportNonConformant(String name, Collection<ParseProblem> conformanceProblems) {
+			errorStream.println(name + " does not conform to its registered metamodel.");
+			
+			for (ParseProblem conformanceProblem : conformanceProblems) {
+				errorStream.println("\t" + conformanceProblem.toString());
+			}
 		}
 	}
 }
