@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.action.IAction;
 
 public class RestoreBackup extends AbstractObjectActionDelegate {
@@ -31,7 +31,7 @@ public class RestoreBackup extends AbstractObjectActionDelegate {
 			}
 		
 		} catch (CoreException ex) {
-			EpsilonConsole.getInstance().getErrorStream().println(ex.getLocalizedMessage());
+			LogUtil.log("Error encountered while restoring backup: " + backedUpFile.getLocation(), ex);
 		}
 	}
 	
