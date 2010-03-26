@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
@@ -138,7 +137,7 @@ public class CheckConformanceOnStartup implements IStartup {
 		}
 
 		private void printMessage(String message) {
-			EpsilonConsole.getInstance().getInfoStream().println(message);
+			LogUtil.logInfo(message);
 		}
 
 		private void checkConformanceToRegisteredMetamodelOf(IFile file) throws CoreException, HutnXmiBridgeException {		
