@@ -15,14 +15,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.core.resources.ICommand;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
-public abstract class BuilderConfiguringNature implements IProjectNature {
-
-	private IProject project;
+public abstract class BuilderConfiguringNature extends AbstractNature {
 	
 	protected abstract String getBuilderID();
 	
@@ -74,13 +70,4 @@ public abstract class BuilderConfiguringNature implements IProjectNature {
 		
 		return false;
 	}
-
-	public IProject getProject() {
-		return project;
-	}
-
-	public void setProject(IProject project) {
-		this.project = project;
-	}
-
 }
