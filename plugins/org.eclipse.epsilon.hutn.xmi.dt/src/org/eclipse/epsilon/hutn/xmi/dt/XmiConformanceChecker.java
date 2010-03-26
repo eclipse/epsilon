@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.hutn.xmi.dt;
 
+import java.io.PrintStream;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
@@ -25,6 +26,28 @@ import org.eclipse.ui.PlatformUI;
 
 public class XmiConformanceChecker {
 
+	private final ConformanceReporter informer;
+	
+	public XmiConformanceChecker() {
+		this(initialiseInformer());
+	}
+
+	private static PrintStreamConformanceInformer initialiseInformer() {
+		final PrintStream printStream;
+		
+		if (PlatformUI.isWorkbenchRunning()) {
+			printStream = EpsilonConsole.getInstance().getInfoStream();
+		} else {
+			printStream = System.out;
+		}
+		
+		return new PrintStreamConformanceInformer(printStream);
+	}
+	
+	public XmiConformanceChecker(ConformanceReporter informer) {
+		this.informer = informer;
+	}
+	
 	public void reportConformanceOf(IResource resource) {		
 		try {
 			final Collection<ParseProblem> conformanceProblems = new Xmi2Hutn(resource.getRawLocationURI()).checkConformanceWithRegisteredMetamodel();
@@ -32,7 +55,7 @@ public class XmiConformanceChecker {
 			new MarkerManager(resource).replaceErrorMarkers(conformanceProblems);
 			
 			if (conformanceProblems.isEmpty()) {
-				printInfo(resource.getName() + " conforms to its registered metamodel.");
+				informOfConformance(resource.getName());
 			}
 			
 		} catch (Exception e) {
@@ -40,10 +63,25 @@ public class XmiConformanceChecker {
 		}
 	}
 	
-	private void printInfo(String msg) {
-		if (PlatformUI.isWorkbenchRunning())
-			EpsilonConsole.getInstance().getInfoStream().println(msg);
-		else
-			System.out.println(msg);
+	private void informOfConformance(String name) {
+		informer.reportConformant(name);
+	}
+	
+	
+	public static interface ConformanceReporter {
+		public void reportConformant(String name);
+	}
+	
+	private static class PrintStreamConformanceInformer implements ConformanceReporter {
+
+		private final PrintStream printStream;
+		
+		public PrintStreamConformanceInformer(PrintStream printStream) {
+			this.printStream = printStream;
+		}
+
+		public void reportConformant(String name) {
+			printStream.println(name + " conforms to its registered metamodel.");			
+		}
 	}
 }
