@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <library>
-  <book title="Book1">
-    <author>Author1</author>
+  <book pages="71" title="Book1">
+    <author name="Author1">blah</author>
   </book>
-  <book title="Book2">
-    <author>Author2</author>
+  <book pages="178" title="Book2">
+    <author name="Author2">blah</author>
   </book>
 </library>

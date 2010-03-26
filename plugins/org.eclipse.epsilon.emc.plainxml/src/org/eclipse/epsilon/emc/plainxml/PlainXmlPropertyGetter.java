@@ -19,62 +19,50 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 			
 			Element e = (Element) object;
 			
-			if ("text".equals(property)) {
-				return e.getTextContent();
-			}
-			
 			if ("children".equals(property)) {
 				return DomUtil.getChildren(e);
 			}
 			
-			if (e.hasAttribute(property)) {
-				return e.getAttribute(property);
+			if ("text".equals(property)) {
+				return e.getTextContent();
 			}
-			else {
-				List<Element> children = DomUtil.getChildren(e);
-				List<Element> result = new ArrayList<Element>();
-				
-				// Look for elements with this specific tag name
-				for (Element child : children) {
-					if (child.getTagName().equals(property)) {
-						result.add(child);
-					}
+			
+			PlainXmlProperty p = PlainXmlProperty.parse(property);
+			
+			if (p != null) {
+			
+				if (p.isAttribute()) {
+					return p.cast(e.getAttribute(p.getProperty()));
 				}
-				
-				if (result.size() == 1) {
-					return result.get(0);
+				else if (p.isText()) {
+					return p.cast(e.getTextContent());
 				}
-				else if (result.size() > 1) {
-					return result;
-				}
-				
-				//Nothing found so far.
-				
-				//If the property ends with an s
-				//look for elements with a tagname = property - s
-				
-				if (property.endsWith("s")) {
+				else {
+					List<Element> children = DomUtil.getChildren(e);
+					List<Element> result = new ArrayList<Element>();
 					
-					String singular = property.substring(0, property.length() - 1);
-					
+					// Look for elements with this specific tag name
 					for (Element child : children) {
-						if (child.getTagName().equals(singular)) {
+						if (child.getTagName().equals(p.getProperty())) {
 							result.add(child);
 						}
 					}
 					
-				}
-				
-				if (result.size() > 0) {
-					return result;
-				}
-				
+					if (p.isMany()) {
+						return result;
+					}
+					else if (result.size() > 0) {
+						return result.get(0);
+					}
+					else {
+						return null;
+					}
+					
+				}	
 			}
-			
 		}
 		
 		return super.invoke(object, property);
-		
 		
 	}
 

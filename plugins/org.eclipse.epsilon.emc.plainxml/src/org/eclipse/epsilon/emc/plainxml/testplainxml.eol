@@ -4,13 +4,21 @@ XML.document.appendChild(l);
 l.appendChild(createBook("Book1", "Author1"));
 l.appendChild(createBook("Book2", "Author2"));
 
-// delete Element.all.selectOne(e|e.tagName = "book");
+for (book in l.c_book) {
+	book.a_title.println("title: ");
+	book.i_pages.println();
+	book.b_published.println();
+}
+
+Element.all.select(e|e.tagName = "book").println();
 
 operation createBook(title : String, author : String) : Element {
 	var book = new Element("book");
-	book.setAttribute("title", title);
+	book.a_title = title;
 	var authorElement = new Element("author");
-	authorElement.text = author;
+	book.i_pages = List{1..200}.random();
+	authorElement.a_name = author;
+	authorElement.text = "blah";
 	book.appendChild(authorElement);
 	return book;
 }

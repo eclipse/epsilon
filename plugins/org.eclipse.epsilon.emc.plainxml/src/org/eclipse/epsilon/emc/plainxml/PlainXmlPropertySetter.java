@@ -11,10 +11,24 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 		
 		if (object instanceof Element) {
 			Element e = (Element) object;
+			
 			if ("text".equals(property)) {
 				e.setTextContent(String.valueOf(value));
 				return;
 			}
+			
+			PlainXmlProperty p = PlainXmlProperty.parse(property);
+			if (p!=null) {
+				if (p.isAttribute()) {
+					e.setAttribute(p.getProperty(), p.cast(String.valueOf(value)) + "");
+					return;
+				}
+				else if (p.isText()) {
+					e.setTextContent(p.cast(String.valueOf(value)) + "");
+					return;
+				}
+			}
+			
 		}
 		
 		super.invoke(value);
