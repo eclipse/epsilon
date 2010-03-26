@@ -20,7 +20,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.commons.util.StringProperties;
@@ -73,7 +72,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 					refreshProjectContaining(file);
 
 				} else {
-					EpsilonConsole.getInstance().getErrorStream().println(hutnModule.getParseProblems());
+					LogUtil.logInfo("Cannot generate debug info because HUTN cannot be parsed.", true);
 				}
 			}
 

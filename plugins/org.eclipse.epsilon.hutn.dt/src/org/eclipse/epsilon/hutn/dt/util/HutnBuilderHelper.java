@@ -29,6 +29,7 @@ import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
 
 public class HutnBuilderHelper {
 	
+	private final HutnBuildReporter reporter;
 	private final IFile file;
 	private final IProgressMonitor monitor;
 	
@@ -36,13 +37,14 @@ public class HutnBuilderHelper {
 	private IPath base;
 	private IResource parent;
 	
-	public HutnBuilderHelper(IFile file) {
-		this(file, null);
+	public HutnBuilderHelper(IFile file, HutnBuildReporter reporter) {
+		this(file, reporter, null);
 	}
 	
-	public HutnBuilderHelper(IFile file, IProgressMonitor monitor) {
-		this.file    = file;
-		this.monitor = monitor;
+	public HutnBuilderHelper(IFile file, HutnBuildReporter reporter, IProgressMonitor monitor) {
+		this.file     = file;
+		this.reporter = reporter;
+		this.monitor  = monitor;
 	}
 
 	public static IHutnModule initialiseHutnModule(IFile file) {
@@ -75,7 +77,7 @@ public class HutnBuilderHelper {
 				parent.refreshLocal(IResource.DEPTH_ONE, monitor);
 
 			} else {
-				EpsilonConsole.getInstance().getErrorStream().println(hutnModule.getParseProblems());
+				reporter.reportFailure(file, "Cannot build model because HUTN cannot be parsed.");
 			}	
 		} catch (Exception e) {
 			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
@@ -95,5 +97,10 @@ public class HutnBuilderHelper {
 	
 	private static String getFileName(IPath base, String extension) {
 		return base.addFileExtension(extension).toFile().getName();
+	}
+	
+	
+	public static interface HutnBuildReporter {
+		public void reportFailure(IFile source, String message);
 	}
 }

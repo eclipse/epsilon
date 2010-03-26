@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.nature.ResourceBuildingIncrementalProjectBuilder;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
 
 public class HutnBuilder extends ResourceBuildingIncrementalProjectBuilder {
@@ -22,7 +23,14 @@ public class HutnBuilder extends ResourceBuildingIncrementalProjectBuilder {
 
 	protected void buildResource(IResource resource, IProgressMonitor monitor) {
 		if (resource instanceof IFile && "hutn".equals(resource.getFileExtension())) {
-			new HutnBuilderHelper((IFile)resource, monitor).buildHutn();
+			new HutnBuilderHelper((IFile)resource, new InfoLoggingReporter(), monitor).buildHutn();
 		}	
+	}
+	
+	private static class InfoLoggingReporter implements HutnBuilderHelper.HutnBuildReporter {
+		
+		public void reportFailure(IFile source, String message) {
+			LogUtil.logInfo(message + " (" + source.getFullPath() + ")");
+		}
 	}
 }
