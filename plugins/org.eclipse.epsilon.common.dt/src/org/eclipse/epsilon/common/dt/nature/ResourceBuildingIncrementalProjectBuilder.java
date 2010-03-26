@@ -20,7 +20,7 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 
 /**
  * An implementation of {@link IncrementalProjectBuilder} that visits every child
@@ -34,7 +34,7 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 		try {
 			getProject().refreshLocal(IProject.DEPTH_INFINITE, monitor);
 		} catch (CoreException e) {
-			EpsilonConsole.getInstance().getErrorStream().append(e.toString());
+			reportError(e);
 			e.printStackTrace();
 		}
 	}
@@ -71,7 +71,7 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 			});
 			
 		} catch (CoreException e) {
-			EpsilonConsole.getInstance().getErrorStream().append(e.toString());
+			reportError(e);
 		}
 	}
 
@@ -87,8 +87,12 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 			});
 			
 		} catch (CoreException e) {
-			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
+			reportError(e);
 		}
+	}
+	
+	protected void reportError(CoreException e) {
+		LogUtil.log("Error encountered during build.", e);
 	}
 
 	protected abstract void buildResource(IResource resource, IProgressMonitor monitor);	
