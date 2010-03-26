@@ -22,19 +22,15 @@ public class LogUtil {
 		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(severity, "org.eclipse.epsilon.common.dt", code, message, ex));
 	}
 	
-	public static void logInfo(String message) {
-		logInfo(message, false);
+	public static void logInfo(Object message) {
+		logInfo(message.toString(), false);
 	}
 	
-	public static void logInfo(String message, boolean openInfoDialog) {
-		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message));
+	public static void logInfo(Object message, boolean openInfoDialog) {
+		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message.toString()));
 		if (openInfoDialog) {
-			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", message);
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", message.toString());
 		}
-	}
-	
-	public static void logInfo(Object o) {
-		logInfo(o.toString());
 	}
 	
 	public static void log(String message, Exception ex) {
