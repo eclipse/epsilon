@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.dt.actions;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.flock.dt.util.MigrationStrategyExecutor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -66,10 +66,10 @@ public class ExecuteMigrationStrategy extends AbstractObjectActionDelegate {
 
 
 	private static void printInfo(Object message) {
-		EpsilonConsole.getInstance().getInfoStream().println(message);
+		LogUtil.logInfo(message, true);
 	}
 	
 	private static void printError(Object message) {
-		EpsilonConsole.getInstance().getErrorStream().println(message);
+		LogUtil.logInfo(message, true);
 	}
 }
