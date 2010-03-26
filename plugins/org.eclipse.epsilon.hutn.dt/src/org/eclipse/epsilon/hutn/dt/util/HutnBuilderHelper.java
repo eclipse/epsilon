@@ -21,7 +21,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
@@ -80,8 +79,7 @@ public class HutnBuilderHelper {
 				reporter.reportFailure(file, "Cannot build model because HUTN cannot be parsed.");
 			}	
 		} catch (Exception e) {
-			EpsilonConsole.getInstance().getErrorStream().println(e.toString());
-			e.printStackTrace();
+			LogUtil.log("Error while building HUTN " + file.getLocation(), e);
 		}
 	}
 	
