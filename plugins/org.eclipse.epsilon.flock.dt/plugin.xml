@@ -5,7 +5,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.epsilon.flock.dt.editor.MigrationStrategyEditor"
+            class="org.eclipse.epsilon.flock.dt.editor.FlockEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             extensions="mig"
