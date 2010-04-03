@@ -38,8 +38,8 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 		String ecorePath = FileUtil.replaceExtension(genModelPath, "ecore");
 		
 		List<EmfModel> models = new ArrayList<EmfModel>();
-		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, false, true));
-		models.add(loadModel("GenModel", genModelPath, GenModelPackage.eNS_URI, true, true, false));
+		models.add(loadModel("ECore", ecorePath, EcorePackage.eINSTANCE.getNsURI(), true, false, true));
+		models.add(loadModel("GenModel", genModelPath, GenModelPackage.eINSTANCE.getNsURI(), true, true, true));
 		return models;
 	}
 
