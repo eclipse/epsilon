@@ -80,7 +80,11 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 	}
 	
 	public boolean isReady() {
-		return !getControl().isVisible() || getTreeViewer()!=null;
+		return notDisplayed() || getTreeViewer()!=null;
+	}
+
+	private boolean notDisplayed() {
+		return getControl() == null || !getControl().isVisible();
 	}
 	
 	/*
