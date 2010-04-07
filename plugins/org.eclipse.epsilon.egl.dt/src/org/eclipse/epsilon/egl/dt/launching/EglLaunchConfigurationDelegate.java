@@ -16,11 +16,14 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.OUTPUT_FILE_PATH;
 import static org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes.SOURCE;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -33,6 +36,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
+import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -49,7 +53,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		String subTask = "";
 		
 		final String workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
-		final String fileName          = workspaceLocation + configuration.getAttribute(SOURCE, "");
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "")));
+		String fileName = file.getRawLocation().toOSString();
+		
+		//final String fileName          = workspaceLocation + configuration.getAttribute(SOURCE, "");
 		
 		// Parse
 		subTask = "Parsing " + fileName;
@@ -60,7 +67,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		try {
 			// FIXME cast is smelly
-			template = (EglFileGeneratingTemplate) factory.load(fileName);
+			template = (EglFileGeneratingTemplate) factory.load(new File(fileName));
 		} catch (EglRuntimeException e) {
 			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
 			return;
