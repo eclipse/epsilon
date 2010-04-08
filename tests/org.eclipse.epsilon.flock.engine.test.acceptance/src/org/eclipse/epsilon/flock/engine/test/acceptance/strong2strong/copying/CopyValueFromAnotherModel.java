@@ -50,7 +50,5 @@ public class CopyValueFromAnotherModel extends Strong2StrongMigrationAcceptanceT
 	@Test
 	public void friendShouldBeCopied() throws Throwable {
 		migrated.assertEquals(1, "sally.friends.size");
-		migrated.execute("sally.friends.first.println();");
-//		migrated.execute("sally.friends.first.name.println();"); This is fails because we don't which model .friends.first belongs to
 	}
 }
