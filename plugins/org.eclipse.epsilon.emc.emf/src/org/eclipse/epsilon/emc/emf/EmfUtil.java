@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -256,6 +257,15 @@ public class EmfUtil {
 
 	public static List<EClass> getAllEClassesFromSameMetamodelAs(EModelElement metamodelElement) {
 		return getAllModelElementsOfType(metamodelElement, EClass.class);
+	}
+	
+	public static Collection<EClassifier> getAllEClassifiers(EPackage epackage) {
+		Collection<EClassifier> allEClassifiers = new ArrayList<EClassifier>();
+		allEClassifiers.addAll(epackage.getEClassifiers());
+		for (EPackage subpackage : epackage.getESubpackages()) {
+			allEClassifiers.addAll(getAllEClassifiers(subpackage));
+		}
+		return allEClassifiers;
 	}
 	
 	@SuppressWarnings("unchecked")

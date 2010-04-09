@@ -110,9 +110,12 @@ public abstract class AbstractEmfModel extends Model {
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		
 		for (Object pkg : getPackageRegistry().values()) {
+			System.err.println("pkg -> " + pkg); //REMOVE_ME
+
 			if (pkg instanceof EPackage) {
 				EPackage ePackage = (EPackage) pkg;
-				for (EClassifier classifier : ePackage.getEClassifiers()) {
+				for (EClassifier classifier : EmfUtil.getAllEClassifiers(ePackage)) {
+				//for (EClassifier classifier : ePackage.getEClassifiers()) {
 					if (classifier instanceof EEnum && 
 							(((EEnum) classifier).getName().equals(enumeration) ||
 							getFullyQualifiedName(classifier).equals(enumeration))){
@@ -199,19 +202,26 @@ public abstract class AbstractEmfModel extends Model {
 	
 	protected EClass classForName(String name, Registry registry) {
 		EClass eClass = null;
+		
+		boolean absolute = name.indexOf("::") > -1;
+		
 		for (Object pkg : registry.values()) {
 			if (pkg instanceof EPackage) {
 				
-				/*
-				System.err.println("EPackage: " + ((EPackage) pkg).getName());
-				for (EClassifier c : ((EPackage) pkg).getEClassifiers()) {
-					System.err.println("EClass : " + c.getName());
-				}
-				*/
-				
-				eClass = findMetaClass(name, (EPackage) pkg);
-				if (eClass != null) {
-					return eClass;
+				for (EClassifier eClassifier : EmfUtil.getAllEClassifiers((EPackage)pkg)) {
+					if (eClassifier instanceof EClass) {
+						String eClassifierName = "";
+						if (absolute) {
+							eClassifierName = getFullyQualifiedName(eClassifier);
+						}
+						else {
+							eClassifierName = eClassifier.getName();
+						}
+						
+						if (eClassifierName.compareTo(name) == 0) {
+							return (EClass) eClassifier;
+						}
+					}
 				}
 			}
 		}
@@ -347,48 +357,7 @@ public abstract class AbstractEmfModel extends Model {
 		}
 		return i;
 	}
-	
-	/*
-	public EClass findMetaClass2(String name, EPackage container){
-		Iterator it = container.eAllContents();
-		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof EClass && ((EClass) next).getName().equals(name)){
-				return (EClass) next;
-			}
-		}
-		return null;
-	}
-	*/
-	
-	public EClass findMetaClass(String name, EPackage container){
 		
-		boolean absolute = name.indexOf("::") > -1;
-		
-		for (EClassifier eClassifier : container.getEClassifiers()) {
-			if (eClassifier instanceof EClass) {
-				String eClassifierName = "";
-				if (absolute) {
-					eClassifierName = getFullyQualifiedName(eClassifier);
-				}
-				else {
-					eClassifierName = eClassifier.getName();
-				}
-				
-				if (eClassifierName.compareTo(name) == 0) {
-					return (EClass) eClassifier;
-				}
-			}
-		}
-		
-		for (EPackage ePackage : container.getESubpackages()) {
-			EClass eClass = findMetaClass(name, ePackage);
-			if (eClass!=null) { return eClass; }
-		}
-		
-		return null;
-	}
-	
 	public void deleteElement(Object instance) {		
 		if (instance instanceof EObject){
 			EObject eObject = (EObject) instance;
@@ -422,14 +391,6 @@ public abstract class AbstractEmfModel extends Model {
 		}
 		
 		return  false;
-		
-		//if (instance instanceof EObject){
-		//	EObject eObject = (EObject) instance;
-		//	return EcoreUtil.isAncestor(modelImpl.getResourceSet(), eObject);
-			// if (eObject.eResource() == null || eObject.eResource() == modelImpl) return true;
-		//}
-		//return false;
-		
 		
 	}
 	
