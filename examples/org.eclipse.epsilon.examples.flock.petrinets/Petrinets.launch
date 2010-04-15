@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate">
+<intAttribute key="migratedModel" value="1"/>
+<listAttribute key="models">
+<listEntry value="#&#10;#Thu Apr 15 11:17:44 BST 2010&#10;isMetamodelFileBased=true&#10;name=Original&#10;readOnLoad=true&#10;storeOnDisposal=false&#10;aliases=&#10;metamodelUri=&#10;type=EMF&#10;modelFile=/org.eclipse.epsilon.examples.flock.petrinets/Original.model&#10;expand=false&#10;metamodelFile=/org.eclipse.epsilon.examples.flock.petrinets/metamodels/Original.ecore&#10;"/>
+<listEntry value="#&#10;#Thu Apr 15 11:16:12 BST 2010&#10;isMetamodelFileBased=true&#10;name=Migrated&#10;readOnLoad=false&#10;storeOnDisposal=true&#10;aliases=&#10;metamodelUri=&#10;type=EMF&#10;modelFile=/org.eclipse.epsilon.examples.flock.petrinets/Migrated.model&#10;expand=false&#10;metamodelFile=/org.eclipse.epsilon.examples.flock.petrinets/metamodels/Evolved.ecore&#10;"/>
+</listAttribute>
+<intAttribute key="originalModel" value="0"/>
+<stringAttribute key="source" value="/org.eclipse.epsilon.examples.flock.petrinets/Petrinets.mig"/>
+</launchConfiguration>
