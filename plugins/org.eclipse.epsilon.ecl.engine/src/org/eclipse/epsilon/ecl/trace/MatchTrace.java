@@ -18,8 +18,15 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class MatchTrace {
 	
+	/**
+	 * All matches tried during the 
+	 * execution of an ECL module
+	 */
 	protected List<Match> matches = new ArrayList();
 	
+	/**
+	 * Returns only successful matches
+	 */
 	public MatchTrace getReduced() { 
 		MatchTrace reduced = new MatchTrace();
 		for (Match match : matches) {
@@ -54,6 +61,11 @@ public class MatchTrace {
 		return null;
 	}
 	
+	/**
+	 * Returns all the matches for a given object
+	 * @param object
+	 * @return
+	 */
 	public List getMatches(Object object){
 		ArrayList matches = new ArrayList();
 		for (Match match : this.getMatches()) {
@@ -64,6 +76,11 @@ public class MatchTrace {
 		return matches;
 	}
 	
+	/**
+	 * Returns the first match for the object
+	 * @param object
+	 * @return
+	 */
 	public Match getMatch(Object object){
 		for (Match match : this.getMatches()) {
 			if (match.contains(object) && match.isMatching()){
@@ -108,6 +125,11 @@ public class MatchTrace {
 		return str;
 	}
 
+	/**
+	 * Returns all matches, both successful and 
+	 * pairs that have been compared but do not match
+	 * @return
+	 */
 	public List<Match> getMatches() {
 		return matches;
 	}

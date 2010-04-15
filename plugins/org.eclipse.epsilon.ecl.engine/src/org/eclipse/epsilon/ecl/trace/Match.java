@@ -15,11 +15,36 @@ import org.eclipse.epsilon.eol.types.EolMap;
 
 public class Match {
 	
+	/**
+	 * The left object of the match
+	 */
 	protected Object left;
+	
+	/**
+	 * The right object of the match
+	 */
 	protected Object right;
+	
+	/**
+	 * The result of the ECL match rule
+	 */
 	protected boolean matching;
+	
+	/**
+	 * The ECL match rule that created the match
+	 */
 	protected MatchRule rule;
+	
+	/**
+	 * If the match is user-specified or has
+	 * been calculated by ECL
+	 */
 	protected boolean userSpecified = false;
+	
+	/**
+	 * Additional info that the user can attach
+	 * in the do part of the match rule
+	 */
 	protected EolMap info = new EolMap();
 	
 	public Match() {
