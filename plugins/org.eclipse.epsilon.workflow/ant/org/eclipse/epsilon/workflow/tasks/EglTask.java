@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
+import java.io.FileWriter;
 
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -29,8 +30,10 @@ public class EglTask extends ExecutableModuleTask {
 	@Override
 	protected void examine() throws Exception {
 		if (target!=null) {
-			final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate)result;
-			template.generate(target.getAbsolutePath());
+			FileWriter fw = new FileWriter(target);
+			fw.write(String.valueOf(result));
+			fw.flush();
+			fw.close();
 		}
 	}
 
