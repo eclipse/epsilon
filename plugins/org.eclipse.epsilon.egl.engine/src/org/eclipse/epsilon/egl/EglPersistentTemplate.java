@@ -15,13 +15,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.ui.PlatformUI;
 
 public abstract class EglPersistentTemplate extends EglTemplate {
 
@@ -93,16 +91,12 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 		printStoreDeprecationWarning("store(path, overwrite)", "generate(path, overwrite, false)");
 	}
 
-	private void printStoreDeprecationWarning(String deprecatedCode, String replacementCode) {
+	private void printStoreDeprecationWarning(String deprecatedCode, String replacementCode) {		
 		final String message = deprecatedCode + " is deprecated and will be removed in a future version of EGL. " +
 		                       "generate(path), which respects protected regions, is preferred. " +
 		                       "Alternatively, use " + replacementCode + " if you really know what you are doing.";
 		
-		if (PlatformUI.isWorkbenchRunning()) {
-			EpsilonConsole.getInstance().getWarningStream().println(message);
-		} else {
-			System.err.println("Warning: " + message);
-		}
+		printWarning(message);
 	}
 
 	/**

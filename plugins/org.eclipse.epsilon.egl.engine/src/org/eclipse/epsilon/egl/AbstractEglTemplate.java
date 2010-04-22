@@ -83,6 +83,8 @@ public abstract class AbstractEglTemplate {
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		module.setOperationFactory(operationFactory);
 	}
-	
-	
+
+	protected void printWarning(String message) {
+		module.getContext().getWarningStream().println(message);
+	}
 }

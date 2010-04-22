@@ -3,11 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Generation Language Engine (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.egl.engine
 Bundle-Version: 0.8.9.qualifier
-Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.commons,
- org.eclipse.epsilon.common.dt
+ org.eclipse.epsilon.commons
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.beautify,
