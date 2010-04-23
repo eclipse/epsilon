@@ -179,8 +179,8 @@ operation copyAnnotations(source : Any, target : Any) {
 	
 	for (booleanFeature in target.eClass().eAllStructuralFeatures.select(sf|not sf.isMany and (sf.eType.name = "Boolean" or sf.eType.name = "EBoolean"))) {
 		if (source.hasAnnotation(booleanFeature.name)) {
-			booleanFeature.name.println(); 
-			"Setting boolean feature".println();
+			//booleanFeature.name.println(); 
+			//"Setting boolean feature".println();
 			target.eSet(booleanFeature, source.getBooleanAnnotation(booleanFeature.name, target.eGet(booleanFeature)));
 		}
 	}

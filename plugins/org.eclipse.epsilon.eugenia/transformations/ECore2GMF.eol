@@ -205,11 +205,13 @@ for (containment in getDiagramClass().getContainmentReferences()) {
 -- Do phantom nodes
 
 for (phantom in getPhantomNodes()) {
-	var topNodeReference := new GmfMap!TopNodeReference;
-	mapping.nodes.add(topNodeReference);
-	--phantom.~nodeMapping.~nested := true;
-	topNodeReference.ownedChild := phantom.~nodeMapping;
-	phantom.~topNodeReference := topNodeReference;
+	if (phantom.~topNodeReference.isUndefined()) {
+		var topNodeReference := new GmfMap!TopNodeReference;
+		mapping.nodes.add(topNodeReference);
+		--phantom.~nodeMapping.~nested := true;
+		topNodeReference.ownedChild := phantom.~nodeMapping;
+		phantom.~topNodeReference := topNodeReference;
+	}
 }
 
 -- Do affixed references
