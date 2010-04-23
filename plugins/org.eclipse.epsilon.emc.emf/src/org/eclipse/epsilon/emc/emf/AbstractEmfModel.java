@@ -110,7 +110,6 @@ public abstract class AbstractEmfModel extends Model {
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		
 		for (Object pkg : getPackageRegistry().values()) {
-			System.err.println("pkg -> " + pkg); //REMOVE_ME
 
 			if (pkg instanceof EPackage) {
 				EPackage ePackage = (EPackage) pkg;
