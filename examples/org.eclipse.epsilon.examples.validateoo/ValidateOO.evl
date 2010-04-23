@@ -62,7 +62,7 @@ context Class {
 		
 		check : Parameter.allInstances.exists(p|p.type = self) or 
 			Feature.allInstances.exists(f|f.type = self) or
-			Class.allInstances.exists(c|c."extends" = self)
+			Class.allInstances.exists(c|c.`extends` = self)
 		
 		message : 'Unused class ' + self.name
 		
@@ -81,8 +81,8 @@ context Class {
 -- inherits from another class
 operation Class inherits(c : Class) : Boolean {
 	
-	if (self."extends".isDefined()) {
-		return self."extends" = c or self."extends".inherits(c);
+	if (self.`extends`.isDefined()) {
+		return self.`extends` = c or self.`extends`.inherits(c);
 	}
 	else {
 		return false;
