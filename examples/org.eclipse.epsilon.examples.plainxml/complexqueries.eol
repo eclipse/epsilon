@@ -1,25 +1,25 @@
 // Store all books in a collection variable
-var books = Element.all.select(e|e.tagName="book");
+var books = t_book.all;
 
 // Print the total number of pages in all books
-books.collect(b|b.pages.asInteger()).sum().println();
+books.collect(b|b.i_pages).sum().println();
 	
 // Print the titles of books with more than 1 authors
 for (book in books) {
-	if (book.authors.size() > 1) {
-		book.title.println();
+	if (book.c_author.size() > 1) {
+		book.a_title.println();
 	}
 }
 
 // Print the title of the book with the most pages
-var maxPages = books.collect(b|b.pages.asInteger()).max;
-books.selectOne(b|b.pages.asInteger() = maxPages).title.println();
+var maxPages = books.collect(b|b.i_pages).max;
+books.selectOne(b|b.i_pages = maxPages).a_title.println();
 
 // Print the title of all books written by Ed Merks.
 // Demonstrates navigating to the parent node.
-for (author in Element.all.select(e|e.tagName="author")) {
+for (author in t_author.all) {
 	if (author.text = "Ed Merks") {
-		author.parentNode.title.println();
+		author.parentNode.a_title.println();
 	}
 }
 

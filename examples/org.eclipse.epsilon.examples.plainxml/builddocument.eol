@@ -15,24 +15,24 @@ operation Element createBook(title : String, authors : List(String),
 	pages : Integer, published : Integer) {
 
 	// Create a new book element
-	var book = new Element("book");
+	var book = new t_book;
 	
 	// Set its title
-	book.setAttribute("title", title);
+	book.a_title = title;
 	
 	// Set its pages
-	book.setAttribute("pages", pages + "");
+	book.i_pages = pages;
 	
 	// Create its author children
 	for (author in authors) {
-		var authorElement = new Element("author");
+		var authorElement = new t_author;
 		authorElement.text = author;
 		book.appendChild(authorElement);
 	}
 	
 	// Create its published child
-	var publishedElement = new Element("published");
-	publishedElement.text = published + "";
+	var publishedElement = new t_published;
+	publishedElement.text = published;
 	
 	// Add the book as a child
 	self.appendChild(book);
