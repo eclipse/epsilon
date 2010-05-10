@@ -12,7 +12,6 @@
 package org.eclipse.epsilon.workflow.tasks.emf;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.emf.common.util.URI;
@@ -64,6 +63,14 @@ public class LoadModel extends EpsilonTask {
 		
 	}
 	
+	public boolean isExpand() {
+		return expand;
+	}
+
+	public void setExpand(boolean expand) {
+		this.expand = expand;
+	}
+
 	public String getName() {
 		return name;
 	}
