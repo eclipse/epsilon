@@ -10,7 +10,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PlainXmlPropertyGetter extends JavaPropertyGetter {
-
+	
+	protected PlainXmlModel model;
+	
+	public PlainXmlPropertyGetter(PlainXmlModel model) {
+		this.model = model;
+	}
+	
 	@Override
 	public Object invoke(Object object, String property)
 			throws EolRuntimeException {
@@ -36,6 +42,43 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 				}
 				else if (p.isText()) {
 					return p.cast(e.getTextContent());
+				}
+				else if (p.isReference()) {
+					String sourceTag = e.getTagName();
+					
+					for (Binding binding : model.getBindings()) {
+						if (sourceTag.matches(binding.sourceTag) && p.getProperty().matches(binding.getSourceAttribute())) {
+							String sourceAttribute = p.getProperty();
+							if (binding.isMany()) {
+								ArrayList<Element> referenced = new ArrayList<Element>();
+								String[] referencedIds = e.getAttribute(p.getProperty()).split(",");
+								for (Object o : model.allContents()) {
+									Element candidate = (Element) o;
+									if (candidate.getTagName().matches(binding.getTargetTag())) {
+										for (String referencedId : referencedIds) {
+											if (candidate.getAttribute(binding.getTargetAttribute()).equals(referencedId.trim())) {
+												referenced.add(candidate);
+											}
+										}
+									}	
+								}
+								return referenced;
+							}
+							else {
+								Object referenced = null;
+								String referencedId = e.getAttribute(p.getProperty());
+
+								for (Object o : model.allContents()) {
+									Element candidate = (Element) o;
+									if (candidate.getTagName().matches(binding.getTargetTag())) {
+										if (candidate.getAttribute(binding.getTargetAttribute()).equals(referencedId.trim())) {
+											return candidate;
+										}						
+									}	
+								}
+							}
+						}
+					}
 				}
 				else {
 					List<Element> children = DomUtil.getChildren(e);

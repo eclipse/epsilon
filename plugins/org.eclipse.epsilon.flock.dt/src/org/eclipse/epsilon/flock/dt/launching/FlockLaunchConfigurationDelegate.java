@@ -12,9 +12,11 @@ package org.eclipse.epsilon.flock.dt.launching;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -123,7 +125,10 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	private boolean parseSource() throws Exception {
 		module = new FlockModule();
 		
-		final String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + launchConfig.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+		// CHANGED: The following works even if the Flock file is not in the workspace
+		//final String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + launchConfig.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(launchConfig.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "")));
+		String fileName = file.getRawLocation().toOSString();
 		
 		startingTask("Parsing " + fileName);
 		

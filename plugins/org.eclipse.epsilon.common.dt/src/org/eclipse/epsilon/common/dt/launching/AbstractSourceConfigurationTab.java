@@ -86,7 +86,7 @@ public abstract class AbstractSourceConfigurationTab
 			
 			if (part.getEditorInput() instanceof FileEditorInput){
 				FileEditorInput fileEditorInput = (FileEditorInput) part.getEditorInput();
-				String path = fileEditorInput.getFile().getFullPath().toOSString();
+				String path = fileEditorInput.getFile().getFullPath().toString();
 				if (path.endsWith(getFileExtension())){
 					return path;
 				}

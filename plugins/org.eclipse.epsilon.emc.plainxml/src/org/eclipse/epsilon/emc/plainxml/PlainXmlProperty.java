@@ -5,6 +5,7 @@ public class PlainXmlProperty {
 	protected boolean many;
 	protected boolean attribute;
 	protected boolean element;
+	protected boolean reference;
 	protected boolean text;
 	protected String property;
 	protected PlainXmlPropertyType type;
@@ -19,6 +20,7 @@ public class PlainXmlProperty {
 			p.type = p.typeFor(property.charAt(0) + "");
 			
 			p.element = false;
+			p.reference = false;
 			p.text = property.substring(2).equals("text");
 			p.attribute = !p.text;
 			
@@ -26,6 +28,7 @@ public class PlainXmlProperty {
 			
 		} else if (property.startsWith("e_")) {
 			p.attribute = false;
+			p.reference = false;
 			p.element = true;
 			p.text = false;
 			
@@ -33,9 +36,15 @@ public class PlainXmlProperty {
 		} else if (property.startsWith("c_")) {
 			p.attribute = false;
 			p.element = true;
+			p.reference = false;
 			p.text = false;
 			
 			p.many = true;
+		} else if (property.startsWith("x_")) {
+			p.attribute = false;
+			p.element = false;
+			p.reference = true;
+			p.text = false;
 		} else {
 			p = null;
 		}
@@ -121,5 +130,8 @@ public class PlainXmlProperty {
 		return many;
 	}
 
+	public boolean isReference() {
+		return reference;
+	}
 	
 }

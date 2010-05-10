@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +37,7 @@ public class PlainXmlModel extends Model {
 	protected String uri;
 	protected File file;
 	protected ArrayList<Element> createdElements = new ArrayList<Element>();
+	protected ArrayList<Binding> bindings = new ArrayList<Binding>();
 	protected static String ELEMENT_TYPE = "Element";
 	protected static String DEFAULT_NEW_TAG_NAME = "element";
 	
@@ -53,7 +55,11 @@ public class PlainXmlModel extends Model {
 		}
 		return elements;
 	}
-
+	
+	public List<Binding> getBindings() {
+		return bindings;
+	}
+	
 	public String getUri() {
 		return uri;
 	}
@@ -73,7 +79,10 @@ public class PlainXmlModel extends Model {
 	public Document getDocument() {
 		return document;
 	}
-
+	
+	public void bind(String sourceTag, String sourceAttribute, String targetTag, String targetAttribute, boolean many) {
+		bindings.add(new Binding(sourceTag, sourceAttribute, targetTag, targetAttribute, many));
+	}
 	
 	public Object createInstance(String type)
 			throws EolModelElementTypeNotFoundException,
@@ -329,7 +338,7 @@ public class PlainXmlModel extends Model {
 
 	
 	public IPropertyGetter getPropertyGetter() {
-		return new PlainXmlPropertyGetter();
+		return new PlainXmlPropertyGetter(this);
 	}
 	
 	

@@ -10,16 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
-import java.io.File;
-
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -33,61 +29,16 @@ public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		EpsilonConsole.getInstance().clear();
 		
 		IEtlModule module = new EtlModule();
-		//module.getContext().setDefaultDebugStream(EpsilonConsole.getInstance().getDebugStream());
-		//module.getContext().setDefaultErrorStream(EpsilonConsole.getInstance().getErrorStream());
-		boolean parsed = false;
-		String subTask = "";
 		
-		String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
-		
-		subTask = "Parsing " + fileName;
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		try {
-			parsed = module.parse(new File(fileName));
-		} catch (Exception e) {
-			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			return;
-		}
-		
-		progressMonitor.done();
-		
-		if (!parsed){
-			for (ParseProblem problem : module.getParseProblems()) {
-				EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
-			}
-			return;
-		}
-		
-		subTask = "Loading models";
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		progressMonitor.done();
-		
-		//System.err.println("Transforming...");
-		
-		// Start executing
+		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
 		
 		try { 
-			subTask = "Transforming...";
+			String subTask = "Transforming...";
 			progressMonitor.subTask(subTask);
 			progressMonitor.beginTask(subTask, 100);
 			
 			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-			
-			//IModel sourceModel = module.getContext().getModelRepository().getModelByName(sourceModelName);
-			//IModel targetModel = module.getContext().getModelRepository().getModelByName(targetModelName);
-			
-			//module.setSourceModel(sourceModel);
-			//module.setTargetModel(targetModel);
-			
-			//transformationStrategy.setSourceModel(sourceModel);
-			//transformationStrategy.setTargetModel(targetModel);
-			
 			module.execute();
-			
 			progressMonitor.done();
 			
 		} catch (EolRuntimeException e) {
@@ -95,7 +46,6 @@ public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			progressMonitor.setCanceled(true);
 		}
 		finally{
-			//module.getContext().getModelRepository().dispose();
 			EclipseContextManager.teardown(module.getContext(), progressMonitor);
 		}
 		

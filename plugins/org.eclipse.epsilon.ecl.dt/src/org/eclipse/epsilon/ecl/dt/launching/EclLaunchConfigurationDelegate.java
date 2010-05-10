@@ -10,16 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.dt.launching;
 
-import java.io.File;
-
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
@@ -33,47 +29,14 @@ public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		EpsilonConsole.getInstance().clear();
 		
 		IEclModule module = new EclModule();
-		module.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-		module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-		boolean parsed = false;
-		String subTask = "";
-		
-		String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
-		
-		subTask = "Parsing " + fileName;
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		try {
-			parsed = module.parse(new File(fileName));
-		} catch (Exception e) {
-			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			return;
-		}
-		
-		progressMonitor.done();
-		
-		if (!parsed){
-			for (ParseProblem problem : module.getParseProblems()) {
-				EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
-			}
-			return;
-		}
-		
-		subTask = "Loading models";
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		progressMonitor.done();
+		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return ;
 		
 		// Start executing
-		
 		try { 
-			subTask = "Comparing...";
+			String subTask = "Comparing...";
 			progressMonitor.subTask(subTask);
 			progressMonitor.beginTask(subTask, 100);
 			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-						
 			module.execute();
 			progressMonitor.done();
 			

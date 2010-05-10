@@ -44,66 +44,23 @@ public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		EpsilonConsole.getInstance().clear();
 		
 		IEolModule module = createEolModule();
-		boolean parsed = false;
 		
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "")));
-		String fileName = file.getRawLocation().toOSString();
-		
-		ArrayList<EolBreakpoint> breakpoints = new ArrayList<EolBreakpoint>();
-		
-		if (mode.equalsIgnoreCase("debug")) {
-			IBreakpoint[] allBreakPoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("eol.debugModel");
-			for (IBreakpoint breakpoint : allBreakPoints) {
-				if (breakpoint.getMarker().getResource().equals(file)){
-					breakpoints.add((EolBreakpoint) breakpoint);
-				}
-			}
-		}
-		
-		String subtask = "Parsing " + fileName;
-		progressMonitor.subTask(subtask);
-		progressMonitor.beginTask(subtask, 100);
-		
-		try {
-			parsed = module.parse(new File(fileName));
-		} catch (Exception e) {
-			e.printStackTrace();
-			EpsilonConsole.getInstance().getErrorStream().println(e.getMessage());
-			return;
-		}
-		
-		progressMonitor.done();
-		
-		if (!parsed){
-			
-			for (ParseProblem problem : module.getParseProblems()) {
-				EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
-			}
-			return;
-		}
+		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
 		
 		try { 
 			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-			subtask = "Executing";
+			String subtask = "Executing";
 			progressMonitor.subTask(subtask);
 			progressMonitor.beginTask(subtask, 100);
 
-			if (mode.equals(ILaunchManager.DEBUG_MODE)) { 
-				IDebugTarget target = new EolDebugTarget(launch, module);
-				launch.addDebugTarget(target);
-			}
-			else {
-				module.execute();
-			}
+			module.execute();
 			
-			//module.execute();
 		} catch (EolRuntimeException e) {
 			e.printStackTrace();
 			module.getContext().getErrorStream().println(e.toString());
 			progressMonitor.setCanceled(true);
 		}
 		finally{
-			//engine.getContext().getModelRepository().shutdown();
 			EclipseContextManager.teardown(module.getContext());
 		}
 		

@@ -10,16 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.dt.launching;
 
-import java.io.File;
-
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
@@ -34,43 +30,14 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		
 		EpsilonConsole.getInstance().clear();
-		
 		EmlModule module = new EmlModule();
-		boolean parsed = false;
-		String subTask = "";
 		
-		String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
-		
-		subTask = "Parsing " + fileName;
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		try {
-			parsed = module.parse(new File(fileName));
-		} catch (Exception e) {
-			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			return;
-		}
-		
-		progressMonitor.done();
-		
-		if (!parsed){
-			for (ParseProblem problem : module.getParseProblems()) {
-				EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
-			}
-			return;
-		}
-		
-		subTask = "Loading models";
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		progressMonitor.done();
+		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
 		
 		// Start executing
 		
 		try { 
-			subTask = "Merging...";
+			String subTask = "Merging...";
 			progressMonitor.subTask(subTask);
 			progressMonitor.beginTask(subTask, 100);
 			
@@ -100,41 +67,13 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		IEclModule module = new EclModule();
 		module.getContext().setOutputStream(context.getOutputStream());
 		module.getContext().setErrorStream(context.getErrorStream());
-		boolean parsed = false;
-		String subTask = "";
 		
-		String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + configuration.getAttribute(EmlLaunchConfigurationAttributes.ECL_SOURCE, "");
-		
-		subTask = "Parsing " + fileName;
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		try {
-			parsed = module.parse(new File(fileName));
-		} catch (Exception e) {
-			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
-			return null;
-		}
-		
-		progressMonitor.done();
-		
-		if (!parsed){
-			for (ParseProblem problem : module.getParseProblems()) {
-				EpsilonConsole.getInstance().getErrorStream().println(problem.toString());
-			}
-			return null;
-		}
-		
-		subTask = "Loading models";
-		progressMonitor.subTask(subTask);
-		progressMonitor.beginTask(subTask, 100);
-		
-		progressMonitor.done();
+		if (!parse(module, EmlLaunchConfigurationAttributes.ECL_SOURCE, configuration, mode, launch, progressMonitor)) return null;
 		
 		// Start executing
 		
 		try { 
-			subTask = "Comparing...";
+			String subTask = "Comparing...";
 			progressMonitor.subTask(subTask);
 			progressMonitor.beginTask(subTask, 100);
 			
