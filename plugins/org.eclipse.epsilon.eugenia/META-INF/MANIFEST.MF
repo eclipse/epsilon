@@ -13,7 +13,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmf.map,
  org.eclipse.gmf.codegen,
  org.eclipse.epsilon.etl.engine,
- org.eclipse.epsilon.erl.engine
+ org.eclipse.epsilon.erl.engine,
+ org.eclipse.gmf.bridge.ui,
+ org.eclipse.emf.importer.ecore,
+ org.eclipse.emf.emfatic.core;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

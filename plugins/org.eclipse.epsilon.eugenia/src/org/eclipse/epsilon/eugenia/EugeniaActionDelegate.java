@@ -42,23 +42,32 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
-public abstract class EolTransformationActionDelegate implements IObjectActionDelegate {
+public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 
 	private Shell shell;
 	protected ISelection selection;
+	protected GmfFileSet gmfFileSet;
 	
-	public EolTransformationActionDelegate() {
+	public EugeniaActionDelegate() {
 		super();
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		shell = targetPart.getSite().getShell();
+		this.shell = targetPart.getSite().getShell();
+	}
+	
+	public GmfFileSet getGmfFileSet() {
+		return gmfFileSet;
+	}
+	
+	public void setSelection(ISelection selection) {
+		this.selection = selection;
+		this.gmfFileSet = new GmfFileSet(getSelectedFile().getLocationURI().toString());
 	}
 	
 	public abstract String getTitle();
 	
 	public void run(final IAction action) {
-		
 		Job job = new Job(getTitle()) {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
@@ -82,7 +91,7 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 			}
 		};
 		job.setPriority(Job.SHORT);
-		job.schedule(); // start as soon as possible
+		job.schedule(); // start as soon as possible*/
 	}
 	
 	public abstract List<EmfModel> getModels() throws Exception;
@@ -113,7 +122,10 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 					  
 		IEolExecutableModule builtin = createBuiltinModule();
 		IEolExecutableModule customization = createCustomizationModule();
-		
+		System.err.println("getBuiltinTransformation() -> " + getBuiltinTransformation()); //REMOVE_ME
+		if (getBuiltinTransformation() == null) {
+			new Exception().printStackTrace();
+		}
 		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
 		builtin.parse(uri);
 		
@@ -158,7 +170,16 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 			builtin.getContext().getModelRepository().dispose();
 			builtin.getContext().dispose();
 			customization.getContext().dispose();
+			refresh();
+		}
+	}
+	
+	public void refresh() {
+		try {
 			getSelectedFile().getParent().refreshLocal(1, null);
+		}
+		catch (Exception ex) {
+			// Ignore
 		}
 	}
 	
@@ -181,6 +202,6 @@ public abstract class EolTransformationActionDelegate implements IObjectActionDe
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection = selection;
+		setSelection(selection);
 	}
 }

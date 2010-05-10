@@ -5,7 +5,7 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="false"
-            id="org.eclipse.epsilon.easygmf.ecore"
+            id="org.eclipse.epsilon.eugenia.ecore"
             nameFilter="*.ecore"
             objectClass="org.eclipse.core.resources.IFile">
          <action
@@ -31,7 +31,21 @@
             <separator
                   name="actions">
             </separator>
+            <separator
+                  name="org.eclipse.epsilon.eugenia.separator1">
+            </separator>
+            <groupMarker
+                  name="experimental">
+            </groupMarker>
          </menu>
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
+               enablesFor="1"
+               icon="icons/generateall.png"
+               id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
+               label="Generate GMF editor (experimental)"
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/experimental">
+         </action>
       </objectContribution>
       <objectContribution
             adaptable="false"
@@ -75,6 +89,28 @@
                   name="actions">
             </separator>
          </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.eugenia.emfatic"
+            nameFilter="*.emf"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.eclipse.epsilon.eugenia.emfatic"
+               label="Eugenia"
+               path="additions">
+            <groupMarker
+                  name="actions">
+            </groupMarker>
+         </menu>
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
+               enablesFor="1"
+               icon="icons/generateall.png"
+               id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
+               label="Generate GMF editor (experimental)"
+               menubarPath="org.eclipse.epsilon.eugenia.emfatic/actions">
+         </action>
       </objectContribution>
    </extension>
 

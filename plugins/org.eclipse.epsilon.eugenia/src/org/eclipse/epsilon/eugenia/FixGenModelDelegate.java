@@ -19,7 +19,7 @@ import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class FixGenModelDelegate extends EolTransformationActionDelegate {
+public class FixGenModelDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public String getBuiltinTransformation() {
@@ -34,12 +34,9 @@ public class FixGenModelDelegate extends EolTransformationActionDelegate {
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String genModelPath = getSelectedFile().getLocationURI().toString();
-		String ecorePath = FileUtil.replaceExtension(genModelPath, "ecore");
-		
 		List<EmfModel> models = new ArrayList<EmfModel>();
-		models.add(loadModel("ECore", ecorePath, EcorePackage.eINSTANCE.getNsURI(), true, false, true));
-		models.add(loadModel("GenModel", genModelPath, GenModelPackage.eINSTANCE.getNsURI(), true, true, true));
+		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, true));
+		models.add(loadModel("GenModel", gmfFileSet.getGenModelPath(), GenModelPackage.eINSTANCE.getNsURI(), true, true, true));
 		return models;
 	}
 

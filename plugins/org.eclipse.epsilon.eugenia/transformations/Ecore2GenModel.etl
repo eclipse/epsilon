@@ -10,7 +10,7 @@ pre {
 	genModel.foreignModel.add(foreignModel);
 	copyAnnotations(topEPackage, genModel);
 }
-  
+
 rule EPackage2GenPackage
 	transform s : Ecore!EPackage
 	to t : GenModel!GenPackage {

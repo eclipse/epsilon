@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.gmf.codegen.gmfgen.GMFGenPackage;
 
-public class Ecore2GenModelDelegate extends EolTransformationActionDelegate {
+public class Ecore2GenModelDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public IEolExecutableModule createBuiltinModule() {
@@ -42,13 +42,10 @@ public class Ecore2GenModelDelegate extends EolTransformationActionDelegate {
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String ecorePath = getSelectedFile().getLocationURI().toString();
-		String genModelPath = FileUtil.replaceExtension(ecorePath, "genmodel");
-		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		
-		models.add(loadModel("Ecore", ecorePath, EcorePackage.eINSTANCE.getNsURI(), true, false, true));
-		models.add(loadModel("GenModel", genModelPath, GenModelPackage.eINSTANCE.getNsURI(), false, true, false));
+		models.add(loadModel("Ecore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, true));
+		models.add(loadModel("GenModel", gmfFileSet.getGenModelPath(), GenModelPackage.eINSTANCE.getNsURI(), false, true, false));
 		
 		return models;
 	}

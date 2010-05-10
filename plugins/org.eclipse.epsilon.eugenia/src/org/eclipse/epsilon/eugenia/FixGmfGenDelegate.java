@@ -26,7 +26,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.gmf.codegen.gmfgen.GMFGenPackage;
 
-public class FixGmfGenDelegate extends EolTransformationActionDelegate {
+public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public String getBuiltinTransformation() {
@@ -41,13 +41,10 @@ public class FixGmfGenDelegate extends EolTransformationActionDelegate {
 	@Override
 	public List<EmfModel> getModels() throws Exception {
 		
-		String gmfGenPath = getSelectedFile().getLocationURI().toString();
-		String ecorePath = FileUtil.replaceExtension(gmfGenPath, "ecore");
-		
 		List<EmfModel> models = new ArrayList<EmfModel>();
 		
-		models.add(loadModel("ECore", ecorePath, EcorePackage.eNS_URI, true, false, true));
-		models.add(loadModel("GmfGen", gmfGenPath, GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
+		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, false, true));
+		models.add(loadModel("GmfGen", gmfFileSet.getGmfGenPath(), GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
 		
 		return models;
 	}
