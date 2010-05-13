@@ -131,8 +131,13 @@ EscapeSequence
 //    ;
 
 NAME 
-    :   ('~')? Letter (Letter|JavaIDDigit)*
+    :   (Letter|SpecialNameChar) (Letter|JavaIDDigit|SpecialNameChar)*
     ;
+    
+fragment
+SpecialNameChar
+	: '~' | '&' | '?' | '^'
+	;
 
 /**I found this char range in JavaCC's grammar, but Letter and Digit overlap.
    Still works, but...
