@@ -68,8 +68,8 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	public void configure(XMLResource resource) {
 		Map<Object, Object> loadOptions = resource.getDefaultLoadOptions();
 		//loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+		//loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 		loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
-		loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 		loadOptions.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
 		loadOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 	}
