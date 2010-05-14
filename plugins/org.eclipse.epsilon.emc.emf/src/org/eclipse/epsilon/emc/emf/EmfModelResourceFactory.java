@@ -16,7 +16,6 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -34,7 +33,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	}
 	
 	private EmfModelResourceFactory() {
-		resourceMap = new HashMap();
+		resourceMap = new HashMap<String, Resource>();
 	}
 	
 	@Override
@@ -56,26 +55,21 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			resource = resourceFactory.createResource(uri);
 			
 			if (resource instanceof XMLResource) {
-				relax((XMLResource)resource);
-				//resource = new IDXMIResource(uri);
+				configure((XMLResource)resource);
 			}
 			
 			resource.setTrackingModification(false);
 			resourceMap.put(uri.toString(), resource);
 			return resource;
 			
-			/*
-			Resource resource = new IDXMIResource(uri);
-			resource.setTrackingModification(false);
-			resourceMap.put(uri.toString(), resource);
-			return resource;
-			*/
 		}
 	}
 	
-	public void relax(XMLResource resource) {
+	public void configure(XMLResource resource) {
 		Map<Object, Object> loadOptions = resource.getDefaultLoadOptions();
-		loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+		//loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+		loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 		loadOptions.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
 		loadOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 	}

@@ -189,9 +189,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		
 		if (this.readOnLoad){
 			try {
-				final Map<Object, Object> options = new HashMap<Object, Object>();
-				options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, true);
-				model.load(options);
+				model.load(null);
 				if (expand) {
 					EcoreUtil.resolveAll(model);
 				}
