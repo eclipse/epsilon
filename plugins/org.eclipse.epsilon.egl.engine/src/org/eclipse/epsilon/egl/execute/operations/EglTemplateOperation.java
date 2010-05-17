@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.egl;
+package org.eclipse.epsilon.egl.execute.operations;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
