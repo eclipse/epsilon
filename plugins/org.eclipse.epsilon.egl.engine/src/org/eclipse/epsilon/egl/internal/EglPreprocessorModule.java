@@ -64,7 +64,9 @@ class EglPreprocessorModule extends EolModule {
 				throw new EglRuntimeException(ex, preprocessor.getTrace());
 			}
 		} catch (EolRuntimeException ex) {
-			if (!(ex instanceof EglRuntimeException)) {
+			if (ex instanceof EglRuntimeException) {
+				throw (EglRuntimeException)ex;
+			} else {
 				throw new EglRuntimeException(ex, preprocessor.getTrace());
 			}
 		}

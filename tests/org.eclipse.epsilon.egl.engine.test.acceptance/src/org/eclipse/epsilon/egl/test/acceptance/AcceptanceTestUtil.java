@@ -80,8 +80,7 @@ public class AcceptanceTestUtil {
 
 		} else
 			throw new IllegalArgumentException("Cannot run a program of type: " + program.getClass().getCanonicalName());
-		
-		
+				
 		final String result = template.process();
 		
 		report();
