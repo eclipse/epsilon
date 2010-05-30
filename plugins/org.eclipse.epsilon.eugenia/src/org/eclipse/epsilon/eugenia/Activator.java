@@ -10,11 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eugenia;
 
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.gmf.gmfgraph.Figure;
-import org.eclipse.gmf.gmfgraph.LineKind;
-import org.eclipse.gmf.gmfgraph.PolylineDecoration;
-import org.eclipse.gmf.gmfgraph.Shape;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 

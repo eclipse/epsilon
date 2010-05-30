@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eugenia;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -22,16 +22,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -115,7 +110,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public abstract String getCustomizationTransformation();
 	
 	public List<Variable> getExtraVariables() {
-		return Collections.EMPTY_LIST;
+		return new ArrayList<Variable>();
 	}
 	
 	public void runImpl(IAction action) throws Exception {

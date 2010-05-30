@@ -3,7 +3,6 @@ package org.eclipse.epsilon.eugenia;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.emfatic.core.generator.ecore.Builder;
 import org.eclipse.emf.emfatic.core.generator.ecore.EcoreGenerator;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.jface.action.IAction;

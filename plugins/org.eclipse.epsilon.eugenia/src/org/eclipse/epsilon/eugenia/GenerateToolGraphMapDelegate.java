@@ -13,21 +13,11 @@ package org.eclipse.epsilon.eugenia;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.gmf.gmfgraph.GMFGraphPackage;
-import org.eclipse.gmf.internal.bridge.transform.TransformOptions;
-import org.eclipse.gmf.internal.bridge.transform.TransformToGenModelOperation;
 import org.eclipse.gmf.mappings.GMFMapPackage;
 import org.eclipse.gmf.tooldef.GMFToolPackage;
-import org.eclipse.jface.action.IAction;
 
 public class GenerateToolGraphMapDelegate extends EugeniaActionDelegate {
  
