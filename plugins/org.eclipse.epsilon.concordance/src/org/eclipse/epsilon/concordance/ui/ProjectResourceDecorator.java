@@ -11,11 +11,13 @@
 
 package org.eclipse.epsilon.concordance.ui;
 
+import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.swt.graphics.Image;
 
-public class ProjectResourceDecorator implements ILabelDecorator {
+public class ProjectResourceDecorator implements ILabelDecorator, ILightweightLabelDecorator {
 
 	public Image decorateImage(Image image, Object element) {
 		// TODO Auto-generated method stub
@@ -45,6 +47,11 @@ public class ProjectResourceDecorator implements ILabelDecorator {
 	public void removeListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void decorate(Object element, IDecoration decoration) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
