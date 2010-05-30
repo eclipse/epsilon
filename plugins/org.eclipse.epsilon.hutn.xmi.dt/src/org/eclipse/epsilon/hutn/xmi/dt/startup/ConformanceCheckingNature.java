@@ -26,6 +26,6 @@ public class ConformanceCheckingNature extends AbstractNature {
 	public void deconfigure() throws CoreException {}
 	
 	public static boolean hasConformanceCheckingNature(IProject project) throws CoreException {
-		return project.hasNature(ID);
+		return project.isAccessible() && project.hasNature(ID);
 	}
 }
