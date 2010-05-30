@@ -85,7 +85,7 @@ public class EvlValidator implements EValidator {
 					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName, ePackageUri);
 				}
 			}
-			return false;
+			return true;
 		}
 		
 		module.getContext().dispose();

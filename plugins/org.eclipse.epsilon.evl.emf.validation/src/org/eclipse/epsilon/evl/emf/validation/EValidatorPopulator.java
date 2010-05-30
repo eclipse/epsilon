@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.ui.IStartup;
 
@@ -69,12 +70,11 @@ public class EValidatorPopulator implements IStartup {
 				EValidator newValidator = null;
 				EValidator existingValidator = EValidator.Registry.INSTANCE.getEValidator(ePackage);
 				
-				//System.err.println("Existing : " + existingValidator);
-				
 				if (existingValidator == null) {
-					newValidator = evlValidator;
+					existingValidator = EObjectValidator.INSTANCE;
 				}
-				else if (existingValidator instanceof CompositeEValidator) {
+				
+				if (existingValidator instanceof CompositeEValidator) {
 					((CompositeEValidator) existingValidator).getDelegates().add(evlValidator);
 					newValidator = existingValidator;
 				}
