@@ -75,7 +75,10 @@ public class XmlModel extends AbstractEmfModel {
 		    
 		    for (Iterator<EObject> iter = eCorePackages.iterator(); iter.hasNext();) {
 		    	EPackage element = (EPackage) iter.next();
-		    	resourceSet.getPackageRegistry().put(element.getName(), element);
+		    	if (element.getNsURI() == null || element.getNsURI().length() == 0) {
+		    		element.setNsURI(element.getName());
+		    	}
+		    	resourceSet.getPackageRegistry().put(element.getNsURI(), element);
 		    }
 		}
 		
