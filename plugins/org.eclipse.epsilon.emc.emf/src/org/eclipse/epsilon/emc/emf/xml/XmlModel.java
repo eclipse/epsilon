@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
@@ -71,6 +72,7 @@ public class XmlModel extends AbstractEmfModel {
 	    
 		if (xsdFile != null && xsdFile.endsWith("xsd")) {
 			XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
+			
 		    Collection<EObject> eCorePackages = xsdEcoreBuilder.generate(URI.createFileURI(xsdFile));
 		    
 		    for (Iterator<EObject> iter = eCorePackages.iterator(); iter.hasNext();) {
@@ -78,6 +80,7 @@ public class XmlModel extends AbstractEmfModel {
 		    	if (element.getNsURI() == null || element.getNsURI().length() == 0) {
 		    		element.setNsURI(element.getName());
 		    	}
+		    	// element.setNsPrefix("");
 		    	resourceSet.getPackageRegistry().put(element.getNsURI(), element);
 		    }
 		}
@@ -85,15 +88,13 @@ public class XmlModel extends AbstractEmfModel {
 		Map<String, Object> etfm = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
 		if(!etfm.containsKey("*")) {
 			etfm.put("*", new GenericXMLResourceFactoryImpl());
-			
+			//etfm.put("*", new XMLResourceFactoryImpl());
 		}
 		
-	    HashMap options = new HashMap();
-	    options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 	    Resource resource = resourceSet.createResource(URI.createFileURI(modelFile));
 	    
 	    try {
-			if (readOnLoad) resource.load(options);
+			if (readOnLoad) resource.load(null);
 		} catch (IOException e) {
 			throw new EolModelLoadingException(e, this);
 		}
@@ -120,10 +121,7 @@ public class XmlModel extends AbstractEmfModel {
 
 		try {
 			fos = new FileOutputStream(fileName);
-			HashMap options = new HashMap();
-		    options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-			options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		    modelImpl.save(fos, options);
+			modelImpl.save(fos, null);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
