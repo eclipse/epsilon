@@ -34,6 +34,9 @@ public class EolEditor extends AbstractModuleEditor {
 		//keywords.add("input");
 		//keywords.add("output");
 		keywords.add("if");
+		keywords.add("switch");
+		keywords.add("case");
+		keywords.add("default");
 		keywords.add("operation");
 		keywords.add("function");
 		keywords.add("new");

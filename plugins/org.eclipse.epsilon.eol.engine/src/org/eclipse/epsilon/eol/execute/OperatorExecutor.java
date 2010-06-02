@@ -183,6 +183,8 @@ public class OperatorExecutor extends AbstractExecutor{
 	
 	public EolBoolean equals(Object o1, Object o2){
 		
+		if (o1 == null && o2 == null) return EolBoolean.TRUE;
+		
 		if (o1 == null || o2 == null) return EolBoolean.FALSE;
 		
 		return new EolBoolean(o1.equals(o2));

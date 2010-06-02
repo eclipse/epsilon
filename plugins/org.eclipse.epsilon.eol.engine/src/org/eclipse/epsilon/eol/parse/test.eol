@@ -1,8 +1,95 @@
-a[1];
-a[1][2];
-foo()[1][2] = 5;
-a.b[2][3] = 5;
-a[4].foo();
--1[2];
-a.b[2].foo[3];
-(a)[3];
+-- local helper operations
+-- None!
+
+operation Target!NetworkParticipationGroup bindNpgs2SubLabel(msgCat : MessageSet!Catalogue) {
+  (self.number + ' - ' + self.name).println();
+  if(self.number == 1) {
+    'bind NPG 1'.println();
+  } else {
+    if(self.number == 2) {
+      'bind NPG 2'.println();
+    } else {
+      if(self.number == 3) {
+        'bind NPG 3'.println();
+      } else {
+        if(self.number == 4) {
+          'bind NPG 4'.println();
+        } else {
+          if(self.number == 5) {
+            'bind NPG 5'.println();
+          } else {
+            if(self.number == 6) {
+              'bind NPG 6'.println();
+            } else {
+              if(self.number == 7) {
+                'bind NPG 7'.println();
+              } else {
+                if(self.number == 8) {
+                  'bind NPG 8'.println();
+                } else {
+                  if(self.number == 9) {
+                    'bind NPG 9'.println();
+                  } else {
+                    if(self.number == 10) {
+                      'bind NPG 10'.println();
+                    } else {
+                      if(self.number == 12) {
+                        'bind NPG 12'.println();
+                      } else {
+                        if(self.number == 13) {
+                          'bind NPG 13'.println();
+                        } else {
+                          if(self.number == 19) {
+                            'bind NPG 19'.println();
+                          } else {
+                            if(self.number == 20) {
+                              'bind NPG 20'.println();
+                            } else {
+                              if(self.number == 21) {
+                                'bind NPG 21'.println();
+                              } else {
+                                if(self.number == 22) {
+                                  'bind NPG 22'.println();
+                                } else {
+                                  if(self.number == 23) {
+                                    'bind NPG 23'.println();
+                                  } else {
+                                    if(self.number == 27) {
+                                      'bind NPG 27'.println();
+                                    } else {
+                                      if(self.number == 28) {
+                                        'bind NPG 28'.println();
+                                      } else {
+                                        if(self.number == 29) {
+                                          'bind NPG 29'.println();
+                                        } else {
+                                          if(self.number == 30) {
+                                            'bind NPG 30'.println();
+                                          } else {
+                                            if(self.number == 31) {
+                                              'bind NPG 31'.println();
+                                            } else {
+                                              ('Ooops! No binding found for NPG: ' + self.number).println();
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

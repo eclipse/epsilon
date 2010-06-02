@@ -54,6 +54,7 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.FEATURECALL, new NameExecutor());
 		executorCache.put(EolParser.BLOCK, new StatementBlockExecutor());
 		executorCache.put(EolParser.IF, new IfStatementExecutor());
+		executorCache.put(EolParser.SWITCH, new SwitchStatementExecutor());
 		executorCache.put(EolParser.BOOLEAN, new BooleanExecutor());
 		executorCache.put(EolParser.ARROW, new ArrowExecutor());
 		executorCache.put(EolParser.VAR, new VarStatementExecutor());

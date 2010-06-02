@@ -49,6 +49,9 @@ tokens {
 	IF;
 	ELSE;
 	WHILE;
+	SWITCH;
+	CASE;
+	DEFAULT;
 	RETURN;
 	BREAK;
 	BREAKALL;
@@ -226,7 +229,7 @@ statement
 
 statementA
 	:assignmentStatement | expressionStatement | forStatement
-		| ifStatement | whileStatement | returnStatement | breakStatement
+		| ifStatement | whileStatement | switchStatement | returnStatement | breakStatement
 	;
 	
 statementB
@@ -250,6 +253,21 @@ forStatement
 ifStatement
 	:	'if' '(' logicalExpression ')' statementOrStatementBlock elseStatement?
 	-> ^(IF logicalExpression statementOrStatementBlock elseStatement?)
+	;
+	
+switchStatement
+	:	'switch' '(' logicalExpression ')' '{' caseStatement* defaultStatement? '}'
+	-> ^(SWITCH logicalExpression caseStatement* defaultStatement?)
+	;
+	
+caseStatement
+	:	'case' logicalExpression ':' statement*
+	-> ^(CASE logicalExpression statement*)
+	;
+	
+defaultStatement
+	:	'default' ':' statement*
+	-> ^(DEFAULT statement*)
 	;
 	
 elseStatement
