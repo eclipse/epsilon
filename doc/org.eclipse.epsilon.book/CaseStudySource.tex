@@ -1,86 +1,86 @@
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=EVL Module for Validating Singletons, label=lst:CaseStudy, numbers=left, language=EVL, tabsize=2]
 context Singleton typeOf Class {
 	
-	guard : self.stereotype->exists(s|s.name = 'singleton')
+	guard : self.stereotype->exists(s|s.name = "singleton")
 	
 	constraint DefinesGetInstance {
-		check : self.getGetInstanceOperation()->isDefined()
-		message : 'Singleton ' + self.name + 
-			' must define a getInstance() operation'
+		check : self.getGetInstanceOperation().isDefined()
+		message : "Singleton " + self.name + 
+			" must define a getInstance() operation"
 		fix {
-			title : 'Add a getInstance() operation to ' + self.name
+			title : "Add a getInstance() operation to " + self.name
 			do {
-				-- Create the getInstance operation
+				// Create the getInstance operation
 				var op : new Operation;
-				op.name := 'getInstance';
-				op.owner := self;
-				op.ownerScope := ScopeKind#sk_classifier;
+				op.name = "getInstance";
+				op.owner = self;
+				op.ownerScope = ScopeKind#sk_classifier;
 				
-				-- Create the return parameter
+				// Create the return parameter
 				var returnParameter : new Parameter;
-				returnParameter.type := self;
-				op.parameter := Sequence{returnParameter};
-				returnParameter.kind := ParameterDirectionKind#pdk_return;
+				returnParameter.type = self;
+				op.parameter = Sequence{returnParameter};
+				returnParameter.kind = ParameterDirectionKind#pdk_return;
 			}
 		}
 	}
 	
 	constraint GetInstanceIsStatic {
-		guard : self.satisfies('DefinesGetInstance')
+		guard : self.satisfies("DefinesGetInstance")
 		check : self.getGetInstanceOperation().ownerScope = 
 		        ScopeKind#sk_classifier
-		message : ' The getInstance() operation of singleton ' 
-		          + self.name + ' must be static'
+		message : " The getInstance() operation of singleton " 
+		          + self.name + " must be static"
 	
 		fix {
-			title : 'Change to static'
+			title : "Change to static"
 			do {
 				self.getGetInstanceOperation.ownerScope 
-				  := ScopeKind#sk_classifier;
+				  = ScopeKind#sk_classifier;
 			}
 		}
 	}
 	
 	constraint GetInstanceReturnsSame {
 	
-		guard : self.satisfies('DefinesGetInstance')
+		guard : self.satisfies("DefinesGetInstance")
 		check {
 			var returnParameter : Parameter;
-			returnParameter := self.getReturnParameter();
+			returnParameter = self.getReturnParameter();
 			return (returnParameter->isDefined() 
 			        and returnParameter.type = self);
 		}
-		message : ' The getInstance() operation of singleton ' 
-		          + self.name + ' must return ' + self.name
+		message : " The getInstance() operation of singleton " 
+		          + self.name + " must return " + self.name
 			
 		fix {
-			title : 'Change return type to ' + self.name
+			title : "Change return type to " + self.name
 			do {
 				var returnParameter : Parameter;
-				returnParameter := self.getReturnParameter();
+				returnParameter = self.getReturnParameter();
 				
-				-- If the operation does not have a return parameter
-				-- create one
+				// If the operation does not have a return parameter
+				// create one
 				if (not returnParameter.isDefined()){
-					returnParameter := Parameter.newInstance();
-					returnParameter.kind := ParameterDirectionKind#pdk_return;
-					returnParameter.behavioralFeature := 
+					returnParameter = Parameter.newInstance();
+					returnParameter.kind = ParameterDirectionKind#pdk_return;
+					returnParameter.behavioralFeature = 
 						self.getInstanceOperation();
 				}
-				-- Set the correct return type
-				returnParameter.type := self;
+				// Set the correct return type
+				returnParameter.type = self;
 			}
 		}
 	}
 }
 
 operation Class getGetInstanceOperation() : Operation {
-	return self.feature->
-		select(o:Operation|o.name = 'getInstance').first();
+	return self.feature.
+		select(o:Operation|o.name = "getInstance").first();
 }
 
 operation Operation getReturnParameter() : Parameter {
-	return self.parameter->
+	return self.parameter.
 		select(p:Parameter|p.kind = 
 			ParameterDirectionKind#pdk_return).first();
 }

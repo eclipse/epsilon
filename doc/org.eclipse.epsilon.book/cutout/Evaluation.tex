@@ -109,30 +109,30 @@ The aim of this case study was to simulate UML2 activity diagrams annotated with
 The implementation of this case study using Epsilon consisted of two steps. In the first step, EVL was used to validate the activity diagram to ensure that the sum of probabilities of the non-deterministic transitions of each decision node is exactly 1. Listing \ref{lst:SAP.EVL} demonstrates the \emph{ProbabilitiesSumTo1} constraint specification using EVL. 
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Performance-Annotated Activity Diagram Constraints using EVL, label=lst:SAP.EVL, language=EVL, tabsize=2]
-import 'UML2.lib.eol';
+import "UML2.lib.eol";
 
 context DecisionNode {
 	
 	constraint ProbabilitiesSumTo1 {
 		
 		guard : self.outgoing.exists(cf|cf.
-			getStereotypeApplication('ExecutionProbability').
+			getStereotypeApplication("ExecutionProbability").
 			isDefined())
 		
 		check {
-			var sum : Real := 0;
+			var sum : Real = 0;
 			for (cf in self.outgoing) {
-				var sa := cf.getStereotypeApplication
-					('ExecutionProbability');
+				var sa = cf.getStereotypeApplication
+					("ExecutionProbability");
 				if (sa.isDefined()) {
-					sum := sum + sa.Probability;
+					sum = sum + sa.Probability;
 				}
 			}
 			return sum = 1.0;
 		}
 		
-		message : 'Sum of probabilities of decision node ' 
-			+ self.name + ' is ' + sum 
+		message : "Sum of probabilities of decision node " 
+			+ self.name + " is " + sum 
 		
 	}
 	
@@ -142,27 +142,27 @@ context DecisionNode {
 The next step was to simulate the execution of the model. For this purpose, non-invasive user defined operations (discussed in Section \ref{sec:Design.EOL.Operations}) were defined on the executable parts of the model using EOL. Listing \ref{lst:SAP.EOL} demonstrates the simulation specification in EOL. In line \ref{line:DecisionNode.execute} the \emph{DesicionNode.execute()} operation randomly selects one of the outgoing control flows of the decision node (based on their probabilities) and calls the \emph{walk()} operation on it. In line \ref{line:ControlFlow.walk}, the \emph{walk()} operation executes the target of the control flow. Operation \emph{Action.execute()} in line \ref{line:Action.execute} executes an action by adding its costs to the global variables defined in lines \ref{line:cpuTime} -- \ref{line:dbRows}. Finally, the \emph{JoinNode.execute()} operation defines that all incoming control flows must be first traversed before the outgoing control flows of a join-node can be executed.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Simulation using EOL, label=lst:SAP.EOL, language=EOL, tabsize=2]
-import 'UML2.lib.eol';
+import "UML2.lib.eol";
 
-var initialNode : InitialNode := InitialNode.allInstances().first();
+var initialNode : InitialNode = InitialNode.allInstances().first();
 
-var cpuTime : Integer := 0; /*@\label{line:cpuTime}@*/
-var dbAccess : Integer := 0;
-var dbRows : Integer := 0; /*@\label{line:dbRows}@*/
-var joinNodes : new Native('java.util.HashMap');
-var finished : Boolean := false;
+var cpuTime : Integer = 0; /*@\label{line:cpuTime}@*/
+var dbAccess : Integer = 0;
+var dbRows : Integer = 0; /*@\label{line:dbRows}@*/
+var joinNodes : new Native("java.util.HashMap");
+var finished : Boolean = false;
 
 initialNode.execute();
-'Simulation trace : '.println();
-('	CPUTime : ' + cpuTime).println();
-('	DBAccess : ' + dbAccess).println();
-('	DBRows : ' + dbRows).println();
+"Simulation trace : ".println();
+("	CPUTime : " + cpuTime).println();
+("	DBAccess : " + dbAccess).println();
+("	DBRows : " + dbRows).println();
 
 operation DecisionNode execute() { /*@\label{line:DecisionNode.execute}@*/
 	var poll : Sequence;
 	for (cf in self.outgoing) {
 		for (i in Sequence{0..(cf.
-			getStereotypeApplication('ExecutionProbability').Probability 
+			getStereotypeApplication("ExecutionProbability").Probability 
 			* 100).asInteger() - 1}){
 			poll.add(cf);
 		}
@@ -172,9 +172,9 @@ operation DecisionNode execute() { /*@\label{line:DecisionNode.execute}@*/
 
 operation Action execute() { /*@\label{line:Action.execute}@*/
 	self.name.println();
-	cpuTime := cpuTime + self.getCPUTime();
-	dbAccess := dbAccess + self.getDBAccess();
-	dbRows := dbRows + self.getDBRows();
+	cpuTime = cpuTime + self.getCPUTime();
+	dbAccess = dbAccess + self.getDBAccess();
+	dbRows = dbRows + self.getDBRows();
 	self.outgoing.first().walk();
 }
 
@@ -200,13 +200,13 @@ operation JoinNode execute(cf : ControlFlow) { /*@\label{line:JoinNode.execute}@
 }
 
 operation ActivityFinalNode execute() { /*@\label{line:ActivityFinalNode.execute}@*/
-	finished := true;
+	finished = true;
 }
 
 operation ControlFlow walk() { /*@\label{line:ControlFlow.walk}@*/
 	
-	-- If a final node has been reached
-	-- by some other path return
+	// If a final node has been reached
+	// by some other path return
 	if (finished) {return;}
 
 	if (self.target.isTypeOf(JoinNode)){
@@ -244,7 +244,7 @@ It is worth noting that despite their different purposes, both the EVL constrain
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=The shared Uml.lib.eol library, label=lst:SAP.UMLLib, language=EOL, tabsize=2]
 operation Element getStereotypeApplication(stereotype : String) {
-	var s : Stereotype := self.getAppliedStereotypes().
+	var s : Stereotype = self.getAppliedStereotypes().
 		select(s|s.name = stereotype).first();
 	if (s.isDefined()) {
 		return self.getStereotypeApplication(s);

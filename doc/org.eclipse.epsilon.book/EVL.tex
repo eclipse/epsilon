@@ -253,7 +253,7 @@ context PM!Process {
 	constraint PerformanceIsDefined { /*@\label{CaseStudy:PerformanceIsDefined}@*/
 		
 		check { /*@\label{CaseStudy:PerformanceIsDefined:Check}@*/
-			var processPerformances := 
+			var processPerformances = 
 				PPM!ProcessPerformance.
 				allInstances.select(pt|pt.process = self);
 			
@@ -263,53 +263,53 @@ context PM!Process {
 		message { /*@\label{CaseStudy:PerformanceIsDefined:Message}@*/
 			var prefix : String;
 			if (processPerformances.size() = 1) {
-				prefix := 'More than one performance info'; 
+				prefix = "More than one performance info"; 
 			}
 			else {
-				prefix := 'No performance info';
+				prefix = "No performance info";
 			}
-			return prefix + ' found for process ' 
+			return prefix + " found for process " 
 				+ self.name;
 		}
 		
 		fix { /*@\label{CaseStudy:PerformanceIsDefined:Fix}@*/
-			title : 'Set the performance of ' + self.name
+			title : "Set the performance of " + self.name
 			
 			do {
 				for (p in processPerformances.clone()) {
 					delete p;
 				}
 				var maxAcceptableTime : Integer;
-				maxAcceptableTime := UserInput. /*@\label{CaseStudy:PerformanceIsDefined:Fix:Prompt}@*/
-					promptInteger('maxAcceptableTime', 0); 
+				maxAcceptableTime = UserInput. /*@\label{CaseStudy:PerformanceIsDefined:Fix:Prompt}@*/
+					promptInteger("maxAcceptableTime", 0); 
 				var p : 
 					new PPM!ProcessPerformance;
-				p.maxAcceptableTime := maxAcceptableTime;
-				p.process := self;
+				p.maxAcceptableTime = maxAcceptableTime;
+				p.process = self;
 			}
 		}
 	}
 	
 	constraint PerformanceIsValid { /*@\label{CaseStudy:PerformanceIsValid}@*/
 		
-		guard : self.satisfies('PerformanceIsDefined') /*@\label{CaseStudy:PerformanceIsValid:Guard}@*/
+		guard : self.satisfies("PerformanceIsDefined") /*@\label{CaseStudy:PerformanceIsValid:Guard}@*/
 			and self.children.forAll
-				(c|c.satisfies('PerformanceIsDefined'))
+				(c|c.satisfies("PerformanceIsDefined"))
 		
 		check { /*@\label{CaseStudy:PerformanceIsValid:Check}@*/
 			var sum : Integer;
-			sum := self.children. /*@\label{CaseStudy:PerformanceIsValid:Sum}@*/
+			sum = self.children. /*@\label{CaseStudy:PerformanceIsValid:Sum}@*/
 				collect(c|c.getMaxAcceptableTime()) 
 				.sum().asInteger(); 
 			return self.getMaxAcceptableTime() >= sum;
 		}
 		
-		message : 'Process ' + self.name + /*@\label{CaseStudy:PerformanceIsValid:Message}@*/
-			' has a smaller maxAcceptableTime ' 
-			+ 'than the sum of its children'
+		message : "Process " + self.name + /*@\label{CaseStudy:PerformanceIsValid:Message}@*/
+			" has a smaller maxAcceptableTime " 
+			+ "than the sum of its children"
 		
 		fix { /*@\label{CaseStudy:PerformanceIsValid:Fix}@*/
-			title : 'Increase maxAcceptableTime to ' + sum
+			title : "Increase maxAcceptableTime to " + sum
 			do {
 				self.setMaxAcceptableTime(sum);
 			}
@@ -329,7 +329,7 @@ operation PM!Process getMaxAcceptableTime() /*@\label{CaseStudy:getMaxAcceptable
 operation PM!Process setMaxAcceptableTime /*@\label{CaseStudy:setMaxAcceptableTime}@*/
 	(time : Integer) { 
 	PPM!ProcessPerformance.allInstances.
-		selectOne(pt|pt.process=self).maxAcceptableTime :=
+		selectOne(pt|pt.process=self).maxAcceptableTime =
 		time;
 }
 \end{lstlisting}

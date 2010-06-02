@@ -16,7 +16,7 @@ This task is the base of all the model management tasks presented in Section \re
 	<target name="main">
 		<epsilon.eol>
 			<![CDATA[
-				'Hello world'.println();
+				"Hello world".println();
 			]]>
 		</epsilon.eol>
 	</target>
@@ -45,7 +45,7 @@ The \emph{uses} nested elements enable tasks to import variables exported by pre
 To better illustrate the runtime communication mechanism, a minimal example is provided in Listings \ref{lst:Exporter} - \ref{lst:ExporterUserWorkflow}. In Listing \ref{lst:Exporter}, \emph{Exporter.eol} defines a String variable named \emph{x} and assigns a value to it. The workflow of Listing \ref{lst:ExporterUserWorkflow} specifies that after executing \emph{Exporter.eol}, it must export a variable named \emph{x} with the new name \emph{y} to the project context. Finally, it defines that before executing \emph{User.eol} (Listing \ref{lst:User}), it must query the project context for a variable named \emph{y} and in case this is available, add the variable to the module's context and then execute it. Thus, the result of executing the workflow is \emph{Some String} printed in the output console.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the Exporter.eol module, label=lst:Exporter, language=EOL]
-var x : String := 'Some string';
+var x : String = "Some string";
 \end{lstlisting}
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the User.eol module, label=lst:User, language=EOL]

@@ -134,9 +134,9 @@ As several such tools and algorithms have been implemented in various programmin
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The FuzzyTree2Tree rule, label=lst:FuzzyTree2Tree, language=ECL, numbers=left, tabsize=2]
 pre {
-	var simmetrics := 
-		new Native('org.epsilon.ecl.tools.
-			textcomparison.simmetrics.SimMetricsTool'); 
+	var simmetrics = 
+		new Native("org.epsilon.ecl.tools.
+			textcomparison.simmetrics.SimMetricsTool"); 
 }
 
 rule FuzzyTree2Tree 
@@ -149,7 +149,7 @@ rule FuzzyTree2Tree
 }
 
 operation String fuzzyMatch(other : String) : Boolean {
-	return simmetrics.similarity(self,other,'Levenshtein') > 0.5;
+	return simmetrics.similarity(self,other,"Levenshtein") > 0.5;
 }\end{lstlisting}
 
 \section{Interactive Matching}
@@ -160,12 +160,12 @@ Using the user interaction features discussed in Section \ref{sec:Design.EOL.Use
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=An interactive version of the fuzzyMatch operation of Listing \ref{lst:FuzzyTree2Tree}, label=lst:InteractiveTree2TreeComparison, language=ECL, numbers=left, tabsize=2]
 operation String fuzzyMatch(other : String) : Boolean {
 	var similarity : Real;
-	similarity := simmetrics.similarity(self,other,'Levenshtein');
+	similarity = simmetrics.similarity(self,other,"Levenshtein");
 	if (similarity > 0.5) {
 		return true;
 	}
 	else if (similarity > 0.3) {
-		return UserInput.confirm(self + ' matches ' + other + '?');
+		return UserInput.confirm(self + " matches " + other + "?");
 	}
 	else {
 		return false;

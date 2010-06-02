@@ -16,57 +16,57 @@ The most widely used convention for naming attributes and association ends of a 
 ]
 wizard RenameClass {
 	
-	-- The wizard applies when a Class is selected
+	// The wizard applies when a Class is selected
 	guard : self.isKindOf(Class)
 	
-	title : 'Rename class ' + self.name
+	title : "Rename class " + self.name
 	
 	do {
 		var newName : String;
 		
-		-- Prompt the user for the new name of the class
-		newName := UserInput.prompt('New name for class ' + self.name);
+		// Prompt the user for the new name of the class
+		newName = UserInput.prompt("New name for class " + self.name);
 		if (newName.isDefined()) {
 			var affectedElements : Sequence;
 			
-			-- Collect the AssociationEnds and Attributes
-			-- that are affected by the rename
+			// Collect the AssociationEnds and Attributes
+			// that are affected by the rename
 			affectedElements.addAll(
 				AssociationEnd.allInstances.select(ae|ae.participant=self));
 			affectedElements.addAll(
 				Attribute.allInstances.select(a|a.type = self));
 			
 			var oldNameToLower : String;
-			oldNameToLower := self.name.firstToLowerCase();
+			oldNameToLower = self.name.firstToLowerCase();
 			var newNameToLower : String;
-			newNameToLower := newName.firstToLowerCase();
+			newNameToLower = newName.firstToLowerCase();
 			
-			-- Update the names of the affected AssociationEnds
-			-- and Attributes
+			// Update the names of the affected AssociationEnds
+			// and Attributes
 			for (ae in affectedElements) {
 					ae.replaceInName(oldNameToLower, newNameToLower);
 					ae.replaceInName(self.name, newName);
 			}
-			self.name := newName;
+			self.name = newName;
 		}
 	}
 	
 }
 
--- Renames the ModelElement on which it is invoked
+// Renames the ModelElement on which it is invoked
 operation ModelElement replaceInName
 	(oldString : String, newString : String) {
 	
 	if (oldString.isSubstringOf(self.name)) {
-		-- Calculate the new name
+		// Calculate the new name
 		var newName : String;
-		newName := self.name.replace(oldString, newString);
+		newName = self.name.replace(oldString, newString);
 		
-		-- Prompt the user for confirmation of the rename
+		// Prompt the user for confirmation of the rename
 		if (UserInput.confirm
-			('Rename ' + self.name + ' to ' + newName + '?')) {
-			-- Perform the rename
-			self.name := newName;
+			("Rename " + self.name + " to " + newName + "?")) {
+			// Perform the rename
+			self.name = newName;
 		}
 	}
 }

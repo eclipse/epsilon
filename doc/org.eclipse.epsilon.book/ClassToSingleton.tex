@@ -16,55 +16,55 @@ The singleton pattern \cite{Larman} is applied when there is a class for which o
 ]
 wizard ClassToSingleton {
 	
-	-- The wizard applies when a class is selected
+	// The wizard applies when a class is selected
 	guard : self.isTypeOf(Class)
 	
-	title : 'Convert ' + self.name + ' to a singleton'
+	title : "Convert " + self.name + " to a singleton"
 	
 	do {
-		-- Create the getInstance() operation 
+		// Create the getInstance() operation 
 		var gi : new Operation; 
-		gi.owner := self; 
-		gi.name := 'getInstance'; 
-		gi.visibility := VisibilityKind#vk_public; 
-		gi.ownerScope := ScopeKind#sk_classifier; 
+		gi.owner = self; 
+		gi.name = "getInstance"; 
+		gi.visibility = VisibilityKind#vk_public; 
+		gi.ownerScope = ScopeKind#sk_classifier; 
 		
-		-- Create the return parameter of the operation 
+		// Create the return parameter of the operation 
 		var ret : new Parameter; 
-		ret.type := self; 
-		ret.kind := ParameterDirectionKind#pdk_return; 
-		gi.parameter := Sequence{ret}; 
+		ret.type = self; 
+		ret.kind = ParameterDirectionKind#pdk_return; 
+		gi.parameter = Sequence{ret}; 
 		
-		-- Create the instance field 
+		// Create the instance field 
 		var ins : new Attribute; 
-		ins.name := 'instance'; 
-		ins.type := self; 
-		ins.visibility := VisibilityKind#vk_private; 
-		ins.ownerScope := ScopeKind#sk_classifier; 
-		ins.owner := self; 
+		ins.name = "instance"; 
+		ins.type = self; 
+		ins.visibility = VisibilityKind#vk_private; 
+		ins.ownerScope = ScopeKind#sk_classifier; 
+		ins.owner = self; 
 		
-		-- Attach the <<singleton>> stereotype 
-		self.attachStereotype('singleton');
+		// Attach the <<singleton>> stereotype 
+		self.attachStereotype("singleton");
 	}
 }
 
--- Attaches a stereotype with the specified name
--- to the Model Element on which it is invoked
+// Attaches a stereotype with the specified name
+// to the Model Element on which it is invoked
 operation ModelElement attachStereotype(name : String) {
 		var stereotype : Stereotype;
 		
-		-- Try to find an existing stereotype with this name
-		stereotype := Stereotype.allInstances.selectOne(s|s.name = name);
+		// Try to find an existing stereotype with this name
+		stereotype = Stereotype.allInstances.selectOne(s|s.name = name);
 		
-		-- If there is no existing stereotype
-		-- with that name, create one
+		// If there is no existing stereotype
+		// with that name, create one
 		if (not stereotype.isDefined()){
-			stereotype := Stereotype.createInstance();
-			stereotype.name := name;
-			stereotype.namespace := self.namespace;
+			stereotype = Stereotype.createInstance();
+			stereotype.name = name;
+			stereotype.namespace = self.namespace;
 		}
 		
-		-- Attach the stereotype to the model element
+		// Attach the stereotype to the model element
 		self.stereotype.add(stereotype);
 }
 \end{lstlisting}

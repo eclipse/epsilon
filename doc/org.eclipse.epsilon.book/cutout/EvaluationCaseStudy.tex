@@ -47,7 +47,7 @@ context Competition!NamedElement {
 		
 		check : self.name.isDefined() and self.name.trim().length > 0
 		
-		message : self.eClass().name + ' must provide a name'
+		message : self.eClass().name + " must provide a name"
 		
 	}
 	
@@ -57,11 +57,11 @@ context Competition!Group {
 	
 	constraint NotEmpty { /*@\label{line:NotEmpty}@*/
 		
-		guard : self.satisfies('NameSpecified')
+		guard : self.satisfies("NameSpecified")
 		
 		check : self.competitors.size() > 0
 		
-		message : 'Group ' + self.name + ' contains no competitors'
+		message : "Group " + self.name + " contains no competitors"
 		
 	}
 	
@@ -71,13 +71,13 @@ context Competition!Competitor {
 	
 	constraint InUniqueGroup { /*@\label{line:InUniqueGroup}@*/
 		
-		guard : self.satisfies('NameSpecified')
+		guard : self.satisfies("NameSpecified")
 		
 		check : Competition!Group.allInstances.
 			select(g|g.teams.includes(self)).size() <= 1
 		
-		message : 'Competitor ' + self.name + 
-			' exists in more than one group.'
+		message : "Competitor " + self.name + 
+			" exists in more than one group."
 	}
 	
 }
@@ -90,8 +90,8 @@ rule Competition2Application
 	transform c : Competition!Competition
 	to a : TVApp!Application, v : TVApp!Vote {
 
-	a.name := c.name + ' Application';
-	v.name := 'Who will win the ' + c.name + '?';	
+	a.name = c.name + " Application";
+	v.name = "Who will win the " + c.name + "?";	
 	a.contents.add(v);
 	
 	for (g in c.groups) {
@@ -106,14 +106,14 @@ rule Competitor2Choice
 	transform co : Competition!Competitor
 	to ch : TVApp!Choice {
 
-	ch.name := co.name;
+	ch.name = co.name;
 }
 
 rule Group2Label
 	transform g : Competition!Group
 	to l : TVApp!Label {
 	
-	l.name := 'Group ' + g.name;
+	l.name = "Group " + g.name;
 }
 \end{lstlisting}
 
@@ -179,22 +179,22 @@ rule MatchReportWithText /*@\label{line:MatchReportWithText}@*/
 \end{lstlisting}
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EML module that merges a TVApp with a Report model, tabsize=2, label=lst:CaseStudyEML, language=EML]
-import 'CopyTVApp.etl'; /*@\label{line:ImportETL}@*/
+import "CopyTVApp.etl"; /*@\label{line:ImportETL}@*/
 
 rule MergeReportWithText /*@\label{line:MergeReportWithText}@*/
 	merge ot : OldTVApp!Text
 	with r : Report!Report 
 	into nt : NewTVApp!Text {
 	
-	nt.name := ot.name;
-	nt.information := ot.information;
+	nt.name = ot.name;
+	nt.information = ot.information;
 	nt.history ::= ot.history;
 	
 	var h : new NewTVApp!TextHistory;
-	h.information := ot.information;
-	h.revision := ot.history.collect(h|h.revision).max(0) + 1;
+	h.information = ot.information;
+	h.revision = ot.history.collect(h|h.revision).max(0) + 1;
 	nt.history.add(h);
-	nt.information := r.information;
+	nt.information = r.information;
 }
 \end{lstlisting}
 
@@ -203,48 +203,48 @@ rule CopyApplication
 	transform s : OldTVApp!Application
 	to t : Target!Application {
 	
-	t.name := s.name;
+	t.name = s.name;
 	t.contents ::= s.contents;
 }
 rule CopyText
 	transform s : OldTVApp!Text
 	to t : Target!Text {
 
-	t.name := s.name;
-	t.information := s.information;
+	t.name = s.name;
+	t.information = s.information;
 	t.history ::= s.history;
 }
 rule CopyTextHistory
 	transform s : OldTVApp!TextHistory
 	to t : Target!TextHistory {
 
-	t.revision := s.revision;
-	t.information := s.information;
+	t.revision = s.revision;
+	t.information = s.information;
 }
 rule CopyVote
 	transform s : OldTVApp!Vote
 	to t : Target!Vote {
 
-	t.name := s.name;
+	t.name = s.name;
 	t.contents ::= s.contents;
 }
 rule CopyChoice
 	transform s : OldTVApp!Choice
 	to t : Target!Choice {
 
-	t.name := s.name;
+	t.name = s.name;
 }
 rule CopyLabel
 	transform s : OldTVApp!Label
 	to t : Target!Label {
 
-	t.name := s.name;
+	t.name = s.name;
 }
 rule CopyMenu
 	transform s : OldTVApp!Menu
 	to t : Target!Menu {
 	
-	t.name := s.name;
+	t.name = s.name;
 	t.contents ::= s.contents;
 }
 \end{lstlisting}
@@ -258,7 +258,7 @@ context Report!Report {
 		
 		check : trace.matches.exists(m|m.matching and m.right = self)
 		
-		message : 'Report ' + self.name + ' refers to an undefined text'	
+		message : "Report " + self.name + " refers to an undefined text"	
 	}
 }
 \end{lstlisting}
@@ -338,7 +338,7 @@ To generate an XML document from a TVApp model, as required by the case study de
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=ETL transformation that transforms TVApp models to XML models, tabsize=2, label=lst:TVApp2XML, language=ETL]
 pre {
 	var doc : new Xml!Document;
-	doc.rootElement := TVApp!Application.
+	doc.rootElement = TVApp!Application.
 		allInstances.first().equivalent();
 }
 
@@ -347,46 +347,46 @@ rule NamedElement2Element
 	transform ne : TVApp!NamedElement
 	to n : Xml!Element {
 	
-	n.addAttribute('name', ne.name);
+	n.addAttribute("name", ne.name);
 }
 
 rule Application2Element
 	transform a : TVApp!Application
 	to n : Xml!Element extends NamedElement2Element{
 	
-	n.name := 'Application';
-	n.contents := a.contents.equivalent();
+	n.name = "Application";
+	n.contents = a.contents.equivalent();
 }
 
 rule Vote2Element
 	transform v : TVApp!Vote
 	to n : Xml!Element extends NamedElement2Element {
 	
-	n.name := 'Vote';	
-	n.contents := v.contents.equivalent();
+	n.name = "Vote";	
+	n.contents = v.contents.equivalent();
 }
 
 rule Choice2Element
 	transform c : TVApp!Choice
 	to n : Xml!Element extends NamedElement2Element {
 	
-	n.name := 'Choice';	
+	n.name = "Choice";	
 }
 
 rule Label2Element
 	transform c : TVApp!Label
 	to n : Xml!Element extends NamedElement2Element {
 	
-	n.name := 'Label';
+	n.name = "Label";
 }
 
 rule Text2Element
 	transform t : TVApp!Text
 	to e : Xml!Element extends NamedElement2Element {
 	
-	e.name := 'Text';
+	e.name = "Text";
 	var text : new Xml!Text;
-	text.cdata := t.information;
+	text.cdata = t.information;
 	e.contents.add(text);
 }
 
@@ -394,15 +394,15 @@ rule Menu2Element
 	transform m : TVApp!Menu
 	to e : Xml!Element extends NamedElement2Element {
 	
-	e.name := 'Menu';
-	e.contents := m.contents.equivalent();
+	e.name = "Menu";
+	e.contents = m.contents.equivalent();
 }
 
 operation Xml!Element addAttribute
 	(name : String, value : String) {
 	var attr : new Xml!Attribute;
-	attr.name := name;
-	attr.value := value;
+	attr.name = name;
+	attr.value = value;
 	self.attributes.add(attr);
 }
 \end{lstlisting}
@@ -416,46 +416,46 @@ The ETL transformation of Listing \ref{lst:TVApp2XML}, demonstrates two importan
 [%
 operation Element toString(indent : Integer) : String {
 	var str : String;
-	str := indent.getIndent() + '<' + self.name.normalize();
+	str = indent.getIndent() + "<" + self.name.normalize();
 	for (a in self.attributes) {
-		str := str + ' ' + a.name.normalize() + 
-			'="' + a.value.normalize() + '"';
+		str = str + " " + a.name.normalize() + 
+			"='" + a.value.normalize() + "'";
 		if (hasMore){
-			str := str + ' ';
+			str = str + " ";
 		}
 	}
-	str := str + '>\r\n';
+	str = str + ">\r\n";
 	for (c in self.contents) {
-		str := str + c.toString(indent + 1);
+		str = str + c.toString(indent + 1);
 	}
-	str := str + indent.getIndent() + '</' + 
-		self.name.normalize() + '>\r\n';
+	str = str + indent.getIndent() + "</" + 
+		self.name.normalize() + ">\r\n";
 	return str;
 }
 
 operation Text toString(indent : Integer) : String {
 	return (indent + 1).getIndent() + 
-		self.cdata.normalize() + '\r\n';
+		self.cdata.normalize() + "\r\n";
 }
 
 operation Integer getIndent() : String {
 	var indent : String;
 	for (i in Sequence{1 .. self}){
-		indent := indent + '  ';
+		indent = indent + "  ";
 	}
 	return indent;
 }
 
 operation String normalize() {
-	var normalized : String := self;
+	var normalized : String = self;
 	if (not normalized.isDefined()) { 
-		normalized := '';
+		normalized = "";
 	}
 	else {
-		normalized := normalized.replace('&', '&amp;');
-		normalized := normalized.replace('<', '&lt;');
-		normalized := normalized.replace('>', '&gt;');
-		-- etc
+		normalized = normalized.replace("&", "&amp;");
+		normalized = normalized.replace("<", "&lt;");
+		normalized = normalized.replace(">", "&gt;");
+		// etc
 	}
 	return normalized;
 }
@@ -507,48 +507,48 @@ A feature that is not required explicitly by the case study description, but whi
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EGL template that generates mockup HTML screens for a TVApp model, tabsize=2, label=lst:Mockup, language=EOL]
 [%
-	import 'include\\Common.eol';
+	import "include\\Common.eol";
 
-	TemplateFactory.setTemplateRoot('workspace\\MDD-TIF');
-	TemplateFactory.setOutputRoot('workspace\\MDD-TIF\\html');
+	TemplateFactory.setTemplateRoot("workspace\\MDD-TIF");
+	TemplateFactory.setOutputRoot("workspace\\MDD-TIF\\html");
 	
-	var header : Template := 
-		TemplateFactory.load('include\\Header.egl');
-	var text : Template := 
-		TemplateFactory.load('include\\Text.egl');	
-	var menu : Template := 
-		TemplateFactory.load('include\\Menu.egl');
-	var vote : Template := 
-		TemplateFactory.load('include\\Vote.egl');
-	var footer : Template := 
-		TemplateFactory.load('include\\Footer.egl');
+	var header : Template = 
+		TemplateFactory.load("include\\Header.egl");
+	var text : Template = 
+		TemplateFactory.load("include\\Text.egl");	
+	var menu : Template = 
+		TemplateFactory.load("include\\Menu.egl");
+	var vote : Template = 
+		TemplateFactory.load("include\\Vote.egl");
+	var footer : Template = 
+		TemplateFactory.load("include\\Footer.egl");
 	
-	var contents : String := 'default';
+	var contents : String = "default";
 	
 	if (Application.isType(content) or Menu.isType(content)) {
-		menu.populate('menu', content);
-		contents := menu.process();
+		menu.populate("menu", content);
+		contents = menu.process();
 		
-		-- Recursively generate the pages 
-		-- for the contents of this
-		-- application / menu
+		// Recursively generate the pages 
+		// for the contents of this
+		// application / menu
 		for (child in content.contents) {
-			var page : Template := TemplateFactory.load('Page.egl');
+			var page : Template = TemplateFactory.load("Page.egl");
 		
-			page.populate('content', child);
+			page.populate("content", child);
 			
 			page.generate(child.filename());
 		}
 
 	} else {
 		if (Text.isType(content)) {
-			text.populate('text', content);
-			contents := text.process();
+			text.populate("text", content);
+			contents = text.process();
 
 		} else {
 			if (Vote.isType(content)) {
-				vote.populate('vote', content);
-				contents := vote.process();
+				vote.populate("vote", content);
+				contents = vote.process();
 			}
 		}
 	}

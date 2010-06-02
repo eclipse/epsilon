@@ -131,8 +131,8 @@ The example of Listing \ref{lst:ANTTransactionsExample} demonstrates an exemplar
 
 <epsilon.eol>/*@\label{line:initialQuery}@*/
 	<![CDATA[
-	Tree1!Tree.allInstances.size().println(); -- prints 0 
-	Tree2!Tree.allInstances.size().println(); -- prints 0
+	Tree1!Tree.allInstances.size().println(); // prints 0 
+	Tree2!Tree.allInstances.size().println(); // prints 0
 	]]>
 	<model ref="Tree1"/>
 	<model ref="Tree2"/>
@@ -143,9 +143,9 @@ The example of Listing \ref{lst:ANTTransactionsExample} demonstrates an exemplar
 <epsilon.eol> /*@\label{line:newInstances}@*/
 	<![CDATA[
 	var t1 : new Tree1!Tree; 
-	Tree1!Tree.allInstances.size().println(); -- prints 1
+	Tree1!Tree.allInstances.size().println(); // prints 1
 	var t2 : new Tree2!Tree;
-	Tree2!Tree.allInstances.size().println(); -- prints 1
+	Tree2!Tree.allInstances.size().println(); // prints 1
 	]]>
 	<model ref="Tree1"/>
 	<model ref="Tree2"/>
@@ -155,8 +155,8 @@ The example of Listing \ref{lst:ANTTransactionsExample} demonstrates an exemplar
 
 <epsilon.eol>/*@\label{line:finalQuery}@*/
 	<![CDATA[
-	Tree1!Tree.allInstances.size().println(); -- prints 0 
-	Tree2!Tree.allInstances.size().println(); -- prints 1 
+	Tree1!Tree.allInstances.size().println(); // prints 0 
+	Tree2!Tree.allInstances.size().println(); // prints 1 
 	]]>
 	<model ref="Tree1"/>
 	<model ref="Tree2"/>

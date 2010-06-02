@@ -131,14 +131,14 @@ The \emph{MatchNodes} rule in line \ref{line:MatchNodes} defines that two nodes 
 Having established the necessary correspondences between matching elements of the two models, the EML specification of listing \ref{lst:MergeGraphs}.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, label=lst:MergeGraphs, caption=EML module for merging two instances of the Graph metamodel on the correspondences identified in Listing \ref{lst:CompareGraph} , language=EML, tabsize=2]
-import 'Graphs.etl';
+import "Graphs.etl";
 
 rule MergeGraphs /*@\label{line:MergeGraphs}@*/
 	merge l : Left!Graph
 	with r : Right!Graph
 	into t : Target!Graph {
 	
-	t.label := l.label + ' and ' + r.label;
+	t.label = l.label + " and " + r.label;
 	
 }
 
@@ -158,7 +158,7 @@ rule MergeNodes /*@\label{line:MergeNodes}@*/
 	into t : Target!Node 
 	extends GraphElements {
 	
-	t.label := 'c_' + l.label;
+	t.label = "c_" + l.label;
 	
 }
 rule MergeEdges /*@\label{line:MergeEdges}@*/
@@ -184,7 +184,7 @@ rule TransformGraph
 	transform s : Source!Graph
 	to t : Target!Graph {
 	
-	t.label := s.label;
+	t.label = s.label;
 	
 }
 
@@ -201,7 +201,7 @@ rule TransformNode /*@\label{line:TransformNode}@*/
 	to t : Target!Node 
 	extends TransformGraphElement {
 	
-	t.label := s.graph.label + '_' + s.label;
+	t.label = s.graph.label + "_" + s.label;
 }
 
 rule TransformEdge 

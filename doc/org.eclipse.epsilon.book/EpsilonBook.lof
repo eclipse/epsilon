@@ -5,37 +5,37 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces EOL Module Structure}}{24}{figure.3.1}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Overview of the type system of EOL}}{32}{figure.3.2}
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Overview of the feature navigation EOL expressions}}{42}{figure.3.3}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces The Tree Metamodel}}{55}{figure.3.4}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Example of an Eclipse-based IUserInput implementation}}{59}{figure.3.5}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of a command-line-based IUserInput implementation}}{60}{figure.3.6}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces The Tree Metamodel}}{56}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Example of an Eclipse-based IUserInput implementation}}{60}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of a command-line-based IUserInput implementation}}{61}{figure.3.6}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Abstract Syntax of EVL}}{67}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces The ProcessLang Metamodel}}{80}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces The ProcessPerformanceLang Metamodel}}{80}{figure.4.3}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Exemplar Process and ProcessPerformance models}}{84}{figure.4.4}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Screenshot of the validation view reporting the identified inconsistencies}}{84}{figure.4.5}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Abstract Syntax of EVL}}{68}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces The ProcessLang Metamodel}}{81}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces The ProcessPerformanceLang Metamodel}}{81}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Exemplar Process and ProcessPerformance models}}{85}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Screenshot of the validation view reporting the identified inconsistencies}}{85}{figure.4.5}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces ETL Abstract Syntax}}{89}{figure.5.1}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces A Simple Graph Metamodel}}{93}{figure.5.2}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces ETL Runtime}}{94}{figure.5.3}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces ETL Abstract Syntax}}{90}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces A Simple Graph Metamodel}}{94}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces ETL Runtime}}{95}{figure.5.3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces EWL Abstract Syntax}}{103}{figure.6.1}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces EWL Abstract Syntax}}{104}{figure.6.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces The abstract syntax of EGL's core.}}{114}{figure.7.1}
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Sample output from the traceability API.}}{121}{figure.7.2}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces The abstract syntax of EGL's core.}}{115}{figure.7.1}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Sample output from the traceability API.}}{122}{figure.7.2}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces ECL Abstract Syntax}}{124}{figure.8.1}
-\contentsline {figure}{\numberline {8.2}{\ignorespaces ECL Match Trace}}{127}{figure.8.2}
-\contentsline {figure}{\numberline {8.3}{\ignorespaces The Tree Metamodel}}{129}{figure.8.3}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces ECL Abstract Syntax}}{125}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces ECL Match Trace}}{128}{figure.8.2}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces The Tree Metamodel}}{130}{figure.8.3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {9.1}{\ignorespaces The Abstract Syntax of EML}}{138}{figure.9.1}
-\contentsline {figure}{\numberline {9.2}{\ignorespaces The EML runtime}}{142}{figure.9.2}
-\contentsline {figure}{\numberline {9.3}{\ignorespaces Left input model}}{146}{figure.9.3}
-\contentsline {figure}{\numberline {9.4}{\ignorespaces Right input model}}{146}{figure.9.4}
-\contentsline {figure}{\numberline {9.5}{\ignorespaces Target model derived by merging the models of Figures \ref {fig:LeftGraph} and \ref {fig:RightGraph}}}{147}{figure.9.5}
+\contentsline {figure}{\numberline {9.1}{\ignorespaces The Abstract Syntax of EML}}{139}{figure.9.1}
+\contentsline {figure}{\numberline {9.2}{\ignorespaces The EML runtime}}{143}{figure.9.2}
+\contentsline {figure}{\numberline {9.3}{\ignorespaces Left input model}}{147}{figure.9.3}
+\contentsline {figure}{\numberline {9.4}{\ignorespaces Right input model}}{147}{figure.9.4}
+\contentsline {figure}{\numberline {9.5}{\ignorespaces Target model derived by merging the models of Figures \ref {fig:LeftGraph} and \ref {fig:RightGraph}}}{148}{figure.9.5}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {11.1}{\ignorespaces Simplified ANT object model}}{155}{figure.11.1}
-\contentsline {figure}{\numberline {11.2}{\ignorespaces Core Framework}}{159}{figure.11.2}
-\contentsline {figure}{\numberline {11.3}{\ignorespaces Core Models Framework}}{160}{figure.11.3}
-\contentsline {figure}{\numberline {11.4}{\ignorespaces Model Management Tasks}}{168}{figure.11.4}
+\contentsline {figure}{\numberline {11.1}{\ignorespaces Simplified ANT object model}}{156}{figure.11.1}
+\contentsline {figure}{\numberline {11.2}{\ignorespaces Core Framework}}{160}{figure.11.2}
+\contentsline {figure}{\numberline {11.3}{\ignorespaces Core Models Framework}}{161}{figure.11.3}
+\contentsline {figure}{\numberline {11.4}{\ignorespaces Model Management Tasks}}{169}{figure.11.4}

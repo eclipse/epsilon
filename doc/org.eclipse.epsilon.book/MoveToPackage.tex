@@ -16,31 +16,31 @@ A common refactoring when modelling in UML is to move model elements, particular
 ]
 wizard MoveToPackage {
 	
-	-- The wizard applies when a Collection of
-	-- elements, including at least one Package
-	-- is selected
+	// The wizard applies when a Collection of
+	// elements, including at least one Package
+	// is selected
 	guard { 
 		var moveTo : Package;
 		if (self.isKindOf(Collection)) {
-			moveTo := self.select(e|e.isKindOf(Package)).last();
+			moveTo = self.select(e|e.isKindOf(Package)).last();
 		}
 		return moveTo.isDefined();
 	}
 	
-	title : 'Move ' + (self.size()-1) + ' elements to ' + moveTo.name
+	title : "Move " + (self.size()-1) + " elements to " + moveTo.name
 	
 	do {
-		-- Move the selected Model Elements to the
-		-- target package
+		// Move the selected Model Elements to the
+		// target package
 		for (me in self.excluding(moveTo)) {
-			me.namespace := moveTo;
+			me.namespace = moveTo;
 		}
 		
-		-- Move the Associations connecting any
-		-- selected Classes to the target package
+		// Move the Associations connecting any
+		// selected Classes to the target package
 		for (a in Association.allInstances) {
 			if (a.connection.forAll(c|self.includes(c.participant))){
-				a.namespace := moveTo;
+				a.namespace = moveTo;
 			}
 		}
 	}

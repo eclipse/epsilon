@@ -98,12 +98,12 @@ rule Tree2Node
 	transform t : Tree!Tree
 	to n : Graph!Node { 
 	
-	n.label := t.label;
+	n.label = t.label;
 	
 	if (t.parent.isDefined()) {
-		var edge := new Graph!Edge;
-		edge.source := n;
-		edge.target := t.parent.equivalent();
+		var edge = new Graph!Edge;
+		edge.source = n;
+		edge.target = t.parent.equivalent();
 	}
 }
 \end{lstlisting}
@@ -138,14 +138,14 @@ rule Tree2Node
 	to n : Graph!Node {
 	
 	guard : UserInput.confirm
-		('Transform tree ' + t.label + '?', true)
+		("Transform tree " + t.label + "?", true)
 	
-	n.label := t.label;
+	n.label = t.label;
 	var target : Graph!Node ::= t.parent;
 	if (target.isDefined()) {
-		var edge := new Graph!Edge;
-		edge.source := n;
-		edge.target := target;
+		var edge = new Graph!Edge;
+		edge.source = n;
+		edge.target = target;
 	}
 }
 \end{lstlisting}

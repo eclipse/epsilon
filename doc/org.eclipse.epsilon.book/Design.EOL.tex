@@ -51,15 +51,15 @@ operation add2(base : Integer) : Integer {
 EOL supports polymorphic operations using a runtime dispatch mechanism. Multiple operations with the same name and parameters can be defined, each defining a distinct context type. For example, in Listing \ref{lst:Polymorphism}, the statement in line 1 invokes the test operation defined in line 4, while the statement in line 2 invokes the test operation defined in line 8.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of polymorphism in EOL, label=lst:Polymorphism, numbers=left, language=EOL, tabsize=2]
-'1'.test();
+"1".test();
 1.test();
 
 operation String test() {
-	(self + ' is a string').println();
+	(self + " is a string").println();
 }
 
 operation Integer test() {
-	(self + 'is an integer').println();
+	(self + "is an integer").println();
 }
 
 \end{lstlisting}
@@ -382,10 +382,10 @@ The Map type represents an array of key-value pairs in which the keys are unique
 As discussed earlier, while the purpose of EOL is to provide significant expressive power to enable users to manage models at a high level of abstraction, it is not intended to be a general-purpose programming language. Therefore, there may be cases where users need to implement some functionality that is either not efficiently supported by the EOL runtime (e.g. complex mathematical computations) or that EOL does not support at all (e.g. developing user interfaces, accessing databases). To overcome this problem, EOL enables users to create objects of the underlying programming environment by using \emph{native} types. A native type specifies an $implementation$ property that indicates the unique identifier for an underlying platform type. For instance, in a Java implementation of EOL the user can instantiate and use a Java class via its class identifier. Thus, in Listing \ref{lst:Native} the EOL excerpt creates a Java window (Swing JFrame) and uses its methods to change its title and dimensions and make it visible.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native, numbers=left, language=EOL, tabsize=2]
-var frame := new Native('javax.swing.JFrame');
-frame.title := 'Opened with EOL';
+var frame = new Native("javax.swing.JFrame");
+frame.title = "Opened with EOL";
 frame.setBounds(100,100,300,200);
-frame.visible := true;
+frame.visible = true;
 \end{lstlisting}
 
 \subsection{Model Element Types}
@@ -443,10 +443,10 @@ Since EOL needs to manage models defined using object oriented modelling technol
 In terms of concrete syntax, `.' is used as a uniform operator to access a property of an object and to invoke an operation on it. The `$\rightarrow$' operator, which is used in OCL to invoke first-order logic operations on sets, has been also preserved for syntax compatibility reasons. In EOL, every operation can be invoked both using the `.' or the '$\rightarrow$' operators, with a slightly different semantics to enable overriding the built-in operations. If the `.' operator is used, precedence is given to the user-defined operations, otherwise precedence is given to the built-in operations. For instance, the Any type defines a println() method that prints the string representation of an object to the standard output stream. In Listing \ref{lst:Expressions}, the user has defined another parameterless println() operation in the context of Any. Therefore the call to println() in Line 1 will be dispatched to the user-defined println() operation defined in line 3. In its body the operation uses the `$\rightarrow$' operator to invoke the built-in println() operation (line 4).
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Invoking operations using EOL, label=lst:Expressions, numbers=left, language=EOL, tabsize=2]
-'Something'.println();
+"Something".println();
 
 operation Any println() : Any {
-	('Printing : ' + self)->println();
+	("Printing : " + self)->println();
 }
 \end{lstlisting}
 
@@ -579,7 +579,7 @@ A variable declaration statement declares the name and (optionally) the type and
 			\textbf{Type} &	\textbf{Default value} \\\hline
 			Integer	& 0	\\\hline	   
 			Boolean &	false \\\hline	
-			String	& `'	\\\hline	
+			String	& ""	\\\hline	
 			Real & 0.0 \\\hline
 \end{longtable}
 
@@ -588,14 +588,14 @@ A variable declaration statement declares the name and (optionally) the type and
 In Listing \ref{lst:Variables}, an example of declaring and using variables is provided. Line 1 defines a variable named \emph{i} of type \emph{Integer} and assigns it an initial value of \emph{5}. Line 2 defines a variable named \emph{c} of type \emph{Class} (from model Uml) and creates a new instance of the type in the model (by using the \emph{new} keyword). The commented out assignment statement of line 3 would raise a runtime error since it would attempt to assign a \emph{String} value to an \emph{Integer} variable. The condition of line 4 returns true since the \emph{c} variable has been initialized before. Line 5 defines a new variable also named \emph{i} that is of type \emph{String} and which overrides the \emph{Integer} variable declared in line 1. Therefore the assignment statement of line 6 is legitimate as it assigns a string value to a variable of type String. Finally, as the program has exited the scope of the \emph{if} statement, the assignment statement of line 7 is also legitimate as it refers to the \emph{i} variable defined in line 1.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating declaration and use of variables, label=lst:Variables, numbers=left, language=EOL, tabsize=2]
-var i : Integer := 5;
+var i : Integer = 5;
 var c : new Uml!Class;
---i := 'somevalue';
+//i = "somevalue";
 if (c.isDefined()) {
 	var i : String;
-	i := 'somevalue';
+	i = "somevalue";
 }
-i := 3;
+i = 3;
 \end{lstlisting}
 
 \subsection{Assignment Statement}
@@ -609,26 +609,26 @@ of the a variable is set to a new Class in the Uml model. In line 2, a new untyp
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Assigning the value of a variable by reference, label=lst:VariableAssignmentByReference, numbers=left, language=EOL, tabsize=2]
 var a : new Uml!Class;
-var b := a;
-a.name := 'Customer';
+var b = a;
+a.name = "Customer";
 b.name.println();
 \end{lstlisting}
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Assigning the value of a variable by value, label=lst:VariableAssignmentByValue, numbers=left, language=EOL, tabsize=2]
 var a : String;
-var b := a;
-a := 'Customer';
+var b = a;
+a = "Customer";
 b.println();
 \end{lstlisting}
 
 \paragraph{Native Object Property Assignment}
 
-When the left hand side of the assignment is a property of a native object, deciding on the legality and providing the semantics of the assignment is delegated to the execution engine. For example, in a Java-based execution engine, given that x is a native object, the statement \emph{x.y := a} may be interpreted as \emph{x.setY(a)} or if x is an instance of a map \emph{x.put(''x'',a)}. By contrast, in a C\# implementation, it can be interpreted as \emph{x.y = a} since
+When the left hand side of the assignment is a property of a native object, deciding on the legality and providing the semantics of the assignment is delegated to the execution engine. For example, in a Java-based execution engine, given that x is a native object, the statement \emph{x.y = a} may be interpreted as \emph{x.setY(a)} or if x is an instance of a map \emph{x.put(''x'',a)}. By contrast, in a C\# implementation, it can be interpreted as \emph{x.y = a} since
 the language natively supports properties in classes.
 
 \paragraph{Model Element Property Assignment}
 
-When the left hand side of the assignment is a property of a model element, the model that owns the particular model element (accessible using the \emph{ModelRepository.getOwningModel() }operation) is responsible for implementing the semantics of the assignment using its associated \emph{propertyGetter} as discussed in Section \ref{sec:Design.EMC.CRUD}. For example, if x is a model element, the statement \emph{x.y := a} may be interpreted using the Java code of Listing \ref{lst:EmfModelElementPropertyAssignment} if x belongs to an EMF-based model or using the Java code of Listing \ref{lst:MdrModelElementPropertyAssignment} if it belongs to an MDR-based model.
+When the left hand side of the assignment is a property of a model element, the model that owns the particular model element (accessible using the \emph{ModelRepository.getOwningModel() }operation) is responsible for implementing the semantics of the assignment using its associated \emph{propertyGetter} as discussed in Section \ref{sec:Design.EMC.CRUD}. For example, if x is a model element, the statement \emph{x.y = a} may be interpreted using the Java code of Listing \ref{lst:EmfModelElementPropertyAssignment} if x belongs to an EMF-based model or using the Java code of Listing \ref{lst:MdrModelElementPropertyAssignment} if it belongs to an MDR-based model.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Java code that assigns the value of a property of a model element that belongs to an EMF-based model, label=lst:EmfModelElementPropertyAssignment, numbers=left, language=Java, tabsize=2]
 EStructuralFeature feature = x.eClass().getEStructuralFeature("y");
@@ -653,15 +653,15 @@ rule Class2Table
   transform c : OO!Class
   to t : DB!Table {
   
-  t.name := c.name;
+  t.name = c.name;
 }
 
 rule Attribute2Column
   transform a : OO!Attribute
   to c : DB!Column {
   
-  c.name := a.name;
-  --c.owningTable := c.owningClass;
+  c.name = a.name;
+  --c.owningTable = c.owningClass;
   c.owningTable ::= c.owningClass;
 }
 
@@ -673,20 +673,48 @@ As in most programming languages, an if statement consists of a condition, a blo
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating an if statement, label=lst:IfStatement, numbers=left, language=EOL, tabsize=2]
 if (a > 0) {
-	'A is greater than 0'.println();
+	"A is greater than 0".println();
 }
-else { 'A is less equal than 0'.println(); }
+else { "A is less equal than 0".println(); }
+\end{lstlisting}
+
+\subsection{Switch Statement}
+
+A switch statement consists of an expression and a set of cases, and can be used to implement multi-brancing. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, numbers=left, language=EOL, tabsize=2]
+var i = "2";
+
+switch (i) {
+	case "1" : "1".println(); 
+	case "2" : "2".println();
+	case "3" : "3".println();
+	case default : "default".println(); 
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating falling through cases in a switch statement, label=lst:SwitchStatement2, numbers=left, language=EOL, tabsize=2]
+var i = "2";
+
+switch (i) {
+	case "1" : "1".println(); 
+	case "2" : "2".println(); continue;
+	case "3" : "3".println();
+	case default : "default".println(); 
+}
+
 \end{lstlisting}
 
 \subsection{While Statement}
-
+ 
 A while statement consists of a condition and a block of statements which are executed as long as the condition is satisfied. For example, in Listing \ref{lst:WhileStatement} the body of the while statement is executed 5 times printing the numbers 0 to 4 to the output console.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL, tabsize=2]
-var i : Integer := 0;
+var i : Integer = 0;
 while (i < 5) {
 	i.println();
-	i := i+1;
+	i = i+1;
 }
 \end{lstlisting}
 
@@ -697,10 +725,10 @@ In EOL, for statements are used to iterate the contents of collections. A for st
 Inside the body of a for statements two built-in read-only variables are visible: the hasMore boolean variable is used to determine if there are more items if the collection for which the loop will be executed and the loopCount integer variable holds the number of times the innermost loop has been executed so far (including the current iteration). For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a for statement, label=lst:ForStatement, numbers=left, language=EOL, tabsize=2]
-var col : Sequence := Sequence{'a', 1, 2, 2.5, 'b'};
+var col : Sequence = Sequence{"a", 1, 2, 2.5, "b"};
 for (r : Real in col) {
 	r.print();
-	if (hasMore){','.print();}
+	if (hasMore){",".print();}
 }
 \end{lstlisting}
 
@@ -714,7 +742,7 @@ for (i in Sequence{1..3}) {
 	for (j in Sequence{1..4}) {
 		if (j = 2) {break;}
 		if (j = 3) {breakAll;}
-		(i + ',' + j).println();
+		(i + "," + j).println();
 	}
 }
 \end{lstlisting}
@@ -741,7 +769,7 @@ for (i in Sequence {1..100}) {
 		}
 		
 		for (processor in failedProcessors) {
-			processor.failed := true;
+			processor.failed = true;
 			processor.moveTasksElsewhere();
 		}
 		
@@ -760,14 +788,14 @@ Quite often, during a model management operation it is necessary to associate mo
 
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, numbers=left, language=EOL, tabsize=2]
-var depths := new Map; /*@\label{line:DeclareMap}@*/
+var depths = new Map; /*@\label{line:DeclareMap}@*/
 
 for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
 	n.setDepth(0);
 }
 
 for (n in Tree.allInstances) {
-	(n.name + ' ' + depths.get(n)).println();
+	(n.name + " " + depths.get(n)).println();
 }
 
 operation Tree setDepth(depth : Integer) {
@@ -795,11 +823,11 @@ for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
 }
 
 for (n in Tree.allInstances) {
-	(n.name + ' ' + n.~depth).println();
+	(n.name + " " + n.~depth).println();
 }
 
 operation Tree setDepth(depth : Integer) {
-	self.~depth := depth;
+	self.~depth = depth;
 	for (c in self.children) {
 		c.setDepth(depth + 1);
 	}
