@@ -1,0 +1,1 @@
+To run this example, right-click note.launch and select Run As -> 1 note.

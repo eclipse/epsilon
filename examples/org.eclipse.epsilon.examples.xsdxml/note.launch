@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
+<listAttribute key="models">
+<listEntry value="#&#13;&#10;#Tue Jun 01 16:25:17 BST 2010&#13;&#10;aliases=&#13;&#10;modelFile=/org.eclipse.epsilon.examples.xsdxml/note.xml&#13;&#10;xsdFile=/org.eclipse.epsilon.examples.xsdxml/note.xsd&#13;&#10;name=M&#13;&#10;type=XML&#13;&#10;storeOnDisposal=true&#13;&#10;readOnLoad=true&#13;&#10;"/>
+</listAttribute>
+<stringAttribute key="source" value="/org.eclipse.epsilon.examples.xsdxml/note.eol"/>
+</launchConfiguration>
