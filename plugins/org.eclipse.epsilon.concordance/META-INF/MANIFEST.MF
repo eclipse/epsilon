@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Concordance Plug-in
-Bundle-SymbolicName: org.eclipse.epsilon.concordance;singleton:=true
+Bundle-SymbolicName: org.eclipse.epsilon.concordance.old;singleton:=true
 Bundle-Version: 0.8.7.qualifier
 Bundle-Activator: org.eclipse.epsilon.concordance.Activator
 Bundle-Vendor: Eclipse.org
