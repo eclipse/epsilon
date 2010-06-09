@@ -16,13 +16,12 @@ package org.eclipse.epsilon.concordance.core.hashing.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.concordance.core.hashing.Xmi2HashTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({Xmi2HashTests.class, HashersTestSuite.class})
+@SuiteClasses({HashersTestSuite.class})
 public class ConcordanceHashingTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(ConcordanceHashingTestSuite.class);
