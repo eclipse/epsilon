@@ -86,7 +86,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	}
 	
 	
-	private EObject getEObject() throws EolIllegalPropertyException {
+	protected EObject getEObject() throws EolIllegalPropertyException {
 		if (object instanceof EObject)
 			return (EObject) object;
 		else

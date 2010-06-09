@@ -134,8 +134,11 @@ public abstract class AbstractEmfModel extends Model {
 	public boolean knowsAboutProperty(Object instance, String property) {
 		if (!owns(instance)) return false;
 		EObject eObject = (EObject) instance;		
-		return EmfUtil.getEStructuralFeature(eObject.eClass(), property) != null;
+		return knowsAboutProperty(eObject, property);
+	}
 
+	protected boolean knowsAboutProperty(EObject instance, String property) {
+		return EmfUtil.getEStructuralFeature(instance.eClass(), property) != null;
 	}
 	
 	protected void printPackages() {
@@ -178,25 +181,25 @@ public abstract class AbstractEmfModel extends Model {
 	
 	Map<String, EClass> eClassCache = new HashMap<String, EClass>();
 	public EClass classForName(String name) throws EolModelElementTypeNotFoundException {
-		
-		if (eClassCache.containsKey(name)) {
-			return eClassCache.get(name);
-		}
-		
-		EClass eClass = classForName(name, getPackageRegistry());
-		
-		//EClass eClass = classForName(name, EPackage.Registry.INSTANCE);
-		//if (eClass == null) {
-		//	eClass = classForName(name, EPackage.Registry.INSTANCE);
-		//}
-		
-		if (eClass != null) {
-			eClassCache.put(name, eClass);
-			return eClass;
+		if (name != null) {
+			if (eClassCache.containsKey(name)) {
+				return eClassCache.get(name);
+			}
+			
+			EClass eClass = classForName(name, getPackageRegistry());
+			
+			//EClass eClass = classForName(name, EPackage.Registry.INSTANCE);
+			//if (eClass == null) {
+			//	eClass = classForName(name, EPackage.Registry.INSTANCE);
+			//}
+			
+			if (eClass != null) {
+				eClassCache.put(name, eClass);
+				return eClass;
+			}
 		}
  		
 		throw new EolModelElementTypeNotFoundException(this.name, name);
-		
 	}
 	
 	protected EClass classForName(String name, Registry registry) {
