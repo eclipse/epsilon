@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.emc.emf.test,
  org.eclipse.epsilon.flock.engine.test,
  org.eclipse.epsilon.eol.engine.test.unit,
- org.eclipse.epsilon.common.dt.test
+ org.eclipse.epsilon.common.dt.test,
+ org.eclipse.epsilon.concordance.test
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

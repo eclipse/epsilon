@@ -17,6 +17,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
+import org.eclipse.epsilon.concordance.test.ConcordancePluggedInTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -24,7 +25,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({CommonDevelopmentToolsTestSuite.class,
-               EmfPluggedInTestSuite.class})
+               EmfPluggedInTestSuite.class,
+               ConcordancePluggedInTestSuite.class})
 public class EpsilonPluggedInTestSuite{
 
 	public static Test suite() {
