@@ -30,5 +30,8 @@ public class CacheDelta {
 		this.changedEntries = changedEntries;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "CacheDelta(fresh=" + freshEntries + ", expired=" + expiredEntries + ", changed=" + changedEntries + ")";
+	}
 }
