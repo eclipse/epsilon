@@ -52,12 +52,6 @@ public class XmiConformanceChecker {
 	}
 	
 	
-	public static interface ConformanceReporter {
-		public void reportConformant(String name);
-
-		public void reportNonConformant(String name, Collection<ParseProblem> conformanceProblems);
-	}
-	
 	private static class PrintStreamConformanceInformer implements ConformanceReporter {
 
 		private final PrintStream infoStream, errorStream;

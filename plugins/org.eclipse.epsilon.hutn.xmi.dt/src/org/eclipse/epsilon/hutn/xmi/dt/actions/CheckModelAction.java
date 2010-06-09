@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.hutn.xmi.dt.ConformanceReporter;
 import org.eclipse.epsilon.hutn.xmi.dt.XmiConformanceChecker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -30,7 +31,7 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 		}
 	}
 	
-	private static class DialogReporter implements XmiConformanceChecker.ConformanceReporter {
+	private static class DialogReporter implements ConformanceReporter {
 
 		public void reportConformant(String name) {
 			LogUtil.logInfo(name + " conforms to its registered metamodel.", true);
