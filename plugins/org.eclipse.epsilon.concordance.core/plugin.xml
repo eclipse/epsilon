@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="MetamodelChangeListener" name="org.eclipse.epsilon.concordance.listener.metamodel" schema="schema/MetamodelChangeListener.exsd"/>
+   <extension-point id="ModelChangeListener" name="org.eclipse.epsilon.concordance.listener.model" schema="schema/ModelChangeListener.exsd"/>
+   <extension
+         id="org.eclipse.epsilon.concordance.builder.ConcordanceBuilder"
+         name="Concordance Indexing Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            callOnEmptyDelta="true"
+            hasNature="true"
+            isConfigurable="false">
+         <run
+               class="org.eclipse.epsilon.concordance.dt.ConcordanceBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.eclipse.epsilon.concordance.nature.ConcordanceNature"
+         name="Concordance Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.epsilon.concordance.dt.ConcordanceNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.eclipse.epsilon.concordance.builder.ConcordanceBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.epsilon.concordance.dt.project"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="org.eclipse.epsilon.concordance.dt.ToggleConcordanceNatureAction"
+               icon="icons/index.png"
+               id="org.eclipse.epsilon.concordance.actions.ToggleNatureAction"
+               label="Enable Concordance Project Nature"
+               menubarPath="org.eclipse.epsilon.concordance.project.menu/actions"
+               state="false"
+               style="toggle">
+         </action>
+         <menu
+               id="org.eclipse.epsilon.concordance.project.menu"
+               label="Concordance"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.eclipse.epsilon.concordance.dt.ConcordanceStartup">
+      </startup>
+   </extension>
+</plugin>

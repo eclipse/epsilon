@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Concordance Clients (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.concordance.clients;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.concordance.core;visibility:=reexport,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.hutn.xmi.dt,
+ org.eclipse.epsilon.commons,
+ org.eclipse.emf.ecore
+Export-Package: org.eclipse.epsilon.concordance.clients.conformance,
+ org.eclipse.epsilon.concordance.clients.migration,
+ org.eclipse.epsilon.concordance.clients.xref
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

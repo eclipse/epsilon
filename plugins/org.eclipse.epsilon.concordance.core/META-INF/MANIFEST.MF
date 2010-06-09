@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Concordance (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.concordance.core;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.concordance.dependencies,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.common.dt,
+ org.hamcrest.matchers,
+ org.eclipse.epsilon.commons,
+ org.eclipse.epsilon.concordance.core.hashing
+Export-Package: org.eclipse.epsilon.concordance.db,
+ org.eclipse.epsilon.concordance.db.common,
+ org.eclipse.epsilon.concordance.dt,
+ org.eclipse.epsilon.concordance.history,
+ org.eclipse.epsilon.concordance.index,
+ org.eclipse.epsilon.concordance.model,
+ org.eclipse.epsilon.concordance.model.nsuri,
+ org.eclipse.epsilon.concordance.reporter.metamodel,
+ org.eclipse.epsilon.concordance.reporter.model
+Bundle-Activator: org.eclipse.epsilon.concordance.dt.ConcordancePlugin
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

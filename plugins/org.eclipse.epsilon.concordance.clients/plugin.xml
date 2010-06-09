@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="Migration" name="org.eclipse.epsilon.concordance.clients" schema="schema/Migration.exsd"/>
+   <extension
+         point="org.eclipse.epsilon.concordance.core.MetamodelChangeListener">
+      <client
+            class="org.eclipse.epsilon.concordance.clients.conformance.ConformanceChecker">
+      </client>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.concordance.core.MetamodelChangeListener">
+      <client
+            class="org.eclipse.epsilon.concordance.clients.migration.AutomaticMigrator">
+      </client>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.concordance.core.ModelChangeListener">
+      <listener
+            class="org.eclipse.epsilon.concordance.clients.xref.CrossReferenceReconciler">
+      </listener>
+   </extension>
+   <extension
+         id="danglingXref"
+         name="Dangling Cross-Reference"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>
