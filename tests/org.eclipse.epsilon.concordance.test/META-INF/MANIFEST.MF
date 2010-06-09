@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.concordance.core.test,
  org.eclipse.epsilon.concordance.clients.test
+Export-Package: org.eclipse.epsilon.concordance.test
