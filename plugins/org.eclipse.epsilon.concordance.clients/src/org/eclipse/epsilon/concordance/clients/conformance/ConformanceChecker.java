@@ -23,6 +23,7 @@ import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
 import org.eclipse.epsilon.concordance.model.Model;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 import org.eclipse.epsilon.concordance.reporter.metamodel.DefaultMetamodelChangeListener;
+import org.eclipse.epsilon.hutn.xmi.dt.ConformanceReporter;
 import org.eclipse.epsilon.hutn.xmi.dt.XmiConformanceChecker;
 
 public class ConformanceChecker extends DefaultMetamodelChangeListener {
@@ -60,7 +61,7 @@ public class ConformanceChecker extends DefaultMetamodelChangeListener {
 		}
 	}
 	
-	static class ErrorLogInformer implements XmiConformanceChecker.ConformanceReporter {
+	static class ErrorLogInformer implements ConformanceReporter {
 
 		private final Collection<String> conformantModels    = new LinkedList<String>();
 		private final Collection<String> nonConformantModels = new LinkedList<String>();
