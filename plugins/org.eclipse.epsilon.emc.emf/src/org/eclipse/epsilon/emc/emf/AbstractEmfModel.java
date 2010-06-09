@@ -469,6 +469,30 @@ public abstract class AbstractEmfModel extends Model {
 		return "";
 	}
 	
+	public void setElementId(Object instance, String newId) {
+		if (newId == null || newId.isEmpty())
+			return;
+		
+		/* I think that, quite sensibly, EMF does not all URI
+		 * fragments to be set on an XML resource. Also, we
+		 * don't want a URI fragment to be used as an XMI ID
+		 */
+		if (isUriFragment(newId))
+			return;
+		
+		
+		EObject eObject = (EObject) instance;
+		
+		if (eObject.eResource() instanceof XMIResource) {
+			((XMIResource) eObject.eResource()).setID(eObject, newId);
+		}
+	}
+	
+	private boolean isUriFragment(String newId) {
+		return newId.startsWith("/") || newId.startsWith("#/");
+	}
+	
+
 	@Override
 	public IPropertyGetter getPropertyGetter() {
 		return new EmfPropertyGetter();

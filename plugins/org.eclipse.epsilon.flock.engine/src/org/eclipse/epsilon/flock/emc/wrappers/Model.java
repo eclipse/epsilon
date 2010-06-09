@@ -172,4 +172,12 @@ public class Model {
 		underlyingEmfModel.setExpand(false);
 		return true;
 	}
+
+	public String getIdentity(Object underlyingModelObject) {
+		return underlyingModel.getElementId(underlyingModelObject);
+	}
+	
+	public void setIdentity(Object underlyingModelObject, String newIdentity) {
+		underlyingModel.setElementId(underlyingModelObject, newIdentity);
+	}
 }

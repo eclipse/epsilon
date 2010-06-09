@@ -51,8 +51,20 @@ public class ModelElement extends BackedModelValue<Object> {
 		return model.isKindOf(underlyingModelObject, originalType);
 	}
 	
+	public void copyIdentityFrom(ModelElement original) {
+		setIdentity(original.getIdentity());
+	}
+	
+	String getIdentity() {
+		return model.getIdentity(underlyingModelObject);
+	}
+	
+	void setIdentity(String identity) {
+		model.setIdentity(underlyingModelObject, identity);
+	}
+	
 	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {		
-		try {
+		try {			
 			for (String propertyName : this.getPropertiesSharedWith(original)) {
 				conservativelyCopyPropertyFrom(original, propertyName, context);
 			}
@@ -61,7 +73,7 @@ public class ModelElement extends BackedModelValue<Object> {
 			throw new ConservativeCopyException("Exception encountered while determining properties shared between " + original + " and " + this, e);
 		}
 	}
-	
+
 	private void conservativelyCopyPropertyFrom(ModelElement original, String propertyName, IFlockContext context) throws ConservativeCopyException {
 		try {
 			final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);

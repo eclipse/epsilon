@@ -226,6 +226,12 @@ public class CompositeModel extends Model {
 		}
 		return null;
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		for (IModel m : models) {
+			if (m.owns(instance)) m.setElementId(instance, newId);
+		}
+	}
 
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {

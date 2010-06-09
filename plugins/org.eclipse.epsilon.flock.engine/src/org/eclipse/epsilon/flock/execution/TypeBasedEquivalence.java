@@ -39,6 +39,7 @@ public class TypeBasedEquivalence implements Equivalence {
 	}
 	
 	public void automaticallyPopulateEquivalent() throws FlockRuntimeException {
+		equivalent.copyIdentityFrom(original);
 		equivalent.conservativelyCopyPropertiesFrom(original, context);
 	}
 	

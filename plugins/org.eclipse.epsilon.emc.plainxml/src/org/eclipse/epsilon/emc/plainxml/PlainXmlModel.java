@@ -201,6 +201,10 @@ public class PlainXmlModel extends Model {
 	public String getElementId(Object instance) {
 		return null;
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		// do nothing
+	}
 
 	
 	public Object getEnumerationValue(String enumeration, String label)

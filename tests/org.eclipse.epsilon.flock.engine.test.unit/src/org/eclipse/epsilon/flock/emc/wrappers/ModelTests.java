@@ -233,4 +233,48 @@ public class ModelTests {
 		
 		verify(mockUnderlyingModel);
 	}
+	
+	
+	@Test
+	public void getIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
+		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
+		
+		final Model model = new Model(mockUnderlyingModel);
+		
+		
+		// Expectations
+		
+		expect(mockUnderlyingModel.getElementId("dummyModelElement"))
+			.andReturn("anIdentity");
+		
+		replay(mockUnderlyingModel);
+
+		
+		// Verification
+		
+		assertEquals("anIdentity", model.getIdentity("dummyModelElement"));
+		
+		verify(mockUnderlyingModel);
+	}
+	
+	@Test
+	public void setIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
+		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
+		
+		final Model model = new Model(mockUnderlyingModel);
+		
+		
+		// Expectations
+		
+		mockUnderlyingModel.setElementId("dummyModelElement", "anIdentity");
+		
+		replay(mockUnderlyingModel);
+
+		
+		// Verification
+		
+		model.setIdentity("dummyModelElement", "anIdentity");
+		
+		verify(mockUnderlyingModel);
+	}
 }

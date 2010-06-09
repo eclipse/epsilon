@@ -48,7 +48,7 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 		migrate(strategy, hutnToFamily(hutnForOriginalModel), migratedModel);
 	}
 	
-	private static AbstractEmfModel hutnToFamily(String hutnForOriginalModel) {
+	protected static AbstractEmfModel hutnToFamily(String hutnForOriginalModel) {
 		return new FamiliesModelConstructor().constructModel("Original", hutnForOriginalModel);
 	}
 	

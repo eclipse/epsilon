@@ -89,6 +89,10 @@ public class ModelReference implements IModel{
 	public String getElementId(Object instance) {
 		return target.getElementId(instance);
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		target.setElementId(instance, newId);
+	}
 
 	public IPropertyGetter getPropertyGetter() {
 		return target.getPropertyGetter();

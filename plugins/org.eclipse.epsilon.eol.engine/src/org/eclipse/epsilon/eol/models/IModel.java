@@ -71,6 +71,8 @@ public interface IModel {
 	
 	public String getElementId(Object instance);
 	
+	public void setElementId(Object instance, String newId);
+	
 	public void deleteElement(Object instance) throws EolRuntimeException;
 	
 	public boolean isOfKind(Object instance, String type) throws EolModelElementTypeNotFoundException;

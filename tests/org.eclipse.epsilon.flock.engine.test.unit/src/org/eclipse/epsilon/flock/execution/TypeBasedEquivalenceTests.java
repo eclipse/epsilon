@@ -44,7 +44,7 @@ public class TypeBasedEquivalenceTests {
 	@Test
 	public void shouldDelegateToCopy() throws FlockRuntimeException {
 		// Expectations
-		
+		mockEquivalent.copyIdentityFrom(dummyOriginal);
 		mockEquivalent.conservativelyCopyPropertiesFrom(dummyOriginal, dummyContext);
 		
 		replay(mockEquivalent, dummyOriginal, dummyContext);

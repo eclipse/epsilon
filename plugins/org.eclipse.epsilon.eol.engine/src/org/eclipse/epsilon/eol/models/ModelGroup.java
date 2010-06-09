@@ -127,6 +127,14 @@ public class ModelGroup extends Model {
 		}
 		return null;
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		ListIterator li = models.listIterator();
+		while (li.hasNext()){
+			IModel model =(IModel) li.next();
+			if (model.owns(instance)) model.setElementId(instance, newId);
+		}
+	}
 
 	public void deleteElement(Object instance) throws EolRuntimeException{
 		ListIterator li = models.listIterator();

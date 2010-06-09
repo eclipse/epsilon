@@ -157,4 +157,25 @@ public class ModelElementTests {
 				
 		verify(mockModel, mockModelType, dummyOriginalModel, originalModelElementStub);
 	}
+	
+	
+	@Test
+	public void copyIdentityDelgatesToGetAndSetIdentity() {
+		final ModelElement mockOriginalModelElement = createMock(ModelElement.class);
+		
+		// Expectations
+		expect(mockOriginalModelElement.getIdentity())
+			.andReturn("an_identity");
+		
+		mockModel.setIdentity(underlyingElement, "an_identity");
+				
+		replay(mockModel, mockModelType, mockOriginalModelElement);
+
+
+		// Verification
+		
+		element.copyIdentityFrom(mockOriginalModelElement);
+				
+		verify(mockModel, mockModelType, mockOriginalModelElement);
+	}
 }

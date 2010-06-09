@@ -153,6 +153,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public String getElementId(Object instance) {
 		return instance.hashCode() + "";
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		// do nothing
+	}
 
 	
 	public Object getEnumerationValue(String enumeration, String label)

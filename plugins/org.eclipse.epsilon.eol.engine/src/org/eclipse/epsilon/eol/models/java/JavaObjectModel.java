@@ -156,6 +156,10 @@ public class JavaObjectModel extends Model{
 	public String getElementId(Object instance) {
 		return instance.hashCode() + "";
 	}
+	
+	public void setElementId(Object instance, String newId) {
+		// do nothing
+	}
 
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
