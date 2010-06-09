@@ -19,9 +19,7 @@ public class HutnXmiBridgeDevelopmentToolsPlugin extends AbstractUIPlugin {
 
 	//The shared instance.
 	private static HutnXmiBridgeDevelopmentToolsPlugin plugin;
-	
-	private ModelHashCache modelHashCache;
-	
+		
 	/**
 	 * The constructor.
 	 */
@@ -35,8 +33,6 @@ public class HutnXmiBridgeDevelopmentToolsPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		
-		modelHashCache = new ModelHashCache(getStateLocation().append("hashCache"));
 	}
 
 	/**
@@ -44,8 +40,6 @@ public class HutnXmiBridgeDevelopmentToolsPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		modelHashCache.store();
-		
 		super.stop(context);
 		plugin = null;
 	}
@@ -55,9 +49,5 @@ public class HutnXmiBridgeDevelopmentToolsPlugin extends AbstractUIPlugin {
 	 */
 	public static HutnXmiBridgeDevelopmentToolsPlugin getDefault() {
 		return plugin;
-	}
-	
-	public ModelHashCache getModelHashCache() {
-		return modelHashCache;
 	}
 }

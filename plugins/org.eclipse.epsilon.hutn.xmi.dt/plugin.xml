@@ -30,34 +30,5 @@
             </separator>
          </menu>
       </objectContribution>
-      <objectContribution
-            id="org.eclipse.epsilon.hutn.xmi.dt.project"
-            objectClass="org.eclipse.core.resources.IProject">
-         <action
-               class="org.eclipse.epsilon.hutn.xmi.dt.startup.ToggleConformanceCheckingNatureAction"
-               icon="icons/check.png"
-               id="org.eclipse.epsilon.hutn.xmi.dt.actions.ToggleNatureAction"
-               label="Automatically check conformance on startup"
-               menubarPath="org.eclipse.epsilon.hutn.dt.project.menu/actions"
-               state="false"
-               style="toggle">
-         </action>
-      </objectContribution>
-   </extension>
-   <extension
-         id="org.eclipse.epsilon.hutn.xmi.dt.nature.ConformanceCheckingNature"
-         name="Conformance Checking Project Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.eclipse.epsilon.hutn.xmi.dt.startup.ConformanceCheckingNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="org.eclipse.epsilon.hutn.xmi.dt.startup.CheckConformanceOnStartup">
-      </startup>
    </extension>
 </plugin>
