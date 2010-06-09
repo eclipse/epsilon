@@ -1,0 +1,15 @@
+@namespace(uri="families/2.0.0", prefix="families")
+
+package family;
+
+class Family {
+   attr String[1] name;
+   val Person[*] members;
+}
+
+abstract class Person {
+   attr String[1] name; 
+}
+
+class Man extends Person {}
+class Woman extends Person {}

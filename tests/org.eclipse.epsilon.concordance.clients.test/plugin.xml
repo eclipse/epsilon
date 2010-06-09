@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.epsilon.concordance.clients.Migration">
+      <migration
+            evolvedNsUri="families/2.0.0"
+            migrationStrategy="src/org/eclipse/epsilon/concordance/clients/migration/Flock.mig"
+            migratorFactory="org.eclipse.epsilon.flock.dt.concordance.FlockConcordanceMigratorFactory"
+            originalNsUri="families/1.0.0">
+      </migration>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.dynamic_package">
+      <resource
+            location="src/org/eclipse/epsilon/concordance/clients/migration/Original.ecore"
+            uri="families/1.0.0">
+      </resource>
+   </extension>
+   
+   <extension
+         point="org.eclipse.emf.ecore.dynamic_package">
+      <resource
+            location="src/org/eclipse/epsilon/concordance/clients/xref/RecordLabel.ecore"
+            uri="label">
+      </resource>
+   </extension>
+
+</plugin>

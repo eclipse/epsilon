@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xrefs:Container xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xrefs="xrefs">
+  <contents name="bref" single="TargetWithManyElements.model#//@contents.1"/>
+  <contents name="aref" single="TargetWithManyElements.model#//@contents.0"/>
+</xrefs:Container>

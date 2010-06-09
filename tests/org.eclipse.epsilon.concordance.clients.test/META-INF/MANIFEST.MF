@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Concordance Client Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.concordance.clients.test;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
+ org.eclipse.epsilon.concordance.clients,
+ org.eclipse.epsilon.hutn.xmi.dt,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.epsilon.common.dt.test,
+ org.eclipse.epsilon.util.emf,
+ org.eclipse.epsilon.flock.dt
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.epsilon.concordance.clients.migration,
+ org.eclipse.epsilon.concordance.clients.test

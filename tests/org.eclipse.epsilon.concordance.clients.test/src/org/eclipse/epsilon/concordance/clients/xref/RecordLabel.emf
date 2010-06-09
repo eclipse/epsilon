@@ -1,0 +1,13 @@
+@namespace(uri="label", prefix="label")
+
+package label;
+
+class RecordLabel {
+   attr String[1] name;
+   val RecordingArtist[*] artists;
+}
+
+class RecordingArtist {
+   attr String[1] name;
+   ref RecordingArtist[*] influences; 
+}

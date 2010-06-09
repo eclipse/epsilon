@@ -1,0 +1,15 @@
+for (graph in Graph.all) {
+	for (i in Sequence{1..20}) {
+		var edge := new Edge;
+		edge.source := graph.randomNode();
+		edge.target := graphsOtherThan(graph).random().randomNode();
+	}	
+}
+
+operation graphsOtherThan(graph : Graph) : Graph {
+	return Graph.all.reject(g|g = graph);
+}
+
+operation Graph randomNode() : Node {
+	return self.nodes.random();
+}

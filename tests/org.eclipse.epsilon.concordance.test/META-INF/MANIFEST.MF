@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Concordance Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.concordance.test
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
+ org.eclipse.epsilon.concordance.core.test,
+ org.eclipse.epsilon.concordance.clients.test
