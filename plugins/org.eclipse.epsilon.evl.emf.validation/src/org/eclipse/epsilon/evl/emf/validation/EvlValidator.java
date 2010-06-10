@@ -88,9 +88,6 @@ public class EvlValidator implements EValidator {
 			return true;
 		}
 		
-		module.getContext().dispose();
-		module.getContext().getModelRepository().dispose();
-		
 		return true;
 	}
 	
@@ -154,6 +151,9 @@ public class EvlValidator implements EValidator {
 		for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
 			results.get(unsatisfied.getInstance()).add(unsatisfied);
 		}
+		
+		module.getContext().dispose();
+		module.getContext().getModelRepository().dispose();
 		
 		return results;
 	}
