@@ -37,6 +37,11 @@ public class ModelRepository {
 		}
 	}
 	
+	public void removeModel(IModel model) {
+		models.remove(model);
+		cachedModelGroups = new HashMap<String, ModelGroup>();
+	}
+	
 	public IModel getModelByNameSafe(String modelName) {
 		try {
 			return getModelByName(modelName);
@@ -46,7 +51,7 @@ public class ModelRepository {
 		}
 	}
 	
-	private HashMap cachedModelGroups = new HashMap();
+	private HashMap<String, ModelGroup> cachedModelGroups = new HashMap<String, ModelGroup>();
 	public IModel getModelByName(String modelName) throws EolModelNotFoundException{
 		
 		if (modelName.length() == 0){
