@@ -300,13 +300,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.hutn.xmi.hashing"
-         download-size="0"
-         install-size="0"
-         version="0.7.9.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.hamcrest.matchers"
          download-size="0"
          install-size="0"
