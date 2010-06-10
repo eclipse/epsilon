@@ -20,14 +20,7 @@ import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class JavaPropertyGetter extends AbstractPropertyGetter{
 	
-	public Object invoke(Object object, String property) throws EolRuntimeException{
-		
-		//if (object instanceof EolMap) {
-		//	return ((EolMap) object).get(new EolString(property));
-		//}
-		
-		//TODO : Add support for public, then private fields
-		
+	protected Method getMethodFor(Object object, String property) {
 		String methodName = "get" + property;
 		Method method = ReflectionUtil.getMethodFor(object, methodName, 0);
 		
@@ -40,7 +33,19 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 			methodName = "is" + property;
 			method = ReflectionUtil.getMethodFor(object, methodName, 0);
 		}
+		return method;
+	}
+	
+	public Object invoke(Object object, String property) throws EolRuntimeException{
 		
+		//if (object instanceof EolMap) {
+		//	return ((EolMap) object).get(new EolString(property));
+		//}
+		
+		//TODO : Add support for public, then private fields
+		
+		
+		/*
 		if (method == null){
 			methodName = "get";
 			method = ReflectionUtil.getMethodFor(object,methodName,1);
@@ -54,6 +59,9 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 				}
 			}
 		}
+		*/
+		
+		Method method = getMethodFor(object, property);
 		
 		if (method == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
