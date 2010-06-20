@@ -9,7 +9,8 @@ public class ForStatementPrinter implements DomElementPrinter {
 		ForStatement s = (ForStatement) e;
 		return "for (" + f.print(s.getIterator()) + " in " + 
 			f.print(s.getIterated()) + ") {" + f.newline() + 
-			f.indent() + f.print(s.getBody()) + f.outdent() + f.newline() + "}";
+			f.indent() + f.print(s.getBody()) + f.outdent() + f.newline() 
+			+ f.whitespace() + "}";
 	}
 
 }

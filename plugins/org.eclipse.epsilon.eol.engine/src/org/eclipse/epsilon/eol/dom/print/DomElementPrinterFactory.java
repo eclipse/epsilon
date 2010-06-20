@@ -45,10 +45,26 @@ public class DomElementPrinterFactory {
 		else if (e instanceof BreakStatement) printer = new BreakStatementPrinter();
 		else if (e instanceof BreakAllStatement) printer = new BreakAllStatementPrinter();
 		else if (e instanceof ReturnStatement) printer = new ReturnStatementPrinter();
+		else if (e instanceof CaseStatement) printer = new CaseStatementPrinter();
+		else if (e instanceof SwitchStatement) printer = new SwitchStatementPrinter();
 		
 		if (printer == null) throw new RuntimeException("No printer for " + e); 
 		
-		return printer.print(e, this);
+		String str = "";
+		
+		if (e instanceof Statement) {
+			str = whitespace();
+		}
+		
+		return str + printer.print(e, this);
+	}
+	
+	public String whitespace() {
+		String str = "";
+		for (int i = 0; i<indentation; i++) {
+			str += "   ";
+		}
+		return str;
 	}
 	
 	protected HashSet<String> keywords = null;

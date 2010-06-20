@@ -1,5 +1,5 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class NotOperatorExpression extends BinaryOperatorExpression {
+public class NotOperatorExpression extends UnaryOperatorExpression {
 	
 }

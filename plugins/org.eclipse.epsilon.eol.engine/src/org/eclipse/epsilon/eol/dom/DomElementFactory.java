@@ -35,6 +35,9 @@ public class DomElementFactory {
 			case EolParser.BREAK : e = createBreakStatement(ast); break;
 			case EolParser.BREAKALL : e = createBreakAllStatement(ast); break;
 			case EolParser.DELETE : e = createDeleteStatement(ast); break;
+			case EolParser.SWITCH : e = createSwitchStatement(ast); break;
+			case EolParser.CASE : e = createCaseStatement(ast); break;
+			case EolParser.DEFAULT : e = createCaseStatement(ast); break;
 			
 			// TODO: Add commit abort transaction etc.
 		}
@@ -46,6 +49,40 @@ public class DomElementFactory {
 			e.setContainer(container);
 			return e;
 		}
+	}
+	
+	protected CaseStatement createCaseStatement(AST ast) {
+		CaseStatement statement = null;
+		AST expressionAst = null;
+		
+		if (ast.getType() == EolParser.CASE) {
+			statement = new CaseExpressionStatement();
+			expressionAst = ast.getFirstChild();
+			((CaseExpressionStatement)statement).
+				setExpression(createExpression(expressionAst, statement));
+		}
+		else {
+			statement = new CaseDefaultStatement();
+		}
+		
+		for (AST statementAst : ast.getChildren()) {
+			if (statementAst != expressionAst) {
+				statement.getBody().add(createStatement(statementAst, statement));
+			}
+		}
+		return statement;
+	}
+	
+	protected SwitchStatement createSwitchStatement(AST ast) {
+		SwitchStatement statement = new SwitchStatement();
+		AST expressionAst = ast.getFirstChild();
+		statement.setExpression(createExpression(expressionAst, statement));
+		for (AST caseAst : ast.getChildren()) {
+			if (caseAst != expressionAst) {
+				statement.getCases().add((CaseStatement) createDomElement(caseAst, statement));
+			}
+		}
+		return statement;
 	}
 	
 	protected ReturnStatement createReturnStatement(AST ast) {
@@ -205,7 +242,12 @@ public class DomElementFactory {
 		
 		if (exp instanceof BinaryOperatorExpression) {
 			((BinaryOperatorExpression) exp).setLhs((Expression) createDomElement(ast.getChild(0), exp));
-			((BinaryOperatorExpression) exp).setRhs((Expression) createDomElement(ast.getChild(1), exp));
+			try {
+				((BinaryOperatorExpression) exp).setRhs((Expression) createDomElement(ast.getChild(1), exp));
+			}
+			catch (Exception ex) {
+				System.err.println(ast.getLine() + ":" + ast.getColumn());
+			}
 		}
 		else {
 			((UnaryOperatorExpression) exp).setExpression((Expression) createDomElement(ast.getFirstChild(), exp));
@@ -328,6 +370,10 @@ public class DomElementFactory {
 		AST iteratedAst = iteratorAst.getNextSibling();
 		statement.setIterator((VariableDeclarationExpression) createDomElement(iteratorAst, statement));
 		statement.setIterated((Expression) createDomElement(iteratedAst, statement));
+		AST bodyAst = AstUtil.getChild(ast, EolParser.BLOCK);
+		for (AST statementAst : bodyAst.getChildren()) {
+			statement.getBody().add(createStatement(statementAst, statement));
+		}
 		return statement;
 	}
 	

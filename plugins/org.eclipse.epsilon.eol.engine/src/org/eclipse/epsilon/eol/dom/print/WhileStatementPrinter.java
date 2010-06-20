@@ -9,7 +9,8 @@ public class WhileStatementPrinter implements DomElementPrinter {
 	public String print(DomElement e, DomElementPrinterFactory f) {
 		WhileStatement s = (WhileStatement) e;
 		String r = "while (" + f.print(s.getCondition()) + ") {" + f.newline()
-			+ f.indent() + f.print(s.getBody()) + f.outdent() + f.newline() + "}";
+			+ f.indent() + f.print(s.getBody()) + f.outdent() + f.newline() + 
+			f.whitespace() + "}";
 		return r;
 	}
 
