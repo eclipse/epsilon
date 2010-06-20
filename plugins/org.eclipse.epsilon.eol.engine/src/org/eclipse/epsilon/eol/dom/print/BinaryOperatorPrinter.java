@@ -7,7 +7,7 @@ public abstract class BinaryOperatorPrinter implements DomElementPrinter {
 
 	public String print(DomElement e, DomElementPrinterFactory f) {
 		BinaryOperatorExpression exp = (BinaryOperatorExpression) e;
-		return f.print(exp.getLhs()) + " " + getOperatorSymbol() + " " + f.print(exp.getRhs());
+		return "(" + f.print(exp.getLhs()) + " " + getOperatorSymbol() + " " + f.print(exp.getRhs()) + ")";
 	}
 	
 	protected abstract String getOperatorSymbol();

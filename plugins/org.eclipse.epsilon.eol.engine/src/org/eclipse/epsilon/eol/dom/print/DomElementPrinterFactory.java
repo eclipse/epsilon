@@ -1,39 +1,17 @@
 package org.eclipse.epsilon.eol.dom.print;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
-import org.eclipse.epsilon.eol.dom.AssignmentStatement;
-import org.eclipse.epsilon.eol.dom.BooleanExpression;
-import org.eclipse.epsilon.eol.dom.DivOperatorExpression;
-import org.eclipse.epsilon.eol.dom.DomElement;
-import org.eclipse.epsilon.eol.dom.EqualsOperatorExpression;
-import org.eclipse.epsilon.eol.dom.ExpressionStatement;
-import org.eclipse.epsilon.eol.dom.ForStatement;
-import org.eclipse.epsilon.eol.dom.IfStatement;
-import org.eclipse.epsilon.eol.dom.ImpliesOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Import;
-import org.eclipse.epsilon.eol.dom.IntegerExpression;
-import org.eclipse.epsilon.eol.dom.MinusOperatorExpression;
-import org.eclipse.epsilon.eol.dom.NameExpression;
-import org.eclipse.epsilon.eol.dom.OrOperatorExpression;
-import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Program;
-import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
-import org.eclipse.epsilon.eol.dom.RealExpression;
-import org.eclipse.epsilon.eol.dom.StarOperatorExpression;
-import org.eclipse.epsilon.eol.dom.StringExpression;
-import org.eclipse.epsilon.eol.dom.VariableDeclarationExpression;
-import org.eclipse.epsilon.eol.dom.XorOperatorExpression;
+import org.eclipse.epsilon.eol.dom.*;
 
 public class DomElementPrinterFactory {
 	
 	protected int indentation = 0;
 	
 	public String print(DomElement e) {
+		
 		DomElementPrinter printer = null;
 		if (e instanceof ForStatement) printer = new ForStatementPrinter();
 		else if (e instanceof Program) printer = new ProgramPrinter();
@@ -45,6 +23,7 @@ public class DomElementPrinterFactory {
 		else if (e instanceof AssignmentStatement) printer = new AssignmentStatementPrinter();
 		else if (e instanceof VariableDeclarationExpression) printer = new VariableDeclarationExpressionPrinter();
 		else if (e instanceof PropertyCallExpression) printer = new PropertyCallExpressionPrinter();
+		else if (e instanceof MethodCallExpression) printer = new MethodCallExpressionPrinter();
 		else if (e instanceof NameExpression) printer = new NameExpressionPrinter();
 		else if (e instanceof PlusOperatorExpression) printer = new PlusOperatorExpressionPrinter();
 		else if (e instanceof MinusOperatorExpression) printer = new MinusOperatorExpressionPrinter();
@@ -54,9 +33,18 @@ public class DomElementPrinterFactory {
 		else if (e instanceof OrOperatorExpression) printer = new OrOperatorExpressionPrinter();
 		else if (e instanceof XorOperatorExpression) printer = new XorOperatorExpressionPrinter();
 		else if (e instanceof EqualsOperatorExpression) printer = new EqualsOperatorExpressionPrinter();
+		else if (e instanceof MoreThanOperatorExpression) printer = new MoreThanOperatorExpressionPrinter();
+		else if (e instanceof LessThanOperatorExpression) printer = new LessThanOperatorExpressionPrinter();
+		else if (e instanceof MoreThanOrEqualOperatorExpression) printer = new MoreThanOrEqualOperatorExpressionPrinter();
+		else if (e instanceof LessThanOrEqualOperatorExpression) printer = new LessThanOrEqualOperatorExpressionPrinter();
 		else if (e instanceof ImpliesOperatorExpression) printer = new ImpliesOperatorExpressionPrinter();
 		else if (e instanceof ExpressionStatement) printer = new ExpressionStatementPrinter();
 		else if (e instanceof IfStatement) printer = new IfStatementPrinter();
+		else if (e instanceof WhileStatement) printer = new WhileStatementPrinter();
+		else if (e instanceof ContinueStatement) printer = new ContinueStatementPrinter();
+		else if (e instanceof BreakStatement) printer = new BreakStatementPrinter();
+		else if (e instanceof BreakAllStatement) printer = new BreakAllStatementPrinter();
+		else if (e instanceof ReturnStatement) printer = new ReturnStatementPrinter();
 		
 		if (printer == null) throw new RuntimeException("No printer for " + e); 
 		

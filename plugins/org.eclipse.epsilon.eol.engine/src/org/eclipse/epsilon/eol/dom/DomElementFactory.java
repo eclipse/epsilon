@@ -6,7 +6,7 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class DomElementFactory {
 	
-	public DomElement createDomElement(AST ast) {
+	public DomElement createDomElement(AST ast, DomElement container) {
 		
 		DomElement e = null;
 		
@@ -17,8 +17,8 @@ public class DomElementFactory {
 			case EolParser.IMPORT : e = createImport(ast); break;
 			case EolParser.POINT : e = createFeatureCallExpression(ast); break;
 			case EolParser.ARROW : e = createFeatureCallExpression(ast); break;
-			case EolParser.NAME : e = createNameExpression(ast); break;
-			case EolParser.FEATURECALL : e = createNameExpression(ast); break;
+			case EolParser.NAME : e = createNameOrMethodCallExpression(ast); break;
+			case EolParser.FEATURECALL : e = createNameOrMethodCallExpression(ast); break;
 			case EolParser.OPERATOR : e = createOperatorExpression(ast); break;
 			case EolParser.IF : e = createIfStatement(ast); break;
 			case EolParser.INT : e = createIntegerExpression(ast); break;
@@ -30,14 +30,50 @@ public class DomElementFactory {
 			case EolParser.VAR : e = createVariableDeclarationExpression(ast); break;
 			case EolParser.NEW : e = createVariableDeclarationExpression(ast); break;
 			case EolParser.HELPERMETHOD : e = createOperationDefinition(ast); break;
+			case EolParser.RETURN : e = createReturnStatement(ast); break;
+			case EolParser.CONTINUE : e = createContinueStatement(ast); break;
+			case EolParser.BREAK : e = createBreakStatement(ast); break;
+			case EolParser.BREAKALL : e = createBreakAllStatement(ast); break;
+			case EolParser.DELETE : e = createDeleteStatement(ast); break;
+			
+			// TODO: Add commit abort transaction etc.
 		}
 		
 		if (e == null) {
 			throw new RuntimeException("Cannot create dom element for " + ast.getText() + "->" + ast.getType());
 		}
 		else {
+			e.setContainer(container);
 			return e;
 		}
+	}
+	
+	protected ReturnStatement createReturnStatement(AST ast) {
+		ReturnStatement statement = new ReturnStatement();
+		if (ast.getFirstChild() != null) {
+			statement.setReturned(createExpression(ast.getFirstChild(), statement));
+		}
+		return statement;
+	}
+	
+	protected DeleteStatement createDeleteStatement(AST ast) {
+		DeleteStatement statement = new DeleteStatement();
+		if (ast.getFirstChild() != null) {
+			statement.setDeleted(createExpression(ast.getFirstChild(), statement));
+		}
+		return statement;
+	}
+	
+	protected BreakStatement createBreakStatement(AST ast) {
+		return new BreakStatement();
+	}
+	
+	protected BreakAllStatement createBreakAllStatement(AST ast) {
+		return new BreakAllStatement();
+	}
+	
+	protected ContinueStatement createContinueStatement(AST ast) {
+		return new ContinueStatement();
 	}
 	
 	protected OperationDefinition createOperationDefinition(AST ast) {
@@ -47,17 +83,17 @@ public class DomElementFactory {
 	
 	protected WhileStatement createWhileStatement(AST ast) {
 		WhileStatement statement = new WhileStatement();
-		statement.setCondition(createExpression(ast.getFirstChild()));
+		statement.setCondition(createExpression(ast.getFirstChild(), statement));
 		for (AST statementAst : ast.getChild(1).getChildren()) {
-			statement.getBody().add(createStatement(statementAst));
+			statement.getBody().add(createStatement(statementAst, statement));
 		}
 		return statement;
 	}
 	
 	protected AssignmentStatement createAssignmentStatement(AST ast) {
 		AssignmentStatement statement = new AssignmentStatement();
-		statement.setLhs(createExpression(ast.getChild(0)));
-		statement.setRhs(createExpression(ast.getChild(1)));
+		statement.setLhs(createExpression(ast.getChild(0), statement));
+		statement.setRhs(createExpression(ast.getChild(1), statement));
 		return statement;
 	}
 	
@@ -85,8 +121,8 @@ public class DomElementFactory {
 		return exp;
 	}
 	
-	protected Expression createExpression(AST ast) {
-		return (Expression) createDomElement(ast);
+	protected Expression createExpression(AST ast, DomElement parent) {
+		return (Expression) createDomElement(ast, parent);
 	}
 	
 	protected IfStatement createIfStatement(AST ast) {
@@ -97,13 +133,13 @@ public class DomElementFactory {
 		AST ifBodyAst = conditionAst.getNextSibling();
 		AST elseBodyAst = ifBodyAst.getNextSibling();
 		
-		statement.setCondition(createExpression(conditionAst));
+		statement.setCondition(createExpression(conditionAst, statement));
 		for (AST statementAst : ifBodyAst.getChildren()) {
-			statement.getIfBody().add(createStatement(statementAst));
+			statement.getIfBody().add(createStatement(statementAst, statement));
 		}
 		if (elseBodyAst != null) {
 			for (AST statementAst : elseBodyAst.getChildren()) {
-				statement.getElseBody().add(createStatement(statementAst));
+				statement.getElseBody().add(createStatement(statementAst, statement));
 			}
 		}
 		
@@ -168,26 +204,39 @@ public class DomElementFactory {
 		
 		
 		if (exp instanceof BinaryOperatorExpression) {
-			((BinaryOperatorExpression) exp).setLhs((Expression) createDomElement(ast.getChild(0)));
-			((BinaryOperatorExpression) exp).setRhs((Expression) createDomElement(ast.getChild(1)));
+			((BinaryOperatorExpression) exp).setLhs((Expression) createDomElement(ast.getChild(0), exp));
+			((BinaryOperatorExpression) exp).setRhs((Expression) createDomElement(ast.getChild(1), exp));
 		}
 		else {
-			((UnaryOperatorExpression) exp).setExpression((Expression) createDomElement(ast.getFirstChild()));
+			((UnaryOperatorExpression) exp).setExpression((Expression) createDomElement(ast.getFirstChild(), exp));
 		}
 		
 		return exp;
 	}
 	
-	protected NameExpression createNameExpression(AST ast) {
-		NameExpression exp = new NameExpression();
-		exp.setName(ast.getText());
-		return exp;
+	protected DomElement createNameOrMethodCallExpression(AST ast) {
+		
+		AST parametersAst = ast.getFirstChild();
+		
+		if (parametersAst != null && parametersAst.getType() == EolParser.PARAMETERS) {
+			MethodCallExpression exp = new MethodCallExpression();
+			exp.setMethod(ast.getText());
+			for (AST parameterAst : parametersAst.getChildren()) {
+				exp.getArguments().add((Expression) createDomElement(parameterAst, exp));
+			}
+			return exp;
+		}
+		else {
+			NameExpression exp = new NameExpression();
+			exp.setName(ast.getText());
+			return exp;
+		}
 	}
 	
 	protected FeatureCallExpression createFeatureCallExpression(AST ast) {
 		AST targetAst = ast.getFirstChild();
 		AST featureAst = targetAst.getNextSibling();
-		AST parametersAst = featureAst.getNextSibling();
+		AST parametersAst = featureAst.getFirstChild();
 		
 		FeatureCallExpression exp = null;
 		if (parametersAst == null) {
@@ -207,26 +256,38 @@ public class DomElementFactory {
 			MethodCallExpression mexp = (MethodCallExpression) exp;
 			mexp.setMethod(featureAst.getText());
 			for (AST parameterAst : parametersAst.getChildren()) {
-				mexp.getArguments().add((Expression) createDomElement(parameterAst));
+				mexp.getArguments().add((Expression) createDomElement(parameterAst, mexp));
 			}
 		}
 		
 		exp.setArrow(ast.getType() == EolParser.ARROW);
-		exp.setTarget((Expression) createDomElement(targetAst));
+		exp.setTarget((Expression) createDomElement(targetAst, exp));
 		
 		
 		return exp;
 	}
 	
-	protected Statement createStatement(AST ast) {
+	protected Statement createStatement(AST ast, DomElement container) {
 		Statement statement = null;
-		DomElement e = createDomElement(ast);
+		DomElement e = createDomElement(ast, container);
 		if (e instanceof Statement) {
 			return statement = (Statement) e;
 		}
+		else if (e instanceof EqualsOperatorExpression) {
+			EqualsOperatorExpression exp = (EqualsOperatorExpression) e;
+			AssignmentStatement as = new AssignmentStatement();
+			as.setContainer(container);
+			as.setLhs(exp.getLhs());
+			as.setRhs(exp.getRhs());
+			as.getLhs().setContainer(as);
+			as.getRhs().setContainer(as);
+			statement = as;
+		}
 		else {
 			statement = new ExpressionStatement();
+			statement.setContainer(container);
 			((ExpressionStatement) statement).setExpression((Expression) e);
+			((Expression) e).setContainer(statement);
 		}
 		return statement;
 	}
@@ -240,11 +301,11 @@ public class DomElementFactory {
 	protected Program createProgram(AST ast) {
 		Program program = new Program();
 		for (AST importAst : AstUtil.getChildren(ast, EolParser.IMPORT)) {
-			program.getImports().add((Import) createDomElement(importAst));
+			program.getImports().add((Import) createDomElement(importAst, program));
 		}
 		AST block = AstUtil.getChild(ast, EolParser.BLOCK);
 		for (AST statementAst : block.getChildren()) {
-			program.getStatements().add(createStatement(statementAst));
+			program.getStatements().add(createStatement(statementAst, program));
 		}
 		return program;
 	}
@@ -265,8 +326,8 @@ public class DomElementFactory {
 		ForStatement statement = new ForStatement();
 		AST iteratorAst = ast.getFirstChild();
 		AST iteratedAst = iteratorAst.getNextSibling();
-		statement.setIterator((VariableDeclarationExpression) createDomElement(iteratorAst));
-		statement.setIterated((Expression) createDomElement(iteratedAst));
+		statement.setIterator((VariableDeclarationExpression) createDomElement(iteratorAst, statement));
+		statement.setIterated((Expression) createDomElement(iteratedAst, statement));
 		return statement;
 	}
 	

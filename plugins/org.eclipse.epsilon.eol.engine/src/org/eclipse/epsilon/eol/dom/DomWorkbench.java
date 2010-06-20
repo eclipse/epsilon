@@ -34,7 +34,7 @@ public class DomWorkbench {
 		
 		DomElementFactory factory = new DomElementFactory();
 		
-		DomElement de = factory.createDomElement(ast);
+		DomElement de = factory.createDomElement(ast, null);
 		
 		System.err.println(new DomElementPrinterFactory().print(de));
 		
