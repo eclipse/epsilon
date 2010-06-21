@@ -196,7 +196,7 @@ operation Ecore!EModelElement hasAnnotation(label : String) : Boolean {
 	return false;
 }
 
-operation Ecore!EModelElement getAnnotation(label : String, default : Any) : Any {
+operation Ecore!EModelElement getAnnotation(label : String, defaultValue : Any) : Any {
 	
 	// GenModel -> "http://www.eclipse.org/emf/2002/GenModel"
 	
@@ -212,13 +212,13 @@ operation Ecore!EModelElement getAnnotation(label : String, default : Any) : Any
 		return det.value;
 	}
 	else {
-		return default;
+		return defaultValue;
 	}
 }
 
-operation Ecore!EModelElement getEnumerationAnnotation(label : String, eObject : Any, default : Any) {
+operation Ecore!EModelElement getEnumerationAnnotation(label : String, eObject : Any, defaultValue : Any) {
 	
-	var result = self.getAnnotation(label, default);
+	var result = self.getAnnotation(label, defaultValue);
 	
 	if (result.isTypeOf(String)) {
 		
@@ -236,26 +236,26 @@ operation Ecore!EModelElement getEnumerationAnnotation(label : String, eObject :
 				eEnum.getELiterals().collect(l|l.name).concat("/") + 
 				" but was " + result + " instead");
 				
-			return default;
+			return defaultValue;
 		}
 	}
 	else {
-		return default;
+		return defaultValue;
 	}
 }
 
-operation Ecore!EModelElement getBooleanAnnotation(label : String, default : Boolean) : Boolean {
-	var result = self.getAnnotation(label, default);
+operation Ecore!EModelElement getBooleanAnnotation(label : String, defaultValue : Boolean) : Boolean {
+	var result = self.getAnnotation(label, defaultValue);
 	if (result.isTypeOf(String)) {
 		if (result == "true") return true;
 		else if (result == "false") return false;
 		else {
 			printWarning("Value of " + label + " was expected to be true/false but was " + result + " instead");
-			return default;
+			return defaultValue;
 		}
 	}
 	else {
-		return default;
+		return defaultValue;
 	}
 }
 

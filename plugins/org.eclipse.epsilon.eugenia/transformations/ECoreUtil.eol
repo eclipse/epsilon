@@ -211,7 +211,7 @@ operation ECore!EClass hasInternalLabel() : Boolean {
 }
 
 @cached
-operation ECore!EClass labelHasIcon(default : Boolean) : Boolean {
+operation ECore!EClass labelHasIcon(defaultValue : Boolean) : Boolean {
 
 	var ann : String;
 	if (self.isNode()) ann := 'gmf.node';
@@ -219,7 +219,7 @@ operation ECore!EClass labelHasIcon(default : Boolean) : Boolean {
 	
 	var hasIcon := self.getAnnotationValue(ann, 'label.icon');
 	
-	if (hasIcon.isUndefined()) return default;
+	if (hasIcon.isUndefined()) return defaultValue;
 	else if (hasIcon = 'true') return true;
 	else return false;
 	
