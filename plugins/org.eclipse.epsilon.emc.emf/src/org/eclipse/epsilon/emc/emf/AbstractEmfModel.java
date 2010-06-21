@@ -153,28 +153,25 @@ public abstract class AbstractEmfModel extends Model {
 	private Map<EClass, List<EObject>> allOfTypeCache = new HashMap<EClass, List<EObject>>();
 	public Collection<EObject> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		
+		EClass eClass = classForName(type);
 		List<EObject> allOfType = null;
 		
 		if (cachingEnabled) {
-			allOfType = allOfTypeCache.get(type);
+			allOfType = allOfTypeCache.get(eClass);
 		}
-		
-		EClass eClass = null;
 		
 		if (allOfType == null || !cachingEnabled){
 			allOfType = new ArrayList<EObject>();
 			for (EObject eObject : allContents()) {
-				if (eObject.eClass().getName().equals(type) || getFullyQualifiedName(eObject.eClass()).equals(type)){
+				if (eObject.eClass() == eClass){
 					allOfType.add(eObject);
-					eClass = eObject.eClass();
 				}
 			}
+			if (cachingEnabled) {
+				allOfTypeCache.put(eClass, allOfType);
+			}
 		}
-		
-		if (cachingEnabled && eClass != null) {
-			allOfTypeCache.put(eClass, allOfType);
-		}
-		
+
 		return allOfType;
 	}
 	
