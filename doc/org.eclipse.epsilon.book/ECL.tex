@@ -74,7 +74,7 @@ An ECL module can import a number of other ECL modules. In such a case, the impo
 
 \subsection{Comparison Outcome}
 
-As illustrated in Figure \ref{fig:ECLRuntime}, the result of comparing two models with ECL is a trace (\emph{MatchTrace}) that consists of a number of matches (\emph{Match}). Each match holds a reference to the objects from the two models that have been compared (\emph{left} and \emph{right}), a boolean value that indicates if they have been found to be \emph{matching} or not, a reference to the \emph{rule} that has made the decision, and a Map (\emph{info}) that is used to hold any additional information required by the user. During the matching process, a second, temporary, match trace is also used to detect and resolve cyclic invocation of match-rules as discussed in the sequel.
+As illustrated in Figure \ref{fig:ECLRuntime}, the result of comparing two models with ECL is a trace (\emph{MatchTrace}) that consists of a number of matches (\emph{Match}). Each match holds a reference to the objects from the two models that have been compared (\emph{left} and \emph{right}), a boolean value that indicates if they have been found to be \emph{matching} or not, a reference to the \emph{rule} that has made the decision, and a Map (\emph{info}) that is used to hold any additional information required by the user (accessible at runtime through the \emph{matchInfo} implicit variable). During the matching process, a second, temporary, match trace is also used to detect and resolve cyclic invocation of match-rules as discussed in the sequel.
 
 \begin{figure}
 	\centering

@@ -5,7 +5,7 @@ Version=2
 [SessionInfo]
 ActiveTab=0
 FrameCount=28
-ActiveFrame=2
+ActiveFrame=7
 
 [Frame0]
 Columns=1
@@ -32,8 +32,8 @@ cxCur=1127
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=402
-Cursor.column=3
+Cursor.row=0
+Cursor.column=0
 TopSubLine=524
 
 [Frame1]
@@ -68,8 +68,8 @@ TopSubLine=73
 [Frame2]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -82,17 +82,17 @@ Class=CLatexEdit
 Document=Introduction.tex
 
 [Frame2_Row0]
-cyCur=614
+cyCur=377
 cyMin=10
 
 [Frame2_Col0]
-cxCur=1693
+cxCur=1531
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=46
-Cursor.column=89
-TopSubLine=24
+Cursor.row=0
+Cursor.column=0
+TopSubLine=0
 
 [Frame3]
 Columns=1
@@ -119,9 +119,9 @@ cxCur=1531
 cxMin=10
 
 [Frame3_View0,0]
-Cursor.row=82
-Cursor.column=23
-TopSubLine=63
+Cursor.row=0
+Cursor.column=0
+TopSubLine=0
 
 [Frame4]
 Columns=1
@@ -177,8 +177,8 @@ cxCur=1531
 cxMin=10
 
 [Frame5_View0,0]
-Cursor.row=17
-Cursor.column=1
+Cursor.row=0
+Cursor.column=0
 TopSubLine=0
 
 [Frame6]
@@ -213,8 +213,8 @@ TopSubLine=34
 [Frame7]
 Columns=1
 Rows=1
-Flags=0
-ShowCmd=1
+Flags=2
+ShowCmd=3
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -227,17 +227,17 @@ Class=CLatexEdit
 Document=ECL.tex
 
 [Frame7_Row0]
-cyCur=377
+cyCur=687
 cyMin=10
 
 [Frame7_Col0]
-cxCur=1531
+cxCur=1693
 cxMin=10
 
 [Frame7_View0,0]
-Cursor.row=62
-Cursor.column=0
-TopSubLine=55
+Cursor.row=76
+Cursor.column=601
+TopSubLine=78
 
 [Frame8]
 Columns=1
@@ -293,9 +293,9 @@ cxCur=1531
 cxMin=10
 
 [Frame9_View0,0]
-Cursor.row=140
-Cursor.column=39
-TopSubLine=178
+Cursor.row=0
+Cursor.column=0
+TopSubLine=0
 
 [Frame10]
 Columns=1
@@ -324,7 +324,7 @@ cxMin=10
 [Frame10_View0,0]
 Cursor.row=105
 Cursor.column=14
-TopSubLine=127
+TopSubLine=134
 
 [Frame11]
 Columns=1
@@ -353,7 +353,7 @@ cxMin=10
 [Frame11_View0,0]
 Cursor.row=95
 Cursor.column=0
-TopSubLine=120
+TopSubLine=123
 
 [Frame12]
 Columns=1
@@ -411,7 +411,7 @@ cxMin=10
 [Frame13_View0,0]
 Cursor.row=63
 Cursor.column=0
-TopSubLine=59
+TopSubLine=62
 
 [Frame14]
 Columns=1
@@ -583,8 +583,8 @@ cxCur=1531
 cxMin=10
 
 [Frame19_View0,0]
-Cursor.row=8
-Cursor.column=1
+Cursor.row=0
+Cursor.column=0
 TopSubLine=0
 
 [Frame20]
@@ -701,7 +701,7 @@ cxMin=10
 [Frame23_View0,0]
 Cursor.row=185
 Cursor.column=0
-TopSubLine=232
+TopSubLine=245
 
 [Frame24]
 Columns=1
@@ -730,7 +730,7 @@ cxMin=10
 [Frame24_View0,0]
 Cursor.row=447
 Cursor.column=0
-TopSubLine=474
+TopSubLine=481
 
 [Frame25]
 Columns=1
@@ -788,7 +788,7 @@ cxMin=10
 [Frame26_View0,0]
 Cursor.row=35
 Cursor.column=0
-TopSubLine=34
+TopSubLine=36
 
 [Frame27]
 Columns=1
