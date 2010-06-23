@@ -38,6 +38,8 @@ rule EStructuralFeature2GenFeature
 	transform s : Ecore!EStructuralFeature
 	to t : GenModel!GenFeature {
 	
+	guard : s.eContainer().isTypeOf(Ecore!EClass)
+	
 	s.eContainer().equivalent().genFeatures.add(t);
 	t.ecoreFeature = s;
 	
@@ -115,6 +117,8 @@ rule EOperation2GenOperation
 	transform s: Ecore!EOperation
 	to t : GenModel!GenOperation {
 	
+	guard : s.eContainer().isTypeOf(Ecore!EClass)
+	
 	s.eContainer().equivalent().genOperations.add(t);
 	t.ecoreOperation = s;
 	copyAnnotations(s, t);
@@ -124,6 +128,8 @@ rule EOperation2GenOperation
 rule EParameter2EGenParameter
 	transform s : Ecore!EParameter
 	to t : GenModel!GenParameter {
+	
+	guard : s.eContainer().equivalent().isDefined()
 	
 	s.eContainer().equivalent().genParameters.add(t);
 	t.ecoreParameter = s;
