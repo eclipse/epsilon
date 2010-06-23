@@ -75,41 +75,7 @@ rule EStructuralFeature2GenFeature
 	
 	t.propertySortChoices = s.getBooleanAnnotation("propertySortChoices", s.isTypeOf(Ecore!EReference) and defaultProperty = GenModel!GenPropertyKind#Editable);
 	t.property = s.getEnumerationAnnotation("property", t, defaultProperty);
-	 
-	/*
-	if (s.isTypeOf(Ecore!EReference)) {
-		t.createChild = s.getBooleanAnnotation("createChild", s.isContainment);
-		t.children = s.getBooleanAnnotation("children", s.isContainment);
-		if (s.isContainment) {
-			t.property = s.getEnumerationAnnotation("property", t, GenModel!GenPropertyKind#None);
-		}
-		else {
-			t.notify = s.getBooleanAnnotation("notify", false);
-			t.propertySortChoices = s.getBooleanAnnotation("propertySortChoices", s.isChangeable);
-		}
-	}
-
-	if (s.isTypeOf(Ecore!EAttribute) or (s.isTypeOf(Ecore!EReference) and (not s.containment))) {
-		var defaultProperty;
-		if (s.isChangeable) { defaultProperty = GenModel!GenPropertyKind#Editable; }
-		else { 
-			if (s.transient and not s.volatile) {
-				defaultProperty = GenModel!GenPropertyKind#None;
-			}
-			else {	
-				defaultProperty = GenModel!GenPropertyKind#Readonly;
-			}
-		}
 		
-		 if (s.changeable and s.transient and (s.isTypeOf(Ecore!EReference) and s.container) ) { 
-		 	defaultProperty = GenModel!GenPropertyKind#None; 
-			t.propertySortChoices = s.getBooleanAnnotation("propertySortChoices", false);		 
-		 }
-		
-		t.property = s.getEnumerationAnnotation("property", t, defaultProperty);
-	}
-	*/
-	
 	copyAnnotations(s, t);
 }
 
