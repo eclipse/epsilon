@@ -72,7 +72,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 		EolCollection equivalents = getEquivalents(source, context, rules);
 		
-		if (!equivalents.isEmpty().booleanValue()) {
+		if (equivalents != null && !equivalents.isEmpty().booleanValue()) {
 			return equivalents.at(new EolInteger(0));
 		}
 		else {
