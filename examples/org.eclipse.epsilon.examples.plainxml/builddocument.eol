@@ -1,4 +1,4 @@
-var library = new Element("library");
+var library = new t_library;
 XMLDoc.document.appendChild(library);
 
 library.createBook("EMF Eclipse Modeling Framework", 
