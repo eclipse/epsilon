@@ -19,14 +19,12 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolString;
 
 public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		
-		String root = "E:/Projects/Eclipse/3.4/minimal/org.eclipse.epsilon.examples.eolqueries.queries/src/org/eclipse/epsilon/examples/eolqueries/queries/";
+		String root = "D:/Projects/Eclipse/3.5.1/demo-runtime/org.eclipse.epsilon.examples.eolqueries.queries/src/org/eclipse/epsilon/examples/eolqueries/queries/";
 		
 		// Load the model using EMF
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -53,17 +51,17 @@ public class Main {
 		// Invoke the getAuthorNames() operation
 		Book book = library.getBooks().get(0);
 		EolOperation getAuthorNames = module.getOperations().getOperation("getAuthorNames");
-		EolString names = (EolString) getAuthorNames.execute(book, Collections.EMPTY_LIST, module.getContext());
-		System.err.println(names.getValue());
+		String names = (String) getAuthorNames.execute(book, Collections.EMPTY_LIST, module.getContext());
+		System.err.println(names);
 		
 		// Invoke the getAuthors() EOL operation
 		EolOperation getAuthors = module.getOperations().getOperation("getAuthors");
-		EolCollection authors = (EolCollection) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
+		Collection authors = (Collection) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
 		
 		// Get the results of getAuthors() and unwrap them
-		Collection<Author> unwrappedAuthors = (Collection<Author>) authors.getStorage();
+		Collection<Author> casted = (Collection<Author>) authors;
 		
-		for (Author author : unwrappedAuthors) {
+		for (Author author : casted) {
 			System.err.println(author.getName());
 		}
 		
