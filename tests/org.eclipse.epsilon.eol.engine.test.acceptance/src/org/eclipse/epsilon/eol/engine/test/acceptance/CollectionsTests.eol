@@ -156,3 +156,8 @@ operation testOrderedSetAt() {
 operation testSequenceAt() {
 	assertEquals(Sequence{1,2,3}.at(1), 2);
 }
+
+@test
+operation testIncludesAll() {
+	assertEquals(Sequence{"a", "b"}.includesAll(Sequence{"c"}), false);
+}
