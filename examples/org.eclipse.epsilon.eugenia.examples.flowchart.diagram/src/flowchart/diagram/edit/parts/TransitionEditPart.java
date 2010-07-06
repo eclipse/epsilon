@@ -60,6 +60,23 @@ public class TransitionEditPart extends ConnectionNodeEditPart implements
 	}
 
 	/**
+	 * @generated
+	 */
+	protected boolean removeFixedChild(EditPart childEditPart) {
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (removeFixedChild(childEditPart)) {
+			return;
+		}
+		super.removeChildVisual(childEditPart);
+	}
+
+	/**
 	 * Creates figure for this edit part.
 	 * 
 	 * Body of this method does not depend on settings in generation model
@@ -88,6 +105,7 @@ public class TransitionEditPart extends ConnectionNodeEditPart implements
 		 * @generated
 		 */
 		public TransitionFigure() {
+			this.setLineWidth(1);
 
 			setTargetDecoration(createTargetDecoration());
 		}
@@ -97,6 +115,7 @@ public class TransitionEditPart extends ConnectionNodeEditPart implements
 		 */
 		private RotatableDecoration createTargetDecoration() {
 			PolylineDecoration df = new PolylineDecoration();
+			df.setLineWidth(1);
 			return df;
 		}
 

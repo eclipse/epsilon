@@ -24,7 +24,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
+import flowchart.diagram.edit.parts.SubflowEditPart;
 import flowchart.diagram.part.FlowchartDiagramEditorPlugin;
 import flowchart.diagram.part.Messages;
 
@@ -41,9 +43,8 @@ public class FlowchartModelingAssistantProvider extends
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart instanceof FlowchartEditPart) {
-			List types = new ArrayList();
+			ArrayList types = new ArrayList(2);
 			types.add(FlowchartElementTypes.Subflow_2001);
-			types.add(FlowchartElementTypes.Action_2002);
 			types.add(FlowchartElementTypes.Decision_2003);
 			return types;
 		}
@@ -56,6 +57,12 @@ public class FlowchartModelingAssistantProvider extends
 	public List getRelTypesOnSource(IAdaptable source) {
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof SubflowEditPart) {
+			return ((SubflowEditPart) sourceEditPart).getMARelTypesOnSource();
+		}
+		if (sourceEditPart instanceof DecisionEditPart) {
+			return ((DecisionEditPart) sourceEditPart).getMARelTypesOnSource();
+		}
 		return Collections.EMPTY_LIST;
 	}
 
@@ -65,6 +72,12 @@ public class FlowchartModelingAssistantProvider extends
 	public List getRelTypesOnTarget(IAdaptable target) {
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (targetEditPart instanceof SubflowEditPart) {
+			return ((SubflowEditPart) targetEditPart).getMARelTypesOnTarget();
+		}
+		if (targetEditPart instanceof DecisionEditPart) {
+			return ((DecisionEditPart) targetEditPart).getMARelTypesOnTarget();
+		}
 		return Collections.EMPTY_LIST;
 	}
 
@@ -77,6 +90,14 @@ public class FlowchartModelingAssistantProvider extends
 				.getAdapter(IGraphicalEditPart.class);
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof SubflowEditPart) {
+			return ((SubflowEditPart) sourceEditPart)
+					.getMARelTypesOnSourceAndTarget(targetEditPart);
+		}
+		if (sourceEditPart instanceof DecisionEditPart) {
+			return ((DecisionEditPart) sourceEditPart)
+					.getMARelTypesOnSourceAndTarget(targetEditPart);
+		}
 		return Collections.EMPTY_LIST;
 	}
 
@@ -87,6 +108,14 @@ public class FlowchartModelingAssistantProvider extends
 			IElementType relationshipType) {
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (targetEditPart instanceof SubflowEditPart) {
+			return ((SubflowEditPart) targetEditPart)
+					.getMATypesForSource(relationshipType);
+		}
+		if (targetEditPart instanceof DecisionEditPart) {
+			return ((DecisionEditPart) targetEditPart)
+					.getMATypesForSource(relationshipType);
+		}
 		return Collections.EMPTY_LIST;
 	}
 
@@ -97,6 +126,14 @@ public class FlowchartModelingAssistantProvider extends
 			IElementType relationshipType) {
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof SubflowEditPart) {
+			return ((SubflowEditPart) sourceEditPart)
+					.getMATypesForTarget(relationshipType);
+		}
+		if (sourceEditPart instanceof DecisionEditPart) {
+			return ((DecisionEditPart) sourceEditPart)
+					.getMATypesForTarget(relationshipType);
+		}
 		return Collections.EMPTY_LIST;
 	}
 

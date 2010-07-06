@@ -7,11 +7,20 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 
+import flowchart.diagram.providers.FlowchartElementTypes;
+
 /**
  * @generated
  */
 public class TransitionItemSemanticEditPolicy extends
 		FlowchartBaseItemSemanticEditPolicy {
+
+	/**
+	 * @generated
+	 */
+	public TransitionItemSemanticEditPolicy() {
+		super(FlowchartElementTypes.Transition_4001);
+	}
 
 	/**
 	 * @generated

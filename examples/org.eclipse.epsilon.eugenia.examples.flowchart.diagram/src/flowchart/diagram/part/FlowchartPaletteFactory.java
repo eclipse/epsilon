@@ -36,6 +36,7 @@ public class FlowchartPaletteFactory {
 	private PaletteContainer createObjects1Group() {
 		PaletteDrawer paletteContainer = new PaletteDrawer(
 				Messages.Objects1Group_title);
+		paletteContainer.setId("createObjects1Group"); //$NON-NLS-1$
 		paletteContainer.add(createAction1CreationTool());
 		paletteContainer.add(createDecision2CreationTool());
 		paletteContainer.add(createSubflow3CreationTool());
@@ -49,6 +50,7 @@ public class FlowchartPaletteFactory {
 	private PaletteContainer createConnections2Group() {
 		PaletteDrawer paletteContainer = new PaletteDrawer(
 				Messages.Connections2Group_title);
+		paletteContainer.setId("createConnections2Group"); //$NON-NLS-1$
 		paletteContainer.add(createTransition1CreationTool());
 		return paletteContainer;
 	}
@@ -57,14 +59,10 @@ public class FlowchartPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createAction1CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(FlowchartElementTypes.Action_2002);
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Action1CreationTool_title,
-				Messages.Action1CreationTool_desc, types);
-		entry.setSmallIcon(FlowchartElementTypes
-				.getImageDescriptor(FlowchartElementTypes.Action_2002));
-		entry.setLargeIcon(entry.getSmallIcon());
+		ToolEntry entry = new ToolEntry(Messages.Action1CreationTool_title,
+				Messages.Action1CreationTool_desc, null, null) {
+		};
+		entry.setId("createAction1CreationTool"); //$NON-NLS-1$
 		return entry;
 	}
 
@@ -77,6 +75,7 @@ public class FlowchartPaletteFactory {
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Decision2CreationTool_title,
 				Messages.Decision2CreationTool_desc, types);
+		entry.setId("createDecision2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Decision_2003));
 		entry.setLargeIcon(entry.getSmallIcon());
@@ -92,6 +91,7 @@ public class FlowchartPaletteFactory {
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Subflow3CreationTool_title,
 				Messages.Subflow3CreationTool_desc, types);
+		entry.setId("createSubflow3CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Subflow_2001));
 		entry.setLargeIcon(entry.getSmallIcon());
@@ -107,6 +107,7 @@ public class FlowchartPaletteFactory {
 		LinkToolEntry entry = new LinkToolEntry(
 				Messages.Transition1CreationTool_title,
 				Messages.Transition1CreationTool_desc, types);
+		entry.setId("createTransition1CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Transition_4001));
 		entry.setLargeIcon(entry.getSmallIcon());

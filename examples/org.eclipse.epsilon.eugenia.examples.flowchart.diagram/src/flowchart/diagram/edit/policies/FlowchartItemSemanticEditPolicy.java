@@ -10,8 +10,6 @@ import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsComma
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 
-import flowchart.FlowchartPackage;
-import flowchart.diagram.edit.commands.ActionCreateCommand;
 import flowchart.diagram.edit.commands.DecisionCreateCommand;
 import flowchart.diagram.edit.commands.SubflowCreateCommand;
 import flowchart.diagram.providers.FlowchartElementTypes;
@@ -25,26 +23,18 @@ public class FlowchartItemSemanticEditPolicy extends
 	/**
 	 * @generated
 	 */
+	public FlowchartItemSemanticEditPolicy() {
+		super(FlowchartElementTypes.Flowchart_1000);
+	}
+
+	/**
+	 * @generated
+	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
 		if (FlowchartElementTypes.Subflow_2001 == req.getElementType()) {
-			if (req.getContainmentFeature() == null) {
-				req.setContainmentFeature(FlowchartPackage.eINSTANCE
-						.getFlowchart_Nodes());
-			}
 			return getGEFWrapper(new SubflowCreateCommand(req));
 		}
-		if (FlowchartElementTypes.Action_2002 == req.getElementType()) {
-			if (req.getContainmentFeature() == null) {
-				req.setContainmentFeature(FlowchartPackage.eINSTANCE
-						.getFlowchart_Nodes());
-			}
-			return getGEFWrapper(new ActionCreateCommand(req));
-		}
 		if (FlowchartElementTypes.Decision_2003 == req.getElementType()) {
-			if (req.getContainmentFeature() == null) {
-				req.setContainmentFeature(FlowchartPackage.eINSTANCE
-						.getFlowchart_Nodes());
-			}
 			return getGEFWrapper(new DecisionCreateCommand(req));
 		}
 		return super.getCreateCommand(req);

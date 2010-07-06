@@ -72,7 +72,8 @@ public class FlowchartNewDiagramFileWizard extends Wizard {
 				Messages.FlowchartNewDiagramFileWizard_CreationPageDescription,
 				FlowchartEditPart.MODEL_ID));
 		IPath filePath;
-		String fileName = domainModelURI.trimFileExtension().lastSegment();
+		String fileName = URI.decode(domainModelURI.trimFileExtension()
+				.lastSegment());
 		if (domainModelURI.isPlatformResource()) {
 			filePath = new Path(domainModelURI.trimSegments(1)
 					.toPlatformString(true));

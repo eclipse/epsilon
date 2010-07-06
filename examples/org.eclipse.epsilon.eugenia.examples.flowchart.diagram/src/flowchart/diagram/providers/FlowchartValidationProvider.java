@@ -4,21 +4,16 @@
 package flowchart.diagram.providers;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.gmf.runtime.common.ui.services.action.contributionitem.AbstractContributionItemProvider;
-import org.eclipse.gmf.runtime.common.ui.util.IWorkbenchPartDescriptor;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.jface.action.IAction;
 
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.part.FlowchartDiagramEditorPlugin;
 import flowchart.diagram.part.FlowchartVisualIDRegistry;
-import flowchart.diagram.part.ValidateAction;
 
 /**
  * @generated
  */
-public class FlowchartValidationProvider extends
-		AbstractContributionItemProvider {
+public class FlowchartValidationProvider {
 
 	/**
 	 * @generated
@@ -58,17 +53,6 @@ public class FlowchartValidationProvider extends
 		} else {
 			task.run();
 		}
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IAction createAction(String actionId,
-			IWorkbenchPartDescriptor partDescriptor) {
-		if (ValidateAction.VALIDATE_ACTION_KEY.equals(actionId)) {
-			return new ValidateAction(partDescriptor);
-		}
-		return super.createAction(actionId, partDescriptor);
 	}
 
 	/**

@@ -38,262 +38,270 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  */
 public class FlowchartItemProviderAdapterFactory extends FlowchartAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
 	/**
-	 * This keeps track of the root adapter factory that delegates to this adapter factory.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the root adapter factory that delegates to this adapter factory.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected ComposedAdapterFactory parentAdapterFactory;
 
 	/**
-	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-	 * <!-- begin-user-doc -->
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
 	/**
-	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-	 * <!-- begin-user-doc -->
+   * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
 	/**
-	 * This constructs an instance.
-	 * <!-- begin-user-doc -->
+   * This constructs an instance.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public FlowchartItemProviderAdapterFactory() {
-		supportedTypes.add(IEditingDomainItemProvider.class);
-		supportedTypes.add(IStructuredItemContentProvider.class);
-		supportedTypes.add(ITreeItemContentProvider.class);
-		supportedTypes.add(IItemLabelProvider.class);
-		supportedTypes.add(IItemPropertySource.class);
-	}
+    supportedTypes.add(IEditingDomainItemProvider.class);
+    supportedTypes.add(IStructuredItemContentProvider.class);
+    supportedTypes.add(ITreeItemContentProvider.class);
+    supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);
+  }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link flowchart.Flowchart} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link flowchart.Flowchart} instances.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected FlowchartItemProvider flowchartItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link flowchart.Flowchart}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link flowchart.Flowchart}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter createFlowchartAdapter() {
-		if (flowchartItemProvider == null) {
-			flowchartItemProvider = new FlowchartItemProvider(this);
-		}
+    if (flowchartItemProvider == null)
+    {
+      flowchartItemProvider = new FlowchartItemProvider(this);
+    }
 
-		return flowchartItemProvider;
-	}
+    return flowchartItemProvider;
+  }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link flowchart.Transition} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link flowchart.Transition} instances.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected TransitionItemProvider transitionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link flowchart.Transition}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link flowchart.Transition}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter createTransitionAdapter() {
-		if (transitionItemProvider == null) {
-			transitionItemProvider = new TransitionItemProvider(this);
-		}
+    if (transitionItemProvider == null)
+    {
+      transitionItemProvider = new TransitionItemProvider(this);
+    }
 
-		return transitionItemProvider;
-	}
+    return transitionItemProvider;
+  }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link flowchart.Subflow} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link flowchart.Subflow} instances.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected SubflowItemProvider subflowItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link flowchart.Subflow}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link flowchart.Subflow}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter createSubflowAdapter() {
-		if (subflowItemProvider == null) {
-			subflowItemProvider = new SubflowItemProvider(this);
-		}
+    if (subflowItemProvider == null)
+    {
+      subflowItemProvider = new SubflowItemProvider(this);
+    }
 
-		return subflowItemProvider;
-	}
+    return subflowItemProvider;
+  }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link flowchart.Action} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link flowchart.Action} instances.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected ActionItemProvider actionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link flowchart.Action}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link flowchart.Action}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter createActionAdapter() {
-		if (actionItemProvider == null) {
-			actionItemProvider = new ActionItemProvider(this);
-		}
+    if (actionItemProvider == null)
+    {
+      actionItemProvider = new ActionItemProvider(this);
+    }
 
-		return actionItemProvider;
-	}
+    return actionItemProvider;
+  }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link flowchart.Decision} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link flowchart.Decision} instances.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected DecisionItemProvider decisionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link flowchart.Decision}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link flowchart.Decision}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter createDecisionAdapter() {
-		if (decisionItemProvider == null) {
-			decisionItemProvider = new DecisionItemProvider(this);
-		}
+    if (decisionItemProvider == null)
+    {
+      decisionItemProvider = new DecisionItemProvider(this);
+    }
 
-		return decisionItemProvider;
-	}
+    return decisionItemProvider;
+  }
 
 	/**
-	 * This returns the root adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+   * This returns the root adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public ComposeableAdapterFactory getRootAdapterFactory() {
-		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-	}
+    return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+  }
 
 	/**
-	 * This sets the composed adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+   * This sets the composed adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-		this.parentAdapterFactory = parentAdapterFactory;
-	}
+    this.parentAdapterFactory = parentAdapterFactory;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public boolean isFactoryForType(Object type) {
-		return supportedTypes.contains(type) || super.isFactoryForType(type);
-	}
+    return supportedTypes.contains(type) || super.isFactoryForType(type);
+  }
 
 	/**
-	 * This implementation substitutes the factory itself as the key for the adapter.
-	 * <!-- begin-user-doc -->
+   * This implementation substitutes the factory itself as the key for the adapter.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
-	}
+    return super.adapt(notifier, this);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
-			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter))) {
-				return adapter;
-			}
-		}
+    if (isFactoryForType(type))
+    {
+      Object adapter = super.adapt(object, type);
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
+      {
+        return adapter;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 	/**
-	 * This adds a listener.
-	 * <!-- begin-user-doc -->
+   * This adds a listener.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void addListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.addListener(notifyChangedListener);
-	}
+    changeNotifier.addListener(notifyChangedListener);
+  }
 
 	/**
-	 * This removes a listener.
-	 * <!-- begin-user-doc -->
+   * This removes a listener.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void removeListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.removeListener(notifyChangedListener);
-	}
+    changeNotifier.removeListener(notifyChangedListener);
+  }
 
 	/**
-	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-	 * <!-- begin-user-doc -->
+   * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void fireNotifyChanged(Notification notification) {
-		changeNotifier.fireNotifyChanged(notification);
+    changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
-			parentAdapterFactory.fireNotifyChanged(notification);
-		}
-	}
+    if (parentAdapterFactory != null)
+    {
+      parentAdapterFactory.fireNotifyChanged(notification);
+    }
+  }
 
 	/**
-	 * This disposes all of the item providers created by this factory. 
-	 * <!-- begin-user-doc -->
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void dispose() {
-		if (flowchartItemProvider != null) flowchartItemProvider.dispose();
-		if (transitionItemProvider != null) transitionItemProvider.dispose();
-		if (subflowItemProvider != null) subflowItemProvider.dispose();
-		if (actionItemProvider != null) actionItemProvider.dispose();
-		if (decisionItemProvider != null) decisionItemProvider.dispose();
-	}
+    if (flowchartItemProvider != null) flowchartItemProvider.dispose();
+    if (transitionItemProvider != null) transitionItemProvider.dispose();
+    if (subflowItemProvider != null) subflowItemProvider.dispose();
+    if (actionItemProvider != null) actionItemProvider.dispose();
+    if (decisionItemProvider != null) decisionItemProvider.dispose();
+  }
 
 }

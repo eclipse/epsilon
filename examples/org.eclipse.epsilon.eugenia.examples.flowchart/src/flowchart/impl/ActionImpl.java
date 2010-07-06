@@ -22,22 +22,22 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class ActionImpl extends NodeImpl implements Action {
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected ActionImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	protected EClass eStaticClass() {
-		return FlowchartPackage.Literals.ACTION;
-	}
+    return FlowchartPackage.Literals.ACTION;
+  }
 
 } //ActionImpl

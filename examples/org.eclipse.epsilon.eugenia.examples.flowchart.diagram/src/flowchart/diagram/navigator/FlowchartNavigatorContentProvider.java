@@ -25,7 +25,6 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 
-import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -238,19 +237,18 @@ public class FlowchartNavigatorContentProvider implements
 					Messages.NavigatorGroupName_Flowchart_1000_links,
 					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection connectedViews = getChildrenByType(Collections
-					.singleton(view), SubflowEditPart.VISUAL_ID);
+					.singleton(view), FlowchartVisualIDRegistry
+					.getType(SubflowEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
 			connectedViews = getChildrenByType(Collections.singleton(view),
-					ActionEditPart.VISUAL_ID);
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getChildrenByType(Collections.singleton(view),
-					DecisionEditPart.VISUAL_ID);
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
 			connectedViews = getDiagramLinksByType(Collections.singleton(view),
-					TransitionEditPart.VISUAL_ID);
+					FlowchartVisualIDRegistry
+							.getType(TransitionEditPart.VISUAL_ID));
 			links
 					.addChildren(createNavigatorItems(connectedViews, links,
 							false));
@@ -269,36 +267,13 @@ public class FlowchartNavigatorContentProvider implements
 					Messages.NavigatorGroupName_Subflow_2001_outgoinglinks,
 					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection connectedViews = getIncomingLinksByType(Collections
-					.singleton(view), TransitionEditPart.VISUAL_ID);
+					.singleton(view), FlowchartVisualIDRegistry
+					.getType(TransitionEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,
 					incominglinks, true));
 			connectedViews = getOutgoingLinksByType(
-					Collections.singleton(view), TransitionEditPart.VISUAL_ID);
-			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
-					outgoinglinks, true));
-			if (!incominglinks.isEmpty()) {
-				result.add(incominglinks);
-			}
-			if (!outgoinglinks.isEmpty()) {
-				result.add(outgoinglinks);
-			}
-			return result.toArray();
-		}
-
-		case ActionEditPart.VISUAL_ID: {
-			Collection result = new ArrayList();
-			FlowchartNavigatorGroup incominglinks = new FlowchartNavigatorGroup(
-					Messages.NavigatorGroupName_Action_2002_incominglinks,
-					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			FlowchartNavigatorGroup outgoinglinks = new FlowchartNavigatorGroup(
-					Messages.NavigatorGroupName_Action_2002_outgoinglinks,
-					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection connectedViews = getIncomingLinksByType(Collections
-					.singleton(view), TransitionEditPart.VISUAL_ID);
-			incominglinks.addChildren(createNavigatorItems(connectedViews,
-					incominglinks, true));
-			connectedViews = getOutgoingLinksByType(
-					Collections.singleton(view), TransitionEditPart.VISUAL_ID);
+					Collections.singleton(view), FlowchartVisualIDRegistry
+							.getType(TransitionEditPart.VISUAL_ID));
 			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
 					outgoinglinks, true));
 			if (!incominglinks.isEmpty()) {
@@ -319,11 +294,13 @@ public class FlowchartNavigatorContentProvider implements
 					Messages.NavigatorGroupName_Decision_2003_outgoinglinks,
 					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection connectedViews = getIncomingLinksByType(Collections
-					.singleton(view), TransitionEditPart.VISUAL_ID);
+					.singleton(view), FlowchartVisualIDRegistry
+					.getType(TransitionEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,
 					incominglinks, true));
 			connectedViews = getOutgoingLinksByType(
-					Collections.singleton(view), TransitionEditPart.VISUAL_ID);
+					Collections.singleton(view), FlowchartVisualIDRegistry
+							.getType(TransitionEditPart.VISUAL_ID));
 			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
 					outgoinglinks, true));
 			if (!incominglinks.isEmpty()) {
@@ -344,27 +321,23 @@ public class FlowchartNavigatorContentProvider implements
 					Messages.NavigatorGroupName_Transition_4001_source,
 					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection connectedViews = getLinksTargetByType(Collections
-					.singleton(view), SubflowEditPart.VISUAL_ID);
+					.singleton(view), FlowchartVisualIDRegistry
+					.getType(SubflowEditPart.VISUAL_ID));
 			target.addChildren(createNavigatorItems(connectedViews, target,
 					true));
 			connectedViews = getLinksTargetByType(Collections.singleton(view),
-					ActionEditPart.VISUAL_ID);
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksTargetByType(Collections.singleton(view),
-					DecisionEditPart.VISUAL_ID);
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
 			target.addChildren(createNavigatorItems(connectedViews, target,
 					true));
 			connectedViews = getLinksSourceByType(Collections.singleton(view),
-					SubflowEditPart.VISUAL_ID);
+					FlowchartVisualIDRegistry
+							.getType(SubflowEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source,
 					true));
 			connectedViews = getLinksSourceByType(Collections.singleton(view),
-					ActionEditPart.VISUAL_ID);
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(view),
-					DecisionEditPart.VISUAL_ID);
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source,
 					true));
 			if (!target.isEmpty()) {
@@ -382,9 +355,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getLinksSourceByType(Collection edges, int visualID) {
+	private Collection getLinksSourceByType(Collection edges, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = edges.iterator(); it.hasNext();) {
 			Edge nextEdge = (Edge) it.next();
 			View nextEdgeSource = nextEdge.getSource();
@@ -399,9 +371,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getLinksTargetByType(Collection edges, int visualID) {
+	private Collection getLinksTargetByType(Collection edges, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = edges.iterator(); it.hasNext();) {
 			Edge nextEdge = (Edge) it.next();
 			View nextEdgeTarget = nextEdge.getTarget();
@@ -416,9 +387,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getOutgoingLinksByType(Collection nodes, int visualID) {
+	private Collection getOutgoingLinksByType(Collection nodes, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = nodes.iterator(); it.hasNext();) {
 			View nextNode = (View) it.next();
 			result.addAll(selectViewsByType(nextNode.getSourceEdges(), type));
@@ -429,9 +399,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getIncomingLinksByType(Collection nodes, int visualID) {
+	private Collection getIncomingLinksByType(Collection nodes, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = nodes.iterator(); it.hasNext();) {
 			View nextNode = (View) it.next();
 			result.addAll(selectViewsByType(nextNode.getTargetEdges(), type));
@@ -442,9 +411,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getChildrenByType(Collection nodes, int visualID) {
+	private Collection getChildrenByType(Collection nodes, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = nodes.iterator(); it.hasNext();) {
 			View nextNode = (View) it.next();
 			result.addAll(selectViewsByType(nextNode.getChildren(), type));
@@ -455,9 +423,8 @@ public class FlowchartNavigatorContentProvider implements
 	/**
 	 * @generated
 	 */
-	private Collection getDiagramLinksByType(Collection diagrams, int visualID) {
+	private Collection getDiagramLinksByType(Collection diagrams, String type) {
 		Collection result = new ArrayList();
-		String type = FlowchartVisualIDRegistry.getType(visualID);
 		for (Iterator it = diagrams.iterator(); it.hasNext();) {
 			Diagram nextDiagram = (Diagram) it.next();
 			result.addAll(selectViewsByType(nextDiagram.getEdges(), type));

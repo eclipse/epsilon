@@ -14,7 +14,7 @@ package flowchart;
  *
  *
  * @see flowchart.FlowchartPackage#getAction()
- * @model
+ * @model annotation="gmf.node figure='org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.SquareFigure'"
  * @generated
  */
 public interface Action extends Node {

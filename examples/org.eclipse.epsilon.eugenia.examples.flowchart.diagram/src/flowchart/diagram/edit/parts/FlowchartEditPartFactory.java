@@ -41,12 +41,6 @@ public class FlowchartEditPartFactory implements EditPartFactory {
 			case SubflowNameEditPart.VISUAL_ID:
 				return new SubflowNameEditPart(view);
 
-			case ActionEditPart.VISUAL_ID:
-				return new ActionEditPart(view);
-
-			case ActionNameEditPart.VISUAL_ID:
-				return new ActionNameEditPart(view);
-
 			case DecisionEditPart.VISUAL_ID:
 				return new DecisionEditPart(view);
 
@@ -58,6 +52,7 @@ public class FlowchartEditPartFactory implements EditPartFactory {
 
 			case TransitionNameEditPart.VISUAL_ID:
 				return new TransitionNameEditPart(view);
+
 			}
 		}
 		return createUnrecognizedEditPart(context, model);

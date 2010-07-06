@@ -25,7 +25,6 @@ import org.eclipse.emf.validation.service.IBatchValidator;
 import org.eclipse.emf.validation.service.ModelValidationService;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gmf.runtime.common.ui.util.IWorkbenchPartDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.OffscreenEditPartFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
@@ -34,6 +33,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
@@ -49,28 +49,21 @@ public class ValidateAction extends Action {
 	/**
 	 * @generated
 	 */
-	public static final String VALIDATE_ACTION_KEY = "validateAction"; //$NON-NLS-1$
+	private IWorkbenchPage page;
 
 	/**
 	 * @generated
 	 */
-	private IWorkbenchPartDescriptor workbenchPartDescriptor;
-
-	/**
-	 * @generated
-	 */
-	public ValidateAction(IWorkbenchPartDescriptor workbenchPartDescriptor) {
-		setId(VALIDATE_ACTION_KEY);
+	public ValidateAction(IWorkbenchPage page) {
 		setText(Messages.ValidateActionMessage);
-		this.workbenchPartDescriptor = workbenchPartDescriptor;
+		this.page = page;
 	}
 
 	/**
 	 * @generated
 	 */
 	public void run() {
-		IWorkbenchPart workbenchPart = workbenchPartDescriptor.getPartPage()
-				.getActivePart();
+		IWorkbenchPart workbenchPart = page.getActivePart();
 		if (workbenchPart instanceof IDiagramWorkbenchPart) {
 			final IDiagramWorkbenchPart part = (IDiagramWorkbenchPart) workbenchPart;
 			try {

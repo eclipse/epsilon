@@ -85,20 +85,15 @@ public class FlowchartInitDiagramFileAction implements IObjectActionDelegate {
 					"Unable to load resource: " + domainModelURI, ex); //$NON-NLS-1$
 		}
 		if (diagramRoot == null) {
-			MessageDialog
-					.openError(
-							getShell(),
-							Messages.FlowchartInitDiagramFileAction_InitDiagramFileResourceErrorDialogTitle,
-							Messages.FlowchartInitDiagramFileAction_InitDiagramFileResourceErrorDialogMessage);
+			MessageDialog.openError(getShell(),
+					Messages.InitDiagramFile_ResourceErrorDialogTitle,
+					Messages.InitDiagramFile_ResourceErrorDialogMessage);
 			return;
 		}
 		Wizard wizard = new FlowchartNewDiagramFileWizard(domainModelURI,
 				diagramRoot, editingDomain);
-		wizard
-				.setWindowTitle(NLS
-						.bind(
-								Messages.FlowchartInitDiagramFileAction_InitDiagramFileWizardTitle,
-								FlowchartEditPart.MODEL_ID));
+		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle,
+				FlowchartEditPart.MODEL_ID));
 		FlowchartDiagramEditorUtil.runWizard(getShell(), wizard,
 				"InitDiagramFile"); //$NON-NLS-1$
 	}

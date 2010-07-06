@@ -22,22 +22,22 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class DecisionImpl extends NodeImpl implements Decision {
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected DecisionImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	protected EClass eStaticClass() {
-		return FlowchartPackage.Literals.DECISION;
-	}
+    return FlowchartPackage.Literals.DECISION;
+  }
 
 } //DecisionImpl

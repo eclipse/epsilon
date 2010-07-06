@@ -29,7 +29,6 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.View;
 
 import flowchart.FlowchartPackage;
-import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -74,13 +73,12 @@ public class FlowchartCanonicalEditPolicy extends CanonicalConnectionEditPolicy 
 	 * @generated
 	 */
 	protected boolean isOrphaned(Collection semanticChildren, final View view) {
-		if (view.getEAnnotation("Shortcut") != null) {//$NON-NLS-1$
+		if (view.getEAnnotation("Shortcut") != null) { //$NON-NLS-1$
 			return FlowchartDiagramUpdater.isShortcutOrphaned(view);
 		}
 		int visualID = FlowchartVisualIDRegistry.getVisualID(view);
 		switch (visualID) {
 		case SubflowEditPart.VISUAL_ID:
-		case ActionEditPart.VISUAL_ID:
 		case DecisionEditPart.VISUAL_ID:
 			if (!semanticChildren.contains(view.getElement())) {
 				return true;
@@ -188,9 +186,9 @@ public class FlowchartCanonicalEditPolicy extends CanonicalConnectionEditPolicy 
 			EObject diagramLinkObject = nextDiagramLink.getElement();
 			EObject diagramLinkSrc = nextDiagramLink.getSource().getElement();
 			EObject diagramLinkDst = nextDiagramLink.getTarget().getElement();
-			for (Iterator LinkDescriptorsIterator = linkDescriptors.iterator(); LinkDescriptorsIterator
+			for (Iterator linkDescriptorsIterator = linkDescriptors.iterator(); linkDescriptorsIterator
 					.hasNext();) {
-				FlowchartLinkDescriptor nextLinkDescriptor = (FlowchartLinkDescriptor) LinkDescriptorsIterator
+				FlowchartLinkDescriptor nextLinkDescriptor = (FlowchartLinkDescriptor) linkDescriptorsIterator
 						.next();
 				if (diagramLinkObject == nextLinkDescriptor.getModelElement()
 						&& diagramLinkSrc == nextLinkDescriptor.getSource()
@@ -199,7 +197,8 @@ public class FlowchartCanonicalEditPolicy extends CanonicalConnectionEditPolicy 
 						&& diagramLinkVisualID == nextLinkDescriptor
 								.getVisualID()) {
 					linksIterator.remove();
-					LinkDescriptorsIterator.remove();
+					linkDescriptorsIterator.remove();
+					break;
 				}
 			}
 		}
@@ -232,17 +231,6 @@ public class FlowchartCanonicalEditPolicy extends CanonicalConnectionEditPolicy 
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(FlowchartDiagramUpdater
 						.getSubflow_2001ContainedLinks(view));
-			}
-			if (!domain2NotationMap.containsKey(view.getElement())
-					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
-				domain2NotationMap.put(view.getElement(), view);
-			}
-			break;
-		}
-		case ActionEditPart.VISUAL_ID: {
-			if (!domain2NotationMap.containsKey(view.getElement())) {
-				result.addAll(FlowchartDiagramUpdater
-						.getAction_2002ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
@@ -303,7 +291,8 @@ public class FlowchartCanonicalEditPolicy extends CanonicalConnectionEditPolicy 
 				continue;
 			}
 			CreateConnectionViewRequest.ConnectionViewDescriptor descriptor = new CreateConnectionViewRequest.ConnectionViewDescriptor(
-					nextLinkDescriptor.getSemanticAdapter(), null,
+					nextLinkDescriptor.getSemanticAdapter(), String
+							.valueOf(nextLinkDescriptor.getVisualID()),
 					ViewUtil.APPEND, false, ((IGraphicalEditPart) getHost())
 							.getDiagramPreferencesHint());
 			CreateConnectionViewRequest ccr = new CreateConnectionViewRequest(

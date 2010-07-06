@@ -6,7 +6,7 @@ package flowchart.diagram.navigator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
-import org.eclipse.gmf.runtime.common.ui.services.parser.ParserService;
+import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -20,8 +20,6 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 
-import flowchart.diagram.edit.parts.ActionEditPart;
-import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
@@ -109,9 +107,6 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 		case SubflowEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Subflow", FlowchartElementTypes.Subflow_2001); //$NON-NLS-1$
-		case ActionEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?flowchart?Action", FlowchartElementTypes.Action_2002); //$NON-NLS-1$
 		case DecisionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Decision", FlowchartElementTypes.Decision_2003); //$NON-NLS-1$
@@ -182,8 +177,6 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 			return getFlowchart_1000Text(view);
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001Text(view);
-		case ActionEditPart.VISUAL_ID:
-			return getAction_2002Text(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003Text(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -203,101 +196,74 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getSubflow_2001Text(View view) {
-		IAdaptable hintAdapter = new FlowchartParserProvider.HintAdapter(
+		IParser parser = FlowchartParserProvider.getParser(
 				FlowchartElementTypes.Subflow_2001,
-				(view.getElement() != null ? view.getElement() : view),
+				view.getElement() != null ? view.getElement() : view,
 				FlowchartVisualIDRegistry
 						.getType(SubflowNameEditPart.VISUAL_ID));
-		IParser parser = ParserService.getInstance().getParser(hintAdapter);
-
 		if (parser != null) {
-			return parser.getPrintString(hintAdapter, ParserOptions.NONE
-					.intValue());
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
 		} else {
 			FlowchartDiagramEditorPlugin.getInstance().logError(
 					"Parser was not found for label " + 5001); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
-
-	}
-
-	/**
-	 * @generated
-	 */
-	private String getAction_2002Text(View view) {
-		IAdaptable hintAdapter = new FlowchartParserProvider.HintAdapter(
-				FlowchartElementTypes.Action_2002,
-				(view.getElement() != null ? view.getElement() : view),
-				FlowchartVisualIDRegistry.getType(ActionNameEditPart.VISUAL_ID));
-		IParser parser = ParserService.getInstance().getParser(hintAdapter);
-
-		if (parser != null) {
-			return parser.getPrintString(hintAdapter, ParserOptions.NONE
-					.intValue());
-		} else {
-			FlowchartDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 5002); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
-		}
-
 	}
 
 	/**
 	 * @generated
 	 */
 	private String getDecision_2003Text(View view) {
-		IAdaptable hintAdapter = new FlowchartParserProvider.HintAdapter(
+		IParser parser = FlowchartParserProvider.getParser(
 				FlowchartElementTypes.Decision_2003,
-				(view.getElement() != null ? view.getElement() : view),
+				view.getElement() != null ? view.getElement() : view,
 				FlowchartVisualIDRegistry
 						.getType(DecisionNameEditPart.VISUAL_ID));
-		IParser parser = ParserService.getInstance().getParser(hintAdapter);
-
 		if (parser != null) {
-			return parser.getPrintString(hintAdapter, ParserOptions.NONE
-					.intValue());
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
 		} else {
 			FlowchartDiagramEditorPlugin.getInstance().logError(
 					"Parser was not found for label " + 5003); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
-
 	}
 
 	/**
 	 * @generated
 	 */
 	private String getTransition_4001Text(View view) {
-		IAdaptable hintAdapter = new FlowchartParserProvider.HintAdapter(
+		IParser parser = FlowchartParserProvider.getParser(
 				FlowchartElementTypes.Transition_4001,
-				(view.getElement() != null ? view.getElement() : view),
+				view.getElement() != null ? view.getElement() : view,
 				FlowchartVisualIDRegistry
 						.getType(TransitionNameEditPart.VISUAL_ID));
-		IParser parser = ParserService.getInstance().getParser(hintAdapter);
-
 		if (parser != null) {
-			return parser.getPrintString(hintAdapter, ParserOptions.NONE
-					.intValue());
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
 		} else {
 			FlowchartDiagramEditorPlugin.getInstance().logError(
 					"Parser was not found for label " + 6001); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
-
 	}
 
 	/**
 	 * @generated
 	 */
 	private String getUnknownElementText(View view) {
-		return "<UnknownElement Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<UnknownElement Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
 	/**
 	 * @generated
 	 */
 	private String getUnresolvedDomainElementProxyText(View view) {
-		return "<Unresolved domain element Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<Unresolved domain element Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
 	/**

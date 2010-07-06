@@ -15,14 +15,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 
-import flowchart.Action;
 import flowchart.Decision;
 import flowchart.Flowchart;
 import flowchart.FlowchartPackage;
 import flowchart.Node;
 import flowchart.Subflow;
 import flowchart.Transition;
-import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -70,10 +68,6 @@ public class FlowchartDiagramUpdater {
 				result.add(new FlowchartNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if (visualID == ActionEditPart.VISUAL_ID) {
-				result.add(new FlowchartNodeDescriptor(childElement, visualID));
-				continue;
-			}
 			if (visualID == DecisionEditPart.VISUAL_ID) {
 				result.add(new FlowchartNodeDescriptor(childElement, visualID));
 				continue;
@@ -91,8 +85,6 @@ public class FlowchartDiagramUpdater {
 			return getFlowchart_1000ContainedLinks(view);
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001ContainedLinks(view);
-		case ActionEditPart.VISUAL_ID:
-			return getAction_2002ContainedLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003ContainedLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -108,8 +100,6 @@ public class FlowchartDiagramUpdater {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001IncomingLinks(view);
-		case ActionEditPart.VISUAL_ID:
-			return getAction_2002IncomingLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003IncomingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -125,8 +115,6 @@ public class FlowchartDiagramUpdater {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001OutgoingLinks(view);
-		case ActionEditPart.VISUAL_ID:
-			return getAction_2002OutgoingLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003OutgoingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -160,13 +148,6 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getAction_2002ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
-	 * @generated
-	 */
 	public static List getDecision_2003ContainedLinks(View view) {
 		return Collections.EMPTY_LIST;
 	}
@@ -183,19 +164,6 @@ public class FlowchartDiagramUpdater {
 	 */
 	public static List getSubflow_2001IncomingLinks(View view) {
 		Subflow modelElement = (Subflow) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
-		result.addAll(getIncomingTypeModelFacetLinks_Transition_4001(
-				modelElement, crossReferences));
-		return result;
-	}
-
-	/**
-	 * @generated
-	 */
-	public static List getAction_2002IncomingLinks(View view) {
-		Action modelElement = (Action) view.getElement();
 		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
 				.getResourceSet().getResources());
 		List result = new LinkedList();
@@ -229,17 +197,6 @@ public class FlowchartDiagramUpdater {
 	 */
 	public static List getSubflow_2001OutgoingLinks(View view) {
 		Subflow modelElement = (Subflow) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
-		return result;
-	}
-
-	/**
-	 * @generated
-	 */
-	public static List getAction_2002OutgoingLinks(View view) {
-		Action modelElement = (Action) view.getElement();
 		List result = new LinkedList();
 		result
 				.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));

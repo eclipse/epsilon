@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
@@ -20,6 +19,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
+import org.eclipse.gef.handles.MoveHandle;
 import org.eclipse.gef.handles.NonResizableHandleKit;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
@@ -27,7 +27,6 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
-import org.eclipse.gmf.runtime.common.ui.services.parser.ParserService;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
@@ -50,6 +49,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 
 import flowchart.diagram.edit.policies.FlowchartTextSelectionEditPolicy;
+import flowchart.diagram.part.FlowchartVisualIDRegistry;
 import flowchart.diagram.providers.FlowchartElementTypes;
 import flowchart.diagram.providers.FlowchartParserProvider;
 
@@ -96,6 +96,8 @@ public class SubflowNameEditPart extends CompartmentEditPart implements
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
+				new FlowchartTextSelectionEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new LabelDirectEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
@@ -105,6 +107,7 @@ public class SubflowNameEditPart extends CompartmentEditPart implements
 						List handles = new ArrayList();
 						NonResizableHandleKit.addMoveHandle(
 								(GraphicalEditPart) getHost(), handles);
+						((MoveHandle) handles.get(0)).setBorder(null);
 						return handles;
 					}
 
@@ -227,6 +230,10 @@ public class SubflowNameEditPart extends CompartmentEditPart implements
 		if (pdEditPolicy instanceof FlowchartTextSelectionEditPolicy) {
 			((FlowchartTextSelectionEditPolicy) pdEditPolicy).refreshFeedback();
 		}
+		Object sfEditPolicy = getEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE);
+		if (sfEditPolicy instanceof FlowchartTextSelectionEditPolicy) {
+			((FlowchartTextSelectionEditPolicy) sfEditPolicy).refreshFeedback();
+		}
 	}
 
 	/**
@@ -304,11 +311,12 @@ public class SubflowNameEditPart extends CompartmentEditPart implements
 	 */
 	public IParser getParser() {
 		if (parser == null) {
-			String parserHint = ((View) getModel()).getType();
-			IAdaptable hintAdapter = new FlowchartParserProvider.HintAdapter(
-					FlowchartElementTypes.Subflow_2001, getParserElement(),
-					parserHint);
-			parser = ParserService.getInstance().getParser(hintAdapter);
+			parser = FlowchartParserProvider
+					.getParser(
+							FlowchartElementTypes.Subflow_2001,
+							getParserElement(),
+							FlowchartVisualIDRegistry
+									.getType(flowchart.diagram.edit.parts.SubflowNameEditPart.VISUAL_ID));
 		}
 		return parser;
 	}
@@ -415,6 +423,10 @@ public class SubflowNameEditPart extends CompartmentEditPart implements
 		Object pdEditPolicy = getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
 		if (pdEditPolicy instanceof FlowchartTextSelectionEditPolicy) {
 			((FlowchartTextSelectionEditPolicy) pdEditPolicy).refreshFeedback();
+		}
+		Object sfEditPolicy = getEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE);
+		if (sfEditPolicy instanceof FlowchartTextSelectionEditPolicy) {
+			((FlowchartTextSelectionEditPolicy) sfEditPolicy).refreshFeedback();
 		}
 	}
 

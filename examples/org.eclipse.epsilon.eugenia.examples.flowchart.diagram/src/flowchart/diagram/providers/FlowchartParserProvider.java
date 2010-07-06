@@ -11,12 +11,12 @@ import org.eclipse.gmf.runtime.common.core.service.IOperation;
 import org.eclipse.gmf.runtime.common.ui.services.parser.GetParserOperation;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserProvider;
+import org.eclipse.gmf.runtime.common.ui.services.parser.ParserService;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
 
 import flowchart.FlowchartPackage;
-import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.SubflowNameEditPart;
 import flowchart.diagram.edit.parts.TransitionNameEditPart;
@@ -39,44 +39,12 @@ public class FlowchartParserProvider extends AbstractProvider implements
 	 */
 	private IParser getSubflowName_5001Parser() {
 		if (subflowName_5001Parser == null) {
-			subflowName_5001Parser = createSubflowName_5001Parser();
+			EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
+					.getNode_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			subflowName_5001Parser = parser;
 		}
 		return subflowName_5001Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IParser createSubflowName_5001Parser() {
-		EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
-				.getNode_Name(), };
-		MessageFormatParser parser = new MessageFormatParser(features);
-		return parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	private IParser actionName_5002Parser;
-
-	/**
-	 * @generated
-	 */
-	private IParser getActionName_5002Parser() {
-		if (actionName_5002Parser == null) {
-			actionName_5002Parser = createActionName_5002Parser();
-		}
-		return actionName_5002Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IParser createActionName_5002Parser() {
-		EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
-				.getNode_Name(), };
-		MessageFormatParser parser = new MessageFormatParser(features);
-		return parser;
 	}
 
 	/**
@@ -89,19 +57,12 @@ public class FlowchartParserProvider extends AbstractProvider implements
 	 */
 	private IParser getDecisionName_5003Parser() {
 		if (decisionName_5003Parser == null) {
-			decisionName_5003Parser = createDecisionName_5003Parser();
+			EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
+					.getNode_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			decisionName_5003Parser = parser;
 		}
 		return decisionName_5003Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IParser createDecisionName_5003Parser() {
-		EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
-				.getNode_Name(), };
-		MessageFormatParser parser = new MessageFormatParser(features);
-		return parser;
 	}
 
 	/**
@@ -114,19 +75,12 @@ public class FlowchartParserProvider extends AbstractProvider implements
 	 */
 	private IParser getTransitionName_6001Parser() {
 		if (transitionName_6001Parser == null) {
-			transitionName_6001Parser = createTransitionName_6001Parser();
+			EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
+					.getTransition_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			transitionName_6001Parser = parser;
 		}
 		return transitionName_6001Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IParser createTransitionName_6001Parser() {
-		EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
-				.getTransition_Name(), };
-		MessageFormatParser parser = new MessageFormatParser(features);
-		return parser;
 	}
 
 	/**
@@ -136,14 +90,22 @@ public class FlowchartParserProvider extends AbstractProvider implements
 		switch (visualID) {
 		case SubflowNameEditPart.VISUAL_ID:
 			return getSubflowName_5001Parser();
-		case ActionNameEditPart.VISUAL_ID:
-			return getActionName_5002Parser();
 		case DecisionNameEditPart.VISUAL_ID:
 			return getDecisionName_5003Parser();
 		case TransitionNameEditPart.VISUAL_ID:
 			return getTransitionName_6001Parser();
 		}
 		return null;
+	}
+
+	/**
+	 * Utility method that consults ParserService
+	 * @generated
+	 */
+	public static IParser getParser(IElementType type, EObject object,
+			String parserHint) {
+		return ParserService.getInstance().getParser(
+				new HintAdapter(type, object, parserHint));
 	}
 
 	/**
@@ -178,7 +140,7 @@ public class FlowchartParserProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public static class HintAdapter extends ParserHintAdapter {
+	private static class HintAdapter extends ParserHintAdapter {
 
 		/**
 		 * @generated

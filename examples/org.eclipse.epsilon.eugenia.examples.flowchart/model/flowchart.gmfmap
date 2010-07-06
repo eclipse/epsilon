@@ -30,26 +30,6 @@
         href="flowchart.ecore#//Flowchart/nodes"/>
     <ownedChild>
       <domainMetaElement
-          href="flowchart.ecore#//Action"/>
-      <labelMappings
-          xsi:type="gmfmap:FeatureLabelMapping">
-        <diagramLabel
-            href="flowchart.gmfgraph#ActionLabel"/>
-        <features
-            href="flowchart.ecore#//Node/name"/>
-      </labelMappings>
-      <tool
-          xsi:type="gmftool:CreationTool"
-          href="flowchart.gmftool#//@palette/@tools.0/@tools.0"/>
-      <diagramNode
-          href="flowchart.gmfgraph#Action"/>
-    </ownedChild>
-  </nodes>
-  <nodes>
-    <containmentFeature
-        href="flowchart.ecore#//Flowchart/nodes"/>
-    <ownedChild>
-      <domainMetaElement
           href="flowchart.ecore#//Decision"/>
       <labelMappings
           xsi:type="gmfmap:FeatureLabelMapping">

@@ -6,16 +6,17 @@ package flowchart.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
-import org.eclipse.gmf.runtime.emf.type.core.commands.CreateElementCommand;
+import org.eclipse.gmf.runtime.common.core.command.ICommand;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
 
 import flowchart.Flowchart;
 import flowchart.FlowchartFactory;
-import flowchart.FlowchartPackage;
 import flowchart.Node;
 import flowchart.Transition;
 import flowchart.diagram.edit.policies.FlowchartBaseItemSemanticEditPolicy;
@@ -23,7 +24,7 @@ import flowchart.diagram.edit.policies.FlowchartBaseItemSemanticEditPolicy;
 /**
  * @generated
  */
-public class TransitionCreateCommand extends CreateElementCommand {
+public class TransitionCreateCommand extends EditElementCommand {
 
 	/**
 	 * @generated
@@ -38,32 +39,17 @@ public class TransitionCreateCommand extends CreateElementCommand {
 	/**
 	 * @generated
 	 */
-	private Flowchart container;
+	private final Flowchart container;
 
 	/**
 	 * @generated
 	 */
 	public TransitionCreateCommand(CreateRelationshipRequest request,
 			EObject source, EObject target) {
-		super(request);
+		super(request.getLabel(), null, request);
 		this.source = source;
 		this.target = target;
-		if (request.getContainmentFeature() == null) {
-			setContainmentFeature(FlowchartPackage.eINSTANCE
-					.getFlowchart_Transitions());
-		}
-
-		// Find container element for the new link.
-		// Climb up by containment hierarchy starting from the source
-		// and return the first element that is instance of the container class.
-		for (EObject element = source; element != null; element = element
-				.eContainer()) {
-			if (element instanceof Flowchart) {
-				container = (Flowchart) element;
-				super.setElementToEdit(container);
-				break;
-			}
-		}
+		container = deduceContainer(source, target);
 	}
 
 	/**
@@ -94,41 +80,44 @@ public class TransitionCreateCommand extends CreateElementCommand {
 	/**
 	 * @generated
 	 */
-	protected EObject doDefaultElementCreation() {
-		Transition newElement = FlowchartFactory.eINSTANCE.createTransition();
-		getContainer().getTransitions().add(newElement);
-		newElement.setSource(getSource());
-		newElement.setTarget(getTarget());
-		return newElement;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected EClass getEClassToEdit() {
-		return FlowchartPackage.eINSTANCE.getFlowchart();
-	}
-
-	/**
-	 * @generated
-	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 		if (!canExecute()) {
 			throw new ExecutionException(
 					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
-		return super.doExecuteWithResult(monitor, info);
+
+		Transition newElement = FlowchartFactory.eINSTANCE.createTransition();
+		getContainer().getTransitions().add(newElement);
+		newElement.setSource(getSource());
+		newElement.setTarget(getTarget());
+		doConfigure(newElement, monitor, info);
+		((CreateElementRequest) getRequest()).setNewElement(newElement);
+		return CommandResult.newOKCommandResult(newElement);
+
 	}
 
 	/**
 	 * @generated
 	 */
-	protected ConfigureRequest createConfigureRequest() {
-		ConfigureRequest request = super.createConfigureRequest();
-		request.setParameter(CreateRelationshipRequest.SOURCE, getSource());
-		request.setParameter(CreateRelationshipRequest.TARGET, getTarget());
-		return request;
+	protected void doConfigure(Transition newElement, IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest())
+				.getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(
+				getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest())
+				.getClientContext());
+		configureRequest.addParameters(getRequest().getParameters());
+		configureRequest.setParameter(CreateRelationshipRequest.SOURCE,
+				getSource());
+		configureRequest.setParameter(CreateRelationshipRequest.TARGET,
+				getTarget());
+		ICommand configureCommand = elementType
+				.getEditCommand(configureRequest);
+		if (configureCommand != null && configureCommand.canExecute()) {
+			configureCommand.execute(monitor, info);
+		}
 	}
 
 	/**
@@ -158,4 +147,23 @@ public class TransitionCreateCommand extends CreateElementCommand {
 	public Flowchart getContainer() {
 		return container;
 	}
+
+	/**
+	 * Default approach is to traverse ancestors of the source to find instance of container.
+	 * Modify with appropriate logic.
+	 * @generated
+	 */
+	private static Flowchart deduceContainer(EObject source, EObject target) {
+		// Find container element for the new link.
+		// Climb up by containment hierarchy starting from the source
+		// and return the first element that is instance of the container class.
+		for (EObject element = source; element != null; element = element
+				.eContainer()) {
+			if (element instanceof Flowchart) {
+				return (Flowchart) element;
+			}
+		}
+		return null;
+	}
+
 }

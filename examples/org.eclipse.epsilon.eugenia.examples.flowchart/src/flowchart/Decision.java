@@ -14,7 +14,7 @@ package flowchart;
  *
  *
  * @see flowchart.FlowchartPackage#getDecision()
- * @model
+ * @model annotation="gmf.node figure='org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.DiamondFigure'"
  * @generated
  */
 public interface Decision extends Node {

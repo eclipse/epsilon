@@ -5,15 +5,12 @@
 -->
 <plugin>
 
-   <extension point="org.eclipse.team.core.fileTypes">
+   <extension point="org.eclipse.team.core.fileTypes" id="repo-ftype">
       <?gmfgen generated="true"?>
-      <fileTypes
-         type="text"
-         extension="flowchart_diagram">
-      </fileTypes>
+      <fileTypes type="text" extension="flowchart_diagram"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.extension_parser">
+   <extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
       <?gmfgen generated="true"?>
       <parser
          type="flowchart_diagram"
@@ -21,7 +18,7 @@
       </parser>
    </extension>
 
-   <extension point="org.eclipse.ui.editors">
+   <extension point="org.eclipse.ui.editors" id="gmf-editor">
       <?gmfgen generated="true"?>
       <editor
          id="flowchart.diagram.part.FlowchartDiagramEditorID"
@@ -35,7 +32,7 @@
       </editor>
    </extension>
    
-   <extension point="org.eclipse.ui.contexts">
+   <extension point="org.eclipse.ui.contexts" id="ui-context">
       <?gmfgen generated="true"?>
       <context
          description="%context.description"
@@ -45,7 +42,7 @@
       </context>
    </extension>
 
-   <extension point="org.eclipse.ui.newWizards">
+   <extension point="org.eclipse.ui.newWizards" id="creation-wizard">
       <?gmfgen generated="true"?>
   	  <wizard
   	     name="%newWizardName"
@@ -57,35 +54,7 @@
       </wizard>
    </extension>
 
-   <extension point="org.eclipse.ui.popupMenus">
-      <?gmfgen generated="true"?>
-      <objectContribution
-            adaptable="false"
-            id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.CreateShortcut"
-            objectClass="flowchart.diagram.edit.parts.FlowchartEditPart">
-         <action
-               class="flowchart.diagram.part.FlowchartCreateShortcutAction"
-               enablesFor="1"
-               id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.CreateShortcutAction"
-               label="%createShortcutActionLabel"
-               menubarPath="additions">
-         </action>
-      </objectContribution>                      
-      <objectContribution
-            adaptable="false"
-            id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.LoadResource"
-            objectClass="flowchart.diagram.edit.parts.FlowchartEditPart">
-         <action
-               class="flowchart.diagram.part.FlowchartLoadResourceAction"
-               enablesFor="1"
-               id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.LoadResourceAction"
-               label="%loadResourceActionLabel"
-               menubarPath="additions">
-         </action>
-      </objectContribution>           
-   </extension>
-
-   <extension point="org.eclipse.ui.popupMenus">
+   <extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
       <?gmfgen generated="true"?>
       <objectContribution
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.InitDiagram"
@@ -100,8 +69,9 @@
          </action>
       </objectContribution>
    </extension>
-	
-   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders">
+
+   	
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders" id="global-actions">
       <?gmfgen generated="true"?>
       <GlobalActionHandlerProvider
          class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
@@ -150,30 +120,9 @@
       </GlobalActionHandlerProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
-      <?gmfgen generated="true"?>
-      <contributionItemProvider class="flowchart.diagram.providers.FlowchartContributionItemProvider">
-         <Priority name="Low"/>
-         <partContribution id="flowchart.diagram.part.FlowchartDiagramEditorID">
-            <partAction menubarPath="/file/print" id="printPreviewAction"/>
-         </partContribution>
-      </contributionItemProvider>
-   </extension>
-
-   <extension id="ValidationContributionItemProvider" name="Validation"
-      point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
-      <?gmfgen generated="true"?>
-      <contributionItemProvider
-         class="flowchart.diagram.providers.FlowchartValidationProvider">
-         <Priority name="Low"/>
-         <partContribution id="flowchart.diagram.part.FlowchartDiagramEditorID">
-            <partMenuGroup menubarPath="/diagramMenu/" id="validationGroup"/>
-            <partAction id="validateAction" menubarPath="/diagramMenu/validationGroup"/>
-         </partContribution>
-      </contributionItemProvider>
-   </extension>
-
-   <extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders">
+   
+   
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders" id="markers-navigation">
       <?gmfgen generated="true"?>
       <MarkerNavigationProvider class="flowchart.diagram.providers.FlowchartMarkerNavigationProvider">
          <MarkerType name="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.diagnostic"/>
@@ -197,51 +146,45 @@
       </decoratorProvider>
    </extension>
 
-   <extension point="org.eclipse.core.runtime.preferences">
+   <extension point="org.eclipse.core.runtime.preferences" id="prefs">
       <?gmfgen generated="true"?>
       <initializer class="flowchart.diagram.preferences.DiagramPreferenceInitializer"/>
    </extension>
 
-   <extension point="org.eclipse.ui.preferencePages">
+   <extension point="org.eclipse.ui.preferencePages" id="prefpages">
       <?gmfgen generated="true"?>
       <page
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
+            name="%prefpage.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
             class="flowchart.diagram.preferences.DiagramGeneralPreferencePage">
       </page>
       <page
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.appearance"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.appearance"
+            name="%prefpage.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.appearance"
             category="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
             class="flowchart.diagram.preferences.DiagramAppearancePreferencePage">
       </page>
       <page
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.connections"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.connections"
+            name="%prefpage.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.connections"
             category="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
             class="flowchart.diagram.preferences.DiagramConnectionsPreferencePage">
       </page>
       <page
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.printing"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.printing"
+            name="%prefpage.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.printing"
             category="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
             class="flowchart.diagram.preferences.DiagramPrintingPreferencePage">
       </page>
       <page
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.rulersAndGrid"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.rulersAndGrid"
+            name="%prefpage.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.rulersAndGrid"
             category="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
             class="flowchart.diagram.preferences.DiagramRulersAndGridPreferencePage">
       </page>
-      <page
-            id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.pathmaps"
-            name="%preference.page.title.org.eclipse.epsilon.eugenia.examples.flowchart.diagram.pathmaps"
-            category="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.general"
-            class="org.eclipse.gmf.runtime.emf.ui.preferences.PathmapsPreferencePage">
-      </page>
    </extension>
 
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
       <?gmfgen generated="true"?>
       <propertyContributor
             contributorId="org.eclipse.epsilon.eugenia.examples.flowchart.diagram"
@@ -252,7 +195,7 @@
       </propertyContributor>
    </extension>
 
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs" id="proptabs">
       <?gmfgen generated="true"?>   
       <propertyTabs contributorId="org.eclipse.epsilon.eugenia.examples.flowchart.diagram">
          <propertyTab
@@ -270,7 +213,7 @@
       </propertyTabs>
    </extension>
 
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
       <?gmfgen generated="true"?>   
       <propertySections contributorId="org.eclipse.epsilon.eugenia.examples.flowchart.diagram">
          <propertySection id="property.section.ConnectorAppearancePropertySection" 
@@ -304,52 +247,80 @@
       </propertySections>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders">
+   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
       <?gmfgen generated="true"?>
       <viewProvider class="flowchart.diagram.providers.FlowchartViewProvider">
          <Priority name="Lowest"/>
+         <object id="referencing-diagrams" class="org.eclipse.gmf.runtime.notation.Diagram">
+            <method name="getType()" value="flowchart"/>
+         </object>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" containerViews="referencing-diagrams"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Flowchart"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints=""/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints=""/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2003"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
       <?gmfgen generated="true"?>
       <editpartProvider class="flowchart.diagram.providers.FlowchartEditPartProvider">
          <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
+            <method name="getType()" value="Flowchart"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
+            <method name="getType()" value="2001,2003"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
+            <method name="getType()" value="4001"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
+            <method name="getType()" value="5001,5003"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
+            <method name="getType()" value=""/>
+         </object>
+         <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders">
+   <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="flowchart.diagram.providers.FlowchartModelingAssistantProvider">
          <Priority name="Lowest"/>
+         <object class="flowchart.diagram.edit.parts.FlowchartEditPart" id="Flowchart_1000"/>
+         <object class="flowchart.diagram.edit.parts.SubflowEditPart" id="Subflow_2001"/>
+         <object class="flowchart.diagram.edit.parts.DecisionEditPart" id="Decision_2003"/>
+         <context elements="Flowchart_1000,Subflow_2001,Decision_2003"/>
       </modelingAssistantProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders">
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders" id="icon-provider">
       <?gmfgen generated="true"?>
       <IconProvider class="flowchart.diagram.providers.FlowchartIconProvider">
          <Priority name="Low"/>
       </IconProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders">
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders" id="parser-provider">
       <?gmfgen generated="true"?>
       <ParserProvider class="flowchart.diagram.providers.FlowchartParserProvider">
          <Priority name="Lowest"/>
       </ParserProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders" id="decorator-provider">
       <?gmfgen generated="true"?>
       <decoratorProvider class="flowchart.diagram.providers.FlowchartShortcutsDecoratorProvider">
          <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)" id="generated-top-nodes">
+            <method name="getType()" value="2001,2003"/>
+         </object>
+         <context decoratorTargets="generated-top-nodes"/>
       </decoratorProvider>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes">
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
       <?gmfgen generated="true"?>
       <metamodel nsURI="flowchart">
          <metamodelType
@@ -369,16 +340,6 @@
                eclass="Subflow"
                edithelper="flowchart.diagram.edit.helpers.SubflowEditHelper">
             <param name="semanticHint" value="2001"/>
-         </metamodelType>
-      </metamodel>
-      <metamodel nsURI="flowchart">
-         <metamodelType
-               id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Action_2002"
-               name="%metatype.name.Action_2002"
-               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="Action"
-               edithelper="flowchart.diagram.edit.helpers.ActionEditHelper">
-            <param name="semanticHint" value="2002"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="flowchart">
@@ -403,25 +364,24 @@
       </metamodel>
    </extension>
 
-   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings">
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
       <?gmfgen generated="true"?>
-      <clientContext id="FlowchartClientContext">
+      <clientContext id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.TypeContext">
          <enablement>
             <test
                property="org.eclipse.gmf.runtime.emf.core.editingDomain"
                value="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.EditingDomain"/>
          </enablement>
       </clientContext> 
-      <binding context="FlowchartClientContext">
+      <binding context="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.TypeContext">
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Flowchart_1000"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Subflow_2001"/>
-         <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Action_2002"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Decision_2003"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Transition_4001"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
-	   <extension point="org.eclipse.core.expressions.propertyTesters">
+	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
       <?gmfgen generated="true"?>
        <propertyTester
            id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.URIEditorInputPropertyTester"
@@ -432,7 +392,7 @@
        </propertyTester>
    </extension>
 
-	   <extension point="org.eclipse.core.expressions.propertyTesters">
+	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isShortcut">
       <?gmfgen generated="true"?>
        <propertyTester
            id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.ShortcutPropertyTester"
@@ -443,18 +403,8 @@
        </propertyTester>
    </extension>
 
-	   <extension point="org.eclipse.core.expressions.propertyTesters">
-      <?gmfgen generated="true"?>
-       <propertyTester
-           id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.DomainModelElementPropertyTester"
-           type="org.eclipse.emf.ecore.EObject"
-           namespace="org.eclipse.epsilon.eugenia.examples.flowchart.diagram"
-           properties="isDomainModelElement"
-           class="flowchart.diagram.part.FlowchartDomainModelElementTester">
-       </propertyTester>
-   </extension>
-
-	   <extension point="org.eclipse.ui.navigator.viewer">
+	   
+	   <extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
       <?gmfgen generated="true"?>
       <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
@@ -470,7 +420,7 @@
       </viewerActionBinding>
    </extension>
 
-   <extension point="org.eclipse.ui.navigator.navigatorContent">
+   <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
       <?gmfgen generated="true"?>
       <navigatorContent
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.resourceContent" 
@@ -528,17 +478,11 @@
     	          <instanceof value="org.eclipse.core.resources.IFile"/>
         	      <test property="org.eclipse.core.resources.extension" value="flowchart"/>
                </and>
-               <and>
-                  <instanceof value="org.eclipse.emf.ecore.EObject"/>
-                  <test property="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.isDomainModelElement"/>
-               </and>
+               <instanceof value="flowchart.diagram.navigator.FlowchartDomainNavigatorItem"/>
             </or>
          </triggerPoints>
          <possibleChildren>
-            <and>
-       	       <instanceof value="org.eclipse.emf.ecore.EObject"/>
-       	       <test property="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.isDomainModelElement"/>
-       	    </and>
+            <instanceof value="flowchart.diagram.navigator.FlowchartDomainNavigatorItem"/>
          </possibleChildren>
       </navigatorContent>
       <actionProvider
@@ -555,7 +499,7 @@
       </actionProvider>
    </extension>
    
-	   <extension point="org.eclipse.ui.navigator.linkHelper">
+	   <extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
       <?gmfgen generated="true"?>
       <linkHelper
             id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.navigatorLinkHelper"
@@ -571,7 +515,7 @@
          </selectionEnablement>
       </linkHelper>
    </extension>
-   <extension point="org.eclipse.ui.commands">
+   <extension point="org.eclipse.ui.commands" id="update-cmd">
       <?gmfgen generated="true"?>
       <command
          categoryId="org.eclipse.ui.category.edit"
@@ -581,7 +525,7 @@
          name="%update.diagram.name"/>
    </extension>
    
-   <extension point="org.eclipse.ui.bindings">
+   <extension point="org.eclipse.ui.bindings" id="update-cmd-binding">
       <?gmfgen generated="true"?>
       <key 
          commandId="flowchart.diagram.updateDiagram"
@@ -589,4 +533,37 @@
          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
          sequence="F5"/>
    </extension>
+<extension point="org.eclipse.ui.menus" id="context-menus">
+      <?gmfgen generated="true"?>
+      <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=">
+      </menuContribution -->
+      <menuContribution locationURI="popup:org.eclipse.gmf.runtime.diagram.ui.DiagramEditorContextMenu">
+         <command commandId="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.LoadResourceAction">
+            <visibleWhen>
+               <and>
+                  <with variable="activePartId"><equals value="flowchart.diagram.part.FlowchartDiagramEditorID"/></with>
+                  <with variable="selection"><iterate ifEmpty="false"> 
+                     <instanceof value="flowchart.diagram.edit.parts.FlowchartEditPart"/>
+                  </iterate></with>
+               </and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+<extension point="org.eclipse.ui.commands" id="menu-commands">
+      <?gmfgen generated="true"?>
+      <category id="flowchart.diagram.part.FlowchartDiagramEditorID" name="%cmdcategory.name" description="%cmdcategory.desc"/>
+      <command id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.LoadResourceAction"
+         name="Load Resource"
+         categoryId="flowchart.diagram.part.FlowchartDiagramEditorID"
+         defaultHandler="flowchart.diagram.part.LoadResourceAction"/>
+   </extension>
+
+<extension point="org.eclipse.ui.handlers" id="menu-handlers">
+      <?gmfgen generated="true"?>
+   </extension>
+
 </plugin>
