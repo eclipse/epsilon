@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -20,10 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
-
 
 public class IterateOperation extends AbstractOperation {
 	
@@ -69,9 +68,9 @@ public class IterateOperation extends AbstractOperation {
 		
 		// If the source is a single instance
 		// convert it to an EolCollection
-		EolCollection source = EolCollection.asCollection(obj);
+		Collection source = CollectionUtil.asCollection(obj);
 		
-		Iterator li = source.getStorage().iterator();
+		Iterator li = source.iterator();
 		
 		Object resultInitialValue = context.getExecutorFactory().executeAST(resultInitialValueAst, context);
 		
@@ -91,7 +90,7 @@ public class IterateOperation extends AbstractOperation {
 			}
 		}
 		
-		result = EolTypeWrapper.getInstance().wrap(scope.get(resultName).getValue());
+		result = scope.get(resultName).getValue();
 		
 		scope.leave(ast);
 		

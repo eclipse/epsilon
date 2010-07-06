@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.evl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2010-06-02 10:24:58
+// $ANTLR 3.1b1 EolLexerRules.g 2010-06-25 12:27:48
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -240,8 +240,8 @@ public class Evl_EolLexerRules extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:60:5: ( ( DIGIT )+ ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? )? )
-            // EolLexerRules.g:60:7: ( DIGIT )+ ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? )?
+            // EolLexerRules.g:60:5: ( ( DIGIT )+ ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? ) )? )
+            // EolLexerRules.g:60:7: ( DIGIT )+ ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? ) )?
             {
             // EolLexerRules.g:60:7: ( DIGIT )+
             int cnt1=0;
@@ -274,19 +274,32 @@ public class Evl_EolLexerRules extends Lexer {
                 cnt1++;
             } while (true);
 
-            // EolLexerRules.g:60:16: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? )?
-            int alt4=2;
+            // EolLexerRules.g:60:16: ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? ) )?
+            int alt4=3;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0=='.') && (synpred1_EolLexerRules())) {
+            if ( (LA4_0=='l') ) {
                 alt4=1;
+            }
+            else if ( (LA4_0=='.') && (synpred1_EolLexerRules())) {
+                alt4=2;
             }
             switch (alt4) {
                 case 1 :
-                    // EolLexerRules.g:60:17: ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )?
+                    // EolLexerRules.g:60:17: 'l'
+                    {
+                    match('l'); if (state.failed) return ;
+
+                    }
+                    break;
+                case 2 :
+                    // EolLexerRules.g:60:23: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? )
+                    {
+                    // EolLexerRules.g:60:23: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )? )
+                    // EolLexerRules.g:60:24: ( '.' DIGIT )=> '.' ( DIGIT )+ ( 'd' | 'f' )?
                     {
                     match('.'); if (state.failed) return ;
-                    // EolLexerRules.g:60:34: ( DIGIT )+
+                    // EolLexerRules.g:60:41: ( DIGIT )+
                     int cnt2=0;
                     loop2:
                     do {
@@ -300,7 +313,7 @@ public class Evl_EolLexerRules extends Lexer {
 
                         switch (alt2) {
                     	case 1 :
-                    	    // EolLexerRules.g:60:35: DIGIT
+                    	    // EolLexerRules.g:60:42: DIGIT
                     	    {
                     	    mDIGIT(); if (state.failed) return ;
 
@@ -320,7 +333,7 @@ public class Evl_EolLexerRules extends Lexer {
                     if ( state.backtracking==0 ) {
                       _type = FLOAT;
                     }
-                    // EolLexerRules.g:60:60: ( 'd' | 'f' )?
+                    // EolLexerRules.g:60:67: ( 'd' | 'f' )?
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -344,6 +357,9 @@ public class Evl_EolLexerRules extends Lexer {
 
                             }
                             break;
+
+                    }
+
 
                     }
 
@@ -1437,8 +1453,8 @@ public class Evl_EolLexerRules extends Lexer {
 
     // $ANTLR start synpred1_EolLexerRules
     public final void synpred1_EolLexerRules_fragment() throws RecognitionException {   
-        // EolLexerRules.g:60:17: ( '.' DIGIT )
-        // EolLexerRules.g:60:18: '.' DIGIT
+        // EolLexerRules.g:60:24: ( '.' DIGIT )
+        // EolLexerRules.g:60:25: '.' DIGIT
         {
         match('.'); if (state.failed) return ;
         mDIGIT(); if (state.failed) return ;

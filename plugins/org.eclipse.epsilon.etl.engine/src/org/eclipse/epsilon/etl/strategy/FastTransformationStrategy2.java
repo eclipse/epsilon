@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
@@ -89,8 +88,8 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 		
 		EolCollection equivalents = getEquivalents(source, context, rules);
 		
-		if (!equivalents.isEmpty().booleanValue()) {
-			return equivalents.at(new EolInteger(0));
+		if (!equivalents.isEmpty()) {
+			return equivalents.at(0);
 		}
 		else {
 			return null;
@@ -109,7 +108,7 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 		Iterator it = collection.iterator();
 		while (it.hasNext()){
 			Object equivalent = getEquivalents(it.next(), context, rules);
-			if (equivalent != null && equivalents.includes(equivalent).not().booleanValue()){
+			if (equivalent != null && !equivalents.includes(equivalent)){
 				equivalents.add(equivalent);
 			}
 		}
@@ -117,8 +116,6 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 	}
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
-		
-		// System.err.println("Creating targets");
 		
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
@@ -148,8 +145,6 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 			}
 		}
 		
-		//System.err.println("Flattening trace");
-		
 		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
 			
 			if (flatTrace.containsKey(transformation.getSource())) {
@@ -167,7 +162,6 @@ public class FastTransformationStrategy2 implements ITransformationStrategy{
 			
 		}
 		
-		//System.err.println("Running rules");
 		for (Transformation transformation : (Transformations) context.getTransformationTrace().getTransformations().clone()) {
 			transformation.getRule().transform(transformation.getSource(), transformation.getTargets(), context);
 		} 

@@ -12,6 +12,9 @@ package org.eclipse.epsilon.eol.execute;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.profiling.Profiler;
@@ -22,9 +25,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
+import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 
@@ -36,6 +41,8 @@ public class PointExecutor extends AbstractExecutor{
 		Object source = context.getExecutorFactory().executeAST(objectAst, context);
 		return execute(source, featureCallAst, context, returnSetter);
 	}
+	
+	protected boolean isArrow() { return false; }
 	
 	public Object execute(Object source, AST featureCallAst, IEolContext context, boolean returnSetter) throws EolRuntimeException {
 		
@@ -55,7 +62,7 @@ public class PointExecutor extends AbstractExecutor{
 			} else{
 				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, featureCallAst.getText(), context);
 				getter.setAst(featureCallAst);
-				return EolTypeWrapper.getInstance().wrap(getter.invoke(source, featureCallAst.getText()));
+				return wrap(getter.invoke(source, featureCallAst.getText()));
 			}
 		}
 		//TODO : See parameters defining variables
@@ -64,7 +71,7 @@ public class PointExecutor extends AbstractExecutor{
 		//}
 		else { //if (parametersAst.getType() == EolParser.PARAMETERS){
 
-			return executeOperation(context, source, featureCallAst, true);
+			return executeOperation(context, source, featureCallAst);
 			
 			/*
 			else{
@@ -124,7 +131,7 @@ public class PointExecutor extends AbstractExecutor{
 		
 	}
 	
-	public Object executeOperation(IEolContext context, Object source, AST featureCallAst, boolean executeHelpers) throws EolRuntimeException {
+	public Object executeOperation(IEolContext context, Object source, AST featureCallAst) throws EolRuntimeException {
 		
 		AST parametersAst = featureCallAst.getFirstChild();
 		
@@ -132,20 +139,6 @@ public class PointExecutor extends AbstractExecutor{
 			return context.getOperationFactory().executeOperation(source, featureCallAst, context);
 		}
 		
-		// If method starts with _ we execute it with wrapped parameters
-		if (featureCallAst.getText().startsWith("_")) {
-			String methodName = featureCallAst.getText().substring(1);
-			ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
-			Method method = ReflectionUtil.getMethodFor(source, methodName, parameters.toArray(), false);
-			if (method != null) {
-				//FIXED : Do not recalculate method when calling execute() - call another execute!
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
-			}
-			else {
-				throw new EolIllegalOperationException(source, methodName, featureCallAst);
-			}
-		}
-	
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
 		if (operation != null && (!operation.isOverridable())){
@@ -154,42 +147,54 @@ public class PointExecutor extends AbstractExecutor{
 		
 		ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
 		
-		if (context.getModule() instanceof IEolLibraryModule && executeHelpers){
-			// Helpers
+		// Execute user-defined operation (if isArrow() == false)
+		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
 			EolOperation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(source, featureCallAst , parameters, context);
 			if (helper != null){
 				return ((IEolLibraryModule) context.getModule()).getOperations().execute(source, helper, featureCallAst, parameters, context);
 			}
 		}
 		
-		// Reflection
-		Method method = null;
-		if (ReflectionUtil.hasMethods(source, featureCallAst.getText())) {
-			// First try with unwrapped parameters
-			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), true);
-			if (method != null) {
-				//FIXED : Do not recalculate method when calling execute() - call another execute!
-				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), true, featureCallAst));
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), true, featureCallAst));
-			}
-			
-			// Then try with wrapped parameters
-			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), false);
-			if (method != null) {
-				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), false, featureCallAst));
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
-			}
+		// Method contributors
+		ObjectMethod objectMethod = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), parameters.toArray(), context);
+		if (objectMethod != null) {
+			return wrap(ReflectionUtil.executeMethod(objectMethod.getObject(), objectMethod.getMethod(), parameters.toArray(), featureCallAst));
 		}
-		
-		// Operations
-		// operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
+
+		// Execute user-defined operation (if isArrow() == true)
 		if (operation != null){
 			return operation.execute(source, featureCallAst, context);
 		}
-		
+
 		throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst);
 		
 	}
 	
+	public Object wrap(Object o) {
+		if (o instanceof Iterator) {
+			List list = new EolSequence();
+			Iterator it = (Iterator) o;
+			while (it.hasNext()) {
+				list.add(it.next());
+			}
+			return list;
+		}
+		else if (o instanceof Object[]) {
+			List list = new EolSequence();
+			for (Object item : (Object[]) o) {
+				list.add(item);
+			}
+			return list;
+		}
+		else if ((o instanceof Iterable) && !(o instanceof Collection)) {
+			List list = new EolSequence();
+			for (Object item : (Iterable) o) {
+				list.add(item);
+			}
+			return list;			
+		}
+		else 
+			return o;
+	}
 	
 }

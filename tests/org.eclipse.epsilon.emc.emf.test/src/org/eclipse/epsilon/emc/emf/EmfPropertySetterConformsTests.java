@@ -22,15 +22,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolString;
 import org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder;
 import org.eclipse.epsilon.test.util.builders.emf.EClassBuilder;
 import org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder;
@@ -57,7 +55,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 		
-		assertTrue(checkConformance(feature, new EolString("foo")));
+		assertTrue(checkConformance(feature, "foo"));
 	}
 	
 	@Test
@@ -68,7 +66,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 		
-		assertTrue(checkConformance(feature, (new EolString("foo"))));
+		assertTrue(checkConformance(feature, ("foo")));
 	}
 	
 	@Test
@@ -79,7 +77,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEInt())
 		                                   .build();
 		
-		assertFalse(checkConformance(feature, new EolString("foo")));
+		assertFalse(checkConformance(feature, "foo"));
 	}
 	
 	
@@ -134,7 +132,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertTrue(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertTrue(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 	
 	@Test
@@ -145,7 +143,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertTrue(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertTrue(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 	
 	@Test
@@ -156,7 +154,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertTrue(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertTrue(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 	
 	@Test
@@ -167,7 +165,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertTrue(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo")))));
+		assertTrue(checkConformance(feature, Arrays.asList("foo")));
 	}
 	
 	@Test
@@ -178,7 +176,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertTrue(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertTrue(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 		
 	@Test
@@ -189,7 +187,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 		
-		assertFalse(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertFalse(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 	
 	@Test
@@ -200,7 +198,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertFalse(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar"), new EolString("baz")))));
+		assertFalse(checkConformance(feature, Arrays.asList("foo", "bar", "baz")));
 	}
 	
 	@Test
@@ -211,7 +209,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 
-		assertFalse(checkConformance(feature, new EolSequence()));
+		assertFalse(checkConformance(feature, Collections.EMPTY_LIST));
 	}
 	
 	@Test
@@ -222,7 +220,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEInt())
 		                                   .build();
 
-		assertFalse(checkConformance(feature, new EolSequence(Arrays.asList(new EolString("foo"), new EolString("bar")))));
+		assertFalse(checkConformance(feature, Arrays.asList("foo", "bar")));
 	}
 	
 	@Test
@@ -233,7 +231,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEInt())
 		                                   .build();
 
-		assertFalse(checkConformance(feature, new EolSequence(Arrays.asList(new EolInteger(15), new EolString("fourty two"), new EolInteger(2)))));
+		assertFalse(checkConformance(feature, Arrays.asList(15, "fourty two", 2)));
 	}
 	
 	@Test
@@ -247,7 +245,7 @@ public class EmfPropertySetterConformsTests {
 		                                   	.references(0, MANY, referenced)
 		                                   .build();
 
-		assertFalse(checkConformance(feature, new EolSequence(Arrays.asList((referenced), instantiateClass(wrongType), instantiateClass(referenced)))));
+		assertFalse(checkConformance(feature, Arrays.asList((referenced), instantiateClass(wrongType), instantiateClass(referenced))));
 	}
 	
 	
@@ -255,13 +253,13 @@ public class EmfPropertySetterConformsTests {
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalObject() throws EolIllegalPropertyException {
-		createSetterFor("foo", "names").conforms(new EolString("foo"));
+		createSetterFor("foo", "names").conforms("foo");
 	}
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalProperty() throws EolIllegalPropertyException {		
 		final EObject objectWithNoSlots = instantiateClass();
-		createSetterFor(objectWithNoSlots, "names").conforms(new EolString("foo"));
+		createSetterFor(objectWithNoSlots, "names").conforms("foo");
 	}
 	
 	

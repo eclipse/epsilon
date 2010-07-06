@@ -10,10 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.AssignExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public class EquivalentAssignExecutor extends AssignExecutor{
@@ -24,8 +25,8 @@ public class EquivalentAssignExecutor extends AssignExecutor{
 	@Override
 	public Object getRhsEquivalent(Object source, Object value, IEolContext context_) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
-		if (value instanceof EolCollection){
-			return context.getTransformationStrategy().getEquivalent(((EolCollection) value).getStorage(), context, null);
+		if (value instanceof Collection){
+			return context.getTransformationStrategy().getEquivalent(((Collection) value), context, null);
 		}
 		else {
 			return context.getTransformationStrategy().getEquivalent(value,context, null);

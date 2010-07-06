@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.emf.common.util.Enumerator;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 class ModelValueWrapper {
 
@@ -37,8 +36,8 @@ class ModelValueWrapper {
 		} else if (model.isModelElement(value)) {
 			return wrapModelElement(value);
 		
-		} else if(value instanceof EolCollection) {
-			return new CollectionOfModelValues(model, wrapValues((EolCollection)value));  
+		} else if(value instanceof Collection) {
+			return new CollectionOfModelValues(model, wrapValues((Collection)value));  
 		
 		} else {
 			return new AttributeValue(model, value);
@@ -52,10 +51,10 @@ class ModelValueWrapper {
 		return new ModelElement(model, new ModelType(model, model.getTypeNameOf(object)), object);
 	}
 	
-	private Collection<ModelValue<?>> wrapValues(EolCollection underlyingModelObjects) {
+	private Collection<ModelValue<?>> wrapValues(Collection underlyingModelObjects) {
 		final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
 		
-		for (Object underlyingModelObject : underlyingModelObjects.getStorage()) {
+		for (Object underlyingModelObject : underlyingModelObjects) {
 			modelValues.add(model.wrap(underlyingModelObject));
 		}
 		

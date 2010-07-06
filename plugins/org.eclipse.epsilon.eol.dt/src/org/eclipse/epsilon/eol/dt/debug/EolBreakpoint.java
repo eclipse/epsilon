@@ -33,7 +33,6 @@ public class EolBreakpoint extends LineBreakpoint {
 			}
 		};
 		run(getMarkerRule(resource), runnable);
-		System.err.println("Created breakpoint");
 	}
 	
 	public String getModelIdentifier() {

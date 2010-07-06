@@ -11,17 +11,16 @@
 package org.eclipse.epsilon.eml.strategy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.MergeRule;
 import org.eclipse.epsilon.eml.MergeRules;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 
@@ -47,7 +46,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		transformModels(context);
 	}
 
-	public EolCollection getEquivalents(Object source, IEolContext context,
+	public Collection getEquivalents(Object source, IEolContext context,
 			List<String> rules) throws EolRuntimeException {
 		
 		if (!getExcluded().contains(source)) {
@@ -60,27 +59,27 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 
 	
 	//TODO : Implement this
-	private EolCollection merge(Object source, IEolContext context_,
+	private Collection merge(Object source, IEolContext context_,
 			List<String> rules) throws EolRuntimeException {
 		
 		List<Match> matches = context.getMatchTrace().getMatches(source);
 		
-		EolSequence targets = new EolSequence();
+		List targets = CollectionUtil.createDefaultList();
 		
 		for (Match match : matches) {
 			for (INamedRule rule : context.getModule().getMergeRules().getRulesFor(match, context)) {
 				MergeRule mergeRule = (MergeRule) rule;
 				if (rules == null || rules.contains(rule.getName())) {
 					
-					EolCollection merged = mergeRule.merge(match, context);
+					Collection merged = mergeRule.merge(match, context);
 					
 					if (!mergeRule.isPrimary(context)) {
 						targets.addAll(merged);
 					}
 					else {
 						int i = 0;
-						for (Object target : merged.getStorage()) {
-							targets.add(new EolInteger(i), target);
+						for (Object target : merged) {
+							targets.add(i, target);
 							i++;
 						}
 					}

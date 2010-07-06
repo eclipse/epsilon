@@ -16,8 +16,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
-
 
 public class Variable {
 	
@@ -67,7 +65,7 @@ public class Variable {
 	}
 	
 	public Object getValue(){
-		return EolTypeWrapper.getInstance().wrap(value);
+		return value;
 	}
 	
 	public void setValue(Object newValue, IEolContext context) throws EolRuntimeException {

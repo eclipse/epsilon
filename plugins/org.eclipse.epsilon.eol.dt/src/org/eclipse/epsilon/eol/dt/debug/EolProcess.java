@@ -50,7 +50,6 @@ public class EolProcess implements IProcess {
 	}
 
 	public Object getAdapter(Class adapter) {
-		System.err.println("Asking eol process for adapter " + adapter);
 		return null;
 	}
 

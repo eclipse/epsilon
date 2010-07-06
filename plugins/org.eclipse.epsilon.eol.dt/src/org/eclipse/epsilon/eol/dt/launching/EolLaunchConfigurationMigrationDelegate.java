@@ -19,6 +19,7 @@ import org.eclipse.debug.core.ILaunchConfigurationMigrationDelegate;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.ReflectionUtil;
 
 public class EolLaunchConfigurationMigrationDelegate implements
@@ -27,54 +28,29 @@ public class EolLaunchConfigurationMigrationDelegate implements
 	public boolean isCandidate(ILaunchConfiguration candidate)
 			throws CoreException {
 		
-		//System.err.println(candidate.getType().getName());
-		
-		//ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-		
-		//LaunchConfigurationInfo lci = (LaunchConfigurationInfo) ReflectionUtil.invokeMethodSafe(candidate, "getInfo", new ArrayList<Object>());
-		
-		
-		//for (Object key : candidate.getAttributes().keySet()) {
-		//	System.err.println(key + " -> " + candidate.getAttributes().get(key));
-		//}
-		
 		return true;
 	}
 
 	public void migrate(ILaunchConfiguration candidate) throws CoreException {
-		// TODO Auto-generated method stub
-		
 		ILaunchConfigurationWorkingCopy wc = candidate.getWorkingCopy();
-		
-		//LaunchConfigurationWorkingCopy x;
-		
-		
-		
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-		
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationDelegate");
-		
-		//System.err.println(type);
 		
 		// Info is LaunchConfigurationInfo
 		Object info = null;
 		try {
 			info = ReflectionUtil.invokeMethod(wc, "getInfo", new ArrayList<Object>());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LogUtil.log(e1);
 		}
 		
 		ArrayList<Object> parameters = new ArrayList<Object>();
 		parameters.add(type);
 		try {
 			ReflectionUtil.invokeMethod(info, "setType", parameters);
-			System.err.println(
-					ReflectionUtil.invokeMethod(info, "getType", new ArrayList<Object>())
-			);
+			ReflectionUtil.invokeMethod(info, "getType", new ArrayList<Object>());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogUtil.log(e);
 		}
 		
 		wc.doSave();

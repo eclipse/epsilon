@@ -16,6 +16,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(EUnitRunner.class)
 public class CollectionsTests {
-	
+		
 }
  

@@ -16,8 +16,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
-
 
 public class NewExecutor extends AbstractExecutor {
 
@@ -36,7 +34,7 @@ public class NewExecutor extends AbstractExecutor {
 		}
 		else {
 			List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
-			return ((EolType) result).createInstance(EolTypeWrapper.getInstance().unwrapAll(parameters));
+			return ((EolType) result).createInstance(parameters);
 		}
 		
 	}

@@ -143,7 +143,7 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 			model.createInstance(rootClass);
 		}
 		catch (Exception ex){
-			ex.printStackTrace(System.err);
+			LogUtil.log(ex);
 		}
 		
 		model.store();

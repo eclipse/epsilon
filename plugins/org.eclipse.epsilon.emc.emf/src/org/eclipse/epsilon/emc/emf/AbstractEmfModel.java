@@ -141,14 +141,6 @@ public abstract class AbstractEmfModel extends Model {
 		return EmfUtil.getEStructuralFeature(instance.eClass(), property) != null;
 	}
 	
-	protected void printPackages() {
-		System.err.println("---" + this.name + "---");
-		for(Object object : getPackageRegistry().values()) {
-			System.err.println(object);
-		}
-		System.err.println("---------------");
-	}
-	
 	//TODO : Throw the exception if size == 0 check the allContents for the class
 	private Map<EClass, List<EObject>> allOfTypeCache = new HashMap<EClass, List<EObject>>();
 	public Collection<EObject> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
@@ -516,12 +508,6 @@ public abstract class AbstractEmfModel extends Model {
 			return !classForName(type).isAbstract();
 		} catch (EolModelElementTypeNotFoundException e) {
 			return false;
-		}
-	}
-	
-	public void diagnostics() {
-		for (Object p : getPackageRegistry().values()) {
-			System.err.println(((EPackage)p).getNsURI());
 		}
 	}
 	

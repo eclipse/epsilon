@@ -35,7 +35,6 @@ public class StringUtil {
 	}
 	
 	public static Object print(Object o) {
-		System.err.println(toString(o));
 		return o;
 	}
 	

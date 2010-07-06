@@ -17,8 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-
 
 public class AssertOperation extends AbstractSimpleOperation {
 
@@ -44,8 +42,8 @@ public class AssertOperation extends AbstractSimpleOperation {
 	}
 	
 	public boolean conditionSatisfied(Object condition) {
-		if (condition instanceof EolBoolean) {
-			if (((EolBoolean) condition).booleanValue()) {return true;}
+		if (condition instanceof Boolean) {
+			if (((Boolean) condition).booleanValue()) {return true;}
 		}
 		return false;
 	}

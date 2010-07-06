@@ -30,7 +30,6 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.EolEvaluator;
 
 public class ModelWithEolAssertions {
@@ -85,7 +84,7 @@ public class ModelWithEolAssertions {
 	}
 	
 	public void assertEmpty() {
-		boolean modelIsEmpty = ((EolBoolean)evaluator.evaluate(model.getName() + ".allInstances.isEmpty()")).booleanValue();
+		boolean modelIsEmpty = ((Boolean)evaluator.evaluate(model.getName() + ".allInstances.isEmpty()")).booleanValue();
 		
 		org.junit.Assert.assertTrue(modelIsEmpty);
 	}
@@ -148,11 +147,11 @@ public class ModelWithEolAssertions {
 	public void assertTrue(String message, String eolStatement) {
 		final Object result = evaluator.evaluate(eolStatement);
 		
-		if (result instanceof EolBoolean)
+		if (result instanceof Boolean)
 			if (message == null)
-				org.junit.Assert.assertTrue(((EolBoolean)result).booleanValue());
+				org.junit.Assert.assertTrue(((Boolean)result).booleanValue());
 			else
-				org.junit.Assert.assertTrue(message, ((EolBoolean)result).booleanValue());
+				org.junit.Assert.assertTrue(message, ((Boolean)result).booleanValue());
 		else
 			throw new IllegalArgumentException("Could not determine a boolean value for '" + eolStatement + "'");
 	}

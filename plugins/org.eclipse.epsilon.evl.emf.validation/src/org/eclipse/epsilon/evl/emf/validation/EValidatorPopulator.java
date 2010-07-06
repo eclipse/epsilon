@@ -29,15 +29,6 @@ public class EValidatorPopulator implements IStartup {
 	
 	public void earlyStartup() {
 		
-		//EcoreValidator vv;
-		//for (Object key : EPackage.Registry.INSTANCE.keySet()) {
-		//	System.err.println(key + " -> " + EPackage.Registry.INSTANCE.get(key));
-		//}
-		
-		//for (Object key : EValidator.Registry.INSTANCE.keySet()) {
-		//	System.err.println(key + " -> " + EValidator.Registry.INSTANCE.get(key));
-		//}
-		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extenstionPoint = registry.getExtensionPoint(extensionPoint);
 		

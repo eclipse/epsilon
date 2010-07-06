@@ -20,8 +20,6 @@ import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
-
 
 // TODO: Is it worth making collections strongly typed?
 public class VarStatementExecutor extends AbstractExecutor{
@@ -56,7 +54,7 @@ public class VarStatementExecutor extends AbstractExecutor{
 			
 			if (parametersAst != null) {
 				List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
-				newInstance = variableType.createInstance(EolTypeWrapper.getInstance().unwrapAll(parameters));
+				newInstance = variableType.createInstance(parameters);
 			}
 			else {
 				newInstance = variableType.createInstance();

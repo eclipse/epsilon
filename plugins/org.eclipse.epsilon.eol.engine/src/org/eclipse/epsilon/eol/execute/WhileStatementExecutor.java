@@ -18,8 +18,6 @@ import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolInteger;
 
 
 // TODO : Fix the scope of while statements...
@@ -39,15 +37,15 @@ public class WhileStatementExecutor extends AbstractExecutor{
 			loop ++;
 			Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
 			
-			if (!(condition instanceof EolBoolean)) {
+			if (!(condition instanceof Boolean)) {
 				context.getFrameStack().leave(ast);
 				throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
 			}
 			
 			Object result = null;
 			
-			if (((EolBoolean) condition).booleanValue()){
-				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount",new EolInteger(loop)));
+			if (((Boolean) condition).booleanValue()){
+				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
 				
 				
 				try {

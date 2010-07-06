@@ -24,10 +24,8 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.parse.AstViewer;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolString;
 
 public class Select2Operation extends AbstractOperation {
 	
@@ -50,8 +48,6 @@ public class Select2Operation extends AbstractOperation {
 		numbers2.add(1);
 		numbers2.add(2);
 		numbers2.add(3);
-		
-		//System.err.println(combinations(numbers));
 		
 		littleDemo();
 	}
@@ -109,7 +105,7 @@ public class Select2Operation extends AbstractOperation {
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
 				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
-				if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
+				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
 					result.add(listItem);
 					if (isReturnOnFirstMatch()) {
 						scope.leave(ast);
@@ -183,7 +179,7 @@ public class Select2Operation extends AbstractOperation {
 	public static ArrayList<Object> genSimpleCollection(int size, String prefix) {
 		ArrayList<Object> arr = new ArrayList<Object>();
 		for(int i = 0; i < size; i++) {
-			arr.add(new EolString(prefix + i));
+			arr.add(prefix + i);
 		}
 		return arr;
 	}

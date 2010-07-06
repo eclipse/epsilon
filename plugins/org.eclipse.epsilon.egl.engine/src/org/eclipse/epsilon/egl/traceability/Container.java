@@ -43,7 +43,6 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	@SuppressWarnings("unchecked")
 	public void add(E child) {
 		if (child.equals(this)) {
-			System.err.println("OH NOES");
 			try {
 				throw new IllegalArgumentException();
 			} catch(IllegalArgumentException ex) {

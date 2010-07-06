@@ -17,9 +17,7 @@ import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-
+import org.eclipse.epsilon.eol.types.EolObjectComparator;
 
 public class AssertNotEqualsOperation extends AbstractSimpleOperation {
 
@@ -29,7 +27,7 @@ public class AssertNotEqualsOperation extends AbstractSimpleOperation {
 		
 		if (!context.isAssertionsEnabled()) {return null;}
 		
-		if (!parameters.get(0).equals(parameters.get(1))) return true;
+		if (!EolObjectComparator.equals(parameters.get(0), parameters.get(1))) return true;
 		
 		String p0 = context.getPrettyPrinterManager().toString(parameters.get(0));
 		String p1 = context.getPrettyPrinterManager().toString(parameters.get(1));

@@ -10,11 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.execute.operations;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 
 public class DoMatchOperation extends MatchesOperation{
@@ -26,11 +28,11 @@ public class DoMatchOperation extends MatchesOperation{
 		Object parameter = context.getExecutorFactory().executeAST(parameterAst, context);
 		if (obj == null && parameter == null) return null;
 		
-		EolCollection leftCol = EolCollection.asCollection(obj).flatten();
-		EolCollection rightCol = EolCollection.asCollection(parameter).flatten();
+		Collection leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(obj));
+		Collection rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
-		for (Object left : leftCol.getStorage()) {
-			for (Object right : rightCol.getStorage()) {
+		for (Object left : leftCol) {
+			for (Object right : rightCol) {
 				matchInstances(left, right, context, true);
 			}
 		}

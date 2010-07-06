@@ -125,7 +125,7 @@ public class Profiler {
 	
 	public void print() {
 		for (String targetName : getTargetNames()) {
-			System.err.println(targetName + " -> " + getTotalTime(targetName, true) + "/" + getExecutionCount(targetName));
+			System.out.println(targetName + " -> " + getTotalTime(targetName, true) + "/" + getExecutionCount(targetName));
 		}
 	}
 	
@@ -192,24 +192,4 @@ public class Profiler {
 		return root;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		Profiler profiler = new Profiler();
-		
-		ProfilerTarget t1 = profiler.start("t1");
-		
-		Thread.sleep(500);
-		
-		profiler.start("t2");
-		
-		Thread.sleep(600);
-		
-		profiler.stop();
-		
-		profiler.stop();
-		
-		System.err.println(t1.getWorked(true));
-		
-		System.err.println(t1.getWorked(false));
-	}
 }

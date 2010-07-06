@@ -77,7 +77,7 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 			if (ref.isContainer() || ref.isContainment()) continue;
 			Object value = eObject.eGet(ref);
 			
-			Collection values = CollectionUtil.toCollection(value);
+			Collection values = CollectionUtil.asCollection(value);
 			
 			Iterator vit = values.iterator();
 			
@@ -97,12 +97,8 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 	
 	protected void selectEObjects(Object editor, List ids) {
 		
-		System.err.println(ids.size());
-		
 		if (!(editor instanceof IEditingDomainProvider && editor instanceof IViewerProvider)) return;
 
-		System.err.println("passed");
-		
 		if (editor == this.editor) return;
 		
 		TreeViewer viewer = (TreeViewer) ((IViewerProvider)editor).getViewer();
@@ -122,7 +118,6 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 			}
 		}
 		
-		System.err.println(toSelect.size());
 		viewer.setSelection(new StructuredSelection(toSelect));
 	}
 	

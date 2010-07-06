@@ -15,7 +15,6 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 
 
 public class IfStatementExecutor extends AbstractExecutor{
@@ -36,11 +35,11 @@ public class IfStatementExecutor extends AbstractExecutor{
 		
 		Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
 		
-		if (!(condition instanceof EolBoolean)) throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
+		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
 		
 		Object result = null;
 		
-		if (((EolBoolean) condition).booleanValue()){
+		if (((Boolean) condition).booleanValue()){
 			result = context.getExecutorFactory().executeAST(thenAst, context);
 		}
 		else if (elseAst != null){

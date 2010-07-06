@@ -20,10 +20,10 @@ public class EtlModuleWorkbench {
 		EtlModule module = new EtlModule();
 		module.parse(new java.io.File(EtlModuleWorkbench.class.getResource("test.etl").toURI()));
 		
-		System.err.println(module.getTransformRules().size());
+		System.out.println(module.getTransformRules().size());
 		
 		for (ParseProblem p : module.getParseProblems()) {
-			System.err.println(p.getReason());
+			System.out.println(p.getReason());
 		}
 		
 	}

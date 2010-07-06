@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eml.execute.operations;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;
@@ -20,7 +21,6 @@ import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 
 public class EquivalentsOperation extends AbstractSimpleOperation {
@@ -42,9 +42,8 @@ public class EquivalentsOperation extends AbstractSimpleOperation {
 		IEmlContext emlContext = (IEmlContext) context;
 		IMergingStrategy strategy = emlContext.getMergingStrategy();
 		
-		if (source instanceof EolCollection){
-			EolCollection eolCollection = (EolCollection) source;
-			return strategy.getEquivalents(eolCollection.getStorage(), emlContext, rules);
+		if (source instanceof Collection){
+			return strategy.getEquivalents((Collection) source, emlContext, rules);
 		} else {
 			return strategy.getEquivalents(source, emlContext, rules);
 		}

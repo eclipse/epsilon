@@ -24,18 +24,13 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 
 	@Override
 	public boolean canResolve(IMarker marker) {
-		//System.err.println("canresolve");
 		return !super.canResolve(marker);
 	}
 
 	@Override
 	public String getAbsoluteElementId(IMarker marker) {
-		//System.err.println("Editing domain :" + getEditingDomain(marker));
-		
 		EObject resolved = resolve(marker);
 		return "platform:/resource" + resolved.eResource().getURI().toPlatformString(true) + "#" + resolved.eResource().getURIFragment(resolved);
-		//resource.getEObject(uriFragment);
-		//return "nothing";
 	}
 	
 	public HashMap<IEditorPart, EditingDomain> domains = new HashMap<IEditorPart, EditingDomain>();

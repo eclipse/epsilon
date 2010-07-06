@@ -117,7 +117,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 					  
 		IEolExecutableModule builtin = createBuiltinModule();
 		IEolExecutableModule customization = createCustomizationModule();
-		System.err.println("getBuiltinTransformation() -> " + getBuiltinTransformation()); //REMOVE_ME
+
 		if (getBuiltinTransformation() == null) {
 			new Exception().printStackTrace();
 		}

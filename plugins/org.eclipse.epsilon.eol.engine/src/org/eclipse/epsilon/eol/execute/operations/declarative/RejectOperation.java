@@ -10,12 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
 
 
 public class RejectOperation extends AbstractOperation{
@@ -25,10 +27,11 @@ public class RejectOperation extends AbstractOperation{
 		
 		SelectOperation selectOperation = new SelectOperation();
 		
-		EolCollection selected = (EolCollection) selectOperation.execute(obj, ast, context);		
-		EolCollection source = EolSequence.asSequence(obj);
+		Collection selected = (Collection) selectOperation.execute(obj, ast, context);		
+		Collection source = CollectionUtil.asCollection(obj);
 		
-		return source.excludingAll(selected);
+		return new CollectionOperationContributor(source).excludingAll(selected);
+		
 	}
 
 }

@@ -10,14 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolNotAModelElementException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
-
 
 public class DeleteStatementExecutor extends AbstractExecutor {
 
@@ -32,16 +31,9 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 			target = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
 		
-		EolCollection col = null;
+		Collection col = CollectionUtil.asCollection(target);
 		
-		if (target instanceof EolCollection) {
-			col = (EolCollection) target;
-		}
-		else {
-			col = EolSequence.asSequence(target);
-		}
-		
-		for (Object instance : col.clone().getStorage()) {
+		for (Object instance : CollectionUtil.clone(col)) {
 			//if (context.getModelRepository().isModelElement(instance)) {
 			IModel model = context.getModelRepository().getOwningModel(instance);
 				

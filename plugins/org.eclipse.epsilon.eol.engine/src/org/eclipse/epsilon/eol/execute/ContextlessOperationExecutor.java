@@ -24,7 +24,6 @@ public class ContextlessOperationExecutor extends PointExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		//throw new EolRuntimeException("Context-less operations not implemented yet");
 		return execute(EolNoType.NoInstance, ast, context, false);
 	}
 

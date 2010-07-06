@@ -15,12 +15,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
@@ -64,9 +61,9 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		return !getExcluded().contains(source);
 	}
 	
-	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
+	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
-		EolSequence targets = new EolSequence();
+		List targets = CollectionUtil.createDefaultList();
 		
 		//TODO : Change this to be less restrictive...
 		if (!canTransform(source)) return targets;
@@ -75,15 +72,15 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 			TransformRule transformRule = (TransformRule) rule;
 			if (rules == null || rules.contains(rule.getName())) {
 				
-				EolCollection transformed = transformRule.transform(source, context);
+				Collection transformed = transformRule.transform(source, context);
 				
 				if (!transformRule.isPrimary()) {
 					targets.addAll(transformed);
 				}
 				else {
 					int i = 0;
-					for (Object target : transformed.getStorage()) {
-						targets.add(new EolInteger(i), target);
+					for (Object target : transformed) {
+						targets.add(i, target);
 						i++;
 					}
 				}
@@ -92,45 +89,9 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		
 		return targets;
 		
-		//return context.getTransformationTrace().getTransformations(source).getTargets();
-		
-		/*
-		Transformations transformations = context.getTransformationTrace().getTransformations(source);
-		EolCollection targets = new EolBag();
-		
-
-		if (!transformations.isEmpty()){
-			targets = transformations.getTargets();
-		}
-		else {
-			TransformRules transformRules = context.getModule().getTransformRules().getRulesFor(source, context);
-			//if (transformRules.isEmpty()){
-			//	transformRules = context.getModule().getTransformRules().getRulesFor(source, context, false);
-			//}
-			if (!transformRules.isEmpty()){
-				Iterator it = transformRules.iterator();
-				while (it.hasNext()){
-					TransformRule transformRule = (TransformRule) it.next();
-					targets.addAll(transformRule.transform(source, context));
-				}
-			} else {
-				//int b = context.getModule().getTargetModel().allInstances().size();
-				Object equivalent = autoTransform(source, context);
-				targets.add(equivalent);
-				if (equivalent == null) {
-					context.getTransformationTrace().add(source, targets, null);
-				}
-				//int a = context.getModule().getTargetModel().allInstances().size();
-				//if (b>a) {System.err.println(b + " : " + a);}
-			}
-			
-		}
-		*/
-		
-		//return targets;
 	}
 	
-	public EolCollection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		// First transform the source
 		return transform(source, context, rules);
@@ -142,72 +103,33 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
-		EolCollection equivalents = getEquivalents(source, context, rules);
+		Collection equivalents = getEquivalents(source, context, rules);
 		
-		if (!equivalents.isEmpty().booleanValue()) {
-			return equivalents.at(new EolInteger(0));
+		if (!equivalents.isEmpty()) {
+			return CollectionUtil.getFirst(equivalents);
 		}
 		else {
 			return null;
 		}
-		
-		/*
-		Transformations transformations = context.getTransformationTrace().getTransformations(source);
-		
-		for (Transformation transformation : transformations) {
-			if (transformation.getRule().isPrimary(context)) {
-				if (rules == null || rules.contains(transformation.getRule().getName())) {
-					return transformation.getTargets().first();
-				}
-			}
-		}
-		
-		if (!transformations.isEmpty()) {
-			return transformations.get(0).getTargets().at(new EolInteger(0));
-		}
-		*/
-		
-		/*
-		EolCollection equivalents = getEquivalents(source, context);
-		if (equivalents.getStorage().isEmpty()){
-			return null;
-		}
-		else {
-			return equivalents.first();
-		}*/
+	
 	}
 	
-	public EolCollection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		return getEquivalents(collection, context, rules).flatten();
+		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
 	}
 	
-	public EolCollection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		EolCollection equivalents = new EolBag();
-		Iterator it = collection.iterator();
-		while (it.hasNext()){
-			Object equivalent = getEquivalents(it.next(), context, rules);
-			if (equivalent != null && equivalents.includes(equivalent).not().booleanValue()){
+		Collection<Object> equivalents = CollectionUtil.createDefaultList();
+		for (Object item : collection) {
+			Object equivalent = getEquivalents(item, context, rules);
+			if (equivalent != null && !equivalents.contains(equivalent)){
 				equivalents.add(equivalent);
 			}
 		}
 		return equivalents;
 	}
-	
-	/*
-	public void transformModel2(IEtlContext context) throws EolRuntimeException {
-		Iterator it = sourceModel.allContents().iterator();
-		TransformationTrace trace = context.getTransformationTrace();
-		while (it.hasNext()){
-			Object sourceInstance = it.next();
-			if (trace.getTransformations(sourceInstance).size() == 0){
-				//autoTransform(sourceInstance, context);
-				transform(sourceInstance,context);
-			}
-		}		
-	}
-	*/
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
@@ -217,11 +139,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 			}
 		}
 	}
-	
-	//public String getId(){
-	//	return this.getClass().getCanonicalName();
-	//}
-	
+
 	public void setEquivalentProvider(IEquivalentProvider equivalentProvider) {
 		this.equivalentProvider = equivalentProvider;
 	}

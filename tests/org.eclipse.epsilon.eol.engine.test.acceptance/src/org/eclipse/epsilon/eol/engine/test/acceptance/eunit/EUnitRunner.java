@@ -27,6 +27,8 @@ import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResult;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolSet;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
@@ -43,7 +45,7 @@ public class EUnitRunner extends Runner {
 	public EUnitRunner(Class<?> clazz) {
 		this.clazz = clazz;
 	}
-	
+		
 	@Override
 	public Description getDescription() {
 		

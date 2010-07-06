@@ -29,47 +29,17 @@ public class EmfWorkbench {
 	
 	public static void main(String[] args) throws Exception{
 		
-		System.err.println(EcorePackage.eNS_URI);
-		
-		if (true) return;
-		
-		//EmfWorkbench wb = new EmfWorkbench();
-		//wb.start();
-		
-		//Map etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
-		//if(!etfm.containsKey("*")) {
-		//	etfm.put("*", new XMIResourceFactoryImpl());
-		//}
-		
-		//System.out.println(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2002/Ecore"));
-		
 		String basePath = "E:\\Projects\\Eclipse\\3.3.e\\workspace\\org.eclipse.epsilon.eol.cs2as\\src\\org\\epsilon\\eol\\cs2as\\";
 		
 		
 		EmfModel m1 = new EmfModel();
-		
-		//StringProperties sp = new StringProperties();
-		//sp.put(EmfModel.PROPERTY_MODEL_FILE, basePath + "VM.model");
-		//sp.put(EmfModel.PROPERTY_METAMODEL_FILE, basePath + "EOL.ecore");
-		//sp.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "true");
-		//sp.put(EmfModel.PROPERTY_METAMODEL_URI, "EOL");
-		///sp.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
-		//sp.put(EmfModel.PROPERTY_EXPAND, "true");
-		//sp.put(EmfModel.PROPERTY_READONLOAD, "true");
-		//sp.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
-		
-		//model.load(sp, null);
-		
+			
 		m1.setModelFile(basePath + "VM.model");
 		m1.setMetamodelFile(basePath + "EOL.ecore");
 		m1.setMetamodelFileBased(true);
 		m1.setReadOnLoad(true);
 		
 		m1.load();
-		
-
-		System.err.println(m1.getAllOfKind("Type").size());
-		
 		
 		EmfModel m2 = new EmfModel();
 		
@@ -80,8 +50,6 @@ public class EmfWorkbench {
 		
 		m2.load();
 		
-		System.err.println(m2.getAllOfType("EClass").size());
-		
 	}
 	
 	protected static String relative2absolute(String relative) {
@@ -89,24 +57,8 @@ public class EmfWorkbench {
 	}
 	
 	public void start() throws Exception{
-		//System.out.println(getMetamodel("resources/ATL-0.2.ecore").getContents());
-		/*
-		Resource model = getModel("resources/sample-ATL-0.2.ecore", "resources/ATL-0.2.ecore");
-		Iterator it = model.getAllContents();
-		while (it.hasNext()){
-			System.out.println(it.next());
-		}
-		*/
-		
 		EmfModel model = new EmfModel();
-		//model.setMetamodel(false);
-		//model.setModelFile("resources/sample-ATL-0.2.ecore");
-		//model.setMetamodelFile("resources/ATL-0.2.ecore");
-		model.load();
-		
-		//System.out.println(model.getAllOfType("Element").size());
-		//System.out.println(model.getAllInstances().size());
-		
+		model.load();		
 	}
 	
 	public Resource getModel(String modelFile, String metamodelFile){

@@ -29,7 +29,6 @@ public class EolDebugElement extends DebugElement {
 	public void fireEvent(DebugEvent event) {
 		// TODO Auto-generated method stub
 		super.fireEvent(event);
-		System.err.println(event);
 	}
 }
  

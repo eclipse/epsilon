@@ -10,20 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.trace;
 
-import org.eclipse.epsilon.eol.types.EolCollection;
+import java.util.Collection;
+
 import org.eclipse.epsilon.etl.TransformRule;
 
 public class Transformation {
 	
 	protected Object source;
-	protected EolCollection targets;
+	protected Collection targets;
 	protected TransformRule rule;
 	
 	public Transformation(){
 		
 	}
 	
-	public Transformation(Object source, EolCollection targets) {
+	public Transformation(Object source, Collection targets) {
 		super();
 		this.source = source;
 		this.targets = targets;
@@ -37,11 +38,11 @@ public class Transformation {
 		this.source = source;
 	}
 	
-	public EolCollection getTargets() {
+	public Collection getTargets() {
 		return targets;
 	}
 
-	public void setTargets(EolCollection targets) {
+	public void setTargets(Collection targets) {
 		this.targets = targets;
 	}
 

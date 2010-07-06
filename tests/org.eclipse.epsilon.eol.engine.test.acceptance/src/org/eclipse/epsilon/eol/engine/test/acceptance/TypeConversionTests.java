@@ -9,18 +9,13 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.eol.decorators;
+package org.eclipse.epsilon.eol.engine.test.acceptance;
 
-public class StringDecorator implements ObjectDecorator {
-	
-	public boolean decorates(Object o) {
-		return o instanceof String;
-	}
+import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.EUnitRunner;
+import org.junit.runner.RunWith;
 
-	public void setDecoratedObject(Object o) {
-		// TODO Auto-generated method stub
-		
-	}
+@RunWith(EUnitRunner.class)
+public class TypeConversionTests {
 	
 }
  

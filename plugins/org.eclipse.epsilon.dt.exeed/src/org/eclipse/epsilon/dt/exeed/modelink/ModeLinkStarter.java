@@ -143,7 +143,6 @@ public class ModeLinkStarter extends EditorPart {
 								getPosition(el.getAttributeValue("position",
 										"left")));
 						
-						//System.err.println(path + " -> ");
 						
 						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
 						String editorId = null;

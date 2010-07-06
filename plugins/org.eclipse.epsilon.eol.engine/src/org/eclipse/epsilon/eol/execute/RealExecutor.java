@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolReal;
 
 
 public class RealExecutor extends AbstractExecutor{
@@ -34,7 +33,14 @@ public class RealExecutor extends AbstractExecutor{
 			text = ast.getText();
 			doublePrecision = false;			
 		}
-		return new EolReal(text, doublePrecision);
+		
+		if (doublePrecision) {
+			return new Double(text);
+		}
+		else {
+			return new Float(text);
+		}
+		
 	}
 
 }

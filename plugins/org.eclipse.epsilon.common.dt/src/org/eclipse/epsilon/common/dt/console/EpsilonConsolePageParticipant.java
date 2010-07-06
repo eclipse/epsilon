@@ -31,27 +31,7 @@ public class EpsilonConsolePageParticipant implements IConsolePageParticipant {
 	}
 
 	public void init(IPageBookViewPage page, IConsole console) {
-		// TODO Auto-generated method stub
-		//System.err.println(console.getName() + " -> " + page);
-		/*
-		if (console.getName().equalsIgnoreCase("Epsilon")) {
-			IOConsolePage ioConsolePage = (IOConsolePage) page;
-			IToolBarManager toolbarManager = ioConsolePage.getSite().getActionBars().getToolBarManager();
-			
-			for (IContributionItem item : toolbarManager.getItems()) {
-				System.err.println(item.isSeparator());
-			}
-			
-			toolbarManager.add(new Action() {
-
-				@Override
-				public ImageDescriptor getImageDescriptor() {
-					return EpsilonCommonsPlugin.getImageDescriptor("icons/stop.enabled.gif");
-				}
-				
-			});
-		}
-		*/
+		
 	}
 
 	

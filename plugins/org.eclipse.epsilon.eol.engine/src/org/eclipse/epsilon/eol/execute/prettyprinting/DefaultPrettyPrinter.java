@@ -10,10 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.prettyprinting;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.util.StringUtil;
-import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.collectionType_return;
+import org.eclipse.epsilon.eol.types.EolBag;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMap;
 
 public class DefaultPrettyPrinter implements PrettyPrinter{
@@ -30,10 +33,11 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 
 	public String print(Object o) {
 		
-		if (o instanceof EolCollection){
-			String simpleClassName = o.getClass().getSimpleName();
-			String result = simpleClassName.substring(3, simpleClassName.length()) + " {";
-			Iterator li = ((EolCollection) o).iterator();
+		if (o instanceof Collection){
+			
+			Collection c = (Collection) o;
+			String result = EolCollectionType.getTypeName(c) + " {";
+			Iterator li = c.iterator();
 			
 			PrettyPrinter prettyPrinter = null;
 			while (li.hasNext()){

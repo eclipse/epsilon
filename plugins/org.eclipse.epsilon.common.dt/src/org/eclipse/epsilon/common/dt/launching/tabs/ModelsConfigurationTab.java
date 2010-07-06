@@ -250,7 +250,6 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 			if (selection.getFirstElement() == null) return;
 			int index = models.indexOf(selection.getFirstElement());
 			models.add(index, selection.getFirstElement());
-			//System.err.println(selection.getFirstElement());
 			modelsViewer.refresh(true);
 			canSave();
 			updateLaunchConfigurationDialog();

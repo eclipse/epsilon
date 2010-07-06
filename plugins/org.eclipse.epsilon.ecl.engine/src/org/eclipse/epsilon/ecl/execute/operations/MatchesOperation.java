@@ -10,17 +10,16 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.execute.operations;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
-
 
 public class MatchesOperation extends AbstractOperation{
 
@@ -29,12 +28,12 @@ public class MatchesOperation extends AbstractOperation{
 		IEclContext context = (IEclContext) context_;
 		AST parameterAst = ast.getFirstChild().getFirstChild();
 		Object parameter = context.getExecutorFactory().executeAST(parameterAst, context);
-		if (obj == null && parameter == null) return EolBoolean.TRUE;
+		if (obj == null && parameter == null) return true;
 		
-		if (obj instanceof EolCollection && parameter instanceof EolCollection){
+		if (obj instanceof Collection && parameter instanceof Collection){
 			
-			EolCollection leftCol = (EolCollection) obj;
-			EolCollection rightCol = (EolCollection) parameter;
+			Collection leftCol = (Collection) obj;
+			Collection rightCol = (Collection) parameter;
 
 			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
 			
@@ -43,26 +42,26 @@ public class MatchesOperation extends AbstractOperation{
 			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
 			
 			
-			EolCollection leftColFlat = leftCol.flatten();
-			EolCollection rightColFlat = rightCol.flatten();
+			Collection leftColFlat = CollectionUtil.flatten(leftCol);
+			Collection rightColFlat = CollectionUtil.flatten(rightCol);
 			
-			if (!leftColFlat.size().equals(rightColFlat.size())){
-				return EolBoolean.FALSE;
+			if (leftColFlat.size() != rightColFlat.size()){
+				return false;
 			}
 			
 			Iterator lit = leftColFlat.iterator();
 			Iterator rit = rightColFlat.iterator();
 			
-			EolBoolean match = EolBoolean.TRUE;
+			Boolean match = true;
 			
 			while (lit.hasNext()){
-				match = match.and(matchInstances(lit.next(), rit.next(), context, false));
+				match = match && (matchInstances(lit.next(), rit.next(), context, false));
 			}
 			
 			return match;
 		}
-		else if (obj instanceof EolCollection ^ parameter instanceof EolCollection) {
-			return EolBoolean.FALSE;
+		else if (obj instanceof Collection ^ parameter instanceof Collection) {
+			return false;
 		}
 		else {
 			return matchInstances(obj, parameter, context, false);
@@ -70,9 +69,9 @@ public class MatchesOperation extends AbstractOperation{
 		
 	}
 	
-	protected EolBoolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
+	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
 		
 		Match match = context.getModule().match(left,right, forcedMatch);
-		return new EolBoolean(match.isMatching());
+		return match.isMatching();
 	}
 }

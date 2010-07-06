@@ -90,7 +90,6 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 				}
 			}
 			else {
-				System.err.println(superRuleAst);
 				throw new ErlRuleNotFoundException(superRuleAst);
 			}
 		}

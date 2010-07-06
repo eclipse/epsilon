@@ -26,9 +26,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolString;
 import org.eclipse.epsilon.test.util.builders.emf.EClassBuilder;
 import org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder;
 import org.junit.Before;
@@ -51,7 +48,7 @@ public class EmfPropertySetterCoerceTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 		
-		assertEquals(new EolString("foo"), coerce(feature, new EolString("foo")));
+		assertEquals("foo", coerce(feature, "foo"));
 	}
 	
 	@Test
@@ -62,8 +59,8 @@ public class EmfPropertySetterCoerceTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEString())
 		                                   .build();
 		
-		assertEquals(new EolSequence(Arrays.asList(new EolString("foo"))),
-		            coerce(feature, (new EolString("foo"))));
+		assertEquals(Arrays.asList("foo"),
+		            coerce(feature, ("foo")));
 	}
 	
 	@Test
@@ -74,8 +71,8 @@ public class EmfPropertySetterCoerceTests {
 		                                   	.withType(EcorePackage.eINSTANCE.getEInt())
 		                                   .build();
 		
-		assertEquals(new EolSequence(Arrays.asList(new EolInteger(14), new EolInteger(6))),
-		            coerce(feature, new EolSequence(Arrays.asList(new EolInteger(14), new EolInteger(6)))));
+		assertEquals(Arrays.asList(14, 6),
+		            coerce(feature, Arrays.asList(14, 6)));
 	}
 	
 	
@@ -83,13 +80,13 @@ public class EmfPropertySetterCoerceTests {
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalObject() throws EolIllegalPropertyException {
-		createSetterFor("foo", "names").coerce(new EolString("foo"));
+		createSetterFor("foo", "names").coerce("foo");
 	}
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalProperty() throws EolIllegalPropertyException {		
 		final EObject objectWithNoSlots = instantiateClass();
-		createSetterFor(objectWithNoSlots, "names").coerce(new EolString("foo"));
+		createSetterFor(objectWithNoSlots, "names").coerce("foo");
 	}
 
 	

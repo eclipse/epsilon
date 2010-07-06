@@ -62,8 +62,6 @@ public class FrameStack {
 		Frame frame = new Frame(type, entryPoint);
 		frames.add(0, frame);
 		
-		//System.err.println("Depth : " + getDepth());
-		
 		return frame;
 	}
 	

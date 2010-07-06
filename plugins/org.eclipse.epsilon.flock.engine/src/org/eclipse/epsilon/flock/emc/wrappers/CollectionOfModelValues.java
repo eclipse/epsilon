@@ -18,12 +18,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
-class CollectionOfModelValues extends ModelValue<EolCollection> implements Iterable<ModelValue<?>> {
+class CollectionOfModelValues extends ModelValue<Collection> implements Iterable<ModelValue<?>> {
 
 	private final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
 	
@@ -51,8 +50,8 @@ class CollectionOfModelValues extends ModelValue<EolCollection> implements Itera
 	}
 
 	@Override
-	public EolCollection unwrap() {
-		final EolCollection modelObjects = new EolSequence();
+	public Collection unwrap() {
+		final Collection modelObjects = CollectionUtil.createDefaultList();
 		
 		for (ModelValue<?> modelValue : modelValues) {
 			modelObjects.add(modelValue.unwrap());

@@ -10,27 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
-
-//FIXME : Fix this to match the description
-//provided in the documentation
 public class ArrowExecutor extends PointExecutor {
-
+	
 	@Override
-	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		
-		AST objectAst = ast.getFirstChild();
-		AST operationAst = objectAst.getNextSibling();
-		Object object = context.getExecutorFactory().executeAST(objectAst, context);		
-		/*
-		 * return context.getOperationFactory().executeOperation(object, operationAst, context);
-		*/
-		
-		return executeOperation(context, object, operationAst, false);
-		
+	protected boolean isArrow() {
+		return true;
 	}
 
 }

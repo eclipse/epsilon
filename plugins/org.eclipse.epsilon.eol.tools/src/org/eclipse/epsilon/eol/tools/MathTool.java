@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
-import org.eclipse.epsilon.eol.types.EolReal;
-
 public class MathTool {
 	
 	public static void main(String[] args) {

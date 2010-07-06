@@ -87,7 +87,6 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		showHideReferenceNamesAction.setChecked(editor.isShowReferenceNamesInCreateActions());
 		toggleSortPropertiesAction.setChecked(editor.getPropertySheetPage().isAlphabeticallySorted());
 		
-		//System.err.println("Editor changed...");
 	}
 
 	class ToggleShowHideEObjectInfoAction extends Action {

@@ -1,14 +1,14 @@
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.eclipse.epsilon.eol.types.EolMap;
-import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class ItemSelectorExecutor extends AbstractExecutor {
 	
@@ -21,10 +21,10 @@ public class ItemSelectorExecutor extends AbstractExecutor {
 		Object expression = context.getExecutorFactory().executeAST(expressionAst, context);
 		Object index = context.getExecutorFactory().executeAST(indexAst, context);
 		
-		if ((expression instanceof EolCollection)) {
-			if (!(index instanceof EolInteger)) 
+		if ((expression instanceof Collection)) {
+			if (!(index instanceof Integer)) 
 				throw new EolRuntimeException("Collection index must be an integer but " + index + " was provided instead.", indexAst);
-			else return ((EolCollection) expression).at((EolInteger)index);
+			else return CollectionUtil.asList(expression).get((Integer)index);
 		}
 		else if (expression instanceof EolMap){
 			return ((EolMap) expression).get(index);
@@ -41,7 +41,7 @@ public class ItemSelectorExecutor extends AbstractExecutor {
 		module.parse("var list = List{1,2,3}; list.println();");
 		if (module.getParseProblems().size() > 0) {
 			for (ParseProblem p : module.getParseProblems()) {
-				System.err.println(p);
+				System.out.println(p);
 			}
 		}
 		else {

@@ -16,11 +16,15 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class JavaPropertyGetter extends AbstractPropertyGetter{
 	
-	protected Method getMethodFor(Object object, String property) {
+	protected ObjectMethod getMethodFor(Object object, String property) {
+		ObjectMethod objectMethod = new ObjectMethod();
+		objectMethod.setObject(object);
+		
 		String methodName = "get" + property;
 		Method method = ReflectionUtil.getMethodFor(object, methodName, 0);
 		
@@ -29,11 +33,20 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 			method = ReflectionUtil.getMethodFor(object, methodName, 0);
 		}
 		
+		if (method == null) {
+			// Method contributors
+			ObjectMethod om = context.getOperationContributorRegistry().
+				getContributedMethod(object, property, new Object[]{}, context);
+			if (om != null) return om;
+		}
+		
 		if (method == null){
 			methodName = "is" + property;
 			method = ReflectionUtil.getMethodFor(object, methodName, 0);
 		}
-		return method;
+		
+		objectMethod.setMethod(method);
+		return objectMethod;
 	}
 	
 	public Object invoke(Object object, String property) throws EolRuntimeException{
@@ -61,16 +74,16 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 		}
 		*/
 		
-		Method method = getMethodFor(object, property);
+		ObjectMethod objectMethod = getMethodFor(object, property);
 		
-		if (method == null) {
+		if (objectMethod.getMethod() == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
 		Object result = null; 
 		
 		try {
-			result = method.invoke(object, new Object[]{});
+			result = objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{});
 			return result;
 		}
 		catch (Exception ex){

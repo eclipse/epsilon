@@ -54,10 +54,8 @@ public class ExeedEditingDomainViewerDropAdapter extends
 		
 		super.dragOver(event);
 		
-		//System.err.println(event.getSource());
 		
 		//if (event.detail == DND.DROP_NONE || event.detail == DND.DROP_COPY) {
-			
 		
 		if (event.detail == DND.DROP_NONE) {
 			

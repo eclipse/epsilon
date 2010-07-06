@@ -1,45 +1,70 @@
-/*******************************************************************************
- * Copyright (c) 2008 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
-public class EolBag extends EolCollection{
+import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
 
+public class EolBag implements Collection{
+	
 	public EolBag() {
-		super();
+		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
 	}
 	
-	public EolBag(Collection storage){
-		super(storage);
-	}
+	protected List wrapped = new ArrayList();
 	
-	@Override
-	public EolCollection createCollection() {
-		return new EolBag();
+	public boolean add(Object e) {
+		return wrapped.add(e);
 	}
 
-	@Override
-	public EolCollection createCollection(Collection storage) {
-		return new EolBag(storage);
+	public boolean addAll(Collection c) {
+		return wrapped.addAll(c);
 	}
-	
-	public static EolBag asBag(Object obj){
-		if (obj instanceof EolCollection)
-			return new EolBag(((EolCollection)obj).getStorage());
-		else{
-			EolBag result = new EolBag();
-			result.add(obj);
-			return result;
-		}
+
+	public void clear() {
+		wrapped.clear();
 	}
-	
+
+	public boolean contains(Object o) {
+		return wrapped.contains(o);
+	}
+
+	public boolean containsAll(Collection c) {
+		return wrapped.containsAll(c);
+	}
+
+	public boolean isEmpty() {
+		return wrapped.isEmpty();
+	}
+
+	public Iterator iterator() {
+		return wrapped.iterator();
+	}
+
+	public boolean remove(Object o) {
+		return wrapped.remove(o);
+	}
+
+	public boolean removeAll(Collection c) {
+		return wrapped.removeAll(c);
+	}
+
+	public boolean retainAll(Collection c) {
+		return wrapped.retainAll(c);
+	}
+
+	public int size() {
+		return wrapped.size();
+	}
+
+	public Object[] toArray() {
+		return wrapped.toArray();
+	}
+
+	public Object[] toArray(Object[] a) {
+		return wrapped.toArray(a);
+	}
+
 }

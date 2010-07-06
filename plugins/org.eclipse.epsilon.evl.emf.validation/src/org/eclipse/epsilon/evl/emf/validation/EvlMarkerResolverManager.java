@@ -31,7 +31,6 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 	
 	public boolean canResolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
-			//System.err.println(delegate);
 			if (delegate.canResolve(marker))
 				return true;
 		}

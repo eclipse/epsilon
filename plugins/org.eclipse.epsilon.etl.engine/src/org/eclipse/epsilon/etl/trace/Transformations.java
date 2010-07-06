@@ -11,21 +11,21 @@
 package org.eclipse.epsilon.etl.trace;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.etl.TransformRule;
 
 public class Transformations extends ArrayList<Transformation>{
 	
-	public EolCollection getTargets(){
+	public Collection getTargets(){
 		return getTargets(null);
 	}
 	
-	public EolCollection getTargets(String rule){
+	public Collection getTargets(String rule){
 		ListIterator li = listIterator();
-		EolCollection targets = new EolBag();
+		Collection targets = CollectionUtil.createDefaultList();
 		for (Transformation transformation : this) {
 			if (rule == null || rule == transformation.getRule().getName()) {
 				targets.addAll(transformation.getTargets());

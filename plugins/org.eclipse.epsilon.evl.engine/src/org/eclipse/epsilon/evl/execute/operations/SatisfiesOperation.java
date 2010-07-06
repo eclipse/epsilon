@@ -14,7 +14,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.evl.EvlConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
@@ -30,7 +29,7 @@ public class SatisfiesOperation extends AbstractOperation{
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context_) throws EolRuntimeException {
 		
-		if (obj == null) return EolBoolean.FALSE;
+		if (obj == null) return false;
 		
 		IEvlContext context = (IEvlContext) context_;
 		
@@ -44,10 +43,10 @@ public class SatisfiesOperation extends AbstractOperation{
 				throw new EvlConstraintNotFoundException(constraintName,ast);
 			}
 			
-			if (constraint.check(obj,context) == false) return EolBoolean.FALSE;
+			if (constraint.check(obj,context) == false) return false;
 		}
 		
-		return EolBoolean.TRUE;
+		return true;
 		
 	}
 }

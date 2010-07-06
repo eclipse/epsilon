@@ -76,62 +76,6 @@ public class JFaceUserInput extends AbstractUserInput {
 		
 		return exec(runnable);
 	}
-	/*
-	protected Object chooseImpl(final String question, final Collection choices, final Collection default_, final boolean many) {
-		ReturningRunnable runnable = new ReturningRunnable() { 
-
-			@Override
-			public Object runImpl() {
-				
-				List<Object> values;
-				
-				if (choices instanceof List) {
-					values = (List<Object>) choices;
-				}
-				else {
-					values = new ArrayList<Object>(choices);
-				}
-				
-				
-				ElementListSelectionDialog dialog = new ElementListSelectionDialog( 
-						Display.getDefault().getActiveShell(), 
-						new LabelProvider() {
-
-							@Override
-							public String getText(Object element) {
-								return prettyPrinterManager.toString(element);
-							}
-							
-						});
-				
-				dialog.setMessage(question);
-				
-				dialog.setElements(values.toArray());
-				
-				
-				//dialog.setInitialSelections(CollectionUtil.toCollection(default_).toArray());
-				
-				
-				if (dialog.open() == Window.OK) {
-					
-					System.err.println(dialog.getResult().length);
-					if (many) return Arrays.asList(dialog.getResult());
-					else if (dialog.getResult().length > 0) return dialog.getResult()[0];
-					else return null;
-				}
-				else {
-					if (many) return default_;
-					else if (default_.size() > 0) return default_.iterator().next();
-					else return null;
-				}
-				
-			}
-			
-		};
-		
-		return exec(runnable);
-	}
-	*/
 	
 	public Object chooseMany(final String question, final Collection choices,
 			final Collection default_) {
@@ -148,23 +92,6 @@ public class JFaceUserInput extends AbstractUserInput {
 				else {
 					values = new ArrayList<Object>(choices);
 				}
-				
-				/*
-				ListSelectionDialog dialog = new ListSelectionDialog(
-							Display.getDefault().getActiveShell(), 
-							values, 
-							new ListContentProvider(), 
-							new LabelProvider() {
-
-								@Override
-								public String getText(Object element) {
-									return prettyPrinterManager.toString(element);
-								}
-								
-							},
-							question
-						);
-				*/
 				
 				ElementListSelectionDialog dialog = new ElementListSelectionDialog( 
 						Display.getDefault().getActiveShell(), 

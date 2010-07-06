@@ -11,16 +11,16 @@
 package org.eclipse.epsilon.eml.trace;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollection;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 
 public class Merges extends ArrayList{
 	
-	public EolCollection getTargets(){
+	public Collection getTargets(){
 		ListIterator li = listIterator();
-		EolCollection targets = new EolBag();
+		Collection targets = CollectionUtil.createDefaultList();
 		while (li.hasNext()){
 			Merge merge = (Merge) li.next();
 			targets.addAll(merge.getTargets());

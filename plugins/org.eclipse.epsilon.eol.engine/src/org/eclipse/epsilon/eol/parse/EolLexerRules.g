@@ -57,7 +57,7 @@ tokens {
 fragment
 DIGIT : '0'..'9';
 
-INT : (DIGIT)+ (('.'DIGIT)=> '.' (DIGIT)+ {$type = FLOAT;} ('d'|'f')?)? ;
+INT : (DIGIT)+ ('l' | (('.'DIGIT)=> '.' (DIGIT)+ {$type = FLOAT;} ('d'|'f')?))? ;
 
 //POINT_POINT : '..';
 

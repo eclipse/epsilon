@@ -10,10 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
@@ -25,7 +25,7 @@ public interface ITransformationStrategy extends IEquivalentProvider {
 	
 	//public Object autoTransform (Object source, IEtlContext context) throws EolRuntimeException;
 	
-	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException;
+	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException;
 		
 	public void transformModels(IEtlContext context) throws EolRuntimeException;
 

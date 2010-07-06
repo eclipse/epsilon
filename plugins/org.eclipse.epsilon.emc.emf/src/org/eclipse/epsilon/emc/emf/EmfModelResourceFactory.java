@@ -81,18 +81,6 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 		if (toRemove != null) {
 			safeRemove(toRemove);
 		}
-		//else {
-		//	System.err.println("Resource for uri " + uri + " was null!!");
-		//	System.err.println(toString("Current resources"));
-		//}
-		
-		/*
-		Resource removed = resourceMap.remove(uri.toString());
-		System.err.println("Remaining resources:");
-		for (String key : resourceMap.keySet()) {
-			System.err.println("+ " + key + "->" + resourceMap.get(key));
-		}
-		*/
 	}
 	
 	protected void safeRemove(Resource toRemove) {

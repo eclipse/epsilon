@@ -73,4 +73,8 @@ operation testIsSubstringOf() {
 	assertEquals('ab'.isSubstringOf('abcd'), true);
 }
 
+@test
+operation testSplit() {
+	assertEquals("foo,bar".split(",").first(), "foo");
+}
 

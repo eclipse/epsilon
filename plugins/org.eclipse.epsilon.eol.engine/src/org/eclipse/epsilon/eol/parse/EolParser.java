@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g 2010-06-02 09:15:59
+// $ANTLR 3.1b1 D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\Eol.g 2010-06-25 11:18:15
 
 package org.eclipse.epsilon.eol.parse;
 

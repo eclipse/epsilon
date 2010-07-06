@@ -19,17 +19,12 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 class VirtualPropertyGetter extends AbstractPropertyGetter {
 
 	public Object invoke(Object object, String property) throws EolRuntimeException {
-//		System.err.println("PG invoked on: ");
-//		System.err.println("\tObject: "   + object);
-//		System.err.println("\tProperty: " + property);
-		
+
 		final VirtualObject vObject = (VirtualObject)object;
 		
 		for (Slot slot : vObject.getSlots()) {
 			if (property.equals(slot.getType())) {
 				final Object value = SlotFactory.getInstance().getValueFrom(slot);
-				
-//				System.err.println("\tReturning value: " + value);
 				
 				return value;
 			}

@@ -94,9 +94,6 @@ public class EmfRegistryManager {
 					return;
 
 				for (IResourceDelta delta : changed) {
-					//System.err.println(delta.getResource().getFullPath()
-					//		.toOSString()
-					//		+ "->" + delta.getKind());
 					
 					String metamodel = delta.getResource().getFullPath().toOSString();
 					List<String> metamodels = getMetamodels();
@@ -113,8 +110,6 @@ public class EmfRegistryManager {
 						}
 						else {
 							try {
-								//System.err.println(metamodel);
-								//EmfUtil.register(URI.createPlatformResourceURI(metamodel, true), EPackage.Registry.INSTANCE);
 								registerMetamodel(metamodel);
 							}
 							catch (Exception ex) {
@@ -160,86 +155,6 @@ public class EmfRegistryManager {
 		
 	}
 	
-	/*
-	public void register(String fileName) throws Exception {
-		// File f = new File(fileName);
-		
-		if (!f.isAbsolute()) {
-			fileName = ResourcesPlugin.getWorkspace().getRoot()
-					.getRawLocation().toPortableString()
-					+ fileName;
-		}
-
-		Map etfm = Resource.Factory.Registry.INSTANCE
-				.getExtensionToFactoryMap();
-		if (!etfm.containsKey("*")) {
-			etfm.put("*", new XMIResourceFactoryImpl());
-		}
-
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(),
-				EcorePackage.eINSTANCE);
-		
-		// resourceSet.getPackageRegistry().putAll(EPackage.Registry.INSTANCE);
-		Resource metamodel = resourceSet.createResource(URI.createURI(""));
-		
-		System.err.println(resourceSet.getResource(URI.createPlatformResourceURI(fileName, false), true));
-		
-		//try {
-			//metamodel.load(new FileInputStream(fileName), Collections.EMPTY_MAP);
-			metamodel = resourceSet.getResource(URI.createPlatformResourceURI(fileName, false), true);
-		//} catch (IOException e) {
-		//	throw e;
-			//EmfUtilPlugin.getDefault().getLog().log(new Status());
-		//}
-		// e.printStackTrace();
-		// MessageDialog.openError(null,"Error", e.toString());
-		// return;
-		// }
-
-		setDataTypesInstanceClasses(metamodel);
-
-		Iterator it = metamodel.getContents().iterator();
-		while (it.hasNext()) {
-			Object next = it.next();
-			if (next instanceof EPackage) {
-				EPackage p = (EPackage) next;
-				if (p.getNsURI() == null)
-					p.setNsURI(p.getName());
-				// if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
-				EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
-				metamodel.setURI(URI.createURI(p.getNsURI()));
-			}
-		}
-	
-	}
-	*/
-	/*
-	protected void setDataTypesInstanceClasses(Resource metamodel) {
-		Iterator it = metamodel.getAllContents();
-		while (it.hasNext()) {
-			EObject eObject = (EObject) it.next();
-			if (eObject instanceof EEnum) {
-				// ((EEnum) eObject).setInstanceClassName("java.lang.Integer");
-			} else if (eObject instanceof EDataType) {
-				EDataType eDataType = (EDataType) eObject;
-				String instanceClass = "";
-				if (eDataType.getName().equals("String")) {
-					instanceClass = "java.lang.String";
-				} else if (eDataType.getName().equals("Boolean")) {
-					instanceClass = "java.lang.Boolean";
-				} else if (eDataType.getName().equals("Integer")) {
-					instanceClass = "java.lang.Integer";
-				} else if (eDataType.getName().equals("Float")) {
-					instanceClass = "java.lang.Float";
-				} else if (eDataType.getName().equals("Double")) {
-					instanceClass = "java.lang.Double";
-				}
-				eDataType.setInstanceClassName(instanceClass);
-			}
-		}
-	}
-	*/
 	public List<String> getMetamodels() {
 		List<String> metamodels = new ArrayList();
 		String concat = EmfUtilPlugin.getDefault().getPreferenceStore()

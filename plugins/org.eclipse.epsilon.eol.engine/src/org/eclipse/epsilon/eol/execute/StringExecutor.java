@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolString;
 
 public class StringExecutor extends AbstractExecutor {
 
@@ -21,7 +20,9 @@ public class StringExecutor extends AbstractExecutor {
 	public Object execute(AST ast, IEolContext context)
 			throws EolRuntimeException {
 
-		return new EolString(unescape(ast.getText()));
+		//return new EolString(unescape(ast.getText()));
+		return unescape(ast.getText());
+		
 	}
 
 	public String unescape(String str) {

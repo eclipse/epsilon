@@ -21,6 +21,7 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.parse.EmlParser;
@@ -31,7 +32,6 @@ import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -39,10 +39,6 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.rules.ExtensibleNamedRule;
@@ -132,8 +128,8 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 			
 			if (result instanceof Return) {
 				Object value = Return.getValue(result);
-				if (value instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) value).booleanValue();
+				if (value instanceof Boolean){
+					guardSatisfied = ((Boolean) value).booleanValue();
 				}
 				else {
 					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
@@ -247,7 +243,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	*/
 	
-	public EolCollection merge(Match match, EolCollection targets, IEmlContext context) throws EolRuntimeException{
+	public Collection merge(Match match, Collection targets, IEmlContext context) throws EolRuntimeException{
 		
 		MergeTrace mergeTrace =(context).getMergeTrace();
 		Merges merges = mergeTrace.getMerges(match, this);
@@ -272,7 +268,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	HashSet<Match> mergedMatches = new HashSet<Match>();
 	
-	public EolCollection merge(Match match, IEmlContext context) throws EolRuntimeException{
+	public Collection merge(Match match, IEmlContext context) throws EolRuntimeException{
 		
 		MergeTrace mergeTrace =(context).getMergeTrace();
 		
@@ -286,7 +282,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		Object left = match.getLeft();
 		Object right = match.getRight();
 		
-		EolCollection targets = new EolBag();
+		Collection targets = CollectionUtil.createDefaultList();
 
 		ListIterator li = targetParameters.listIterator();
 		
@@ -335,7 +331,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return str;
 	}
 	
-	public void executeSuperRulesAndBody(Match match, EolCollection targets, IEmlContext context) throws EolRuntimeException{
+	public void executeSuperRulesAndBody(Match match, Collection targets, IEmlContext context) throws EolRuntimeException{
 		
 		// Execute the super rules
 		Iterator it = superRules.iterator();
@@ -355,7 +351,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		for (int i=0; i<targetParameters.size(); i++){
 			EolFormalParameter targetParameter = (EolFormalParameter) targetParameters.get(i);
-			scope.put(new Variable(targetParameter.getName(), targets.asSequence().at(new EolInteger(i)),targetParameter.getType(context),true));
+			scope.put(new Variable(targetParameter.getName(), CollectionUtil.asList(targets).get(i),targetParameter.getType(context),true));
 		}
 		context.getExecutorFactory().executeAST(bodyAst, context);
 		

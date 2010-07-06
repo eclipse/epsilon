@@ -77,8 +77,6 @@ public class EvlEditor extends EolEditor{
 		if (templates == null) {
 			templates = super.getTemplates();
 			
-			System.err.println(templates.size());
-			
 			templates.add(new Template("context", "context", "", 
 					"context ${classname} {\r\n" + 
 					"\t ${cursor}\r\n" + 
@@ -97,8 +95,6 @@ public class EvlEditor extends EolEditor{
 					"\t\t\r\n" +
 					"\t}\r\n" +
 					"}",false));
-			
-			System.err.println(templates.size());
 			
 		}
 		return templates;

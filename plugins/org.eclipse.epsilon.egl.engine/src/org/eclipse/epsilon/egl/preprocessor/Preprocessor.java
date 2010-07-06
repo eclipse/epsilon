@@ -184,8 +184,6 @@ public class Preprocessor {
 			child = child.getNextSibling();
 		}
 		
-//		System.err.println(eol.toString());
-		
 		return eol.toString();
 	}
 	

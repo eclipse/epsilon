@@ -60,20 +60,13 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	
 	@Override
 	public boolean hasType(String type) {
-		
 		String firstChar = type.substring(0,1);
 		return firstChar == firstChar.toUpperCase();
-		
-		//System.err.println("hasType for type: " + type);
-		//return true;
-		//return types.contains(type);
+
 	}
 	
 	@Override
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
-		//System.err.println("createInstance for type: " + type);
-		//types.add(type);
-		
 		final VirtualObject instance = VirtualFactory.eINSTANCE.createVirtualObject();
 		instance.setType(type);
 		

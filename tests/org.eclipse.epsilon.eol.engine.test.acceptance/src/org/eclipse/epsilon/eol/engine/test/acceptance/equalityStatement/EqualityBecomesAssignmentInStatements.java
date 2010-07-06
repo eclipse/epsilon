@@ -16,8 +16,6 @@ package org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.eol.EolEvaluator;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.junit.Test;
 
 public class EqualityBecomesAssignmentInStatements {
@@ -27,36 +25,36 @@ public class EqualityBecomesAssignmentInStatements {
 	@Test
 	public void assignment() {
 		evaluator.execute("var a; a := 1 + 2;");
-		assertEquals(new EolInteger(3), evaluator.evaluate("a"));	
+		assertEquals(3, evaluator.evaluate("a"));	
 	}
 	
 	@Test
 	public void assignmentToResultOfEquality() {
 		evaluator.execute("var a; a := 1 = 1;");
-		assertEquals(EolBoolean.TRUE, evaluator.evaluate("a"));	
+		assertEquals(true, evaluator.evaluate("a"));	
 	}
 	
 	@Test
 	public void equalityActsAsAssignment() {
 		evaluator.execute("var a; a = 1 + 2;");
-		assertEquals(new EolInteger(3), evaluator.evaluate("a"));	
+		assertEquals(3, evaluator.evaluate("a"));	
 	}
 	
 	@Test
 	public void outerEqualityActsAsAssignment() {
 		evaluator.execute("var a; a = 1 = 1;");
-		assertEquals(EolBoolean.TRUE, evaluator.evaluate("a"));	
+		assertEquals(true, evaluator.evaluate("a"));	
 	}
 	
 	@Test
 	public void otherRelationalExpressionIsUnaffected() {
 		evaluator.execute("var a; a := 2 > 1;");
-		assertEquals(EolBoolean.TRUE, evaluator.evaluate("a"));	
+		assertEquals(true, evaluator.evaluate("a"));	
 	}
 	
 	@Test
 	public void otherRelationalExpressionIsUnaffectedByRewrite() {
 		evaluator.execute("var a; a = 2 > 1;");
-		assertEquals(EolBoolean.TRUE, evaluator.evaluate("a"));	
+		assertEquals(true, evaluator.evaluate("a"));	
 	}
 }

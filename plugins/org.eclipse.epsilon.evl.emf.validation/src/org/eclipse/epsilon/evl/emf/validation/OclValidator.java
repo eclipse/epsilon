@@ -63,8 +63,6 @@ public class OclValidator implements EValidator {
 			List<Constraint> constraints = ocl.parse(oclInput);
 			
 			for (Constraint constraint : constraints) {
-				System.err.println(constraint.getName());
-				
 				if (constraint.getSpecification().getContextVariable().getType().isInstance(object)) {
 					if (!ocl.check(object, constraint)) {
 						BasicDiagnostic diagnostic = new BasicDiagnostic(4,"",0,"Constraint " + constraint.getName() + " failed for object " + object ,new Object[]{object});

@@ -53,8 +53,6 @@ public class GenerateToolGraphMapDelegate extends EugeniaActionDelegate {
 		
 		WorkspaceUtil.waitFor(gmfFileSet.getGenModelPath());
 		
-		System.err.println("done");
-		
 //		try {
 //			runImpl(action);
 //		} catch (Exception e) {

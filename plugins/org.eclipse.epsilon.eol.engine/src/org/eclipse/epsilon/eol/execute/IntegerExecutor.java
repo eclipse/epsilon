@@ -13,14 +13,20 @@ package org.eclipse.epsilon.eol.execute;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolInteger;
 
 
 public class IntegerExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		return new EolInteger(ast.getText());
+		String text = "";
+		if (ast.getText().endsWith("l")) {
+			text = ast.getText().substring(0, ast.getText().length() - 1);
+			return Long.parseLong(text);
+		}
+		else {
+			return Integer.parseInt(ast.getText());
+		}
 	}
 
 }

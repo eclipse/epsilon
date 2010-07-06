@@ -22,7 +22,6 @@ import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.test.MockContext;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,7 +78,7 @@ public class TestOutputBuffer {
 		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "he";
-		buffer.chop(new EolInteger(3));
+		buffer.chop(3);
 		
 		assertEquals(expected, buffer.toString());
 	}
@@ -89,7 +88,7 @@ public class TestOutputBuffer {
 		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
-		buffer.chop(new EolInteger(5));
+		buffer.chop(5);
 		
 		assertEquals(expected, buffer.toString());
 	}
@@ -99,7 +98,7 @@ public class TestOutputBuffer {
 		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
-		buffer.chop(new EolInteger(6));
+		buffer.chop(6);
 		
 		assertEquals(expected, buffer.toString());
 	}

@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -20,8 +22,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
@@ -59,21 +59,18 @@ public class SelectOperation extends AbstractOperation {
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		EolCollection source = EolCollection.asCollection(obj);
-		EolCollection result = source.createCollection();
+		Collection source = CollectionUtil.asCollection(obj);
+		Collection result = CollectionUtil.createCollection(source);
 		
-		Iterator li = source.getStorage().iterator();
 		FrameStack scope = context.getFrameStack();
 		
-		while (li.hasNext()){
-			Object listItem = li.next();
-			
+		for (Object listItem : source) {	
 			if (iteratorType==null || iteratorType.isKind(listItem)){
 				scope.enter(FrameType.UNPROTECTED, ast);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
 				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
-				if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
+				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
 					result.add(listItem);
 					if (isReturnOnFirstMatch()) {
 						scope.leave(ast);

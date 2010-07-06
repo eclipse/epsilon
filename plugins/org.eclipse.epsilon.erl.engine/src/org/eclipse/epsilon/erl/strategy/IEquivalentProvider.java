@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 public interface IEquivalentProvider {
 	
@@ -23,8 +22,8 @@ public interface IEquivalentProvider {
 	
 	public Object getEquivalent(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
-	public EolCollection getEquivalents(Collection source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	public Collection getEquivalents(Collection source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
-	public EolCollection getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	public Collection getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
 }

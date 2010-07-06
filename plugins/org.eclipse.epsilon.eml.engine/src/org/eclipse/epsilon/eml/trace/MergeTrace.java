@@ -11,16 +11,15 @@
 package org.eclipse.epsilon.eml.trace;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.MergeRule;
-import org.eclipse.epsilon.eol.types.EolCollection;
-
 
 public class MergeTrace extends ArrayList{
 	
-	public void add(Match match, EolCollection targets, MergeRule rule){
+	public void add(Match match, Collection targets, MergeRule rule){
 		Merge merge = new Merge();
 		merge.match = match;
 		merge.setTargets(targets);

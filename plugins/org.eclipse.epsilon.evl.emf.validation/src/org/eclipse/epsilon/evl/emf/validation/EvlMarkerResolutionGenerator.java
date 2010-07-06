@@ -40,10 +40,6 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		
-		//System.err.println("Getting ");
-		
-		//new Exception().printStackTrace();
-		
 		if (this != INSTANCE) return INSTANCE.getResolutions(marker);
 		
 		if (!EvlMarkerResolverManager.INSTANCE.canResolve(marker)) return new IMarkerResolution[]{};
@@ -114,8 +110,6 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	public void addResolution(String message, EvlFixInstance fix, String modelName, String ePackageUri) {
 
-		// System.err.println("Adding " + message);
-		
 		messages.put(fix, message);
 		modelNames.put(fix, modelName);
 		ePackageUris.put(fix, ePackageUri);
@@ -143,16 +137,5 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 		return fix;
 	}
 	
-	protected void print(IMarker marker) {
-		try {
-			Map attributes = marker.getAttributes();
-			System.err.println("Marker : " + marker);
-			for (Object key : attributes.keySet()) {
-				System.err.println(key + " -> " + attributes.get(key));
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
 	
 }

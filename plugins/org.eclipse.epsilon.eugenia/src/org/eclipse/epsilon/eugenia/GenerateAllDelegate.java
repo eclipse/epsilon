@@ -110,9 +110,8 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		catch (Throwable t) {
 			t.printStackTrace();
 		}
-		System.err.println("DONE");
-		getSelectedFile().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		
+		getSelectedFile().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		
 		// Generate diagram code from GmfGen
 		final GenerateDiagramCodeDelegate generateDiagramCodeDelegate = new GenerateDiagramCodeDelegate();

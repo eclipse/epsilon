@@ -33,57 +33,8 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.eol.models.java.JavaObjectModel;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 public class CompositeModel extends Model {
-	
-	
-	public static void main(String[] args) throws Exception {
-		
-		Tree t1 = new Tree("lr1");
-		t1.createChild("l1").createChildren("l2", "l3", "l4");
-		t1.createChild("l5").createChildren("l6", "l7");
-		
-		Tree t2 = new Tree("rr2");
-		t2.createChild("r1").createChildren("r2", "r3", "r4");
-		t2.createChild("r5").createChildren("r6", "r8");
-		
-		JavaObjectModel j1 = new JavaObjectModel();
-		j1.setName("j1");
-		j1.getImportedPackages().add("org.eclipse.epsilon.emc.emf.composite");
-		j1.allContents().add(t1);
-		j1.allContents().addAll(t1.getAllChildren());
-		
-		JavaObjectModel j2 = new JavaObjectModel();
-		j2.setName("j2");
-		j2.getImportedPackages().add("org.eclipse.epsilon.emc.composite");
-		j2.allContents().add(t2);
-		j2.allContents().addAll(t2.getAllChildren());
-		
-		MatchTrace trace = new MatchTrace();
-		//System.err.println("JAVA" + t2.getChild("r5").getChildren());
-		trace.add(t1.getChild("l5"), t2.getChild("r5"), true, null);
-		trace.add(t1.getChild("l6"), t2.getChild("r6"), true, null);
-		trace.add(t1.getChild("l1"), t2.getChild("r1"), true, null);
-		trace.add(t1.getChild("l2"), t2.getChild("r2"), true, null);
-		
-		ArrayList<IModel> models = new ArrayList<IModel>();
-		models.add(j1);
-		models.add(j2);
-		
-		CompositeModel model = new CompositeModel(models, trace);
-		model.setName("Composite");
-		
-		ProfilerTarget t = Profiler.INSTANCE.start("EOL");
-		EolModule module = new EolModule();
-		module.parse("Tree.all.println().selectOne(t|t.label='l1').println().children.collect(c|c.label).println();");
-		module.getContext().getModelRepository().addModel(model);
-		module.execute();
-		Profiler.INSTANCE.stop();
-		System.err.println(t.getWorked(true));
-	}
-
-	
 	
 	protected Collection<IModel> models = new ArrayList<IModel>();
 	protected ArrayList<ArrayList<Object>> equivalents = new ArrayList<ArrayList<Object>>();
@@ -326,7 +277,6 @@ public class CompositeModel extends Model {
 				
 				for (IModel model : models) {
 					if (model.owns(equivalent)) {
-						//System.err.println("MODEL : " + model.getName() + " -> " + equivalent);
 						getters.put(equivalent, model.getPropertyGetter());
 					}
 				}
@@ -334,20 +284,15 @@ public class CompositeModel extends Model {
 			
 			Collection<Object> results = new HashSet<Object>();
 			
-			//System.err.println(getters.keySet());
 			for (Object eq : equivalents) {
 				
 				Object result = getters.get(eq).invoke(eq, property);
 				
-				//System.err.println("Result = " + result);
 				
-				if (result instanceof Collection || result instanceof EolCollection) {
-					//System.err.println("Adding " + result);
-					if (result instanceof EolCollection) result = ((EolCollection) result).getStorage();
+				if (result instanceof Collection) {
 					results.addAll((Collection) result);
 				}
 				else {
-					//System.err.println("Returning " + result);
 					return result;
 				}
 			}

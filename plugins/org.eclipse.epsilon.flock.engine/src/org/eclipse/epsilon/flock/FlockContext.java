@@ -19,7 +19,6 @@ import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
@@ -106,7 +105,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 	public boolean executeGuard(AST guard, Variable originalVar) {
 		enterProtectedFrame(guard, originalVar);
 		
-		final EolBoolean guardSatisfied = (EolBoolean)getExecutorFactory().executeBlockOrExpressionAst(guard, this, EolBoolean.FALSE);
+		final Boolean guardSatisfied = (Boolean)getExecutorFactory().executeBlockOrExpressionAst(guard, this, false);
 		
 		leaveFrame(guard);
 		

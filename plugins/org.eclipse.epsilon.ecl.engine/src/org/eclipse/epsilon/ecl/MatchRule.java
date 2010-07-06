@@ -33,7 +33,6 @@ import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.erl.rules.ExtensibleNamedRule;
@@ -107,8 +106,8 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			
 			if (result instanceof Return) {
 				Object value = ((Return) result).getValue();
-				if (value instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) value).booleanValue();
+				if (value instanceof Boolean){
+					guardSatisfied = ((Boolean) value).booleanValue();
 				}
 				else {
 					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
@@ -347,8 +346,8 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			
 			if (result instanceof Return) {
 				Object value = ((Return) result).getValue();
-				if (value instanceof EolBoolean){
-					boolean matching = ((EolBoolean) value).booleanValue();
+				if (value instanceof Boolean){
+					boolean matching = ((Boolean) value).booleanValue();
 					match.setMatching(matching);
 				}
 				else {

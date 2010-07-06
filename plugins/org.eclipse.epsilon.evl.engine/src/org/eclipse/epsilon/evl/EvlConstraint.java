@@ -29,7 +29,6 @@ import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
@@ -87,8 +86,8 @@ public class EvlConstraint extends AbstractModuleElement{
 			
 			if (result instanceof Return) {
 				Object value = Return.getValue(result);
-				if (value instanceof EolBoolean){
-					return ((EolBoolean) value).getValue();
+				if (value instanceof Boolean){
+					return ((Boolean) value);
 				}
 				else {
 					throw new EolIllegalReturnException("Boolean",value,guard.getAst(),context);
@@ -117,8 +116,8 @@ public class EvlConstraint extends AbstractModuleElement{
 		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(body.getAst(), context);
 		if (result instanceof Return) {
 			result = Return.getValue(result);
-			if (result instanceof EolBoolean){
-				boolean check = ((EolBoolean) result).booleanValue();
+			if (result instanceof Boolean){
+				boolean check = ((Boolean) result).booleanValue();
 				if (check == false){
 					
 					EvlUnsatisfiedConstraint unsatisfiedConstraint = new EvlUnsatisfiedConstraint();

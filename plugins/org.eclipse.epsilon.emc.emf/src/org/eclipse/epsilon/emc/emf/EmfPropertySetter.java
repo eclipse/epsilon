@@ -15,20 +15,18 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 public class EmfPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 	public Object coerce(Object value) throws EolIllegalPropertyException {
-		if (getEStructuralFeature().isMany() && !(value instanceof EolCollection)) {
-			return new EolSequence(Arrays.asList(value));
+		if (getEStructuralFeature().isMany() && !(value instanceof Collection)) {
+			return CollectionUtil.asList(value);
 		}
 		
 		return value;
@@ -39,8 +37,8 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		if (propertyIsFixed())
 			return false;
 		
-		if (value instanceof EolCollection) {
-			final Collection<Object> collection = ((EolCollection)value).getStorage();
+		if (value instanceof Collection) {
+			final Collection<Object> collection = ((Collection)value);
 		
 			return propertyCanHoldCollections() &&
 			       isConformantSizeForProperty(collection) && 
@@ -59,8 +57,8 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		if (sf.isMany()) {
 			if (value != null) {
 				Collection<Object> sourceValues = (Collection<Object>) getEObject().eGet(sf);
-				if (value instanceof EolCollection){	
-					copyCollectionValues(((EolCollection)value).getStorage(), sourceValues);
+				if (value instanceof Collection){	
+					copyCollectionValues(((Collection)value), sourceValues);
 				}
 				else {
 					throw new EolIllegalPropertyAssignmentException(
@@ -69,7 +67,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 			}
 		}
 		else {
-			getEObject().eSet(sf, unwrap(value));
+			getEObject().eSet(sf, value);
 		}
 	}
 	
@@ -77,14 +75,9 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		target.clear();
 
 		for (Object element : source) {
-			target.add(unwrap(element));
+			target.add(element);
 		}
 	}
-	
-	private static Object unwrap(Object value) {
-		return EolTypeWrapper.getInstance().unwrap(value);
-	}
-	
 	
 	protected EObject getEObject() throws EolIllegalPropertyException {
 		if (object instanceof EObject)
@@ -134,6 +127,6 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	}
 	
 	private boolean isConformantTypeForProperty(Object value) throws EolIllegalPropertyException {
-		return getEStructuralFeature().getEType().isInstance(unwrap(value));
+		return getEStructuralFeature().getEType().isInstance(value);
 	}	
 }

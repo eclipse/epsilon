@@ -21,22 +21,17 @@ import java.util.Set;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.rules.ExtensibleNamedRule;
 import org.eclipse.epsilon.erl.rules.INamedRule;
@@ -129,9 +124,6 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		if (hasTransformed(source)) return true;
 		if (rejected.contains(source)) return false;
 		
-		//IModel model = context.getModelRepository().getOwningModel(source);
-		//if (model == null) return false;
-		
 		boolean appliesToTypes;
 		
 		if (!checkTypes) {
@@ -157,8 +149,8 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			
 			if (result instanceof Return) {
 				Object value = Return.getValue(result);
-				if (value instanceof EolBoolean){
-					guardSatisfied = ((EolBoolean) value).booleanValue();
+				if (value instanceof Boolean){
+					guardSatisfied = ((Boolean) value).booleanValue();
 				}
 				else {
 					throw new EolIllegalReturnException("Boolean", value, guardAst, context);
@@ -180,35 +172,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		if (!applies) {rejected.add(source);}
 		
 		return applies;
-		//return appliesToTypes && guardSatisfied;
 	}
-	
-	/*
-	public boolean isStandalone(EtlContext context) throws EolModelNotFoundException{
-		
-		if (this.isAuto()) return true;
-		
-		boolean concreteTargets = true;
-		
-		ListIterator li = targetParameters.listIterator();
-		while (li.hasNext()){
-			EolFormalParameter parameter = (EolFormalParameter) li.next();
-			if (context.getModelRepository().existsMetaClass(parameter.getType())){
-				concreteTargets = concreteTargets && 
-					context.getModelRepository().isInstanciable(parameter.getType());
-			}
-		}
-		
-		if (concreteTargets) 
-			return true;
-		else
-			return false;
-	}
-	*/
-	
-	//public boolean isAuto(){
-	//	return auto;
-	//}
 	
 	public boolean contains(Collection col, Object o){
 		Iterator it = col.iterator();
@@ -219,40 +183,16 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	
 	public void transformAll(IEtlContext context, List<Object> excluded) throws EolRuntimeException{
-		//System.err.println("Transforming all..." + this.name);
 		Iterator it = getAllOfSourceKind(context).iterator();
 		while (it.hasNext()){
 			Object instance = it.next();
 			if (!excluded.contains(instance) && appliesTo(instance, context, false)){
-				//System.err.println("Applies...");
 				transform(instance, context);
 			}
-			//else if (appliesTo(instance, context, false)){
-			//	transform(instance, context);
-			//}
 		}
 	}
 	
-	/*
-	public void transformAll(Scope scope) throws XolRuntimeException {
-			
-		Collection leftInstances = scope.getModelRepository().allOfType(leftFormalParameter.getType());
-		Collection rightInstances = scope.getModelRepository().allOfType(rightFormalParameter.getType());
-		
-		Iterator leftIterator = leftInstances.iterator();
-		
-		while (leftIterator.hasNext()){
-			Object leftInstance = leftIterator.next();
-			Iterator rightIterator = rightInstances.iterator();
-			while (rightIterator.hasNext()){
-				Object rightInstance = rightIterator.next();
-				merge(leftInstance, rightInstance, scope);
-			}
-		}
-	}
-	*/
-	
-	public EolCollection transform(Object source, EolCollection targets, IEtlContext context) throws EolRuntimeException {
+	public Collection transform(Object source, Collection targets, IEtlContext context) throws EolRuntimeException {
 		transformedElements.add(source);
 		executeSuperRulesAndBody(source, targets, context);
 		return targets;
@@ -260,7 +200,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	protected Set<Object> transformedElements = new HashSet<Object>();
 	
-	public EolCollection transform(Object source, IEtlContext context) throws EolRuntimeException{
+	public Collection transform(Object source, IEtlContext context) throws EolRuntimeException{
 		
 		TransformationTrace transformationTrace = context.getTransformationTrace();
 		
@@ -272,7 +212,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			transformedElements.add(source);
 		}
 		
-		EolCollection targets = new EolBag();
+		Collection targets = CollectionUtil.createDefaultList();
 		
 		for (EolFormalParameter targetParameter : targetParameters) {
 			EolType targetParameterType = (EolType) targetParameter.getType(context);
@@ -288,9 +228,9 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return targets;
 	}
 	
-	protected void executeSuperRulesAndBody(Object source, EolCollection targets_, IEtlContext context) throws EolRuntimeException{
+	protected void executeSuperRulesAndBody(Object source, Collection targets_, IEtlContext context) throws EolRuntimeException{
 		
-		EolSequence targets = targets_.asSequence();
+		List targets = CollectionUtil.asList(targets_);
 		
 		// Execute super-rules
 		
@@ -308,7 +248,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		for (int i=0; i<targetParameters.size(); i++){
 			EolFormalParameter targetParameter = (EolFormalParameter) targetParameters.get(i);
-			scope.put(Variable.createReadOnlyVariable(targetParameter.getName(), targets.at(new EolInteger(i))));
+			scope.put(Variable.createReadOnlyVariable(targetParameter.getName(), targets.get(i)));
 		}
 		
 		context.getExecutorFactory().executeAST(bodyAst, context);

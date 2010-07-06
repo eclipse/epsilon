@@ -20,9 +20,8 @@ import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collection;
 
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
@@ -119,11 +118,11 @@ public class CollectionOfModelValuesTests {
 	}
 	
 	
-	private static void assertEolCollectionsEqual(EolCollection expected, EolCollection actual) {
-		assertEquals(expected.getStorage(), actual.getStorage());
+	private static void assertEolCollectionsEqual(Collection expected, Collection actual) {
+		assertEquals(expected, actual);
 	}
 	
-	private static EolCollection toEolCollection(Object... element) {
-		return new EolSequence(Arrays.asList(element));
+	private static Collection toEolCollection(Object... element) {
+		return Arrays.asList(element);
 	}
 }

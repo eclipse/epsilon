@@ -169,6 +169,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		list.add("String");
 		list.add("Boolean");
 		list.add("Integer");
+		list.add("Double");
+		list.add("Float");
+		list.add("Long");
 		list.add("Real");
 		list.add("Any");
 		list.add("Map");

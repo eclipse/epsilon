@@ -20,10 +20,12 @@ public class EolPrimitiveType extends EolType{
 	private Class clazz;
 	private String name;
 	
-	public static EolPrimitiveType Integer = new EolPrimitiveType(EolInteger.class,"Integer");
-	public static EolPrimitiveType String = new EolPrimitiveType(EolString.class,"String");
-	public static EolPrimitiveType Boolean = new EolPrimitiveType(EolBoolean.class,"Boolean");
-	public static EolPrimitiveType Real = new EolPrimitiveType(EolReal.class,"Real");
+	public static EolPrimitiveType Integer = new EolPrimitiveType(Integer.class,"Integer");
+	public static EolPrimitiveType Long = new EolPrimitiveType(Long.class,"Long");
+	public static EolPrimitiveType String = new EolPrimitiveType(String.class,"String");
+	public static EolPrimitiveType Boolean = new EolPrimitiveType(Boolean.class,"Boolean");
+	public static EolPrimitiveType Real = new EolPrimitiveType(Float.class,"Real");
+	public static EolPrimitiveType Double = new EolPrimitiveType(Double.class,"Double");
 	public static EolPrimitiveType Map = new EolPrimitiveType(EolMap.class,"Map");
 	
 	private EolPrimitiveType(Class clazz, String name){
@@ -40,8 +42,7 @@ public class EolPrimitiveType extends EolType{
 	@Override
 	public boolean isType(Object o) {
 		if (o == null) return true;
-		return EolTypeWrapper.getInstance().wrap(o).getClass() == clazz;
-		//return o.getClass() == clazz;
+		return o.getClass() == clazz;
 	}
 
 	public Class getClazz() {
@@ -50,8 +51,7 @@ public class EolPrimitiveType extends EolType{
 
 	@Override
 	public boolean isKind(Object o) {
-		return clazz.isInstance(EolTypeWrapper.getInstance().wrap(o));
-//		return clazz.isInstance(o);
+		return clazz.isInstance(o);
 	}
 
 	@Override

@@ -44,8 +44,14 @@ public class TypeExecutor extends AbstractExecutor{
 		else if (typeName.equals("String")){
 			return EolPrimitiveType.String;
 		}
-		else if (typeName.equals("Real")){
+		else if (typeName.equals("Real") || typeName.equals("Float")) {
 			return EolPrimitiveType.Real;
+		}
+		else if (typeName.equals("Long")) {
+			return EolPrimitiveType.Long;
+		}
+		else if (typeName.equals("Double")){
+			return EolPrimitiveType.Double;
 		}
 		else if (typeName.equals("Map")){
 			return EolPrimitiveType.Map;

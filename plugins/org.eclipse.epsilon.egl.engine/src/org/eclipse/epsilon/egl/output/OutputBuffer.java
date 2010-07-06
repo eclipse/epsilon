@@ -20,7 +20,6 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.types.EolInteger;
 
 public class OutputBuffer {
 	
@@ -45,8 +44,8 @@ public class OutputBuffer {
 		if (contents != null) buffer.append(contents);
 	}
 	
-	public void chop(EolInteger chars){
-		int limit = Math.min(chars.intValue(), buffer.length());
+	public void chop(int chars){
+		int limit = Math.min(chars, buffer.length());
 		for (int i=0;i<limit;i++){
 			buffer.deleteCharAt(buffer.length()-1);
 		}

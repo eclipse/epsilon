@@ -10,16 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.trace;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.MergeRule;
-import org.eclipse.epsilon.eol.types.EolCollection;
 
 public class Merge {
 	
 	//protected Object left;
 	//protected Object right;
 	protected Match match;
-	protected EolCollection targets;
+	protected Collection targets;
 	protected MergeRule rule;
 	
 
@@ -27,7 +28,7 @@ public class Merge {
 		
 	}
 	
-	public Merge(Match match, EolCollection merged) {
+	public Merge(Match match, Collection merged) {
 		super();
 		//this.left = left;
 		this.match = match;
@@ -43,11 +44,11 @@ public class Merge {
 	//	this.left = left;
 	//}
 	
-	public EolCollection getTargets() {
+	public Collection getTargets() {
 		return targets;
 	}
 	
-	public void setTargets(EolCollection merged) {
+	public void setTargets(Collection merged) {
 		this.targets = merged;
 	}
 	

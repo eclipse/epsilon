@@ -22,7 +22,6 @@ import org.eclipse.epsilon.emc.emf.virtual.Slot;
 import org.eclipse.epsilon.emc.emf.virtual.StringSlot;
 import org.eclipse.epsilon.emc.emf.virtual.VirtualFactory;
 import org.eclipse.epsilon.emc.emf.virtual.VirtualObject;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 class SlotFactory {
 	
@@ -53,7 +52,7 @@ class SlotFactory {
 			final StringSlot slot = VirtualFactory.eINSTANCE.createStringSlot();
 			
 			for (Object value : values)
-				slot.getValues().add((String)EolTypeWrapper.getInstance().unwrap(value));
+				slot.getValues().add((String)value);
 			
 			return slot;
 		
@@ -61,7 +60,7 @@ class SlotFactory {
 			final IntegerSlot slot = VirtualFactory.eINSTANCE.createIntegerSlot();
 			
 			for (Object value : values)
-				slot.getValues().add((Integer)EolTypeWrapper.getInstance().unwrap(value));
+				slot.getValues().add((Integer)value);
 			
 			return slot;
 		
@@ -69,7 +68,7 @@ class SlotFactory {
 			final BooleanSlot slot = VirtualFactory.eINSTANCE.createBooleanSlot();
 			
 			for (Object value : values)
-				slot.getValues().add((Boolean)EolTypeWrapper.getInstance().unwrap(value));
+				slot.getValues().add((Boolean)value);
 			
 			return slot;
 			
@@ -77,7 +76,7 @@ class SlotFactory {
 			final FloatSlot slot = VirtualFactory.eINSTANCE.createFloatSlot();
 			
 			for (Object value : values)
-				slot.getValues().add((Float)EolTypeWrapper.getInstance().unwrap(value));
+				slot.getValues().add((Float)value);
 			
 			return slot;	
 		}
@@ -85,8 +84,7 @@ class SlotFactory {
 		return null;
 	}
 	
-	public Slot createSlotFor(Object eolValue) {
-		final Object value = EolTypeWrapper.getInstance().unwrap(eolValue);
+	public Slot createSlotFor(Object value) {
 		
 		if (value instanceof List<?>) {
 			final List<?> list = (List<?>)value;
@@ -95,7 +93,7 @@ class SlotFactory {
 			if (list.isEmpty())
 				return null;
 			
-			return createSlot(EolTypeWrapper.getInstance().unwrap(list.get(0)), list);
+			return createSlot(list.get(0), list);
 			
 		} else {
 			return createSlot(value, value);
@@ -107,7 +105,7 @@ class SlotFactory {
 			final List<Object> list = new ArrayList<Object>();
 			
 			for (Object value : values) {
-				list.add(EolTypeWrapper.getInstance().wrap(value));
+				list.add(value);
 			}
 			
 			return list;
@@ -139,7 +137,7 @@ class SlotFactory {
 			return null;
 		}
 		
-		return EolTypeWrapper.getInstance().wrap(value);
+		return value;
 	}
 
 }

@@ -10,17 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolOrderedSet;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolSet;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 
 public class CollectionExecutor extends AbstractExecutor{
@@ -28,19 +25,19 @@ public class CollectionExecutor extends AbstractExecutor{
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
 		
-		EolCollection collection = null; 
+		Collection collection = null; 
 		
 		if (ast.getText().equals("Sequence") || ast.getText().equals("List")){
-			collection = new EolSequence();
+			collection = CollectionUtil.createDefaultList();
 		}
 		else if (ast.getText().equals("Set")){
-			collection = new EolSet();
+			collection = CollectionUtil.createDefaultSet();
 		}
 		else if (ast.getText().equals("OrderedSet")){
-			collection = new EolOrderedSet();
+			collection = CollectionUtil.createDefaultSet();
 		}
 		else {
-			collection = new EolBag();
+			collection = CollectionUtil.createDefaultList();
 		}
 		
 		AST expressionListAst = ast.getFirstChild();
@@ -64,17 +61,17 @@ public class CollectionExecutor extends AbstractExecutor{
 				Object rangeStart = context.getExecutorFactory().executeAST(rangeStartAst, context);
 				Object rangeEnd = context.getExecutorFactory().executeAST(rangeEndAst, context);
 				
-				if (rangeStart instanceof EolInteger && rangeEnd instanceof EolInteger){
-					for (int i=((EolInteger)rangeStart).intValue(); i<=((EolInteger)rangeEnd).intValue(); i++){
-						collection.add(new EolInteger(i));
+				if (rangeStart instanceof Integer && rangeEnd instanceof Integer){
+					for (int i=((Integer)rangeStart).intValue(); i<=((Integer)rangeEnd).intValue(); i++){
+						collection.add(i);
 						//collection.add(i);
 					}
 				}
 				else {
-					if (!(rangeStart instanceof EolInteger)){
+					if (!(rangeStart instanceof Integer)){
 						throw new EolRuntimeException("The start of a range should be of type Integer", rangeStartAst);
 					}
-					if (!(rangeEnd instanceof EolInteger)){
+					if (!(rangeEnd instanceof Integer)){
 						throw new EolRuntimeException("The end of a range should be of type Integer", rangeEndAst);
 					}
 					

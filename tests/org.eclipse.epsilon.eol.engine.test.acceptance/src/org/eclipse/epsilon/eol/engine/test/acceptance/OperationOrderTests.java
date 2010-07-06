@@ -4,18 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
-package org.eclipse.epsilon.eol.execute.operations.simple;
+******************************************************************************/
 
-public class PrintlnOperation extends PrintOperation {
+package org.eclipse.epsilon.eol.engine.test.acceptance;
 
-	@Override
-	public boolean printsNewLine() {
-		return true;
-	}
+import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.EUnitRunner;
+import org.junit.runner.RunWith;
 
-	
+@RunWith(EUnitRunner.class)
+public class OperationOrderTests {
+
 }

@@ -59,12 +59,6 @@ public class NameExecutor extends AbstractExecutor{
 		if (variable == null) {
 			try {
 				
-				//System.err.println("MODELS + " + context.getModelRepository().getModels().size());
-				
-				//for (IModel m : context.getModelRepository().getModels()) {
-				//	System.err.println("MODEL -> " + m.getName());
-				//}
-				
 				IModel model = context.getModelRepository().getModelByName(name);
 			
 				if (model != null)
@@ -83,30 +77,6 @@ public class NameExecutor extends AbstractExecutor{
 				variable = Variable.createReadOnlyVariable(type.getName(), type);
 			}
 		}
-		
-		// Then look in the scope for a variable
-		//if (variable == null){
-		//	if (scope.contains(name)){
-		//		variable = scope.get(name);
-		//	}
-		//}
-		
-		/*
-		// Look for a model element type without !
-		if (variable == null) {
-			variable = getModelElementType(name, context);
-		}
-		
-		// Finally look for a native type
-		if (variable == null) {
-			try {
-				variable = Variable.createReadOnlyVariable(name, new EolNativeType(ast, context));
-			}
-			catch (EolTypeNotFoundException ex) {
-				// Ignore
-			}
-		}
-		*/
 		
 		if (variable == null) throw new EolUndefinedVariableException(name, ast);
 

@@ -57,10 +57,8 @@ public class XmlModel extends AbstractEmfModel {
 		XmlModel model = new XmlModel();
 		model.modelFile = basePath + "Test.xml";
 		model.xsdFile = basePath + "TestCases.xsd";
-		//model.readOnLoad = false;
 		model.load();
 		
-		System.err.println(model.createInstance("TestSuiteType"));
 		model.store(model.modelFile + "copy.xml");
 		
 	}
@@ -100,16 +98,6 @@ public class XmlModel extends AbstractEmfModel {
 		}
 		
 		this.modelImpl = resource;
-		
-		/*
-		try {
-			int i = this.getAllOfType("TestSuiteType").size();
-			System.err.println(i);
-		} catch (EolModelElementTypeNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 	}
 
 	public boolean store() {

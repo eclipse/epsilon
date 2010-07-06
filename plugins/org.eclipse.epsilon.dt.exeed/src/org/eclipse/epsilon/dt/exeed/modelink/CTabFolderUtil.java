@@ -12,6 +12,7 @@ package org.eclipse.epsilon.dt.exeed.modelink;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -29,7 +30,7 @@ public class CTabFolderUtil {
 			destroyItem(folder, item);
 			createItem(folder, item, index);
 		} catch (Exception ex) {
-			System.err.println(ex);
+			LogUtil.log(ex);
 		}
 	}
 

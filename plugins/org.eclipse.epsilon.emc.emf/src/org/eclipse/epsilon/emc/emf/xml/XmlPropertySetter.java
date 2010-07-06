@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 public class XmlPropertySetter extends EmfPropertySetter {
 
@@ -27,9 +26,7 @@ public class XmlPropertySetter extends EmfPropertySetter {
 		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
 		
 		if (sf.getEType().getName().equals("QName")) {
-			System.err.println("QNAME");
-			QName qName = QName.valueOf((String)(EolTypeWrapper.getInstance().unwrap(value)));
-			System.err.println(qName);
+			QName qName = QName.valueOf((String)(value));
 			eObject.eSet(sf, qName);
 		}
 		else {

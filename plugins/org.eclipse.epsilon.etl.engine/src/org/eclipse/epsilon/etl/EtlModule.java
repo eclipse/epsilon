@@ -37,7 +37,6 @@ import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
-import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy2;
 
 
 public class EtlModule extends ErlModule implements IEtlModule {

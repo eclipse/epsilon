@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
 import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValues;
@@ -50,7 +49,7 @@ public class ModelValueWrapperTests {
 	
 	@Test
 	public void wrapCollectionOfValues() {
-		final CollectionOfModelValues wrappedValues = wrapValueTest(new EolSequence(Arrays.asList("a model value", "dummy model element")),
+		final CollectionOfModelValues wrappedValues = wrapValueTest(Arrays.asList("a model value", "dummy model element"),
 		                                                            CollectionOfModelValues.class,
 		                                                            "dummy model element");
 		

@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
@@ -43,12 +44,17 @@ public class EolContext implements IEolContext{
 	protected PrintStream errorStream = System.err;
 	protected IModule module = null;
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate();
-	protected List<IToolNativeTypeDelegate> nativeTypeDelegates = new ArrayList(CollectionUtil.toCollection(classpathNativeTypeDelegate));
+	protected List<IToolNativeTypeDelegate> nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
 	protected Map<Object, Map<String, Object>> extendedProperties = new HashMap<Object, Map<String,Object>>();
 	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
 	protected PrintStream warningStream = System.out;
+	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
+	
+	public OperationContributorRegistry getOperationContributorRegistry() {
+		return methodContributorRegistry;
+	}
 	
 	public PrintStream getWarningStream() {
 		return warningStream;

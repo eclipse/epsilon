@@ -20,8 +20,6 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
@@ -50,7 +48,7 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		
 		if (setter != null){
 			try {
-				setter.invoke(object, new Object[]{EolTypeWrapper.getInstance().unwrap(value)});
+				setter.invoke(object, new Object[]{value});
 				return;
 			} catch (Exception ex) {
 				throw new EolInternalException(ex);
@@ -69,7 +67,7 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 			
 			if (setter != null){
 				try {
-					setter.invoke(object, new Object[]{EolTypeWrapper.getInstance().unwrap(value)});
+					setter.invoke(object, new Object[]{value});
 					return;
 				} catch (Exception ex) {
 					throw new EolInternalException(ex);
@@ -97,9 +95,8 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 				if (result != null && result instanceof Collection){
 					Collection source = (Collection) result;
 					
-					if (value instanceof EolCollection) {
-						EolCollection eolCollection = (EolCollection) value;
-						Iterator it = eolCollection.getStorage().iterator();
+					if (value instanceof Collection) {
+						Iterator it = ((Collection) value).iterator();
 						while (it.hasNext()){
 							try {
 								Object next = it.next();

@@ -29,10 +29,6 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolString;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 public class EmfM0Model extends EmfModel{
 	
@@ -113,7 +109,7 @@ public class EmfM0Model extends EmfModel{
 
 		public Object invoke(Object object, String property) throws EolRuntimeException {
 			ArrayList parameterValues = new ArrayList();
-			parameterValues.add(new EolString(property));
+			parameterValues.add(property);
 			EolOperation propertyGetter = eolModule.getDeclaredOperations().getOperation(object,"getProperty",parameterValues,eolModule.getContext());
 			if (propertyGetter != null){
 				return propertyGetter.execute(object,parameterValues,eolModule.getContext());
@@ -128,8 +124,8 @@ public class EmfM0Model extends EmfModel{
 
 		public void invoke(Object value) throws EolRuntimeException {
 			ArrayList parameterValues = new ArrayList();
-			parameterValues.add(new EolString(property));
-			parameterValues.add(EolTypeWrapper.getInstance().wrap(value));
+			parameterValues.add(property);
+			parameterValues.add(value);
 			EolOperation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
 			if (propertySetter != null) {
 				propertySetter.execute(object,parameterValues,eolModule.getContext());
@@ -158,44 +154,44 @@ public class EmfM0Model extends EmfModel{
 	@Override
 	public Collection getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
 		EolOperation allOfTypeHelper = getHelper("allOfType");
-		EolCollection allOfType = null;
+		Collection allOfType = null;
 		
 		try {
-			allOfType = (EolCollection) allOfTypeHelper.execute(new EolString(metaClass), new ArrayList(), eolModule.getContext());
+			allOfType = (Collection) allOfTypeHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
 		}
-		return allOfType.getStorage();
+		return allOfType;
 	}
 	
 	@Override
 	public Collection getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
 		EolOperation allOfKindHelper = getHelper("allOfKind");
-		EolCollection allOfKind = null;
+		Collection allOfKind = null;
 		
 		try {
-			allOfKind = (EolCollection) allOfKindHelper.execute(new EolString(metaClass), new ArrayList(), eolModule.getContext());
+			allOfKind = (Collection) allOfKindHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
 		}
-		return allOfKind.getStorage();
+		return allOfKind;
 	}
 	
 	//FIXME : Actually check is such a type is present
 	@Override
 	public boolean hasType(String type){
 		EolOperation hasTypeHelper = getHelper("hasType");
-		EolBoolean hasType = EolBoolean.FALSE;
+		boolean hasType = false;
 		
 		try {
-			hasType = (EolBoolean) hasTypeHelper.execute(new EolString(type), new ArrayList(), eolModule.getContext());
+			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
 		}
-		return hasType.booleanValue();
+		return hasType;
 	}
 	
 	public File getM0SpecificationFile() {
@@ -213,38 +209,5 @@ public class EmfM0Model extends EmfModel{
 	public void setEolModule(IEolModule eolModule) {
 		this.eolModule = eolModule;
 	}
-/*
-	public static void main(String[] args) throws Exception{
-		
-		String basePath = "E:/Projects/Eclipse/3.2.1/workspace/org.eclipse.epsilon.eol.models.emf/src/org/epsilon/eol/models/emf/m0/";
-		
-		EmfM0Model model = new EmfM0Model();
-		//model.setMetamodel(false);
-		model.setMetamodelFileBased(true);
-		model.setMetamodelFile(basePath + "Relational.ecore");
-		model.setModelFile(basePath + "RelationalInstance.ecore");
-		model.setM0SpecificationFile(new File(basePath + "Relational.eol"));
-		model.setName("Relational");
-		model.setReadOnLoad(true);
-		model.load();
 	
-		IEolModule testModule = new EolModule();
-		
-		try {
-			if (testModule.parse(new File(basePath + "RelationalTest.eol"))){
-				testModule.getContext().getModelRepository().addModel(model);
-				testModule.execute();
-			}
-			else {
-				for (ParseProblem problem : testModule.getParseProblems()) {
-					System.err.println(problem);
-				}
-			}
-		}
-		catch (Exception ex){
-			ex.printStackTrace();
-		}
-		
-	}
-*/	
 }

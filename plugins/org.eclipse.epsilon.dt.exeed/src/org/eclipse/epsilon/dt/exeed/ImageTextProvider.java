@@ -31,7 +31,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.epsilon.eol.types.EolString;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 
@@ -57,7 +56,7 @@ public class ImageTextProvider {
 					@Override
 					public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 						//return getEObjectLabel(source,getBasicEObjectLabel(source));
-						return new EolString(getEObjectReferenceLabel(source,getBasicEObjectLabel(source)));
+						return getEObjectReferenceLabel(source,getBasicEObjectLabel(source));
 					}
 					
 					protected String getBasicEObjectLabel(Object object) {
@@ -119,9 +118,6 @@ public class ImageTextProvider {
 				return addStructuralInfo(object,label,forReference);
 			}
 		} catch (Exception e) {
-			
-			System.err.println("The offending code is " + labelCode);
-			
 			LogUtil.log(e);
 		}
 		return addStructuralInfo(object,def,forReference);

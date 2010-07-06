@@ -25,7 +25,6 @@ import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
 
@@ -62,8 +61,8 @@ public class EwlWizard extends AbstractModuleElement{
 			}
 		
 			//context.getScope().leave(guardBlock.getAst());
-			if (result instanceof EolBoolean){
-				return ((EolBoolean) result).getValue();
+			if (result instanceof Boolean){
+				return ((Boolean) result);
 			}
 			else {
 				throw new EolIllegalReturnException("Boolean",result,guardBlock.getAst(),context);

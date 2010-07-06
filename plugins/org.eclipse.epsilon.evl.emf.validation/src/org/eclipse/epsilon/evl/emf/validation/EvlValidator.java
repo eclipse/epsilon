@@ -62,8 +62,6 @@ public class EvlValidator implements EValidator {
 	public boolean validate(EClass eClass, EObject eObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		
-		//System.err.println("Validating " + eObject);
-		
 		if (eObject.eResource() == null) return false;
 		
 		EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);

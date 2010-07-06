@@ -33,7 +33,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.eol.types.EolString;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
@@ -205,8 +204,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			module.getContext().getFrameStack().getGlobals().put(
 					Variable.createReadOnlyVariable(
 							parameterNestedElement.getName(), 
-							new EolString(parameterNestedElement.getValue()
-					)
+							parameterNestedElement.getValue()
 			));
 		}
 	}
@@ -237,7 +235,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			
 			if (usedVariable == null) {
 				if (getProject().getProperty(var) != null) {
-					usedVariable = new Variable(var, new EolString(getProject().getProperty(var)), EolPrimitiveType.String);
+					usedVariable = new Variable(var, getProject().getProperty(var), EolPrimitiveType.String);
 				}
 			}
 

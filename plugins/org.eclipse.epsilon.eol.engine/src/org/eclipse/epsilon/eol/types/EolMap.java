@@ -10,21 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
-public class EolMap implements Map {
+public class EolMap extends HashMap {
 
-	public static void main(String[] args) {
-		
-		EolMap m = new EolMap();
-		m.put(new EolInteger(1), 2);
-		System.err.println(m.get(1));
-		
-	}
+}	
+	
+	/*implements Map {
+}
 	
 	protected HashMap internal = new HashMap();
 	protected HashMap keyMap = new HashMap();
@@ -115,4 +108,4 @@ public class EolMap implements Map {
 		return internal.values();
 	}
 
-}
+}*/

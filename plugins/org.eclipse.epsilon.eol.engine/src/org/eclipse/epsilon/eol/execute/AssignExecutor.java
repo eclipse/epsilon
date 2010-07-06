@@ -60,10 +60,6 @@ public abstract class AssignExecutor extends AbstractExecutor{
 				}
 				throw ex;
 			}
-			//TODO : Remove this
-			//catch (Exception ex) {
-			//	System.err.println("AE: Setting " + ((PropertySetter)varAstResult).getProperty() + " : " + varAst.toStringTree() + " to " + valueAstResult + " : " + valueAst.toStringTree());
-			//}
 		} else if (varAstResult instanceof Variable){
 			Variable variable = (Variable) varAstResult;
 			try {

@@ -17,11 +17,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolOrderedSet;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolSet;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
+import org.eclipse.epsilon.eol.types.CollectionAnnotator;
+import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
 
 public class EmfPropertyGetter extends AbstractPropertyGetter{
 
@@ -35,20 +32,31 @@ public class EmfPropertyGetter extends AbstractPropertyGetter{
 			if (sf.isMany()){
 				Collection values = (Collection) eObject.eGet(sf);
 				
-				//System.err.println(values.getClass());
-				
 				//if (values instanceof BasicEList){
 				//	if ((BasicEList)values).
 				//	((BasicEList) values).grow(1000);
 				//}
-				if (sf.isOrdered() && sf.isUnique()) return new EolOrderedSet(values);
-				else if (sf.isOrdered()) return new EolSequence(values);
-				else if (sf.isUnique()) return new EolSet(values);
-				else return new EolBag(values);
+				
+				//if (sf.isOrdered() && sf.isUnique()) return new EolOrderedSet(values);
+				//else if (sf.isOrdered()) return new EolSequence(values);
+				//else if (sf.isUnique()) return new EolSet(values);
+				//else return new EolBag(values);
+				
+				AnnotatedCollectionType annotatedCollectionType = null;
+				if (sf.isOrdered() && sf.isUnique()) annotatedCollectionType = AnnotatedCollectionType.OrderedSet;
+				else if (sf.isOrdered()) annotatedCollectionType = AnnotatedCollectionType.Sequence;
+				else if (sf.isUnique()) annotatedCollectionType = AnnotatedCollectionType.Set;
+				else annotatedCollectionType = AnnotatedCollectionType.Bag;
+				
+				CollectionAnnotator.getInstance().annotate(values, annotatedCollectionType);
+				
+				return values;
+				
 			}
 			else {
-				Object result = EolTypeWrapper.getInstance().wrap(eObject.eGet(sf));
-				return result;
+				return eObject.eGet(sf);
+				//Object result = EolTypeWrapper.getInstance().wrap(eObject.eGet(sf));
+				//return result;
 			}
 		}
 		else {

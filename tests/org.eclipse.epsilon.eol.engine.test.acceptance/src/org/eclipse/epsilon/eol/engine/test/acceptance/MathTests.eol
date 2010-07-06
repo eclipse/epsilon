@@ -20,17 +20,12 @@ operation testIntegerEqualsFloat() {
 
 @test
 operation testFloatEqualsDouble() {
-	assertEquals(1.0f, 1.0d);
-}
-
-@test
-operation testConvertIllegalStringToInteger() {
-	assertEquals('foo'.asInteger(), 0);
+	assertEquals(1.0f.asDouble(), 1.0d);
 }
 
 @test
 operation testConvertStringToReal() {
-	assertEquals('2.0'.asReal(), 2.0d);
+	assertEquals('2.0'.asReal(), 2.0f);
 }
 
 @test
@@ -45,12 +40,12 @@ operation testMultiplyWithFloat() {
 
 @test
 operation testDivide() {
-	assertEquals(4/2, 2.0);
+	assertEquals(2/4, 0);
 }
 
 @test
 operation testDivideWithFloatResult() {
-	assertEquals(2/4, 0.5);
+	assertEquals(2/4.0, 0.5);
 }
 
 @test
@@ -61,4 +56,14 @@ operation testDivideByZero() {
 @test
 operation testDivideString() {
 	assertError('foo'/2);
+}
+
+@test
+operation testMin() {
+	assertEquals(1.min(2.0), 1);
+}
+
+@test
+operation textMax() {
+	assertEquals(2.max(3.1d), 3.1d);
 }

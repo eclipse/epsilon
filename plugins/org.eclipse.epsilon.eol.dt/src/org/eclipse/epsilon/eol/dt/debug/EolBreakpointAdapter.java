@@ -32,20 +32,16 @@ public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 
 	public void toggleBreakpoints(IWorkbenchPart part, ISelection selection)
 			throws CoreException {
-		System.err.println("tog");
 		ITextEditor textEditor = getEditor(part);
 		if (textEditor != null) {
-			System.err.println(textEditor);
 			IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
 			ITextSelection textSelection = (ITextSelection) selection;
 			int lineNumber = textSelection.getStartLine();
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("eol.debugModel");
 			
-			System.err.println("L : " + breakpoints.length);
 			
 			for (int i = 0; i < breakpoints.length; i++) {
 				IBreakpoint breakpoint = breakpoints[i];
-				//System.err.println(breakpoint instanceof ILineBreakpoint);
 				if (breakpoint instanceof ILineBreakpoint && resource.equals(breakpoint.getMarker().getResource())) {
 					if (((ILineBreakpoint)breakpoint).getLineNumber() == (lineNumber + 1)) {
 						// remove

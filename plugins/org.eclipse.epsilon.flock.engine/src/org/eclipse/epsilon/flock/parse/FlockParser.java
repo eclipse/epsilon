@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g 2010-06-09 20:09:49
+// $ANTLR 3.1b1 D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g 2010-06-25 21:19:26
 
 package org.eclipse.epsilon.flock.parse;
 
@@ -214,7 +214,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     }
 
     public String[] getTokenNames() { return FlockParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g"; }
+    public String getGrammarFileName() { return "D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g"; }
 
 
     public static class flockModule_return extends ParserRuleReturnScope {
@@ -223,7 +223,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start flockModule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:93:1: flockModule : ( importStatement )* ( flockModuleContent )* EOF -> ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* ) ;
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:93:1: flockModule : ( importStatement )* ( flockModuleContent )* EOF -> ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* ) ;
     public final FlockParser.flockModule_return flockModule() throws RecognitionException {
         FlockParser.flockModule_return retval = new FlockParser.flockModule_return();
         retval.start = input.LT(1);
@@ -241,10 +241,10 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
         RewriteRuleSubtreeStream stream_flockModuleContent=new RewriteRuleSubtreeStream(adaptor,"rule flockModuleContent");
         RewriteRuleSubtreeStream stream_importStatement=new RewriteRuleSubtreeStream(adaptor,"rule importStatement");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:94:2: ( ( importStatement )* ( flockModuleContent )* EOF -> ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:94:4: ( importStatement )* ( flockModuleContent )* EOF
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:94:2: ( ( importStatement )* ( flockModuleContent )* EOF -> ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* ) )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:94:4: ( importStatement )* ( flockModuleContent )* EOF
             {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:94:4: ( importStatement )*
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:94:4: ( importStatement )*
             loop1:
             do {
                 int alt1=2;
@@ -257,7 +257,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:0:0: importStatement
+            	    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:0:0: importStatement
             	    {
             	    pushFollow(FOLLOW_importStatement_in_flockModule79);
             	    importStatement1=importStatement();
@@ -274,7 +274,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
                 }
             } while (true);
 
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:94:21: ( flockModuleContent )*
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:94:21: ( flockModuleContent )*
             loop2:
             do {
                 int alt2=2;
@@ -287,7 +287,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:94:22: flockModuleContent
+            	    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:94:22: flockModuleContent
             	    {
             	    pushFollow(FOLLOW_flockModuleContent_in_flockModule83);
             	    flockModuleContent2=flockModuleContent();
@@ -310,7 +310,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
             // AST REWRITE
-            // elements: flockModuleContent, importStatement
+            // elements: importStatement, flockModuleContent
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -322,18 +322,18 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             root_0 = (CommonTree)adaptor.nil();
             // 95:2: -> ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:95:5: ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* )
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:95:5: ^( FLOCKMODULE ( importStatement )* ( flockModuleContent )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FLOCKMODULE, "FLOCKMODULE"), root_1);
 
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:95:19: ( importStatement )*
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:95:19: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
                     adaptor.addChild(root_1, stream_importStatement.nextTree());
 
                 }
                 stream_importStatement.reset();
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:95:36: ( flockModuleContent )*
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:95:36: ( flockModuleContent )*
                 while ( stream_flockModuleContent.hasNext() ) {
                     adaptor.addChild(root_1, stream_flockModuleContent.nextTree());
 
@@ -374,7 +374,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start flockModuleContent
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:98:1: flockModuleContent : ( rule | operationDeclarationOrAnnotationBlock );
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:98:1: flockModuleContent : ( rule | operationDeclarationOrAnnotationBlock );
     public final FlockParser.flockModuleContent_return flockModuleContent() throws RecognitionException {
         FlockParser.flockModuleContent_return retval = new FlockParser.flockModuleContent_return();
         retval.start = input.LT(1);
@@ -388,7 +388,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:99:2: ( rule | operationDeclarationOrAnnotationBlock )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:99:2: ( rule | operationDeclarationOrAnnotationBlock )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -407,7 +407,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:99:4: rule
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:99:4: rule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -421,7 +421,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:99:11: operationDeclarationOrAnnotationBlock
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:99:11: operationDeclarationOrAnnotationBlock
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -462,7 +462,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start rule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:102:1: rule : ( migrateRule | deleteRule );
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:102:1: rule : ( migrateRule | deleteRule );
     public final FlockParser.rule_return rule() throws RecognitionException {
         FlockParser.rule_return retval = new FlockParser.rule_return();
         retval.start = input.LT(1);
@@ -476,7 +476,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:103:3: ( migrateRule | deleteRule )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:103:3: ( migrateRule | deleteRule )
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -495,7 +495,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt4) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:103:5: migrateRule
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:103:5: migrateRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -509,7 +509,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:103:19: deleteRule
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:103:19: deleteRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -550,7 +550,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start migrateRule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:106:1: migrateRule : ( fullMigrateRule | shorthandMigrateRule );
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:106:1: migrateRule : ( fullMigrateRule | shorthandMigrateRule );
     public final FlockParser.migrateRule_return migrateRule() throws RecognitionException {
         FlockParser.migrateRule_return retval = new FlockParser.migrateRule_return();
         retval.start = input.LT(1);
@@ -564,7 +564,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:107:3: ( fullMigrateRule | shorthandMigrateRule )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:107:3: ( fullMigrateRule | shorthandMigrateRule )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -594,7 +594,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:107:5: fullMigrateRule
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:107:5: fullMigrateRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -608,7 +608,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
                     }
                     break;
                 case 2 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:107:23: shorthandMigrateRule
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:107:23: shorthandMigrateRule
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -649,7 +649,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start fullMigrateRule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:109:1: fullMigrateRule : 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}' -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body) ;
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:109:1: fullMigrateRule : 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}' -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body) ;
     public final FlockParser.fullMigrateRule_return fullMigrateRule() throws RecognitionException {
         FlockParser.fullMigrateRule_return retval = new FlockParser.fullMigrateRule_return();
         retval.start = input.LT(1);
@@ -681,8 +681,8 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
         RewriteRuleSubtreeStream stream_guard=new RewriteRuleSubtreeStream(adaptor,"rule guard");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:110:3: ( 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}' -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:110:5: 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}'
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:110:3: ( 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}' -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body) )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:110:5: 'migrate' originalType= NAME ( 'to' migratedType= NAME )? ( guard )? '{' body= block '}'
             {
             string_literal10=(Token)match(input,137,FOLLOW_137_in_fullMigrateRule156); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_137.add(string_literal10);
@@ -690,7 +690,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             originalType=(Token)match(input,NAME,FOLLOW_NAME_in_fullMigrateRule160); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(originalType);
 
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:110:33: ( 'to' migratedType= NAME )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:110:33: ( 'to' migratedType= NAME )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -699,7 +699,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:110:34: 'to' migratedType= NAME
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:110:34: 'to' migratedType= NAME
                     {
                     string_literal11=(Token)match(input,138,FOLLOW_138_in_fullMigrateRule163); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_138.add(string_literal11);
@@ -713,7 +713,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
             }
 
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:110:59: ( guard )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:110:59: ( guard )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -722,7 +722,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt7) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:0:0: guard
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:0:0: guard
                     {
                     pushFollow(FOLLOW_guard_in_fullMigrateRule171);
                     guard12=guard();
@@ -751,7 +751,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
             // AST REWRITE
-            // elements: originalType, migratedType, body, guard
+            // elements: originalType, migratedType, guard, body
             // token labels: migratedType, originalType
             // rule labels: body, retval
             // token list labels: 
@@ -766,19 +766,19 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             root_0 = (CommonTree)adaptor.nil();
             // 111:5: -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body)
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:112:5: ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body)
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:112:5: ^( MIGRATE $originalType ( $migratedType)? ( guard )? $body)
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MIGRATE, "MIGRATE"), root_1);
 
                 adaptor.addChild(root_1, stream_originalType.nextNode());
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:112:29: ( $migratedType)?
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:112:29: ( $migratedType)?
                 if ( stream_migratedType.hasNext() ) {
                     adaptor.addChild(root_1, stream_migratedType.nextNode());
 
                 }
                 stream_migratedType.reset();
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:112:44: ( guard )?
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:112:44: ( guard )?
                 if ( stream_guard.hasNext() ) {
                     adaptor.addChild(root_1, stream_guard.nextTree());
 
@@ -820,7 +820,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start shorthandMigrateRule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:114:1: shorthandMigrateRule : 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )? -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? ) ;
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:114:1: shorthandMigrateRule : 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )? -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? ) ;
     public final FlockParser.shorthandMigrateRule_return shorthandMigrateRule() throws RecognitionException {
         FlockParser.shorthandMigrateRule_return retval = new FlockParser.shorthandMigrateRule_return();
         retval.start = input.LT(1);
@@ -843,8 +843,8 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
         RewriteRuleTokenStream stream_137=new RewriteRuleTokenStream(adaptor,"token 137");
         RewriteRuleSubtreeStream stream_guard=new RewriteRuleSubtreeStream(adaptor,"rule guard");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:115:3: ( 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )? -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:115:5: 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:115:3: ( 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )? -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? ) )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:115:5: 'migrate' originalType= NAME 'to' migratedType= NAME ( guard )?
             {
             string_literal15=(Token)match(input,137,FOLLOW_137_in_shorthandMigrateRule220); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_137.add(string_literal15);
@@ -858,7 +858,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             migratedType=(Token)match(input,NAME,FOLLOW_NAME_in_shorthandMigrateRule230); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(migratedType);
 
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:115:56: ( guard )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:115:56: ( guard )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -867,7 +867,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:0:0: guard
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:0:0: guard
                     {
                     pushFollow(FOLLOW_guard_in_shorthandMigrateRule232);
                     guard17=guard();
@@ -884,7 +884,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
 
             // AST REWRITE
-            // elements: migratedType, originalType, guard
+            // elements: guard, migratedType, originalType
             // token labels: migratedType, originalType
             // rule labels: retval
             // token list labels: 
@@ -898,19 +898,19 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             root_0 = (CommonTree)adaptor.nil();
             // 116:5: -> ^( MIGRATE $originalType ( $migratedType)? ( guard )? )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:117:5: ^( MIGRATE $originalType ( $migratedType)? ( guard )? )
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:117:5: ^( MIGRATE $originalType ( $migratedType)? ( guard )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MIGRATE, "MIGRATE"), root_1);
 
                 adaptor.addChild(root_1, stream_originalType.nextNode());
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:117:29: ( $migratedType)?
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:117:29: ( $migratedType)?
                 if ( stream_migratedType.hasNext() ) {
                     adaptor.addChild(root_1, stream_migratedType.nextNode());
 
                 }
                 stream_migratedType.reset();
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:117:44: ( guard )?
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:117:44: ( guard )?
                 if ( stream_guard.hasNext() ) {
                     adaptor.addChild(root_1, stream_guard.nextTree());
 
@@ -951,7 +951,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start guard
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:119:1: guard : 'when' expressionOrStatementBlock -> ^( GUARD expressionOrStatementBlock ) ;
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:119:1: guard : 'when' expressionOrStatementBlock -> ^( GUARD expressionOrStatementBlock ) ;
     public final FlockParser.guard_return guard() throws RecognitionException {
         FlockParser.guard_return retval = new FlockParser.guard_return();
         retval.start = input.LT(1);
@@ -966,8 +966,8 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
         RewriteRuleTokenStream stream_139=new RewriteRuleTokenStream(adaptor,"token 139");
         RewriteRuleSubtreeStream stream_expressionOrStatementBlock=new RewriteRuleSubtreeStream(adaptor,"rule expressionOrStatementBlock");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:120:3: ( 'when' expressionOrStatementBlock -> ^( GUARD expressionOrStatementBlock ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:120:5: 'when' expressionOrStatementBlock
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:120:3: ( 'when' expressionOrStatementBlock -> ^( GUARD expressionOrStatementBlock ) )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:120:5: 'when' expressionOrStatementBlock
             {
             string_literal18=(Token)match(input,139,FOLLOW_139_in_guard268); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_139.add(string_literal18);
@@ -993,7 +993,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             root_0 = (CommonTree)adaptor.nil();
             // 121:5: -> ^( GUARD expressionOrStatementBlock )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:122:5: ^( GUARD expressionOrStatementBlock )
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:122:5: ^( GUARD expressionOrStatementBlock )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(GUARD, "GUARD"), root_1);
@@ -1034,7 +1034,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     };
 
     // $ANTLR start deleteRule
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:125:2: deleteRule : 'delete' type= NAME ( guard )? -> ^( DELETE $type ( guard )? ) ;
+    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:125:2: deleteRule : 'delete' type= NAME ( guard )? -> ^( DELETE $type ( guard )? ) ;
     public final FlockParser.deleteRule_return deleteRule() throws RecognitionException {
         FlockParser.deleteRule_return retval = new FlockParser.deleteRule_return();
         retval.start = input.LT(1);
@@ -1052,8 +1052,8 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
         RewriteRuleTokenStream stream_109=new RewriteRuleTokenStream(adaptor,"token 109");
         RewriteRuleSubtreeStream stream_guard=new RewriteRuleSubtreeStream(adaptor,"rule guard");
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:126:3: ( 'delete' type= NAME ( guard )? -> ^( DELETE $type ( guard )? ) )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:126:5: 'delete' type= NAME ( guard )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:126:3: ( 'delete' type= NAME ( guard )? -> ^( DELETE $type ( guard )? ) )
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:126:5: 'delete' type= NAME ( guard )?
             {
             string_literal20=(Token)match(input,109,FOLLOW_109_in_deleteRule299); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_109.add(string_literal20);
@@ -1061,7 +1061,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             type=(Token)match(input,NAME,FOLLOW_NAME_in_deleteRule303); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAME.add(type);
 
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:126:24: ( guard )?
+            // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:126:24: ( guard )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1070,7 +1070,7 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             }
             switch (alt9) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:0:0: guard
+                    // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:0:0: guard
                     {
                     pushFollow(FOLLOW_guard_in_deleteRule305);
                     guard21=guard();
@@ -1100,13 +1100,13 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
             root_0 = (CommonTree)adaptor.nil();
             // 127:6: -> ^( DELETE $type ( guard )? )
             {
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:128:8: ^( DELETE $type ( guard )? )
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:128:8: ^( DELETE $type ( guard )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DELETE, "DELETE"), root_1);
 
                 adaptor.addChild(root_1, stream_type.nextNode());
-                // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:128:23: ( guard )?
+                // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:128:23: ( guard )?
                 if ( stream_guard.hasNext() ) {
                     adaptor.addChild(root_1, stream_guard.nextTree());
 
@@ -1143,8 +1143,8 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
 
     // $ANTLR start synpred5_Flock
     public final void synpred5_Flock_fragment() throws RecognitionException {   
-        // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:107:5: ( fullMigrateRule )
-        // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:107:5: fullMigrateRule
+        // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:107:5: ( fullMigrateRule )
+        // D:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.flock.engine\\src\\org\\eclipse\\epsilon\\flock\\parse\\Flock.g:107:5: fullMigrateRule
         {
         pushFollow(FOLLOW_fullMigrateRule_in_synpred5_Flock142);
         fullMigrateRule();
@@ -1157,68 +1157,68 @@ public class FlockParser extends org.eclipse.epsilon.commons.parse.EpsilonParser
     // $ANTLR end synpred5_Flock
 
     // Delegated rules
-    public Flock_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
-    public Flock_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Flock_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Flock_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Flock_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
-    public Flock_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
-    public Flock_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Flock_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Flock_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
-    public Flock_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
-    public Flock_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
-    public Flock_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Flock_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Flock_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Flock_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Flock_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
     public Flock_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Flock_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
-    public Flock_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Flock_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Flock_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
-    public Flock_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
     public Flock_EolParserRules.modelNamespace_return modelNamespace() throws RecognitionException { return gEolParserRules.modelNamespace(); }
-    public Flock_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Flock_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
+    public Flock_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Flock_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+    public Flock_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Flock_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
+    public Flock_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Flock_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
     public Flock_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Flock_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
-    public Flock_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Flock_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Flock_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
-    public Flock_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Flock_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
-    public Flock_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Flock_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Flock_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Flock_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Flock_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Flock_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
+    public Flock_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
+    public Flock_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
+    public Flock_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Flock_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Flock_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
     public Flock_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
     public Flock_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Flock_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Flock_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
-    public Flock_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Flock_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
-    public Flock_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
     public Flock_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
-    public Flock_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
-    public Flock_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
-    public Flock_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
-    public Flock_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
-    public Flock_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Flock_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Flock_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Flock_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Flock_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Flock_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Flock_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
-    public Flock_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Flock_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
-    public Flock_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
-    public Flock_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Flock_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
+    public Flock_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
+    public Flock_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Flock_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Flock_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
+    public Flock_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
     public Flock_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Flock_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Flock_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
-    public Flock_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Flock_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Flock_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
     public Flock_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Flock_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Flock_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Flock_EolParserRules.modelElementType_return modelElementType() throws RecognitionException { return gEolParserRules.modelElementType(); }
+    public Flock_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Flock_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
+    public Flock_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Flock_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Flock_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
+    public Flock_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Flock_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Flock_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
+    public Flock_EolParserRules.litteralCollection_return litteralCollection() throws RecognitionException { return gEolParserRules.litteralCollection(); }
+    public Flock_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Flock_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
+    public Flock_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Flock_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Flock_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Flock_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Flock_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Flock_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Flock_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Flock_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Flock_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Flock_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
     public Flock_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Flock_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Flock_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Flock_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
+    public Flock_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
+    public Flock_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
 
     public final boolean synpred5_Flock() {
         state.backtracking++;

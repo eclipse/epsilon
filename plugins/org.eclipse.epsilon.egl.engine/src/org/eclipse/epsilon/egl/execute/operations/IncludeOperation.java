@@ -21,7 +21,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.epsilon.eol.types.EolString;
 
 public class IncludeOperation extends AbstractSimpleOperation {
 
@@ -35,7 +34,7 @@ public class IncludeOperation extends AbstractSimpleOperation {
 		
 		OutputBuffer out = (OutputBuffer)outVariable.getValue();
 		
-		String templatePath = ((EolString) parameters.get(0)).getValue();
+		String templatePath = (String) parameters.get(0);
 		EglTemplate template = templateFactory.load(templatePath);
 		
 		try {

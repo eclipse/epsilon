@@ -40,7 +40,6 @@ import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.ewl.EwlModule;
 import org.eclipse.epsilon.ewl.EwlWizardInstance;
 import org.eclipse.jface.action.IAction;
@@ -186,7 +185,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				
 				Object self = null;
 				if (eObjects.size() > 1) {
-					self = new EolSequence(eObjects);
+					self = eObjects;
 				}
 				else if (eObjects.size() == 1){
 					self = eObjects.get(0);

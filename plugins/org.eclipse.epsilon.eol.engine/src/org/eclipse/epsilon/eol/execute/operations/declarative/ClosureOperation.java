@@ -10,9 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Iterator;
+import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -20,17 +21,13 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
-
 
 public class ClosureOperation extends AbstractOperation {
 	
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
 		
-		//AST parametersAst = ast.getFirstChild();
 		AST declarationsAst = ast.getFirstChild();
 		AST bodyAst = declarationsAst.getNextSibling();
 		
@@ -48,64 +45,32 @@ public class ClosureOperation extends AbstractOperation {
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		EolCollection source = EolCollection.asCollection(obj);
-		EolSequence result = new EolSequence();
+		Collection<Object> source = CollectionUtil.asCollection(obj);
+		Collection<Object> result = CollectionUtil.createDefaultList();
 		
 		closure(source,iteratorName,iteratorType,bodyAst,context,result);
-		
-		/*
-		Iterator li = source.getStorage().iterator();
-		Scope scope = context.getScope();
-		
-		while (li.hasNext()){
-			Object listItem = li.next();
-			
-			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, ast);
-				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
-				if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
-					result.add(listItem);
-				}
-				scope.leave(ast);
-			}
-		}
-		*/
 		
 		return result;
 	}
 	
-	public void closure(EolCollection source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, EolSequence closure) throws EolRuntimeException {
-		Iterator li = source.getStorage().iterator();
+	public void closure(Collection<Object> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		
-		while (li.hasNext()){
-			Object listItem = li.next();
+		for (Object listItem : source) {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				//if (closure.includes(listItem).not().booleanValue()) {
-					scope.enter(FrameType.UNPROTECTED, expressionAST);
-					scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-					Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
-					//if (bodyResult instanceof EolBoolean && ((EolBoolean) bodyResult).getValue()){
-					if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
-						for (Object result : EolCollection.asCollection(bodyResult).getStorage()) {
-							if (result != null && closure.includes(result).not().booleanValue()) {
-								closure.add(result);
-								closure(EolCollection.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
-							}
+				scope.enter(FrameType.UNPROTECTED, expressionAST);
+				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
+				Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
+				if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
+					for (Object result : CollectionUtil.asCollection(bodyResult)) {
+						if (result != null && !closure.contains(result)) {
+							closure.add(result);
+							closure(CollectionUtil.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
 						}
-						//if (bodyResult instanceof EolCollection) {
-						//	closure.addAll((EolCollection)bodyResult);
-						//}
-						//else {
-						//	closure.add(bodyResult);
-						//}
-						//closure(EolCollection.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
 					}
-					//}
-					scope.leave(expressionAST);
-				//}
+					
+				}
+				scope.leave(expressionAST);
 			}
 		}
 	}

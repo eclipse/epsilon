@@ -16,13 +16,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
@@ -33,7 +30,7 @@ import org.eclipse.epsilon.etl.trace.Transformations;
 public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
-	protected HashMap<Object, EolCollection> flatTrace = new HashMap<Object, EolCollection>();
+	protected HashMap<Object, Collection> flatTrace = new HashMap<Object, Collection>();
 	protected HashMap<Object, Transformations> pendingTransformations = new HashMap<Object, Transformations>();
 	
 	public FastTransformationStrategy(){
@@ -48,7 +45,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		return !getExcluded().contains(source);
 	}
 	
-	public EolCollection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
+	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
 		throw new UnsupportedOperationException(
 				"FastTransformationStrategy cannot transform single objects. " +
@@ -56,7 +53,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public EolCollection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		
 		if (pendingTransformations.containsKey(source)) {
@@ -70,10 +67,10 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
-		EolCollection equivalents = getEquivalents(source, context, rules);
+		Collection equivalents = getEquivalents(source, context, rules);
 		
-		if (equivalents != null && !equivalents.isEmpty().booleanValue()) {
-			return equivalents.at(new EolInteger(0));
+		if (!equivalents.isEmpty() && !equivalents.isEmpty()) {
+			return CollectionUtil.getFirst(equivalents);
 		}
 		else {
 			return null;
@@ -81,18 +78,18 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public EolCollection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		return getEquivalents(collection, context, rules).flatten();
+		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
 	}
 	
-	public EolCollection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		EolCollection equivalents = new EolBag();
+		Collection equivalents = CollectionUtil.createDefaultList();
 		Iterator it = collection.iterator();
 		while (it.hasNext()){
 			Object equivalent = getEquivalents(it.next(), context, rules);
-			if (equivalent != null && equivalents.includes(equivalent).not().booleanValue()){
+			if (equivalent != null && !equivalents.contains(equivalent)){
 				equivalents.add(equivalent);
 			}
 		}
@@ -101,8 +98,6 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
-		
-		// System.err.println("Creating targets");
 		
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
@@ -119,7 +114,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 				for (Object instance : sources) {
 					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)){
 						
-						EolCollection targets = new EolSequence();
+						Collection targets = CollectionUtil.createDefaultList();
 						
 						for (EolFormalParameter target : transformRule.getTargetParameters()) {
 							targets.add(target.getType(context).createInstance());
@@ -132,21 +127,19 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			}
 		}
 		
-		//System.err.println("Flattening trace");
-		
 		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
 			
 			if (flatTrace.containsKey(transformation.getSource())) {
 				if (transformation.getRule().isPrimary()) {
 					flatTrace.put(transformation.getSource(), 
-							transformation.getTargets().includingAll(flatTrace.get(transformation.getSource())));
+							CollectionUtil.join(transformation.getTargets(), flatTrace.get(transformation.getSource())));
 				}
 				else {
 					flatTrace.get(transformation.getSource()).addAll(transformation.getTargets());
 				}
 			}
 			else {
-				flatTrace.put(transformation.getSource(), transformation.getTargets().clone());
+				flatTrace.put(transformation.getSource(), CollectionUtil.clone(transformation.getTargets()));
 			}
 			
 			if (pendingTransformations.containsKey(transformation.getSource())) {
@@ -160,7 +153,6 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			
 		}
 		
-		//System.err.println("Running rules");
 		executeTransformations(context.getTransformationTrace().getTransformations(), context);
 		
 	}

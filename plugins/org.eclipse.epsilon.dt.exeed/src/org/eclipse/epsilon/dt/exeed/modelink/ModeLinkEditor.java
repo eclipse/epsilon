@@ -160,7 +160,6 @@ public class ModeLinkEditor extends MultiEditor {
 	// Saves the state of the editor
 	protected void saveState() {
 		
-		//System.err.println("Saving state...");
 		Document doc = new Document();
 		Element root = new Element("modelink");
 		root.getAttributes().add(new Attribute("threeWay", getEditorInput().isThreeWay() + ""));
@@ -282,7 +281,6 @@ public class ModeLinkEditor extends MultiEditor {
         
         if (folder == middleFolder || (!getEditorInput().isThreeWay() && folder == rightFolder)) {
         	if (editor instanceof ExeedEditor) {
-        		//System.err.println("Adding selection propagation support (ModeLinkEditor : 372)");
         		addSelectionPropagationSupport((ExeedEditor)editor, this);
         	}
         }

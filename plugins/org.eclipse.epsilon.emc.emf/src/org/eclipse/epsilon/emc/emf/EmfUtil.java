@@ -43,8 +43,6 @@ public class EmfUtil {
 	public static EStructuralFeature getEStructuralFeature(EClass eClass, String featureName) {
 		try {
 			EStructuralFeature feature = eClass.getEStructuralFeature(featureName);
-			
-			//System.err.println(eClass + "-" + featureName + "-" + feature);
 						
 			if (feature == null) {
 				final EClass documentRoot = ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage());
@@ -103,8 +101,6 @@ public class EmfUtil {
 		
 		for (Object key : m.keySet()) {
 			
-			//System.err.println(key);
-			
 			if (key instanceof EClassifier) {
 				EClassifier eClass = (EClassifier) key;
 				EPackage referencedPackage = eClass.getEPackage();
@@ -141,55 +137,17 @@ public class EmfUtil {
 		
 		List<EPackage> ePackages = new ArrayList();
 		
-		// File f = new File(fileName);
-		
-		/*
-		if (!f.isAbsolute()) {
-			fileName = ResourcesPlugin.getWorkspace().getRoot()
-					.getRawLocation().toPortableString()
-					+ fileName;
-		}
-*/
 		initialiseResourceFactoryRegistry();
 
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(),
 				EcorePackage.eINSTANCE);
+	
+		Resource metamodel = resourceSet.createResource(uri);
+		metamodel.load(Collections.EMPTY_MAP);
 		
-		// resourceSet.getPackageRegistry().putAll(EPackage.Registry.INSTANCE);
-		
-		// System.err.println(resourceSet.getResource(URI.createPlatformResourceURI(fileName, false), true));
-		
-		//try {
-			//metamodel.load(new FileInputStream(fileName), Collections.EMPTY_MAP);
-			
-			//URI uri = URI.createFileURI(fileName);
-			
-			//URI uri = URI.createPlatformResourceURI(fileName, true);
-			
-		
-			Resource metamodel = resourceSet.createResource(uri);
-		
-			//System.err.println(uri);
-		
-			//metamodel = resourceSet.getResource(uri,false);
-			
-			
-			metamodel.load(Collections.EMPTY_MAP);
-			
-			//metamodel = resourceSet.getResource(URI.createPlatformResourceURI(fileName, false), true);
-		//} catch (IOException e) {
-		//	throw e;
-			//EmfUtilPlugin.getDefault().getLog().log(new Status());
-		//}
-		// e.printStackTrace();
-		// MessageDialog.openError(null,"Error", e.toString());
-		// return;
-		// }
-
 		setDataTypesInstanceClasses(metamodel);
 
-		//Iterator it = metamodel.getContents().iterator();
 		Iterator it = metamodel.getAllContents();
 		while (it.hasNext()) {
 			Object next = it.next();
@@ -217,7 +175,6 @@ public class EmfUtil {
 				}
 				
 				if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
-				//EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 				registry.put(p.getNsURI(), p);
 				metamodel.setURI(URI.createURI(p.getNsURI()));
 				ePackages.add(p);

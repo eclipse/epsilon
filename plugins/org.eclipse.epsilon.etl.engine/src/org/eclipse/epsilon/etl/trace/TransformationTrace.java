@@ -10,10 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.trace;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.etl.TransformRule;
 
 public class TransformationTrace {
@@ -22,7 +21,7 @@ public class TransformationTrace {
 	HashMap<Object, Transformations> cache = new HashMap<Object, Transformations>();
 	Transformations transformations = new Transformations();
 	
-	public void add(Object source, EolCollection targets, TransformRule rule){
+	public void add(Object source, Collection targets, TransformRule rule){
 		Transformation transformation = new Transformation();
 		transformation.setSource(source);
 		transformation.setTargets(targets);

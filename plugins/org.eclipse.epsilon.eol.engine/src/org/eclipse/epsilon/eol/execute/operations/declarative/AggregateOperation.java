@@ -1,10 +1,12 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -12,11 +14,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
 
 public class AggregateOperation extends AbstractOperation {
 
@@ -42,8 +41,8 @@ public class AggregateOperation extends AbstractOperation {
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		EolCollection source = EolCollection.asCollection(obj);
-		Iterator li = source.getStorage().iterator();
+		Collection source = CollectionUtil.asCollection(obj);
+		Iterator li = source.iterator();
 		FrameStack scope = context.getFrameStack();
 		
 		EolMap result = new EolMap();

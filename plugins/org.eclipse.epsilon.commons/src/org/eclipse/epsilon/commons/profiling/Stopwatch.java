@@ -51,17 +51,4 @@ public class Stopwatch {
 			return System.currentTimeMillis() - pauseDuration - startTime;
 		}
 	}
-	
-	public static void main(String[] args) throws Exception{
-		Stopwatch s = new Stopwatch();
-		s.resume();
-		Thread.sleep(100);
-		//s.pause();
-		Thread.sleep(200);
-		//s.resume();
-		Thread.sleep(400);
-		//s.pause();
-		System.err.println(s.getElapsed());
-	}
-	
 }

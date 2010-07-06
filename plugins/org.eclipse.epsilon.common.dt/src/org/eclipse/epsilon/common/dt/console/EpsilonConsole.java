@@ -49,8 +49,6 @@ public class EpsilonConsole {
 				infoPrintStream = newPrintStream(display.getSystemColor(SWT.COLOR_BLUE));
 				inputStream = ioConsole.getInputStream();				
 				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_GREEN));
-				//System.err.println("Setting watermarks...");
-				//ioConsole.setWaterMarks(0, 10);
 			}
 		});
 		

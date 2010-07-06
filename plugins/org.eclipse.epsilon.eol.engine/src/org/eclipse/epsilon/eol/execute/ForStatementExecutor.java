@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
@@ -20,14 +22,9 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBoolean;
-import org.eclipse.epsilon.eol.types.EolCollection;
-import org.eclipse.epsilon.eol.types.EolInteger;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
-
 
 public class ForStatementExecutor extends AbstractExecutor{
 
@@ -35,29 +32,27 @@ public class ForStatementExecutor extends AbstractExecutor{
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
 		
 		AST iteratorAst = ast.getFirstChild();
-		//System.err.println(iteratorAst);
 		AST iteratedCollectionAst = ast.getFirstChild().getNextSibling();
-		//System.err.println(iteratedCollectionAst);
 		AST bodyAst = iteratedCollectionAst.getNextSibling();
-		//System.err.println(bodyAst);
 		
 		Object iterated = context.getExecutorFactory().executeAST(iteratedCollectionAst, context);
 		
-		EolCollection iteratedCol = null;
+		Collection iteratedCol = null;
 		
-		if (iterated instanceof EolCollection){
-			iteratedCol = (EolCollection) iterated;
+		if (iterated instanceof Collection){
+			iteratedCol = (Collection) iterated;
 		}
 		//TODO: See if we can make other classes iterable as well
 		//TODO: Reduce duplication between here and EolCollection.asCollection
 		else if (iterated instanceof Iterable){
-			iteratedCol = EolSequence.asSequence(iterated);
+			iteratedCol = CollectionUtil.iterate((Iterable) iterated);
 		}
 		else if (iterated instanceof EolModelElementType) {
-			iteratedCol = new EolSequence(((EolModelElementType) iterated).all());
+			iteratedCol = CollectionUtil.createDefaultList(); 
+			iteratedCol.addAll(((EolModelElementType) iterated).all());
 		}
 		else {
-			iteratedCol = new EolSequence();
+			iteratedCol = CollectionUtil.createDefaultList();
 			iteratedCol.add(iterated);
 		}
 		
@@ -81,10 +76,10 @@ public class ForStatementExecutor extends AbstractExecutor{
 		}
 		//}
 		
-		Iterator li = iteratedCol.getStorage().iterator();
+		Iterator li = iteratedCol.iterator();
 		
 		if (iteratorType != EolAnyType.Instance) {
-			EolSequence typeSafeCollection = new EolSequence();
+			Collection typeSafeCollection = CollectionUtil.createDefaultList();
 			while (li.hasNext()) {
 				Object next = li.next();
 				if (iteratorType.isKind(next)) {
@@ -108,8 +103,8 @@ public class ForStatementExecutor extends AbstractExecutor{
 			context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
 			
 			context.getFrameStack().put(new Variable(iteratorName, next, iteratorType));
-			context.getFrameStack().put(new Variable("hasMore",new EolBoolean(li.hasNext()), EolPrimitiveType.Boolean, true));
-			context.getFrameStack().put(new Variable("loopCount",new EolInteger(loop++), EolPrimitiveType.Integer, true));
+			context.getFrameStack().put(new Variable("hasMore", li.hasNext(), EolPrimitiveType.Boolean, true));
+			context.getFrameStack().put(new Variable("loopCount", loop++, EolPrimitiveType.Integer, true));
 			
 			Object result = null; 
 			

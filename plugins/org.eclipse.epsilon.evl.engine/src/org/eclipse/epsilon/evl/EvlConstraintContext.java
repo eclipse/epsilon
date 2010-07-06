@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolBoolean;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
@@ -101,8 +100,8 @@ public class EvlConstraintContext extends AbstractModuleElement {
 					result = Return.getValue(result);
 				}
 				context.getFrameStack().leave(guardAst);
-				if (result instanceof EolBoolean){
-					return ((EolBoolean) result).getValue();
+				if (result instanceof Boolean){
+					return ((Boolean) result);
 				}
 				else {
 					throw new EolIllegalReturnException("Boolean", result, guardAst, context);

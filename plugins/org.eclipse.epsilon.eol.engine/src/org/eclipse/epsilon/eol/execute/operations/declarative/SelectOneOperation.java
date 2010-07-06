@@ -10,19 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolCollection;
-
 
 public class SelectOneOperation extends SelectOperation {
 
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
 		setReturnOnFirstMatch(true);
-		EolCollection result = (EolCollection) super.execute(obj, ast, context);
-		return result.first();
+		Collection result = (Collection) super.execute(obj, ast, context);
+		return CollectionUtil.getFirst(result);
 	}
 	
 }

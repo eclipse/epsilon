@@ -20,8 +20,6 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolNativeType;
-import org.eclipse.epsilon.eol.types.EolTypeWrapper;
-
 
 public class ReflectionUtil {
 	
@@ -37,42 +35,7 @@ public class ReflectionUtil {
 		return false;
 	}
 	
-	public static Method getMethodFor2(Object obj, String methodName, Object[] parameters, boolean unwrapParameters) {
-		
-		if (obj == null) return null;
-		
-		// Do a first check that the object class has a method with that name
-		boolean matchByName = false;
-		for (Method method : obj.getClass().getMethods()) {
-			if (method.getName().equals(methodName)) {
-				matchByName = true;
-				break;
-			}
-		}
-		
-		if (!matchByName) return null;
-		
-		// If it has, do parameter type checking as well
-		Class[] parameterTypes = new Class[parameters.length];
-		
-		for (int i=0;i<parameters.length;i++) {
-			if (unwrapParameters) {
-				parameterTypes[i] = EolTypeWrapper.getInstance().unwrap(parameters[i]).getClass();
-			}
-			else {
-				parameterTypes[i] = EolTypeWrapper.getInstance().wrap(parameters[i]).getClass();
-			}
-		}
-		
-		try {
-			return obj.getClass().getMethod(methodName, parameterTypes);
-		} catch (Exception e) {
-			return null;
-		}
-		
-	}
-	
-	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean unwrapParameters){
+	public static Method getMethodFor(Object obj, String methodName, Object[] parameters){
 		
 		if (obj == null) return null;
 		
@@ -94,7 +57,7 @@ public class ReflectionUtil {
 					//TODO: See why parameter type checking does not work with EolSequence
 					for (int j=0;j<parameterTypes.length && parametersMatch; j++){
 						Class parameterType = parameterTypes[j];
-						Object parameter = unwrapParameters ? EolTypeWrapper.getInstance().unwrap(parameters[j]) : parameters[j];
+						Object parameter = parameters[j];
 						parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
 					}
 					
@@ -131,7 +94,7 @@ public class ReflectionUtil {
 						//TODO: See why parameter type checking does not work with EolSequence
 						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
 							Class parameterType = parameterTypes[j];
-							Object parameter = unwrapParameters ? EolTypeWrapper.getInstance().unwrap(parameters[j]) : parameters[j];
+							Object parameter = parameters[j];
 							parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
 						}
 						
@@ -171,11 +134,11 @@ public class ReflectionUtil {
 		return null;
 	}	
 
-	public static Object executeMethod(Object obj, String methodName, Object[] parameters, boolean unwrapParameters, AST ast) throws EolRuntimeException{
-		Method method = getMethodFor(obj, methodName, parameters, unwrapParameters);
+	public static Object executeMethod(Object obj, String methodName, Object[] parameters, AST ast) throws EolRuntimeException{
+		Method method = getMethodFor(obj, methodName, parameters);
 		if (method != null){
 			try {
-				return executeMethod(method, obj, parameters, unwrapParameters);
+				return executeMethod(method, obj, parameters);
 			} catch (Throwable t) {
 				throw new EolInternalException(t, ast);
 			}
@@ -184,16 +147,16 @@ public class ReflectionUtil {
 		}
 	}
 
-	public static Object executeMethod(Object obj, Method method, Object[] parameters, boolean unwrapParameters, AST ast) throws EolRuntimeException{
+	public static Object executeMethod(Object obj, Method method, Object[] parameters, AST ast) throws EolRuntimeException{
 		try {
-			return executeMethod(method, obj, parameters, unwrapParameters);
+			return executeMethod(method, obj, parameters);
 		} catch (Throwable t) {
 			throw new EolInternalException(t, ast);
 		}
 	}
 	
 	public static Object executeMethod(Object obj, String methodName, Object[] parameters) throws Throwable {
-		Method method = getMethodFor(obj, methodName, parameters, false);
+		Method method = getMethodFor(obj, methodName, parameters);
 		try {
 			return method.invoke(obj, parameters);
 		} 
@@ -202,13 +165,8 @@ public class ReflectionUtil {
 		}
 	}
 	
-	public static Object executeMethod(Method method, Object obj, Object[] parameters, boolean unwrapParameters) throws Throwable {
+	public static Object executeMethod(Method method, Object obj, Object[] parameters) throws Throwable {
 		
-		if (unwrapParameters){
-			for (int i=0;i<parameters.length;i++){
-				parameters[i] = EolTypeWrapper.getInstance().unwrap(parameters[i]);
-			}
-		}
 		try {
 			return method.invoke(obj, parameters);
 		}

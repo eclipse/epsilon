@@ -57,7 +57,6 @@ public class SchedulerTool extends AbstractTool{
 		}
 		
 		public void start() {
-			System.err.println(jobTask.period);
 			timer.schedule(jobTask, 0, jobTask.period);
 		}
 	}

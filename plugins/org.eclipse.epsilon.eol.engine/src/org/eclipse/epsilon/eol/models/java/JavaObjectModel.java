@@ -26,27 +26,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.models.Model;
 
-public class JavaObjectModel extends Model{
-	
-	public static void main(String[] args) throws Exception {
-		
-		try {
-			JavaObjectModel model = new JavaObjectModel();
-			model.setName("JavaModel");
-			model.allContents().add(1);
-			model.allContents().add(2);
-			model.allContents().add(2);
-			model.allContents().add("boo");
-			model.getImportedPackages().add("java.lang");
-			
-			System.err.println(model.getAllOfType("Integer"));
-			System.err.println(model.getAllOfKind("Object"));
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-	}
+public class JavaObjectModel extends Model {
 	
 	protected Collection<Object> contents = new HashSet<Object>();
 	protected List<String> importedPackages = new ArrayList<String>();

@@ -9,21 +9,6 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class SwitchStatementExecutor extends AbstractExecutor {
 
-	public static void main(String[] args) {
-		
-		int i = 2;
-		
-		switch (i) {
-			
-			case 1: System.err.println("1");
-			case 2: System.err.println("2");
-			case 3: System.err.println("3");
-			default : System.err.println("default");
-			
-		}
-		
-	}
-	
 	@Override
 	public Object execute(AST ast, IEolContext context)
 			throws EolRuntimeException {
