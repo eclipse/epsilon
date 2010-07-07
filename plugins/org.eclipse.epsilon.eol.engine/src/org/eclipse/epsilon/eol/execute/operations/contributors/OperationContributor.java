@@ -14,7 +14,9 @@ public abstract class OperationContributor {
 	public abstract boolean contributesTo(Object target);
 	
 	public ObjectMethod getObjectMethodFor(Object target, String name, Object[] parameters, IEolContext context) {
-		Method method = ReflectionUtil.getMethodFor(this, name, parameters);
+		// Only include in the search methods defined by the contributor 
+		// i.e. ignore Object methods
+		Method method = ReflectionUtil.getMethodFor(this, name, parameters, false); 
 		if (method != null) {
 			ObjectMethod objectMethod = new ObjectMethod();
 			setTarget(target);
@@ -31,8 +33,6 @@ public abstract class OperationContributor {
 	public void setTarget(Object target) {
 		this.target = target;
 	}
-	
-	
 	
 	public void setContext(IEolContext context) {
 		this.context = context;

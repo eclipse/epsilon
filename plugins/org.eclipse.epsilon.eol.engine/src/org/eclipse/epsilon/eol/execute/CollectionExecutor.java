@@ -18,6 +18,10 @@ import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.types.EolBag;
+import org.eclipse.epsilon.eol.types.EolOrderedSet;
+import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolSet;
 
 
 public class CollectionExecutor extends AbstractExecutor{
@@ -28,16 +32,16 @@ public class CollectionExecutor extends AbstractExecutor{
 		Collection collection = null; 
 		
 		if (ast.getText().equals("Sequence") || ast.getText().equals("List")){
-			collection = CollectionUtil.createDefaultList();
+			collection = new EolSequence();
 		}
 		else if (ast.getText().equals("Set")){
-			collection = CollectionUtil.createDefaultSet();
+			collection = new EolSet();
 		}
 		else if (ast.getText().equals("OrderedSet")){
-			collection = CollectionUtil.createDefaultSet();
+			collection = new EolOrderedSet();
 		}
 		else {
-			collection = CollectionUtil.createDefaultList();
+			collection = new EolBag();
 		}
 		
 		AST expressionListAst = ast.getFirstChild();
@@ -62,9 +66,18 @@ public class CollectionExecutor extends AbstractExecutor{
 				Object rangeEnd = context.getExecutorFactory().executeAST(rangeEndAst, context);
 				
 				if (rangeStart instanceof Integer && rangeEnd instanceof Integer){
-					for (int i=((Integer)rangeStart).intValue(); i<=((Integer)rangeEnd).intValue(); i++){
-						collection.add(i);
-						//collection.add(i);
+					
+					Integer s = (Integer) rangeStart;
+					Integer e = (Integer) rangeEnd;
+					
+					if (s > e) {
+						for (int i=s.intValue(); i>=e.intValue(); i--){
+							collection.add(i);
+						}											}
+					else {
+						for (int i=s.intValue(); i<=e.intValue(); i++){
+							collection.add(i);
+						}
 					}
 				}
 				else {

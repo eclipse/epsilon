@@ -35,11 +35,23 @@ public class ReflectionUtil {
 		return false;
 	}
 	
+
 	public static Method getMethodFor(Object obj, String methodName, Object[] parameters){
+		return getMethodFor(obj, methodName, parameters, true);
+	}
+	
+	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods){
 		
 		if (obj == null) return null;
 		
-		Method[] methods = obj.getClass().getMethods();
+		Method[] methods = null;
+		
+		if (includeInheritedMethods) {
+			methods = obj.getClass().getMethods();
+		}
+		else {
+			methods = obj.getClass().getDeclaredMethods();
+		}
 		
 		// Faster than for (Method method : methods)
 		// Custom search a lot faster than Class.getMethod(...)

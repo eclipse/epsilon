@@ -87,3 +87,8 @@ operation testReplace1() {
 operation testReplace2() {
 	assertEquals("xyz".replace(".","-"), "---");
 }
+
+@test
+operation testToString() {
+	assertEquals("foo".toString(), "foo");
+}

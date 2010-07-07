@@ -161,3 +161,20 @@ operation testSequenceAt() {
 operation testIncludesAll() {
 	assertEquals(Sequence{"a", "b"}.includesAll(Sequence{"c"}), false);
 }
+
+@test
+operation testSequenceRange() {
+	assertEquals(Sequence{1..10}.size(), 10);
+}
+
+@test
+operation testInvalidSequenceRanges() {
+	assertError(Sequence{0.1..10});
+	assertError(Sequence{"foo".."bar"});
+}
+
+@test
+operation testReverseSequenceRange() {
+	assertEquals(Sequence{10..5}, Sequence {10,9,8,7,6,5});
+}
+
