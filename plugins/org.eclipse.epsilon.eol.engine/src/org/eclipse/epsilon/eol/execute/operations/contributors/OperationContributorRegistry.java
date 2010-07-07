@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
+import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.StringCompatibilityOperationContributor;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class OperationContributorRegistry extends ArrayList<OperationContributor>{
 	
 	public OperationContributorRegistry() {
+		add(new StringCompatibilityOperationContributor());
 		add(new ReflectiveOperationContributor());
 		add(new StringOperationContributor());
 		add(new NumberOperationContributor());

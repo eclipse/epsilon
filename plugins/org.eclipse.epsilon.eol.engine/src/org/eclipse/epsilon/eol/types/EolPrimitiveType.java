@@ -21,11 +21,9 @@ public class EolPrimitiveType extends EolType{
 	private String name;
 	
 	public static EolPrimitiveType Integer = new EolPrimitiveType(Integer.class,"Integer");
-	public static EolPrimitiveType Long = new EolPrimitiveType(Long.class,"Long");
 	public static EolPrimitiveType String = new EolPrimitiveType(String.class,"String");
 	public static EolPrimitiveType Boolean = new EolPrimitiveType(Boolean.class,"Boolean");
 	public static EolPrimitiveType Real = new EolPrimitiveType(Float.class,"Real");
-	public static EolPrimitiveType Double = new EolPrimitiveType(Double.class,"Double");
 	public static EolPrimitiveType Map = new EolPrimitiveType(EolMap.class,"Map");
 	
 	private EolPrimitiveType(Class clazz, String name){
@@ -41,8 +39,23 @@ public class EolPrimitiveType extends EolType{
 	
 	@Override
 	public boolean isType(Object o) {
-		if (o == null) return true;
-		return o.getClass() == clazz;
+		if (o == null) return false;
+		else if ((this == EolPrimitiveType.Integer) && (o instanceof Integer || o instanceof Long)) {
+			return true;
+		}
+		else if ((this == EolPrimitiveType.Real) && (o instanceof Double || o instanceof Float)) {
+			return true;
+		}
+		else if ((this == EolPrimitiveType.String) && (o instanceof String)) {
+			return true;
+		}
+		else if ((this == EolPrimitiveType.Boolean) && (o instanceof Boolean)) {
+			return true;
+		}
+		else if ((this == EolPrimitiveType.Map) && (o instanceof EolMap)) {
+			return true;
+		}
+		return false;
 	}
 
 	public Class getClazz() {
@@ -51,7 +64,12 @@ public class EolPrimitiveType extends EolType{
 
 	@Override
 	public boolean isKind(Object o) {
-		return clazz.isInstance(o);
+		if (this == EolPrimitiveType.Integer) return Integer.isType(o);
+		else if (this == EolPrimitiveType.Real) return Real.isType(o) || Integer.isType(o);
+		else if (this == EolPrimitiveType.String) return String.isType(o);
+		else if (this == EolPrimitiveType.Boolean) return Boolean.isType(o);
+		else if (this == EolPrimitiveType.Map) return Map.isType(o);
+		else return false;
 	}
 
 	@Override

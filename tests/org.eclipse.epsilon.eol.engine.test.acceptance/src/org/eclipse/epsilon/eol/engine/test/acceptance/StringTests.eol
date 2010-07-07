@@ -78,3 +78,12 @@ operation testSplit() {
 	assertEquals("foo,bar".split(",").first(), "foo");
 }
 
+@test
+operation testReplace1() {
+	assertEquals("aaa".replace("a","b"), "bbb");
+}
+
+@test
+operation testReplace2() {
+	assertEquals("xyz".replace(".","-"), "---");
+}
