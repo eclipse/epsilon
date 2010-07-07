@@ -118,4 +118,18 @@ public class StringOperationContributor extends OperationContributor {
 		return Boolean.parseBoolean(value);
 	}
 	
+	public String pad(int width, String padding, boolean right) {
+		String result = (String) target;
+		int pad = width - result.length();
+		while (pad > 0) {
+			if (right) {
+				result = result + padding;
+			}
+			else {
+				result = padding + result;
+			}
+			pad = pad - 1;
+		}
+		return result;
+	}
 }

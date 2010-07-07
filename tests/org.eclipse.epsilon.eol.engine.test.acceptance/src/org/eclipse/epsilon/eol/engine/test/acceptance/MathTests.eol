@@ -4,6 +4,13 @@ operation testAdd() {
 }
 
 @test
+operation equalNumbers() {
+	assertEquals(1, 1.0f);
+	assertEquals(1.0d, 1.0f);
+	assertEquals(1, 1.0d);
+}
+
+@test
 operation testAddNegative() {
 	assertEquals(1+(-2), -1);
 }
@@ -66,4 +73,39 @@ operation testMin() {
 @test
 operation textMax() {
 	assertEquals(2.max(3.1d), 3.1d);
+}
+
+@test
+operation testIntegerTo() {
+	assertEquals(1.to(5), Sequence{1,2,3,4,5});
+}
+
+@test
+operation testIntegerToReverse() {
+	assertEquals(5.to(1), Sequence{5,4,3,2,1});
+}
+
+@test
+operation testIntegerToSame() {
+	assertEquals(1.to(1), Sequence{1});
+}
+
+@test
+operation testPow() {
+	assertEquals(2.pow(3), 8);
+	assertEquals(2.pow(3).type(), Integer);
+	assertEquals(2.pow(-1), 0.5);
+}
+
+@test
+operation testIota() {
+	assertEquals(0.iota(10, 2), Sequence{0,2,4,6,8,10});
+	assertEquals(0.iota(10, 3), Sequence{0,3,6,9});
+	assertError(0.iota(10, 0));
+}
+
+@test
+operation testLog() {
+	assertEquals(1.log(), 0);
+	assertEquals(2.log().asString().substring(0,4), "0.69");
 }

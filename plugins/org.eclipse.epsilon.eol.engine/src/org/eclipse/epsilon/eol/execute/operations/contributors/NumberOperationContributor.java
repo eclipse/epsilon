@@ -9,6 +9,10 @@ public class NumberOperationContributor extends OperationContributor {
 		return target instanceof Number;
 	}
 	
+	private Number getNumber() {
+		return (Number) target;
+	}
+	
 	public Number min(Number other) {
 		Number self = (Number) target;
 		if (NumberUtil.lessThan(self, other)) {
@@ -34,9 +38,35 @@ public class NumberOperationContributor extends OperationContributor {
 		return (int) Math.floor(self.doubleValue());
 	}
 	
+	public Number pow(Number n) {
+		Double pow = Math.pow(((Number) target).doubleValue(), n.doubleValue());
+		if (target instanceof Integer && n instanceof Integer && NumberUtil.greaterThan(n, 0)) {
+			return pow.intValue();
+		}
+		else {
+			return pow;
+		}
+	}
+	
 	public int ceiling() {
 		Number self = (Number) target;
 		return (int) Math.ceil(self.doubleValue());
+	}
+	
+	public int round() {
+		return Math.round(getNumber().floatValue());
+	}
+	
+	public double ln() {
+		return log();
+	}
+	
+	public double log() {
+		return Math.log(getNumber().doubleValue());
+	}
+	
+	public double log10(Number n) {
+		return Math.log10(getNumber().doubleValue());
 	}
 	
 	public Number abs() {

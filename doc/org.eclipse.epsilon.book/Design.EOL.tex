@@ -187,10 +187,10 @@ EOL provides four primitive types: String, Integer, Real and Boolean. The String
 			
 			charAt(index : Integer) : String & Returns the character in the specified index\\\hline
 			
-			length() : Integer & Returns the number of characters in the string \\\hline
-			
 			concat(str : String) : String & Returns a concatenated form of the string with the \emph{str} parameter\\\hline
-			
+
+			length() : Integer & Returns the number of characters in the string \\\hline
+						
 			toLowerCase() : String & Returns a new string where all the characters have been converted to lower case\\\hline
 			
 			firstToLowerCase() : String & Returns a new string the first character of which has been converted to lower case \\\hline
@@ -217,6 +217,8 @@ EOL provides four primitive types: String, Integer, Real and Boolean. The String
 			
 			substring(startIndex : Integer, endIndex : Integer) : String & Returns a sub-string of the string starting from the specified \emph{startIndex} and ending at \emph{endIndex} \\\hline
 			
+			pad(length : Integer, padding : String, right : Boolean) : String & Pads the string up to the specified length with specified padding (e.g. "foo".pad(5, "*", true) returns "foo**") \\\hline
+			
 			trim() : String & Returns a trimmed copy of the string \\\hline			
 			
 \end{longtable}
@@ -229,12 +231,20 @@ The Real type represents real numbers and provides the following operations.
 			\label{tab:RealOperations}\\
 			
 			\hline
-							
+			
 			\textbf{Signature} & \textbf{Description} \\\hline
 
 			ceiling() : Integer & Returns the nearest Integer that is larger than the real\\\hline
 			
 			floor() : Integer & Returns the nearest Integer that is greater than the real\\\hline
+			
+			round() : Integer & Rounds the real to the nearest Integer\\\hline
+			
+			pow(exponent : Real) : Real & Returns the real to the power of exponent \\\hline
+			
+			log() : Real & Returns the natural logarithm of the real \\\hline
+			
+			log10() : Real & Returns the 10-based logarithm of the real \\\hline 
 			
 			abs() : Real & Returns the absolute value of the real \\\hline
 			
@@ -244,7 +254,24 @@ The Real type represents real numbers and provides the following operations.
 			
 \end{longtable}
 
-The Integer type represents natural numbers and negatives and extends the Real primitive type. Finally, the Boolean type represents true/false states and provides no additional operations to those provided by the base Any type.
+The Integer type represents natural numbers and negatives and extends the Real primitive type. It also defines the following operations:
+
+\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+			
+			\caption{Operations of type Integer}
+			\label{tab:IntegerOperations}\\
+			
+			\hline
+							
+			\textbf{Signature} & \textbf{Description} \\\hline
+
+			to(other : Integer) : Sequence(Integer) & Returns a sequence of integers (e.g. 1.to(5) returns Sequence\{1,2,3,4,5\})\\\hline
+			
+			iota(end : Integer, step : Integer) : Sequence(Integer) & Returns a sequence of integers up to \emph{end} using the specified step (e.g. 1.iota(10,2) returns Sequence\{1,3,5,7,9\})\\\hline
+			
+\end{longtable}
+
+Finally, the Boolean type represents true/false states and provides no additional operations to those provided by the base Any type.
 
 \subsection{Collections and Maps} 
 \label{sec:Design.EOL.Collections}
@@ -346,7 +373,7 @@ Also, EOL collection support the following first-order operations:
 			
 			forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
 			
-			iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
+			%iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
 			
 			sortBy(iterator: Type $|$ expression) : Collection & Returns a copy of the collection sorted by the results of evaluating the expression on each item of the collection that conforms to the iterator type \\\hline
 

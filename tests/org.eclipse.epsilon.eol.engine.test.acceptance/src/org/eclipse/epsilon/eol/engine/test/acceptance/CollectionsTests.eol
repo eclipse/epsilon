@@ -178,3 +178,7 @@ operation testReverseSequenceRange() {
 	assertEquals(Sequence{10..5}, Sequence {10,9,8,7,6,5});
 }
 
+@test
+operation testInvert() {
+	assertEquals(Sequence{1,2,3}.invert(), Sequence{3,2,1});
+}

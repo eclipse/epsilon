@@ -14,6 +14,7 @@ public class OperationContributorRegistry extends ArrayList<OperationContributor
 		add(new StringCompatibilityOperationContributor());
 		add(new ReflectiveOperationContributor());
 		add(new StringOperationContributor());
+		add(new IntegerOperationContributor());
 		add(new NumberOperationContributor());
 		add(new BooleanOperationContributor());
 		add(new CollectionOperationContributor());

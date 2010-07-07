@@ -15,7 +15,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class EolPrimitiveType extends EolType{
+public class EolPrimitiveType extends EolType {
 
 	private Class clazz;
 	private String name;
@@ -87,4 +87,8 @@ public class EolPrimitiveType extends EolType{
 		return name;
 	}
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

@@ -92,3 +92,9 @@ operation testReplace2() {
 operation testToString() {
 	assertEquals("foo".toString(), "foo");
 }
+
+@test
+operation testPad() {
+	assertEquals("foo".pad(5, "*", true), "foo**");
+	assertEquals("foo".pad(5, "*", false), "**foo");
+}

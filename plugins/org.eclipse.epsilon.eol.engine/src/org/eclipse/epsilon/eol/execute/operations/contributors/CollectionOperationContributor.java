@@ -319,9 +319,16 @@ public class CollectionOperationContributor extends OperationContributor {
 		return null;
 	}
 	
+	public Collection invert() {
+		EolSequence sequence = new EolSequence();
+		for (Object o : getCollection()) {
+			sequence.add(0, o);
+		}
+		return sequence;
+	}
+	
 	public Collection createCollection() {
 		return CollectionUtil.createCollection(getCollection());
 	}
-	
 	
 }
