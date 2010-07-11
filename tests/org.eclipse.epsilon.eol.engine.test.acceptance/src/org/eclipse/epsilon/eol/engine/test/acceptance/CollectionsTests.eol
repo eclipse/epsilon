@@ -81,6 +81,16 @@ operation testSortByOnOrderedSet() {
 }
 
 @test
+operation testSortWithDuplicates() {
+	assertEquals(Sequence{1,1,2,3}.sortBy(x|x), Sequence{1,1,2,3});
+}
+
+@test
+operation testSortSquare() {
+	assertEquals(Sequence{2, 1, -1}.sortBy(x|x.pow(2)), Sequence{1, -1, 2});
+}
+
+@test
 operation testDeclaredSetUniqueness() {
 	assertEquals(Set{1,1,2,3}.size(), 3);
 }

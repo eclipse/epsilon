@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,48 +37,86 @@ public class SortByOperation extends CollectOperation {
 		final List source = CollectionUtil.asList(obj);
 		final List collected = CollectionUtil.asList(super.execute(obj, operationAst, context));
 		
+		List<DecoratedObject> decoratedObjects = new ArrayList<DecoratedObject>();
+		
 		// Determine which collected values correspond to which collection elements
-		final Map<Object, Object> map = new HashMap<Object, Object>();
+		//final Map<Object, Object> map = new HashMap<Object, Object>();
 		
-		for (int index = 0; index < collected.size(); index++)
-			map.put(collected.get(index), source.get(index));
+		for (int index = 0; index < collected.size(); index++) {
+			decoratedObjects.add(new DecoratedObject(source.get(index), collected.get(index)));
+		}
 		
-		Collections.sort(collected, new ObjectComparator(context.getPrettyPrinterManager()));
+		Collections.sort(decoratedObjects, new DecoratedObjectComparator(context.getPrettyPrinterManager()));
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
 		final Collection result = CollectionUtil.createCollection(source);
 		
 		for (int index = 0; index < collected.size(); index++)
-			result.add(map.get(collected.get(index)));
+			result.add(decoratedObjects.get(index).getObject());
 		
 		return result;
 	}
 	
-	class ObjectComparator implements Comparator {
+	class DecoratedObjectComparator implements Comparator {
 		
 		protected PrettyPrinterManager p;
 		
-		public ObjectComparator(PrettyPrinterManager p) {
+		public DecoratedObjectComparator(PrettyPrinterManager p) {
 			this.p = p;
 		}
 		
-		public int compare(Object o1, Object o2) {
-			if (o1 instanceof Number && o2 instanceof Number) {
-				if (NumberUtil.greaterThan((Number) o2, (Number) o1)) return -1;
-				else if (NumberUtil.greaterThan((Number) o1, (Number) o2)) return 1;
-				else return 0;
+		public int compare(Object do1, Object do2) {
+			
+			if (do1 instanceof DecoratedObject && do2 instanceof DecoratedObject) {
+				
+				Object o1 = ((DecoratedObject) do1).getDecoration();
+				Object o2 = ((DecoratedObject) do2).getDecoration();
+				
+				if (o1 instanceof Number && o2 instanceof Number) {
+					if (NumberUtil.greaterThan((Number) o2, (Number) o1)) return -1;
+					else if (NumberUtil.greaterThan((Number) o1, (Number) o2)) return 1;
+					else return 0;
+				}
+				else if (o1 instanceof Comparable && o2 instanceof Comparable) {
+					return ((Comparable) o1).compareTo(o2);
+				}
+				else {
+					String str1 = p.print(o1);
+					String str2 = p.print(o2);
+					return str1.compareTo(str2);
+				}
+				
 			}
-			else if (o1 instanceof Comparable && o2 instanceof Comparable) {
-				return ((Comparable) o1).compareTo(o2);
-			}
-			else {
-				String str1 = p.print(o1);
-				String str2 = p.print(o2);
-				return str1.compareTo(str2);
-			}
+			return -1;
+		}
+				
+	}
+	
+	class DecoratedObject {
+		
+		protected Object object;
+		protected Object decoration;
+		
+		public DecoratedObject(Object object, Object decoration) {
+			this.object = object;
+			this.decoration = decoration;
+		}
+		
+		public Object getObject() {
+			return object;
+		}
+		public void setObject(Object object) {
+			this.object = object;
+		}
+		public Object getDecoration() {
+			return decoration;
+		}
+		public void setDecoration(Object decoration) {
+			this.decoration = decoration;
 		}
 		
 	}
+
 	
 }
