@@ -74,12 +74,12 @@ public class EolPrimitiveType extends EolType {
 
 	@Override
 	public Object createInstance() {
-		try {
-			return clazz.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		if (this == Integer) return 0;
+		else if (this == Real) return 0.0f;
+		else if (this == String) return "";
+		else if (this == Boolean) return false;
+		else if (this == Map) return new EolMap();
+		else return null;
 	}
 
 	@Override

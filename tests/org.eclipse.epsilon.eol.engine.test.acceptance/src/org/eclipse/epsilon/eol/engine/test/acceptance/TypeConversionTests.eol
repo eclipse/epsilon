@@ -1,4 +1,9 @@
 @test
+operation createIntegerVar() {
+	var i : Integer := 5;
+}
+
+@test
 operation testStringAsInteger() {
 	assertEquals("1".asInteger(), 1);
 }

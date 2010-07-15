@@ -192,7 +192,16 @@ public class CollectionOperationContributor extends OperationContributor {
 	public Collection flatten(){
 		return CollectionUtil.flatten(getCollection());
 	}
-
+	
+	public Collection excluding(Object o) {
+		Collection excluding = createCollection();
+		excluding.addAll(getCollection());
+		while (excluding.contains(o)) {
+			excluding.remove(o);
+		}
+		return excluding;
+	}
+	
 	public Collection excludingAll(Collection col) {
 		Collection difference = createCollection();
 		for (Object next : getCollection()) {
