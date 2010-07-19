@@ -219,6 +219,7 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		browseMetamodelFile.setEnabled(isFileBased);
 		metaModelUriText.setEnabled(!isFileBased);
 		metaModelUriLabel.setEnabled(!isFileBased);
+		browseMetamodelUri.setEnabled(!isFileBased);
 	}
 
 }
