@@ -212,3 +212,23 @@ operation testReverseSequenceRange() {
 operation testInvert() {
 	assertEquals(Sequence{1,2,3}.invert(), Sequence{3,2,1});
 }
+
+@test
+operation testSelectPreservesTypeSequence() {
+	assertEquals(Sequence{1,2,3}.select(x|true).isTypeOf(Sequence), true);	
+}
+
+@test
+operation testSelectPreservesTypeSet() {
+	assertEquals(Set{1,2,3}.select(x|true).isTypeOf(Set), true);
+}
+
+@test
+operation testSelectPreservesTypeOrderedSet() {
+	assertEquals(OrderedSet{1,2,3}.select(x|true).getClass().simpleName, "EolOrderedSet");
+}
+
+@test
+operation testSelectPreservesTypeBag() {
+	assertEquals(Bag{1,2,3}.select(x|true).isTypeOf(Bag), true);
+}

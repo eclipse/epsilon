@@ -17,6 +17,7 @@ import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 
 public class DeleteStatementExecutor extends AbstractExecutor {
 
@@ -33,7 +34,7 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 		
 		Collection col = CollectionUtil.asCollection(target);
 		
-		for (Object instance : CollectionUtil.clone(col)) {
+		for (Object instance : EolCollectionType.clone(col)) {
 			//if (context.getModelRepository().isModelElement(instance)) {
 			IModel model = context.getModelRepository().getOwningModel(instance);
 				

@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
@@ -116,7 +117,7 @@ public class OperatorExecutor extends AbstractExecutor{
 			return NumberUtil.add((Number) o1, (Number) o2);
 		}
 		else if (o1 instanceof Collection && o2 instanceof Collection){
-			return CollectionUtil.join((Collection) o1, (Collection)o2);
+			return EolCollectionType.join((Collection) o1, (Collection)o2);
 		}
 		
 		// If we can do nothing more, we concat their string

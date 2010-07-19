@@ -66,13 +66,6 @@ public class CollectionUtil {
 		}
 	}
 	
-	
-	public static Collection clone(Collection original) {
-		Collection clone = createCollection(original);
-		clone.addAll(original);
-		return clone;
-	}
-	
 	public static Collection flatten(Collection original) {
 		// First see if there are no nested collections
 		// and in this case just return this
@@ -100,14 +93,7 @@ public class CollectionUtil {
 		}
 		return flattened;
 	}
-	
-	public static Collection createCollection(Collection original) {
-		if (original instanceof Set)
-			return createDefaultSet();
-		else 
-			return createDefaultList();
-	}
-	
+		
 	public static Set createDefaultSet() {
 		return new LinkedHashSet();
 	}
@@ -149,11 +135,5 @@ public class CollectionUtil {
 		return filled;
 	}
 	
-	public static Collection join(Collection c1, Collection c2) {
-		Collection joined = createCollection(c1);
-		joined.addAll(c1);
-		joined.addAll(c2);
-		return joined;
-	}
-	
+
 }

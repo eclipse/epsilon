@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
@@ -60,7 +61,7 @@ public class SelectOperation extends AbstractOperation {
 		}
 		
 		Collection source = CollectionUtil.asCollection(obj);
-		Collection result = CollectionUtil.createCollection(source);
+		Collection result = EolCollectionType.createSameType(source);
 		
 		FrameStack scope = context.getFrameStack();
 		

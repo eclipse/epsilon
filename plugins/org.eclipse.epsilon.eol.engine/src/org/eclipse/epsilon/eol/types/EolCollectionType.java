@@ -55,11 +55,11 @@ public class EolCollectionType extends EolType {
 			return c instanceof EolOrderedSet || 
 			(c instanceof List && c instanceof Set) || 
 			CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.OrderedSet;
-		else if (this == Set) 
+		else if (this == Set) {
 			return c instanceof EolSet || 
 			(c instanceof Set && !(c instanceof List)) || 
 			CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.Set; 
-		
+		}
 		return true;
 	}
 
@@ -119,9 +119,22 @@ public class EolCollectionType extends EolType {
 	public static Collection createSameType(Collection c) {
 		if (Bag.isType(c)) return new EolBag();
 		else if (Sequence.isType(c)) return new EolSequence();
-		else if (Set.isType(c)) return new EolSet();
 		else if (OrderedSet.isType(c)) return new EolOrderedSet();
+		else if (Set.isType(c)) return new EolSet();
 		else return null;
+	}
+	
+	public static Collection clone(Collection c) {
+		Collection clone = createSameType(c);
+		clone.addAll(c);
+		return clone;
+	}
+	
+	public static Collection join(Collection c1, Collection c2) {
+		Collection joined = createSameType(c1);
+		joined.addAll(c1);
+		joined.addAll(c2);
+		return joined;
 	}
 	
 	public static boolean isUnique(Collection c) {

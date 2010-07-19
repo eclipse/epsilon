@@ -20,6 +20,7 @@ import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.TransformRule;
@@ -132,14 +133,14 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			if (flatTrace.containsKey(transformation.getSource())) {
 				if (transformation.getRule().isPrimary()) {
 					flatTrace.put(transformation.getSource(), 
-							CollectionUtil.join(transformation.getTargets(), flatTrace.get(transformation.getSource())));
+							EolCollectionType.join(transformation.getTargets(), flatTrace.get(transformation.getSource())));
 				}
 				else {
 					flatTrace.get(transformation.getSource()).addAll(transformation.getTargets());
 				}
 			}
 			else {
-				flatTrace.put(transformation.getSource(), CollectionUtil.clone(transformation.getTargets()));
+				flatTrace.put(transformation.getSource(), EolCollectionType.clone(transformation.getTargets()));
 			}
 			
 			if (pendingTransformations.containsKey(transformation.getSource())) {

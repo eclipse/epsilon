@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.types.EolBag;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolSet;
@@ -138,7 +139,7 @@ public class CollectionOperationContributor extends OperationContributor {
 	}
 	
 	public Collection<Object> clone() {
-		return CollectionUtil.clone(getCollection());
+		return EolCollectionType.clone(getCollection());
 	}
 	
 	public boolean includes(Object o) {
@@ -337,7 +338,7 @@ public class CollectionOperationContributor extends OperationContributor {
 	}
 	
 	public Collection createCollection() {
-		return CollectionUtil.createCollection(getCollection());
+		return EolCollectionType.createSameType(getCollection());
 	}
 	
 }
