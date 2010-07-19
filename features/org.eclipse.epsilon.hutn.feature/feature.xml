@@ -214,33 +214,28 @@ litigation.
 
    <requires>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
+      <import plugin="org.eclipse.epsilon.util.emf"/>
       <import plugin="org.eclipse.epsilon.dependencies"/>
       <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.epsilon.etl.engine"/>
       <import plugin="org.eclipse.epsilon.erl.engine"/>
       <import plugin="org.eclipse.epsilon.egl.engine"/>
       <import plugin="org.eclipse.epsilon.evl.engine"/>
       <import plugin="org.eclipse.epsilon.antlr.postprocessor"/>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.epsilon.commons"/>
       <import plugin="org.eclipse.epsilon.antlr.postprocessor.model"/>
-      <import plugin="org.eclipse.epsilon.hutn.engine"/>
-      <import plugin="org.eclipse.epsilon.util.emf"/>
-      <import plugin="org.eclipse.epsilon.hutn.model"/>
-      <import plugin="org.eclipse.epsilon.hutn.model.antlrAst"/>
-      <import plugin="org.eclipse.epsilon.hutn.model.config"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.epsilon.emc.composite"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
    </requires>
 
    <plugin

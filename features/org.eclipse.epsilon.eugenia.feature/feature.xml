@@ -215,16 +215,17 @@ litigation.
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.epsilon.common.dt" version="0.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.eol.engine" version="0.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.emc.emf" version="0.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.graphdef" version="2.0.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.map" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.codegen" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.draw2d" version="3.4.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.runtime.draw2d.ui" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.gmf.map"/>
+      <import plugin="org.eclipse.gmf.codegen"/>
+      <import plugin="org.eclipse.epsilon.etl.engine"/>
+      <import plugin="org.eclipse.epsilon.erl.engine"/>
+      <import plugin="org.eclipse.gmf.bridge.ui"/>
+      <import plugin="org.eclipse.emf.importer.ecore"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui"/>
    </requires>
 
    <plugin
