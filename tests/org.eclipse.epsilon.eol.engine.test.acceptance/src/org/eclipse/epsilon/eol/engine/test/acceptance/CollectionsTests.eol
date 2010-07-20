@@ -234,11 +234,19 @@ operation testSelectCorrectTypeBag() {
 }
 
 @test
-operation testRemoveByIndex() {
+operation testRemoveByIndexInSequence() {
 	var s = Sequence{"a","b","c"};
 	s.removeAt(1);
 	assertEquals(s, Sequence{"a","c"});
 }
+
+@test
+operation testRemoveByIndexInOrderedSet() {
+	var s = OrderedSet{1,2,3};
+	s.removeAt(1);
+	assertEquals(s, OrderedSet{1,3});
+}
+
 
 @test
 operation testRemove() {
