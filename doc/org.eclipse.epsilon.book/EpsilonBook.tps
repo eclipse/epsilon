@@ -4,8 +4,8 @@ Version=2
 
 [SessionInfo]
 ActiveTab=0
-FrameCount=28
-ActiveFrame=7
+FrameCount=29
+ActiveFrame=28
 
 [Frame0]
 Columns=1
@@ -34,7 +34,7 @@ cxMin=10
 [Frame0_View0,0]
 Cursor.row=0
 Cursor.column=0
-TopSubLine=524
+TopSubLine=0
 
 [Frame1]
 Columns=1
@@ -63,7 +63,7 @@ cxMin=10
 [Frame1_View0,0]
 Cursor.row=60
 Cursor.column=0
-TopSubLine=73
+TopSubLine=75
 
 [Frame2]
 Columns=1
@@ -213,8 +213,8 @@ TopSubLine=34
 [Frame7]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -227,17 +227,17 @@ Class=CLatexEdit
 Document=ECL.tex
 
 [Frame7_Row0]
-cyCur=687
+cyCur=377
 cyMin=10
 
 [Frame7_Col0]
-cxCur=1693
+cxCur=1531
 cxMin=10
 
 [Frame7_View0,0]
 Cursor.row=76
 Cursor.column=601
-TopSubLine=78
+TopSubLine=80
 
 [Frame8]
 Columns=1
@@ -324,7 +324,7 @@ cxMin=10
 [Frame10_View0,0]
 Cursor.row=105
 Cursor.column=14
-TopSubLine=134
+TopSubLine=143
 
 [Frame11]
 Columns=1
@@ -353,7 +353,7 @@ cxMin=10
 [Frame11_View0,0]
 Cursor.row=95
 Cursor.column=0
-TopSubLine=123
+TopSubLine=129
 
 [Frame12]
 Columns=1
@@ -411,7 +411,7 @@ cxMin=10
 [Frame13_View0,0]
 Cursor.row=63
 Cursor.column=0
-TopSubLine=62
+TopSubLine=66
 
 [Frame14]
 Columns=1
@@ -701,7 +701,7 @@ cxMin=10
 [Frame23_View0,0]
 Cursor.row=185
 Cursor.column=0
-TopSubLine=245
+TopSubLine=246
 
 [Frame24]
 Columns=1
@@ -730,7 +730,7 @@ cxMin=10
 [Frame24_View0,0]
 Cursor.row=447
 Cursor.column=0
-TopSubLine=481
+TopSubLine=493
 
 [Frame25]
 Columns=1
@@ -788,7 +788,7 @@ cxMin=10
 [Frame26_View0,0]
 Cursor.row=35
 Cursor.column=0
-TopSubLine=36
+TopSubLine=39
 
 [Frame27]
 Columns=1
@@ -817,5 +817,34 @@ cxMin=10
 [Frame27_View0,0]
 Cursor.row=0
 Cursor.column=18
+TopSubLine=0
+
+[Frame28]
+Columns=1
+Rows=1
+Flags=2
+ShowCmd=3
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-30
+NormalPos.left=22
+NormalPos.top=29
+NormalPos.right=1472
+NormalPos.bottom=505
+Class=CLatexEdit
+Document=..\genericity10\article.tex
+
+[Frame28_Row0]
+cyCur=687
+cyMin=10
+
+[Frame28_Col0]
+cxCur=1605
+cxMin=10
+
+[Frame28_View0,0]
+Cursor.row=0
+Cursor.column=0
 TopSubLine=0
 
