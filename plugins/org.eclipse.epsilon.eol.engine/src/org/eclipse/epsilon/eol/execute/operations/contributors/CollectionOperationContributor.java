@@ -69,6 +69,17 @@ public class CollectionOperationContributor extends OperationContributor {
 		return null;
 	}
 	
+	public Object removeAt(int index) {
+		if (target instanceof List) {
+			return ((List) target).remove(index);
+		}
+		else {
+			Object toRemove = new CollectionOperationContributor((Collection) target).at(index);
+			((Collection) target).remove(toRemove);
+			return toRemove;
+		}
+	}
+	
 	public List asSequence() {
 		EolSequence copy = new EolSequence();
 		copy(getCollection(), copy);

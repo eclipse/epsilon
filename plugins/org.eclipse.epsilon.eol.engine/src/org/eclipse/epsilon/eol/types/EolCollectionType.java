@@ -111,8 +111,8 @@ public class EolCollectionType extends EolType {
 	public static String getTypeName(Collection c) {
 		if (Bag.isType(c)) return Bag.getName();
 		else if (Sequence.isType(c)) return Sequence.getName();
-		else if (Set.isType(c)) return Set.getName();
 		else if (OrderedSet.isType(c)) return OrderedSet.getName();
+		else if (Set.isType(c)) return Set.getName();
 		else return c.getClass().getSimpleName();
 	}
 	
