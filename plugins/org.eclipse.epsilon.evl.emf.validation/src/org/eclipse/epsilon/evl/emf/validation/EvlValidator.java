@@ -76,7 +76,7 @@ public class EvlValidator implements EValidator {
 		
 		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
 		
-		if (unsatisfiedConstraints.size() > 0) {
+		if (unsatisfiedConstraints != null && unsatisfiedConstraints.size() > 0) {
 			for (EvlUnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
 				diagnostics.add(createDiagnostic(unsatisfied));
 				for (Object fix : unsatisfied.getFixes()) {
