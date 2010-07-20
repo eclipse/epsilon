@@ -232,3 +232,17 @@ operation testSelectCorrectTypeOrderedSet() {
 operation testSelectCorrectTypeBag() {
 	assertEquals(Bag{1,2,3}.select(x|true).isTypeOf(Bag), true);
 }
+
+@test
+operation testRemoveByIndex() {
+	var s = Sequence{"a","b","c"};
+	s.removeAt(1);
+	assertEquals(s, Sequence{"a","c"});
+}
+
+@test
+operation testRemove() {
+	var s = Sequence{1,2,3};
+	s.remove(1);
+	assertEquals(s, Sequence{2,3});
+}
