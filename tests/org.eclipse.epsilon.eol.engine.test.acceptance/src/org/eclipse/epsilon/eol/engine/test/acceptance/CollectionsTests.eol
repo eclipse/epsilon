@@ -214,21 +214,21 @@ operation testInvert() {
 }
 
 @test
-operation testSelectPreservesTypeSequence() {
+operation testSelectCorrectTypeSequence() {
 	assertEquals(Sequence{1,2,3}.select(x|true).isTypeOf(Sequence), true);	
 }
 
 @test
-operation testSelectPreservesTypeSet() {
-	assertEquals(Set{1,2,3}.select(x|true).isTypeOf(Set), true);
+operation testSelectCorrectTypeSet() {
+	assertEquals(Set{1,2,3}.select(x|true).isTypeOf(Bag), true);
 }
 
 @test
-operation testSelectPreservesTypeOrderedSet() {
-	assertEquals(OrderedSet{1,2,3}.select(x|true).getClass().simpleName, "EolOrderedSet");
+operation testSelectCorrectTypeOrderedSet() {
+	assertEquals(OrderedSet{1,2,3}.select(x|true).isTypeOf(Sequence), true);
 }
 
 @test
-operation testSelectPreservesTypeBag() {
+operation testSelectCorrectTypeBag() {
 	assertEquals(Bag{1,2,3}.select(x|true).isTypeOf(Bag), true);
 }
