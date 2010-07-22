@@ -69,6 +69,7 @@ public class ConcordanceStartup implements IStartup {
 				
 		public PeriodicallyUpdateEPackageRegistryMonitorJob() {
 			super("Update Concordance EPackage Registry Monitor Job");
+			setSystem(true);
 		}
 
 		@Override
