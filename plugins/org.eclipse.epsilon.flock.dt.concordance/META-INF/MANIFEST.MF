@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Flock Concordance Integration
+Bundle-SymbolicName: org.eclipse.epsilon.flock.dt.concordance
+Bundle-Version: 0.8.9.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.epsilon.concordance.clients,
+ org.eclipse.epsilon.flock.dt
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.epsilon.flock.dt.concordance
