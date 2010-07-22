@@ -85,7 +85,7 @@ class EglPreprocessorModule extends EolModule {
 		return parseProblems;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private static final HashMap<String, Class> importConfiguration = new HashMap<String, Class>();
 	static {
 		importConfiguration.put("eol", EolLibraryModule.class);
@@ -97,7 +97,7 @@ class EglPreprocessorModule extends EolModule {
 	 * it is illegal to call super and change the map received. To avoid this kind of problem, the
 	 * method is declared final.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public final HashMap<String, Class> getImportConfiguration() {
 		return importConfiguration;
