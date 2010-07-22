@@ -15,8 +15,10 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -60,10 +62,26 @@ public class AcceptanceTestUtil {
 		return run(new EglFileGeneratingTemplateFactory(), program, models);
 	}
 	
+	private static EglTemplate current;
+	
 	public static String run(EglTemplateFactory factory, Object program, Model... models) throws EglRuntimeException, EolModelLoadingException {
 		context = factory.getContext();
 		loadModels(models);
 
+		current = loadTemplate(factory, program);
+		
+		for (ParseProblem problem : current.getParseProblems()) {
+			System.err.println(problem);
+		}
+		
+		final String result = current.process();
+		
+		report();
+		
+		return result;
+	}
+
+	private static EglTemplate loadTemplate(EglTemplateFactory factory, Object program) throws EglRuntimeException {
 		final EglTemplate template;
 		
 		if (program instanceof File) {
@@ -80,12 +98,12 @@ public class AcceptanceTestUtil {
 
 		} else
 			throw new IllegalArgumentException("Cannot run a program of type: " + program.getClass().getCanonicalName());
-				
-		final String result = template.process();
-		
-		report();
-		
-		return result;
+
+		return template;
+	}
+	
+	public static Collection<ParseProblem> getParseProblems() {
+		return current.getParseProblems();
 	}
 	
 	private static void loadModels(Model... models) throws EolModelLoadingException {

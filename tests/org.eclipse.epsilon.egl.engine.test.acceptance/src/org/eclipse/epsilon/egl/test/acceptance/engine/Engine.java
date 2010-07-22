@@ -14,9 +14,11 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -29,6 +31,7 @@ public class Engine {
 	private static File OO2JavaExpected;
 	private static File runtimeExceptionProgram;
 	private static File invalidPath;
+	private static File NonExistentImport;
 	
 	
 	@BeforeClass
@@ -37,6 +40,8 @@ public class Engine {
 		OO2JavaImportEolProgram = FileUtil.getFile("OO2JavaImportEol.egl", Engine.class);
 		OO2JavaImportEglProgram = FileUtil.getFile("OO2JavaImportEgl.egl", Engine.class);
 		OO2JavaExpected         = FileUtil.getFile("OO2Java.txt",          Engine.class);
+		
+		NonExistentImport = FileUtil.getFile("NonExistentImport.egl", Engine.class);
 		
 		runtimeExceptionProgram = FileUtil.getFile("RuntimeException.egl", Engine.class);
 		invalidPath             = FileUtil.getFile("Inva*lid.egl",         Engine.class);
@@ -55,6 +60,16 @@ public class Engine {
 	@Test
 	public void testImportEgl() throws IOException, EglRuntimeException, EolModelLoadingException {
 		AcceptanceTestUtil.test(OO2JavaImportEglProgram, OO2JavaExpected, Model.OOInstance);
+	}
+	
+	@Test
+	public void testBadImport() throws IOException, EglRuntimeException, EolModelLoadingException {
+		AcceptanceTestUtil.run(NonExistentImport);
+		
+		final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
+		
+		assertEquals(1,                                problems.size());
+		assertEquals("File NonExistent.egl not found", problems.iterator().next().getReason());
 	}
 	
 	@Test (expected=EglRuntimeException.class)

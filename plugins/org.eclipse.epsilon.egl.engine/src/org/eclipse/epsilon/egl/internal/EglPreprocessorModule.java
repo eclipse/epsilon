@@ -76,10 +76,15 @@ class EglPreprocessorModule extends EolModule {
 	
 	@Override
 	public List<ParseProblem> getParseProblems() {
-		final List<ParseProblem> parseProblems = new LinkedList<ParseProblem>();
+		final List<ParseProblem> parseProblems = super.getParseProblems();
 		
-		for (ParseProblem problem : super.getParseProblems()){
-			parseProblems.add(new EglParseProblem(problem, preprocessor.getTrace()));
+		for (int index = 0; index < parseProblems.size(); index++) {
+			final ParseProblem problem = parseProblems.get(index);
+			
+			if (!(problem instanceof EglParseProblem)) {
+				parseProblems.remove(index);
+				parseProblems.add(index, new EglParseProblem(problem, preprocessor.getTrace()));
+			}
 		}
 		
 		return parseProblems;
