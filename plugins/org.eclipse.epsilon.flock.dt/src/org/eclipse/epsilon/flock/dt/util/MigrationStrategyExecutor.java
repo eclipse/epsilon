@@ -103,7 +103,9 @@ public class MigrationStrategyExecutor {
 	}
 	
 	private EmfModel loadEmfModel(String name, IPath modelPath, Object metamodel, AccessMode accessMode) throws EolModelLoadingException {
-		return EmfModelFactory.getInstance().loadEmfModel(name, new File(modelPath.toOSString()), metamodel, accessMode);
+		final EmfModel model = EmfModelFactory.getInstance().loadEmfModel(name, new File(modelPath.toOSString()), metamodel, accessMode);
+		model.setExpand(false);
+		return model;
 	}
 	
 	private void refreshProject() throws CoreException {
