@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ETL acceptance tests
+Bundle-SymbolicName: org.eclipse.epsilon.etl.engine.test.acceptance
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
+ org.eclipse.epsilon.erl.engine
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
