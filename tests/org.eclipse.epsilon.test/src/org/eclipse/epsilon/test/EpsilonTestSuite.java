@@ -21,6 +21,7 @@ import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
+import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
 import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
@@ -31,7 +32,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EmfTestSuite.class,
-               EolUnitTestSuite.class, EolAcceptanceTestSuite.class,
+               EolUnitTestSuite.class, 
+               EolAcceptanceTestSuite.class,
+               EtlAcceptanceTestSuite.class,
                EglTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
