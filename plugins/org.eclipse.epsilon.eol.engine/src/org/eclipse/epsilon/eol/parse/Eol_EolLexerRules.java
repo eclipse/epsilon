@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2010-06-25 11:18:16
+// $ANTLR 3.1b1 EolLexerRules.g 2010-07-23 21:17:42
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -1106,32 +1106,32 @@ public class Eol_EolLexerRules extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:195:5: ( ( ( '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) ) )
-            // EolLexerRules.g:195:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) )
+            // EolLexerRules.g:195:5: ( ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) ) )
+            // EolLexerRules.g:195:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) )
             {
-            // EolLexerRules.g:195:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' ) )
-            int alt19=2;
-            int LA19_0 = input.LA(1);
+            // EolLexerRules.g:195:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) )
+            int alt21=2;
+            int LA21_0 = input.LA(1);
 
-            if ( (LA19_0=='-') ) {
-                alt19=1;
+            if ( (LA21_0=='-') ) {
+                alt21=1;
             }
-            else if ( (LA19_0=='/') ) {
-                alt19=2;
+            else if ( (LA21_0=='/') ) {
+                alt21=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return ;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 19, 0, input);
+                    new NoViableAltException("", 21, 0, input);
 
                 throw nvae;
             }
-            switch (alt19) {
+            switch (alt21) {
                 case 1 :
-                    // EolLexerRules.g:195:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+                    // EolLexerRules.g:195:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
                     {
-                    // EolLexerRules.g:195:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-                    // EolLexerRules.g:195:9: '--' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // EolLexerRules.g:195:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
+                    // EolLexerRules.g:195:9: '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF )
                     {
                     match("--"); if (state.failed) return ;
 
@@ -1169,25 +1169,57 @@ public class Eol_EolLexerRules extends Lexer {
                         }
                     } while (true);
 
-                    // EolLexerRules.g:195:28: ( '\\r' )?
-                    int alt16=2;
-                    int LA16_0 = input.LA(1);
+                    // EolLexerRules.g:195:28: ( ( ( '\\r' )? '\\n' ) | EOF )
+                    int alt17=2;
+                    int LA17_0 = input.LA(1);
 
-                    if ( (LA16_0=='\r') ) {
-                        alt16=1;
+                    if ( (LA17_0=='\n'||LA17_0=='\r') ) {
+                        alt17=1;
                     }
-                    switch (alt16) {
+                    else {
+                        alt17=2;}
+                    switch (alt17) {
                         case 1 :
-                            // EolLexerRules.g:195:28: '\\r'
+                            // EolLexerRules.g:195:29: ( ( '\\r' )? '\\n' )
                             {
-                            match('\r'); if (state.failed) return ;
+                            // EolLexerRules.g:195:29: ( ( '\\r' )? '\\n' )
+                            // EolLexerRules.g:195:30: ( '\\r' )? '\\n'
+                            {
+                            // EolLexerRules.g:195:30: ( '\\r' )?
+                            int alt16=2;
+                            int LA16_0 = input.LA(1);
+
+                            if ( (LA16_0=='\r') ) {
+                                alt16=1;
+                            }
+                            switch (alt16) {
+                                case 1 :
+                                    // EolLexerRules.g:195:30: '\\r'
+                                    {
+                                    match('\r'); if (state.failed) return ;
+
+                                    }
+                                    break;
+
+                            }
+
+                            match('\n'); if (state.failed) return ;
+
+                            }
+
+
+                            }
+                            break;
+                        case 2 :
+                            // EolLexerRules.g:195:42: EOF
+                            {
+                            match(EOF); if (state.failed) return ;
 
                             }
                             break;
 
                     }
 
-                    match('\n'); if (state.failed) return ;
 
                     }
 
@@ -1195,27 +1227,27 @@ public class Eol_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:195:40: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+                    // EolLexerRules.g:195:48: ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
                     {
-                    // EolLexerRules.g:195:40: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-                    // EolLexerRules.g:195:41: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // EolLexerRules.g:195:48: ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
+                    // EolLexerRules.g:195:49: '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF )
                     {
                     match("//"); if (state.failed) return ;
 
-                    // EolLexerRules.g:195:46: (~ ( '\\n' | '\\r' ) )*
-                    loop17:
+                    // EolLexerRules.g:195:54: (~ ( '\\n' | '\\r' ) )*
+                    loop18:
                     do {
-                        int alt17=2;
-                        int LA17_0 = input.LA(1);
+                        int alt18=2;
+                        int LA18_0 = input.LA(1);
 
-                        if ( ((LA17_0>='\u0000' && LA17_0<='\t')||(LA17_0>='\u000B' && LA17_0<='\f')||(LA17_0>='\u000E' && LA17_0<='\uFFFE')) ) {
-                            alt17=1;
+                        if ( ((LA18_0>='\u0000' && LA18_0<='\t')||(LA18_0>='\u000B' && LA18_0<='\f')||(LA18_0>='\u000E' && LA18_0<='\uFFFE')) ) {
+                            alt18=1;
                         }
 
 
-                        switch (alt17) {
+                        switch (alt18) {
                     	case 1 :
-                    	    // EolLexerRules.g:195:46: ~ ( '\\n' | '\\r' )
+                    	    // EolLexerRules.g:195:54: ~ ( '\\n' | '\\r' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -1232,29 +1264,61 @@ public class Eol_EolLexerRules extends Lexer {
                     	    break;
 
                     	default :
-                    	    break loop17;
+                    	    break loop18;
                         }
                     } while (true);
 
-                    // EolLexerRules.g:195:60: ( '\\r' )?
-                    int alt18=2;
-                    int LA18_0 = input.LA(1);
+                    // EolLexerRules.g:195:68: ( ( ( '\\r' )? '\\n' ) | EOF )
+                    int alt20=2;
+                    int LA20_0 = input.LA(1);
 
-                    if ( (LA18_0=='\r') ) {
-                        alt18=1;
+                    if ( (LA20_0=='\n'||LA20_0=='\r') ) {
+                        alt20=1;
                     }
-                    switch (alt18) {
+                    else {
+                        alt20=2;}
+                    switch (alt20) {
                         case 1 :
-                            // EolLexerRules.g:195:60: '\\r'
+                            // EolLexerRules.g:195:69: ( ( '\\r' )? '\\n' )
                             {
-                            match('\r'); if (state.failed) return ;
+                            // EolLexerRules.g:195:69: ( ( '\\r' )? '\\n' )
+                            // EolLexerRules.g:195:70: ( '\\r' )? '\\n'
+                            {
+                            // EolLexerRules.g:195:70: ( '\\r' )?
+                            int alt19=2;
+                            int LA19_0 = input.LA(1);
+
+                            if ( (LA19_0=='\r') ) {
+                                alt19=1;
+                            }
+                            switch (alt19) {
+                                case 1 :
+                                    // EolLexerRules.g:195:70: '\\r'
+                                    {
+                                    match('\r'); if (state.failed) return ;
+
+                                    }
+                                    break;
+
+                            }
+
+                            match('\n'); if (state.failed) return ;
+
+                            }
+
+
+                            }
+                            break;
+                        case 2 :
+                            // EolLexerRules.g:195:82: EOF
+                            {
+                            match(EOF); if (state.failed) return ;
 
                             }
                             break;
 
                     }
 
-                    match('\n'); if (state.failed) return ;
 
                     }
 
@@ -1288,17 +1352,17 @@ public class Eol_EolLexerRules extends Lexer {
             {
             match('@'); if (state.failed) return ;
             // EolLexerRules.g:199:8: (~ ( '\\n' | '\\r' ) )*
-            loop20:
+            loop22:
             do {
-                int alt20=2;
-                int LA20_0 = input.LA(1);
+                int alt22=2;
+                int LA22_0 = input.LA(1);
 
-                if ( ((LA20_0>='\u0000' && LA20_0<='\t')||(LA20_0>='\u000B' && LA20_0<='\f')||(LA20_0>='\u000E' && LA20_0<='\uFFFE')) ) {
-                    alt20=1;
+                if ( ((LA22_0>='\u0000' && LA22_0<='\t')||(LA22_0>='\u000B' && LA22_0<='\f')||(LA22_0>='\u000E' && LA22_0<='\uFFFE')) ) {
+                    alt22=1;
                 }
 
 
-                switch (alt20) {
+                switch (alt22) {
             	case 1 :
             	    // EolLexerRules.g:199:8: ~ ( '\\n' | '\\r' )
             	    {
@@ -1317,7 +1381,7 @@ public class Eol_EolLexerRules extends Lexer {
             	    break;
 
             	default :
-            	    break loop20;
+            	    break loop22;
                 }
             } while (true);
 
@@ -1334,9 +1398,9 @@ public class Eol_EolLexerRules extends Lexer {
 
     public void mTokens() throws RecognitionException {
         // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
-        int alt21=12;
-        alt21 = dfa21.predict(input);
-        switch (alt21) {
+        int alt23=12;
+        alt23 = dfa23.predict(input);
+        switch (alt23) {
             case 1 :
                 // EolLexerRules.g:1:10: INT
                 {
@@ -1454,23 +1518,23 @@ public class Eol_EolLexerRules extends Lexer {
     }
 
 
-    protected DFA21 dfa21 = new DFA21(this);
-    static final String DFA21_eotS =
+    protected DFA23 dfa23 = new DFA23(this);
+    static final String DFA23_eotS =
         "\2\uffff\1\15\1\uffff\2\10\13\uffff\4\10\1\27\1\10\1\uffff\1\27";
-    static final String DFA21_eofS =
+    static final String DFA23_eofS =
         "\31\uffff";
-    static final String DFA21_minS =
+    static final String DFA23_minS =
         "\1\11\1\uffff\1\56\1\52\1\162\1\141\4\uffff\1\52\6\uffff\1\165\1"+
         "\154\1\145\1\163\1\46\1\145\1\uffff\1\46";
-    static final String DFA21_maxS =
+    static final String DFA23_maxS =
         "\1\ufaff\1\uffff\1\56\1\76\1\162\1\141\4\uffff\1\57\6\uffff\1\165"+
         "\1\154\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
-    static final String DFA21_acceptS =
+    static final String DFA23_acceptS =
         "\1\uffff\1\1\4\uffff\1\6\1\7\1\10\1\11\1\uffff\1\14\1\3\1\2\1\4"+
         "\1\12\1\13\6\uffff\1\5\1\uffff";
-    static final String DFA21_specialS =
+    static final String DFA23_specialS =
         "\31\uffff}>";
-    static final String[] DFA21_transitionS = {
+    static final String[] DFA23_transitionS = {
             "\2\11\1\uffff\2\11\22\uffff\1\11\1\uffff\1\6\3\uffff\1\10\1"+
             "\6\5\uffff\1\3\1\2\1\12\12\1\5\uffff\1\10\1\13\32\10\3\uffff"+
             "\2\10\1\7\5\10\1\5\15\10\1\4\6\10\3\uffff\1\10\101\uffff\27"+
@@ -1509,34 +1573,34 @@ public class Eol_EolLexerRules extends Lexer {
             "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10"
     };
 
-    static final short[] DFA21_eot = DFA.unpackEncodedString(DFA21_eotS);
-    static final short[] DFA21_eof = DFA.unpackEncodedString(DFA21_eofS);
-    static final char[] DFA21_min = DFA.unpackEncodedStringToUnsignedChars(DFA21_minS);
-    static final char[] DFA21_max = DFA.unpackEncodedStringToUnsignedChars(DFA21_maxS);
-    static final short[] DFA21_accept = DFA.unpackEncodedString(DFA21_acceptS);
-    static final short[] DFA21_special = DFA.unpackEncodedString(DFA21_specialS);
-    static final short[][] DFA21_transition;
+    static final short[] DFA23_eot = DFA.unpackEncodedString(DFA23_eotS);
+    static final short[] DFA23_eof = DFA.unpackEncodedString(DFA23_eofS);
+    static final char[] DFA23_min = DFA.unpackEncodedStringToUnsignedChars(DFA23_minS);
+    static final char[] DFA23_max = DFA.unpackEncodedStringToUnsignedChars(DFA23_maxS);
+    static final short[] DFA23_accept = DFA.unpackEncodedString(DFA23_acceptS);
+    static final short[] DFA23_special = DFA.unpackEncodedString(DFA23_specialS);
+    static final short[][] DFA23_transition;
 
     static {
-        int numStates = DFA21_transitionS.length;
-        DFA21_transition = new short[numStates][];
+        int numStates = DFA23_transitionS.length;
+        DFA23_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA21_transition[i] = DFA.unpackEncodedString(DFA21_transitionS[i]);
+            DFA23_transition[i] = DFA.unpackEncodedString(DFA23_transitionS[i]);
         }
     }
 
-    class DFA21 extends DFA {
+    class DFA23 extends DFA {
 
-        public DFA21(BaseRecognizer recognizer) {
+        public DFA23(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 21;
-            this.eot = DFA21_eot;
-            this.eof = DFA21_eof;
-            this.min = DFA21_min;
-            this.max = DFA21_max;
-            this.accept = DFA21_accept;
-            this.special = DFA21_special;
-            this.transition = DFA21_transition;
+            this.decisionNumber = 23;
+            this.eot = DFA23_eot;
+            this.eof = DFA23_eof;
+            this.min = DFA23_min;
+            this.max = DFA23_max;
+            this.accept = DFA23_accept;
+            this.special = DFA23_special;
+            this.transition = DFA23_transition;
         }
         public String getDescription() {
             return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
