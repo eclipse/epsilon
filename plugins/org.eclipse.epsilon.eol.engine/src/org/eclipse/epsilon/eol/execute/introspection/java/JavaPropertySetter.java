@@ -20,101 +20,37 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 	
-	public void invoke(Object value) throws EolRuntimeException {
+	protected ObjectMethod getMethodFor(Object object, String property, Object value) {
+		ObjectMethod objectMethod = new ObjectMethod();
+		objectMethod.setObject(object);
+		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
-		//if (object instanceof EolMap){
-		//	((EolMap) object).put(new EolString(property),value);
-		//	return;
-		//}
+		// Look for a getX() method
+		ObjectMethod om = registry.getContributedMethod(object, "set" + property, new Object[]{value}, context);
+		if (om != null) return om;
 		
-		//TODO : Add support for public, then private fields
+		return objectMethod;
+	}
+	
+	public void invoke(Object value) throws EolRuntimeException{
 		
-		Method setter = null;
-		Method getter = null;
-		String methodName = "";
+		ObjectMethod objectMethod = getMethodFor(object, property, value);
 		
-		// First try to find a setter
-		methodName = "set" + StringUtil.firstToUpper(property);
-		setter = ReflectionUtil.getMethodFor(object, methodName, 1);
-		
-		if (setter == null) {
-			methodName = property;
-			setter = ReflectionUtil.getMethodFor(object, methodName, 1);
+		if (objectMethod.getMethod() == null) {
+			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
-		if (setter != null){
-			try {
-				setter.invoke(object, new Object[]{value});
-				return;
-			} catch (Exception ex) {
-				throw new EolInternalException(ex);
-			}
+		try {
+			objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{value});
 		}
-		
-		// Then try to find a setter with the name as-is (applies to isXXX of MDR)
-		if (property.startsWith("is")){
-			methodName = "set" + property.substring(2, property.length());
-			setter = ReflectionUtil.getMethodFor(object, methodName, 1);
-			
-			if (setter == null) {
-				methodName = property;
-				setter = ReflectionUtil.getMethodFor(object, methodName, 1);
-			}
-			
-			if (setter != null){
-				try {
-					setter.invoke(object, new Object[]{value});
-					return;
-				} catch (Exception ex) {
-					throw new EolInternalException(ex);
-				}
-			}
+		catch (Exception ex){
+			throw new EolInternalException(ex);
 		}
-		
-		// Since no setter has been found try to get
-		// a getter and if it returns a collection and
-		// the value is a collection, clear it and add
-		// the contents of the value
-		
-		if (setter == null) {
-			methodName = "get" + StringUtil.firstToUpper(property);
-			getter = ReflectionUtil.getMethodFor(object, methodName, 0);
-		
-			if (getter != null) {
-				Object result = null;
-				try {
-					result = getter.invoke(object, new Object[]{});
-				} catch (Exception e) {
-					throw new EolInternalException(e);
-				}
-				
-				if (result != null && result instanceof Collection){
-					Collection source = (Collection) result;
-					
-					if (value instanceof Collection) {
-						Iterator it = ((Collection) value).iterator();
-						while (it.hasNext()){
-							try {
-								Object next = it.next();
-								if (!source.contains(next)){
-									source.add(next);
-								}
-							}
-							catch (Exception ex){
-								throw new EolInternalException(ex);
-							}
-						}
-						return;
-					}
-				}
-			}
-		}
-		
-		throw new EolIllegalPropertyException(object, property, ast, context);
 		
 	}
 

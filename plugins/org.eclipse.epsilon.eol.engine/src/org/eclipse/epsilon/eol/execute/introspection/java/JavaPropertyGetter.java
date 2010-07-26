@@ -10,69 +10,38 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
-import java.lang.reflect.Method;
-
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
-import org.eclipse.epsilon.eol.util.ReflectionUtil;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
 public class JavaPropertyGetter extends AbstractPropertyGetter{
 	
 	protected ObjectMethod getMethodFor(Object object, String property) {
 		ObjectMethod objectMethod = new ObjectMethod();
 		objectMethod.setObject(object);
+		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
-		String methodName = "get" + property;
-		Method method = ReflectionUtil.getMethodFor(object, methodName, 0);
+		// Look for a getX() method
+		ObjectMethod om = registry.getContributedMethod(object, "get" + property, new Object[]{}, context);
+		if (om != null) return om;
+
+		// Look for an X() method
+		om = context.getOperationContributorRegistry().
+			getContributedMethod(object, property, new Object[]{}, context);
+		if (om != null) return om;
+	
+		// Look for an isX() method
+		om = context.getOperationContributorRegistry().
+		getContributedMethod(object, "is" + property, new Object[]{}, context);
+		if (om != null) return om;
 		
-		if (method == null){
-			methodName = property;
-			method = ReflectionUtil.getMethodFor(object, methodName, 0);
-		}
-		
-		if (method == null) {
-			// Method contributors
-			ObjectMethod om = context.getOperationContributorRegistry().
-				getContributedMethod(object, property, new Object[]{}, context);
-			if (om != null) return om;
-		}
-		
-		if (method == null){
-			methodName = "is" + property;
-			method = ReflectionUtil.getMethodFor(object, methodName, 0);
-		}
-		
-		objectMethod.setMethod(method);
 		return objectMethod;
 	}
 	
 	public Object invoke(Object object, String property) throws EolRuntimeException{
-		
-		//if (object instanceof EolMap) {
-		//	return ((EolMap) object).get(new EolString(property));
-		//}
-		
-		//TODO : Add support for public, then private fields
-		
-		
-		/*
-		if (method == null){
-			methodName = "get";
-			method = ReflectionUtil.getMethodFor(object,methodName,1);
-
-			if (method!=null) {
-				try {
-					return method.invoke(object, new Object[]{property});
-				}
-				catch (Exception ex) {
-					throw new EolInternalException(ex);
-				}
-			}
-		}
-		*/
 		
 		ObjectMethod objectMethod = getMethodFor(object, property);
 		
