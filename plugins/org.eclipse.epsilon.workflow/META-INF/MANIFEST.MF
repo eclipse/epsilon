@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.ant,
  org.eclipse.epsilon.util.emf;resolution:=optional,
  org.eclipse.epsilon.emc.emf;resolution:=optional,
- org.eclipse.epsilon.emc.composite
+ org.eclipse.epsilon.emc.composite,
+ org.eclipse.epsilon.emc.plainxml
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.emf,

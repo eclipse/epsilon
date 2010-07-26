@@ -78,6 +78,11 @@
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.emf.loadRegisteredMetamodel">
       </antTask>
+      <antTask
+            class="org.eclipse.epsilon.workflow.tasks.xml.LoadModel"
+            library="lib/org.eclipse.epsilon.workflow.jar"
+            name="epsilon.xml.loadModel">
+      </antTask>
    </extension>
    <extension
          point="org.eclipse.ant.core.extraClasspathEntries">

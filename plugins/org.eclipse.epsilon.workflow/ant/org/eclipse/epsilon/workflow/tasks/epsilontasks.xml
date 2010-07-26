@@ -59,9 +59,9 @@
         classname="org.eclipse.epsilon.workflow.tasks.LoadCompositeModel"
       />
       
-     <!--taskdef
+     <taskdef
      	name="epsilon.egl"
         classname="org.eclipse.epsilon.workflow.tasks.EglTask"
-      /-->
-       
+      />
+      
 </antlib>
