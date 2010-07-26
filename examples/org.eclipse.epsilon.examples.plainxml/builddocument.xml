@@ -1,11 +1,7 @@
 <project default="main">
 	<target name="main">
 		
-		<epsilon.loadModel name="XMLDoc" type="PlainXML">
-			<parameter name="file" file="gen_library.xml"/>
-			<parameter name="readOnLoad" value="false"/>
-			<parameter name="storeOnDisposal" value="true"/>
-		</epsilon.loadModel>
+		<epsilon.xml.loadModel name="XMLDoc" file="gen_library.xml" read ="true"/>
 		
 		<epsilon.eol src="builddocument.eol">
 			<model ref="XMLDoc"/>

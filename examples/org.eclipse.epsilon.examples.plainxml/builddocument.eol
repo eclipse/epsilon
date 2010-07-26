@@ -1,5 +1,5 @@
 var library = new t_library;
-XMLDoc.document.appendChild(library);
+XMLDoc.root = library;
 
 library.createBook("EMF Eclipse Modeling Framework", 
 	List{"Dave Steinberg", "Frank Budinsky", "Marcelo Paternostro", "Ed Merks"}, 
