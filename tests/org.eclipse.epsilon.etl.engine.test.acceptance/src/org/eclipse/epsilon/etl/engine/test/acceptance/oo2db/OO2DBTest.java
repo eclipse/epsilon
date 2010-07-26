@@ -1,20 +1,15 @@
 package org.eclipse.epsilon.etl.engine.test.acceptance.oo2db;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlTest;
 import org.eclipse.epsilon.test.util.ResourceComparator;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class OO2DBTest extends EtlTest {
 	
@@ -42,7 +37,7 @@ public class OO2DBTest extends EtlTest {
 		
 		assertTrue(new ResourceComparator().compare(dbModelOracle, dbModel.getModelImpl()));
 		
-		
+		module.getContext().dispose();
 	}
 		
 }
