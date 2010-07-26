@@ -44,8 +44,18 @@ public class PlainXmlModel extends Model {
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_URI = "uri";
 	
+	public Node getRoot() {
+		return document.getFirstChild();
+	}
+	
+	public void setRoot(Node node) {
+		Node oldRoot = getRoot();
+		if (oldRoot != null) document.removeChild(oldRoot);
+		document.appendChild(node);
+	}
 	
 	public Collection<?> allContents() {
+		
 		ArrayList<Element> elements = new ArrayList<Element>();
 		collectAllElements(document, elements);
 		for (Element created : createdElements) {
