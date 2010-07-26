@@ -23,10 +23,11 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public class ModelReference implements IModel{
+public class ModelReference implements IModel, IWrapper {
 	
 	protected IModel target;
 	protected String name;
@@ -165,10 +166,6 @@ public class ModelReference implements IModel{
 	public boolean store() {
 		return target.store();
 	}
-	
-	public Object get(String property) throws Exception {
-		return new JavaPropertyGetter().invoke(target, property);
-	}
 
 	public IModelTransactionSupport getTransactionSupport() {
 		return target.getTransactionSupport();
@@ -182,5 +179,9 @@ public class ModelReference implements IModel{
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		return target.createInstance(type, parameters);
+	}
+
+	public Object getWrapped() {
+		return target;
 	}	
 }
