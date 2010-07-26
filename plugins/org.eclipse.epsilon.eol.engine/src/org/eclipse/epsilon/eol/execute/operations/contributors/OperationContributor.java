@@ -16,18 +16,27 @@ public abstract class OperationContributor {
 	public ObjectMethod getObjectMethodFor(Object target, String name, Object[] parameters, IEolContext context) {
 		// Only include in the search methods defined by the contributor 
 		// i.e. ignore Object methods
-		Method method = ReflectionUtil.getMethodFor(this, name, parameters, false); 
+		Object reflectionTarget = getReflectionTarget(target);
+		Method method = ReflectionUtil.getMethodFor(reflectionTarget, name, parameters, includeInheritedMethods()); 
 		if (method != null) {
 			ObjectMethod objectMethod = new ObjectMethod();
 			setTarget(target);
 			objectMethod.setMethod(method);
-			objectMethod.setObject(this);
+			objectMethod.setObject(reflectionTarget);
 			setContext(context);
 			return objectMethod;
 		}
 		else {
 			return null;
 		}
+	}
+	
+	protected boolean includeInheritedMethods() {
+		return false;
+	}
+	
+	protected Object getReflectionTarget(Object target) {
+		return this;
 	}
 	
 	public void setTarget(Object target) {
