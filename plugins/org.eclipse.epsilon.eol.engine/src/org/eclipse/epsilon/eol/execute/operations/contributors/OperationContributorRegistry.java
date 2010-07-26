@@ -13,6 +13,7 @@ public class OperationContributorRegistry extends ArrayList<OperationContributor
 	public OperationContributorRegistry() {
 		add(new StringCompatibilityOperationContributor());
 		add(new ReflectiveOperationContributor());
+		add(new WrapperOperationContributor());
 		add(new StringOperationContributor());
 		add(new IntegerOperationContributor());
 		add(new NumberOperationContributor());
