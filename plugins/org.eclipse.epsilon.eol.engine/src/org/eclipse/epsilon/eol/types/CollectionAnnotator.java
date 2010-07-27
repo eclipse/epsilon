@@ -1,19 +1,27 @@
 package org.eclipse.epsilon.eol.types;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 public class CollectionAnnotator {
 	
-	protected WeakHashMap<Collection, AnnotatedCollectionType> cache = new WeakHashMap<Collection, AnnotatedCollectionType>();
+	protected HashMap<WeakReference, AnnotatedCollectionType> cache = new HashMap<WeakReference, AnnotatedCollectionType>();
+	
 	protected static CollectionAnnotator instance = new CollectionAnnotator();
 	
 	public void annotate(Collection c, AnnotatedCollectionType ct) {
-		cache.put(c, ct);
+		WeakReference ref = new WeakReference(c);
+		cache.put(ref, ct);
 	}
 	
 	public AnnotatedCollectionType getType(Collection c) {
-		return cache.get(c);
+		for (WeakReference ref : cache.keySet()) {
+			if (ref.get() == c) {
+				return cache.get(ref);
+			}
+		}
+		return null;
 	}
 	
 	public static CollectionAnnotator getInstance() {
