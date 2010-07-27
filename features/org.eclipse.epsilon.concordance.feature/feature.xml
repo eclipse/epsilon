@@ -216,12 +216,12 @@ litigation.
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi.dt"/>
       <import plugin="org.eclipse.epsilon.commons"/>
+      <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.hamcrest.matchers"/>
-      <import plugin="org.eclipse.epsilon.hutn.xmi"/>
+      <import plugin="org.eclipse.epsilon.concordance.core.hashing"/>
    </requires>
 
    <plugin
@@ -233,13 +233,6 @@ litigation.
 
    <plugin
          id="org.eclipse.epsilon.concordance.core"
-         download-size="0"
-         install-size="0"
-         version="0.8.9.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.concordance.core.hashing"
          download-size="0"
          install-size="0"
          version="0.8.9.qualifier"
