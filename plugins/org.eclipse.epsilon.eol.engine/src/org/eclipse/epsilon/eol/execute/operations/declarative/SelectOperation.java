@@ -63,13 +63,7 @@ public class SelectOperation extends AbstractOperation {
 		}
 		
 		Collection source = CollectionUtil.asCollection(obj);
-		Collection result = null;
-		if (EolCollectionType.isOrdered(source)) {
-			result = new EolSequence();
-		}
-		else {
-			result = new EolBag();
-		}
+		Collection result = EolCollectionType.createSameType(source);
 		
 		FrameStack scope = context.getFrameStack();
 		

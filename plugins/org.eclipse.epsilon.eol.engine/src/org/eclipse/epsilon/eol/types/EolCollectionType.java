@@ -35,6 +35,23 @@ public class EolCollectionType extends EolType {
 		this.name = name;
 	}
 	
+	public EolCollectionType getTypeOf(Collection c) {
+		
+		AnnotatedCollectionType annotatedCollectionType = CollectionAnnotator.getInstance().getType(c);
+		if (annotatedCollectionType != null) {
+			if (annotatedCollectionType == AnnotatedCollectionType.Bag) return Bag;
+			if (annotatedCollectionType == AnnotatedCollectionType.Sequence) return Sequence;
+			if (annotatedCollectionType == AnnotatedCollectionType.Set) return Set;
+			if (annotatedCollectionType == AnnotatedCollectionType.OrderedSet) return OrderedSet;
+		}
+		
+		if (c instanceof EolSequence || (c instanceof List && !(c instanceof Set))) return Sequence;
+		if (c instanceof EolOrderedSet || (c instanceof List && c instanceof Set)) return OrderedSet;
+		if (c instanceof EolSet || (c instanceof Set && !(c instanceof List))) return Set;
+		else return Bag;
+		
+	}
+	
 	@Override
 	public boolean isType(Object o) {
 		
@@ -43,24 +60,34 @@ public class EolCollectionType extends EolType {
 		Collection c = (Collection) o;
 		
 		if (this == Collection) return false; // Collection is abstract
-		else if (this == Bag) 
-			return c instanceof EolBag || 
-			CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.Bag;
+		
+		return getTypeOf(c) == this;
+		
+		/*
+		AnnotatedCollectionType annotatedCollectionType = CollectionAnnotator.getInstance().getType(c);
+		if (annotatedCollectionType != null) {
+			if (this == Bag && annotatedCollectionType == AnnotatedCollectionType.Bag) return true;
+			if (this == Sequence && annotatedCollectionType == AnnotatedCollectionType.Sequence) return true;
+			if (this == Set && annotatedCollectionType == AnnotatedCollectionType.Set) return true;
+			if (this == OrderedSet && annotatedCollectionType == AnnotatedCollectionType.OrderedSet) return true;
+			return false;
+		}
+		
+		if (this == Bag) 
+			return c instanceof EolBag;
 		else if (this == Sequence) 
 			return 
 				c instanceof EolSequence || 
-				(c instanceof List && !(c instanceof Set)) || 
-				CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.Sequence;
+				(c instanceof List && !(c instanceof Set));
 		else if (this == OrderedSet) 
 			return c instanceof EolOrderedSet || 
-			(c instanceof List && c instanceof Set) || 
-			CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.OrderedSet;
+			(c instanceof List && c instanceof Set); 
 		else if (this == Set) {
 			return c instanceof EolSet || 
-			(c instanceof Set && !(c instanceof List)) || 
-			CollectionAnnotator.getInstance().getType(c) == AnnotatedCollectionType.Set; 
+			(c instanceof Set && !(c instanceof List)) ;
 		}
 		return true;
+		*/
 	}
 
 	@Override

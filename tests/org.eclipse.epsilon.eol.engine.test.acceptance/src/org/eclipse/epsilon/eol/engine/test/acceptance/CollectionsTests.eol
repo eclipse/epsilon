@@ -220,12 +220,22 @@ operation testSelectCorrectTypeSequence() {
 
 @test
 operation testSelectCorrectTypeSet() {
-	assertEquals(Set{1,2,3}.select(x|true).isTypeOf(Bag), true);
+	assertEquals(Set{1,2,3}.select(x|true).isTypeOf(Set), true);
+}
+
+@test
+operation testCollectCorrectTypeSet() {
+	assertEquals(Set{1,2,3}.collect(x|x).isTypeOf(Bag), true);
 }
 
 @test
 operation testSelectCorrectTypeOrderedSet() {
-	assertEquals(OrderedSet{1,2,3}.select(x|true).isTypeOf(Sequence), true);
+	assertEquals(OrderedSet{1,2,3}.select(x|true).isTypeOf(OrderedSet), true);
+}
+
+@test
+operation testCollectCorrectTypeOrderedSet() {
+	assertEquals(OrderedSet{1,2,3}.collect(x|x).isTypeOf(Sequence), true);
 }
 
 @test

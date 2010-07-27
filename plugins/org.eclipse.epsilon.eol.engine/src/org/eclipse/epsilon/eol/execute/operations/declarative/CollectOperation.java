@@ -22,6 +22,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolBag;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
@@ -52,7 +55,14 @@ public class CollectOperation extends AbstractOperation{
 		}
 		
 		Collection<Object> source = CollectionUtil.asCollection(obj);
-		Collection<Object> result = CollectionUtil.createDefaultList();
+		Collection<Object> result = null;
+		
+		if (EolCollectionType.isOrdered(source)) {
+			result = new EolSequence();
+		}
+		else {
+			result = new EolBag();
+		}
 		
 		FrameStack scope = context.getFrameStack();
 		
