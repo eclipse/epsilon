@@ -81,6 +81,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		super();
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
+		//addSmartTyping();
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}
 	
@@ -101,6 +102,19 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		}
 	}
 	
+	protected ArrayList<AutoclosingPair> autoclosingPairs = null;
+	
+	public ArrayList<AutoclosingPair> getAutoclosingPairs() {
+		if (autoclosingPairs == null) {
+			autoclosingPairs = new ArrayList<AutoclosingPair>();
+			autoclosingPairs.add(new AutoclosingPair("\"", "\""));
+			autoclosingPairs.add(new AutoclosingPair("(", ")"));
+			autoclosingPairs.add(new AutoclosingPair("{", "}"));
+			autoclosingPairs.add(new AutoclosingPair("'", "'"));
+		}
+		return autoclosingPairs;
+	}
+	
 	// for auto-closing wait a bit before actually auto completing
 	// if what pressed is . and is between parentheses, move it outside
 	// if what pressed is ; and its right is a ) move it outside
@@ -109,7 +123,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	// shift + space adds (|)
 	protected void addSmartTyping() {
 		
-		boolean enableAutoClosing = false;
+		boolean enableAutoClosing = true;
 		if (!enableAutoClosing) return;
 		
 		IDocument doc = this.getDocumentProvider().getDocument(
@@ -120,24 +134,55 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			boolean auto = false;
 			
 			public void documentAboutToBeChanged(DocumentEvent event) {
+				
 				if (auto) return;
-				if (event.fText.equalsIgnoreCase("'") || 
-						event.fText.equalsIgnoreCase("\"") || 
-						event.fText.equalsIgnoreCase("{") || 
-						event.fText.equalsIgnoreCase("(")) {
-					
-					auto = true;
+				boolean skip = false;
+				
+				/*
+				if (event.fText.equals("\n")) {
+					System.err.println("here...");
 					try {
-						String add = "'";
-						if (event.fText.equalsIgnoreCase("(")) add = ")";
-						if (event.fText.equalsIgnoreCase("\"")) add = "\"";
-						if (event.fText.equalsIgnoreCase("{")) add = "}";
+						String before = event.getDocument().get(event.fOffset-1, 1);
+						String after = event.getDocument().get(event.fOffset, 1);
 						
-						event.fDocument.replace(event.fOffset, 0, add);
-					} catch (BadLocationException e) {
-						e.printStackTrace();
+						if (before.equalsIgnoreCase("{") && after.equalsIgnoreCase("}")) {
+							System.err.println("here we go...");
+							auto = true;
+							event.fDocument.replace(event.fOffset, 0, "\n");
+							auto = false;
+						}
+						
 					}
-					auto = false;
+					catch(BadLocationException ex) {
+						ex.printStackTrace();
+					}
+				}*/
+				
+				for (AutoclosingPair pair : getAutoclosingPairs()) {
+					try {
+						try {
+							String before = event.getDocument().get(event.fOffset-1, 1);
+							String after = event.getDocument().get(event.fOffset, 1);
+							if (event.fText.equalsIgnoreCase(pair.getRight()) && before.equalsIgnoreCase(pair.getLeft()) && after.equalsIgnoreCase(pair.getRight())) {
+								skip = true;
+								auto = true;
+								event.fDocument.replace(event.fOffset, 1, "");
+								auto = false;
+							}
+						}
+						catch (BadLocationException ex) {
+							// Ignore exception
+						}
+						if (!skip && event.fText.equalsIgnoreCase(pair.getLeft())) {
+							auto = true;
+							event.fDocument.replace(event.fOffset, 0, pair.getRight());
+							auto = false;
+						}
+					}
+					catch (BadLocationException e) {
+						// Ignore exception
+					}
+					
 				}
 			}
 
@@ -227,6 +272,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 		
+		addSmartTyping();
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
 		
