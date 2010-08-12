@@ -39,6 +39,8 @@ public class EmfMetaModel extends AbstractEmfModel {
 
 	@Override
 	public void load() throws EolModelLoadingException {
+		this.expand = false;
+		
 		EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri);
 		
 		if (ePackage != null) {
@@ -54,7 +56,6 @@ public class EmfMetaModel extends AbstractEmfModel {
 			throws EolModelLoadingException {
 		super.load(properties, basePath);
 		this.metamodelUri = properties.getProperty(PROPERTY_METAMODEL_URI);
-		this.expand = false;
 		load();
 	}
 	
