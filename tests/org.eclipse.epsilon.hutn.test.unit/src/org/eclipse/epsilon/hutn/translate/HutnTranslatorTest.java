@@ -40,10 +40,10 @@ public abstract class HutnTranslatorTest {
 	@BeforeClass
 	public static void registerDefaultResourceFactory() {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-	}
+	} 
 	
 	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
-		final Spec spec = new HutnTranslator().createIntermediateModel(ast);
+		final Spec spec = new HutnTranslator().createIntermediateModel(ast, null);
 		
 		final AbstractEmfModel specModel = new InMemoryEmfModel(EmfUtil.createResource(spec));
 		

@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.dt.editor;
 
+import java.io.File;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +23,6 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.util.WorkspaceUtil;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
@@ -35,42 +34,29 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 
 	private final HutnEditor  editor;
 	private final HutnKeywordManager keywordManager;
-	
-	private IDocument document;
-	
+		
 	public HutnReconcileStrategy(HutnEditor editor, HutnScanner scanner) {
 		this.editor = editor;
 		this.keywordManager = new HutnKeywordManager(scanner);
 	}
 	
 	private List<ParseProblem> collectHutnParseErrors(IRegion partition) {
-		try {
-			final String text = document.get(partition.getOffset(), partition.getLength());
-			
-			final IHutnModule hutnModule = new HutnModule();
-			
-			if (editor.getEditorInput() instanceof FileEditorInput) {	
-				final IFile hutn = ((FileEditorInput)editor.getEditorInput()).getFile();
-				
-				hutnModule.setConfigFileDirectory(WorkspaceUtil.getAbsolutePath(hutn.getParent()));
-			}
-			
-			try {
-				hutnModule.parse(text);
-			} catch (Exception e) {}
-			
-			if (keywordManager.keywordsHaveChanged(hutnModule.getNsUris())) {
-				keywordManager.updateKeywordsFrom(hutnModule.getNsUris());
-			}
-			
-			return hutnModule.getParseProblems();
+		final IHutnModule hutnModule = new HutnModule();
+		final IFile hutn = ((FileEditorInput)editor.getEditorInput()).getFile();
 		
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			return new LinkedList<ParseProblem>();
+		if (editor.getEditorInput() instanceof FileEditorInput) {	
+			hutnModule.setConfigFileDirectory(WorkspaceUtil.getAbsolutePath(hutn.getParent()));
 		}
+		
+		try {
+			hutnModule.parse(new File(hutn.getLocation().toOSString()));
+		} catch (Exception e) {}
+		
+		if (keywordManager.keywordsHaveChanged(hutnModule.getNsUris())) {
+			keywordManager.updateKeywordsFrom(hutnModule.getNsUris());
+		}
+		
+		return hutnModule.getParseProblems();
 	}
 
 	private void markParseErrors(IRegion partition) {
@@ -104,7 +90,5 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 		throw new UnsupportedOperationException("Incremental reconciliation not supported");
 	}
 
-	public void setDocument(IDocument document) {
-		this.document = document;
-	}
+	public void setDocument(IDocument document) {}
 }

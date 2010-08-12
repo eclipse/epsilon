@@ -45,6 +45,7 @@ import org.eclipse.epsilon.hutn.model.hutn.Spec;
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getNsUris <em>Ns Uris</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getObjects <em>Objects</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getModelFile <em>Model File</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.impl.SpecImpl#getSourceFile <em>Source File</em>}</li>
  * </ul>
  * </p>
  *
@@ -90,6 +91,26 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 * @ordered
 	 */
 	protected String modelFile = MODEL_FILE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSourceFile() <em>Source File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SOURCE_FILE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSourceFile() <em>Source File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected String sourceFile = SOURCE_FILE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -160,6 +181,27 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getSourceFile() {
+		return sourceFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceFile(String newSourceFile) {
+		String oldSourceFile = sourceFile;
+		sourceFile = newSourceFile;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HutnPackage.SPEC__SOURCE_FILE, oldSourceFile, sourceFile));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -185,6 +227,8 @@ public class SpecImpl extends EObjectImpl implements Spec {
 				return getObjects();
 			case HutnPackage.SPEC__MODEL_FILE:
 				return getModelFile();
+			case HutnPackage.SPEC__SOURCE_FILE:
+				return getSourceFile();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -209,6 +253,9 @@ public class SpecImpl extends EObjectImpl implements Spec {
 			case HutnPackage.SPEC__MODEL_FILE:
 				setModelFile((String)newValue);
 				return;
+			case HutnPackage.SPEC__SOURCE_FILE:
+				setSourceFile((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -230,6 +277,9 @@ public class SpecImpl extends EObjectImpl implements Spec {
 			case HutnPackage.SPEC__MODEL_FILE:
 				setModelFile(MODEL_FILE_EDEFAULT);
 				return;
+			case HutnPackage.SPEC__SOURCE_FILE:
+				setSourceFile(SOURCE_FILE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -248,6 +298,8 @@ public class SpecImpl extends EObjectImpl implements Spec {
 				return objects != null && !objects.isEmpty();
 			case HutnPackage.SPEC__MODEL_FILE:
 				return MODEL_FILE_EDEFAULT == null ? modelFile != null : !MODEL_FILE_EDEFAULT.equals(modelFile);
+			case HutnPackage.SPEC__SOURCE_FILE:
+				return SOURCE_FILE_EDEFAULT == null ? sourceFile != null : !SOURCE_FILE_EDEFAULT.equals(sourceFile);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -264,6 +316,8 @@ public class SpecImpl extends EObjectImpl implements Spec {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (modelFile: ");
 		result.append(modelFile);
+		result.append(", sourceFile: ");
+		result.append(sourceFile);
 		result.append(')');
 		return result.toString();
 	}

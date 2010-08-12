@@ -43,7 +43,7 @@ public class IntermediateModelGenerator {
 			final AST ast = new AST((CommonTree)parser.document().getTree());
 
 			if (EpsilonParseProblemManager.INSTANCE.getParseProblems().isEmpty()) {
-				return new InMemoryEmfModel(new HutnTranslator().createIntermediateModel(new HutnPostProcessor().process(ast)).eResource());
+				return new InMemoryEmfModel(new HutnTranslator().createIntermediateModel(new HutnPostProcessor().process(ast), null).eResource());
 			
 			} else {
 				for (ParseProblem p : EpsilonParseProblemManager.INSTANCE.getParseProblems()) {

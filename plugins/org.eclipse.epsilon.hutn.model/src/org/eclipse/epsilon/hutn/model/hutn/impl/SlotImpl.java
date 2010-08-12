@@ -120,7 +120,7 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	 * @generated
 	 */
 	public ClassObject getOwner() {
-		if (eContainerFeatureID != HutnPackage.SLOT__OWNER) return null;
+		if (eContainerFeatureID() != HutnPackage.SLOT__OWNER) return null;
 		return (ClassObject)eContainer();
 	}
 
@@ -140,7 +140,7 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	 * @generated
 	 */
 	public void setOwner(ClassObject newOwner) {
-		if (newOwner != eInternalContainer() || (eContainerFeatureID != HutnPackage.SLOT__OWNER && newOwner != null)) {
+		if (newOwner != eInternalContainer() || (eContainerFeatureID() != HutnPackage.SLOT__OWNER && newOwner != null)) {
 			if (EcoreUtil.isAncestor(this, newOwner))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -300,7 +300,7 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	 */
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case HutnPackage.SLOT__OWNER:
 				return eInternalContainer().eInverseRemove(this, HutnPackage.CLASS_OBJECT__SLOTS, ClassObject.class, msgs);
 		}

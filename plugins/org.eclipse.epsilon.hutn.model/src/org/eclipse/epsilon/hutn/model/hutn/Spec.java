@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getNsUris <em>Ns Uris</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getObjects <em>Objects</em>}</li>
  *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getModelFile <em>Model File</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getSourceFile <em>Source File</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,5 +95,31 @@ public interface Spec extends EObject {
 	 * @generated
 	 */
 	void setModelFile(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Source File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Source File</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source File</em>' attribute.
+	 * @see #setSourceFile(String)
+	 * @see org.eclipse.epsilon.hutn.model.hutn.HutnPackage#getSpec_SourceFile()
+	 * @model
+	 * @generated
+	 */
+	String getSourceFile();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.hutn.model.hutn.Spec#getSourceFile <em>Source File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source File</em>' attribute.
+	 * @see #getSourceFile()
+	 * @generated
+	 */
+	void setSourceFile(String value);
 
 } // Spec

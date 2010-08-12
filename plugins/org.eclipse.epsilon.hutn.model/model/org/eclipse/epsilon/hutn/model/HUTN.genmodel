@@ -11,6 +11,8 @@
     <genClasses ecoreClass="HUTN.ecore#//Spec">
       <genFeatures createChild="false" ecoreFeature="ecore:EReference HUTN.ecore#//Spec/nsUris"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//Spec/objects"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Spec/modelFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Spec/sourceFile"/>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//NsUri">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//NsUri/value"/>
@@ -23,17 +25,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Object/identifier"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="HUTN.ecore#//ClassObjectContainer">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObjectContainer/classObjects"/>
-      <genOperations ecoreOperation="HUTN.ecore#//ClassObjectContainer/getPackageObject"/>
-    </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//PackageObject">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HUTN.ecore#//PackageObject/metamodel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//PackageObject/classObjects"/>
       <genOperations ecoreOperation="HUTN.ecore#//PackageObject/getAllEClasses"/>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//ClassObject">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObject/slots"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference HUTN.ecore#//ClassObject/container"/>
       <genOperations ecoreOperation="HUTN.ecore#//ClassObject/findSlot">
         <genParameters ecoreParameter="HUTN.ecore#//ClassObject/findSlot/feature"/>
       </genOperations>
@@ -43,14 +41,21 @@
       <genOperations ecoreOperation="HUTN.ecore#//ClassObject/typeCompatibleWith">
         <genParameters ecoreParameter="HUTN.ecore#//ClassObject/typeCompatibleWith/eClass"/>
       </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/findOrCreateAttributeSlot">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObject/findOrCreateAttributeSlot/feature"/>
+      </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/findOrCreateReferenceSlot">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObject/findOrCreateReferenceSlot/feature"/>
+      </genOperations>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObject/findOrCreateContainmentSlot">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObject/findOrCreateContainmentSlot/feature"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="HUTN.ecore#//Slot">
+      <genTypeParameters ecoreTypeParameter="HUTN.ecore#//Slot/T"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HUTN.ecore#//Slot/feature"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference HUTN.ecore#//Slot/owner"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute HUTN.ecore#//Slot/values"/>
-      <genOperations ecoreOperation="HUTN.ecore#//Slot/append">
-        <genParameters ecoreParameter="HUTN.ecore#//Slot/append/slot"/>
-      </genOperations>
       <genOperations ecoreOperation="HUTN.ecore#//Slot/typeCompatibleWith">
         <genParameters ecoreParameter="HUTN.ecore#//Slot/typeCompatibleWith/eStructuralFeature"/>
       </genOperations>
@@ -62,241 +67,24 @@
       </genOperations>
       <genOperations ecoreOperation="HUTN.ecore#//Slot/getEStructuralFeature"/>
       <genOperations ecoreOperation="HUTN.ecore#//Slot/hasEStructuralFeature"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Ecore" basePackage="org.eclipse.emf" ecorePackage="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#/">
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBigDecimal"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBigInteger"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByte"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EChar"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ECharacterObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDate"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDiagnosticChain"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDouble"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDoubleObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
-      <genTypeParameters ecoreTypeParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEList/E"/>
-    </genDataTypes>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumerator"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFeatureMap"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFeatureMapEntry"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloatObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaClass">
-      <genTypeParameters ecoreTypeParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaClass/T"/>
-    </genDataTypes>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELongObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EMap">
-      <genTypeParameters ecoreTypeParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EMap/K"/>
-      <genTypeParameters ecoreTypeParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EMap/V"/>
-    </genDataTypes>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EResource"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EResourceSet"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EShort"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EShortObject"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <genDataTypes ecoreDataType="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETreeIterator">
-      <genTypeParameters ecoreTypeParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETreeIterator/E"/>
-    </genDataTypes>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute/iD"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute/eAttributeType"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation/source"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation/details"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation/eModelElement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation/contents"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation/references"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/abstract"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/interface"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eSuperTypes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eOperations"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllAttributes"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllReferences"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eReferences"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAttributes"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllContainments"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllOperations"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllStructuralFeatures"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllSuperTypes"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eIDAttribute"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eStructuralFeatures"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eGenericSuperTypes"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eAllGenericSuperTypes"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/isSuperTypeOf">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/isSuperTypeOf/someClass"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getFeatureCount"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getEStructuralFeature">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getEStructuralFeature/featureID"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getFeatureID">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getFeatureID/feature"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getEStructuralFeature.1">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/getEStructuralFeature.1/featureName"/>
+      <genOperations ecoreOperation="HUTN.ecore#//Slot/setValues">
+        <genParameters ecoreParameter="HUTN.ecore#//Slot/setValues/values"/>
       </genOperations>
     </genClasses>
-    <genClasses image="false" ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceClassName"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceClass"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/defaultValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceTypeName"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/ePackage"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/eTypeParameters"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/isInstance">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/isInstance/object"/>
+    <genClasses ecoreClass="HUTN.ecore#//AttributeSlot"/>
+    <genClasses image="false" ecoreClass="HUTN.ecore#//ClassObjectSlot">
+      <genTypeParameters ecoreTypeParameter="HUTN.ecore#//ClassObjectSlot/T"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObjectSlot/getClassObjects"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObjectSlot/setClassObjects">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObjectSlot/setClassObjects/classObjects"/>
       </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/getClassifierID"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType/serializable"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/eLiterals"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteral">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteral/name"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteral.1">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteral.1/value"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteralByLiteral">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum/getEEnumLiteralByLiteral/literal"/>
+      <genOperations ecoreOperation="HUTN.ecore#//ClassObjectSlot/addClassObject">
+        <genParameters ecoreParameter="HUTN.ecore#//ClassObjectSlot/addClassObject/classObject"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral/value"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral/instance"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral/literal"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral/eEnum"/>
+    <genClasses ecoreClass="HUTN.ecore#//ContainmentSlot">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HUTN.ecore#//ContainmentSlot/classObjects"/>
     </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/ePackage"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/create">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/create/eClass"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/createFromString">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/createFromString/eDataType"/>
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/createFromString/literalValue"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/convertToString">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/convertToString/eDataType"/>
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFactory/convertToString/instanceValue"/>
-      </genOperations>
-    </genClasses>
-    <genClasses image="false" ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/getEAnnotation">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/getEAnnotation/source"/>
-      </genOperations>
-    </genClasses>
-    <genClasses image="false" ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eClass"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eIsProxy"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eResource"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eContainer"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eContainingFeature"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eContainmentFeature"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eContents"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eAllContents"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eCrossReferences"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eGet">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eGet/feature"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eGet.1">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eGet.1/feature"/>
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eGet.1/resolve"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eSet">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eSet/feature"/>
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eSet/newValue"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eIsSet">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eIsSet/feature"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eUnset">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject/eUnset/feature"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eContainingClass"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eTypeParameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eParameters"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eExceptions"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eGenericExceptions"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/nsURI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/nsPrefix"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/eFactoryInstance"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/eClassifiers"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/eSubpackages"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/eSuperPackage"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/getEClassifier">
-        <genParameters ecoreParameter="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/getEClassifier/name"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EParameter">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EParameter/eOperation"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/containment"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/container"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/resolveProxies"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/eOpposite"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/eReferenceType"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/eKeys"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/changeable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/volatile"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/transient"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/defaultValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/unsettable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/derived"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/eContainingClass"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/getFeatureID"/>
-      <genOperations ecoreOperation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/getContainerClass"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/ordered"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/unique"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/lowerBound"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/upperBound"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/many"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/required"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/eType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/eGenericType"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry/key"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry/value"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eUpperBound"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eTypeArguments"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eRawType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eLowerBound"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eTypeParameter"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EGenericType/eClassifier"/>
-    </genClasses>
-    <genClasses ecoreClass="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypeParameter">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypeParameter/eBounds"/>
-    </genClasses>
+    <genClasses ecoreClass="HUTN.ecore#//ReferenceSlot"/>
   </genPackages>
 </genmodel:GenModel>

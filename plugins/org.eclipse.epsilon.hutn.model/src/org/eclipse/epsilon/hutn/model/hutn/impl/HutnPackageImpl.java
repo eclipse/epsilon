@@ -21,9 +21,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObjectSlot;
@@ -148,20 +146,10 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this
-	 * model, and for any others upon which it depends.  Simple
-	 * dependencies are satisfied by calling this method on all
-	 * dependent packages before doing anything else.  This method drives
-	 * initialization for interdependent packages directly, in parallel
-	 * with this package, itself.
-	 * <p>Of this package and its interdependencies, all packages which
-	 * have not yet been registered by their URI values are first created
-	 * and registered.  The packages are then initialized in two steps:
-	 * meta-model objects for all of the packages are created before any
-	 * are initialized, since one package's meta-model objects may refer to
-	 * those of another.
-	 * <p>Invocation of this method will not affect any packages that have
-	 * already been initialized.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link HutnPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
@@ -173,24 +161,22 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		if (isInited) return (HutnPackage)EPackage.Registry.INSTANCE.getEPackage(HutnPackage.eNS_URI);
 
 		// Obtain or create and register package
-		HutnPackageImpl theHutnPackage = (HutnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof HutnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new HutnPackageImpl());
+		HutnPackageImpl theHutnPackage = (HutnPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HutnPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HutnPackageImpl());
 
 		isInited = true;
 
-		// Obtain or create and register interdependencies
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) : EcorePackage.eINSTANCE);
-
 		// Create package meta-data objects
 		theHutnPackage.createPackageContents();
-		theEcorePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHutnPackage.initializePackageContents();
-		theEcorePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHutnPackage.freeze();
 
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(HutnPackage.eNS_URI, theHutnPackage);
 		return theHutnPackage;
 	}
 
@@ -228,6 +214,15 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 	 */
 	public EAttribute getSpec_ModelFile() {
 		return (EAttribute)specEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSpec_SourceFile() {
+		return (EAttribute)specEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -460,6 +455,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		createEReference(specEClass, SPEC__NS_URIS);
 		createEReference(specEClass, SPEC__OBJECTS);
 		createEAttribute(specEClass, SPEC__MODEL_FILE);
+		createEAttribute(specEClass, SPEC__SOURCE_FILE);
 
 		nsUriEClass = createEClass(NS_URI);
 		createEAttribute(nsUriEClass, NS_URI__VALUE);
@@ -551,6 +547,7 @@ public class HutnPackageImpl extends EPackageImpl implements HutnPackage {
 		initEReference(getSpec_NsUris(), this.getNsUri(), null, "nsUris", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpec_Objects(), this.getPackageObject(), null, "objects", null, 0, -1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSpec_ModelFile(), ecorePackage.getEString(), "modelFile", null, 0, 1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpec_SourceFile(), ecorePackage.getEString(), "sourceFile", null, 0, 1, Spec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nsUriEClass, NsUri.class, "NsUri", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNsUri_Value(), ecorePackage.getEString(), "value", null, 1, 1, NsUri.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

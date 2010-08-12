@@ -32,6 +32,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.DifferentFile;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.EmptyString;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Enumerations;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReference;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReferenceRelative;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InferEmptyInstanceForRequiredReference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Inference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InfixAssociation;
@@ -51,7 +52,7 @@ import org.junit.runners.Suite.SuiteClasses;
                Inference.class, DefaultValue.class, Enumerations.class, 
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
                AssociationBlock.class, InfixAssociation.class,
-               ExternalObjectReference.class, TwoMetamodels.class,
+               ExternalObjectReference.class, ExternalObjectReferenceRelative.class, TwoMetamodels.class,
                ContainmentRepeatedFeatureName.class, InferEmptyInstanceForRequiredReference.class})
 public class ValidHutnAcceptanceTestSuite {
 

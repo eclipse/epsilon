@@ -73,8 +73,8 @@ public class EmfTool extends AbstractTool{
 	}
 	
 	
-	public boolean resourceExists(String uri) {
-		return new EmfModelResourceSet().getURIConverter().exists(URI.createURI(uri, true), null);
+	public boolean resourceExists(String resource) {
+		return new EmfModelResourceSet().getURIConverter().exists(guessUriSchema(resource), null);
 	}
 	
 	public boolean modelElementExists(String uri) throws IOException {
@@ -95,7 +95,7 @@ public class EmfTool extends AbstractTool{
 		final String modelUri   = uri.split("#")[0];
 		final String elementUri = uri.split("#")[1];
 		
-		final URI platformResourceUri = URI.createURI(modelUri, true);
+		final URI platformResourceUri = guessUriSchema(modelUri);
 		
 		final Resource model = new EmfModelResourceSet().createResource(platformResourceUri);
 		
@@ -104,5 +104,42 @@ public class EmfTool extends AbstractTool{
 		model.load(null); // null, as we're not setting any load options
 		
 		return model.getEObject(elementUri);
+	}
+	
+	private URI guessUriSchema(String resource) {
+		URI uri = URI.createURI(resource, true);
+		
+		if (uri.isRelative()) {
+			uri = URI.createFileURI(resource);
+		}
+		return uri;
+	}
+
+	public String resolveURI(String target, String base) {		
+		final URI targetUri = URI.createURI(target);
+		final String resolved;
+		
+		if (targetUri.isRelative()) {
+			resolved = resolveRelativeUri(target, base);
+		} else {
+			resolved = targetUri.toString();
+		}
+		
+		return resolved;
+	}
+
+	private String resolveRelativeUri(String target, String base) {
+		final String targetPath, targetFragment;
+		
+		if (target.contains("#")) {
+			targetPath     = target.split("#")[0];
+			targetFragment = "#" + target.split("#")[1];
+		
+		} else {
+			targetPath     = target;
+			targetFragment = "";
+		}
+		
+		return URI.createFileURI(targetPath).resolve(URI.createFileURI(base)).toFileString() + targetFragment;
 	}
 }

@@ -152,13 +152,15 @@ public class HutnTranslator {
 		return problems;
 	}
 	
-	public Spec createIntermediateModel(Ast ast) throws HutnTranslationException {
+	public Spec createIntermediateModel(Ast ast, File sourceFile) throws HutnTranslationException {
 		final IModel configModel = initialiseConfigModel(determineMetaModelDetails(ast));
 		
 		try {
 			final IModel astModel = new InMemoryEmfModel("AntlrAst", ast.eResource(), HutnAntlrAstPackage.eINSTANCE);
 			
 			final Spec spec = HutnFactory.eINSTANCE.createSpec();
+			spec.setSourceFile(sourceFile == null ? null : sourceFile.getAbsolutePath());
+			
 			final EmfModel intermediateModel = new InMemoryEmfModel("Intermediate", EmfUtil.createResource(spec), HutnPackage.eINSTANCE);
 			intermediateModel.setMetamodelFileBased(false);
 			intermediateModel.setMetamodelUri(HutnPackage.eNS_URI);

@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.hutn.generate.model;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ModelGenerator extends AbstractGenerator {
 		try {
 			this.metaModelIsFileBased = false;
 			this.metaModelUri = spec.getNsUris().get(0).getValue();
-			
+						
 			source = new InMemoryEmfModel("Intermediate", spec.eResource(), HutnPackage.eINSTANCE);
 			metaModel = new EmfMetaModel("MetaModel", this.metaModelUri);
 			metaModel.load();

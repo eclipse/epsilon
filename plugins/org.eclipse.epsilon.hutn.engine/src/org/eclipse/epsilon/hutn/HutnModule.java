@@ -55,16 +55,6 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	protected File configFileDirectory;
 	protected boolean hutnIsValid = false;
 	
-	/*
-	public TokenStream createLexer(Reader reader) {
-		return new HutnLexer(reader);
-	}
-
-	public LLkParser createParser(TokenStream tokenStream) {
-		return new HutnParser(tokenStream);
-	}
-	*/
-	
 	
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
@@ -142,7 +132,7 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 			hutnIsValid = parsingWasSuccessful();
 			
 			if (hutnIsValid) {
-				spec = translator.createIntermediateModel(astModel);
+				spec = translator.createIntermediateModel(astModel, sourceFile);
 					
 				if (spec == null)
 					throw new IllegalArgumentException("Could not generate Intermediate model for specified text.");

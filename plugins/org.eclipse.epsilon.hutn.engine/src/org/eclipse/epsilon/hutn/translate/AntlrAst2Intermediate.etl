@@ -1,4 +1,6 @@
 pre {
+	var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
+
 	var ast    := AntlrAst!Ast.allInstances().first();
 	var config := Config!Configuration.allInstances().first();
 	
@@ -50,8 +52,6 @@ rule NameNode2PackageObject
 	p.addTraceabilityInfo(n);
 	
 	if (not spec.nsUris.isEmpty()) {
-		var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
-	
 		for (nsUri in spec.nsUris) {
 			var package := EmfTool.getEPackage(nsUri.value);
 			
@@ -359,7 +359,18 @@ operation AntlrAst!ReferenceNode toSlot() : Intermediate!Slot {
 }
 
 operation AntlrAst!ReferenceNode getValue() : Any {
-	return self.children.first().text.stripQuotes();
+	var value = self.children.first().text.stripQuotes();
+	
+	if (value.isExternalObjectReference()) {
+	    var base = Intermediate!Spec.all.first.sourceFile;
+		value = EmfTool.resolveURI(value, base);
+	}
+	
+	return value;
+}
+
+operation String isExternalObjectReference() : Boolean {
+	return self.contains("#");
 }
 
 -- Containment and Enumerations --

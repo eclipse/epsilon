@@ -7,6 +7,7 @@ class Spec {
   val NsUri[*] nsUris;
   val PackageObject[*] objects;
   attr ecore.EString modelFile;
+  attr String sourceFile; 
 }
 
 class NsUri extends ModelElement {

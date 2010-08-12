@@ -115,7 +115,7 @@ operation String isUniqueIdentifier() : Boolean {
 }
 
 operation String isRecognisedIdentifier() : Boolean {
-	if ('#'.isSubstringOf(self)) {		
+	if ('#'.isSubstringOf(self)) {	
 		return self.canLocateExternalModel() and self.canLocateExternalModelElement();
 
 	} else {

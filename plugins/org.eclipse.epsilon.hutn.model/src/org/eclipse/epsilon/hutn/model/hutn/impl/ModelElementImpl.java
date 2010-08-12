@@ -149,9 +149,9 @@ public class ModelElementImpl extends EObjectImpl implements ModelElement {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HutnPackage.MODEL_ELEMENT__LINE:
-				return new Integer(getLine());
+				return getLine();
 			case HutnPackage.MODEL_ELEMENT__COL:
-				return new Integer(getCol());
+				return getCol();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,10 +165,10 @@ public class ModelElementImpl extends EObjectImpl implements ModelElement {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HutnPackage.MODEL_ELEMENT__LINE:
-				setLine(((Integer)newValue).intValue());
+				setLine((Integer)newValue);
 				return;
 			case HutnPackage.MODEL_ELEMENT__COL:
-				setCol(((Integer)newValue).intValue());
+				setCol((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
