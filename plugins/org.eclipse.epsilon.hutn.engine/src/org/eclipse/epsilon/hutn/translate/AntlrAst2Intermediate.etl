@@ -281,8 +281,11 @@ operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 	}
 	
 	slot.addTraceabilityInfo(n);
-	
 	self.slots.add(slot);
+}
+
+post {
+	Intermediate!AttributeSlot.all.forAll(s|s.coerceValues());
 }
 
 operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
@@ -347,7 +350,7 @@ operation AntlrAst!NumericValueNode toSlot() : Intermediate!Slot {
 
 operation AntlrAst!NumericValueNode getValue() : Any {
 	if (self.text.isReal()) {
-		return self.text.asFloat();
+		return self.text.asDouble();
 	} else {
 		return self.text.asInteger();
 	}

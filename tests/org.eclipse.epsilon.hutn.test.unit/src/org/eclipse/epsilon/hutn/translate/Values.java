@@ -61,11 +61,6 @@ public class Values extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void typeShouldBeFloatSlot() throws HutnTranslationException {
-		attributeTest(createAttribute("averageAge", 23.5), 23.5);
-	}
-	
-	@Test
 	public void typeShouldBeBooleanSlotWhenTrue() throws HutnTranslationException {
 		attributeTest(createAttribute("migrant", true), true);
 	}

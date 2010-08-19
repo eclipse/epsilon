@@ -15,8 +15,10 @@
 package org.eclipse.epsilon.hutn.model.hutn.impl;
 
 import java.lang.Object;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.hutn.model.hutn.AttributeSlot;
@@ -78,6 +80,44 @@ public class AttributeSlotImpl extends SlotImpl<Object> implements AttributeSlot
 		} else {
 			return type.isInstance(value);
 		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void coerceValues() {
+		if (hasEStructuralFeature()) {
+			final EClassifier type = getEStructuralFeature().getEType();
+			
+			if (type != null) {
+				for (int index = 0; index < getValues().size(); index++) {
+					coerceValue(index, type);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private void coerceValue(int index, final EClassifier type) {
+		final Object value = getValues().get(index);
+		final Object coerced = coerce(value, (EDataType)type);
+		
+		getValues().set(index, coerced);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private static Object coerce(final Object value, final EDataType type) {
+		return type.getEPackage().getEFactoryInstance().createFromString(type, value.toString());
 	}
 
 } //AttributeSlotImpl

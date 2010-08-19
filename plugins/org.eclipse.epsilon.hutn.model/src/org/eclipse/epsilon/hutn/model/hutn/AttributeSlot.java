@@ -30,4 +30,6 @@ import java.lang.Object;
  */
 public interface AttributeSlot extends Slot<Object> {
 
+	public void coerceValues();
+
 } // AttributeSlot

@@ -24,13 +24,13 @@ public class DoublesAndFloats extends HutnAcceptanceTest {
 	}
 	
 	@Test
-	public void floatTypedSlotShouldHaveCorrectValue() {
-		model.assertEquals(26.7, "Family.all.first.averageAge");
+	public void floatTypedSlotShouldProduceFloatValues() {
+		model.assertEquals("java.lang.Float", "Family.all.first.averageAge.class.name");
 	}
 	
 	@Test
-	public void doubleTypedSlotShouldHaveCorrectValue() {
-		model.assertEquals(26.7, "Family.all.first.averageAgePrecise");
+	public void doubleTypedSlotShouldProduceDoubleValues() {
+		model.assertEquals("java.lang.Double", "Family.all.first.averageAgePrecise.class.name");
 	}
 
 }

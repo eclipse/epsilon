@@ -18,13 +18,17 @@ import static org.eclipse.epsilon.hutn.test.util.HutnUtil.*;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
+import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
+import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
+import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class Enumerations extends HutnModelGeneratorTest {
 
 	private static ClassObject createDog(String name, String breed) {
-		return createClassObject(name, "Dog", createAttributeSlot("name", name), createAttributeSlot("breed", breed));
+		final DogBreed breedEnum = (DogBreed)FamiliesFactory.eINSTANCE.createFromString(FamiliesPackage.eINSTANCE.getDogBreed(), breed);
+		return createClassObject(name, "Dog", createAttributeSlot("name", name), createAttributeSlot("breed", breedEnum));
 	}
 	
 	@BeforeClass

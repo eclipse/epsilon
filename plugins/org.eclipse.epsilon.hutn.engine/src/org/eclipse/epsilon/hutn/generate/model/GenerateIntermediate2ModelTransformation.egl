@@ -15,22 +15,13 @@ pre {
 			[% if (attribute.isMany()) { %]
 				for (value in o.findSlot('[%=attribute.name%]').values) {
 					t.`[%=attribute.name%]`.add(value);
-					[% if (EEnum.isType(attribute.eType)) { %]
-						var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
-						t.`[%=attribute.name%]` := enum.getEEnumLiteralByLiteral(value).instance;
-						
-					[% } else { %]
+
 						t.`[%=attribute.name%]`.add(value);
-					[% } %]
+
 				}
 			[% } else { %]
-				[% if (EEnum.isType(attribute.eType)) { %]
-					var enum := MetaModel!EEnum.allInstances().selectOne(e|e.name='[%=attribute.eType.name%]');
-					t.`[%=attribute.name%]` := enum.getEEnumLiteralByLiteral(o.findSlot('[%=attribute.name%]').values.first).instance;
-					
-				[% } else { %]
+
 					t.`[%=attribute.name%]` := o.findSlot('[%=attribute.name%]').values.first;
-				[% } %]
 			[% } %]
 		}
 	[% } %]

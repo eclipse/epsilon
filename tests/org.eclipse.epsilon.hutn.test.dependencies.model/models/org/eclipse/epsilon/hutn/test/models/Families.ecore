@@ -22,6 +22,7 @@
         eOpposite="#//District/families"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lotteryNumbers" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="averageAgePrecise" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pet" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="male" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

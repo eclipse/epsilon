@@ -10,24 +10,23 @@
  *     Louis Rose - initial API and implementation
  * ******************************************************************************
  *
- * $Id: HutnUnitTestSuite.java,v 1.3 2008/08/07 14:51:10 louis Exp $
+ * $Id: ParseSuite.java,v 1.3 2008/08/08 14:33:06 louis Exp $
  */
 package org.eclipse.epsilon.hutn.test.unit;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.hutn.model.AttributeSlotCoerceValuesTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ParseSuite.class, ModelSuite.class, PostProcessorSuite.class, TranslatorSuite.class,
-               ModelValidatorSuite.class, ConfigFileValidatorSuite.class, ModelGeneratorSuite.class,
-               PreambleSuite.class})
-public class HutnUnitTestSuite {
+@SuiteClasses({AttributeSlotCoerceValuesTests.class})
+public class ModelSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(HutnUnitTestSuite.class);
+		return new JUnit4TestAdapter(ModelSuite.class);
 	}
 }
