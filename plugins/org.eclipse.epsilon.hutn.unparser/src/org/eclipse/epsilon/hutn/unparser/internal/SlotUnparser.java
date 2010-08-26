@@ -83,7 +83,11 @@ class SlotUnparser extends Unparser {
 			unparseValue((String)value);
 		
 		} else if (value instanceof Integer ||
+		           value instanceof Long    ||
+		           value instanceof Short   |
+		           value instanceof Byte    ||
 		           value instanceof Float   ||
+		           value instanceof Double  ||
 		           value instanceof Boolean) {
 			
 			builder.append(value);
