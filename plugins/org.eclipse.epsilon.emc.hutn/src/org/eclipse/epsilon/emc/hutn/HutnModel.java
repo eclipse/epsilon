@@ -20,14 +20,15 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.commons.util.StringUtil;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
+import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
@@ -36,14 +37,14 @@ import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 
 
-public class HutnModel extends Model {
+public class HutnModel extends Model implements IReflectiveModel {
 
 	public static final String PROPERTY_SOURCE_FILE = "sourceFile";
 	
 	private String hutn;
 	private File hutnSourceFile;
 	
-	private AbstractEmfModel model;
+	private EmfModel model;
 	
 	public HutnModel() {}
 	
@@ -73,7 +74,7 @@ public class HutnModel extends Model {
 				throw new EolModelLoadingException(new HutnGenerationException("Could not parse HUTN: " + problems), this);
 			}
 
-			model = module.generateEmfModel();
+			model = (EmfModel)module.generateEmfModel();
 			
 			model.load();
 		
@@ -97,7 +98,7 @@ public class HutnModel extends Model {
 	}
 
 	@Override
-	public IPropertySetter getPropertySetter() {
+	public IReflectivePropertySetter getPropertySetter() {
 		return model.getPropertySetter();
 	}
 
@@ -217,5 +218,9 @@ public class HutnModel extends Model {
 
 	public boolean hasType(String type) {
 		return model.hasType(type);
+	}
+
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		return model.getPropertiesOf(type);
 	}
 }
