@@ -43,4 +43,16 @@ public class HutnTestWithFamiliesMetaModel {
 		EPackage.Registry.INSTANCE.remove(FamiliesPackage.eNS_URI);
 		EPackage.Registry.INSTANCE.remove(BankAccountsPackage.eNS_URI);
 	}
+
+	protected static String families(String body) {
+		return "@Spec {"                               + '\n' +
+	           "	MetaModel \"FamiliesMetaModel\" {" + '\n' +
+	           "		nsUri = \"families\""          + '\n' +
+	           "	}"                                 + '\n' +
+	           "}"                                     + '\n' +
+	           ""                                      + '\n' +
+	           "families {"                            + '\n' +
+	           body                                    + '\n' +
+	           "}";
+	}
 }
