@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: HUTN Driver for EMC (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.emc.hutn
+Bundle-Version: 0.7.9.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.hutn.engine,
+ org.eclipse.epsilon.hutn.xmi
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.epsilon.emc.hutn
