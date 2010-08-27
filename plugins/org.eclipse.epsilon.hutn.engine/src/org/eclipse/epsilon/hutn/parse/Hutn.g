@@ -118,7 +118,9 @@ cls_level_attribute
       :   NAME '.' NAME ASSIGNMENT attr ';' -> ^(CLS_LVL_ATTRIBUTE ^(NAME ^(NAME attr)))
       ;
 
-cls: adjective* NAME^ TEXTUAL_VALUE? LBRACKET! cls_contents* RBRACKET!;
+cls: adjective* NAME^ TEXTUAL_VALUE? (cls_body | ';'!);
+
+cls_body: LBRACKET! cls_contents* RBRACKET!;
 
 adjective
 @init {
@@ -145,9 +147,7 @@ ref
       :   NAME TEXTUAL_VALUE -> ^(REFERENCE[$NAME.text] TEXTUAL_VALUE)
       ;
 
-containments: containment (COMMA! containment)*;
-
-containment: adjective* NAME^ TEXTUAL_VALUE LBRACKET! cls_contents* RBRACKET!;
+containments: cls (COMMA! cls)*;
 
 enum_value: NAME^;
 

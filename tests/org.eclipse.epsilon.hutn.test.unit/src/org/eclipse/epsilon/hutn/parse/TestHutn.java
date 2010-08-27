@@ -137,6 +137,24 @@ public class TestHutn extends TestCase {
 	}
 
 	public void testCls4() throws Exception {
+		// test input: "Family;"
+		Object retval = execParser("cls", "Family;", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "Family";
+
+		assertEquals("testing rule "+"cls", expecting, actual);
+	}
+
+	public void testCls5() throws Exception {
+		// test input: "Family \"The Smiths\";"
+		Object retval = execParser("cls", "Family \"The Smiths\";", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(Family \"The Smiths\")";
+
+		assertEquals("testing rule "+"cls", expecting, actual);
+	}
+
+	public void testCls6() throws Exception {
 		// test input: "rich ~nuclear #migrant Family \"id-002\" {}"
 		Object retval = execParser("cls", "rich ~nuclear #migrant Family \"id-002\" {}", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -145,7 +163,7 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls", expecting, actual);
 	}
 
-	public void testCls5() throws Exception {
+	public void testCls7() throws Exception {
 		// test input: "Family { #migrant\n name: \"The Smiths\"\n averageAge: 23.4 }"
 		Object retval = execParser("cls", "Family { #migrant\n name: \"The Smiths\"\n averageAge: 23.4 }", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -366,6 +384,15 @@ public class TestHutn extends TestCase {
 		Object retval = execParser("cls_contents", "Pets: #Male Pet \"Fido\" { Name: \"Fido\" }", false);
 		Object actual = examineParserExecResult(8, retval);
 		Object expecting = "(Pets (Pet #Male \"Fido\" (Name \"Fido\")))";
+
+		assertEquals("testing rule "+"cls_contents", expecting, actual);
+	}
+
+	public void testCls_contents25() throws Exception {
+		// test input: "Pets: Pet { Name: \"Fido\" }"
+		Object retval = execParser("cls_contents", "Pets: Pet { Name: \"Fido\" }", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(Pets (Pet (Name \"Fido\")))";
 
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}

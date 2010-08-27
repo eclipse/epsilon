@@ -45,6 +45,10 @@ cls:
 	"Family \"id-002\" {}"        -> "(Family \\\"id-002\\\")"
 	"\n\tFamily \"id-002\" {} \n" -> "(Family \\\"id-002\\\")"
 	
+	// Shorthand
+	"Family;"                -> "Family"
+	"Family \"The Smiths\";" -> "(Family \\\"The Smiths\\\")"
+	
 	// Class with adjectives
 	"rich ~nuclear #migrant Family \"id-002\" {}" -> "(Family rich ~nuclear #migrant \\\"id-002\\\")"
 	
@@ -101,7 +105,8 @@ cls_contents:
 	// Containment
 	"Pets: Pet \"Fido\" { Name: \"Fido\" }"       -> "(Pets (Pet \\\"Fido\\\" (Name \\\"Fido\\\")))"
 	"Pets: #Male Pet \"Fido\" { Name: \"Fido\" }" -> "(Pets (Pet #Male \\\"Fido\\\" (Name \\\"Fido\\\")))"
-
+	"Pets: Pet { Name: \"Fido\" }"                -> "(Pets (Pet (Name \\\"Fido\\\")))"
+	
 
 cls_level_attribute:
 	// Assignments using equals and colon symbols

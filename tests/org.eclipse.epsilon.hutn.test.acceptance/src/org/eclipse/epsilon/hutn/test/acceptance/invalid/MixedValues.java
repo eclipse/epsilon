@@ -55,6 +55,6 @@ public class MixedValues extends InvalidHutnAcceptanceTest {
 	
 	@Test
 	public void hutnShouldHaveCorrectMessage() {
-		assertEquals("missing LBRACKET at '}'", problem.getReason());
+		assertEquals("no viable alternative at input '}'", problem.getReason());
 	}
 }
