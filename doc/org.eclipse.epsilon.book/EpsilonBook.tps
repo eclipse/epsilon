@@ -24,17 +24,17 @@ Class=CLatexEdit
 Document=Design.EOL.tex
 
 [Frame0_Row0]
-cyCur=687
+cyCur=276
 cyMin=10
 
 [Frame0_Col0]
-cxCur=1605
+cxCur=558
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=348
-Cursor.column=68
-TopSubLine=361
+Cursor.row=367
+Cursor.column=151
+TopSubLine=591
 
 [Frame1]
 Columns=1
@@ -63,7 +63,7 @@ cxMin=10
 [Frame1_View0,0]
 Cursor.row=60
 Cursor.column=0
-TopSubLine=75
+TopSubLine=66
 
 [Frame2]
 Columns=1
@@ -237,7 +237,7 @@ cxMin=10
 [Frame7_View0,0]
 Cursor.row=76
 Cursor.column=601
-TopSubLine=80
+TopSubLine=74
 
 [Frame8]
 Columns=1
@@ -266,7 +266,7 @@ cxMin=10
 [Frame8_View0,0]
 Cursor.row=139
 Cursor.column=58
-TopSubLine=134
+TopSubLine=121
 
 [Frame9]
 Columns=1
@@ -324,7 +324,7 @@ cxMin=10
 [Frame10_View0,0]
 Cursor.row=105
 Cursor.column=14
-TopSubLine=143
+TopSubLine=127
 
 [Frame11]
 Columns=1
@@ -353,7 +353,7 @@ cxMin=10
 [Frame11_View0,0]
 Cursor.row=95
 Cursor.column=0
-TopSubLine=129
+TopSubLine=118
 
 [Frame12]
 Columns=1
@@ -382,7 +382,7 @@ cxMin=10
 [Frame12_View0,0]
 Cursor.row=48
 Cursor.column=0
-TopSubLine=70
+TopSubLine=48
 
 [Frame13]
 Columns=1
@@ -411,7 +411,7 @@ cxMin=10
 [Frame13_View0,0]
 Cursor.row=63
 Cursor.column=0
-TopSubLine=66
+TopSubLine=59
 
 [Frame14]
 Columns=1
@@ -440,7 +440,7 @@ cxMin=10
 [Frame14_View0,0]
 Cursor.row=35
 Cursor.column=16
-TopSubLine=27
+TopSubLine=22
 
 [Frame15]
 Columns=1
@@ -469,7 +469,7 @@ cxMin=10
 [Frame15_View0,0]
 Cursor.row=5
 Cursor.column=0
-TopSubLine=9
+TopSubLine=5
 
 [Frame16]
 Columns=1
@@ -701,7 +701,7 @@ cxMin=10
 [Frame23_View0,0]
 Cursor.row=185
 Cursor.column=0
-TopSubLine=246
+TopSubLine=224
 
 [Frame24]
 Columns=1
@@ -730,7 +730,7 @@ cxMin=10
 [Frame24_View0,0]
 Cursor.row=447
 Cursor.column=0
-TopSubLine=493
+TopSubLine=474
 
 [Frame25]
 Columns=1
@@ -788,7 +788,7 @@ cxMin=10
 [Frame26_View0,0]
 Cursor.row=35
 Cursor.column=0
-TopSubLine=39
+TopSubLine=34
 
 [Frame27]
 Columns=1

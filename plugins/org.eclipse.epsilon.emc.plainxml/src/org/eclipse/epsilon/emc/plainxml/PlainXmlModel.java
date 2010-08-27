@@ -2,6 +2,8 @@ package org.eclipse.epsilon.emc.plainxml;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,6 +11,7 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -33,9 +36,24 @@ import org.w3c.dom.NodeList;
 
 public class PlainXmlModel extends Model {
 	
+	public static void main(String[] args) throws Exception {
+		
+		PlainXmlModel m = new PlainXmlModel();
+		m.setXml("<?xml version='1.0'?><foo/>");
+		m.load();
+		
+		Object x = m.createInstance("zoo");
+		m.setRoot((Node)x);
+		
+		System.err.println(m.getXml());
+		
+	}
+	
 	protected Document document;
 	protected String uri;
 	protected File file;
+	protected String xml;
+
 	protected ArrayList<Element> createdElements = new ArrayList<Element>();
 	protected ArrayList<Binding> bindings = new ArrayList<Binding>();
 	protected static String ELEMENT_TYPE = "Element";
@@ -78,6 +96,34 @@ public class PlainXmlModel extends Model {
 		this.uri = uri;
 	}
 
+	public String getXml() {
+		try {
+			StringWriter sw = new StringWriter();
+			Source xmlSource = new DOMSource(document);
+			Result result = new StreamResult(sw);
+	
+			// create TransformerFactory
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	
+			// create Transformer for transformation
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");	//Java XML Indent
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			
+			// transform and deliver content to client
+			transformer.transform(xmlSource, result);
+			return sw.toString();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	public void setXml(String xml) {
+		this.xml = xml;
+	}
+	
 	public File getFile() {
 		return file;
 	}
@@ -262,8 +308,11 @@ public class PlainXmlModel extends Model {
 				if (this.file != null) {
 					document = documentBuilder.parse(this.file);
 				}
-				else {
+				else if (this.uri != null){
 					document = documentBuilder.parse(this.uri);
+				}
+				else {
+					document = documentBuilder.parse(new StringInputStream(xml));
 				}
 			}
 			else {
