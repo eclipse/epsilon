@@ -68,7 +68,9 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 	
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		
 		Composite superControl = (Composite) super.createDialogArea(parent);
+		
 		
 		this.setTitle("Configure " + getModelName());
 		this.setMessage("Configure the details of the " + getModelName());
@@ -79,6 +81,8 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		control.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		createGroups(control);
+		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, "org.eclipse.epsilon.help.emc_dialogs");
 		
 		loadProperties();
 		

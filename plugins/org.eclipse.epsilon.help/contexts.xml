@@ -1,0 +1,9 @@
+<contexts>
+   <context id="emc_dialogs">
+      <description>This dialog is used to specify the name, path and other details of a model. Epsilon will use these details to access the specified model at runtime.</description>
+      <topic href="doc/emc/dialog/emf.html" label="Using EMF models with Epsilon programs" />
+      <topic href="doc/emc/dialog/plain_xml.html" label="Using plain XML models with Epsilon programs" />
+      <topic href="doc/emc/dialog/ecore.html" label="Using an EMF package as a model with Epsilon programs" />
+      <topic href="doc/emc/dialog/hutn.html" label="Using HUTN with Epsilon programs" />      
+   </context>
+</contexts>
