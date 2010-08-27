@@ -39,8 +39,8 @@ public class HutnModelConfigurationDialogue extends AbstractModelConfigurationDi
 	@Override
 	protected void createGroups(Composite parent) {
 		createNameAliasGroup(parent);
-		createLoadStoreOptionsGroup(parent);
 		createHutnFileGroup(parent);
+		createLoadStoreOptionsGroup(parent);
 	}
 	
 	private void createHutnFileGroup(Composite parent) {
