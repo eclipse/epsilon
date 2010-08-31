@@ -74,7 +74,7 @@ public class EmfTool extends AbstractTool{
 	
 	
 	public boolean resourceExists(String resource) {
-		return new EmfModelResourceSet().getURIConverter().exists(guessUriSchema(resource), null);
+		return new EmfModelResourceSet().getURIConverter().exists(EmfUtil.createURI(resource), null);
 	}
 	
 	public boolean modelElementExists(String uri) throws IOException {
@@ -95,9 +95,7 @@ public class EmfTool extends AbstractTool{
 		final String modelUri   = uri.split("#")[0];
 		final String elementUri = uri.split("#")[1];
 		
-		final URI platformResourceUri = guessUriSchema(modelUri);
-		
-		final Resource model = new EmfModelResourceSet().createResource(platformResourceUri);
+		final Resource model = new EmfModelResourceSet().createResource(EmfUtil.createURI(modelUri));
 		
 		if (model == null) return null;
 		
@@ -106,15 +104,6 @@ public class EmfTool extends AbstractTool{
 		return model.getEObject(elementUri);
 	}
 	
-	private URI guessUriSchema(String resource) {
-		URI uri = URI.createURI(resource, true);
-		
-		if (uri.isRelative()) {
-			uri = URI.createFileURI(resource);
-		}
-		return uri;
-	}
-
 	public String resolveURI(String target, String base) {		
 		final URI targetUri = URI.createURI(target);
 		final String resolved;

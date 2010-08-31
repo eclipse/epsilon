@@ -35,8 +35,9 @@ public class URITest {
 	@Test
 	public void testUnix() {
 		if (OperatingSystem.isUnix()) {
-			Assert.assertEquals("platform:/resource/local/d0/file.txt", createURI("/local/d0/file.txt"));
+			Assert.assertEquals("file:/local/d0/file.txt", createURI("/local/d0/file.txt"));
 			Assert.assertEquals("file:/local/d0/file.txt", createURI("file:/local/d0/file.txt"));
+			Assert.assertEquals("platform:/resource/local/d0/file.txt", createURI("platform:/resource/local/d0/file.txt"));
 			Assert.assertEquals("c:/foo.txt", createURI("c:/foo.txt"));			
 		}
 	}

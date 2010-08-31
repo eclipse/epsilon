@@ -73,7 +73,16 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		String modelFile = properties.getProperty(PROPERTY_MODEL_FILE);
 		String metamodelFile = properties.getProperty(PROPERTY_METAMODEL_FILE);
 		
+		// Eclipse will give a workspace-relative modelFile path, but
+		// EmfUtil#createURI will treat strings starting with a slash
+		// as an absolute path on UNIX operating systems.
+		// So, when running in Eclipse, remove the leading slash
+		// to force EmfUtil#createURI to treat the URI as platform-relative
+		if (basePath != null && modelFile.startsWith("/")) {
+			modelFile = modelFile.substring(1);
+		}
 		this.modelFileUri = EmfUtil.createURI(modelFile);
+		
 		if (isMetamodelFileBased) {
 			this.metamodelFileUri = EmfUtil.createURI(metamodelFile);
 		}
