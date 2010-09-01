@@ -47,6 +47,8 @@ public class DomElementPrinterFactory {
 		else if (e instanceof ReturnStatement) printer = new ReturnStatementPrinter();
 		else if (e instanceof CaseStatement) printer = new CaseStatementPrinter();
 		else if (e instanceof SwitchStatement) printer = new SwitchStatementPrinter();
+		else if (e instanceof EnumerationLiteralExpression) printer = new EnumerationLiteralExpressionPrinter();
+		else if (e instanceof NotOperatorExpression) printer = new NotOperatorExpressionPrinter();
 		
 		if (printer == null) throw new RuntimeException("No printer for " + e); 
 		

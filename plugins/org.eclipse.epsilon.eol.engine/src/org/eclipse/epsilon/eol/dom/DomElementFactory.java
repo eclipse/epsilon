@@ -38,7 +38,7 @@ public class DomElementFactory {
 			case EolParser.SWITCH : e = createSwitchStatement(ast); break;
 			case EolParser.CASE : e = createCaseStatement(ast); break;
 			case EolParser.DEFAULT : e = createCaseStatement(ast); break;
-			
+			case EolParser.ENUMERATION_VALUE : e = createEnumerationLiteralExpression(ast); break;
 			// TODO: Add commit abort transaction etc.
 		}
 		
@@ -49,6 +49,11 @@ public class DomElementFactory {
 			e.setContainer(container);
 			return e;
 		}
+	}
+	
+	protected EnumerationLiteralExpression createEnumerationLiteralExpression(AST ast) {
+		EnumerationLiteralExpression e = new EnumerationLiteralExpression();
+		return e;
 	}
 	
 	protected CaseStatement createCaseStatement(AST ast) {
