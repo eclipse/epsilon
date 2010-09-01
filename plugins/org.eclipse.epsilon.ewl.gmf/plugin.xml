@@ -20,7 +20,7 @@
          point="org.eclipse.epsilon.common.dt.tool">
       <tool
             class="org.eclipse.epsilon.ewl.gmf.GmfTool"
-            defaultName="gmf">
+            defaultName="gmfTool">
       </tool>
    </extension>
 </plugin>

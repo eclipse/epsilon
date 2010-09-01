@@ -198,7 +198,7 @@ public class ToolsView extends ViewPart {
 				Object selection = ((IStructuredSelection) viewer.getSelection()).getFirstElement();
 				if (selection instanceof ToolVariable) {
 					Class toolClass = ((ToolVariable) selection).getClazz();
-					String toolVariableDeclaration = "var " + ((ToolVariable) selection).getName() + " := new Native('" + toolClass.getCanonicalName() + "');";
+					String toolVariableDeclaration = "var " + ((ToolVariable) selection).getName() + " : new Native(\"" + toolClass.getCanonicalName() + "\");";
 					((AbstractModuleEditor) editor).insertText(toolVariableDeclaration);
 				}
 			}

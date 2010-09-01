@@ -97,8 +97,8 @@ public class EolEditor extends AbstractModuleEditor {
 			templates.add(new Template("if else", "if branch with else part", "", "if (${condition}) {\r\n\t${cursor}\r\n}\r\nelse {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("assert", "assertion", "", "assert(${condition}, ${message});",false));
 			templates.add(new Template("assertError", "assertion of error", "", "assertError(${expression}, ${message});",false));
-			templates.add(new Template("import", "import", "", "import '${filename}';",false));
-			templates.add(new Template("var", "variable declaration", "", "var ${name} : ${type} := ${initial_value};",false));
+			templates.add(new Template("import", "import", "", "import \"${filename}\";",false));
+			templates.add(new Template("var", "variable declaration", "", "var ${name} : ${type} = ${initial_value};",false));
 			
 			templates.add(new Template("select", "select items from a collection", "", "select(${iterator}|${condition})",false));
 			templates.add(new Template("forAll", "verify that condition holds for all items in a collection", "", "forAll(${iterator}|${condition})",false));

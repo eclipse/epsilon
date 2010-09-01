@@ -5,22 +5,22 @@
          point="org.eclipse.epsilon.common.dt.tool">
       <tool
             class="org.eclipse.epsilon.eol.tools.SchedulerTool"
-            defaultName="Scheduler"/>
+            defaultName="scheduler"/>
       <tool
             class="org.eclipse.epsilon.eol.tools.Timer"
-            defaultName="Timer">
+            defaultName="timer">
       </tool>
       <tool
             class="org.eclipse.epsilon.eol.tools.JavaTool"
-            defaultName="Java">
+            defaultName="java">
       </tool>
       <tool
             class="org.eclipse.epsilon.eol.tools.ProfilerTool"
-            defaultName="Profiler">
+            defaultName="profiler">
       </tool>
       <tool
             class="org.eclipse.epsilon.eol.tools.MathTool"
-            defaultName="MathTool">
+            defaultName="mathTool">
       </tool>
       <tool
             class="org.eclipse.epsilon.eol.tools.FileSystemTool"

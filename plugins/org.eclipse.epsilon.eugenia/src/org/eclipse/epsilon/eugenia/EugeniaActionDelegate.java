@@ -27,6 +27,7 @@ import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -137,6 +138,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		
 		builtin.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 		builtin.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+		builtin.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 		EpsilonConsole.getInstance().clear();
 		
 		try {
@@ -144,6 +146,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			if (customizationFile.exists()) {
 				customization.parse(customizationFile);
 				if (customization.getParseProblems().size() == 0) {
+					customization.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 					customization.getContext().setModelRepository(builtin.getContext().getModelRepository());
 					customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 					customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
