@@ -5,26 +5,26 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.epsilon.egl.EglModule;
-import org.epsilon.egl.EglModuleImpl;
+import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.status.StatusMessage;
+import org.eclipse.epsilon.egl.traceability.OutputFile;
+import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.epsilon.egl.doc.egl.Egl;
 import org.epsilon.egl.doc.util.FileUtil;
 import org.epsilon.egl.doc.util.GraphVizUtil;
-import org.epsilon.egl.exceptions.EglRuntimeException;
-import org.epsilon.egl.status.StatusMessage;
-import org.epsilon.egl.traceability.OutputFile;
-import org.epsilon.egl.traceability.Template;
-import org.epsilon.egl.util.UriUtil;
-import org.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.epsilon.eol.execute.context.scope.Variable;
-import org.epsilon.eol.models.emf.EmfModel;
 
 public class EglDocFacade {
 	
 	private static final String FILE_SEP = System.getProperty("file.separator");
 	private static final String MOF2_URI = "http://www.eclipse.org/emf/2002/Ecore";
 	
-	private final EglModule module = new EglModuleImpl();
+	private final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
 	
 	private final String pathToDot;
 	private final boolean generatePng;
@@ -42,7 +42,7 @@ public class EglDocFacade {
 		model.setMetamodelFileBased(false);
 		
 		model.load();
-		module.getContext().getModelRepository().addModel(model);
+		factory.getContext().getModelRepository().addModel(model);
 	}
 	
 	public void generate(File model, String outputDirPath) throws IOException, EglRuntimeException, EolModelLoadingException, URISyntaxException {			
@@ -55,31 +55,31 @@ public class EglDocFacade {
 		System.out.println("Generating documentation for "+metaModelName);
 		
 		// Set directory from which nested templates will be loaded
-		module.getContext().getTemplateFactory().setRoot(Egl.getBase());
-		
+		factory.setTemplateRoot(Egl.getBase().toString());
+
 		// Load model
 		loadModel("OO", model);
 		
 		// Generate HTML
-		module.getContext().getScope().put(Variable.createReadOnlyVariable("metaModelName", metaModelName));
-		module.getContext().getScope().put(Variable.createReadOnlyVariable("outputDir", outputDirUri));
+		factory.getContext().getFrameStack().put(Variable.createReadOnlyVariable("metaModelName", metaModelName));
+		factory.getContext().getFrameStack().put(Variable.createReadOnlyVariable("outputDir", outputDirUri));
 		
-		module.parse(Egl.getToHtmlProgram());
-		module.execute();
+		final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate)factory.load(Egl.getToHtmlProgram());
+		template.process();
 		
-		for (StatusMessage message : module.getContext().getStatusMessages())
+		for (StatusMessage message : factory.getContext().getStatusMessages())
 			System.out.println(message);
 		
 		if (generatePng) {
 			// Generate DOT file
-			module.parse(Egl.getToDotProgram());
-			module.execute();
+			final EglFileGeneratingTemplate dotTemplate = (EglFileGeneratingTemplate)factory.load((Egl.getToDotProgram()));
+			dotTemplate.process();
 			
-			for (StatusMessage message : module.getContext().getStatusMessages())
+			for (StatusMessage message : factory.getContext().getStatusMessages())
 				System.out.println(message);
 			
 			// Get the subtemplate that generated the DOT file
-			final Template sub = (Template)module.getContext().getTemplate().getChildren().get(0);
+			final Template sub = (Template)factory.getContext().getBaseTemplate().getChildren().get(0);
 			// Get the output file
 			final OutputFile of = (OutputFile)sub.getChildren().get(0);
 			

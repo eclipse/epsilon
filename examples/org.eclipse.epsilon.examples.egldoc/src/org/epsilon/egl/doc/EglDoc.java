@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.epsilon.egl.exceptions.EglRuntimeException;
-import org.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class EglDoc {
 

@@ -316,7 +316,7 @@
 		return self.ePackage.name + '-' + self.name + '.html';
 	}
 
-	operation String asClassifierFileName(package : String) : String {
+	operation Any asClassifierFileName(package : String) : String {
 		return package + '-' + self + '.html';
 	}
 %]
