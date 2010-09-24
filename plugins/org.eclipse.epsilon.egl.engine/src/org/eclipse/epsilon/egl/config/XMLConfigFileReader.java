@@ -98,7 +98,7 @@ public class XMLConfigFileReader extends DefaultHandler implements ConfigFileRea
 		
 		} finally {
 			try {
-				stream.close();
+				if (stream != null) stream.close();
 			} catch (IOException e) {}
 		}
 	}
