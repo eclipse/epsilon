@@ -70,7 +70,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 		Collection equivalents = getEquivalents(source, context, rules);
 		
-		if (!equivalents.isEmpty() && !equivalents.isEmpty()) {
+		if (equivalents != null && !equivalents.isEmpty()) {
 			return CollectionUtil.getFirst(equivalents);
 		}
 		else {
