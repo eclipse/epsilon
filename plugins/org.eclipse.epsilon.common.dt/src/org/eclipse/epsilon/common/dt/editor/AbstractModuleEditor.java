@@ -72,9 +72,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	public static final Color KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
 	public static final Color BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
 	public static final Color ASSERTION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
-	
 	public static final Color TYPE = new Color(Display.getCurrent(), new RGB(0, 192, 0));
-
+	public static final String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
+	
 	private ModuleContentOutlinePage outlinePage;
 
 	public AbstractModuleEditor() {
@@ -397,7 +397,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		// Update problem markers
 		// Delete all the old markers and add new
 		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			file.deleteMarkers(AbstractModuleEditor.PROBLEMMARKER, true, IResource.DEPTH_INFINITE);
+			//file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 			for (ParseProblem problem : module.getParseProblems()) {
 				Map attr = new HashMap();
 				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
@@ -410,7 +411,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 					markerSeverity = IMarker.SEVERITY_WARNING;
 				}
 				attr.put(IMarker.SEVERITY, markerSeverity);
-				MarkerUtilities.createMarker(file, attr, IMarker.PROBLEM);
+				MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEMMARKER);
+//				MarkerUtilities.createMarker(file, attr, IMarker.PROBLEM);
 			}
 		} catch (CoreException e1) {}
 		

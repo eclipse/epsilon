@@ -68,7 +68,7 @@ public abstract class AbstractSourceConfigurationTab
 			browse.setText("Browse Workspace...");
 			browse.addListener(SWT.Selection, new SelectSourceListener(filePath));
 			
-			fileLabel.setText("Source: ");
+			fileLabel.setText(getFileLabel() + ": ");
 			
 			control.setBounds(0, 0, 300, 300);
 			control.layout();
@@ -76,6 +76,10 @@ public abstract class AbstractSourceConfigurationTab
 			
 			canSave();
 			
+		}
+		
+		public String getFileLabel() {
+			return "Source";
 		}
 		
 		public String getActiveEditorPath(){
