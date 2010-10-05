@@ -2,16 +2,16 @@ package org.eclipse.epsilon.emc.plainxml;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -184,6 +184,13 @@ public class PlainXmlModel extends Model {
 		else {
 			document.appendChild(newElement);
 		}
+		
+		if (allOfTypeCache.get(tagName) == null) {
+			allOfTypeCache.put(tagName, new ArrayList<Element>());
+		}
+		
+		allOfTypeCache.get(tagName).add(newElement);
+		
 		return newElement;
 		
 	}
@@ -225,27 +232,56 @@ public class PlainXmlModel extends Model {
 		return getAllOfType(type);
 	}
 
+	private boolean cachingEnabled = true;
 	
+	public boolean isCachingEnabled() {
+		return cachingEnabled;
+	}
+	
+	public void setCachingEnabled(boolean cachingEnabled) {
+		this.cachingEnabled = cachingEnabled;
+	}
+	
+	private Map<String, List<Element>> allOfTypeCache = new HashMap<String, List<Element>>();
 	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		if (ELEMENT_TYPE.equals(type)) {
 			return allContents();
 		} else {
+			
+			List<Element> allOfType = null;
 			PlainXmlType plainXmlType = PlainXmlType.parse(type);
-			if (plainXmlType != null) {
-				ArrayList<Element> allOfType = new ArrayList<Element>();
+			
+			if (plainXmlType == null) {
+				throw new EolModelElementTypeNotFoundException(this.getName(), type);
+			}
+			
+			if (cachingEnabled) {
+				allOfType = allOfTypeCache.get(plainXmlType.getTagName());
+			}
+			
+			if (allOfType == null || !cachingEnabled){
+				allOfType = new ArrayList<Element>();
 				for (Object o : allContents()) {
 					Element e = (Element) o;
 					if (e.getTagName().equals(plainXmlType.getTagName())) {
 						allOfType.add(e);
 					}
 				}
-				return allOfType;
+				
+				if (cachingEnabled) {
+					allOfTypeCache.put(plainXmlType.getTagName(), allOfType);
+				}
 			}
-			else {
-				throw new EolModelElementTypeNotFoundException(this.getName(), type);
-			}
+
+			return allOfType;
 		}
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		allOfTypeCache.clear();
 	}
 
 	
