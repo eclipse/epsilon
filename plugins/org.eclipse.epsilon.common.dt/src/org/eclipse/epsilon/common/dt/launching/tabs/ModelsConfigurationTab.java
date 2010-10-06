@@ -24,6 +24,8 @@ import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -76,7 +78,12 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		topControl.setLayoutData(topControlData);
 
 		modelsViewer = new TableViewer(topControl, SWT.BORDER);
-
+		modelsViewer.addDoubleClickListener(new IDoubleClickListener() {
+			public void doubleClick(DoubleClickEvent event) {
+				new EditModelListener().handleEvent(null);
+			}
+		});
+		
 		modelsViewer.setContentProvider(new ListContentProvider());
 		modelsViewer.setLabelProvider(new ModelLabelProvider());
 		modelsViewer.setInput(models);
