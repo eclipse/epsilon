@@ -22,13 +22,13 @@ import java.util.Set;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
 import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
@@ -78,7 +78,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return current == null ? Collections.EMPTY_LIST : current.getChildren(); 
 	}
 
-	public IEolContext getContext() {
+	public IEglContext getContext() {
 		return factory.getContext();
 	}
 
