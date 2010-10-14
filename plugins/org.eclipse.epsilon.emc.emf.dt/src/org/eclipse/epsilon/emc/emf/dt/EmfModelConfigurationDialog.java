@@ -10,9 +10,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -120,7 +133,19 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "EMF models in the workspace", "Select an EMF model"));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener
+				(modelFileText, "EMF models in the workspace", "Select an EMF model") {
+			@Override
+			public void handleEvent(Event event) {
+				super.handleEvent(event);
+				System.err.println("Here!");
+				Collection<EPackage> ePackages = findEPackages(modelFileText.getText());
+				if (ePackages.size() > 0) {
+					if (!isMetamodelFileBasedButton.getSelection())
+						metaModelUriText.setText(getEPackagesUris(ePackages));
+				}
+			}
+		});
 		
 		metaModelFileLabel = new Label(groupContent, SWT.NONE);
 		metaModelFileLabel.setText("Meta-model file: ");
@@ -139,11 +164,18 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		metaModelUriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		browseMetamodelUri = new Button(groupContent, SWT.NONE);
 		browseMetamodelUri.setText("Browse EPackages...");
-		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
+		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener(true) {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				metaModelUriText.setText(ePackage.getNsURI());
+			public void selectionChanged(List<EPackage> ePackages) {
+				String str = getEPackagesUris(ePackages);
+				
+				if (metaModelUriText.getText().trim().length() > 0) {
+					metaModelUriText.setText(metaModelUriText.getText() + ", " + str);
+				}
+				else {
+					metaModelUriText.setText(str);
+				}
 			}
 			
 		});
@@ -221,5 +253,43 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		metaModelUriLabel.setEnabled(!isFileBased);
 		browseMetamodelUri.setEnabled(!isFileBased);
 	}
-
+	
+	protected String getEPackagesUris(Collection<EPackage> ePackages) {
+		String str = "";
+		Iterator<EPackage> it = ePackages.iterator();
+		while (it.hasNext()) {
+			str = str + it.next().getNsURI();
+			if (it.hasNext()) { str = str + ", ";}
+		}
+		return str;
+	}
+	
+	protected Collection<EPackage> findEPackages(String resourcePath) {
+		Set<EPackage> ePackages = new HashSet<EPackage>();
+		
+		try {
+			ResourceSet rs = new ResourceSetImpl();
+			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
+			r.load(null);
+			if (expandButton.getSelection()) {
+				EcoreUtil.resolveAll(r);
+			}
+			for (Resource res : rs.getResources()) {
+				Iterator it = res.getAllContents();
+				while (it.hasNext()) {
+					Object o = it.next();
+					if (o instanceof EObject) {
+						EObject eObject = (EObject) o;
+						ePackages.add(EmfUtil.getTopEPackage(eObject.eClass().getEPackage()));
+					}
+				}
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		System.err.println(ePackages.size());
+		return ePackages;
+	}
+	
 }
