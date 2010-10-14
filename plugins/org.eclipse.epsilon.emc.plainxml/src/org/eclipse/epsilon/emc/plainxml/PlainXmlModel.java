@@ -58,6 +58,8 @@ public class PlainXmlModel extends Model {
 	protected ArrayList<Binding> bindings = new ArrayList<Binding>();
 	protected static String ELEMENT_TYPE = "Element";
 	protected static String DEFAULT_NEW_TAG_NAME = "element";
+	private Map<String, List<Element>> allOfTypeCache = new HashMap<String, List<Element>>();
+	protected List<Element> allContentsCache = null;
 	
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_URI = "uri";
@@ -74,6 +76,8 @@ public class PlainXmlModel extends Model {
 	
 	public Collection<?> allContents() {
 		
+		if (cachingEnabled && (allContentsCache!=null)) return allContentsCache;
+		
 		ArrayList<Element> elements = new ArrayList<Element>();
 		collectAllElements(document, elements);
 		for (Element created : createdElements) {
@@ -81,6 +85,9 @@ public class PlainXmlModel extends Model {
 				elements.add(created);
 			}
 		}
+		
+		if (cachingEnabled) allContentsCache = elements;
+		
 		return elements;
 	}
 	
@@ -185,11 +192,13 @@ public class PlainXmlModel extends Model {
 			document.appendChild(newElement);
 		}
 		
-		if (allOfTypeCache.get(tagName) == null) {
-			allOfTypeCache.put(tagName, new ArrayList<Element>());
+		if (cachingEnabled) {
+			if (allOfTypeCache.get(tagName) == null) {
+				allOfTypeCache.put(tagName, new ArrayList<Element>());
+			}			
+			allOfTypeCache.get(tagName).add(newElement);
+			if (allContentsCache != null) allContentsCache.add(newElement);
 		}
-		
-		allOfTypeCache.get(tagName).add(newElement);
 		
 		return newElement;
 		
@@ -203,6 +212,15 @@ public class PlainXmlModel extends Model {
 				e.getParentNode().removeChild(e);
 			}
 			createdElements.remove(e);
+			
+			if (cachingEnabled) {
+				if (allContentsCache != null) allContentsCache.remove(e);
+				for (List allOfType : allOfTypeCache.values()) {
+					if (allOfType.contains(e)) {
+						allOfType.remove(e);
+					}
+				}
+			}
 			
 			// Also remove all its children
 			for (Element child : DomUtil.getChildren(e)) {
@@ -242,7 +260,6 @@ public class PlainXmlModel extends Model {
 		this.cachingEnabled = cachingEnabled;
 	}
 	
-	private Map<String, List<Element>> allOfTypeCache = new HashMap<String, List<Element>>();
 	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		if (ELEMENT_TYPE.equals(type)) {
@@ -282,6 +299,7 @@ public class PlainXmlModel extends Model {
 	public void dispose() {
 		super.dispose();
 		allOfTypeCache.clear();
+		if (allContentsCache != null) allContentsCache.clear();
 	}
 
 	
@@ -442,7 +460,7 @@ public class PlainXmlModel extends Model {
 	
 	
 	public IPropertySetter getPropertySetter() {
-		return new PlainXmlPropertySetter();
+		return new PlainXmlPropertySetter(this);
 	}
 	
 }

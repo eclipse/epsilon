@@ -1,10 +1,19 @@
 package org.eclipse.epsilon.emc.plainxml;
 
+import java.util.Collection;
+
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.w3c.dom.Element;
 
 public class PlainXmlPropertySetter extends JavaPropertySetter {
+	
+	protected PlainXmlModel model = null;
+	
+	public PlainXmlPropertySetter(PlainXmlModel model) {
+		this.model = model;
+	}
 	
 	@Override
 	public void invoke(Object value) throws EolRuntimeException {
@@ -26,6 +35,23 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 				else if (p.isText()) {
 					e.setTextContent(p.cast(String.valueOf(value)) + "");
 					return;
+				}
+				else if (p.isReference()) {
+					for (Binding binding : BindingMatcher.getMatchingBindings(model, e, p.getProperty())) {
+						if (binding.isMany()) {
+							if (!(value instanceof Collection)) {
+								throw new EolIllegalPropertyAssignmentException(p.getProperty(), ast);
+							}
+							else {
+								
+							}
+						}
+						else {
+							if (!(value instanceof Element)) {
+								throw new EolIllegalPropertyAssignmentException(p.getProperty(), ast);
+							}
+						}
+					}
 				}
 			}
 			

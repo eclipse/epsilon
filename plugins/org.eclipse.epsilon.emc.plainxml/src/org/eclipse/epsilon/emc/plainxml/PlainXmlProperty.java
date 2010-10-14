@@ -3,12 +3,10 @@ package org.eclipse.epsilon.emc.plainxml;
 public class PlainXmlProperty {
 	
 	protected boolean many;
-	protected boolean attribute;
-	protected boolean element;
-	protected boolean reference;
+	protected PlainXmlPropertyType type;
 	protected boolean text;
 	protected String property;
-	protected PlainXmlPropertyType type;
+	protected PlainXmlPropertyDataType dataType;
 	
 	public static PlainXmlProperty parse(String property) {
 		PlainXmlProperty p = new PlainXmlProperty();
@@ -17,34 +15,31 @@ public class PlainXmlProperty {
 			property.startsWith("i_") || property.startsWith("f_") || 
 			property.startsWith("d_") || property.startsWith("s_")) {
 			
-			p.type = p.typeFor(property.charAt(0) + "");
+			p.dataType = p.dataTypeFor(property.charAt(0) + "");
 			
-			p.element = false;
-			p.reference = false;
-			p.text = property.substring(2).equals("text");
-			p.attribute = !p.text;
+			if (property.substring(2).equals("text")) {
+				p.type = PlainXmlPropertyType.Text;
+			}
+			else {
+				p.type = PlainXmlPropertyType.Attribute;
+			}
 			
 			p.many = false;
 			
 		} else if (property.startsWith("e_")) {
-			p.attribute = false;
-			p.reference = false;
-			p.element = true;
-			p.text = false;
 			
+			p.type = PlainXmlPropertyType.Element;
 			p.many = false;
-		} else if (property.startsWith("c_")) {
-			p.attribute = false;
-			p.element = true;
-			p.reference = false;
-			p.text = false;
 			
+		} else if (property.startsWith("c_")) {
+			
+			p.type = PlainXmlPropertyType.Element;
 			p.many = true;
+		
 		} else if (property.startsWith("x_")) {
-			p.attribute = false;
-			p.element = false;
-			p.reference = true;
-			p.text = false;
+			
+			p.type = PlainXmlPropertyType.Reference;
+			
 		} else {
 			p = null;
 		}
@@ -59,10 +54,10 @@ public class PlainXmlProperty {
 	public Object cast(String value) {
 		value = value.trim();
 		
-		if (type == PlainXmlPropertyType.BOOLEAN) {
+		if (dataType == PlainXmlPropertyDataType.BOOLEAN) {
 			return Boolean.parseBoolean(value);
 		}
-		else if (type == PlainXmlPropertyType.INTEGER) {
+		else if (dataType == PlainXmlPropertyDataType.INTEGER) {
 			try {
 				return Integer.parseInt(value);
 			}
@@ -70,7 +65,7 @@ public class PlainXmlProperty {
 				return 0;
 			}
 		}
-		else if (type == PlainXmlPropertyType.FLOAT) {
+		else if (dataType == PlainXmlPropertyDataType.FLOAT) {
 			try {
 				return Float.parseFloat(value);
 			}
@@ -78,7 +73,7 @@ public class PlainXmlProperty {
 				return 0.0f;
 			}
 		}
-		else if (type == PlainXmlPropertyType.DOUBLE) {
+		else if (dataType == PlainXmlPropertyDataType.DOUBLE) {
 			try {
 				return Double.parseDouble(value);
 			}
@@ -92,21 +87,21 @@ public class PlainXmlProperty {
 	
 	}
 	
-	private PlainXmlPropertyType typeFor(String letter) {
+	private PlainXmlPropertyDataType dataTypeFor(String letter) {
 		if (letter.equals("b")) {
-			return PlainXmlPropertyType.BOOLEAN;
+			return PlainXmlPropertyDataType.BOOLEAN;
 		}
 		else if (letter.equals("f")) {
-			return PlainXmlPropertyType.FLOAT;
+			return PlainXmlPropertyDataType.FLOAT;
 		}
 		else if (letter.equals("d")) {
-			return PlainXmlPropertyType.DOUBLE;
+			return PlainXmlPropertyDataType.DOUBLE;
 		}
 		else if (letter.equals("i")){
-			return PlainXmlPropertyType.INTEGER;
+			return PlainXmlPropertyDataType.INTEGER;
 		}
 		else {
-			return PlainXmlPropertyType.STRING;
+			return PlainXmlPropertyDataType.STRING;
 		}
 	}
 	
@@ -115,11 +110,11 @@ public class PlainXmlProperty {
 	}
 
 	public boolean isAttribute() {
-		return attribute;
+		return type == PlainXmlPropertyType.Attribute;
 	}
 
 	public boolean isElement() {
-		return element;
+		return type == PlainXmlPropertyType.Element;
 	}
 	
 	public boolean isText() {
@@ -131,7 +126,7 @@ public class PlainXmlProperty {
 	}
 
 	public boolean isReference() {
-		return reference;
+		return type == PlainXmlPropertyType.Reference;
 	}
 	
 }
