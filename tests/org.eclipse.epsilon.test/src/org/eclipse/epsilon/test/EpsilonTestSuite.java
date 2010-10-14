@@ -20,6 +20,7 @@ import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
+import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
@@ -41,7 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
                HutnEmcDriverTestSuite.class,
                EpsilonFlockEngineTestSuite.class,
-               ConcordanceTestSuite.class})
+               ConcordanceTestSuite.class,
+               PlainXmlTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
