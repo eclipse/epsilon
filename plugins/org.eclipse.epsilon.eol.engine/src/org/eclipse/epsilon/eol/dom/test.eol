@@ -1,3 +1,8 @@
+var a : new A;
+a = new A;
+var a = new A;
+
+/*
 import 'ECoreUtil.eol';
 import 'Formatting.eol';
 
@@ -584,3 +589,4 @@ operation createRefLinkIcon() {
 	icon.path := 'icons/Link.gif';
 	return icon;
 }
+*/

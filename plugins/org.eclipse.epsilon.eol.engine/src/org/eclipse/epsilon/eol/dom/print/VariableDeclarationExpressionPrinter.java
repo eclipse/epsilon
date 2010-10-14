@@ -3,7 +3,6 @@ package org.eclipse.epsilon.eol.dom.print;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
 import org.eclipse.epsilon.eol.dom.DomElement;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
-import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.VariableDeclarationExpression;
 
 public class VariableDeclarationExpressionPrinter implements DomElementPrinter {
@@ -17,7 +16,9 @@ public class VariableDeclarationExpressionPrinter implements DomElementPrinter {
 		}
 		s += exp.getName();
 		if (exp.getType() != null) {
-			s = s + " : " + exp.getType();
+			s = s + " : ";
+			if (exp.isCreate()) s += " new ";
+			s += exp.getType();
 		}
 		return s;
 	}

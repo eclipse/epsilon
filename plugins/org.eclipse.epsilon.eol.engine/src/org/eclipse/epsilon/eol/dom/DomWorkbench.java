@@ -20,7 +20,7 @@ public class DomWorkbench {
 	
 	public void run() throws Exception {
 		
-		File file = new File("/Users/dimitrioskolovos/Projects/Eclipse/3.5.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/dom/test.eol");
+		File file = new File("/Users/dimitrioskolovos/Projects/Eclipse/3.5.1/Eclipse.app/Contents/MacOS/workspace2/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/dom/test.eol");
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(file));
 		EolLexer lexer = new EolLexer(input);
 		CommonTokenStream stream = new CommonTokenStream(lexer);
