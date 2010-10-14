@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -164,10 +165,12 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		metaModelUriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		browseMetamodelUri = new Button(groupContent, SWT.NONE);
 		browseMetamodelUri.setText("Browse EPackages...");
-		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener(true) {
+		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(List<EPackage> ePackages) {
+			public void selectionChanged(EPackage ePackage) {
+				ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
+				ePackages.add(ePackage);
 				String str = getEPackagesUris(ePackages);
 				
 				if (metaModelUriText.getText().trim().length() > 0) {
