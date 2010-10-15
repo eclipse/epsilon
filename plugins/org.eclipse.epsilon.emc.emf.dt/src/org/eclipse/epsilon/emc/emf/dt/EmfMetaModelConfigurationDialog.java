@@ -63,8 +63,8 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				metaModelUriText.setText(ePackage.getNsURI());
+			public void selectionChanged(String ePackageUri) {
+				metaModelUriText.setText(ePackageUri);
 			}
 			
 		});

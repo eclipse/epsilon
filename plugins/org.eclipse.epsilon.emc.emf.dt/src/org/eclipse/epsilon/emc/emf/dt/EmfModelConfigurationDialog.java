@@ -168,17 +168,17 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
-				ePackages.add(ePackage);
-				String str = getEPackagesUris(ePackages);
+			public void selectionChanged(String ePackageUri) {
+				//ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
+				//ePackages.add(ePackage);
+				//String str = getEPackagesUris(ePackages);
 				
-				if (metaModelUriText.getText().trim().length() > 0) {
-					metaModelUriText.setText(metaModelUriText.getText() + ", " + str);
-				}
-				else {
-					metaModelUriText.setText(str);
-				}
+				//if (metaModelUriText.getText().trim().length() > 0) {
+				//	metaModelUriText.setText(metaModelUriText.getText() + ", " + str);
+				//}
+				//else {
+					metaModelUriText.setText(ePackageUri);
+				//}
 			}
 			
 		});

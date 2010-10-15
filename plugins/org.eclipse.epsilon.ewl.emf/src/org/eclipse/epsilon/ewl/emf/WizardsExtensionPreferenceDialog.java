@@ -61,8 +61,8 @@ public class WizardsExtensionPreferenceDialog extends TitleAreaDialog {
 		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				extensionEditor.getTextControl(e).setText(ePackage.getNsURI());
+			public void selectionChanged(String ePackageUri) {
+				extensionEditor.getTextControl(e).setText(ePackageUri);
 			}
 			
 		});

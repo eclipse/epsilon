@@ -135,9 +135,9 @@ public class NewEmfModelWizardPage extends WizardPage {
 		browseMetamodelUriButton.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				metamodelUriText.setText(ePackage.getNsURI());
-				populateRootClassCombo(ePackage.getNsURI());
+			public void selectionChanged(String ePackageUri) {
+				metamodelUriText.setText(ePackageUri);
+				populateRootClassCombo(ePackageUri);
 			}
 			
 		});

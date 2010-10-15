@@ -45,8 +45,8 @@ public class NewHutnFileWizardPage extends NewFileWizardPage {
 		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
 
 			@Override
-			public void selectionChanged(EPackage ePackage) {
-				metamodelUri.setText(ePackage.getNsURI());
+			public void selectionChanged(String ePackageUri) {
+				metamodelUri.setText(ePackageUri);
 			}
 			
 		});

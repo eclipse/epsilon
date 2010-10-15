@@ -31,7 +31,7 @@ public abstract class BrowseEPackagesListener implements Listener {
 
 					@Override
 					public String getText(Object element) {
-						return ((EPackage) element).getNsURI();
+						return (String) element;
 					}
 					
 					Image image = null;
@@ -49,23 +49,18 @@ public abstract class BrowseEPackagesListener implements Listener {
 		dialog.setMessage("Select an EPackage");
 		dialog.setTitle("Registered EPackages");
 		
-		List<EPackage> ePackages = new ArrayList<EPackage>();
-		
-		for (Object value : EPackage.Registry.INSTANCE.values()) {
-			if (value instanceof EPackage) {
-				ePackages.add((EPackage) value);
-			}
-		}
+		List<String> ePackages = new ArrayList<String>();
+		ePackages.addAll(EPackage.Registry.INSTANCE.keySet());
 		
 		dialog.setElements(ePackages.toArray());
 		
 		if (dialog.open() == Window.OK) {
 			if (dialog.getResult().length > 0) {
-				selectionChanged((EPackage) dialog.getResult()[0]);
+				selectionChanged((String) dialog.getResult()[0]);
 			}
 		}
 	}
 	
-	public abstract void selectionChanged(EPackage ePackage);
+	public abstract void selectionChanged(String ePackageUri);
 		
 }
