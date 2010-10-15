@@ -109,15 +109,15 @@ public class EclipseContextManager {
 		
 		//String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
 		
-		List models = null;
+		List<?> models = null;
 		
 		try {
-			models = configuration.getAttribute("models", new ArrayList());
+			models = configuration.getAttribute("models", new ArrayList<Object>());
 		} catch (CoreException e1) {
 			e1.printStackTrace(context.getErrorStream());
 		}
 		
-		ListIterator li = models.listIterator();
+		ListIterator<?> li = models.listIterator();
 		
 		while (li.hasNext()){
 			String modelDescriptor = li.next().toString();
