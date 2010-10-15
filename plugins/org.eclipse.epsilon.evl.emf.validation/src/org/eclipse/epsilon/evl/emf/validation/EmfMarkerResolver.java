@@ -29,7 +29,9 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 
 	public boolean canResolve(IMarker marker) {
 		try {
-			return marker.getType().equals("org.eclipse.emf.ecore.diagnostic");
+			String eCoreDiagnosticMarker = "org.eclipse.emf.ecore.diagnostic";
+			return marker.getType().equals(eCoreDiagnosticMarker) ||
+				marker.isSubtypeOf(eCoreDiagnosticMarker);
 		} catch (CoreException e) {
 			return false;
 		}
