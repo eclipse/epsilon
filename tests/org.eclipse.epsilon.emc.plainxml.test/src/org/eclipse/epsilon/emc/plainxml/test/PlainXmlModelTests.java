@@ -21,7 +21,8 @@ public class PlainXmlModelTests {
 			"<?xml version='1.0'?>" + newline() +
 			"<library>" + newline() +
 				"<book name='b1' pages='212' authors='a1,a2' editor='e1'/>" + newline() + 
-				"<book name='b1' pages='212' editor='e2'/>" + newline() + 
+				"<book name='b1' pages='122' editor='e2'/>" + newline() + 
+				"<book name='b3' pages='351' editor='e3'/>" + newline() + 
 				"<author name='a1'/>" + newline() + 
 				"<author name='a2'/>" + newline() +
 				"<author name='a3'/>" + newline() +
@@ -44,7 +45,7 @@ public class PlainXmlModelTests {
 	@Test
 	public void testAllOfKind() {
 		assertEquals(evaluator.evaluate("t_library.all.size()"), 1);
-		assertEquals(evaluator.evaluate("t_book.all.size()"), 2);
+		assertEquals(evaluator.evaluate("t_book.all.size()"), 3);
 	}
 	
 	@Test
@@ -75,12 +76,19 @@ public class PlainXmlModelTests {
 		assertEquals(evaluator.evaluate("t_book.all.first().x_authors.size()"), 2);	
 	}
 	
-	/*
 	@Test
-	public void getSetSingleReference() {
+	public void testSetSingleReference() {
 		evaluator.execute("t_book.all.first().x_editor = t_editor.all.second();");		
 		assertEquals(evaluator.evaluate("t_book.all.first().x_editor.a_name"), "e2");				
 		evaluator.execute("t_book.all.first().x_editor = t_editor.all.first();");		
 	}
-	*/
+	
+	@Test
+	public void testSetMultipleReference() {
+		evaluator.execute("t_book.all.third().x_authors = Sequence{t_author.all.first(), t_author.all.second()};");
+		assertEquals(evaluator.evaluate("t_book.all.third().x_authors.collect(a|a.a_name).concat(',')"), "a1,a2");
+		evaluator.execute("t_book.all.third().x_authors = Sequence{};");
+		assertEquals(evaluator.evaluate("t_book.all.third().a_authors"), "");
+	}
+	
 }
