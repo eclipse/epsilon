@@ -24,7 +24,7 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 
 	@Override
 	public boolean canResolve(IMarker marker) {
-		return !super.canResolve(marker);
+		return getEditingDomain(marker)!= null && !super.canResolve(marker);
 	}
 
 	@Override
