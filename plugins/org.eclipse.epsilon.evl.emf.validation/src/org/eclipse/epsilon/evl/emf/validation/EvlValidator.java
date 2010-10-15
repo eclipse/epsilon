@@ -66,13 +66,12 @@ public class EvlValidator implements EValidator {
 		
 		EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
 		
-		if (eObject.eResource() != currentResource || history.contains(eObject)) {
+		// If it is the root that is validated
+		// validate the whole resource and cache
+		// the results
+		if (eObject.eContainer() == null) {
 			results = validate(eObject.eResource());
-			history.clear();
-			currentResource = eObject.eResource();
 		}
-		
-		history.add(eObject);
 		
 		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
 		
