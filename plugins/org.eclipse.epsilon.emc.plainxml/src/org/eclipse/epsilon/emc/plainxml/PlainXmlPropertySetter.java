@@ -1,10 +1,13 @@
 package org.eclipse.epsilon.emc.plainxml;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
+import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
 import org.w3c.dom.Element;
 
 public class PlainXmlPropertySetter extends JavaPropertySetter {
@@ -37,21 +40,51 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 					return;
 				}
 				else if (p.isReference()) {
-					for (Binding binding : BindingMatcher.getMatchingBindings(model, e, p.getProperty())) {
-						if (binding.isMany()) {
-							if (!(value instanceof Collection)) {
-								throw new EolIllegalPropertyAssignmentException(p.getProperty(), ast);
+					String sourceTag = e.getTagName();
+					
+					for (Binding binding : model.getBindings()) {
+						if (sourceTag.matches(binding.getSourceTag()) && p.getProperty().matches(binding.getSourceAttribute())) {
+							String sourceAttribute = p.getProperty();
+							if (binding.isMany()) {
+								
+								ArrayList<String> referenceIds = new ArrayList<String>();
+								
+								Collection values = null;
+								if (value instanceof Collection) {
+									values = (Collection) value;
+								}
+								else {
+									values = new ArrayList();
+									values.add(value);
+								}
+								
+								for (Object o : values) {
+									Element candidate = (Element) o;
+									if (candidate.getTagName().matches(binding.getTargetTag())) {
+										String referenceId = candidate.getAttribute(binding.getTargetAttribute());
+										if (referenceId != null && referenceId.trim().length() > 0) {
+											referenceIds.add(referenceId);
+										}
+									}	
+								}
+								e.setAttribute(sourceAttribute, new CollectionOperationContributor(referenceIds).concat(", "));
+								return;
 							}
 							else {
-								
-							}
-						}
-						else {
-							if (!(value instanceof Element)) {
-								throw new EolIllegalPropertyAssignmentException(p.getProperty(), ast);
+								if (value instanceof Element) {
+									Element candidate = (Element) value;
+									if (candidate.getTagName().matches(binding.getTargetTag())) {
+										String referenceId = candidate.getAttribute(binding.getTargetAttribute());
+										if (referenceId != null && referenceId.trim().length() > 0) {
+											e.setAttribute(sourceAttribute, referenceId);
+											return;
+										}					
+									}	
+								}
 							}
 						}
 					}
+
 				}
 			}
 			
