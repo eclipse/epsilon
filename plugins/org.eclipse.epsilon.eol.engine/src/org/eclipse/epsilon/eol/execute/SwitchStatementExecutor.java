@@ -32,8 +32,9 @@ public class SwitchStatementExecutor extends AbstractExecutor {
 						AST caseBodyStatement = caseValueAst.getNextSibling();
 						try {
 							while (caseBodyStatement != null) {
-								context.getExecutorFactory().executeAST(caseBodyStatement, context);
-								caseBodyStatement = caseBodyStatement.getNextSibling();
+								Object result = context.getExecutorFactory().executeAST(caseBodyStatement, context);
+								if (result instanceof Return) return result;
+ 								caseBodyStatement = caseBodyStatement.getNextSibling();
 							}
 						}
 						catch (EolContinueException ex) {
@@ -47,7 +48,8 @@ public class SwitchStatementExecutor extends AbstractExecutor {
 				else if (nextCase.getType() == EolParser.DEFAULT) {
 					AST defaultBodyStatement = nextCase.getFirstChild();
 					while (defaultBodyStatement != null) {
-						context.getExecutorFactory().executeAST(defaultBodyStatement, context);
+						Object result = context.getExecutorFactory().executeAST(defaultBodyStatement, context);
+						if (result instanceof Return) return result;
 						defaultBodyStatement = defaultBodyStatement.getNextSibling();
 					}
 				}
