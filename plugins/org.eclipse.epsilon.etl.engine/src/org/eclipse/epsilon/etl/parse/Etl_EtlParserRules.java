@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EtlParserRules.g 2010-06-25 12:26:16
+// $ANTLR 3.1b1 EtlParserRules.g 2010-10-19 13:27:40
 
 import org.antlr.runtime.*;
 import java.util.Stack;

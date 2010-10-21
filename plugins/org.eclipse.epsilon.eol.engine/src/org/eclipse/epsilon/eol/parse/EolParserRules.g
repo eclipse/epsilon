@@ -261,13 +261,13 @@ switchStatement
 	;
 	
 caseStatement
-	:	'case' logicalExpression ':' statement*
-	-> ^(CASE logicalExpression statement*)
+	:	'case' logicalExpression ':' block
+	-> ^(CASE logicalExpression block)
 	;
 	
 defaultStatement
-	:	'default' ':' statement*
-	-> ^(DEFAULT statement*)
+	:	'default' ':' block
+	-> ^(DEFAULT block)
 	;
 	
 elseStatement
