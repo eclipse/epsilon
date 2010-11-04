@@ -15,6 +15,7 @@ import java.io.File;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 
@@ -27,6 +28,20 @@ public class EolEvaluator {
 	public EolEvaluator(IModel... models) {
 		for (IModel model : models)
 			module.getContext().getModelRepository().addModel(model);
+	}
+	
+	public IEolContext getContext() {
+		return module.getContext();
+	}
+	
+	public void dispose() {
+		try {
+			getContext().getModelRepository().dispose();
+			getContext().dispose();
+		}
+		catch (Exception ex) {
+			
+		}
 	}
 	
 	private Object executeInteral(String statement) {
