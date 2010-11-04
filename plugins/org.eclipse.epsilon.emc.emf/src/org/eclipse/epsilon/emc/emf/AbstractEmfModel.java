@@ -426,10 +426,24 @@ public abstract class AbstractEmfModel extends Model {
 		}
 	}
 	
+	public Resource getResource() {
+		return modelImpl;
+	}
+	
+	public void setResource(Resource resource) {
+		this.modelImpl = resource;
+	}
+	
+	/*
+	 * @deprecated Use getResource() instead
+	 */
 	public Resource getModelImpl() {
 		return modelImpl;
 	}
 	
+	/*
+	 * @deprecated Use setResource() instead;
+	 */
 	public void setModelImpl(Resource modelImpl) {
 		this.modelImpl = modelImpl;
 	}

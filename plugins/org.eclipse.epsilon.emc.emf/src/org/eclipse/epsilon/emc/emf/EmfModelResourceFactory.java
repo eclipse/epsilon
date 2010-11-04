@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -48,11 +49,12 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			
 			Resource resource = null;
 			
-			if (resourceFactory == null) {
-				resourceFactory = new XMIResourceFactoryImpl();
+			if (resourceFactory != null && resourceFactory.getClass() != XMIResourceFactoryImpl.class) {
+				resource = resourceFactory.createResource(uri);
 			}
-			
-			resource = resourceFactory.createResource(uri);
+			else {
+				resource = new EmfXMIResource(uri);
+			}
 			
 			if (resource instanceof XMLResource) {
 				configure((XMLResource)resource);
@@ -118,21 +120,4 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 		return buffer.toString();
 	}
 	
-	class IDXMIResource extends XMIResourceImpl {
-
-		public IDXMIResource(URI uri) {
-			super(uri);
-			
-			Map<Object, Object> loadOptions = this.getDefaultLoadOptions();
-			loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
-			loadOptions.put(XMLResource.OPTION_LAX_FEATURE_PROCESSING, Boolean.TRUE);
-			loadOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
-		}
-		
-		@Override
-		protected boolean useUUIDs() {
-			return true;
-		}
-		
-	}
 }
