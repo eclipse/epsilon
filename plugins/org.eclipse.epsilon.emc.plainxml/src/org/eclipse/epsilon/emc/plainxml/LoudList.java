@@ -14,23 +14,19 @@ public class LoudList<E> extends ArrayList<E> {
 		
 		list.addListener(new LoudListListener<Integer>() {
 			
-			@Override
 			public void objectRemoved(LoudList<Integer> list, Integer o, int index) {
 				System.err.println("Removed " + o + "->" + index);
 			}
 			
-			@Override
 			public void objectRemoved(LoudList<Integer> list, Integer o) {
 				System.err.println("Removed " + o);
 			}
 			
-			@Override
 			public void objectAdded(LoudList<Integer> list, Integer o, int index) {
 				// TODO Auto-generated method stub
 				
 			}
 			
-			@Override
 			public void objectAdded(LoudList<Integer> list, Integer o) {
 				System.err.println("Added " + o);
 			}
