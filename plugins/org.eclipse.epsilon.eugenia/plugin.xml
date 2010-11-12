@@ -43,7 +43,7 @@
                enablesFor="1"
                icon="icons/generateall.png"
                id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
-               label="Generate GMF editor (experimental)"
+               label="Generate GMF editor"
                menubarPath="org.eclipse.epsilon.eugenia.ecore/experimental">
          </action>
       </objectContribution>
@@ -108,7 +108,7 @@
                enablesFor="1"
                icon="icons/generateall.png"
                id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
-               label="Generate GMF editor (experimental)"
+               label="Generate GMF editor"
                menubarPath="org.eclipse.epsilon.eugenia.emfatic/actions">
          </action>
       </objectContribution>
