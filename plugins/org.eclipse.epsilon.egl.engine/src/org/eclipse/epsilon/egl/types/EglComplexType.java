@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.types;
 
 import java.util.List;
 
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -22,7 +22,7 @@ public class EglComplexType extends EolType{
 	private Class<?> clazz;
 	private String name;
 	
-	public static EglComplexType Template = new EglComplexType(EglFileGeneratingTemplate.class, "Template");
+	public static EglComplexType Template = new EglComplexType(EglTemplate.class, "Template");
 	
 	private EglComplexType(Class<?> clazz, String name){
 		this.clazz = clazz;
