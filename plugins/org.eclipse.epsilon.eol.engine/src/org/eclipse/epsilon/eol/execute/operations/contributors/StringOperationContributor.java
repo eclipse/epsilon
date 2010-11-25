@@ -118,6 +118,11 @@ public class StringOperationContributor extends OperationContributor {
 		return Boolean.parseBoolean(value);
 	}
 	
+	public String asUnicode() {
+		String value = (String) target;
+		return "" + (char) Integer.parseInt(value, 16);
+	}
+	
 	public String pad(int width, String padding, boolean right) {
 		String result = (String) target;
 		int pad = width - result.length();

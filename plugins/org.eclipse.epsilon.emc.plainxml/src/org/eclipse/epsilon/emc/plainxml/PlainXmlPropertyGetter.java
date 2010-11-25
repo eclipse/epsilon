@@ -95,7 +95,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 						}
 					}
 				}
-			}
+			
 			else {
 				List<Element> children = DomUtil.getChildren(e);
 				List<Element> result = new ArrayList<Element>();
@@ -118,6 +118,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 				}
 				
 			}	
+			}
 		}
 		
 		return super.invoke(object, property);
