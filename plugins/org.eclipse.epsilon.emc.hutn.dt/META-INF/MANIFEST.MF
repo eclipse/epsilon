@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Development Tools for HUTN EMC Driver (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.hutn.dt;singleton:=true
-Bundle-Version: 0.7.9.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.epsilon.common.dt,

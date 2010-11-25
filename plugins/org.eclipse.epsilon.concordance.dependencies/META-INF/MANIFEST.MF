@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Concordance Dependencies (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.dependencies
-Bundle-Version: 0.8.9.qualifier
+Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: Eclipse.org
 Export-Package: org.h2,
  org.h2.api,

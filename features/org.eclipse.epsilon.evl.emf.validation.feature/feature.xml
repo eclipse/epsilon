@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.evl.emf.validation.feature"
       label="Epsilon EMF/GMF Live Validation (Incubation)"
-      version="0.8.9.qualifier"
+      version="0.9.0.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
@@ -235,7 +235,7 @@ litigation.
          id="org.eclipse.epsilon.evl.emf.validation"
          download-size="0"
          install-size="0"
-         version="0.8.9.qualifier"
+         version="0.9.0.qualifier"
          unpack="false"/>
 
 </feature>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Plain XML Driver for EMC
 Bundle-SymbolicName: org.eclipse.epsilon.emc.plainxml
-Bundle-Version: 0.8.9.qualifier
+Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.plainxml.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.eol.engine
