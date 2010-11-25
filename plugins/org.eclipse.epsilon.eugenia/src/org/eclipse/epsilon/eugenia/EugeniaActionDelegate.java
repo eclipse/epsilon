@@ -43,11 +43,22 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	private Shell shell;
 	protected ISelection selection;
 	protected GmfFileSet gmfFileSet;
+	protected boolean clearConsole = true;
+	
+	
 	
 	public EugeniaActionDelegate() {
 		super();
 	}
 
+	public boolean isClearConsole() {
+		return clearConsole;
+	}
+	
+	public void setClearConsole(boolean clearConsole) {
+		this.clearConsole = clearConsole;
+	}
+	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.shell = targetPart.getSite().getShell();
 	}
@@ -139,7 +150,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		builtin.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 		builtin.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
 		builtin.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
-		EpsilonConsole.getInstance().clear();
+		if (clearConsole) EpsilonConsole.getInstance().clear();
 		
 		try {
 			builtin.execute();

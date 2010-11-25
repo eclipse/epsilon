@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -59,6 +60,8 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 
 	public void runImpl(final IAction action) throws Exception {
 		
+		EpsilonConsole.getInstance().clear();
+		
 		// Clear previous files
 		ClearGmfFileSetAction clearGmfFileSetAction = new ClearGmfFileSetAction();
 		clearGmfFileSetAction.setSelection(selection);
@@ -74,6 +77,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Do Ecore to GenModel transformation
 		Ecore2GenModelDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
+		ecore2GenModelDelegate.setClearConsole(false);
 		ecore2GenModelDelegate.setSelection(this.selection);
 		ecore2GenModelDelegate.runImpl(action);
 		ecore2GenModelDelegate.refresh();
@@ -82,6 +86,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Do Ecore  to GmfTool, GmfGraph and GmfMap
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
+		generateToolGraphMapDelegate.setClearConsole(false);
 		generateToolGraphMapDelegate.setSelection(this.selection);
 		generateToolGraphMapDelegate.run(action);
 		generateToolGraphMapDelegate.refresh();
@@ -90,6 +95,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Do GmfMap to GmfGen
 		GmfMap2GmfGenDelegate gmfMap2GmfGenDelegate = new GmfMap2GmfGenDelegate();
+		gmfMap2GmfGenDelegate.setClearConsole(false);
 		gmfMap2GmfGenDelegate.setSelection(this.selection);
 		gmfMap2GmfGenDelegate.run(action);
 		gmfMap2GmfGenDelegate.refresh();
@@ -98,6 +104,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Do FixGmfGen
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
+		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelection(this.selection);
 		fixGmfGenDelegate.run(action);
 		
