@@ -119,6 +119,12 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	private void ensureExpandIsOff() {
+		/*
+		 * When expand is on, Flock will copy model elements referenced by
+		 * the original model into the migrated model (i.e. performs a
+		 * merging). This is typically not desirable, so we force expand
+		 * to false.
+		 */
 		if (originalModel.ensureExpandIsOff()) {
 			addWarning("Flock may produce unexpected results when the original model is expanded. Turning off expand and proceeding.");
 		}
