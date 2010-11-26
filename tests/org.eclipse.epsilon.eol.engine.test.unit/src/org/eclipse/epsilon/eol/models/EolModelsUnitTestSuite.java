@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EmptyModelTests.class, ModelGroupTests.class,
+@SuiteClasses({EmptyModelTests.class, ModelGroupTests.class, CachedModelTests.class,
                JavaModelTests.class, JavaObjectModelTests.class})
 public class EolModelsUnitTestSuite {
 

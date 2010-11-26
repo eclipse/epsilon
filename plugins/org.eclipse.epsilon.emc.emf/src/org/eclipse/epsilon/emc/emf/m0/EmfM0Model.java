@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ListIterator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
@@ -27,10 +28,9 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
-public class EmfM0Model extends EmfModel{
+public class EmfM0Model extends EmfModel {
 	
 	
 	protected File m0SpecificationFile;
@@ -65,8 +65,8 @@ public class EmfM0Model extends EmfModel{
 	}
 
 	@Override
-	public void load() throws EolModelLoadingException {
-		super.load();
+	protected void loadModel() throws EolModelLoadingException {
+		super.loadModel();
 		eolModule = new EolModule();
 		
 		try {
@@ -152,12 +152,12 @@ public class EmfM0Model extends EmfModel{
 	}
 
 	@Override
-	public Collection getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
+	protected Collection<EObject> getAllOfTypeFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
 		EolOperation allOfTypeHelper = getHelper("allOfType");
-		Collection allOfType = null;
+		Collection<EObject> allOfType = null;
 		
 		try {
-			allOfType = (Collection) allOfTypeHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
+			allOfType = (Collection<EObject>) allOfTypeHelper.execute(metaClass, new ArrayList<EObject>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
@@ -166,12 +166,12 @@ public class EmfM0Model extends EmfModel{
 	}
 	
 	@Override
-	public Collection getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
+	protected Collection<EObject> getAllOfKindFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
 		EolOperation allOfKindHelper = getHelper("allOfKind");
-		Collection allOfKind = null;
+		Collection<EObject> allOfKind = null;
 		
 		try {
-			allOfKind = (Collection) allOfKindHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
+			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);

@@ -179,4 +179,8 @@ public class AnyOperationContributor extends OperationContributor {
 			println(prefix + context.getPrettyPrinterManager().print(target) + suffix);
 		return target;
 	}
+	
+	public String format(String formatString) {
+		return String.format(formatString, target);
+	}
 }

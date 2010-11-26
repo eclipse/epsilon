@@ -30,11 +30,13 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
+import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.EolEvaluator;
 
 public class ModelWithEolAssertions {
 	
-	private final AbstractEmfModel model;
+	private final IModel model;
 	private final EolEvaluator evaluator;
 	
 	private static Resource createResourceFor(EObject eObject) {
@@ -60,13 +62,15 @@ public class ModelWithEolAssertions {
 		this(new InMemoryEmfModel("Model", createResourceFor(eObject), ePackages));
 	}
 	
-	public ModelWithEolAssertions(AbstractEmfModel model) {
+	public ModelWithEolAssertions(IModel model) {
 		this.model = model;
 		evaluator  = new EolEvaluator(model);
 		
 		// As add can introduce new EObjects later,
 		// don't cache the model's contents
-		this.model.setCachingEnabled(false);
+		if (this.model instanceof CachedModel<?>) {
+			((CachedModel<?>)this.model).setCachingEnabled(false);
+		}
 	}
 	
 	public void importEol(File file) {
@@ -125,11 +129,16 @@ public class ModelWithEolAssertions {
 		// Unless the expected string *starts* with a hash, then it's a
 		// positive adjective, so do wrap it in quotes
 		if (expectedStr.startsWith("#") || !expectedStr.contains("#")) {
-			expected = "'" + expected + "'";
+			expected = "'" + escapeQuotes(expectedStr) + "'";
 		}
+		
 		return expected;
 	}
 	
+	private static String escapeQuotes(String unescaped) {
+		return unescaped.replaceAll("'", "\\\\'");
+	}
+
 	private Object convertCollection(Object expected) {
 		final Collection<Object> converted  = new LinkedList<Object>();
 		
@@ -227,11 +236,16 @@ public class ModelWithEolAssertions {
 	}
 	
 	public void store(String path) {
-		model.getModelImpl().setURI(URI.createFileURI(path));
+		if (model instanceof AbstractEmfModel) {
+			((AbstractEmfModel)model).getModelImpl().setURI(URI.createFileURI(path));
+		}
 		model.store(path);
 	}
 	
 	public Resource getResource() {
-		return model.getModelImpl();
+		if (model instanceof AbstractEmfModel)
+			return ((AbstractEmfModel)model).getModelImpl();
+		else
+			return null;
 	}
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
@@ -66,7 +67,7 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	}
 	
 	@Override
-	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+	protected EObject createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		final VirtualObject instance = VirtualFactory.eINSTANCE.createVirtualObject();
 		instance.setType(type);
 		
@@ -98,7 +99,7 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	}
 	
 	@Override
-	public void load() throws EolModelLoadingException {
+	protected void loadModel() throws EolModelLoadingException {
 		model = VirtualFactory.eINSTANCE.createVirtualModel();
 		
 		final ResourceSet resourceSet = new ResourceSetImpl();

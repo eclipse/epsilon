@@ -13,10 +13,8 @@ package org.eclipse.epsilon.emc.emf;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
@@ -27,9 +25,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -43,10 +39,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public static final String PROPERTY_IS_METAMODEL_FILE_BASED = "isMetamodelFileBased";
 	public static final String PROPERTY_MODEL_FILE = "modelFile";
 	public static final String PROPERTY_METAMODEL_FILE = "metamodelFile";
-	
-	//DONE : Improve support for file-based metamodels
-	//FIXME : If the user wants, they can load it as a local copy
-	//DONE : Re-implement the isTypeOf and isKindOf locally
 	
 	protected String metamodelUri;
 	//protected String metamodelFile;
@@ -105,10 +97,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		load();
 	}
 	
-	@Override
-	public void load() throws EolModelLoadingException {
-		clearCache();
-		loadModel();
+	protected void loadModel() throws EolModelLoadingException {
+		loadModelFromUri();
 		setupContainmentChangeListeners();
 	}
 	
@@ -131,7 +121,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 	}
 	
-	public void loadModel() throws EolModelLoadingException {
+	public void loadModelFromUri() throws EolModelLoadingException {
 		ResourceSet resourceSet = new EmfModelResourceSet(); //new ResourceSetImpl();
 		
 		//Factory defaultFactory = Resource.Factory.Registry.INSTANCE.getFactory(modelFileUri);

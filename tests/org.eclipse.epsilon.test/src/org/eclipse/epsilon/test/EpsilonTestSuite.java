@@ -16,6 +16,7 @@ package org.eclipse.epsilon.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.commons.test.CommonsTestSuite;
 import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
@@ -34,6 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EmfTestSuite.class,
+               CommonsTestSuite.class,
                EolUnitTestSuite.class, 
                EolAcceptanceTestSuite.class,
                EtlAcceptanceTestSuite.class,

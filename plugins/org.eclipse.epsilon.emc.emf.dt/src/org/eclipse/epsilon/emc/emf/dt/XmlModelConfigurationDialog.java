@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
 import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.swt.SWT;
@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class XmlModelConfigurationDialog extends AbstractModelConfigurationDialog {
+public class XmlModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 	 
 	protected Button browseModelFile;
 	protected Button browseXSDFile;

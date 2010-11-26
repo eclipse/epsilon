@@ -74,7 +74,6 @@ public class InMemoryEmfModel extends EmfModel {
 			}
 		}
 		
-		this.cachingEnabled = true;
 		this.setupContainmentChangeListeners();
 	}
 	

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.emc.plainxml.dt;
 
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class PlainXmlModelConfigurationDialog extends AbstractModelConfigurationDialog {
+public class PlainXmlModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
 	
 	protected String getModelName() {
@@ -32,7 +32,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractModelConfiguration
 	
 	
 	protected void createGroups(Composite control) {
-		createNameAliasGroup(control);
+		super.createGroups(control);
 		createFilesGroup(control);
 		createLoadStoreOptionsGroup(control);
 		toggleEnabledFields();

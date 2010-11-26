@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 public class IntermediateModel extends AbstractEmfModel {
 
 	@Override
-	public void load() throws EolModelLoadingException {
+	protected void loadModel() throws EolModelLoadingException {
 		// TODO Auto-generated method stub
 
 	}

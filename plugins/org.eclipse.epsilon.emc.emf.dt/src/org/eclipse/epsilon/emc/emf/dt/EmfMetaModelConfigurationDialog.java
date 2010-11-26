@@ -10,19 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationDialog {
+public class EmfMetaModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
 	
 	public EmfMetaModelConfigurationDialog(){
@@ -46,7 +44,7 @@ public class EmfMetaModelConfigurationDialog extends AbstractModelConfigurationD
 	
 	@Override
 	protected void createGroups(Composite control) {
-		createNameAliasGroup(control);
+		super.createGroups(control);
 		createFilesGroup(control);
 	}
 	

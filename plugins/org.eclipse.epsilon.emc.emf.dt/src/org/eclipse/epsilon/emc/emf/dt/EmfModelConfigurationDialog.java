@@ -10,11 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -24,7 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
@@ -37,14 +35,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialog {
+public class EmfModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 	 
-	//private StringProperties properties;
-	//private Label nameLabel;
-	//private Text nameText;
-	//private Label aliasesLabel;
-	//private Text aliasesText;
-	//protected Button isMetamodelButton;
 	protected Button expandButton;
 	protected Button isMetamodelFileBasedButton;
 	//protected Button useExtendedMetadataButton;
@@ -70,7 +62,7 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 	
 	@Override
 	protected void createGroups(Composite control) {
-		createNameAliasGroup(control);
+		super.createGroups(control);
 		createEmfGroup(control);
 		createFilesGroup(control);
 		createLoadStoreOptionsGroup(control);
@@ -217,6 +209,7 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
+		
 		modelFileText.setText(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE));
 		metaModelFileText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
 		metaModelUriText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI));
@@ -229,7 +222,7 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 	
 	@Override
 	protected void storeProperties(){
-		super.storeProperties();
+		super.storeProperties();		
 		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFileText.getText());
 		properties.put(EmfModel.PROPERTY_METAMODEL_FILE, metaModelFileText.getText());
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metaModelUriText.getText());
@@ -278,13 +271,9 @@ public class EmfModelConfigurationDialog extends AbstractModelConfigurationDialo
 				EcoreUtil.resolveAll(r);
 			}
 			for (Resource res : rs.getResources()) {
-				Iterator it = res.getAllContents();
+				Iterator<EObject> it = res.getAllContents();
 				while (it.hasNext()) {
-					Object o = it.next();
-					if (o instanceof EObject) {
-						EObject eObject = (EObject) o;
-						ePackages.add(EmfUtil.getTopEPackage(eObject.eClass().getEPackage()));
-					}
+					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
 				}
 			}
 		}

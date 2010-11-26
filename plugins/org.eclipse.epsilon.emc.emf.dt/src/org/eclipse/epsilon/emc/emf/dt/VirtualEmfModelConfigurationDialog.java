@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class VirtualEmfModelConfigurationDialog extends AbstractModelConfigurationDialog {
+public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
 	protected Button browseModelFile;
 	protected Text   modelFileText;
