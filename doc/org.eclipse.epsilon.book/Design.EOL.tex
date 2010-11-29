@@ -160,6 +160,8 @@ As is the case for most programming languages, EOL defines a built-in system of 
 			print([prefix : String]) : Any & Prints a string representation of the object on which it is invoked prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
 			
 			println([prefix : String]) : Any & Has the same effects with the \emph{print} operation but also produces a new line in the output stream. \\\hline
+			
+			format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html#syntax}}. \\\hline
 
 \end{longtable}
 
