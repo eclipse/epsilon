@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JDOM
+Bundle-SymbolicName: org.jdom_1.0
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Vendor: Jason Hunter & Brett McLaughlin
+Export-Package: org.jdom,
+ org.jdom.adapters,
+ org.jdom.filter,
+ org.jdom.input,
+ org.jdom.output,
+ org.jdom.transform,
+ org.jdom.xpath
+Require-Bundle: javax.xml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
