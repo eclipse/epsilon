@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.epsilon.eol.dt
+ org.eclipse.epsilon.eol.dt,
+ org.jdom_1.0
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.dt.exeed.jar,
  lib/jdom.jar
