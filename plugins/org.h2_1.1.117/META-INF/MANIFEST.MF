@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Concordance Dependencies (Incubation)
+Bundle-Name: H2 Database
 Bundle-SymbolicName: org.h2_1.1.117
-Bundle-Version: 0.9.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.1.117
+Bundle-Vendor: H2 Group
 Export-Package: org.h2,
  org.h2.api,
  org.h2.bnf,
