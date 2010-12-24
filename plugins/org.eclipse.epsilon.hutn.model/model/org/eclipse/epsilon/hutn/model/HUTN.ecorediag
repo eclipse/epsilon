@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_dSn8oBYPEd6zoo6bWn_iKw" type="EcoreTools" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_dSn8oBYPEd6zoo6bWn_iKw" type="EcoreTools" measurementUnit="Pixel">
   <children xmi:type="notation:Node" xmi:id="_dUMp8BYPEd6zoo6bWn_iKw" type="1001">
     <children xmi:type="notation:Node" xmi:id="_dUQ7YBYPEd6zoo6bWn_iKw" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_dURicBYPEd6zoo6bWn_iKw" type="5001">
@@ -156,10 +156,6 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_dUhaExYPEd6zoo6bWn_iKw"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_dUhaFBYPEd6zoo6bWn_iKw" type="5002">
-      <children xmi:type="notation:Node" xmi:id="_dUiBIhYPEd6zoo6bWn_iKw" type="2002">
-        <element xmi:type="ecore:EOperation" href="HUTN.ecore#//Slot/append"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_dUiBIxYPEd6zoo6bWn_iKw"/>
-      </children>
       <children xmi:type="notation:Node" xmi:id="_dUiBJBYPEd6zoo6bWn_iKw" type="2002">
         <element xmi:type="ecore:EOperation" href="HUTN.ecore#//Slot/typeCompatibleWith"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_dUiBJRYPEd6zoo6bWn_iKw"/>
