@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ShorthandRule extends Strong2StrongMigrationAcceptanceTest {
+public class Retype extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person to Salesperson";
 	

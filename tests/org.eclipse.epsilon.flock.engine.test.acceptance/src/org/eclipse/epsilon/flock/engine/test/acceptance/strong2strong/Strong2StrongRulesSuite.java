@@ -18,12 +18,11 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.AnnotatedOperation;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Guard;
-import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.MigrateToDifferentType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Operation;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Retype;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SetToNull;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SeveralRules;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SeveralRulesForSameType;
-import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.ShorthandRule;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SimpleRule;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRule;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.delete.DeleteRuleAppliedToAbstractType;
@@ -36,8 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({SimpleRule.class,
                SeveralRules.class, SeveralRulesForSameType.class,
-               MigrateToDifferentType.class,
-               ShorthandRule.class,
+               Retype.class,
                Guard.class,
                Operation.class, AnnotatedOperation.class,
                SetToNull.class,
