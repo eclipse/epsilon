@@ -11,28 +11,30 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.emc.wrappers;
+package org.eclipse.epsilon.flock.equivalences;
 
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public abstract class ModelValue<UnwrappedType> {
+public abstract class Equivalence {
 
-	public Variable createReadOnlyVariable(String name) {
-		return Variable.createReadOnlyVariable(name, unwrap());
+	public abstract ModelElement getOriginal();
+
+	public abstract ModelElement getEquivalent();
+	
+	public Variable[] getVariables() {
+		return new Variable[] {
+		                        getOriginal().createReadOnlyVariable("original"),
+		                        getEquivalent().createReadOnlyVariable("migrated")
+		                      };
 	}
 
-	public abstract UnwrappedType unwrap();
-	
-	public abstract ModelValue<?> getEquivalentIn(Model model, ConservativeCopyContext context) throws ConservativeCopyException;
-	
-	public Object getUnwrappedEquivalentIn(Model model, ConservativeCopyContext context) throws ConservativeCopyException {
-		return getEquivalentIn(model, context).unwrap();
-	}
+	public abstract void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException;
 	
 	@Override
-	public abstract boolean equals(Object o);
+	public abstract boolean equals(Object obj);
 
 	@Override
 	public abstract int hashCode();

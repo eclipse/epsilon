@@ -11,38 +11,27 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model;
+package org.eclipse.epsilon.flock.model.domain.typemappings;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.Equivalence;
-import org.eclipse.epsilon.flock.execution.NoEquivalence;
+import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class DeleteRule extends GuardedRule {
+public class Deletion extends TypeMappingConstruct {
 
-	public DeleteRule(AST ast, String type, AST guard) {
+	public Deletion(AST ast, String type, AST guard) {
 		super(ast, type, guard);
 	}
 	
-	public DeleteRule(String type, AST guard) {
-		this(null, type, guard);
-	}
-	
-	public Equivalence createEquivalence(ModelElement original, IFlockContext context) {
+	public Equivalence createEquivalence(ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		return new NoEquivalence(original);
 	}
 	
 	@Override
 	public String toString() {
-		return "delete " + getOriginalType() + " when " + guard;
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof DeleteRule))
-			return false;
-		
-		return super.equals(object);
+		return "delete " + getOriginalType() + " when " + getGuard();
 	}
 }

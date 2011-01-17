@@ -25,6 +25,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
+import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 public class Model {
 	
@@ -146,6 +148,10 @@ public class Model {
 		}
 		
 		return (Enumerator)underlyingModel.getEnumerationValue(enumeration, original.getName());
+	}
+	
+	public Object getUnwrappedEquivalent(Object unwrappedModelElement, Model otherModel, ConservativeCopyContext context) throws ConservativeCopyException {
+		return wrap(unwrappedModelElement).getUnwrappedEquivalentIn(otherModel, context);
 	}
 
 	/**

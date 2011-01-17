@@ -11,11 +11,11 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model;
+package org.eclipse.epsilon.flock.model.domain.rules;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class Body {
@@ -26,9 +26,10 @@ public class Body {
 		this.block = block;
 	}
 	
-	public void applyTo(ModelElement original, ModelElement migrated, IFlockContext context) throws FlockRuntimeException {
-		if (block != null)
-			context.executeBlock(block, original.createReadOnlyVariable("original"), migrated.createReadOnlyVariable("migrated"));
+	public void applyTo(EolExecutor executor, Variable... variables) throws FlockRuntimeException {
+		if (block != null) {
+			executor.executeBlock(block, variables);
+		}
 	}
 	
 	@Override

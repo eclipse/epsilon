@@ -11,61 +11,52 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model;
-
-import java.util.Collections;
-import java.util.List;
+package org.eclipse.epsilon.flock.model.domain.common;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public abstract class AbstractRule implements Rule {
+public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 
-	private final AST ast;
 	private final String originalType;
+	private final Guard guard;
 	
-	public AbstractRule(String originalType) {
-		this(null, originalType);
-	}
-	
-	public AbstractRule(AST ast, String originalType) {
+	public TypedAndGuardedConstruct(AST ast, String originalType, AST guard) {
+		super(ast);
+		
 		if (originalType == null)
 			throw new IllegalArgumentException("originalType cannot be null");
 		
-		this.ast          = ast;
 		this.originalType = originalType;
-	}
-	
-	public AST getAst() {
-		return ast;
-	}
-
-	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		this.guard = new Guard(guard);
 	}
 	
 	public String getOriginalType() {
 		return originalType;
 	}
 	
-	public boolean appliesFor(ModelElement original, IFlockContext context) throws FlockRuntimeException {
-		return original.isKindOf(originalType);
+	protected Guard getGuard() {
+		return guard;
+	}
+	
+	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
+		return context.originalConformsTo(originalType) && context.satisfies(guard);
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof AbstractRule))
+	public boolean equals(Object object) {
+		if (!(object instanceof TypedAndGuardedConstruct))
 			return false;
 		
-		final AbstractRule other = (AbstractRule) obj;
+		final TypedAndGuardedConstruct other = (TypedAndGuardedConstruct)object;
 		
-		return originalType.equals(other.originalType);
+		return originalType.equals(other.originalType) &&
+		       guard.equals(other.guard);
 	}
 	
 	@Override
 	public int hashCode() {
-		return originalType.hashCode();
+		return originalType.hashCode() + guard.hashCode();
 	}
 }

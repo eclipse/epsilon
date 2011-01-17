@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 
 class AttributeValue extends BackedModelValue<Object> {
 
@@ -22,7 +22,7 @@ class AttributeValue extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	public AttributeValue getEquivalentIn(Model model, IFlockContext context) {
+	public AttributeValue getEquivalentIn(Model model, ConservativeCopyContext context) {
 		return new AttributeValue(model, underlyingModelObject);
 	}
 }

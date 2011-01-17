@@ -21,9 +21,9 @@ import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 public class EquivalentOperation extends AbstractSimpleOperation {
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object execute(Object originalModelElement, List parameters, IEolContext context, AST ast) throws ConservativeCopyException {
-		return ((IFlockContext)context).getUnwrappedEquivalent(originalModelElement);
+		return ((IFlockContext)context).getConservativeCopyContext().getEquivalent(originalModelElement);
 	}
 }

@@ -28,7 +28,7 @@ import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -36,8 +36,6 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 public class FlockModule extends EolLibraryModule implements IFlockModule {
 	
 	private MigrationStrategy strategy;
-	
-	// FIXME ! Could tidy up the next two methods with a generic?
 	
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
@@ -68,7 +66,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	}
 
 	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
-		final FlockContext context = new FlockContext(original, migrated);
+		final IFlockContext context = new FlockContext(original, migrated);
 		
 		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
 		
@@ -77,7 +75,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 
 	public FlockResult execute(IFlockContext context) throws FlockRuntimeException {	
 		context.setModule(this);
-		return context.run(strategy);
+		return context.execute(strategy);
 	}
 	
 	@Override
@@ -85,7 +83,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		
 		children.addAll(getImports());
-		children.addAll(strategy.getRules());
+		children.addAll(strategy.getTypeMappingsAndRules());
 		children.addAll(getDeclaredOperations());
 		
 		return children;

@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.epsilon.commons.util.CollectionUtil;
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 class CollectionOfModelValues extends ModelValue<Collection> implements Iterable<ModelValue<?>> {
@@ -35,7 +35,7 @@ class CollectionOfModelValues extends ModelValue<Collection> implements Iterable
 	}
 	
 	@Override
-	public CollectionOfModelValues getEquivalentIn(Model model, IFlockContext context) throws ConservativeCopyException {
+	public CollectionOfModelValues getEquivalentIn(Model model, ConservativeCopyContext context) throws ConservativeCopyException {
 		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
 		
 		for (ModelValue<?> modelValue : modelValues) {

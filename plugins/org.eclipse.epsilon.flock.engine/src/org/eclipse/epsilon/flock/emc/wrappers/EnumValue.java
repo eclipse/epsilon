@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 class EnumValue extends BackedModelValue<Enumerator> {
@@ -25,7 +25,7 @@ class EnumValue extends BackedModelValue<Enumerator> {
 	}
 
 	@Override
-	public ModelValue<?> getEquivalentIn(Model model, IFlockContext context) throws ConservativeCopyException {
+	public ModelValue<?> getEquivalentIn(Model model, ConservativeCopyContext context) throws ConservativeCopyException {
 		try {
 			return new EnumValue(model, model.getEquivalent(underlyingModelObject));
 			

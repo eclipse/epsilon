@@ -11,23 +11,20 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.equivalences;
 
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class TypeBasedEquivalence implements Equivalence {
-
-	protected final IFlockContext context;
+public class TypeBasedEquivalence extends Equivalence {
 	
 	protected final ModelElement original;
 	protected final ModelElement equivalent;
 	
-	public TypeBasedEquivalence(IFlockContext context, ModelElement original, ModelElement equivalent) {
+	public TypeBasedEquivalence(ModelElement original, ModelElement equivalent) {
 		this.original   = original;
 		this.equivalent = equivalent;
-		this.context    = context;
 	}
 	
 	public ModelElement getOriginal() {
@@ -38,13 +35,9 @@ public class TypeBasedEquivalence implements Equivalence {
 		return equivalent;
 	}
 	
-	public void automaticallyPopulateEquivalent() throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException {
 		equivalent.copyIdentityFrom(original);
 		equivalent.conservativelyCopyPropertiesFrom(original, context);
-	}
-	
-	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException {
-		// no rule applies
 	}
 	
 	@Override

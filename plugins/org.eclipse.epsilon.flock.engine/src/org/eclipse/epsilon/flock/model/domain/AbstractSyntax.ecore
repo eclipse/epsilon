@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="flock"
+    nsURI="flock" nsPrefix="flock">
+  <eClassifiers xsi:type="ecore:EClass" name="FlockModule" eSuperTypes="#//EolModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeMappings" upperBound="-1"
+        eType="#//TypeMappingConstruct" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//MigrateRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedAndGuardedConstruct" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalType" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//EolExpressionOrStatementBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MigrateRule" eSuperTypes="#//TypedAndGuardedConstruct">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//EolStatementBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeMappingConstruct" abstract="true"
+      eSuperTypes="#//TypedAndGuardedConstruct"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deletion" eSuperTypes="#//TypeMappingConstruct"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Retyping" eSuperTypes="#//TypeMappingConstruct">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evolvedType" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EolModule" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EolExpressionOrStatementBlock"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EolStatementBlock"/>
+</ecore:EPackage>

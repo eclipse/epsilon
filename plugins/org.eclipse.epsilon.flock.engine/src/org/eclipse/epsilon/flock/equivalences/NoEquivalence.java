@@ -11,12 +11,13 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.equivalences;
 
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class NoEquivalence implements Equivalence {
+public class NoEquivalence extends Equivalence {
 
 	public final ModelElement original;
 	
@@ -31,11 +32,7 @@ public class NoEquivalence implements Equivalence {
 		return original; 
 	}
 	
-	public void automaticallyPopulateEquivalent() throws FlockRuntimeException {
-		// do nothing
-	}
-	
-	public void applyStrategyToPopulateEquivalent() throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException {
 		// do nothing
 	}
 

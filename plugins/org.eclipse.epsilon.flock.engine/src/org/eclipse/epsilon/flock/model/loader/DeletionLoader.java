@@ -11,27 +11,22 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.model.loader;
 
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.LinkedList;
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 
-public class FlockResult {
+public class DeletionLoader extends Loader {
 
-	private final Collection<String> warnings = new LinkedList<String>();
-	
-	public void addWarning(String warning) {
-		warnings.add(warning);
+	public DeletionLoader(AST ast) {
+		super(ast);
 	}
 	
-	public Collection<String> getWarnings() {
-		return warnings;
+	public Deletion run() {
+		return new Deletion(ast, getOriginalType(), getGuard());
 	}
-	
-	public void printWarnings(PrintStream printStream) {
-		for (String warning : warnings) {
-			printStream.println(warning);
-		}
+
+	private String getOriginalType() {
+		return getFirstChild().getText();
 	}
 }

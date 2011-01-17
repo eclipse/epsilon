@@ -13,20 +13,20 @@
  */
 package org.eclipse.epsilon.flock;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
+import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
+import org.eclipse.epsilon.flock.context.RuleApplicationContext;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.execution.operations.FlockOperationFactory;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class FlockContext extends EolContext implements IFlockContext {
 
@@ -34,18 +34,12 @@ public class FlockContext extends EolContext implements IFlockContext {
 	private Model migratedModel;
 		
 	public FlockContext() throws FlockUnsupportedModelException {
-		this((IModel)null, (IModel)null);
+		this(null, null);
 	}
 	
 	public FlockContext(IModel original, IModel migrated) throws FlockUnsupportedModelException {
 		initialiseModels(original, migrated);
 		setOperationFactory(new FlockOperationFactory());
-	}
-	
-	// Used by tests
-	FlockContext(Model original, Model migrated) {
-		this.originalModel = original;
-		this.migratedModel = migrated;
 	}
 
 	private void initialiseModels(IModel original, IModel migrated) throws FlockUnsupportedModelException {
@@ -85,105 +79,29 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	
+	private FlockExecution execution;
 	
-	public Object executeBlock(AST block, Variable... variables) throws FlockRuntimeException {
-		try {
-			enterProtectedFrame(block, variables);
-			
-			final Object result = getExecutorFactory().executeAST(block, this);
-			
-			leaveFrame(block);
-			
-			return result;
-			
-		} catch (EolRuntimeException e) {
-			e.printStackTrace();
-			throw new FlockRuntimeException("Exception encountered while executing EOL block.", e);
-		}
+	public FlockResult execute(MigrationStrategy strategy) throws FlockRuntimeException {
+		execution = new FlockExecution(this, strategy);
+		return execution.run(originalModel);
+	}
+	
+	
+	private final EolExecutor executor = new EolExecutor(this);
+	
+	public EquivalenceEstablishmentContext getEquivalenceEstablishmentContext() {
+		return new EquivalenceEstablishmentContext(originalModel, migratedModel, executor);
 	}
 
-	public boolean executeGuard(AST guard, Variable originalVar) {
-		enterProtectedFrame(guard, originalVar);
-		
-		final Boolean guardSatisfied = (Boolean)getExecutorFactory().executeBlockOrExpressionAst(guard, this, false);
-		
-		leaveFrame(guard);
-		
-		return guardSatisfied.booleanValue();
+	public MigrationStrategyCheckingContext getMigrationStrategyCheckingContext() {
+		return new MigrationStrategyCheckingContext(originalModel, execution);
 	}
 	
-	public Iterable<ModelElement> getOriginalModelElements() {
-		ensureExpandIsOff();
-		
-		return originalModel.allContents();
+	public ConservativeCopyContext getConservativeCopyContext() {
+		return new ConservativeCopyContext(originalModel, migratedModel, execution);
 	}
 	
-	private void ensureExpandIsOff() {
-		/*
-		 * When expand is on, Flock will copy model elements referenced by
-		 * the original model into the migrated model (i.e. performs a
-		 * merging). This is typically not desirable, so we force expand
-		 * to false.
-		 */
-		if (originalModel.ensureExpandIsOff()) {
-			addWarning("Flock may produce unexpected results when the original model is expanded. Turning off expand and proceeding.");
-		}
-	}
-	
-	
-	public ModelElement createModelElementInMigratedModel(String type) throws FlockRuntimeException {
-		try {
-			return migratedModel.createInstance(type);
-		
-		} catch (EolRuntimeException e) {
-			throw new FlockRuntimeException("Could not create in the migrated model a model element of type: " + type, e);
-		}
-	}
-	
-	public ModelElement safelyCreateModelElementInMigratedModel(String type) throws FlockRuntimeException {
-		if (migratedModel.isInstantiable(type))
-			return createModelElementInMigratedModel(type);
-		else
-			return null;
-	}
-
-	public boolean isTypeInOriginalMetamodel(String type) {
-		return originalModel.hasType(type);
-	}
-	
-	public boolean isElementInOriginalModel(ModelElement element) {
-		return originalModel.owns(element);
-	}
-	
-	public boolean isElementInMigratedModel(ModelElement element) {
-		return migratedModel.owns(element);
-	}
-	
-	private ModelValue<?> treatAsValueInOriginalModel(Object unwrappedModelElement) {
-		return originalModel.wrap(unwrappedModelElement);
-	}
-
-	private MigrationStrategyRunner runner;
-	
-	public FlockResult run(MigrationStrategy strategy) throws FlockRuntimeException {
-		runner = new MigrationStrategyRunner(this, strategy);
-		runner.run();
-		
-		return result;
-	}
-
-	public ModelElement getEquivalent(ModelElement originalModelElement) {
-		return runner.getEquivalent(originalModelElement);
-	}
-
-	public Object getUnwrappedEquivalent(Object unwrappedModelElement) throws ConservativeCopyException {		
-		return treatAsValueInOriginalModel(unwrappedModelElement).getEquivalentIn(migratedModel, this).unwrap();
-	}
-
-	
-	private final FlockResult result = new FlockResult();
-	
-	public void addWarning(String warning) {
-		result.addWarning(warning);
+	public RuleApplicationContext getRuleApplicationContext() {
+		return new RuleApplicationContext(executor);
 	}
 }

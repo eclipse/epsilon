@@ -13,30 +13,34 @@
  */
 package org.eclipse.epsilon.flock.model.checker;
 
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
-import org.eclipse.epsilon.flock.model.Rule;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
 
 public class MigrationStrategyChecker {
 
 	private final MigrationStrategy strategy;
-	private final IFlockContext context;
+	private final MigrationStrategyCheckingContext context;
 	
-	public MigrationStrategyChecker(MigrationStrategy strategy, IFlockContext context) {
+	public MigrationStrategyChecker(MigrationStrategy strategy, MigrationStrategyCheckingContext context) {
 		this.strategy = strategy;
 		this.context  = context;
 	}
 
 	public void check() {
-		checkOriginalTypeOfEachRuleIsMemberOfOriginalMetamodel();
+		checkOriginalTypeOfEachTypedConstructIsMemberOfOriginalMetamodel();
 	}
 	
-	private void checkOriginalTypeOfEachRuleIsMemberOfOriginalMetamodel() {
-		for (Rule rule : strategy.getRules()) {
-			if (!context.isTypeInOriginalMetamodel(rule.getOriginalType())) {
-				addWarning("Rule defined for migrating instances of " + rule.getOriginalType() + ", " +
-				           "but no type " + rule.getOriginalType() + " was found in the original metamodel.");
-			}
+	private void checkOriginalTypeOfEachTypedConstructIsMemberOfOriginalMetamodel() {
+		for (TypedAndGuardedConstruct construct : strategy.getTypeMappingsAndRules()) {
+			checkTypeIsMemberOfOriginalMetamodel(construct.getOriginalType());
+		}
+	}
+
+	private void checkTypeIsMemberOfOriginalMetamodel(String originalType) {
+		if (!context.isTypeInOriginalMetamodel(originalType)) {
+			addWarning("Rule defined for migrating instances of " + originalType + ", " +
+			           "but no type " + originalType + " was found in the original metamodel.");
 		}
 	}
 

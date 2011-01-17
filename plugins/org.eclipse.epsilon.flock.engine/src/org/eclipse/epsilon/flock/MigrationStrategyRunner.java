@@ -14,10 +14,10 @@
 package org.eclipse.epsilon.flock;
 
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.Equivalences;
+import org.eclipse.epsilon.flock.equivalences.Equivalences;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.checker.MigrationStrategyChecker;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class MigrationStrategyRunner {
 
@@ -34,19 +34,24 @@ public class MigrationStrategyRunner {
 	public void run() throws FlockRuntimeException {
 		checkStrategyAgainstModels();
 		establishEquivalences();
-		populateEachEquivalent();
+		conservativeCopy();
+		applyRules();
 	}
 	
 	private void checkStrategyAgainstModels() {
-		new MigrationStrategyChecker(strategy, context).check();
+		new MigrationStrategyChecker(strategy, context.getMigrationStrategyCheckingContext()).check();
 	}
 
 	private void establishEquivalences() throws FlockRuntimeException {
-		equivalences = Equivalences.establishFrom(strategy, context);
+		equivalences = Equivalences.establishFrom(strategy, context.getEquivalenceEstablishmentContext());
 	}
 
-	private void populateEachEquivalent() throws FlockRuntimeException {
-		equivalences.populateEachEquivalent();
+	private void conservativeCopy() throws FlockRuntimeException {
+		equivalences.conservativeCopy(context.getConservativeCopyContext());
+	}
+	
+	private void applyRules() throws FlockRuntimeException {
+		equivalences.applyRules(strategy, context.getRuleApplicationContext());
 	}
 	
 	public ModelElement getEquivalent(ModelElement originalModelElement) {

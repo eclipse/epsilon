@@ -42,7 +42,7 @@ options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.ec
 import EolLexerRules, EolParserRules;
 
 tokens {
-  FLOCKMODULE; MIGRATE; DELETE; GUARD;
+  FLOCKMODULE; RETYPE; MIGRATE; DELETE; GUARD;
 }
 
 @header {
@@ -96,33 +96,25 @@ flockModule
 	;
 
 flockModuleContent
-	:	rule | operationDeclarationOrAnnotationBlock
+	:	retyping | deletion | migrateRule | operationDeclarationOrAnnotationBlock
 	;
 
-rule
-  : migrateRule | deleteRule;
-
+retyping
+  : 'retype' originalType=NAME 'to' migratedType=NAME guard?
+    -> 
+    ^(RETYPE $originalType $migratedType? guard?);
+    
+deletion
+  : 'delete' type=NAME guard?
+ 	->
+    ^(DELETE $type guard?);
 
 migrateRule
-  : fullMigrateRule | shorthandMigrateRule;
-
-fullMigrateRule
-  : 'migrate' originalType=NAME ('to' migratedType=NAME)? guard? '{' body=block '}' 
+  : 'migrate' originalType=NAME guard? '{' body=block '}' 
     -> 
-    ^(MIGRATE $originalType $migratedType? guard? $body);
- 
-shorthandMigrateRule
-  : 'migrate' originalType=NAME 'to' migratedType=NAME guard?
-    -> 
-    ^(MIGRATE $originalType $migratedType? guard?);
+    ^(MIGRATE $originalType guard? $body);
 
 guard
   : 'when' expressionOrStatementBlock
     ->
     ^(GUARD expressionOrStatementBlock);
-
- 
- deleteRule
- 	: 'delete' type=NAME guard?
- 	   ->
-       ^(DELETE $type guard?);

@@ -11,27 +11,27 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.model.domain.common;
 
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.List;
 
-public class FlockResult {
+import org.eclipse.epsilon.commons.module.ModuleElement;
+import org.eclipse.epsilon.commons.parse.AST;
 
-	private final Collection<String> warnings = new LinkedList<String>();
-	
-	public void addWarning(String warning) {
-		warnings.add(warning);
+public abstract class FlockConstruct implements ModuleElement {
+
+	private final AST ast;
+
+	public FlockConstruct(AST ast) {
+		this.ast = ast;
 	}
 	
-	public Collection<String> getWarnings() {
-		return warnings;
+	public AST getAst() {
+		return ast;
 	}
-	
-	public void printWarnings(PrintStream printStream) {
-		for (String warning : warnings) {
-			printStream.println(warning);
-		}
+
+	public List<?> getChildren() {
+		return Collections.EMPTY_LIST;
 	}
 }

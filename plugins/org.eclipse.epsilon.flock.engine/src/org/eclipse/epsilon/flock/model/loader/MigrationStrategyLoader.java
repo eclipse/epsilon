@@ -14,7 +14,7 @@
 package org.eclipse.epsilon.flock.model.loader;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
 /**
@@ -40,8 +40,12 @@ public class MigrationStrategyLoader {
 					strategy.addRule(new MigrateRuleLoader(childAst).run());
 					break;
 				
+				case FlockParser.RETYPE:
+					strategy.addTypeMappingConstruct(new RetypingLoader(childAst).run());
+					break;
+				
 				case FlockParser.DELETE:
-					strategy.addRule(new DeleteRuleLoader(childAst).run());
+					strategy.addTypeMappingConstruct(new DeletionLoader(childAst).run());
 					break;
 			}
 		}

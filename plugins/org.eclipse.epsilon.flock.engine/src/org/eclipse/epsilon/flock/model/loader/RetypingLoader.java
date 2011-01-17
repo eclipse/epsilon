@@ -11,14 +11,26 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.model.loader;
 
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 
-public interface EquivalenceCreator {
+public class RetypingLoader extends Loader {
 
-	public Equivalence createEquivalence(ModelElement original, IFlockContext context) throws FlockRuntimeException;
+	public RetypingLoader(AST ast) {
+		super(ast);
+	}
+	
+	public Retyping run() {
+		return new Retyping(ast, getOriginalType(), getMigratedType(), getGuard());
+	}
 
+	private String getOriginalType() {
+		return getFirstChild().getText();
+	}
+	
+	private String getMigratedType() {
+		return getSecondChild().getText();
+	}
 }

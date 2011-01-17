@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2010-10-19 13:28:59
+// $ANTLR 3.1b1 EolLexerRules.g 2011-01-11 13:31:37
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -46,6 +46,7 @@ import java.util.HashMap;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 public class Flock_EolLexerRules extends Lexer {
+    public static final int RETYPE=72;
     public static final int StatementBlock=27;
     public static final int WHILE=31;
     public static final int FLOCKMODULE=71;
@@ -97,10 +98,12 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int INT=6;
     public static final int DELETE=50;
     public static final int T__85=85;
+    public static final int T__141=141;
     public static final int T__84=84;
     public static final int T__87=87;
     public static final int HELPERMETHOD=26;
     public static final int T__86=86;
+    public static final int T__140=140;
     public static final int T__89=89;
     public static final int NAMESPACE=65;
     public static final int T__88=88;
@@ -112,13 +115,12 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int WS=18;
     public static final int T__129=129;
     public static final int ALIAS=66;
-    public static final int MIGRATE=72;
+    public static final int MIGRATE=73;
     public static final int JavaIDDigit=16;
-    public static final int GUARD=73;
+    public static final int GUARD=74;
     public static final int Annotation=21;
     public static final int T__76=76;
     public static final int T__75=75;
-    public static final int T__74=74;
     public static final int T__130=130;
     public static final int T__131=131;
     public static final int EscapeSequence=11;
@@ -174,7 +176,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=140;
+    public static final int Tokens=142;
     public static final int POINT_POINT=8;
     public static final int SpecialNameChar=15;
     public static final int MODELDECLARATIONPARAMETERS=68;

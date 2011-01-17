@@ -17,7 +17,7 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 public class ModelElement extends BackedModelValue<Object> {
@@ -30,7 +30,7 @@ public class ModelElement extends BackedModelValue<Object> {
 	}
 	
 	@Override
-	public ModelValue<?> getEquivalentIn(Model model, IFlockContext context) {
+	public ModelValue<?> getEquivalentIn(Model model, ConservativeCopyContext context) {
 		// context.getEquivalent might be null, so ensure return value is wrapped
 		return isExternal() ? this : model.wrap(context.getEquivalent(this));
 	}
@@ -63,7 +63,7 @@ public class ModelElement extends BackedModelValue<Object> {
 		model.setIdentity(underlyingModelObject, identity);
 	}
 	
-	public void conservativelyCopyPropertiesFrom(ModelElement original, IFlockContext context) throws ConservativeCopyException {		
+	public void conservativelyCopyPropertiesFrom(ModelElement original, ConservativeCopyContext context) throws ConservativeCopyException {		
 		try {			
 			for (String propertyName : this.getPropertiesSharedWith(original)) {
 				conservativelyCopyPropertyFrom(original, propertyName, context);
@@ -74,7 +74,7 @@ public class ModelElement extends BackedModelValue<Object> {
 		}
 	}
 
-	private void conservativelyCopyPropertyFrom(ModelElement original, String propertyName, IFlockContext context) throws ConservativeCopyException {
+	private void conservativelyCopyPropertyFrom(ModelElement original, String propertyName, ConservativeCopyContext context) throws ConservativeCopyException {
 		try {
 			final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);
 			final ModelValue<?> equivalentValue = originalValue.getEquivalentIn(model, context);

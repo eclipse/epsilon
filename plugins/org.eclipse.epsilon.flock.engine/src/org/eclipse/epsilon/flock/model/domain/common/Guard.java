@@ -11,11 +11,11 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model;
+package org.eclipse.epsilon.flock.model.domain.common;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class Guard {
@@ -25,12 +25,12 @@ public class Guard {
 	public Guard(AST blockOrExpession) {
 		this.blockOrExpession = blockOrExpession;
 	}
-	
-	public boolean isSatisifedBy(ModelElement original, IFlockContext context) throws FlockRuntimeException {
+
+	public boolean isSatisifedBy(EolExecutor executor, Variable variable) throws FlockRuntimeException {
 		if (blockOrExpession == null)
 			return true;
 		
-		return context.executeGuard(blockOrExpession, original.createReadOnlyVariable("original"));
+		return executor.executeGuard(blockOrExpession, variable);
 	}
 	
 	@Override
