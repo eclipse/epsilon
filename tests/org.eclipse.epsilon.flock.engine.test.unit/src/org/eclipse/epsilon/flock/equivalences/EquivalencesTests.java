@@ -11,23 +11,18 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.equivalences;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.replay;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.Equivalence;
-import org.eclipse.epsilon.flock.execution.Equivalences;
-import org.eclipse.epsilon.flock.execution.MigrateRuleBasedEquivalence;
 import org.junit.Test;
 
 public class EquivalencesTests {
-
+	
 	@Test
 	public void getEquivalentShouldReturnEquivalentOfMatchingEquivalence() {
 		final Equivalences equivalences = new Equivalences();
@@ -42,9 +37,7 @@ public class EquivalencesTests {
 		equivalences.add(anEquivalence);
 		equivalences.add(matchingEquivalence);
 		equivalences.add(otherEquivalence);
-		
-		replay(anEquivalence, matchingEquivalence, otherEquivalence);
-		
+				
 		assertEquals(equivalent, equivalences.getEquivalent(original));
 	}
 	
@@ -57,9 +50,7 @@ public class EquivalencesTests {
 		
 		equivalences.add(anEquivalence);
 		equivalences.add(otherEquivalence);
-		
-		replay(anEquivalence, otherEquivalence);
-		
+				
 		assertNull(equivalences.getEquivalent(createDummyModelElement()));
 	}
 	
@@ -67,18 +58,11 @@ public class EquivalencesTests {
 	public void getEquivalentShouldReturnNullWhenContainingNoEquivalence() {
 		final Equivalences equivalences = new Equivalences();
 		
-		final ModelElement original   = createDummyModelElement();
-		final ModelElement equivalent = createDummyModelElement();
-		
-		final Equivalence equivalence = createEquivalence(original, equivalent);
-		
-		replay(equivalence);
-		
-		assertNull(equivalences.getEquivalent(original));
+		assertNull(equivalences.getEquivalent(createDummyModelElement()));
 	}
 
 	private ModelElement createDummyModelElement() {
-		return createMock(ModelElement.class);
+		return mock(ModelElement.class);
 	}
 	
 	private Equivalence createEquivalence() {
@@ -86,9 +70,9 @@ public class EquivalencesTests {
 	}
 	
 	private Equivalence createEquivalence(ModelElement original, ModelElement equivalent) {
-		final Equivalence eq = createMock(MigrateRuleBasedEquivalence.class);
-		expect(eq.getOriginal()).andReturn(original).anyTimes();
-		expect(eq.getEquivalent()).andReturn(equivalent).anyTimes();
+		final Equivalence eq = mock(Equivalence.class);
+		when(eq.getOriginal()).thenReturn(original);
+		when(eq.getEquivalent()).thenReturn(equivalent);
 		return eq;
 	}	
 }

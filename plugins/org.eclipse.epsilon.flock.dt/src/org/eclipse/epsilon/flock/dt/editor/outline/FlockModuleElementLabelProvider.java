@@ -12,8 +12,9 @@ package org.eclipse.epsilon.flock.dt.editor.outline;
 
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
-import org.eclipse.epsilon.flock.model.DeleteRule;
-import org.eclipse.epsilon.flock.model.MigrateRule;
+import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 import org.eclipse.swt.graphics.Image;
 
 public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvider{
@@ -21,11 +22,14 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof MigrateRule) {
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/rules/migrate.gif");
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/migrate.png");
 		
-		} else if (element instanceof DeleteRule) {
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/rules/delete.gif");
+		} else if (element instanceof Retyping) {
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/retyping.gif");
 			
+		} else if (element instanceof Deletion) {
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/deletion.gif");
+
 		} else {
 			return super.getImage(element);
 		}
@@ -37,10 +41,13 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 		// but looks messy in outline view, so overriding getText for MigrationRules
 		
 		if (element instanceof MigrateRule) {
-			return ((MigrateRule)element).getOriginalType() + " to " + ((MigrateRule)element).migratedType;
+			return ((MigrateRule)element).getOriginalType();
 		
-		} else if (element instanceof DeleteRule) {
-			return "delete " + ((DeleteRule)element).getOriginalType();
+		} else if (element instanceof Retyping) {
+			return "retype " + ((Retyping)element).getOriginalType() + " to " + ((Retyping)element).getEvolvedType();
+		
+		} else if (element instanceof Deletion) {
+			return "delete " + ((Deletion)element).getOriginalType();
 			
 		} else {
 			return super.getText(element);

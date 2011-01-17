@@ -16,17 +16,20 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.FlockContextTests;
-import org.eclipse.epsilon.flock.execution.EquivalencesTests;
-import org.eclipse.epsilon.flock.execution.MigrateRuleBasedEquivalenceTests;
-import org.eclipse.epsilon.flock.execution.TypeBasedEquivalenceTests;
+import org.eclipse.epsilon.flock.FlockExecutionTests;
+import org.eclipse.epsilon.flock.equivalences.EquivalencesTests;
+import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalenceTests;
+import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactoryTests;
+import org.eclipse.epsilon.flock.execution.EolExecutorTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({FlockContextTests.class,
-               EquivalencesTests.class, MigrateRuleBasedEquivalenceTests.class, TypeBasedEquivalenceTests.class})
+@SuiteClasses({FlockExecutionTests.class,
+               DefaultEquivalenceFactoryTests.class,
+               EquivalencesTests.class, TypeBasedEquivalenceTests.class,
+               EolExecutorTests.class})
 public class ExecutionSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(ExecutionSuite.class);

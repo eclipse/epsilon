@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.EnumValue;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
@@ -39,8 +40,8 @@ public class EnumValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException, EolEnumerationValueNotFoundException {
-		final Model             mockMigratedModel = createMock(Model.class);
-		final IFlockContext dummyContext      = createMock(IFlockContext.class);
+		final Model               mockMigratedModel = createMock(Model.class);
+		final ConservativeCopyContext dummyContext      = createMock(ConservativeCopyContext.class);
 		
 		// Expectations
 		

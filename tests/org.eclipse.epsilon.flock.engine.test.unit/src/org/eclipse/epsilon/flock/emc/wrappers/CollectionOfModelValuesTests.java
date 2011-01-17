@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
 import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValues;
@@ -63,8 +64,8 @@ public class CollectionOfModelValuesTests {
 	
 	@Test
 	public void getEquivalentShouldDelegateToGetEquivalentOfEachElement() throws ConservativeCopyException {
-		final Model             dummyMigratedModel = createMock(Model.class);
-		final IFlockContext dummyContext       = createMock(IFlockContext.class);
+		final Model               dummyMigratedModel = createMock(Model.class);
+		final ConservativeCopyContext dummyContext       = createMock(ConservativeCopyContext.class);
 		
 		final BackedModelValue firstMockModelValue  = createMock(BackedModelValue.class);
 		final BackedModelValue secondMockModelValue = createMock(BackedModelValue.class);
@@ -91,8 +92,8 @@ public class CollectionOfModelValuesTests {
 	
 	@Test
 	public void getEquivalentShouldExcludeValuesThatUnwrapToNull() throws ConservativeCopyException {
-		final Model             dummyMigratedModel = createMock(Model.class);
-		final IFlockContext dummyContext       = createMock(IFlockContext.class);
+		final Model               dummyMigratedModel = createMock(Model.class);
+		final ConservativeCopyContext dummyContext       = createMock(ConservativeCopyContext.class);
 		
 		final BackedModelValue mockOriginalModelValue    = createMock("OriginalValue",   BackedModelValue.class);
 		final BackedModelValue mockEquivalentModelValue  = createMock("EquivalentValue", BackedModelValue.class);

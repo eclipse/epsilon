@@ -25,9 +25,11 @@ public class FlockEditor extends EolEditor {
 	@Override
 	public List<String> getKeywords() {
 		final List<String> keywords = new ArrayList<String>(super.getKeywords());
-		
-		keywords.add("migrate");
+
+		keywords.add("delete");
+		keywords.add("retype");
 		keywords.add("to");
+		keywords.add("migrate");
 		keywords.add("when");
 		
 		return keywords;

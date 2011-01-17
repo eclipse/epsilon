@@ -22,14 +22,11 @@ public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTes
 
 	private static final String strategy = "migrate Person " +
 	                                       "when: ' '.isSubstringOf(original.name) {" +
-	                                       "	migrated.name := original.name;" +
+	                                       "	migrated.name := original.name.split(' ').first;" +
 	                                       "}" +
 	                                       "migrate Person " +
-	                                       "when: original.name.isDefined() {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}" +
-	                                       "migrate Person {" +
-	                                       "	migrated.name := 'John Doe';"   +
+	                                       "when: original.name.isUndefined() {" +
+	                                       "	migrated.name := 'John';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"                   +
@@ -53,17 +50,17 @@ public class SeveralRulesForSameType extends Strong2StrongMigrationAcceptanceTes
 	}
 	
 	@Test
-	public void personWithSurnameIsUnchanged() {
-		migrated.assertEquals("Joe Bloggs", "joe.name");
+	public void personForWhomNoRulesApplyIsUnchanged() {
+		migrated.assertEquals("Jack", "jack.name");
 	}
 	
 	@Test
-	public void personWithoutSurnameNowHasSmithAsSurname() {
-		migrated.assertEquals("Jack Smith", "jack.name");
+	public void personForWhomFirstRuleAppliesHasNoSurname() {
+		migrated.assertEquals("Joe", "joe.name");
 	}
 	
 	@Test
-	public void anonymousPersonIsNowNamedJohnDoe() {
-		migrated.assertEquals("John Doe", "john.name");
+	public void personForWhomSecondRuleAppliesHasName() {
+		migrated.assertEquals("John", "john.name");
 	}
 }

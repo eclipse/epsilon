@@ -11,19 +11,18 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.overlap;
+package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ReuseMigrationAndRetype extends Strong2StrongMigrationAcceptanceTest {
+public class ReuseMigrationForAbstractType extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate NamedElement {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}" +
-	                                       "retype Pet to Person";
+	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
@@ -38,8 +37,8 @@ public class ReuseMigrationAndRetype extends Strong2StrongMigrationAcceptanceTes
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
-		migrated.setVariable("person",            "Person.all.selectOne(p|p.name.startsWith('John'))");
-		migrated.setVariable("personThatWasAPet", "Person.all.selectOne(p|p.name.startsWith('Fido'))");
+		migrated.setVariable("person", "Person.all.first");
+		migrated.setVariable("pet",    "Pet.all.first");
 	}
 	
 	@Test
@@ -49,6 +48,6 @@ public class ReuseMigrationAndRetype extends Strong2StrongMigrationAcceptanceTes
 	
 	@Test
 	public void migratedPetShouldHaveCorrectName() {
-		migrated.assertEquals("Fido Smith", "personThatWasAPet.name");
+		migrated.assertEquals("Fido Smith", "pet.name");
 	}
 }

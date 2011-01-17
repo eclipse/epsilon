@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class Retype extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate Person to Salesperson";
+	private static final String strategy = "retype Person to Salesperson";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +

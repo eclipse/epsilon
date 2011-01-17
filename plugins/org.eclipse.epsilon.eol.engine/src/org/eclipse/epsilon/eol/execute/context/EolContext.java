@@ -200,7 +200,7 @@ public class EolContext implements IEolContext{
 	}
 	
 
-	protected void enterProtectedFrame(AST ast, Variable... variables) {
+	public void enterProtectedFrame(AST ast, Variable... variables) {
 		getFrameStack().enter(FrameType.PROTECTED, ast);
 		
 		for (Variable variable : variables) {
@@ -208,7 +208,7 @@ public class EolContext implements IEolContext{
 		}
 	}
 
-	protected void leaveFrame(AST ast) {
+	public void leaveFrame(AST ast) {
 		getFrameStack().leave(ast);
 	}
 	

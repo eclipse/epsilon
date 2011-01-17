@@ -25,6 +25,7 @@ import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.IFlockContext;
+import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -53,8 +54,8 @@ public class ModelElementTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getEquivalentShouldDelegateToEquivalencesWhenModelElementIsContainedInModel() throws ConservativeCopyException {
-		final Model         mockMigratedModel = createMock("mockMigratedModel",Model.class);
-		final IFlockContext mockContext       = createMock(IFlockContext.class);
+		final Model               mockMigratedModel = createMock("mockMigratedModel",Model.class);
+		final ConservativeCopyContext mockContext       = createMock(ConservativeCopyContext.class);
 		
 		final ModelElement dummyMigratedModelElement = new ModelElement(mockMigratedModel, mockModelType, "bar");
 
@@ -80,8 +81,8 @@ public class ModelElementTests {
 	
 	@Test
 	public void getEquivalentShouldReturnTheModelElementWhenItIsNotContainedInTheModel() throws ConservativeCopyException {
-		final Model         dummyMigratedModel = createMock("mockMigratedModel",Model.class);
-		final IFlockContext dummyContext       = createMock(IFlockContext.class);
+		final Model               dummyMigratedModel = createMock("mockMigratedModel",Model.class);
+		final ConservativeCopyContext dummyContext       = createMock(ConservativeCopyContext.class);
 		
 		// Expectations
 		expect(mockModel.owns(underlyingElement))

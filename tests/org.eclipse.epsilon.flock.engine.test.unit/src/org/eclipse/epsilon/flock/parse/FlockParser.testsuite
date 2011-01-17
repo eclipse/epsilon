@@ -7,11 +7,31 @@ flockModule:
 	"migrate Person { name := nom; }" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))))"
 	"migrate Person { name := nom; } migrate Animal { name := nom; }" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))) (MIGRATE Animal (BLOCK (:= name nom))))"
 
+	// Retyping and rule
+	"migrate Person { name := nom; } retype Person to Employee" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))) (RETYPE Person Employee))"
+
 	// Operations
 	"operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))"
 	"@cached operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (ANNOTATIONBLOCK @cached operation Integer inc() { self := self + 1; }))"
 
-fullMigrateRule:
+retyping:
+	// Simple, and guarded
+	"retype Person to Employee" -> "(RETYPE Person Employee)"
+	"retype Person to Employee when: original.name.isDefined()" -> "(RETYPE Person Employee (GUARD (. (. original name) (isDefined PARAMETERS))))"
+
+	// Missing parts
+	"retype Person Employee" FAIL
+	"retype to Employee" FAIL
+	"retype Person to" FAIL
+	
+deletion:
+ 	// Typical
+ 	"delete Person"	-> (DELETE Person)
+ 	
+ 	// with guard
+ 	"delete Person when: original.name.isUndefined()" -> "(DELETE Person (GUARD (. (. original name) (isUndefined PARAMETERS))))"
+
+migrateRule:
 	// Empty
 	"migrate Person { }" -> "(MIGRATE Person BLOCK)"
 	
@@ -21,8 +41,8 @@ fullMigrateRule:
 	// Statement
 	"migrate Person { name := nom; }" -> "(MIGRATE Person (BLOCK (:= name nom)))"
 	
-	// To part
-	"migrate Animal to Dog { }" -> "(MIGRATE Animal Dog BLOCK)"
+	// To part (retyping is now used instead)
+	"migrate Animal to Dog { }" FAIL
 	"migrate Animal to { }" FAIL
 		
 	// Guard
@@ -39,23 +59,9 @@ fullMigrateRule:
 	"migrate Person" FAIL
 
 
-shorthandMigrateRule:
-	"migrate Person to Salesperson" -> "(MIGRATE Person Salesperson)"
-	
-	// No to part
-	"migrate Person" FAIL
-
-
 guard:
 	"when: original.name.isDefined()" -> "(GUARD (. (. original name) (isDefined PARAMETERS)))"
 	"when { var n := original.name; return n.isDefined(); }" -> "(GUARD (BLOCK (:= (var n) (. original name)) (RETURN (. n (isDefined PARAMETERS)))))"
 		
 	// Guard with no when
 	"original.name.isDefined()" FAIL
- 
- deleteRule:
- 	// Typical
- 	"delete Person"	-> (DELETE Person)
- 	
- 	// with guard
- 	"delete Person when: original.name.isUndefined()" -> "(DELETE Person (GUARD (. (. original name) (isUndefined PARAMETERS))))"

@@ -11,14 +11,14 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.extend;
+package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ExtendRuleForConcreteType extends Strong2StrongMigrationAcceptanceTest {
+public class ReuseMigrationForConcreteType extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Pet {" +
 	                                       "	migrated.male := true;" +

@@ -23,18 +23,15 @@ public abstract class LoaderTestHelper {
 	
 	private LoaderTestHelper() {}
 	
-	static AST createMigrationStrategyAst(AST... rules) {
+	static AST createMigrationStrategyAst(AST... content) {
 		final AST strategy = createAST(FlockParser.FLOCKMODULE, "FLOCKMODULE");
-		strategy.addChildren(Arrays.asList(rules));
+		strategy.addChildren(Arrays.asList(content));
 		return strategy;
 	}
 	
-	static AST createMigrateRuleAst(String originalType, String migratedType, AST guard, AST block) {
+	static AST createMigrateRuleAst(String originalType, AST guard, AST block) {
 		final AST rule = createAST(FlockParser.MIGRATE, "MIGRATE");
 		rule.addChild(createAST(FlockParser.NAME, originalType));
-		
-		if (migratedType != null)
-			rule.addChild(createAST(FlockParser.NAME, migratedType));
 		
 		if (guard != null)
 			rule.addChild(guard);
@@ -44,13 +41,28 @@ public abstract class LoaderTestHelper {
 		return rule;
 	}
 	
-	static AST createDeleteRuleAst(String type) {
-		return createDeleteRuleAst(type, null);
+	static AST createDeletionAst(String originalType) {
+		return createDeletionAst(originalType, null);
 	}
 	
-	static AST createDeleteRuleAst(String type, AST guard) {
-		final AST rule = createAST(FlockParser.DELETE, "DELETE");
-		rule.addChild(createAST(FlockParser.NAME, type));
+	static AST createDeletionAst(String originalType, AST guard) {
+		return createTypeMappingAst(FlockParser.DELETE, "DELETE", guard, originalType);
+	}
+	
+	static AST createRetypingAst(String originalType, String migratedType) {
+		return createRetypingAst(originalType, migratedType, null);
+	}
+	
+	static AST createRetypingAst(String originalType, String migratedType, AST guard) {
+		return createTypeMappingAst(FlockParser.RETYPE, "RETYPE", guard, new String[]{originalType, migratedType});
+	}
+	
+	private static AST createTypeMappingAst(int token, String mappingType, AST guard, String... metamodelTypes) {
+		final AST rule = createAST(token, mappingType);
+		
+		for (String metamodelType : metamodelTypes) {
+			rule.addChild(createAST(FlockParser.NAME, metamodelType));
+		}
 		
 		if (guard != null)
 			rule.addChild(guard);

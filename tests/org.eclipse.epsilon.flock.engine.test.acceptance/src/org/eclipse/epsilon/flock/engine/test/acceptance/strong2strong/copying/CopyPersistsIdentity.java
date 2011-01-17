@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;

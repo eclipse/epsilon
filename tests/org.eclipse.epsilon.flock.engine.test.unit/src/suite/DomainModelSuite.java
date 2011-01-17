@@ -16,18 +16,23 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.model.BodyTests;
-import org.eclipse.epsilon.flock.model.GuardTests;
-import org.eclipse.epsilon.flock.model.MigrationStrategyCreateEquivalenceForTests;
 import org.eclipse.epsilon.flock.model.checker.MigrationStrategyCheckerTests;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategyTests;
+import org.eclipse.epsilon.flock.model.domain.common.GuardTests;
+import org.eclipse.epsilon.flock.model.domain.rules.BodyTests;
+import org.eclipse.epsilon.flock.model.domain.rules.MigrateRulesTests;
+import org.eclipse.epsilon.flock.model.domain.typemappings.RetypingTests;
+import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstructsTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({MigrationStrategyCreateEquivalenceForTests.class,
+@SuiteClasses({MigrationStrategyTests.class,
+               TypeMappingConstructsTests.class,
+               MigrateRulesTests.class, MigrateRulesTests.class, BodyTests.class,
                GuardTests.class,
-               BodyTests.class,
+               RetypingTests.class,
                MigrationStrategyCheckerTests.class})
 public class DomainModelSuite {
 	public static Test suite() {

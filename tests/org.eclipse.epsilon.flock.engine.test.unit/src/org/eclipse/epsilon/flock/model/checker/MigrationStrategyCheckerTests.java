@@ -13,84 +13,48 @@
  */
 package org.eclipse.epsilon.flock.model.checker;
 
-import static org.easymock.classextension.EasyMock.*;
+import static org.mockito.Mockito.*;
 
-import java.util.Collections;
-
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.model.MigrateRule;
-import org.eclipse.epsilon.flock.model.MigrationStrategy;
-import org.eclipse.epsilon.flock.model.Rule;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.model.checker.MigrationStrategyChecker;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.junit.Test;
 
 public class MigrationStrategyCheckerTests {
 
+	private final TypedAndGuardedConstruct construct       = mock(MigrateRule.class);
+	private final MigrationStrategy strategy               = new MigrationStrategy(construct);
+	private final MigrationStrategyCheckingContext context = mock(MigrationStrategyCheckingContext.class);
+
 	@Test
 	public void ruleForTypeNotKnownToOriginalMetamodelProducesWarning() {
-		final MigrationStrategy mockStrategy = createMock(MigrationStrategy.class);
-		final Rule              mockRule     = createMock(MigrateRule.class);
-		final IFlockContext mockContext  = createMock(IFlockContext.class);
+		when(construct.getOriginalType())
+			.thenReturn("UnknownType");
 		
-		// Stubbed methods
-		
-		expect(mockStrategy.getRules())
-			.andReturn(Collections.singleton(mockRule));
-		
-		expect(mockRule.getOriginalType())
-			.andReturn("UnknownType")
-			.anyTimes();
-		
-		expect(mockContext.isTypeInOriginalMetamodel("UnknownType"))
-			.andReturn(false);
+		when(context.isTypeInOriginalMetamodel("UnknownType"))
+			.thenReturn(false);
 		
 		
-		// Expectations
+		new MigrationStrategyChecker(strategy, context).check();
 		
-		mockContext.addWarning("Rule defined for migrating instances of UnknownType, " +
-		                       "but no type UnknownType was found in the original metamodel.");
-		
-		replay(mockStrategy, mockRule, mockContext);
-		
-		
-		// Verification
-		
-		new MigrationStrategyChecker(mockStrategy, mockContext).check();
-		
-		verify(mockStrategy, mockRule, mockContext);
+		verify(context).addWarning("Rule defined for migrating instances of UnknownType, " +
+		                           "but no type UnknownType was found in the original metamodel.");
 	}
 	
 	
 	@Test
 	public void ruleForTypeKnownToOriginalMetamodelDoesNotProduceWarning() {
-		final MigrationStrategy mockStrategy = createMock(MigrationStrategy.class);
-		final Rule              mockRule     = createMock(MigrateRule.class);
-		final IFlockContext mockContext  = createMock(IFlockContext.class);
+		when(construct.getOriginalType())
+			.thenReturn("KnownType");
 		
-		// Stubbed methods
-		
-		expect(mockStrategy.getRules())
-			.andReturn(Collections.singleton(mockRule));
-		
-		expect(mockRule.getOriginalType())
-			.andReturn("KnownType")
-			.anyTimes();
-		
-		expect(mockContext.isTypeInOriginalMetamodel("KnownType"))
-			.andReturn(true);
+		when(context.isTypeInOriginalMetamodel("KnownType"))
+			.thenReturn(true);
 		
 		
-		// Expectations
+		new MigrationStrategyChecker(strategy, context).check();
 		
-		// expect nothing to happen
-		
-		replay(mockStrategy, mockRule, mockContext);
-		
-		
-		// Verification
-		
-		new MigrationStrategyChecker(mockStrategy, mockContext).check();
-		
-		verify(mockStrategy, mockRule, mockContext);
+		verify(context, never()).addWarning(anyString());
 	}
 }

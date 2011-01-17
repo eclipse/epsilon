@@ -11,46 +11,52 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.extend;
+package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ExtendWithApplicableRule extends Strong2StrongMigrationAcceptanceTest {
+public class ReuseMigrationForSomeSubtypes extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate NamedElement when: original.name.isUndefined() {" +
-	                                       "	migrated.name := 'Joe Bloggs';" +
-	                                       "}" +
-	                                       "migrate NamedElement when: original.name.isDefined() {" +
+	private static final String strategy = "migrate NamedElement when: not original.isKindOf(Dog) {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}" +
-	                                       "migrate Person extends NamedElement\n";
+	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
-	                                            "	Person {"            +
-	                                            "	}"                   +
+	                                            "   Pet {"               +
+	                                            "       name: \"Tom\""   +
+	                                            "   }"                   +
+	                                            "   Dog {"               +
+	                                            "       name: \"Fido\""  +
+	                                            "   }"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
-		migrated.setVariable("john",                    "Person.all.selectOne(p|p.name.startsWith('John')");
-		migrated.setVariable("previouslyUnnamedPerson", "Person.all.selectOne(p|p!=john);");
+		migrated.setVariable("person", "Person.all.first");
+		migrated.setVariable("pet",    "Pet.all.selectOne(p|p.name.startsWith('Tom'))");
+		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void namedPersonShouldHaveSurname() {
-		migrated.assertEquals("John Smith", "john.name");
+	public void migratedPersonShouldHaveCorrectName() {
+		migrated.assertEquals("John Smith", "person.name");
 	}
 	
 	@Test
-	public void unnamedPersonShouldHaveName() {
-		migrated.assertEquals("Joe Bloggs", "previouslyUnnamedPerson.name");
+	public void migratedPetShouldHaveCorrectName() {
+		migrated.assertEquals("Tom Smith", "pet.name");
+	}
+	
+	@Test
+	public void migratedDogShouldHaveCorrectName() {
+		migrated.assertEquals("Fido", "dog.name");
 	}
 }

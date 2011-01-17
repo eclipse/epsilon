@@ -13,32 +13,32 @@
  */
 package org.eclipse.epsilon.flock.model.loader;
 
-import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createDeleteRuleAst;
+import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createDeletionAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createGuard;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.model.DeleteRule;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 import org.junit.Test;
 
-public class DeleteRuleLoaderTest {
+public class DeletionLoaderTest {
 	
 	@Test
-	public void deleteRule() {
-		final AST ruleAst = createDeleteRuleAst("Person");
+	public void deletion() {
+		final AST deletionAst = createDeletionAst("Person");
 		
-		assertEquals(new DeleteRule("Person", null), runDeleteRuleLoaderOn(ruleAst));
+		assertEquals(new Deletion(deletionAst, "Person", null), runDeletionLoaderOn(deletionAst));
 	}
 	
 	@Test
-	public void deleteRuleWithGuard() {
-		final AST guard   = createGuard();
-		final AST ruleAst = createDeleteRuleAst("Person", guard);
+	public void deletionWithGuard() {
+		final AST guard       = createGuard();
+		final AST deletionAst = createDeletionAst("Person", guard);
 		
-		assertEquals(new DeleteRule("Person", guard.getFirstChild()), runDeleteRuleLoaderOn(ruleAst));
+		assertEquals(new Deletion(deletionAst, "Person", guard.getFirstChild()), runDeletionLoaderOn(deletionAst));
 	}
 	
-	private static DeleteRule runDeleteRuleLoaderOn(AST rule) {
-		return new DeleteRuleLoader(rule).run();
+	private static Deletion runDeletionLoaderOn(AST rule) {
+		return new DeletionLoader(rule).run();
 	}
 }

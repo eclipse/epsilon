@@ -11,37 +11,40 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.extend;
+package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ExtendedRuleRunsLast extends Strong2StrongMigrationAcceptanceTest {
+public class RulesRunInTheOrderThatTheyAppear extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate NamedElement {" +
-	                                       "   migrated.name := original.name + ' Smith';" +
+	private static final String strategy = "migrate Dog {" +
+	                                       "	migrated.name := original.name + ' Dog';" +
 	                                       "}" +
-	                                       "migrate Person extends NamedElement {" +
-	                                       "   migrated.name := original.name + ' Jones';" +
+	                                       "migrate NamedElement {" +
+	                                       "	migrated.name := original.name + ' NE';" +
+	                                       "}" +
+	                                       "migrate Pet {" +
+	                                       "	migrated.name := original.name + ' Pet';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
-	                                            "	Person {"            +
-	                                            "		name: \"John\""  +
-	                                            "	}"                   +
+	                                            "   Dog {"               +
+	                                            "       name: \"Fido\""  +
+	                                            "   }"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
-		migrated.setVariable("person", "Person.all.first");
+		migrated.setVariable("dog", "Dog.all.first");
 	}
 	
 	@Test
-	public void migratedPersonShouldHaveNameGivenInExtendedRule() {
-		migrated.assertEquals("John Jones", "person.name");
+	public void nameShouldBeSetBeLastRule() {
+		migrated.assertEquals("Fido Pet", "dog.name");
 	}
 }

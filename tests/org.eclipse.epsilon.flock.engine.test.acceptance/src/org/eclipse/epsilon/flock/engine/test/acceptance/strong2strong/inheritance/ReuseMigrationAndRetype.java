@@ -11,27 +11,25 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.overlap;
+package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongMigrationAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ReuseMigrationForSomeSubtypes extends Strong2StrongMigrationAcceptanceTest {
+public class ReuseMigrationAndRetype extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate NamedElement when: not original.isKindOf(Dog) {" +
+	private static final String strategy = "migrate NamedElement {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}";
+	                                       "}" +
+	                                       "retype Pet to Person";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
 	                                            "   Pet {"               +
-	                                            "       name: \"Tom\""   +
-	                                            "   }"                   +
-	                                            "   Dog {"               +
 	                                            "       name: \"Fido\""  +
 	                                            "   }"                   +
 	                                            "}";
@@ -40,9 +38,8 @@ public class ReuseMigrationForSomeSubtypes extends Strong2StrongMigrationAccepta
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
-		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("pet",    "Pet.all.selectOne(p|p.name.startsWith('Tom'))");
-		migrated.setVariable("dog",    "Dog.all.first");
+		migrated.setVariable("person",            "Person.all.selectOne(p|p.name.startsWith('John'))");
+		migrated.setVariable("personThatWasAPet", "Person.all.selectOne(p|p.name.startsWith('Fido'))");
 	}
 	
 	@Test
@@ -52,11 +49,6 @@ public class ReuseMigrationForSomeSubtypes extends Strong2StrongMigrationAccepta
 	
 	@Test
 	public void migratedPetShouldHaveCorrectName() {
-		migrated.assertEquals("Tom Smith", "pet.name");
-	}
-	
-	@Test
-	public void migratedDogShouldHaveCorrectName() {
-		migrated.assertEquals("Fido", "dog.name");
+		migrated.assertEquals("Fido Smith", "personThatWasAPet.name");
 	}
 }
