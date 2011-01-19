@@ -324,12 +324,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.9.0.qualifier"/>
 
    <plugin
-         id="org.eclipse.epsilon.antlr"
-         download-size="0"
-         install-size="0"
-         version="0.9.0.qualifier"/>
-
-   <plugin
          id="org.eclipse.epsilon.emc.composite"
          download-size="0"
          install-size="0"
@@ -390,6 +384,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
          download-size="0"
          install-size="0"
          version="0.9.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.antlr.runtime_3.1.b1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
