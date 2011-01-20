@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
