@@ -12,5 +12,5 @@ Export-Package: org.jdom,
  org.jdom.output,
  org.jdom.transform,
  org.jdom.xpath
-Require-Bundle: javax.xml
+Require-Bundle: javax.xml;resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
