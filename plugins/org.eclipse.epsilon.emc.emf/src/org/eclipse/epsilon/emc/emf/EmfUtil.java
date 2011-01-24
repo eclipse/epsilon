@@ -61,27 +61,41 @@ public class EmfUtil {
 	}
 	
     public static URI createURI(String s) {
-        URI uri = URI.createURI(s);
+        final URI uri = fixUriForPlatform(s, URI.createURI(s));
+
+        if (uri.scheme() == null) {
+            return URI.createPlatformResourceURI(s, true);
         
-        if (uri.scheme() != null) {
+        } else {
+        	return uri;
+        }
+    }
+    
+    public static URI createFileBasedURI(String s) {
+    	final URI uri = fixUriForPlatform(s, URI.createURI(s));
+        
+    	if (uri.scheme() == null) {
+            return URI.createFileURI(s);
+        
+        } else {
+        	return uri;
+        }
+    }
+
+	private static URI fixUriForPlatform(String s, URI uri) {
+		if (uri.scheme() != null) {
         	// If we are under Windows and s starts with x: it is an absolute path
         	if (OperatingSystem.isWindows() && uri.scheme().length() == 1) {
         		return URI.createFileURI(s);
         	}
-        	// otherwise it is a proper uri
-        	else {
-    			return uri;
-    		}
         }
-        // Handle paths that start with / under Unix e.g. /local/foo.txt
-         else if (OperatingSystem.isUnix() && s.startsWith("/")) { 
-            return URI.createFileURI(s);
-         }
-        // ... otherwise it is a platform resource uri
-        else {
-            return URI.createPlatformResourceURI(s, true);
-        }
-    }
+//      // Handle paths that start with / under Unix e.g. /local/foo.txt
+//      else if (OperatingSystem.isUnix() && s.startsWith("/")) { 
+//         return URI.createFileURI(s);
+//      }
+        	
+        return uri;
+	}
 	
 	public static String getFile(URI uri) {
 		if (uri.isFile()) {

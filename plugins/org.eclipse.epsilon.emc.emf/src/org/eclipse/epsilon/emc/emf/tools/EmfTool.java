@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.tools;
 
+import static org.eclipse.epsilon.emc.emf.EmfUtil.createFileBasedURI;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,9 +76,9 @@ public class EmfTool extends AbstractTool{
 	
 	
 	public boolean resourceExists(String resource) {
-		return new EmfModelResourceSet().getURIConverter().exists(EmfUtil.createURI(resource), null);
+		return new EmfModelResourceSet().getURIConverter().exists(createFileBasedURI(resource), null);
 	}
-	
+
 	public boolean modelElementExists(String uri) throws IOException {
 		try {
 			return getEObject(uri) != null;
@@ -95,7 +97,7 @@ public class EmfTool extends AbstractTool{
 		final String modelUri   = uri.split("#")[0];
 		final String elementUri = uri.split("#")[1];
 		
-		final Resource model = new EmfModelResourceSet().createResource(EmfUtil.createURI(modelUri));
+		final Resource model = new EmfModelResourceSet().createResource(createFileBasedURI(modelUri));
 		
 		if (model == null) return null;
 		
