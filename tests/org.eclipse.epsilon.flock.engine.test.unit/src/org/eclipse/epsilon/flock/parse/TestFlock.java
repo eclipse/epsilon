@@ -155,24 +155,15 @@ public class TestFlock extends TestCase {
 	}
 
 	public void testMigrateRule4() throws Exception {
-		// test input: "migrate Animal to Dog { }"
-		Object retval = execParser("migrateRule", "migrate Animal to Dog { }", false);
-		Object actual = examineParserExecResult(28, retval);
-		Object expecting = "FAIL";
+		// test input: "migrate Person ignoring name"
+		Object retval = execParser("migrateRule", "migrate Person ignoring name", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(MIGRATE Person (IGNORING name))";
 
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
 	}
 
 	public void testMigrateRule5() throws Exception {
-		// test input: "migrate Animal to { }"
-		Object retval = execParser("migrateRule", "migrate Animal to { }", false);
-		Object actual = examineParserExecResult(28, retval);
-		Object expecting = "FAIL";
-
-		assertEquals("testing rule "+"migrateRule", expecting, actual);
-	}
-
-	public void testMigrateRule6() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined() { name := nom; }"
 		Object retval = execParser("migrateRule", "migrate Person when: original.name.isDefined() { name := nom; }", false);
 		Object actual = examineParserExecResult(8, retval);
@@ -181,7 +172,7 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
 	}
 
-	public void testMigrateRule7() throws Exception {
+	public void testMigrateRule6() throws Exception {
 		// test input: "migrate Person when {}"
 		Object retval = execParser("migrateRule", "migrate Person when {}", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -190,7 +181,7 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
 	}
 
-	public void testMigrateRule8() throws Exception {
+	public void testMigrateRule7() throws Exception {
 		// test input: "migrate Person original.name.isDefined(); {}"
 		Object retval = execParser("migrateRule", "migrate Person original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -199,7 +190,7 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
 	}
 
-	public void testMigrateRule9() throws Exception {
+	public void testMigrateRule8() throws Exception {
 		// test input: "migrate Person when: original.name.isDefined(); {}"
 		Object retval = execParser("migrateRule", "migrate Person when: original.name.isDefined(); {}", false);
 		Object actual = examineParserExecResult(28, retval);
@@ -208,13 +199,31 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
 	}
 
-	public void testMigrateRule10() throws Exception {
+	public void testMigrateRule9() throws Exception {
 		// test input: "migrate Person"
 		Object retval = execParser("migrateRule", "migrate Person", false);
 		Object actual = examineParserExecResult(28, retval);
 		Object expecting = "FAIL";
 
 		assertEquals("testing rule "+"migrateRule", expecting, actual);
+	}
+
+	public void testIgnoring1() throws Exception {
+		// test input: "ignoring name"
+		Object retval = execParser("ignoring", "ignoring name", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(IGNORING name)";
+
+		assertEquals("testing rule "+"ignoring", expecting, actual);
+	}
+
+	public void testIgnoring2() throws Exception {
+		// test input: "ignoring name, number, address"
+		Object retval = execParser("ignoring", "ignoring name, number, address", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(IGNORING name number address)";
+
+		assertEquals("testing rule "+"ignoring", expecting, actual);
 	}
 
 	public void testGuard1() throws Exception {

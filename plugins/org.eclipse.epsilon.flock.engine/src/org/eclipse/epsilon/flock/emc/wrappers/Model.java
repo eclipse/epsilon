@@ -65,6 +65,10 @@ public class Model {
 		return underlyingModel.isInstantiable(typeName);
 	}
 	
+	public boolean hasProperty(String type, String property) throws EolRuntimeException {
+		return underlyingModel.hasProperty(type, property);
+	}
+	
 	public Iterable<ModelElement> allContents() {
 		final Collection<ModelElement> modelElements = new LinkedList<ModelElement>();
 		

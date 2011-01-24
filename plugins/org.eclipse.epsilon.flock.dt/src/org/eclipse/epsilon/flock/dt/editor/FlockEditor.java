@@ -31,6 +31,7 @@ public class FlockEditor extends EolEditor {
 		keywords.add("to");
 		keywords.add("migrate");
 		keywords.add("when");
+		keywords.add("ignoring");
 		
 		return keywords;
 	}

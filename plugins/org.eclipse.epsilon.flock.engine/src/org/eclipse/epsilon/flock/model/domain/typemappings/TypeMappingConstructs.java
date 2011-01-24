@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactory;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
@@ -37,6 +38,12 @@ public class TypeMappingConstructs {
 		typeMappingConstructs.add(typeMapping);
 	}
 
+	public void check(MigrationStrategyCheckingContext context) {
+		for (TypeMappingConstruct typeMapping : typeMappingConstructs) {
+			typeMapping.check(context);
+		}
+	}
+	
 	public Equivalence createEquivalence(TypeMappingContext context) throws FlockRuntimeException {
 		for (TypeMappingConstruct typeMapping : typeMappingConstructs) {
 			if (context.isEligibleFor(typeMapping)) {

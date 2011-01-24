@@ -16,6 +16,7 @@ package org.eclipse.epsilon.flock.equivalences;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public class NoEquivalence extends Equivalence {
 
@@ -32,7 +33,7 @@ public class NoEquivalence extends Equivalence {
 		return original; 
 	}
 	
-	public void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
 		// do nothing
 	}
 

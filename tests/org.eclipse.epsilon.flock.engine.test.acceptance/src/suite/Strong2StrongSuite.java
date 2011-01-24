@@ -18,6 +18,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongCopyingSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongEquivalencesSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongIgnoringSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongInheritanceSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongRulesSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.Strong2StrongWarningsSuite;
@@ -30,6 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({Strong2StrongRulesSuite.class,
                Strong2StrongInheritanceSuite.class,
                Strong2StrongCopyingSuite.class,
+               Strong2StrongIgnoringSuite.class,
                Strong2StrongEquivalencesSuite.class,
                Strong2StrongWarningsSuite.class})
 public class Strong2StrongSuite {

@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
@@ -26,6 +27,22 @@ public class MigrateRules {
 
 	public void add(MigrateRule rule) {
 		migrateRules.add(rule);
+	}
+
+	public void check(MigrationStrategyCheckingContext context) {
+		for (MigrateRule rule : migrateRules) {
+			rule.check(context);
+		}
+	}
+	
+	public IgnoredProperties ignoredPropertiesFor(MigrateRuleContext context) throws FlockRuntimeException {
+		final IgnoredProperties ignored = new IgnoredProperties();
+		
+		for (MigrateRule rule : migrateRules) {
+			rule.gatherIgnoredPropertiesFor(context, ignored);
+		}
+		
+		return ignored;
 	}
 	
 	public void applyTo(MigrateRuleContext context) throws FlockRuntimeException {

@@ -11,22 +11,21 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong;
+package suite;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.warnings.IgnoreAnUnknownOriginalProperty;
-import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.warnings.RuleForUnknownOriginalType;
+import org.eclipse.epsilon.flock.model.checker.IgnoredPropertiesCheckerTests;
+import org.eclipse.epsilon.flock.model.checker.TypedConstructCheckerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({RuleForUnknownOriginalType.class,
-               IgnoreAnUnknownOriginalProperty.class})
-public class Strong2StrongWarningsSuite {
+@SuiteClasses({TypedConstructCheckerTests.class, IgnoredPropertiesCheckerTests.class})
+public class CheckerSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(Strong2StrongWarningsSuite.class);
+		return new JUnit4TestAdapter(CheckerSuite.class);
 	}
 }

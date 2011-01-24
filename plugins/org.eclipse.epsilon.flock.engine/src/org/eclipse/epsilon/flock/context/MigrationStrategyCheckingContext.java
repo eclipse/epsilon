@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.context;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class MigrationStrategyCheckingContext {
 	
@@ -25,6 +27,15 @@ public class MigrationStrategyCheckingContext {
 	
 	public boolean isTypeInOriginalMetamodel(String type) {
 		return originalModel.hasType(type);
+	}
+	
+	public boolean isPropertyInOriginalMetamodel(String type, String property) throws FlockRuntimeException {
+		try {
+			return originalModel.hasProperty(type, property);
+		
+		} catch (EolRuntimeException e) {
+			throw new FlockRuntimeException("Could not check existence of " + type + "#" + property + " in original metamodel", e);
+		}
 	}
 	
 	public void addWarning(String warning) {

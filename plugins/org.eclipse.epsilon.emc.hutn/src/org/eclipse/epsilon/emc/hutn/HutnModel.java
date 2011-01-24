@@ -223,4 +223,8 @@ public class HutnModel extends Model implements IReflectiveModel {
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		return model.getPropertiesOf(type);
 	}
+
+	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
+		return model.hasProperty(type, property);
+	}
 }

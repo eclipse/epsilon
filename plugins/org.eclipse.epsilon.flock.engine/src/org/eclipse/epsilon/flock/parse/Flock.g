@@ -42,7 +42,7 @@ options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.ec
 import EolLexerRules, EolParserRules;
 
 tokens {
-  FLOCKMODULE; RETYPE; MIGRATE; DELETE; GUARD;
+  FLOCKMODULE; RETYPE; MIGRATE; DELETE; GUARD; IGNORING;
 }
 
 @header {
@@ -110,9 +110,27 @@ deletion
     ^(DELETE $type guard?);
 
 migrateRule
-  : 'migrate' originalType=NAME guard? '{' body=block '}' 
+  : fullRule | ignoringRule;
+  
+fullRule
+  : 'migrate' originalType=NAME ignoring? guard? '{' body=block '}' 
     -> 
-    ^(MIGRATE $originalType guard? $body);
+    ^(MIGRATE $originalType ignoring? guard? $body);
+    
+ignoringRule
+  : 'migrate' originalType=NAME ignoring guard? 
+    -> 
+    ^(MIGRATE $originalType ignoring guard?);
+
+ignoring
+  : 'ignoring' propertyList
+  ->
+  ^(IGNORING propertyList);
+  
+propertyList
+  : NAME (',' NAME)*
+  ->
+  NAME*;
 
 guard
   : 'when' expressionOrStatementBlock

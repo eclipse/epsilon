@@ -17,11 +17,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRules;
 import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstruct;
@@ -51,7 +53,6 @@ public class MigrationStrategy {
 	public Collection<TypedAndGuardedConstruct> getTypeMappingsAndRules() {
 		return children;
 	}
-
 	
 	public void addTypeMappingConstruct(TypeMappingConstruct typeMappingConstruct) {
 		typeMappingConstructs.add(typeMappingConstruct);
@@ -66,6 +67,15 @@ public class MigrationStrategy {
 	public void addRule(MigrateRule rule) {
 		migrateRules.add(rule);
 		children.add(rule);
+	}
+	
+	public void checkTypeMappingsAndRules(MigrationStrategyCheckingContext context) {
+		typeMappingConstructs.check(context);
+		migrateRules.check(context);
+	}
+	
+	public IgnoredProperties ignoredPropertiesFor(MigrateRuleContext context) throws FlockRuntimeException {
+		return migrateRules.ignoredPropertiesFor(context);
 	}
 	
 	public void applyRulesTo(MigrateRuleContext context) throws FlockRuntimeException {

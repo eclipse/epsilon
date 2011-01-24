@@ -13,31 +13,25 @@
  */
 package org.eclipse.epsilon.flock.model.checker;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.model.checker.MigrationStrategyChecker;
-import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
-import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.junit.Test;
 
-public class MigrationStrategyCheckerTests {
+public class TypedConstructCheckerTests {
 
-	private final TypedAndGuardedConstruct construct       = mock(MigrateRule.class);
-	private final MigrationStrategy strategy               = new MigrationStrategy(construct);
 	private final MigrationStrategyCheckingContext context = mock(MigrationStrategyCheckingContext.class);
 
 	@Test
-	public void ruleForTypeNotKnownToOriginalMetamodelProducesWarning() {
-		when(construct.getOriginalType())
-			.thenReturn("UnknownType");
-		
+	public void ruleForTypeNotKnownToOriginalMetamodelProducesAWarning() {
 		when(context.isTypeInOriginalMetamodel("UnknownType"))
 			.thenReturn(false);
 		
-		
-		new MigrationStrategyChecker(strategy, context).check();
+		new TypedConstructChecker("UnknownType", context).check();
 		
 		verify(context).addWarning("Rule defined for migrating instances of UnknownType, " +
 		                           "but no type UnknownType was found in the original metamodel.");
@@ -46,15 +40,11 @@ public class MigrationStrategyCheckerTests {
 	
 	@Test
 	public void ruleForTypeKnownToOriginalMetamodelDoesNotProduceWarning() {
-		when(construct.getOriginalType())
-			.thenReturn("KnownType");
-		
 		when(context.isTypeInOriginalMetamodel("KnownType"))
 			.thenReturn(true);
-		
-		
-		new MigrationStrategyChecker(strategy, context).check();
-		
+	
+		new TypedConstructChecker("KnownType", context).check();
+	
 		verify(context, never()).addWarning(anyString());
 	}
 }

@@ -13,18 +13,27 @@ package org.eclipse.epsilon.flock.context;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
+import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
+import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public class ConservativeCopyContext {
 	
 	private final Model originalModel;
 	private final Model migratedModel;
 	private final FlockExecution execution;
+	private final EolExecutor executor;
 		
-	public ConservativeCopyContext(Model originalModel, Model migratedModel, FlockExecution execution) {
+	public ConservativeCopyContext(Model originalModel, Model migratedModel, FlockExecution execution, EolExecutor executor) {
 		this.originalModel = originalModel;
 		this.migratedModel = migratedModel;
 		this.execution = execution;
+		this.executor = executor;
 	}
 
 	public ModelElement getEquivalent(ModelElement originalModelElement) {
@@ -37,5 +46,21 @@ public class ConservativeCopyContext {
 	
 	public void addWarning(String warning) {
 		execution.addWarning(warning);
+	}
+
+	public ModelValue<?> getEquivalentValue(ModelValue<?> originalValue) throws ConservativeCopyException {
+		return originalValue.getEquivalentIn(migratedModel, this);
+	}
+	
+	public void automaticallyPopulateEquivalent(MigrationStrategy strategy, Equivalence equivalence) throws FlockRuntimeException {
+		equivalence.automaticallyPopulateEquivalent(this, getIgnoredPropertiesFor(strategy, equivalence));
+	}
+
+	private IgnoredProperties getIgnoredPropertiesFor(MigrationStrategy strategy, Equivalence equivalence) throws FlockRuntimeException {
+		return strategy.ignoredPropertiesFor(getMigrateRuleContextFor(equivalence));
+	}
+	
+	private MigrateRuleContext getMigrateRuleContextFor(Equivalence equivalence) {
+		return new MigrateRuleContext(equivalence, executor);
 	}
 }

@@ -41,7 +41,7 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 		// but looks messy in outline view, so overriding getText for MigrationRules
 		
 		if (element instanceof MigrateRule) {
-			return ((MigrateRule)element).getOriginalType();
+			return ((MigrateRule)element).getOriginalType() + " " + ((MigrateRule)element).getDescriptionOfIgnoredProperties();
 		
 		} else if (element instanceof Retyping) {
 			return "retype " + ((Retyping)element).getOriginalType() + " to " + ((Retyping)element).getEvolvedType();

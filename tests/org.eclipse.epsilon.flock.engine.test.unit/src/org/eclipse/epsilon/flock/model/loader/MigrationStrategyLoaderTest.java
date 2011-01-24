@@ -17,7 +17,7 @@ import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createAnno
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createBlock;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createBody;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createDeletionAst;
-import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrateRuleAst;
+import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrateRuleWithGuardAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createMigrationStrategyAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createOperationAst;
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createRetypingAst;
@@ -39,7 +39,7 @@ public class MigrationStrategyLoaderTest {
 	
 	@Test
 	public void migrationRule() {
-		final AST rule        = createMigrateRuleAst("Person", null, createBody());
+		final AST rule        = createMigrateRuleWithGuardAst("Person", null, createBody());
 		final AST strategyAst = createMigrationStrategyAst(rule);
 		
 		final MigrationStrategy strategy = runMigrationStrategyLoaderOn(strategyAst);
@@ -69,8 +69,8 @@ public class MigrationStrategyLoaderTest {
 	
 	@Test
 	public void mixtureOfRulesAndTypeMappings() {
-		final AST personRule     = createMigrateRuleAst("Person", null, createBody());
-		final AST animalRule     = createMigrateRuleAst("Animal", null, createBody());
+		final AST personRule     = createMigrateRuleWithGuardAst("Person", null, createBody());
+		final AST animalRule     = createMigrateRuleWithGuardAst("Animal", null, createBody());
 		final AST retyping       = createRetypingAst("Car", "Vehicle");
 		final AST truckDeletion  = createDeletionAst("Truck");
 		final AST donkeyDeletion = createDeletionAst("Donkey");

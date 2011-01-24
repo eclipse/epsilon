@@ -41,9 +41,8 @@ migrateRule:
 	// Statement
 	"migrate Person { name := nom; }" -> "(MIGRATE Person (BLOCK (:= name nom)))"
 	
-	// To part (retyping is now used instead)
-	"migrate Animal to Dog { }" FAIL
-	"migrate Animal to { }" FAIL
+	// Ignoring
+	"migrate Person ignoring name"                     -> "(MIGRATE Person (IGNORING name))"
 		
 	// Guard
 	"migrate Person when: original.name.isDefined() { name := nom; }" -> "(MIGRATE Person (GUARD (. (. original name) (isDefined PARAMETERS))) (BLOCK (:= name nom)))"
@@ -58,6 +57,10 @@ migrateRule:
 	// No body
 	"migrate Person" FAIL
 
+ignoring:
+	"ignoring name" -> "(IGNORING name)"
+	
+	"ignoring name, number, address" -> "(IGNORING name number address)"
 
 guard:
 	"when: original.name.isDefined()" -> "(GUARD (. (. original name) (isDefined PARAMETERS)))"

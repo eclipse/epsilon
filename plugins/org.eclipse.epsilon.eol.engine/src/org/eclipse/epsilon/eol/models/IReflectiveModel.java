@@ -31,4 +31,6 @@ public interface IReflectiveModel extends IModel {
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException;
 	
 	public IReflectivePropertySetter getPropertySetter();
+
+	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException;
 }

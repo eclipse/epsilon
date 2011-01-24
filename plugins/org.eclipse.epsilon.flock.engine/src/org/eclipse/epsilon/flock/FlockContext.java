@@ -98,7 +98,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	public ConservativeCopyContext getConservativeCopyContext() {
-		return new ConservativeCopyContext(originalModel, migratedModel, execution);
+		return new ConservativeCopyContext(originalModel, migratedModel, execution, executor);
 	}
 	
 	public RuleApplicationContext getRuleApplicationContext() {

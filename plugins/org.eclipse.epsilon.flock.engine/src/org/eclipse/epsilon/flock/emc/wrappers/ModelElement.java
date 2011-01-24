@@ -38,6 +38,10 @@ public class ModelElement extends BackedModelValue<Object> {
 	private boolean isExternal() {
 		return !model.owns(underlyingModelObject);
 	}
+	
+	public Model getModel() {
+		return model;
+	}
 
 	public ModelType getType() {
 		return type;
@@ -62,44 +66,26 @@ public class ModelElement extends BackedModelValue<Object> {
 	void setIdentity(String identity) {
 		model.setIdentity(underlyingModelObject, identity);
 	}
+
 	
-	public void conservativelyCopyPropertiesFrom(ModelElement original, ConservativeCopyContext context) throws ConservativeCopyException {		
-		try {			
-			for (String propertyName : this.getPropertiesSharedWith(original)) {
-				conservativelyCopyPropertyFrom(original, propertyName, context);
-			}
-			
-		} catch (EolModelElementTypeNotFoundException e) {
-			throw new ConservativeCopyException("Exception encountered while determining properties shared between " + original + " and " + this, e);
-		}
-	}
-
-	private void conservativelyCopyPropertyFrom(ModelElement original, String propertyName, ConservativeCopyContext context) throws ConservativeCopyException {
-		try {
-			final ModelValue<?> originalValue   = original.getValueOfProperty(propertyName);
-			final ModelValue<?> equivalentValue = originalValue.getEquivalentIn(model, context);
-			
-			if (conforms(propertyName, equivalentValue))
-				setValueOfProperty(propertyName, equivalentValue);
-		
-		} catch (EolRuntimeException e) {
-			throw new ConservativeCopyException("Exception encountered while copying '" + propertyName + "' from " + original + " to " + this, e);
-		}
-	}
-
-	Collection<String> getPropertiesSharedWith(ModelElement element) throws EolModelElementTypeNotFoundException {
+	public Collection<String> getPropertiesSharedWith(ModelElement element) throws EolModelElementTypeNotFoundException {
 		return type.getPropertiesSharedWith(element.getType());
 	}
 	
-	ModelValue<?> getValueOfProperty(String property) throws EolRuntimeException {
+	public ModelValue<?> getValueOfProperty(String property) throws EolRuntimeException {
 		return model.getValueOfProperty(underlyingModelObject, property);
 	}
+
+	public void conservativelySetValueForProperty(ModelValue<?> equivalentValue, String propertyName, ConservativeCopyContext context) throws EolRuntimeException {		
+		if (conforms(propertyName, equivalentValue))
+			setValueOfProperty(propertyName, equivalentValue);
+	}
 	
-	boolean conforms(String property, ModelValue<?> value) throws EolRuntimeException {
+	private boolean conforms(String property, ModelValue<?> value) throws EolRuntimeException {
 		return model.conforms(underlyingModelObject, property, value);
 	}
 	
-	void setValueOfProperty(String property, ModelValue<?> value) throws EolRuntimeException {
+	private void setValueOfProperty(String property, ModelValue<?> value) throws EolRuntimeException {
 		try {
 			model.setValueOfProperty(underlyingModelObject, property, value);
 		} catch (Exception e) {

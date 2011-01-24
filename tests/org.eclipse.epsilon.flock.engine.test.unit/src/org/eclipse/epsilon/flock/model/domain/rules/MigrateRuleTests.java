@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.domain.rules;
 
+import static org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder.anUntraceableMigrateRule;
 import static org.mockito.Mockito.*;
 
 import org.eclipse.epsilon.commons.parse.AST;
@@ -22,7 +23,7 @@ public class MigrateRuleTests {
 	@Test
 	public void applyToShouldExecuteWhenApplicable() throws FlockRuntimeException {
 		final AST body = mock(AST.class);
-		final MigrateRule rule = new MigrateRule("Person", null, body);
+		final MigrateRule rule = personRule(body);
 		
 		final MigrateRuleContext context = mock(MigrateRuleContext.class);
 		
@@ -37,7 +38,7 @@ public class MigrateRuleTests {
 	@Test
 	public void applyToShouldNotExecuteWhenInapplicable() throws FlockRuntimeException {
 		final AST body = mock(AST.class);
-		final MigrateRule rule = new MigrateRule("Person", null, body);
+		final MigrateRule rule = personRule(body);
 		
 		final MigrateRuleContext context = mock(MigrateRuleContext.class);
 		
@@ -47,5 +48,10 @@ public class MigrateRuleTests {
 		rule.applyTo(context);
 		
 		verify(context, never()).execute(new Body(body));
+	}
+
+	
+	private static MigrateRule personRule(final AST body) {
+		return anUntraceableMigrateRule("Person").withBody(body).build();
 	}
 }

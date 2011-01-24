@@ -206,6 +206,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return properties;
 	}
 	
+	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
+		return getPropertiesOf(type).contains(property);
+	}
+	
 	@Override
 	public IReflectivePropertySetter getPropertySetter() {
 		return new JavaPropertySetter();

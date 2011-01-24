@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public abstract class Equivalence {
 
@@ -31,7 +32,7 @@ public abstract class Equivalence {
 		                      };
 	}
 
-	public abstract void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException;
+	public abstract void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException;
 	
 	@Override
 	public abstract boolean equals(Object obj);

@@ -13,6 +13,11 @@
  */
 package org.eclipse.epsilon.flock.model.loader;
 
+import static org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder.aMigrateRule;
+
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -24,11 +29,29 @@ public class MigrateRuleLoader extends Loader {
 	}
 	
 	public MigrateRule run() {
-		return new MigrateRule(ast, getOriginalType(), getGuard(), getBody());
+		return aMigrateRule(ast, getOriginalType())
+		       	.withBody(getBody())
+		       	.withGuard(getGuard())
+		       	.withIgnoredProperties(getIgnoredProperties())
+		       	.build();
 	}
 
 	private String getOriginalType() {
 		return getFirstChild().getText();
+	}
+	
+	private Collection<String> getIgnoredProperties() {
+		final Collection<String> ignoredProperties = new LinkedList<String>();
+		
+		if (hasChildOfType(FlockParser.IGNORING)) {
+			final AST ignoring = getFirstChildOfType(FlockParser.IGNORING);
+			
+			for (AST ignoredProperty : ignoring.getChildren()) {
+				ignoredProperties.add(ignoredProperty.getText());
+			}
+		}
+		
+		return ignoredProperties;
 	}
 
 	private AST getBody() {

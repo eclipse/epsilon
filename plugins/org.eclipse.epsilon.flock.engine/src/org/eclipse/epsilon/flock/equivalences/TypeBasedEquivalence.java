@@ -13,9 +13,14 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
+import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public class TypeBasedEquivalence extends Equivalence {
 	
@@ -35,9 +40,52 @@ public class TypeBasedEquivalence extends Equivalence {
 		return equivalent;
 	}
 	
-	public void automaticallyPopulateEquivalent(ConservativeCopyContext context) throws FlockRuntimeException {
+	public void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
 		equivalent.copyIdentityFrom(original);
-		equivalent.conservativelyCopyPropertiesFrom(original, context);
+		conservativeCopy(context, ignoredProperties);
+	}
+
+	private void conservativeCopy(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws ConservativeCopyException {
+		new ConservativeCopy(context, ignoredProperties).copyProperties(original, equivalent);
+	}
+	
+	public static class ConservativeCopy {
+	
+		private final ConservativeCopyContext context;
+		private final IgnoredProperties ignoredProperties;
+		
+		public ConservativeCopy(ConservativeCopyContext context) {
+			this(context, new IgnoredProperties());
+		}
+		
+		public ConservativeCopy(ConservativeCopyContext context, IgnoredProperties ignoredProperties) {
+			this.context           = context;
+			this.ignoredProperties = ignoredProperties;
+		}
+		
+		public void copyProperties(ModelElement original, ModelElement equivalent) throws ConservativeCopyException {
+			try {			
+				for (String propertyName : original.getPropertiesSharedWith(equivalent)) {
+					if (ignoredProperties.isNotIgnored(propertyName)) {
+						copyProperty(propertyName, original, equivalent);
+					}
+				}
+				
+			} catch (EolModelElementTypeNotFoundException e) {
+				throw new ConservativeCopyException("Exception encountered while determining properties shared between " + original + " and " + this, e);
+			}
+		}
+	
+		void copyProperty(String propertyName, ModelElement original, ModelElement equivalent) throws ConservativeCopyException {
+			try {
+				final ModelValue<?> equivalentValue = context.getEquivalentValue(original.getValueOfProperty(propertyName));
+				
+				equivalent.conservativelySetValueForProperty(equivalentValue, propertyName, context);
+				
+			} catch (EolRuntimeException e) {
+				throw new ConservativeCopyException("Exception encountered while copying '" + propertyName + "' from " + original + " to " + this, e);
+			}
+		}
 	}
 	
 	@Override

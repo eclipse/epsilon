@@ -13,7 +13,10 @@
  */
 package org.eclipse.epsilon.flock.model.domain.rules;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
@@ -21,21 +24,36 @@ import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
 public class MigrateRule extends TypedAndGuardedConstruct {
 
 	private final Body body;
+	private final IgnoredProperties ignoredProperties;
 	
-	public MigrateRule(AST ast, String originalType, AST guard, AST body) {
+	
+	MigrateRule(AST ast, String originalType, Collection<String> ignoredProperties, AST guard, AST body) {
 		super(ast, originalType, guard);
 		
-		if (body == null)
-			throw new IllegalArgumentException("body cannot be null");
-		
 		this.body = new Body(body);
+		this.ignoredProperties = new IgnoredProperties(ignoredProperties);
 	}
 	
-	/**
-	 * Constructs a MigrationRule that has no underlying ANTLR parse tree.
-	 */
-	public MigrateRule(String originalType, AST guard, AST body) {
-		this(null, originalType, guard, body);
+	public IgnoredProperties getIgnoredProperties() {
+		return ignoredProperties;
+	}
+	
+	public String getDescriptionOfIgnoredProperties() {
+		return ignoredProperties.isEmpty() ? "" : "ignoring " + ignoredProperties;
+	}
+	
+	@Override
+	public void check(MigrationStrategyCheckingContext context) {
+		super.check(context);
+		ignoredProperties.check(getOriginalType(), context);
+	}
+	
+	public void gatherIgnoredPropertiesFor(MigrateRuleContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
+		final boolean applicable = context.isEligibleFor(this);
+
+		if (applicable) {
+			ignoredProperties.addAll(this.ignoredProperties);
+		}
 	}
 	
 	public boolean applyTo(MigrateRuleContext context) throws FlockRuntimeException {
@@ -50,7 +68,10 @@ public class MigrateRule extends TypedAndGuardedConstruct {
 	
 	@Override
 	public String toString() {
-		return "migrate " + getOriginalType() + " when " + getGuard() + " do " + body;
+		return "migrate "  + getOriginalType() + " " +
+		       "ignoring " + ignoredProperties + " " + 
+		       "when "     + getGuard()        + " " + 
+		       "do "       + body;
 	}
 	
 	@Override
@@ -60,11 +81,15 @@ public class MigrateRule extends TypedAndGuardedConstruct {
 		
 		final MigrateRule other = (MigrateRule)object;
 		
-		return super.equals(other) && body.equals(other.body);
+		return super.equals(other) &&
+		       body.equals(other.body) &&
+		       ignoredProperties.equals(other.ignoredProperties);
 	}
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode() + body.hashCode();
+		return super.hashCode() +
+		       body.hashCode()  +
+		       ignoredProperties.hashCode();
 	}
 }

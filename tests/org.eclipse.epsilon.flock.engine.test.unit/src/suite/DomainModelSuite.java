@@ -16,7 +16,6 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.model.checker.MigrationStrategyCheckerTests;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategyTests;
 import org.eclipse.epsilon.flock.model.domain.common.GuardTests;
 import org.eclipse.epsilon.flock.model.domain.rules.BodyTests;
@@ -33,7 +32,7 @@ import org.junit.runners.Suite.SuiteClasses;
                MigrateRulesTests.class, MigrateRulesTests.class, BodyTests.class,
                GuardTests.class,
                RetypingTests.class,
-               MigrationStrategyCheckerTests.class})
+               CheckerSuite.class})
 public class DomainModelSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(DomainModelSuite.class);

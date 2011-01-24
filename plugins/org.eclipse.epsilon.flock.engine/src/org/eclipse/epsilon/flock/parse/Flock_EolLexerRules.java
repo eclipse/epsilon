@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2011-01-11 13:31:37
+// $ANTLR 3.1b1 EolLexerRules.g 2011-01-24 11:14:22
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -100,6 +100,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__85=85;
     public static final int T__141=141;
     public static final int T__84=84;
+    public static final int T__142=142;
     public static final int T__87=87;
     public static final int HELPERMETHOD=26;
     public static final int T__86=86;
@@ -108,6 +109,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int NAMESPACE=65;
     public static final int T__88=88;
     public static final int CollectionType=42;
+    public static final int T__143=143;
     public static final int T__126=126;
     public static final int T__125=125;
     public static final int T__128=128;
@@ -118,9 +120,9 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int MIGRATE=73;
     public static final int JavaIDDigit=16;
     public static final int GUARD=74;
+    public static final int IGNORING=75;
     public static final int Annotation=21;
     public static final int T__76=76;
-    public static final int T__75=75;
     public static final int T__130=130;
     public static final int T__131=131;
     public static final int EscapeSequence=11;
@@ -176,7 +178,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=142;
+    public static final int Tokens=144;
     public static final int POINT_POINT=8;
     public static final int SpecialNameChar=15;
     public static final int MODELDECLARATIONPARAMETERS=68;

@@ -29,12 +29,28 @@ public abstract class LoaderTestHelper {
 		return strategy;
 	}
 	
-	static AST createMigrateRuleAst(String originalType, AST guard, AST block) {
+	static AST createMigrateRuleAst(String originalType, AST block) {
+		return createMigrateRuleWithGuardAst(originalType, null, block);
+	}
+	
+	static AST createMigrateRuleWithGuardAst(String originalType, AST guard, AST block) {
 		final AST rule = createAST(FlockParser.MIGRATE, "MIGRATE");
 		rule.addChild(createAST(FlockParser.NAME, originalType));
 		
 		if (guard != null)
 			rule.addChild(guard);
+		
+		rule.addChild(block);
+		
+		return rule;
+	}
+	
+	static AST createMigrateRuleWithIgnoredPropertiesAst(String originalType, AST ignoredProperties, AST block) {
+		final AST rule = createAST(FlockParser.MIGRATE, "MIGRATE");
+		rule.addChild(createAST(FlockParser.NAME, originalType));
+		
+		if (ignoredProperties != null)
+			rule.addChild(ignoredProperties);
 		
 		rule.addChild(block);
 		
@@ -90,6 +106,16 @@ public abstract class LoaderTestHelper {
 		final AST guard = createAST(FlockParser.GUARD, "GUARD");
 		guard.addChild(createAST(FlockParser.BOOLEAN, "true"));
 		return guard;
+	}
+	
+	static AST createIgnoredPropertiesAst(String... properties) {
+		final AST ignoredProperties = createAST(FlockParser.IGNORING, "IGNORING");
+		
+		for (String property : properties) {
+			ignoredProperties.addChild(createAST(FlockParser.NAME, property));
+		}
+		
+		return ignoredProperties;
 	}
 	
 	static AST createBody() {

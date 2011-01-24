@@ -16,6 +16,8 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.IgnoredPropertiesAreAccumalatedOverTypeHierachy;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.ReuseIgnoredProperties;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.ReuseMigrationAndRetype;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.ReuseMigrationForAbstractType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.inheritance.ReuseMigrationForConcreteType;
@@ -30,7 +32,9 @@ import org.junit.runners.Suite.SuiteClasses;
                ReuseMigrationForConcreteType.class,
                ReuseMigrationForSomeSubtypes.class,
                ReuseMigrationAndRetype.class,
-               RulesRunInTheOrderThatTheyAppear.class})
+               RulesRunInTheOrderThatTheyAppear.class,
+               ReuseIgnoredProperties.class,
+               IgnoredPropertiesAreAccumalatedOverTypeHierachy.class})
 public class Strong2StrongInheritanceSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongInheritanceSuite.class);

@@ -290,4 +290,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public IReflectivePropertySetter getPropertySetter() {
 		return new EmfPropertySetter();
 	}
+
+	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
+		return getPropertiesOf(type).contains(property);
+	}
 }

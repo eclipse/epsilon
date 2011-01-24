@@ -14,8 +14,10 @@
 package org.eclipse.epsilon.flock.model.domain.common;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.model.checker.TypedConstructChecker;
 
 public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 
@@ -42,6 +44,10 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 	
 	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
 		return context.originalConformsTo(originalType) && context.satisfies(guard);
+	}
+	
+	public void check(MigrationStrategyCheckingContext context) {
+		new TypedConstructChecker(originalType, context).check();
 	}
 	
 	@Override
