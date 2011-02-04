@@ -10,7 +10,7 @@ Require-Bundle: org.hamcrest.matchers;visibility:=reexport,
  org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.hutn.engine;visibility:=reexport,
- org.mockito;visibility:=reexport
+ org.mockito_1.8.4;visibility:=reexport
 Bundle-Vendor: Eclipse.org
 Export-Package: org.antlr.gunit,
  org.eclipse.epsilon.test.util,
