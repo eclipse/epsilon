@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mockito
+Bundle-SymbolicName: org.mockito_1.8.4
+Bundle-Version: 1.8.4
+Bundle-ClassPath: .
+Export-Package: org.mockito,
+ org.mockito.stubbing
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
