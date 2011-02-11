@@ -71,7 +71,7 @@ public class ModelManager {
 			}
 			properties.put(EmfModel.PROPERTY_READONLOAD, "true");
 			properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
-			
+						
 			model.load(properties, null);
 			cachedModels.put(modelFile, model);
 		}
