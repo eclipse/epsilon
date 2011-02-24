@@ -25,6 +25,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
 public class SortByOperation extends CollectOperation {
@@ -51,7 +52,7 @@ public class SortByOperation extends CollectOperation {
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final Collection result = EolCollectionType.createSameType(source);
+		final Collection result = new EolSequence(); //EolCollectionType.createSameType(source);
 		
 		for (int index = 0; index < collected.size(); index++)
 			result.add(decoratedObjects.get(index).getObject());
