@@ -13,6 +13,7 @@ abstract class TypedAndGuardedConstruct {
 
 class MigrateRule extends TypedAndGuardedConstruct {
   ref EolStatementBlock[1] body;
+  attr String[*] ignored;
 }
 
 abstract class TypeMappingConstruct extends TypedAndGuardedConstruct {

@@ -6,15 +6,17 @@
       <styles xmi:type="notation:DrawerStyle" xmi:id="_ffNRoB8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_ffNRoR8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_ffNRoh8UEeCFiZZmku8mAQ"/>
+      <layoutConstraint xmi:type="notation:Ratio" xmi:id="_mz3x8TaVEeCXEKVqs6afrA" value="0.3"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_ffNRox8UEeCFiZZmku8mAQ" type="5002">
       <styles xmi:type="notation:DrawerStyle" xmi:id="_ffNRpB8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_ffNRpR8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_ffNRph8UEeCFiZZmku8mAQ"/>
+      <layoutConstraint xmi:type="notation:Ratio" xmi:id="_mz4ZADaVEeCXEKVqs6afrA" value="0.3"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ffMDgR8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="AbstractSyntax.ecore#//FlockModule"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffMqkB8UEeCFiZZmku8mAQ" x="243" y="216"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffMqkB8UEeCFiZZmku8mAQ" x="252" y="234"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ffNRpx8UEeCFiZZmku8mAQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_ffN4sB8UEeCFiZZmku8mAQ" type="4001"/>
@@ -102,7 +104,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ffT_Ux8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="AbstractSyntax.ecore#//MigrateRule"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffT_VB8UEeCFiZZmku8mAQ" x="630" y="306"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffT_VB8UEeCFiZZmku8mAQ" x="594" y="306"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ffVNdB8UEeCFiZZmku8mAQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_ffV0gB8UEeCFiZZmku8mAQ" type="4001"/>
@@ -118,7 +120,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ffVNdR8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="AbstractSyntax.ecore#//EolModule"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffVNdh8UEeCFiZZmku8mAQ" x="243"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffVNdh8UEeCFiZZmku8mAQ" x="252"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ffWblB8UEeCFiZZmku8mAQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_ffXCoB8UEeCFiZZmku8mAQ" type="4001"/>
@@ -150,7 +152,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ffXpsR8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="AbstractSyntax.ecore#//EolStatementBlock"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffXpsh8UEeCFiZZmku8mAQ" x="630"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ffXpsh8UEeCFiZZmku8mAQ" x="594"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_ffKOUR8UEeCFiZZmku8mAQ"/>
   <element xmi:type="ecore:EPackage" href="AbstractSyntax.ecore#/"/>
@@ -178,7 +180,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_ffZe4R8UEeCFiZZmku8mAQ" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_ffZe4h8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="AbstractSyntax.ecore#//FlockModule/rules"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ffZe4x8UEeCFiZZmku8mAQ" points="[4, 7, -334, -73]$[4, 84, -334, 4]$[337, 84, -1, 4]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ffZe4x8UEeCFiZZmku8mAQ" points="[4, 7, -289, -51]$[4, 66, -289, 8]$[292, 66, -1, 8]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fhtzEB8UEeCFiZZmku8mAQ" id="(0.5,0.8333333333333334)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fhtzER8UEeCFiZZmku8mAQ" id="(0.014814814814814815,0.4897959183673469)"/>
   </edges>
@@ -222,7 +224,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_ffeXZR8UEeCFiZZmku8mAQ" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_ffeXZh8UEeCFiZZmku8mAQ" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="AbstractSyntax.ecore#//MigrateRule/body"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ffeXZx8UEeCFiZZmku8mAQ" points="[-3, 0, -17, 267]$[-3, -266, -17, 1]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ffeXZx8UEeCFiZZmku8mAQ" points="[-4, -2, 0, 267]$[-4, -268, 0, 1]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fhzSoB8UEeCFiZZmku8mAQ" id="(0.6078431372549019,0.047619047619047616)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fhz5sB8UEeCFiZZmku8mAQ" id="(0.5765765765765766,0.9761904761904762)"/>
   </edges>
@@ -246,7 +248,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_xlru0R8UEeCFiZZmku8mAQ" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_xlru0h8UEeCFiZZmku8mAQ" fontName="Lucida Grande"/>
     <element xsi:nil="true"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_xlsV4B8UEeCFiZZmku8mAQ" points="[-3, 0, 128, 187]$[-3, -162, 128, 25]$[-141, -162, -10, 25]$[-141, -187, -10, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_xlsV4B8UEeCFiZZmku8mAQ" points="[20, 0, 107, 187]$[20, -162, 107, 25]$[-112, -162, -25, 25]$[-112, -187, -25, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_xlzqoB8UEeCFiZZmku8mAQ" id="(0.2518518518518518,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_xl0RsB8UEeCFiZZmku8mAQ" id="(0.7453416149068323,1.0)"/>
   </edges>
