@@ -28,27 +28,27 @@
 \contentsline {subsection}{\numberline {3.3.2}Collections and Maps}{37}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Native Types}{41}{subsection.3.3.3}
 \contentsline {subsection}{\numberline {3.3.4}Model Element Types}{42}{subsection.3.3.4}
-\contentsline {section}{\numberline {3.4}Expressions}{43}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Feature Navigation}{43}{subsection.3.4.1}
+\contentsline {section}{\numberline {3.4}Expressions}{44}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Feature Navigation}{44}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}Arithmetical and Comparison Operators}{45}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Enumerations}{46}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.3}Enumerations}{47}{subsection.3.4.3}
 \contentsline {subsection}{\numberline {3.4.4}Logical Operators}{47}{subsection.3.4.4}
 \contentsline {section}{\numberline {3.5}Statements}{48}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Variable Declaration Statement}{48}{subsection.3.5.1}
-\contentsline {paragraph}{Scope}{48}{section*.4}
-\contentsline {subsection}{\numberline {3.5.2}Assignment Statement}{49}{subsection.3.5.2}
-\contentsline {paragraph}{Variable Assignment}{49}{section*.5}
-\contentsline {paragraph}{Native Object Property Assignment}{50}{section*.6}
+\contentsline {paragraph}{Scope}{49}{section*.4}
+\contentsline {subsection}{\numberline {3.5.2}Assignment Statement}{50}{subsection.3.5.2}
+\contentsline {paragraph}{Variable Assignment}{50}{section*.5}
+\contentsline {paragraph}{Native Object Property Assignment}{51}{section*.6}
 \contentsline {paragraph}{Model Element Property Assignment}{51}{section*.7}
 \contentsline {subsection}{\numberline {3.5.3}Special Assignment Statement}{51}{subsection.3.5.3}
-\contentsline {subsection}{\numberline {3.5.4}If Statement}{52}{subsection.3.5.4}
+\contentsline {subsection}{\numberline {3.5.4}If Statement}{53}{subsection.3.5.4}
 \contentsline {subsection}{\numberline {3.5.5}Switch Statement}{53}{subsection.3.5.5}
 \contentsline {subsection}{\numberline {3.5.6}While Statement}{54}{subsection.3.5.6}
-\contentsline {subsection}{\numberline {3.5.7}For Statement}{54}{subsection.3.5.7}
+\contentsline {subsection}{\numberline {3.5.7}For Statement}{55}{subsection.3.5.7}
 \contentsline {subsection}{\numberline {3.5.8}Break, BreakAll and Continue Statements}{55}{subsection.3.5.8}
 \contentsline {subsection}{\numberline {3.5.9}Transaction Statement}{56}{subsection.3.5.9}
-\contentsline {section}{\numberline {3.6}Extended Properties}{57}{section.3.6}
-\contentsline {section}{\numberline {3.7}Context-Independent User Input}{59}{section.3.7}
+\contentsline {section}{\numberline {3.6}Extended Properties}{58}{section.3.6}
+\contentsline {section}{\numberline {3.7}Context-Independent User Input}{60}{section.3.7}
 \contentsline {section}{\numberline {3.8}Task-Specific Languages}{62}{section.3.8}
 \contentsline {chapter}{\numberline {4}The Epsilon Validation Language (EVL)}{64}{chapter.4}
 \contentsline {section}{\numberline {4.1}Motivation}{64}{section.4.1}
