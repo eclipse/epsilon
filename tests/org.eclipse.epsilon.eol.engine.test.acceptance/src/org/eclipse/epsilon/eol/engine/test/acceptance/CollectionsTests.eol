@@ -264,3 +264,22 @@ operation testRemove() {
 	s.remove(1);
 	assertEquals(s, Sequence{2,3});
 }
+
+
+@test
+operation testJoin() {
+	var s = Sequence{1,2,3};
+	assertEquals(s.join(), '123');
+}
+
+@test
+operation testJoinEmpty() {
+	var s = Sequence{};
+	assertEquals(s.join(), '');
+}
+
+@test
+operation testJoinWithGlue() {
+	var s = Sequence{1,2,3};
+	assertEquals(s.join('-'), '1-2-3');
+}
