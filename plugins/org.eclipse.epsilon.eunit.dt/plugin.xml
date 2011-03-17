@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Epsilon"
+            id="org.eclipse.epsilon.dt">
+      </category>
+      <view
+            name="EUnit"
+            icon="icons/eunit.png"
+            category="org.eclipse.epsilon.dt"
+            class="org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView"
+            id="org.eclipse.epsilon.eunit.runner.views.EUnitRunnerView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.workflow.eunit.listener">
+      <eunitListener
+            class="org.eclipse.epsilon.eunit.dt.listener.ShowEUnitViewTestListener">
+      </eunitListener>
+   </extension>
+
+</plugin>
