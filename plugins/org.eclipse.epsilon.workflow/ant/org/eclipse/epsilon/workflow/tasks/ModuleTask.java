@@ -82,9 +82,9 @@ public abstract class ModuleTask extends EpsilonTask {
 		// a JUnit test
 		if (Platform.getExtensionRegistry() != null) {
 			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
-			module.getContext().setExtendedProperties(getExtendedProperties());
 			module.getContext().setUserInput(new JFaceUserInput(module.getContext().getPrettyPrinterManager()));
 		}
+		module.getContext().setExtendedProperties(getExtendedProperties());
 
 		EolSystem system = new EolSystem();
 		system.setContext(module.getContext());
