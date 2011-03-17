@@ -267,19 +267,19 @@ operation testRemove() {
 
 
 @test
-operation testJoin() {
+operation testConcat() {
 	var s = Sequence{1,2,3};
-	assertEquals(s.join(), '123');
+	assertEquals(s.concat(), '123');
 }
 
 @test
-operation testJoinEmpty() {
+operation testConcatEmpty() {
 	var s = Sequence{};
-	assertEquals(s.join(), '');
+	assertEquals(s.concat(), '');
 }
 
 @test
-operation testJoinWithGlue() {
+operation testConcatWithGlue() {
 	var s = Sequence{1,2,3};
-	assertEquals(s.join('-'), '1-2-3');
+	assertEquals(s.concat('-'), '1-2-3');
 }

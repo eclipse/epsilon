@@ -352,23 +352,8 @@ public class CollectionOperationContributor extends OperationContributor {
 		return EolCollectionType.createSameType(getCollection());
 	}
 	
-	public String join() {
-		return join("");
+	public String concat() {
+		return concat("");
 	}
-		
-	public String join(String glue) {
-		final StringBuilder result = new StringBuilder();
-
-		for (Iterator<?> iterator = getCollection().iterator(); iterator.hasNext();) {
-			Object o = iterator.next();
-			
-			result.append(o);
-			
-			if (iterator.hasNext()) {
-				result.append(glue);
-			}
-		}
-		
-		return result.toString();
-	}
+	
 }
