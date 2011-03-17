@@ -1,0 +1,60 @@
+<project>
+	<target name="template">
+		<epsilon.eunit src="${eunit.file}" failOnErrors="${eunit.failOnErrors}">
+			<epsilon.emf.loadModel
+				name="Model"
+			    modelfile="sample.model"
+		        metamodelfile="sample.ecore"/>
+		</epsilon.eunit>
+		<junitreport>
+			<fileset dir="${basedir}" includes="TEST-*.xml"/>
+			<report format="noframes" todir="."/>
+		</junitreport>
+	</target>
+
+	<target name="allPass">
+		<property name="eunit.file" location="sample.eunit"/>
+		<property name="eunit.failOnErrors" value="true"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="allPassCustom">
+		<epsilon.eunit src="sample.eunit" out="TEST-custom.xml">
+			<epsilon.emf.loadModel
+				name="Model"
+			    modelfile="sample.model"
+		        metamodelfile="sample.ecore"/>
+		</epsilon.eunit>
+	</target>
+
+	<target name="failure">
+		<property name="eunit.file" location="sample-failing.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="failureFailOnError">
+		<property name="eunit.file" location="sample-failing.eunit"/>
+		<property name="eunit.failOnErrors" value="true"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="error">
+		<property name="eunit.file" location="sample-error.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="parametric1level">
+		<property name="eunit.file" location="sample-parametric-1level.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="parametric2levels">
+		<property name="eunit.file" location="sample-parametric-2levels.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
+</project>
