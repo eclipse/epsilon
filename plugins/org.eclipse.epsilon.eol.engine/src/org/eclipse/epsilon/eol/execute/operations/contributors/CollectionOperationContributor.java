@@ -271,19 +271,24 @@ public class CollectionOperationContributor extends OperationContributor {
 		return this.at(index);
 	}
 	
+	public String concat() {
+		return concat("");
+	}
 	
 	public String concat(String delimiter) {
-		String str = "";
-		Iterator it = getCollection().iterator();
-		while (it.hasNext()) {
-			Object next = it.next();
+		final StringBuilder result = new StringBuilder();
+
+		for (Iterator<?> iterator = getCollection().iterator(); iterator.hasNext();) {
+			Object next = iterator.next();
+			
 			//FIXME : Use the pretty printer manager here
-			str += StringUtil.toString(next, "");
-			if (it.hasNext()) {
-				str += delimiter;
+			result.append(StringUtil.toString(next, ""));
+			
+			if (iterator.hasNext()) {
+				result.append(delimiter);
 			}
 		}
-		return str;
+		return result.toString();
 	}
 	
 	public Number max() {
@@ -351,9 +356,4 @@ public class CollectionOperationContributor extends OperationContributor {
 	public Collection createCollection() {
 		return EolCollectionType.createSameType(getCollection());
 	}
-	
-	public String concat() {
-		return concat("");
-	}
-	
 }

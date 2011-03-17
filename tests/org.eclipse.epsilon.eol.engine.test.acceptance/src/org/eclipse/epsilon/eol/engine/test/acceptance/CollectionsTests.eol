@@ -265,7 +265,6 @@ operation testRemove() {
 	assertEquals(s, Sequence{2,3});
 }
 
-
 @test
 operation testConcat() {
 	var s = Sequence{1,2,3};
