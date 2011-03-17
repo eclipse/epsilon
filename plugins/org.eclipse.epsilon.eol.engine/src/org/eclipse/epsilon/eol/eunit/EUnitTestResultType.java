@@ -11,5 +11,5 @@
 package org.eclipse.epsilon.eol.eunit;
 
 public enum EUnitTestResultType {
-	SUCCESS, FAILURE, ERROR
+	SUCCESS, FAILURE, ERROR, NOT_RUN_YET, RUNNING, SKIPPED
 }

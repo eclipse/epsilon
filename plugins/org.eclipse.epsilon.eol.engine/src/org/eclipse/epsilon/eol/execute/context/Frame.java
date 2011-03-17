@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.StringUtil;
@@ -23,6 +24,7 @@ public class Frame {
 	private FrameType type;
 	private AST entryPoint;
 	private String label;
+	private AST currentStatement;
 	
 	public void dispose() {
 
@@ -36,6 +38,7 @@ public class Frame {
 	public Frame clone() {
 		Frame clone = new Frame(type, entryPoint);
 		clone.label = label;
+		clone.currentStatement = currentStatement;
 		for (Variable v : storage.values()) {
 			clone.storage.put(v.name, v.clone());
 		}
@@ -72,7 +75,11 @@ public class Frame {
 	public Variable get(String key){
 		return (Variable) storage.get(key);
 	}
-	
+
+	public Map<String, Variable> getAll() {
+		return storage;
+	}
+
 	public boolean contains(String key){
 		return storage.containsKey(key);
 	}
@@ -104,5 +111,12 @@ public class Frame {
 		}
 		return buffer.toString();
 	}
-	
+
+	public void setCurrentStatement(AST ast) {
+		this.currentStatement = ast;
+	}
+
+	public AST getCurrentStatement() {
+		return currentStatement;
+	}
 }

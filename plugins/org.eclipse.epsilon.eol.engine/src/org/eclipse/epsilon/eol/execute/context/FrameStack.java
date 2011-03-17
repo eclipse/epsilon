@@ -231,5 +231,9 @@ public class FrameStack {
 		}
 		return buffer.toString();
 	}
+
+	public void setCurrentStatement(AST ast) {
+		frames.get(0).setCurrentStatement(ast);
+	}
 	
 }

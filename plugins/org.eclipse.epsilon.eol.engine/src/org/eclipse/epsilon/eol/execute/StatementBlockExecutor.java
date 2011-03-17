@@ -29,7 +29,8 @@ public class StatementBlockExecutor extends AbstractExecutor {
 				statementAst.getToken().setType(EolParser.ASSIGNMENT);
 				statementAst.getToken().setText(":=");
 			}
-			
+
+			context.getFrameStack().setCurrentStatement(ast);
 			Object result = context.getExecutorFactory().executeAST(statementAst, context);
 			
 			if (result instanceof Return) {

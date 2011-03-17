@@ -19,6 +19,10 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 
+/**
+ * Basic equality assertion: the first argument is the expected value, and the second one is the actual
+ * value obtained by running the program under test.
+ */
 public class AssertEqualsOperation extends AbstractSimpleOperation {
 
 	@Override
@@ -29,10 +33,10 @@ public class AssertEqualsOperation extends AbstractSimpleOperation {
 		
 		if (EolObjectComparator.equals(parameters.get(0), parameters.get(1))) return true;
 		
-		String p0 = context.getPrettyPrinterManager().toString(parameters.get(0));
-		String p1 = context.getPrettyPrinterManager().toString(parameters.get(1));
+		String expected = context.getPrettyPrinterManager().toString(parameters.get(0));
+		String obtained = context.getPrettyPrinterManager().toString(parameters.get(1));
 		
-		throw new EolAssertionException(p0 + " must be equal to " + p1, ast);
+		throw new EolAssertionException("Expected " + expected + ", but got " + obtained + " instead", ast);
 	}
 		
 }

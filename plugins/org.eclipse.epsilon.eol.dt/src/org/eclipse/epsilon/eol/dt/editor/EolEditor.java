@@ -21,7 +21,9 @@ import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.jface.text.templates.Template;
 
 public class EolEditor extends AbstractModuleEditor {
-	
+
+	public static final String ID = "org.eclipse.epsilon.eol.dt.editor.EolEditor";
+
 	public EolEditor(){
         setRulerContextMenuId("editor.rulerMenu");
 	}
@@ -85,6 +87,7 @@ public class EolEditor extends AbstractModuleEditor {
 	}
 
 	private List<Template> templates;
+
 	public List<Template> getTemplates() {
 		if (templates == null) {
 			templates = new ArrayList<Template>();

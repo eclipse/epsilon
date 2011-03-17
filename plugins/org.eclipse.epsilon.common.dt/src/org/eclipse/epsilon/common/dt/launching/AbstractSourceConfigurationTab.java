@@ -133,7 +133,6 @@ public abstract class AbstractSourceConfigurationTab
 			}
 			
 			PlatformUI.getWorkbench();
-			
 		}
 		
 		// Return a new launch configuration name that does not
@@ -205,7 +204,6 @@ public abstract class AbstractSourceConfigurationTab
 				setErrorMessage(null);
 				return true;			
 			}
-			
 		}
 		
 		public class SelectSourceListener implements Listener{

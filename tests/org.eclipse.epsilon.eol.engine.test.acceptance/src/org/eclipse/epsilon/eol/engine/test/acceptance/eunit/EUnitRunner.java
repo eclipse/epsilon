@@ -25,10 +25,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTestResult;
+import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolSet;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
@@ -88,10 +86,27 @@ public class EUnitRunner extends Runner {
 			notifier.fireTestFailure(new Failure(testSuiteDescription, new Exception("Syntax errors in " + eolFile)));
 			return;
 		}
-		
+
+		EUnitTest suiteRoot;
 		try {
 			module.getContext().getModelRepository().addModel(getEcoreModel());
 			module.execute();
+			suiteRoot = module.getSuiteRoot();
+
+			for (EUnitTest result : suiteRoot.getChildren()) {
+				String name = result.getOperation().getName();
+				Description description = descriptions.get(name);
+				notifier.fireTestStarted(description);
+				if (result.getResult() == EUnitTestResultType.SUCCESS) {
+					notifier.fireTestFinished(description);
+				}
+				else if (result.getResult() == EUnitTestResultType.FAILURE) {
+					notifier.fireTestFailure(new Failure(description, result.getException()));
+				}
+				else if (result.getResult() == EUnitTestResultType.ERROR) {
+					notifier.fireTestFailure(new Failure(description, result.getException()));
+				}
+			}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -100,21 +115,6 @@ public class EUnitRunner extends Runner {
 		finally {
 			module.getContext().dispose();
 			module.getContext().getModelRepository().dispose();
-		}
-
-		for (EUnitTestResult result : module.getTestResults()) {
-			String name = result.getOperation().getName();
-			Description description = descriptions.get(name);
-			notifier.fireTestStarted(description);
-			if (result.getType() == EUnitTestResultType.SUCCESS) {
-				notifier.fireTestFinished(description);
-			}
-			else if (result.getType() == EUnitTestResultType.FAILURE) {
-				notifier.fireTestFailure(new Failure(description, new Exception(result.getMessage())));
-			}
-			else if (result.getType() == EUnitTestResultType.ERROR) {
-				notifier.fireTestFailure(new Failure(description, result.getException()));
-			}
 		}
 		
 		notifier.fireTestFinished(testSuiteDescription);

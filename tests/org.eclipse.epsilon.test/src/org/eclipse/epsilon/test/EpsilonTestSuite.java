@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2009-2011 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Antonio Garcia-Dominguez - added WorkflowTestSuite
  ******************************************************************************
  *
  * $Id$
@@ -29,6 +30,7 @@ import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
+import org.eclipse.epsilon.workflow.test.WorkflowTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -45,7 +47,8 @@ import org.junit.runners.Suite.SuiteClasses;
                HutnEmcDriverTestSuite.class,
                EpsilonFlockEngineTestSuite.class,
                ConcordanceTestSuite.class,
-               PlainXmlTestSuite.class})
+               PlainXmlTestSuite.class,
+               WorkflowTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
