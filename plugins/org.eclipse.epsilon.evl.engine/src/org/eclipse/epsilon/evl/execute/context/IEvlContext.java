@@ -22,5 +22,6 @@ public interface IEvlContext extends IEolContext {
 	public IEvlModule getModule();
 	public ConstraintTrace getConstraintTrace();
 	public ArrayList<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints();
+	public boolean hasFixes();
 	
 }

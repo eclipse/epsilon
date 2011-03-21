@@ -127,18 +127,16 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		
 		execute(getPre(), context);
 		
-		ListIterator li = getConstraintContexts().listIterator();
-		while (li.hasNext()){
-			EvlConstraintContext constraintContext = ((EvlConstraintContext) li.next());
+		for (EvlConstraintContext constraintContext : getConstraintContexts()) {
 			constraintContext.checkAll(context);
 		}
 		
-		//final EolRuntimeExceptionReference postException = new EolRuntimeExceptionReference(null);
 		
-		if (fixer != null) {
+		if (context.hasFixes() && fixer != null) {
 			fixer.fix(this);
 		}
-		execute(getPost(), context);	
+		
+		execute(getPost(), context);
 		
 		return null;
 	}
