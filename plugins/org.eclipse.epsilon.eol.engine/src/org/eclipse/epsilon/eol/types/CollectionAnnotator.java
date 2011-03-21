@@ -1,22 +1,41 @@
 package org.eclipse.epsilon.eol.types;
 
-import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.WeakHashMap;
+
+import org.eclipse.epsilon.eol.util.IdentityBasedWeakHashMap;
 
 public class CollectionAnnotator {
 	
-	protected Map<IdentityBasedWeakReference, AnnotatedCollectionType> cache = new WeakHashMap<IdentityBasedWeakReference, AnnotatedCollectionType>();
 	
+	public static void main(String[] args) throws Exception {
+		
+		for (int i=1;i<1000;i++){
+			CollectionAnnotator.getInstance().annotate(new ArrayList(), AnnotatedCollectionType.Sequence);
+		}
+		
+		System.gc();
+		
+		Thread.sleep(1000);
+		
+		System.err.println(CollectionAnnotator.getInstance().cacheSize());
+		
+	}
+	
+	public int cacheSize() {
+		return cache.size();
+	}
+	
+	protected IdentityBasedWeakHashMap<Object, AnnotatedCollectionType> cache = 
+		new IdentityBasedWeakHashMap<Object, AnnotatedCollectionType>();
 	protected static CollectionAnnotator instance = new CollectionAnnotator();
 	
 	public void annotate(Collection c, AnnotatedCollectionType ct) {
-		cache.put(new IdentityBasedWeakReference(c), ct);
+		cache.put(c, ct);
 	}
 	
 	public AnnotatedCollectionType getType(Collection c) {		
-		return cache.get(new IdentityBasedWeakReference(c));
+		return cache.get(c);
 	}
 	
 	public static CollectionAnnotator getInstance() {
@@ -30,27 +49,4 @@ public class CollectionAnnotator {
 		OrderedSet
 	}
 	
-	class IdentityBasedWeakReference extends WeakReference<Object> {
-
-		public IdentityBasedWeakReference(Object referent) {
-			super(referent);
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) return false;
-			else return this.hashCode() == obj.hashCode();
-		}
-		
-		@Override
-		public int hashCode() {
-			if (this.get() != null) {
-				return System.identityHashCode(this.get());
-			}
-			else {
-				return super.hashCode();
-			}
-		}
-		
-	}
 }
