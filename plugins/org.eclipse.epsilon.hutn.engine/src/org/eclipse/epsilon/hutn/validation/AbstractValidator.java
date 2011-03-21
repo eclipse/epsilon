@@ -11,10 +11,12 @@
 package org.eclipse.epsilon.hutn.validation;
 
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
@@ -34,22 +36,40 @@ public abstract class AbstractValidator {
 	}
 	
 	protected List<ParseProblem> validate(IModel model, IModel... extraModels) throws HutnValidationException {
-		do {
-			doValidate(model, extraModels);
-		} while (fixer.hasAppliedFixes());
+		List<ParseProblem> problems;
 		
-		return fixer.getParseProblems();
+		do {
+			fixer.reset();
+			problems = doValidate(model, extraModels);
+		} while (fixer.hasChangedModel());
+		
+		return problems;
 	}
 	
-	private void doValidate(IModel model, IModel... extraModels) throws HutnValidationException {
+	private List<ParseProblem> doValidate(IModel model, IModel... extraModels) throws HutnValidationException {
 		try {		
 			final IEvlModule validator = EpsilonUtil.initialseEvlModule(fixer, model, extraModels);
 		
 			validator.parse(evlSource.toURI());
 			validator.execute();
+			
+			return collectParseProblems(validator);
+			
 		} catch (Exception e) {
 			throw new HutnValidationException(e);
 		}
+	}
+
+	private List<ParseProblem> collectParseProblems(final IEvlModule validator) {
+		final List<ParseProblem> problems = new LinkedList<ParseProblem>();
+		
+		if (validator != null) {
+			for (EvlUnsatisfiedConstraint constraint : validator.getContext().getUnsatisfiedConstraints()) {
+				problems.add(fixer.interpretUnsatisfiedConstraint(constraint));
+			}
+		}
+		
+		return problems;
 	}
 
 }

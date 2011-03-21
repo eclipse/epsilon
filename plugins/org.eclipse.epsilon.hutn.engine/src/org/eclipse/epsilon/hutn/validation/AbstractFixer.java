@@ -10,9 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
@@ -22,7 +19,7 @@ import org.eclipse.epsilon.evl.IEvlModule;
 public abstract class AbstractFixer implements IEvlFixer {
 
 	private IEvlModule module = null;
-	private boolean appliedFixes = false;
+	private boolean changedModel = false;
 	
 	public void fix(IEvlModule module) throws EolRuntimeException {
 		this.module = module; 
@@ -30,29 +27,21 @@ public abstract class AbstractFixer implements IEvlFixer {
 	}
 	
 	private void applyFixes() throws EolRuntimeException {
-		appliedFixes = false;
+		reset();
 
 		for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
 			if (!constraint.getFixes().isEmpty()) {				
-				appliedFixes = applyFix(constraint);
+				changedModel = applyFix(constraint);
 			}
 		}
 	}
 
-	public boolean hasAppliedFixes() {
-		return appliedFixes ;
+	public void reset() {
+		changedModel = false;
 	}
-	
-	public List<ParseProblem> getParseProblems() {
-		final List<ParseProblem> problems = new ArrayList<ParseProblem>();
-		
-		if (module != null) {
-			for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
-				problems.add(interpretUnsatisfiedConstraint(constraint));
-			}
-		}
-		
-		return problems;
+
+	public boolean hasChangedModel() {
+		return changedModel ;
 	}
 	
 	/**
