@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eunit.dt.ui;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
@@ -52,7 +53,8 @@ class HistoryDropDownAction extends Action implements IMenuCreator, IMenuListene
 
 		public HistoryAction(ILaunch launch) throws EolRuntimeException {
 			this.launch = launch;
-			setText(history.getModule(launch));
+			final List<EUnitModule> modules = history.getModules(launch);
+			setText(modules.get(modules.size()-1));
 			setChecked(launch == history.getCurrentLaunch());
 		}
 
@@ -74,7 +76,7 @@ class HistoryDropDownAction extends Action implements IMenuCreator, IMenuListene
 
 		public void run() {
 			history.setCurrentLaunch(launch);
-			view.setCurrentModule(history.getModule(launch));
+			view.setCurrentModules(history.getModules(launch));
 		}
 	}
 

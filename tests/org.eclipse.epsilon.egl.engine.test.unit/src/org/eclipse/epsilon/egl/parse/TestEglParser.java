@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.parse;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.epsilon.egl.parse.EglLexer;
@@ -26,7 +27,7 @@ import org.junit.Test;
 
 public class TestEglParser {
 	
-	private final EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(null);
+	private final EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
 	
 	private void walkAst(AST ast, Token... tokens) {
 		

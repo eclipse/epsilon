@@ -91,7 +91,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public boolean parse(URI uri) throws Exception {
 		this.sourceUri = uri;
 		
-		if (uri.getScheme() != null && uri.getScheme().equals("file")) {
+		final String uriScheme = uri.getScheme();
+		if ("file".equals(uriScheme)) {
 			this.sourceFile = new File(uri);
 		}
 		
@@ -104,8 +105,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(sourceFile);
+
+		EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
 		parser = createParser(stream);

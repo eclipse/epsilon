@@ -1,9 +1,10 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
-import java.io.File;
+import java.net.URI;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
@@ -25,9 +26,20 @@ abstract class OpenEOLEditorAction extends Action {
 	}
 
 	protected void openInEOLEditor(AST astNode) {
-		File astFile = astNode.getFile();
+		URI astUri = astNode.getUri();
+		if (astUri == null) {
+			return;
+		}
 
-		IFile[] workspaceFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(astFile.toURI());
+		URI localURI;
+		try {
+			localURI = FileLocator.toFileURL(astUri.toURL()).toURI();
+		} catch (Exception e) {
+			EUnitPlugin.getDefault().logException(e);
+			return;
+		}
+
+		IFile[] workspaceFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(localURI);
 		if (workspaceFiles.length > 0) {
 			final IFile workspaceFile = workspaceFiles[0];
 

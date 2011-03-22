@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eunit.dt.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ import org.eclipse.ui.IViewSite;
  */
 class FailureTraceTreeContentProvider implements ITreeContentProvider {
 	private EUnitTest currentTest;
-	private Object[] currentTestFrames;
+	private List<Frame> currentTestFrames;
 	private Map<Variable, Frame> mapVarToFrame = new HashMap<Variable, Frame>();
 	private final IViewSite viewSite;
 
@@ -59,7 +60,7 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 					}
 				}
 			}
-			currentTestFrames = lFrames.toArray();
+			currentTestFrames = lFrames;
 		}
 	}
 
@@ -71,10 +72,19 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 		return getChildren(inputElement);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof EUnitTest) {
-			return currentTestFrames;
+			EUnitTest test = (EUnitTest)parentElement;
+
+			@SuppressWarnings("rawtypes")
+			ArrayList children = new ArrayList();
+			if (test.getException() != null) {
+				children.add(test.getException());
+			}
+			children.addAll(currentTestFrames);
+			return children.toArray();
 		}
 		else if (parentElement instanceof Frame) {
 			Frame frame = (Frame)parentElement;

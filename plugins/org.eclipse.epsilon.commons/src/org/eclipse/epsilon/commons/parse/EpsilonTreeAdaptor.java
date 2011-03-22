@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.commons.parse;
 
 import java.io.File;
+import java.net.URI;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -18,14 +19,20 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 
 public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 	
-	protected File file = null;
-	
+	protected URI uri = null;
+
 	public EpsilonTreeAdaptor(File file) {
-		this.file = file;
+		if (file != null) {
+			this.uri = file.toURI();
+		}
+	}
+
+	public EpsilonTreeAdaptor(URI uri) {
+		this.uri = uri;
 	}
 	
     public AST create(Token token)
     {
-        return new AST(token, file);
+        return new AST(token, uri);
     }
 }

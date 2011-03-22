@@ -1,18 +1,16 @@
 package org.eclipse.epsilon.eol.types;
 
-import java.util.Collection;
-import java.util.Iterator;
 
 public class EolObjectComparator {
 	
 	public static boolean equals(Object o1, Object o2) {
 		if (o1 == null && o2 == null) return true;
 		if (o1 == null || o2 == null) return false;
-		
+
 		if (o1 instanceof Number && o2 instanceof Number) {
-			return ((Number) o1).doubleValue() == ((Number) o2).doubleValue();
+			return NumberUtil.isEqual((Number)o1, (Number)o2);
 		}
-		
+
 		/*
 		if (o1 instanceof Collection && o2 instanceof Collection) {
 			Collection c1 = (Collection) o1;

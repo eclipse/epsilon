@@ -1,6 +1,8 @@
 <project>
 	<target name="template">
-		<epsilon.eunit src="${eunit.file}" failOnErrors="${eunit.failOnErrors}">
+		<property name="eunit.todir" location="${basedir}" />
+		<property name="eunit.package" value="default" />
+		<epsilon.eunit src="${eunit.file}" todir="${eunit.todir}" failOnErrors="${eunit.failOnErrors}" package="${eunit.package}">
 			<epsilon.emf.loadModel
 				name="Model"
 			    modelfile="sample.model"
@@ -19,7 +21,7 @@
 	</target>
 
 	<target name="allPassCustom">
-		<epsilon.eunit src="sample.eunit" out="TEST-custom.xml">
+		<epsilon.eunit src="sample.eunit" todir="${basedir}/..">
 			<epsilon.emf.loadModel
 				name="Model"
 			    modelfile="sample.model"
@@ -55,6 +57,34 @@
 		<property name="eunit.file" location="sample-parametric-2levels.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
+	</target>
+
+	<target name="package">
+		<property name="eunit.file" location="sample.eunit"/>
+		<property name="eunit.failOnErrors" value="true"/>
+		<property name="eunit.package" value="mypackage"/>
+		<antcall target="template"/>
+	</target>
+
+	<target name="badImports">
+		<epsilon.eunit src="bad-imports.eunit"/>
+	</target>
+
+	<target name="withAnnotation">
+		<epsilon.eunit src="with-annotation.eunit" failOnErrors="false">
+			<epsilon.emf.loadModel
+				name="A"
+			    modelfile="sample.model"
+		        metamodelfile="sample.ecore"/>
+			<epsilon.emf.loadModel
+				name="B"
+			    modelfile="sample2.model"
+		        metamodelfile="sample.ecore"/>
+		</epsilon.eunit>
+		<junitreport>
+			<fileset dir="${basedir}" includes="TEST-*.xml"/>
+			<report format="noframes" todir="."/>
+		</junitreport>
 	</target>
 
 </project>

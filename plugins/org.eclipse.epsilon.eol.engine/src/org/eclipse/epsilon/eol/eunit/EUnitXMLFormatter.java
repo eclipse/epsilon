@@ -81,11 +81,13 @@ public class EUnitXMLFormatter {
 	/**
 	 * Generates the report using {@link #generate()}, and then saves the XML document into a file.
 	 *
-	 * @param reportFile Destination file.
+	 * @param reportDirectory Destination directory.
 	 */
-	public void generate(File reportFile) throws EolRuntimeException
+	public void generate(File reportDirectory) throws EolRuntimeException
 	{
 		Document doc = generate();
+		File reportFile = new File(reportDirectory,
+			"TEST-" + module.getPackage() + "." + module.getClassName() + ".xml");
 
 		try {
 			// Uses an XSLT identity transform to save a DOM tree to a file.
@@ -118,9 +120,8 @@ public class EUnitXMLFormatter {
 		final Element caseElem = doc.createElement("testcase");
 		suiteElem.appendChild(caseElem);
 
-		final File eolFile = test.getOperation().getAst().getFile();
-		caseElem.setAttribute("classname", formatFilePathAsPackage(eolFile));
-		caseElem.setAttribute("name", test.getCaseName());
+		caseElem.setAttribute("classname", test.getQualifiedName(module.getPackage()));
+		caseElem.setAttribute("name", test.getMethodName());
 		caseElem.setAttribute("time", formatWallclockTime(test));
 
 		Element resultChild = null;
@@ -167,7 +168,7 @@ public class EUnitXMLFormatter {
 		final List<EUnitTest> testsWithErrors = root.collectLeafTests(selectedOperations, EUnitTestResultType.ERROR);
 		final List<EUnitTest> testsWithFailures = root.collectLeafTests(selectedOperations, EUnitTestResultType.FAILURE);
 
-		suiteElem.setAttribute("name", formatFilePathAsPackage(module.getAst().getFile()));
+		suiteElem.setAttribute("name", module.getQualifiedName());
 		suiteElem.setAttribute("time", formatWallclockTime(root));
 		suiteElem.setAttribute("tests", Integer.toString(allTests.size()));
 		suiteElem.setAttribute("errors",
@@ -181,16 +182,6 @@ public class EUnitXMLFormatter {
 			suiteElem.setAttribute("hostname", "localhost");
 		}
 		return allTests;
-	}
-
-	private String formatFilePathAsPackage(final File eolFile) {
-		String eunitFilename = eolFile.getPath();
-		eunitFilename = eunitFilename.replace('.', '_');
-		if (File.separator.equals("" + eunitFilename.charAt(0))) {
-			eunitFilename = eunitFilename.substring(1, eunitFilename.length());
-		}
-		eunitFilename = eunitFilename.replaceAll(File.separator, ".");
-		return eunitFilename;
 	}
 
 	private String formatWallclockTime(final EUnitTest root) {

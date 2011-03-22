@@ -14,12 +14,13 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.workflow.test.eunit.EUnitJUnitXMLOutputTest;
+import org.eclipse.epsilon.workflow.test.eunit.EUnitParseTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EUnitJUnitXMLOutputTest.class})
+@SuiteClasses({EUnitJUnitXMLOutputTest.class, EUnitParseTest.class})
 public class WorkflowTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(WorkflowTestSuite.class);

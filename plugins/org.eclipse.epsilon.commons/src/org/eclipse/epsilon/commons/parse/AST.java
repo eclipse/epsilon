@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.commons.parse;
 
 import java.io.File;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.antlr.runtime.tree.Tree;
 
 public class AST extends CommonTree {
 
-	protected File file;
+	protected URI uri;
 
 	protected AST annotations;
 
@@ -38,9 +39,9 @@ public class AST extends CommonTree {
 		}
 	}
 
-	public AST(Token token, File file) {
+	public AST(Token token, URI uri) {
 		super(token);
-		this.file = file;
+		this.uri = uri;
 	}
 
 	public void setAnnotationsAst(AST annotations) {
@@ -52,9 +53,16 @@ public class AST extends CommonTree {
 	}
 	
 	public File getFile() {
-		return file;
+		if (uri != null && "file".equals(uri.getScheme())) {
+			return new File(uri);
+		}
+		return null;
 	}
-	
+
+	public URI getUri() {
+		return uri;
+	}
+
 	// Methods for compatibility with ANTLR2
 
 	private AST cast(Tree tree) {

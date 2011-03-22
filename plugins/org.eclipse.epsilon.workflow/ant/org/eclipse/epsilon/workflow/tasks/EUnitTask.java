@@ -41,7 +41,8 @@ import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
 public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestListener {
 
 	private final List<Task> nestedTasks = new ArrayList<Task>();
-	private File fOutputFile;
+	private File fReportDirectory;
+	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 
 	public void addTask(Task task) {
 		nestedTasks.add(task);
@@ -51,13 +52,13 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 	protected void initialize() throws Exception {
 		final EUnitModule eunitModule = (EUnitModule)module;
 		eunitModule.addTestListener(this);
+		eunitModule.setPackage(getPackage());
 		eunitModule.getContext().setModelRepository(getProjectRepository());
-		if (getOut() != null) {
-			eunitModule.setReportFile(getOut());
+		if (getToDir() != null) {
+			eunitModule.setReportDirectory(getToDir());
 		}
 		else {
-			eunitModule.setReportFile(
-				new File(getProject().getBaseDir(), "TEST-" + eunitModule.getAst().getFile().getName() + ".xml"));
+			eunitModule.setReportDirectory(getProject().getBaseDir());
 		}
 
 		for (EUnitTestListener extraListener : EUnitListenerExtension.getListeners()) {
@@ -112,17 +113,18 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 			}
 			return;
 		}
-		if (test.getDataVariableName() != null) {
+		if (!test.getChildren().isEmpty()) {
+			// Test with children: do nothing. We're only interested in leaf nodes and the root node.
 			return;
 		}
 
+		final String testDescription = "Test " + test.getMethodName() + " (" + test.explainAllBindings() + ")";
 		if (test.getResult() == EUnitTestResultType.SUCCESS) {
-			out.println("Test " + test.getCaseName() + " passed" + sMillis);
+			out.println(testDescription + " passed" + sMillis);
 		} else if (test.getResult() == EUnitTestResultType.FAILURE) {
-			err.println("Test " + test.getCaseName() + " failed : " + test.getException().toString() + sMillis);
+			err.println(testDescription + " failed: " + test.getException().toString() + sMillis);
 		} else if (test.getResult() == EUnitTestResultType.ERROR) {
-			err.println("Test " + test.getCaseName()
-					+ " failed due to an error : " + test.getException().toString() + sMillis);
+			err.println(testDescription + " failed due to an error: " + test.getException().toString() + sMillis);
 			test.getException().printStackTrace(err);
 		}
 	}
@@ -130,17 +132,32 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 	// TEST REPORT METHODS
 
 	/**
-	 * Returns the destination file for the JUnit-like report. By default,
-	 * it is <code>TEST-(name of EOL script with extension).xml</code>.
+	 * Returns the destination directory for the JUnit-like report. By default,
+	 * it is the base directory of the Ant project.
 	 */
-	public File getOut() {
-		return fOutputFile;
+	public File getToDir() {
+		return fReportDirectory;
 	}
 
 	/**
-	 * Changes the destination file for the JUnit-like report. See {@link #getOut()} for the default value.
+	 * Changes the destination directory for the JUnit-like report. See {@link #getToDir()} for the default value.
 	 */
-	public void setOut(File f) {
-		fOutputFile = f;
+	public void setToDir(File f) {
+		fReportDirectory = f;
+	}
+
+	/**
+	 * Returns the package in which all tests will be contained. By default, it
+	 * is set to {@link EUnitModule#DEFAULT_PACKAGE}.
+	 */
+	public String getPackage() {
+		return fPackage ;
+	}
+
+	/**
+	 * Changes the package in which all tests will be contained. Empty or null arguments are <b>ignored</b>.
+	 */
+	public void setPackage(String packageName) {
+		fPackage = packageName;
 	}
 }

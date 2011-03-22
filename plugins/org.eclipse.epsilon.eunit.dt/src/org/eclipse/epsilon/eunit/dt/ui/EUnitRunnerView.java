@@ -45,6 +45,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -71,7 +72,8 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 
-	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET = "EUnit has not been launched yet: cannot rerun any suite!";
+	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET
+		= "EUnit has not been successfully launched yet: cannot rerun any suite!";
 
 	private final class RerunAllAction extends Action {
 		public RerunAllAction() {
@@ -117,11 +119,13 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			}
 
 			try {
-				final EUnitModule module = history.getModule(currentLaunch);
-				final EUnitTest result = module.getSuiteRoot();
+				final List<EUnitModule> modules = history.getModules(currentLaunch);
 				final List<EUnitTest> tests = new ArrayList<EUnitTest>();
-				result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.ERROR, tests);
-				result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.FAILURE, tests);
+				for (EUnitModule module : modules) {
+					final EUnitTest result = module.getSuiteRoot();
+					result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.ERROR, tests);
+					result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.FAILURE, tests);
+				}
 				rerunCurrentLaunch(tests);
 			} catch (EolRuntimeException e) {
 				EUnitPlugin.getDefault().logException(e);
@@ -285,26 +289,41 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		barProgress = new JUnitProgressBar(parent);
 		barProgress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 
-		treeViewerTests = new TreeViewer(parent, SWT.MULTI);
-		Tree treeTests = treeViewerTests.getTree();
-		treeTests.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 6, 1));
-		treeViewerTests.setContentProvider(new TestTreeContentProvider(getViewSite()));
-		treeViewerTests.setLabelProvider(new TestTreeLabelProvider());
-		treeViewerTests.addFilter(new DiscardSkippedTestsViewerFilter());
-		showOnlyFailedTestsFilter = new ShowOnlyFailedTestsViewerFilter();
-		treeViewerTests.addFilter(showOnlyFailedTestsFilter);
+		SashForm sashBetweenTestsAndFailures = new SashForm(parent, SWT.VERTICAL);
+		GridData gd_sashBetweenTestsAndFailures = new GridData(SWT.FILL, SWT.FILL, true, true, 6, 1);
+		gd_sashBetweenTestsAndFailures.widthHint = 593;
+		sashBetweenTestsAndFailures.setLayoutData(gd_sashBetweenTestsAndFailures);
 
-		Label lblFailureTrace = new Label(parent, SWT.NONE);
-		lblFailureTrace.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 6, 1));
+		treeViewerTests = new TreeViewer(sashBetweenTestsAndFailures, SWT.MULTI);
+		treeViewerTests.setContentProvider(new TestTreeContentProvider(getViewSite()));
+
+		Composite composite = new Composite(sashBetweenTestsAndFailures, SWT.NONE);
+		GridLayout gl_composite = new GridLayout(1, false);
+		gl_composite.marginTop = 5;
+		gl_composite.marginWidth = 0;
+		gl_composite.marginHeight = 0;
+		gl_composite.horizontalSpacing = 0;
+		composite.setLayout(gl_composite);
+
+		Label lblFailureTrace = new Label(composite, SWT.NONE);
+		lblFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		lblFailureTrace.setAlignment(SWT.CENTER);
 		lblFailureTrace.setText("Failure Trace");
 
-		treeViewerFailureTrace = new TreeViewer(parent, SWT.SINGLE);
+		treeViewerFailureTrace = new TreeViewer(composite, SWT.SINGLE);
 		Tree treeFailureTrace = treeViewerFailureTrace.getTree();
-		treeFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 6, 2));
+		treeFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		showOnlyFailedTestsFilter = new ShowOnlyFailedTestsViewerFilter();
 		failureTraceContentProvider = new FailureTraceTreeContentProvider(getViewSite());
 		failureTreeLabelProvider = new FailureTraceTreeLabelProvider();
 		treeViewerFailureTrace.setContentProvider(failureTraceContentProvider);
 		treeViewerFailureTrace.setLabelProvider(failureTreeLabelProvider);
+		treeViewerTests.setContentProvider(new TestTreeContentProvider(getViewSite()));
+		treeViewerTests.setLabelProvider(new TestTreeLabelProvider());
+		treeViewerTests.addFilter(new DiscardSkippedTestsViewerFilter());
+		treeViewerTests.addFilter(showOnlyFailedTestsFilter);
+
+		sashBetweenTestsAndFailures.setWeights(new int[] {1, 1});
 
 		// Create the help context id for the viewer's control
 		PlatformUI
@@ -440,15 +459,15 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	 * Changes the module which is currently displayed in this view.
 	 * @param module EUnit module to be shown.
 	 */
-	public void setCurrentModule(final EUnitModule module) {
+	public void setCurrentModules(final List<EUnitModule> modules) {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				try {
-					final EUnitTest test = module.getSuiteRoot();
-						treeViewerTests.setInput(test);
-						failureTreeLabelProvider.setPrettyPrinterManager(
-								module.getContext().getPrettyPrinterManager());
-						initializeTestCaseCounts(module);
+					treeViewerTests.setInput(modules);
+					treeViewerTests.refresh();
+					failureTreeLabelProvider.setPrettyPrinterManager(
+							modules.get(0).getContext().getPrettyPrinterManager());
+					initializeTestCaseCounts(modules);
 				} catch (EolRuntimeException e) {
 					EUnitPlugin.getDefault().logException(e);
 				}
@@ -459,15 +478,18 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	@Override
 	public void beforeCase(final EUnitModule module, EUnitTest test) {
 		if (test.isRootTest()) {
-			setCurrentModule(module);
+			EUnitHistory history = EUnitPlugin.getDefault().getHistory();
+			List<EUnitModule> modules = history.getModules(history.getCurrentLaunch());
+			setCurrentModules(modules);
 		}
 	}
 
 	@Override
-	public void afterCase(EUnitModule module, final EUnitTest test) {
+	public void afterCase(final EUnitModule module, final EUnitTest test) {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				treeViewerTests.update(test, null);
+				treeViewerTests.update(module, null);
 
 				if (test.isLeafTest()) {
 					++nRunTestCases;
@@ -486,14 +508,23 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void initializeTestCaseCounts(EUnitModule module) throws EolRuntimeException {
-		final EUnitTest results = module.getSuiteRoot();
-		final List selOps = module.getSelectedOperations();
+	private void initializeTestCaseCounts(List<EUnitModule> modules) throws EolRuntimeException {
+		nTotalTestCases = nErrors = nFailures = nRunTestCases = 0;
 
-		this.nTotalTestCases = results.countLeafTests(selOps);
-		this.nErrors = results.countLeafTests(selOps, EUnitTestResultType.ERROR);
-		this.nFailures = results.countLeafTests(selOps, EUnitTestResultType.FAILURE);
-		this.nRunTestCases = nErrors + nFailures + results.countLeafTests(selOps, EUnitTestResultType.SUCCESS);
+		for (EUnitModule module : modules) {
+			final EUnitTest results = module.getSuiteRoot();
+			final List selOps = module.getSelectedOperations();
+
+			final int allTests = results.countLeafTests(selOps);
+			final int withErrors = results.countLeafTests(selOps, EUnitTestResultType.ERROR);
+			final int withFailures = results.countLeafTests(selOps, EUnitTestResultType.FAILURE);
+			final int successfulTests = results.countLeafTests(selOps, EUnitTestResultType.SUCCESS);
+
+			nTotalTestCases += allTests;
+			nErrors += withErrors;
+			nFailures += withFailures;
+			nRunTestCases += withErrors + withFailures + successfulTests;
+		}
 
 		updateTestCaseCounts();
 	}

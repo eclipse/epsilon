@@ -31,14 +31,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.helper.ProjectHelper2;
-import org.apache.tools.ant.taskdefs.CallTarget;
-import org.apache.tools.ant.taskdefs.Property;
-import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
-import org.eclipse.epsilon.workflow.tasks.EUnitTask;
-import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
-import org.junit.AfterClass;
+import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,106 +47,103 @@ import org.xml.sax.SAXParseException;
  * @author Antonio García-Domínguez
  * @version 1.0
  */
-public class EUnitJUnitXMLOutputTest implements ErrorHandler {
-
-	private final static String ANT_BUILDFILE_NAME = "eunit.xml";
-	private final static File BASE_DIR = new File("../org.eclipse.epsilon.workflow.test/resources/eunit/");
-
-	@AfterClass
-	public static void cleanUp() {
-		for (String file : BASE_DIR.list()) {
-			if (file.startsWith("TEST-") && file.endsWith(".xml")) {
-				new File(BASE_DIR, file).delete();
-			}
-		}
-	}
+public class EUnitJUnitXMLOutputTest extends EUnitTestCase implements ErrorHandler {
 
 	@Test
 	public void allPassProducesGoodOutput() throws Exception {
-		runTarget("allPass");
-		checkOutput(new File(BASE_DIR, "TEST-sample.eunit.xml"),
+		runTarget(ANT_BUILD_FILE, "allPass");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement"},
-				new HashSet<String>(),
-				new HashSet<String>());
+				new HashSet<String>(), new HashSet<String>());
 	}
 
 	@Test
 	public void allPassProducesGoodOutputWithCustomRelativePathFromBuildDir() throws Exception {
-		runTarget("allPassCustom");
-		checkOutput(new File(BASE_DIR, "TEST-custom.xml"),
+		runTarget(ANT_BUILD_FILE, "allPassCustom");
+		checkOutput(new File(BASE_DIR.getParentFile(), "TEST-default.sample.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement"},
-				new HashSet<String>(),
-				new HashSet<String>());
+				new HashSet<String>(), new HashSet<String>());
 	}
 
 	@Test
 	public void failingTestProducesGoodOutput() throws Exception {
-		runTarget("failure");
-		checkOutput(new File(BASE_DIR, "TEST-sample-failing.eunit.xml"),
+		runTarget(ANT_BUILD_FILE, "failure");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-failing.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement", "iAmAFailure"},
-				new HashSet<String>(Arrays.asList("iAmAFailure")),
-				new HashSet<String>());
+				new HashSet<String>(Arrays.asList("iAmAFailure")), new HashSet<String>());
 	}
 
 	@Test
 	public void failingTestProducesGoodOutputEvenIfAborted() throws Exception {
 		try {
-			runTarget("failureFailOnError");
+			runTarget(ANT_BUILD_FILE, "failureFailOnError");
 			fail("Should have thrown a BulidException (failed build)");
 		} catch (BuildException ex) {
 			// OK, build failed
 		}
 		// But it should *still* have generated a report
-		checkOutput(new File(BASE_DIR, "TEST-sample-failing.eunit.xml"),
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-failing.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement", "iAmAFailure"},
-				new HashSet<String>(Arrays.asList("iAmAFailure")),
-				new HashSet<String>());
+				new HashSet<String>(Arrays.asList("iAmAFailure")), new HashSet<String>());
 	}
 
 	@Test
 	public void testWithErrorsProducesGoodOutput() throws Exception {
-		runTarget("error");
-		checkOutput(new File(BASE_DIR, "TEST-sample-error.eunit.xml"),
+		runTarget(ANT_BUILD_FILE, "error");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-error.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement", "iAmError"},
-				new HashSet<String>(),
-				new HashSet<String>(Arrays.asList("iAmError")));
+				new HashSet<String>(), new HashSet<String>(Arrays.asList("iAmError")));
 	}
 
 	@Test
 	public void parametric1LevelProducesGoodOutput() throws Exception {
-		runTarget("parametric1level");
-		checkOutput(new File(BASE_DIR, "TEST-sample-parametric-1level.eunit.xml"),
+		runTarget(ANT_BUILD_FILE, "parametric1level");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-parametric-1level.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{
-					"twoElements (x = 1)", "firstElement (x = 1)",
-					"twoElements (x = 2)", "firstElement (x = 2)"},
-				new HashSet<String>(),
-				new HashSet<String>());
+					"twoElements[1]", "firstElement[1]",
+					"twoElements[2]", "firstElement[2]"},
+				new HashSet<String>(), new HashSet<String>());
 	}
 
 	@Test
 	public void parametric2LevelsProducesGoodOutput() throws Exception {
-		runTarget("parametric2levels");
-		checkOutput(new File(BASE_DIR, "TEST-sample-parametric-2levels.eunit.xml"),
+		runTarget(ANT_BUILD_FILE, "parametric2levels");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-parametric-2levels.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{
-					"twoElements (x = 1, y = 1)", "firstElement (x = 1, y = 1)",
-					"twoElements (x = 1, y = 2)", "firstElement (x = 1, y = 2)",
-					"twoElements (x = 2, y = 1)", "firstElement (x = 2, y = 1)",
-					"twoElements (x = 2, y = 2)", "firstElement (x = 2, y = 2)",
+					"twoElements[1][1]", "firstElement[1][1]",
+					"twoElements[1][2]", "firstElement[1][2]",
+					"twoElements[2][1]", "firstElement[2][1]",
+					"twoElements[2][2]", "firstElement[2][2]",
 				},
-				new HashSet<String>(),
-				new HashSet<String>());
+				new HashSet<String>(), new HashSet<String>());
 	}
 
-	private void runTarget(String targetName) {
-		Project project = new Project();
-		ProjectHelper2.configureProject(project, new File(BASE_DIR, ANT_BUILDFILE_NAME));
-		project.setProperty("ant.file", ANT_BUILDFILE_NAME);
-		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
-		project.addTaskDefinition("epsilon.emf.loadModel", LoadModel.class);
-		project.addTaskDefinition("junitreport", XMLResultAggregator.class);
-		project.addTaskDefinition("antcall", CallTarget.class);
-		project.addTaskDefinition("property", Property.class);
-		project.executeTarget(targetName);
+	@Test
+	public void customPackageIsHonored() throws Exception {
+		runTarget(ANT_BUILD_FILE, "package");
+		checkOutput(new File(BASE_DIR, "TEST-mypackage.sample.xml"),
+				"mypackage",
+				new String[]{"twoElements", "firstElement"},
+				new HashSet<String>(), new HashSet<String>());
+	}
+
+	@Test
+	public void withIsHonored() throws Exception {
+		runTarget(ANT_BUILD_FILE, "withAnnotation");
+		checkOutput(new File(BASE_DIR, "TEST-default.with-annotation.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"hasOneA[1]", "hasOneA[2]",
+					"hasOneB", "hasTwoB",
+				},
+				new HashSet<String>(), new HashSet<String>());
 	}
 
 	/**
@@ -161,6 +151,7 @@ public class EUnitJUnitXMLOutputTest implements ErrorHandler {
 	 * official schema for these, so we have defined our own schema for internal
 	 * testing. We've based it on <a href="http://goo.gl/N5ZgP">the Ant source
 	 * code</a> and <a href="http://goo.gl/Sznbo">this mailing list post</a>.
+	 * @param expectedPackage TODO
 	 * @throws SAXException
 	 *             XML Schema could not be loaded, or the JUnit XML output could
 	 *             not be parsed or was invalid.
@@ -171,15 +162,20 @@ public class EUnitJUnitXMLOutputTest implements ErrorHandler {
 	 *             There was a problem while reading from the specified path.
 	 */
 	private void checkOutput(File file,
+			String expectedPackage,
 			String[] expectedTestCases,
-			Set<String> expectedCasesWithFailures,
-			Set<String> expectedCasesWithErrors)
+			Set<String> expectedCasesWithFailures, Set<String> expectedCasesWithErrors)
 		throws SAXException, ParserConfigurationException, IOException 
 	{
 		Schema junitXSD = loadJUnitSchema();
 		Document doc = parseAndValidate(file, junitXSD);
 
-		NodeList docChildren = doc.getDocumentElement().getChildNodes();
+		final Element suiteElem = doc.getDocumentElement();
+		final String qualifiedSuiteName = suiteElem.getAttribute("name");
+		final String expectedPackagePrefix = expectedPackage + ".";
+		assertTrue(qualifiedSuiteName.startsWith(expectedPackagePrefix));
+
+		NodeList docChildren = suiteElem.getChildNodes();
 		int nTestCases = 0;
 		String sysOut = null;
 		String sysErr = null;
@@ -195,6 +191,9 @@ public class EUnitJUnitXMLOutputTest implements ErrorHandler {
 								nTestCases+1, expectedTestCases[nTestCases]),
 						testCaseName,
 						is(equalTo(expectedTestCases[nTestCases])));
+
+					final String className = e.getAttribute("classname");
+					assertTrue(className.startsWith(expectedPackagePrefix));
 
 					if (expectedCasesWithFailures.contains(testCaseName)) {
 						assertHasChildWithTag(e, "failure");
@@ -219,7 +218,8 @@ public class EUnitJUnitXMLOutputTest implements ErrorHandler {
 		assertThat("Report should include stdout", sysOut, is(notNullValue()));
 		assertThat("Report should include stderr", sysErr, is(notNullValue()));
 		for (String testCase : expectedTestCases) {
-			assertTrue(sysOut.contains(testCase) || sysErr.contains(testCase));
+			assertTrue("Report should mention test case " + testCase,
+					sysOut.contains(testCase) || sysErr.contains(testCase));
 		}
 	}
 

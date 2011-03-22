@@ -11,7 +11,9 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
 
+import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -81,7 +83,7 @@ public class TestTreeLabelProvider extends StyledCellLabelProvider {
 			str = new StyledString(test.getOperationName());
 			if (test.getDataVariableName() != null) {
 				str.append(" (", StyledString.QUALIFIER_STYLER);
-				str.append(test.getDataBinding(), StyledString.QUALIFIER_STYLER);
+				str.append(test.explainBinding(), StyledString.QUALIFIER_STYLER);
 				str.append(')', StyledString.QUALIFIER_STYLER);
 			}
 			if (test.getEndWallclockTime() != EUnitTest.UNSET_TIME) {
@@ -89,6 +91,10 @@ public class TestTreeLabelProvider extends StyledCellLabelProvider {
 				str.append(Long.toString(test.getWallclockTimeMillis()), StyledString.COUNTER_STYLER);
 				str.append("ms]", StyledString.COUNTER_STYLER);
 			}
+		}
+		else if (obj instanceof EUnitModule) {
+			EUnitModule module = (EUnitModule)obj;
+			str = new StyledString(module.getQualifiedName());
 		}
 		else {
 			str = new StyledString(obj.toString());
@@ -120,6 +126,14 @@ public class TestTreeLabelProvider extends StyledCellLabelProvider {
 				case NOT_RUN_YET: return imgTestSuite;
 				default: return imgTestSuiteRun;
 				}
+			}
+		}
+		else if (obj instanceof EUnitModule) {
+			final EUnitModule module = (EUnitModule)obj;
+			try {
+				return getImage(module.getSuiteRoot());
+			} catch (EolRuntimeException e) {
+				EUnitPlugin.getDefault().logException(e);
 			}
 		}
 		return imgTest;

@@ -10,7 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.dt.ui;
 
+import java.util.List;
+
+import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IViewSite;
@@ -51,17 +56,26 @@ class TestTreeContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object[] getChildren(Object parent) {
 		if (parent instanceof EUnitTest) {
 			return ((EUnitTest)parent).getChildren().toArray();
+		}
+		else if (parent instanceof List) {
+			return ((List)parent).toArray();
+		}
+		else if (parent instanceof EUnitModule) {
+			EUnitModule module = (EUnitModule)parent;
+			try {
+				return module.getSuiteRoot().getChildren().toArray();
+			} catch (EolRuntimeException e) {
+				EUnitPlugin.getDefault().logException(e);
+			}
 		}
 		return new Object[0];
 	}
 
 	public boolean hasChildren(Object parent) {
-		if (parent instanceof EUnitTest) {
-			return !((EUnitTest)parent).getChildren().isEmpty();
-		}
-		return false;
+		return getChildren(parent).length > 0;
 	}
 }

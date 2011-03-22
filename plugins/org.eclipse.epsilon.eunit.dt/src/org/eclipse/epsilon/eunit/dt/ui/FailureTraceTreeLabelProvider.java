@@ -10,9 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.dt.ui;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
+import java.io.File;
+import java.net.URI;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
@@ -43,6 +46,13 @@ class FailureTraceTreeLabelProvider extends StyledCellLabelProvider  {
 		}
 		else if (element instanceof Variable) {
 			str = getStyledString((Variable)element);
+		}
+		else if (element instanceof Throwable) {
+			Throwable ex = (Throwable)element;
+			if (ex instanceof EolInternalException) {
+				ex = ((EolInternalException)ex).getInternal();
+			}
+			str = new StyledString(ex.getClass().getName() + ": " + ex.getLocalizedMessage());
 		}
 		else {
 			str = new StyledString(element.toString());
@@ -103,11 +113,18 @@ class FailureTraceTreeLabelProvider extends StyledCellLabelProvider  {
 	}
 
 	private String getSourcePathForAST(AST entryPoint) {
-		IFile[] workspaceFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(entryPoint.getFile().toURI());
-		String prettyPath = entryPoint.getFile().getPath();
-		if (workspaceFiles.length > 0) {
-			prettyPath = workspaceFiles[0].toString();
+		final URI sourceUri = entryPoint.getUri();
+
+		// No URI: Just Say "null"
+		if (sourceUri == null) return "null";
+
+		// Try to resolve it as a resource
+		try {
+			// URI->URL->URL->URI->path. Phew!
+			return new File(FileLocator.toFileURL(sourceUri.toURL()).toURI()).getPath();
+		} catch (Exception e) {
+			// Fallback if nothing works
+			return "unknown";
 		}
-		return prettyPath;
 	}
 }

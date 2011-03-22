@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.dt.history;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.debug.core.ILaunch;
@@ -24,15 +26,22 @@ import org.eclipse.epsilon.eol.eunit.EUnitModule;
  */
 public class EUnitHistory {
 
-	private final Map<ILaunch, EUnitModule> launches = new LinkedHashMap<ILaunch, EUnitModule>();
+	private final Map<ILaunch, List<EUnitModule>> launches = new LinkedHashMap<ILaunch, List<EUnitModule>>();
 	private ILaunch currentLaunch = null;
 
 	public void addLaunch(ILaunch launch, EUnitModule module) {
-		launches.put(launch, module);
+		if (launches.containsKey(launch)) {
+			launches.get(launch).add(module);
+		}
+		else {
+			final List<EUnitModule> newList = new ArrayList<EUnitModule>();
+			newList.add(module);
+			launches.put(launch, newList);
+		}
 		setCurrentLaunch(launch);
 	}
 
-	public Map<ILaunch, EUnitModule> getAllLaunches() {
+	public Map<ILaunch, List<EUnitModule>> getAllLaunches() {
 		return launches;
 	}
 
@@ -44,7 +53,7 @@ public class EUnitHistory {
 		currentLaunch = launch;
 	}
 
-	public EUnitModule getModule(ILaunch launch) {
+	public List<EUnitModule> getModules(ILaunch launch) {
 		return launches.get(launch);
 	}
 }

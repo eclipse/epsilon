@@ -26,19 +26,27 @@ import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class EUnitModule extends EolModule {
 	
+	private static final String MODEL_BINDING_ANNOTATION_NAME = "with";
+	/** Default package name for the JUnit reports. */
+	public static final String DEFAULT_PACKAGE = "default";
+	private String packageName = DEFAULT_PACKAGE;
+
 	private static ThreadMXBean THREAD_MXBEAN;
 	private List<EUnitTestListener> testListeners = new ArrayList<EUnitTestListener>();
 	private EUnitTest suiteRoot;
 
-	// Destination file for the JUnit XML report
-	private File reportFile = null;
+	// Destination directory for the JUnit XML report
+	private File reportDirectory = new File(".");
 
 	@SuppressWarnings("rawtypes")
 	private List selectedOperations;
@@ -84,6 +92,12 @@ public class EUnitModule extends EolModule {
 
 	@Override
 	public Object execute() throws EolRuntimeException {
+		// We're stricter when running EUnit than with the other E*L languages:
+		// we will abort test execution if the EUnit module had any parse problems
+		if (!getParseProblems().isEmpty()) {
+			throw new EUnitParseException(this.getParseProblems());
+		}
+
 		prepare();
 		try {
 			runSuite(getSuiteRoot());
@@ -127,12 +141,38 @@ public class EUnitModule extends EolModule {
 			}
 		} else {
 			for (EolOperation opTest : this.getTests()) {
-				EUnitTest child = new EUnitTest();
-				child.setParent(parent);
-				child.setOperation(opTest);
-				parent.addChildren(child);
+				EUnitTest test = new EUnitTest();
+				test.setParent(parent);
+				test.setOperation(opTest);
+				parent.addChildren(test);
+
+				if (hasModelBindings(opTest)) {
+					final List<Object> annotationsValues = getModelBindings(opTest);
+					if (annotationsValues.size() == 1) {
+						// Do not create an inner node if there is only one model binding 
+						test.setModelBindings((EolSequence)annotationsValues.get(0));
+					}
+					else {
+						for (Object annotation : annotationsValues) {
+							EUnitTest child = new EUnitTest();
+							child.setParent(test);
+							child.setOperation(opTest);
+							child.setModelBindings((EolSequence)annotation);
+							test.addChildren(child);
+						}
+					}
+				}
 			}
 		}
+	}
+
+	protected List<Object> getModelBindings(EolOperation opTest)
+			throws EolRuntimeException {
+		return EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME, getContext());
+	}
+
+	protected boolean hasModelBindings(EolOperation opTest) {
+		return EolAnnotationsUtil.hasAnnotation(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME);
 	}
 
 	public void runSuite(EUnitTest node) throws EolRuntimeException {
@@ -146,6 +186,7 @@ public class EUnitModule extends EolModule {
 			getContext().getFrameStack().enter(FrameType.UNPROTECTED, node.getOperation().getAst());
 		}
 
+		// Implement data bindings
 		if (node.getDataVariableName() != null) {
 			// This node has a variable binding: use it
 			Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
@@ -158,6 +199,11 @@ public class EUnitModule extends EolModule {
 		node.setStartWallclockTime(System.currentTimeMillis());
 		node.setResult(EUnitTestResultType.RUNNING);
 		fireBeforeCase(node);
+
+		// Implement model bindings (needs to be after fireBeforeCase, so the EUnit Ant task can load the models)
+		if (node.getModelBindings() != null) {
+			applyModelBindings(node);
+		}
 
 		if (node.isRootTest()) {
 			// We need to wrap the original streams to capture all their output, for the JUnit-like reports.
@@ -245,6 +291,52 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
+	/**
+	 * This method applies the model bindings set in <code>node</code>. The bindings
+	 * rename the models in the model repository as indicated by the user: for instance,
+	 * assume the model repository had models A and B. After applying the bindings from
+	 * <code>$with Sequence {"", "A", "C", "B"}</code>, the default model is now A
+	 * (keeping its name) and model B is renamed to C. The rest of the models are kept
+	 * as is, though the order in the model repository may vary.
+	 */
+	private void applyModelBindings(EUnitTest node) throws EolModelNotFoundException {
+		// Store the model to be used as default model (usable with no prefix,
+		// must be first in the list of models in the model repository).
+		final ModelRepository modelRepository = getContext().getModelRepository();
+		final Map<String, String> bindings = node.getModelBindings();
+		IModel defaultModel = modelRepository.getModelByName("");
+		if (bindings.containsKey("")) {
+			defaultModel = modelRepository.getModelByName(bindings.get(""));
+			bindings.remove("");
+		}
+		modelRepository.removeModel(defaultModel);
+
+		// Store the models to be renamed
+		final List<IModel> renamedModels = new ArrayList<IModel>();
+		for (Map.Entry<String, String> entry : bindings.entrySet()) {
+			final IModel renamedModel = modelRepository.getModelByName(entry.getValue());
+			renamedModel.setName(entry.getKey());
+			renamedModels.add(renamedModel);
+			modelRepository.removeModel(renamedModel);
+		}
+
+		// Store the rest of the models, and remove them
+		final List<IModel> otherModels = new ArrayList<IModel>(modelRepository.getModels());
+		for (IModel model : otherModels) {
+			modelRepository.removeModel(model);
+		}
+
+		// Add the models back: first the default, then the renamed models, and then the rest
+		assert modelRepository.getModels().isEmpty();
+		modelRepository.addModel(defaultModel);
+		for (IModel model : renamedModels) {
+			modelRepository.addModel(model);
+		}
+		for (IModel model : otherModels) {
+			modelRepository.addModel(model);
+		}
+	}
+
 	private void wipeCaches() {
 		for (EolOperation op : getOperations()) {
 			op.clearCache();
@@ -317,21 +409,58 @@ public class EUnitModule extends EolModule {
 	 * By default, it is {@link EUnitModule#DEFAULT_REPORT_FILE}. If <code>null</code>,
 	 * no report will be written.
 	 */
-	public void setReportFile(File reportFile) {
-		this.reportFile = reportFile;
+	public void setReportDirectory(File reportFile) {
+		this.reportDirectory = reportFile;
 	}
 
 	/**
 	 * Returns the destination file for the JUnit-style XML report.
 	 */
-	public File getReportFile() {
-		return reportFile;
+	public File getReportDirectory() {
+		return reportDirectory;
 	}
 
 	private void writeReport() throws EolRuntimeException {
-		if (reportFile != null) {
+		if (reportDirectory != null) {
 			EUnitXMLFormatter formatter = new EUnitXMLFormatter(this);
-			formatter.generate(reportFile);
+			formatter.generate(reportDirectory);
 		}
 	}
+
+	/**
+	 * Returns the "class name" to be used for this module in JUnit-style reports.
+	 * It is the basename of the .eunit file, without the extension.
+	 */
+	public String getClassName() {
+		final String filename = getAst().getFile().getName();
+		final int lastDot = filename.lastIndexOf('.');
+		if (lastDot != -1) {
+			return filename.substring(0, lastDot);
+		}
+		else {
+			return filename;
+		}
+	}
+
+	/**
+	 * Returns the package name to use in the reports. By default, it is {@link #DEFAULT_PACKAGE}.
+	 */
+	public String getPackage() {
+		return packageName;
+	}
+
+	/**
+	 * Changes the package name to use in the reports. By default, it is {@link #DEFAULT_PACKAGE}.
+	 */
+	public void setPackage(String packageName) {
+		this.packageName = packageName;
+	}
+
+	/**
+	 * Returns the logical name of this module as if it was a Java class, for the JUnit-style reports.
+	 */
+	public String getQualifiedName() {
+		return getPackage() + "." + getClassName();
+	}
+
 }

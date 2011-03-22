@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2011 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - revised assertions
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
@@ -27,17 +28,17 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertEqualsOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertErrorOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertNotEqualsOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.assertions.BooleanAssertionOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.assertions.EqualityAssertionOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.FailOperation;
 
 public class OperationFactory {
 	
 	//protected ArrayList lookupPackages = new ArrayList();
 	
-	protected HashMap<String, AbstractOperation> operationCache = new HashMap();
+	protected HashMap<String, AbstractOperation> operationCache = new HashMap<String, AbstractOperation>();
 	
 	public OperationFactory(){
 		createCache();
@@ -46,8 +47,10 @@ public class OperationFactory {
 	protected void createCache() {
 		
 		operationCache.put("assert", new AssertOperation());
-		operationCache.put("assertEquals", new AssertEqualsOperation());
-		operationCache.put("assertNotEquals", new AssertNotEqualsOperation());
+		operationCache.put("assertTrue", new BooleanAssertionOperation(true));
+		operationCache.put("assertFalse", new BooleanAssertionOperation(false));
+		operationCache.put("assertEquals", new EqualityAssertionOperation(true));
+		operationCache.put("assertNotEquals", new EqualityAssertionOperation(false));
 		operationCache.put("assertError", new AssertErrorOperation());
 		operationCache.put("fail", new FailOperation());
 		operationCache.put("collect", new CollectOperation());

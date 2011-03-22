@@ -66,7 +66,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 	public boolean parse(String code) {
 		lexer = new EglLexer(code);
-		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(null);
+		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
 		parser = new EglParser(lexer, astFactory);
 		parser.parse();
 
@@ -97,7 +97,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 			lexer = new EglLexer(reader);
-			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(null);
+			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
 			parser = new EglParser(lexer, astFactory);
 			parser.parse();
 			ast = parser.getAST();
@@ -113,6 +113,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	public boolean parse(File file) throws IOException {
 		try {
 			this.sourceFile = file;
+			this.sourceUri = file.toURI();
 
 			try {
 				templateRoot = UriUtil.fileToUri(file.getParentFile());

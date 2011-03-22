@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.eclipse.epsilon.egl.util.FileUtil.ESCAPED_NEWLINE;
 
+import java.io.File;
+
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
@@ -27,7 +29,7 @@ public class TestPreprocessor {
 	
 	private String preprocess(String program) {
 		final EglLexer lexer = new EglLexer(program);
-		final EglParser parser = new EglParser(lexer, new EpsilonTreeAdaptor(null));
+		final EglParser parser = new EglParser(lexer, new EpsilonTreeAdaptor((File)null));
 
 		parser.parse();
 		

@@ -11,13 +11,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.eunit;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class EUnitTest {
 	
@@ -28,14 +32,17 @@ public class EUnitTest {
 	private EUnitTest parent;
 	private List<EUnitTest> children = new ArrayList<EUnitTest>();
 
+	// Data/model bindings
 	private String dataVariable;
 	private Object dataValue;
+	private Map<String, String> modelBindings = null;
 
 	public final static long UNSET_TIME = -1;
 	private long startCpuTime = UNSET_TIME;
 	private long endCpuTime = UNSET_TIME;
 	private long startWallclockTime = UNSET_TIME;
 	private long endWallclockTime = UNSET_TIME;
+
 	private FrameStack frameStack;
 
 	public EolOperation getOperation() {
@@ -166,26 +173,6 @@ public class EUnitTest {
 	}
 
 	/**
-	 * Returns the name of the operation, or <code>root</code> if this is the root of the test tree.
-	 */
-	public String getOperationName() {
-		return getParent() == null ? "root" : getOperation().getName();
-	}
-
-	/**
-	 * Returns the name of the test case, which includes the name of the operation and all data bindings performed.
-	 */
-	public String getCaseName() {
-		final String sDataBindings = getAllDataBindings();
-		if (sDataBindings != null && sDataBindings.length() > 0) {
-			return getOperationName() + " (" + sDataBindings + ")";
-		}
-		else {
-			return getOperationName();
-		}
-	}
-
-	/**
 	 * Stores the frame stack storing the state of the EOL program when the error or failure
 	 * happened. This method should receive a copy of the original, so it won't be modified by
 	 * the following tests.
@@ -202,40 +189,127 @@ public class EUnitTest {
 	}
 
 	/**
-	 * Returns a string explaining the data binding used in this node. If no data binding has been
-	 * used, returns the empty string.
+	 * Returns the position of this node among its siblings: 1 if it is the
+	 * first one, 2 if it is the second one, and so on. Returns -1 if this
+	 * is the root test.
 	 */
-	public String getDataBinding() {
-		if (getDataVariableName() == null) return "";
+	public int getPosition() {
+		if (isRootTest()) return -1;
 
-		StringBuffer sbuf = new StringBuffer(getDataVariableName());
-		sbuf.append(" = ");
+		int position = 1;
+		for (EUnitTest sibling : getParent().getChildren()) {
+			if (sibling == this) break;
+			++position;
+		}
+		return position;
+	}
 
-		final String sValue = getDataValue().toString();
-		if (sValue.length() < 10) {
-			sbuf.append(sValue);
-		} else {
-			sbuf.append(sValue, 0, 7);
-			sbuf.append("...");
+	/**
+	 * Returns the name of the operation, or <code>root</code> if this is the root of the test tree.
+	 */
+	public String getOperationName() {
+		return getParent() == null ? "root" : getOperation().getName();
+	}
+
+	/**
+	 * Returns the name of the test case. Includes the name of the operation and all
+	 * bindings performed, in a format suited for humans "myOp (x = 1)".
+	 */
+	public String getCaseName() {
+		final String sBindings = explainAllBindings();
+		if (sBindings != null && sBindings.length() > 0) {
+			return getOperationName() + " (" + sBindings + ")";
+		}
+		else {
+			return getOperationName();
+		}
+	}
+
+	/**
+	 * Returns the name of the test case as it if were a JUnit method. Uses the
+	 * [n] suffixes to indicate the position among the data and model bindings.
+	 * For example, "myOp[1][2]" for the myOp operation, using the
+	 * first value returned by the first <code>@data</code> operation and the
+	 * second value returned by the second <code>@data</code> operation.
+	 *
+	 * Note: test cases with only one model binding do not get [1] at the end,
+	 * to clean up the output a bit.
+	 */
+	public String getMethodName() {
+		StringBuilder sBuilder = new StringBuilder(getOperationName());
+
+		final List<EUnitTest> dataBindings = getAllBindings();
+		for (EUnitTest binding : dataBindings) {
+			if (binding.getModelBindings() != null && !binding.getOperationName().equals(binding.getParent().getOperationName())) {
+				// Node representing a test case with only one model binding: do not produce [n]
+				continue;
+			}
+			sBuilder.append('[');
+			sBuilder.append(binding.getPosition());
+			sBuilder.append(']');
+		}
+		return sBuilder.toString();
+	}
+
+	/**
+	 * Returns a string explaining the bindings (for data and for models) used
+	 * in this node. If no bindings have been used, returns the empty string.
+	 */
+	public String explainBinding() {
+		if (getDataVariableName() == null && getModelBindings() == null) {
+			return "";
+		}
+
+		StringBuffer sbuf = new StringBuffer();
+		boolean bFirst = true;
+
+		if (getModelBindings() != null) {
+			for (Map.Entry<String, String> entry : getModelBindings().entrySet()) {
+				if (bFirst) {
+					bFirst = false;
+				}
+				else {
+					sbuf.append(", ");
+				}
+				sbuf.append("'");
+				sbuf.append(entry.getKey());
+				sbuf.append("' is '");
+				sbuf.append(entry.getValue());
+				sbuf.append("'");
+			}
+		}
+
+		if (getDataVariableName() != null) {
+			if (!bFirst) {
+				sbuf.append(", ");
+			}
+			sbuf.append(getDataVariableName());
+			sbuf.append(" = ");
+
+			final String sValue = getDataValue().toString();
+			if (sValue.length() < 10) {
+				sbuf.append(sValue);
+			} else {
+				sbuf.append(sValue, 0, 7);
+				sbuf.append("...");
+			}
 		}
 
 		return sbuf.toString();
 	}
 
 	/**
-	 * Returns a string explaining all the data bindings used in this node, including those done in
-	 * its ancestors. If no data binding has been used, returns the empty string.
+	 * Returns a string explaining all the data/model bindings used in this
+	 * node, including those done in its ancestors. If no bindings have been
+	 * used, returns the empty string.
 	 */
-	public String getAllDataBindings() {
-		List<String> lBindings = new LinkedList<String>();
-		for (EUnitTest t = this; t != null; t = t.getParent()) {
-			if (t.getDataVariableName() == null) continue;
-			lBindings.add(0, t.getDataBinding());
-		}
+	public String explainAllBindings() {
+		List<EUnitTest> lBindings = getAllBindings();
 
 		StringBuffer sbuf = new StringBuffer();
 		boolean bFirst = true;
-		for (String s : lBindings) {
+		for (EUnitTest t : lBindings) {
+			final String s = t.explainBinding();
 			if (bFirst) {
 				bFirst = false;
 			} else {
@@ -246,13 +320,45 @@ public class EUnitTest {
 		return sbuf.toString();
 	}
 
+	/**
+	 * Returns a list of all ancestor test cases (excluding this one) with a binding.
+	 */
+	public List<EUnitTest> getAllBindings() {
+		List<EUnitTest> lBindings = new LinkedList<EUnitTest>();
+		for (EUnitTest t = this; t != null; t = t.getParent()) {
+			if (t.getDataVariableName() == null && t.getModelBindings() == null) {
+				continue;
+			}
+			lBindings.add(0, t);
+		}
+		return lBindings;
+	}
+
+	/**
+	 * Returns the name of this test as if it was a JUnit test method, adding
+	 * the specified package at the beginning.
+	 * @param packageName Package name (as set in the EUnitModule).
+	 */
+	public String getQualifiedName(String packageName) {
+		final File eolFile = getOperation().getAst().getFile();
+
+		// Remove the file extension
+		String filename = eolFile.getName();
+		final int lastDot = filename.lastIndexOf('.');
+		if (lastDot != -1) {
+			filename = filename.substring(0, lastDot);
+		}
+
+		return packageName + "." + eolFile.getName();
+	}
+
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer(getOperationName());
 
 		// data binding
 		if (getDataVariableName() != null) {
 			sbuf.append(" (");
-			sbuf.append(getDataBinding());
+			sbuf.append(explainBinding());
 			sbuf.append(")");
 		}
 
@@ -349,4 +455,29 @@ public class EUnitTest {
 		return getParent() == null;
 	}
 
+	/* MODEL->TEST BINDINGS */
+
+	/**
+	 * Changes the set of model bindings for this test. It is a sequence of strings
+	 * with an even number of elements: each consecutive pair of elements A and B
+	 * indicates that model A will be an alias for model B. Therefore, if we wanted
+	 * to set the default model as an alias for model X, we would use
+	 * 'Sequence {"", "X"}'.
+	 */
+	public void setModelBindings(EolSequence annotation) {
+		modelBindings = new LinkedHashMap<String, String>();
+		while (annotation.size() >= 2) {
+			final String alias = (String)annotation.remove(0);
+			final String original = (String)annotation.remove(0);
+			modelBindings.put(alias, original);
+		}
+	}
+
+	/**
+	 * Returns the model bindings for this test. By default, no model bindings
+	 * are used, and this method returns <code>null</code>.
+	 */
+	public Map<String, String> getModelBindings() {
+		return modelBindings;
+	}
 }
