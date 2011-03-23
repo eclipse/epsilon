@@ -26,6 +26,7 @@ public abstract class ModuleTask extends EpsilonTask {
 	protected boolean assertions = true;
 	protected String uri;
 	protected Object result;
+	private boolean isGUI = true;
 
 	public ModuleTask() {
 		super();
@@ -82,7 +83,9 @@ public abstract class ModuleTask extends EpsilonTask {
 		// a JUnit test
 		if (Platform.getExtensionRegistry() != null) {
 			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
-			module.getContext().setUserInput(new JFaceUserInput(module.getContext().getPrettyPrinterManager()));
+			if (!isGUI()) {
+				module.getContext().setUserInput(new JFaceUserInput(module.getContext().getPrettyPrinterManager()));
+			}
 		}
 		module.getContext().setExtendedProperties(getExtendedProperties());
 
@@ -147,4 +150,20 @@ public abstract class ModuleTask extends EpsilonTask {
 		this.assertions = assertions;
 	}
 
+	/**
+	 * Changes whether Epsilon's graphical user input facilities should be enabled or not.
+	 * By default, they are enabled for all tasks except for the EUnit Ant task, in which
+	 * they are disabled.
+	 */
+	public void setGUI(boolean gui) {
+		this.isGUI = gui;
+	}
+
+	/**
+	 * Returns whether Epsilon's graphical user input facilities should be enabled or not.
+	 * @see #setGUI(boolean)
+	 */
+	public boolean isGUI() {
+		return isGUI;
+	}
 }

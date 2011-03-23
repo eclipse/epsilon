@@ -31,7 +31,7 @@
             class="org.eclipse.epsilon.eol.dt.editor.EolEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
-            extensions="eol"
+            extensions="eol, eunit"
             icon="icons/eol.gif"
             id="org.eclipse.epsilon.eol.dt.editor.EolEditor"
             name="Epsilon Object Language Editor"/>

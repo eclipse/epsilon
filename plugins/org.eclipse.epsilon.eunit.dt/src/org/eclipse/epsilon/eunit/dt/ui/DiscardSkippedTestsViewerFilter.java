@@ -10,8 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.dt.ui;
 
+import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
@@ -28,6 +31,14 @@ class DiscardSkippedTestsViewerFilter extends ViewerFilter {
 			EUnitTest t = (EUnitTest)element;
 			if (EUnitTestResultType.SKIPPED.equals(t.getResult())) {
 				return false;
+			}
+		}
+		else if (element instanceof EUnitModule) {
+			EUnitModule m = (EUnitModule)element;
+			try {
+				return select(viewer, m, m.getSuiteRoot());
+			} catch (EolRuntimeException e) {
+				EUnitPlugin.getDefault().logException(e);
 			}
 		}
 		return true;

@@ -42,9 +42,6 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.epsilon.eunit.dt"; //$NON-NLS-1$
 
-	// The task type for the Epsilon EUnit Ant task
-	public static final String EUNIT_TASK_TYPE = "epsilon.eunit";
-
 	// The shared instance
 	private static EUnitPlugin plugin;
 
@@ -141,13 +138,6 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 		return lastLaunch;
 	}
 
-	/**
-	 * Changes the last Ant launch recorded by this plugin.
-	 */
-	public void setLastLaunch(ILaunch launch) {
-		lastLaunch = launch;
-	}
-
 	@Override
 	public void launchesRemoved(ILaunch[] launches) {
 		// nothing to do
@@ -155,28 +145,12 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 
 	@Override
 	public void launchesAdded(ILaunch[] launches) {
-		// nothing to do
+		updateLastLaunch(launches);
 	}
 
 	@Override
 	public void launchesChanged(ILaunch[] launches) {
-		ILaunchConfigurationType antConfigType
-			= launchManager.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
-
-		for (ILaunch launch : launches) {
-			if (launch.getLaunchConfiguration() == null) continue;
-
-			// We're only interested in Ant launch configurations. Among them,
-			// we will only pick those which have used the EUnit Ant task, by
-			// later using the ShowEUnitViewTestListener class.
-			ILaunchConfiguration config = launch.getLaunchConfiguration();
-			try {
-				if (!config.getType().equals(antConfigType)) continue;
-				lastLaunch = launch;
-			} catch (CoreException e) {
-				logException(e);
-			}
-		}
+		updateLastLaunch(launches);
 	}
 
 	/**
@@ -211,5 +185,25 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	@SuppressWarnings("rawtypes")
 	public void setSelectedOperations(ILaunchConfigurationWorkingCopy launchConfig, List selOps) {
 		launchConfig.setAttribute(EUnitPlugin.LAUNCH_ATTR_SELECTED_TESTS, selOps);
+	}
+
+	private void updateLastLaunch(ILaunch[] launches) {
+		ILaunchConfigurationType antConfigType
+			= launchManager.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
+
+		for (ILaunch launch : launches) {
+			if (launch.getLaunchConfiguration() == null) continue;
+
+			// We're only interested in Ant launch configurations. Among them,
+			// we will only pick those which have used the EUnit Ant task, by
+			// later using the ShowEUnitViewTestListener class.
+			ILaunchConfiguration config = launch.getLaunchConfiguration();
+			try {
+				if (!config.getType().equals(antConfigType)) continue;
+				lastLaunch = launch;
+			} catch (CoreException e) {
+				logException(e);
+			}
+		}
 	}
 }

@@ -78,7 +78,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private final class RerunAllAction extends Action {
 		public RerunAllAction() {
 			setText("Rerun All Tests");
-			setToolTipText("Tests all the operations in the current EUnit test suite");
+			setToolTipText("Tests all the operations in the current EUnit launch");
 			setImageDescriptor(
 					EUnitPlugin.getImageDescriptor("icons/eunit.png"));
 		}

@@ -16,17 +16,20 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -121,47 +124,29 @@ public class EUnitModule extends EolModule {
 		return suiteRoot;
 	}
 
-	private void populateSuiteTree(EUnitTest parent, ListIterator<Map.Entry<EolOperation,String>> dataIterator) throws EolRuntimeException {
-		if (dataIterator.hasNext()) {
-			final Map.Entry<EolOperation, String> entry = dataIterator.next();
-			final EolSequence values
-				= (EolSequence) entry.getKey().execute(null, Collections.EMPTY_LIST, context, true);
-			final String variableName = entry.getValue();
-			for (Object value : values) {
-				EUnitTest child = new EUnitTest();
-				child.setParent(parent);
-				child.setDataVariableName(variableName);
-				child.setDataValue(value);
-				child.setOperation(entry.getKey());
-				parent.addChildren(child);
-				populateSuiteTree(child, dataIterator);
-			}
-			if (dataIterator.hasPrevious()) {
-				dataIterator.previous();
-			}
-		} else {
-			for (EolOperation opTest : this.getTests()) {
-				EUnitTest test = new EUnitTest();
-				test.setParent(parent);
-				test.setOperation(opTest);
-				parent.addChildren(test);
+	public void runSuite(EUnitTest node) throws EolRuntimeException {
+		try {
+			// Make sure any exception while running or preparing the test
+			// case does not crash the test suite, and is properly reported
+			runSuiteInternal(node);
+		}
+		catch (EolAssertionException asex) {
+			setResultWithFailureTrace(node, asex, EUnitTestResultType.FAILURE);
+		}
+		catch (Exception ex) {
+			setResultWithFailureTrace(node, ex, EUnitTestResultType.ERROR);
+		}
+		finally {
+			// Wipe any EOL operation caches
+			wipeCaches();
+			// Save the time required to run the test
+			node.setEndCpuTime(THREAD_MXBEAN.getCurrentThreadCpuTime());
+			node.setEndWallclockTime(System.currentTimeMillis());
+			// Notify all users that the test is done
+			fireAfterCase(node);
 
-				if (hasModelBindings(opTest)) {
-					final List<Object> annotationsValues = getModelBindings(opTest);
-					if (annotationsValues.size() == 1) {
-						// Do not create an inner node if there is only one model binding 
-						test.setModelBindings((EolSequence)annotationsValues.get(0));
-					}
-					else {
-						for (Object annotation : annotationsValues) {
-							EUnitTest child = new EUnitTest();
-							child.setParent(test);
-							child.setOperation(opTest);
-							child.setModelBindings((EolSequence)annotation);
-							test.addChildren(child);
-						}
-					}
-				}
+			if (node.getOperation() != null) {
+				getContext().getFrameStack().leave(node.getOperation().getAst());
 			}
 		}
 	}
@@ -175,13 +160,100 @@ public class EUnitModule extends EolModule {
 		return EolAnnotationsUtil.hasAnnotation(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME);
 	}
 
-	public void runSuite(EUnitTest node) throws EolRuntimeException {
+	private void populateSuiteTree(EUnitTest parent, ListIterator<Map.Entry<EolOperation,String>> dataIterator) throws EolRuntimeException {
+		if (dataIterator.hasNext()) {
+			populateSuiteTreeDataOperation(parent, dataIterator);
+		} else {
+			populateSuiteTreeTestOperation(parent);
+		}
+	}
+
+	private void populateSuiteTreeTestOperation(EUnitTest parent)
+			throws EolRuntimeException {
+		for (EolOperation opTest : this.getTests()) {
+			EUnitTest test = new EUnitTest();
+			test.setParent(parent);
+			test.setOperation(opTest);
+			parent.addChildren(test);
+
+			try {
+				if (hasModelBindings(opTest)) {
+					final List<Object> annotationsValues = getModelBindings(opTest);
+
+					if (annotationsValues.size() == 1) {
+						// Do not create an inner node if there is only one
+						// model binding
+						test.setModelBindings((EolSequence) annotationsValues.get(0));
+					} else {
+						for (Object annotation : annotationsValues) {
+							EUnitTest child = new EUnitTest();
+							child.setParent(test);
+							child.setOperation(opTest);
+							child.setModelBindings((EolSequence) annotation);
+							test.addChildren(child);
+						}
+					}
+				}
+			} catch (Exception ex) {
+				this.setResultWithFailureTrace(test, ex, EUnitTestResultType.ERROR);
+			}
+		}
+	}
+
+	private void populateSuiteTreeDataOperation(EUnitTest parent,
+			ListIterator<Map.Entry<EolOperation, String>> dataIterator)
+			throws EolRuntimeException {
+		final Map.Entry<EolOperation, String> entry = dataIterator.next();
+
+		try {
+			final EolSequence values
+				= (EolSequence) entry.getKey().execute(null, Collections.EMPTY_LIST, context, true);
+			final String variableName = entry.getValue();
+			for (Object value : values) {
+				EUnitTest child = new EUnitTest();
+				child.setParent(parent);
+				child.setDataVariableName(variableName);
+				child.setDataValue(value);
+				child.setOperation(entry.getKey());
+				parent.addChildren(child);
+
+				// If the node has a data binding, use it while populating this
+				// node's subtree: it may be used in a $with annotation.
+				final FrameStack frameStack = getContext().getFrameStack();
+				final AST operationAST = child.getOperation().getAst();
+				frameStack.enter(FrameType.UNPROTECTED, operationAST);
+				applyDataBinding(child);
+				populateSuiteTree(child, dataIterator);
+				frameStack.leave(operationAST);
+			}
+		}
+		catch (Exception ex) {
+			setResultWithFailureTrace(parent, ex, EUnitTestResultType.ERROR);
+		}
+		finally {
+			if (dataIterator.hasPrevious()) {
+				dataIterator.previous();
+			}
+		}
+	}
+
+	private void setResultWithFailureTrace(
+		EUnitTest node, Exception asex, final EUnitTestResultType resultType)
+	{
+		node.setResult(resultType);
+		node.setException(asex);
+		node.setFrameStack(getContext().getFrameStack().clone());
+	}
+
+	private void runSuiteInternal(EUnitTest node)
+			throws EolModelNotFoundException, EolRuntimeException {
 		if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
 			// The test case is to be skipped
 			return;
 		}
 
-		// We need separate stack frames to ensure everything is clean after each test case
+		// We need separate stack frames to ensure everything is clean after
+		// each test case
 		if (node.getOperation() != null) {
 			getContext().getFrameStack().enter(FrameType.UNPROTECTED, node.getOperation().getAst());
 		}
@@ -189,21 +261,19 @@ public class EUnitModule extends EolModule {
 		// Implement data bindings
 		if (node.getDataVariableName() != null) {
 			// This node has a variable binding: use it
-			Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
-			getContext().getFrameStack().put(dataVariable);
+			applyDataBinding(node);
 		}
 
 		// We need to set test start time *before* firing the beforeCase notification
 		// so the time taken by the nested tasks in the setup part is included.
 		node.setStartCpuTime(THREAD_MXBEAN.getCurrentThreadCpuTime());
 		node.setStartWallclockTime(System.currentTimeMillis());
-		node.setResult(EUnitTestResultType.RUNNING);
-		fireBeforeCase(node);
-
-		// Implement model bindings (needs to be after fireBeforeCase, so the EUnit Ant task can load the models)
-		if (node.getModelBindings() != null) {
-			applyModelBindings(node);
+		if (node.getResult().equals(EUnitTestResultType.NOT_RUN_YET)) {
+			// Do not overwrite the result for tests which failed during tree population,
+			// but still act as if we were running them, to avoid confusing the EUnit view
+			node.setResult(EUnitTestResultType.RUNNING);
 		}
+		fireBeforeCase(node);
 
 		if (node.isRootTest()) {
 			// We need to wrap the original streams to capture all their output, for the JUnit-like reports.
@@ -213,23 +283,19 @@ public class EUnitModule extends EolModule {
 			getContext().setErrorStream(new ByteBufferTeePrintStream(getContext().getErrorStream()));
 		}
 
-		if (node.getChildren().isEmpty()) {
-			// Leaf test case: simply run it
-			runLeafTestCase(node.getOperation(), node);
-		} else {
-			runInnerTestCase(node);
+		// Implement model bindings (needs to be after fireBeforeCase, so
+		// the EUnit Ant task can load the models)
+		if (node.getModelBindings() != null) {
+			applyModelBindings(node);
 		}
 
-		// Wipe any EOL operation caches
-		wipeCaches();
-		// Save the time required to run the test
-		node.setEndCpuTime(THREAD_MXBEAN.getCurrentThreadCpuTime());
-		node.setEndWallclockTime(System.currentTimeMillis());
-		// Notify all users that the test is done
-		fireAfterCase(node);
-
-		if (node.getOperation() != null) {
-			getContext().getFrameStack().leave(node.getOperation().getAst());
+		if (node.getResult().equals(EUnitTestResultType.RUNNING)) {
+			if (node.getChildren().isEmpty()) {
+				// Leaf test case: simply run it
+				runLeafTestCase(node.getOperation(), node);
+			} else {
+				runInnerTestCase(node);
+			}
 		}
 	}
 
@@ -272,23 +338,20 @@ public class EUnitModule extends EolModule {
 
 		// EXECUTION
 		try {
-			opTest.execute(null, Collections.EMPTY_LIST, context, false);
-			node.setResult(EUnitTestResultType.SUCCESS);
-		} catch (EolAssertionException asex) {
-			node.setResult(EUnitTestResultType.FAILURE);
-			node.setException(asex);
-			node.setFrameStack(getContext().getFrameStack().clone());
-		} catch (Exception ex) {
-			node.setResult(EUnitTestResultType.ERROR);
-			node.setException(ex);
-			node.setFrameStack(getContext().getFrameStack().clone());
-		}
-
+		opTest.execute(null, Collections.EMPTY_LIST, context, false);
+		node.setResult(EUnitTestResultType.SUCCESS);
+		} finally {
 		// TEARDOWN
 		// Call the @teardown operations
 		for (EolOperation opTeardown : this.getTeardowns()) {
 			opTeardown.execute(null, Collections.EMPTY_LIST, context, false);
 		}
+		}
+	}
+
+	private void applyDataBinding(EUnitTest node) {
+		Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
+		getContext().getFrameStack().put(dataVariable);
 	}
 
 	/**
@@ -303,7 +366,7 @@ public class EUnitModule extends EolModule {
 		// Store the model to be used as default model (usable with no prefix,
 		// must be first in the list of models in the model repository).
 		final ModelRepository modelRepository = getContext().getModelRepository();
-		final Map<String, String> bindings = node.getModelBindings();
+		final Map<String, String> bindings = new HashMap<String, String>(node.getModelBindings());
 		IModel defaultModel = modelRepository.getModelByName("");
 		if (bindings.containsKey("")) {
 			defaultModel = modelRepository.getModelByName(bindings.get(""));
@@ -388,17 +451,37 @@ public class EUnitModule extends EolModule {
 		markSkippedEntries(getSuiteRoot());
 	}
 
-	private void markSkippedEntries(EUnitTest node) {
+	/**
+	 * Returns <code>true</code> if this node was skipped, <code>false</code> otherwise.
+	 * Inner nodes whose children are all skipped will be skipped as well.
+	 */
+	private boolean markSkippedEntries(EUnitTest node) {
+		// The node is explicitly listed: skip it
 		if (!node.isSelected(selectedOperations)) {
 			node.setResult(EUnitTestResultType.SKIPPED);
+			return true;
+		}
+
+		// Not listed: reset skipped status to "not run yet"
+		if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
+			node.setResult(EUnitTestResultType.NOT_RUN_YET);
+		}
+
+		if (node.isLeafTest()) {
+			// If this is a leaf test, we know we won't skip it
+			return false;
 		}
 		else {
-			if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
-				node.setResult(EUnitTestResultType.NOT_RUN_YET);
-			}
+			// This inner node will be skipped if all its children are skipped
+			boolean bAllChildrenSkipped = true;
 			for (EUnitTest child : node.getChildren()) {
-				markSkippedEntries(child);
+				// We do *not* want the short-circuit evaluation of && here: & is *not* a typo
+				bAllChildrenSkipped = bAllChildrenSkipped & markSkippedEntries(child);
 			}
+			if (bAllChildrenSkipped) {
+				node.setResult(EUnitTestResultType.SKIPPED);
+			}
+			return bAllChildrenSkipped;
 		}
 	}
 

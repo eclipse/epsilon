@@ -47,6 +47,12 @@
 		<antcall target="template"/>
 	</target>
 
+	<target name="parametricHandleErrors">
+		<property name="eunit.file" location="sample-parametric-handle-errors.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
 	<target name="parametric1level">
 		<property name="eunit.file" location="sample-parametric-1level.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
@@ -71,7 +77,8 @@
 	</target>
 
 	<target name="withAnnotation">
-		<epsilon.eunit src="with-annotation.eunit" failOnErrors="false">
+		<property name="eunit.file" location="with-annotation.eunit"/>
+		<epsilon.eunit src="${eunit.file}" failOnErrors="false">
 			<epsilon.emf.loadModel
 				name="A"
 			    modelfile="sample.model"
@@ -85,6 +92,21 @@
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
 			<report format="noframes" todir="."/>
 		</junitreport>
+	</target>
+
+	<target name="withAnnotationMissingModel">
+		<property name="eunit.file" location="with-annotation-missing-model.eunit"/>
+		<antcall target="withAnnotation"/>
+	</target>
+
+	<target name="withAnnotationCombineData">
+		<property name="eunit.file" location="with-annotation-combine-data.eunit"/>
+		<antcall target="withAnnotation"/>
+	</target>
+
+	<target name="withAnnotationCombineDataHandleErrors">
+		<property name="eunit.file" location="with-annotation-combine-data-handle-errors.eunit"/>
+		<antcall target="withAnnotation"/>
 	</target>
 
 </project>

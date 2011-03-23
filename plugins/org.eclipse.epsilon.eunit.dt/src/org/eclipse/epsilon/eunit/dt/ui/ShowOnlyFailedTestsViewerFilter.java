@@ -10,8 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.dt.ui;
 
+import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
@@ -29,10 +32,21 @@ public class ShowOnlyFailedTestsViewerFilter extends ViewerFilter {
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		if (isEnabled && element instanceof EUnitTest) {
-			EUnitTest t = (EUnitTest)element;
-			return t.getResult().equals(EUnitTestResultType.ERROR)
-				|| t.getResult().equals(EUnitTestResultType.FAILURE);
+		if (isEnabled) {
+			if (element instanceof EUnitTest) {
+				EUnitTest t = (EUnitTest)element;
+				return t.getResult().equals(EUnitTestResultType.ERROR)
+					|| t.getResult().equals(EUnitTestResultType.FAILURE);
+			}
+			else if (element instanceof EUnitModule) {
+				EUnitModule m = (EUnitModule)element;
+				try {
+					return select(viewer, m, m.getSuiteRoot());
+				} catch (EolRuntimeException e) {
+					EUnitPlugin.getDefault().logException(e);
+					// fall back on the default case below
+				}
+			}
 		}
 		return true;
 	}

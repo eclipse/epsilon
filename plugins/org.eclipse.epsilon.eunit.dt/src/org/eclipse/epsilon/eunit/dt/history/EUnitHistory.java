@@ -17,6 +17,9 @@ import java.util.Map;
 
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
+import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 
 /**
  * Class which tracks the results of all the EUnit tests run in this session.
@@ -55,5 +58,44 @@ public class EUnitHistory {
 
 	public List<EUnitModule> getModules(ILaunch launch) {
 		return launches.get(launch);
+	}
+
+	/**
+	 * Returns the aggregated result over all EUnit modules executed in a launch.
+	 * The basic order is as follows: error if one module had an error, otherwise
+	 * failure if one module had a failure, otherwise skipped if all modules were
+	 * skipped, otherwise success. If the launch is not in the history of this instance,
+	 * it will report that the launch has not been launched yet.
+	 */
+	public EUnitTestResultType getResult(ILaunch launch) {
+		final List<EUnitModule> modules = getModules(launch);
+		if (modules == null) {
+			return EUnitTestResultType.NOT_RUN_YET;
+		}
+
+		boolean bHasFailure = false, bAllSkipped = true;
+		for (EUnitModule m : modules) {
+			try {
+				final EUnitTestResultType result = m.getSuiteRoot().getResult();
+				if (result == EUnitTestResultType.ERROR) {
+					return result;
+				}
+				bAllSkipped = bAllSkipped && result == EUnitTestResultType.SKIPPED;
+				bHasFailure = bHasFailure || result == EUnitTestResultType.FAILURE;
+			} catch (EolRuntimeException e) {
+				EUnitPlugin.getDefault().logException(e);
+				// skip this module
+			}
+		}
+
+		if (bHasFailure) {
+			return EUnitTestResultType.FAILURE;
+		}
+		else if (bAllSkipped) {
+			return EUnitTestResultType.SKIPPED;
+		}
+		else {
+			return EUnitTestResultType.SUCCESS;
+		}
 	}
 }

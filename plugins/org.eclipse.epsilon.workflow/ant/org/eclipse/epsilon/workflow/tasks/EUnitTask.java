@@ -25,15 +25,11 @@ import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
 
 /**
  * Ant task for running EUnit test suites.
- *
- * <p><emph>Important note:</emph> if you change the tag of this Ant task, please do not
- * forget to update o.e.epsilon.eunit.dt! It can't use this task directly, so it has to
- * check for the task type manually, and I can't even use a shared constant because of
- * classloader issues.</p>
  *
  * @author Antonio García-Domínguez
  * @version 1.0
@@ -44,8 +40,20 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 
+	public EUnitTask() {
+		// By default, the EUnit Ant task disables JFace-based user input,
+		// which hinders automated testing
+		setGUI(false);
+	}
+
 	public void addTask(Task task) {
 		nestedTasks.add(task);
+		if (task instanceof ModuleTask) {
+			ModuleTask moduleTask = (ModuleTask)task;
+
+			// The gui attribute of the EUnit Ant task is inherited by all nested tasks
+			moduleTask.setGUI(isGUI());
+		}
 	}
 
 	@Override
@@ -87,6 +95,10 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 	public void beforeCase(EUnitModule module, EUnitTest test) {
 		if (test.isRootTest() && Platform.getExtensionRegistry() != null) {
 			EclipseContextManager.setup(module.getContext());
+
+			// Disable notification through dialogs: it's bad for automated test cases.
+			// Use the console instead.
+			module.getContext().setUserInput(new JavaConsoleUserInput());
 		}
 
 		if (test.isLeafTest()) {
@@ -105,27 +117,29 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 		final PrintStream err = module.getContext().getErrorStream();
 		final String sMillis = String.format(" [cpu: %d ms, wallclock: %d ms]", test.getCpuTimeMillis(), test.getWallclockTimeMillis());
 
-		if (test.getOperation() == null) {
-			// Root node, with no operation (neither @data nor @test)
-			out.println("Global result: " + test.getResult() + sMillis);
-			if (test.getResult() != EUnitTestResultType.SUCCESS) {
-				fail("At least one test case had a failure or an error");
-			}
-			return;
-		}
-		if (!test.getChildren().isEmpty()) {
-			// Test with children: do nothing. We're only interested in leaf nodes and the root node.
-			return;
-		}
-
 		final String testDescription = "Test " + test.getMethodName() + " (" + test.explainAllBindings() + ")";
 		if (test.getResult() == EUnitTestResultType.SUCCESS) {
 			out.println(testDescription + " passed" + sMillis);
-		} else if (test.getResult() == EUnitTestResultType.FAILURE) {
-			err.println(testDescription + " failed: " + test.getException().toString() + sMillis);
-		} else if (test.getResult() == EUnitTestResultType.ERROR) {
-			err.println(testDescription + " failed due to an error: " + test.getException().toString() + sMillis);
-			test.getException().printStackTrace(err);
+		} else if (test.getResult() == EUnitTestResultType.SKIPPED){
+			out.println(testDescription + " skipped" + sMillis);
+		} else {
+			err.print(testDescription + " failed with status " + test.getResult());
+			final Exception testException = test.getException();
+			if (testException != null) {
+				err.println(": " + testException.getMessage());
+				testException.printStackTrace(err);
+			}
+			else {
+				err.println();
+			}
+		}
+
+		if (test.isRootTest()) {
+			// Root node, with no operation (neither @data nor @test)
+			out.println("Global result: " + test.getResult() + sMillis);
+			if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
+				fail("At least one test case had a failure or an error");
+			}
 		}
 	}
 

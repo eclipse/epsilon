@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTest;
+import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.epsilon.eunit.dt.history.EUnitHistory;
@@ -53,21 +53,23 @@ class HistoryDropDownAction extends Action implements IMenuCreator, IMenuListene
 
 		public HistoryAction(ILaunch launch) throws EolRuntimeException {
 			this.launch = launch;
-			final List<EUnitModule> modules = history.getModules(launch);
-			setText(modules.get(modules.size()-1));
+			setText(launch);
 			setChecked(launch == history.getCurrentLaunch());
 		}
 
-		private void setText(EUnitModule module) throws EolRuntimeException {
-			final EUnitTest results = module.getSuiteRoot();
+		private void setText(ILaunch launch) throws EolRuntimeException {
+			final List<EUnitModule> modules = history.getModules(launch);
+			final EUnitTestResultType result = history.getResult(launch);
+			final EUnitModule firstModule = modules.get(0);
 
-			final Date testStartTime = new Date(results.getStartWallclockTime());
+			final Date testStartTime
+				= new Date(firstModule.getSuiteRoot().getStartWallclockTime());
 			final DateFormat dateFormat = new SimpleDateFormat();
 			final StringBuffer sbuf = new StringBuffer();
 
-			sbuf.append(results.getResult().toString());
+			sbuf.append(result.toString());
 			sbuf.append(": ");
-			sbuf.append(module.getAst().getFile().getName());
+			sbuf.append(firstModule.getAst().getFile().getName());
 			sbuf.append(' ');
 			sbuf.append(dateFormat.format(testStartTime));
 

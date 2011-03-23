@@ -101,6 +101,18 @@ public class EUnitJUnitXMLOutputTest extends EUnitTestCase implements ErrorHandl
 	}
 
 	@Test
+	public void parametricHandleErrors() throws Exception {
+		final String[] expectedTestCases = new String[]{"root"};
+
+		runTarget(ANT_BUILD_FILE, "parametricHandleErrors");
+		checkOutput(new File(BASE_DIR, "TEST-default.sample-parametric-handle-errors.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				expectedTestCases,
+				new HashSet<String>(),
+				new HashSet<String>(Arrays.asList(expectedTestCases)));
+	}
+
+	@Test
 	public void parametric1LevelProducesGoodOutput() throws Exception {
 		runTarget(ANT_BUILD_FILE, "parametric1level");
 		checkOutput(new File(BASE_DIR, "TEST-default.sample-parametric-1level.xml"),
@@ -144,6 +156,39 @@ public class EUnitJUnitXMLOutputTest extends EUnitTestCase implements ErrorHandl
 					"hasOneB", "hasTwoB",
 				},
 				new HashSet<String>(), new HashSet<String>());
+	}
+
+	@Test
+	public void withUsingMissingModelsIsFailedTestCase() throws Exception {
+		runTarget(ANT_BUILD_FILE, "withAnnotationMissingModel");
+		checkOutput(new File(BASE_DIR, "TEST-default.with-annotation-missing-model.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"hasOneA[1]", "hasOneA[2]"
+				},
+				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[2]")));
+	}
+
+	@Test
+	public void withCanUseDataVariables() throws Exception {
+		runTarget(ANT_BUILD_FILE, "withAnnotationCombineData");
+		checkOutput(new File(BASE_DIR, "TEST-default.with-annotation-combine-data.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"hasOneA[1]", "hasOneA[2]"
+				},
+				new HashSet<String>(), new HashSet<String>());
+	}
+
+	@Test
+	public void withCanUseDataVariablesHandleErrors() throws Exception {
+		runTarget(ANT_BUILD_FILE, "withAnnotationCombineDataHandleErrors");
+		checkOutput(new File(BASE_DIR, "TEST-default.with-annotation-combine-data-handle-errors.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"hasOneA[1]", "hasOneA[2]"
+				},
+				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[1]", "hasOneA[2]")));
 	}
 
 	/**

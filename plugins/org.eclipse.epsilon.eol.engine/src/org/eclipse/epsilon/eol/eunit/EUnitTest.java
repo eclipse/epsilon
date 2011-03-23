@@ -14,6 +14,7 @@ package org.eclipse.epsilon.eol.eunit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -340,6 +341,10 @@ public class EUnitTest {
 	 * @param packageName Package name (as set in the EUnitModule).
 	 */
 	public String getQualifiedName(String packageName) {
+		if (getOperation() == null) {
+			// The root node in a test tree has no operation
+			return packageName + ".(root)";
+		}
 		final File eolFile = getOperation().getAst().getFile();
 
 		// Remove the file extension
@@ -464,8 +469,13 @@ public class EUnitTest {
 	 * to set the default model as an alias for model X, we would use
 	 * 'Sequence {"", "X"}'.
 	 */
-	public void setModelBindings(EolSequence annotation) {
-		modelBindings = new LinkedHashMap<String, String>();
+	public synchronized void setModelBindings(EolSequence annotation) {
+		if (modelBindings == null) {
+			modelBindings = new LinkedHashMap<String, String>();
+		}
+		else {
+			modelBindings.clear();
+		}
 		while (annotation.size() >= 2) {
 			final String alias = (String)annotation.remove(0);
 			final String original = (String)annotation.remove(0);
@@ -475,9 +485,14 @@ public class EUnitTest {
 
 	/**
 	 * Returns the model bindings for this test. By default, no model bindings
-	 * are used, and this method returns <code>null</code>.
+	 * are used, and this method returns <code>null</code>. This map cannot be
+	 * changed: if you want to make changes to it, you'll need to make a copy.
+	 * Trying to change it will throw an {@link UnsupportedOperationException}.
 	 */
-	public Map<String, String> getModelBindings() {
-		return modelBindings;
+	public synchronized Map<String, String> getModelBindings() {
+		if (modelBindings != null) {
+			return Collections.unmodifiableMap(modelBindings);
+		}
+		return null;
 	}
 }

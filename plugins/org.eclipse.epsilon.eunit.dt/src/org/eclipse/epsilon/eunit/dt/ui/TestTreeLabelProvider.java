@@ -81,20 +81,17 @@ public class TestTreeLabelProvider extends StyledCellLabelProvider {
 		if (obj instanceof EUnitTest) {
 			EUnitTest test = (EUnitTest)obj;
 			str = new StyledString(test.getOperationName());
-			if (test.getDataVariableName() != null) {
-				str.append(" (", StyledString.QUALIFIER_STYLER);
-				str.append(test.explainBinding(), StyledString.QUALIFIER_STYLER);
-				str.append(')', StyledString.QUALIFIER_STYLER);
-			}
-			if (test.getEndWallclockTime() != EUnitTest.UNSET_TIME) {
-				str.append(" [", StyledString.COUNTER_STYLER);
-				str.append(Long.toString(test.getWallclockTimeMillis()), StyledString.COUNTER_STYLER);
-				str.append("ms]", StyledString.COUNTER_STYLER);
-			}
+			appendBinding(str, test);
+			appendWallclockTime(str, test);
 		}
 		else if (obj instanceof EUnitModule) {
 			EUnitModule module = (EUnitModule)obj;
 			str = new StyledString(module.getQualifiedName());
+			try {
+				appendWallclockTime(str, module.getSuiteRoot());
+			} catch (EolRuntimeException e) {
+				EUnitPlugin.getDefault().logException(e);
+			}
 		}
 		else {
 			str = new StyledString(obj.toString());
@@ -137,5 +134,22 @@ public class TestTreeLabelProvider extends StyledCellLabelProvider {
 			}
 		}
 		return imgTest;
+	}
+
+	private void appendBinding(StyledString str, EUnitTest test) {
+		final String binding = test.explainBinding();
+		if (binding.length() > 0) {
+			str.append(" (", StyledString.QUALIFIER_STYLER);
+			str.append(test.explainBinding(), StyledString.QUALIFIER_STYLER);
+			str.append(')', StyledString.QUALIFIER_STYLER);
+		}
+	}
+
+	private void appendWallclockTime(StyledString str, EUnitTest test) {
+		if (test.getEndWallclockTime() != EUnitTest.UNSET_TIME) {
+			str.append(" [", StyledString.COUNTER_STYLER);
+			str.append(Long.toString(test.getWallclockTimeMillis()), StyledString.COUNTER_STYLER);
+			str.append("ms]", StyledString.COUNTER_STYLER);
+		}
 	}
 }
