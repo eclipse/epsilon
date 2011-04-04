@@ -54,7 +54,7 @@ public class MatchesOperation extends AbstractOperation{
 			
 			Boolean match = true;
 			
-			while (lit.hasNext()){
+			while (lit.hasNext() && match){
 				match = match && (matchInstances(lit.next(), rit.next(), context, false));
 			}
 			
