@@ -56,41 +56,47 @@ public class EclipseUtil {
 		if (file == null) return;
 		
 		String fileName = file.getAbsolutePath();
-		//String workbenchPath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString();
-		//String relateivePath = fileName.replace(workbenchPath,"");
 		
-		//if (relateivePath.equalsIgnoreCase(fileName)) {
-			//File outside the workspace
-		//	ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path)
-		//}
+		IFile iFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path(fileName))[0];
 		
-		//IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().
-		//findMember(new Path(relateivePath));
-		//findMember(new Path(fileName));
+		openEditorAt(iFile, line, column, highlightLine);
 		
-		IFile res=(IFile)ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path(fileName))[0];
-		
-		if (res == null) return;
-		
-		FileEditorInput fileinput=new FileEditorInput(res);
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(fileName);
-		try {
-			AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId(), false);		
-			IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
-			
-			if (line == 0) line = 1;
-			
-			if (highlightLine) {
-				editor.selectAndReveal(doc.getLineOffset(line - 1),doc.getLineLength(line - 1) - 1);
-			}
-			else {
-				editor.selectAndReveal(doc.getLineOffset(line - 1) + column - 1,0);
-			}
-			//TODO : Make it highlight lines
-		}
-		catch (Exception ex) {
-			// Ignore
-		}
 	}
 	
+	public static void openEditorAt(final IFile file, final int line, final int column, final boolean highlightLine) {
+		
+		if (file == null) return;
+		
+		final FileEditorInput fileinput=new FileEditorInput(file);
+		
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+		
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+
+			public void run() {
+				try {
+					
+					int realLine = line;
+					if (realLine == 0) realLine = 1;
+					
+					AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId(), false);		
+					IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
+					
+					if (highlightLine) {
+						editor.selectAndReveal(doc.getLineOffset(realLine - 1),doc.getLineLength(realLine - 1) - 1);
+					}
+					else {
+						editor.selectAndReveal(doc.getLineOffset(realLine - 1) + column - 1,0);
+					}
+					//TODO : Make it highlight lines
+				}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}				
+			}
+			
+		});
+		
+	}
+
 }

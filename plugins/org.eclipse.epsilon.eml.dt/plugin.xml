@@ -28,7 +28,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.eml.dt.launching.EmlLaunchConfigurationDelegate"
             id="org.epsilon.eml.eclipse.dt.launcing.EmlLaunchConfigurationDelegate"
-            modes="run"
+            modes="run,debug"
             name="EML Merging"/>
    </extension>
    <extension

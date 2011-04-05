@@ -20,13 +20,13 @@ public class DebugExecutionController implements ExecutionController{
 	boolean suspended = false;
 	boolean terminated = false;
 	
-	public boolean canProceed(AST ast, IEolContext context) {
-		if (suspended) {
-			return false;
-		}
-		else {
-			return true;
-		}
+	public void control(AST ast, IEolContext context) {
+//		if (suspended) {
+//			return false;
+//		}
+//		else {
+//			return true;
+//		}
 	}
 
 	public boolean isTerminated() {

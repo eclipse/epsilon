@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface ExecutionController {
 	
-	public boolean canProceed(AST ast, IEolContext context);
+	public void control(AST ast, IEolContext context);
 	
 	public boolean isTerminated();
 	

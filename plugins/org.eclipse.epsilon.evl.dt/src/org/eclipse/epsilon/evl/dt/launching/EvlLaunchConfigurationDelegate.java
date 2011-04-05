@@ -10,21 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.launching;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
-import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
+import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
 public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
-	
+	/*
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, final IProgressMonitor progressMonitor) throws CoreException {
 		
 		EpsilonConsole.getInstance().clear();
@@ -50,6 +43,23 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			EclipseContextManager.teardown(module.getContext());
 		}
 		
+	}*/
+	
+	@Override
+	public IEolExecutableModule createModule() {
+		return new EvlModule();
+	}
+	
+	@Override
+	protected EolDebugger createDebugger() {
+		return new EvlDebugger();
+	}
+	
+	@Override
+	protected void preExecute(IEolExecutableModule module) {
+		super.preExecute(module);
+		System.err.println("Setting fixer...");
+		((EvlModule)module).setUnsatisfiedConstraintFixer(new ValidationViewFixer());
 	}
 	
 }

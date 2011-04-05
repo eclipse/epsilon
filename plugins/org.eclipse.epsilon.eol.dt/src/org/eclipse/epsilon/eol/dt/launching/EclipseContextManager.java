@@ -36,6 +36,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 
 
 public class EclipseContextManager {
@@ -73,7 +74,13 @@ public class EclipseContextManager {
 	}
 	
 	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch) throws EolRuntimeException {
-		loadModels(context,configuration,progressMonitor);
+		setup(context, configuration, progressMonitor, launch, true);
+	}
+	
+	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch, boolean loadModels) throws EolRuntimeException {
+		if (loadModels) {
+			loadModels(context,configuration,progressMonitor);
+		}
 		setup(context, progressMonitor);
 	}
 	

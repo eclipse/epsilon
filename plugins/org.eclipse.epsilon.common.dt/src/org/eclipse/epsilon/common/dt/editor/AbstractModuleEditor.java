@@ -81,6 +81,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		super();
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
+	    setRulerContextMenuId("editor.rulerMenu");
 		//addSmartTyping();
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}

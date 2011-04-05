@@ -15,15 +15,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
 public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
+	/*
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		
 		EpsilonConsole.getInstance().clear();
@@ -49,5 +52,16 @@ public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			//module.getContext().getModelRepository().dispose();
 		}
 		
+	}*/
+	
+	@Override
+	public IEolExecutableModule createModule() {
+		return new EclModule();
 	}
+	
+	@Override
+	protected EolDebugger createDebugger() {
+		return new EclDebugger();
+	}
+	
 }

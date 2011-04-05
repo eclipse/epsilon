@@ -27,7 +27,7 @@ public class ExecutionProfiler implements ExecutionController {
 		super();
 	}
 
-	public boolean canProceed(AST ast, IEolContext context) {
+	public void control(AST ast, IEolContext context) {
 		
 		long currentTime = 0;
 		
@@ -43,7 +43,6 @@ public class ExecutionProfiler implements ExecutionController {
 		
 		previousTime = currentTime;
 		previousAst = ast;
-		return true;
 	}
 
 	public boolean isTerminated() {

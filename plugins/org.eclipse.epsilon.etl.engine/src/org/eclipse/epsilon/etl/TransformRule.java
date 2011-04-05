@@ -144,6 +144,9 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			context.getFrameStack().put(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 			
+			// Control guard execution
+			// context.getExecutorFactory().getExecutionController().control(guardAst, context);
+			
 			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
 			context.getFrameStack().leave(guardAst);
 			
@@ -212,6 +215,9 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			transformedElements.add(source);
 		}
 		
+		//Control execution
+		//context.getExecutorFactory().getExecutionController().control(ast, context);
+		
 		Collection targets = CollectionUtil.createDefaultList();
 		
 		for (EolFormalParameter targetParameter : targetParameters) {
@@ -229,6 +235,9 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	
 	protected void executeSuperRulesAndBody(Object source, Collection targets_, IEtlContext context) throws EolRuntimeException{
+		
+		// Control guard execution
+		// context.getExecutorFactory().getExecutionController().control(ast, context);
 		
 		List targets = CollectionUtil.asList(targets_);
 		

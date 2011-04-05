@@ -51,9 +51,7 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 
 			ArrayList lFrames = new ArrayList<Frame>();
 			if (currentTest.getFrameStack() != null) {
-				ListIterator itFrames = currentTest.getFrameStack().getFrames();
-				while (itFrames.hasNext()) {
-					final Frame frame = (Frame)itFrames.next();
+				for (final Frame frame : currentTest.getFrameStack().getFrames()) {
 					lFrames.add(frame);
 					for (Variable v : frame.getAll().values()) {
 						mapVarToFrame.put(v, frame);

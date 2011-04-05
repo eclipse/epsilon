@@ -55,12 +55,12 @@
             class="org.eclipse.epsilon.eol.dt.debug.EolBreakpoint"
             id="org.eclipse.epsilon.eol.dt.debug.EolBreakpoint"
             markerType="org.eclipse.epsilon.eol.dt.debug.breakpointMarker"
-            name="EOL Breakpoint">
+            name="Epsilon Breakpoint">
       </breakpoint>
    </extension>
    <extension
          id="debug.breakpointMarker"
-         name="EOL Breakpoint Marker"
+         name="Epsilon Breakpoint Marker"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.debug.core.lineBreakpointMarker">

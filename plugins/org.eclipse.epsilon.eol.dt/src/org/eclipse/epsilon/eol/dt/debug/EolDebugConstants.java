@@ -15,5 +15,6 @@ public class EolDebugConstants {
 	
 	public static String MODEL_IDENTIFIER = "eol.debugModel";
 	
+	public static String BREAKPOINT_MARKER = "org.eclipse.epsilon.eol.dt.debug.breakpointMarker";
 }
  

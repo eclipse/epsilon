@@ -41,9 +41,7 @@ public class EclipseExecutionController implements ExecutionController {
 		timer.schedule(pollMonitorTask, 0l, 200l);
 	}
 	
-	public boolean canProceed(AST ast, IEolContext context) {
-		return true;
-	}
+	public void control(AST ast, IEolContext context) {	}
 	
 	protected void setTerminated(boolean terminated) {
 		this.terminated = terminated;

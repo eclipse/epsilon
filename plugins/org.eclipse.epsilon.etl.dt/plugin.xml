@@ -25,7 +25,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.etl.dt.launching.EtlLaunchConfigurationDelegate"
             id="org.epsilon.etl.eclipse.dt.launching.EtlLaunchConfigurationDelegate"
-            modes="run"
+            modes="run, debug"
             name="ETL Transformation"/>
    </extension>
    <extension

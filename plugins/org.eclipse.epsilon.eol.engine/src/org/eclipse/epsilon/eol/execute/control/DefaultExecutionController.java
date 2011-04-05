@@ -16,9 +16,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class DefaultExecutionController implements ExecutionController{
 
-	public boolean canProceed(AST ast, IEolContext context) {
-		return true;
-	}
+	public void control(AST ast, IEolContext context) {}
 
 	public boolean isTerminated() {
 		return false;

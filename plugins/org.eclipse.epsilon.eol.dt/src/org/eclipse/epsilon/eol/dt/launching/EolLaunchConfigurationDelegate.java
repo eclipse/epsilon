@@ -10,64 +10,58 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.launching;
  
-import java.io.File;
-import java.util.ArrayList;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.model.IBreakpoint;
-import org.eclipse.debug.core.model.IDebugTarget;
-import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.debug.internal.ui.viewers.update.DebugTargetProxy;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.dt.debug.EolBreakpoint;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
-import org.eclipse.epsilon.eol.dt.debug.EolProcess;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
 
 public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
 	// TODO : Remove some duplication between LaunchConfigurationDelegates
-	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
-		
-		EpsilonConsole.getInstance().clear();
-		
-		IEolModule module = createEolModule();
-		
-		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
-		
-		try { 
-			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-			String subtask = "Executing";
-			progressMonitor.subTask(subtask);
-			progressMonitor.beginTask(subtask, 100);
-
-			module.execute();
-			
-		} catch (EolRuntimeException e) {
-			e.printStackTrace();
-			module.getContext().getErrorStream().println(e.toString());
-			progressMonitor.setCanceled(true);
-		}
-		finally{
-			EclipseContextManager.teardown(module.getContext());
-		}
-		
-		progressMonitor.done();
-	}
+//	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
+//		
+//		EpsilonConsole.getInstance().clear();
+//		
+//		IEolModule module = createEolModule();
+//		
+//		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
+//		
+//		EolDebugTarget target = null;
+//		
+//		try { 
+//			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
+//			String subtask = "Executing";
+//			progressMonitor.subTask(subtask);
+//			progressMonitor.beginTask(subtask, 100);
+//			
+//			if ("run".equalsIgnoreCase(mode)) {
+//				module.execute();
+//			}
+//			else {
+//				// Copy launch configuration attributes to launch
+//				Map configurationAttributes = configuration.getAttributes();
+//				for (Object key : configurationAttributes.keySet()) {
+//					launch.setAttribute(key + "", configurationAttributes.get(key) + "");
+//				}
+//				
+//				target = new EolDebugTarget(launch, module);
+//				launch.addDebugTarget(target);
+//				target.debug();
+//			}
+//			
+//		} catch (EolRuntimeException e) {
+//			e.printStackTrace();
+//			module.getContext().getErrorStream().println(e.toString());
+//			progressMonitor.setCanceled(true);
+//		}
+//		finally{
+//			if (target != null) target.terminate();
+//			EclipseContextManager.teardown(module.getContext());
+//		}
+//		
+//		progressMonitor.done();
+//	}
 	
-	public IEolModule createEolModule() {
+	@Override
+	public IEolExecutableModule createModule() {
 		return new EolModule();
 	}
 	

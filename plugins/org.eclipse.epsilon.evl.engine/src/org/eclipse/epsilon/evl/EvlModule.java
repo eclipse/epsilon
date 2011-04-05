@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -132,9 +131,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 		
 		
-		if (context.hasFixes() && fixer != null) {
+		//if (context.hasFixes() && fixer != null) {
 			fixer.fix(this);
-		}
+		//}
 		
 		execute(getPost(), context);
 		

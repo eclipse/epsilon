@@ -25,7 +25,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.ecl.dt.launching.EclLaunchConfigurationDelegate"
             id="org.epsilon.ecl.eclipse.dt.launching.EclLaunchConfigurationDelegate"
-            modes="run"
+            modes="run, debug"
             name="ECL Comparison"/>
    </extension>
    <extension

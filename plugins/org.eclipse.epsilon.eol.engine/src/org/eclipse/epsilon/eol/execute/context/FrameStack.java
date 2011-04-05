@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
@@ -197,8 +198,8 @@ public class FrameStack {
 		System.out.println("");
 	}
 	
-	public ListIterator getFrames(){
-		return frames.listIterator();
+	public List<Frame> getFrames(){
+		return frames;
 	}
 	
 	public int getDepth() {

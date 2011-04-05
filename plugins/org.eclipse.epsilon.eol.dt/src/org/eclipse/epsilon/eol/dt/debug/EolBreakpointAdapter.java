@@ -26,7 +26,6 @@ public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 
 	public boolean canToggleBreakpoints(IWorkbenchPart part,
 			ISelection selection) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -37,7 +36,7 @@ public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 			IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
 			ITextSelection textSelection = (ITextSelection) selection;
 			int lineNumber = textSelection.getStartLine();
-			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("eol.debugModel");
+			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(EolDebugConstants.MODEL_IDENTIFIER);
 			
 			
 			for (int i = 0; i < breakpoints.length; i++) {
@@ -85,8 +84,7 @@ public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 
 	public void toggleLineBreakpoints(IWorkbenchPart part, ISelection selection)
 			throws CoreException {
-		// TODO Auto-generated method stub
-		
+		toggleBreakpoints(part, selection);
 	}
 
 	public void toggleMethodBreakpoints(IWorkbenchPart part,

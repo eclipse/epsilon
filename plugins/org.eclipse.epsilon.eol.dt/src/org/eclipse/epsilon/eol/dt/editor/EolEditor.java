@@ -24,9 +24,6 @@ public class EolEditor extends AbstractModuleEditor {
 
 	public static final String ID = "org.eclipse.epsilon.eol.dt.editor.EolEditor";
 
-	public EolEditor(){
-        setRulerContextMenuId("editor.rulerMenu");
-	}
 	
 	@Override
 	public List<String> getKeywords() {
