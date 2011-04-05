@@ -15,11 +15,6 @@ import java.io.File;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.helper.ProjectHelper2;
-import org.apache.tools.ant.taskdefs.CallTarget;
-import org.apache.tools.ant.taskdefs.Property;
-import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
-import org.eclipse.epsilon.workflow.tasks.EUnitTask;
-import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
 
 /**
  * Superclass for all test cases for the workflow classes, providing several
@@ -41,12 +36,9 @@ public abstract class WorkflowTestCase {
 		Project project = new Project();
 		ProjectHelper2.configureProject(project, buildFile);
 		project.setProperty("ant.file", buildFile.getName());
-		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
-		project.addTaskDefinition("epsilon.emf.loadModel", LoadModel.class);
-		project.addTaskDefinition("junitreport", XMLResultAggregator.class);
-		project.addTaskDefinition("antcall", CallTarget.class);
-		project.addTaskDefinition("property", Property.class);
+		addTaskDefinitionsTo(project);
 		project.executeTarget(targetName);
 	}
 
+	protected abstract void addTaskDefinitionsTo(Project project);
 }

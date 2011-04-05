@@ -12,6 +12,12 @@ package org.eclipse.epsilon.workflow.test.eunit;
 
 import java.io.File;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.CallTarget;
+import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
+import org.eclipse.epsilon.workflow.tasks.EUnitTask;
+import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
 import org.junit.AfterClass;
 
@@ -39,4 +45,11 @@ public abstract class EUnitTestCase extends WorkflowTestCase {
 		super();
 	}
 
+	protected void addTaskDefinitionsTo(Project project) {
+		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
+		project.addTaskDefinition("epsilon.emf.loadModel", LoadModel.class);
+		project.addTaskDefinition("junitreport", XMLResultAggregator.class);
+		project.addTaskDefinition("antcall", CallTarget.class);
+		project.addTaskDefinition("property", Property.class);
+	}
 }
