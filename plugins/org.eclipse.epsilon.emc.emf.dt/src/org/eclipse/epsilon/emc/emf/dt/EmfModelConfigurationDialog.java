@@ -205,31 +205,59 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		return "EMF";
 	}
 	
+	/**
+	 * Key used to store the raw (i.e. unqualified URI) model file value. 
+	 */
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
+	@SuppressWarnings("deprecation")
+	private final static String PROPERTY_MODEL_FILE     = EmfModel.PROPERTY_MODEL_FILE;
+	
+	/**
+	 * Key used to store the raw (i.e. unqualified URI) metamodel file value. 
+	 */
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
+	@SuppressWarnings("deprecation")
+	private final static String PROPERTY_METAMODEL_FILE = EmfModel.PROPERTY_METAMODEL_FILE;
+	
 	@Override
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
 		
-		modelFileText.setText(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE));
-		metaModelFileText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
+		// Restore values from legacy launch configuration
+		modelFileText.setText(properties.getProperty(PROPERTY_MODEL_FILE));
+		metaModelFileText.setText(properties.getProperty(PROPERTY_METAMODEL_FILE));
+		
+		// Restore values that are used directly to construct an instance of EmfModel
 		metaModelUriText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI));
-		//isMetamodelButton.setSelection(new Boolean(properties.getProperty("isMetamodel")).booleanValue());
 		expandButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_EXPAND)).booleanValue());
 		isMetamodelFileBasedButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED)).booleanValue());
-		//useExtendedMetadataButton.setSelection(new Boolean(properties.getProperty("useExtendedMetadata")).booleanValue());
+
 		toggleEnabledFields();
 	}
 	
 	@Override
 	protected void storeProperties(){
-		super.storeProperties();		
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFileText.getText());
-		properties.put(EmfModel.PROPERTY_METAMODEL_FILE, metaModelFileText.getText());
+		super.storeProperties();
+		
+		properties.put(PROPERTY_MODEL_FILE,     modelFileText.getText());
+		properties.put(PROPERTY_METAMODEL_FILE, metaModelFileText.getText());
+		
+		// Persist values that are used directly to construct an instance of EmfModel
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metaModelUriText.getText());
-		//properties.put("isMetamodel", isMetamodelButton.getSelection() + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expandButton.getSelection() + "");
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, isMetamodelFileBasedButton.getSelection() + "");
-		//properties.put("useExtendedMetadata", useExtendedMetadataButton.getSelection() + "");
+		
+		// Create and persist URI values that are needed to construct an instance of EmfModel
+		properties.put(EmfModel.PROPERTY_MODEL_URI, createFullyQualifiedUri(modelFileText.getText()));
+		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, createFullyQualifiedUri(metaModelFileText.getText()));
+	}
+
+	private String createFullyQualifiedUri(String relativePath) {
+		if (relativePath == null || relativePath.isEmpty())
+			return "";
+		else
+			return EmfUtil.createPlatformResourceURI(relativePath).toString();
 	}
 	
 	protected void toggleEnabledFields(){
@@ -268,14 +296,18 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
 			r.load(null);
 			if (expandButton.getSelection()) {
+				System.err.println("Starting to resolve");
 				EcoreUtil.resolveAll(r);
+				System.err.println("Finished resolving");
 			}
+			System.err.println("Starting to iterate over resources");
 			for (Resource res : rs.getResources()) {
 				Iterator<EObject> it = res.getAllContents();
 				while (it.hasNext()) {
 					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
 				}
 			}
+			System.err.println("Finished iterating over resources");
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

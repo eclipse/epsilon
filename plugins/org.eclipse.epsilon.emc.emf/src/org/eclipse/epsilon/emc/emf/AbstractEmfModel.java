@@ -317,7 +317,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	public boolean store(String fileName) {
-		return store(EmfUtil.createURI(fileName));
+		return store(EmfUtil.createPlatformResourceURI(fileName));
 	}
 	
 	// If expand == true, save the other resources in the 

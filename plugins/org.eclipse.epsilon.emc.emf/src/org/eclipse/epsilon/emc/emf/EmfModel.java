@@ -34,68 +34,128 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
 public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	
-	public static final String PROPERTY_METAMODEL_URI = "metamodelUri";
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * When paired with "true", external references will be resolved during loading.
+	 * Otherwise, external references are not resolved.
+	 * 
+	 * Paired with "true" by default.
+	 */
 	public static final String PROPERTY_EXPAND = "expand";
+
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * When paired with "true", the metamodel is loaded from the URI stored in
+	 * {@link #PROPERTY_FILE_BASED_METAMODEL_URI}.
+	 * Otherwise, the metamodel is loaded from the EPackage registry using
+	 * the namespace URI stored in {@link #PROPERTY_METAMODEL_URI}.
+	 * 
+	 * Paired with "false" by default.
+	 */
 	public static final String PROPERTY_IS_METAMODEL_FILE_BASED = "isMetamodelFileBased";
-	public static final String PROPERTY_MODEL_FILE = "modelFile";
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * This key is paired with the namespace URI of the metamodel to which this model conforms.
+	 * This key is used only when {@link #PROPERTY_IS_METAMODEL_FILE_BASED} is paired with "false".
+	 */
+	public static final String PROPERTY_METAMODEL_URI = "metamodelUri";
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * This key is paired with a {@link URI} that can be used to locate the metamodel to which this model conforms.
+	 * This key is used only when {@link #PROPERTY_IS_METAMODEL_FILE_BASED} is paired with "true". 
+	 */
+	public static final String PROPERTY_FILE_BASED_METAMODEL_URI = "fileBasedMetamodelUri";
+	/**
+	 * @deprecated Replaced by
+	 *             {@link #PROPERTY_FILE_BASED_METAMODEL_URI}.
+	 *              This property will be removed in a future release of Epsilon.
+	 */
+	@Deprecated
 	public static final String PROPERTY_METAMODEL_FILE = "metamodelFile";
 	
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * This key is paired with a {@link URI} that can be used to locate this model.
+	 * This key must always be paired with a value.
+	 */
+	public static final String PROPERTY_MODEL_URI = "modelUri";
+	/**
+	 * @deprecated  Replaced by
+	 *              {@link #PROPERTY_MODEL_URI}.
+	 *              This property will be removed in a future release of Epsilon.
+	 */
+	@Deprecated
+	public static final String PROPERTY_MODEL_FILE = "modelFile";
+	
+	
 	protected String metamodelUri;
-	//protected String metamodelFile;
-	//protected String modelFile;
 	protected List<EPackage> packages;
 	protected boolean isMetamodelFileBased;
-	protected URI modelFileUri = null;
+	protected URI modelUri = null;
 	protected URI metamodelFileUri = null;
 	protected boolean useExtendedMetadata = false;
 	
-	public void basicLoad(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
-	}
 	
+	/**
+	 * Load the model using the set of properties specified by the first argument.
+	 * 
+	 * @see #PROPERTY_MODEL_URI
+	 * @see #PROPERTY_IS_METAMODEL_FILE_BASED
+	 * @see #PROPERTY_EXPAND
+	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=341481">Rationale for deprecating the FILE properties</a>.
+	 */
 	@Override
 	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+		PropertyMigrator.migrateDeprecatedProperties(properties);	
+		
 		super.load(properties, basePath);
 		this.metamodelUri = properties.getProperty(PROPERTY_METAMODEL_URI);
 		this.expand = properties.getBooleanProperty(PROPERTY_EXPAND, true);
 		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, false);
-		//this.modelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_MODEL_FILE);
-		//this.metamodelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_METAMODEL_FILE);
 		
-		String modelFile = properties.getProperty(PROPERTY_MODEL_FILE);
-		String metamodelFile = properties.getProperty(PROPERTY_METAMODEL_FILE);
-		
-		// Eclipse will give a workspace-relative modelFile path, but
-		// EmfUtil#createURI will treat strings starting with a slash
-		// as an absolute path on UNIX operating systems.
-		// So, when running in Eclipse, remove the leading slash
-		// to force EmfUtil#createURI to treat the URI as platform-relative
-		if (basePath != null && modelFile.startsWith("/")) {
-			modelFile = modelFile.substring(1);
-		}
-		this.modelFileUri = EmfUtil.createURI(modelFile);
+		this.modelUri = URI.createURI(properties.getProperty(PROPERTY_MODEL_URI));
 		
 		if (isMetamodelFileBased) {
-			this.metamodelFileUri = EmfUtil.createURI(metamodelFile);
+			this.metamodelFileUri = URI.createURI(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
 		}
-		
-		/*
-		if (StringUtil.isEmpty(basePath)) {
-			this.modelFileUri = URI.createFileURI(modelFile);
-			if (isMetamodelFileBased) {
-				this.metamodelFileUri = URI.createFileURI(metamodelFile);
-			}
-		}
-		else {
-			this.modelFileUri = URI.createPlatformResourceURI(properties.getProperty(PROPERTY_MODEL_FILE), true);
-			if (isMetamodelFileBased) {
-				this.metamodelFileUri = URI.createPlatformResourceURI(properties.getProperty(PROPERTY_METAMODEL_FILE), true);
-			}
-		}
-		*/
 		
 		load();
 	}
+
+	/*
+	 * Used for backwards-compatibility with existing Eclipse launch configurations.
+	 * 
+	 * See #341481
+	 */
+	static class PropertyMigrator {
+		public static void migrateDeprecatedProperties(StringProperties properties) {
+			migrateModelFileProperty(properties);
+			migrateMetamodelFileProperty(properties);
+		}
+		
+		private static void migrateModelFileProperty(StringProperties properties) {
+			migrateUriValue(properties, PROPERTY_MODEL_FILE, PROPERTY_MODEL_URI);
+		}
+		
+		private static void migrateMetamodelFileProperty(StringProperties properties) {
+			migrateUriValue(properties, PROPERTY_METAMODEL_FILE, PROPERTY_FILE_BASED_METAMODEL_URI);
+		}
+
+		private static void migrateUriValue(StringProperties properties, String oldProperty, String newProperty) {
+			if (properties.containsKey(oldProperty) && !properties.containsKey(newProperty)) {
+				final String oldValue = properties.getProperty(oldProperty);
+				final URI    newValue = EmfUtil.createPlatformResourceURI(oldValue);
+				
+				properties.put(newProperty, newValue);
+			}
+		}
+	}
+	
 	
 	protected void loadModel() throws EolModelLoadingException {
 		loadModelFromUri();
@@ -183,7 +243,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
-		model = resourceSet.createResource(modelFileUri);
+		model = resourceSet.createResource(modelUri);
 		
 		//EcoreResourceFactoryImpl f;
 		
@@ -231,18 +291,18 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public String getModelFile() {
-		return EmfUtil.getFile(modelFileUri);
+		return EmfUtil.getFile(modelUri);
 		//return null;
 		//return modelFile;
 		//return getModelFileUri().toString();
 	}
 
 	public URI getModelFileUri() {
-		return modelFileUri;
+		return modelUri;
 	}
 
 	public void setModelFileUri(URI modelFileUri) {
-		this.modelFileUri = modelFileUri;
+		this.modelUri = modelFileUri;
 	}
 
 	public URI getMetamodelFileUri() {
@@ -264,7 +324,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	public void setModelFile(String modelFile) {
 		//this.modelFile = modelFile;
-		this.modelFileUri = URI.createFileURI(modelFile);
+		this.modelUri = URI.createFileURI(modelFile);
 	}
 
 	public void setMetamodelFileBased(boolean isMetamodelFileBased) {

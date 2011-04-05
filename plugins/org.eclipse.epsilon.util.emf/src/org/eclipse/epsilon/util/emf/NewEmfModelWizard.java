@@ -124,12 +124,9 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		throws CoreException {
 		
 		EmfModel model = new EmfModel();
-		//model.setMetamodel(false);
-		//model.setMetamodelFileBased(false);
 		
 		StringProperties properties = new StringProperties();
-		//properties.put(EmfModel.PROPERTY_MODEL_FILE, "file://" + ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + containerName + "/" + fileName);
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, URI.createPlatformResourceURI(containerName + "/" + fileName, true).toString());
+		properties.put(EmfModel.PROPERTY_MODEL_URI, URI.createPlatformResourceURI(containerName + "/" + fileName, true));
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri);
 		properties.put(Model.PROPERTY_READONLOAD, false);
 		

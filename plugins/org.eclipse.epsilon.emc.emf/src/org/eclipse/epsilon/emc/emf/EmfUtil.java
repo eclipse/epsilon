@@ -60,8 +60,8 @@ public class EmfUtil {
 		}
 	}
 	
-    public static URI createURI(String s) {
-        final URI uri = fixUriForPlatform(s, URI.createURI(s));
+    public static URI createPlatformResourceURI(String s) {
+        final URI uri = fixUriForOperatingSystem(s, URI.createURI(s));
 
         if (uri.scheme() == null) {
             return URI.createPlatformResourceURI(s, true);
@@ -72,7 +72,7 @@ public class EmfUtil {
     }
     
     public static URI createFileBasedURI(String s) {
-    	final URI uri = fixUriForPlatform(s, URI.createURI(s));
+    	final URI uri = fixUriForOperatingSystem(s, URI.createURI(s));
         
     	if (uri.scheme() == null) {
             return URI.createFileURI(s);
@@ -82,7 +82,7 @@ public class EmfUtil {
         }
     }
 
-	private static URI fixUriForPlatform(String s, URI uri) {
+	private static URI fixUriForOperatingSystem(String s, URI uri) {
 		if (uri.scheme() != null) {
         	// If we are under Windows and s starts with x: it is an absolute path
         	if (OperatingSystem.isWindows() && uri.scheme().length() == 1) {
@@ -110,13 +110,13 @@ public class EmfUtil {
 		return getTopEPackage(object.eClass().getEPackage());
 	}
 	
-	public static void collectDependencies(EPackage ePackage, List dependencies) {
-		Map m = EcoreUtil.ExternalCrossReferencer.find(ePackage.eResource());
+	public static void collectDependencies(EPackage ePackage, List<EPackage> dependencies) {
+		Collection<EObject> crossReferencedElements = EcoreUtil.ExternalCrossReferencer.find(ePackage.eResource()).keySet();
 		
-		for (Object key : m.keySet()) {
+		for (Object crossReferencedElement : crossReferencedElements) {
 			
-			if (key instanceof EClassifier) {
-				EClassifier eClass = (EClassifier) key;
+			if (crossReferencedElement instanceof EClassifier) {
+				EClassifier eClass = (EClassifier) crossReferencedElement;
 				EPackage referencedPackage = eClass.getEPackage();
 				if (referencedPackage != null) {
 					EPackage topEPackage = getTopEPackage(referencedPackage);
@@ -149,7 +149,7 @@ public class EmfUtil {
 	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
 		
-		List<EPackage> ePackages = new ArrayList();
+		List<EPackage> ePackages = new ArrayList<EPackage>();
 		
 		initialiseResourceFactoryRegistry();
 
@@ -162,7 +162,7 @@ public class EmfUtil {
 		
 		setDataTypesInstanceClasses(metamodel);
 
-		Iterator it = metamodel.getAllContents();
+		Iterator<EObject> it = metamodel.getAllContents();
 		while (it.hasNext()) {
 			Object next = it.next();
 			if (next instanceof EPackage) {
@@ -200,7 +200,7 @@ public class EmfUtil {
 	}
 
 	protected static void setDataTypesInstanceClasses(Resource metamodel) {
-		Iterator it = metamodel.getAllContents();
+		Iterator<EObject> it = metamodel.getAllContents();
 		while (it.hasNext()) {
 			EObject eObject = (EObject) it.next();
 			if (eObject instanceof EEnum) {
@@ -286,7 +286,6 @@ public class EmfUtil {
 		return resource;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static <T extends EObject> T clone(T object) {
 		final T cloned = (T)EcoreUtil.copy(object);
 		org.eclipse.epsilon.emc.emf.EmfUtil.createResource(cloned);

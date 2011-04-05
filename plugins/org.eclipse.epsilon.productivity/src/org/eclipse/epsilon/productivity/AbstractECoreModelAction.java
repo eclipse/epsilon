@@ -13,8 +13,8 @@ package org.eclipse.epsilon.productivity;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -35,16 +35,18 @@ public abstract class AbstractECoreModelAction implements IObjectActionDelegate 
 	public void run(IAction action) {
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			Iterator it = structuredSelection.iterator();
+			Iterator<?> it = structuredSelection.iterator();
 			while (it.hasNext()) {
 				IFile file = (IFile) it.next();
 				EmfModel model = new EmfModel();
+				
 				StringProperties properties = new StringProperties();
-				properties.put(EmfModel.PROPERTY_MODEL_FILE, file.getLocationURI().toString());
+				properties.put(EmfModel.PROPERTY_MODEL_URI, URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true));
 				properties.put(EmfModel.PROPERTY_METAMODEL_URI, EcorePackage.eINSTANCE.getNsURI());
 				properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 				properties.put(EmfModel.PROPERTY_READONLOAD, "true");
 				properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
+				
 				try {
 					model.load(properties, null);
 					perform(file, model);

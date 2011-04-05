@@ -197,7 +197,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		
 		StringProperties properties = new StringProperties();
 		
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, path);
+		properties.put(EmfModel.PROPERTY_MODEL_URI, org.eclipse.emf.common.util.URI.createURI(path, true));
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, nsUri);
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");

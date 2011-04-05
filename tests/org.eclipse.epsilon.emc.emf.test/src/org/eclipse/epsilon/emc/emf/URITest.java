@@ -45,7 +45,7 @@ public class URITest {
 	}
 	
 	protected static String createURI(String s) {
-		return EmfUtil.createURI(s).toString();
+		return EmfUtil.createPlatformResourceURI(s).toString();
 	}
 	
 	protected static String createFileBasedURI(String s) {

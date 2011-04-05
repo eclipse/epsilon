@@ -13,6 +13,8 @@ package org.eclipse.epsilon.workflow.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
+import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
 import org.eclipse.epsilon.workflow.test.eunit.EUnitJUnitXMLOutputTest;
 import org.eclipse.epsilon.workflow.test.eunit.EUnitParseTest;
 import org.junit.runner.RunWith;
@@ -20,7 +22,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EUnitJUnitXMLOutputTest.class, EUnitParseTest.class})
+@SuiteClasses({LoadModelTaskTests.class,
+               LoadModelTests.class,
+               EUnitJUnitXMLOutputTest.class, EUnitParseTest.class})
 public class WorkflowTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(WorkflowTestSuite.class);

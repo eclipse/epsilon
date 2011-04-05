@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.util.ArrayList;
 
-import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
@@ -77,7 +76,7 @@ public class LoadModelTask extends EpsilonTask{
 		}
 		return properties;
 	}
-	
+
 	public String getType() {
 		return type;
 	}

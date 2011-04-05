@@ -55,7 +55,7 @@ public class EmfTool extends AbstractTool{
 	
 	public IModel createModel2(EObject eObject, String name, String uri) {
 		ResourceSet rs = new ResourceSetImpl();
-		Resource r = rs.createResource(EmfUtil.createURI(uri));
+		Resource r = rs.createResource(EmfUtil.createPlatformResourceURI(uri));
 		r.getContents().add(eObject);
 		IModel model = new InMemoryEmfModel(name, r);
 		context.getModelRepository().addModel(model);

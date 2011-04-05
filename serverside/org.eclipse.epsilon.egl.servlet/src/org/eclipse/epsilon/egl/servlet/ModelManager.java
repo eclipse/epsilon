@@ -11,8 +11,6 @@
 package org.eclipse.epsilon.egl.servlet;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
@@ -21,10 +19,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.emc.emf.EmfModelResourceFactory;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public class ModelManager {
@@ -60,13 +56,13 @@ public class ModelManager {
 			properties.put(EmfModel.PROPERTY_NAME, name);
 			properties.put(EmfModel.PROPERTY_ALIASES, aliases);
 			properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
-			properties.put(EmfModel.PROPERTY_MODEL_FILE, this.getServletContext().getRealPath(modelFile));
+			properties.put(EmfModel.PROPERTY_MODEL_URI, convertVirtualPathToAbsoluteFileURI(modelFile));
 			if (!metamodelIsFilebased) {
 				properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodel);
 				properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 			}
 			else {
-				properties.put(EmfModel.PROPERTY_METAMODEL_FILE, this.getServletContext().getRealPath(metamodel));
+				properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, convertVirtualPathToAbsoluteFileURI(metamodel));
 				properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "true");			
 			}
 			properties.put(EmfModel.PROPERTY_READONLOAD, "true");
@@ -78,6 +74,11 @@ public class ModelManager {
 		
 		getCurrentModelRepository().addModel(model);
 		
+	}
+
+	private URI convertVirtualPathToAbsoluteFileURI(String virtualPath) {
+		final String realPath = this.getServletContext().getRealPath(virtualPath);
+		return URI.createFileURI(realPath);
 	}
 
 	public void loadModel(String name, String modelFile, String metamodelUri) throws EolModelLoadingException {

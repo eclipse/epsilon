@@ -29,6 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.junit.After;
 import org.junit.Before;
 
@@ -72,6 +73,10 @@ public class TestThatUsesAProject {
 		final IFile file = project.getFile(name);
 		createFile(file, contents);
 		return file;
+	}
+	
+	protected static IFile createFile(IProject project, String name, URI resourceToCopy) throws CoreException, IOException {
+		return createFile(project, name, new URIReader(resourceToCopy).getContents());
 	}
 	
 	protected static void changeFileContents(IFile file, String newContents) throws CoreException {

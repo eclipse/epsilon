@@ -38,9 +38,9 @@ public class LoadModel extends EpsilonTask {
 		
 		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
 		
-		EmfModel model = new EmfModel();
+		final EmfModel model = createEmfModel();
 		
-		StringProperties properties = new StringProperties();
+		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, alias + "");
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, (metamodelUri == null) + "");
@@ -48,9 +48,10 @@ public class LoadModel extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, URI.createFileURI(modelFile.getAbsolutePath()).toString());
+		properties.put(EmfModel.PROPERTY_MODEL_URI, convertFileToUri(modelFile));
+		
 		if (metamodelFile != null) {
-			properties.put(EmfModel.PROPERTY_METAMODEL_FILE, URI.createFileURI(metamodelFile.getAbsolutePath()).toString());
+			properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, convertFileToUri(metamodelFile));
 		}
 		
 		try {
@@ -60,7 +61,15 @@ public class LoadModel extends EpsilonTask {
 			e.printStackTrace();
 			throw new BuildException(e);
 		}
-		
+	}
+
+	private URI convertFileToUri(File file) {
+		return file == null ? null : URI.createFileURI(file.getAbsolutePath());
+	}
+
+	// This logic has been extracted so that it can be stubbed out in tests
+	protected EmfModel createEmfModel() {
+		return new EmfModel();
 	}
 	
 	public boolean isExpand() {

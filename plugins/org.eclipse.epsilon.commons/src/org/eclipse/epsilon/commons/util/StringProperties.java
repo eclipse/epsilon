@@ -46,6 +46,11 @@ public class StringProperties extends Properties{
 		else return zuper;
 	}
 	
+	@Override
+	public synchronized Object put(Object key, Object value) {
+		return super.put(key, StringUtil.toString(value));
+	}
+	
 	public static void main(String[] args){
 		
 		StringProperties sp = new StringProperties();
