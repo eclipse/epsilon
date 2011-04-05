@@ -60,6 +60,9 @@ public class EglTemplate extends AbstractEglTemplate {
 		this.template = template;
 	}
 	
+	public String getName() {
+		return name;
+	}
 
 	public void populate(String name, Object value) {
 		template.addVariable(name, value);
