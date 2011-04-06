@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.launching;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
@@ -56,7 +58,7 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	@Override
-	protected void preExecute(IEolExecutableModule module) {
+	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
 		super.preExecute(module);
 		System.err.println("Setting fixer...");
 		((EvlModule)module).setUnsatisfiedConstraintFixer(new ValidationViewFixer());

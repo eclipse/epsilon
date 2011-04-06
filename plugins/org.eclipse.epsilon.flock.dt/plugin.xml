@@ -25,7 +25,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.flock.dt.launching.FlockLaunchConfigurationDelegate"
             id="org.epsilon.migration.eclipse.dt.launching.MigrationLaunchConfigurationDelegate"
-            modes="run"
+            modes="run,debug"
             name="Epsilon Flock Migration Strategy"/>
    </extension>
    <extension

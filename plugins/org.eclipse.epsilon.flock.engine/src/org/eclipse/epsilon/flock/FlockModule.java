@@ -36,6 +36,7 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 public class FlockModule extends EolLibraryModule implements IFlockModule {
 	
 	private MigrationStrategy strategy;
+	protected IFlockContext context = new FlockContext();
 	
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
@@ -66,14 +67,12 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	}
 
 	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
-		final IFlockContext context = new FlockContext(original, migrated);
-		
+		context = new FlockContext(original, migrated);
 		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
-		
-		return execute(context);
+		return execute();
 	}
 
-	public FlockResult execute(IFlockContext context) throws FlockRuntimeException {	
+	public FlockResult execute() throws FlockRuntimeException {
 		context.setModule(this);
 		return context.execute(strategy);
 	}
@@ -88,5 +87,10 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		
 		return children;
 	}
+
+	public IFlockContext getContext() {
+		return context;
+	}
+	
 }
 

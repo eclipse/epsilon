@@ -44,9 +44,9 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 		//fireEvent(new DebugEvent(threads[0], DebugEvent.STEP_INTO));
 	}
 
-	public void debug() throws DebugException, EolRuntimeException {
+	public Object debug() throws DebugException, EolRuntimeException {
 		fireCreationEvent();
-		debugger.debug();
+		return debugger.debug(module);
 	}
 
 	@Override

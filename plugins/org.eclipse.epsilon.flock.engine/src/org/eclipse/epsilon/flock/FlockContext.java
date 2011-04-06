@@ -32,9 +32,9 @@ public class FlockContext extends EolContext implements IFlockContext {
 
 	private Model originalModel;
 	private Model migratedModel;
-		
-	public FlockContext() throws FlockUnsupportedModelException {
-		this(null, null);
+	
+	public FlockContext() {
+		setOperationFactory(new FlockOperationFactory());
 	}
 	
 	public FlockContext(IModel original, IModel migrated) throws FlockUnsupportedModelException {

@@ -36,7 +36,10 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigurationDelegate {
-
+	
+	protected Object result = null;
+	protected ILaunchConfiguration configuration = null;
+	
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor) throws CoreException {
 		if (!super.saveBeforeLaunch(configuration, mode, monitor)) {
@@ -49,6 +52,8 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	}
 	
 	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
+		
+		this.configuration = configuration;
 		
 		if (setup) EpsilonConsole.getInstance().clear();
 		
@@ -64,20 +69,19 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			progressMonitor.beginTask(subtask, 100);
 			
 			if ("run".equalsIgnoreCase(mode)) {
-				module.execute();
+				result = module.execute();
 			}
-			else {
+			else if ("debug".equalsIgnoreCase(mode)){
 				// Copy launch configuration attributes to launch
 				Map configurationAttributes = configuration.getAttributes();
 				for (Object key : configurationAttributes.keySet()) {
 					launch.setAttribute(key + "", configurationAttributes.get(key) + "");
 				}
 				
-				debugger.setModule(module);
 				target = new EolDebugTarget(launch, module, debugger, lauchConfigurationSourceAttribute);
 				debugger.setTarget(target);
 				launch.addDebugTarget(target);
-				target.debug();
+				result = target.debug();
 			}
 			
 			postExecute(module);
@@ -103,9 +107,9 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	public abstract IEolExecutableModule createModule();
 	
-	protected void preExecute(IEolExecutableModule module) {}
+	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {}
 	
-	protected void postExecute(IEolExecutableModule module) {}
+	protected void postExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {}
 	
 	protected EolDebugger createDebugger() {
 		return new EolDebugger();

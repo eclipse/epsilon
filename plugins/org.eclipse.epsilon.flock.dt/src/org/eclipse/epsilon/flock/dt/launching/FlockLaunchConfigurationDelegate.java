@@ -10,32 +10,43 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.dt.launching;
 
-import java.io.File;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
-import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.IFlockModule;
 import org.eclipse.epsilon.flock.FlockContext;
 import org.eclipse.epsilon.flock.FlockModule;
-import org.eclipse.epsilon.flock.FlockResult;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.dt.FlockDebugger;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
+	@Override
+	public IEolExecutableModule createModule() {
+		return new FlockModule();
+	}
+	
+	@Override
+	protected EolDebugger createDebugger() {
+		return new FlockDebugger();
+	}
+	
+	@Override
+	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+		super.preExecute(module);
+		FlockContext context = (FlockContext) module.getContext();
+		try {
+			context.setOriginalModel(configuration.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
+			context.setMigratedModel(configuration.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
+		}
+		catch (FlockUnsupportedModelException ex) {
+			throw new EolInternalException(ex);
+		}
+	}
+	
+	/*
 	private ILaunchConfiguration launchConfig;
 	private ILaunch launch;
 	private IProgressMonitor monitor;
@@ -165,6 +176,6 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	public IEolExecutableModule createModule() {
 		return null;
 	}
-	
+	*/
 }
 

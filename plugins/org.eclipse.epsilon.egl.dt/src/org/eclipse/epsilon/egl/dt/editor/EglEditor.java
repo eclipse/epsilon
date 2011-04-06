@@ -26,8 +26,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 
+
 public class EglEditor extends AbstractModuleEditor {
 	
+	public static final String ID = "org.eclipse.epsilon.egl.dt.editor.EglEditor";
+
 	private final EolEditor eolEditor = new EolEditor();
 	
 	public EglEditor() {

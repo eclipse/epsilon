@@ -6,7 +6,7 @@
       <launchConfigurationType
             delegate="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationDelegate"
             id="org.epsilon.egl.eclipse.dt.launching.EglLaunchConfigurationDelegate"
-            modes="run"
+            modes="run,debug"
             name="EGL Template">
          xxx
       </launchConfigurationType>

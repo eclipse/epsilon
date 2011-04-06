@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class EolDebugger implements ExecutionController {
 	
 	protected IDebugTarget target = null;
-	protected IEolExecutableModule module = null;
 	protected boolean stepping = false;
 	protected HashMap<String, IFile> iFiles = new HashMap<String, IFile>();
 	protected ArrayList<Integer> expressionOrStatementBlockContainers = new ArrayList<Integer>();
@@ -30,14 +29,6 @@ public class EolDebugger implements ExecutionController {
 	
 	public EolDebugger() {
 		expressionOrStatementBlockContainers.add(EolParser.HELPERMETHOD);
-	}
-	
-	public void setModule(IEolExecutableModule module) {
-		this.module = module;
-	}
-	
-	public IEolExecutableModule getModule() {
-		return module;
 	}
 	
 	public void setTarget(IDebugTarget target) {
@@ -52,8 +43,8 @@ public class EolDebugger implements ExecutionController {
 		stepping = true;
 	}
 
-	public void debug() throws EolRuntimeException {
-		module.execute();
+	public Object debug(IEolExecutableModule module) throws EolRuntimeException {
+		return module.execute();
 	}
 	
 	protected AST getParent(AST ast) {
@@ -128,7 +119,7 @@ public class EolDebugger implements ExecutionController {
 		try {
 //			System.err.println("Suspending at: " + ast);
 			target.suspend();
-			EclipseUtil.openEditorAt(file, ast.getLine(), 1, false);
+			EclipseUtil.openEditorAt(file, getRealLine(ast.getLine()), 1, false);
 			while (target.isSuspended() && !stepping) { System.err.print(""); }
 		}
 		catch (Exception ex) { }
@@ -166,12 +157,16 @@ public class EolDebugger implements ExecutionController {
 			
 			if (marker.getResource().equals(getIFile(ast.getFile())) && 
 					marker.getAttribute(IMarker.LINE_NUMBER, 0) == 
-						ast.getLine()) {
+						getRealLine(ast.getLine())) {
 				return true;
 			}
 			
 		}
 		return false;
+	}
+	
+	protected int getRealLine(int line) {
+		return line;
 	}
 
 	public boolean isTerminated() {
