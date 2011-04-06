@@ -13,6 +13,7 @@ package org.eclipse.epsilon.emc.emf;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.epsilon.commons.util.OperatingSystem;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,11 @@ public class EmfModelPropertyMigratorTests {
 		
 		protected abstract String getUnqualifiedUri();		
 		protected abstract URI getPlatformResourceUri();
-		protected abstract URI getFileUri();
+		protected abstract String getFileSystemPath();
+		
+		protected URI getFileUri() {
+			return URI.createFileURI(getFileSystemPath());
+		}
 		
 		@Test
 		public void unqualifiedUriBecomesAPlatformResourceUri() throws Exception {	
@@ -116,8 +121,8 @@ public class EmfModelPropertyMigratorTests {
 			return URI.createPlatformResourceURI(getUnqualifiedUri(), true);
 		}
 		
-		protected URI getFileUri() {
-			return URI.createFileURI("/tmp/My.ecore");
+		protected String getFileSystemPath() {
+			return OperatingSystem.isWindows() ? "C:\\tmp\\My.ecore" : "/tmp/My.ecore";
 		}
 	}
 
@@ -139,8 +144,8 @@ public class EmfModelPropertyMigratorTests {
 			return URI.createPlatformResourceURI(getUnqualifiedUri(), true);
 		}
 		
-		protected URI getFileUri() {
-			return URI.createFileURI("/tmp/My.model");
+		protected String getFileSystemPath() {
+			return OperatingSystem.isWindows() ? "C:\\tmp\\My.model" : "/tmp/My.model";
 		}
 	}
 }
