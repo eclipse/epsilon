@@ -36,29 +36,28 @@ public class FlockContext extends EolContext implements IFlockContext {
 		setOperationFactory(new FlockOperationFactory());
 	}
 	
-	public FlockContext(IModel original, IModel migrated) throws FlockUnsupportedModelException {
-		this();
-		initialiseModels(original, migrated);
+	public void setOriginalModel(IModel originalModel) throws FlockUnsupportedModelException {
+		this.originalModel = addAndWrapModel(originalModel);
 	}
-
-	private void initialiseModels(IModel original, IModel migrated) throws FlockUnsupportedModelException {
-		addModel(original);
-		addModel(migrated);
+	
+	public void setMigratedModel(IModel migratedModel) throws FlockUnsupportedModelException {
+		this.migratedModel = addAndWrapModel(migratedModel);
+	}
+	
+	private Model addAndWrapModel(IModel model) throws FlockUnsupportedModelException {
+		if (model == null)
+			throw new NullPointerException("model cannot be null");
 		
-		this.originalModel = wrapModel(original);
-		this.migratedModel = wrapModel(migrated);
+		addModel(model);
+		return wrapModel(model);
 	}
 	
 	private void addModel(IModel model) {
-		if (model != null)
-			getModelRepository().addModel(model);
+		getModelRepository().addModel(model);
 	}
 	
 	private Model wrapModel(IModel model) throws FlockUnsupportedModelException {
-		if (model == null)
-			return null;
-		
-		else if (model instanceof IReflectiveModel)
+		if (model instanceof IReflectiveModel)
 			return new Model((IReflectiveModel)model, getPrettyPrinterManager());
 		
 		else

@@ -67,8 +67,11 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	}
 
 	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
-		context = new FlockContext(original, migrated);
+		context.setOriginalModel(original);
+		context.setMigratedModel(migrated);
+		
 		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
+		
 		return execute();
 	}
 
