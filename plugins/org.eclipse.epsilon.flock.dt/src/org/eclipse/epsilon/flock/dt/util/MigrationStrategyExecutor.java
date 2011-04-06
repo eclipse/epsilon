@@ -31,6 +31,7 @@ import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.FlockResult;
+import org.eclipse.epsilon.flock.IFlockModule;
 
 public class MigrationStrategyExecutor {
 
@@ -81,7 +82,7 @@ public class MigrationStrategyExecutor {
 		final AbstractEmfModel original = loadEmfModel("Original", getAbsoluteBackupPath(), originalMetamodel, AccessMode.READ_ONLY);
 		final AbstractEmfModel migrated = loadEmfModel("Migrated", model.getLocation(),     evolvedMetamodel,  AccessMode.WRITE_ONLY);
 		
-		final FlockModule migrator = new FlockModule();
+		final IFlockModule migrator = new FlockModule();
 	
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final FlockResult result = migrator.execute(original, migrated);
