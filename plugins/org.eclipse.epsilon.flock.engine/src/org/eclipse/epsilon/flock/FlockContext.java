@@ -20,7 +20,6 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.context.RuleApplicationContext;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -38,8 +37,8 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	public FlockContext(IModel original, IModel migrated) throws FlockUnsupportedModelException {
+		this();
 		initialiseModels(original, migrated);
-		setOperationFactory(new FlockOperationFactory());
 	}
 
 	private void initialiseModels(IModel original, IModel migrated) throws FlockUnsupportedModelException {
@@ -98,10 +97,6 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	public ConservativeCopyContext getConservativeCopyContext() {
-		return new ConservativeCopyContext(originalModel, migratedModel, execution, executor);
-	}
-	
-	public RuleApplicationContext getRuleApplicationContext() {
-		return new RuleApplicationContext(executor);
+		return new ConservativeCopyContext(originalModel, migratedModel, execution);
 	}
 }

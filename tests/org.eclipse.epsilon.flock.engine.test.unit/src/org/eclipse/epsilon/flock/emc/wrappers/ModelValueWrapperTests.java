@@ -98,7 +98,7 @@ public class ModelValueWrapperTests {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Model createModelStubWithModelElements(Object... modelElements) {
 		final Model modelStub = createMock(Model.class);
 		

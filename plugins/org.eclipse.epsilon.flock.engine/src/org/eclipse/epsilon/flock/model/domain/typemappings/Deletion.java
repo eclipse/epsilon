@@ -18,6 +18,7 @@ import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.Equival
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class Deletion extends TypeMappingConstruct {
@@ -26,8 +27,8 @@ public class Deletion extends TypeMappingConstruct {
 		super(ast, type, guard);
 	}
 	
-	public Equivalence createEquivalence(ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
-		return new NoEquivalence(original);
+	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
+		return new NoEquivalence(executor, original);
 	}
 	
 	@Override

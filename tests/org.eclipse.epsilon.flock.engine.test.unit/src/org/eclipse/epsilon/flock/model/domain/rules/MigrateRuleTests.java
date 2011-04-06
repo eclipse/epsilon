@@ -49,7 +49,6 @@ public class MigrateRuleTests {
 		
 		verify(context, never()).execute(new Body(body));
 	}
-
 	
 	private static MigrateRule personRule(final AST body) {
 		return anUntraceableMigrateRule("Person").withBody(body).build();

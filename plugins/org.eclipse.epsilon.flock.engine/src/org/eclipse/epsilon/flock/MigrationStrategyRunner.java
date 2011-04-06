@@ -50,7 +50,7 @@ public class MigrationStrategyRunner {
 	}
 	
 	private void applyRules() throws FlockRuntimeException {
-		equivalences.applyRules(strategy, context.getRuleApplicationContext());
+		equivalences.applyRules(strategy);
 	}
 	
 	public ModelElement getEquivalent(ModelElement originalModelElement) {

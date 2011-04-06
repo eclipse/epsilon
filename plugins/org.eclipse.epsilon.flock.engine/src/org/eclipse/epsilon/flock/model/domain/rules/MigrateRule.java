@@ -65,7 +65,7 @@ public class MigrateRule extends TypedAndGuardedConstruct {
 		
 		return applicable;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "migrate "  + getOriginalType() + " " +

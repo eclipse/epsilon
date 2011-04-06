@@ -18,7 +18,6 @@ import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 public class ModelElement extends BackedModelValue<Object> {
 	

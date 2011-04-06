@@ -38,6 +38,6 @@ public class TypeMappingContext {
 	}
 
 	public Equivalence createEquivalenceUsing(EquivalenceFactory equivalenceFactory) throws FlockRuntimeException {
-		return equivalenceFactory.createEquivalence(original, equivalentFactory);
+		return equivalenceFactory.createEquivalence(executor, original, equivalentFactory);
 	}
 }

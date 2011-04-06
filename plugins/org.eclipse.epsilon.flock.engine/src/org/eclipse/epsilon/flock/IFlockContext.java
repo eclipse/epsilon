@@ -17,7 +17,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.context.RuleApplicationContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
@@ -32,5 +31,4 @@ public interface IFlockContext extends IEolContext {
 	public MigrationStrategyCheckingContext getMigrationStrategyCheckingContext();
 	public EquivalenceEstablishmentContext getEquivalenceEstablishmentContext();
 	public ConservativeCopyContext getConservativeCopyContext();
-	public RuleApplicationContext getRuleApplicationContext();
 }

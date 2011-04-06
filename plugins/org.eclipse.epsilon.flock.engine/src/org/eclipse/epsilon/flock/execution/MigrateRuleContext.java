@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
@@ -19,6 +22,7 @@ public class MigrateRuleContext {
 	
 	public final Equivalence equivalence;
 	public final EolExecutor executor;
+	private final Map<TypedAndGuardedConstruct, Boolean> applicabilityCache = new HashMap<TypedAndGuardedConstruct, Boolean>();
 
 	public MigrateRuleContext(Equivalence equivalence, EolExecutor executor) {
 		this.equivalence = equivalence;
@@ -26,9 +30,19 @@ public class MigrateRuleContext {
 	}
 
 	public boolean isEligibleFor(TypedAndGuardedConstruct guardedConstruct) throws FlockRuntimeException {
-		return guardedConstruct.appliesIn(getOriginal());
-	}
+		final boolean applicability;
+		
+		if (applicabilityCache.containsKey(guardedConstruct)) {
+			applicability = applicabilityCache.get(guardedConstruct);
+			
+		} else {			
+			applicability = guardedConstruct.appliesIn(getOriginal());
+			applicabilityCache.put(guardedConstruct, applicability);
+		}
 
+		return applicability;
+	}
+	
 	private GuardedConstructContext getOriginal() {
 		return new GuardedConstructContext(equivalence.getOriginal(), executor);
 	}

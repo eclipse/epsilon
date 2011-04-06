@@ -38,7 +38,7 @@ import org.junit.Test;
 
 public class ModelTests {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void setPropertyValueShouldDelegateToPropertySetterAndUnwrapValue() throws EolRuntimeException {
 		final IReflectiveModel          mockUnderlyingModel = createMock(IReflectiveModel.class);
@@ -70,7 +70,7 @@ public class ModelTests {
 		verify(mockUnderlyingModel, mockPropertySetter, mockWrappedValue);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void getPropertyValueShouldDelegateToPropertyGetterAndWrapValue() throws EolRuntimeException {
 		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
@@ -127,7 +127,7 @@ public class ModelTests {
 		verify(mockUnderlyingModel, mockWrapper);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void allContentsDelegatesToUnderlyingModelAndWrapsValues() throws EolRuntimeException {
 		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);

@@ -16,11 +16,23 @@ package org.eclipse.epsilon.flock.equivalences;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
+import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public abstract class Equivalence {
 
+	private final MigrateRuleContext context;
+	
+	public Equivalence(EolExecutor executor) {
+		this.context = new MigrateRuleContext(this, executor);
+	}
+	
+	public MigrateRuleContext getContext() {
+		return this.context;
+	}
+	
 	public abstract ModelElement getOriginal();
 
 	public abstract ModelElement getEquivalent();

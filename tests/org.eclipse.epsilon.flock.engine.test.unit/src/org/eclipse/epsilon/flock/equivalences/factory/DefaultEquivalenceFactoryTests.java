@@ -20,6 +20,7 @@ import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
@@ -45,6 +46,6 @@ public class DefaultEquivalenceFactoryTests {
 	}
 
 	private Equivalence createEquivalence(final EquivalentFactory equivalentFactory) throws FlockRuntimeException {
-		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(ModelElement.class), equivalentFactory);
+		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(EolExecutor.class), mock(ModelElement.class), equivalentFactory);
 	}
 }

@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
@@ -34,10 +35,14 @@ public class RetypingTests {
 			.thenReturn(equivalent);
 		
 		
-		final Equivalence equivalence = retyping.createEquivalence(dummyOriginalModelElement(), factory);
+		final Equivalence equivalence = retyping.createEquivalence(dummyExecutor(), dummyOriginalModelElement(), factory);
 		
 		verify(factory).createModelElementInMigratedModel("Salesperson");
 		assertEquals(equivalent, equivalence.getEquivalent());
+	}
+	
+	private EolExecutor dummyExecutor() {
+		return mock(EolExecutor.class);
 	}
 	
 	private ModelElement dummyOriginalModelElement() {

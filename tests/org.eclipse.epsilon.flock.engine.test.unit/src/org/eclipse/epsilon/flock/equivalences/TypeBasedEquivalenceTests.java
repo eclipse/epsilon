@@ -24,6 +24,7 @@ import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence.ConservativeCopy;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
@@ -31,11 +32,12 @@ import org.junit.Test;
 
 public class TypeBasedEquivalenceTests {
 
+	private final EolExecutor             executor     = mock(EolExecutor.class);
 	private final ModelElement            original     = mock(ModelElement.class);
 	private final ModelElement            equivalent   = mock(ModelElement.class);
 	private final ConservativeCopyContext context      = mock(ConservativeCopyContext.class);
 	
-	private final Equivalence equivalence = new TypeBasedEquivalence(original, equivalent);
+	private final Equivalence equivalence = new TypeBasedEquivalence(executor, original, equivalent);
 	
 	@Test
 	public void automaticallyPopulateEquivalentShouldPreserveIdentity() throws FlockRuntimeException {		

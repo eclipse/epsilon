@@ -18,6 +18,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.AnnotatedOperation;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Guard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.GuardsShouldBeEvaluatedOnlyOnce;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Operation;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.Retype;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.rules.SetToNull;
@@ -36,7 +37,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({SimpleRule.class,
                SeveralRules.class, SeveralRulesForSameType.class,
                Retype.class,
-               Guard.class,
+               Guard.class, GuardsShouldBeEvaluatedOnlyOnce.class,
                Operation.class, AnnotatedOperation.class,
                SetToNull.class,
                DeleteRule.class, DeleteRuleWithGuard.class, DeleteRuleAppliedToAbstractType.class, DeleteRuleWithInvalidSyntax.class})

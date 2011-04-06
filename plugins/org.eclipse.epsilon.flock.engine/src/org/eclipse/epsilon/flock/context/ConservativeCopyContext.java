@@ -15,8 +15,6 @@ import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
-import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
@@ -27,13 +25,11 @@ public class ConservativeCopyContext {
 	private final Model originalModel;
 	private final Model migratedModel;
 	private final FlockExecution execution;
-	private final EolExecutor executor;
 		
-	public ConservativeCopyContext(Model originalModel, Model migratedModel, FlockExecution execution, EolExecutor executor) {
+	public ConservativeCopyContext(Model originalModel, Model migratedModel, FlockExecution execution) {
 		this.originalModel = originalModel;
 		this.migratedModel = migratedModel;
 		this.execution = execution;
-		this.executor = executor;
 	}
 
 	public ModelElement getEquivalent(ModelElement originalModelElement) {
@@ -57,10 +53,6 @@ public class ConservativeCopyContext {
 	}
 
 	private IgnoredProperties getIgnoredPropertiesFor(MigrationStrategy strategy, Equivalence equivalence) throws FlockRuntimeException {
-		return strategy.ignoredPropertiesFor(getMigrateRuleContextFor(equivalence));
-	}
-	
-	private MigrateRuleContext getMigrateRuleContextFor(Equivalence equivalence) {
-		return new MigrateRuleContext(equivalence, executor);
+		return strategy.ignoredPropertiesFor(equivalence.getContext());
 	}
 }

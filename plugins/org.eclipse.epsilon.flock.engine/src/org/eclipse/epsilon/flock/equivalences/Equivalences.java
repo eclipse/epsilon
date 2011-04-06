@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
-import org.eclipse.epsilon.flock.context.RuleApplicationContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -61,9 +60,9 @@ public class Equivalences {
 		}
 	}
 	
-	public void applyRules(MigrationStrategy strategy, RuleApplicationContext context) throws FlockRuntimeException {
+	public void applyRules(MigrationStrategy strategy) throws FlockRuntimeException {
 		for (Equivalence equivalence : equivalences) {
-			strategy.applyRulesTo(context.getMigrateRuleContextFor(equivalence));
+			strategy.applyRulesTo(equivalence.getContext());
 		}
 	}
 	

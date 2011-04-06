@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
 import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
@@ -31,7 +30,7 @@ import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class CollectionOfModelValuesTests {
 
 	private static final Model dummyModel  = createMock(Model.class);

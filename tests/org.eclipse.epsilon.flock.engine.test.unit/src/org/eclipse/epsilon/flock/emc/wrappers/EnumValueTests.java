@@ -20,7 +20,6 @@ import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
-import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.EnumValue;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;

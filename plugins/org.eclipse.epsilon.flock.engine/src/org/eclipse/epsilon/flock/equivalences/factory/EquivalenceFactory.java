@@ -16,10 +16,11 @@ package org.eclipse.epsilon.flock.equivalences.factory;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public interface EquivalenceFactory {
 
-	public Equivalence createEquivalence(ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException;
+	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException;
 
 }

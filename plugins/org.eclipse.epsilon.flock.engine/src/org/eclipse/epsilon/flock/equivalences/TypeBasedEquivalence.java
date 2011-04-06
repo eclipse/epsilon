@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
+import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
@@ -27,7 +28,9 @@ public class TypeBasedEquivalence extends Equivalence {
 	protected final ModelElement original;
 	protected final ModelElement equivalent;
 	
-	public TypeBasedEquivalence(ModelElement original, ModelElement equivalent) {
+	public TypeBasedEquivalence(EolExecutor executor, ModelElement original, ModelElement equivalent) {
+		super(executor);
+		
 		this.original   = original;
 		this.equivalent = equivalent;
 	}
