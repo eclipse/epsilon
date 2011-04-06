@@ -21,7 +21,7 @@ import org.junit.Test;
 public class SimpleRule extends Strong2StrongMigrationAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name + ' Smith'; migrated.println();" +
+	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
