@@ -23,7 +23,6 @@ import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
-import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -69,9 +68,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
-		
-		context.getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
-		
+			
 		return execute();
 	}
 

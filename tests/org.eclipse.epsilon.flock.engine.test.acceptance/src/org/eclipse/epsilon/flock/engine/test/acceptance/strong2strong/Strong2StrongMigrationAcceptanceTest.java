@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
+import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flock.IFlockModule;
@@ -55,6 +56,7 @@ public abstract class Strong2StrongMigrationAcceptanceTest extends HutnTestWithF
 	private static void migrate(String strategy, AbstractEmfModel original, InMemoryEmfModel migratedModel) throws Exception {
 		final IFlockModule migrator = new FlockModule();
 		
+		migrator.getContext().getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
 		original.setExpand(false);
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {		
