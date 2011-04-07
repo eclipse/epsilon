@@ -24,6 +24,8 @@ public interface IModule extends ModuleElement {
 	
 	public boolean parse(String code) throws Exception;
 	
+	public boolean parse(String code, File file) throws Exception;
+	
 	public void buildModel() throws Exception;	
 	
 	public List<ParseProblem> getParseProblems();
