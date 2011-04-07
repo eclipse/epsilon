@@ -70,9 +70,15 @@ public class EmfModelPropertyMigratorTests {
 			assertMigratedPropertyEquals(fileUri);
 		}
 
-		
 		@Test
 		public void nothingIsInferredWhenThereIsNoLegacyProperty() {
+			assertMigratedPropertyEquals(null);
+		}
+		
+		@Test
+		public void nothingIsInferredWhenTheLegacyPropertyIsAnEmptyString() {
+			setLegacyPropertyTo("");
+			
 			assertMigratedPropertyEquals(null);
 		}
 		

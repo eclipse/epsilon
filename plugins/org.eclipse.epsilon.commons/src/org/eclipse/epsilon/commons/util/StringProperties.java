@@ -39,9 +39,13 @@ public class StringProperties extends Properties{
 		return os.toString();
 	}
 	
+	public boolean hasValueFor(String key) {
+		return containsKey(key) && !getProperty(key).isEmpty();
+	}
+	
 	@Override
-	public String getProperty(String name) {
-		String zuper = super.getProperty(name);
+	public String getProperty(String key) {
+		String zuper = super.getProperty(key);
 		if (zuper == null) return "";
 		else return zuper;
 	}
@@ -64,8 +68,8 @@ public class StringProperties extends Properties{
 		
 	}
 	
-	public boolean getBooleanProperty(String name, boolean def) {
-		String property = getProperty(name);
+	public boolean getBooleanProperty(String key, boolean def) {
+		String property = getProperty(key);
 		if (property.equalsIgnoreCase("true")) return true;
 		else if (property.equalsIgnoreCase("false")) return false;
 		else return def;
@@ -76,5 +80,4 @@ public class StringProperties extends Properties{
 		clone.load(this.toString());
 		return clone;
 	}
-	
 }

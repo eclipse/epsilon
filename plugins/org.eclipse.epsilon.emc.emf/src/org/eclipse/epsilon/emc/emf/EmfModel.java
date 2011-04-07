@@ -127,7 +127,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		load();
 	}
 
-	/*
+	/**
 	 * Used for backwards-compatibility with existing Eclipse launch configurations.
 	 * 
 	 * See #341481
@@ -147,7 +147,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 
 		private static void migrateUriValue(StringProperties properties, String oldProperty, String newProperty) {
-			if (properties.containsKey(oldProperty) && !properties.containsKey(newProperty)) {
+			if (properties.hasValueFor(oldProperty) && !properties.hasValueFor(newProperty)) {
 				final String oldValue = properties.getProperty(oldProperty);
 				final URI    newValue = EmfUtil.createPlatformResourceURI(oldValue);
 				
