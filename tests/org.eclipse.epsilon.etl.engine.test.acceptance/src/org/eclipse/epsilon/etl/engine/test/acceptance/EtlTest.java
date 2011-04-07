@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 
@@ -31,7 +32,7 @@ public class EtlTest {
 	}
 	
 	protected String getFullPath(String path) {
-		return this.getClass().getResource(path).getFile();
+		return FileUtil.getFile(path, this.getClass()).getAbsolutePath();
 	}
 	
 	protected void registerMetamodel(String path) throws Exception {

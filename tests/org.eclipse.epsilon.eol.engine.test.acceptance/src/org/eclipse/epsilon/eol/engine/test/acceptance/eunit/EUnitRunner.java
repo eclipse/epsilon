@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
@@ -38,7 +39,7 @@ public class EUnitRunner extends Runner {
 	protected EUnitModule module;
 	protected HashMap<String, Description> descriptions = new HashMap<String, Description>();
 	protected Description testSuiteDescription;
-	protected String eolFile;
+	protected File eolFile;
 	
 	public EUnitRunner(Class<?> clazz) {
 		this.clazz = clazz;
@@ -51,8 +52,8 @@ public class EUnitRunner extends Runner {
 		testSuiteDescription = Description.createSuiteDescription(clazz);
 		
 		try {
-			eolFile = clazz.getResource(clazz.getSimpleName() + ".eol").getFile();
-			module.parse(new File(eolFile));
+			eolFile = FileUtil.getFile(clazz.getSimpleName() + ".eol", clazz);
+			module.parse(eolFile);
 		} catch (Exception e) {
 			return testSuiteDescription;
 		}

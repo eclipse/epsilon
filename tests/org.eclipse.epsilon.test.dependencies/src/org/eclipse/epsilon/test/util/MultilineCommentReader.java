@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import org.eclipse.epsilon.commons.util.FileUtil;
+
 public class MultilineCommentReader {
 	
 	protected File findFile(String className, String javafilename) {
 		try {
-			Class clazz = Class.forName(className);
-			String filename = clazz.getResource("").getFile().replace("/bin/", "/src/") + javafilename;
+			Class<?> clazz = Class.forName(className);
+			String filename = FileUtil.getFile(javafilename, clazz).getAbsolutePath().replace("bin", "src");
 			return new File(filename);
 		}
 		catch (Exception ex) {
@@ -29,7 +31,7 @@ public class MultilineCommentReader {
 		String filename = s.getFileName();
 		
 		File file = findFile(s.getClassName(), filename);
-		
+				
 		String collected = "";
 		
 		if (file != null && file.exists()) {
