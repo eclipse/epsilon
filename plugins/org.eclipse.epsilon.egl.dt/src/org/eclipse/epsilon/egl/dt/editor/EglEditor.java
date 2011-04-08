@@ -113,4 +113,14 @@ public class EglEditor extends AbstractModuleEditor {
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EglModuleElementLabelProvider();
 	}
+
+	@Override
+	protected boolean supportsHyperlinks() {
+		return false;
+	}
+	
+	@Override
+	protected boolean supportsDirtyTextParsing() {
+		return false;
+	}
 }

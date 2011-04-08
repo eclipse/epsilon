@@ -72,7 +72,7 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="org.eclipse.epsilon.eol.dt.editor.EolEditor"
+            adaptableType="org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor"
             class="org.eclipse.epsilon.eol.dt.debug.EolEditorAdapterFactory">
          <adapter
                type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">

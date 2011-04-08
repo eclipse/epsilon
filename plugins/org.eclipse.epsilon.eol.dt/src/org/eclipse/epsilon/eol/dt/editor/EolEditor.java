@@ -113,5 +113,15 @@ public class EolEditor extends AbstractModuleEditor {
 		return new EolModuleElementLabelProvider();
 	}
 
+	@Override
+	protected boolean supportsHyperlinks() {
+		return true;
+	}
+
+	@Override
+	protected boolean supportsDirtyTextParsing() {
+		return true;
+	}
+
 
 }

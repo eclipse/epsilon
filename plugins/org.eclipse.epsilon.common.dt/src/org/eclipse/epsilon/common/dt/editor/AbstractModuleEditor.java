@@ -24,6 +24,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
@@ -63,6 +67,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor { //implements IPropertyListener {
 	
 	protected Color backgroundColor = null;
+	protected Job parseModuleJob = null;
+	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
 	
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
 	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
@@ -86,10 +92,18 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}
 	
-	@Override
-	public void doSave(IProgressMonitor progressMonitor) {
-		super.doSave(progressMonitor);
-		checkSyntax();
+	public void addModuleParsedListener(IModuleParseListener listener) {
+		this.moduleParsedListeners.add(listener);
+	}
+	
+	public boolean removeModuleParsedListener(IModuleParseListener listener) {
+		return moduleParsedListeners.remove(moduleParsedListeners);
+	}
+	
+	protected void notifyModuleParsedListeners(IModule module) {
+		for (IModuleParseListener listener : moduleParsedListeners) {
+			listener.moduleParsed(this, module);
+		}
 	}
 	
 	public void insertText(String text) {
@@ -238,6 +252,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 					this.getDocumentProvider(), 
 					this, 
 					createModuleElementLabelProvider());
+		
+		addModuleParsedListener(outline);
+		
 		return outline;
 	}
 
@@ -260,7 +277,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		// turn projection mode on
 		viewer.doOperation(ProjectionViewer.TOGGLE);
 		annotationModel = viewer.getProjectionAnnotationModel();
-		updateFoldingStructure();
+		//updateFoldingStructure();
 	}
 
 	@Override
@@ -279,46 +296,46 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	//TODO : Improve the folding functionality
 
-	boolean useCodeFolding = false;
-	
-	public void updateFoldingStructure() {
-		if (!useCodeFolding) return;
-		
-		IModule module = createModule();
-		IDocument doc = this.getDocumentProvider().getDocument(
-				this.getEditorInput());
-		
-		try {
-			annotationModel.removeAllAnnotations();
-			module.parse(doc.get());
-			ListIterator li = module.getChildren().listIterator();
-			while (li.hasNext()){
-				ModuleElement child = (ModuleElement) li.next();
-				ProjectionAnnotation annotation = new ProjectionAnnotation();
-				Position pos =  new Position(0);
-				
-				int startOffset = 0;
-				
-				if (li.hasPrevious()){
-					startOffset = doc.getLineOffset(Math.max(child.getAst().getLine() - 1,0)) + child.getAst().getColumn();	
-				}
-				
-				int endOffset = Math.max(doc.getLength(),0);
-				if (li.hasNext()) {
-					ModuleElement nextElement = (ModuleElement) li.next();
-					endOffset = doc.getLineOffset(Math.max(nextElement.getAst().getLine() - 2,0)) + nextElement.getAst().getColumn() - 1;	
-					li.previous();
-				}
-				
-				pos.setOffset(startOffset);
-				pos.setLength(endOffset-startOffset);
-				annotationModel.addAnnotation(annotation,pos);
-			}
-
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//	boolean useCodeFolding = false;
+//	
+//	public void updateFoldingStructure() {
+//		if (!useCodeFolding) return;
+//		
+//		IModule module = createModule();
+//		IDocument doc = this.getDocumentProvider().getDocument(
+//				this.getEditorInput());
+//		
+//		try {
+//			annotationModel.removeAllAnnotations();
+//			module.parse(doc.get());
+//			ListIterator li = module.getChildren().listIterator();
+//			while (li.hasNext()){
+//				ModuleElement child = (ModuleElement) li.next();
+//				ProjectionAnnotation annotation = new ProjectionAnnotation();
+//				Position pos =  new Position(0);
+//				
+//				int startOffset = 0;
+//				
+//				if (li.hasPrevious()){
+//					startOffset = doc.getLineOffset(Math.max(child.getAst().getLine() - 1,0)) + child.getAst().getColumn();	
+//				}
+//				
+//				int endOffset = Math.max(doc.getLength(),0);
+//				if (li.hasNext()) {
+//					ModuleElement nextElement = (ModuleElement) li.next();
+//					endOffset = doc.getLineOffset(Math.max(nextElement.getAst().getLine() - 2,0)) + nextElement.getAst().getColumn() - 1;	
+//					li.previous();
+//				}
+//				
+//				pos.setOffset(startOffset);
+//				pos.setLength(endOffset-startOffset);
+//				annotationModel.addAnnotation(annotation,pos);
+//			}
+//
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		// annotationModel.modifyAnnotationPosition(annotation,new
 		// Position(0,10));
@@ -340,7 +357,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		 * 
 		 * oldAnnotations = annotations;
 		 */
-	}
+	//}
 	
 	protected Position getPosition(AST ast){
 		Position pos = new Position(0);
@@ -371,29 +388,72 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
+		
+		AbstractModuleEditorSourceViewerConfiguration sourceViewerConfiguration = new AbstractModuleEditorSourceViewerConfiguration(this);
+		setSourceViewerConfiguration(sourceViewerConfiguration);
+		
 		outlinePage = createOutlinePage();
-		checkSyntax();
+		
+		
+		final int delay = 1000;
+		
+		parseModuleJob = new Job("Parsing module") {
+			
+			protected int status = -1;
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				
+				if (!isClosed() && status != getText().hashCode()) {
+					parseModule();
+					status = getText().hashCode();
+				}
+				
+				this.schedule(delay);
+				return Status.OK_STATUS;
+			}
+		};
+		
+		parseModuleJob.schedule(delay);
+	
 	}
 
-	protected IModule module;
-	protected IModule getModule() {
-		if (module == null) {
-			module = createModule();
-		}
-		return module;
+//	protected IModule module;
+//	protected IModule getModule() {
+//		if (module == null) {
+//			module = createModule();
+//		}
+//		return module;
+//	}
+	
+	public boolean isClosed() {
+		return this.getDocumentProvider() == null;
 	}
 	
-	public void checkSyntax() {
+	public String getText() {
+		return this.getDocumentProvider().getDocument(
+				this.getEditorInput()).get();
+	}
+	
+	public void parseModule() {
 		FileEditorInput fileInputEditor = (FileEditorInput) getEditorInput();
 		IFile file = fileInputEditor.getFile();
 		
-		final IModule module = getModule();
+		final IModule module = createModule();
+		final IDocument doc = this.getDocumentProvider().getDocument(
+				this.getEditorInput());
+		
+		// Replace tabs with spaces to match
+		// column numbers produced by the parser
+		String code = doc.get();
+		code = code.replaceAll("\t", " ");
 		
 		try {
 			module.reset();
-			module.parse(new File(file.getLocation().toOSString()));
-		} catch (Exception e) {}
+			module.parse(code, new File(file.getLocation().toOSString()));
+		} catch (Exception e) {
+			
+		}
 		
 		// Update problem markers
 		// Delete all the old markers and add new
@@ -417,22 +477,41 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			}
 		} catch (CoreException e1) {}
 		
-		Display.getCurrent().asyncExec(new Runnable() {
+		notifyModuleParsedListeners(module);
+		
+		/*
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
 			
 			public void run() {
-				while (!outlinePage.isReady());
-				outlinePage.updateModule(module);
+				if (outlinePage.isReady()) outlinePage.updateModule(module);
 			}
 		});
-		
+		*/
 	}
-
+	
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+		// TODO Auto-generated method stub
+		super.doSave(progressMonitor);
+		if (!supportsDirtyTextParsing()) parseModule();
+	}
+	
+	protected abstract boolean supportsHyperlinks();
+	
+	protected abstract boolean supportsDirtyTextParsing();
+	
 	public Color getBackgroundColor() {
 		return backgroundColor;
 	}
 
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+	
+	@Override
+	public void close(boolean save) {
+		parseModuleJob.cancel();
+		super.close(save);
 	}
 	
 	public abstract List<Template> getTemplates();

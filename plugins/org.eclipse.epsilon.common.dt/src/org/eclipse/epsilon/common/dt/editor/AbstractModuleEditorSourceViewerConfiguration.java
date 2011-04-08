@@ -12,12 +12,16 @@
 package org.eclipse.epsilon.common.dt.editor;
 
 import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
+import org.eclipse.epsilon.common.dt.editor.hyperlinks.AbstractModuleEditorHyperlinkDetector;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
+import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
+import org.eclipse.jface.text.hyperlink.IHyperlinkPresenter;
+import org.eclipse.jface.text.hyperlink.MultipleHyperlinkPresenter;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
@@ -25,6 +29,7 @@ import org.eclipse.jface.text.source.DefaultAnnotationHover;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.RGB;
 
 public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerConfiguration {
 	
@@ -98,12 +103,30 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		};
 		return clickStrat;
 	}
-
+	
 	@Override
 	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
 		return new DefaultAnnotationHover();
 	}
 	
+	AbstractModuleEditorHyperlinkDetector hyperlinkDetector = null;
+	
+	@Override
+	public IHyperlinkPresenter getHyperlinkPresenter(ISourceViewer sourceViewer) {
+		return new MultipleHyperlinkPresenter(new RGB(0, 0, 255));
+	}
+	
+	@Override
+	public IHyperlinkDetector[] getHyperlinkDetectors(ISourceViewer sourceViewer) {
+		
+		if (!editor.supportsHyperlinks()) return null;
+		
+		if (hyperlinkDetector == null) {
+			hyperlinkDetector = new AbstractModuleEditorHyperlinkDetector();
+			editor.addModuleParsedListener(hyperlinkDetector);
+		}
+		return new IHyperlinkDetector[] { hyperlinkDetector };
+	}
 	
 	public IContentAssistant getContentAssistant (ISourceViewer sourceViewer) {
 		ContentAssistant assistance = new ContentAssistant();

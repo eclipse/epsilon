@@ -48,7 +48,7 @@ public class FlockEditor extends EolEditor {
 	}
 	
 	@Override
-	public IModule getModule(){
+	public IModule createModule(){
 		return new FlockModule();
 	}
 	

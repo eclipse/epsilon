@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
+import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.module.ModuleElement;
@@ -40,7 +42,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 
-public class ModuleContentOutlinePage extends ContentOutlinePage {
+public class ModuleContentOutlinePage extends ContentOutlinePage implements IModuleParseListener {
 
 	protected IDocumentProvider documentProvider;
 	protected IModule module;
@@ -73,12 +75,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
     	
 		//update();
 	}
-	
-	public void updateModule(IModule module) {
-		if (getTreeViewer() != null)
-		getTreeViewer().setInput(module);
-	}
-	
+		
 	public boolean isReady() {
 		return notDisplayed() || getTreeViewer()!=null;
 	}
@@ -219,6 +216,17 @@ public class ModuleContentOutlinePage extends ContentOutlinePage {
 			this.setImageDescriptor(EpsilonCommonsPlugin.getImageDescriptor("icons/linkwitheditor.gif"));
 			this.setChecked(true);
 		}
+	}
+
+	public void moduleParsed(AbstractModuleEditor editor, final IModule module) {
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			
+			public void run() {
+				if (getTreeViewer() != null)
+					getTreeViewer().setInput(module);				
+			}
+		});
+		
 	}
 	
 }
