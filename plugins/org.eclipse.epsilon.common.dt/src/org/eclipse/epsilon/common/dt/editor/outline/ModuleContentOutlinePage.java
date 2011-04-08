@@ -219,14 +219,15 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 	}
 
 	public void moduleParsed(AbstractModuleEditor editor, final IModule module) {
-		getSite().getShell().getDisplay().asyncExec(new Runnable() {
-			
-			public void run() {
-				if (getTreeViewer() != null)
-					getTreeViewer().setInput(module);				
-			}
-		});
-		
+		if (getSite() != null) {
+			getSite().getShell().getDisplay().asyncExec(new Runnable() {
+				
+				public void run() {
+					if (getTreeViewer() != null)
+						getTreeViewer().setInput(module);				
+				}
+			});
+		}
 	}
 	
 }
