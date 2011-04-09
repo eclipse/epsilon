@@ -203,4 +203,9 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	public List<ModuleElement> getChildren() {
 		return eolModule.getChildren();
 	}
+	
+	public EglPreprocessorModule getPreprocessorModule() {
+		return eolModule;
+	}
+	
 }

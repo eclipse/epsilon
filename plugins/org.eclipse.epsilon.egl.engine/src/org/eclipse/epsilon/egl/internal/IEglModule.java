@@ -22,4 +22,7 @@ public interface IEglModule extends IEolLibraryModule {
 	public String execute() throws EglRuntimeException;
 	
 	public String execute(Template template) throws EglRuntimeException;
+	
+	public EglPreprocessorModule getPreprocessorModule();
+	
 }

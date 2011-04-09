@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.ASTLocation;
+import org.eclipse.epsilon.common.dt.editor.ASTLocator;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.commons.module.IModule;
@@ -24,6 +26,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 	protected AbstractModuleEditor editor;
 	protected HashMap<AST, IRegion> astRegions = new HashMap<AST, IRegion>();
 	protected IEolExecutableModule module = null;
+	protected ASTLocator astLocator = null;
 	
 	public List<IHyperlink> createHyperlinks(AST ast) {
 		
@@ -33,7 +36,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			EolOperation operation = (EolOperation) op;
 			if (operation.getName().equals(ast.getText()) && operation.getFormalParameters().size() == ast.getFirstChild().getChildren().size()) {
 				AST operationAst = operation.getAst();
-				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), ast, operationAst, operation.toString()));
+				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, astLocator, operation.toString()));
 			}
 		}
 		
@@ -43,7 +46,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			
 				if (operation.getName().equals(ast.getText())) {
 					AST operationAst = operation.getAst();
-					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), ast, operationAst, operation.toString()));
+					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, astLocator, operation.toString()));
 				}
 			}	
 		}
@@ -85,6 +88,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		astRegions.clear();
 		this.editor = editor;
 		this.module = (IEolExecutableModule) module;
+		this.astLocator = editor.getASTLocator(module);
 		findInterestingASTs(module.getAst());
 	}
 	
@@ -97,7 +101,8 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		
 		if (isInteresting(ast)) {
 			try {
-				int linkOffset = doc.getLineOffset(ast.getLine()-1) + ast.getColumn();
+				ASTLocation astLocation = astLocator.getLocation(ast);
+				int linkOffset = doc.getLineOffset(astLocation.getLine()-1) + astLocation.getColumn();
 				astRegions.put(ast, new Region(linkOffset, ast.getText().length()));
 			} catch (BadLocationException e) { }
 		}

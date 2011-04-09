@@ -13,10 +13,14 @@ package org.eclipse.epsilon.egl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.ASTLocation;
+import org.eclipse.epsilon.common.dt.editor.ASTLocator;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
+import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
@@ -123,4 +127,27 @@ public class EglEditor extends AbstractModuleEditor {
 	protected boolean supportsDirtyTextParsing() {
 		return true;
 	}
+	
+	@Override
+	public ASTLocator getASTLocator(IModule module) {
+		return new EglASTLocator(((EglTemplateFactoryModuleAdapter)module).getTrace());
+	}
+	
+	class EglASTLocator implements ASTLocator {
+		
+		protected Trace trace;
+		
+		public EglASTLocator(Trace trace) {
+			this.trace = trace;
+		}
+
+		public ASTLocation getLocation(AST ast) {
+			if (ast.getFile() != null) {
+				if (!ast.getFile().getName().endsWith(".egl"))
+					return new ASTLocation(ast.getLine(), ast.getColumn());
+			}
+			return new ASTLocation(trace.getEglLineNumberFor(ast.getLine()), trace.getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
+		}
+	}
+	
 }

@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
@@ -116,10 +117,16 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	}
 
 	public EolOperations getOperations() {
+		
 		return current.getOperations();
 	}
 
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		current.setOperationFactory(operationFactory);
 	}
+	
+	public Trace getTrace() {
+		return current.getTrace();
+	}
+	
 }

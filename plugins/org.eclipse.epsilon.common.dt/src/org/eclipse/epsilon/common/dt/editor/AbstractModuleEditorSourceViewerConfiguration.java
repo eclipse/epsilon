@@ -13,6 +13,7 @@ package org.eclipse.epsilon.common.dt.editor;
 
 import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
 import org.eclipse.epsilon.common.dt.editor.hyperlinks.AbstractModuleEditorHyperlinkDetector;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
@@ -139,5 +140,6 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 				IContentAssistant.PROPOSAL_OVERLAY);
 		return assistance;
 	}
+	
 	
 }

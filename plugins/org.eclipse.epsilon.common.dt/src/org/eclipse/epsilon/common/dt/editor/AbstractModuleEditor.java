@@ -358,7 +358,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		 * oldAnnotations = annotations;
 		 */
 	//}
-	
+	/*
 	protected Position getPosition(AST ast){
 		Position pos = new Position(0);
 		AstVisitor visitor = new AstVisitor();
@@ -379,7 +379,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		pos.setLength(endOffset-startOffset);
 		return pos;
 	}
-
+	*/
 	
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
@@ -547,4 +547,13 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		   // when Ctrl+Spacebar is pressed
 		   setActionActivationCode(CONTENTASSIST_PROPOSAL_ID,' ', -1, SWT.CTRL);
 		}
+		
+		public ASTLocator getASTLocator(IModule module) {
+			return new ASTLocator() {
+				public ASTLocation getLocation(AST ast) {
+					return new ASTLocation(ast.getLine(), ast.getColumn());
+				}
+			};
+		}
+		
 }
