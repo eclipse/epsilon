@@ -11,12 +11,9 @@
 package org.eclipse.epsilon.egl.test.acceptance.stop;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,12 +29,12 @@ public class Stop {
 	}
 	
 	@Test
-	public void stop() throws EglRuntimeException, IOException, EolModelLoadingException {
+	public void stop() throws Exception {
 		AcceptanceTestUtil.test(Stop, "Before");
 	}
 	
 	@Test
-	public void stopNested() throws EglRuntimeException, IOException, EolModelLoadingException {
+	public void stopNested() throws Exception {
 		AcceptanceTestUtil.test(StopNested, "NestedBefore" + FileUtil.NEWLINE +
 		                                    "Before"       + FileUtil.NEWLINE +
 		                                    "NestedAfter");

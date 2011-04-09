@@ -13,18 +13,14 @@ package org.eclipse.epsilon.egl;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.test.MockContext;
 import org.eclipse.epsilon.egl.util.FileUtil;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import org.eclipse.epsilon.commons.util.UriUtil;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -76,7 +72,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	@Test
-	public void testStore() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStore() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		
@@ -89,7 +85,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	@Test
-	public void testStoreAbsolute() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStoreAbsolute() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		
@@ -102,7 +98,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	@Test
-	public void testStoreWithOverwrite() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStoreWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
@@ -115,7 +111,7 @@ public class TestEglFileGeneratingTemplate {
 	
 	
 	@Test
-	public void testStoreWithoutProcess() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStoreWithoutProcess() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
@@ -127,7 +123,7 @@ public class TestEglFileGeneratingTemplate {
 	
 	
 	@Test
-	public void testStoreOverExisting() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStoreOverExisting() throws Exception {
 		String contents = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + contents + "'); %]");
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
@@ -139,7 +135,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	@Test
-	public void testStoreOverExistingWithOverwrite() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testStoreOverExistingWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
@@ -152,7 +148,7 @@ public class TestEglFileGeneratingTemplate {
 	
 	
 	@Test
-	public void testGenerate() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testGenerate() throws Exception {
 		FileUtil.write(PROGRAM, 
 		               "This text will appear before the protected region" + NEWLINE +
 		               "// protected region test on begin"                 + NEWLINE +
@@ -183,7 +179,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	@Test
-	public void testGenerateNoExisting() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testGenerateNoExisting() throws Exception {
 		final String expected = "This text will appear before the protected region" + NEWLINE +
                                 "// protected region test on begin"                 + NEWLINE +
                                 "// This region will be preserved"                  + NEWLINE + 

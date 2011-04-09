@@ -13,18 +13,16 @@ package org.eclipse.epsilon.egl.test.acceptance;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -37,34 +35,34 @@ public class AcceptanceTestUtil {
 	
 	private static IEglContext context;
 	
-	public static void test(File program, File expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
+	public static void test(File program, File expected, Model... models) throws Exception {
 		test(program, FileUtil.read(expected), models);
 	}
 	
-	public static void test(URI program, File expected, Model... models) throws IOException, EglRuntimeException, EolModelLoadingException {
+	public static void test(URI program, File expected, Model... models) throws Exception {
 		test(program, FileUtil.read(expected), models);
 	}
 	
-	public static void test(Object program, String expected, Model... models) throws EglRuntimeException, EolModelLoadingException {
+	public static void test(Object program, String expected, Model... models) throws Exception {
 		final String actual = run(program, models);
 		
 		assertEquals(StringUtil.normalizeNewlines(expected), StringUtil.normalizeNewlines(actual));
 	}
 	
 	
-	public static void testWithoutNormalizingNewlines(String program, String expected, Model... models) throws EglRuntimeException, EolModelLoadingException {
+	public static void testWithoutNormalizingNewlines(String program, String expected, Model... models) throws Exception {
 		final String actual = run(program, models);
 		
 		assertEquals(expected, actual);
 	}
 
-	public static String run(Object program, Model... models) throws EolModelLoadingException, EglRuntimeException {
+	public static String run(Object program, Model... models) throws Exception {
 		return run(new EglFileGeneratingTemplateFactory(), program, models);
 	}
 	
 	private static EglTemplate current;
 	
-	public static String run(EglTemplateFactory factory, Object program, Model... models) throws EglRuntimeException, EolModelLoadingException {
+	public static String run(EglTemplateFactory factory, Object program, Model... models) throws Exception {
 		context = factory.getContext();
 		loadModels(models);
 
@@ -81,7 +79,7 @@ public class AcceptanceTestUtil {
 		return result;
 	}
 
-	private static EglTemplate loadTemplate(EglTemplateFactory factory, Object program) throws EglRuntimeException {
+	private static EglTemplate loadTemplate(EglTemplateFactory factory, Object program) throws Exception {
 		final EglTemplate template;
 		
 		if (program instanceof File) {

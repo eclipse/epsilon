@@ -10,18 +10,16 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.engine;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
+import org.eclipse.epsilon.egl.test.models.Model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -48,22 +46,22 @@ public class Engine {
 	}
 	
 	@Test
-	public void testValid() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testValid() throws Exception {
 		AcceptanceTestUtil.test(OO2JavaProgram, OO2JavaExpected, Model.OOInstance);
 	}
 	
 	@Test
-	public void testImportEol() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testImportEol() throws Exception {
 		AcceptanceTestUtil.test(OO2JavaImportEolProgram, OO2JavaExpected, Model.OOInstance);
 	}
 	
 	@Test
-	public void testImportEgl() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testImportEgl() throws Exception {
 		AcceptanceTestUtil.test(OO2JavaImportEglProgram, OO2JavaExpected, Model.OOInstance);
 	}
 	
 	@Test
-	public void testBadImport() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testBadImport() throws Exception {
 		AcceptanceTestUtil.run(NonExistentImport);
 		
 		final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
@@ -73,7 +71,7 @@ public class Engine {
 	}
 	
 	@Test (expected=EglRuntimeException.class)
-	public void testRuntimeException() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testRuntimeException() throws Exception {
 		try {
 			AcceptanceTestUtil.run(runtimeExceptionProgram);
 		
@@ -85,7 +83,7 @@ public class Engine {
 	}
 	
 	@Test (expected=EglRuntimeException.class)
-	public void testParseInvalid() throws EglRuntimeException, EolModelLoadingException {
+	public void testParseInvalid() throws Exception {
 		AcceptanceTestUtil.run(invalidPath);
 	}
 }

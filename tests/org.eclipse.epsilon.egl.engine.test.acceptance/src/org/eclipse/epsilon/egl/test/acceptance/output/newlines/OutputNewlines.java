@@ -10,11 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.output.newlines;
 
-import java.io.IOException;
-
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.Test;
 
 public class OutputNewlines {
@@ -22,7 +18,7 @@ public class OutputNewlines {
 	// When processed, a template should produce the same kind of newlines as entered in that template
 	
 	@Test
-	public void windowsNewlinesArePreserved() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void windowsNewlinesArePreserved() throws Exception {
 		final String programAndOutput = "Foo\r\n" +
 		                                "Bar";
 		
@@ -30,7 +26,7 @@ public class OutputNewlines {
 	}
 	
 	@Test
-	public void unixNewlinesArePreserved() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void unixNewlinesArePreserved() throws Exception {
 		final String programAndOutput = "Foo\n" +
 		                                "Bar";
 		
@@ -38,7 +34,7 @@ public class OutputNewlines {
 	}
 	
 	@Test
-	public void oldMacNewlinesArePreserved() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void oldMacNewlinesArePreserved() throws Exception {
 		final String programAndOutput = "Foo\r" +
 		                                "Bar";
 		

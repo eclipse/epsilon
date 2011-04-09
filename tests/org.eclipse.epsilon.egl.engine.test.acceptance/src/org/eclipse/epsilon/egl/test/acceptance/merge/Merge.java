@@ -15,13 +15,12 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
+import org.eclipse.epsilon.egl.test.models.Model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -73,30 +72,30 @@ public class Merge {
 	}
 	
 	@Test
-	public void mergeStore() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void mergeStore() throws Exception {
 		AcceptanceTestUtil.run(StoreProgram, Model.OOInstance);
 		assertEquals(ExpectedStore, PetStore);
 	}
 	
 	@Test
-	public void mergeGenerate() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void mergeGenerate() throws Exception {
 		AcceptanceTestUtil.run(GenerateProgram, Model.OOInstance);
 		assertEquals(ExpectedGenerate, PetGenerate);
 	}
 	
 	@Test
-	public void mergeOverwrite() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void mergeOverwrite() throws Exception {
 		AcceptanceTestUtil.run(OverwriteProgram, Model.OOInstance);
 		assertEquals(ExpectedOverwrite, PetOverwrite);
 	}
 	
 	@Test (expected=EglRuntimeException.class)
-	public void mergeDuplicatePR() throws EglRuntimeException, IOException, EolModelLoadingException {
+	public void mergeDuplicatePR() throws Exception {
 		AcceptanceTestUtil.run(DuplicatePRProgram, Model.OOInstance);
 	}
 	
 	@Test
-	public void mergeAbsent() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void mergeAbsent() throws Exception {
 		AcceptanceTestUtil.run(GenerateAbsentProgram, Model.OOInstance);
 		assertEquals(ExpectedGenerateAbsent, PetGenerateAbsent);
 		
@@ -120,7 +119,7 @@ public class Merge {
 	}
 	
 	@Test
-	public void mergeAbsentNested() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void mergeAbsentNested() throws Exception {
 		org.eclipse.epsilon.egl.util.FileUtil.write(PetGenerateAbsent, org.eclipse.epsilon.egl.util.FileUtil.read(ExistingGenerate));
 		
 		AcceptanceTestUtil.run(GenerateAbsentNestedProgram, Model.OOInstance);

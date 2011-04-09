@@ -55,6 +55,11 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return getParseProblems().isEmpty();
 	}
 	
+	public boolean parse(String code, File file) throws Exception {
+		current = factory.load(code, file);
+		return current.getParseProblems().isEmpty();
+	}
+	
 	public List<ParseProblem> getParseProblems() {
 		return current == null ? new LinkedList<ParseProblem>() : current.getParseProblems();
 	}
@@ -116,12 +121,5 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		current.setOperationFactory(operationFactory);
-	}
-	
-	//FIXME: Implement this properly - currently it ignores code and
-	//       parses the stored file
-	public boolean parse(String code, File file) throws Exception {		
-		current = factory.load(file);
-		return current.getParseProblems().isEmpty();
 	}
 }

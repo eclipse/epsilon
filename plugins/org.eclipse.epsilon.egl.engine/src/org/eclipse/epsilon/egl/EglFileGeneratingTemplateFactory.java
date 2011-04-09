@@ -10,11 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
-import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	
@@ -37,12 +37,8 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	}
 
 	@Override
-	protected EglTemplate createTemplate(String name, URI resource) throws IOException {
-		return new EglFileGeneratingTemplate(name, resource, context, getOutputRootOrRoot(), outputRootPath);
-	}
-	
-	protected EglTemplate createTemplate(String code) {
-		return new EglFileGeneratingTemplate(code, context, getOutputRootOrRoot(), outputRootPath);
+	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
+		return new EglFileGeneratingTemplate(spec, context, getOutputRootOrRoot(), outputRootPath);
 	}
 	
 	protected URI getOutputRootOrRoot() {

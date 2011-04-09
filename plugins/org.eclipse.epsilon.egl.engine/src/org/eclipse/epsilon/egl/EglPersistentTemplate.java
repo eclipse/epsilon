@@ -11,13 +11,13 @@
 package org.eclipse.epsilon.egl;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
@@ -26,15 +26,8 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	protected final URI outputRoot;
 	protected final String outputRootPath;
 
-	public EglPersistentTemplate(String name, URI path, IEglContext context, URI outputRoot, String outputRootPath) throws IOException {
-		super(name, path, context);
-		
-		this.outputRoot     = outputRoot;
-		this.outputRootPath = outputRootPath;
-	}
-	
-	public EglPersistentTemplate(String code, IEglContext context, URI outputRoot, String outputRootPath) {
-		super(code, context);
+	public EglPersistentTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context);
 		
 		this.outputRoot     = outputRoot;
 		this.outputRootPath = outputRootPath;

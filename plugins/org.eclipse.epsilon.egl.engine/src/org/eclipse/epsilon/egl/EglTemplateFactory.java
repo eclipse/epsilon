@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -20,6 +19,7 @@ import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class EglTemplateFactory {
@@ -87,15 +87,12 @@ public class EglTemplateFactory {
 		 return name;
 	}
 	
-		/**
-	 * Added Steffen to fix an issue in initial loading of templates from the
-	 * module adapter.
-	 * 
+	/**
 	 * Loads an EglTemplate for the EGL code stored in the indicated file.
 	 * 
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
-	 * than this method, unless they wish to alter the way in which IOExceptions
-	 * are handled.
+	 * than this method, unless they wish to alter the way in which a file is
+	 * transformed into an EglTemplateSpecification
 	 * 
 	 * @param file
 	 * @return
@@ -105,64 +102,58 @@ public class EglTemplateFactory {
 		final String name = name(file.getAbsolutePath());
 		
 		try {
-			return createTemplate(name, UriUtil.fileToUri(file));
-
-		} catch (IOException e) {
-			final String reason;
-
-			if (e instanceof FileNotFoundException)
-				reason = "Template not found";
-			else
-				reason = "Could not process";
-
-			if (context.getModule() == null)
-				throw new EglRuntimeException(reason + " '" + name + "'", e);
-			else
-				throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule().getAst());
+			return load(EglTemplateSpecification.fromResource(name, UriUtil.fileToUri(file)));
+		
 		} catch (URISyntaxException e) {
-			if (context.getModule() == null)
-				throw new EglRuntimeException("Could not process '" + name + "'", e);
-			else
-				throw new EglRuntimeException("Could not process '" + name + "'", e, context.getModule().getAst());
+			return handleFailedLoad(name, e);
 		}
+	}
+	
+	/**
+	 * Loads an EglTemplate for the given EGL code as though it were
+	 * contained in the given File. Used for parsing "dirty" code (which 
+	 * has not yet been saved to disk).
+	 * 
+	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
+	 * than this method, unless they wish to alter the way in which a dirty 
+	 * resource is transformed into an EglTemplateSpecification
+	 * 
+	 * @param code
+	 * @param file
+	 * @return
+	 */
+	protected EglTemplate load(String code, File file) throws EglRuntimeException {
+		final String name = name(file.getAbsolutePath());
+
+		try {
+			return load(EglTemplateSpecification.fromDirtyResource(name, code, UriUtil.fileToUri(file)));
+		
+		} catch (URISyntaxException e) {
+			return handleFailedLoad(name, e);
+		}			
 	}
 
 	/**
 	 * Loads an EglTemplate for the EGL code stored in the file at path.
 	 * 
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
-	 * than this method, unless they wish to alter the way in which IOExceptions
-	 * are handled.
+	 * than this method, unless they wish to alter the way in which a path is
+	 * transformed into an EglTemplateSpecification
 	 * 
 	 * @param path
 	 * @return
 	 * @throws EglRuntimeException
 	 */
 	public EglTemplate load(String path) throws EglRuntimeException {
-		try {
-			return createTemplate(name(path), resolveTemplate(path));
-			
-		} catch (IOException e) {
-			final String reason;
-			
-			if (e instanceof FileNotFoundException)
-				reason = "Template not found";
-			else
-				reason = "Could not process";
-			
-			if (context.getModule() == null)
-				throw new EglRuntimeException(reason + " '" + name(path) + "'", e);
-			else
-				throw new EglRuntimeException(reason + " '" + name(path) + "'", e, context.getModule().getAst());
-		}
+		return load(EglTemplateSpecification.fromResource(name(path), resolveTemplate(path)));
 	}
 	
 	/**
 	 * Loads an EglTemplate for the EGL code stored in the given resource.
 	 * 
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
-	 * than this method, unless they wish to alter the way in which IOExceptions
-	 * are handled.
+	 * than this method, unless they wish to alter the way in which a resource is
+	 * transformed into an EglTemplateSpecification
 	 * 
 	 * @param path
 	 * @return
@@ -170,22 +161,42 @@ public class EglTemplateFactory {
 	 */
 	public EglTemplate load(URI resource) throws EglRuntimeException {
 		final String name = resource.toString(); // FIXME better name for URIs
+		
+		return load(EglTemplateSpecification.fromResource(name, resource));
+	}
+
+	/**
+	 * Loads an EglTemplate from the given EglTemplateSpecification.
+	 * 
+	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
+	 * than this method, unless they wish to alter the way in which IOExceptions
+	 * are handled.
+	 * 
+	 * @param spec
+	 * @return
+	 * @throws EglRuntimeException
+	 */
+	protected EglTemplate load(EglTemplateSpecification spec) throws EglRuntimeException {
 		try {
-			return createTemplate(name, resource);
+			return createTemplate(spec);
 			
-		} catch (IOException e) {
-			final String reason;
-			
-			if (e instanceof FileNotFoundException)
-				reason = "Template not found";
-			else
-				reason = "Could not process";
-			
-			if (context.getModule() == null)
-				throw new EglRuntimeException(reason + " '" + name + "'", e);
-			else
-				throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule().getAst());
+		} catch (Exception e) {
+			return handleFailedLoad(spec.getName(), e);
 		}
+	}
+	
+	private EglTemplate handleFailedLoad(final String name, Exception e) throws EglRuntimeException {
+		final String reason;
+		
+		if (e instanceof FileNotFoundException)
+			reason = "Template not found";
+		else
+			reason = "Could not process";
+		
+		if (context.getModule() == null)
+			throw new EglRuntimeException(reason + " '" + name + "'", e);
+		else
+			throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule().getAst());
 	}
 	
 	/**
@@ -198,33 +209,20 @@ public class EglTemplateFactory {
 	 * @param code
 	 * @return
 	 */
-	public EglTemplate prepare(String code) {
-		return createTemplate(code);
+	public EglTemplate prepare(String code) throws Exception {
+		return createTemplate(EglTemplateSpecification.fromCode(code));
 	}
 
 	/**
-	 * Creates a template for the EGL source code located in
-	 * the given resource. Subclasses may override to create different
-	 * types of template.
-	 * 
-	 * @param name Short name of the template, used in outline views.
-	 * @param resource The full location of the EGL source code.
-	 * @return
-	 * @throws IOException
-	 */
-	protected EglTemplate createTemplate(String name, URI resource) throws IOException {
-		return new EglTemplate(name, resource, context);
-	}
-	
-	/**
-	 * Creates a template for the given EGL source code.
+	 * Creates a template from the given specification.
 	 * Subclasses may override to create different types of template.
 	 * 
-	 * @param code
+	 * @param spec
 	 * @return
+	 * @throws Exception 
 	 */
-	protected EglTemplate createTemplate(String code) {
-		return new EglTemplate(code, context);
+	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
+		return new EglTemplate(spec, context);
 	}
 	
 	

@@ -20,6 +20,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
 import org.eclipse.epsilon.egl.output.Writer;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.traceability.OutputFile;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -30,16 +31,12 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private OutputFile currentOutputFile;
 
 	// For tests
-	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws IOException {
-		this(path.toString(), path, context, outputRoot, outputRoot.getPath());
+	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws Exception {
+		this(EglTemplateSpecification.fromResource(path.toString(), path), context, outputRoot, outputRoot.getPath());
 	}
 
-	public EglFileGeneratingTemplate(String name, URI path, IEglContext context, URI outputRoot, String outputRootPath) throws IOException {
-		super(name, path, context, outputRoot, outputRootPath);
-	}
-	
-	public EglFileGeneratingTemplate(String code, IEglContext context, URI outputRoot, String outputRootPath) {
-		super(code, context, outputRoot, outputRootPath);
+	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context, outputRoot, outputRootPath);
 	}
 
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {

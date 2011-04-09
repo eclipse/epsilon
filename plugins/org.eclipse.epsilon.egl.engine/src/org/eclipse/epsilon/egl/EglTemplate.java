@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
-import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -18,6 +17,7 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -30,27 +30,14 @@ public class EglTemplate extends AbstractEglTemplate {
 	private boolean processed = false;
 	
 	// For tests
-	protected EglTemplate(URI path, IEglContext context) throws IOException {
-		this(path.toString(), path, context);
-	}
-	
-	public EglTemplate(String name, URI resource, IEglContext context) throws IOException {
-		this(name, context, new Template(name, resource));
-		
-		try {
-			module.parse(resource);
-		} catch (Exception e) {
-			if (e instanceof IOException)
-				throw (IOException)e;
-			else // TODO Auto-generated catch block
-				e.printStackTrace();
-		}
+	protected EglTemplate(URI path, IEglContext context) throws Exception {
+		this(EglTemplateSpecification.fromResource(path.toString(), path), context);
 	}
 
-	public EglTemplate(String code, IEglContext context) {
-		this("Anonymous", context, new Template());
+	public EglTemplate(EglTemplateSpecification spec, IEglContext context) throws Exception {
+		this(spec.getName(), context, spec.createTemplate());
 		
-		module.parse(code);
+		spec.parseInto(module);
 	}
 	
 	private EglTemplate(String name, IEglContext context, Template template) {

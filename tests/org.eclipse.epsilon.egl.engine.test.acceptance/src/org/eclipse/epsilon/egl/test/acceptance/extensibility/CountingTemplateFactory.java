@@ -13,23 +13,14 @@
  */
 package org.eclipse.epsilon.egl.test.acceptance.extensibility;
 
-import java.io.IOException;
-import java.net.URI;
-
-import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class CountingTemplateFactory extends EglFileGeneratingTemplateFactory {
 
 	@Override
-	protected EglTemplate createTemplate(String name, URI resource) throws IOException {
-		return new CountingTemplate(name, resource, context, getOutputRootOrRoot(), outputRootPath);
-	}
-
-	@Override
-	protected EglTemplate createTemplate(String code) {
-		return new CountingTemplate(code, context, getOutputRootOrRoot(), outputRootPath);
-	}
-
-	
+	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
+		return new CountingTemplate(spec, context, getOutputRootOrRoot(), outputRootPath);
+	}	
 }

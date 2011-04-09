@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.egl.test.acceptance.extensibility;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,17 +21,14 @@ import java.util.Map;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class CountingTemplate extends EglPersistentTemplate {
 
 	private static final Map<File, Integer> COUNTERS = new HashMap<File, Integer>();
 	
-	public CountingTemplate(String name, URI path, IEglContext context, URI outputRoot, String outputRootPath) throws IOException {
-		super(name, path, context, outputRoot, outputRootPath);		
-	}
-	
-	public CountingTemplate(String code, IEglContext context, URI outputRoot, String outputRootPath) {
-		super(code, context, outputRoot, outputRootPath);
+	public CountingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context, outputRoot, outputRootPath);
 	}
 
 	@Override

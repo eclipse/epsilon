@@ -52,7 +52,7 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public List getBuiltinVariables() {
 		List<String> vars = eolEditor.getBuiltinVariables();
 		
@@ -67,7 +67,7 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getTypes() {
 		List<Object> types = super.getTypes();
 		
@@ -116,11 +116,11 @@ public class EglEditor extends AbstractModuleEditor {
 
 	@Override
 	protected boolean supportsHyperlinks() {
-		return false;
+		return true;
 	}
 	
 	@Override
 	protected boolean supportsDirtyTextParsing() {
-		return false;
+		return true;
 	}
 }

@@ -16,7 +16,6 @@ package org.eclipse.epsilon.egl.internal;
 import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;

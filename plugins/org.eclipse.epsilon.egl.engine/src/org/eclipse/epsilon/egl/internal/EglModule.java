@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.module.ModuleElement;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.UriUtil;
@@ -64,19 +65,37 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		reset();
 	}
 
-	public boolean parse(String code) {
-		lexer = new EglLexer(code);
-		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
-		parser = new EglParser(lexer, astFactory);
-		parser.parse();
+	public boolean parse(String code) throws Exception {
+		return parse(code, null);
+	}
+	
+	@Override
+	public boolean parse(String code, File file) throws Exception {
+		return parseFromLexer(new EglLexer(code), file);
+	}
+	
+	public boolean parse(File file) throws IOException {
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			return parseFromLexer(new EglLexer(reader), file);
+			
+		} finally {
+			if (reader!=null) reader.close();
+		}
+	}
 
-		if (parser.getParseProblems().isEmpty()){
-			this.ast = parser.getAST();
-			return preprocess();
+	private boolean parseFromLexer(EglLexer lexer, File file) {
+		this.sourceFile = file;
+		
+		if (file != null) {
+			this.sourceUri = file.toURI();
+
+			try {
+				templateRoot = UriUtil.fileToUri(file.getParentFile());
+			} catch (URISyntaxException e) {}
 		}
-		else {
-			return false;
-		}
+		
+		return parseAndPreprocess(lexer, file);
 	}
 	
 	public boolean parse(URI uri) throws IOException {
@@ -96,42 +115,24 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 				context.getTemplateFactory().setRoot(uri);
 
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
-			lexer = new EglLexer(reader);
-			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
-			parser = new EglParser(lexer, astFactory);
-			parser.parse();
-			ast = parser.getAST();
 
-			boolean validEol = preprocess();
+			return parseAndPreprocess(new EglLexer(reader), null);
 
-			return parser.getParseProblems().size() == 0 && validEol;
 		} finally {
 			if (reader!=null) reader.close();
 		}
 	}
-
-	public boolean parse(File file) throws IOException {
-		try {
-			this.sourceFile = file;
-			this.sourceUri = file.toURI();
-
-			try {
-				templateRoot = UriUtil.fileToUri(file.getParentFile());
-			} catch (URISyntaxException e) {}
-
-			reader = new BufferedReader(new FileReader(file));
-			lexer = new EglLexer(reader);
-			EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
-			parser = new EglParser(lexer, astFactory);
-			parser.parse();
-			ast = parser.getAST();
-
-			boolean validEol = preprocess();
-
-			return parser.getParseProblems().size() == 0 && validEol;
-		} finally {
-			if (reader!=null) reader.close();
-		}
+	
+	private boolean parseAndPreprocess(EglLexer lexer, File file) {
+		this.lexer = lexer;
+		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
+		parser = new EglParser(lexer, astFactory);
+		parser.parse();
+		ast = parser.getAST();
+		
+		boolean validEol = preprocess();
+		
+		return parser.getParseProblems().size() == 0 && validEol;
 	}
 
 	private boolean preprocess() {
@@ -191,6 +192,12 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	
 	public EolOperations getOperations() {
 		return eolModule.getOperations();
+	}
+	
+	@Override
+	public AST getAst() {
+		// FIXME this AST provides incorrect line and column numbers
+		return eolModule.getAst();
 	}
 	
 	public List<ModuleElement> getChildren() {

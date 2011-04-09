@@ -12,16 +12,14 @@ package org.eclipse.epsilon.egl.test.acceptance.operations.template;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglUnallocatedOutputBufferException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.Test;
 
 public class TemplateOperations {
 	
 	@Test
-	public void testTemplateOperation() throws EglRuntimeException, EolModelLoadingException {
+	public void testTemplateOperation() throws Exception {
 		final String template = "[%=main()%]"          +
 		                        "[% @template"         + NEWLINE +
 		                        "operation main() {%]" + NEWLINE +
@@ -34,7 +32,7 @@ public class TemplateOperations {
 	}
 	
 	@Test
-	public void testTemplateOperationWithDynamicSection() throws EglRuntimeException, EolModelLoadingException {
+	public void testTemplateOperationWithDynamicSection() throws Exception {
 		final String template = "[%=main()%]"          +
 		                        "[% @template"         + NEWLINE +
 		                        "operation main() {%]" + NEWLINE +
@@ -47,7 +45,7 @@ public class TemplateOperations {
 	}
 	
 	@Test(expected=EglUnallocatedOutputBufferException.class)
-	public void testNonTemplateOperationWithStaticSection() throws EglRuntimeException, EolModelLoadingException {
+	public void testNonTemplateOperationWithStaticSection() throws Exception {
 		final String template = "[%=main()%]"          +
 		                        "[%"                   + NEWLINE +
 		                        "operation main() {%]" + NEWLINE +

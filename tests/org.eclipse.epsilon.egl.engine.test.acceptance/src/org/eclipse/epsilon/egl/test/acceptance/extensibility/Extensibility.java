@@ -16,13 +16,11 @@ package org.eclipse.epsilon.egl.test.acceptance.extensibility;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,7 +34,7 @@ public class Extensibility {
 	}
 	
 	@Test
-	public void testValid() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testValid() throws Exception {
 		AcceptanceTestUtil.run(initialiseFactory(), Driver, Model.OOInstance);
 		
 		final File generatedFile = FileUtil.getFile("Pet.java", Extensibility.class);

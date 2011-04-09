@@ -13,12 +13,9 @@ package org.eclipse.epsilon.egl.test.acceptance.output;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -34,7 +31,7 @@ public class Output {
 	}
 	
 	@Test
-	public void testProcess() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testProcess() throws Exception {
 		final String expected = "Preprocess"                     + NEWLINE +
 		                        "Hello world from SubTemplate1!" + NEWLINE +
 		                        "Postprocess"                    + NEWLINE +
@@ -49,7 +46,7 @@ public class Output {
 	}
 	
 	@Test
-	public void testProcessHierachy() throws IOException, EglRuntimeException, EolModelLoadingException {
+	public void testProcessHierachy() throws Exception {
 		final String expected = "Hello world from Template!"       + NEWLINE +
 		                        "Hello world from SubTemplate!"    + NEWLINE +
 		                        "Hello world from SubSubTemplate!";

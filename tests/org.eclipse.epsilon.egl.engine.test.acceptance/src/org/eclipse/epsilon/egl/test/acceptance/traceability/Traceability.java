@@ -10,20 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.traceability;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.commons.util.UriUtil;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
+import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.OutputFile;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +51,7 @@ public class Traceability {
 	}
 	
 	@Test
-	public void traceability() throws IOException, EglRuntimeException, EolModelLoadingException, URISyntaxException {
+	public void traceability() throws Exception {
 		AcceptanceTestUtil.run(subProgram, Model.OOInstance);
 		
 		final Template expected = new Template(UriUtil.fileToUri(subProgram));
@@ -76,7 +73,7 @@ public class Traceability {
 	}
 	
 	@Test
-	public void traceabilityHierachy() throws IOException, EglRuntimeException, EolModelLoadingException, URISyntaxException {
+	public void traceabilityHierachy() throws Exception {
 		AcceptanceTestUtil.run(program, Model.OOInstance);
 		
 		final Template expected           = new Template(UriUtil.fileToUri(program));

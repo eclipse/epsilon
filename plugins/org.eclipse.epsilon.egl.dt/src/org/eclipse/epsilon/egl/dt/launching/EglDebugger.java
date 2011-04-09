@@ -1,8 +1,6 @@
 package org.eclipse.epsilon.egl.dt.launching;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
-import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorModule;
 import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;

@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.internal;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -22,12 +18,6 @@ import org.eclipse.epsilon.eol.IEolLibraryModule;
 public interface IEglModule extends IEolLibraryModule {
 
 	public IEglContext getContext();
-	
-	public boolean parse(String code);
-	
-	public boolean parse(URI uri) throws IOException;
-	
-	public boolean parse(File file) throws IOException;
 	
 	public String execute() throws EglRuntimeException;
 	

@@ -10,22 +10,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
-import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
-
-import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
-import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
-import org.eclipse.epsilon.egl.test.MockContext;
-import org.eclipse.epsilon.egl.util.FileUtil;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
+import org.eclipse.epsilon.egl.test.MockContext;
+import org.eclipse.epsilon.egl.util.FileUtil;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -72,7 +68,7 @@ public class TestEglTemplate {
 	}
 	
 	@Test
-	public void testValid() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testValid() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(SIMPLE, "[% out.print('" + expected + "'); %]");
 		
@@ -82,7 +78,7 @@ public class TestEglTemplate {
 	}
 	
 	@Test
-	public void testProcessTwice() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testProcessTwice() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(SIMPLE, "[% out.print('" + expected + "'); %]");
 		
@@ -93,14 +89,14 @@ public class TestEglTemplate {
 	}
 	
 	@Test (expected = IOException.class)
-	public void testAbsent() throws EglRuntimeException, URISyntaxException, IOException {
+	public void testAbsent() throws Exception {
 		template = new EglTemplate(UriUtil.fileToUri(ABSENT), new MockContext());
 		
 		template.process();
 	}
 	
 	@Test
-	public void testPopulate() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testPopulate() throws Exception {
 		final String expected = "Hello world!" + testNumber;		
 		FileUtil.write(POPULATE, "[% out.print(expected); %]");
 		
@@ -112,7 +108,7 @@ public class TestEglTemplate {
 
 	
 	@Test
-	public void testMerge() throws IOException, EglRuntimeException, URISyntaxException {
+	public void testMerge() throws Exception {
 		FileUtil.write(MERGE,
 		               "This text will appear before the protected region" + NEWLINE +
 		               "// protected region test on begin"                 + NEWLINE +

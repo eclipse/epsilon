@@ -10,16 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.exceptions;
 
-import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.FILE_SEP;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -52,7 +51,7 @@ public class Exceptions {
 	// OutputBuffer tests \\
 	
 	@Test
-	public void stopPreserve() throws IOException, EolModelLoadingException {
+	public void stopPreserve() throws Exception {
 		try {
 			AcceptanceTestUtil.run(StopPreserve);
 			fail("Expected EglRuntimeException");
@@ -65,7 +64,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void startPreserve4() throws IOException, EolModelLoadingException {
+	public void startPreserve4() throws Exception {
 		try {
 			AcceptanceTestUtil.run(StartPreserve4);
 			fail("Expected EglRuntimeException");
@@ -78,7 +77,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void startPreserve2() throws IOException, EolModelLoadingException {
+	public void startPreserve2() throws Exception {
 		try {
 			AcceptanceTestUtil.run(StartPreserve2);
 			fail("Expected EglRuntimeException");
@@ -91,7 +90,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void startPreserve2NoCT() throws IOException, EolModelLoadingException {
+	public void startPreserve2NoCT() throws Exception {
 		try {
 			AcceptanceTestUtil.run(StartPreserve2NoCT);
 			fail("Expected EglRuntimeException");
@@ -104,7 +103,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void setContentType() throws IOException, EolModelLoadingException {
+	public void setContentType() throws Exception {
 		try {
 			AcceptanceTestUtil.run(SetContentType);
 			fail("Expected EglRuntimeException");
@@ -121,7 +120,7 @@ public class Exceptions {
 	// EglTemplate tests \\
 	
 	@Test
-	public void load() throws IOException, EolModelLoadingException {
+	public void load() throws Exception {
 		try {
 			AcceptanceTestUtil.run(Load);
 			fail("Expected EglRuntimeException");
@@ -134,7 +133,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void process() throws IOException, EolModelLoadingException {
+	public void process() throws Exception {
 		try {
 			AcceptanceTestUtil.run(Process);
 			fail("Expected EglRuntimeException");
@@ -147,7 +146,7 @@ public class Exceptions {
 	}
 	
 	@Test
-	public void processDeep() throws IOException, EolModelLoadingException {
+	public void processDeep() throws Exception {
 		try {
 			AcceptanceTestUtil.run(ProcessDeep);
 			fail("Expected EglRuntimeException");
