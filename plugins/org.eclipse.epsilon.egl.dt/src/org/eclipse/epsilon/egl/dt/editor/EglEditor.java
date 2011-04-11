@@ -10,21 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.editor;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.ASTLocation;
-import org.eclipse.epsilon.common.dt.editor.ASTLocator;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
-import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
-import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -40,6 +34,7 @@ public class EglEditor extends AbstractModuleEditor {
 	public EglEditor() {
 		setBackgroundColor(new Color(Display.getCurrent(), 251, 242, 184));
 		setDocumentProvider(new EglProvider());
+		addTemplateContributor(new EglEditorStaticTemplateContributor());
 	}
 		
 	@Override
@@ -85,34 +80,6 @@ public class EglEditor extends AbstractModuleEditor {
 		return new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	}
 
-	List<Template> templates = null;
-	@Override
-	public List<Template> getTemplates() {
-		if (templates==null) {
-			templates = new ArrayList<Template>();
-			templates.add(new Template("[% %]","dynamic block","","[%${cursor}%]",false));
-			templates.add(new Template("[%= %]","output block","","[%=${cursor}%]",false));
-			templates.add(new Template("[* *]","multiline comment","","[*${cursor}*]",false));
-			templates.add(new Template("for", "iterate over collection", "", "[%for (${iterator} in ${collection}) { %]\r\n\t${cursor}\r\n[%}%]",false));
-			String storeTemplate = "var ${templateName} : Template;\r\n" + 
-									"-- Pass parameters to the template\r\n" + 
-									"${templateName} := TemplateFactory.load('${templateName}.egl');\r\n" + 
-									"${templateName}.populate('${parameterName}', ${parameterValue});\r\n" + 
-									"${templateName}.store('${targetFile}');";
-			templates.add(new Template("store", "invoke other template and store results", "", storeTemplate, false));
-			
-			String processTemplate = "var ${templateName} : Template;\r\n" + 
-									 "-- Pass parameters to the template\r\n" + 
-									 "${templateName} := TemplateFactory.load('${templateName}.egl');\r\n" + 
-									 "${templateName}.populate('${parameterName}', ${parameterValue});\r\n" + 
-									 "var ${result} := ${templateName}.process();";
-			
-			templates.add(new Template("process", "invoke other template and return results", "org.eclipse.epsilon.egl.dt.editor.EOL", processTemplate, false));
-
-		}
-		return templates;
-	}
-
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EglModuleElementLabelProvider();
@@ -128,11 +95,11 @@ public class EglEditor extends AbstractModuleEditor {
 		return true;
 	}
 	
-	@Override
-	public ASTLocator getASTLocator(IModule module) {
-		return new EglASTLocator(((EglTemplateFactoryModuleAdapter)module).getTrace());
-	}
-	
+	//@Override
+	//public ASTLocator getASTLocator(IModule module) {
+	//	return new EglASTLocator(((EglTemplateFactoryModuleAdapter)module).getTrace());
+	//}
+	/*
 	class EglASTLocator implements ASTLocator {
 		
 		protected Trace trace;
@@ -148,6 +115,6 @@ public class EglEditor extends AbstractModuleEditor {
 			}
 			return new ASTLocation(trace.getEglLineNumberFor(ast.getLine()), trace.getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
 		}
-	}
+	}*/
 	
 }

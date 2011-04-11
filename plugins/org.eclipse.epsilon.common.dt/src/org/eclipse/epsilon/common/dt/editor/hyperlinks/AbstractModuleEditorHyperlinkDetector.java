@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.ASTLocation;
-import org.eclipse.epsilon.common.dt.editor.ASTLocator;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -26,7 +24,6 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 	protected AbstractModuleEditor editor;
 	protected HashMap<AST, IRegion> astRegions = new HashMap<AST, IRegion>();
 	protected IEolExecutableModule module = null;
-	protected ASTLocator astLocator = null;
 	
 	public List<IHyperlink> createHyperlinks(AST ast) {
 		
@@ -36,7 +33,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			EolOperation operation = (EolOperation) op;
 			if (operation.getName().equals(ast.getText()) && operation.getFormalParameters().size() == ast.getFirstChild().getChildren().size()) {
 				AST operationAst = operation.getAst();
-				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, astLocator, operation.toString()));
+				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, operation.toString()));
 			}
 		}
 		
@@ -46,7 +43,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			
 				if (operation.getName().equals(ast.getText())) {
 					AST operationAst = operation.getAst();
-					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, astLocator, operation.toString()));
+					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, operation.toString()));
 				}
 			}	
 		}
@@ -78,17 +75,11 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		return null;
 		
 	}
-	
-	protected boolean isInteresting(AST ast) {
-		return ast.getType() == EolParser.FEATURECALL && 
-			ast.getFirstChild() != null;
-	}
 
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		astRegions.clear();
 		this.editor = editor;
 		this.module = (IEolExecutableModule) module;
-		this.astLocator = editor.getASTLocator(module);
 		findInterestingASTs(module.getAst());
 	}
 	
@@ -99,10 +90,9 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		IDocument doc = editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
 		
-		if (isInteresting(ast)) {
+		if (EolParserUtil.isOperationCall(ast)) {
 			try {
-				ASTLocation astLocation = astLocator.getLocation(ast);
-				int linkOffset = doc.getLineOffset(astLocation.getLine()-1) + astLocation.getColumn();
+				int linkOffset = doc.getLineOffset(ast.getLine()-1) + ast.getColumn();
 				astRegions.put(ast, new Region(linkOffset, ast.getText().length()));
 			} catch (BadLocationException e) { }
 		}

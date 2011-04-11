@@ -22,6 +22,10 @@ import org.eclipse.jface.text.templates.Template;
 
 public class EwlEditor extends EolEditor{
 		
+	public EwlEditor() {
+		this.addTemplateContributor(new EwlEditorStaticTemplateContributor());
+	}
+	
 	@Override
 	public List<String> getKeywords() {
 		
@@ -35,15 +39,6 @@ public class EwlEditor extends EolEditor{
 		keywords.addAll(super.getKeywords());
 		
 		return keywords;
-	}
-	
-	List<Template> templates = null;
-	public List<Template> getTemplates() {
-		if (templates == null) {
-			templates = super.getTemplates();
-			templates.add(new Template("wizard", "wizard", "", "wizard ${name} {\r\n\r\n\tguard : self.isKindOf(${type})\r\n\r\n\ttitle : '${title}'\r\n\r\n\tdo {\r\n\t\t${cursor}\r\n\t}\r\n}",false));
-		}
-		return templates;
 	}
 	
 	@Override

@@ -26,25 +26,26 @@ public class EglRuntimeException extends EolRuntimeException {
 	private final int line;
 	private final int column;
 	
-	public EglRuntimeException (EolRuntimeException ex, Trace trace){
+	
+	public EglRuntimeException (EolRuntimeException ex){
 		super(ex.getReason(), ex.getAst());
 		
 		reason = ex.getReason();
 		cause  = ex;
-		line   = trace.getEglLineNumberFor(ex.getAst().getLine());
-		column = trace.getEglColumnNumberFor(ex.getAst().getLine(), ex.getColumn());
+		line   = ex.getAst().getLine();
+		column = ex.getColumn();
 		ast    = ex.getAst();
 	}
 	
-	public EglRuntimeException (EolInternalException ex, Trace trace){
+	public EglRuntimeException (EolInternalException ex){
 		super(ex.getReason(), ex.getAst());
 		
 		final EglRuntimeException internal = (EglRuntimeException)ex.getInternal();
 		
 		reason = internal.getReason();
 		cause  = internal.getCause();
-		line   = trace.getEglLineNumberFor(ex.getAst().getLine());
-		column = trace.getEglColumnNumberFor(ex.getAst().getLine(), ex.getColumn());
+		line   = ex.getAst().getLine();
+		column = ex.getColumn();
 		ast    = ex.getAst();
 	}
 	

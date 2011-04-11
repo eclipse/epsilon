@@ -42,7 +42,10 @@ public class EglPreprocessorModule extends EolModule {
 
 		try {
 			setOperationFactory(new EglOperationFactory());
-			return parse(eol, sourceFile);
+			if (parse(eol, sourceFile)) {
+				updateASTLocations(this.ast);
+				return true;
+			}
 
 		} catch (Exception e) {
 			// Ignore - clients are expected to call
@@ -50,6 +53,14 @@ public class EglPreprocessorModule extends EolModule {
 		}
 
 		return false;
+	}
+	
+	protected void updateASTLocations(AST ast) {
+		ast.setColumn(preprocessor.getTrace().getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
+		ast.setLine(preprocessor.getTrace().getEglLineNumberFor(ast.getLine()));
+		for (AST child : ast.getChildren()) {
+			updateASTLocations(child);
+		}
 	}
 	
 	@Override
@@ -61,13 +72,13 @@ public class EglPreprocessorModule extends EolModule {
 			if (ex.getInternal() instanceof EglStoppedException) {
 				// Ignore exception caused by a call to out.stop()		
 			} else if (ex.getInternal() instanceof EglRuntimeException) {
-				throw new EglRuntimeException(ex, preprocessor.getTrace());
+				throw new EglRuntimeException(ex);
 			}
 		} catch (EolRuntimeException ex) {
 			if (ex instanceof EglRuntimeException) {
 				throw (EglRuntimeException)ex;
 			} else {
-				throw new EglRuntimeException(ex, preprocessor.getTrace());
+				throw new EglRuntimeException(ex);
 			}
 		}
 		
@@ -106,10 +117,6 @@ public class EglPreprocessorModule extends EolModule {
 	@Override
 	public final HashMap<String, Class> getImportConfiguration() {
 		return importConfiguration;
-	}
-	
-	public Trace getTrace() {
-		return preprocessor.getTrace();
 	}
 	
 }

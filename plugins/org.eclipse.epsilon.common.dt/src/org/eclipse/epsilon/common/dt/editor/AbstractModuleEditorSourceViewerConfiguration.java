@@ -138,6 +138,9 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		assistance.setAutoActivationDelay(500);
 		assistance.setProposalPopupOrientation (
 				IContentAssistant.PROPOSAL_OVERLAY);
+		
+		System.err.println("When cont. ass " + editor);
+		
 		return assistance;
 	}
 	

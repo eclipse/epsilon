@@ -21,7 +21,11 @@ import org.eclipse.epsilon.etl.dt.editor.outline.EtlModuleElementLabelProvider;
 import org.eclipse.jface.text.templates.Template;
 
 public class EtlEditor extends EolEditor{
-		
+	
+	public EtlEditor() {
+		this.addTemplateContributor(new EtlEditorStaticTemplateContributor());
+	}
+	
 	@Override
 	public List<String> getKeywords() {
 		
@@ -64,17 +68,4 @@ public class EtlEditor extends EolEditor{
 		return new EtlModule();
 	}
 	
-	List<Template> templates = null;
-	public List<Template> getTemplates() {
-		if (templates == null) {
-			templates = super.getTemplates();
-			templates.add(new Template("transform", "transform rule", "", "rule ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype}\r\n\tto t : ${targetmodel}!${targettype} {\r\n\t${cursor}\r\n}",false));
-			templates.add(new Template("common transform", "transform rule", "", "rule ${name} \r\n\ttransform s : Source!${name}\r\n\tto t : Target!${name} {\r\n\t${cursor}\r\n}",false));
-			templates.add(new Template("pre", "block executed before the rules", "", "pre ${name} {\r\n\t${cursor}\r\n}",false));
-			templates.add(new Template("post", "block executed after the rules", "", "post ${name} {\r\n\t${cursor}\r\n}",false));
-			templates.add(new Template("equivalent", "equivalent in the target model", "", "equivalent()",false));
-			templates.add(new Template("equivalents", "equivalents in the target model", "", "equivalents()",false));
-		}
-		return templates;
-	}
 }

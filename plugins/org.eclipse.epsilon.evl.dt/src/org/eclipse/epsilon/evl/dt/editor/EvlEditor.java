@@ -18,10 +18,13 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleElementLabelProvider;
-import org.eclipse.jface.text.templates.Template;
 
 public class EvlEditor extends EolEditor{
-		
+	
+	public EvlEditor() {
+		this.addTemplateContributor(new EvlEditorStaticTemplateContributor());
+	}
+	
 	@Override
 	public List<String> getKeywords() {
 		
@@ -70,34 +73,6 @@ public class EvlEditor extends EolEditor{
 	@Override
 	public IModule createModule(){
 		return new EvlModule();
-	}
-	
-	List<Template> templates = null;
-	public List<Template> getTemplates() {
-		if (templates == null) {
-			templates = super.getTemplates();
-			
-			templates.add(new Template("context", "context", "", 
-					"context ${classname} {\r\n" + 
-					"\t ${cursor}\r\n" + 
-					"}",false));
-			
-			templates.add(new Template("constraint", "constraint", "", 
-						"constraint ${name} {\r\n" + 
-						"\tcheck : ${cursor}\r\n" + 
-						"\tmessage : \r\n" +
-						"}",false));
-			
-			templates.add(new Template("fix", "fix", "", 
-					"fix \r\n" + 
-					"\ttitle : ${cursor}\r\n" + 
-					"\tdo {\r\n" +
-					"\t\t\r\n" +
-					"\t}\r\n" +
-					"}",false));
-			
-		}
-		return templates;
 	}
 	
 }

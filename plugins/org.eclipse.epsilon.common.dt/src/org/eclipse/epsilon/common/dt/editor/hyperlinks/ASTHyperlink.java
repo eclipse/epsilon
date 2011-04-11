@@ -1,7 +1,5 @@
 package org.eclipse.epsilon.common.dt.editor.hyperlinks;
 
-import org.eclipse.epsilon.common.dt.editor.ASTLocation;
-import org.eclipse.epsilon.common.dt.editor.ASTLocator;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.jface.text.IRegion;
@@ -12,13 +10,11 @@ public class ASTHyperlink implements IHyperlink {
 	protected IRegion region;
 	protected AST targetAST;
 	protected String label;
-	protected ASTLocator astLocator;
 	
-	public ASTHyperlink(IRegion region, AST targetAST, ASTLocator astLocator, String label) {
+	public ASTHyperlink(IRegion region, AST targetAST, String label) {
 		this.region = region;
 		this.targetAST = targetAST;
 		this.label = label;
-		this.astLocator = astLocator;
 	}
 	
 	public IRegion getHyperlinkRegion() {
@@ -34,8 +30,7 @@ public class ASTHyperlink implements IHyperlink {
 	}
 
 	public void open() {
-		ASTLocation targetLocation = astLocator.getLocation(targetAST);
-		EclipseUtil.openEditorAt(targetAST.getFile(), targetLocation.getLine(), targetLocation.getColumn(), false);
+		EclipseUtil.openEditorAt(targetAST.getFile(), targetAST.getLine(), targetAST.getColumn(), false);
 	}
 	
 

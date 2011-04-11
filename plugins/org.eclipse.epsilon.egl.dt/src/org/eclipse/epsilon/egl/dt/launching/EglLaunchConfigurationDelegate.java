@@ -28,7 +28,6 @@ import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.swt.SWT;
@@ -40,11 +39,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	@Override
 	public IEolExecutableModule createModule() {
 		return new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
-	}
-	
-	@Override
-	protected EolDebugger createDebugger() {
-		return new EglDebugger();
 	}
 	
 	@Override

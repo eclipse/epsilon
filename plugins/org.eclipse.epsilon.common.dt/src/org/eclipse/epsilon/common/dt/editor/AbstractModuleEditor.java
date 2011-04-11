@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -25,27 +24,23 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
@@ -69,6 +64,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected Color backgroundColor = null;
 	protected Job parseModuleJob = null;
 	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
+	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
 	
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
 	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
@@ -98,6 +94,14 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	public boolean removeModuleParsedListener(IModuleParseListener listener) {
 		return moduleParsedListeners.remove(moduleParsedListeners);
+	}
+	
+	public void addTemplateContributor(IAbstractModuleEditorTemplateContributor templateContributor) {
+		this.templateContributors.add(templateContributor);
+	}
+	
+	public boolean removeTemplateContributor(IAbstractModuleEditorTemplateContributor templateContributor) {
+		return this.templateContributors.remove(templateContributor);
 	}
 	
 	protected void notifyModuleParsedListeners(IModule module) {
@@ -358,28 +362,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		 * oldAnnotations = annotations;
 		 */
 	//}
-	/*
-	protected Position getPosition(AST ast){
-		Position pos = new Position(0);
-		AstVisitor visitor = new AstVisitor();
-		visitor.visit(ast);
-		IDocument doc = this.getDocumentProvider().getDocument(
-				this.getEditorInput());
-		int startOffset = 0;
-		int endOffset = 0;
-		
-		try {
-			startOffset = doc.getLineOffset(visitor.startLine - 1) + visitor.startColumn - 1;
-			endOffset = doc.getLineOffset(visitor.endLine - 1) + visitor.endColumn - 1;
-		}
-		catch (Exception ex){
-			ex.printStackTrace();
-		}
-		pos.setOffset(startOffset);
-		pos.setLength(endOffset-startOffset);
-		return pos;
-	}
-	*/
 	
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
@@ -417,14 +399,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		parseModuleJob.schedule(delay);
 	
 	}
-
-//	protected IModule module;
-//	protected IModule getModule() {
-//		if (module == null) {
-//			module = createModule();
-//		}
-//		return module;
-//	}
 	
 	public boolean isClosed() {
 		return this.getDocumentProvider() == null;
@@ -477,16 +451,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			}
 		} catch (CoreException e1) {}
 		
-		notifyModuleParsedListeners(module);
+		if (module != null && module.getParseProblems().size() == 0) {
+			notifyModuleParsedListeners(module);
+		}
 		
-		/*
-		getSite().getShell().getDisplay().asyncExec(new Runnable() {
-			
-			public void run() {
-				if (outlinePage.isReady()) outlinePage.updateModule(module);
-			}
-		});
-		*/
 	}
 	
 	@Override
@@ -514,7 +482,16 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		super.close(save);
 	}
 	
-	public abstract List<Template> getTemplates();
+	public final List<Template> getTemplates() {
+		
+		List<Template> templates = new ArrayList<Template>();
+		
+		for (IAbstractModuleEditorTemplateContributor contributor : templateContributors) {
+			templates.addAll(contributor.getTemplates());
+		}
+		
+		return templates;
+	}
 	
 	private static final String CONTENTASSIST_PROPOSAL_ID = 
 		   "com.bdaum.HTMLeditor.ContentAssistProposal"; 
@@ -546,14 +523,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		   // Tell the editor to execute this action 
 		   // when Ctrl+Spacebar is pressed
 		   setActionActivationCode(CONTENTASSIST_PROPOSAL_ID,' ', -1, SWT.CTRL);
-		}
-		
-		public ASTLocator getASTLocator(IModule module) {
-			return new ASTLocator() {
-				public ASTLocation getLocation(AST ast) {
-					return new ASTLocation(ast.getLine(), ast.getColumn());
-				}
-			};
 		}
 		
 }

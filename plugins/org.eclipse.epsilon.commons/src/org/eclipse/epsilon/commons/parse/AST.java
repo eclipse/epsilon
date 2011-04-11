@@ -22,7 +22,9 @@ import org.antlr.runtime.tree.Tree;
 public class AST extends CommonTree {
 
 	protected URI uri;
-
+	protected Integer line = null;
+	protected Integer column = null;
+	
 	protected AST annotations;
 
 	public AST() {
@@ -83,8 +85,34 @@ public class AST extends CommonTree {
 		else return children;
 	}
 	
+	public AST getParent() {
+		return (AST) parent;
+	}
+	
+	public void setLine(int line) {
+		this.line = line;
+	}
+	
+	public int getLine() {
+		if (this.line == null) {
+			return super.getLine();
+		}
+		else {
+			return line;
+		}
+	}
+	
+	public void setColumn(int column) {
+		this.column = column;
+	}
+	
 	public int getColumn() {
-		return super.getCharPositionInLine();
+		if (column == null) {
+			return super.getCharPositionInLine();
+		}
+		else {
+			return column;
+		}
 	}
 	
 	public AST getNextSibling() {

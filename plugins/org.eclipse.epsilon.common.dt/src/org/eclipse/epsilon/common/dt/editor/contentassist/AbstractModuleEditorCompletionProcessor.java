@@ -14,6 +14,9 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
+import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
+import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.templates.Template;
@@ -67,6 +70,10 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 	Image templateImage = EpsilonCommonsPlugin.createImage("icons/template.gif");
 	@Override
 	protected Image getImage(Template template) {
+		System.err.println("Getting image for " + template.getName());
+		if (template instanceof TemplateWithImage) {
+			return ((TemplateWithImage) template).getImage();
+		}
 		return templateImage;
 	}
 
@@ -78,14 +85,16 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 		
 		int loopCount = 0;
 		for (Template template : templates) {
-			indented[loopCount] = indentTemplate(template);
+			indentTemplate(template);
+			indented[loopCount] = template;
 			loopCount++;
 		}
 		return indented;
 	}
 	
-	protected Template indentTemplate(Template original) {
-		return new Template(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable());
+	protected void indentTemplate(Template original) {
+		original.setPattern(addIndent(original.getPattern(),getIndent()));
+		//return new Template(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable());
 	}
 	
 	protected String addIndent(String text, int indent) {

@@ -115,6 +115,7 @@ public class EolOperation extends AbstractModuleElement{
 		this.body = bodyAst;
 		//this.contextTypeName = contextTypeAst.getText();
 		this.name = nameAst.getText();
+		this.returnTypeAst = returnAst;
 		//if (returnAst != null) this.returnTypeName = returnAst.getText();
 		formalParameters = new EolFormalParameterList(paramListAst);
 		
@@ -170,6 +171,7 @@ public class EolOperation extends AbstractModuleElement{
 	public String toString(){
 		String contextTypeName = "";
 		String returnTypeName = "";
+
 		if (contextTypeAst != null) {
 			contextTypeName = contextTypeAst.getText();// + ".";
 		}
@@ -177,7 +179,7 @@ public class EolOperation extends AbstractModuleElement{
 			returnTypeName = " : " + returnTypeAst.getText();
 		}
 		
-		return name + "(" + formalParameters + ")" + returnTypeName + " (" + contextTypeName + ")";
+		return name + "(" + formalParameters + ")" + returnTypeName + " - " + contextTypeName;
 	}
 
 	public void setFormalParameters(EolFormalParameterList formalParameters) {

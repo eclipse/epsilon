@@ -125,8 +125,8 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		current.setOperationFactory(operationFactory);
 	}
 	
-	public Trace getTrace() {
-		return current.getTrace();
-	}
+	//public Trace getTrace() {
+	//	return current.getTrace();
+	//}
 	
 }

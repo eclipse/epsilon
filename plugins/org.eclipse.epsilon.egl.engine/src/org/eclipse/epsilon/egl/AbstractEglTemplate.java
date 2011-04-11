@@ -89,7 +89,4 @@ public abstract class AbstractEglTemplate {
 		module.getContext().getWarningStream().println(message);
 	}
 	
-	public Trace getTrace() {
-		return module.getPreprocessorModule().getTrace();
-	}
 }
