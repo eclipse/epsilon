@@ -17,12 +17,12 @@ public class EglEditorStaticTemplateContributor implements IAbstractModuleEditor
 			templates.add(new Template("[%= %]","output block","","[%=${cursor}%]",false));
 			templates.add(new Template("[* *]","multiline comment","","[*${cursor}*]",false));
 			templates.add(new Template("for", "iterate over collection", "", "[%for (${iterator} in ${collection}) { %]\r\n\t${cursor}\r\n[%}%]",false));
-			String storeTemplate = "var ${templateName} : Template;\r\n" + 
+			String generateTemplate = "var ${templateName} : Template;\r\n" + 
 									"-- Pass parameters to the template\r\n" + 
 									"${templateName} := TemplateFactory.load('${templateName}.egl');\r\n" + 
 									"${templateName}.populate('${parameterName}', ${parameterValue});\r\n" + 
-									"${templateName}.store('${targetFile}');";
-			templates.add(new Template("store", "invoke other template and store results", "", storeTemplate, false));
+									"${templateName}.generate('${targetFile}');";
+			templates.add(new Template("generate", "invokes a subtemplate and stores results in a file", "", generateTemplate, false));
 			
 			String processTemplate = "var ${templateName} : Template;\r\n" + 
 									 "-- Pass parameters to the template\r\n" + 
@@ -30,7 +30,7 @@ public class EglEditorStaticTemplateContributor implements IAbstractModuleEditor
 									 "${templateName}.populate('${parameterName}', ${parameterValue});\r\n" + 
 									 "var ${result} := ${templateName}.process();";
 			
-			templates.add(new Template("process", "invoke other template and return results", "org.eclipse.epsilon.egl.dt.editor.EOL", processTemplate, false));
+			templates.add(new Template("process", "invoke a subtemplate and return results", "org.eclipse.epsilon.egl.dt.editor.EOL", processTemplate, false));
 
 		}
 		return templates;
