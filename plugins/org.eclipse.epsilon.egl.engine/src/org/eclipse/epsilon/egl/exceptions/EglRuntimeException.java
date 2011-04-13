@@ -11,10 +11,8 @@
 package org.eclipse.epsilon.egl.exceptions;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-
 
 
 public class EglRuntimeException extends EolRuntimeException {

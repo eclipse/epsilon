@@ -8,18 +8,20 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.internal;
+package org.eclipse.epsilon.egl.model;
 
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.commons.module.ModuleElement;
+import org.eclipse.epsilon.commons.parse.AST;
 
-public interface IEglModule extends IEolLibraryModule {
 
-	public IEglContext getContext();
-	
-	public String execute() throws EglRuntimeException;
-	
-	public String execute(Template template) throws EglRuntimeException;
+public class EglStaticSection extends EglSection implements ModuleElement {
+
+	protected EglStaticSection(AST ast) {
+		super(ast);
+	}
+
+	@Override
+	public String getText() {
+		return getAst() == null ? "" : getAst().getText().replaceAll("\\t", "\\\\t");
+	}
 }

@@ -19,7 +19,6 @@ import java.util.Set;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.internal.IEglModule;
-import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
@@ -88,5 +87,4 @@ public abstract class AbstractEglTemplate {
 	protected void printWarning(String message) {
 		module.getContext().getWarningStream().println(message);
 	}
-	
 }

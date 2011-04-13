@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public abstract class Container<E extends Content> extends Content<Template> {
 
 	private final String name;

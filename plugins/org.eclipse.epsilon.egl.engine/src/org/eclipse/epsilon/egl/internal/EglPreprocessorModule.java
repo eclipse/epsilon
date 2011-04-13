@@ -24,7 +24,6 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
-import org.eclipse.epsilon.egl.preprocessor.Trace;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -118,5 +117,4 @@ public class EglPreprocessorModule extends EolModule {
 	public final HashMap<String, Class> getImportConfiguration() {
 		return importConfiguration;
 	}
-	
 }

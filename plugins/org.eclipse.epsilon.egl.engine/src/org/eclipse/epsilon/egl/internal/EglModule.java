@@ -13,12 +13,12 @@ package org.eclipse.epsilon.egl.internal;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.module.ModuleElement;
@@ -30,6 +30,7 @@ import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -52,8 +53,9 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	protected EglLexer lexer = null;
 	protected IEglContext context = null;
 	protected Reader reader;
-	protected EglPreprocessorModule eolModule = null;
+	protected EglPreprocessorModule preprocessorModule = null;
 	
+	private final List<EglSection> sections = new LinkedList<EglSection>();	
 	private URI templateRoot;
 
 	public EglModule() {		
@@ -74,7 +76,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		return parseFromLexer(new EglLexer(code), file);
 	}
 	
-	public boolean parse(File file) throws IOException {
+	public boolean parse(File file) throws Exception {
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			return parseFromLexer(new EglLexer(reader), file);
@@ -84,7 +86,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		}
 	}
 
-	private boolean parseFromLexer(EglLexer lexer, File file) {
+	private boolean parseFromLexer(EglLexer lexer, File file) throws Exception {
 		this.sourceFile = file;
 		
 		if (file != null) {
@@ -98,7 +100,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		return parseAndPreprocess(lexer, file);
 	}
 	
-	public boolean parse(URI uri) throws IOException {
+	public boolean parse(URI uri) throws Exception {
 		if (uri == null)
 			throw new IllegalArgumentException("URI cannot be null");
 
@@ -123,31 +125,45 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		}
 	}
 	
-	private boolean parseAndPreprocess(EglLexer lexer, File file) {
+	private boolean parseAndPreprocess(EglLexer lexer, File file) throws Exception {
 		this.lexer = lexer;
 		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
 		parser = new EglParser(lexer, astFactory);
 		parser.parse();
 		ast = parser.getAST();
 		
-		boolean validEol = preprocess();
+		final boolean validEgl = parser.getParseProblems().size() == 0;
+		final boolean validEol = preprocess();
 		
-		return parser.getParseProblems().size() == 0 && validEol;
+		if (validEgl && validEol) {
+			buildModel();
+		}
+		
+		return validEgl && validEol;
 	}
 
 	private boolean preprocess() {
-		return eolModule.preprocess(ast, sourceFile, sourceUri);
+		return preprocessorModule.preprocess(ast, sourceFile, sourceUri);
 	}
-
+	
+	public void buildModel() throws Exception {
+		for (AST child : ast.getChildren()) {
+			final EglSection section = EglSection.createFrom(child);
+			
+			if (section != null) {
+				sections.add(section);
+			}
+		}
+	}
 
 	public String execute() throws EglRuntimeException {
 		context.setModule(this);
 		context.getTemplateFactory().setRoot(templateRoot);
 
 		// HACK : Talk to Louis and redesign properly
-		context.copyInto(eolModule.getContext());
+		context.copyInto(preprocessorModule.getContext());
 
-		eolModule.execute(); 
+		preprocessorModule.execute(); 
 		
 		checkOutput();
 
@@ -174,7 +190,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	@Override
 	public void reset() {
 		super.reset();
-		eolModule = new EglPreprocessorModule();
+		preprocessorModule = new EglPreprocessorModule();
 	}
 
 	public IEglContext getContext() {
@@ -184,28 +200,28 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	public List<ParseProblem> getParseProblems() {
 		final List<ParseProblem> combinedErrors = new ArrayList<ParseProblem>(parser.getParseProblems());
 
-		combinedErrors.addAll(eolModule.getParseProblems());
+		combinedErrors.addAll(preprocessorModule.getParseProblems());
 
 		return combinedErrors;
 
 	}
 	
 	public EolOperations getOperations() {
-		return eolModule.getOperations();
+		return preprocessorModule.getOperations();
 	}
 	
 	@Override
 	public AST getAst() {
-		// FIXME this AST provides incorrect line and column numbers
-		return eolModule.getAst();
+		return preprocessorModule.getAst();
 	}
 	
 	public List<ModuleElement> getChildren() {
-		return eolModule.getChildren();
+		final List<ModuleElement> children = new LinkedList<ModuleElement>();
+		
+		children.addAll(preprocessorModule.getImports());
+		children.addAll(sections);
+		children.addAll(preprocessorModule.getDeclaredOperations());
+		
+		return children;
 	}
-	
-	public EglPreprocessorModule getPreprocessorModule() {
-		return eolModule;
-	}
-	
 }

@@ -19,7 +19,7 @@ public class EglOperationWrapper extends EolOperation {
 		this.wrapped = wrapped;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Object execute(Object self, List parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException {
 		try {
 			return wrapped.execute(self, parameterValues, context, inNewStackFrame);
@@ -29,7 +29,7 @@ public class EglOperationWrapper extends EolOperation {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Object execute(Object self, List parameterValues, IEolContext context) throws EolRuntimeException {
 		try {
 			return wrapped.execute(self, parameterValues, context);
@@ -61,8 +61,7 @@ public class EglOperationWrapper extends EolOperation {
 		return wrapped.getBody();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List getChildren() {
+	public List<?> getChildren() {
 		return wrapped.getChildren();
 	}
 
