@@ -11,7 +11,10 @@
 package org.eclipse.epsilon.egl.test.acceptance.exceptions;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.FILE_SEP;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -19,6 +22,7 @@ import java.io.File;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,6 +34,7 @@ public class Exceptions {
 	private static File StartPreserve2NoCT;
 	private static File SetContentType;
 	
+	private static File Exception;
 	private static File Load;
 	private static File Process;
 	private static File ProcessDeep;
@@ -42,6 +47,7 @@ public class Exceptions {
 		StartPreserve2NoCT = FileUtil.getFile("StartPreserve2NoCT.egl", Exceptions.class);
 		SetContentType     = FileUtil.getFile("SetContentType.egl",     Exceptions.class);
 		
+		Exception          = FileUtil.getFile("Exception.egl",          Exceptions.class);
 		Load               = FileUtil.getFile("Load.egl",               Exceptions.class);
 		Process            = FileUtil.getFile("Process.egl",            Exceptions.class);
 		ProcessDeep        = FileUtil.getFile("ProcessDeep.egl",        Exceptions.class);
@@ -118,6 +124,18 @@ public class Exceptions {
 	
 		
 	// EglTemplate tests \\
+	
+	@Test
+	public void templateThatThrowsAnException() throws Exception {
+		try {
+			AcceptanceTestUtil.run(Exception);
+			fail("Expected EglRuntimeException");
+			
+		} catch (EglRuntimeException e) {
+			assertThat(e.getReason(), startsWith("Error encountered whilst processing template."));
+			assertTrue(((EolInternalException)e.getCause()).getInternal() instanceof ArithmeticException);
+		}
+	}
 	
 	@Test
 	public void load() throws Exception {

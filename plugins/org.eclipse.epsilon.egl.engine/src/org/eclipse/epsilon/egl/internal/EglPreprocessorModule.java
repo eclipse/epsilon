@@ -69,9 +69,13 @@ public class EglPreprocessorModule extends EolModule {
 
 		} catch (EolInternalException ex) {
 			if (ex.getInternal() instanceof EglStoppedException) {
-				// Ignore exception caused by a call to out.stop()		
+				// Ignore exception caused by a call to out.stop()
+				return null;
+				
 			} else if (ex.getInternal() instanceof EglRuntimeException) {
 				throw new EglRuntimeException(ex);
+			} else {
+				throw new EglRuntimeException("Error encountered whilst processing template.", ex);
 			}
 		} catch (EolRuntimeException ex) {
 			if (ex instanceof EglRuntimeException) {
@@ -80,8 +84,6 @@ public class EglPreprocessorModule extends EolModule {
 				throw new EglRuntimeException(ex);
 			}
 		}
-		
-		return null;
 	}
 	
 	@Override

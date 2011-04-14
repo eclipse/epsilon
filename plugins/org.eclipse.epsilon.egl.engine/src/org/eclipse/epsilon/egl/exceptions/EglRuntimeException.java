@@ -52,7 +52,7 @@ public class EglRuntimeException extends EolRuntimeException {
 	}
 	
 	public EglRuntimeException(String reason, Throwable cause) {
-		this(reason, null, 1, 1, null);
+		this(reason, cause, 1, 1, null);
 	}
 	
 	public EglRuntimeException(String reason, Throwable cause, AST ast) {
@@ -92,7 +92,7 @@ public class EglRuntimeException extends EolRuntimeException {
 	public String toString() {
 		String result = super.toString();
 		
-		if (cause!=null && cause instanceof EglRuntimeException) {
+		if (cause!=null) {
 			result += "\n\tCause: " + cause.toString();
 		}
 		
