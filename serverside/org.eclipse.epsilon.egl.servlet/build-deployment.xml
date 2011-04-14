@@ -1,6 +1,6 @@
 <project default="main">
 	<target name="main">
-		<copy file="../org.eclipse.epsilon.antlr/antlr-runtime-3.1b1.jar" todir="bin"></copy>
+		<jar destfile="bin/antlr-runtime-3.1b1.jar" basedir="../org.antlr.runtime_3.1.b1"/>
 		<jar destfile="bin/org.eclipse.epsilon.eol.engine.jar" basedir="../org.eclipse.epsilon.eol.engine/bin"/>	
 		<jar destfile="bin/org.eclipse.epsilon.egl.engine.jar" basedir="../org.eclipse.epsilon.egl.engine/bin"/>	
 		<jar destfile="bin/org.eclipse.epsilon.commons.jar" basedir="../org.eclipse.epsilon.commons/bin"/>

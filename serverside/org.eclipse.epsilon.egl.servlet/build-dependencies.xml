@@ -1,6 +1,6 @@
 <project default="main">
 	<target name="main">
-		<copy file="../org.eclipse.epsilon.antlr/antlr-runtime-3.1b1.jar" todir="WebContent/WEB-INF/lib"></copy>
+		<jar destfile="WebContent/WEB-INF/lib/antlr-runtime-3.1b1.jar" basedir="../org.antlr.runtime_3.1.b1"/>
 		<jar destfile="WebContent/WEB-INF/lib/org.eclipse.epsilon.eol.engine.jar" basedir="../org.eclipse.epsilon.eol.engine/bin"/>
 		<jar destfile="WebContent/WEB-INF/lib/org.eclipse.epsilon.eol.tools.jar" basedir="../org.eclipse.epsilon.eol.tools/bin"/>
 		<jar destfile="WebContent/WEB-INF/lib/org.eclipse.epsilon.egl.engine.jar" basedir="../org.eclipse.epsilon.egl.engine/bin"/>	
