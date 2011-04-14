@@ -26,7 +26,6 @@ import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
@@ -65,7 +64,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException {
+	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException {
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
 			

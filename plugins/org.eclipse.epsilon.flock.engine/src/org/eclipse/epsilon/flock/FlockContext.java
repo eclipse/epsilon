@@ -76,12 +76,18 @@ public class FlockContext extends EolContext implements IFlockContext {
 		return wrapModel(getModelRepository().getModels().get(index));
 	}
 	
-	
 	private FlockExecution execution;
 	
 	public FlockResult execute(MigrationStrategy strategy) throws FlockRuntimeException {
+		ensureRolesAreAssignedToModels();
+		
 		execution = new FlockExecution(this, strategy);
 		return execution.run(originalModel);
+	}
+	
+	private void ensureRolesAreAssignedToModels() throws FlockUnsupportedModelException {
+		if (originalModel == null) setOriginalModel(0);
+		if (migratedModel == null) setMigratedModel(1);
 	}
 	
 	
