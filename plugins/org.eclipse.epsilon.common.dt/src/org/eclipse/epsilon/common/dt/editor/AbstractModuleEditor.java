@@ -221,15 +221,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return super.getAdapter(required);
 	}
 	
-	public List getAssertions(){
-		ArrayList list = new ArrayList();
+	public List<String> getAssertions(){
+		ArrayList<String> list = new ArrayList<String>();
 		list.add("assert");
 		list.add("assertError");
 		return list;
 	}
 	
-	public List getTypes(){
-		ArrayList list = new ArrayList();
+	public List<String> getTypes(){
+		ArrayList<String> list = new ArrayList<String>();
 		list.add("String");
 		list.add("Boolean");
 		list.add("Integer");
@@ -246,9 +246,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return list;
 	}
 	
-	public abstract List getKeywords();
+	public abstract List<String> getKeywords();
 
-	public abstract List getBuiltinVariables();
+	public abstract List<String> getBuiltinVariables();
 
 	public ModuleContentOutlinePage createOutlinePage() {
 		ModuleContentOutlinePage outline = 
@@ -435,7 +435,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			file.deleteMarkers(AbstractModuleEditor.PROBLEMMARKER, true, IResource.DEPTH_INFINITE);
 			//file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 			for (ParseProblem problem : module.getParseProblems()) {
-				Map attr = new HashMap();
+				Map<String, Object> attr = new HashMap<String, Object>();
 				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
 				attr.put(IMarker.MESSAGE, problem.getReason());				
 				int markerSeverity;

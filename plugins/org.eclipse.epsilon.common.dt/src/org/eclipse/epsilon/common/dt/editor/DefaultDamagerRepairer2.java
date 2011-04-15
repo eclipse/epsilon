@@ -14,7 +14,6 @@ package org.eclipse.epsilon.common.dt.editor;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.SWT;
 
-import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -63,7 +62,7 @@ public class DefaultDamagerRepairer2 implements IPresentationDamager, IPresentat
 	@Deprecated
 	public DefaultDamagerRepairer2(ITokenScanner scanner, TextAttribute defaultTextAttribute) {
 
-		Assert.isNotNull(defaultTextAttribute);
+		//Assert.isNotNull(defaultTextAttribute);
 
 		fScanner= scanner;
 		fDefaultTextAttribute= defaultTextAttribute;
@@ -77,7 +76,7 @@ public class DefaultDamagerRepairer2 implements IPresentationDamager, IPresentat
 	 */
 	public DefaultDamagerRepairer2(ITokenScanner scanner) {
 
-		Assert.isNotNull(scanner);
+		//Assert.isNotNull(scanner);
 
 		fScanner= scanner;
 		fDefaultTextAttribute= new TextAttribute(null);

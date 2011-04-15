@@ -46,13 +46,12 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 
 	@Override
-	public List<?> getKeywords() {
+	public List<String> getKeywords() {
 		return eolEditor.getKeywords();
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public List getBuiltinVariables() {
+	public List<String> getBuiltinVariables() {
 		List<String> vars = eolEditor.getBuiltinVariables();
 		
 		vars.add("out");
@@ -66,9 +65,8 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 	
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List getTypes() {
-		List<Object> types = super.getTypes();
+	public List<String> getTypes() {
+		List<String> types = super.getTypes();
 		
 		types.add("Template");
 		
@@ -94,27 +92,4 @@ public class EglEditor extends AbstractModuleEditor {
 	protected boolean supportsDirtyTextParsing() {
 		return true;
 	}
-	
-	//@Override
-	//public ASTLocator getASTLocator(IModule module) {
-	//	return new EglASTLocator(((EglTemplateFactoryModuleAdapter)module).getTrace());
-	//}
-	/*
-	class EglASTLocator implements ASTLocator {
-		
-		protected Trace trace;
-		
-		public EglASTLocator(Trace trace) {
-			this.trace = trace;
-		}
-
-		public ASTLocation getLocation(AST ast) {
-			if (ast.getFile() != null) {
-				if (!ast.getFile().getName().endsWith(".egl"))
-					return new ASTLocation(ast.getLine(), ast.getColumn());
-			}
-			return new ASTLocation(trace.getEglLineNumberFor(ast.getLine()), trace.getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
-		}
-	}*/
-	
 }

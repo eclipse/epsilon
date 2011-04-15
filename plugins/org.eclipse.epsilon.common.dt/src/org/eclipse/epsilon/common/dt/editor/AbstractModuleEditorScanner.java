@@ -32,10 +32,10 @@ import org.eclipse.swt.widgets.Display;
 public class AbstractModuleEditorScanner extends RuleBasedScanner {
 	
 	protected AbstractModuleEditor editor;
-	protected List keywords;
-	protected List builtinVariables;
-	protected List types;
-	protected List assertions;
+	protected List<String> keywords;
+	protected List<String> builtinVariables;
+	protected List<String> types;
+	protected List<String> assertions;
 	
 	public AbstractModuleEditorScanner(AbstractModuleEditor editor) {
 		
