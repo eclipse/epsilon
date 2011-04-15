@@ -55,9 +55,13 @@ public class EvlTask extends ExecutableModuleTask {
 			}
 		}
 		log("Errors : " + errors);
-		//if ((failOnErrors && (errors > 0))||(failOnWarnings && (warnings > 0))) {
-		if (errors > 0 || warnings > 0) {
-			fail((errors + " error(s) and " + warnings + " warning(s) found during validation"));
+		
+		final String message = errors + " error(s) and " + warnings + " warning(s) found during validation";
+		if (errors > 0) {
+			fail(message);
+		}
+		else if (warnings > 0) {
+			warn(message);
 		}
 		
 		if (exportConstraintTrace != null) {
