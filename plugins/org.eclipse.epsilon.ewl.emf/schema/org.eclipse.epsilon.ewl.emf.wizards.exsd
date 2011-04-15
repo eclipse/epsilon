@@ -71,6 +71,17 @@
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="extraPackages" type="string">
+            <annotation>
+               <documentation>
+                  By default, the EWL script can access all the types in the EPackage pointed to by the namespaceURI attribute, and in the EPackages it depends upon.
+
+If set, this attribute allows for accessing types from other EPackages as well. The expected format is a comma-separated list of the namespace URIs of the relevant EPackages. These will be added to the package registry of the model the EWL script is run on.
+
+As an example, consider a wizard on an UML2 Activity, annotated with a MARTE GaScenario stereotype. The user can only right click on the UML2 activity, so the namespaceURI is set to the UML2 EPackage URI. Since the wizard might need to access the MARTE GaScenario type, the MARTE EPackage URI should be specified in extraPackages.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

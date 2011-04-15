@@ -14,7 +14,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +26,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -157,8 +157,9 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			
 			
 			List<URI> uris = getEwlURIsForEObjects(eObjects);
-			
 			Resource resource = eObjects.get(0).eResource();
+			loadExtraPackages(resource);
+
 			model = new InMemoryEmfModel("Model", resource, EmfUtil.getTopEPackage(eObjects.get(0)));
 			
 			for (URI uri : uris) {
@@ -229,6 +230,21 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 		
 	}
+
+	private void loadExtraPackages(Resource resource) {
+		final Registry packageRegistry = resource.getResourceSet().getPackageRegistry();
+		for (IConfigurationElement elem : this.getConfigurationElements()) {
+			final String extraPackages = elem.getAttribute("extraPackages");
+			if (extraPackages == null) continue;
+
+			for (String packageURI : extraPackages.split(",")) {
+				final EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(packageURI);
+				if (ePackage != null) {
+					packageRegistry.put(packageURI, ePackage);
+				}
+			}
+		}
+	}
 	
 	protected void execute(Command command) {
 		EditingDomain editingDomain = getEditingDomain();		
@@ -251,7 +267,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 		
 		
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.epsilon.ewl.emf.wizards")) {
+		for (IConfigurationElement configurationElement : getConfigurationElements()) {
 			String namespaceURI = configurationElement.getAttribute("namespaceURI");
 			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
 				String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
@@ -274,7 +290,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		
 		return wizardURIs;
 	}
-	
+
+
 	protected MenuItem createMenuItem(EwlWizardInstance wizard) {
 		return null;
 	}
@@ -295,4 +312,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	
 	protected abstract WorkbenchPartRefresher getWorkbenchPartRefresher();
 	
+	private IConfigurationElement[] getConfigurationElements() {
+		return Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.epsilon.ewl.emf.wizards");
+	}
 }
