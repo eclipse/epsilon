@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.dependencies.feature"
-      label="Epsilon Dependencies (Incubation)"
+      label="Epsilon Core Dependencies (Incubation)"
       version="0.9.0.qualifier"
       provider-name="Eclipse.org">
 
