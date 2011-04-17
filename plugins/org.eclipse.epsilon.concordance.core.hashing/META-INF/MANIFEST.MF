@@ -9,4 +9,4 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
 Export-Package: org.eclipse.epsilon.concordance.core.hashing,
  org.eclipse.epsilon.concordance.core.hashing.hashers.ecore,
  org.eclipse.epsilon.concordance.core.hashing.hashers.java
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

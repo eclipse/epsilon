@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
@@ -12,7 +11,6 @@ import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
-import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Image;

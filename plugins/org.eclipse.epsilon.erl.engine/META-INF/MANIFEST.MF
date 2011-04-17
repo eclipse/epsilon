@@ -11,4 +11,4 @@ Export-Package: org.eclipse.epsilon.erl,
  org.eclipse.epsilon.erl.exceptions,
  org.eclipse.epsilon.erl.rules,
  org.eclipse.epsilon.erl.strategy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

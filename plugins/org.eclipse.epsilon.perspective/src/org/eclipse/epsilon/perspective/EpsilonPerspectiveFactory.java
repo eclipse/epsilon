@@ -35,12 +35,12 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         String editorArea = layout.getEditorArea();
      
         // place navigator to the left (of editor area)
-        IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.20, editorArea);
-        left.addView(IPageLayout.ID_RES_NAV);
+        IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.30, editorArea);
+        left.addView(IPageLayout.ID_PROJECT_EXPLORER);
         //left.addView("org.eclipse.ui.navigator.ProjectExplorer");
         
-        IFolderLayout leftBottom = layout.createFolder("leftBottom", IPageLayout.BOTTOM, 0.7f, "left");
-        leftBottom.addView("org.eclipse.epsilon.common.dt.tools.ToolsView");
+        //IFolderLayout leftBottom = layout.createFolder("leftBottom", IPageLayout.BOTTOM, 0.7f, "left");
+        //leftBottom.addView("org.eclipse.epsilon.common.dt.tools.ToolsView");
         
         // problem view at the bottom (of editor area)
         IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float) 0.70, editorArea);
@@ -49,6 +49,7 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         bottom.addView("org.eclipse.pde.runtime.LogView");
         bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
         bottom.addView("org.eclipse.epsilon.dt.profiling.ProfilerView");
+        bottom.addView("org.eclipse.epsilon.common.dt.tools.ToolsView");
         
         //bottom.addView(IPageLayout.ID_PROP_SHEET); 
         //bottom.addView("org.eclipse.pde.runtime.LogView");
@@ -85,7 +86,7 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
 		
         layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
         
-        layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
+        layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
         
         layout.addPerspectiveShortcut("org.eclipse.epsilon.perspective");		
 	

@@ -15,4 +15,4 @@ Export-Package: org.eclipse.epsilon.etl,
  org.eclipse.epsilon.etl.strategy,
  org.eclipse.epsilon.etl.trace
 Bundle-ClassPath: org.eclipse.epsilon.etl.engine.jar
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

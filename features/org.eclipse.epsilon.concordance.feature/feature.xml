@@ -212,6 +212,10 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <includes
+         id="org.eclipse.epsilon.concordance.dependencies.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi.dt"/>
@@ -243,13 +247,6 @@ litigation.
          download-size="0"
          install-size="0"
          version="0.9.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.h2_1.1.117"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
          unpack="false"/>
 
 </feature>

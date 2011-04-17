@@ -33,4 +33,4 @@ Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.nestedelements,
  org.eclipse.epsilon.workflow.tasks.transactions,
  org.eclipse.epsilon.workflow.tasks.xml
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

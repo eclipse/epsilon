@@ -92,4 +92,45 @@
          </action>
       </viewerContribution>
    </extension>
+   <!--
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.eclipse.epsilon.eol.dt.launching.contextual.EolLaunchShortcut"
+            icon="icons/eol.gif"
+            id="org.eclipse.epsilon.eol.dt.LaunchShortcut"
+            label="EOL program"
+            modes="run, debug">
+         <contextualLaunch>
+            <enablement>
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <adapt
+                              type="org.eclipse.epsilon.eol.dt.launching.contextual.EolFile">
+                        </adapt>
+                     </iterate>
+                  </with>
+               </and>
+            </enablement>
+         </contextualLaunch>
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.core.resources.IFile"
+            class="org.eclipse.epsilon.eol.dt.launching.contextual.EolFileAdapterFactory">
+         <adapter
+               type="org.eclipse.epsilon.eol.dt.launching.contextual.EolFile">
+         </adapter>
+      </factory>
+   </extension>
+   -->
 </plugin>

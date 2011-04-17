@@ -52,7 +52,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	}
 	
 	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
-		
+
 		this.configuration = configuration;
 		
 		if (setup) EpsilonConsole.getInstance().clear();
