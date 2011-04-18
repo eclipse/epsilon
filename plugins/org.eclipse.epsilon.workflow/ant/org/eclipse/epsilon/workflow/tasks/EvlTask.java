@@ -19,6 +19,7 @@ import org.eclipse.epsilon.evl.IEvlModule;
 public class EvlTask extends ExecutableModuleTask {
 	
 	protected String exportConstraintTrace;
+	protected boolean warnings;
 	
 	public String getExportConstraintTrace() {
 		return exportConstraintTrace;
@@ -58,7 +59,7 @@ public class EvlTask extends ExecutableModuleTask {
 		
 		final String message = errors + " error(s) and " + warnings + " warning(s) found during validation";
 		if (errors > 0) {
-			fail(message);
+			fail(message, null);
 		}
 		else if (warnings > 0) {
 			warn(message);
