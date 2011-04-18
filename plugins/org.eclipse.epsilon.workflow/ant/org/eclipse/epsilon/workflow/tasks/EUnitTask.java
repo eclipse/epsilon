@@ -19,12 +19,17 @@ import java.util.List;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
 
@@ -35,6 +40,33 @@ import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
  * @version 1.0
  */
 public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestListener {
+
+	/**
+	 * Operation which can call a series of Ant tasks described inside a
+	 * "script" nested element of this Ant task.
+	 */
+	private class RunScriptOperation extends AbstractOperation {
+		@Override
+		public Object execute(Object source, AST operationAst,
+				IEolContext context) throws EolRuntimeException {
+			// TODO Auto-generated method stub
+			System.out.println("It's-a me!");
+			return null;
+		}
+	}
+
+	/**
+	 * OperationFactory which contributes runScript. As the behaviour of runScript
+	 * depends on the contents of the Ant task, this factory belongs to the Ant task,
+	 * rather than to the EUnitModule class.
+	 */
+	private class RunScriptOperationFactory extends OperationFactory {
+		@Override
+		protected void createCache() {
+			super.createCache();
+			operationCache.put("runScript", new RunScriptOperation());
+		}
+	}
 
 	private final List<Task> nestedTasks = new ArrayList<Task>();
 	private File fReportDirectory;
@@ -92,6 +124,7 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 		// it as usual
 		if (module == null) {
 			module = new EUnitModule();
+			module.getContext().setOperationFactory(new RunScriptOperationFactory());
 		}
 		return module;
 	}
