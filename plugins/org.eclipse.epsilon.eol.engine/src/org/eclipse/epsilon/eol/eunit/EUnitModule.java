@@ -377,6 +377,12 @@ public class EUnitModule extends EolModule {
 		// Store the models to be renamed
 		final List<IModel> renamedModels = new ArrayList<IModel>();
 		for (Map.Entry<String, String> entry : bindings.entrySet()) {
+			if (defaultModel != null && entry.getValue().equals(defaultModel.getName())) {
+				// Check if the module to be renamed is the default model
+				defaultModel.setName(entry.getKey());
+				continue;
+			}
+
 			final IModel renamedModel = modelRepository.getModelByName(entry.getValue());
 			renamedModel.setName(entry.getKey());
 			renamedModels.add(renamedModel);
