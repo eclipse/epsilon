@@ -38,6 +38,7 @@ import org.eclipse.epsilon.workflow.tasks.EUnitTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
 import org.eclipse.epsilon.workflow.tasks.EvlTask;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
+import org.eclipse.epsilon.workflow.tasks.emf.RegisterTask;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
 import org.junit.After;
 import org.w3c.dom.Document;
@@ -71,6 +72,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 		project.addTaskDefinition("epsilon.etl", EtlTask.class);
 		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
 		project.addTaskDefinition("epsilon.evl", EvlTask.class);
+		project.addTaskDefinition("epsilon.emf.register", RegisterTask.class);
 	}
 
 	@After

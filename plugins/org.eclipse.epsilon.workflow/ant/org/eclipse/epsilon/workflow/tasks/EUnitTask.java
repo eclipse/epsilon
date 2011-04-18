@@ -21,6 +21,7 @@ import org.apache.tools.ant.TaskContainer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
@@ -37,7 +38,7 @@ import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 /**
  * Ant task for running EUnit test suites.
  *
- * @author Antonio García-Domínguez
+ * @author Antonio Garcia-Dominguez
  * @version 1.0
  */
 public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener {
@@ -141,17 +142,44 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	/**
+	 * EUnit-specific operation for loading models inside the .eunit file from HUTN fragments.
+	 */
+	private class LoadHutnOperation extends AbstractSimpleOperation {
+		@Override
+		public Object execute(Object source, List parameters, IEolContext context, AST ast)
+			throws EolRuntimeException
+		{
+			if (parameters.size() != 2) {
+				throw new EolRuntimeException(
+					"loadHutn expected 2 arguments (model name and HUTN fragment), but got "
+						+ parameters.size(),
+					ast);
+			}
+
+			final String modelName = (String)parameters.remove(0);
+			final String hutnContent = (String)parameters.remove(0);
+			final HutnModel hutnModel = new HutnModel(modelName, hutnContent);
+			hutnModel.load();
+
+			ModelRepository modelRepository = module.getContext().getModelRepository();
+			modelRepository.addModel(hutnModel);
+			return true;
+		}
+	}
+
+	/**
 	 * OperationFactory which contributes runScript. As the behaviour of runScript
 	 * depends on the contents of the Ant task, this factory belongs to the Ant task,
 	 * rather than to the EUnitModule class.
 	 */
-	private class RunScriptOperationFactory extends OperationFactory {
+	private class RunTargetOperationFactory extends OperationFactory {
 		@Override
 		protected void createCache() {
 			super.createCache();
 			operationCache.put("runTarget", new RunTargetOperation());
 			operationCache.put("exportVariable", new ExportVariableOperation());
 			operationCache.put("useVariable", new UseVariableOperation());
+			operationCache.put("loadHutn", new LoadHutnOperation());
 		}
 	}
 
@@ -200,7 +228,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		// it as usual
 		if (module == null) {
 			module = new EUnitModule();
-			module.getContext().setOperationFactory(new RunScriptOperationFactory());
+			module.getContext().setOperationFactory(new RunTargetOperationFactory());
 		}
 		return module;
 	}

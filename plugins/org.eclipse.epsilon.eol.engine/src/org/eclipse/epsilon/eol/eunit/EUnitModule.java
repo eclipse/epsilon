@@ -63,6 +63,10 @@ public class EUnitModule extends EolModule {
 		return getOperationsAnnotatedWith("test");
 	}
 
+	public ArrayList<EolOperation> getInlineModelOperations() {
+		return getOperationsAnnotatedWith("model");
+	}
+
 	public ArrayList<EolOperation> getSetups() {
 		return getOperationsAnnotatedWith("setup");
 	}
@@ -281,6 +285,11 @@ public class EUnitModule extends EolModule {
 			// Epsilon console in the beforeCase EUnitTestListener handler.
 			getContext().setOutputStream(new ByteBufferTeePrintStream(getContext().getOutputStream()));
 			getContext().setErrorStream(new ByteBufferTeePrintStream(getContext().getErrorStream()));
+		}
+
+		// Load models from the inline model operations, if any
+		for (EolOperation inlineModelOp : getInlineModelOperations()) {
+			inlineModelOp.execute(null, Collections.EMPTY_LIST, context, false);
 		}
 
 		// Implement model bindings (needs to be after fireBeforeCase, so

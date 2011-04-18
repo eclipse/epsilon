@@ -243,6 +243,13 @@
 		<evl-eunit-test script="tree-export-as-model" exportAsModel="true" failOnErrors="false" failOnWarnings="false"/>
 	</target>
 
+	<!-- Inline model tests -->
+
+	<target name="hutn">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.eunit src="inline/hutn.eunit"/>
+	</target>
+
 	<!-- Custom targets used from within the EUnit tests -->
 
 	<target name="eol-variables">
