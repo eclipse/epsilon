@@ -312,6 +312,16 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 		}
 	}
 
+	@Test
+	public void evlFailOnErrorsHonored() throws Exception {
+		runTarget(ANT_BUILD_FILE, "evl-failOnErrors-honored");
+	}
+
+	@Test
+	public void evlFailOnWarningsHonored() throws Exception {
+		runTarget(ANT_BUILD_FILE, "evl-failOnWarnings-honored");
+	}
+
 	/**
 	 * Checks that the JUnit-style XML reports are well-formed. There is no
 	 * official schema for these, so we have defined our own schema for internal
