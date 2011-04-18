@@ -115,7 +115,9 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		boolean mainRuleResult = invokeMainRule();
 		
 		try {
-			fr.close();
+			if (fr != null) {
+				fr.close();
+			}
 		}
 		catch (Throwable t) {
 			// Ignore exception
@@ -138,7 +140,9 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		boolean mainRuleResult = invokeMainRule();
 		
 		try {
-			fr.close();
+			if (fr != null) {
+				fr.close();
+			}
 		}
 		catch (Throwable t) {
 			// Ignore exception

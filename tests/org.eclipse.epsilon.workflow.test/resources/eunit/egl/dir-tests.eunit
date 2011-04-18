@@ -246,6 +246,8 @@ operation listHutnModels() {
 
 @test
 operation shouldPass() {
+  -- NOTE: cannot use input.remove(0) three times, as that'd affect the other tests.
+  -- FIXME separate the tests better, so we can use input.remove(0) safely
   var hutnModel   := input.get(0);
   var prefix      := input.get(1);
   var mustBeEqual := input.get(2);
