@@ -36,10 +36,12 @@ public abstract class ExecutableModuleTask extends ModuleTask {
 	protected List<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
 
 	static {
-		for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
-			if (c instanceof IOConsole) {
-				IOConsole ioConsole = ((IOConsole) c);
-				ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
+		if (ConsolePlugin.getDefault() != null) {
+			for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
+				if (c instanceof IOConsole) {
+					IOConsole ioConsole = ((IOConsole) c);
+					ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
+				}
 			}
 		}
 	}
