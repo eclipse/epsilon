@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
@@ -159,7 +160,22 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 				if (ex.getDelta() instanceof ComparisonSnapshot) {
 					showDeltaInEMFCompareView(ex);
 				}
+				else {
+					compareValuesAsStrings(ex);
+				}
 			}
+		}
+
+		private void compareValuesAsStrings(EolAssertionException ex) {
+			CompareConfiguration cc = new CompareConfiguration();
+			cc.setLeftLabel("Expected");
+			cc.setRightLabel("Actual value");
+			CompareUI.openCompareEditor(
+				new StringCompareEditorInput(
+					cc,
+					"" + ex.getExpected(),
+					"" + ex.getActual()),
+				true);
 		}
 
 		private void showDeltaInEMFCompareView(EolAssertionException ex) {
