@@ -566,7 +566,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 	 */
 	private Resource cloneToTmpFile() throws IOException {
 		final File myTmpFile = File.createTempFile("compare", ".model");
-		final URI myTmpFileURI = EmfUtil.createFileBasedURI(myTmpFile.getAbsolutePath());
+		final URI myTmpFileURI = URI.createFileURI(myTmpFile.getAbsolutePath());
 		this.store(myTmpFileURI);
 		final Resource myClonedResource = getResource().getResourceSet().createResource(myTmpFileURI);
 		myClonedResource.load(null);
