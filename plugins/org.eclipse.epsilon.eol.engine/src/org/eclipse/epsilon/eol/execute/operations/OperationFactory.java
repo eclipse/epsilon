@@ -33,6 +33,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperat
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.BooleanAssertionOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.EqualityAssertionOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.FailOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.assertions.ModelEqualityAssertionOperation;
 
 public class OperationFactory {
 	
@@ -50,8 +51,10 @@ public class OperationFactory {
 		operationCache.put("assertTrue", new BooleanAssertionOperation(true));
 		operationCache.put("assertFalse", new BooleanAssertionOperation(false));
 		operationCache.put("assertEquals", new EqualityAssertionOperation(true));
-		operationCache.put("assertNotEquals", new EqualityAssertionOperation(false));
+		operationCache.put("assertEqualModels", new ModelEqualityAssertionOperation(true));
 		operationCache.put("assertError", new AssertErrorOperation());
+		operationCache.put("assertNotEquals", new EqualityAssertionOperation(false));
+		operationCache.put("assertNotEqualModels", new ModelEqualityAssertionOperation(false));
 		operationCache.put("fail", new FailOperation());
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());

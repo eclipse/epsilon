@@ -182,5 +182,12 @@ public class ModelReference implements IModel, IWrapper {
 
 	public Object getWrapped() {
 		return target;
+	}
+
+	public boolean hasSameContentsAs(IModel actualModel) {
+		if (target != null && target.hasSameContentsAs(actualModel)) {
+			return true;
+		}
+		return false;
 	}	
 }

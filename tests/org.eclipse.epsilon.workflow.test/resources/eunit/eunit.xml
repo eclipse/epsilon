@@ -1,8 +1,16 @@
 <project>
 
-	<property name="elements1.model.location" location="${basedir}/../models/elements1.model"/>
-	<property name="elements2.model.location" location="${basedir}/../models/elements1.model"/>
-	<property name="elements.metamodel.location" location="${basedir}/../metamodels/elements.ecore"/>
+	<property name="models.location" location="${basedir}/../models" />
+	<property name="elements1.model.location" location="${models.location}/elements1.model" />
+	<property name="elements2.model.location" location="${models.location}/elements2.model" />
+	<property name="graph1.model.location" location="${models.location}/graph1.model" />
+	<property name="graph2.model.location" location="${models.location}/graph2.model" />
+	<property name="tree.model.location" location="${models.location}/tree.model" />
+
+	<property name="metamodels.location" location="${basedir}/../metamodels" />
+	<property name="elements.metamodel.location" location="${metamodels.location}/elements.ecore" />
+	<property name="graph.metamodel.location" location="${metamodels.location}/graph.ecore" />
+	<property name="tree.metamodel.location" location="${metamodels.location}/tree.ecore" />
 
 	<target name="template">
 		<property name="eunit.todir" location="${basedir}" />
@@ -116,18 +124,31 @@
 	</target>
 
 	<target name="emf-emf">
-		<epsilon.eunit src="emf-emf.eunit">
-			<epsilon.emf.loadModel name="Graph"
-				modelfile="graph.model" metamodelfile="graph.ecore"
-				read="true" store="false"/>
-			<epsilon.emf.loadModel name="TreeExpected"
-				modelfile="tree.model" metamodelfile="tree.ecore"
-				read="true" store="false"/>
+		<epsilon.eunit src="model-comparison/emf-emf.eunit" failonerrors="false">
 			<epsilon.emf.loadModel name="Tree"
-				modelfile="tree.model" metamodelfile="tree.ecore"
+				modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+				read="true" store="false"/>
+			<epsilon.emf.loadModel name="GraphExpected"
+				modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
+				read="true" store="false"/>
+			<epsilon.emf.loadModel name="GraphDifferent"
+				modelfile="${graph2.model.location}" metamodelfile="${graph.metamodel.location}"
+				read="true" store="false"/>
+
+			<!-- empty model used as destination for the transformation -->
+			<epsilon.emf.loadModel name="Graph"
+				modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
 				read="false" store="false"/>
-			<epsilon.etl src="Tree2Graph.etl"/>
+
+			<epsilon.etl src="model-comparison/Tree2Graph.etl">
+				<model ref="Tree"/>
+				<model ref="Graph"/>
+			</epsilon.etl>
 		</epsilon.eunit>
+		<junitreport>
+			<fileset dir="${basedir}" includes="TEST-*.xml"/>
+			<report format="noframes" todir="."/>
+		</junitreport>
 	</target>
 
 </project>

@@ -1,0 +1,73 @@
+/*******************************************************************************
+ * Copyright (c) 2011 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Antonio Garcia-Dominguez - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.eol.execute.operations.simple.assertions;
+
+import java.util.List;
+
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.models.IModel;
+
+/**
+ * <p>Model equality assertion. Performs a comparison between two entire models in the context's
+ * model repository. Useful for testing model transformations for regressions.</p>
+ *
+ * <p>Accepts 2 formats:</p>
+ * <ul>
+ * <li>message, name of the model with the expected contents, name of the model with the actual contents</li>
+ * <li>name of the model with the expected contents, name of the model with the actual contents</li>
+ * </ul>
+ *
+ * @author Antonio García-Domínguez
+ */
+public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
+
+	private boolean mustBeEqual;
+
+	public ModelEqualityAssertionOperation(boolean mustBeEqual) {
+		this.mustBeEqual = mustBeEqual;
+	}
+
+	@Override
+	public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+		if (!context.isAssertionsEnabled()) {return null;}
+
+		// Extract the message from the parameter list
+		Object message = null;
+		if (parameters.size() > 2) {
+			message = parameters.remove(0);
+		}
+
+		// Extract the other arguments
+		String expectedModelName = (String)parameters.remove(0);
+		String actualModelName = (String)parameters.remove(0);
+		final IModel expectedModel = context.getModelRepository().getModelByName(expectedModelName);
+		final IModel actualModel = context.getModelRepository().getModelByName(actualModelName);
+		if (expectedModel.hasSameContentsAs(actualModel) == mustBeEqual) {
+			return true;
+		}
+ 
+		if (message == null) {
+			if (mustBeEqual) {
+				message = "Expected " + expectedModelName + " to be equal to " + actualModelName + ", but it is not";
+			}
+			else {
+				message = "Expected " + expectedModelName + " to be different from " + actualModelName + ", but it is not";
+			}
+		}
+
+		throw new EolAssertionException(message.toString(), ast);
+	}
+
+}

@@ -246,6 +246,27 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[2]")));
 	}
 
+	@Test
+	public void compareEMFWithEMF() throws Exception {
+		runTarget(ANT_BUILD_FILE, "emf-emf");
+		checkOutput(new File(BASE_DIR, "TEST-default.emf-emf.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"sameModelsAreEqual[1]", "sameModelsAreEqual[2]", "sameModelsAreEqual[3]",
+					"modelsFromDifferentMetamodelsAreDifferent[1]",
+					"modelsFromDifferentMetamodelsAreDifferent[2]",
+					"modelsWithDifferentContentAreDifferent",
+					"modelsWithDifferentContentAreDifferentFailing",
+					"transformedIsEqualToExpected",
+					"transformedIsEqualToExpectedFailing"
+				},
+				new HashSet<String>(
+					Arrays.asList(
+						"modelsWithDifferentContentAreDifferentFailing",
+						"transformedIsEqualToExpectedFailing")),
+				new HashSet<String>());
+	}
+
 	/**
 	 * Checks that the JUnit-style XML reports are well-formed. There is no
 	 * official schema for these, so we have defined our own schema for internal
@@ -330,7 +351,7 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 				}
 			}
 		}
-		fail("Element does not have a child with the tag " + findTagName);
+		fail("Element " + e.getAttribute("name") + " does not have a child with the tag " + findTagName);
 	}
 
 	private void deleteTestReports(final File directory) {

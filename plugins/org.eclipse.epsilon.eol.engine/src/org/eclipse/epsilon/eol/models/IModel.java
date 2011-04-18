@@ -121,4 +121,6 @@ public interface IModel {
 	public void setReadOnLoad(boolean readOnLoad);
 	
 	public IModelTransactionSupport getTransactionSupport();
+
+	public boolean hasSameContentsAs(IModel actualModel);
 }

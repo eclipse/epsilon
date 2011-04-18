@@ -7,5 +7,12 @@ rule Tree2Node
 		var e : new Graph!Edge;
 		e.source ::= t.parent;
 		e.target := n;
-	}	
+	}
+	else {
+	    -- root node: create root element for the graph model
+	    new Graph!Graph;
+	}
+
+    -- add node to graph
+    Graph!Graph.allInstances.first().nodes.add(n);
 }

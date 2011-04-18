@@ -169,4 +169,12 @@ public abstract class Model implements IModel{
 	public IModelTransactionSupport getTransactionSupport() {
 		return transactionSupport;
 	}
+
+	public boolean hasSameContentsAs(IModel model) {
+		// Extremely basic version: please reimplement it for each technology!
+		if (model == this) {
+			return true;
+		}
+		return false;
+	}
 }

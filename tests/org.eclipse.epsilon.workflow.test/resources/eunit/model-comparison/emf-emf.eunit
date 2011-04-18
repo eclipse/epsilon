@@ -1,0 +1,34 @@
+$with Sequence {"M", "Tree"}
+$with Sequence {"M", "GraphExpected"}
+$with Sequence {"M", "GraphDifferent"}
+@test
+operation sameModelsAreEqual() {
+  assertEqualModels("M", "M");
+}
+
+$with Sequence {"A", "Tree", "B", "GraphDifferent"}
+$with Sequence {"A", "GraphDifferent", "B", "Tree"}
+@test
+operation modelsFromDifferentMetamodelsAreDifferent() {
+  assertNotEqualModels("A", "B");
+}
+
+@test
+operation modelsWithDifferentContentAreDifferent() {
+  assertNotEqualModels("GraphExpected", "GraphDifferent");
+}
+
+@test
+operation modelsWithDifferentContentAreDifferentFailing() {
+  assertEqualModels("GraphExpected", "GraphDifferent");
+}
+
+@test
+operation transformedIsEqualToExpected() {
+  assertEqualModels("GraphExpected", "Graph");
+}
+
+@test
+operation transformedIsEqualToExpectedFailing() {
+  assertNotEqualModels("GraphExpected", "Graph");
+}

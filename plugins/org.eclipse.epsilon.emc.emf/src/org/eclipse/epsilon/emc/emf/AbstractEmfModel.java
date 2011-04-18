@@ -22,6 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
+import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -42,6 +47,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public abstract class AbstractEmfModel extends CachedModel<EObject> {
@@ -363,7 +369,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		this.modelImpl = resource;
 	}
 	
-	/*
+	/**
 	 * @deprecated Use getResource() instead
 	 */
 	public Resource getModelImpl() {
@@ -520,5 +526,28 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 
 	public void setExpand(boolean expand) {
 		this.expand = expand;
+	}
+
+	@Override
+	public boolean hasSameContentsAs(IModel model) {
+		if (super.hasSameContentsAs(model)) {
+			return true;
+		}
+		if (!(model instanceof AbstractEmfModel)) {
+			return false;
+		}
+
+		final AbstractEmfModel other = (AbstractEmfModel)model;
+		try {
+			final HashMap<String, Object> options = new HashMap<String, Object>();
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
+			MatchModel match = MatchService.doResourceMatch(this.getResource(), other.getResource(), options);
+			DiffModel diff = DiffService.doDiff(match);
+			return diff.getDifferences().isEmpty();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }
