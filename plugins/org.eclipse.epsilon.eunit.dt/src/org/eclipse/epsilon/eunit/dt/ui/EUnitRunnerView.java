@@ -492,7 +492,9 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 				treeViewerTests.update(module, null);
 
 				if (test.isLeafTest()) {
-					++nRunTestCases;
+					if (test.getResult() != EUnitTestResultType.SKIPPED) {
+						++nRunTestCases;
+					}
 					switch (test.getResult()) {
 					case ERROR:
 						++nErrors;
