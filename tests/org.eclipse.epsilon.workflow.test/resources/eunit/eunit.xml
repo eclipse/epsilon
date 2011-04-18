@@ -258,7 +258,7 @@
 
 	<target name="egl-file-tests">
 		<epsilon.emf.register file="${tree.metamodel.location}"/>
-		<epsilon.eunit src="egl/file-tests.eunit">
+		<epsilon.eunit src="egl/file-tests.eunit" failOnErrors="false">
 			<parameter name="basedir" value="${basedir}"/>
 		</epsilon.eunit>
 	</target>

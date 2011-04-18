@@ -1,8 +1,13 @@
-[% operation process(indent : String, node : Tree) { %]
-[%=indent + " - " + node.label%]
-[% for (child in node.children) { %]
-[%=process(indent + "  ", child)%]
-[% }
-} %]
+[%
+  var sb := new Native('java.lang.StringBuilder');
+  process(sb, '', Tree.allInstances.select(s|s.parent.isUndefined()).first());
 
-[%=process("", Tree.allInstances.select(s | not s.parent.isDefined()).first())%]
+%][%=sb.toString()%][%
+
+  operation process(sb, indent : String, node : Tree) : String {
+    sb.append(indent + "- " + node.label + "\n");
+    for (child in node.children) {
+	  process(sb, indent + "  ", child);
+    }
+  }
+%]
