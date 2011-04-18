@@ -30,6 +30,7 @@ import javax.xml.validation.SchemaFactory;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.CallTarget;
+import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
@@ -63,9 +64,10 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 	@Override
 	protected void addTaskDefinitionsTo(Project project) {
 		project.addTaskDefinition("antcall", CallTarget.class);
+		project.addTaskDefinition("delete", Delete.class);
 		project.addTaskDefinition("junitreport", XMLResultAggregator.class);
-		project.addTaskDefinition("property", Property.class);
 		project.addTaskDefinition("macrodef", MacroDef.class);
+		project.addTaskDefinition("property", Property.class);
 		project.addTaskDefinition("sequential", Sequential.class);
 	
 		// Epsilon tasks

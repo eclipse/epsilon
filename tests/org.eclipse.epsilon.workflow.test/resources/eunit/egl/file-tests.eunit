@@ -1,5 +1,6 @@
 var EXPECTED_PATH  := basedir + "/egl/expected.txt";
 var GENERATED_PATH := basedir + "/../../generated/tree.txt";
+var GENERATED_DIR_FILE := new Native('java.io.File')(GENERATED_PATH).parentFile;
 
 var EXPECTED_MODEL := '
 @Spec {
@@ -52,6 +53,18 @@ Model {
   }
 }
 ';
+
+@setup
+operation createGeneratedDir() {
+  GENERATED_DIR_FILE.mkdirs();
+}
+
+@teardown
+operation deleteGeneratedDir() {
+  var task = antProject.createTask('delete');
+  task.setDir(GENERATED_DIR_FILE);
+  task.execute();
+}
 
 @test
 operation expectedModelGeneratesExpectedFile() {

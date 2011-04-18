@@ -1,5 +1,6 @@
 var EXPECTED_PATH  := basedir + "/egl/expected";
 var GENERATED_PATH := basedir + "/../../generated";
+var GENERATED_DIR_FILE := new Native('java.io.File')(GENERATED_PATH);
 var DEFAULT_PREFIX := '';
 
 
@@ -243,6 +244,19 @@ operation listHutnModels() {
     Sequence { DIFFERENT_MODEL_EMPTY, DEFAULT_PREFIX, false }
   };
 }
+
+@setup
+operation createGeneratedDir() {
+  GENERATED_DIR_FILE.mkdirs();
+}
+
+@teardown
+operation deleteGeneratedDir() {
+  var task = antProject.createTask('delete');
+  task.setDir(GENERATED_DIR_FILE);
+  task.execute();
+}
+
 
 @test
 operation shouldPass() {

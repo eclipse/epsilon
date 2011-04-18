@@ -10,40 +10,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.eclipse.epsilon.eunit.EUnitModule;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for the EGL integration in EUnit.
+ * Test cases for the EGL integration in EUnit. Note that the
+ * creation and deletion of the 'generated' directory is done
+ * from the .eunit files themselves. This should help test
+ * <code>@teardown</code>, which didn't have any tests until now.
  *
  * @author Antonio Garcia-Dominguez
  */
 public class EUnitWithEGLTests extends EUnitTestCase {
-
-	private File generatedFolder;
-
-	@Before
-	public void setUpFolders() throws IOException {
-		generatedFolder = new File(
-			ANT_BUILD_FILE.getCanonicalFile().getParentFile().getParentFile().getParentFile(),
-			"generated" + File.separator);
-		deleteRecursively(generatedFolder);
-		assertTrue(generatedFolder.mkdir());
-	}
-
-	@After
-	public void tearDownFolders() {
-		deleteRecursively(generatedFolder);
-	}
 
 	@Test
 	public void fileTests() throws Exception {
@@ -99,17 +81,5 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 			strings[i] = prefix + "[" + (i + 1) + "]";
 		}
 		return strings;
-	}
-
-	private void deleteRecursively(File file) {
-		if (!file.exists()) return;
-
-		File[] children = file.listFiles();
-		if (children != null) {
-			for (File child : children) {
-				deleteRecursively(child);
-			}
-		}
-		file.delete();
 	}
 }
