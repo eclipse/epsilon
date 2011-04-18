@@ -79,15 +79,16 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		}
  
 		if (message == null) {
-			if (mustBeEqual) {
-				message = "Expected " + expectedModelName + " to be equal to " + actualModelName + ", but it is not";
-			}
-			else {
-				message = "Expected " + expectedModelName + " to be different from " + actualModelName + ", but it is not";
-			}
+			message = "Expected " + expectedModelName
+				+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
+				+ actualModelName + ", but it is not";
 		}
-
-		throw new EolAssertionException(message.toString(), ast, expectedCModel, actualCModel, delta);
+		if (mustBeEqual) {
+			throw new EolAssertionException(message.toString(), ast, expectedCModel, actualCModel, delta);
+		}
+		else {
+			throw new EolAssertionException(message.toString(), ast, null, null, null);
+		}
 	}
 
 }

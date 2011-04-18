@@ -41,6 +41,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -51,6 +52,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -58,6 +60,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -77,6 +80,84 @@ import org.eclipse.ui.part.ViewPart;
  * @version 1.0
  */
 public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
+	public EUnitRunnerView() {
+	}
+	private class CompareResultsAction extends Action {
+		public CompareResultsAction() {
+			setText("Compare Results");
+			setToolTipText("Compares the expected result with the actual result");
+			setImageDescriptor(
+					EUnitPlugin.getImageDescriptor("icons/elcl16/compare.gif"));
+			setEnabled(false);
+		}
+
+		public void run() {
+			final EolAssertionException ex = getCurrentAssertionException();
+			if (ex == null) return;
+
+			// Use the right kind of comparison, depending on whether we compared models or regular values
+			if (ex.getDelta() instanceof ComparisonSnapshot) {
+				showDeltaInEMFCompareView(ex);
+			}
+			else {
+				compareValuesAsStrings(ex);
+			}
+		}
+
+		/**
+		 * If there's a test currently selected which failed due to an EolAssertionException for
+		 * which actual values are available, returns the exception. Otherwise, returns <code>null</code>.
+		 */
+		public EolAssertionException getCurrentAssertionException() {
+			// Obtain the currently selected test
+			if (!(treeViewerTests.getSelection() instanceof IStructuredSelection)) {
+				return null;
+			}
+			IStructuredSelection sel = (IStructuredSelection)treeViewerTests.getSelection();
+			Object currentElement = sel.getFirstElement();
+			if (!(currentElement instanceof EUnitTest)) {
+				return null;
+			}
+			EUnitTest currentTest = (EUnitTest)currentElement;
+
+			// This action only works on test which have failed due to a violated assertion
+			if (!(currentTest.getException() instanceof EolAssertionException)) {
+				return null;
+			}
+			EolAssertionException ex = (EolAssertionException)currentTest.getException();
+
+			// We're only interested in the assertion exceptions which provide values
+			if (ex.getActual() == null) {
+				return null;
+			}
+			else {
+				return ex;
+			}
+		}
+
+		private void compareValuesAsStrings(EolAssertionException ex) {
+			CompareConfiguration cc = new CompareConfiguration();
+			cc.setLeftLabel("Expected value");
+			cc.setRightLabel("Actual value");
+			CompareUI.openCompareEditor(
+				new StringCompareEditorInput(
+					cc,
+					"" + ex.getExpected(),
+					"" + ex.getActual()),
+				true);
+		}
+
+		private void showDeltaInEMFCompareView(EolAssertionException ex) {
+			ComparisonSnapshot snap = (ComparisonSnapshot)ex.getDelta();
+			// We need to create a copy before passing it to ModelCompareEditorInput, as
+			// it sets diff and match to null, for some reason.
+			ComparisonSnapshot copy = (ComparisonSnapshot)EcoreUtil.copy(snap);
+			final ModelCompareEditorInput input = new ModelCompareEditorInput(copy);
+			input.getCompareConfiguration().setLeftLabel("Expected model");
+			input.getCompareConfiguration().setRightLabel("Actual model");
+			CompareUI.openCompareEditor(input, true);
+		}
+	}
 
 	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET
 		= "EUnit has not been successfully launched yet: cannot rerun any suite!";
@@ -156,34 +237,8 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 				}
 			}
 			else if (obj instanceof EolAssertionException) {
-				EolAssertionException ex = (EolAssertionException)obj;
-				if (ex.getDelta() instanceof ComparisonSnapshot) {
-					showDeltaInEMFCompareView(ex);
-				}
-				else {
-					compareValuesAsStrings(ex);
-				}
+				actCompareResults.run();
 			}
-		}
-
-		private void compareValuesAsStrings(EolAssertionException ex) {
-			CompareConfiguration cc = new CompareConfiguration();
-			cc.setLeftLabel("Expected");
-			cc.setRightLabel("Actual value");
-			CompareUI.openCompareEditor(
-				new StringCompareEditorInput(
-					cc,
-					"" + ex.getExpected(),
-					"" + ex.getActual()),
-				true);
-		}
-
-		private void showDeltaInEMFCompareView(EolAssertionException ex) {
-			ComparisonSnapshot snap = (ComparisonSnapshot)ex.getDelta();
-			// We need to create a copy before passing it to ModelCompareEditorInput, as
-			// it sets diff and match to null, for some reason.
-			ComparisonSnapshot copy = (ComparisonSnapshot)EcoreUtil.copy(snap);
-			CompareUI.openCompareEditor(new ModelCompareEditorInput(copy), true);
 		}
 	}
 
@@ -276,8 +331,11 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private Action actJumpFromStackFrame;
 	private Action actHistory;
 	private Action actOnlyFailedTests;
+	private CompareResultsAction actCompareResults;
 
 	private ShowOnlyFailedTestsViewerFilter showOnlyFailedTestsFilter;
+
+	private ToolBar toolbarFailureTrace;
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
@@ -324,7 +382,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		barProgress = new JUnitProgressBar(parent);
 		barProgress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 
-		SashForm sashBetweenTestsAndFailures = new SashForm(parent, SWT.VERTICAL);
+		SashForm sashBetweenTestsAndFailures = new SashForm(parent, SWT.BORDER | SWT.SMOOTH | SWT.VERTICAL);
 		GridData gd_sashBetweenTestsAndFailures = new GridData(SWT.FILL, SWT.FILL, true, true, 6, 1);
 		gd_sashBetweenTestsAndFailures.widthHint = 593;
 		sashBetweenTestsAndFailures.setLayoutData(gd_sashBetweenTestsAndFailures);
@@ -332,22 +390,26 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		treeViewerTests = new TreeViewer(sashBetweenTestsAndFailures, SWT.MULTI);
 		treeViewerTests.setContentProvider(new TestTreeContentProvider(getViewSite()));
 
-		Composite composite = new Composite(sashBetweenTestsAndFailures, SWT.NONE);
-		GridLayout gl_composite = new GridLayout(1, false);
-		gl_composite.marginTop = 5;
+		Composite failureTraceComposite = new Composite(sashBetweenTestsAndFailures, SWT.NONE);
+		GridLayout gl_composite = new GridLayout(2, false);
+		gl_composite.marginTop = 0;
 		gl_composite.marginWidth = 0;
 		gl_composite.marginHeight = 0;
 		gl_composite.horizontalSpacing = 0;
-		composite.setLayout(gl_composite);
+		failureTraceComposite.setLayout(gl_composite);
 
-		Label lblFailureTrace = new Label(composite, SWT.NONE);
-		lblFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		lblFailureTrace.setAlignment(SWT.CENTER);
+		CLabel lblFailureTrace = new CLabel(failureTraceComposite, SWT.NONE);
+		lblFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		lblFailureTrace.setText("Failure Trace");
+		lblFailureTrace.setImage(
+			EUnitPlugin.imageDescriptorFromPlugin(EUnitPlugin.PLUGIN_ID, "icons/eview16/stackframe.gif").createImage());
 
-		treeViewerFailureTrace = new TreeViewer(composite, SWT.SINGLE);
+		toolbarFailureTrace = new ToolBar(failureTraceComposite, SWT.FLAT);
+		toolbarFailureTrace.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+
+		treeViewerFailureTrace = new TreeViewer(failureTraceComposite, SWT.SINGLE);
 		Tree treeFailureTrace = treeViewerFailureTrace.getTree();
-		treeFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		treeFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		showOnlyFailedTestsFilter = new ShowOnlyFailedTestsViewerFilter();
 		failureTraceContentProvider = new FailureTraceTreeContentProvider(getViewSite());
 		failureTreeLabelProvider = new FailureTraceTreeLabelProvider();
@@ -405,6 +467,13 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		IActionBars bars = getViewSite().getActionBars();
 		fillLocalPullDown(bars.getMenuManager());
 		fillLocalToolBar(bars.getToolBarManager());
+
+		ToolBarManager manager = new ToolBarManager(toolbarFailureTrace);
+		manager.add(actCompareResults);
+		manager.add(new Separator());
+		// Other plug-ins can contribute their actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		manager.update(true);
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
@@ -452,6 +521,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		actJumpFromStackFrame = new JumpFromStackFrameAction();
 
 		actOnlyFailedTests = new OnlyFailedTestsAction();
+		actCompareResults = new CompareResultsAction();
 
 		final EUnitHistory history = EUnitPlugin.getDefault().getHistory();
 		actHistory = new HistoryDropDownAction(history, this);
@@ -462,8 +532,10 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection)event.getSelection();
+					final IStructuredSelection sel = (IStructuredSelection)event.getSelection();
 					treeViewerFailureTrace.setInput(sel.getFirstElement());
+					final CompareResultsAction act = actCompareResults;
+					actCompareResults.setEnabled(act.getCurrentAssertionException() != null);
 				}
 			}
 		});

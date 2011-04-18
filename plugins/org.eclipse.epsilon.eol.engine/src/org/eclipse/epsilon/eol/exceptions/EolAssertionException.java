@@ -39,7 +39,8 @@ public class EolAssertionException extends EolRuntimeException {
 	 * text-based line-by-line comparison will be used.</li>
 	 * <li>All three are <code>null</code>: no information is available. This
 	 * may happen when calling the <code>fail(msg)</code> built-in operation,
-	 * for instance.</li>
+	 * for instance, or when using assertNotEquals (it may not make sense to
+	 * present differences when they are really the same).</li>
 	 * </ol>
 	 *
 	 * @param reason
