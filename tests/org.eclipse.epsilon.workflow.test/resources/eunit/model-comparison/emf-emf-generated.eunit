@@ -36,7 +36,7 @@ operation createGraph() {
 
 @test
 operation transform() {
-  runScript("tree2graph");
+  runTarget("tree2graph");
   assertEqualModels("GraphExpected", "Graph");
 }
 

@@ -2,7 +2,7 @@
 operation f() {
   var x := 42;
   exportVariable('x');
-  runScript('eol');
+  runTarget('eol-variables');
   useVariable('y');
   assertEquals(y, 43);
 }

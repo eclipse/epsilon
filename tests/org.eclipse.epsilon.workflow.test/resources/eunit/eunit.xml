@@ -177,24 +177,27 @@
 					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
 					read="false" store="false"/>
 			</models>
-			<script name="tree2graph">
-				<epsilon.etl src="model-comparison/Tree2Graph.etl">
-					<model ref="Tree"/>
-					<model ref="Graph"/>
-				</epsilon.etl>
-			</script>
 		</epsilon.eunit>
 	</target>
 
 	<target name="variables">
-		<epsilon.eunit src="variables/variables.eunit">
-			<script name="eol">
-				<epsilon.eol src="variables/variables.eol">
-					<uses ref="x" optional="false"/>
-					<exports ref="y" optional="false"/>
-				</epsilon.eol>
-			</script>
-		</epsilon.eunit>
+		<epsilon.eunit src="variables/variables.eunit"/>
+	</target>
+
+	<!-- Custom targets used from within the EUnit tests -->
+
+	<target name="eol-variables">
+		<epsilon.eol src="variables/variables.eol">
+			<uses ref="x" optional="false"/>
+			<exports ref="y" optional="false"/>
+		</epsilon.eol>
+	</target>
+
+	<target name="tree2graph">
+		<epsilon.etl src="model-comparison/Tree2Graph.etl">
+			<model ref="Tree"/>
+			<model ref="Graph"/>
+		</epsilon.etl>
 	</target>
 
 </project>

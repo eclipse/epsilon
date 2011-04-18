@@ -70,47 +70,24 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	/**
-	 * Class for a nested element which contains tasks and has a name attribute.
-	 * When its name is changed, it will update the script repository in the enclosing
-	 * class.
-	 */
-	public class NamedTaskCollection extends TaskCollection {
-		private String name;
-
-		public void setName(String newName) {
-			scripts.remove(name);
-			name = newName;
-			scripts.put(newName, this);
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
-
-	/**
 	 * Operation which can call a series of Ant tasks described inside a
 	 * "script" nested element of this Ant task.
 	 */
-	private class RunScriptOperation extends AbstractSimpleOperation {
+	private class RunTargetOperation extends AbstractSimpleOperation {
 		@SuppressWarnings("rawtypes")
 		@Override
 		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 			// Check that we only get the name of the script to be run
 			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
-				throw new EolRuntimeException("runScript only takes a String with the name of the <script> element to be run");
+				throw new EolRuntimeException("runTarget only takes a String with the name of the Ant target to be run");
 			}
-			final String scriptName = (String)parameters.get(0);
+			final String targetName = (String)parameters.get(0);
 
-			// Check that the name of the script is not null and that the script has been declared
-			if (scriptName == null) {
-				throw new EolRuntimeException("The name of the script to be run cannot be null");
+			// Check that the name of the target is not null
+			if (targetName == null) {
+				throw new EolRuntimeException("The name of the target to be run cannot be null");
 			}
-			else if (!scripts.containsKey(scriptName)) {
-				throw new EolRuntimeException("The script '" + scriptName + "' has not been listed in the Ant buildfile");
-			}
-
-			scripts.get(scriptName).run();
+			getProject().executeTarget(targetName);
 			return true;
 		}
 	}
@@ -158,7 +135,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		@Override
 		protected void createCache() {
 			super.createCache();
-			operationCache.put("runScript", new RunScriptOperation());
+			operationCache.put("runTarget", new RunTargetOperation());
 			operationCache.put("exportVariable", new ExportVariableOperation());
 			operationCache.put("useVariable", new UseVariableOperation());
 		}
@@ -167,7 +144,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 	private TaskCollection modelLoadingTasks;
-	private Map<String, NamedTaskCollection> scripts = new HashMap<String, NamedTaskCollection>();
 
 	public EUnitTask() {
 		// By default, the EUnit Ant task disables JFace-based user input,
@@ -271,10 +247,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			modelLoadingTasks = new TaskCollection();
 		}
 		return modelLoadingTasks;
-	}
-
-	public NamedTaskCollection createScript() {
-		return new NamedTaskCollection();
 	}
 
 	// TEST REPORT METHODS
