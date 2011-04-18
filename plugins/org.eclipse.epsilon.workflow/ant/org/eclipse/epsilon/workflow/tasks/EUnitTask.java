@@ -76,7 +76,13 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 
 	@Override
 	protected void examine() throws Exception {
-		// nothing to do
+		final EUnitTest test = ((EUnitModule)createModule()).getSuiteRoot();
+		final PrintStream out = module.getContext().getOutputStream();
+
+		out.println("Global result: " + test.getResult());
+		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
+			fail("At least one test case had a failure or an error", test.getException());
+		}
 	}
 
 	@Override
@@ -131,14 +137,6 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 			}
 			else {
 				err.println();
-			}
-		}
-
-		if (test.isRootTest()) {
-			// Root node, with no operation (neither @data nor @test)
-			out.println("Global result: " + test.getResult() + sMillis);
-			if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
-				fail("At least one test case had a failure or an error", test.getException());
 			}
 		}
 	}
