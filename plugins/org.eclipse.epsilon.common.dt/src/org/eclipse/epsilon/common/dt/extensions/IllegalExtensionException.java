@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks.extensions;
+package org.eclipse.epsilon.common.dt.extensions;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -19,20 +19,20 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * @author Antonio Garcia-Dominguez
  * @version 1.0
  */
-public class EUnitIllegalExtensionException extends EolRuntimeException {
+public class IllegalExtensionException extends EolRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private Throwable cause;
 
-	public EUnitIllegalExtensionException(String message) {
+	public IllegalExtensionException(String message) {
 		super(message);
 	}
 
-	public EUnitIllegalExtensionException(String message, AST ast) {
+	public IllegalExtensionException(String message, AST ast) {
 		super(message, ast);
 	}
 
-	public EUnitIllegalExtensionException(Throwable cause) {
+	public IllegalExtensionException(Throwable cause) {
 		this.setStackTrace(cause.getStackTrace());
 		this.cause = cause;
 	}

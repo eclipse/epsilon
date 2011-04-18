@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
@@ -33,7 +34,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
-import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
 
 /**
  * Ant task for running EUnit test suites.
@@ -42,6 +42,8 @@ import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
  * @version 1.0
  */
 public class EUnitTask extends ModuleTask implements EUnitTestListener {
+
+	private static final String EUNIT_TEST_LISTENER_EXTENSION_POINT_ID = "org.eclipse.epsilon.workflow.eunit.listener";
 
 	/**
 	 * Class for a nested element which simply contains tasks.
@@ -149,7 +151,7 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 			eunitModule.setReportDirectory(getProject().getBaseDir());
 		}
 
-		for (EUnitTestListener extraListener : EUnitListenerExtension.getListeners()) {
+		for (EUnitTestListener extraListener : ClassBasedExtension.getImplementations(EUNIT_TEST_LISTENER_EXTENSION_POINT_ID, EUnitTestListener.class)) {
 			eunitModule.addTestListener(extraListener);
 		}
 	}
