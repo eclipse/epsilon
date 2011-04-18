@@ -184,6 +184,36 @@
 		<epsilon.eunit src="variables/variables.eunit"/>
 	</target>
 
+	<!-- EVL tests -->
+
+	<target name="evl-macrodef">
+		<macrodef name="evl-eunit-test">
+			<attribute name="nodename"/>
+			<sequential>
+				<epsilon.eunit src="evl/tree-only-run-evl.eunit">
+					<parameter name="nodename" value="@{nodename}"/>
+					<models>
+						<epsilon.emf.loadModel name="Tree"
+							modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+							read="false" store="false"/>
+					</models>
+				</epsilon.eunit>
+			</sequential>
+		</macrodef>
+	</target>
+
+	<target name="evl-valid" depends="evl-macrodef">
+		<evl-eunit-test nodename="t1n"/>
+	</target>
+
+	<target name="evl-error-fails-build" depends="evl-macrodef">
+		<evl-eunit-test nodename="1n"/>
+	</target>
+
+	<target name="evl-warning-fails-build" depends="evl-macrodef">
+		<evl-eunit-test nodename="t1"/>
+	</target>
+
 	<!-- Custom targets used from within the EUnit tests -->
 
 	<target name="eol-variables">
@@ -198,6 +228,12 @@
 			<model ref="Tree"/>
 			<model ref="Graph"/>
 		</epsilon.etl>
+	</target>
+
+	<target name="validate-tree">
+		<epsilon.evl src="evl/tree-constraints.evl">
+			<model ref="Tree"/>
+		</epsilon.evl>
 	</target>
 
 </project>

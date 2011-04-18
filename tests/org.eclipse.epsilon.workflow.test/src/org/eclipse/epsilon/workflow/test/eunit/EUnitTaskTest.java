@@ -33,12 +33,15 @@ import javax.xml.validation.SchemaFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.CallTarget;
+import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitParseException;
 import org.eclipse.epsilon.workflow.tasks.EUnitTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
+import org.eclipse.epsilon.workflow.tasks.EvlTask;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
 import org.junit.After;
@@ -67,11 +70,14 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 		project.addTaskDefinition("antcall", CallTarget.class);
 		project.addTaskDefinition("junitreport", XMLResultAggregator.class);
 		project.addTaskDefinition("property", Property.class);
+		project.addTaskDefinition("macrodef", MacroDef.class);
+		project.addTaskDefinition("sequential", Sequential.class);
 
 		// Epsilon tasks
 		project.addTaskDefinition("epsilon.emf.loadModel", LoadModel.class);
 		project.addTaskDefinition("epsilon.etl", EtlTask.class);
 		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
+		project.addTaskDefinition("epsilon.evl", EvlTask.class);
 	}
 
 	@After
@@ -275,6 +281,35 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 	@Test
 	public void variables() throws Exception {
 		runTarget(ANT_BUILD_FILE, "variables");
+	}
+
+	@Test
+	public void evlValid() throws Exception {
+		runTarget(ANT_BUILD_FILE, "evl-valid");
+	}
+
+	@Test
+	public void evlErrorFailsBuild() throws Exception {
+		try {
+			runTarget(ANT_BUILD_FILE, "evl-error-fails-build");
+			fail("The build was expected to fail");
+		} catch (BuildException ex) {
+			final String message = ex.getCause().getCause().getMessage();
+			assertContains(message, "1 error");
+			assertContains(message, "0 warning");
+		}
+	}
+
+	@Test
+	public void evlWarningFailsBuild() throws Exception {
+		try {
+			runTarget(ANT_BUILD_FILE, "evl-warning-fails-build");
+			fail("The build was expected to fail");
+		} catch (BuildException ex) {
+			final String message = ex.getCause().getCause().getMessage();
+			assertContains(message, "0 error");
+			assertContains(message, "1 warning");
+		}
 	}
 
 	/**

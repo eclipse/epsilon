@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -44,4 +46,8 @@ public abstract class WorkflowTestCase {
 	}
 
 	protected abstract void addTaskDefinitionsTo(Project project);
+
+	protected void assertContains(final String message, final String substr) {
+		assertTrue(String.format("'%s' contains '%s'", message, substr), message.contains(substr));
+	}
 }
