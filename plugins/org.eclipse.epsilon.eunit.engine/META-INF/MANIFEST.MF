@@ -5,5 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.eunit.engine;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.epsilon.eunit
+Export-Package: org.eclipse.epsilon.eunit,
+ org.eclipse.epsilon.eunit.execute,
+ org.eclipse.epsilon.eunit.execute.operations
 Require-Bundle: org.eclipse.epsilon.eol.engine;bundle-version="0.9.0"

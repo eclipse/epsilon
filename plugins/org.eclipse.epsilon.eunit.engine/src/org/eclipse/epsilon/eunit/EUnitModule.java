@@ -36,6 +36,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eunit.execute.EUnitOperationFactory;
 import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
 import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
@@ -59,6 +60,10 @@ public class EUnitModule extends EolModule {
 	static {
 		THREAD_MXBEAN = ManagementFactory.getThreadMXBean();
 		THREAD_MXBEAN.setThreadCpuTimeEnabled(true);
+	}
+
+	public EUnitModule() {
+		this.getContext().setOperationFactory(new EUnitOperationFactory());
 	}
 
 	public ArrayList<EolOperation> getTests() {
@@ -107,7 +112,12 @@ public class EUnitModule extends EolModule {
 			throw new EUnitParseException(this.getParseProblems());
 		}
 
-		prepare();
+		// Run the EUnit script as a regular EOL script first,
+		// so global variables are properly assigned and we do
+		// not confuse users
+		super.execute();
+
+		// Run the tests in the suite now
 		try {
 			runSuite(getSuiteRoot());
 		} finally {

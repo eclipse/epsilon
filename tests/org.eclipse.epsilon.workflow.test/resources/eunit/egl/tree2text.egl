@@ -1,0 +1,8 @@
+[% operation process(indent : String, node : Tree) { %]
+[%=indent + " - " + node.label%]
+[% for (child in node.children) { %]
+[%=process(indent + "  ", child)%]
+[% }
+} %]
+
+[%=process("", Tree.allInstances.select(s | not s.parent.isDefined()).first())%]

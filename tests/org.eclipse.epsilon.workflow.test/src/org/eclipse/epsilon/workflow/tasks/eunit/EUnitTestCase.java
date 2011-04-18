@@ -35,6 +35,7 @@ import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
 import org.eclipse.epsilon.workflow.tasks.EUnitTask;
+import org.eclipse.epsilon.workflow.tasks.EglTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
 import org.eclipse.epsilon.workflow.tasks.EvlTask;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
@@ -68,11 +69,12 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 		project.addTaskDefinition("sequential", Sequential.class);
 	
 		// Epsilon tasks
+		project.addTaskDefinition("epsilon.egl", EglTask.class);
 		project.addTaskDefinition("epsilon.emf.loadModel", LoadModel.class);
+		project.addTaskDefinition("epsilon.emf.register", RegisterTask.class);
 		project.addTaskDefinition("epsilon.etl", EtlTask.class);
 		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
 		project.addTaskDefinition("epsilon.evl", EvlTask.class);
-		project.addTaskDefinition("epsilon.emf.register", RegisterTask.class);
 	}
 
 	@After

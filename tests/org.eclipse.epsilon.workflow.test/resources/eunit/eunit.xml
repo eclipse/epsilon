@@ -254,6 +254,21 @@
 		<epsilon.eunit src="inline/emf.eunit"/>
 	</target>
 
+	<!-- EGL tests -->
+
+	<target name="egl-file-tests">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.eunit src="egl/file-tests.eunit">
+			<parameter name="basedir" value="${basedir}"/>
+		</epsilon.eunit>
+	</target>
+
+	<target name="egl-dir-tests">
+	</target>
+
+	<target name="egl-2leveldir-tests">
+	</target>
+
 	<!-- Custom targets used from within the EUnit tests -->
 
 	<target name="eol-variables">
@@ -277,6 +292,12 @@
 			exportAsModel="${validate-tree.exportAsModel}">
 			<model ref="Tree"/>
 		</epsilon.evl>
+	</target>
+
+	<target name="tree2text">
+		<epsilon.egl src="egl/tree2text.egl" target="${basedir}/../../generated/tree.txt">
+			<model ref="Tree"/>
+		</epsilon.egl>
 	</target>
 
 </project>

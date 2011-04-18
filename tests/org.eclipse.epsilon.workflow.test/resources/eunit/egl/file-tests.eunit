@@ -1,0 +1,100 @@
+var EXPECTED_PATH  := basedir + "/egl/expected.txt";
+var GENERATED_PATH := basedir + "/../../generated/tree.txt";
+
+var EXPECTED_MODEL := '
+@Spec {
+	Metamodel "TreeMetamodel" {
+		nsUri: "Tree"
+	}
+}
+
+Model {
+  Tree "A" {
+    label: "A"
+  }
+  Tree "B" {
+    label: "B"
+    parent: Tree "A"
+  }
+  Tree "C" {
+    label: "C"
+    parent: Tree "B"
+  }
+  Tree "D" {
+    label: "D"
+    parent: Tree "B"
+  }
+  Tree "E" {
+    label: "E"
+    parent: Tree "A"
+  }
+}  
+';
+
+var DIFFERENT_MODEL := '
+@Spec {
+	Metamodel "TreeMetamodel" {
+		nsUri: "Tree"
+	}
+}
+
+Model {
+  Tree "A" {
+    label: "A"
+  }
+  Tree "B" {
+    label: "B"
+    parent: Tree "A"
+  }
+  Tree "E" {
+    label: "E"
+    parent: Tree "A"
+  }
+}
+';
+
+@test
+operation expectedModelGeneratesExpectedFile() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertEqualFiles(EXPECTED_PATH, GENERATED_PATH);
+}
+
+@test
+operation expectedModelGeneratesExpectedFileFailing() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  -- this test must fail
+  assertNotEqualFiles(EXPECTED_PATH, GENERATED_PATH);
+}
+
+@test
+operation differentModelGeneratesDifferentFile() {
+  loadHutn("Tree", DIFFERENT_MODEL);
+  runTarget("tree2text");
+  assertNotEqualFiles(EXPECTED_PATH, GENERATED_PATH);
+}
+
+@test
+operation differentModelGeneratesDifferentFileFailing() {
+  loadHutn("Tree", DIFFERENT_MODEL);
+  runTarget("tree2text");
+  -- this test must fail
+  assertEqualFiles(EXPECTED_PATH, GENERATED_PATH);
+}
+
+@test
+operation missingExpectedPathFailsTest() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  -- this test must fail
+  assertEqualFiles("idonotexist", GENERATED_PATH);
+}
+
+@test
+operation missingActualPathFailsTest() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  -- this test must fail
+  assertNotEqualFiles(EXPECTED_PATH, "idonotexist");
+}

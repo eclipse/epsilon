@@ -17,6 +17,7 @@ import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitBasicTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitInlineModelTests;
+import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEGLTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithETLTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEVLTests;
 import org.junit.runner.RunWith;
@@ -29,6 +30,7 @@ import org.junit.runners.Suite.SuiteClasses;
                EUnitBasicTests.class,
                EUnitWithETLTests.class,
                EUnitWithEVLTests.class,
+               EUnitWithEGLTests.class,
                EUnitInlineModelTests.class})
 public class WorkflowTestSuite {
 	public static Test suite() {
