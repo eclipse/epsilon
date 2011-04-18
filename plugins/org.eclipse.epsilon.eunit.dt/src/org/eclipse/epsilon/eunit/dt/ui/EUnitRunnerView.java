@@ -16,13 +16,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.compare.CompareUI;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
+import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -149,6 +154,20 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 					openInEOLEditor(frame.getEntryPoint());
 				}
 			}
+			else if (obj instanceof EolAssertionException) {
+				EolAssertionException ex = (EolAssertionException)obj;
+				if (ex.getDelta() instanceof ComparisonSnapshot) {
+					showDeltaInEMFCompareView(ex);
+				}
+			}
+		}
+
+		private void showDeltaInEMFCompareView(EolAssertionException ex) {
+			ComparisonSnapshot snap = (ComparisonSnapshot)ex.getDelta();
+			// We need to create a copy before passing it to ModelCompareEditorInput, as
+			// it sets diff and match to null, for some reason.
+			ComparisonSnapshot copy = (ComparisonSnapshot)EcoreUtil.copy(snap);
+			CompareUI.openCompareEditor(new ModelCompareEditorInput(copy), true);
 		}
 	}
 
