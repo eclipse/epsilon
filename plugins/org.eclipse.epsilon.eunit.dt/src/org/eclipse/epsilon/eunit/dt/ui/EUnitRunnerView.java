@@ -16,14 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.compare.CompareConfiguration;
-import org.eclipse.compare.CompareUI;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
-import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
+import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
 import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
@@ -33,7 +30,9 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
+import org.eclipse.epsilon.eunit.dt.diff.IDifferenceViewer;
 import org.eclipse.epsilon.eunit.dt.listener.ShowEUnitViewTestListener;
+import org.eclipse.epsilon.internal.eunit.dt.diff.StringBasedDifferenceViewer;
 import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -83,25 +82,49 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	public EUnitRunnerView() {
 	}
 	private class CompareResultsAction extends Action {
+		private static final String EUNIT_DIFFVIEWER_EXTPOINT_ID = "org.eclipse.epsilon.eunit.dt.diffviewer";
+		private List<IDifferenceViewer> diffViewers = new ArrayList<IDifferenceViewer>();
+
 		public CompareResultsAction() {
 			setText("Compare Results");
 			setToolTipText("Compares the expected result with the actual result");
 			setImageDescriptor(
 					EUnitPlugin.getImageDescriptor("icons/elcl16/compare.gif"));
 			setEnabled(false);
+			loadDiffViewers();
 		}
 
 		public void run() {
 			final EolAssertionException ex = getCurrentAssertionException();
 			if (ex == null) return;
+			for (IDifferenceViewer dv : diffViewers) {
+				if (dv.canCompare(ex.getExpected(), ex.getActual(), ex.getDelta())) {
+					dv.compare(ex.getExpected(), ex.getActual(), ex.getDelta());
+					return;
+				}
+			}
+			MessageDialog.openError(getViewSite().getShell(), EUnitRunnerView.EUNIT_DIALOG_TITLE,
+				String.format("Could not find a difference viewer for expected=%s, actual=%s and delta=%s.",
+						ex.getExpected().getClass().getName(),
+						ex.getActual().getClass().getName(),
+						ex.getDelta() != null ? ex.getDelta().getClass().getName() : "null"));
+		}
 
-			// Use the right kind of comparison, depending on whether we compared models or regular values
-			if (ex.getDelta() instanceof ComparisonSnapshot) {
-				showDeltaInEMFCompareView(ex);
+		private void loadDiffViewers() {
+			try {
+				for (IDifferenceViewer dv :
+						ClassBasedExtension.getImplementations(
+								EUNIT_DIFFVIEWER_EXTPOINT_ID,
+								IDifferenceViewer.class))
+				{
+					diffViewers.add(dv);
+				}
+			} catch (IllegalExtensionException e) {
+				EUnitPlugin.getDefault().logException(e);
 			}
-			else {
-				compareValuesAsStrings(ex);
-			}
+
+			// Fallback: use regular strings
+			diffViewers.add(new StringBasedDifferenceViewer());
 		}
 
 		/**
@@ -135,28 +158,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			}
 		}
 
-		private void compareValuesAsStrings(EolAssertionException ex) {
-			CompareConfiguration cc = new CompareConfiguration();
-			cc.setLeftLabel("Expected value");
-			cc.setRightLabel("Actual value");
-			CompareUI.openCompareEditor(
-				new StringCompareEditorInput(
-					cc,
-					"" + ex.getExpected(),
-					"" + ex.getActual()),
-				true);
-		}
-
-		private void showDeltaInEMFCompareView(EolAssertionException ex) {
-			ComparisonSnapshot snap = (ComparisonSnapshot)ex.getDelta();
-			// We need to create a copy before passing it to ModelCompareEditorInput, as
-			// it sets diff and match to null, for some reason.
-			ComparisonSnapshot copy = (ComparisonSnapshot)EcoreUtil.copy(snap);
-			final ModelCompareEditorInput input = new ModelCompareEditorInput(copy);
-			input.getCompareConfiguration().setLeftLabel("Expected model");
-			input.getCompareConfiguration().setRightLabel("Actual model");
-			CompareUI.openCompareEditor(input, true);
-		}
 	}
 
 	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET
