@@ -146,6 +146,10 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 							else if (expectedCasesWithErrors.contains(testCaseName)) {
 								assertHasChildWithTag(e, "error");
 							}
+							else {
+								assertThat("The test " + testCaseName + " should pass",
+									e.getChildNodes().getLength(), is(equalTo(0)));
+							}
 							nTestCases++;
 						}
 						else if (tagName.equals("system-out")) {
