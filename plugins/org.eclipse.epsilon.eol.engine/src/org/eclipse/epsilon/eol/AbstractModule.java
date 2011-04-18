@@ -128,12 +128,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		this.sourceFile = file;
 		Lexer lexer = null;
 		FileReader fr = null;
-		try {
-			//fr = new FileReader(file);
-			lexer = createLexer(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		lexer = createLexer(new FileInputStream(file));
 		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
