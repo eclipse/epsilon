@@ -86,11 +86,15 @@ public abstract class EpsilonTask extends Task {
 		
 		if (repository == null) {
 			repository = new ModelRepository();
-			getProject().addReference(EpsilonTask.EPSILON_REPOSITORY, repository);
+			setProjectRepository(repository);
 		}
 		
 		return repository;
 	
+	}
+
+	protected void setProjectRepository(ModelRepository repository) {
+		getProject().addReference(EpsilonTask.EPSILON_REPOSITORY, repository);
 	}
 
 	protected List<NamedTransactionSupport> getActiveTransactions() {

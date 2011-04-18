@@ -14,9 +14,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
@@ -33,8 +31,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 
 /**
  * Ant task for running EUnit test suites.
@@ -63,8 +61,15 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 
 		public void run() {
-			for (Task task : tasks) {
-				task.perform();
+			// We trick tasks into using the EUnit model repository instead of the project's
+			final ModelRepository projectRepo = getProjectRepository();
+			try {
+				setProjectRepository(module.getContext().getModelRepository());
+				for (Task task : tasks) {
+					task.perform();
+				}
+			} finally {
+				setProjectRepository(projectRepo);
 			}
 		}
 	}
@@ -87,7 +92,16 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			if (targetName == null) {
 				throw new EolRuntimeException("The name of the target to be run cannot be null");
 			}
-			getProject().executeTarget(targetName);
+
+			// Run tasks, ensuring they manipulate our model repository instead of the project's
+			final ModelRepository projectRepo = getProjectRepository();
+			try {
+				setProjectRepository(module.getContext().getModelRepository());
+				getProject().executeTarget(targetName);
+			} finally {
+				setProjectRepository(projectRepo);
+			}
+
 			return true;
 		}
 	}
@@ -156,7 +170,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		final EUnitModule eunitModule = (EUnitModule)module;
 		eunitModule.addTestListener(this);
 		eunitModule.setPackage(getPackage());
-		eunitModule.getContext().setModelRepository(getProjectRepository());
 		if (getToDir() != null) {
 			eunitModule.setReportDirectory(getToDir());
 		}
@@ -178,11 +191,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
 			fail("At least one test case had a failure or an error", test.getException());
 		}
-	}
-
-	@Override
-	public ModelNestedElement createModel() {
-		throw new UnsupportedOperationException("The <model> nested element cannot be used in the EUnit Ant task");
 	}
 
 	@Override
@@ -208,15 +216,22 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			module.getContext().setUserInput(new JavaConsoleUserInput());
 		}
 
-		if (test.isLeafTest() && modelLoadingTasks != null) {
-			modelLoadingTasks.run();
+		if (test.isLeafTest()) {
+			try {
+				// Dispose all models in this module's model repository, and reload them from the <model> references
+				populateModelRepository(true);
+			} catch (Exception e) {
+				fail("Exception while repopulating the model repository", e);
+			}
+			// Run the <modelTasks>
+			if (modelLoadingTasks != null) {
+				modelLoadingTasks.run();
+			}
 		}
 	}
 
 	public void afterCase(EUnitModule module, EUnitTest test) {
-		Task disposeTask = new DisposeModelsTask();
-		disposeTask.setProject(getProject());
-		disposeTask.execute();
+		module.getContext().getModelRepository().dispose();
 
 		final PrintStream out = module.getContext().getOutputStream();
 		final PrintStream err = module.getContext().getErrorStream();
@@ -242,7 +257,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	// NESTED ELEMENTS
 
-	public TaskCollection createModels() {
+	public TaskCollection createModelTasks() {
 		if (modelLoadingTasks == null) {
 			modelLoadingTasks = new TaskCollection();
 		}

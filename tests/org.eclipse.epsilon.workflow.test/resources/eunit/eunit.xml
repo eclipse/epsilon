@@ -17,12 +17,12 @@
 		<property name="eunit.package" value="default" />
 
 		<epsilon.eunit src="${eunit.file}" todir="${eunit.todir}" failOnErrors="${eunit.failOnErrors}" package="${eunit.package}">
-			<models>
+			<modelTasks>
 				<epsilon.emf.loadModel
 					name="Model"
 					modelfile="${elements1.model.location}"
 					metamodelfile="${elements.metamodel.location}"/>
-			</models>
+			</modelTasks>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -38,12 +38,22 @@
 
 	<target name="allPassCustom">
 		<epsilon.eunit src="basic/all-pass.eunit" todir="${basedir}/..">
-			<models>
+			<modelTasks>
 				<epsilon.emf.loadModel
 					name="Model"
 					modelfile="${elements1.model.location}"
 					metamodelfile="${elements.metamodel.location}"/>
-			</models>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+
+	<target name="allPassModelRef">
+		<epsilon.emf.loadModel
+			name="Model"
+			modelfile="${elements1.model.location}"
+			metamodelfile="${elements.metamodel.location}"/>
+		<epsilon.eunit src="basic/all-pass.eunit" todir="${basedir}/..">
+			<model ref="Model"/>
 		</epsilon.eunit>
 	</target>
 
@@ -97,7 +107,7 @@
 	<target name="withAnnotation">
 		<property name="eunit.file" location="with/basic-usage.eunit"/>
 		<epsilon.eunit src="${eunit.file}" failOnErrors="false">
-			<models>
+			<modelTasks>
 				<epsilon.emf.loadModel
 					name="A"
 					modelfile="sample.model"
@@ -106,7 +116,7 @@
 					name="B"
 					modelfile="sample2.model"
 					metamodelfile="sample.ecore"/>
-			</models>
+			</modelTasks>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -131,7 +141,7 @@
 
 	<target name="emf-emf">
 		<epsilon.eunit src="model-comparison/emf-emf.eunit" failonerrors="false">
-			<models>
+			<modelTasks>
 				<epsilon.emf.loadModel name="Tree"
 					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
 					read="true" store="false"/>
@@ -151,7 +161,7 @@
 					<model ref="Tree"/>
 					<model ref="Graph"/>
 				</epsilon.etl>
-			</models>
+			</modelTasks>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -165,7 +175,7 @@
 		     attribute, instead of the metamodelfile attribute. Otherwise, you get ugly exceptions
 		     when trying to compare features, for instance. -->
 		<epsilon.eunit src="model-comparison/emf-emf-generated.eunit">
-			<models>
+			<modelTasks>
 				<!-- all models are empty: we'll generate them on the fly -->
 				<epsilon.emf.loadModel name="Tree"
 					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
@@ -176,7 +186,7 @@
 				<epsilon.emf.loadModel name="Graph"
 					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
 					read="false" store="false"/>
-			</models>
+			</modelTasks>
 		</epsilon.eunit>
 	</target>
 
@@ -199,11 +209,11 @@
 				<property name="validate-tree.exportAsModel" value="@{exportAsModel}"/>
 				<epsilon.eunit src="evl/@{script}.eunit">
 					<parameter name="nodename" value="@{nodename}"/>
-					<models>
+					<modelTasks>
 						<epsilon.emf.loadModel name="Tree"
 							modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
 							read="false" store="false"/>
-					</models>
+					</modelTasks>
 				</epsilon.eunit>
 			</sequential>
 		</macrodef>

@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -90,7 +91,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return parameterNestedElement;
 	}
 
-	protected void configureModule() throws EolModelNotFoundException, BuildException {
+	protected void configureModule() throws EolModelNotFoundException, BuildException, EolModelLoadingException {
 		// We can only run these if we're inside a real Eclipse instance:
 		// we must avoid these calls if we're running the Ant task inside
 		// a JUnit test
@@ -108,7 +109,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("System", system));
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("null", null));
 
-		populateModelRepository();
+		populateModelRepository(false);
 		accessParameters();
 		useVariables();
 	}
@@ -118,11 +119,17 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		examine();
 	}
 
-	private void populateModelRepository() throws EolModelNotFoundException {
+	protected void populateModelRepository(Boolean mustReload) throws EolModelNotFoundException, EolModelLoadingException {
 		ModelRepository repository = module.getContext().getModelRepository();
+		if (mustReload) {
+			repository.dispose();
+		}
 		ModelRepository projectRepository = getProjectRepository();
 		for (ModelNestedElement modelNestedElement : modelNestedElements) {
 			IModel model = projectRepository.getModelByName(modelNestedElement.getRef());
+			if (mustReload) {
+				model.load();
+			}
 			ModelReference reference = new ModelReference(model);
 			if (modelNestedElement.getAs() != null) {
 				reference.setName(modelNestedElement.getAs());
