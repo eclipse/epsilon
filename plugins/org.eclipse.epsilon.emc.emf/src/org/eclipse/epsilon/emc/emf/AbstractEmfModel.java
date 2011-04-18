@@ -63,6 +63,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
+	Map<String, EClass> eClassCache = new HashMap<String, EClass>();
 	
 	protected InputStream getInputStream(String file) throws IOException {
 		
@@ -167,7 +168,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		return classForName(type);
 	}
 
-	Map<String, EClass> eClassCache = new HashMap<String, EClass>();
 	public EClass classForName(String name) throws EolModelElementTypeNotFoundException {
 		if (name != null) {
 			if (eClassCache.containsKey(name)) {
@@ -359,13 +359,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		//resourceMap.remove("platform:/resource" + relativeModelFile);
 
 		if (modelImpl != null) {
-
 			//modelImpl.unload();
 			EmfModelResourceFactory.getInstance().removeCachedResource(modelImpl.getURI());
 			modelImpl = null;
 		}
+
+		eClassCache.clear();
 	}
-	
+
 	public Resource getResource() {
 		return modelImpl;
 	}
