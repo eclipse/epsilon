@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.test.eunit;
+package org.eclipse.epsilon.workflow.tasks.eunit;
 
 import java.io.File;
 

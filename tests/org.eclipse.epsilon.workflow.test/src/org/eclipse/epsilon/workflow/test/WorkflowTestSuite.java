@@ -15,8 +15,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
-import org.eclipse.epsilon.workflow.test.eunit.EUnitJUnitXMLOutputTest;
-import org.eclipse.epsilon.workflow.test.eunit.EUnitParseTest;
+import org.eclipse.epsilon.workflow.tasks.eunit.EUnitTaskTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -24,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({LoadModelTaskTests.class,
                LoadModelTests.class,
-               EUnitJUnitXMLOutputTest.class, EUnitParseTest.class})
+               EUnitTaskTest.class})
 public class WorkflowTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(WorkflowTestSuite.class);
