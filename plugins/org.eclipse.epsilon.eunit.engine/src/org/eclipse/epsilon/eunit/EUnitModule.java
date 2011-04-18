@@ -141,6 +141,11 @@ public class EUnitModule extends EolModule {
 	}
 
 	public void runSuite(EUnitTest node) throws EolRuntimeException {
+		if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
+			// The test case is to be skipped
+			return;
+		}
+
 		try {
 			// Make sure any exception while running or preparing the test
 			// case does not crash the test suite, and is properly reported
@@ -263,11 +268,6 @@ public class EUnitModule extends EolModule {
 
 	private void runSuiteInternal(EUnitTest node)
 			throws EolModelNotFoundException, EolRuntimeException {
-		if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
-			// The test case is to be skipped
-			return;
-		}
-
 		// We need separate stack frames to ensure everything is clean after
 		// each test case
 		if (node.getOperation() != null) {
