@@ -47,10 +47,11 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public abstract class AbstractEmfModel extends CachedModel<EObject> {
+public abstract class AbstractEmfModel extends CachedModel<EObject> implements IComparableModel {
 	
 	//DONE : Improve support for file-based metamodels
 	//FIXME : If the user wants, they can load it as a local copy
@@ -528,13 +529,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		this.expand = expand;
 	}
 
-	@Override
-	public boolean hasSameContentsAs(IModel model) {
-		if (super.hasSameContentsAs(model)) {
-			return true;
-		}
+	public boolean hasSameContentsAs(IComparableModel model) {
 		if (!(model instanceof AbstractEmfModel)) {
-			return false;
+			throw new IllegalArgumentException("Cannot compare an EMF model with a non-EMF model");
 		}
 
 		final AbstractEmfModel other = (AbstractEmfModel)model;

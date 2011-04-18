@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IModel;
 
 /**
@@ -49,12 +50,24 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 			message = parameters.remove(0);
 		}
 
-		// Extract the other arguments
+		// Extract the other arguments and check they are comparable models
 		String expectedModelName = (String)parameters.remove(0);
 		String actualModelName = (String)parameters.remove(0);
 		final IModel expectedModel = context.getModelRepository().getModelByName(expectedModelName);
 		final IModel actualModel = context.getModelRepository().getModelByName(actualModelName);
-		if (expectedModel.hasSameContentsAs(actualModel) == mustBeEqual) {
+		if (!(expectedModel instanceof IComparableModel)) {
+			throw new IllegalArgumentException(
+				String.format("The expected model '%s' does not support comparison", expectedModelName));
+		}
+		else if (!(actualModel instanceof IComparableModel)) {
+			throw new IllegalArgumentException(
+				String.format("The actual model '%s' does not support comparison", actualModelName));
+		}
+
+		// Perform the comparison
+		final IComparableModel expectedCModel = (IComparableModel)expectedModel;
+		final IComparableModel actualCModel = (IComparableModel)actualModel;
+		if (expectedCModel.hasSameContentsAs(actualCModel) == mustBeEqual) {
 			return true;
 		}
  

@@ -23,10 +23,11 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
+import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public class ModelReference implements IModel, IWrapper {
+public class ModelReference implements IComparableModel, IWrapper {
 	
 	protected IModel target;
 	protected String name;
@@ -184,10 +185,10 @@ public class ModelReference implements IModel, IWrapper {
 		return target;
 	}
 
-	public boolean hasSameContentsAs(IModel actualModel) {
-		if (target != null && target.hasSameContentsAs(actualModel)) {
-			return true;
+	public boolean hasSameContentsAs(IComparableModel actualModel) {
+		if (target instanceof IComparableModel) {
+			return ((IComparableModel)target).hasSameContentsAs(actualModel);
 		}
-		return false;
+		throw new IllegalArgumentException("Target model is not a comparable model");
 	}	
 }
