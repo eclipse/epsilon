@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.execute.operations;
+package org.eclipse.epsilon.eunit.dt.diff.files;
 
 import java.io.File;
 import java.io.FileInputStream;
