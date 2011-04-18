@@ -112,7 +112,7 @@ public interface IModel {
 	
 	public IPropertySetter getPropertySetter();
 	
-	public boolean isStoredOnDispoal();
+	public boolean isStoredOnDisposal();
 	
 	public void setStoredOnDisposal(boolean storedOnDisposal);
 	

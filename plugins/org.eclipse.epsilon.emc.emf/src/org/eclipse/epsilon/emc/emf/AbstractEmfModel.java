@@ -538,42 +538,38 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		if (!(model instanceof AbstractEmfModel)) {
 			throw new IllegalArgumentException("Cannot compare an EMF model with a non-EMF model");
 		}
-		final AbstractEmfModel otherModel = (AbstractEmfModel)model;
 
-		// For later viewing, we need to save the models to temporary files before computing the diffs
-		final File myTmpFile    = File.createTempFile("compare", ".model");
-		final File otherTmpFile = File.createTempFile("compare", ".model");
-		final URI myOldURI      = getResource().getURI();
-		final URI otherOldURI   = otherModel.getResource().getURI();
-
+		// For later viewing, we need to ensure the models are saved. If they are not, just
+		// store them to a temporary file.
 		final AbstractEmfModel other = (AbstractEmfModel)model;
-		try {
-			this.getResource().setURI(EmfUtil.createFileBasedURI(myTmpFile.getAbsolutePath()));
-			this.store();
-			otherModel.getResource().setURI(EmfUtil.createFileBasedURI(otherTmpFile.getAbsolutePath()));
-			otherModel.store();
+		final Resource myResource = cloneToTmpFile();
+		final Resource otherResource = other.cloneToTmpFile();
 
-			final HashMap<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-			MatchModel match = MatchService.doResourceMatch(this.getResource(), other.getResource(), options);
-			DiffModel diff = DiffService.doDiff(match);
-			if (diff.getDifferences().isEmpty()) {
-				// If no differences have been computed, we can remove the temporary copies of the
-				// models: we do not need them at all.
-				myTmpFile.delete();
-				otherTmpFile.delete();
-				return null;
-			}
+		final HashMap<String, Object> options = new HashMap<String, Object>();
+		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
+		MatchModel match = MatchService.doResourceMatch(myResource, otherResource, options);
+		DiffModel diff = DiffService.doDiff(match);
+		if (diff.getDifferences().isEmpty()) {
+			return null;
+		}
 
-			ComparisonResourceSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
-			snap.setDate(new Date());
-			snap.setDiff(diff);
-			snap.setMatch(match);
-			return snap;
-		}
-		finally {
-			getResource().setURI(myOldURI);
-			otherModel.getResource().setURI(otherOldURI);
-		}
+		ComparisonResourceSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
+		snap.setDate(new Date());
+		snap.setDiff(diff);
+		snap.setMatch(match);
+		return snap;
+	}
+
+	/**
+	 * Saves a model to a temporary file and reloads it as a resource, so we can "freeze"
+	 * the results of a comparison between two models.
+	 */
+	private Resource cloneToTmpFile() throws IOException {
+		final File myTmpFile = File.createTempFile("compare", ".model");
+		final URI myTmpFileURI = EmfUtil.createFileBasedURI(myTmpFile.getAbsolutePath());
+		this.store(myTmpFileURI);
+		final Resource myClonedResource = getResource().getResourceSet().createResource(myTmpFileURI);
+		myClonedResource.load(null);
+		return myClonedResource;
 	}
 }

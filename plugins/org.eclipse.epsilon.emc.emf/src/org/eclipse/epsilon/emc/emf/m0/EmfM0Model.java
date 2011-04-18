@@ -88,7 +88,7 @@ public class EmfM0Model extends EmfModel {
 		//copy.setMetamodelImpl(this.getMetamodelImpl());
 		copy.setModelImpl(this.getModelImpl());
 		copy.setReadOnLoad(this.isReadOnLoad());
-		copy.setStoredOnDisposal(this.isStoredOnDispoal());
+		copy.setStoredOnDisposal(this.isStoredOnDisposal());
 		copy.setName("Model");
 		
 		eolModule.getContext().getModelRepository().addModel(copy);

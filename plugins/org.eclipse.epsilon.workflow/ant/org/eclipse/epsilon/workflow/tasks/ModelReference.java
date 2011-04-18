@@ -135,8 +135,8 @@ public class ModelReference implements IComparableModel, IWrapper {
 		return target.isReadOnLoad();
 	}
 
-	public boolean isStoredOnDispoal() {
-		return target.isStoredOnDispoal();
+	public boolean isStoredOnDisposal() {
+		return target.isStoredOnDisposal();
 	}
 
 	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {

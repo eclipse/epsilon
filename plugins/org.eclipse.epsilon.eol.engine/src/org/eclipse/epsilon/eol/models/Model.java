@@ -135,7 +135,7 @@ public abstract class Model implements IModel{
 		return readOnLoad;
 	}
 
-	public boolean isStoredOnDispoal() {
+	public boolean isStoredOnDisposal() {
 		return storeOnDisposal;
 	}
 
@@ -156,7 +156,7 @@ public abstract class Model implements IModel{
 	}
 	
 	public void dispose() {
-		if (this.isStoredOnDispoal()){
+		if (this.isStoredOnDisposal()){
 			this.store();
 		}
 	}
