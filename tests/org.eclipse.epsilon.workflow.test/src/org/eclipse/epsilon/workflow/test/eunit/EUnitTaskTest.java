@@ -267,6 +267,11 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 				new HashSet<String>());
 	}
 
+	@Test
+	public void compareEMFWithEMFUsingGeneratedModels() throws Exception {
+		runTarget(ANT_BUILD_FILE, "emf-emf-generated");
+	}
+
 	/**
 	 * Checks that the JUnit-style XML reports are well-formed. There is no
 	 * official schema for these, so we have defined our own schema for internal

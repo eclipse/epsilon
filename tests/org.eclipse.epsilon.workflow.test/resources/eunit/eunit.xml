@@ -17,10 +17,12 @@
 		<property name="eunit.package" value="default" />
 
 		<epsilon.eunit src="${eunit.file}" todir="${eunit.todir}" failOnErrors="${eunit.failOnErrors}" package="${eunit.package}">
-			<epsilon.emf.loadModel
-				name="Model"
-			    modelfile="${elements1.model.location}"
-		        metamodelfile="${elements.metamodel.location}"/>
+			<models>
+				<epsilon.emf.loadModel
+					name="Model"
+					modelfile="${elements1.model.location}"
+					metamodelfile="${elements.metamodel.location}"/>
+			</models>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -36,10 +38,12 @@
 
 	<target name="allPassCustom">
 		<epsilon.eunit src="basic/all-pass.eunit" todir="${basedir}/..">
-			<epsilon.emf.loadModel
-				name="Model"
-			    modelfile="${elements1.model.location}"
-		        metamodelfile="${elements.metamodel.location}"/>
+			<models>
+				<epsilon.emf.loadModel
+					name="Model"
+					modelfile="${elements1.model.location}"
+					metamodelfile="${elements.metamodel.location}"/>
+			</models>
 		</epsilon.eunit>
 	</target>
 
@@ -93,14 +97,16 @@
 	<target name="withAnnotation">
 		<property name="eunit.file" location="with/basic-usage.eunit"/>
 		<epsilon.eunit src="${eunit.file}" failOnErrors="false">
-			<epsilon.emf.loadModel
-				name="A"
-			    modelfile="sample.model"
-		        metamodelfile="sample.ecore"/>
-			<epsilon.emf.loadModel
-				name="B"
-			    modelfile="sample2.model"
-		        metamodelfile="sample.ecore"/>
+			<models>
+				<epsilon.emf.loadModel
+					name="A"
+					modelfile="sample.model"
+					metamodelfile="sample.ecore"/>
+				<epsilon.emf.loadModel
+					name="B"
+					modelfile="sample2.model"
+					metamodelfile="sample.ecore"/>
+			</models>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -125,30 +131,55 @@
 
 	<target name="emf-emf">
 		<epsilon.eunit src="model-comparison/emf-emf.eunit" failonerrors="false">
-			<epsilon.emf.loadModel name="Tree"
-				modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
-				read="true" store="false"/>
-			<epsilon.emf.loadModel name="GraphExpected"
-				modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
-				read="true" store="false"/>
-			<epsilon.emf.loadModel name="GraphDifferent"
-				modelfile="${graph2.model.location}" metamodelfile="${graph.metamodel.location}"
-				read="true" store="false"/>
+			<models>
+				<epsilon.emf.loadModel name="Tree"
+					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+					read="true" store="false"/>
+				<epsilon.emf.loadModel name="GraphExpected"
+					modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
+					read="true" store="false"/>
+				<epsilon.emf.loadModel name="GraphDifferent"
+					modelfile="${graph2.model.location}" metamodelfile="${graph.metamodel.location}"
+					read="true" store="false"/>
 
-			<!-- empty model used as destination for the transformation -->
-			<epsilon.emf.loadModel name="Graph"
-				modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
-				read="false" store="false"/>
+				<!-- empty model used as destination for the transformation -->
+				<epsilon.emf.loadModel name="Graph"
+					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
+					read="false" store="false"/>
 
-			<epsilon.etl src="model-comparison/Tree2Graph.etl">
-				<model ref="Tree"/>
-				<model ref="Graph"/>
-			</epsilon.etl>
+				<epsilon.etl src="model-comparison/Tree2Graph.etl">
+					<model ref="Tree"/>
+					<model ref="Graph"/>
+				</epsilon.etl>
+			</models>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
 			<report format="noframes" todir="."/>
 		</junitreport>
+	</target>
+
+	<target name="emf-emf-generated">
+		<epsilon.eunit src="model-comparison/emf-emf-generated.eunit">
+			<models>
+				<!-- all models are empty: we'll generate them on the fly -->
+				<epsilon.emf.loadModel name="Tree"
+					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+					read="false" store="false"/>
+				<epsilon.emf.loadModel name="GraphExpected"
+					modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
+					read="false" store="false"/>
+				<epsilon.emf.loadModel name="Graph"
+					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
+					read="false" store="false"/>
+			</models>
+			<script name="tree2graph">
+				<epsilon.etl src="model-comparison/Tree2Graph.etl">
+					<model ref="Tree"/>
+					<model ref="Graph"/>
+				</epsilon.etl>
+			</script>
+		</epsilon.eunit>
 	</target>
 
 </project>

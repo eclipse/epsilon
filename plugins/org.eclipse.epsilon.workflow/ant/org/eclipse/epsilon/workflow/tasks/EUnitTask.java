@@ -14,7 +14,9 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
@@ -28,8 +30,8 @@ import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
 
@@ -39,19 +41,74 @@ import org.eclipse.epsilon.workflow.tasks.extensions.EUnitListenerExtension;
  * @author Antonio García-Domínguez
  * @version 1.0
  */
-public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestListener {
+public class EUnitTask extends ModuleTask implements EUnitTestListener {
+
+	/**
+	 * Class for a nested element which simply contains tasks.
+	 */
+	public class TaskCollection implements TaskContainer {
+		private List<Task> tasks = new ArrayList<Task>();
+
+		public void addTask(Task task) {
+			tasks.add(task);
+			if (task instanceof ModuleTask) {
+				ModuleTask moduleTask = (ModuleTask)task;
+
+				// The gui attribute of the EUnit Ant task is inherited by all nested tasks
+				moduleTask.setGUI(isGUI());
+			}
+		}
+
+		public void run() {
+			for (Task task : tasks) {
+				task.perform();
+			}
+		}
+	}
+
+	/**
+	 * Class for a nested element which contains tasks and has a name attribute.
+	 * When its name is changed, it will update the script repository in the enclosing
+	 * class.
+	 */
+	public class NamedTaskCollection extends TaskCollection {
+		private String name;
+
+		public void setName(String newName) {
+			scripts.remove(name);
+			name = newName;
+			scripts.put(newName, this);
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
 
 	/**
 	 * Operation which can call a series of Ant tasks described inside a
 	 * "script" nested element of this Ant task.
 	 */
-	private class RunScriptOperation extends AbstractOperation {
+	private class RunScriptOperation extends AbstractSimpleOperation {
+		@SuppressWarnings("rawtypes")
 		@Override
-		public Object execute(Object source, AST operationAst,
-				IEolContext context) throws EolRuntimeException {
-			// TODO Auto-generated method stub
-			System.out.println("It's-a me!");
-			return null;
+		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+			// Check that we only get the name of the script to be run
+			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
+				throw new EolRuntimeException("runScript only takes a String with the name of the <script> element to be run");
+			}
+			final String scriptName = (String)parameters.get(0);
+
+			// Check that the name of the script is not null and that the script has been declared
+			if (scriptName == null) {
+				throw new EolRuntimeException("The name of the script to be run cannot be null");
+			}
+			else if (!scripts.containsKey(scriptName)) {
+				throw new EolRuntimeException("The script '" + scriptName + "' has not been listed in the Ant buildfile");
+			}
+
+			scripts.get(scriptName).run();
+			return true;
 		}
 	}
 
@@ -68,24 +125,15 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 		}
 	}
 
-	private final List<Task> nestedTasks = new ArrayList<Task>();
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
+	private TaskCollection modelLoadingTasks;
+	private Map<String, NamedTaskCollection> scripts = new HashMap<String, NamedTaskCollection>();
 
 	public EUnitTask() {
 		// By default, the EUnit Ant task disables JFace-based user input,
 		// which hinders automated testing
 		setGUI(false);
-	}
-
-	public void addTask(Task task) {
-		nestedTasks.add(task);
-		if (task instanceof ModuleTask) {
-			ModuleTask moduleTask = (ModuleTask)task;
-
-			// The gui attribute of the EUnit Ant task is inherited by all nested tasks
-			moduleTask.setGUI(isGUI());
-		}
 	}
 
 	@Override
@@ -140,10 +188,8 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 			module.getContext().setUserInput(new JavaConsoleUserInput());
 		}
 
-		if (test.isLeafTest()) {
-			for (Task task : nestedTasks) {
-				task.perform();
-			}
+		if (test.isLeafTest() && modelLoadingTasks != null) {
+			modelLoadingTasks.run();
 		}
 	}
 
@@ -172,6 +218,17 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 				err.println();
 			}
 		}
+	}
+
+	// NESTED ELEMENTS
+
+	public TaskCollection createModels() {
+		modelLoadingTasks = new TaskCollection();
+		return modelLoadingTasks;
+	}
+
+	public NamedTaskCollection createScript() {
+		return new NamedTaskCollection();
 	}
 
 	// TEST REPORT METHODS
