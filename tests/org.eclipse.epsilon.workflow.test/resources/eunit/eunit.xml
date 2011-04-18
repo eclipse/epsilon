@@ -160,6 +160,10 @@
 	</target>
 
 	<target name="emf-emf-generated">
+		<!-- Note when running EMF comparisons: if you want to view the differences properly, you
+		     need to register permanently the EPackages of the metamodels and use the metamodeluri
+		     attribute, instead of the metamodelfile attribute. Otherwise, you get ugly exceptions
+		     when trying to compare features, for instance. -->
 		<epsilon.eunit src="model-comparison/emf-emf-generated.eunit">
 			<models>
 				<!-- all models are empty: we'll generate them on the fly -->
