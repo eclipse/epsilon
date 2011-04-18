@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.workflow.test;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -32,11 +33,11 @@ public abstract class WorkflowTestCase {
 	 * @param targetName Name of the target to be run.
 	 * @throws BuildException The build failed.
 	 */
-	public void runTarget(File buildFile, String targetName) {
+	public void runTarget(File buildFile, String targetName) throws BuildException, IOException {
 		Project project = new Project();
-		ProjectHelper2.configureProject(project, buildFile);
 		project.setProperty("ant.file", buildFile.getName());
 		addTaskDefinitionsTo(project);
+		ProjectHelper2.configureProject(project, buildFile);
 		project.executeTarget(targetName);
 	}
 

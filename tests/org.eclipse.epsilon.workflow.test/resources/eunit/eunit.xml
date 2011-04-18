@@ -1,12 +1,18 @@
 <project>
+
+	<property name="elements1.model.location" location="${basedir}/../models/elements1.model"/>
+	<property name="elements2.model.location" location="${basedir}/../models/elements1.model"/>
+	<property name="elements.metamodel.location" location="${basedir}/../metamodels/elements.ecore"/>
+
 	<target name="template">
 		<property name="eunit.todir" location="${basedir}" />
 		<property name="eunit.package" value="default" />
+
 		<epsilon.eunit src="${eunit.file}" todir="${eunit.todir}" failOnErrors="${eunit.failOnErrors}" package="${eunit.package}">
 			<epsilon.emf.loadModel
 				name="Model"
-			    modelfile="sample.model"
-		        metamodelfile="sample.ecore"/>
+			    modelfile="${elements1.model.location}"
+		        metamodelfile="${elements.metamodel.location}"/>
 		</epsilon.eunit>
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
@@ -15,69 +21,69 @@
 	</target>
 
 	<target name="allPass">
-		<property name="eunit.file" location="sample.eunit"/>
+		<property name="eunit.file" location="basic/all-pass.eunit"/>
 		<property name="eunit.failOnErrors" value="true"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="allPassCustom">
-		<epsilon.eunit src="sample.eunit" todir="${basedir}/..">
+		<epsilon.eunit src="basic/all-pass.eunit" todir="${basedir}/..">
 			<epsilon.emf.loadModel
 				name="Model"
-			    modelfile="sample.model"
-		        metamodelfile="sample.ecore"/>
+			    modelfile="${elements1.model.location}"
+		        metamodelfile="${elements.metamodel.location}"/>
 		</epsilon.eunit>
 	</target>
 
 	<target name="failure">
-		<property name="eunit.file" location="sample-failing.eunit"/>
+		<property name="eunit.file" location="basic/one-failure.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="failureFailOnError">
-		<property name="eunit.file" location="sample-failing.eunit"/>
+		<property name="eunit.file" location="basic/one-failure.eunit"/>
 		<property name="eunit.failOnErrors" value="true"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="error">
-		<property name="eunit.file" location="sample-error.eunit"/>
+		<property name="eunit.file" location="basic/one-error.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="parametricHandleErrors">
-		<property name="eunit.file" location="sample-parametric-handle-errors.eunit"/>
+		<property name="eunit.file" location="parametric/handle-errors.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="parametric1level">
-		<property name="eunit.file" location="sample-parametric-1level.eunit"/>
+		<property name="eunit.file" location="parametric/1level.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="parametric2levels">
-		<property name="eunit.file" location="sample-parametric-2levels.eunit"/>
+		<property name="eunit.file" location="parametric/2levels.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="package">
-		<property name="eunit.file" location="sample.eunit"/>
+		<property name="eunit.file" location="basic/all-pass.eunit"/>
 		<property name="eunit.failOnErrors" value="true"/>
 		<property name="eunit.package" value="mypackage"/>
 		<antcall target="template"/>
 	</target>
 
 	<target name="badImports">
-		<epsilon.eunit src="bad-imports.eunit"/>
+		<epsilon.eunit src="basic/bad-imports.eunit"/>
 	</target>
 
 	<target name="withAnnotation">
-		<property name="eunit.file" location="with-annotation.eunit"/>
+		<property name="eunit.file" location="with/basic-usage.eunit"/>
 		<epsilon.eunit src="${eunit.file}" failOnErrors="false">
 			<epsilon.emf.loadModel
 				name="A"
@@ -95,18 +101,33 @@
 	</target>
 
 	<target name="withAnnotationMissingModel">
-		<property name="eunit.file" location="with-annotation-missing-model.eunit"/>
+		<property name="eunit.file" location="with/missing-model.eunit"/>
 		<antcall target="withAnnotation"/>
 	</target>
 
 	<target name="withAnnotationCombineData">
-		<property name="eunit.file" location="with-annotation-combine-data.eunit"/>
+		<property name="eunit.file" location="with/combine-data.eunit"/>
 		<antcall target="withAnnotation"/>
 	</target>
 
 	<target name="withAnnotationCombineDataHandleErrors">
-		<property name="eunit.file" location="with-annotation-combine-data-handle-errors.eunit"/>
+		<property name="eunit.file" location="with/combine-data-handle-errors.eunit"/>
 		<antcall target="withAnnotation"/>
+	</target>
+
+	<target name="emf-emf">
+		<epsilon.eunit src="emf-emf.eunit">
+			<epsilon.emf.loadModel name="Graph"
+				modelfile="graph.model" metamodelfile="graph.ecore"
+				read="true" store="false"/>
+			<epsilon.emf.loadModel name="TreeExpected"
+				modelfile="tree.model" metamodelfile="tree.ecore"
+				read="true" store="false"/>
+			<epsilon.emf.loadModel name="Tree"
+				modelfile="tree.model" metamodelfile="tree.ecore"
+				read="false" store="false"/>
+			<epsilon.etl src="Tree2Graph.etl"/>
+		</epsilon.eunit>
 	</target>
 
 </project>

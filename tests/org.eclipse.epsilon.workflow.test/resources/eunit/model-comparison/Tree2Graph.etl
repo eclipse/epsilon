@@ -1,0 +1,11 @@
+rule Tree2Node 
+	transform t : Tree!Tree
+	to n : Graph!Node {
+	
+	n.name := t.label;
+	if (t.parent.isDefined()) {
+		var e : new Graph!Edge;
+		e.source ::= t.parent;
+		e.target := n;
+	}	
+}
