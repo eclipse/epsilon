@@ -328,24 +328,21 @@ public class EUnitModule extends EolModule {
 		 * and access the variables bound by the @data operations.
 		 */
 
-		// SETUP
-		// EUnitTask will listen to this event and run its nested Ant tasks
-		fireBeforeCase(node);
-		// Call the @setup operations
-		for (EolOperation opSetup : this.getSetups()) {
-			opSetup.execute(null, Collections.EMPTY_LIST, context, false);
-		}
-
 		// EXECUTION
 		try {
-		opTest.execute(null, Collections.EMPTY_LIST, context, false);
-		node.setResult(EUnitTestResultType.SUCCESS);
-		} finally {
-		// TEARDOWN
-		// Call the @teardown operations
-		for (EolOperation opTeardown : this.getTeardowns()) {
-			opTeardown.execute(null, Collections.EMPTY_LIST, context, false);
+			// Call the @setup operations
+			for (EolOperation opSetup : this.getSetups()) {
+				opSetup.execute(null, Collections.EMPTY_LIST, context, false);
+			}
+
+			opTest.execute(null, Collections.EMPTY_LIST, context, false);
+			node.setResult(EUnitTestResultType.SUCCESS);
 		}
+		finally {
+			// Call the @teardown operations
+			for (EolOperation opTeardown : this.getTeardowns()) {
+				opTeardown.execute(null, Collections.EMPTY_LIST, context, false);
+			}
 		}
 	}
 
