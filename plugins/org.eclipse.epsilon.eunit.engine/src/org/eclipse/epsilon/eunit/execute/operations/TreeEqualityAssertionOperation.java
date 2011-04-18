@@ -59,6 +59,10 @@ public class TreeEqualityAssertionOperation extends AbstractSimpleOperation {
 				fileExpected = copyToTemp(fileExpected);
 				fileActual   = copyToTemp(fileActual);
 			}
+			else {
+				// There are no differences: disable the 'Compare' button
+				fileExpected = fileActual = null;
+			}
 		} catch (Exception ex) {
 			throw new EolInternalException(ex);
 		}
@@ -71,7 +75,7 @@ public class TreeEqualityAssertionOperation extends AbstractSimpleOperation {
 		// trees were equal or not. If they are equal, there is no point
 		// in showing differences in the UI.
 		throw new EolAssertionException(
-			message, ast, fileExpected, fileActual, new Boolean(!mustBeEqual));				
+			message, ast, fileExpected, fileActual, null);
 	}
 
 	private static void checkFileExists(final File file) throws FileNotFoundException {

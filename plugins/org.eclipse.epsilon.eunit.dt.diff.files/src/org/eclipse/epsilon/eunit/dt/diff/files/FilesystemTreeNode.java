@@ -17,10 +17,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.IModificationDate;
 import org.eclipse.compare.IStreamContentAccessor;
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.structuremergeviewer.IStructureComparator;
+import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -85,7 +87,12 @@ public class FilesystemTreeNode
 
 	@Override
 	public Image getImage() {
-		return null;
+		if (file.isDirectory()) {
+			return CompareUI.getImage(FOLDER_TYPE);
+		}
+		else {
+			return CompareUI.getImage(TEXT_TYPE);
+		}
 	}
 
 	@Override
@@ -96,8 +103,7 @@ public class FilesystemTreeNode
 			}
 			return new FileInputStream(file);
 		} catch (FileNotFoundException e) {
-			// FIXME use proper logging here, after moving to eunit.dt
-			e.printStackTrace();
+			EUnitPlugin.getDefault().logException(e);
 			return null;
 		}
 	}
