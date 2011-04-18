@@ -34,6 +34,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
+import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 
 /**
  * Ant task for running EUnit test suites.
@@ -41,7 +42,7 @@ import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
  * @author Antonio García-Domínguez
  * @version 1.0
  */
-public class EUnitTask extends ModuleTask implements EUnitTestListener {
+public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener {
 
 	private static final String EUNIT_TEST_LISTENER_EXTENSION_POINT_ID = "org.eclipse.epsilon.workflow.eunit.listener";
 
@@ -53,8 +54,8 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 
 		public void addTask(Task task) {
 			tasks.add(task);
-			if (task instanceof ModuleTask) {
-				ModuleTask moduleTask = (ModuleTask)task;
+			if (task instanceof ExecutableModuleTask) {
+				ExecutableModuleTask moduleTask = (ExecutableModuleTask)task;
 
 				// The gui attribute of the EUnit Ant task is inherited by all nested tasks
 				moduleTask.setGUI(isGUI());
@@ -201,6 +202,11 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
 			fail("At least one test case had a failure or an error", test.getException());
 		}
+	}
+
+	@Override
+	public ModelNestedElement createModel() {
+		throw new UnsupportedOperationException("The <model> nested element cannot be used in the EUnit Ant task");
 	}
 
 	@Override
