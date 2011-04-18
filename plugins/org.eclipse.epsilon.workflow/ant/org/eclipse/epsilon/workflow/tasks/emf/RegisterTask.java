@@ -30,7 +30,7 @@ public class RegisterTask extends EpsilonTask {
 	@Override
 	public void executeImpl() throws BuildException {
 		if (!file.exists()) {
-			fail("File " + file.getAbsolutePath() + " doesn't exist");
+			fail("File " + file.getAbsolutePath() + " doesn't exist", null);
 		}
 		
 		try {
@@ -43,7 +43,7 @@ public class RegisterTask extends EpsilonTask {
 			                       .findFilesForLocationURI(location);
 			    if (workspaceFiles.length == 0) {
 			      fail("File " + file.getAbsolutePath()
-			           + " is not available in the current workspace");
+			           + " is not available in the current workspace", null);
 			    }
 			    else {
 			      // getFullPath() returns the workspace relative path
@@ -53,7 +53,7 @@ public class RegisterTask extends EpsilonTask {
 			    }
 			}
 		} catch (Exception e) {
-			fail(e.getMessage());
+			fail(e.getMessage(), e);
 		}
 
 	}

@@ -63,7 +63,20 @@ public class EUnitTest {
 	}
 
 	public Exception getException() {
-		return exception;
+		if (exception != null) {
+			return exception;
+		}
+
+		// Look in the children for an exception if this node does not have one
+		for (EUnitTest child : children) {
+			Exception ex = child.getException();
+			if (ex != null) {
+				return ex;
+			}
+		}
+
+		// No child had an exception, and we don't have one either: return null
+		return null;
 	}
 
 	public void setException(Exception exception) {

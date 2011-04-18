@@ -46,10 +46,9 @@ public abstract class EpsilonTask extends Task {
 	
 	public abstract void executeImpl() throws BuildException;
 	
-	protected void fail(String message) throws BuildException {
+	protected void fail(String message, Exception exception) throws BuildException {
 		if (failOnErrors) {
-			// getProjectRepository().dispose();
-			throw new BuildException(message);
+			throw new BuildException(message, exception);
 		}
 		else {
 			log(message, Project.MSG_ERR);

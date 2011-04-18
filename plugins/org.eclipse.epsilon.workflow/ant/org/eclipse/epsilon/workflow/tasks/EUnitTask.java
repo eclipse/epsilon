@@ -138,7 +138,7 @@ public class EUnitTask extends ModuleTask implements TaskContainer, EUnitTestLis
 			// Root node, with no operation (neither @data nor @test)
 			out.println("Global result: " + test.getResult() + sMillis);
 			if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
-				fail("At least one test case had a failure or an error");
+				fail("At least one test case had a failure or an error", test.getException());
 			}
 		}
 	}
