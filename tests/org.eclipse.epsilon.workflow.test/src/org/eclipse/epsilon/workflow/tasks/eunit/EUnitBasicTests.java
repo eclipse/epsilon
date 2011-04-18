@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitParseException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitParseException;
 import org.junit.Test;
 
 /**

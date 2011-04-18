@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.action.Action;

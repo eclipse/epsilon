@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.eunit;
+package org.eclipse.epsilon.internal.eunit.xml;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +30,10 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTest;
+import org.eclipse.epsilon.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

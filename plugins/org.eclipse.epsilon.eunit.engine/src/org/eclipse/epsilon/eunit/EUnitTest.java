@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - tree structure, time reporting
  ******************************************************************************/
-package org.eclipse.epsilon.eol.eunit;
+package org.eclipse.epsilon.eunit;
 
 import java.io.File;
 import java.util.ArrayList;

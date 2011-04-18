@@ -13,10 +13,10 @@ package org.eclipse.epsilon.eunit.dt.listener;
 import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTest;
-import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTest;
+import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView;
 import org.eclipse.swt.widgets.Display;

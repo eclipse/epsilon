@@ -11,9 +11,9 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
 
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTest;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;

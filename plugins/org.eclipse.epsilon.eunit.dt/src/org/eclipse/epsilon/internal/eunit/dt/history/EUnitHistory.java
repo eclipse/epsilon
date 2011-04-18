@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
 
 /**

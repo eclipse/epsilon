@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitModule;
 import org.junit.Test;
 
 /**

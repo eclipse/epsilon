@@ -24,10 +24,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
-import org.eclipse.epsilon.eol.eunit.EUnitModule;
-import org.eclipse.epsilon.eol.eunit.EUnitTest;
-import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
-import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -36,6 +32,10 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTest;
+import org.eclipse.epsilon.eunit.EUnitTestListener;
+import org.eclipse.epsilon.eunit.EUnitTestResultType;
 
 /**
  * Ant task for running EUnit test suites.

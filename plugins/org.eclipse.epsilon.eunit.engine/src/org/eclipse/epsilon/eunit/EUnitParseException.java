@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.eunit;
+package org.eclipse.epsilon.eunit;
 
 import java.util.List;
 

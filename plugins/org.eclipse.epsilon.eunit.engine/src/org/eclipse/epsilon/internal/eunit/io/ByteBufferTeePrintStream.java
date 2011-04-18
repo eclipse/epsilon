@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.eunit;
+package org.eclipse.epsilon.internal.eunit.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
  * @author Antonio García-Domínguez
  * @version 1.0
  */
-class ByteBufferTeePrintStream extends PrintStream {
+public class ByteBufferTeePrintStream extends PrintStream {
 
 	private final ByteArrayOutputStream bosStream = new ByteArrayOutputStream();
 

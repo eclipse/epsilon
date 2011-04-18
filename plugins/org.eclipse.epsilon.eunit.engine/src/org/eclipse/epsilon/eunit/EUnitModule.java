@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - test listeners, parametric testing
  ******************************************************************************/
-package org.eclipse.epsilon.eol.eunit;
+package org.eclipse.epsilon.eunit;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -36,6 +36,8 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
+import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
 public class EUnitModule extends EolModule {
 	
