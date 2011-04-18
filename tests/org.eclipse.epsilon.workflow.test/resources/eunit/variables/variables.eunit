@@ -1,0 +1,8 @@
+@test
+operation f() {
+  var x := 42;
+  exportVariable('x');
+  runScript('eol');
+  useVariable('y');
+  assertEquals(y, 43);
+}

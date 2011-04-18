@@ -16,6 +16,7 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.helper.ProjectHelper2;
+import org.eclipse.epsilon.workflow.tasks.EolTask;
 
 /**
  * Superclass for all test cases for the workflow classes, providing several
@@ -37,6 +38,7 @@ public abstract class WorkflowTestCase {
 		Project project = new Project();
 		project.setProperty("ant.file", buildFile.getName());
 		addTaskDefinitionsTo(project);
+		project.addTaskDefinition("epsilon.eol", EolTask.class);
 		ProjectHelper2.configureProject(project, buildFile);
 		project.executeTarget(targetName);
 	}

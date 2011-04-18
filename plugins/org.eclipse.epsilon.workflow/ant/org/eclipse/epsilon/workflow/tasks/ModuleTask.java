@@ -17,6 +17,8 @@ import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public abstract class ModuleTask extends EpsilonTask {
 
@@ -165,5 +167,63 @@ public abstract class ModuleTask extends EpsilonTask {
 	 */
 	public boolean isGUI() {
 		return isGUI;
+	}
+
+	protected void useVariable(final String var, final String as, final boolean optional) {
+		Variable usedVariable = getProjectStackFrame().get(var);
+
+		// FIXME : Remove this hack using a proper design!
+		if (usedVariable != null) {
+			Object value = usedVariable.getValue();
+			if (value instanceof IModel) {
+				IModel model = (IModel) value;
+				ModelReference reference = new ModelReference(model);
+				if (as != null) {
+					reference.setName(as);
+				}
+				else {
+					reference.setName(var);	
+				}
+				module.getContext().getModelRepository().addModel(reference);
+				return;
+			}
+		}
+		// ENDFIXME
+
+		if (usedVariable == null) {
+			if (getProject().getProperty(var) != null) {
+				usedVariable = new Variable(var, getProject().getProperty(var), EolPrimitiveType.String);
+			}
+		}
+	
+		if (usedVariable == null && !optional) throw new BuildException("Undefined variable " + var);
+		if (as != null) {
+			usedVariable.setName(as);
+		}
+		module.getContext().getFrameStack().getGlobals().put(usedVariable);
+	}
+
+	protected void exportVariable(String var, String as, final boolean optional) {
+		Variable exportedVariable = module.getContext().getFrameStack().get(var);
+
+		// FIXME : 2nd part of the hack
+		if (exportedVariable == null) {
+			IModel model = module.getContext().getModelRepository().getModelByNameSafe(var);
+			if (model != null) {
+				exportedVariable = Variable.createReadOnlyVariable(var, model);
+			}
+		}
+		// ENDFIXME
+
+		if (exportedVariable != null) {
+			if (as != null) {
+				exportedVariable.setName(as);
+			}
+			getProjectStackFrame().put(exportedVariable);
+		} else {
+			if (!optional) {
+				throw new BuildException("Variable " + var + " is undefined");
+			}
+		}
 	}
 }

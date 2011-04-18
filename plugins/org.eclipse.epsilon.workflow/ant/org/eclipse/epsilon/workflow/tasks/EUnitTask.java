@@ -115,6 +115,40 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 	}
 
 	/**
+	 * EUnit-specific operation which is equivalent to the "exports" nested element.
+	 */
+	private class ExportVariableOperation extends AbstractSimpleOperation {
+		@Override
+		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+			// Check that we only get the name of the script to be run
+			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
+				throw new EolRuntimeException("exportVariable only takes a String with the name of the variable to be exported");
+			}
+
+			final String varName = (String)parameters.get(0);
+			EUnitTask.this.exportVariable(varName, varName, false);
+			return true;
+		}
+	}
+
+	/**
+	 * EUnit-specific operation which is equivalent to the "imports" nested element.
+	 */
+	private class UseVariableOperation extends AbstractSimpleOperation {
+		@Override
+		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+			// Check that we only get the name of the script to be run
+			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
+				throw new EolRuntimeException("useVariable only takes a String with the name of the variable to be exported");
+			}
+
+			final String varName = (String)parameters.get(0);
+			EUnitTask.this.useVariable(varName, varName, false);
+			return true;
+		}
+	}
+
+	/**
 	 * OperationFactory which contributes runScript. As the behaviour of runScript
 	 * depends on the contents of the Ant task, this factory belongs to the Ant task,
 	 * rather than to the EUnitModule class.
@@ -124,6 +158,8 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 		protected void createCache() {
 			super.createCache();
 			operationCache.put("runScript", new RunScriptOperation());
+			operationCache.put("exportVariable", new ExportVariableOperation());
+			operationCache.put("useVariable", new UseVariableOperation());
 		}
 	}
 

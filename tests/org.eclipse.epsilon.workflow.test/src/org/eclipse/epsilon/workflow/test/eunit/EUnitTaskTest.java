@@ -272,6 +272,11 @@ public class EUnitTaskTest extends WorkflowTestCase implements ErrorHandler {
 		runTarget(ANT_BUILD_FILE, "emf-emf-generated");
 	}
 
+	@Test
+	public void variables() throws Exception {
+		runTarget(ANT_BUILD_FILE, "variables");
+	}
+
 	/**
 	 * Checks that the JUnit-style XML reports are well-formed. There is no
 	 * official schema for these, so we have defined our own schema for internal

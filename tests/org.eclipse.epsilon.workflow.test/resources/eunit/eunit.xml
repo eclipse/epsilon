@@ -186,4 +186,15 @@
 		</epsilon.eunit>
 	</target>
 
+	<target name="variables">
+		<epsilon.eunit src="variables/variables.eunit">
+			<script name="eol">
+				<epsilon.eol src="variables/variables.eol">
+					<uses ref="x" optional="false"/>
+					<exports ref="y" optional="false"/>
+				</epsilon.eol>
+			</script>
+		</epsilon.eunit>
+	</target>
+
 </project>
