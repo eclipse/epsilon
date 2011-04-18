@@ -261,7 +261,9 @@ public class EUnitTask extends ModuleTask implements EUnitTestListener {
 	// NESTED ELEMENTS
 
 	public TaskCollection createModels() {
-		modelLoadingTasks = new TaskCollection();
+		if (modelLoadingTasks == null) {
+			modelLoadingTasks = new TaskCollection();
+		}
 		return modelLoadingTasks;
 	}
 
