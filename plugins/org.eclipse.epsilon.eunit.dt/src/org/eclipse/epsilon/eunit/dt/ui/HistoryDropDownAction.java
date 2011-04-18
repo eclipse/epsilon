@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.eunit.EUnitModule;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
-import org.eclipse.epsilon.eunit.dt.history.EUnitHistory;
+import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IMenuListener;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.dt.ui;
+package org.eclipse.epsilon.internal.eunit.dt.diff;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

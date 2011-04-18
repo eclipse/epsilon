@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.dt.history;
+package org.eclipse.epsilon.internal.eunit.dt.history;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
