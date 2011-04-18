@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.emf;resolution:=optional,
  org.eclipse.epsilon.emc.composite,
  org.eclipse.epsilon.emc.plainxml,
- org.eclipse.epsilon.emc.hutn;bundle-version="0.8.0"
+ org.eclipse.epsilon.emc.hutn,
+ org.eclipse.epsilon.eunit.engine
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.emf,

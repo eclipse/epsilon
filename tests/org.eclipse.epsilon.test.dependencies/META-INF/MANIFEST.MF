@@ -8,6 +8,7 @@ Require-Bundle: org.hamcrest.matchers;visibility:=reexport,
  org.easymock;visibility:=reexport,
  org.eclipse.epsilon.dependencies;visibility:=reexport,
  org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.eunit.engine;visibility:=reexport,
  org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.hutn.engine;visibility:=reexport,
  org.mockito_1.8.4;visibility:=reexport
