@@ -79,7 +79,7 @@ public class EqualityAssertionOperation extends AbstractSimpleOperation {
 
 		// There shouldn't be any unprocessed parameters now
 		if (!parameters.isEmpty()) {
-			throw new EolAssertionException("Illegal number of arguments or wrong types", ast);
+			throw new EolRuntimeException("Illegal number of arguments or wrong types", ast);
 		}
 
 		String expected;
@@ -131,7 +131,7 @@ public class EqualityAssertionOperation extends AbstractSimpleOperation {
 			}
 		}
 
-		throw new EolAssertionException(message.toString(), ast);
+		throw new EolAssertionException(message.toString(), ast, expected, obtained, null);
 	}
 
 }

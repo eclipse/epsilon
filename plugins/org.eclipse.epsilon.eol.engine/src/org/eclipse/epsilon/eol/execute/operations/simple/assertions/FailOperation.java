@@ -34,7 +34,7 @@ public class FailOperation extends AbstractSimpleOperation {
 		if (parameters.size() > 0) {
 			msg = parameters.get(0);
 		}
-		throw new EolAssertionException(msg.toString(), ast);
+		throw new EolAssertionException(msg.toString(), ast, null, null, null);
 	}
 
 }

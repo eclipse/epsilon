@@ -38,7 +38,7 @@ public class AssertOperation extends AbstractSimpleOperation {
 		
 		if (conditionSatisfied(condition)) return null;
 		
-		throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast);
+		throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast, true, false, null);
 	}
 	
 	public boolean conditionSatisfied(Object condition) {

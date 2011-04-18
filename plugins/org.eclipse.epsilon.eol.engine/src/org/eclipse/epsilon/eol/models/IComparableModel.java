@@ -13,15 +13,22 @@ package org.eclipse.epsilon.eol.models;
 public interface IComparableModel extends IModel {
 
 	/**
-	 * Returns <code>true</code> if the other model has the same contents as
-	 * this one. Unique identifiers may be ignored: the main object of this
-	 * comparison is to test model transformations, which tend to produce
-	 * different unique identifiers each time they are run.
+	 * Returns an object with the differences between this model and
+	 * <code>otherModel</code>. If there are no differences, returns
+	 * <code>null</code>.
+	 *
+	 * The exact configuration of the comparison depends on the model. For
+	 * instance, unique identifiers (such as XMI IDs) may be ignored if the main
+	 * object of these comparisons is to test model transformations. These tend
+	 * to produce different unique identifiers each time they are run.
 	 * 
 	 * @throws IllegalArgumentException
 	 *             The models cannot be compared: for instance, they use
 	 *             incompatible drivers.
+	 * @throws Exception
+	 *             There was some other kind of problem when performing the
+	 *             comparison.
 	 */
-	public abstract boolean hasSameContentsAs(IComparableModel otherModel);
+	public abstract Object computeDifferencesWith(IComparableModel otherModel) throws Exception;
 
 }

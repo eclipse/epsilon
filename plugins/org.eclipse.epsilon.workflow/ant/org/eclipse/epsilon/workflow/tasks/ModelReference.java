@@ -185,9 +185,9 @@ public class ModelReference implements IComparableModel, IWrapper {
 		return target;
 	}
 
-	public boolean hasSameContentsAs(IComparableModel actualModel) {
+	public Object computeDifferencesWith(IComparableModel actualModel) throws Exception {
 		if (target instanceof IComparableModel) {
-			return ((IComparableModel)target).hasSameContentsAs(actualModel);
+			return ((IComparableModel)target).computeDifferencesWith(actualModel);
 		}
 		throw new IllegalArgumentException("Target model is not a comparable model");
 	}	

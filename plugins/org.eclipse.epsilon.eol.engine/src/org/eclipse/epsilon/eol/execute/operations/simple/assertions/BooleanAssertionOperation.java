@@ -69,7 +69,7 @@ public class BooleanAssertionOperation extends AbstractSimpleOperation {
 
 		boolean bResult = evaluateCondition(condition);
 		if (bResult != fExpected) {
-			throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast);
+			throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast, fExpected, bResult, null);
 		}
 		else {
 			return null;

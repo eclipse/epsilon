@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
@@ -67,7 +68,13 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		// Perform the comparison
 		final IComparableModel expectedCModel = (IComparableModel)expectedModel;
 		final IComparableModel actualCModel = (IComparableModel)actualModel;
-		if (expectedCModel.hasSameContentsAs(actualCModel) == mustBeEqual) {
+		Object delta;
+		try {
+			delta = expectedCModel.computeDifferencesWith(actualCModel);
+		} catch (Exception e) {
+			throw new EolInternalException(e);
+		}
+		if ((delta == null) == mustBeEqual) {
 			return true;
 		}
  
@@ -80,7 +87,7 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 			}
 		}
 
-		throw new EolAssertionException(message.toString(), ast);
+		throw new EolAssertionException(message.toString(), ast, expectedCModel, actualCModel, delta);
 	}
 
 }

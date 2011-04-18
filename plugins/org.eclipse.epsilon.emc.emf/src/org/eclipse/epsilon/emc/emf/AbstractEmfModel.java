@@ -10,18 +10,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
+import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.MatchOptions;
@@ -48,7 +52,6 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IComparableModel;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public abstract class AbstractEmfModel extends CachedModel<EObject> implements IComparableModel {
@@ -529,22 +532,47 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		this.expand = expand;
 	}
 
-	public boolean hasSameContentsAs(IComparableModel model) {
+	public Object computeDifferencesWith(IComparableModel model) throws IOException, InterruptedException {
+		// Check if the other model is compatible
 		if (!(model instanceof AbstractEmfModel)) {
 			throw new IllegalArgumentException("Cannot compare an EMF model with a non-EMF model");
 		}
+		final AbstractEmfModel otherModel = (AbstractEmfModel)model;
+
+		// For later viewing, we need to save the models to temporary files before computing the diffs
+		final File myTmpFile    = File.createTempFile("compare", ".model");
+		final File otherTmpFile = File.createTempFile("compare", ".model");
+		final URI myOldURI      = getResource().getURI();
+		final URI otherOldURI   = otherModel.getResource().getURI();
 
 		final AbstractEmfModel other = (AbstractEmfModel)model;
 		try {
+			this.getResource().setURI(EmfUtil.createFileBasedURI(myTmpFile.getAbsolutePath()));
+			this.store();
+			otherModel.getResource().setURI(EmfUtil.createFileBasedURI(otherTmpFile.getAbsolutePath()));
+			otherModel.store();
+
 			final HashMap<String, Object> options = new HashMap<String, Object>();
 			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 			MatchModel match = MatchService.doResourceMatch(this.getResource(), other.getResource(), options);
 			DiffModel diff = DiffService.doDiff(match);
-			return diff.getDifferences().isEmpty();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+			if (diff.getDifferences().isEmpty()) {
+				// If no differences have been computed, we can remove the temporary copies of the
+				// models: we do not need them at all.
+				myTmpFile.delete();
+				otherTmpFile.delete();
+				return null;
+			}
 
-		return false;
+			ComparisonResourceSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
+			snap.setDate(new Date());
+			snap.setDiff(diff);
+			snap.setMatch(match);
+			return snap;
+		}
+		finally {
+			getResource().setURI(myOldURI);
+			otherModel.getResource().setURI(otherOldURI);
+		}
 	}
 }
