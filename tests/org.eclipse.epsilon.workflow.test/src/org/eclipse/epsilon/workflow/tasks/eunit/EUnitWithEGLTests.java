@@ -68,6 +68,39 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 				)));
 	}
 
+	@Test
+	public void dirTests() throws Exception {
+		runTarget(ANT_BUILD_FILE, "egl-dir-tests");
+		String[] passedNames = generateCaseNames("shouldPass", 9);
+		String[] failedNames = generateCaseNames("shouldFail", passedNames.length);
+		String[] interlaced  = interlace(passedNames, failedNames);
+
+		checkOutput(new File(BASE_DIR, "TEST-default.dir-tests.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				interlaced,
+				new HashSet<String>(Arrays.asList(failedNames)),
+				new HashSet<String>());
+	}
+
+	private String[] interlace(String[] left, String[] right) {
+		assert left.length == right.length;
+		String[] interlaced = new String[left.length + right.length];
+		int j = 0;
+		for (int i = 0; i < left.length; ++i) {
+			interlaced[j++] = left[i];
+			interlaced[j++] = right[i];
+		}
+		return interlaced;
+	}
+
+	private String[] generateCaseNames(final String prefix, final int length) {
+		String[] strings = new String[length];
+		for (int i = 0; i < strings.length; ++i) {
+			strings[i] = prefix + "[" + (i + 1) + "]";
+		}
+		return strings;
+	}
+
 	private void deleteRecursively(File file) {
 		if (!file.exists()) return;
 

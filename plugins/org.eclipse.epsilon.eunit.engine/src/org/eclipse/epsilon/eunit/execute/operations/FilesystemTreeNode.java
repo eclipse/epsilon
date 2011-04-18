@@ -91,6 +91,9 @@ public class FilesystemTreeNode
 	@Override
 	public InputStream getContents() {
 		try {
+			if (file.isDirectory()) {
+				return null;
+			}
 			return new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			// FIXME use proper logging here, after moving to eunit.dt
@@ -99,4 +102,26 @@ public class FilesystemTreeNode
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "FileSystemTreeNode[" + file.getPath() + "]";
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		// Eclipse's differencer needs this to properly match files with
+		// the same name in the left and right directories. We must not
+		// take into account the content of the file/directory: Eclipse
+		// will do that separately.
+		if (other instanceof FilesystemTreeNode) {
+			final FilesystemTreeNode otherNode = (FilesystemTreeNode)other;
+			return getName().equals(otherNode.getName());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

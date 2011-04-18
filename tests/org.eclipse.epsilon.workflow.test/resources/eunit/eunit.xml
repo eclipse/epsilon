@@ -264,9 +264,10 @@
 	</target>
 
 	<target name="egl-dir-tests">
-	</target>
-
-	<target name="egl-2leveldir-tests">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.eunit src="egl/dir-tests.eunit" failOnErrors="false">
+			<parameter name="basedir" value="${basedir}"/>
+		</epsilon.eunit>
 	</target>
 
 	<!-- Custom targets used from within the EUnit tests -->
@@ -296,6 +297,14 @@
 
 	<target name="tree2text">
 		<epsilon.egl src="egl/tree2text.egl" target="${basedir}/../../generated/tree.txt">
+			<model ref="Tree"/>
+		</epsilon.egl>
+	</target>
+
+	<target name="tree2dirs">
+		<epsilon.egl src="egl/tree2dirs.egl">
+			<uses  ref="basedir"/>
+			<uses  ref="prefix"/>
 			<model ref="Tree"/>
 		</epsilon.egl>
 	</target>
