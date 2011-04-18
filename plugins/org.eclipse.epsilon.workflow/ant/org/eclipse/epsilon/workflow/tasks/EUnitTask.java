@@ -30,9 +30,11 @@ import org.eclipse.epsilon.eol.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eol.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.ModelRepository;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 
 /**
@@ -63,14 +65,8 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 		public void run() {
 			// We trick tasks into using the EUnit model repository instead of the project's
-			final ModelRepository projectRepo = getProjectRepository();
-			try {
-				setProjectRepository(module.getContext().getModelRepository());
-				for (Task task : tasks) {
-					task.perform();
-				}
-			} finally {
-				setProjectRepository(projectRepo);
+			for (Task task : tasks) {
+				task.perform();
 			}
 		}
 	}
@@ -95,14 +91,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			}
 
 			// Run tasks, ensuring they manipulate our model repository instead of the project's
-			final ModelRepository projectRepo = getProjectRepository();
-			try {
-				setProjectRepository(module.getContext().getModelRepository());
-				getProject().executeTarget(targetName);
-			} finally {
-				setProjectRepository(projectRepo);
-			}
-
+			getProject().executeTarget(targetName);
 			return true;
 		}
 	}
@@ -186,6 +175,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 	private TaskCollection modelLoadingTasks;
+	private ModelRepository oldProjectRepository;
 
 	public EUnitTask() {
 		// By default, the EUnit Ant task disables JFace-based user input,
@@ -229,6 +219,8 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (module == null) {
 			module = new EUnitModule();
 			module.getContext().setOperationFactory(new RunTargetOperationFactory());
+			module.getContext().getFrameStack().put(
+				new Variable("antProject", getProject(), new EolAnyType(), true));
 		}
 		return module;
 	}
@@ -251,6 +243,12 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			} catch (Exception e) {
 				fail("Exception while repopulating the model repository", e);
 			}
+
+			// We need to trick the other Ant tasks into loading models into this module's repository.
+			// These may be run from <modelTasks> or from the @model operations
+			oldProjectRepository = getProjectRepository();
+			setProjectRepository(module.getContext().getModelRepository());
+
 			// Run the <modelTasks>
 			if (modelLoadingTasks != null) {
 				modelLoadingTasks.run();
@@ -259,7 +257,11 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	public void afterCase(EUnitModule module, EUnitTest test) {
-		module.getContext().getModelRepository().dispose();
+		// Restore the original model repository for the project after running the test
+		if (test.isLeafTest()) {
+			setProjectRepository(oldProjectRepository);
+			module.getContext().getModelRepository().dispose();
+		}
 
 		final PrintStream out = module.getContext().getOutputStream();
 		final PrintStream err = module.getContext().getErrorStream();

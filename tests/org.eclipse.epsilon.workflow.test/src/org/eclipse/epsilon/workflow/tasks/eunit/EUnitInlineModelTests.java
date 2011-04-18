@@ -21,6 +21,11 @@ public class EUnitInlineModelTests extends EUnitTestCase {
 
 	@Test
 	public void inlineHutnModelsWork() throws Exception {
-		runTarget(ANT_BUILD_FILE, "hutn");
+		runTarget(ANT_BUILD_FILE, "inline-hutn");
+	}
+
+	@Test
+	public void inlineAntTasksWork() throws Exception {
+		runTarget(ANT_BUILD_FILE, "inline-emf");
 	}
 }

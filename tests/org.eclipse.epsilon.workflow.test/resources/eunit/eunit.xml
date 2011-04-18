@@ -245,9 +245,13 @@
 
 	<!-- Inline model tests -->
 
-	<target name="hutn">
+	<target name="inline-hutn">
 		<epsilon.emf.register file="${tree.metamodel.location}"/>
 		<epsilon.eunit src="inline/hutn.eunit"/>
+	</target>
+
+	<target name="inline-emf">
+		<epsilon.eunit src="inline/emf.eunit"/>
 	</target>
 
 	<!-- Custom targets used from within the EUnit tests -->
