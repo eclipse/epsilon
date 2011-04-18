@@ -70,7 +70,7 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		final IComparableModel actualCModel = (IComparableModel)actualModel;
 		Object delta;
 		try {
-			delta = expectedCModel.computeDifferencesWith(actualCModel);
+			delta = actualCModel.computeDifferencesWith(expectedCModel);
 		} catch (Exception e) {
 			throw new EolInternalException(e);
 		}

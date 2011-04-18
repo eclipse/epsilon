@@ -63,10 +63,10 @@ public class StringCompareEditorInput extends CompareEditorInput {
 		}
 	}
 
-	public StringCompareEditorInput(CompareConfiguration configuration, String left, String right) {
+	public StringCompareEditorInput(CompareConfiguration configuration, String obtained, String expected) {
 		super(configuration);
-		this.left = left;
-		this.right = right;
+		this.left = obtained;
+		this.right = expected;
 	}
 
 	@Override

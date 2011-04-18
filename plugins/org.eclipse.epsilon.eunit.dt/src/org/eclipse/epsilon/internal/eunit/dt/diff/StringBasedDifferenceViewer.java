@@ -30,13 +30,13 @@ public class StringBasedDifferenceViewer implements IDifferenceViewer {
 	@Override
 	public void compare(Object expected, Object actual, Object delta) {
 		CompareConfiguration cc = new CompareConfiguration();
-		cc.setLeftLabel("Expected value");
-		cc.setRightLabel("Actual value");
+		cc.setLeftLabel("Obtained value");
+		cc.setRightLabel("Expected value");
 		CompareUI.openCompareEditor(
 			new StringCompareEditorInput(
 				cc,
-				"" + expected,
-				"" + actual),
+				"" + actual,
+				"" + expected),
 			true);
 	}
 

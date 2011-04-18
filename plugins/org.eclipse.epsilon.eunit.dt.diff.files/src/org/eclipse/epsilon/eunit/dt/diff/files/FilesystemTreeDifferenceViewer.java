@@ -38,12 +38,12 @@ public class FilesystemTreeDifferenceViewer implements IDifferenceViewer {
 		final FilesystemTreeNode actual = new FilesystemTreeNode(fileActual);
 		final Differencer diffEngine = new Differencer();
 		DiffNode diffNode =
-			(DiffNode)diffEngine.findDifferences(false, null, null, null, expected, actual);
+			(DiffNode)diffEngine.findDifferences(false, null, null, null, actual, expected);
 
 		// Show the differences in the UI
 		CompareConfiguration config = new CompareConfiguration();
-		config.setLeftLabel("Expected");
-		config.setRightLabel("Obtained");
+		config.setLeftLabel("Obtained");
+		config.setRightLabel("Expected");
 		config.setLeftEditable(false);
 		config.setRightEditable(false);
 
