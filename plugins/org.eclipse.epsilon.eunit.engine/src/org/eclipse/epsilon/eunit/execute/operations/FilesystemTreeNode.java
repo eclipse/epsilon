@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Antonio Garcia-Dominguez - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.epsilon.eunit.execute.operations;
 
 import java.io.File;
@@ -13,6 +23,9 @@ import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.structuremergeviewer.IStructureComparator;
 import org.eclipse.swt.graphics.Image;
 
+/**
+ * Node for the difference engine which wraps a regular file.
+ */
 public class FilesystemTreeNode
 	implements IStructureComparator, IModificationDate, ITypedElement, IStreamContentAccessor
 {
