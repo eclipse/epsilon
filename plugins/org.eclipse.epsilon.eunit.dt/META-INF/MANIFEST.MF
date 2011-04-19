@@ -5,19 +5,21 @@ Bundle-SymbolicName: org.eclipse.epsilon.eunit.dt;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.eunit.dt.EUnitPlugin
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.debug.ui;bundle-version="3.6.0",
- org.eclipse.epsilon.eol.dt;bundle-version="0.9.0",
- org.eclipse.epsilon.eol.engine;bundle-version="0.9.0",
- org.eclipse.epsilon.eunit.engine;bundle-version="0.9.0",
- org.eclipse.epsilon.common.dt;bundle-version="0.9.0",
- org.eclipse.ui.ide;bundle-version="3.6.0",
- org.eclipse.ui.workbench.texteditor;bundle-version="3.6.0",
- org.eclipse.jface.text;bundle-version="3.6.0",
- org.eclipse.ant.launching;bundle-version="1.0.0",
- org.eclipse.compare;bundle-version="3.5.100"
+Require-Bundle: org.eclipse.debug.ui,
+ org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.eunit.engine,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text,
+ org.eclipse.ant.launching,
+ org.eclipse.compare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eunit.dt,
  org.eclipse.epsilon.eunit.dt.diff,
  org.eclipse.epsilon.eunit.dt.listener,
- org.eclipse.epsilon.eunit.dt.ui
+ org.eclipse.epsilon.eunit.dt.ui,
+ org.eclipse.epsilon.internal.eunit.dt.diff,
+ org.eclipse.epsilon.internal.eunit.dt.history
