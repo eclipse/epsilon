@@ -9,3 +9,4 @@ Export-Package: org.antlr.runtime,
  org.antlr.runtime.misc,
  org.antlr.runtime.tree
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .
