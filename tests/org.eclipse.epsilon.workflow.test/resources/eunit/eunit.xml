@@ -169,6 +169,36 @@
 		</junitreport>
 	</target>
 
+	<target name="emf-emf-refs">
+		<epsilon.emf.loadModel name="Tree"
+			modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+			read="true" store="false"/>
+		<epsilon.emf.loadModel name="GraphExpected"
+			modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
+			read="true" store="false"/>
+		<epsilon.emf.loadModel name="GraphDifferent"
+			modelfile="${graph2.model.location}" metamodelfile="${graph.metamodel.location}"
+			read="true" store="false"/>
+
+		<!-- empty model used as destination for the transformation -->
+		<epsilon.emf.loadModel name="Graph"
+			modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
+			read="false" store="false"/>
+
+		<epsilon.eunit src="model-comparison/emf-emf.eunit" failonerrors="false">
+			<model ref="Tree"/>
+			<model ref="Graph"/>
+			<model ref="GraphExpected"/>
+			<model ref="GraphDifferent"/>
+			<modelTasks>
+				<epsilon.etl src="model-comparison/Tree2Graph.etl">
+					<model ref="Tree"/>
+					<model ref="Graph"/>
+				</epsilon.etl>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+
 	<target name="emf-emf-generated">
 		<!-- Note when running EMF comparisons: if you want to view the differences properly, you
 		     need to register permanently the EPackages of the metamodels and use the metamodeluri
@@ -248,6 +278,17 @@
 	<target name="inline-hutn">
 		<epsilon.emf.register file="${tree.metamodel.location}"/>
 		<epsilon.eunit src="inline/hutn.eunit"/>
+	</target>
+
+	<target name="inline-hutn-compare" description="Tests that regular EMF and HUTN-based models can be compared">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.eunit src="inline/hutn-compare.eunit">
+			<modelTasks>
+				<epsilon.emf.loadModel name="TreeEMF"
+					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+					read="true" store="false"/>
+			</modelTasks>
+		</epsilon.eunit>
 	</target>
 
 	<target name="inline-emf">

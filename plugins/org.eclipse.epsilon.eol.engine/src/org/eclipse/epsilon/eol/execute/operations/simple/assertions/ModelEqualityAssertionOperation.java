@@ -16,6 +16,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.IComparableModel;
@@ -51,23 +52,14 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 			message = parameters.remove(0);
 		}
 
-		// Extract the other arguments and check they are comparable models
+		// Extract the other arguments and check they are comparable models, following
+		// model references if required.
 		String expectedModelName = (String)parameters.remove(0);
 		String actualModelName = (String)parameters.remove(0);
-		final IModel expectedModel = context.getModelRepository().getModelByName(expectedModelName);
-		final IModel actualModel = context.getModelRepository().getModelByName(actualModelName);
-		if (!(expectedModel instanceof IComparableModel)) {
-			throw new IllegalArgumentException(
-				String.format("The expected model '%s' does not support comparison", expectedModelName));
-		}
-		else if (!(actualModel instanceof IComparableModel)) {
-			throw new IllegalArgumentException(
-				String.format("The actual model '%s' does not support comparison", actualModelName));
-		}
+		final IComparableModel expectedCModel = getComparableModel(context, expectedModelName);
+		final IComparableModel actualCModel = getComparableModel(context, actualModelName);
 
 		// Perform the comparison
-		final IComparableModel expectedCModel = (IComparableModel)expectedModel;
-		final IComparableModel actualCModel = (IComparableModel)actualModel;
 		Object delta;
 		try {
 			delta = actualCModel.computeDifferencesWith(expectedCModel);
@@ -89,6 +81,17 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		else {
 			throw new EolAssertionException(message.toString(), ast, null, null, null);
 		}
+	}
+
+	private IComparableModel getComparableModel(IEolContext context, String name)
+		throws EolModelNotFoundException
+	{
+		IModel expectedModel = context.getModelRepository().getModelByName(name);
+		if (!(expectedModel instanceof IComparableModel)) {
+			throw new IllegalArgumentException(
+				String.format("The model '%s' does not support comparison", name));
+		}
+		return (IComparableModel)expectedModel;
 	}
 
 }

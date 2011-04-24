@@ -52,6 +52,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IAdaptableModel;
 import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
@@ -535,7 +536,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 	}
 
 	public Object computeDifferencesWith(IComparableModel model) throws IOException, InterruptedException {
-		// Check if the other model is compatible
+		// If the other model is not a pure EMF model, it may need to be adapted
+		if (model instanceof IAdaptableModel) {
+			final IAdaptableModel adapModel = (IAdaptableModel)model;
+			model = adapModel.adaptTo(AbstractEmfModel.class);
+		}
 		if (!(model instanceof AbstractEmfModel)) {
 			throw new IllegalArgumentException("Cannot compare an EMF model with a non-EMF model");
 		}

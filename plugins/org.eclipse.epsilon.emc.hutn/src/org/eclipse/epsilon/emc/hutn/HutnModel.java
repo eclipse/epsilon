@@ -28,6 +28,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.models.IAdaptableModel;
+import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.hutn.HutnModule;
@@ -37,7 +39,7 @@ import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 
 
-public class HutnModel extends Model implements IReflectiveModel {
+public class HutnModel extends Model implements IComparableModel, IAdaptableModel, IReflectiveModel {
 
 	public static final String PROPERTY_SOURCE_FILE = "sourceFile";
 	
@@ -226,5 +228,18 @@ public class HutnModel extends Model implements IReflectiveModel {
 
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return model.hasProperty(type, property);
+	}
+
+	public <T> T adaptTo(Class<T> modelType) {
+		if (modelType.isInstance(model)) {
+			return modelType.cast(model);
+		}
+		else {
+			return null;
+		}
+	}
+
+	public Object computeDifferencesWith(IComparableModel otherModel) throws Exception {
+		return model.computeDifferencesWith(otherModel);
 	}
 }

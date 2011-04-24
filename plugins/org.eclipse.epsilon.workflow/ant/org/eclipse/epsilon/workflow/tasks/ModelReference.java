@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2011 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - implemented IComparableModel and IAdaptableModel
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
@@ -23,12 +24,13 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
+import org.eclipse.epsilon.eol.models.IAdaptableModel;
 import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public class ModelReference implements IComparableModel, IWrapper {
-	
+public class ModelReference implements IComparableModel, IAdaptableModel, IWrapper {
+
 	protected IModel target;
 	protected String name;
 	protected List<String> aliases = new ArrayList<String>();
@@ -185,10 +187,24 @@ public class ModelReference implements IComparableModel, IWrapper {
 		return target;
 	}
 
-	public Object computeDifferencesWith(IComparableModel actualModel) throws Exception {
-		if (target instanceof IComparableModel) {
-			return ((IComparableModel)target).computeDifferencesWith(actualModel);
+	public <T> T adaptTo(Class<T> modelType) {
+		if (modelType.isInstance(target)) {
+			return modelType.cast(target);
 		}
-		throw new IllegalArgumentException("Target model is not a comparable model");
-	}	
+		else {
+			return null;
+		}
+	}
+
+	public Object computeDifferencesWith(IComparableModel otherModel) throws Exception {
+		if (target instanceof IComparableModel) {
+			return ((IComparableModel)target).computeDifferencesWith(otherModel);
+		}
+		else {
+			throw new IllegalArgumentException(
+				"Target model "
+					+ target.getName()
+					+ " does not support model comparison");
+		}
+	}
 }
