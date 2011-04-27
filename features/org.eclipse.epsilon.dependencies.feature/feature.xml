@@ -234,7 +234,7 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.hamcrest.matchers"
+         id="org.hamcrest.matchers_1.2"
          download-size="0"
          install-size="0"
          version="0.0.0"
