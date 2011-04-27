@@ -10,7 +10,7 @@ Require-Bundle: org.h2_1.1.117,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.common.dt,
- org.hamcrest.matchers,
+ org.hamcrest.matchers_1.2,
  org.eclipse.epsilon.commons,
  org.eclipse.epsilon.concordance.core.hashing
 Export-Package: org.eclipse.epsilon.concordance.db,
