@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Hamcrest Matchers
 Bundle-SymbolicName: org.hamcrest.matchers_1.2
-Bundle-Version: 0.8.0.qualifier
+Bundle-Version: 1.2
 Bundle-ClassPath: .
 Export-Package: org.hamcrest,
  org.hamcrest.beans,
