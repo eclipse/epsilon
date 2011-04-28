@@ -8,27 +8,27 @@ operation validateTree(tree, label) {
 operation valid() {
   var tree := new Tree!Tree;
   var errors := validateTree(tree, 't1n');
-  assertEquals(0, errors.size());
+  assertEquals(0, errors.size);
 }
 
 @test
 operation error() {
   var tree := new Tree!Tree;
   var errors := validateTree(tree, '1n');
-  assertEquals(1, errors.size());
-  var error := errors.first();
-  assertEquals(tree, error.getInstance());
-  assertEquals(false, error.getConstraint().isCritique());
-  assertEquals('LabelsStartWithT', error.getConstraint().getName());
+  assertEquals(1, errors.size);
+  var error := errors.first;
+  assertEquals(tree, error.instance);
+  assertEquals(false, error.constraint.isCritique);
+  assertEquals('LabelsStartWithT', error.constraint.name);
 }
 
 @test
 operation warning() {
   var tree := new Tree!Tree;
   var errors := validateTree(tree, 't1');
-  assertEquals(1, errors.size());
-  var error := errors.first();
-  assertEquals(tree, error.getInstance());
-  assertEquals(true, error.getConstraint().isCritique());
-  assertEquals('LabelsEndInN', error.getConstraint().getName());
+  assertEquals(1, errors.size);
+  var error := errors.first;
+  assertEquals(tree, error.instance);
+  assertEquals(true, error.constraint.isCritique);
+  assertEquals('LabelsEndInN', error.constraint.name);
 }
