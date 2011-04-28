@@ -16,8 +16,8 @@ import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.FlockContext;
 import org.eclipse.epsilon.flock.FlockModule;
+import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.dt.FlockDebugger;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
@@ -36,7 +36,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	@Override
 	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
 		super.preExecute(module);
-		FlockContext context = (FlockContext) module.getContext();
+		IFlockContext context = (IFlockContext) module.getContext();
 		try {
 			context.setOriginalModel(configuration.getAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, -1));
 			context.setMigratedModel(configuration.getAttribute(FlockLaunchConfigurationAttributes.MIGRATED_MODEL, -1));
