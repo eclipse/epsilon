@@ -3,14 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Test Dependencies (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.test.dependencies
 Bundle-Version: 0.8.4.qualifier
-Require-Bundle: org.junit4;visibility:=reexport,
+Require-Bundle: org.hamcrest.matchers_1.2;visibility:=reexport,
+ org.junit4;visibility:=reexport,
  org.eclipse.epsilon.dependencies;visibility:=reexport,
  org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.eunit.engine;visibility:=reexport,
  org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.hutn.engine;visibility:=reexport,
  org.mockito_1.8.4;visibility:=reexport,
- org.hamcrest.matchers_1.2;visibility:=reexport,
  org.easymock_2.4;visibility:=reexport
 Bundle-Vendor: Eclipse.org
 Export-Package: org.antlr.gunit,
