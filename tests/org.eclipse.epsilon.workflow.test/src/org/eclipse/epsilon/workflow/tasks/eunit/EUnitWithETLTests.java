@@ -43,6 +43,11 @@ public class EUnitWithETLTests extends EUnitTestCase {
 		runTarget(ANT_BUILD_FILE, "emf-emf-generated");
 	}
 
+	@Test
+	public void compareEMFWithEMFCopy() throws Exception {
+		runTarget(ANT_BUILD_FILE, "emf-emf-copy");
+	}
+
 	private void runBasicTests(String targetName) throws IOException,
 			SAXException, ParserConfigurationException {
 		runTarget(ANT_BUILD_FILE, targetName);

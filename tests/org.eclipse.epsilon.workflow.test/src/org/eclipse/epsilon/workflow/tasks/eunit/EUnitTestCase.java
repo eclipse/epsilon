@@ -34,11 +34,13 @@ import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
+import org.apache.tools.ant.taskdefs.TempFile;
 import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
 import org.eclipse.epsilon.workflow.tasks.EUnitTask;
 import org.eclipse.epsilon.workflow.tasks.EglTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
 import org.eclipse.epsilon.workflow.tasks.EvlTask;
+import org.eclipse.epsilon.workflow.tasks.StoreModelTask;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModel;
 import org.eclipse.epsilon.workflow.tasks.emf.RegisterTask;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
@@ -69,6 +71,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 		project.addTaskDefinition("macrodef", MacroDef.class);
 		project.addTaskDefinition("property", Property.class);
 		project.addTaskDefinition("sequential", Sequential.class);
+		project.addTaskDefinition("tempfile", TempFile.class);
 	
 		// Epsilon tasks
 		project.addTaskDefinition("epsilon.egl", EglTask.class);
@@ -77,6 +80,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 		project.addTaskDefinition("epsilon.etl", EtlTask.class);
 		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
 		project.addTaskDefinition("epsilon.evl", EvlTask.class);
+		project.addTaskDefinition("epsilon.storeModel", StoreModelTask.class);
 	}
 
 	@After

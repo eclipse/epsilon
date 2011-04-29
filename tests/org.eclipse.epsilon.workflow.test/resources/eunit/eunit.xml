@@ -220,6 +220,29 @@
 		</epsilon.eunit>
 	</target>
 
+	<target name="emf-emf-copy">
+		<tempfile property="copy.tmpfile"/>
+		<macrodef name="loadTree">
+			<attribute name="path"/>
+			<attribute name="name"/>
+			<sequential>
+				<epsilon.emf.loadModel name="@{name}"
+					modelfile="@{path}" metamodelfile="${tree.metamodel.location}"
+					read="true" store="false"/>
+			</sequential>
+		</macrodef>
+
+		<epsilon.eunit src="model-comparison/emf-emf-copy.eunit">
+			<modelTasks>
+				<loadTree name="Tree" path="${tree.model.location}"/>
+				<epsilon.storeModel model="Tree" target="${copy.tmpfile}"/>
+				<loadTree name="TreeCopy" path="${copy.tmpfile}"/>
+			</modelTasks>
+		</epsilon.eunit>
+
+		<delete file="${copy.tmpfile}" failonerror="no"/>
+	</target>
+
 	<target name="variables">
 		<epsilon.eunit src="variables/variables.eunit"/>
 	</target>

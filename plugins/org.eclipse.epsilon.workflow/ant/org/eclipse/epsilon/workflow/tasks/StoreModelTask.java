@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -28,7 +29,7 @@ public class StoreModelTask extends EpsilonTask {
 		try {
 			IModel eolModel = getProjectRepository().getModelByName(model);
 			if (target!=null) {
-				eolModel.store(target.getAbsolutePath());
+				eolModel.store(URI.createFileURI(target.getAbsolutePath()).toString());
 			}
 			else {
 				eolModel.store();
