@@ -77,8 +77,7 @@ public class ModelManager {
 	}
 
 	private URI convertVirtualPathToAbsoluteFileURI(String virtualPath) {
-		final String realPath = this.getServletContext().getRealPath(virtualPath);
-		return URI.createFileURI(realPath);
+		return URI.createURI(virtualPath).resolve(URI.createFileURI(this.getServletContext().getRealPath("/")));
 	}
 
 	public void loadModel(String name, String modelFile, String metamodelUri) throws EolModelLoadingException {
