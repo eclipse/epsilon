@@ -369,7 +369,7 @@ public class EUnitModule extends EolModule {
 
 	private void applyDataBinding(EUnitTest node) {
 		Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
-		getContext().getFrameStack().put(dataVariable);
+		getContext().getFrameStack().getGlobals().put(dataVariable);
 	}
 
 	/**
