@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eugenia;
 
+import java.util.Iterator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -165,7 +167,10 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 
 	public void selectionChanged(IAction action, ISelection sel) {
 		IStructuredSelection selection = (IStructuredSelection) sel;
-		setSelectedFile((IFile) selection.iterator().next());
+		Iterator iterator = selection.iterator();
+		if (iterator.hasNext()) {
+			setSelectedFile((IFile) iterator.next());
+		}
 	}
 	
 }
