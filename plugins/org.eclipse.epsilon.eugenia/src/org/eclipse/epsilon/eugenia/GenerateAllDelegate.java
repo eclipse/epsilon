@@ -152,7 +152,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 
 	public void setSelectedFile(IFile file) {
 		selectedFile = file;
-		gmfFileSet = new GmfFileSet(getSelectedFile().getLocationURI().toString());
+		gmfFileSet = new GmfFileSet(selectedFile.getLocationURI().toString());
 	}
 
 	public void setLastStep(GenerateAllStep lastStep) {
