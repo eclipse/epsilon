@@ -18,13 +18,15 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
+import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaRegressionTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({CommonDevelopmentToolsTestSuite.class,
-               EmfPluggedInTestSuite.class})
+               EmfPluggedInTestSuite.class,
+               EugeniaRegressionTest.class})
 public class EpsilonPluggedInTestSuite{
 
 	public static Test suite() {
