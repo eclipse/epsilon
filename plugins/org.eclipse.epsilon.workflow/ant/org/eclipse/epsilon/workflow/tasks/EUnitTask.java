@@ -277,7 +277,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			final Exception testException = test.getException();
 			if (testException != null) {
 				err.println(": " + testException.getMessage());
-				testException.printStackTrace(err);
 			}
 			else {
 				err.println();
