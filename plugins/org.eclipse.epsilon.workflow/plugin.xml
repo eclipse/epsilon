@@ -83,6 +83,11 @@
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.xml.loadModel">
       </antTask>
+      <antTask
+            class="org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTask"
+            library="lib/org.eclipse.epsilon.workflow.jar"
+            name="epsilon.eugenia">
+      </antTask>
    </extension>
    <extension
          point="org.eclipse.ant.core.extraClasspathEntries">
