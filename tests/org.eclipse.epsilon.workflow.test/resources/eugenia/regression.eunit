@@ -18,6 +18,29 @@ operation loadModels() {
 
 @test
 operation testForRegressions() {
+  var modelExtension := elems.get(1);
+
+  -- Temporary workaround: we need to ignore some elements
+  -- which produce differences even with sets of files that
+  -- are exactly the same: the metafeatures in the GmfMap
+  -- and GmfGen models.
+  if (modelExtension == 'gmfmap') {
+    for (featureMap in Expected!FeatureLabelMapping) {
+      featureMap.features.clear();
+    }
+    for (featureMap in Obtained!FeatureLabelMapping) {
+      featureMap.features.clear();
+    }
+  }
+  else if (modelExtension == 'gmfgen') {
+    for (featLabel in Expected!FeatureLabelModelFacet) {
+      featLabel.metaFeatures.clear();
+    }
+    for (featLabel in Obtained!FeatureLabelModelFacet) {
+      featLabel.metaFeatures.clear();
+    }
+  }
+
   assertEqualModels('Expected', 'Obtained');
 }
 

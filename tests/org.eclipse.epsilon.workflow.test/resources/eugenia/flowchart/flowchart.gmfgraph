@@ -39,11 +39,7 @@
         <children
             xsi:type="gmfgraph:Label"
             name="ActionLabelFigure"
-            text="Action">
-          <font
-              xsi:type="gmfgraph:BasicFont"
-              style="BOLD"/>
-        </children>
+            text="Action"/>
       </actualFigure>
       <accessors
           accessor="getFigureActionLabelFigure"
@@ -58,11 +54,7 @@
         <children
             xsi:type="gmfgraph:Label"
             name="DecisionLabelFigure"
-            text="Decision">
-          <font
-              xsi:type="gmfgraph:BasicFont"
-              style="ITALIC"/>
-        </children>
+            text="Decision"/>
       </actualFigure>
       <accessors
           accessor="getFigureDecisionLabelFigure"
@@ -80,7 +72,7 @@
       <actualFigure
           xsi:type="gmfgraph:Label"
           name="TransitionLabelLabel"
-          text=""/>
+          text="Transition"/>
     </descriptors>
   </figures>
   <nodes
