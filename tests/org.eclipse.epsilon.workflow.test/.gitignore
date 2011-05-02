@@ -1,2 +1,3 @@
 *.xml
+!eunit.xml
 *.html

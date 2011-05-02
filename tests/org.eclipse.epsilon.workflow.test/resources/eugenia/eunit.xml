@@ -1,0 +1,31 @@
+<project>
+	<target name="base-test">
+		<!--
+			This property must be overridden by the test. If case.name were set
+			to "casename", we would expect resources/eugenia/casename to contain
+			casename.emf, casename.ecore, casename.genmodel, casename.gmfgraph,
+			casename.gmftool, casename.gmfmap and casename.gmfgraph.
+		-->
+		<property name="case.name" value="default" />
+
+		<property name="test.tmp.location" location="tmp" />
+		<property name="test.dir.location" location="${case.name}" />
+
+		<!-- Prepare the work directory -->
+		<delete dir="${test.tmp.location}" failonerror="no" />
+		<mkdir dir="${test.tmp.location}" />
+		<copy todir="${test.tmp.location}">
+			<fileset dir="${test.dir.location}" includes="*.emf *.eol" />
+		</copy>
+
+		<!-- Generate models with Eugenia -->
+		<epsilon.eugenia src="${test.tmp.location}/${case.name}.emf" lastStep="gmf" />
+
+		<!-- Test these models with EUnit -->
+		<epsilon.eunit src="regression.eunit">
+			<parameter name="dirtemp" value="${test.tmp.location}" />
+			<parameter name="direxpected" value="${test.dir.location}" />
+			<parameter name="casename" value="${case.name}" />
+		</epsilon.eunit>
+	</target>
+</project>
