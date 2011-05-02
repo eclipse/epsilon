@@ -21,10 +21,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class GenerateAllDelegate implements IObjectActionDelegate {
 
-	protected ISelection selection = null;
-	protected Shell shell = null;
-	protected GmfFileSet gmfFileSet = null;
-	protected IWorkbenchPart targetPart = null;
+	private IFile selectedFile;
+	private GmfFileSet gmfFileSet;
+	private Shell shell;
+	private IWorkbenchPart targetPart;
 	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.shell = targetPart.getSite().getShell();
@@ -64,13 +64,13 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Clear previous files
 		ClearGmfFileSetAction clearGmfFileSetAction = new ClearGmfFileSetAction();
-		clearGmfFileSetAction.setSelection(selection);
+		clearGmfFileSetAction.setSelectedFile(selectedFile);
 		clearGmfFileSetAction.runImpl(action);
 		
 		if (getSelectedFile().getLocationURI().toString().equals(gmfFileSet.getEmfaticPath())) {
 			// Do Emfatic to Ecore transformation
 			Emfatic2EcoreDelegate emfatic2EcoreDelegate = new Emfatic2EcoreDelegate();
-			emfatic2EcoreDelegate.setSelection(selection);
+			emfatic2EcoreDelegate.setSelectedFile(selectedFile);
 			emfatic2EcoreDelegate.runImpl(action);
 			emfatic2EcoreDelegate.refresh();
 		}
@@ -78,7 +78,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		// Do Ecore to GenModel transformation
 		Ecore2GenModelDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
 		ecore2GenModelDelegate.setClearConsole(false);
-		ecore2GenModelDelegate.setSelection(this.selection);
+		ecore2GenModelDelegate.setSelectedFile(selectedFile);
 		ecore2GenModelDelegate.runImpl(action);
 		ecore2GenModelDelegate.refresh();
 		
@@ -87,7 +87,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		// Do Ecore  to GmfTool, GmfGraph and GmfMap
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
 		generateToolGraphMapDelegate.setClearConsole(false);
-		generateToolGraphMapDelegate.setSelection(this.selection);
+		generateToolGraphMapDelegate.setSelectedFile(selectedFile);
 		generateToolGraphMapDelegate.run(action);
 		generateToolGraphMapDelegate.refresh();
 		
@@ -96,7 +96,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		// Do GmfMap to GmfGen
 		GmfMap2GmfGenDelegate gmfMap2GmfGenDelegate = new GmfMap2GmfGenDelegate();
 		gmfMap2GmfGenDelegate.setClearConsole(false);
-		gmfMap2GmfGenDelegate.setSelection(this.selection);
+		gmfMap2GmfGenDelegate.setSelectedFile(selectedFile);
 		gmfMap2GmfGenDelegate.run(action);
 		gmfMap2GmfGenDelegate.refresh();
 		
@@ -105,12 +105,12 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		// Do FixGmfGen
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
-		fixGmfGenDelegate.setSelection(this.selection);
+		fixGmfGenDelegate.setSelectedFile(selectedFile);
 		fixGmfGenDelegate.run(action);
 		
 		// Generate code from EMF
 		GenerateEmfCodeDelegate generateEmfCodeDelegate = new GenerateEmfCodeDelegate();
-		generateEmfCodeDelegate.setSelection(this.selection);
+		generateEmfCodeDelegate.setSelectedFile(selectedFile);
 		try {
 			generateEmfCodeDelegate.runImpl(action);
 		}
@@ -122,7 +122,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		
 		// Generate diagram code from GmfGen
 		final GenerateDiagramCodeDelegate generateDiagramCodeDelegate = new GenerateDiagramCodeDelegate();
-		generateDiagramCodeDelegate.setSelection(selection);
+		generateDiagramCodeDelegate.setSelectedFile(selectedFile);
 		generateDiagramCodeDelegate.setTargetPart(targetPart);
 		Display.getDefault().syncExec(new Runnable() {
 			
@@ -139,14 +139,17 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 	}
 	
 	public IFile getSelectedFile() {
-		IStructuredSelection selection = (IStructuredSelection) this.selection;
-		IFile file = (IFile) selection.iterator().next();
-		return file;
+		return selectedFile;
 	}
-	
-	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection = selection;
-		this.gmfFileSet = new GmfFileSet(getSelectedFile().getLocationURI().toString());
+
+	public void setSelectedFile(IFile file) {
+		selectedFile = file;
+		gmfFileSet = new GmfFileSet(getSelectedFile().getLocationURI().toString());
+	}
+
+	public void selectionChanged(IAction action, ISelection sel) {
+		IStructuredSelection selection = (IStructuredSelection) sel;
+		setSelectedFile((IFile) selection.iterator().next());
 	}
 	
 }

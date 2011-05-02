@@ -41,15 +41,10 @@ import org.eclipse.ui.PlatformUI;
 public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 
 	private Shell shell;
-	protected ISelection selection;
+	private IFile selectedFile;
+
 	protected GmfFileSet gmfFileSet;
 	protected boolean clearConsole = true;
-	
-	
-	
-	public EugeniaActionDelegate() {
-		super();
-	}
 
 	public boolean isClearConsole() {
 		return clearConsole;
@@ -66,12 +61,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public GmfFileSet getGmfFileSet() {
 		return gmfFileSet;
 	}
-	
-	public void setSelection(ISelection selection) {
-		this.selection = selection;
-		this.gmfFileSet = new GmfFileSet(getSelectedFile().getLocationURI().toString());
-	}
-	
+
 	public abstract String getTitle();
 	
 	public void run(final IAction action) {
@@ -104,11 +94,14 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public abstract List<EmfModel> getModels() throws Exception;
 	
 	public IFile getSelectedFile() {
-		IStructuredSelection selection = (IStructuredSelection) this.selection;
-		IFile file = (IFile) selection.iterator().next();
-		return file;
+		return selectedFile;
 	}
 	
+	public void setSelectedFile(IFile file) {
+		this.selectedFile = file;
+		this.gmfFileSet   = new GmfFileSet(selectedFile.getLocationURI().toString());
+	}
+
 	public IEolExecutableModule createBuiltinModule() {
 		return new EolModule();
 	}
@@ -211,6 +204,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
-		setSelection(selection);
+		IStructuredSelection selection1 = (IStructuredSelection) selection;
+		setSelectedFile((IFile) selection1.iterator().next());
 	}
 }
