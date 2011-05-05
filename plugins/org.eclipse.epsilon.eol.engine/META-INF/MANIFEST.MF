@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Object Language (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.eol.engine;singleton:=true
 Bundle-Version: 0.9.0.qualifier
-Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.commons;visibility:=reexport,
  org.eclipse.epsilon.dependencies;visibility:=reexport
