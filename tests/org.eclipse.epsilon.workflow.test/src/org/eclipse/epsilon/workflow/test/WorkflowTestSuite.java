@@ -15,7 +15,6 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
-import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaRegressionTest;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitBasicTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitInlineModelTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEGLTests;
