@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +32,6 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.engine.GenericMatchScopeProvider;
 import org.eclipse.emf.compare.match.metamodel.MatchResourceSet;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EClass;
@@ -551,12 +551,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		// For later viewing, we need to ensure the models are saved. If they are not, just
 		// store them to a temporary file.
 		final AbstractEmfModel other = (AbstractEmfModel)model;
-		final ResourceSet myResource = getResource().getResourceSet();
-		final ResourceSet otherResource = other.getResource().getResourceSet();
+		final ResourceSet myResourceSet = cloneToTmpFiles(getResource().getResourceSet());
+		final ResourceSet otherResourceSet = cloneToTmpFiles(other.getResource().getResourceSet());
 
 		final HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		MatchResourceSet match = MatchService.doResourceSetMatch(myResource, otherResource, options);
+		MatchResourceSet match = MatchService.doResourceSetMatch(myResourceSet, otherResourceSet, options);
 		DiffResourceSet diff = DiffService.doDiff(match);
 		boolean bAnyDifferences = false;
 		for (DiffModel diffModel : diff.getDiffModels()) {
@@ -576,15 +576,57 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 	}
 
 	/**
-	 * Saves a model to a temporary file and reloads it as a resource, so we can "freeze"
-	 * the results of a comparison between two models.
+	 * This method is used to take a snapshot of an entire resource set. Resources which
+	 * do not have platform:// URIs are saved into temporary files. Cross-references are
+	 * preserved: all non-platform:// URIs are rewritten to the proper temporary files.
 	 */
-	private Resource cloneToTmpFile() throws IOException {
-		final File myTmpFile = File.createTempFile("compare", ".model");
-		final URI myTmpFileURI = URI.createFileURI(myTmpFile.getAbsolutePath());
-		this.store(myTmpFileURI);
-		final Resource myClonedResource = getResource().getResourceSet().createResource(myTmpFileURI);
-		myClonedResource.load(null);
-		return myClonedResource;
+	private ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
+		EcoreUtil.resolveAll(resourceSet);
+		ResourceSet newResourceSet = new EmfModelResourceSet();
+
+		// Save the original non-platform URIs
+		final Map<Resource, URI> originalURIMap = new HashMap<Resource, URI>();
+		for (Resource res : resourceSet.getResources()) {
+			if ("platform".equals(res.getURI().scheme())) {
+				// skip platform: models
+				continue;
+			}
+			originalURIMap.put(res, res.getURI());
+		}
+
+		try {
+			// Map each non-platform resource to a new temporary file
+			for (Resource res : originalURIMap.keySet()) {
+				File tmpFile = File.createTempFile(res.getURI().lastSegment() + ".", ".model");
+				res.setURI(URI.createFileURI(tmpFile.getAbsolutePath()));
+			}
+
+			// Save all the non-platform resources and add them to the new resource set.
+			// The platform: resources will be resolved implicitly by the comparison.
+			final List<Resource> newResources = new ArrayList<Resource>(originalURIMap.size());
+			for (Resource res : originalURIMap.keySet()) {
+				res.save(Collections.EMPTY_MAP);
+				final Resource newResource = newResourceSet.createResource(res.getURI());
+				newResources.add(newResource);
+			}
+
+			// Reuse the metamodels loaded by the user in the new resource set, by
+			// using the same package registry as in the original resource set.
+			newResourceSet.setPackageRegistry(resourceSet.getPackageRegistry());
+
+			// Load all the resources in the new resource set.
+			for (Resource res : newResources) {
+				res.load(null);
+				EcoreUtil.resolveAll(res);
+			}
+		}
+		finally {
+			// Restore the original URIs to the original resource set
+			for (Map.Entry<Resource, URI> entry : originalURIMap.entrySet()) {
+				entry.getKey().setURI(entry.getValue());
+			}
+		}
+
+		return newResourceSet;
 	}
 }
