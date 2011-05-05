@@ -25,12 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
+import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.match.engine.GenericMatchScopeProvider;
+import org.eclipse.emf.compare.match.metamodel.MatchResourceSet;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -41,6 +43,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -548,21 +551,27 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 		// For later viewing, we need to ensure the models are saved. If they are not, just
 		// store them to a temporary file.
 		final AbstractEmfModel other = (AbstractEmfModel)model;
-		final Resource myResource = cloneToTmpFile();
-		final Resource otherResource = other.cloneToTmpFile();
+		final ResourceSet myResource = getResource().getResourceSet();
+		final ResourceSet otherResource = other.getResource().getResourceSet();
 
 		final HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		MatchModel match = MatchService.doResourceMatch(myResource, otherResource, options);
-		DiffModel diff = DiffService.doDiff(match);
-		if (diff.getDifferences().isEmpty()) {
+		MatchResourceSet match = MatchService.doResourceSetMatch(myResource, otherResource, options);
+		DiffResourceSet diff = DiffService.doDiff(match);
+		boolean bAnyDifferences = false;
+		for (DiffModel diffModel : diff.getDiffModels()) {
+			if (!diffModel.getDifferences().isEmpty()) {
+				bAnyDifferences = true;
+			}
+		}
+		if (!bAnyDifferences) {
 			return null;
 		}
 
-		ComparisonResourceSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
+		ComparisonResourceSetSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSetSnapshot();
 		snap.setDate(new Date());
-		snap.setDiff(diff);
-		snap.setMatch(match);
+		snap.setDiffResourceSet(diff);
+		snap.setMatchResourceSet(match);
 		return snap;
 	}
 
