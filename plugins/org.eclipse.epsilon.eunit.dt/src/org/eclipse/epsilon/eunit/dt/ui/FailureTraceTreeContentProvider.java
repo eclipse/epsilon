@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ import org.eclipse.ui.IViewSite;
 class FailureTraceTreeContentProvider implements ITreeContentProvider {
 	private EUnitTest currentTest;
 	private List<Frame> currentTestFrames;
-	private Map<Variable, Frame> mapVarToFrame = new HashMap<Variable, Frame>();
+	private Map<Variable, Frame> mapVarToFrame = new IdentityHashMap<Variable, Frame>();
 	private final IViewSite viewSite;
 
 	public FailureTraceTreeContentProvider(IViewSite viewSite) {
