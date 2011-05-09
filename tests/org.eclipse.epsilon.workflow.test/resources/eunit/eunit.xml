@@ -243,6 +243,15 @@
 		<delete file="${copy.tmpfile}" failonerror="no"/>
 	</target>
 
+	<target name="emf-emf-memory">
+		<epsilon.eunit src="model-comparison/emf-emf-memory.eunit">
+			<modelTasks>
+				<epsilon.emf.loadModel name="A" metamodelfile="${graph.metamodel.location}" read="false" store="false"/>
+				<epsilon.emf.loadModel name="B" metamodelfile="${graph.metamodel.location}" read="false" store="false"/>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+
 	<target name="variables">
 		<epsilon.eunit src="variables/variables.eunit"/>
 	</target>

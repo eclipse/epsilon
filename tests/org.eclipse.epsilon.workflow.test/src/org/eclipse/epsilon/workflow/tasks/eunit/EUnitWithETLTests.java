@@ -48,6 +48,11 @@ public class EUnitWithETLTests extends EUnitTestCase {
 		runTarget(ANT_BUILD_FILE, "emf-emf-copy");
 	}
 
+	@Test
+	public void compareEMFInMemoryModels() throws Exception {
+		runTarget(ANT_BUILD_FILE, "emf-emf-memory");
+	}
+
 	private void runBasicTests(String targetName) throws IOException,
 			SAXException, ParserConfigurationException {
 		runTarget(ANT_BUILD_FILE, targetName);

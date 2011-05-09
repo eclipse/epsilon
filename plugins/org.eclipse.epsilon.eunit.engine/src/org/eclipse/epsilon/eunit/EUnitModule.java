@@ -299,17 +299,6 @@ public class EUnitModule extends EolModule {
 			getContext().setErrorStream(new ByteBufferTeePrintStream(getContext().getErrorStream()));
 		}
 
-		// Load models from the inline model operations, if any
-		for (EolOperation inlineModelOp : getInlineModelOperations()) {
-			inlineModelOp.execute(null, Collections.EMPTY_LIST, context, false);
-		}
-
-		// Implement model bindings (needs to be after fireBeforeCase, so
-		// the EUnit Ant task can load the models)
-		if (node.getModelBindings() != null) {
-			applyModelBindings(node);
-		}
-
 		if (node.getResult().equals(EUnitTestResultType.RUNNING)) {
 			if (node.getChildren().isEmpty()) {
 				// Leaf test case: simply run it
@@ -351,11 +340,22 @@ public class EUnitModule extends EolModule {
 
 		// EXECUTION
 		try {
+			// Load models from the inline model operations, if any
+			for (EolOperation inlineModelOp : getInlineModelOperations()) {
+				inlineModelOp.execute(null, Collections.EMPTY_LIST, context, false);
+			}
+
+			// Apply the model bindings
+			if (node.getModelBindings() != null) {
+				applyModelBindings(node);
+			}
+
 			// Call the @setup operations
 			for (EolOperation opSetup : this.getSetups()) {
 				opSetup.execute(null, Collections.EMPTY_LIST, context, false);
 			}
 
+			// Run the @test itself
 			opTest.execute(null, Collections.EMPTY_LIST, context, false);
 			node.setResult(EUnitTestResultType.SUCCESS);
 		}
