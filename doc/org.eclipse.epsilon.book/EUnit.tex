@@ -8,9 +8,17 @@
   tabsize=2,%
 }
 
+EUnit is an unit testing framework specifically designed to test model management tasks, based on EOL and the Ant workflow tasks. It provides assertions for comparing models, files and directories. Tests can be reused with different sets of models and input data, and differences between the expected and actual models can be graphically visualized. This chapter discusses the motivation behind EUnit, describes how tests are organized and written and shows two examples of how a model-to-model transformation can be tested with EUnit. This chapter ends with a discussion of how EUnit can be extended to support other modelling and model management technologies.
+
+\section{Motivation}
+\label{sec:eunit-motiv-test-model}
+
 Model-driven approaches are being adopted in a wide range of demanding environments, such as finance, health care or telecommunications~\cite{Guttman2006}. In this context, validation and verification is identified as one of the many challenges of model-driven software engineering (MDSE)~\cite{Chaudron2009}.
 
 MDSE in practice involves creating models, and thereafter \textit{managing} them, via various tasks, such as model transformation, validation and merging.  The validation and verification of each type of model management task has its own specific challenges. Kolovos et al.\ list testing concerns for model-to-model (M2M) and model-to-text (M2T) transformations, model validations, model comparisons and model compositions in~\cite{EUnit}. Baudry et al.\ identify three main issues when testing model transformations~\cite{Baudry2010}: the complexity of the input and output models, the immaturity of the model management environments and the large number of different transformation languages and techniques.
+
+\subsection{Common Issues}
+\label{sec:eunit-common-issues}
 
 While each type of model management task does have specific complexity, some of the concerns raised by Baudry can be generalized to apply to all model management tasks:
 \begin{itemize}
@@ -18,23 +26,19 @@ While each type of model management task does have specific complexity, some of 
 
 \item A single model or set of models may be used in several tasks. For instance, a model may be validated before performing an in-place transformation to assist the user, and later on it may be transformed to another model or merged with a different model. This requires having at least one test for each valid combination of models and sets of tasks.
 
-\item Test oracles are more complex than in traditional unit testing~\cite{Mottu2008}: instead of checking scalar values or simple lists, we may need to compare entire graphs of model objects or file trees. In some cases, we might only want to check specific properties in the generated artifacts.
+\item Test oracles are more complex than in traditional unit testing~\cite{Mottu2008}: instead of checking scalar values or simple lists, entire graphs of model objects or file trees may have to be compared. In some cases, complex properties in the generated artifacts may have to be checked.
 
 \item Models and model management tasks may use a wide range of technologies. Models may be based on Ecore~\cite{Steinberg2008}, XML files or Java object graphs, among many others. At the same time, tasks may use technologies from different platforms, such as Epsilon, oAW~\cite{oAW} or AMMA~\cite{AMMA}. Many of these technologies offer high-level tools for running and debugging the different tasks using several models. However, users wishing to do automated unit testing need to learn low-level implementation details about their modelling and model management technologies. This increases the initial cost of testing these tasks and hampers the adoption of new technologies.
 
 \item Existing testing tools tend to focus on the testing technique itself, and lack integration with external systems. Some tools provide graphical user interfaces, but most do not generate reports which can be consumed by a continuous integration server, for instance.
 \end{itemize}
 
-(...)
+\subsection{Testing with JUnit}
+\label{sec:testing-with-junit}
 
-\section{Testing a Model Transformation with JUnit}
-\label{sec:eunit-motiv-test-model}
+The previous issues are easier to understand with a concrete example. This section shows how a simple transformation between two EMF models in ETL using JUnit 4~\cite{JUnit2011} would be normally tested, and points out several issues due to JUnit's limitations as a general-purpose unit testing framework for Java programs.
 
-In this section we will illustrate the abstract issues previously listed using a unit testing framework for a general-purpose programming language to test a model management task. We will test a simple transformation between two EMF models in ETL using JUnit 4~\cite{JUnit2011}.
-
-\subsubsection{Definition of the test suite}
-
-For the sake of brevity, we will only outline the contents of the JUnit test suite. All JUnit test suites are defined as Java classes. This test suite has three methods:
+For the sake of brevity, only an outline of the JUnit test suite is included. All JUnit test suites are defined as Java classes. This test suite has three methods:
 
 \begin{enumerate}
 \item The test setup method (marked with the \javaannotation{Before} JUnit annotation) loads the required models by creating and configuring instances of \class{EmfModel}. After that, it prepares the transformation by creating and configuring an instance of \class{EtlModule}, adding the input and output models to its model repository.
@@ -44,19 +48,18 @@ For the sake of brevity, we will only outline the contents of the JUnit test sui
 \item The test teardown method (marked with \javaannotation{After}) disposes of the models.
 \end{enumerate}
 
-\subsubsection{Issues}
-
-We can identify several issues in each part of the test suite. First, test setup is tightly bound to the technologies used: it depends on the API of the \class{EmfModel} and \class{EtlModule} classes, which are both part of Epsilon. Later refactorings in these classes may break existing tests.
+Several issues can be identified in each part of the test suite. First, test setup is tightly bound to the technologies used: it depends on the API of the \class{EmfModel} and \class{EtlModule} classes, which are both part of Epsilon. Later refactorings in these classes may break existing tests.
 
 The test case can only be used for a single combination of input and output models. Testing several combinations requires either repeating the same code and therefore making the suite less maintainable, or using parametric testing, which may be wasteful if not all tests need the same combinations of models.
 
 Model comparison requires the user to manually select a model comparison engine and integrate it with the test. For comparing EMF models, EMF Compare is easy to use and readily available. However, generic model comparison engines may not be available for some modelling technologies, or may be harder to integrate.
 
-Finally, instead of comparing the obtained and expected models, we could have checked several properties in the obtained model. However, querying models through Java code can be quite verbose.
+Finally, instead of comparing the obtained and expected models, several properties could have been checked in the obtained model. However, querying models through Java code can be quite verbose.
 
-\subsubsection{Possible solutions}
+\subsection{Selected Approach}
+\label{sec:eunit-selected-approach}
 
-We could follow several approaches to address these issues. Our first instinct would be to extend JUnit and reuse all the tooling available for it. A custom test runner would simplify setup and teardown, and modelling platforms would integrate their technologies into it. Since Java is very verbose when querying models, the custom runner should run tests in a higher-level language, such as EOL. However, JUnit is very tightly coupled to Java, and this would impose limits on the level of integration we could obtain. For instance, errors in the model management tasks or the EOL tests could not be reported from their original source, but rather from the Java code which invoked them.  Another problem with this approach is that new integration code would need to be written for each of the existing platforms.
+Several approaches could be followed to address these issues. Our first instinct would be to extend JUnit and reuse all the tooling available for it. A custom test runner would simplify setup and teardown, and modelling platforms would integrate their technologies into it. Since Java is very verbose when querying models, the custom runner should run tests in a higher-level language, such as EOL. However, JUnit is very tightly coupled to Java, and this would impose limits on the level of integration we could obtain. For instance, errors in the model management tasks or the EOL tests could not be reported from their original source, but rather from the Java code which invoked them.  Another problem with this approach is that new integration code would need to be written for each of the existing platforms.
 
 Alternatively, we could add a new language exclusively dedicated to testing to the Epsilon family.  Being based on EOL, model querying would be very concise, and with a test runner written from scratch, test execution would be very flexible. However, this would still require all platforms to write new code to integrate with it, and this code would be tightly coupled to Epsilon.
 
@@ -67,7 +70,7 @@ Among these three approaches, EUnit follows the last one. Ant tasks take care of
 \section{Test Organization}
 \label{sec:eunit-test-organization}
 
-In the previous section, we listed some of the issues when testing M2M transformations with a general-purpose framework. In this section, we will describe how the internal structure of EUnit test suites and test cases helps flexibly combine models, tasks and tests.
+EUnit has a rich data model: test suites are organized as trees of tests, and each test is divided into many parts which can be extended by the user. This section is dedicated to describing how test suites and tests are organized. The next section indicates how they are written.
 
 \subsection{Test Suites}
 
@@ -95,6 +98,22 @@ Figure~\ref{fig:eunit-test-tree} shows an example of an EUnit test tree: nodes w
 \end{enumerate}
 
 Optionally, EUnit can filter tests by name, running only \test{A} or \test{B}. Similarly to JUnit, EUnit logs start and finish times for each node in the tree, so the most expensive test cases can be quickly detected. However, EUnit logs CPU time\footnote{CPU time only measures the time elapsed in the thread used by EUnit, and is more stable with varying system load in single-threaded programs.} in addition to the usual wallclock time.
+
+Parametric testing is not to be confused with \emph{theories}~\cite{Saff2007}: both repeat a test case with different values, but results are reported quite differently. While parametric testing produces separate test cases with independent results, theories produce aggregated tests which only pass if the original test case passes for every data point. Figure~\ref{fig:parametric-vs-theories} illustrates these differences. EUnit does not support theories yet: however, they can be approximated with data bindings.
+
+\begin{figure}
+  \centering
+  \subfigure[Parametric testing]{
+    \input{tikz/parametric-vs-theory.tikz}
+  }
+  \subfigure[Theories]{
+    \newcommand{\typea}{test}
+    \newcommand{\typeb}{data}
+    \input{tikz/parametric-vs-theory.tikz}
+  }
+  \caption{Comparison between parametric testing and theories}
+  \label{fig:parametric-vs-theories}
+\end{figure}
 
 \subsection{Test Cases}
 \label{sec:eunit-test-cases}
@@ -129,31 +148,34 @@ EUnit uses standard Ant buildfiles: running EUnit is as simple as using its Ant 
 
 \subsubsection{EUnit Invocations}
 
-An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though.
+An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though. Optional attributes have been listed between brackets. Some nested elements can be repeated 0+ times (\verb!*!) or 0-1 times (\verb!?!).
 
-\begin{lstlisting}[language=XML,columns=fixed,caption=Example invocation of the EUnit Ant task,label=lst:example-eunit-ant,float]
-<epsilon.eunit src="..." failOnErrors="...">
-  <model     ref="OldName" as="NewName"/>
-  <uses      ref="x" as="y" />
-  <exports   ref="z" as="w" />
-  <parameter name="myparam" value="myvalue" />
-  <modelTasks>
-    <!-- Zero or more Ant tasks -->
-  </modelTasks>
+\begin{lstlisting}[language=XML,columns=fixed,caption=Format of an invocation of the EUnit Ant task,label=lst:example-eunit-ant,float]
+<epsilon.eunit src="..."
+    [failOnErrors="..."]
+    [package=".."]
+    [toDir="..."]>
+  (<model     ref="OldName" [as="NewName"]/>)*
+  (<uses      ref="x" [as="y"] />)*
+  (<exports   ref="z" [as="w"] />)*
+  (<parameter name="myparam" value="myvalue" />)*
+  (<modelTasks><!-- Zero or more Ant tasks --></modelTasks>)?
 </epsilon.eunit>
 \end{lstlisting}
 
-The EUnit Ant task is based on the Epsilon workflow tasks, inheriting some useful features. The attribute \xmlattribute{src} points to the path of the EOL file, and the optional attribute \xmlattribute{failOnErrors} can be set to \eol{false} to prevent EUnit from aborting the Ant launch if a test case fails. EUnit also inherits support for importing and exporting global variables through the \xmlelement{uses} and \xmlelement{exports} elements: the original name is set in \xmlattribute{ref}, and the optional \xmlattribute{as} attribute allows for using a different name. For receiving parameters as name-value piars, the \xmlelement{parameter} element can be used.
+The EUnit Ant task is based on the Epsilon abstract executable module task (see Section~\ref{sec:ExecutableModuleTask}), inheriting some useful features. The attribute \xmlattribute{src} points to the path of the EOL file, and the optional attribute \xmlattribute{failOnErrors} can be set to \eol{false} to prevent EUnit from aborting the Ant launch if a test case fails. EUnit also inherits support for importing and exporting global variables through the \xmlelement{uses} and \xmlelement{exports} elements: the original name is set in \xmlattribute{ref}, and the optional \xmlattribute{as} attribute allows for using a different name. For receiving parameters as name-value piars, the \xmlelement{parameter} element can be used.
 
-Model references (using the \xmlelement{model} nested element) are also inherited from the regular Epsilon workflow tasks. These allow model management tasks to refer by name to models previously loaded in the Ant buildfile. However, EUnit implicitly reloads the models after each test case. This ensures that test cases are isolated from each other.
+Model references (using the \xmlelement{model} nested element) are also inherited from the Epsilon abstract executable module task. These allow model management tasks to refer by name to models previously loaded in the Ant buildfile. However, EUnit implicitly reloads the models after each test case. This ensures that test cases are isolated from each other.
 
 The EUnit Ant task adds several new features to customize the test result reports and perform more advanced model setup. EUnit generates reports in the XML format of the Ant \xmlelement{junit} task. This format is also used by many other tools, such as the TestNG unit testing framework~\cite{TestNG}, the Jenkins continuous integration server~\cite{Jenkins} or the JUnit Eclipse plug-ins.
+
+By default, the XML report is generated in the same directory as the Ant buildfile, but it can be changed with the \xmlattribute{toDir} attribute. Test names in JUnit are formed by its Java package, class and method: EUnit uses the filename of the EOL script as the class and the name of the EOL operation as the method. By default, the package is set to the string ``default'': users are encouraged to customize it with the \xmlattribute{package} attribute.
 
 The optional \xmlelement{modelTasks} nested element contains a sequence of Ant tasks which will be run after reloading the model references and before running the model setup sections in the EOL file. This allows users to run workflows more advanced than simply reloading model references, such as the one in Listing~\ref{lst:eunit-ex1-ant}.
 
 \subsubsection{Helper Targets}
 
-Ant buildfiles for EUnit may include \emph{helper targets}. These targets can be invoked using \eol{runTarget("targetName")} from anywhere in the EOL script. Helper targets are quite versatile: called from an EOL model setup section, they allow for reusing model loading fragments between different EUnit test suites. They can also be used to invoke the model management tasks under test.
+Ant buildfiles for EUnit may include \emph{helper targets}. These targets can be invoked using \eol{runTarget("targetName")} from anywhere in the EOL script. Helper targets are quite versatile: called from an EOL model setup section, they allow for reusing model loading fragments between different EUnit test suites. They can also be used to invoke the model management tasks under test. Listing~\ref{lst:eunit-ex1-ant} shows a helper target for an ETL transformation, and listing~\ref{lst:eunit-atl} shows a helper target for an ATL transformation.
 
 \subsection{EOL script}
 \label{sec:eunit-eol-script}
@@ -193,27 +215,27 @@ operation mytest() { -* use the default and Other models *- }
 
 EUnit provides several variables and operations which are useful for testing. These are listed in Table~\ref{tab:eunit-operations}.
 
-\begin{longtable}{|p{6cm}|p{6.5cm}|}
+\begin{table}
+  \begin{tabular}{|p{6cm}|p{6.5cm}|}
+    \hline \textbf{Signature} & \textbf{Description}  \\\hline
+
+    runTarget(name : String)      & Runs the specified target of the Ant buildfile which invoked EUnit. \\\hline
+
+    exportVariable(name : String) & Exports the specified variable, to be used by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
+
+    useVariable(name : String) & Imports the specified variable, which should have been previously exported by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
+
+    loadHutn(name : String, hutn : String) & Loads an EMF model with the specified name, by parsing the second argument as an HUTN~\cite{HUTN} fragment. \\\hline
+
+    antProject : org.apache.tools.ant.Project & Global variable which refers to the Ant project being executed. This can be used to create and run Ant tasks from inside the EOL code. \\\hline
+  \end{tabular}
   \caption{Extra operations and variables in EUnit}
-  \label{tab:eunit-operations} \\\hline
-
-  \textbf{Signature} & \textbf{Description}  \\\hline
-
-  runTarget(name : String)      & Runs the specified target of the Ant buildfile which invoked EUnit. \\\hline
-
-  exportVariable(name : String) & Exports the specified variable, to be used by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
-
-  useVariable(name : String) & Imports the specified variable, which should have been previously exported by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
-
-  loadHutn(name : String, hutn : String) & Loads an EMF model with the specified name, by parsing the second argument as an HUTN~\cite{HUTN} fragment. \\\hline
-
-  antProject : org.apache.tools.ant.Project & Global variable which refers to the Ant project being executed. This can be used to create and run Ant tasks from inside the EOL code. \\\hline
-\end{longtable}
-
+  \label{tab:eunit-operations}
+\end{table}
 
 \subsubsection{Assertions}
 
-EUnit implements some common assertions for equality and inequality, with special versions for comparing floating-point numbers. EUnit also supports a limited form of exception testing with \eol{assertError}, which checks that the expression inside it throws an exception. Custom assertions can be defined by the user with the \eol{fail} operation, which fails a test with a custom message. All the available assertions are shown in Table~
+EUnit implements some common assertions for equality and inequality, with special versions for comparing floating-point numbers. EUnit also supports a limited form of exception testing with \eol{assertError}, which checks that the expression inside it throws an exception. Custom assertions can be defined by the user with the \eol{fail} operation, which fails a test with a custom message. The available assertions are shown in Table~\ref{tab:eunit-assertions}.
 
 More importantly, EUnit implements specific assertions for comparing models, files and trees of files. Model comparison is not implemented by the assertions themselves: it is an optional service implemented by some EMC drivers. Currently, EMF models will automatically use EMF Compare as their comparison engine. The rest of the EMC drivers do not support comparison yet.  The main advantage of having an abstraction layer implement model comparison as a service is that the test case definition is decoupled from the concrete model comparison engine used.
 
@@ -224,7 +246,7 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
 \newcommand{\parameter}[1]{\newline{}\phantom{- }#1}
 \begin{longtable}{|p{6cm}|p{6.5cm}|}
   \caption{Assertions in EUnit}
-  \label{tab:eunit-operations} \\\hline
+  \label{tab:eunit-assertions} \\\hline
 
   \textbf{Signature} & \textbf{Description}  \\\hline
 
@@ -264,10 +286,13 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
   \label{fig:screenshot-eunit}
 \end{sidewaysfigure}
 
-\subsection{Example: Testing a Model Transformation with EUnit}
+\section{Examples}
+\label{sec:eunit-examples}
+
+\subsection{Models and Tasks in the Buildfile}
 \label{sec:eunit-exampl-balanc-ant}
 
-After describing the basic syntax, we will show how to use EUnit to test the transformation in Section~\ref{sec:eunit-motiv-test-model}.
+After describing the basic syntax, we will show how to use EUnit to test an ETL transformation.
 
 The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two targets: \anttarget{run-tests} (lines 2--16) invokes the EUnit suite, and \anttarget{tree2graph} (lines 17--22) is a helper target which transforms model \modelname{Tree} into model \modelname{Graph} using ETL. The \xmlelement{modelTasks} nested element is used to load the input, expected output and output EMF models. \modelname{Graph} is loaded with \xmlattribute{read} set to \eol{false}: the model will be initially empty, and will be populated by the ETL transformation.
 
@@ -310,22 +335,77 @@ operation transformationWorksAsExpected() {
 }
 \end{lstlisting}
 
+\subsection{Models and Tasks in the EOL Script}
+\label{sec:exampl-only-launcher}
+
+In the previous section, the EOL file is kept very concise because the model setup and model management tasks under test were specified in the Ant buildfile. In this section, we will inline the models and the tasks into the EOL script instead.
+
+The Ant buildfile is shown in Listing~\ref{lst:ex2-ant}. It is now very simple: all it needs to do is run the EOL script. However, since we will parse HUTN in the EOL script, we must make sure the \class{EPackage}s of the metamodels are registered.
+
+\begin{lstlisting}[language=XML,caption=Ant buildfile which only runs the EOL script,label=lst:ex2-ant,float]
+<project>
+  <target name="run-tests">
+    <epsilon.emf.register file="tree.ecore"/>
+    <epsilon.emf.register file="graph.ecore"/>
+    <epsilon.eunit src="test-inlined.eunit"/>
+  </target>
+</project>
+\end{lstlisting}
+
+The EOL script used is shown in Listing~\ref{lst:ex2-eol}. Instead of loading models through the Ant tasks, the \eol{loadHutn} operation has been used to load the models. The test itself is almost the same, but instead of running a helper target, it invokes an operation which creates and runs the ETL Ant task through the \eol{antProject} variable provided by EUnit, taking advantage of the support in EOL for invoking Java code through reflection.
+
+\begin{lstlisting}[language=EOL,caption=EOL script with inlined models and tasks,label=lst:ex2-eol,float]
+@model
+operation loadModels() {
+  loadHutn("Tree", '@Spec {Metamodel {nsUri: "Tree" }}
+Model {
+  Tree "t1" { label : "t1" }
+  Tree "t2" {
+    label : "t2"
+    parent : Tree "t1" 
+  }
+}
+');
+
+  loadHutn("GraphExpected", '@Spec {Metamodel {nsUri: "Graph"}}
+Graph { nodes :
+  Node "t1" {
+    name : "t1"
+    outgoing : Edge { source : Node "t1" target : Node "t2" }
+  },
+  Node "t2" {
+    name : "t2"
+  }
+}
+');
+
+  loadHutn("Graph", '@Spec {Metamodel {nsUri: "Graph"}}');
+}
+
+@test
+operation transformationWorksAsExpected() {
+  runETL();
+  assertEqualModels("GraphExpected", "Graph");
+}
+
+operation runETL() {
+  var etlTask := antProject.createTask("epsilon.etl");
+  etlTask.setSrc(new Native('java.io.File')(
+    antProject.getBaseDir(), 'resources/etl/Tree2Graph.etl'));
+  etlTask.createModel().setRef("Tree");
+  etlTask.createModel().setRef("Graph");
+  etlTask.execute();
+}
+\end{lstlisting}
+
 \section{Extending EUnit}
 \label{sec:eunit-extending}
 
 EUnit is based on the Epsilon platform, but it is designed to accommodate other technologies. In this section we will explain several strategies to add support for these technologies to EUnit.
 
-\subsection{Adding Modelling Technologies}
-\label{sec:eunit-adding-modell-techn}
+EUnit uses the Epsilon Model Connectivity abstraction layer to handle different modelling technologies. Adding support for a different modelling technology only requires implementing another driver for EMC. Depending on the modelling technology, the driver can provide optional services such as model comparison, caching or reflection. For more details, the reader is suggested to consult Chapter~\ref{sec:Design.EMC}.
 
-EUnit uses the Epsilon Model Connectivity abstraction layer to handle different modelling technologies. EMC has support for EMF models, Java object graphs and plain XML files. Drivers for MDR and Z models are also available.
-
-Adding support for a different modelling technology only requires implementing another driver for EMC. Depending on the modelling technology, the driver can provide optional services such as model comparison, caching or reflection.
-
-\subsection{Adding Model Management Tasks}
-\label{sec:eunit-adding-model-manag}
-
-As mentioned in Section~\ref{sec:eunit-test-organization}, EUnit uses Ant as a workflow language. Therefore, the basic requirement to test any model management task with EUnit is that it is exposed through an Ant task. It is highly encouraged, however, that the Ant task is aware of the EMC model repository linked to the Ant project. Otherwise, users will have to shuffle the models out from and back into the repository between model management tasks. As an example, a helper target for an ATL~\cite{ATL} transformation with the existing Ant tasks would need to:
+EUnit uses Ant as a workflow language: all model management tasks must be exposed through Ant tasks. It is highly encouraged, however, that the Ant task is aware of the EMC model repository linked to the Ant project. Otherwise, users will have to shuffle the models out from and back into the repository between model management tasks. As an example, a helper target for an ATL~\cite{ATL} transformation with the existing Ant tasks needs to:
 
 \begin{enumerate}
 \item Save the input model in the EMC model repository to a file, by invoking the \xmlelement{epsilon.storeModel} task.
@@ -334,9 +414,50 @@ As mentioned in Section~\ref{sec:eunit-test-organization}, EUnit uses Ant as a w
 \item Save the result of the ATL transformation with \xmlelement{atl.saveModel}.
 \item Load it into the EMC model repository with \xmlelement{epsilon.emf.loadModel}.
 \end{enumerate}
-This does not prevent EUnit from testing ATL transformations, but it makes the helper task quite longer than the one in Listing~\ref{lst:eunit-ex1-ant}. Ideally, Ant tasks should be adapted or wrapped to use models directly from the EMC model repository.
 
-Another advantage in making model management tasks EMC-aware is that they can easily ``export'' their results as models, making them easier to test. To illustrate this point, we extended the Ant task for the Epsilon Validation Language for model validation with the attribute \xmlattribute{exportAsModel}: when set, the task exports its validation results as an EMC Java object graph model. This way, EOL can query the results as any regular model (see Listing~\ref{lst:eunit-evl}). This is simpler than transforming the validated model to a problem metamodel, as suggested in~\cite{Jouault2005}. The example in Listing~\ref{lst:eunit-evl} checks that a single warning was produced due to the expected rule (\eol{LabelsStartWithT}) and the expected model element.
+Listing~\ref{lst:eunit-atl} shows the Ant buildfile which would be required for running these steps, showing that while EUnit can use the existing ATL tasks as-is, the required helper task is quite longer than the one in Listing~\ref{lst:eunit-ex1-ant}. Ideally, Ant tasks should be adapted or wrapped to use models directly from the EMC model repository.
+
+\begin{lstlisting}[language=XML,caption=Testing an ATL model transformation with EUnit,label=lst:eunit-atl,float]
+<project>
+  <!-- ... omitted ... -->
+  <target name="atl">
+    <!-- Create temporary files for input and output models -->
+    <tempfile property="atl.temp.srcfile" />
+    <tempfile property="atl.temp.dstfile" />
+
+    <!-- Save input model to a file -->
+    <epsilon.storeModel model="Tree"
+      target="${atl.temp.srcfile}" />
+
+    <!-- Load the metamodels and the source model -->
+    <atl.loadModel name="TreeMM" metamodel="MOF"
+      path="metamodels/tree.ecore" />
+    <atl.loadModel name="GraphMM" metamodel="MOF"
+      path="metamodels/graph.ecore" />
+    <atl.loadModel name="Tree" metamodel="TreeMM"
+      path="${atl.temp.srcfile}" />
+
+    <!-- Run ATL and save the model -->
+    <atl.launch path="transformation/tree2graph.atl">
+      <inmodel name="IN"   model="Tree" />
+      <outmodel name="OUT" model="Graph" metamodel="GraphMM" />
+    </atl.launch>
+    <atl.saveModel model="Graph" path="${atl.temp.dstfile}" />
+
+    <!-- Load it back into the EUnit suite -->
+    <epsilon.emf.loadModel name="Graph"
+      modelfile="${atl.temp.dstfile}"
+      metamodelfile="metamodels/graph.ecore"
+      read="true" store="false" />
+
+    <!-- Delete temporary files -->
+    <delete file="${atl.temp.srcfile}" />
+    <delete file="${atl.temp.dstfile}" />
+  </target>
+</project>
+\end{lstlisting}
+
+Another advantage in making model management tasks EMC-aware is that they can easily ``export'' their results as models, making them easier to test. For instance, the EVL Ant task allows for exporting its results as a model by setting the attribute \xmlattribute{exportAsModel} to \eol{true}, as mentioned in Section~\ref{sec:EvlTask}. This way, EOL can query the results as any regular model (see Listing~\ref{lst:eunit-evl}). This is simpler than transforming the validated model to a problem metamodel, as suggested in~\cite{Jouault2005}. The example in Listing~\ref{lst:eunit-evl} checks that a single warning was produced due to the expected rule (\eol{LabelsStartWithT}) and the expected model element.
 
 \begin{lstlisting}[language=EOL,caption=Testing an EVL model validation with EUnit,label=lst:eunit-evl,float]
 @test
@@ -355,18 +476,7 @@ operation valid() {
 
 \section{Summary}
 
-To tackle these issues, we have proposed in this work creating an integrated unit testing framework for model management tasks. To illustrate our ideas, we have developed EUnit, an unit testing framework based on the Epsilon platform:
-\begin{itemize}
-\item EUnit can reuse the same test for many models with suite-wide parametric testing and test-specific model bindings. Parametric testing can integrate hand-written model generation programs into the test suite definition.
-
-\item Tests in EUnit are written in the Epsilon Object Language, a high-level imperative language inspired on OCL which is especially well suited for model management. EUnit integrates assertions for comparing models and file trees.
-
-\item Modelling technologies are unified by the Epsilon Model Connectivity layer, and model management tasks are wrapped in high-level Apache Ant tasks.
-
-\item Ant tasks can be extended to make model management tasks easier to test. For example, the Ant task for the Epsilon Validation Language can now provide EUnit with models of the validation results.
-
-\item EUnit provides a graphical user interface for the Eclipse integrated development environment, and generates test reports in the widely used XML format of the JUnit Ant task.
-\end{itemize}
+This chapter has presented EUnit, an unit testing framework specialized on testing model management tasks, such as model-to-model transformations, model-to-text transformations and model validations. Section~\ref{sec:eunit-motiv-test-model} has presented the motivation for creating EUnit. Section~\ref{sec:eunit-test-organization} has described the data model used by EUnit, and the steps involved in running a test. Section~\ref{sec:eunit-test-specification} has specified how tests in EUnit are written. Section~\ref{sec:eunit-examples} has shown two examples that test the same ETL transformation using different EUnit constructs. Finally, Section~\ref{sec:eunit-extending} suggests how to extend EUnit to handle additional modelling and model management technologies.
 
 %%% Local Variables: 
 %%% mode: latex
