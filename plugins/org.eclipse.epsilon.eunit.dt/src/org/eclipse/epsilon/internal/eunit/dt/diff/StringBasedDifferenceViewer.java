@@ -16,7 +16,8 @@ import org.eclipse.epsilon.eunit.dt.diff.IDifferenceViewer;
 
 /**
  * Fallback difference viewer which converts both arguments to strings
- * and then compares them.
+ * and then compares them. If the  <code>delta</code> is not null, this
+ * viewer will be disabled.
  *
  * @author Antonio Garcia-Dominguez
  */
@@ -24,7 +25,7 @@ public class StringBasedDifferenceViewer implements IDifferenceViewer {
 
 	@Override
 	public boolean canCompare(Object expected, Object actual, Object delta) {
-		return true;
+		return delta == null;
 	}
 
 	@Override

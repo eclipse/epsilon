@@ -97,17 +97,30 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		public void run() {
 			final EolAssertionException ex = getCurrentAssertionException();
 			if (ex == null) return;
+
+			IDifferenceViewer match = findMatchingViewer(ex);
+			if (match != null) {
+				match.compare(ex.getExpected(), ex.getActual(), ex.getDelta());
+			}
+			else {
+				// Normally this shouldn't be called, as the rest of the UI disables
+				// the "Compare" action when there are no matching difference viewers.
+				// However, we keep it as a safety measure.
+				MessageDialog.openError(getViewSite().getShell(), EUnitRunnerView.EUNIT_DIALOG_TITLE,
+						String.format("Could not find a difference viewer for expected=%s, actual=%s and delta=%s.",
+								ex.getExpected().getClass().getName(),
+								ex.getActual().getClass().getName(),
+								ex.getDelta() != null ? ex.getDelta().getClass().getName() : "null"));
+			}
+		}
+
+		private IDifferenceViewer findMatchingViewer(final EolAssertionException ex) {
 			for (IDifferenceViewer dv : diffViewers) {
 				if (dv.canCompare(ex.getExpected(), ex.getActual(), ex.getDelta())) {
-					dv.compare(ex.getExpected(), ex.getActual(), ex.getDelta());
-					return;
+					return dv;
 				}
 			}
-			MessageDialog.openError(getViewSite().getShell(), EUnitRunnerView.EUNIT_DIALOG_TITLE,
-				String.format("Could not find a difference viewer for expected=%s, actual=%s and delta=%s.",
-						ex.getExpected().getClass().getName(),
-						ex.getActual().getClass().getName(),
-						ex.getDelta() != null ? ex.getDelta().getClass().getName() : "null"));
+			return null;
 		}
 
 		private void loadDiffViewers() {
@@ -129,7 +142,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 
 		/**
 		 * If there's a test currently selected which failed due to an EolAssertionException for
-		 * which actual values are available, returns the exception. Otherwise, returns <code>null</code>.
+		 * which differences can be visualized, returns the exception. Otherwise, returns <code>null</code>.
 		 */
 		public EolAssertionException getCurrentAssertionException() {
 			// Obtain the currently selected test
@@ -149,12 +162,13 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			}
 			EolAssertionException ex = (EolAssertionException)currentTest.getException();
 
-			// We're only interested in the assertion exceptions which provide values
-			if (ex.getActual() == null) {
-				return null;
+			// We're only interested in the assertion exceptions which provide values and whose
+			// differences can be visualized
+			if (ex.getActual() != null && findMatchingViewer(ex) != null) {
+				return ex;
 			}
 			else {
-				return ex;
+				return null;
 			}
 		}
 
