@@ -43,7 +43,7 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 	}
 
 	@Override
-	public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+	public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 		if (!context.isAssertionsEnabled()) {return null;}
 
 		// Extract the message from the parameter list
@@ -58,21 +58,42 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		final IComparableModel expectedCModel = getComparableModel(context, expectedModelName);
 		final IComparableModel actualCModel = getComparableModel(context, actualModelName);
 
-		// Perform the comparison
-		Object delta;
+		// Compare the models
+		Object delta = null;
+		final boolean bExpectedEmpty = expectedCModel.allContents().isEmpty();
+		final boolean bActualEmpty = actualCModel.allContents().isEmpty();
 		try {
-			delta = actualCModel.computeDifferencesWith(expectedCModel);
+			if (!bExpectedEmpty && !bActualEmpty) {
+				// We only use the driver-specific comparison if both models are not empty
+				delta = actualCModel.computeDifferencesWith(expectedCModel);
+			}
+			else if (bExpectedEmpty != bActualEmpty) {
+				delta = "expected "
+					+ (bExpectedEmpty ? "is" : "is not")
+					+ " empty, actual "
+					+ (bActualEmpty ? "is" : "is not")
+					+ " empty";
+			}
 		} catch (Exception e) {
 			throw new EolInternalException(e);
 		}
+
+		// Does the comparison result match our expectations?
 		if ((delta == null) == mustBeEqual) {
 			return true;
 		}
  
 		if (message == null) {
-			message = "Expected " + actualModelName
-				+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
-				+ expectedModelName + ", but it is not";
+			if (bExpectedEmpty) {
+				message = "Expected " + actualModelName
+					+ (mustBeEqual ? " to be also" : " not to be") + " empty, but it is "
+					+ (bActualEmpty ? "empty" : "not");
+			}
+			else {
+				message = "Expected " + actualModelName
+					+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
+					+ expectedModelName + ", but it is " + (bActualEmpty ? "empty" : "not");
+			}
 		}
 		if (mustBeEqual) {
 			throw new EolAssertionException(message.toString(), ast, expectedCModel, actualCModel, delta);
