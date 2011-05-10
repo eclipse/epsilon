@@ -2,6 +2,12 @@
 \chapter{The Epsilon Unit Testing Framework (EUnit)}
 \label{chp:eunit}
 
+\lstset{%
+  basicstyle=\ttfamily\footnotesize,%
+  columns=flexible,%
+  tabsize=2,%
+}
+
 Model-driven approaches are being adopted in a wide range of demanding environments, such as finance, health care or telecommunications~\cite{Guttman2006}. In this context, validation and verification is identified as one of the many challenges of model-driven software engineering (MDSE)~\cite{Chaudron2009}.
 
 MDSE in practice involves creating models, and thereafter \textit{managing} them, via various tasks, such as model transformation, validation and merging.  The validation and verification of each type of model management task has its own specific challenges. Kolovos et al.\ list testing concerns for model-to-model (M2M) and model-to-text (M2T) transformations, model validations, model comparisons and model compositions in~\cite{EUnit}. Baudry et al.\ identify three main issues when testing model transformations~\cite{Baudry2010}: the complexity of the input and output models, the immaturity of the model management environments and the large number of different transformation languages and techniques.
@@ -26,7 +32,9 @@ While each type of model management task does have specific complexity, some of 
 
 In this section we will illustrate the abstract issues previously listed using a unit testing framework for a general-purpose programming language to test a model management task. We will test a simple transformation between two EMF models in ETL using JUnit 4~\cite{JUnit2011}.
 
-\subsubsection{Definition of the test suite.} For the sake of brevity, we will only outline the contents of the JUnit test suite. All JUnit test suites are defined as Java classes. This test suite has three methods:
+\subsubsection{Definition of the test suite}
+
+For the sake of brevity, we will only outline the contents of the JUnit test suite. All JUnit test suites are defined as Java classes. This test suite has three methods:
 
 \begin{enumerate}
 \item The test setup method (marked with the \javaannotation{Before} JUnit annotation) loads the required models by creating and configuring instances of \class{EmfModel}. After that, it prepares the transformation by creating and configuring an instance of \class{EtlModule}, adding the input and output models to its model repository.
@@ -36,7 +44,9 @@ In this section we will illustrate the abstract issues previously listed using a
 \item The test teardown method (marked with \javaannotation{After}) disposes of the models.
 \end{enumerate}
 
-\subsubsection{Issues.} We can identify several issues in each part of the test suite. First, test setup is tightly bound to the technologies used: it depends on the API of the \class{EmfModel} and \class{EtlModule} classes, which are both part of Epsilon. Later refactorings in these classes may break existing tests.
+\subsubsection{Issues}
+
+We can identify several issues in each part of the test suite. First, test setup is tightly bound to the technologies used: it depends on the API of the \class{EmfModel} and \class{EtlModule} classes, which are both part of Epsilon. Later refactorings in these classes may break existing tests.
 
 The test case can only be used for a single combination of input and output models. Testing several combinations requires either repeating the same code and therefore making the suite less maintainable, or using parametric testing, which may be wasteful if not all tests need the same combinations of models.
 
@@ -44,7 +54,9 @@ Model comparison requires the user to manually select a model comparison engine 
 
 Finally, instead of comparing the obtained and expected models, we could have checked several properties in the obtained model. However, querying models through Java code can be quite verbose.
 
-\subsubsection{Possible solutions.} We could follow several approaches to address these issues. Our first instinct would be to extend JUnit and reuse all the tooling available for it. A custom test runner would simplify setup and teardown, and modelling platforms would integrate their technologies into it. Since Java is very verbose when querying models, the custom runner should run tests in a higher-level language, such as EOL. However, JUnit is very tightly coupled to Java, and this would impose limits on the level of integration we could obtain. For instance, errors in the model management tasks or the EOL tests could not be reported from their original source, but rather from the Java code which invoked them.  Another problem with this approach is that new integration code would need to be written for each of the existing platforms.
+\subsubsection{Possible solutions}
+
+We could follow several approaches to address these issues. Our first instinct would be to extend JUnit and reuse all the tooling available for it. A custom test runner would simplify setup and teardown, and modelling platforms would integrate their technologies into it. Since Java is very verbose when querying models, the custom runner should run tests in a higher-level language, such as EOL. However, JUnit is very tightly coupled to Java, and this would impose limits on the level of integration we could obtain. For instance, errors in the model management tasks or the EOL tests could not be reported from their original source, but rather from the Java code which invoked them.  Another problem with this approach is that new integration code would need to be written for each of the existing platforms.
 
 Alternatively, we could add a new language exclusively dedicated to testing to the Epsilon family.  Being based on EOL, model querying would be very concise, and with a test runner written from scratch, test execution would be very flexible. However, this would still require all platforms to write new code to integrate with it, and this code would be tightly coupled to Epsilon.
 
@@ -66,12 +78,21 @@ Data bindings repeat all test cases with different values in one or more variabl
 Model bindings are specific to EUnit: they allow developers to repeat a single test case with different subsets of models. Data and model bindings can be combined. One interesting approach is to set the names of the models to be used in the model binding from the data binding, as a quick way to try several test cases with the same subsets of models.
 
 \begin{figure}
-  \centering \input{tikz/test-organization.tikz}
+  \centering
+  \input{tikz/test-organization.tikz}
   \caption{Example of an EUnit test tree}
   \label{fig:eunit-test-tree}
 \end{figure}
 
-Figure~\ref{fig:eunit-test-tree} shows an example of an EUnit test tree: nodes with data bindings are marked with \eol{data}, and nodes with model bindings are marked with \eol{model}. EUnit will perform a preorder traversal of this tree, running the following tests: \test{A} with \variable{x = 1} and model X, \test{A} with \variable{x = 1} and model Y, \test{B} with \variable{x = 1} and both models, \test{A} with \variable{x = 2} and model X, \test{A} with \variable{x = 2} and model Y and finally, \test{B} with \variable{x = 2} and both models.
+Figure~\ref{fig:eunit-test-tree} shows an example of an EUnit test tree: nodes with data bindings are marked with \eol{data}, and nodes with model bindings are marked with \eol{model}. EUnit will perform a preorder traversal of this tree, running the following tests:
+\begin{enumerate}
+\item \test{A} with \variable{x = 1} and model X.
+\item \test{A} with \variable{x = 1} and model Y.
+\item \test{B} with \variable{x = 1} and both models.
+\item \test{A} with \variable{x = 2} and model X.
+\item \test{A} with \variable{x = 2} and model Y.
+\item \test{B} with \variable{x = 2} and both models.
+\end{enumerate}
 
 Optionally, EUnit can filter tests by name, running only \test{A} or \test{B}. Similarly to JUnit, EUnit logs start and finish times for each node in the tree, so the most expensive test cases can be quickly detected. However, EUnit logs CPU time\footnote{CPU time only measures the time elapsed in the thread used by EUnit, and is more stable with varying system load in single-threaded programs.} in addition to the usual wallclock time.
 
@@ -106,7 +127,9 @@ As discussed before, after evaluating several approaches, we decided to combine 
 
 EUnit uses standard Ant buildfiles: running EUnit is as simple as using its Ant task. Users may run EUnit more than once in a single Ant launch: the graphical user interface will automatically aggregate the results of all test suites.
 
-\subsubsection{EUnit Invocations.} An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though.
+\subsubsection{EUnit Invocations}
+
+An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though.
 
 \begin{lstlisting}[language=XML,columns=fixed,caption=Example invocation of the EUnit Ant task,label=lst:example-eunit-ant,float]
 <epsilon.eunit src="..." failOnErrors="...">
@@ -128,14 +151,18 @@ The EUnit Ant task adds several new features to customize the test result report
 
 The optional \xmlelement{modelTasks} nested element contains a sequence of Ant tasks which will be run after reloading the model references and before running the model setup sections in the EOL file. This allows users to run workflows more advanced than simply reloading model references, such as the one in Listing~\ref{lst:eunit-ex1-ant}.
 
-\subsubsection{Helper Targets.} Ant buildfiles for EUnit may include \emph{helper targets}. These targets can be invoked using \eol{runTarget("targetName")} from anywhere in the EOL script. Helper targets are quite versatile: called from an EOL model setup section, they allow for reusing model loading fragments between different EUnit test suites. They can also be used to invoke the model management tasks under test.
+\subsubsection{Helper Targets}
+
+Ant buildfiles for EUnit may include \emph{helper targets}. These targets can be invoked using \eol{runTarget("targetName")} from anywhere in the EOL script. Helper targets are quite versatile: called from an EOL model setup section, they allow for reusing model loading fragments between different EUnit test suites. They can also be used to invoke the model management tasks under test.
 
 \subsection{EOL script}
 \label{sec:eunit-eol-script}
 
 The Epsilon Object Language script is the second half of the EUnit test suite. EOL annotations are used to tag some of the operations as data binding definitions (\eolannotation{@data}), additional model setup sections (\eolannotation{@model}), test setup and teardown sections (\eolannotation{@setup} and \eolannotation{@teardown}) and test cases (\eolannotation{@test}).
 
-\subsubsection{Data bindings.} Data bindings repeat all test cases with different values in some variables. To define a data binding, users must define an operation which returns a sequence of elements and is marked with \eolannotation{@data variable}. All test cases will be repeated once for each element of the returned sequence, setting the specified variable to the corresponding element. Listing~\ref{lst:eunit-databind} shows two nested data bindings and a test case which will be run four times: with \variable{x=1} and \variable{y=1}, \variable{x=1} and \variable{y=2}, \variable{x=2} and \variable{y=1} and finally \variable{x=2} and \variable{y=2}. The example shows how \variable{x} and \variable{y} could be used by the setup section to generate an input model for the test. This can be useful if the intent of the test is ensuring that a certain property holds in a class of models, rather than a single model.
+\subsubsection{Data bindings}
+
+Data bindings repeat all test cases with different values in some variables. To define a data binding, users must define an operation which returns a sequence of elements and is marked with \eolannotation{@data variable}. All test cases will be repeated once for each element of the returned sequence, setting the specified variable to the corresponding element. Listing~\ref{lst:eunit-databind} shows two nested data bindings and a test case which will be run four times: with \variable{x=1} and \variable{y=1}, \variable{x=1} and \variable{y=2}, \variable{x=2} and \variable{y=1} and finally \variable{x=2} and \variable{y=2}. The example shows how \variable{x} and \variable{y} could be used by the setup section to generate an input model for the test. This can be useful if the intent of the test is ensuring that a certain property holds in a class of models, rather than a single model.
 
 \begin{lstlisting}[language=EOL,caption=Example of a 2-level data binding,label=lst:eunit-databind,columns=fixed,float]
 @data x
@@ -151,7 +178,9 @@ operation generateModel() { -* generate model using x and y *- }
 operation mytest() { -* test with the generated model *- }
 \end{lstlisting}
 
-\subsubsection{Model bindings.} Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with seq} one or more times, where \eol{seq} is an EOL expression that produces a \class{Sequence} with an even number of elements. For each adjacent pair \variable{(dst,src)}, EUnit will rename the model named \variable{src} to \variable{dst}. Listing~\ref{lst:eunit-modelbind} shows a test which will be run twice: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model.
+\subsubsection{Model bindings}
+
+Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with seq} one or more times, where \eol{seq} is an EOL expression that produces a \class{Sequence} with an even number of elements. For each adjacent pair \variable{(dst,src)}, EUnit will rename the model named \variable{src} to \variable{dst}. Listing~\ref{lst:eunit-modelbind} shows a test which will be run twice: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model.
 
 \begin{lstlisting}[language=EOL,caption=Example of a model binding,label=lst:eunit-modelbind,columns=fixed,float]
 $with Sequence {"", "A", "Other", "B"}
@@ -160,30 +189,80 @@ $with Sequence {"", "B", "Other", "A"}
 operation mytest() { -* use the default and Other models *- }
 \end{lstlisting}
 
-\subsubsection{Additional variables and built-in operations.} EUnit provides several variables and operations which are useful for testing:
-\begin{itemize}
-\item \eol{runTarget("targetName")} runs the specified target of the Ant buildfile which invoked EUnit. Some use cases for this operation include reusing the same Ant model setup tasks in several EUnit test suites, or launching the model management tasks under test.
-\item \eol{exportVariable("varName")} and \eol{useVariable("varName")} export a variable to be used by another task or import a variable exported by a previous task, respectively.
-\item \eol{loadHutn("modelName", "hutnFragment")} loads an EMF model written in HUTN~\cite{HUTN}. This is normally used inside a model setup section to load a model inlined into the EOL script, instead of running an Ant task.
-\item \eol{antProject} is a new global variable which refers to the Ant \class{Project} object being executed. This can be used to create and run Ant tasks from inside the EOL code.
-\end{itemize}
+\subsubsection{Additional variables and built-in operations}
 
-\subsubsection{Assertions.} EUnit implements some assertions which are common in unit testing frameworks, such as \eol{assertTrue}, \eol{assertFalse}, \eol{assertEquals} and \eol{assertNotEquals}. In addition, EUnit supports a limited form of exception testing with \eol{assertError}, which checks that the expression inside it throws an exception. The \eol{fail} assertion fails a test with a custom message: it can be used to define custom assertions.
+EUnit provides several variables and operations which are useful for testing. These are listed in Table~\ref{tab:eunit-operations}.
 
-Additionally, EUnit implements several assertions which are useful for testing model transformations: \eol{assertEqualModels} and \eol{assertNotEqualModels} compare entire models, \eol{assertEqualFiles} and \eol{assertNotEqualFiles} compare files, and file trees can be compared with \eol{assertEqualDirectories} and \eol{assertNotEqualDirectories}.
+\begin{longtable}{|p{6cm}|p{6.5cm}|}
+  \caption{Extra operations and variables in EUnit}
+  \label{tab:eunit-operations} \\\hline
 
-Model comparison is not implemented by the assertions themselves. We extended the Epsilon Model Connectivity abstraction layer~ to provide model comparison as an optional service of its model drivers. Currently, EMF models will automatically use EMF Compare as their comparison engine. The rest of the EMC drivers do not support comparison yet. The main advantage of having an abstraction layer implement model comparison as a service is that the test case definition is decoupled from the concrete model comparison engine used.
+  \textbf{Signature} & \textbf{Description}  \\\hline
+
+  runTarget(name : String)      & Runs the specified target of the Ant buildfile which invoked EUnit. \\\hline
+
+  exportVariable(name : String) & Exports the specified variable, to be used by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
+
+  useVariable(name : String) & Imports the specified variable, which should have been previously exported by another executable module (see Section~\ref{sec:ExecutableModuleTask}). \\\hline
+
+  loadHutn(name : String, hutn : String) & Loads an EMF model with the specified name, by parsing the second argument as an HUTN~\cite{HUTN} fragment. \\\hline
+
+  antProject : org.apache.tools.ant.Project & Global variable which refers to the Ant project being executed. This can be used to create and run Ant tasks from inside the EOL code. \\\hline
+\end{longtable}
+
+
+\subsubsection{Assertions}
+
+EUnit implements some common assertions for equality and inequality, with special versions for comparing floating-point numbers. EUnit also supports a limited form of exception testing with \eol{assertError}, which checks that the expression inside it throws an exception. Custom assertions can be defined by the user with the \eol{fail} operation, which fails a test with a custom message. All the available assertions are shown in Table~
+
+More importantly, EUnit implements specific assertions for comparing models, files and trees of files. Model comparison is not implemented by the assertions themselves: it is an optional service implemented by some EMC drivers. Currently, EMF models will automatically use EMF Compare as their comparison engine. The rest of the EMC drivers do not support comparison yet.  The main advantage of having an abstraction layer implement model comparison as a service is that the test case definition is decoupled from the concrete model comparison engine used.
 
 Model, file and directory comparisons take a snapshot of their operands before comparing them, so EUnit can show the differences right at the moment when the comparison was performed. This is especially important when some of the models are generated on the fly by the EUnit test suite, or when a test case for code generation may overwrite the results of the previous one.
 
-Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user interface. On the left, an Eclipse view shows the results of several EUnit test suites. We can see that the \eol{load-models-with-hutn} suite failed. Users can press the Compare button to the right of ``Failure Trace'' to show the differences between the expected and obtained models, as shown on the right. EUnit implements a pluggable architecture where \emph{difference viewers} are automatically selected based on the types of the operands. There are difference viewers for EMF models, file trees and a fallback viewer which converts both operands to strings.
+Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user interface. On the left, an Eclipse view shows the results of several EUnit test suites. We can see that the \eol{load-models-with-hutn} suite failed. The Compare button to the right of ``Failure Trace'' can be pressed to show the differences between the expected and obtained models, as shown on the right side. EUnit implements a pluggable architecture where \emph{difference viewers} are automatically selected based on the types of the operands. There are difference viewers for EMF models, file trees and a fallback viewer which converts both operands to strings.
 
-\begin{figure}
+\newcommand{\parameter}[1]{\newline{}\phantom{- }#1}
+\begin{longtable}{|p{6cm}|p{6.5cm}|}
+  \caption{Assertions in EUnit}
+  \label{tab:eunit-operations} \\\hline
+
+  \textbf{Signature} & \textbf{Description}  \\\hline
+
+  assertTrue([msg : String,]\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{false}.\\\hline
+
+  assertEquals([msg : String,]\parameter{expected : Any},\parameter{obtained : Any}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} are not equal. \\\hline
+
+  assertEquals([msg : String,]\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} differ in more than \variable{ulps} units of least precision. See \href{http://download.oracle.com/javase/6/docs/api/java/lang/Math.html\#ulp(double)}{this site} for details.\\\hline
+
+  assertEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Fails the test with the optional message \variable{msg} if the model named \variable{obtainedModel} is not equal to the model named \variable{expectedModel}. Model comparisons are performed on snapshots of the resource sets of both models. During EMF comparisons, XMI identifiers are ignored.\\\hline
+
+  assertEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the file in \variable{obtainedPath} differ from those of the file in \variable{expectedPath}. File comparisons are performed on snapshots of both files.\\\hline
+
+  assertEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the directory in \variable{obtainedFile} differ from those of the directory in \variable{expectedPath}. Directory comparisons are performed on recursive snapshots of both directories.\\\hline
+
+  assertError(expr : Any) & Fails the test if no exception is thrown during the evaluation of \variable{expr}.\\\hline
+
+  fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
+
+  assertFalse([msg : String,]\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{true}. It is a negated version of assertTrue. \\\hline
+
+  assertNotEquals([msg : String,]\parameter{expected : Any},\parameter{obtained : Any}) & Negated version of assertEquals([msg : String,] expected : Any, obtained : Any). \\\hline
+
+  assertNotEquals([msg : String,]\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Negated version of assertEquals([msg : String,] expected : Real, obtained : Real, ulps : Integer). \\\hline
+
+  assertNotEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Negated version of assertNotEqualModels.\\\hline
+
+  assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
+
+  assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
+\end{longtable}
+
+\begin{sidewaysfigure}
   \centering
   \includegraphics[width=\textwidth]{images/EUnitUI}
   \caption{Screenshot of the EUnit graphical user interface}
   \label{fig:screenshot-eunit}
-\end{figure}
+\end{sidewaysfigure}
 
 \subsection{Example: Testing a Model Transformation with EUnit}
 \label{sec:eunit-exampl-balanc-ant}
@@ -197,12 +276,18 @@ The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two target
   <target name="run-tests">
     <epsilon.eunit src="test-external.eunit">
       <modelTasks>
-        <epsilon.emf.loadModel name="Tree" modelfile="tree.model"
-            metamodelfile="tree.ecore" read="true" store="false"/>
-        <epsilon.emf.loadModel name="GraphExpected" modelfile="graph.model"
-            metamodelfile="graph.ecore" read="true" store="false"/>
-        <epsilon.emf.loadModel name="Graph" modelfile="transformed.model"
-            metamodelfile="graph.ecore" read="false" store="false"/>
+        <epsilon.emf.loadModel name="Tree"
+            modelfile="tree.model"
+            metamodelfile="tree.ecore"
+            read="true" store="false"/>
+        <epsilon.emf.loadModel name="GraphExpected"
+            modelfile="graph.model"
+            metamodelfile="graph.ecore"
+            read="true" store="false"/>
+        <epsilon.emf.loadModel name="Graph"
+            modelfile="transformed.model"
+            metamodelfile="graph.ecore"
+            read="false" store="false"/>
       </modelTasks>
     </epsilon.eunit>
   </target>
