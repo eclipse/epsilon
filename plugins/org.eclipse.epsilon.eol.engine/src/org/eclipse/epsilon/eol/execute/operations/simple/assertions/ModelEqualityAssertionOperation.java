@@ -52,10 +52,9 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 			message = parameters.remove(0);
 		}
 
-		// Extract the other arguments and check they are comparable models, following
-		// model references if required.
-		String expectedModelName = (String)parameters.remove(0);
-		String actualModelName = (String)parameters.remove(0);
+		// Extract the models and check that they are comparable
+		final String expectedModelName = (String)parameters.remove(0);
+		final String actualModelName = (String)parameters.remove(0);
 		final IComparableModel expectedCModel = getComparableModel(context, expectedModelName);
 		final IComparableModel actualCModel = getComparableModel(context, actualModelName);
 
@@ -71,9 +70,9 @@ public class ModelEqualityAssertionOperation extends AbstractSimpleOperation {
 		}
  
 		if (message == null) {
-			message = "Expected " + expectedModelName
+			message = "Expected " + actualModelName
 				+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
-				+ actualModelName + ", but it is not";
+				+ expectedModelName + ", but it is not";
 		}
 		if (mustBeEqual) {
 			throw new EolAssertionException(message.toString(), ast, expectedCModel, actualCModel, delta);
