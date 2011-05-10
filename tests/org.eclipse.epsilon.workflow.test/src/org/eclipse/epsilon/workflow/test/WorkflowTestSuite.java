@@ -18,7 +18,7 @@ import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitBasicTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitInlineModelTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEGLTests;
-import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithETLTests;
+import org.eclipse.epsilon.workflow.tasks.eunit.EUnitModelComparisonTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEVLTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -28,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({LoadModelTaskTests.class,
                LoadModelTests.class,
                EUnitBasicTests.class,
-               EUnitWithETLTests.class,
+               EUnitModelComparisonTests.class,
                EUnitWithEVLTests.class,
                EUnitWithEGLTests.class,
                EUnitInlineModelTests.class})

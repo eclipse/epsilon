@@ -31,11 +31,11 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * Tests for the EUnit<->ETL integration.
+ * Tests for the EUnit model comparison assertions.
  *
  * @author Antonio Garcia-Dominguez
  */
-public class EUnitWithETLTests extends EUnitTestCase {
+public class EUnitModelComparisonTests extends EUnitTestCase {
 
 	@Test
 	public void compareEMFWithEMF() throws Exception {
