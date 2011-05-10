@@ -19,6 +19,8 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{eso-pic}
+\usepackage{subscript}
+\usepackage{tikz}
 
 \newcommand\BackgroundPic{
 \put(-4,0){
@@ -66,6 +68,20 @@ Department of Computer Science,\\\\The University of York
 %at least 10% of a normal page must contain text
 \renewcommand\textfraction{.01}
 
+\newcommand*{\eol}[1]{\texttt{#1}}
+\newcommand*{\eolannotation}[1]{\eol{#1}}
+\newcommand*{\anttarget}[1]{\textit{#1}}
+\newcommand*{\xmlattribute}[1]{\textit{#1}}
+\newcommand*{\xmlelement}[1]{\textit{\textless{}#1\/\textgreater{}}}
+
+\newcommand*{\class}[1]{\textsc{#1}}
+\newcommand*{\method}[1]{\textit{#1}}
+\newcommand*{\test}[1]{\textit{#1}}
+\newcommand*{\variable}[1]{\textit{#1}}
+\newcommand*{\modelname}[1]{``#1''}
+\newcommand*{\file}[1]{\texttt{#1}}
+\newcommand*{\javaannotation}[1]{\texttt{@#1}}
+
 \begin{document}
 \AddToShipoutPicture*{\BackgroundPic}
 
@@ -88,6 +104,8 @@ Department of Computer Science,\\\\The University of York
 \input{TaskSpecificLanguages}
 
 \input{Workflow}
+
+\input{EUnit}
 
 \bibliographystyle{unsrt}
 \bibliography{Bibliography}

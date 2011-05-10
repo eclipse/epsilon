@@ -1,0 +1,30 @@
+% -*- latex -*-
+\providecommand{\typea}{data}
+\providecommand{\typeb}{test}
+
+\begin{tikzpicture}
+  \newcommand{\tsub}[1]{\textsubscript{#1}}
+  \node {root}[
+  level 1/.style={sibling distance=7em},
+  level 2/.style={sibling distance=3.5em},
+  level distance=3em,
+  ]
+  child {
+    node {\typea\tsub{1}}
+    child {
+      node {\typeb\tsub{1}}
+    }
+    child {
+      node {\typeb\tsub{2}}
+    }
+  }
+  child {
+    node {\typea\tsub{2}}
+    child {
+      node {\typeb\tsub{1}}
+    }
+    child {
+      node {\typeb\tsub{2}}
+    }
+  };
+\end{tikzpicture}
