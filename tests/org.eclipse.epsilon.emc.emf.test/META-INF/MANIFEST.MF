@@ -4,7 +4,7 @@ Bundle-Name: EMC EMF Test Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.test
 Bundle-Version: 1.0.0
 Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.test.dependencies;bundle-version="0.8.4",
  org.eclipse.epsilon.common.dt.test;bundle-version="0.8.7"
 Export-Package: org.eclipse.epsilon.emc.emf.test

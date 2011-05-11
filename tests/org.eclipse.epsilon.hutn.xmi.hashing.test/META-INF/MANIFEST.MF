@@ -8,4 +8,4 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.concordance.core.hashing,
  org.eclipse.epsilon.hutn.test.dependencies.model;bundle-version="0.7.4"
 Export-Package: org.eclipse.epsilon.concordance.core.hashing.test
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

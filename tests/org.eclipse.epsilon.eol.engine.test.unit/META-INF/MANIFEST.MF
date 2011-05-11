@@ -6,4 +6,4 @@ Bundle-Version: 0.8.6.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.test.dependencies
 Export-Package: org.eclipse.epsilon.eol.test.unit
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -17,4 +17,4 @@ Export-Package: org.antlr.gunit,
  org.eclipse.epsilon.test.util,
  org.eclipse.epsilon.test.util.builders.emf,
  org.eclipse.epsilon.test.util.hamcrest
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

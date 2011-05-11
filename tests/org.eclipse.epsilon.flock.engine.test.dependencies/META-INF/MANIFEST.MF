@@ -7,4 +7,4 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.flock.engine;visibility:=reexport,
  org.eclipse.epsilon.test.dependencies;visibility:=reexport,
  org.eclipse.epsilon.hutn.test.dependencies.model;visibility:=reexport
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

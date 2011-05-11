@@ -9,4 +9,4 @@ Require-Bundle: org.eclipse.epsilon.hutn.test.dependencies,
  org.eclipse.epsilon.hutn.dt.test
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.hutn.test
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

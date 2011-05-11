@@ -9,4 +9,4 @@ Require-Bundle: org.eclipse.epsilon.common.dt;visibility:=reexport,
 Export-Package: org.eclipse.epsilon.common.dt.nature,
  org.eclipse.epsilon.common.dt.test,
  org.eclipse.epsilon.common.dt.test.util
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
