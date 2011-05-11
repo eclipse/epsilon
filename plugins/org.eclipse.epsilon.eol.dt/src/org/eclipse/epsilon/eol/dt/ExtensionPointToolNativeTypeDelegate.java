@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.launching.extensions.ToolExtension;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.AbstractToolNativeTypeDelegate;
 
 public class ExtensionPointToolNativeTypeDelegate extends AbstractToolNativeTypeDelegate{

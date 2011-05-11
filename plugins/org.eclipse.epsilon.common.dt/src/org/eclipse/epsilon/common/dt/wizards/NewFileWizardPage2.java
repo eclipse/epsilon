@@ -11,8 +11,6 @@
 
 package org.eclipse.epsilon.common.dt.wizards;
 
-import java.io.InputStream;
-
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 

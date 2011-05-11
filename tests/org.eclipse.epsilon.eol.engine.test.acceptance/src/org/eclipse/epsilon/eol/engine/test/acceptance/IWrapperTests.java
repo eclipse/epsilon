@@ -1,12 +1,10 @@
 package org.eclipse.epsilon.eol.engine.test.acceptance;
 
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.test.util.MultilineCommentReader;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class IWrapperTests {
 	

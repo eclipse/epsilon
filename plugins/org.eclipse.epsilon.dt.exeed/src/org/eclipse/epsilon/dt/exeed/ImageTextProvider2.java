@@ -13,7 +13,6 @@ package org.eclipse.epsilon.dt.exeed;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;

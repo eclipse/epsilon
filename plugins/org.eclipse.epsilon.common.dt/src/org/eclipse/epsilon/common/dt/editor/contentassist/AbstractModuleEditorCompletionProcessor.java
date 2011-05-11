@@ -14,9 +14,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
-import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.templates.Template;

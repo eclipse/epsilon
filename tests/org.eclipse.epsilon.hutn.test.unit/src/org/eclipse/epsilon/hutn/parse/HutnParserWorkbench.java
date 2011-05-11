@@ -16,7 +16,6 @@ package org.eclipse.epsilon.hutn.parse;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Iterator;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;

@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;

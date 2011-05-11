@@ -12,7 +12,6 @@ package org.eclipse.epsilon.common.dt.util;
 
 import java.io.File;
 
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;

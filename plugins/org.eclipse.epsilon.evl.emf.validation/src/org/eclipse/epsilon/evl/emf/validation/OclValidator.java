@@ -22,12 +22,11 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreEnvironment;
 import org.eclipse.ocl.ecore.OCL;
-import org.eclipse.ocl.OCLInput;
 
 public class OclValidator implements EValidator {
 	

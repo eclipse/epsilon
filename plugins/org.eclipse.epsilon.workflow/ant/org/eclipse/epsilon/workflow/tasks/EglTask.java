@@ -13,7 +13,6 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.FileWriter;
 
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;

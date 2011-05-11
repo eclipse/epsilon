@@ -42,7 +42,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 		this.reporter = reporter;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) {
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {

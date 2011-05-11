@@ -17,7 +17,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.launching.dialogs.ToolConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.commons.util.StringProperties;

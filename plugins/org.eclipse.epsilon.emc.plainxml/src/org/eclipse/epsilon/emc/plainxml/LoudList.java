@@ -2,7 +2,6 @@ package org.eclipse.epsilon.emc.plainxml;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class LoudList<E> extends ArrayList<E> {
 	

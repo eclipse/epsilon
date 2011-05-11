@@ -18,7 +18,6 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.ewl.EwlModule;
 import org.eclipse.epsilon.ewl.dt.editor.outline.EwlModuleElementLabelProvider;
-import org.eclipse.jface.text.templates.Template;
 
 public class EwlEditor extends EolEditor{
 		

@@ -2,9 +2,7 @@ package org.eclipse.epsilon.emc.plainxml;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;

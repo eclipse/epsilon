@@ -101,7 +101,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 */
 	private class ExportVariableOperation extends AbstractSimpleOperation {
 		@Override
-		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 			// Check that we only get the name of the script to be run
 			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
 				throw new EolRuntimeException("exportVariable only takes a String with the name of the variable to be exported");
@@ -118,7 +118,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 */
 	private class UseVariableOperation extends AbstractSimpleOperation {
 		@Override
-		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast) throws EolRuntimeException {
 			// Check that we only get the name of the script to be run
 			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
 				throw new EolRuntimeException("useVariable only takes a String with the name of the variable to be exported");
@@ -135,7 +135,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 */
 	private class LoadHutnOperation extends AbstractSimpleOperation {
 		@Override
-		public Object execute(Object source, List parameters, IEolContext context, AST ast)
+		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast)
 			throws EolRuntimeException
 		{
 			if (parameters.size() != 2) {

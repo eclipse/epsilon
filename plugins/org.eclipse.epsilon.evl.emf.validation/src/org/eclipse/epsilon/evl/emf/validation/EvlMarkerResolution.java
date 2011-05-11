@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
-import java.util.Collections;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.common.dt.util.LogUtil;

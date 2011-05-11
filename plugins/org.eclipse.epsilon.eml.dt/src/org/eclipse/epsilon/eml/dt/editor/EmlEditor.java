@@ -18,7 +18,6 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.dt.editor.outline.EmlModuleElementLabelProvider;
 import org.eclipse.epsilon.etl.dt.editor.EtlEditor;
-import org.eclipse.jface.text.templates.Template;
 
 public class EmlEditor extends EtlEditor {
 

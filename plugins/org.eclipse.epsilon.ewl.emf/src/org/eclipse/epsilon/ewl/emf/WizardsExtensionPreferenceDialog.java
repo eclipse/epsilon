@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ewl.emf;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.util.ResourceFieldEditor;
 import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
 import org.eclipse.jface.dialogs.TitleAreaDialog;

@@ -10,18 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.dt.launching;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
-import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
 public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {

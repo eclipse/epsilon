@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.IConfigurationElement;

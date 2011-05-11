@@ -13,15 +13,8 @@ package org.eclipse.epsilon.etl.dt.launching.tabs;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.etl.dt.EtlPlugin;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class EtlSourceConfigurationTab extends AbstractSourceConfigurationTab{

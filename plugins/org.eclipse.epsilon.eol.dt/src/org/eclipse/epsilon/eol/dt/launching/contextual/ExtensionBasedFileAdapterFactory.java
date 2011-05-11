@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dt.launching.contextual;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.debug.ui.actions.ILaunchable;
 
 public abstract class ExtensionBasedFileAdapterFactory implements IAdapterFactory {
 

@@ -18,7 +18,6 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.dt.editor.outline.FlockModuleElementLabelProvider;
-import org.eclipse.jface.text.templates.Template;
 
 public class FlockEditor extends EolEditor {
 		
