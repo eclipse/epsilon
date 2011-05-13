@@ -70,6 +70,7 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 
 		launchManager = DebugPlugin.getDefault().getLaunchManager();
 		launchManager.addLaunchListener(this);
+		launchesAdded(launchManager.getLaunches());
 	}
 
 	/*
