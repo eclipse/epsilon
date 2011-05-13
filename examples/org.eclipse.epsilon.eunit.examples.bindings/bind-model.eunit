@@ -1,0 +1,14 @@
+import 'loops.eol';
+
+$with Sequence {"", "LoopingA"}
+$with Sequence {"", "LoopingB"}
+@test
+operation looping() {
+  assertTrue(hasLoop(Node.all.first));
+}
+
+$with Sequence {"", "NonLooping"}
+@test
+operation nonLooping() {
+  assertFalse(hasLoop(Node.all.first));
+}
