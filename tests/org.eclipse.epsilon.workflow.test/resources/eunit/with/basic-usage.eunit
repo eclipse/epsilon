@@ -14,5 +14,5 @@ operation hasOneB() {
 $with Sequence {"", "B"}
 @test
 operation hasTwoB() {
-  assertEquals("The model has one B", 2, Element.allInstances.select(e|e.name.startsWith('B')).size());
+  assertEquals("The model has two B", 2, Element.allInstances.select(e|e.name.startsWith('B')).size());
 }
