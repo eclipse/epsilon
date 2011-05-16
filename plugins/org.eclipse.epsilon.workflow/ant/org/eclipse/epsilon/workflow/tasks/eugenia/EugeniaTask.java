@@ -32,7 +32,7 @@ import org.eclipse.ui.PlatformUI;
 public class EugeniaTask extends Task {
 
 	private File sourceFile;
-	private GenerateAllStep lastStep;
+	private GenerateAllStep firstStep, lastStep;
 
 	/**
 	 * <p>Changes the source file for the Eugenia workflow. If the name of source file
@@ -55,6 +55,23 @@ public class EugeniaTask extends Task {
 	}
 
 	/**
+	 * Changes the step at which we will start in the Eugenia workflow. Valid steps are
+	 * listed in {@link GenerateAllStep}. By default, we will start by cleaning the
+	 * models produced from the .emf or .ecore source. To unset this option, call this
+	 * method with <code>null</code>.
+	 */
+	public void setFirstStep(GenerateAllStep firstStep) {
+		this.firstStep = firstStep;
+	}
+
+	/**
+	 * Returns the step at which we will start, if set. If unset, returns <code>null</code>.
+	 */
+	public GenerateAllStep getFirstStep() {
+		return firstStep;
+	}
+
+	/**
 	 * Changes the step at which we will stop in the Eugenia workflow. Valid steps are
 	 * listed in {@link GenerateAllStep}. By default, we will run all steps. To unset
 	 * this option, call this method with <code>null</code>.
@@ -64,7 +81,7 @@ public class EugeniaTask extends Task {
 	}
 
 	/**
-	 * Returns the step at which we will stop, if set. Otherwise, returns <code>null</code>. 
+	 * Returns the step at which we will stop, if set. If unset, returns <code>null</code>.
 	 */
 	public GenerateAllStep getLastStep() {
 		return lastStep;
@@ -78,6 +95,9 @@ public class EugeniaTask extends Task {
 
 		// We will use exactly the same code that is run from the Eclipse GUI
 		final GenerateAllDelegate genAll = new GenerateAllDelegate();
+		if (firstStep != null) {
+			genAll.setFirstStep(firstStep);
+		}
 		if (lastStep != null) {
 			genAll.setLastStep(lastStep);
 		}

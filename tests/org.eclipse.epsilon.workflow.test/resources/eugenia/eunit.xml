@@ -28,4 +28,22 @@
 			<parameter name="casename" value="${case.name}" />
 		</epsilon.eunit>
 	</target>
+
+	<!--
+		We cannot test only using firstStep, as the "Code generation completed
+		successfully" dialog would make the test stop until we clicked on the
+		OK button.
+	-->
+	<target name="only-last">
+		<epsilon.eugenia src="${case.name}/${case.name}.emf" lastStep="genmodel" />
+	</target>
+
+	<target name="first-and-last-from-genmodel">
+		<epsilon.eugenia src="${case.name}/${case.name}.emf" firstStep="genmodel" lastStep="genmodel" />
+	</target>
+
+	<target name="first-and-last-from-ecore">
+		<epsilon.eugenia src="${case.name}/${case.name}.emf" firstStep="ecore" lastStep="genmodel" />
+	</target>
+
 </project>
