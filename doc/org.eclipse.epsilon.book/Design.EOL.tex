@@ -311,7 +311,7 @@ All collection types inherit from the abstract Collection type. Apart from simpl
 			
 			including(item : Any) : Collection & Returns a new collection that also contains the \emph{item} -- unlike the add() operation that adds the \emph{item} to the collection itself  \\\hline
 			
-			excluding(item : Any) : Collection & Returns a new collection that excludes the item -- unlike the remove() operation that removes the \emph{item} from the collection itself\\hline
+			excluding(item : Any) : Collection & Returns a new collection that excludes the item -- unlike the remove() operation that removes the \emph{item} from the collection itself\\\hline
 			
 			includingAll(col : Collection) : Collection & Returns a new collection that is a union of the two collections. The type of the returned collection (i.e. Bag, Sequence, Set, OrderedSet) is same as the type of the collection on which the operation is invoked \\\hline
 			
@@ -371,12 +371,16 @@ Also, EOL collection support the following first-order operations:
 			\textbf{Signature} & \textbf{Description} \\\hline
 
 			select(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that satisfy the condition \\\hline 
+
+			selectOne(iterator : Type $|$ condition) : Any & Returns the first element that satisfies the condition \\\hline
 			
 			reject(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that do not satisfy the condition \\\hline
 			
 			collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
-			
-			exists(iterator : Type $|$ condition) : Boolean & Returns true if there exists one item in the collection that satisfies the condition \\\hline
+
+			one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
+
+			exists(iterator : Type $|$ condition) : Boolean & Returns true if there exists at least one item in the collection that satisfies the condition \\\hline
 			
 			forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
 			
