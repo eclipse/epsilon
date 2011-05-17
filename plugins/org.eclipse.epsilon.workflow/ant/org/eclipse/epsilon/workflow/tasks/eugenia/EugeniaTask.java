@@ -11,15 +11,18 @@
 package org.eclipse.epsilon.workflow.tasks.eugenia;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eugenia.GenerateAllDelegate;
 import org.eclipse.epsilon.eugenia.GenerateAllStep;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.ModelReference;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -29,10 +32,11 @@ import org.eclipse.ui.PlatformUI;
  * Ant wrapper for Eugenia. It is much simpler than the other Epsilon tasks, so
  * it does <emph>not</emph> inherit from {@link EpsilonTask}.
  */
-public class EugeniaTask extends Task {
+public class EugeniaTask extends EpsilonTask {
 
 	private File sourceFile;
 	private GenerateAllStep firstStep, lastStep;
+	private List<EugeniaExtraModel> extraModels = new ArrayList<EugeniaExtraModel>();
 
 	/**
 	 * <p>Changes the source file for the Eugenia workflow. If the name of source file
@@ -87,8 +91,17 @@ public class EugeniaTask extends Task {
 		return lastStep;
 	}
 
+	/**
+	 * Creates a new extra model to be used in one of the Eugenia execution steps.
+	 */
+	public EugeniaExtraModel createModel() {
+		EugeniaExtraModel model = new EugeniaExtraModel();
+		extraModels .add(model);
+		return model;
+	}
+
 	@Override
-	public void execute() throws BuildException {
+	public void executeImpl() throws BuildException {
 		if (sourceFile == null) {
 			throw new BuildException("src attribute must be set with the path to the .emf or .ecore file");
 		}
@@ -128,6 +141,19 @@ public class EugeniaTask extends Task {
 		}
 
 		try {
+			for (EugeniaExtraModel extraModel : extraModels) {
+				final IModel model = getProjectRepository().getModelByName(extraModel.getRef());
+				if (model == null) {
+					throw new BuildException("Could not find the model named " + extraModel.getRef() + " in the project repository");
+				}
+
+				final ModelReference ref = new ModelReference(model);
+				if (extraModel.getAs() != null) {
+					ref.setName(extraModel.getAs());
+				}
+
+				genAll.addExtraModel(extraModel.getStep(), ref);
+			}
 			genAll.runImpl(action);
 		} catch (Exception e) {
 			throw new BuildException(e);

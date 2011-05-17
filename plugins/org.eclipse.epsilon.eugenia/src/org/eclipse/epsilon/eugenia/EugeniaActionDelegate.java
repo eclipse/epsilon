@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -42,6 +43,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 
 	private Shell shell;
 	private IFile selectedFile;
+	private List<IModel> extraModels = null;
 
 	protected GmfFileSet gmfFileSet;
 	protected boolean clearConsole = true;
@@ -136,7 +138,14 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		for (EmfModel model : getModels()) {
 			builtin.getContext().getModelRepository().addModel(model);
 		}
-		
+
+		// If the user has specified any additional models to be used, add them now
+		if (getExtraModels() != null) {
+			for (IModel model : getExtraModels()) {
+				builtin.getContext().getModelRepository().addModel(model);
+			}
+		}
+
 		String customizationPath = getSelectedFile().getParent().getFile(new Path(getCustomizationTransformation())).getLocation().toOSString();
 		File customizationFile = new File(customizationPath);
 		
@@ -206,5 +215,13 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public void selectionChanged(IAction action, ISelection selection) {
 		IStructuredSelection selection1 = (IStructuredSelection) selection;
 		setSelectedFile((IFile) selection1.iterator().next());
+	}
+
+	public List<IModel> getExtraModels() {
+		return extraModels;
+	}
+
+	public void setExtraModels(List<IModel> extraModels) {
+		this.extraModels = extraModels;
 	}
 }

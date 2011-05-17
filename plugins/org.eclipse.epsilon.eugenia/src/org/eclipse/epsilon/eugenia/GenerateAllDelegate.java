@@ -1,7 +1,10 @@
 package org.eclipse.epsilon.eugenia;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.concurrent.Callable;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -13,6 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -29,8 +33,10 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 	private GmfFileSet gmfFileSet;
 	private Shell shell;
 	private IWorkbenchPart targetPart;
+
 	private GenerateAllStep firstStep = GenerateAllStep.clean;
 	private GenerateAllStep lastStep = GenerateAllStep.gmfcode;
+	private Map<GenerateAllStep, List<IModel>> extraModels = new HashMap<GenerateAllStep, List<IModel>>();
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.shell = targetPart.getSite().getShell();
@@ -62,6 +68,14 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		};
 		job.setPriority(Job.SHORT);
 		job.schedule(); // start as soon as possible
+	}
+
+	public void selectionChanged(IAction action, ISelection sel) {
+		IStructuredSelection selection = (IStructuredSelection) sel;
+		Iterator<?> iterator = selection.iterator();
+		if (iterator.hasNext()) {
+			setSelectedFile((IFile) iterator.next());
+		}
 	}
 
 	public void runImpl(final IAction action) throws Exception {
@@ -123,12 +137,12 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		return firstStep;
 	}
 
-	public void selectionChanged(IAction action, ISelection sel) {
-		IStructuredSelection selection = (IStructuredSelection) sel;
-		Iterator iterator = selection.iterator();
-		if (iterator.hasNext()) {
-			setSelectedFile((IFile) iterator.next());
+	public void addExtraModel(GenerateAllStep step, IModel model) {
+		if (!extraModels.containsKey(step)) {
+			extraModels.put(step, new ArrayList<IModel>());
 		}
+		final List<IModel> extraModelsForStep = extraModels.get(step);
+		extraModelsForStep.add(model);
 	}
 
 	private boolean isBeforeOrEqual(GenerateAllStep stepA, GenerateAllStep stepB) {
@@ -152,9 +166,10 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 	}
 
 	private void generateGenmodel(final IAction action) throws Exception {
-		Ecore2GenModelDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
+		EugeniaActionDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
 		ecore2GenModelDelegate.setClearConsole(false);
 		ecore2GenModelDelegate.setSelectedFile(selectedFile);
+		ecore2GenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
 		ecore2GenModelDelegate.runImpl(action);
 		ecore2GenModelDelegate.refresh();
 		WorkspaceUtil.waitFor(gmfFileSet.getGenModelPath());
@@ -165,6 +180,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
 		generateToolGraphMapDelegate.setClearConsole(false);
 		generateToolGraphMapDelegate.setSelectedFile(selectedFile);
+		generateToolGraphMapDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
 		generateToolGraphMapDelegate.run(action);
 		generateToolGraphMapDelegate.refresh();
 		WorkspaceUtil.waitFor(gmfFileSet.getGmfMapPath());
@@ -173,6 +189,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		GmfMap2GmfGenDelegate gmfMap2GmfGenDelegate = new GmfMap2GmfGenDelegate();
 		gmfMap2GmfGenDelegate.setClearConsole(false);
 		gmfMap2GmfGenDelegate.setSelectedFile(selectedFile);
+		gmfMap2GmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
 		gmfMap2GmfGenDelegate.run(action);
 		gmfMap2GmfGenDelegate.refresh();
 		WorkspaceUtil.waitFor(gmfFileSet.getGmfGenPath());
@@ -181,6 +198,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelectedFile(selectedFile);
+		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
 		fixGmfGenDelegate.run(action);
 	}
 
