@@ -81,10 +81,7 @@ public class EugeniaTest {
 		testProject.open(null);
 
 		copyIntoProject(ANT_BUILDFILE_PATH);
-		for (String ext : CASE_EXTENSIONS) {
-			final String srcPath = RES_PREFIX + caseName + "/" + caseName + "."	+ ext;
-			copyIntoProject(srcPath);
-		}
+		copyCaseFiles();
 	}
 
 	@After
@@ -92,10 +89,11 @@ public class EugeniaTest {
 		testProject.delete(true, true, null);
 	}
 
-	public void runAntTarget(String target) throws CoreException {
-		AntRunner runner = getAntRunner();
-		runner.setExecutionTargets(new String[] { target });
-		runner.run();
+	public void copyCaseFiles() throws CoreException {
+		for (String ext : CASE_EXTENSIONS) {
+			final String srcPath = RES_PREFIX + caseName + "/" + caseName + "."	+ ext;
+			copyIntoProject(srcPath);
+		}
 	}
 
 	public void copyIntoProject(String path)
@@ -104,6 +102,12 @@ public class EugeniaTest {
 		final IFile destFile = testProject.getFile(new Path(path));
 		createParentFolders(destFile);
 		destFile.create(source, true, null);
+	}
+
+	public void runAntTarget(String target) throws CoreException {
+		AntRunner runner = getAntRunner();
+		runner.setExecutionTargets(new String[] { target });
+		runner.run();
 	}
 
 	private void createParentFolders(IResource res) throws CoreException {

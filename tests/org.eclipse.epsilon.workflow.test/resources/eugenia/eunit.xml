@@ -46,4 +46,24 @@
 		<epsilon.eugenia src="${case.name}/${case.name}.emf" firstStep="ecore" lastStep="genmodel" />
 	</target>
 
+	<target name="extra-models">
+		<epsilon.emf.loadModel name="Labels"
+			modelfile="${case.name}/labels.model"
+			metamodelfile="${case.name}/labels.ecore"
+			read="true" store="false"/>
+
+		<epsilon.eugenia src="${case.name}/${case.name}.emf" lastStep="gmf">
+			<model ref="Labels" step="gmf"/>
+		</epsilon.eugenia>
+
+		<epsilon.eunit src="${case.name}/tests.eunit">
+			<modelTasks>
+				<epsilon.emf.loadModel name="Model"
+					modelfile="${case.name}/flowchartextra.gmfgraph"
+					metamodeluri="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+					read="true" store="false"/>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+
 </project>

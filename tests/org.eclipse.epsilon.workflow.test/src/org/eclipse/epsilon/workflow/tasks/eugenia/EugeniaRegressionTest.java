@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -43,8 +42,9 @@ public class EugeniaRegressionTest extends EugeniaTest {
 		super(caseName);
 	}
 
-	@Before
-	public void copyEUnitSuite() throws CoreException {
+	@Override
+	public void copyCaseFiles() throws CoreException {
+		super.copyCaseFiles();
 		copyIntoProject(EUNIT_PATH);
 	}
 
