@@ -19,7 +19,7 @@
 		</copy>
 
 		<!-- Generate models with Eugenia -->
-		<epsilon.eugenia src="${test.tmp.location}/${case.name}.emf" lastStep="gmf" />
+		<epsilon.eugenia src="${test.tmp.location}/${case.name}.emf" lastStep="gmfgen" />
 
 		<!-- Test these models with EUnit -->
 		<epsilon.eunit src="regression.eunit">

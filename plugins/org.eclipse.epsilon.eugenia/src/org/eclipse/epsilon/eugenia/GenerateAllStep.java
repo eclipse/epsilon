@@ -23,6 +23,7 @@ public enum GenerateAllStep {
 	ecore,
 	genmodel,
 	gmf,
+	gmfgen,
 	emfcode,
 	gmfcode
 }

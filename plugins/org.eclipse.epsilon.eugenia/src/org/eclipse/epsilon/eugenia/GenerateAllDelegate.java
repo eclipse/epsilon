@@ -98,9 +98,14 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		if (isBeforeOrEqual(lastStep, GenerateAllStep.genmodel)) return;
 
 		if (isBeforeOrEqual(firstStep, GenerateAllStep.gmf)) {
-			generateGMFModels(action);
+			generateGMFBasicModels(action);
 		}
 		if (isBeforeOrEqual(lastStep, GenerateAllStep.gmf)) return;
+
+		if (isBeforeOrEqual(firstStep, GenerateAllStep.gmfgen)) {
+			generateGMFGenModel(action);
+		}
+		if (isBeforeOrEqual(lastStep, GenerateAllStep.gmfgen)) return;
 
 		// Generate code from EMF
 		if (isBeforeOrEqual(firstStep, GenerateAllStep.emfcode)) {
@@ -175,7 +180,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		WorkspaceUtil.waitFor(gmfFileSet.getGenModelPath());
 	}
 
-	private void generateGMFModels(final IAction action) {
+	private void generateGMFBasicModels(final IAction action) {
 		// Do Ecore  to GmfTool, GmfGraph and GmfMap
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
 		generateToolGraphMapDelegate.setClearConsole(false);
@@ -184,12 +189,14 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		generateToolGraphMapDelegate.run(action);
 		generateToolGraphMapDelegate.refresh();
 		WorkspaceUtil.waitFor(gmfFileSet.getGmfMapPath());
-		
+	}
+
+	private void generateGMFGenModel(final IAction action) {
 		// Do GmfMap to GmfGen
 		GmfMap2GmfGenDelegate gmfMap2GmfGenDelegate = new GmfMap2GmfGenDelegate();
 		gmfMap2GmfGenDelegate.setClearConsole(false);
 		gmfMap2GmfGenDelegate.setSelectedFile(selectedFile);
-		gmfMap2GmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
+		gmfMap2GmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
 		gmfMap2GmfGenDelegate.run(action);
 		gmfMap2GmfGenDelegate.refresh();
 		WorkspaceUtil.waitFor(gmfFileSet.getGmfGenPath());
@@ -198,7 +205,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelectedFile(selectedFile);
-		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
+		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
 		fixGmfGenDelegate.run(action);
 	}
 
