@@ -18,8 +18,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
-import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaOptionalAttributeTest;
-import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaRegressionTest;
+import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -27,8 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({CommonDevelopmentToolsTestSuite.class,
                EmfPluggedInTestSuite.class,
-               EugeniaRegressionTest.class,
-               EugeniaOptionalAttributeTest.class})
+               EugeniaTestSuite.class})
 public class EpsilonPluggedInTestSuite{
 
 	public static Test suite() {
