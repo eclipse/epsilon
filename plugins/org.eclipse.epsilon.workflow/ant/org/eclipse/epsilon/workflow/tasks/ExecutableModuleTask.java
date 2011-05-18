@@ -19,8 +19,11 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.eclipse.ant.core.AntCorePlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListener;
+import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.profiling.FileMarker;
 import org.eclipse.epsilon.commons.profiling.Profiler;
@@ -102,6 +105,13 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			}
 		}
 		module.getContext().setExtendedProperties(getExtendedProperties());
+
+		// Allow the user to stop any E*L task through the stop button in the console
+		IProgressMonitor monitor =
+			(IProgressMonitor) getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
+		if (monitor != null) {
+			module.getContext().getExecutorFactory().setExecutionController(new EclipseExecutionController(monitor));
+		}
 
 		EolSystem system = new EolSystem();
 		system.setContext(module.getContext());
