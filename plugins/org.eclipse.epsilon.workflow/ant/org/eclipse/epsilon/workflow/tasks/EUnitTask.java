@@ -23,6 +23,7 @@ import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -209,6 +210,11 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
 			fail("At least one test case had a failure or an error", test.getException());
 		}
+	}
+
+	@Override
+	protected EolDebugger createDebugger() {
+		return new EolDebugger();
 	}
 
 	@Override

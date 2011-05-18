@@ -12,6 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 
 public class EolTask extends ExecutableModuleTask {
 	
@@ -30,4 +31,9 @@ public class EolTask extends ExecutableModuleTask {
 		
 	}
 	
+	@Override
+	protected EolDebugger createDebugger() {
+		return new EolDebugger();
+	}
+
 }

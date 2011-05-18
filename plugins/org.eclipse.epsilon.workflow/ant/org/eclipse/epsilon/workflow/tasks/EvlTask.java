@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.evl.CommandLineFixer;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
 
 public class EvlTask extends ExportableModuleTask {
 	
@@ -80,6 +82,12 @@ public class EvlTask extends ExportableModuleTask {
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
 		classes.add(EvlUnsatisfiedConstraint.class);
 		return classes;
+	}
+
+
+	@Override
+	public EolDebugger createDebugger() {
+		return new EvlDebugger();
 	}
 
 	@Override

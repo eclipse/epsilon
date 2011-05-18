@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListener;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
@@ -238,11 +237,6 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		}
 	}
 
-	protected EolDebugger createDebugger() {
-		// TODO Antonio: avoid duplication of createDebugger() across workflow and launch delegates
-		return new EolDebugger();
-	}
-
 	private void parseModule() throws Exception {
 		module = createModule();
 		if (src!=null) {
@@ -384,6 +378,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected abstract void initialize() throws Exception;
 
 	protected abstract void examine() throws Exception;
+
+	protected abstract EolDebugger createDebugger();
 
 	protected abstract IEolExecutableModule createModule();
 		

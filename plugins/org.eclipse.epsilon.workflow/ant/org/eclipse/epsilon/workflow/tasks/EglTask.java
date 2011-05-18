@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 
 public class EglTask extends ExecutableModuleTask {
 	
@@ -47,4 +48,10 @@ public class EglTask extends ExecutableModuleTask {
 		this.target = output;
 	}
 	
+	@Override
+	protected EolDebugger createDebugger() {
+		// TODO Isn't there an EglDebugger? Ask Dimitris.
+		return new EolDebugger();
+	}
+
 }

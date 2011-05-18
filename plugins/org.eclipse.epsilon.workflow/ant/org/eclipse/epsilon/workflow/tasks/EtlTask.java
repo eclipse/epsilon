@@ -10,12 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
 import org.eclipse.epsilon.etl.TransformRule;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
@@ -52,6 +54,11 @@ public class EtlTask extends ExportableModuleTask {
 		}
 	}
 	
+	@Override
+	public EolDebugger createDebugger() {
+		return new EtlDebugger();
+	}
+
 	@Override
 	protected Collection<? extends Object> getObjectsForExportedModel() {
 		final TransformationTrace trace = ((IEtlModule)module).getContext().getTransformationTrace();
