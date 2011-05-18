@@ -22,6 +22,9 @@ import org.apache.tools.ant.Project;
 import org.eclipse.ant.core.AntCorePlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListener;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
@@ -31,6 +34,8 @@ import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -57,7 +62,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected boolean assertions = true;
 	protected String uri;
 	protected Object result;
-	private boolean isGUI = true;
+	private boolean isGUI = true, isDebug = false;
 
 	static {
 		if (ConsolePlugin.getDefault() != null) {
@@ -198,7 +203,24 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			parseModule();
 			configureModule();
 			initialize();
-			result = module.execute();
+
+			if (!isDebug()) {
+				result = module.execute();
+			} else {
+				final EolDebugger debugger = createDebugger();
+
+				// TODO Antonio: do not assume the only running launch is the Ant launch
+				final ILaunch currentLaunch = DebugPlugin.getDefault().getLaunchManager().getLaunches()[0];
+				// HACK: we need to remove the Ant source locator so Eclipse can find the source file
+				currentLaunch.setSourceLocator(null);
+
+				final EolDebugTarget target = new EolDebugTarget(
+					currentLaunch, module, debugger, getSrc().getAbsolutePath());
+				debugger.setTarget(target);
+				currentLaunch.addDebugTarget(target);
+				result = target.debug();
+			}
+
 			useResults();
 			if (src!=null && profile) Profiler.INSTANCE.stop(src.getName());
 		}
@@ -214,6 +236,11 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 				throw new BuildException(t);
 			}
 		}
+	}
+
+	protected EolDebugger createDebugger() {
+		// TODO Antonio: avoid duplication of createDebugger() across workflow and launch delegates
+		return new EolDebugger();
 	}
 
 	private void parseModule() throws Exception {
@@ -279,6 +306,21 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	 */
 	public boolean isGUI() {
 		return isGUI;
+	}
+
+	/**
+	 * Changes whether the debugger should be used (<code>true</code>) or not (<code>false</code>)
+	 * for this module. By default, it is not used.
+	 */
+	public void setDebug(boolean isDebug) {
+		this.isDebug = isDebug;
+	}
+
+	/**
+	 * Returns whether the debugger will be used (<code>true</code>) or not (<code>false</code>).
+	 */
+	public boolean isDebug() {
+		return isDebug;
 	}
 
 	protected void useVariable(final String var, final String as, final boolean optional) {
