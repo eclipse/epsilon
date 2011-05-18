@@ -12,11 +12,13 @@ package org.eclipse.epsilon.egl;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
@@ -75,6 +77,20 @@ public class TestEglTemplate {
 		template = new EglTemplate(UriUtil.fileToUri(SIMPLE), new MockContext());
 		
 		assertEquals(expected, template.process());
+	}
+	
+	@Test
+	public void testBuiltins() throws Exception  {
+		FileUtil.write(SIMPLE, "[% System.out.println('' + null); %]");
+		
+		template = new EglTemplate(UriUtil.fileToUri(SIMPLE), new MockContext());
+		
+		try {
+			template.process();
+		} catch (EglRuntimeException e) {
+			e.printStackTrace();
+			fail("Processing the template should not throw an exception");
+		}
 	}
 	
 	@Test
