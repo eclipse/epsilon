@@ -21,7 +21,7 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 
 public class LoadCompositeModelTask extends EpsilonTask {
 	
-	protected List<ModelNestedElement> modelNestedElements = new ArrayList();
+	protected List<ModelNestedElement> modelNestedElements = new ArrayList<ModelNestedElement>();
 	protected String matchTrace = null;
 	protected String name = null;
 	
