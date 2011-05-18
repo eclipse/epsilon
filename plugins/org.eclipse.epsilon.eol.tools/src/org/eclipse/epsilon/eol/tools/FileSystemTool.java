@@ -12,14 +12,23 @@ package org.eclipse.epsilon.eol.tools;
 
 import java.io.File;
 
+import org.eclipse.epsilon.commons.util.FileUtil;
+
 public class FileSystemTool {
 	
 	public boolean exists(String path) {
-		return new File(path).exists();
+		return toFile(path).exists();
 	}
 	
 	public boolean isDirectory(String path) {
-		return new File(path).isDirectory();
+		return toFile(path).isDirectory();
 	}
 	
+	public String getContents(String path) throws Exception {
+		return FileUtil.getFileContents(toFile(path));
+	}
+
+	private File toFile(String path) {
+		return new File(path);
+	}
 }
