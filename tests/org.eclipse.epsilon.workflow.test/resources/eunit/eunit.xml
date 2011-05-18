@@ -358,7 +358,7 @@
 	</target>
 
 	<target name="evl-exportAsModel" depends="evl-macrodef">
-		<evl-eunit-test script="tree-export-as-model" exportAsModel="true" failOnErrors="false" failOnWarnings="false"/>
+		<evl-eunit-test script="tree-export-as-model" exportAsModel="EVL" failOnErrors="false" failOnWarnings="false"/>
 	</target>
 
 	<!-- Inline model tests -->

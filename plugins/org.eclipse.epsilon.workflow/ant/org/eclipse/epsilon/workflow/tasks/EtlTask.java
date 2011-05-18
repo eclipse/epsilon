@@ -10,13 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.trace.Transformation;
+import org.eclipse.epsilon.etl.trace.TransformationTrace;
+import org.eclipse.epsilon.etl.trace.Transformations;
 
-public class EtlTask extends ExecutableModuleTask {
+public class EtlTask extends ExportableModuleTask {
 	
 	protected String exportTransformationTrace;
-	
 	public String getExportTransformationTrace() {
 		return exportTransformationTrace;
 	}
@@ -24,11 +31,9 @@ public class EtlTask extends ExecutableModuleTask {
 	public void setExportTransformationTrace(String exportTransformationTrace) {
 		this.exportTransformationTrace = exportTransformationTrace;
 	}
-
+	
 	@Override
-	protected void initialize() throws Exception {
-		IEtlModule etlModule = (IEtlModule) module;
-	}
+	protected void initialize() throws Exception {}
 	
 	@Override
 	protected IEtlModule createModule() {
@@ -37,10 +42,29 @@ public class EtlTask extends ExecutableModuleTask {
 	
 	@Override
 	protected void examine() throws Exception {
+		super.examine();
+		
+		final IEtlModule etlModule = (IEtlModule) module;
+
 		if (exportTransformationTrace != null) {
 			getProjectStackFrame().put(exportTransformationTrace,
-					((IEtlModule) module).getContext().getTransformationTrace());
+					etlModule.getContext().getTransformationTrace());
 		}
 	}
+	
+	@Override
+	protected Collection<? extends Object> getObjectsForExportedModel() {
+		final TransformationTrace trace = ((IEtlModule)module).getContext().getTransformationTrace();
+		return Collections.singleton(trace);
+	}
 
+	@Override
+	protected Collection<Class<?>> getClassesForExportedModel() {
+		Collection<Class<?>> classes = new ArrayList<Class<?>>();
+		classes.add(TransformationTrace.class);
+		classes.add(Transformations.class);
+		classes.add(Transformation.class);
+		classes.add(TransformRule.class);
+		return classes;
+	}
 }
