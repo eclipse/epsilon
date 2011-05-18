@@ -33,9 +33,9 @@ public class JavaModel extends Model implements IReflectiveModel {
 	protected Collection<Object> objects;
 	protected Collection<Class<?>> classes;
 	
-	public JavaModel(Collection<Object> objects, Collection<Class<?>> classes) {
-		this.objects = objects;
-		this.classes = classes;
+	public JavaModel(Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
+		this.objects = new LinkedList<Object>(objects);
+		this.classes = new LinkedList<Class<?>>(classes);
 	}
 	
 	// used by tests
@@ -57,8 +57,8 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return objects;
 	}
 	
-	public Class classForName(String name) {
-		for (Class c : classes) {
+	public Class<?> classForName(String name) {
+		for (Class<?> c : classes) {
 			if (c.getSimpleName().equals(name) || c.getCanonicalName().replaceAll("::", ".").equals(name)) {
 				return c;
 			}
@@ -66,10 +66,8 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return null;
 	}
 	
-	public Object createInstance(String type)
-			throws EolModelElementTypeNotFoundException,
-			EolNotInstantiableModelElementTypeException {
-		Class c = classForName(type);
+	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		Class<?> c = classForName(type);
 		if (c!=null) {
 			if (isInstantiable(c)) {
 				try {
@@ -87,7 +85,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		throw new EolModelElementTypeNotFoundException(this.getName(), type);
 	}
 	
-	public boolean isInstantiable(Class c) {
+	public boolean isInstantiable(Class<?> c) {
 		return !c.isInterface();
 	}
 	
@@ -97,9 +95,8 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 
 	
-	public Collection getAllOfKind(String type)
-			throws EolModelElementTypeNotFoundException {
-		Class c = classForName(type);
+	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
+		Class<?> c = classForName(type);
 		Collection<Object> allOfKind = new ArrayList<Object>();
 		if (c != null) {
 			for (Object o : objects) {
@@ -115,9 +112,8 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 
 	
-	public Collection getAllOfType(String type)
-			throws EolModelElementTypeNotFoundException {
-		Class c = classForName(type);
+	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+		Class<?> c = classForName(type);
 		Collection<Object> allOfType = new ArrayList<Object>();
 		if (c != null) {
 			for (Object o : objects) {
