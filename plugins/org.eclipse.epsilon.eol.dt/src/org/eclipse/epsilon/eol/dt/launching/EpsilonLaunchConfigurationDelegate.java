@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -74,8 +75,9 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 				for (Object key : configurationAttributes.keySet()) {
 					launch.setAttribute(key + "", configurationAttributes.get(key) + "");
 				}
-				
-				target = new EolDebugTarget(launch, module, debugger, lauchConfigurationSourceAttribute);
+
+				final String name = launch.getAttribute(lauchConfigurationSourceAttribute);
+				target = new EolDebugTarget(launch, module, debugger, name);
 				debugger.setTarget(target);
 				launch.addDebugTarget(target);
 				result = target.debug();

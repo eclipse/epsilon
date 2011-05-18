@@ -20,16 +20,16 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	protected IThread[] threads = new IThread[1];
 	protected IProcess process;
 	protected IEolExecutableModule module;
-	protected String lauchConfigurationSourceAttribute;
+	protected String name;
 	
-	public EolDebugTarget(ILaunch launch, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute) {
+	public EolDebugTarget(ILaunch launch, IEolExecutableModule module, EolDebugger debugger, String name) {
 		super(null);
 		this.launch = launch;
 		threads[0] = new EolThread(this);
 		this.module = module;
 		this.debugger = debugger;
 		module.getContext().getExecutorFactory().setExecutionController(debugger);
-		this.lauchConfigurationSourceAttribute = lauchConfigurationSourceAttribute;
+		this.name = name;
 	}
 	
 	public IEolExecutableModule getModule() {
@@ -121,7 +121,7 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	public String getName() throws DebugException {
-		return launch.getAttribute(lauchConfigurationSourceAttribute);
+		return name;
 	}
 
 	public boolean supportsBreakpoint(IBreakpoint breakpoint) {
