@@ -11,18 +11,14 @@
 package org.eclipse.epsilon.eol;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.TreeMap;
 
 import org.eclipse.epsilon.commons.module.AbstractModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -51,6 +47,10 @@ public class EolOperation extends AbstractModuleElement{
 	
 	public void clearCache() {
 		cache.clear();
+
+		// This is important for EUnit, as it ensures that the return type will
+		// be evaluated again, with the reloaded models
+		returnType = null;
 	}
 	
 	/*
@@ -240,7 +240,8 @@ public class EolOperation extends AbstractModuleElement{
 		//catch (EolReturnException rex){
 		//	result = rex.getReturned();
 		//}
-		
+
+		checkResultType(result, context);
 		evaluatePostConditions(context, result);
 		
 		if (inNewStackFrame) {
@@ -259,7 +260,7 @@ public class EolOperation extends AbstractModuleElement{
 		
 		return result;
 	}
-	
+
 	protected Object executeBody(IEolContext context) throws EolRuntimeException {
 		return context.getExecutorFactory().executeAST(this.getBody(), context);
 	}
@@ -278,6 +279,18 @@ public class EolOperation extends AbstractModuleElement{
 		}
 	}
 	
+	protected void checkResultType(Object result, IEolContext context)
+			throws EolRuntimeException {
+		if (returnTypeAst != null && result != null) {
+			if (returnType == null) {
+				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeAst, context);
+			}
+			if (!returnType.isKind(result)) {
+				throw new EolRuntimeException(name + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass());
+			}
+		}
+	}
+
 	protected void evaluatePostConditions(IEolContext context, Object result) throws EolRuntimeException {
 		context.getFrameStack().put(Variable.createReadOnlyVariable("_result", result));
 		for (IEolAnnotation annotation : EolAnnotationsUtil.getAnnotations(ast, "post")) {
