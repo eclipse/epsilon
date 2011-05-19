@@ -50,7 +50,6 @@ public class EglTask extends ExecutableModuleTask {
 	
 	@Override
 	protected EolDebugger createDebugger() {
-		// TODO Isn't there an EglDebugger? Ask Dimitris.
 		return new EolDebugger();
 	}
 

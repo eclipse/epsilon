@@ -208,7 +208,9 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			} else {
 				final EolDebugger debugger = createDebugger();
 
-				// TODO Antonio: do not assume the only running launch is the Ant launch
+				// HACK: we assume the only running launch is the Ant launch. There's no clear way to
+				// tell apart an Ant launch from a regular Run launch, apart from using internal classes
+				// in the Eclipse Ant internal API.
 				final ILaunch currentLaunch = DebugPlugin.getDefault().getLaunchManager().getLaunches()[0];
 				// HACK: we need to remove the Ant source locator so Eclipse can find the source file
 				currentLaunch.setSourceLocator(null);
