@@ -51,7 +51,7 @@ operation String toClassifier() : MetaModel!EClassifier {
 	return MetaModel!EClassifier.allInstances.select(c : EClassifier | c.name = self).first();
 }
 
-operation String toStructuralFeature(classifier : MetaModel!EClassifier) : Metamodel!EStructuralFeature {
+operation String toStructuralFeature(classifier : MetaModel!EClassifier) : MetaModel!EStructuralFeature {
 	return classifier.eAllStructuralFeatures.select(c|c.name = self).first();
 }
 
