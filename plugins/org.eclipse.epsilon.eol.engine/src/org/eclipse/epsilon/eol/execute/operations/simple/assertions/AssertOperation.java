@@ -35,7 +35,10 @@ public class AssertOperation extends AbstractSimpleOperation {
 		if (parameters.size() > 1) {
 			message = parameters.get(1);
 		}
-		
+		else {
+			message = "Expected an error, but none was reported";
+		}
+
 		if (conditionSatisfied(condition)) return null;
 		
 		throw new EolAssertionException(context.getPrettyPrinterManager().toString(message), ast, true, false, null);
