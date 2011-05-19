@@ -59,7 +59,7 @@
 		<epsilon.eunit src="${case.name}/tests.eunit">
 			<modelTasks>
 				<epsilon.emf.loadModel name="Model"
-					modelfile="${case.name}/flowchartextra.gmfgraph"
+					modelfile="${case.name}/${case.name}.gmfgraph"
 					metamodeluri="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
 					read="true" store="false"/>
 			</modelTasks>

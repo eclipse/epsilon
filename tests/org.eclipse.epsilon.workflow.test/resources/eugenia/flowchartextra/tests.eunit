@@ -15,7 +15,9 @@ operation getText(labelName : String) : String {
   return getLabel(labelName).text;
 }
 
-operation getStyle(labelName : String) : Label {
+-- Note: we cannot use "FontStyle" as the return type,
+-- as Epsilon cannot refer to enum types (bug #286412)
+operation getStyle(labelName : String) {
   return getLabel(labelName).font.style;
 }
 
