@@ -59,6 +59,7 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.ARROW, new ArrowExecutor());
 		executorCache.put(EolParser.VAR, new VarStatementExecutor());
 		executorCache.put(EolParser.COLLECTION, new CollectionExecutor());
+		executorCache.put(EolParser.MAP, new MapExecutor());
 		executorCache.put(EolParser.FLOAT, new RealExecutor());
 		executorCache.put(EolParser.FOR, new ForStatementExecutor());
 		executorCache.put(EolParser.PARAMLIST, new FormalParameterListExecutor());

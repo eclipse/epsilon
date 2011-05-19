@@ -88,6 +88,13 @@ tokens {
 	MODELDECLARATIONPARAMETERS;
 	MODELDECLARATIONPARAMETER;
 	ITEMSELECTOR;
+	MAP;
+	KEYVAL;
+	KEYVALLIST;
+}
+
+@header {
+package org.eclipse.epsilon.eol.parse;
 }
 
 @members {
@@ -216,7 +223,7 @@ modelElementType
 	;
 
 collectionType
-	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet')^
+	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map')^
 		('('! tn=typeName {setTokenType(tn,TYPE);}')'!)?
 		{if (root_0.getToken() != null) root_0.getToken().setType(TYPE);}
 	
@@ -414,7 +421,7 @@ variableDeclarationExpression
 	->	^(VAR NAME typeName? parameterList?)
 	;
 
-litteralCollection
+literalSequentialCollection
 	:	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet')^ '{'!  expressionListOrRange? '}'!
 	{if (root_0.getToken() != null) root_0.getToken().setType(COLLECTION);}
 	;
@@ -435,11 +442,25 @@ expressionListOrRange
 	//'..' logicalExpression {if (root_0.getToken() != null) root_0.getToken().setType(EXPRRANGE);}
 	//|
 	//(','! logicalExpression)+ {if (root_0.getToken() != null) root_0.getToken().setType(EXPRLIST);}
-	
 	;
 
+literalMapCollection
+	:	'Map'^ '{'! keyvalExpressionList? '}'!
+	{if (root_0.getToken() != null) root_0.getToken().setType(MAP);}
+	;
+
+keyvalExpressionList
+	:	keyvalExpression (',' keyvalExpression)*
+	-> ^(KEYVALLIST keyvalExpression+)
+	;
+
+keyvalExpression
+	// The first child is an additive expression, to avoid ambiguity in things like "1 = 2 = 3"
+	:	additiveExpression '=' logicalExpression
+	-> ^(KEYVAL additiveExpression logicalExpression)
+	;
 primitiveExpression 
-	:	litteralCollection | literal | featureCall | pathName | nativeType
+	:	literalSequentialCollection | literalMapCollection | literal | featureCall | pathName | nativeType
 		| collectionType  | '('! logicalExpression ')'! 
 		| newExpression | variableDeclarationExpression
 	;

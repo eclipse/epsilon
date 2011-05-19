@@ -41,6 +41,9 @@ tokens {
 	FLOAT;	
 }
 
+@header {
+package org.eclipse.epsilon.eol.parse;
+}
 
 //HexLiteral : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
 
