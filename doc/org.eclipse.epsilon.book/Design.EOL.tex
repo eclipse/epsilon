@@ -359,7 +359,7 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
 						
 \end{longtable}
 
-Also, EOL collection support the following first-order operations:
+Also, EOL collections support the following first-order operations:
 
 \begin{longtable} {|p{5.5cm}|p{6.5cm}|}
 			
@@ -377,6 +377,10 @@ Also, EOL collection support the following first-order operations:
 			reject(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that do not satisfy the condition \\\hline
 			
 			collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
+
+                        closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type \\\hline
+
+                        aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
 
 			one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
 

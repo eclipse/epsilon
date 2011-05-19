@@ -282,3 +282,37 @@ operation testConcatWithGlue() {
 	var s = Sequence{1,2,3};
 	assertEquals(s.concat('-'), '1-2-3');
 }
+
+@test
+operation testClosure() {
+	var s = Sequence {Sequence{1, 2}, 3, Sequence{4, 5}};
+	var expected = Sequence {
+		Sequence {1, 2},
+		Sequence {4, 5}
+	};
+	var flattened = expected.flatten;
+
+	-- The result of the body of the closure is traversed as
+	-- a collection, and its elements are added to the closure:
+	-- if we want to preserve the original sequences
+	assertEquals(expected, s.closure(e : Sequence | Sequence {e}));
+
+	-- If we do not do that, the elements in the subsequences
+	-- will be collected into a "flattened" list
+	assertEquals(flattened, s.closure(e : Sequence | e));
+}
+
+@test
+operation testAggregate() {
+	var s = Sequence {1,2,3};
+
+	-- Doesn't work, as we need both the key and the value ASTs
+	assertError(s.aggregate(e | e * 2));
+
+	-- Does work
+	var r = s.aggregate(e | e, e * 2);
+	assertEquals(3, r.size);
+	for (k in r.keySet) {
+	  assertEquals(k*2, r.get(k));
+	}
+}
