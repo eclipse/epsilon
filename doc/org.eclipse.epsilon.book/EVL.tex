@@ -110,43 +110,43 @@ An EVL module can define a number of named \emph{pre} and a \emph{post} blocks t
 
 Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and \ref{lst:FixConcreteSyntax} demonstrate the concrete sytnax of the \emph{context}, \emph{invariant} and \emph{fix} abstract syntax constructs discussed above.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, numbers=left, tabsize=2]
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
 
-(context) <name> {
+(context) <name> !\textbf{\{}!
 	
 	(invariant)*
 	
-}
+!\textbf{\}}!
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, numbers=left, tabsize=2]
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
 
 (@lazy)?
-(constraint|critique) <name> {
+(constraint|critique) <name> !\textbf{\{}!
 	
-	(guard (:expression)|({statementBlock}))?
+	(guard (!\textbf{:}!expression)|({statementBlock}))?
 	
-	(check (:expression)|({statementBlock}))?
+	(check (!\textbf{:}!expression)|({statementBlock}))?
 	
-	(message (:expression)|({statementBlock}))?
+	(message (!\textbf{:}!expression)|({statementBlock}))?
 	
 	(fix)*
 	
-}
+!\textbf{\}}
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, numbers=left, tabsize=2]
-fix {
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
+fix !\textbf{\{}!
 	
-	(guard (:expression)|({statementBlock}))?
+	(guard (!\textbf{:}!expression)|({statementBlock}))?
 	
-	(title (:expression)|({statementBlock}))?
+	(title (!\textbf{:}!expression)|({statementBlock}))?
 	
-	do {
+	do !\textbf{\{}!
 		statementBlock
-	}
+	!\textbf{\}}!
 	
-}
+!\textbf{\}}!
 \end{lstlisting}
 
 %\subsection{Concepts reused from EOL}
@@ -168,7 +168,7 @@ Having discussed the abstract and concrete syntaxes of EVL, this section provide
 
 \paragraph {Phase 2} For each \emph{context}, the instances of the meta-class it defines are collected. For each instance, the \emph{guard} of the \emph{context} is evaluated. If the \emph{guard} is satisfied, then for each non-lazy invariant contained in the context the invariant's \emph{guard} is also evaluated. If the \emph{guard} of the invariant is satisfied, the \emph{body} of the invariant is evaluated. In case the \emph{body} evaluates to \emph{false}, the \emph{message} part of the rule is evaluated and the produced message is added along with the instance, the invariant and the available \emph{fixes} to the \emph{ValidationTrace}. 
 
-The execution order of an EVL module follows a top-down depth-first scheme that respects the order in which the \emph{contexts} and \emph{ivnariants} appear in the module. However, the execution order can change in case one of the \emph{satisfies}, \emph{satisfiesOne}, \emph{satisfiesAll} built-in operations, discussed in detail in the sequel, are called.
+The execution order of an EVL module follows a top-down depth-first scheme that respects the order in which the \emph{contexts} and \emph{invariants} appear in the module. However, the execution order can change in case one of the \emph{satisfies}, \emph{satisfiesOne}, \emph{satisfiesAll} built-in operations, discussed in detail in the sequel, are called.
 
 \paragraph{Phase 3} In this phase, the validation trace is examined for unsatisfied constraints and the user is presented with the message each one has produced. The user can then select one or more of the available \emph{fixes} to be executed. Execution of \emph{fixes} is performed in a transactional manner using the respective facilities provided by the model connectivity framework, as discussed in Section \ref{sec:EMC.ModelTransactionSupport}. This is to prevent runtime errors raised during the execution of a \emph{fix} from compromising the validated model by leaving it in an inconsistent state.
 

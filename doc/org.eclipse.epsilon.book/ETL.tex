@@ -84,7 +84,7 @@ ETL also provides the convenience \emph{equivalent()} operation which, when appl
 
 The semantics of the \emph{equivalent()} operation are further illustrated through a simple example. In this example, we need to transform a model that conforms to the Tree metamodel displayed in Figure \ref{fig:Tree} into a model that conforms to the Graph metamodel of Figure \ref{fig:Graph}. More specifically, we need to transform each \emph{Tree} element to a \emph{Node}, and an \emph{Edge} that connects it with the \emph{Node} that is equivalent to the tree's \emph{parent}. This is achieved using the rule of Listing \ref{lst:SimpleETLTransformationRule}. 
 
-In lines 1-3, the \emph{Tree2Node} rule specifies that it can transform elements of the \emph{Tree} type in the \emph{Tree} model into elements of the \emph{Node} type in the \emph{Graph} model. In line 4 it specifies that the name of the created Node should be the same as the name of the source Tree. If the parent of the source \emph{Tree} is defined (line 7), the rule creates a new \emph{Edge} (line 8) and sets its \emph{source} property to the created \emph{Node} (line 9) and its \emph{target} property to the \emph{equivalent} \emph{Node} of the source \emph{Tree}'s \emph{parent} (line 10).
+In lines \ref{lst:etl-simple-def-start}--\ref{lst:etl-simple-def-end}, the \emph{Tree2Node} rule specifies that it can transform elements of the \emph{Tree} type in the \emph{Tree} model into elements of the \emph{Node} type in the \emph{Graph} model. In line~\ref{lst:etl-simple-label} it specifies that the name of the created Node should be the same as the name of the source Tree. If the parent of the source \emph{Tree} is defined (line~\ref{lst:etl-simple-sourceisdef}), the rule creates a new \emph{Edge} (line~\ref{lst:etl-simple-newedge}) and sets its \emph{source} property to the created \emph{Node} (line~\ref{lst:etl-simple-source}) and its \emph{target} property to the \emph{equivalent} \emph{Node} of the source \emph{Tree}'s \emph{parent} (line~\ref{lst:etl-simple-equiv}).
 
 \begin{figure}
 	\centering
@@ -93,17 +93,17 @@ In lines 1-3, the \emph{Tree2Node} rule specifies that it can transform elements
 	\label{fig:Graph}
 \end{figure}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar ETL Rule demonstrating the \emph{equivalent()} operation, label=lst:SimpleETLTransformationRule, numbers=left, language=ETL, tabsize=2]
-rule Tree2Node
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar ETL Rule demonstrating the \emph{equivalent()} operation, label=lst:SimpleETLTransformationRule, numbers=left, language=ETL, tabsize=2,escapechar=\#]
+rule Tree2Node#\label{lst:etl-simple-def-start}#
 	transform t : Tree!Tree
-	to n : Graph!Node { 
+	to n : Graph!Node {#\label{lst:etl-simple-def-end}#
 	
-	n.label = t.label;
+	n.label = t.label;#\label{lst:etl-simple-label}#
 	
-	if (t.parent.isDefined()) {
-		var edge = new Graph!Edge;
-		edge.source = n;
-		edge.target = t.parent.equivalent();
+	if (t.parent.isDefined()) {#\label{lst:etl-simple-sourceisdef}#
+		var edge = new Graph!Edge;#\label{lst:etl-simple-newedge}#
+		edge.source = n;#\label{lst:etl-simple-source}#
+		edge.target = t.parent.equivalent();#\label{lst:etl-simple-equiv}#
 	}
 }
 \end{lstlisting}

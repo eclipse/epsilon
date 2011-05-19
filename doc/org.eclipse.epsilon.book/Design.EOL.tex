@@ -22,7 +22,7 @@ In this section the syntax of EOL is presented in a top-down manner. As displaye
 
 In typical object oriented languages such as Java and C++, operations are defined inside classes and can be invoked on instances of those classes. EOL on the other hand is not object-oriented in the sense that it does not define classes itself, but nevertheless needs to manage objects of types defined externally to it (e.g. in metamodels). By defining the context-type of an operation explicitly, the operation can be called on instances of the type as if it was natively defined by the type. Alternatively, context-less operations could be defined; however the adopted technique significantly improves readability of the concrete syntax.
 
-For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type. Therefore, in line 3 they can be invoked using the \emph{1.add1().add2()} expression. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
+For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, in line 1 they can be invoked using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar context-defining EOL operations, label=lst:OperationsContext, numbers=left, language=EOL, tabsize=2]
 1.add1().add2().println();
@@ -66,19 +66,26 @@ operation Integer test() {
 
 \subsection{Annotations}
 \label{sec:Design.EOL.Annotations}
-EOL supports two types of annotations: simple and executable. A simple annotation specifies a name and a set of String values while an executable annotation specifies a name and an expression. The concrete syntaxes of simple and executable annotations are displayed in Listings \ref{lst:SimpleAnnotations} and \ref{lst:ExecutableAnnotations} respectively.
+EOL supports two types of annotations: simple and executable. A simple annotation specifies a name and a set of String values while an executable annotation specifies a name and an expression. The concrete syntaxes of simple and executable annotations are displayed in Listings \ref{lst:SimpleAnnotations} and \ref{lst:ExecutableAnnotations} respectively. Several examples for simple annotations are shown in Listing~\ref{lst:SimpleAnnotationsExamples}. Examples for executable annotations will be given in the following sections.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, tabsize=2]
-@name value(,value)*
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, tabsize=2, escapechar=!]
+!\textbf{@}!name value(,value)*
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, tabsize=2]
-$name expression
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, tabsize=2, escapechar=!]
+!\textbf{\$}!name expression
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Examples of simple annotations, label=lst:SimpleAnnotationsExamples, language=EOL, tabsize=2, escapechar=!]
+!\textbf{@}!colors red
+!\textbf{@}!colors red, blue
+!\textbf{@}!colors red, blue, green
 \end{lstlisting}
 
 In stand-alone EOL, annotations are supported only in the context of operations, however as discussed in the sequel, task-specific languages also make use of annotations in their constructs, each with task-specific semantics. EOL operations support three particular annotations: the \emph{pre} and \emph{post} executable annotations for specifying pre and post-conditions, and the \emph{cached} simple annotation, which are discussed below.
 
 \subsection{Pre/post conditions in user-defined operations}
+\label{sec:prep-cond-user}
 
 A number of \emph{pre} and \emph{post} executable annotations can be attached to EOL operations to specify the pre- and post-conditions of the operation. When an operation is invoked, before its body is evaluated, the expressions of the \emph{pre} annotations are evaluated. If all of them return \emph{true}, the body of the operation is processed, otherwise, an error is raised. Similarly, once the body of the operation has been executed, the expressions of the \emph{post} annotations of the operation are executed to ensure that the operation has had the desired effects. \emph{Pre} and \emph{post} annotations can access all the variables in the parent scope, as well as the parameters of the operation and the object on which the operation is invoked (through the \emph{self} variable). Moreover, in \emph{post} annotations, the returned value of the operation is accessible through the built-in \emph{\_result} variable. An example of using pre and post conditions in EOL appears in Listing \ref{lst:PrePostConditionsExample}.
 
@@ -334,7 +341,7 @@ All collection types inherit from the abstract Collection type. Apart from simpl
 			concat(separator : String) : String & Returns the string created by converting each element of the collection to a string, using the given argument as a separator \\\hline
 \end{longtable}
 
-The following operations apply to ordered collection types (i.e. Sequence and OrderedSet)
+The following operations apply to ordered collection types (i.e. Sequence and OrderedSet):
 
 \begin{longtable} {|p{5.5cm}|p{6.5cm}|}
 			
@@ -907,7 +914,7 @@ Model management operations can be executed in a number of runtime environments 
 			
 	 		choose(message : String, options : Sequence, [default : Any]) : Any & Prompts the user to select one of the options \\\hline
 			
-			chooseMany(message : String options : Sequence, [default : Sequence]) : Sequence & Prompts the user to select one of the options \\\hline
+			chooseMany(message : String options : Sequence, [default : Sequence]) : Sequence & Prompts the user to select one or more of the options \\\hline
 			
 \end{longtable}
 
