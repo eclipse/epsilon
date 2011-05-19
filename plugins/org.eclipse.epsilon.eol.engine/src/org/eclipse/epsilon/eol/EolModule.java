@@ -16,11 +16,9 @@ import java.util.List;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolModule extends EolLibraryModule implements IEolModule {
@@ -39,20 +37,8 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		main.setAst(AstUtil.getChild(ast, EolParser.BLOCK));
 	}
 	
-	public void prepare() {
-		context.setModule(this);
-		//context.getExecutorFactory().setExecutionController(new ExecutionProfiler());
-		//context.getScope().put(Variable.createReadOnlyVariable("ModelFactory", new ModelFactory()));
-		//context.getScope().put(Variable.createReadOnlyVariable("antlrParser", new AntlrParser()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("null", null));
-		//context.getFrameStack().put(Variable.createReadOnlyVariable("context",context));
-		EolSystem system = new EolSystem();
-		system.setContext(context);
-		context.getFrameStack().put(Variable.createReadOnlyVariable("System",system));
-	}
-	
 	public Object execute() throws EolRuntimeException {
-		prepare();
+		prepareContext(context);
 		
 		return Return.getValue(context.getExecutorFactory().executeAST(main.getAst(), context));
 		
@@ -69,13 +55,11 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 
 	@Override
 	public List<ModuleElement> getChildren() {
-		ArrayList children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		if (getMain()!=null){
 			children.add(getMain());
 		}
-		//children.addAll(getDeclaredModelDefinitions());
-		//children.addAll(getDeclaredModelGroupDefinitions());
 		children.addAll(getDeclaredOperations());
 		return children;
 	}

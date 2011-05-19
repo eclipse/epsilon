@@ -16,13 +16,16 @@ package org.eclipse.epsilon.etl.engine.test.acceptance;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.etl.engine.test.acceptance.builtins.EtlCanAccessBuiltinsTests;
 import org.eclipse.epsilon.etl.engine.test.acceptance.oo2db.OO2DBTest;
+import org.eclipse.epsilon.etl.engine.test.acceptance.tree2graph.Tree2GraphTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({OO2DBTest.class})
+@SuiteClasses({EtlCanAccessBuiltinsTests.class,
+               OO2DBTest.class, Tree2GraphTest.class})
 public class EtlAcceptanceTestSuite {
 
 	public static Test suite() {

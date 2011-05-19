@@ -72,7 +72,7 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	}
 
 	public FlockResult execute() throws FlockRuntimeException {
-		context.setModule(this);
+		prepareContext(context);
 		return context.execute(strategy);
 	}
 	

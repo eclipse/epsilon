@@ -12,14 +12,13 @@ package org.eclipse.epsilon.evl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class EvlConstraints implements Iterable {
+public class EvlConstraints implements Iterable<EvlConstraint> {
 	
 	protected List<EvlConstraint> storage = new ArrayList<EvlConstraint>();
 	
@@ -43,11 +42,11 @@ public class EvlConstraints implements Iterable {
 		return null;
 	}
 	
-	public Collection values() {
+	public Collection<EvlConstraint> values() {
 		return storage;
 	}
 	
-	public Iterator iterator() {
+	public Iterator<EvlConstraint> iterator() {
 		return storage.iterator();
 	}
 

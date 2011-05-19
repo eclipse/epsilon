@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.test.acceptance;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.egl.test.acceptance.builtins.EglCanAccessBuiltinsTests;
 import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
 import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
@@ -28,6 +29,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({Engine.class,
+               EglCanAccessBuiltinsTests.class,
                Output.class, OutputNewlines.class,
                Merge.class,
                Traceability.class,

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -62,7 +61,6 @@ public class EtlModule extends ErlModule implements IEtlModule {
 
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
-		// TODO Auto-generated method stub
 		return new EtlParser(tokenStream);
 	}
 
@@ -76,57 +74,13 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		
 		super.buildModel();
 		
-		//Parse the pre block		
-		//AST preBlockAst = AstUtil.getChild(ast, EtlParserTokenTypes.PREBLOCK);
-		//if (preBlockAst != null){
-		//	preBlock = new EolLabeledBlock(preBlockAst,"pre");
-		//}
-		
-		//Parse the post block		
-		//AST postBlockAst = AstUtil.getChild(ast, EtlParserTokenTypes.POSTBLOCK);
-		//if (postBlockAst != null){
-		//	postBlock = new EolLabeledBlock(postBlockAst,"post");
-		//}
-		
 		// Parse the transform rules
-		Iterator it = AstUtil.getChildren(ast, EtlParser.TRANSFORM).iterator();
-		while (it.hasNext()){
-			AST matchRuleAst = (AST) it.next();
-			TransformRule transformRule = new TransformRule(matchRuleAst);
-			declaredTransformRules.add(transformRule);
+		for (AST matchRuleAst : AstUtil.getChildren(ast, EtlParser.TRANSFORM)) {
+			declaredTransformRules.add(new TransformRule(matchRuleAst));
 		}
 		
 		getParseProblems().addAll(declaredTransformRules.calculateSuperRules(getTransformRules()));
-		
-		/*
-		// Calculate the super rules
-		it = declaredTransformRules.iterator();
-		while (it.hasNext()){
-			TransformRule transformRule = (TransformRule) it.next();
-			try {
-				transformRule.calculateSuperRules(getTransformRules());
-			} catch (ErlRuleNotFoundException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(transformRule.getAst().getLine());
-				problem.setReason(e.getReason());
-				getParseProblems().add(problem);
-			} catch (ErlCircularRuleInheritanceException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(transformRule.getAst().getLine());
-				problem.setReason(e.getReason());
-				getParseProblems().add(problem);
-			}
-		}
-		*/
 	}
-
-	//public EolLabeledBlock getPreBlock() {
-	///	return preBlock;
-	//}
-
-	//public EolLabeledBlock getPostBlock() {
-	//	return postBlock;
-	//}
 	
 	public TransformRules getDeclaredTransformRules() {
 		return declaredTransformRules;
@@ -147,7 +101,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
-		context.setModule(this);
+		prepareContext(context);
 		context.setOperationFactory(new EtlOperationFactory());
 		
 		EtlExecutorFactory etlExecutorFactory = new EtlExecutorFactory();
@@ -161,35 +115,16 @@ public class EtlModule extends ErlModule implements IEtlModule {
 			context.setTransformationStrategy(new FastTransformationStrategy());
 		}
 		
-		//context.setTransformationStrategy(new FastTransformationStrategy2());
-		
-		//context.getModelRepository().addModel(sourceModel);
-		//context.getModelRepository().addModel(targetModel);
-		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("module", this));
 		
-		// Reload the target model so that it is clean
-		//targetModel.setReadWrite(EolModel.WRITE_ONLY);
-		//targetModel.load();
-		
 		execute(getPre(), context);
-		
-		// Execute the preBlock
-		//if (preBlock != null){
-		//	context.getExecutorFactory().executeAST(preBlock.getAst(), context);
-		//}
 		
 		// Execute the transformModel() method of the strategy
 		if (context.getTransformationStrategy() != null){
 			context.getTransformationStrategy().transformModels(context);
 		}
-		
-		// Execute the postBlock
-		//if (postBlock != null) {
-		//	context.getExecutorFactory().executeAST(postBlock.getAst(), context);
-		//}
 		
 		execute(getPost(), context);
 		
@@ -197,8 +132,8 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public HashMap<String, Class> getImportConfiguration() {
-		HashMap<String, Class> importConfiguration = super.getImportConfiguration();
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
 		importConfiguration.put("etl", EtlModule.class);
 		return importConfiguration;
 	}
@@ -214,15 +149,9 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	
 	@Override
 	public List<ModuleElement> getChildren(){
-		List children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
-		//if (preBlock != null){
-		//	children.add(preBlock);
-		//}
-		//if (postBlock != null){
-		//	children.add(postBlock);
-		//}
 		children.addAll(declaredTransformRules);
 		children.addAll(getDeclaredPost());
 		children.addAll(getDeclaredOperations());

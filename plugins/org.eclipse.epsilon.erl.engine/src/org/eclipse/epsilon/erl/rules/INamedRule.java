@@ -10,15 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.rules;
 
+import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 
-public interface INamedRule {
+public interface INamedRule extends ModuleElement {
 	
 	public AST getAst();
 	
 	public void setAst(AST ast);
 	
 	public String getName();
-	
-	//public void setName(String name);
 }

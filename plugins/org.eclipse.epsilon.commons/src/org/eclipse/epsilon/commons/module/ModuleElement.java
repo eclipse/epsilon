@@ -17,8 +17,6 @@ import org.eclipse.epsilon.commons.parse.AST;
 
 public interface ModuleElement {
 	
-	//public File getSourceFile();
-	
 	public AST getAst();
 	
 	public List getChildren();

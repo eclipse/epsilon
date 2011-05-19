@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -60,7 +59,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
  
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
-		// TODO Auto-generated method stub
 		return new EvlParser(tokenStream);
 	}
 
@@ -70,8 +68,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 
 	@Override
-	public HashMap<String, Class> getImportConfiguration() {
-		HashMap<String, Class> importConfiguration = super.getImportConfiguration();
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
 		importConfiguration.put("evl", EvlModule.class);
 		return importConfiguration;
 	}
@@ -81,9 +79,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		
 		super.buildModel();
 		
-		Iterator it = AstUtil.getChildren(ast, EvlParser.CONTEXT).iterator();
-		while (it.hasNext()){
-			AST matchRuleAst = (AST) it.next();
+		for (AST matchRuleAst : AstUtil.getChildren(ast, EvlParser.CONTEXT)) {
 			EvlConstraintContext constraintContext = new EvlConstraintContext();
 			constraintContext.build(matchRuleAst);
 			declaredConstraintContexts.add(constraintContext);
@@ -91,9 +87,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		
 		// Cache all the constraints
 		for (EvlConstraintContext constraintContext : getConstraintContexts()) {
-			Iterator li = constraintContext.getConstraints().iterator();
-			while (li.hasNext()){
-				constraints.addConstraint((EvlConstraint)li.next());
+			for (EvlConstraint constraint : constraintContext.getConstraints()) {
+				constraints.addConstraint(constraint);
 			}
 		}
 	}
@@ -119,7 +114,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
-		context.setModule(this);
+		prepareContext(context);
 		context.setOperationFactory(new EvlOperationFactory());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("constraintTrace", context.getConstraintTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("thisModule", this));
@@ -131,9 +126,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 		
 		
-		//if (context.hasFixes() && fixer != null) {
+		if (fixer != null) {
 			fixer.fix(this);
-		//}
+		}
 		
 		execute(getPost(), context);
 		
@@ -151,7 +146,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	@Override
 	public List<ModuleElement> getChildren(){
-		List children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
 		children.addAll(getDeclaredConstraintContexts());
@@ -164,7 +159,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void reset(){
 		super.reset();
 		constraintContexts = null;
-		declaredConstraintContexts = new ArrayList();
+		declaredConstraintContexts = new ArrayList<EvlConstraintContext>();
 		context = new EvlContext();
 	}
 

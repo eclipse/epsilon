@@ -23,7 +23,6 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MergeTrace mergeTrace = new MergeTrace();
 	//protected MatchTrace tempMatchTrace = new MatchTrace();
-	protected EmlModule module = null;
 	
 	private IMergingStrategy mergingStrategy = null;
 	//private MatchingStrategy matchingStrategy = null;
@@ -64,7 +63,7 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	
 	@Override
 	public EmlModule getModule(){
-		return module;
+		return (EmlModule) module;
 	}
 	
 	public void setModule(EmlModule module){

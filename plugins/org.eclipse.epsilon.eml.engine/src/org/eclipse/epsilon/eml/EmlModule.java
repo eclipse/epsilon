@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -32,20 +31,11 @@ import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.etl.EtlModule;
-import org.eclipse.epsilon.etl.execute.EtlExecutorFactory;
 
 
 public class EmlModule extends EtlModule {
 	
-	//protected EolLabeledBlock preBlock;
-	//protected EolLabeledBlock postBlock;
-	//protected EolLabeledBlock midBlock;
 	protected EmlContext context = new EmlContext();
-	//protected IEolModel leftModel = null;
-	//protected IEolModel rightModel = null;
-	//protected IEolModel mergedModel = null;
-	//protected ASTFactory astFactory = null;
-	//protected TransformRules transformRules = null;
 	protected MergeRules declaredMergeRules = null;
 	protected MergeRules mergeRules = null;
 	
@@ -66,7 +56,6 @@ public class EmlModule extends EtlModule {
 
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
-		// TODO Auto-generated method stub
 		return new EmlParser(tokenStream);
 	}
 
@@ -76,8 +65,8 @@ public class EmlModule extends EtlModule {
 	}
 
 	@Override
-	public HashMap<String, Class> getImportConfiguration() {
-		HashMap<String, Class> importConfiguration = super.getImportConfiguration();
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
 		importConfiguration.put("eml", EmlModule.class);
 		return importConfiguration;
 	}
@@ -87,76 +76,18 @@ public class EmlModule extends EtlModule {
 		
 		super.buildModel();
 		
-		Iterator it;
-		
-		//Parse the pre match block
-		//AST preBlockAst = AstUtil.getChild(ast, EmlParserTokenTypes.PREBLOCK);
-		//if (preBlockAst != null){
-		//	preBlock = new EolLabeledBlock(preBlockAst,"pre");
-		//}
-		
-		//Parse the post match block		
-		//AST postBlockAst = AstUtil.getChild(ast, EmlParserTokenTypes.POSTBLOCK);
-		//if (postBlockAst != null){
-		//	postBlock = new EolLabeledBlock(postBlockAst,"post");
-		//}
-		
-		//	Parse the pre merge block
-		//AST midBlockAst = AstUtil.getChild(ast, EmlParserTokenTypes.MIDBLOCK);
-		//if (midBlockAst != null){
-		//	midBlock = new EolLabeledBlock(midBlockAst,"mid");
-		//}
-		
 		// Parse the merge rules
-		it = AstUtil.getChildren(ast, EmlParser.MERGE).iterator();
-		while (it.hasNext()){
-			AST mergeRuleAst = (AST) it.next();
-			MergeRule mergeRule = new MergeRule(mergeRuleAst);
-			declaredMergeRules.add(mergeRule);
+		for (AST mergeRuleAst : AstUtil.getChildren(ast, EmlParser.MERGE)) {
+			declaredMergeRules.add(new MergeRule(mergeRuleAst));
 		}
 		
-		// Parse the transform rules
-		//it = AstUtil.getChildren(ast, EmlParserTokenTypes.TRANSFORMRULE).iterator();
-		//while (it.hasNext()){
-		//	AST transformRuleAst = (AST) it.next();
-		//	TransformRule transformRule = new TransformRule(transformRuleAst);
-		//	transformRules.add(transformRule);
-		//}
-		
-		getParseProblems().addAll(declaredMergeRules.calculateSuperRules(getMergeRules()));
-		
-		// Calculate the super rules
-		//calculateSuperRules(declaredMergeRules);
-		//calculateSuperRules(transformRules);
-		
+		getParseProblems().addAll(declaredMergeRules.calculateSuperRules(getMergeRules()));		
 	}
-	
-	/*
-	public void calculateSuperRules(NamedRules rules){
-		Iterator it = rules.iterator();
-		while (it.hasNext()){
-			ExtensibleNamedRule rule = (ExtensibleNamedRule) it.next();
-			try {
-				rule.calculateSuperRules(rules);
-			} catch (ErlRuleNotFoundException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getAst().getLine());
-				problem.setReason(e.getReason());
-				getParseProblems().add(problem);
-			} catch (ErlCircularRuleInheritanceException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getAst().getLine());
-				problem.setReason(e.getReason());
-				getParseProblems().add(problem);
-			}
-		}		
-	}
-	*/
 	
 	@Override
 	public Object execute() throws EolRuntimeException{
 		
-		context.setModule(this);
+		prepareContext(context);
 		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()));
@@ -168,89 +99,25 @@ public class EmlModule extends EtlModule {
 		emlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
 		context.setExecutorFactory(emlExecutorFactory);
 		
-		//if (preBlock != null){
-		//	context.getExecutorFactory().executeAST(preBlock.getAst(), context);
-		//}
-		
 		execute(getPre(), context);
-		
 		context.getMergingStrategy().mergeModels(context);
-		
-		//if (postBlock != null){
-		//	context.getExecutorFactory().executeAST(postBlock.getAst(), context);
-		//}
-		
 		execute(getPost(), context);
-		
-		/*
-		try {
-			new MatchViewer((MofModel)leftModel, (MofModel)rightModel, context.getMatchTrace());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		// context.getModelRepository().shutdown();
 		
 		return null;
 	}
-	
-	/*
-	public List<ParseProblem> getParseProblems(){
-		return parser.getParseProblems();
-	}
-	*/
 	
 	@Override
 	public EmlContext getContext() {
 		return context;
 	}
 	
-	/*
-	public AST getAST(){
-		return parser.getAST();
-	}
-	*/
-	
 	@Override
 	public void reset(){
 		super.reset();
-		//preBlock = null;
-		//postBlock = null;
-		//midBlock = null;
 		declaredMergeRules = new MergeRules();
 		mergeRules = null;
-		//transformRules = new TransformRules();
-	}
-	/*
-	public IEolModel getLeftModel() {
-		return leftModel;
-	}
-
-	public void setLeftModel(IEolModel left) {
-		this.leftModel = left;
-	}
-
-	public IEolModel getMergedModel() {
-		return mergedModel;
-	}
-
-	public void setMergedModel(IEolModel merged) {
-		this.mergedModel = merged;
-	}
-
-	public IEolModel getRightModel() {
-		return rightModel;
-	}
-
-	public void setRightModel(IEolModel rightModel) {
-		this.rightModel = rightModel;
 	}
 	
-	public IEolModel getTargetModel() {
-		return mergedModel;
-	}
-	*/
 	public MergeRules getDeclaredMergeRules(){
 		return declaredMergeRules;
 	}
@@ -271,18 +138,9 @@ public class EmlModule extends EtlModule {
 	
 	@Override
 	public List<ModuleElement> getChildren() {
-		List children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
-		//if (preBlock != null){
-		//	children.add(preBlock);
-		//}
-		//if (midBlock != null){
-		//	children.add(midBlock);
-		//}
-		//if (postBlock != null){
-		//	children.add(postBlock);
-		//}
 		children.addAll(declaredMergeRules);
 		children.addAll(declaredTransformRules);
 		children.addAll(getDeclaredPost());
@@ -298,35 +156,5 @@ public class EmlModule extends EtlModule {
 	@Override
 	protected int getPreBlockTokenType() {
 		return EmlParser.PRE;
-	}
-	
-	//public EolLabeledBlock getPreBlock() {
-	//	return preBlock;
-	//}
-
-	//public EolLabeledBlock getPostBlock() {
-	//	return postBlock;
-	//}
-
-	//public TransformRules getDeclaredTransformRules() {
-	//	return transformRules;
-	//}
-
-	//public void setSourceModel(EolModel sourceModel) {
-		
-	//}
-
-	//public EolModel getSourceModel() {
-	//	return null;
-	//}
-
-	//public void setTargetModel(EolModel targetModel) {
-		
-	//}
-
-	//public void setContext(EtlContext context) {
-		
-	//}
-	
+	}	
 }
-

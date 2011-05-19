@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.rules;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.AST;
 
 public class NamedRule implements INamedRule {
@@ -29,5 +32,10 @@ public class NamedRule implements INamedRule {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public List getChildren() {
+		return Collections.emptyList();
 	}
 }

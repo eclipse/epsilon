@@ -42,8 +42,6 @@ public class EclModule extends ErlModule implements IEclModule {
 	protected MatchRules matchRules = null;
 	protected MatchRules declaredMatchRules = null;
 	protected IEclContext context = null;
-	//protected IModel leftModel;
-	//protected IModel rightModel;
 	
 	public EclModule(){
 		reset();
@@ -62,7 +60,6 @@ public class EclModule extends ErlModule implements IEclModule {
 
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
-		// TODO Auto-generated method stub
 		return new EclParser(tokenStream);
 	}
 
@@ -77,19 +74,16 @@ public class EclModule extends ErlModule implements IEclModule {
 		super.buildModel();
 		
 		// Parse the match rules
-		Iterator it = AstUtil.getChildren(ast, EclParser.MATCH).iterator();
-		while (it.hasNext()){
-			AST matchRuleAst = (AST) it.next();
-			MatchRule matchRule = new MatchRule(matchRuleAst);
-			declaredMatchRules.add(matchRule);
+		for (AST matchRuleAst : AstUtil.getChildren(ast, EclParser.MATCH)) {
+			declaredMatchRules.add(new MatchRule(matchRuleAst));
 		}
 		
 		getParseProblems().addAll(getMatchRules().calculateSuperRules(getMatchRules()));
 	}
 
 	@Override
-	public HashMap<String, Class> getImportConfiguration() {
-		HashMap<String, Class> importConfiguration = super.getImportConfiguration();
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
 		importConfiguration.put("ecl", EclModule.class);
 		return importConfiguration;
 	}
@@ -111,19 +105,14 @@ public class EclModule extends ErlModule implements IEclModule {
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
-
-		context.setModule(this);
+		prepareContext(context);
 		context.setOperationFactory(new EclOperationFactory());
-		
-		//context.getModelRepository().addModel(leftModel);
-		//context.getModelRepository().addModel(rightModel);
 		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 		
 		execute(getPre(), context);
-		//context.getMatchingStrategy().matchModels(context);
 		matchModels();
 		execute(getPost(), context);
 		
@@ -167,7 +156,7 @@ public class EclModule extends ErlModule implements IEclModule {
 			if (matchRules.size() > 0){
 				
 				Match match = context.getMatchTrace().createMatch(left, right, true);
-				Iterator it = matchRules.iterator();
+				Iterator<INamedRule> it = matchRules.iterator();
 				while (it.hasNext()){
 					matchRule = (MatchRule) it.next();
 					if (matchRule.isGreedy()) {
@@ -195,7 +184,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	
 	@Override
 	public List<ModuleElement> getChildren(){
-		List children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
 		children.addAll(getDeclaredMatchRules());
@@ -212,22 +201,6 @@ public class EclModule extends ErlModule implements IEclModule {
 		context = new EclContext();
 	}
 
-	//public void setLeftModel(IModel leftModel) {
-	//	this.leftModel = leftModel;
-	//}
-
-	//public IModel getLeftModel() {
-	//	return leftModel;
-	//}
-
-	//public void setRightModel(IModel rightModel) {
-	//	this.rightModel = rightModel;
-	//}
-
-	//public IModel getRightModel() {
-	//	return rightModel;
-	//}
-
 	public MatchRules getDeclaredMatchRules() {
 		return declaredMatchRules;
 	}
@@ -241,5 +214,4 @@ public class EclModule extends ErlModule implements IEclModule {
 	protected int getPreBlockTokenType() {
 		return EclParser.PRE;
 	}
-		
 }

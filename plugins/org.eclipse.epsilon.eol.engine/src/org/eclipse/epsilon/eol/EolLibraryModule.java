@@ -15,9 +15,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -31,6 +29,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.commons.util.ListSet;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
@@ -38,7 +37,7 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class EolLibraryModule extends AbstractModule implements IEolLibraryModule{
 	
 	protected EolOperations declaredOperations = new EolOperations();
-	protected List<EolImport> imports = new ArrayList();
+	protected List<EolImport> imports = new ArrayList<EolImport>();
 	protected EolOperations operations = null;
 	protected List<EolModelDefinition> declaredModelDefinitions = new ArrayList<EolModelDefinition>();
 	protected List<EolModelGroupDefinition> declaredModelGroupDefinitions = new ArrayList<EolModelGroupDefinition>();
@@ -62,28 +61,10 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		return new EolParser(tokenStream);
 	}
 	
-	/*
-	@Override
-	public TokenStream createLexer(Reader reader) {
-		return new EolLexer(reader);
-	}
-
-	@Override
-	public LLkParser createParser(TokenStream tokenStream) {
-		return new EolParser(tokenStream);
-	}
-	 */
-	
 	@Override
 	public String getMainRule() {
 		return "eolModule";
 	}
-
-	/*
-	protected EolParser getParser() {
-		return (EolParser) parser;
-	}
-	*/
 	
 	public EolOperations getDeclaredOperations() {
 		return declaredOperations;
@@ -93,77 +74,33 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		return null;
 	}
 	
-	public HashMap<String, Class> getImportConfiguration() {
-		HashMap<String, Class> importConfiguration = new HashMap();
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
 		importConfiguration.put("eol", EolLibraryModule.class);
 		return importConfiguration;
 	}
 	
 	@Override
 	public void buildModel() throws Exception {
-		/*
-		Iterator it = AstUtil.getChildren(ast, EolParserTokenTypes.IMPORT).iterator();
-		
-		while (it.hasNext()){
-			AST importAst = (AST) it.next();
-			EolImport import_ = new EolImport(importAst, new EolLibraryModuleImpl());
-			if (!import_.getPath().endsWith(".eol")) continue;
-			import_.load(this.sourceFile);
-			if (!import_.isLoaded()){
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(importAst.getLine());
-				problem.setReason("File " + importAst.getFirstChild().getText() + " not found");
-				getParseProblems().add(problem);
-			}
-			imports.add(import_);
-		}
-		*/
-		
 		checkImports();
 		
 		for (String extension : getImportConfiguration().keySet()) {
 			imports.addAll(getImportsByExtension(extension, getImportConfiguration().get(extension)));
 		}
 		
-		/*
-		Iterator it = AstUtil.getChildren(ast, EolParserTokenTypes.MODEL).iterator();
-		
-		while (it.hasNext()) {
-			EolAst modelDefinitionAst = (EolAst) it.next();
-			AST namesAst = modelDefinitionAst.getFirstChild();
-			for (AST nameAst : AstUtil.getChildren(namesAst)) {
-				EolModelDefinition modelDefinition = new EolModelDefinition();
-				modelDefinition.setAst(modelDefinitionAst);
-				modelDefinition.setModel(nameAst.getText());
-				declaredModelDefinitions.add(modelDefinition);
-			}
-		}
-		
-		it = AstUtil.getChildren(ast, EolParserTokenTypes.GROUP).iterator();
-		
-		while (it.hasNext()) {
-			EolAst modelGroupDefinitionAst = (EolAst) it.next();
-			AST namesAst = modelGroupDefinitionAst.getFirstChild();
-			AST groupNameAst = namesAst.getNextSibling();
-			EolModelGroupDefinition modelGroupDefinition = new EolModelGroupDefinition();
-			modelGroupDefinition.setGroup(groupNameAst.getText());
-			modelGroupDefinition.setAst(modelGroupDefinitionAst);
-			for (AST nameAst : AstUtil.getChildren(namesAst)) {
-				modelGroupDefinition.getModels().add(nameAst.getText());
-			}
-			declaredModelGroupDefinitions.add(modelGroupDefinition);
-		}
-		
-		//imports.addAll(getImportsByExtension("eol", EolLibraryModuleImpl.class));
-		*/
-		
-		Iterator it = AstUtil.getChildren(ast, EolParser.HELPERMETHOD).iterator();
-		while (it.hasNext()){
-			AST helperAst = (AST) it.next();
+		for (AST helperAst : AstUtil.getChildren(ast, EolParser.HELPERMETHOD)) {
 			EolOperation helper = operationFactory.createOperation(helperAst); //new EolOperation(helperAst);
-			//helper.setSourceFile(this.getSourceFile());
 			declaredOperations.add(helper);
 		}
+	}
+	
+	protected void prepareContext(IEolContext context) {
+		final EolSystem system = new EolSystem();
+		system.setContext(context);
+
+		context.setModule(this);
+		context.getFrameStack().put(Variable.createReadOnlyVariable("null", null));
+		context.getFrameStack().put(Variable.createReadOnlyVariable("System",system));
 	}
 	
 	@Override
@@ -179,10 +116,8 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 
 	@Override
 	public List<ModuleElement> getChildren() {
-		ArrayList children = new ArrayList();
+		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(imports);
-		//children.addAll(declaredModelDefinitions);
-		//children.addAll(declaredModelGroupDefinitions);
 		children.addAll(declaredOperations);
 		return children;
 	}
@@ -206,9 +141,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public Set<EolModelDefinition> getModelDefinitions() {
 		if (modelDefinitions == null){
 			modelDefinitions = new ListSet<EolModelDefinition>();
-			ListIterator li = imports.listIterator();
-			while (li.hasNext()){
-				EolImport import_ = (EolImport) li.next();
+			for (EolImport import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolLibraryModule){
 					modelDefinitions.addAll(((IEolLibraryModule)import_.getModule()).getModelDefinitions());
 				}
@@ -222,9 +155,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		if (operations == null){
 			operations = new EolOperations();
 			operations.addAll(this.getDeclaredOperations());
-			ListIterator li = imports.listIterator();
-			while (li.hasNext()){
-				EolImport import_ = (EolImport) li.next();
+			for (EolImport import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolLibraryModule){
 					operations.addAll(((IEolLibraryModule)import_.getModule()).getOperations());
 				}
@@ -233,12 +164,10 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		return operations;
 	}
 	
-	protected Collection<EolImport> getImportsByExtension(String extension, Class moduleImplClass) {
-		Iterator it = AstUtil.getChildren(ast, EolParser.IMPORT).iterator();
+	protected Collection<EolImport> getImportsByExtension(String extension, Class<?> moduleImplClass) {
+		final List<EolImport> imports = new ArrayList<EolImport>();
 		
-		ArrayList<EolImport> imports = new ArrayList();
-		while (it.hasNext()){
-			AST importAst = (AST) it.next();
+		for (AST importAst : AstUtil.getChildren(ast, EolParser.IMPORT)) {
 			IModule module = null;
 			try {
 				module = (IModule) moduleImplClass.newInstance();
@@ -307,9 +236,8 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public Set<EolModelGroupDefinition> getModelGroupDefinitions() {
 		if (modelGroupDefinitions == null){
 			modelGroupDefinitions = new ListSet<EolModelGroupDefinition>();
-			ListIterator li = imports.listIterator();
-			while (li.hasNext()){
-				EolImport import_ = (EolImport) li.next();
+
+			for (EolImport import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolLibraryModule){
 					modelGroupDefinitions.addAll(((IEolLibraryModule)import_.getModule()).getModelGroupDefinitions());
 				}

@@ -16,12 +16,13 @@ package suite;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.flock.engine.test.acceptance.builtins.FlockCanAccessBuiltinsTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({Strong2StrongSuite.class})
+@SuiteClasses({FlockCanAccessBuiltinsTests.class, Strong2StrongSuite.class})
 public class EpsilonFlockEngineAcceptanceTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonFlockEngineAcceptanceTestSuite.class);

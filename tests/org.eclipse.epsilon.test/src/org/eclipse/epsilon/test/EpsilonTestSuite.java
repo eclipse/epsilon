@@ -19,13 +19,17 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.commons.test.CommonsTestSuite;
 import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestSuite;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
 import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
+import org.eclipse.epsilon.eml.engine.test.acceptance.EmlAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
+import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestSuite;
+import org.eclipse.epsilon.ewl.engine.test.acceptance.EwlAcceptanceTestSuite;
 import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
@@ -40,7 +44,11 @@ import org.junit.runners.Suite.SuiteClasses;
                CommonsTestSuite.class,
                EolUnitTestSuite.class, 
                EolAcceptanceTestSuite.class,
+               EvlAcceptanceTestSuite.class,
                EtlAcceptanceTestSuite.class,
+               EclAcceptanceTestSuite.class,
+               EmlAcceptanceTestSuite.class,
+               EwlAcceptanceTestSuite.class,
                EglTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
