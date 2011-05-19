@@ -112,9 +112,11 @@ Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and 
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
 
-(context) <name> !\textbf{\{}!
+context !\textit{name}! !\textbf{\{}!
+
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	(invariant)*
+	(!\textit{invariant}!)*
 	
 !\textbf{\}}!
 \end{lstlisting}
@@ -122,15 +124,15 @@ Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
 
 (@lazy)?
-(constraint|critique) <name> !\textbf{\{}!
+(constraint|critique) !\textit{name}! !\textbf{\{}!
 	
-	(guard (!\textbf{:}!expression)|({statementBlock}))?
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	(check (!\textbf{:}!expression)|({statementBlock}))?
+	(check (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	(message (!\textbf{:}!expression)|({statementBlock}))?
+	(message (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	(fix)*
+	(!\textit{fix}!)*
 	
 !\textbf{\}}
 \end{lstlisting}
@@ -138,12 +140,12 @@ Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
 fix !\textbf{\{}!
 	
-	(guard (!\textbf{:}!expression)|({statementBlock}))?
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	(title (!\textbf{:}!expression)|({statementBlock}))?
+	(title (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
 	do !\textbf{\{}!
-		statementBlock
+		!\textit{statementBlock}!
 	!\textbf{\}}!
 	
 !\textbf{\}}!
