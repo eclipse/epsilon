@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EtlParserRules.g 2010-10-19 13:27:40
+// $ANTLR 3.1b1 EtlParserRules.g 2011-05-20 11:48:30
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -49,119 +49,124 @@ import org.antlr.runtime.tree.*;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.EpsilonParser {
-    public static final int WHILE=31;
-    public static final int StatementBlock=27;
-    public static final int StrangeNameLiteral=13;
-    public static final int CASE=33;
-    public static final int NEW=47;
-    public static final int FeatureCall=57;
+    public static final int EXPONENT=6;
+    public static final int WHILE=33;
+    public static final int StatementBlock=29;
+    public static final int StrangeNameLiteral=15;
+    public static final int CASE=35;
+    public static final int NEW=49;
+    public static final int FeatureCall=59;
     public static final int EOF=-1;
-    public static final int BREAK=36;
-    public static final int TYPE=61;
+    public static final int BREAK=38;
+    public static final int KEYVALLIST=75;
+    public static final int TYPE=63;
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
-    public static final int IMPORT=63;
+    public static final int IMPORT=65;
     public static final int T__92=92;
-    public static final int NAME=17;
+    public static final int NAME=19;
+    public static final int T__148=148;
     public static final int T__90=90;
-    public static final int RETURN=35;
-    public static final int NewExpression=45;
-    public static final int VAR=46;
-    public static final int ANNOTATIONBLOCK=48;
-    public static final int NativeType=54;
-    public static final int ABORT=41;
-    public static final int COMMENT=19;
+    public static final int T__147=147;
+    public static final int T__149=149;
+    public static final int RETURN=37;
+    public static final int NewExpression=47;
+    public static final int VAR=48;
+    public static final int ANNOTATIONBLOCK=50;
+    public static final int NativeType=56;
+    public static final int ABORT=43;
+    public static final int COMMENT=21;
     public static final int T__99=99;
-    public static final int ITEMSELECTOR=70;
+    public static final int ITEMSELECTOR=72;
     public static final int T__98=98;
+    public static final int T__150=150;
     public static final int T__97=97;
-    public static final int MultiplicativeExpression=55;
+    public static final int T__151=151;
+    public static final int MultiplicativeExpression=57;
     public static final int T__96=96;
+    public static final int T__152=152;
     public static final int T__95=95;
+    public static final int FLOAT_TYPE_SUFFIX=7;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int T__80=80;
-    public static final int T__81=81;
     public static final int T__82=82;
     public static final int T__83=83;
-    public static final int LINE_COMMENT=20;
-    public static final int BREAKALL=37;
-    public static final int TRANSACTION=39;
-    public static final int SWITCH=32;
-    public static final int DRIVER=67;
-    public static final int ELSE=30;
-    public static final int EOLMODULE=58;
-    public static final int MODELDECLARATION=64;
-    public static final int PARAMLIST=23;
-    public static final int INT=6;
-    public static final int DELETE=50;
+    public static final int LINE_COMMENT=22;
+    public static final int BREAKALL=39;
+    public static final int TRANSACTION=41;
+    public static final int SWITCH=34;
+    public static final int DRIVER=69;
+    public static final int ELSE=32;
+    public static final int EOLMODULE=60;
+    public static final int MODELDECLARATION=66;
+    public static final int PARAMLIST=25;
+    public static final int INT=8;
+    public static final int DELETE=52;
     public static final int T__85=85;
     public static final int T__141=141;
     public static final int T__84=84;
     public static final int T__142=142;
     public static final int T__87=87;
-    public static final int HELPERMETHOD=26;
+    public static final int HELPERMETHOD=28;
     public static final int T__86=86;
     public static final int T__140=140;
     public static final int T__89=89;
     public static final int T__145=145;
-    public static final int NAMESPACE=65;
+    public static final int NAMESPACE=67;
     public static final int T__88=88;
     public static final int T__146=146;
-    public static final int CollectionType=42;
+    public static final int CollectionType=44;
     public static final int T__143=143;
     public static final int T__144=144;
     public static final int T__126=126;
     public static final int T__125=125;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int WS=18;
+    public static final int WS=20;
     public static final int T__129=129;
-    public static final int ALIAS=66;
-    public static final int JavaIDDigit=16;
-    public static final int GUARD=74;
-    public static final int Annotation=21;
+    public static final int ALIAS=68;
+    public static final int JavaIDDigit=18;
+    public static final int GUARD=79;
+    public static final int Annotation=23;
     public static final int T__130=130;
     public static final int T__131=131;
-    public static final int EscapeSequence=11;
-    public static final int Letter=14;
-    public static final int THROW=51;
+    public static final int EscapeSequence=13;
+    public static final int Letter=16;
+    public static final int THROW=53;
     public static final int T__132=132;
-    public static final int T__79=79;
     public static final int T__133=133;
-    public static final int ETLMODULE=76;
-    public static final int T__78=78;
+    public static final int ETLMODULE=81;
     public static final int T__134=134;
-    public static final int T__77=77;
     public static final int T__135=135;
-    public static final int SPECIAL_ASSIGNMENT=25;
-    public static final int MODELDECLARATIONPARAMETER=69;
-    public static final int PARAMETERS=44;
-    public static final int POINT=7;
+    public static final int SPECIAL_ASSIGNMENT=27;
+    public static final int MODELDECLARATIONPARAMETER=71;
+    public static final int KEYVAL=74;
+    public static final int PARAMETERS=46;
+    public static final int POINT=9;
     public static final int T__118=118;
     public static final int T__119=119;
     public static final int T__116=116;
     public static final int T__117=117;
     public static final int T__114=114;
     public static final int T__115=115;
-    public static final int TRANSFORM=75;
+    public static final int TRANSFORM=80;
     public static final int T__124=124;
     public static final int T__123=123;
-    public static final int FOR=28;
+    public static final int FOR=30;
     public static final int T__122=122;
-    public static final int ENUMERATION_VALUE=62;
+    public static final int ENUMERATION_VALUE=64;
     public static final int T__121=121;
-    public static final int PRE=71;
+    public static final int PRE=76;
     public static final int T__120=120;
     public static final int FLOAT=4;
-    public static final int EXECUTABLEANNOTATION=49;
-    public static final int IF=29;
-    public static final int ModelElementType=43;
-    public static final int BOOLEAN=10;
-    public static final int CONTINUE=38;
+    public static final int EXECUTABLEANNOTATION=51;
+    public static final int IF=31;
+    public static final int ModelElementType=45;
+    public static final int BOOLEAN=12;
+    public static final int CONTINUE=40;
     public static final int T__107=107;
     public static final int T__108=108;
     public static final int T__109=109;
@@ -173,26 +178,27 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
     public static final int T__110=110;
     public static final int T__113=113;
     public static final int T__112=112;
-    public static final int COLLECTION=40;
+    public static final int COLLECTION=42;
     public static final int DIGIT=5;
-    public static final int EXPRRANGE=53;
-    public static final int OPERATOR=56;
-    public static final int EXPRLIST=52;
-    public static final int DEFAULT=34;
+    public static final int EXPRRANGE=55;
+    public static final int OPERATOR=58;
+    public static final int EXPRLIST=54;
+    public static final int DEFAULT=36;
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int POINT_POINT=8;
-    public static final int SpecialNameChar=15;
-    public static final int MODELDECLARATIONPARAMETERS=68;
-    public static final int BLOCK=59;
-    public static final int FEATURECALL=60;
-    public static final int FORMAL=22;
-    public static final int POST=72;
-    public static final int ARROW=9;
-    public static final int ASSIGNMENT=24;
-    public static final int EXTENDS=73;
-    public static final int STRING=12;
+    public static final int POINT_POINT=10;
+    public static final int SpecialNameChar=17;
+    public static final int MODELDECLARATIONPARAMETERS=70;
+    public static final int BLOCK=61;
+    public static final int MAP=73;
+    public static final int FEATURECALL=62;
+    public static final int FORMAL=24;
+    public static final int POST=77;
+    public static final int ARROW=11;
+    public static final int ASSIGNMENT=26;
+    public static final int EXTENDS=78;
+    public static final int STRING=14;
 
     // delegates
     // delegators
@@ -263,7 +269,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            r=(Token)match(input,144,FOLLOW_144_in_transformationRule39); if (state.failed) return retval;
+            r=(Token)match(input,150,FOLLOW_150_in_transformationRule39); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (CommonTree)adaptor.create(r);
             root_0 = (CommonTree)adaptor.becomeRoot(r_tree, root_0);
@@ -273,14 +279,14 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             rule_tree = (CommonTree)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,145,FOLLOW_145_in_transformationRule46); if (state.failed) return retval;
+            string_literal1=(Token)match(input,151,FOLLOW_151_in_transformationRule46); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_transformationRule49);
             formalParameter2=gEtl.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,146,FOLLOW_146_in_transformationRule51); if (state.failed) return retval;
+            string_literal3=(Token)match(input,152,FOLLOW_152_in_transformationRule51); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameterList_in_transformationRule54);
             formalParameterList4=gEtl.formalParameterList();
 
@@ -291,7 +297,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==143) ) {
+            if ( (LA1_0==149) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -310,12 +316,12 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
             }
 
-            char_literal6=(Token)match(input,83,FOLLOW_83_in_transformationRule60); if (state.failed) return retval;
+            char_literal6=(Token)match(input,88,FOLLOW_88_in_transformationRule60); if (state.failed) return retval;
             // EtlParserRules.g:47:16: ( guard )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==142) ) {
+            if ( (LA2_0==148) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -340,7 +346,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, block8.getTree());
-            char_literal9=(Token)match(input,84,FOLLOW_84_in_transformationRule68); if (state.failed) return retval;
+            char_literal9=(Token)match(input,89,FOLLOW_89_in_transformationRule68); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               r.setType(TRANSFORM);
             }
@@ -372,16 +378,16 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.commons.parse.Epsilo
 
  
 
-    public static final BitSet FOLLOW_144_in_transformationRule39 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_NAME_in_transformationRule44 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_145_in_transformationRule46 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_formalParameter_in_transformationRule49 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000040000L});
-    public static final BitSet FOLLOW_146_in_transformationRule51 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_formalParameterList_in_transformationRule54 = new BitSet(new long[]{0x0000000000000000L,0x0000000000080000L,0x0000000000008000L});
-    public static final BitSet FOLLOW_extendz_in_transformationRule57 = new BitSet(new long[]{0x0000000000000000L,0x0000000000080000L});
-    public static final BitSet FOLLOW_83_in_transformationRule60 = new BitSet(new long[]{0x0000000000021450L,0x003FE37F81100000L,0x0000000000004C48L});
-    public static final BitSet FOLLOW_guard_in_transformationRule63 = new BitSet(new long[]{0x0000000000021450L,0x003FE37F81100000L,0x0000000000000C48L});
-    public static final BitSet FOLLOW_block_in_transformationRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_84_in_transformationRule68 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_150_in_transformationRule39 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_transformationRule44 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_151_in_transformationRule46 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_transformationRule49 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000001000000L});
+    public static final BitSet FOLLOW_152_in_transformationRule51 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameterList_in_transformationRule54 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_extendz_in_transformationRule57 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L});
+    public static final BitSet FOLLOW_88_in_transformationRule60 = new BitSet(new long[]{0x0000000000085110L,0x0FF8DFF022000000L,0x0000000000131200L});
+    public static final BitSet FOLLOW_guard_in_transformationRule63 = new BitSet(new long[]{0x0000000000085110L,0x0FF8DFF022000000L,0x0000000000031200L});
+    public static final BitSet FOLLOW_block_in_transformationRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_89_in_transformationRule68 = new BitSet(new long[]{0x0000000000000002L});
 
 }
