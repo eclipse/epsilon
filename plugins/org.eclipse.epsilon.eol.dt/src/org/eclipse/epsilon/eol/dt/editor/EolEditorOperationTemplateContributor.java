@@ -9,7 +9,6 @@ import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorT
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.EolOperation;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.jface.text.templates.Template;
@@ -22,7 +21,7 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		if (module == null || !(module instanceof IEolLibraryModule)) return;
-		for (EolOperation op : ((IEolExecutableModule) module).getOperations()) {
+		for (EolOperation op : ((IEolLibraryModule) module).getOperations()) {
 			templates.add(createTemplate(op));
 		}
 		
