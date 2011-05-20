@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolOperation;
@@ -84,7 +85,15 @@ public class EUnitRunner extends Runner {
 		}
 		
 		if (module.getParseProblems().size() > 0) {
-			notifier.fireTestFailure(new Failure(testSuiteDescription, new Exception("Syntax errors in " + eolFile)));
+			StringBuilder sBuilder = new StringBuilder("Syntax errors in ");
+			sBuilder.append(eolFile);
+			sBuilder.append(": \n");
+			for (ParseProblem problem : module.getParseProblems()) {
+				sBuilder.append("- ");
+				sBuilder.append(problem.toString());
+				sBuilder.append('\n');
+			}
+			notifier.fireTestFailure(new Failure(testSuiteDescription, new Exception(sBuilder.toString())));
 			return;
 		}
 
