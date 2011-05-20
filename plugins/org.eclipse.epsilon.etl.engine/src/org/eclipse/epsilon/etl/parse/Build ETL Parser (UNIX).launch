@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<stringAttribute key="bad_container_name" value="/org.eclipse.epsilon.etl.engine/src/org/eclipse/epsilon/ectl/parse"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.epsilon.antlr.dev/src/org/eclipse/epsilon/antlr/dev/Tool.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.antlr.dev.Tool"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-package &quot;org.eclipse.epsilon.etl.parse&quot; -lib &quot;${resource_loc:/org.eclipse.epsilon.etl.engine/src/org/eclipse/epsilon/etl/parse};${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse}&quot; -o ${resource_loc:/org.eclipse.epsilon.etl.engine/src/org/eclipse/epsilon/etl/parse}&#10;${resource_loc:/org.eclipse.epsilon.etl.engine/src/org/eclipse/epsilon/etl/parse/Etl.g}"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.antlr.dev"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.eclipse.epsilon.etl.engine/src/org/eclipse/epsilon/etl/parse}"/>
+</launchConfiguration>

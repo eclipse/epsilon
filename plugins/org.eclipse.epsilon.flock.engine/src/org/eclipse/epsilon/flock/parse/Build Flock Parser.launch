@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/org.eclipse.epsilon.antlr.dev/lib/antlr-3.1b1.jar"/>
+<listEntry value="/org.eclipse.epsilon.antlr.dev/src/org/eclipse/epsilon/antlr/dev/Tool.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -12,8 +12,8 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;org.eclipse.epsilon.eol.engine&quot; type=&quot;1&quot;/&gt;&#10;"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.antlr.Tool"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-lib &quot;${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse}&quot; -o ${resource_loc:/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse} ${resource_loc:/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g}"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.antlr.dev.Tool"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-package org.eclipse.epsilon.flock.parse -lib &quot;${resource_loc:/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse}&quot; -o ${resource_loc:/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse} ${resource_loc:/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.antlr.dev"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.eclipse.epsilon.flock.engine}"/>
 </launchConfiguration>
