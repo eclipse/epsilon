@@ -9,7 +9,7 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.EolOperation;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -23,7 +23,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 
 	protected AbstractModuleEditor editor;
 	protected HashMap<AST, IRegion> astRegions = new HashMap<AST, IRegion>();
-	protected IEolExecutableModule module = null;
+	protected IEolLibraryModule module = null;
 	
 	public List<IHyperlink> createHyperlinks(AST ast) {
 		
@@ -79,7 +79,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		astRegions.clear();
 		this.editor = editor;
-		this.module = (IEolExecutableModule) module;
+		this.module = (IEolLibraryModule) module;
 		findInterestingASTs(module.getAst());
 	}
 	
