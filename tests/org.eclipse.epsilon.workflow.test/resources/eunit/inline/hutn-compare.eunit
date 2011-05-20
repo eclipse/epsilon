@@ -18,13 +18,13 @@ Model {
 ');
 }
 
-$with Sequence {"A", "TreeHUTN"}
+$with Map {"A" = "TreeHUTN"}
 operation hutnShouldBeEqualToItself() {
   assertEqualModels("A", "A");
 }
 
-$with Sequence {"A", "TreeHUTN", "B", "TreeEMF"}
-$with Sequence {"A", "TreeEMF", "B", "TreeHUTN"}
+$with Map {"A" = "TreeHUTN", "B" = "TreeEMF"}
+$with Map {"A" = "TreeEMF", "B" = "TreeHUTN"}
 @test
 operation rawAndHUTNModelsShouldBeEqual() {
   assertEqualModels("A", "B");

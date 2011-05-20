@@ -35,6 +35,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eunit.execute.EUnitOperationFactory;
 import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
@@ -204,13 +205,13 @@ public class EUnitModule extends EolModule {
 					if (annotationsValues.size() == 1) {
 						// Do not create an inner node if there is only one
 						// model binding
-						test.setModelBindings((EolSequence) annotationsValues.get(0));
+						test.setModelBindings((EolMap) annotationsValues.get(0));
 					} else {
 						for (Object annotation : annotationsValues) {
 							EUnitTest child = new EUnitTest();
 							child.setParent(test);
 							child.setOperation(opTest);
-							child.setModelBindings((EolSequence) annotation);
+							child.setModelBindings((EolMap) annotation);
 							test.addChildren(child);
 						}
 					}
@@ -376,7 +377,7 @@ public class EUnitModule extends EolModule {
 	 * This method applies the model bindings set in <code>node</code>. The bindings
 	 * rename the models in the model repository as indicated by the user: for instance,
 	 * assume the model repository had models A and B. After applying the bindings from
-	 * <code>$with Sequence {"", "A", "C", "B"}</code>, the default model is now A
+	 * <code>$with Map {"" = "A", "C" = "B"}</code>, the default model is now A
 	 * (keeping its name) and model B is renamed to C. The rest of the models are kept
 	 * as is, though the order in the model repository may vary.
 	 */

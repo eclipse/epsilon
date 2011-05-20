@@ -1,17 +1,17 @@
-$with Sequence {"", "A"}
-$with Sequence {"", "B"}
+$with Map {"" = "A"}
+$with Map {"" = "B"}
 @test
 operation hasOneA() {
   assertEquals("The model has one A", 1, Element.allInstances.select(e|e.name='A').size()); 
 }
 
-$with Sequence {"", "A"}
+$with Map {"" = "A"}
 @test
 operation hasOneB() {
   assertEquals("The model has one B", 1, Element.allInstances.select(e|e.name.startsWith('B')).size());
 }
 
-$with Sequence {"", "B"}
+$with Map {"" = "B"}
 @test
 operation hasTwoB() {
   assertEquals("The model has two B", 2, Element.allInstances.select(e|e.name.startsWith('B')).size());

@@ -1,13 +1,13 @@
-$with Sequence {"M", "Tree"}
-$with Sequence {"M", "GraphExpected"}
-$with Sequence {"M", "GraphDifferent"}
+$with Map {"M" = "Tree"}
+$with Map {"M" = "GraphExpected"}
+$with Map {"M" = "GraphDifferent"}
 @test
 operation sameModelsAreEqual() {
   assertEqualModels("M", "M");
 }
 
-$with Sequence {"A", "Tree", "B", "GraphDifferent"}
-$with Sequence {"A", "GraphDifferent", "B", "Tree"}
+$with Map {"A" = "Tree", "B" = "GraphDifferent"}
+$with Map {"A" = "GraphDifferent", "B" = "Tree"}
 @test
 operation modelsFromDifferentMetamodelsAreDifferent() {
   assertNotEqualModels("A", "B");

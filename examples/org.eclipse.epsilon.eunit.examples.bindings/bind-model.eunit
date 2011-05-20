@@ -1,13 +1,13 @@
 import 'loops.eol';
 
-$with Sequence {"", "LoopingA"}
-$with Sequence {"", "LoopingB"}
+$with Map {"" = "LoopingA"}
+$with Map {"" = "LoopingB"}
 @test
 operation looping() {
   assertTrue(hasLoop(Node.all.first));
 }
 
-$with Sequence {"", "NonLooping"}
+$with Map {"" = "NonLooping"}
 @test
 operation nonLooping() {
   assertFalse(hasLoop(Node.all.first));

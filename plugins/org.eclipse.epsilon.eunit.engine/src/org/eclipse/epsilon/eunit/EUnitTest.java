@@ -21,8 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolMap;
 
 public class EUnitTest {
 	
@@ -481,18 +482,21 @@ public class EUnitTest {
 	 * indicates that model A will be an alias for model B. Therefore, if we wanted
 	 * to set the default model as an alias for model X, we would use
 	 * 'Sequence {"", "X"}'.
+	 * @throws EolRuntimeException The map includes a key or a value that is not a String.
 	 */
-	public synchronized void setModelBindings(EolSequence annotation) {
+	public synchronized void setModelBindings(EolMap annotation) throws EolRuntimeException {
 		if (modelBindings == null) {
 			modelBindings = new LinkedHashMap<String, String>();
 		}
 		else {
 			modelBindings.clear();
 		}
-		while (annotation.size() >= 2) {
-			final String alias = (String)annotation.remove(0);
-			final String original = (String)annotation.remove(0);
-			modelBindings.put(alias, original);
+		for (Object key : annotation.keySet()) {
+			final Object value = annotation.get(key);
+			if (!(key instanceof String) || !(value instanceof String)) {
+				throw new EolRuntimeException("Model bindings expect a map with String keys and values");
+			}
+			modelBindings.put((String)key, (String)value);
 		}
 	}
 

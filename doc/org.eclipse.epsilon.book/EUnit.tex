@@ -202,11 +202,11 @@ operation mytest() { -* test with the generated model *- }
 
 \subsubsection{Model bindings}
 
-Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with seq} one or more times, where \eol{seq} is an EOL expression that produces a \class{Sequence} with an even number of elements. For each adjacent pair \variable{(dst,src)}, EUnit will rename the model named \variable{src} to \variable{dst}. Listing~\ref{lst:eunit-modelbind} shows a test which will be run twice: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model.
+Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with map} one or more times, where \eol{map} is an EOL expression that produces a \class{Map}. For each key-value pair \variable{key = value}, EUnit will rename the model named \variable{value} to \variable{key}. Listing~\ref{lst:eunit-modelbind} shows a test which will be run twice: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model.
 
 \begin{lstlisting}[language=EOL,caption=Example of a model binding,label=lst:eunit-modelbind,columns=fixed,float]
-$with Sequence {"", "A", "Other", "B"}
-$with Sequence {"", "B", "Other", "A"}
+$with Map {"" = "A", "Other" = "B"}
+$with Map {"" = "B", "Other" = "A"}
 @test
 operation mytest() { -* use the default and Other models *- }
 \end{lstlisting}
