@@ -11,6 +11,19 @@ operation equalNumbers() {
 }
 
 @test
+operation equalRealNumbers() {
+	assertEquals(42, 42.0);
+	assertEquals(42, 4.2e1);
+	assertEquals(42, 4.2e+1);
+	assertEquals(42, 420e-1);
+	assertEquals(42, 4.2E1);
+	assertEquals(42, 4.2E+1);
+	assertEquals(42, 420E-1);
+	assertEquals(42d, 42f);
+	assertEquals(42D, 42F);
+}
+
+@test
 operation testAddNegative() {
 	assertEquals(1+(-2), -1);
 }

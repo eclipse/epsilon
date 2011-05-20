@@ -53,31 +53,21 @@ tokens {
 //fragment
 //IntegerTypeSuffix : ('l'|'L') ;
 
-fragment
-DIGIT : '0'..'9';
+fragment DIGIT : '0'..'9';
+fragment EXPONENT : ('e'|'E') ('+'|'-')? DIGIT+ ;
+fragment FLOAT_TYPE_SUFFIX : ('f'|'F'|'d'|'D') ;
 
-INT : (DIGIT)+ ('l' | (('.'DIGIT)=> '.' (DIGIT)+ {$type = FLOAT;} ('d'|'f')?))? ;
-
-//POINT_POINT : '..';
+INT : (DIGIT)+ ('l'
+	| (('.' DIGIT)         => '.' (DIGIT)+ {$type = FLOAT;} EXPONENT? FLOAT_TYPE_SUFFIX?)
+	| (EXPONENT FLOAT_TYPE_SUFFIX? {$type = FLOAT;})
+	| (FLOAT_TYPE_SUFFIX {$type = FLOAT;})
+	)? ;
 
 POINT : '.';
 
 POINT_POINT : '..';
 
 ARROW : '->';
-
-//Float
-//    :   ('0'..'9')+ '.' ('0'..'9')* Exponent? FloatTypeSuffix?
-//    |   '.' ('0'..'9')+ Exponent? FloatTypeSuffix?
-//    |   ('0'..'9')+ Exponent FloatTypeSuffix?
-//    |   ('0'..'9')+ FloatTypeSuffix
-//    ;
-
-//fragment
-//Exponent : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
-
-//fragment
-//FloatTypeSuffix : ('f'|'F'|'d'|'D') ;
 
 BOOLEAN :
 	('true' | 'false')
