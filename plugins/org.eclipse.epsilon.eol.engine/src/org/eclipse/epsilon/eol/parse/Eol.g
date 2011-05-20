@@ -41,10 +41,6 @@ options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.ec
 
 import EolLexerRules, EolParserRules;
 
-@header {
-package org.eclipse.epsilon.eol.parse;
-}
-
 @lexer::header {
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -84,6 +80,10 @@ package org.eclipse.epsilon.eol.parse;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package org.eclipse.epsilon.eol.parse;	
+}
+
+@parser::header {
+package org.eclipse.epsilon.eol.parse;
 }
 
 /**

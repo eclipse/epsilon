@@ -38,11 +38,7 @@
 lexer grammar EolLexerRules;
 
 tokens {
-	FLOAT;	
-}
-
-@header {
-package org.eclipse.epsilon.eol.parse;
+	FLOAT;
 }
 
 //HexLiteral : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;

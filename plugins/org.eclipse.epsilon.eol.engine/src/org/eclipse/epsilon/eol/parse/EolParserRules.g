@@ -93,10 +93,6 @@ tokens {
 	KEYVALLIST;
 }
 
-@header {
-package org.eclipse.epsilon.eol.parse;
-}
-
 @members {
 
 public void setTokenType(ParserRuleReturnScope tree, int type) {
