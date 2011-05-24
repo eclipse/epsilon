@@ -26,12 +26,17 @@ public class EolEditor extends AbstractModuleEditor {
 	public EolEditor() {
 		this.addTemplateContributor(new EolEditorStaticTemplateContributor());
 		this.addTemplateContributor(new EolEditorStaticOperationTemplateContributor());
+		
 		EolEditorOperationTemplateContributor operationTemplateContributor = new EolEditorOperationTemplateContributor();
 		addTemplateContributor(operationTemplateContributor);
 		addModuleParsedListener(operationTemplateContributor);
 		EolEditorPropertyTemplateContributor propertyTemplateContributor = new EolEditorPropertyTemplateContributor();
 		addTemplateContributor(propertyTemplateContributor);
 		addModuleParsedListener(propertyTemplateContributor);
+		EolEditorBuiltinTypesTemplateContributor builtinTypesTemplateContributor = new EolEditorBuiltinTypesTemplateContributor();
+		addTemplateContributor(builtinTypesTemplateContributor);
+		addModuleParsedListener(builtinTypesTemplateContributor);
+		
 	}
 	
 	@Override

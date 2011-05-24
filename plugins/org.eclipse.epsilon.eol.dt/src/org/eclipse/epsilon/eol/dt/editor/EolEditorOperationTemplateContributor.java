@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.eol.dt.editor;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
@@ -8,6 +9,7 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
@@ -36,13 +38,17 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 	protected Template createTemplate(EolOperation op) {
 		
 		String call = op.getName();
-		String signature = op.getName();
 		
-		signature += "(";
 		call += "(";
-	
+		
+		Iterator it = op.getFormalParameters().iterator();
+		while (it.hasNext()) {
+			EolFormalParameter fp = (EolFormalParameter) it.next();
+			call += "${" + fp.getName() + "}";
+			if (it.hasNext()) call += ", ";
+		}
+		
 		call += ")";
-		signature += ")";
 		
 		return new TemplateWithImage(op.toString(), "operation", "", call, false, operationImage);
 	}

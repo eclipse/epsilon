@@ -31,6 +31,7 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.commons.util.ListBuilder;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
@@ -222,28 +223,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	public List<String> getAssertions(){
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("assert");
-		list.add("assertError");
-		return list;
+		return new ListBuilder<String>().build(
+				"assert", "assertError");
 	}
 	
 	public List<String> getTypes(){
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("String");
-		list.add("Boolean");
-		list.add("Integer");
-		list.add("Real");
-		list.add("Any");
-		list.add("Map");
-		list.add("Collection");
-		list.add("Bag");
-		list.add("Sequence");
-		list.add("Set");
-		list.add("OrderedSet");
-		list.add("Native");
-		list.add("List");
-		return list;
+		return new ListBuilder<String>().build(
+			"String", "Boolean", "Integer", "Real",
+			"Any", "Map", "Collection", "Bag", "Sequence",
+			"Set", "OrderedSet", "Native", "List");
 	}
 	
 	public abstract List<String> getKeywords();

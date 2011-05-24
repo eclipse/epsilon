@@ -8,6 +8,7 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.ArrayUtil;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
@@ -57,16 +58,12 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		for (AST ast : astRegions.keySet()) {
 			IRegion candidateRegion = astRegions.get(ast);
 			
-			if (region.getOffset() < candidateRegion.getOffset() + candidateRegion.getLength() 
-					&& region.getOffset() > candidateRegion.getOffset()) {
+			if (region.getOffset() <= candidateRegion.getOffset() + candidateRegion.getLength() 
+					&& region.getOffset() >= candidateRegion.getOffset()) {
 				
-				List<IHyperlink> hyperlinkList = createHyperlinks(ast);
-				IHyperlink[] hyperlinks = new IHyperlink[hyperlinkList.size()];
-				int i = 0;
-				for (IHyperlink hyperlink : hyperlinkList) {
-					hyperlinks[i] = hyperlink;
-					i++;
-				}
+				IHyperlink[] hyperlinks = new ArrayUtil<IHyperlink>()
+					.toArray(createHyperlinks(ast), IHyperlink.class);
+				
 				if (hyperlinks.length > 0) return hyperlinks;
 			}
 			
