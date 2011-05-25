@@ -1,0 +1,2 @@
+var plugin := GmfGen!GenPlugin.all.first;
+plugin.requiredPlugins.add('org.eclipse.epsilon.eugenia.examples.friends.figures');
