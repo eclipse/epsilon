@@ -25,7 +25,7 @@ public class Preprocessor {
 	
 	private StringBuffer eol = new StringBuffer();
 	private final Map<Integer, Integer> colNumber = new TreeMap<Integer, Integer>();
-	private Trace trace = new Trace();
+	private PreprocessorTrace trace = new PreprocessorTrace();
 	private AST child = null;
 	
 	
@@ -196,7 +196,7 @@ public class Preprocessor {
 		}
 	}
 	
-	public Trace getTrace(){
+	public PreprocessorTrace getTrace(){
 		return trace;
 	}	
 }

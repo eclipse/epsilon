@@ -11,10 +11,16 @@
 package org.eclipse.epsilon.egl.traceability;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.epsilon.commons.util.UriUtil;
 
 public class Template extends Container<Content<Template>> {
+	
+	private final List<Variable> variables = new LinkedList<Variable>();
 	
 	public Template() {
 		this(null, "", null);
@@ -22,6 +28,10 @@ public class Template extends Container<Content<Template>> {
 	
 	public Template(URI uri) {
 		this(null, uri == null ? "" : UriUtil.getName(uri), uri);
+	}
+	
+	public Template(String name) {
+		this(name, null);
 	}
 	
 	public Template(String name, URI uri) {
@@ -61,6 +71,11 @@ public class Template extends Container<Content<Template>> {
 	public Variable addVariable(String name, Object value) {
 		final Variable variable = new Variable(this, name, value);
 		super.add(variable);
+		variables.add(variable);
 		return variable;
+	}
+	
+	public Collection<Variable> getVariables() {
+		return Collections.unmodifiableCollection(variables);
 	}
 }

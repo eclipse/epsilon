@@ -69,9 +69,8 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		if (!(o instanceof Container)) return false;
 		
 		final Container<?> that = (Container<?>)o;
-				
 		return name.equals(that.name) &&
-		       uri == null ? that.uri == null : uri.equals(that.uri) &&
+		       (uri == null ? that.uri == null : uri.equals(that.uri)) &&
 		       contents.equals(that.contents);
 	}
 	

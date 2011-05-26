@@ -47,9 +47,12 @@ public class Output {
 	
 	@Test
 	public void testProcessHierachy() throws Exception {
-		final String expected = "Hello world from Template!"       + NEWLINE +
-		                        "Hello world from SubTemplate!"    + NEWLINE +
-		                        "Hello world from SubSubTemplate!";
+		final String expected = "Hello world from Template!"         + NEWLINE +
+		                        "Hello world from SubTemplate!"      + NEWLINE +
+		                        "Hello world from SubSubTemplate!"   + NEWLINE +
+		                        "Goodbye world from SubSubTemplate!" + NEWLINE +
+		                        "Goodbye world from SubTemplate!"    + NEWLINE +
+		                        "Goodbye world from Template!";
 		
 		AcceptanceTestUtil.test(hierachy, expected);
 	}

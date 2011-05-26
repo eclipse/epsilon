@@ -11,14 +11,14 @@
 package org.eclipse.epsilon.egl.parse.problem;
 
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.egl.preprocessor.Trace;
+import org.eclipse.epsilon.egl.preprocessor.PreprocessorTrace;
 
 public class EglParseProblem extends ParseProblem {
 	
 	protected final ParseProblem problem;
-	protected final Trace trace;
+	protected final PreprocessorTrace trace;
 	
-	public EglParseProblem(ParseProblem anomaly, Trace trace) {
+	public EglParseProblem(ParseProblem anomaly, PreprocessorTrace trace) {
 		this.setLine(anomaly.getLine());
 		this.setReason(anomaly.getReason());
 		this.problem = anomaly;

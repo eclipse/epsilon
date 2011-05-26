@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 import org.eclipse.epsilon.egl.util.FileUtil;
 
-public class Trace {
+public class PreprocessorTrace {
 
 	private Map<Integer, Integer> lineNumberMapping = new TreeMap<Integer, Integer>();
 	private Map<Integer, Integer> columnCorrections = new TreeMap<Integer, Integer>();

@@ -4,3 +4,4 @@
 %]
 Hello world from Template!
 [%=t.process()%]
+Goodbye world from Template!

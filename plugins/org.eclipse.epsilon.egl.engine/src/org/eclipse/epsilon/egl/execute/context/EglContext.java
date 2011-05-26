@@ -14,8 +14,8 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
@@ -24,22 +24,21 @@ import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EglContext extends EolContext implements IEglContext {
 
 	private final EglTemplateFactory templateFactory;
-	private final Stack<EglTemplateContext> templateContexts = new Stack<EglTemplateContext>();
-		
+	
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 		
 	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
+	
+	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
 	
 	private IEglContext parentContext;
 	
@@ -101,7 +100,7 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 	
 	public List<String> getPartitioningProblems() {
-		return getPartitioner().partition(current().getOutputBuffer().toString()).getProblems();
+		return getPartitioner().partition(getOutputBuffer().toString()).getProblems();
 	}
 	
 	public ContentTypeRepository getContentTypeRepository() {
@@ -128,35 +127,20 @@ public class EglContext extends EolContext implements IEglContext {
 	public void setOutputStream(PrintStream outputStream) {
 		super.setOutputStream(outputStream);
 	}
-
-	
-	private Template base;
-	
-	public void enter(Template template) {
-		if (templateContexts.isEmpty()) {
-			base = template;
-		} else {
-			templateContexts.peek().getTemplate().add(template);
-		}
 		
-		getFrameStack().enter(FrameType.PROTECTED, null); // TODO pass an AST rather than null
-		templateContexts.push(new EglTemplateContext(this, template));
+	public void enter(Template template) {
+		executionManager.prepareFor(new ExecutableTemplateSpecification(template, new OutputBuffer(this)));
 	}
 	
-	private EglTemplateContext current() {
-		return templateContexts.peek();
-	}
-
 	public void exit() {
-		templateContexts.pop();
-		getFrameStack().leave(null); // TODO pass an AST rather than null
+		executionManager.restore();
 	}
 
 	public OutputBuffer getOutputBuffer() {
-		return current().getOutputBuffer();
+		return executionManager.getCurrent().outputBuffer;
 	}
 	
 	public Template getBaseTemplate() {
-		return base;
+		return executionManager.getBase().template;
 	}
 }

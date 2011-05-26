@@ -194,6 +194,10 @@ public class OutputBuffer {
 		throw new EglStoppedException(context.getModule().getAst());
 	}
 	
+	public int getCurrentLineNumber() {
+		return toString().split(FileUtil.NEWLINE).length;
+	}
+	
 	@Override
 	public String toString(){
 		return buffer.toString();

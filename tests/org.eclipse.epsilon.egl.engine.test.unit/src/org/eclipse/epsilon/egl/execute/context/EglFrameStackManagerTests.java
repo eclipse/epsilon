@@ -1,0 +1,163 @@
+/*******************************************************************************
+ * Copyright (c) 2011 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.egl.execute.context;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+@RunWith(Suite.class)
+@SuiteClasses({EglFrameStackManagerTests.PrepareTests.class, EglFrameStackManagerTests.RestoreTests.class})
+public class EglFrameStackManagerTests {
+	
+	private static final OutputBuffer outputBuffer = new OutputBuffer();
+
+	private static final Variable outVariable         = Variable.createReadOnlyVariable("out", outputBuffer);
+	private static final Variable firstLocalVariable  = Variable.createReadOnlyVariable("foo", "bar");
+	private static final Variable secondLocalVariable = Variable.createReadOnlyVariable("num", 42);
+	
+	private static final Template templateWithVariables = createTemplateWithVariables();
+	private static final ExecutableTemplateSpecification spec = new ExecutableTemplateSpecification(templateWithVariables, outputBuffer);
+
+	private static FrameStack frameStack;
+	private static EglFrameStackManager manager;		
+	
+	public static class PrepareTests {
+		@Before
+		public void clearFrameStack() {
+			frameStack = new FrameStack();
+			manager    = new EglFrameStackManager(frameStack);
+		}
+		
+		@Test
+		public void prepareShouldSetOutputBufferGlobalVariable() {
+			manager.prepareFrameStackFor(spec);
+			
+			assertFrameStackHasGlobal(outVariable);
+		}
+		
+		@Test
+		public void prepareShouldOverwriteExitingOutVariable() {
+			frameStack.getGlobals().put("out", new OutputBuffer());
+			
+			manager.prepareFrameStackFor(spec);
+			
+			assertFrameStackHasGlobal(outVariable);
+		}
+		
+		@Test
+		public void prepareShouldSetTemplateVariablesAsLocals() {
+			manager.prepareFrameStackFor(spec);
+			
+			assertFrameStackHasLocal(firstLocalVariable);
+			assertFrameStackHasLocal(secondLocalVariable);
+		}
+		
+		@Test
+		public void prepareShouldOverwriteLocalVariablesWithTemplateVariables() {
+			frameStack.put(firstLocalVariable);
+			frameStack.put(secondLocalVariable);
+			
+			manager.prepareFrameStackFor(spec);
+			
+			assertFrameStackHasLocal(firstLocalVariable);
+			assertFrameStackHasLocal(secondLocalVariable);
+		}
+	}
+	
+	
+	public static class RestoreTests {	
+		@Before
+		public void clearFrameStack() {
+			frameStack = new FrameStack();
+			manager    = new EglFrameStackManager(frameStack);
+		}
+		
+		@Test
+		public void restoreShouldRemoveOut() {
+			manager.prepareFrameStackFor(spec);
+			manager.restoreFrameStackToPreviousState();
+			
+			assertFrameStackHasNoSuchGlobal(outVariable);		
+		}
+		
+		@Test
+		public void restoreShouldRestoreExistingOutToFrameStack() {
+			final Variable existingOut = Variable.createReadOnlyVariable("out", new OutputBuffer());
+			frameStack.getGlobals().put(existingOut);
+			
+			manager.prepareFrameStackFor(spec);
+			manager.restoreFrameStackToPreviousState();
+			
+			assertFrameStackHasGlobal(existingOut);		
+		}
+		
+		@Test
+		public void restoreShouldRemoveLocalVariables() {
+			manager.prepareFrameStackFor(spec);
+			manager.restoreFrameStackToPreviousState();
+			
+			assertFrameStackHasNoSuchLocal(firstLocalVariable);		
+			assertFrameStackHasNoSuchLocal(secondLocalVariable);		
+		}
+		
+		@Test
+		public void restoreShouldRestoreExistingLocalVariables() {
+			final Variable existingLocal = Variable.createReadOnlyVariable("name", "Franz");
+			frameStack.put(existingLocal);
+			
+			manager.prepareFrameStackFor(spec);
+			manager.restoreFrameStackToPreviousState();
+			
+			assertFrameStackHasLocal(existingLocal);
+		}
+	}
+	
+	private static void assertFrameStackHasGlobal(Variable variable) {
+		assertEquals(variable.getValue(), getGlobalVariable(variable.getName()).getValue());
+	}
+	
+	private static void assertFrameStackHasNoSuchGlobal(Variable variable) {
+		assertNull(getGlobalVariable(variable.getName()));
+	}
+	
+	private static void assertFrameStackHasLocal(Variable variable) {
+		assertEquals(variable.getValue(), getLocalVariable(variable.getName()).getValue());
+	}
+	
+	private static void assertFrameStackHasNoSuchLocal(Variable variable) {
+		assertNull(getLocalVariable(variable.getName()));
+	}
+	
+	private static Variable getGlobalVariable(String name) {
+		return frameStack.getGlobals().get(name);
+	}
+
+	private static Variable getLocalVariable(String name) {
+		return frameStack.get(name);
+	}
+
+	private static Template createTemplateWithVariables() {
+		final Template templateWithVariables = new Template();
+		templateWithVariables.addVariable(firstLocalVariable.getName(), firstLocalVariable.getValue());
+		templateWithVariables.addVariable(secondLocalVariable.getName(), secondLocalVariable.getValue());
+		return templateWithVariables;
+	}
+}

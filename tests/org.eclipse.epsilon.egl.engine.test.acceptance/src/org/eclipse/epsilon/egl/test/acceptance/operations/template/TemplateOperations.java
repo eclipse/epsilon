@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.test.acceptance.operations.template;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
-import org.eclipse.epsilon.egl.exceptions.EglUnallocatedOutputBufferException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.Test;
 
@@ -43,16 +42,16 @@ public class TemplateOperations {
 		
 		AcceptanceTestUtil.test(template, expected);
 	}
-	
-	@Test(expected=EglUnallocatedOutputBufferException.class)
+
+	@Test
 	public void testNonTemplateOperationWithStaticSection() throws Exception {
-		final String template = "[%=main()%]"          +
+		final String template = "[% main(); %]"        +
 		                        "[%"                   + NEWLINE +
 		                        "operation main() {%]" + NEWLINE +
-		                        "foo"                  + NEWLINE + 
+		                        "foo"                  + NEWLINE +
 		                        "[%}%]";
 		
-		final String expected = "";
+		final String expected = "foo" + NEWLINE;
 		
 		AcceptanceTestUtil.test(template, expected);
 	}

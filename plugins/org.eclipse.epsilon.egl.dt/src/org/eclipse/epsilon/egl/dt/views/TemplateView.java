@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.views;
 
+import java.net.URI;
+
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -58,7 +60,7 @@ public class TemplateView extends ViewPart implements CurrentTemplateObserver {
 	public void setFocus() {}
 	
 	private Template installRoot(Template template) {
-		final Template root = new Template(null);
+		final Template root = new Template((URI)null);
 		root.add(template);
 		return root;
 	}

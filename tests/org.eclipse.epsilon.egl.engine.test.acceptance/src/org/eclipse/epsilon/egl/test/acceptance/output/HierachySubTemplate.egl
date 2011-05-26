@@ -4,3 +4,4 @@
 %]
 Hello world from SubTemplate!
 [%=t.process()%]
+Goodbye world from SubTemplate!

@@ -20,6 +20,7 @@ import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
 import org.eclipse.epsilon.egl.test.acceptance.merge.Merge;
 import org.eclipse.epsilon.egl.test.acceptance.operations.template.TemplateOperations;
 import org.eclipse.epsilon.egl.test.acceptance.output.Output;
+import org.eclipse.epsilon.egl.test.acceptance.output.lineNumbers.CurrentLineNumber;
 import org.eclipse.epsilon.egl.test.acceptance.output.newlines.OutputNewlines;
 import org.eclipse.epsilon.egl.test.acceptance.stop.Stop;
 import org.eclipse.epsilon.egl.test.acceptance.traceability.Traceability;
@@ -36,7 +37,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Exceptions.class,
                Stop.class,
                Extensibility.class,
-               TemplateOperations.class})
+               TemplateOperations.class,
+               CurrentLineNumber.class})
 public class AcceptanceTestSuite {
 
 	public static Test suite() {
