@@ -7,6 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ant.core,
  org.apache.ant,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.workflow
+ org.eclipse.epsilon.workflow,
+ org.eclipse.epsilon.eol.dt;resolution:=optional
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.workflow.extension.example.tasks
