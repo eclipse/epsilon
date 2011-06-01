@@ -86,21 +86,24 @@ public class MigrationStrategyExecutor {
 		
 		final IFlockModule migrator = new FlockModule();
 	
-		createIUserInputFor(migrator.getContext());
-		
-		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
-			final FlockResult result = migrator.execute(original, migrated);
+		try {
+			createIUserInputFor(migrator.getContext());
 			
-			result.printWarnings(EpsilonConsole.getInstance().getWarningStream());
+			if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
+				final FlockResult result = migrator.execute(original, migrated);
+				
+				result.printWarnings(EpsilonConsole.getInstance().getWarningStream());
+				
+				migrated.store();
 			
-			migrated.store();
-		
-		} else {
-			displayParseProblems(migrator.getParseProblems());	
+			} else {
+				displayParseProblems(migrator.getParseProblems());	
+			}
+			
+		} finally {
+			original.dispose();
+			migrated.dispose();
 		}
-		
-		original.dispose();
-		migrated.dispose();
 	}
 
 	private void createIUserInputFor(IEolContext context) {
