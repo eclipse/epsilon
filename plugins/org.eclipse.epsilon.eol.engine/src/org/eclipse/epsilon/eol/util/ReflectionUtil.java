@@ -19,6 +19,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class ReflectionUtil {
@@ -146,7 +147,7 @@ public class ReflectionUtil {
 		return null;
 	}	
 
-	public static Object executeMethod(Object obj, String methodName, Object[] parameters, AST ast) throws EolRuntimeException{
+	public static Object executeMethod(Object obj, String methodName, Object[] parameters, AST ast, PrettyPrinterManager prettyPrintManager) throws EolRuntimeException{
 		Method method = getMethodFor(obj, methodName, parameters);
 		if (method != null){
 			try {
@@ -155,7 +156,7 @@ public class ReflectionUtil {
 				throw new EolInternalException(t, ast);
 			}
 		} else {
-			throw new EolIllegalOperationException(obj, methodName, ast);
+			throw new EolIllegalOperationException(obj, methodName, ast, prettyPrintManager);
 		}
 	}
 

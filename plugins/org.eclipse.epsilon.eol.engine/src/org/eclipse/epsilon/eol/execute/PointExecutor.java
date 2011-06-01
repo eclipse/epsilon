@@ -166,7 +166,7 @@ public class PointExecutor extends AbstractExecutor{
 			return operation.execute(source, featureCallAst, context);
 		}
 
-		throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst);
+		throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst, context.getPrettyPrinterManager());
 		
 	}
 	

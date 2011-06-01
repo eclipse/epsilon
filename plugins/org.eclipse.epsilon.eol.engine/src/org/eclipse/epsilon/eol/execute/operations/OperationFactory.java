@@ -117,7 +117,7 @@ public class OperationFactory {
 	public Object executeOperation(Object source, AST operationAst, IEolContext context) throws EolRuntimeException{
 		AbstractOperation operation = getOperationFor(operationAst.getText());
 		if (operation == null) {
-			throw new EolIllegalOperationException(source, operationAst.getText(), operationAst);
+			throw new EolIllegalOperationException(source, operationAst.getText(), operationAst, context.getPrettyPrinterManager());
 		} else {
 			return operation.execute(source, operationAst, context);
 		}

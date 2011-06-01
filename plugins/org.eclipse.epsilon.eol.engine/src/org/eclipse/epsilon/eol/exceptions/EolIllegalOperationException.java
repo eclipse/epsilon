@@ -11,17 +11,22 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
+import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class EolIllegalOperationException extends EolRuntimeException {
 	
 	protected String methodName = "";
 	protected Object object = null;
+	protected PrettyPrinterManager prettyPrintManager;
 	
-	public EolIllegalOperationException(Object object, String methodName, AST ast) {
+	public EolIllegalOperationException(Object object, String methodName, AST ast, PrettyPrinterManager prettyPrintManger) {
 		super();
 		this.ast = ast;
 		this.methodName = methodName;
 		this.object = object;
+		this.prettyPrintManager = prettyPrintManger;
 	}
 	
 	public String getMethodName() {
@@ -42,7 +47,10 @@ public class EolIllegalOperationException extends EolRuntimeException {
 	
 	@Override
 	public String getReason(){
-		//return "Object " + object.toString() + " does not support method: " + methodName;
-		return "Method '" + methodName + "' not found";
+		if (object == null || object.equals(EolNoType.NoInstance)) {
+			return "Method '" + methodName + "' not found";
+		} else {		
+			return "Method '" + methodName + "' not found for: " + prettyPrintManager.print(object);
+		}
 	}
 }
