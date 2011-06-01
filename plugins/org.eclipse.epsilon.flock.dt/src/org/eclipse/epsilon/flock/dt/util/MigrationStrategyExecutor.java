@@ -28,7 +28,9 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
+import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.flock.IFlockModule;
@@ -84,6 +86,8 @@ public class MigrationStrategyExecutor {
 		
 		final IFlockModule migrator = new FlockModule();
 	
+		createIUserInputFor(migrator.getContext());
+		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
 			final FlockResult result = migrator.execute(original, migrated);
 			
@@ -97,6 +101,10 @@ public class MigrationStrategyExecutor {
 		
 		original.dispose();
 		migrated.dispose();
+	}
+
+	private void createIUserInputFor(IEolContext context) {
+		context.setUserInput(new JFaceUserInput(context.getPrettyPrinterManager()));
 	}
 
 	private IPath getAbsoluteBackupPath() {
