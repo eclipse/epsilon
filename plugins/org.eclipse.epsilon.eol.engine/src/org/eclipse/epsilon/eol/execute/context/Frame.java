@@ -26,6 +26,19 @@ public class Frame {
 	private String label;
 	private AST currentStatement;
 	
+
+	public Frame(FrameType type, AST entryPoint){
+		this.type = type;
+		this.entryPoint = entryPoint;
+	}
+	
+	public Frame(FrameType type, AST entryPoint, String label){
+		this.type = type;
+		this.entryPoint = entryPoint;
+		this.label = label;
+	}
+	
+	
 	public void dispose() {
 
 		for (Variable v : storage.values()) {
@@ -33,6 +46,11 @@ public class Frame {
 		}
 		this.entryPoint = null;
 		//this.storage = null;
+	}
+	
+	public void clear() {
+		storage.clear();
+		currentStatement = null;
 	}
 	
 	public Frame clone() {
@@ -52,17 +70,6 @@ public class Frame {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-
-	public Frame(FrameType type, AST entryPoint){
-		this.type = type;
-		this.entryPoint = entryPoint;
-	}
-	
-	public Frame(FrameType type, AST entryPoint, String label){
-		this.type = type;
-		this.entryPoint = entryPoint;
-		this.label = label;
-	}
 	
 	public void put(String name, Object value) {
 		put(Variable.createReadOnlyVariable(name, value));
@@ -70,6 +77,10 @@ public class Frame {
 	
 	public void put(Variable variable){
 		storage.put(variable.getName(), variable);
+	}
+	
+	public void putAll(Map<String, Variable> variables) {
+		storage.putAll(variables);
 	}
 	
 	public Variable get(String key){

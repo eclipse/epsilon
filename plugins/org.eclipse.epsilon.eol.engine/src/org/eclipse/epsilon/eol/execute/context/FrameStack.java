@@ -17,7 +17,6 @@ import java.util.ListIterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.EolMap;
 
 
 /**
@@ -30,7 +29,7 @@ import org.eclipse.epsilon.eol.types.EolMap;
  */
 public class FrameStack {
 	
-	protected ArrayList<Frame> frames = new ArrayList<Frame>();
+	protected List<Frame> frames = new ArrayList<Frame>();
 	protected Frame global = null;
 	protected HashMap<String, Variable> builtInVariables = new HashMap<String, Variable>();
 	/**
@@ -124,12 +123,12 @@ public class FrameStack {
 		if (builtInVariables.containsKey(name)) return builtInVariables.get(name);
 		
 		//Profiler.INSTANCE.start("Variable");
-		ListIterator li = frames.listIterator();
+		ListIterator<Frame> li = frames.listIterator();
 		
 		boolean protectedFrameFound = false;
 		// Then look into the variable stack
 		while (li.hasNext() && !protectedFrameFound){
-			Frame frame = (Frame) li.next();
+			Frame frame = li.next();
 			if (frame.getType() == FrameType.PROTECTED){
 				protectedFrameFound = true;
 			}
@@ -147,10 +146,10 @@ public class FrameStack {
 	
 	public int getLoopDepth() {
 		int loopDepth = 0;
-		ListIterator li = frames.listIterator();
+		ListIterator<Frame> li = frames.listIterator();
 		boolean protectedFrameFound = false;
 		while (li.hasNext() && !protectedFrameFound) {
-			Frame frame = (Frame) li.next();
+			Frame frame = li.next();
 			if (frame.getType() == FrameType.PROTECTED){
 				protectedFrameFound = true;
 			}
@@ -188,9 +187,7 @@ public class FrameStack {
 	}
 	
 	public void printTrace(){
-		ListIterator li = frames.listIterator();
-		while (li.hasNext()){
-			Frame frame = (Frame) li.next();
+		for (Frame frame : frames) {
 			if (frame.getType() == FrameType.PROTECTED){
 				System.out.println(frame.getLabel() + " (Line:" + frame.getEntryPoint().getLine() + " Column: " + frame.getEntryPoint().getColumn() + ")");
 			}
@@ -209,7 +206,7 @@ public class FrameStack {
 	@Override
 	public FrameStack clone() {
 		FrameStack scope = new FrameStack();
-		ArrayList frames = new ArrayList();
+		List<Frame> frames = new ArrayList<Frame>();
 		
 		assert this.frames != null;
 		
@@ -225,9 +222,7 @@ public class FrameStack {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("-----------SCOPE------------\r\n");
-		ListIterator li = frames.listIterator();
-		while (li.hasNext()){
-			Frame frame = (Frame) li.next();
+		for (Frame frame : frames) {
 			buffer.append(frame.toString());
 		}
 		return buffer.toString();
