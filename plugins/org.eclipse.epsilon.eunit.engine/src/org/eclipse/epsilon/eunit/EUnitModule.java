@@ -357,8 +357,14 @@ public class EUnitModule extends EolModule {
 			}
 
 			// Run the @test itself
-			opTest.execute(null, Collections.EMPTY_LIST, context, false);
-			node.setResult(EUnitTestResultType.SUCCESS);
+			if (opTest != null) {
+				opTest.execute(null, Collections.EMPTY_LIST, context, false);
+				node.setResult(EUnitTestResultType.SUCCESS);
+			}
+			else {
+				node.setException(new EolRuntimeException("Test suite was empty"));
+				node.setResult(EUnitTestResultType.FAILURE);
+			}
 		}
 		finally {
 			// Call the @teardown operations
