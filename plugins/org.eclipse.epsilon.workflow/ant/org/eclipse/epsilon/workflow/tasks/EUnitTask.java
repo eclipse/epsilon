@@ -175,6 +175,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
+	private boolean fGenerateReport = true;
 	private TaskCollection modelLoadingTasks;
 	private ModelRepository oldProjectRepository;
 
@@ -192,8 +193,11 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (getToDir() != null) {
 			eunitModule.setReportDirectory(getToDir());
 		}
-		else {
+		else if (isReport()) {
 			eunitModule.setReportDirectory(getProject().getBaseDir());
+		}
+		else {
+			eunitModule.setReportDirectory(null);
 		}
 
 		for (EUnitTestListener extraListener : ClassBasedExtension.getImplementations(EUNIT_TEST_LISTENER_EXTENSION_POINT_ID, EUnitTestListener.class)) {
@@ -330,4 +334,21 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	public void setPackage(String packageName) {
 		fPackage = packageName;
 	}
+
+	/**
+	 * Returns <code>true</code> if a XML report compatible with the &lt;junit&gt; Ant task should be generated.
+	 */
+	public boolean isReport() {
+		return fGenerateReport;
+	}
+
+	/**
+	 * Changes whether an XML report compatible with the &lt;junit&gt; Ant task should be generated. By default,
+	 * it will be generated.
+	 * @param generate If <code>true</code>, the XML report will be generated. Otherwise, it will not be generated.
+	 */
+	public void setReport(boolean generate) {
+		this.fGenerateReport = generate;
+	}
+
 }

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,6 +54,13 @@ public class EUnitBasicTests extends EUnitTestCase {
 	@Test
 	public void allPassModelRef() throws Exception {
 		runTarget(ANT_BUILD_FILE, "allPassModelRef");
+	}
+
+	@Test
+	public void allPassXMLReportCanBeSuppressed() throws Exception {
+		runTarget(ANT_BUILD_FILE, "allPassModelRefReportSuppressed");
+		final File xmlReportFile = new File(BASE_DIR, "TEST-default.all-pass.xml");
+		assertFalse("The XML report should have been suppressed", xmlReportFile.exists());
 	}
 
 	@Test

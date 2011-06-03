@@ -148,13 +148,14 @@ EUnit uses standard Ant buildfiles: running EUnit is as simple as using its Ant 
 
 \subsubsection{EUnit Invocations}
 
-An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though. Optional attributes have been listed between brackets. Some nested elements can be repeated 0+ times (\verb!*!) or 0-1 times (\verb!?!).
+An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though. Optional attributes have been listed between brackets. Some nested elements can be repeated 0+ times (\verb!*!) or 0-1 times (\verb!?!). Valid alternatives for an attribute are separated with \verb!|!.
 
 \begin{lstlisting}[language=XML,columns=fixed,caption=Format of an invocation of the EUnit Ant task,label=lst:example-eunit-ant,float]
 <epsilon.eunit src="..."
     [failOnErrors="..."]
     [package=".."]
-    [toDir="..."]>
+    [toDir="..."]
+    [report="yes|no"]>
   (<model     ref="OldName" [as="NewName"]/>)*
   (<uses      ref="x" [as="y"] />)*
   (<exports   ref="z" [as="w"] />)*
@@ -167,7 +168,7 @@ The EUnit Ant task is based on the Epsilon abstract executable module task (see 
 
 Model references (using the \xmlelement{model} nested element) are also inherited from the Epsilon abstract executable module task. These allow model management tasks to refer by name to models previously loaded in the Ant buildfile. However, EUnit implicitly reloads the models after each test case. This ensures that test cases are isolated from each other.
 
-The EUnit Ant task adds several new features to customize the test result reports and perform more advanced model setup. EUnit generates reports in the XML format of the Ant \xmlelement{junit} task. This format is also used by many other tools, such as the TestNG unit testing framework~\cite{TestNG}, the Jenkins continuous integration server~\cite{Jenkins} or the JUnit Eclipse plug-ins.
+The EUnit Ant task adds several new features to customize the test result reports and perform more advanced model setup. By default, EUnit generates reports in the XML format of the Ant \xmlelement{junit} task. This format is also used by many other tools, such as the TestNG unit testing framework~\cite{TestNG}, the Jenkins continuous integration server~\cite{Jenkins} or the JUnit Eclipse plug-ins. To suppress these reports, \xmlattribute{report} must be set to \xmlattribute{no}.
 
 By default, the XML report is generated in the same directory as the Ant buildfile, but it can be changed with the \xmlattribute{toDir} attribute. Test names in JUnit are formed by its Java package, class and method: EUnit uses the filename of the EOL script as the class and the name of the EOL operation as the method. By default, the package is set to the string ``default'': users are encouraged to customize it with the \xmlattribute{package} attribute.
 

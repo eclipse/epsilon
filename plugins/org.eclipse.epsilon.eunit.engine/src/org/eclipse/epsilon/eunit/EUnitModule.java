@@ -52,7 +52,7 @@ public class EUnitModule extends EolModule {
 	private List<EUnitTestListener> testListeners = new ArrayList<EUnitTestListener>();
 	private EUnitTest suiteRoot;
 
-	// Destination directory for the JUnit XML report
+	// Destination directory for the JUnit XML report, or null if the report is to be suppressed
 	private File reportDirectory = new File(".");
 
 	@SuppressWarnings("rawtypes")
@@ -527,8 +527,8 @@ public class EUnitModule extends EolModule {
 	/* JUNIT-LIKE REPORTS */
 
 	/**
-	 * Changes the destination file for the JUnit-style XML report.
-	 * By default, it is {@link EUnitModule#DEFAULT_REPORT_FILE}. If <code>null</code>,
+	 * Changes the destination directory for the JUnit-style XML report.
+	 * By default, it is the current directory. If <code>null</code>,
 	 * no report will be written.
 	 */
 	public void setReportDirectory(File reportFile) {
@@ -536,7 +536,8 @@ public class EUnitModule extends EolModule {
 	}
 
 	/**
-	 * Returns the destination file for the JUnit-style XML report.
+	 * Returns the destination directory for the JUnit-style XML report.
+	 * For details about possible values, see {@link #setReportDirectory(File)}.
 	 */
 	public File getReportDirectory() {
 		return reportDirectory;

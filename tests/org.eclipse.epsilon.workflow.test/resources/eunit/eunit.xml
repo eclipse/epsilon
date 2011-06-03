@@ -57,6 +57,16 @@
 		</epsilon.eunit>
 	</target>
 
+	<target name="allPassModelRefReportSuppressed">
+		<epsilon.emf.loadModel
+			name="Model"
+			modelfile="${elements1.model.location}"
+			metamodelfile="${elements.metamodel.location}"/>
+		<epsilon.eunit src="basic/all-pass.eunit" report="false">
+			<model ref="Model"/>
+		</epsilon.eunit>
+	</target>
+
 	<target name="failure">
 		<property name="eunit.file" location="basic/one-failure.eunit"/>
 		<property name="eunit.failOnErrors" value="false"/>
