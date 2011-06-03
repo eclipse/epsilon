@@ -68,19 +68,19 @@ public class EUnitModule extends EolModule {
 	}
 
 	public ArrayList<EolOperation> getTests() {
-		return getOperationsAnnotatedWith("test");
+		return collectOperationsAnnotatedWith("Test", getOperationsAnnotatedWith("test"));
 	}
 
 	public ArrayList<EolOperation> getInlineModelOperations() {
-		return getOperationsAnnotatedWith("model");
+		return collectOperationsAnnotatedWith("Model", getOperationsAnnotatedWith("model"));
 	}
 
 	public ArrayList<EolOperation> getSetups() {
-		return getOperationsAnnotatedWith("setup");
+		return collectOperationsAnnotatedWith("Before", getOperationsAnnotatedWith("setup"));
 	}
 	
 	public ArrayList<EolOperation> getTeardowns() {
-		return getOperationsAnnotatedWith("teardown");
+		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
 	public Map<EolOperation, String> getDataVariableNames() {
@@ -88,6 +88,9 @@ public class EUnitModule extends EolModule {
 	    for (EolOperation op : getOperations()) {
 			try {
 				String variableName = (String)EolAnnotationsUtil.getAnnotationValue(op.getAst(), "data", getContext());
+				if (variableName == null) {
+					variableName = (String)EolAnnotationsUtil.getAnnotationValue(op.getAst(), "Data", getContext());
+				}
 				if (variableName != null) {
 					results.put(op, variableName);
 				}
@@ -438,9 +441,14 @@ public class EUnitModule extends EolModule {
 		getContext().getExtendedProperties().clear();
 	}
 
-	private ArrayList<EolOperation> getOperationsAnnotatedWith(
-			String annotationName) {
+	private ArrayList<EolOperation> getOperationsAnnotatedWith(String annotationName) {
 		ArrayList<EolOperation> results = new ArrayList<EolOperation>();
+		collectOperationsAnnotatedWith(annotationName, results);
+		return results;
+	}
+
+	private ArrayList<EolOperation> collectOperationsAnnotatedWith(String annotationName,
+			ArrayList<EolOperation> results) {
 		for (EolOperation operation : getOperations()) {
 			if (isAnnotatedAs(operation, annotationName)){
 				results.add(operation);

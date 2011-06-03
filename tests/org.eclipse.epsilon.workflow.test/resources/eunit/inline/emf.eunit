@@ -13,7 +13,7 @@ operation loadEMF() {
   task.execute();
 }
 
-@test
+@Test
 operation twoElements() {
   assertEquals(2, Element.allInstances.size());
 }
