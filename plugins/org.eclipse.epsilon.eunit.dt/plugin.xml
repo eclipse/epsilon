@@ -29,5 +29,54 @@
             class="org.eclipse.epsilon.eunit.dt.listener.ShowEUnitViewTestListener">
       </eunitListener>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.epsilon.eunit.dt.commands"
+            defaultHandler="org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView$RerunAllHandler"
+            description="Tests all the operations in the current EUnit launch"
+            id="org.eclipse.epsilon.eunit.dt.commands.rerunall"
+            name="Rerun All Tests">
+      </command>
+      <category
+            id="org.eclipse.epsilon.eunit.dt.commands"
+            name="EUnit">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.eclipse.epsilon.eunit.dt.commands.rerunall"
+            icon="icons/eunit.png">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.epsilon.eunit.dt.commands.rerunall"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E A">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.epsilon.eunit.runner.views.EUnitRunnerView">
+         <command
+               commandId="org.eclipse.epsilon.eunit.dt.commands.rerunall"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.epsilon.eunit.runner.views.EUnitRunnerView">
+         <command
+               commandId="org.eclipse.epsilon.eunit.dt.commands.rerunall"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
 
 </plugin>

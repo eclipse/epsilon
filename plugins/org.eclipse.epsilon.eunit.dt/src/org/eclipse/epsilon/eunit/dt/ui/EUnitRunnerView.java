@@ -16,6 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -35,6 +39,7 @@ import org.eclipse.epsilon.eunit.dt.listener.ShowEUnitViewTestListener;
 import org.eclipse.epsilon.internal.eunit.dt.diff.StringBasedDifferenceViewer;
 import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -180,16 +185,19 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET
 		= "EUnit has not been successfully launched yet: cannot rerun any suite!";
 
-	private final class RerunAllAction extends Action {
-		public RerunAllAction() {
-			setText("Rerun All Tests");
-			setToolTipText("Tests all the operations in the current EUnit launch");
-			setImageDescriptor(
-					EUnitPlugin.getImageDescriptor("icons/eunit.png"));
-		}
-
-		public void run() {
-			rerunCurrentLaunch(new ArrayList<EUnitTest>());
+	public static class RerunAllHandler extends AbstractHandler implements IHandler {
+		@Override
+		public Object execute(ExecutionEvent event) throws ExecutionException {
+			final EUnitRunnerView lastView = EUnitPlugin.getDefault().getLastView();
+			if (lastView != null) {
+				lastView.rerunCurrentLaunch(new ArrayList<EUnitTest>());
+			}
+			else {
+				MessageDialog.openError(Display.getDefault().getActiveShell(),
+						EUNIT_DIALOG_TITLE,
+						EUNIT_DIALOG_MSG_NOT_RUN_YET);
+			}
+			return null;
 		}
 	}
 
@@ -341,7 +349,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private int nErrors;
 	private int nFailures;
 
-	private Action actRerunAll;
 	private Action actRerunSome;
 	private Action actRerunPrev;
 	private Action actRerunFailed;
@@ -489,49 +496,34 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		ToolBarManager manager = new ToolBarManager(toolbarFailureTrace);
 		manager.add(actCompareResults);
 		manager.add(new Separator());
-		// Other plug-ins can contribute their actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.update(true);
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(actOnlyFailedTests);
-		manager.add(actRerunAll);
+		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.add(actRerunPrev);
 		manager.add(actRerunFailed);
-		manager.add(new Separator());
-		// Other plug-ins can contribute their actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillContextMenuForTests(IMenuManager manager) {
 		manager.add(actRerunSome);
 		manager.add(actJumpFromTest);
-		manager.add(new Separator());
-		// Other plug-ins can contribute their actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillContextMenuForStackFrames(IMenuManager manager) {
 		manager.add(actJumpFromStackFrame);
-		manager.add(new Separator());
-		// Other plug-ins can contribute their actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(actOnlyFailedTests);
-		manager.add(actRerunAll);
+		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.add(actRerunPrev);
 		manager.add(actRerunFailed);
 		manager.add(actHistory);
-		manager.add(new Separator());
-		// Other plug-ins can contribute their actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void makeActions() {
-		actRerunAll = new RerunAllAction();
 		actRerunPrev = new RerunSameAction();
 		actRerunSome = new RerunSelectedTestCasesAction();
 		actRerunFailed = new RerunOnlyFailedAction();
