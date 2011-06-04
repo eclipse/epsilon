@@ -28,6 +28,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.ILaunchesListener;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
+import org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView;
 import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -52,6 +53,9 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	private ILaunchManager launchManager;
 
 	private EUnitHistory history;
+
+	// Stores a reference to the last EUnit view created, for the commands
+	private EUnitRunnerView lastView = null;
 
 	// The attribute name to be used to set test filters (only use it on working copies!)
 	private static final String LAUNCH_ATTR_SELECTED_TESTS = "org.eclipse.epsilon.eunit.dt.selected_tests";
@@ -186,6 +190,22 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	@SuppressWarnings("rawtypes")
 	public void setSelectedOperations(ILaunchConfigurationWorkingCopy launchConfig, List selOps) {
 		launchConfig.setAttribute(EUnitPlugin.LAUNCH_ATTR_SELECTED_TESTS, selOps);
+	}
+
+	/**
+	 * Updates the reference to the last view opened by the user. By default, it is a <code>null</code>
+	 * reference. This method should only be called by the constructor of the {@link EUnitRunnerView} class.
+	 */
+	public void setLastView(EUnitRunnerView lastView) {
+		this.lastView = lastView;
+	}
+
+	/**
+	 * Obtains the reference to the last EUnit view opened by the user. If the EUnit view has not been
+	 * opened yet since Eclipse was started, returns <code>null</code>.
+	 */
+	public EUnitRunnerView getLastView() {
+		return lastView;
 	}
 
 	private void updateLastLaunch(ILaunch[] launches) {

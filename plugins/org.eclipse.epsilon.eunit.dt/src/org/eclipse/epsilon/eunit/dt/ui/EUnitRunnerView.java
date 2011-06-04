@@ -79,8 +79,11 @@ import org.eclipse.ui.part.ViewPart;
  * @version 1.0
  */
 public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
+
 	public EUnitRunnerView() {
+		EUnitPlugin.getDefault().setLastView(this);
 	}
+
 	private class CompareResultsAction extends Action {
 		private static final String EUNIT_DIFFVIEWER_EXTPOINT_ID = "org.eclipse.epsilon.eunit.dt.diffviewer";
 		private List<IDifferenceViewer> diffViewers = new ArrayList<IDifferenceViewer>();
