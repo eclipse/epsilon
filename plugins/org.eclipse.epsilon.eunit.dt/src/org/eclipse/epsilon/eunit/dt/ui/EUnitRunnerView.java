@@ -185,7 +185,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private static final String EUNIT_DIALOG_MSG_NOT_RUN_YET
 		= "EUnit has not been successfully launched yet: cannot rerun any suite!";
 
-	public static class RerunAllHandler extends AbstractHandler implements IHandler {
+	public static class RerunAllHandler extends AbstractHandler {
 		@Override
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			final EUnitRunnerView lastView = EUnitPlugin.getDefault().getLastView();
@@ -201,16 +201,19 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		}
 	}
 
-	private final class RerunSameAction extends Action {
-		public RerunSameAction() {
-			setText("Rerun Same Tests");
-			setToolTipText("Tests the same operations as in the current EUnit launch");
-			setImageDescriptor(
-					EUnitPlugin.getImageDescriptor("icons/eunit-same.png"));
-		}
-
-		public void run() {
-			rerunCurrentLaunch(null);
+	public static class RerunSameHandler extends AbstractHandler {
+		@Override
+		public Object execute(ExecutionEvent event) throws ExecutionException {
+			final EUnitRunnerView lastView = EUnitPlugin.getDefault().getLastView();
+			if (lastView != null) {
+				lastView.rerunCurrentLaunch(null);
+			}
+			else {
+				MessageDialog.openError(Display.getDefault().getActiveShell(),
+						EUNIT_DIALOG_TITLE,
+						EUNIT_DIALOG_MSG_NOT_RUN_YET);
+			}
+			return null;
 		}
 	}
 
@@ -350,7 +353,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private int nFailures;
 
 	private Action actRerunSome;
-	private Action actRerunPrev;
 	private Action actRerunFailed;
 	private Action actJumpFromTest;
 	private Action actJumpFromStackFrame;
@@ -502,7 +504,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(actOnlyFailedTests);
 		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(actRerunPrev);
 		manager.add(actRerunFailed);
 	}
 
@@ -518,13 +519,11 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(actOnlyFailedTests);
 		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(actRerunPrev);
 		manager.add(actRerunFailed);
 		manager.add(actHistory);
 	}
 
 	private void makeActions() {
-		actRerunPrev = new RerunSameAction();
 		actRerunSome = new RerunSelectedTestCasesAction();
 		actRerunFailed = new RerunOnlyFailedAction();
 		actJumpFromTest = new JumpFromTestAction();
