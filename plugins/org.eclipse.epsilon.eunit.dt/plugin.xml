@@ -49,6 +49,13 @@
             id="org.eclipse.epsilon.eunit.dt.commands.rerunsame"
             name="Rerun Same Tests">
       </command>
+      <command
+            categoryId="org.eclipse.epsilon.eunit.dt.commands"
+            defaultHandler="org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView$RerunOnlyFailedHandler"
+            description="Tests the operations which failed in the current EUnit launch"
+            id="org.eclipse.epsilon.eunit.dt.commands.rerunfailed"
+            name="Rerun Failed Tests">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.commandImages">
@@ -59,6 +66,10 @@
       <image
             commandId="org.eclipse.epsilon.eunit.dt.commands.rerunsame"
             icon="icons/eunit-same.png">
+      </image>
+      <image
+            commandId="org.eclipse.epsilon.eunit.dt.commands.rerunfailed"
+            icon="icons/eunit-err.png">
       </image>
    </extension>
    <extension
@@ -75,6 +86,12 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E S">
       </key>
+      <key
+            commandId="org.eclipse.epsilon.eunit.dt.commands.rerunfailed"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E F">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -89,6 +106,10 @@
                commandId="org.eclipse.epsilon.eunit.dt.commands.rerunsame"
                style="push">
          </command>
+         <command
+               commandId="org.eclipse.epsilon.eunit.dt.commands.rerunfailed"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -99,6 +120,10 @@
          </command>
          <command
                commandId="org.eclipse.epsilon.eunit.dt.commands.rerunsame"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.epsilon.eunit.dt.commands.rerunfailed"
                style="push">
          </command>
       </menuContribution>

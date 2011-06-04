@@ -19,7 +19,6 @@ import java.util.Set;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -217,35 +216,39 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		}
 	}
 
-	private final class RerunOnlyFailedAction extends Action {
-		public RerunOnlyFailedAction() {
-			setText("Rerun Failed Tests");
-			setToolTipText("Tests the operations which failed in the current EUnit launch");
-			setImageDescriptor(
-					EUnitPlugin.getImageDescriptor("icons/eunit-err.png"));
-		}
-
-		public void run() {
+	public static class RerunOnlyFailedHandler extends AbstractHandler {
+		@Override
+		public Object execute(ExecutionEvent event) throws ExecutionException {
 			final EUnitHistory history = EUnitPlugin.getDefault().getHistory();
 			final ILaunch currentLaunch = history.getCurrentLaunch();
 			if (currentLaunch == null) {
-				MessageDialog.openError(getViewSite().getShell(),
-						EUnitRunnerView.EUNIT_DIALOG_TITLE, EUnitRunnerView.EUNIT_DIALOG_MSG_NOT_RUN_YET);
-				return;
+				MessageDialog.openError(Display.getDefault().getActiveShell(),
+						EUnitRunnerView.EUNIT_DIALOG_TITLE,
+						EUnitRunnerView.EUNIT_DIALOG_MSG_NOT_RUN_YET);
+				return null;
 			}
 
 			try {
-				final List<EUnitModule> modules = history.getModules(currentLaunch);
+				final List<EUnitModule> modules = history
+						.getModules(currentLaunch);
 				final List<EUnitTest> tests = new ArrayList<EUnitTest>();
 				for (EUnitModule module : modules) {
 					final EUnitTest result = module.getSuiteRoot();
-					result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.ERROR, tests);
-					result.collectLeafTests(module.getSelectedOperations(), EUnitTestResultType.FAILURE, tests);
+					result.collectLeafTests(module.getSelectedOperations(),
+							EUnitTestResultType.ERROR, tests);
+					result.collectLeafTests(module.getSelectedOperations(),
+							EUnitTestResultType.FAILURE, tests);
 				}
-				rerunCurrentLaunch(tests);
+
+				// Note: we already checked that EUnit was run before through
+				// the EUnitHistory
+				EUnitPlugin.getDefault().getLastView()
+						.rerunCurrentLaunch(tests);
 			} catch (EolRuntimeException e) {
 				EUnitPlugin.getDefault().logException(e);
 			}
+
+			return null;
 		}
 	}
 
@@ -353,7 +356,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private int nFailures;
 
 	private Action actRerunSome;
-	private Action actRerunFailed;
 	private Action actJumpFromTest;
 	private Action actJumpFromStackFrame;
 	private Action actHistory;
@@ -504,7 +506,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(actOnlyFailedTests);
 		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(actRerunFailed);
 	}
 
 	private void fillContextMenuForTests(IMenuManager manager) {
@@ -519,13 +520,11 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(actOnlyFailedTests);
 		manager.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(actRerunFailed);
 		manager.add(actHistory);
 	}
 
 	private void makeActions() {
 		actRerunSome = new RerunSelectedTestCasesAction();
-		actRerunFailed = new RerunOnlyFailedAction();
 		actJumpFromTest = new JumpFromTestAction();
 		actJumpFromStackFrame = new JumpFromStackFrameAction();
 
