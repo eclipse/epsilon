@@ -226,18 +226,4 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="org.h2_1.1.117"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.matchers_1.2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

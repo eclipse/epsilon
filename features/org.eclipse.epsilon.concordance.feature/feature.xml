@@ -224,8 +224,9 @@ litigation.
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.hamcrest.matchers"/>
-      <import plugin="org.eclipse.epsilon.concordance.core.hashing"/>
+      <import plugin="org.h2_1.1.117"/>
+      <import plugin="org.hamcrest.matchers_1.2"/>
+      <import plugin="org.eclipse.epsilon.hutn.xmi"/>
    </requires>
 
    <plugin
