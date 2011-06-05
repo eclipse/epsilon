@@ -5,7 +5,7 @@ The primary aim of EOL is to provide a reusable set of common model management f
 
 \section{Module Organization}
 \label{sec:Design.EOL.Syntax}
-In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Each module can also import other modules, using \emph{import} statements, and access the operations they define.
+In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements, and access their operations.
 
 \label{sec:Design.EOL.ModuleStucture}
 \begin{landscape}
@@ -172,13 +172,11 @@ As is the case for most programming languages, EOL defines a built-in system of 
 
 \end{longtable}
 
-\clearpage
-
-\begin{figure}
-	\centering
-		\includegraphics{images/EOLTypes.png}
-	\caption{Overview of the type system of EOL}
-	\label{fig:EOLTypes}
+\begin{figure}[h]
+  \centering
+  \includegraphics{images/EOLTypes.png}
+  \caption{Overview of the type system of EOL}
+  \label{fig:EOLTypes}
 \end{figure}
 
 \subsection{Primitive Types} 
