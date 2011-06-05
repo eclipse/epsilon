@@ -1,6 +1,6 @@
 %%This is a very basic article template.
 %%There is just one section and two subsections.
-\documentclass[12pt]{report}
+\documentclass[12pt,openright]{memoir}
 
 \usepackage{charter}
 \usepackage{courier}
@@ -20,7 +20,6 @@
 \usepackage{multirow}
 \usepackage{eso-pic}
 \usepackage{rotating}
-\usepackage{subfigure}
 \usepackage{subscript}
 \usepackage{tikz}
 
@@ -37,9 +36,7 @@ keepaspectratio]{background.png}%
 \lstset{escapeinside={/*@}{@*/}}
 \definecolor{codebackground}{rgb}{0.95,0.95,0.95}
 \lstset{backgroundcolor=\color{codebackground}}
-%\pagestyle{fancy}
-%\usepackage{subfigure}
-%\usepackage{portland}
+\newsubfloat{figure}
 
 \title{\fontfamily{put}\selectfont{\huge{\bfseries{Epsilon}}}}
 \author{
@@ -85,12 +82,15 @@ Department of Computer Science,\\\\The University of York
 \newcommand*{\javaannotation}[1]{\texttt{@#1}}
 
 \begin{document}
+\pagestyle{empty}
 \AddToShipoutPicture*{\BackgroundPic}
-
-\newpage
-\thispagestyle{empty}
+\phantom{invisible}
+\clearpage
+Date of latest compilation: \today{}.
+\cleardoublepage
+\pagestyle{plain}
 \mbox{}
-\onehalfspacing
+\OnehalfSpacing
 %\maketitle
 
 \tableofcontents
