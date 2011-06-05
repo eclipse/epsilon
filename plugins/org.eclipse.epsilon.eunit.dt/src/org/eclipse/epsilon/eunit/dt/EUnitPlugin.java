@@ -14,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.eclipse.ant.launching.IAntLaunchConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
@@ -209,8 +208,9 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	}
 
 	private void updateLastLaunch(ILaunch[] launches) {
+		//FIXME: Changed IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE with literal value to avoid unsatisfied dependency
 		ILaunchConfigurationType antConfigType
-			= launchManager.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
+			= launchManager.getLaunchConfigurationType("org.eclipse.ant.AntLaunchConfigurationType");
 
 		for (ILaunch launch : launches) {
 			if (launch.getLaunchConfiguration() == null) continue;
