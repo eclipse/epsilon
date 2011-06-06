@@ -20,6 +20,7 @@ public class WorkspaceUtil {
 			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(path));
 			for (IFile file : files) {
 				while (!file.exists()) {
+					file.getParent().refreshLocal(1, null);
 				}
 			}
 			return;
