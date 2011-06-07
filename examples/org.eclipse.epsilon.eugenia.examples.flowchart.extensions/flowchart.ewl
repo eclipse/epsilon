@@ -1,0 +1,15 @@
+import "flowchartutil.eol";
+
+wizard CreateYesNo { 
+	
+	guard : self.isTypeOf(Decision) and
+		self.outgoing.size() == 0
+	
+	title: "Create yes/no transitions"
+	
+	do {
+		self.createTransitionTo("yes", "YesAction");
+		self.createTransitionTo("no", "NoAction");
+	}
+	
+}

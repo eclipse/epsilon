@@ -1,0 +1,10 @@
+operation Node createTransitionTo(transitionName : String, targetName : String) {
+	var target = new Action;
+	target.name = targetName;
+	Flowchart.all.first().nodes.add(target);
+	var transition = new Transition;
+	transition.name = transitionName;
+	transition.source = self;
+	transition.target = target;
+	Flowchart.all.first().transitions.add(transition);
+}
