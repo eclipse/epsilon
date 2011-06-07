@@ -111,7 +111,7 @@ public class FlowchartNewDiagramFileWizard extends Wizard {
 	 * @generated
 	 */
 	public boolean performFinish() {
-		List affectedFiles = new LinkedList();
+		LinkedList<IFile> affectedFiles = new LinkedList<IFile>();
 		IFile diagramFile = myFileCreationPage.createNewFile();
 		FlowchartDiagramEditorUtil.setCharset(diagramFile);
 		affectedFiles.add(diagramFile);

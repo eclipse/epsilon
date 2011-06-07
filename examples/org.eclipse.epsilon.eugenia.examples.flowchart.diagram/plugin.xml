@@ -256,7 +256,7 @@
          </object>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" containerViews="referencing-diagrams"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Flowchart"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2003"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2004,2003"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
@@ -269,13 +269,13 @@
             <method name="getType()" value="Flowchart"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2003"/>
+            <method name="getType()" value="2001,2004,2003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5001,5003"/>
+            <method name="getType()" value="5001,5004,5003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
             <method name="getType()" value=""/>
@@ -290,8 +290,9 @@
          <Priority name="Lowest"/>
          <object class="flowchart.diagram.edit.parts.FlowchartEditPart" id="Flowchart_1000"/>
          <object class="flowchart.diagram.edit.parts.SubflowEditPart" id="Subflow_2001"/>
+         <object class="flowchart.diagram.edit.parts.ActionEditPart" id="Action_2004"/>
          <object class="flowchart.diagram.edit.parts.DecisionEditPart" id="Decision_2003"/>
-         <context elements="Flowchart_1000,Subflow_2001,Decision_2003"/>
+         <context elements="Flowchart_1000,Subflow_2001,Action_2004,Decision_2003"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -314,7 +315,7 @@
       <decoratorProvider class="flowchart.diagram.providers.FlowchartShortcutsDecoratorProvider">
          <Priority name="Lowest"/>
          <object class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)" id="generated-top-nodes">
-            <method name="getType()" value="2001,2003"/>
+            <method name="getType()" value="2001,2004,2003"/>
          </object>
          <context decoratorTargets="generated-top-nodes"/>
       </decoratorProvider>
@@ -340,6 +341,16 @@
                eclass="Subflow"
                edithelper="flowchart.diagram.edit.helpers.SubflowEditHelper">
             <param name="semanticHint" value="2001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="flowchart">
+         <metamodelType
+               id="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Action_2004"
+               name="%metatype.name.Action_2004"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Action"
+               edithelper="flowchart.diagram.edit.helpers.ActionEditHelper">
+            <param name="semanticHint" value="2004"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="flowchart">
@@ -376,6 +387,7 @@
       <binding context="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.TypeContext">
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Flowchart_1000"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Subflow_2001"/>
+         <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Action_2004"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Decision_2003"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Transition_4001"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>

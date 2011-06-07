@@ -4,6 +4,7 @@
 package flowchart.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.gef.Tool;
@@ -14,6 +15,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import flowchart.diagram.providers.FlowchartElementTypes;
 
 /**
@@ -59,10 +61,14 @@ public class FlowchartPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createAction1CreationTool() {
-		ToolEntry entry = new ToolEntry(Messages.Action1CreationTool_title,
-				Messages.Action1CreationTool_desc, null, null) {
-		};
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.Action1CreationTool_title,
+				Messages.Action1CreationTool_desc,
+				Collections.singletonList(FlowchartElementTypes.Action_2004));
 		entry.setId("createAction1CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(FlowchartElementTypes
+				.getImageDescriptor(FlowchartElementTypes.Action_2004));
+		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
 
@@ -70,11 +76,10 @@ public class FlowchartPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createDecision2CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(FlowchartElementTypes.Decision_2003);
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Decision2CreationTool_title,
-				Messages.Decision2CreationTool_desc, types);
+				Messages.Decision2CreationTool_desc,
+				Collections.singletonList(FlowchartElementTypes.Decision_2003));
 		entry.setId("createDecision2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Decision_2003));
@@ -86,11 +91,10 @@ public class FlowchartPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createSubflow3CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(FlowchartElementTypes.Subflow_2001);
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Subflow3CreationTool_title,
-				Messages.Subflow3CreationTool_desc, types);
+				Messages.Subflow3CreationTool_desc,
+				Collections.singletonList(FlowchartElementTypes.Subflow_2001));
 		entry.setId("createSubflow3CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Subflow_2001));
@@ -102,11 +106,11 @@ public class FlowchartPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createTransition1CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(FlowchartElementTypes.Transition_4001);
 		LinkToolEntry entry = new LinkToolEntry(
 				Messages.Transition1CreationTool_title,
-				Messages.Transition1CreationTool_desc, types);
+				Messages.Transition1CreationTool_desc,
+				Collections
+						.singletonList(FlowchartElementTypes.Transition_4001));
 		entry.setId("createTransition1CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(FlowchartElementTypes
 				.getImageDescriptor(FlowchartElementTypes.Transition_4001));
@@ -122,13 +126,13 @@ public class FlowchartPaletteFactory {
 		/**
 		 * @generated
 		 */
-		private final List elementTypes;
+		private final List<IElementType> elementTypes;
 
 		/**
 		 * @generated
 		 */
 		private NodeToolEntry(String title, String description,
-				List elementTypes) {
+				List<IElementType> elementTypes) {
 			super(title, description, null, null);
 			this.elementTypes = elementTypes;
 		}
@@ -151,13 +155,13 @@ public class FlowchartPaletteFactory {
 		/**
 		 * @generated
 		 */
-		private final List relationshipTypes;
+		private final List<IElementType> relationshipTypes;
 
 		/**
 		 * @generated
 		 */
 		private LinkToolEntry(String title, String description,
-				List relationshipTypes) {
+				List<IElementType> relationshipTypes) {
 			super(title, description, null, null);
 			this.relationshipTypes = relationshipTypes;
 		}

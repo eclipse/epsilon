@@ -3,7 +3,6 @@
  */
 package flowchart.diagram.edit.parts;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,12 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
-import org.eclipse.gef.handles.MoveHandle;
-import org.eclipse.gef.handles.NonResizableHandleKit;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
@@ -56,13 +50,13 @@ import flowchart.diagram.providers.FlowchartParserProvider;
 /**
  * @generated
  */
-public class DecisionNameEditPart extends CompartmentEditPart implements
+public class ActionNameEditPart extends CompartmentEditPart implements
 		ITextAwareEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 5003;
+	public static final int VISUAL_ID = 5004;
 
 	/**
 	 * @generated
@@ -87,7 +81,7 @@ public class DecisionNameEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated
 	 */
-	public DecisionNameEditPart(View view) {
+	public ActionNameEditPart(View view) {
 		super(view);
 	}
 
@@ -300,10 +294,10 @@ public class DecisionNameEditPart extends CompartmentEditPart implements
 		if (parser == null) {
 			parser = FlowchartParserProvider
 					.getParser(
-							FlowchartElementTypes.Decision_2003,
+							FlowchartElementTypes.Action_2004,
 							getParserElement(),
 							FlowchartVisualIDRegistry
-									.getType(flowchart.diagram.edit.parts.DecisionNameEditPart.VISUAL_ID));
+									.getType(flowchart.diagram.edit.parts.ActionNameEditPart.VISUAL_ID));
 		}
 		return parser;
 	}

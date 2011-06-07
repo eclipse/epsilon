@@ -43,7 +43,7 @@ public class SubflowItemSemanticEditPolicy extends
 		CompositeTransactionalCommand cmd = new CompositeTransactionalCommand(
 				getEditingDomain(), null);
 		cmd.setTransactionNestingEnabled(false);
-		for (Iterator it = view.getTargetEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getTargetEdges().iterator(); it.hasNext();) {
 			Edge incomingLink = (Edge) it.next();
 			if (FlowchartVisualIDRegistry.getVisualID(incomingLink) == TransitionEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -53,7 +53,7 @@ public class SubflowItemSemanticEditPolicy extends
 				continue;
 			}
 		}
-		for (Iterator it = view.getSourceEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getSourceEdges().iterator(); it.hasNext();) {
 			Edge outgoingLink = (Edge) it.next();
 			if (FlowchartVisualIDRegistry.getVisualID(outgoingLink) == TransitionEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -91,8 +91,8 @@ public class SubflowItemSemanticEditPolicy extends
 	protected Command getStartCreateRelationshipCommand(
 			CreateRelationshipRequest req) {
 		if (FlowchartElementTypes.Transition_4001 == req.getElementType()) {
-			return getGEFWrapper(new TransitionCreateCommand(req, req
-					.getSource(), req.getTarget()));
+			return getGEFWrapper(new TransitionCreateCommand(req,
+					req.getSource(), req.getTarget()));
 		}
 		return null;
 	}
@@ -103,8 +103,8 @@ public class SubflowItemSemanticEditPolicy extends
 	protected Command getCompleteCreateRelationshipCommand(
 			CreateRelationshipRequest req) {
 		if (FlowchartElementTypes.Transition_4001 == req.getElementType()) {
-			return getGEFWrapper(new TransitionCreateCommand(req, req
-					.getSource(), req.getTarget()));
+			return getGEFWrapper(new TransitionCreateCommand(req,
+					req.getSource(), req.getTarget()));
 		}
 		return null;
 	}

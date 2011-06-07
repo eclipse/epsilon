@@ -99,10 +99,9 @@ public class FlowchartDomainNavigatorItem extends PlatformObject {
 		if (obj instanceof flowchart.diagram.navigator.FlowchartDomainNavigatorItem) {
 			return EcoreUtil
 					.getURI(getEObject())
-					.equals(
-							EcoreUtil
-									.getURI(((flowchart.diagram.navigator.FlowchartDomainNavigatorItem) obj)
-											.getEObject()));
+					.equals(EcoreUtil
+							.getURI(((flowchart.diagram.navigator.FlowchartDomainNavigatorItem) obj)
+									.getEObject()));
 		}
 		return super.equals(obj);
 	}

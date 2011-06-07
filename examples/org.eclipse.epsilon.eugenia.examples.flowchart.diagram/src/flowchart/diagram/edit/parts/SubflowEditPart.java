@@ -4,6 +4,7 @@
 package flowchart.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
@@ -82,7 +83,7 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected LayoutEditPolicy createLayoutEditPolicy() {
-		LayoutEditPolicy lep = new LayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
 				EditPolicy result = child
@@ -108,8 +109,7 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		SubflowFigure figure = new SubflowFigure();
-		return primaryShape = figure;
+		return primaryShape = new SubflowFigure();
 	}
 
 	/**
@@ -265,8 +265,8 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSource() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnSource() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(FlowchartElementTypes.Transition_4001);
 		return types;
 	}
@@ -274,10 +274,13 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSourceAndTarget(
+	public List<IElementType> getMARelTypesOnSourceAndTarget(
 			IGraphicalEditPart targetEditPart) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (targetEditPart instanceof flowchart.diagram.edit.parts.SubflowEditPart) {
+			types.add(FlowchartElementTypes.Transition_4001);
+		}
+		if (targetEditPart instanceof ActionEditPart) {
 			types.add(FlowchartElementTypes.Transition_4001);
 		}
 		if (targetEditPart instanceof DecisionEditPart) {
@@ -289,13 +292,11 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForTarget(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForTarget(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == FlowchartElementTypes.Transition_4001) {
 			types.add(FlowchartElementTypes.Subflow_2001);
-		}
-		if (relationshipType == FlowchartElementTypes.Transition_4001) {
+			types.add(FlowchartElementTypes.Action_2004);
 			types.add(FlowchartElementTypes.Decision_2003);
 		}
 		return types;
@@ -304,8 +305,8 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnTarget() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnTarget() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(FlowchartElementTypes.Transition_4001);
 		return types;
 	}
@@ -313,13 +314,11 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForSource(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForSource(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == FlowchartElementTypes.Transition_4001) {
 			types.add(FlowchartElementTypes.Subflow_2001);
-		}
-		if (relationshipType == FlowchartElementTypes.Transition_4001) {
+			types.add(FlowchartElementTypes.Action_2004);
 			types.add(FlowchartElementTypes.Decision_2003);
 		}
 		return types;
@@ -354,7 +353,6 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 		public SubflowFigure() {
 			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
 					getMapMode().DPtoLP(8)));
-			this.setLineWidth(1);
 			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5),
 					getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
 					getMapMode().DPtoLP(5)));
@@ -371,25 +369,6 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 
 			this.add(fFigureSubflowLabelFigure);
 
-		}
-
-		/**
-		 * @generated
-		 */
-		private boolean myUseLocalCoordinates = false;
-
-		/**
-		 * @generated
-		 */
-		protected boolean useLocalCoordinates() {
-			return myUseLocalCoordinates;
-		}
-
-		/**
-		 * @generated
-		 */
-		protected void setUseLocalCoordinates(boolean useLocalCoordinates) {
-			myUseLocalCoordinates = useLocalCoordinates;
 		}
 
 		/**

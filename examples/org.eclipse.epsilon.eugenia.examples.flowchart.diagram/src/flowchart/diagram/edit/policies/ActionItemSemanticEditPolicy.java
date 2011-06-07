@@ -25,14 +25,14 @@ import flowchart.diagram.providers.FlowchartElementTypes;
 /**
  * @generated
  */
-public class DecisionItemSemanticEditPolicy extends
+public class ActionItemSemanticEditPolicy extends
 		FlowchartBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
 	 */
-	public DecisionItemSemanticEditPolicy() {
-		super(FlowchartElementTypes.Decision_2003);
+	public ActionItemSemanticEditPolicy() {
+		super(FlowchartElementTypes.Action_2004);
 	}
 
 	/**

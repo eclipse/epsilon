@@ -11,6 +11,8 @@ import org.eclipse.gmf.runtime.notation.View;
 
 import flowchart.Flowchart;
 import flowchart.FlowchartPackage;
+import flowchart.diagram.edit.parts.ActionEditPart;
+import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
@@ -84,7 +86,7 @@ public class FlowchartVisualIDRegistry {
 	 * @generated
 	 */
 	public static String getType(int visualID) {
-		return String.valueOf(visualID);
+		return Integer.toString(visualID);
 	}
 
 	/**
@@ -132,6 +134,10 @@ public class FlowchartVisualIDRegistry {
 					domainElement.eClass())) {
 				return SubflowEditPart.VISUAL_ID;
 			}
+			if (FlowchartPackage.eINSTANCE.getAction().isSuperTypeOf(
+					domainElement.eClass())) {
+				return ActionEditPart.VISUAL_ID;
+			}
 			if (FlowchartPackage.eINSTANCE.getDecision().isSuperTypeOf(
 					domainElement.eClass())) {
 				return DecisionEditPart.VISUAL_ID;
@@ -163,21 +169,29 @@ public class FlowchartVisualIDRegistry {
 			}
 		}
 		switch (containerVisualID) {
+		case FlowchartEditPart.VISUAL_ID:
+			if (SubflowEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (ActionEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (DecisionEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
 		case SubflowEditPart.VISUAL_ID:
 			if (SubflowNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
-		case DecisionEditPart.VISUAL_ID:
-			if (DecisionNameEditPart.VISUAL_ID == nodeVisualID) {
+		case ActionEditPart.VISUAL_ID:
+			if (ActionNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
-		case FlowchartEditPart.VISUAL_ID:
-			if (SubflowEditPart.VISUAL_ID == nodeVisualID) {
-				return true;
-			}
-			if (DecisionEditPart.VISUAL_ID == nodeVisualID) {
+		case DecisionEditPart.VISUAL_ID:
+			if (DecisionNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;

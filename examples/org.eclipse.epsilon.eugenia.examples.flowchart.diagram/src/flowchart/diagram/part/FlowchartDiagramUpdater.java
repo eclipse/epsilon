@@ -15,12 +15,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 
+import flowchart.Action;
 import flowchart.Decision;
 import flowchart.Flowchart;
 import flowchart.FlowchartPackage;
 import flowchart.Node;
 import flowchart.Subflow;
 import flowchart.Transition;
+import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -43,28 +45,33 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getSemanticChildren(View view) {
+	public static List<FlowchartNodeDescriptor> getSemanticChildren(View view) {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case FlowchartEditPart.VISUAL_ID:
 			return getFlowchart_1000SemanticChildren(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFlowchart_1000SemanticChildren(View view) {
+	public static List<FlowchartNodeDescriptor> getFlowchart_1000SemanticChildren(
+			View view) {
 		if (!view.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		Flowchart modelElement = (Flowchart) view.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getNodes().iterator(); it.hasNext();) {
+		LinkedList<FlowchartNodeDescriptor> result = new LinkedList<FlowchartNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getNodes().iterator(); it.hasNext();) {
 			Node childElement = (Node) it.next();
 			int visualID = FlowchartVisualIDRegistry.getNodeVisualID(view,
 					childElement);
 			if (visualID == SubflowEditPart.VISUAL_ID) {
+				result.add(new FlowchartNodeDescriptor(childElement, visualID));
+				continue;
+			}
+			if (visualID == ActionEditPart.VISUAL_ID) {
 				result.add(new FlowchartNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -79,94 +86,111 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getContainedLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getContainedLinks(View view) {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case FlowchartEditPart.VISUAL_ID:
 			return getFlowchart_1000ContainedLinks(view);
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001ContainedLinks(view);
+		case ActionEditPart.VISUAL_ID:
+			return getAction_2004ContainedLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003ContainedLinks(view);
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001ContainedLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getIncomingLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getIncomingLinks(View view) {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001IncomingLinks(view);
+		case ActionEditPart.VISUAL_ID:
+			return getAction_2004IncomingLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003IncomingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001IncomingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getOutgoingLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getOutgoingLinks(View view) {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001OutgoingLinks(view);
+		case ActionEditPart.VISUAL_ID:
+			return getAction_2004OutgoingLinks(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003OutgoingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001OutgoingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFlowchart_1000ContainedLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getFlowchart_1000ContainedLinks(
+			View view) {
 		Flowchart modelElement = (Flowchart) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getContainedTypeModelFacetLinks_Transition_4001(modelElement));
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getContainedTypeModelFacetLinks_Transition_4001(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getSubflow_2001ContainedLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getSubflow_2001ContainedLinks(
+			View view) {
 		Subflow modelElement = (Subflow) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getContainedTypeModelFacetLinks_Transition_4001(modelElement));
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getContainedTypeModelFacetLinks_Transition_4001(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getDecision_2003ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FlowchartLinkDescriptor> getAction_2004ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getTransition_4001ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FlowchartLinkDescriptor> getDecision_2003ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getSubflow_2001IncomingLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getTransition_4001ContainedLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<FlowchartLinkDescriptor> getSubflow_2001IncomingLinks(
+			View view) {
 		Subflow modelElement = (Subflow) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Transition_4001(
 				modelElement, crossReferences));
 		return result;
@@ -175,11 +199,12 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getDecision_2003IncomingLinks(View view) {
-		Decision modelElement = (Decision) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+	public static List<FlowchartLinkDescriptor> getAction_2004IncomingLinks(
+			View view) {
+		Action modelElement = (Action) view.getElement();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Transition_4001(
 				modelElement, crossReferences));
 		return result;
@@ -188,46 +213,73 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getTransition_4001IncomingLinks(View view) {
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
-	 * @generated
-	 */
-	public static List getSubflow_2001OutgoingLinks(View view) {
-		Subflow modelElement = (Subflow) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
-		return result;
-	}
-
-	/**
-	 * @generated
-	 */
-	public static List getDecision_2003OutgoingLinks(View view) {
+	public static List<FlowchartLinkDescriptor> getDecision_2003IncomingLinks(
+			View view) {
 		Decision modelElement = (Decision) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getIncomingTypeModelFacetLinks_Transition_4001(
+				modelElement, crossReferences));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getTransition_4001OutgoingLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FlowchartLinkDescriptor> getTransition_4001IncomingLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	private static Collection getContainedTypeModelFacetLinks_Transition_4001(
+	public static List<FlowchartLinkDescriptor> getSubflow_2001OutgoingLinks(
+			View view) {
+		Subflow modelElement = (Subflow) view.getElement();
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
+		return result;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<FlowchartLinkDescriptor> getAction_2004OutgoingLinks(
+			View view) {
+		Action modelElement = (Action) view.getElement();
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
+		return result;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<FlowchartLinkDescriptor> getDecision_2003OutgoingLinks(
+			View view) {
+		Decision modelElement = (Decision) view.getElement();
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
+		return result;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<FlowchartLinkDescriptor> getTransition_4001OutgoingLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	private static Collection<FlowchartLinkDescriptor> getContainedTypeModelFacetLinks_Transition_4001(
 			Flowchart container) {
-		Collection result = new LinkedList();
-		for (Iterator links = container.getTransitions().iterator(); links
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		for (Iterator<?> links = container.getTransitions().iterator(); links
 				.hasNext();) {
 			EObject linkObject = (EObject) links.next();
 			if (false == linkObject instanceof Transition) {
@@ -250,13 +302,13 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getIncomingTypeModelFacetLinks_Transition_4001(
-			Node target, Map crossReferences) {
-		Collection result = new LinkedList();
-		Collection settings = (Collection) crossReferences.get(target);
-		for (Iterator it = settings.iterator(); it.hasNext();) {
-			EStructuralFeature.Setting setting = (EStructuralFeature.Setting) it
-					.next();
+	private static Collection<FlowchartLinkDescriptor> getIncomingTypeModelFacetLinks_Transition_4001(
+			Node target,
+			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		Collection<EStructuralFeature.Setting> settings = crossReferences
+				.get(target);
+		for (EStructuralFeature.Setting setting : settings) {
 			if (setting.getEStructuralFeature() != FlowchartPackage.eINSTANCE
 					.getTransition_Target()
 					|| false == setting.getEObject() instanceof Transition) {
@@ -278,7 +330,7 @@ public class FlowchartDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getOutgoingTypeModelFacetLinks_Transition_4001(
+	private static Collection<FlowchartLinkDescriptor> getOutgoingTypeModelFacetLinks_Transition_4001(
 			Node source) {
 		Flowchart container = null;
 		// Find container element for the link.
@@ -291,10 +343,10 @@ public class FlowchartDiagramUpdater {
 			}
 		}
 		if (container == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
-		Collection result = new LinkedList();
-		for (Iterator links = container.getTransitions().iterator(); links
+		LinkedList<FlowchartLinkDescriptor> result = new LinkedList<FlowchartLinkDescriptor>();
+		for (Iterator<?> links = container.getTransitions().iterator(); links
 				.hasNext();) {
 			EObject linkObject = (EObject) links.next();
 			if (false == linkObject instanceof Transition) {

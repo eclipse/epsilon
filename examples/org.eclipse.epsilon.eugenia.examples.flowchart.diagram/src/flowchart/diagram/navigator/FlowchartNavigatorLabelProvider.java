@@ -20,6 +20,8 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 
+import flowchart.diagram.edit.parts.ActionEditPart;
+import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
@@ -45,13 +47,11 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 		FlowchartDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 		FlowchartDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
-		case FlowchartEditPart.VISUAL_ID:
+		case ActionEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Diagram?flowchart?Flowchart", FlowchartElementTypes.Flowchart_1000); //$NON-NLS-1$
+					"Navigator?TopLevelNode?flowchart?Action", FlowchartElementTypes.Action_2004); //$NON-NLS-1$
 		case SubflowEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Subflow", FlowchartElementTypes.Subflow_2001); //$NON-NLS-1$
@@ -113,6 +113,9 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 		case TransitionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?flowchart?Transition", FlowchartElementTypes.Transition_4001); //$NON-NLS-1$
+		case FlowchartEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Diagram?flowchart?Flowchart", FlowchartElementTypes.Flowchart_1000); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -173,16 +176,38 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
-		case FlowchartEditPart.VISUAL_ID:
-			return getFlowchart_1000Text(view);
+		case ActionEditPart.VISUAL_ID:
+			return getAction_2004Text(view);
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001Text(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003Text(view);
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001Text(view);
+		case FlowchartEditPart.VISUAL_ID:
+			return getFlowchart_1000Text(view);
 		}
 		return getUnknownElementText(view);
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getAction_2004Text(View view) {
+		IParser parser = FlowchartParserProvider
+				.getParser(FlowchartElementTypes.Action_2004,
+						view.getElement() != null ? view.getElement() : view,
+						FlowchartVisualIDRegistry
+								.getType(ActionNameEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			FlowchartDiagramEditorPlugin.getInstance().logError(
+					"Parser was not found for label " + 5004); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 
 	/**

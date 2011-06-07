@@ -76,10 +76,9 @@ public class FlowchartNavigatorItem extends FlowchartAbstractNavigatorItem {
 		if (obj instanceof flowchart.diagram.navigator.FlowchartNavigatorItem) {
 			return EcoreUtil
 					.getURI(getView())
-					.equals(
-							EcoreUtil
-									.getURI(((flowchart.diagram.navigator.FlowchartNavigatorItem) obj)
-											.getView()));
+					.equals(EcoreUtil
+							.getURI(((flowchart.diagram.navigator.FlowchartNavigatorItem) obj)
+									.getView()));
 		}
 		return super.equals(obj);
 	}

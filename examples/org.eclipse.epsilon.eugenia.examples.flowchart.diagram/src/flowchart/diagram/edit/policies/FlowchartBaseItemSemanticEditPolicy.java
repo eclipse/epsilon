@@ -36,7 +36,9 @@ import org.eclipse.gmf.runtime.notation.View;
 
 import flowchart.Flowchart;
 import flowchart.Node;
+import flowchart.Transition;
 import flowchart.diagram.edit.helpers.FlowchartBaseEditHelper;
+import flowchart.diagram.part.FlowchartDiagramEditorPlugin;
 import flowchart.diagram.part.FlowchartVisualIDRegistry;
 import flowchart.diagram.providers.FlowchartElementTypes;
 
@@ -77,8 +79,8 @@ public class FlowchartBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Object view = ((ReconnectRequest) request).getConnectionEditPart()
 					.getModel();
 			if (view instanceof View) {
-				Integer id = new Integer(FlowchartVisualIDRegistry
-						.getVisualID((View) view));
+				Integer id = new Integer(
+						FlowchartVisualIDRegistry.getVisualID((View) view));
 				request.getExtendedData().put(VISUAL_ID_KEY, id);
 			}
 		}
@@ -128,8 +130,7 @@ public class FlowchartBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Command editPolicyCommand) {
 		if (editPolicyCommand != null) {
 			ICommand command = editPolicyCommand instanceof ICommandProxy ? ((ICommandProxy) editPolicyCommand)
-					.getICommand()
-					: new CommandProxy(editPolicyCommand);
+					.getICommand() : new CommandProxy(editPolicyCommand);
 			request.setParameter(FlowchartBaseEditHelper.EDIT_POLICY_COMMAND,
 					command);
 		}
@@ -138,9 +139,7 @@ public class FlowchartBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				requestContextElementType);
 		ICommand command = requestContextElementType.getEditCommand(request);
 		request.setParameter(FlowchartBaseEditHelper.EDIT_POLICY_COMMAND, null);
-		request
-				.setParameter(FlowchartBaseEditHelper.CONTEXT_ELEMENT_TYPE,
-						null);
+		request.setParameter(FlowchartBaseEditHelper.CONTEXT_ELEMENT_TYPE, null);
 		if (command != null) {
 			if (!(command instanceof CompositeTransactionalCommand)) {
 				command = new CompositeTransactionalCommand(getEditingDomain(),
@@ -304,21 +303,41 @@ public class FlowchartBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	/**
 	 * @generated
 	 */
+	public static LinkConstraints getLinkConstraints() {
+		LinkConstraints cached = FlowchartDiagramEditorPlugin.getInstance()
+				.getLinkConstraints();
+		if (cached == null) {
+			FlowchartDiagramEditorPlugin.getInstance().setLinkConstraints(
+					cached = new LinkConstraints());
+		}
+		return cached;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static class LinkConstraints {
 
 		/**
 		 * @generated
 		 */
-		public static boolean canCreateTransition_4001(Flowchart container,
-				Node source, Node target) {
-			return canExistTransition_4001(container, source, target);
+		LinkConstraints() {
+			// use static method #getLinkConstraints() to access instance
 		}
 
 		/**
 		 * @generated
 		 */
-		public static boolean canExistTransition_4001(Flowchart container,
+		public boolean canCreateTransition_4001(Flowchart container,
 				Node source, Node target) {
+			return canExistTransition_4001(container, null, source, target);
+		}
+
+		/**
+		 * @generated
+		 */
+		public boolean canExistTransition_4001(Flowchart container,
+				Transition linkInstance, Node source, Node target) {
 			return true;
 		}
 	}

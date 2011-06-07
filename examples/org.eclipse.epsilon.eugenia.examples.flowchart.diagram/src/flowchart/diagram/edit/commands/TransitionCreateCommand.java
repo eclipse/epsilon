@@ -72,7 +72,7 @@ public class TransitionCreateCommand extends EditElementCommand {
 		if (getContainer() == null) {
 			return false;
 		}
-		return FlowchartBaseItemSemanticEditPolicy.LinkConstraints
+		return FlowchartBaseItemSemanticEditPolicy.getLinkConstraints()
 				.canCreateTransition_4001(getContainer(), getSource(),
 						getTarget());
 	}

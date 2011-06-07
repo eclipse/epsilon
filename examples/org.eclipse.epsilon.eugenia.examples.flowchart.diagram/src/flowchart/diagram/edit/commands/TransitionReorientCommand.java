@@ -74,8 +74,9 @@ public class TransitionReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Flowchart container = (Flowchart) getLink().eContainer();
-		return FlowchartBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistTransition_4001(container, getNewSource(), target);
+		return FlowchartBaseItemSemanticEditPolicy.getLinkConstraints()
+				.canExistTransition_4001(container, getLink(), getNewSource(),
+						target);
 	}
 
 	/**
@@ -90,8 +91,9 @@ public class TransitionReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Flowchart container = (Flowchart) getLink().eContainer();
-		return FlowchartBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistTransition_4001(container, source, getNewTarget());
+		return FlowchartBaseItemSemanticEditPolicy.getLinkConstraints()
+				.canExistTransition_4001(container, getLink(), source,
+						getNewTarget());
 	}
 
 	/**

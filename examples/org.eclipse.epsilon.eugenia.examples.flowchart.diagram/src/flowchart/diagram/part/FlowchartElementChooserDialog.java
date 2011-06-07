@@ -147,9 +147,8 @@ public class FlowchartElementChooserDialog extends Dialog {
 	 */
 	public int open() {
 		int result = super.open();
-		for (Iterator it = myEditingDomain.getResourceSet().getResources()
-				.iterator(); it.hasNext();) {
-			Resource resource = (Resource) it.next();
+		for (Resource resource : myEditingDomain.getResourceSet()
+				.getResources()) {
 			resource.unload();
 		}
 		myEditingDomain.dispose();
@@ -188,9 +187,9 @@ public class FlowchartElementChooserDialog extends Dialog {
 				IPath resourcePath = modelFile.getFullPath();
 				ResourceSet resourceSet = myEditingDomain.getResourceSet();
 				try {
-					Resource modelResource = resourceSet.getResource(URI
-							.createPlatformResourceURI(resourcePath.toString(),
-									true), true);
+					Resource modelResource = resourceSet.getResource(
+							URI.createPlatformResourceURI(
+									resourcePath.toString(), true), true);
 					return myAdapterFctoryContentProvier
 							.getChildren(modelResource);
 				} catch (WrappedException e) {

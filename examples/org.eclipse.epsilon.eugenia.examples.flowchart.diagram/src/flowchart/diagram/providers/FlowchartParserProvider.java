@@ -17,6 +17,7 @@ import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
 
 import flowchart.FlowchartPackage;
+import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.SubflowNameEditPart;
 import flowchart.diagram.edit.parts.TransitionNameEditPart;
@@ -45,6 +46,24 @@ public class FlowchartParserProvider extends AbstractProvider implements
 			subflowName_5001Parser = parser;
 		}
 		return subflowName_5001Parser;
+	}
+
+	/**
+	 * @generated
+	 */
+	private IParser actionName_5004Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getActionName_5004Parser() {
+		if (actionName_5004Parser == null) {
+			EAttribute[] features = new EAttribute[] { FlowchartPackage.eINSTANCE
+					.getNode_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			actionName_5004Parser = parser;
+		}
+		return actionName_5004Parser;
 	}
 
 	/**
@@ -90,6 +109,8 @@ public class FlowchartParserProvider extends AbstractProvider implements
 		switch (visualID) {
 		case SubflowNameEditPart.VISUAL_ID:
 			return getSubflowName_5001Parser();
+		case ActionNameEditPart.VISUAL_ID:
+			return getActionName_5004Parser();
 		case DecisionNameEditPart.VISUAL_ID:
 			return getDecisionName_5003Parser();
 		case TransitionNameEditPart.VISUAL_ID:

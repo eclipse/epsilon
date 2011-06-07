@@ -308,7 +308,7 @@ public class FlowchartModelWizard extends Wizard implements INewWizard {
       {
         page.openEditor
           (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
       }
       catch (PartInitException exception)
       {

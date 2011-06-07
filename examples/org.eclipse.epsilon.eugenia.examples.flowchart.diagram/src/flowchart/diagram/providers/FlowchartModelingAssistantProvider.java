@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -43,8 +44,9 @@ public class FlowchartModelingAssistantProvider extends
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart instanceof FlowchartEditPart) {
-			ArrayList types = new ArrayList(2);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
 			types.add(FlowchartElementTypes.Subflow_2001);
+			types.add(FlowchartElementTypes.Action_2004);
 			types.add(FlowchartElementTypes.Decision_2003);
 			return types;
 		}
@@ -60,6 +62,9 @@ public class FlowchartModelingAssistantProvider extends
 		if (sourceEditPart instanceof SubflowEditPart) {
 			return ((SubflowEditPart) sourceEditPart).getMARelTypesOnSource();
 		}
+		if (sourceEditPart instanceof ActionEditPart) {
+			return ((ActionEditPart) sourceEditPart).getMARelTypesOnSource();
+		}
 		if (sourceEditPart instanceof DecisionEditPart) {
 			return ((DecisionEditPart) sourceEditPart).getMARelTypesOnSource();
 		}
@@ -74,6 +79,9 @@ public class FlowchartModelingAssistantProvider extends
 				.getAdapter(IGraphicalEditPart.class);
 		if (targetEditPart instanceof SubflowEditPart) {
 			return ((SubflowEditPart) targetEditPart).getMARelTypesOnTarget();
+		}
+		if (targetEditPart instanceof ActionEditPart) {
+			return ((ActionEditPart) targetEditPart).getMARelTypesOnTarget();
 		}
 		if (targetEditPart instanceof DecisionEditPart) {
 			return ((DecisionEditPart) targetEditPart).getMARelTypesOnTarget();
@@ -94,6 +102,10 @@ public class FlowchartModelingAssistantProvider extends
 			return ((SubflowEditPart) sourceEditPart)
 					.getMARelTypesOnSourceAndTarget(targetEditPart);
 		}
+		if (sourceEditPart instanceof ActionEditPart) {
+			return ((ActionEditPart) sourceEditPart)
+					.getMARelTypesOnSourceAndTarget(targetEditPart);
+		}
 		if (sourceEditPart instanceof DecisionEditPart) {
 			return ((DecisionEditPart) sourceEditPart)
 					.getMARelTypesOnSourceAndTarget(targetEditPart);
@@ -110,6 +122,10 @@ public class FlowchartModelingAssistantProvider extends
 				.getAdapter(IGraphicalEditPart.class);
 		if (targetEditPart instanceof SubflowEditPart) {
 			return ((SubflowEditPart) targetEditPart)
+					.getMATypesForSource(relationshipType);
+		}
+		if (targetEditPart instanceof ActionEditPart) {
+			return ((ActionEditPart) targetEditPart)
 					.getMATypesForSource(relationshipType);
 		}
 		if (targetEditPart instanceof DecisionEditPart) {
@@ -130,6 +146,10 @@ public class FlowchartModelingAssistantProvider extends
 			return ((SubflowEditPart) sourceEditPart)
 					.getMATypesForTarget(relationshipType);
 		}
+		if (sourceEditPart instanceof ActionEditPart) {
+			return ((ActionEditPart) sourceEditPart)
+					.getMATypesForTarget(relationshipType);
+		}
 		if (sourceEditPart instanceof DecisionEditPart) {
 			return ((DecisionEditPart) sourceEditPart)
 					.getMATypesForTarget(relationshipType);
@@ -142,8 +162,8 @@ public class FlowchartModelingAssistantProvider extends
 	 */
 	public EObject selectExistingElementForSource(IAdaptable target,
 			IElementType relationshipType) {
-		return selectExistingElement(target, getTypesForSource(target,
-				relationshipType));
+		return selectExistingElement(target,
+				getTypesForSource(target, relationshipType));
 	}
 
 	/**
@@ -151,8 +171,8 @@ public class FlowchartModelingAssistantProvider extends
 	 */
 	public EObject selectExistingElementForTarget(IAdaptable source,
 			IElementType relationshipType) {
-		return selectExistingElement(source, getTypesForTarget(source,
-				relationshipType));
+		return selectExistingElement(source,
+				getTypesForTarget(source, relationshipType));
 	}
 
 	/**
@@ -168,9 +188,10 @@ public class FlowchartModelingAssistantProvider extends
 			return null;
 		}
 		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		Collection elements = new HashSet();
-		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = (EObject) it.next();
+		HashSet<EObject> elements = new HashSet<EObject>();
+		for (Iterator<EObject> it = diagram.getElement().eAllContents(); it
+				.hasNext();) {
+			EObject element = it.next();
 			if (isApplicableElement(element, types)) {
 				elements.add(element);
 			}

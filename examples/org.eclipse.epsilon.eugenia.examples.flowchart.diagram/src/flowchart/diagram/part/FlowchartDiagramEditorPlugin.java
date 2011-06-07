@@ -23,6 +23,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import flowchart.diagram.edit.policies.FlowchartBaseItemSemanticEditPolicy;
+import flowchart.diagram.providers.ElementInitializers;
 import flowchart.provider.FlowchartItemProviderAdapterFactory;
 
 /**
@@ -59,6 +61,16 @@ public class FlowchartDiagramEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * @generated
 	 */
+	private FlowchartBaseItemSemanticEditPolicy.LinkConstraints linkConstraints;
+
+	/**
+	 * @generated
+	 */
+	private ElementInitializers initializers;
+
+	/**
+	 * @generated
+	 */
 	public FlowchartDiagramEditorPlugin() {
 	}
 
@@ -79,6 +91,8 @@ public class FlowchartDiagramEditorPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		adapterFactory.dispose();
 		adapterFactory = null;
+		linkConstraints = null;
+		initializers = null;
 		instance = null;
 		super.stop(context);
 	}
@@ -94,7 +108,7 @@ public class FlowchartDiagramEditorPlugin extends AbstractUIPlugin {
 	 * @generated
 	 */
 	protected ComposedAdapterFactory createAdapterFactory() {
-		List factories = new ArrayList();
+		ArrayList<AdapterFactory> factories = new ArrayList<AdapterFactory>();
 		fillItemProviderFactories(factories);
 		return new ComposedAdapterFactory(factories);
 	}
@@ -102,7 +116,7 @@ public class FlowchartDiagramEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * @generated
 	 */
-	protected void fillItemProviderFactories(List factories) {
+	protected void fillItemProviderFactories(List<AdapterFactory> factories) {
 		factories.add(new FlowchartItemProviderAdapterFactory());
 		factories.add(new ResourceItemProviderAdapterFactory());
 		factories.add(new ReflectiveItemProviderAdapterFactory());
@@ -193,6 +207,35 @@ public class FlowchartDiagramEditorPlugin extends AbstractUIPlugin {
 			documentProvider = new FlowchartDocumentProvider();
 		}
 		return documentProvider;
+	}
+
+	/**
+	 * @generated
+	 */
+	public FlowchartBaseItemSemanticEditPolicy.LinkConstraints getLinkConstraints() {
+		return linkConstraints;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setLinkConstraints(
+			FlowchartBaseItemSemanticEditPolicy.LinkConstraints lc) {
+		this.linkConstraints = lc;
+	}
+
+	/**
+	 * @generated
+	 */
+	public ElementInitializers getElementInitializers() {
+		return initializers;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setElementInitializers(ElementInitializers i) {
+		this.initializers = i;
 	}
 
 	/**

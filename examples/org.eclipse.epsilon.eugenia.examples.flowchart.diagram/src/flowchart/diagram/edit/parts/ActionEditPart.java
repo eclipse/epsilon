@@ -12,7 +12,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.DiamondFigure;
+import org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.SquareFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -34,19 +34,19 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
 
-import flowchart.diagram.edit.policies.DecisionItemSemanticEditPolicy;
+import flowchart.diagram.edit.policies.ActionItemSemanticEditPolicy;
 import flowchart.diagram.part.FlowchartVisualIDRegistry;
 import flowchart.diagram.providers.FlowchartElementTypes;
 
 /**
  * @generated
  */
-public class DecisionEditPart extends ShapeNodeEditPart {
+public class ActionEditPart extends ShapeNodeEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 2003;
+	public static final int VISUAL_ID = 2004;
 
 	/**
 	 * @generated
@@ -61,7 +61,7 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public DecisionEditPart(View view) {
+	public ActionEditPart(View view) {
 		super(view);
 	}
 
@@ -71,7 +71,7 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new DecisionItemSemanticEditPolicy());
+				new ActionItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -107,23 +107,23 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		return primaryShape = new DecisionFigure();
+		return primaryShape = new ActionFigure();
 	}
 
 	/**
 	 * @generated
 	 */
-	public DecisionFigure getPrimaryShape() {
-		return (DecisionFigure) primaryShape;
+	public ActionFigure getPrimaryShape() {
+		return (ActionFigure) primaryShape;
 	}
 
 	/**
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof DecisionNameEditPart) {
-			((DecisionNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getFigureDecisionLabelFigure());
+		if (childEditPart instanceof ActionNameEditPart) {
+			((ActionNameEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getFigureActionLabelFigure());
 			return true;
 		}
 		return false;
@@ -133,7 +133,7 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof DecisionNameEditPart) {
+		if (childEditPart instanceof ActionNameEditPart) {
 			return true;
 		}
 		return false;
@@ -257,7 +257,7 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	 */
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(FlowchartVisualIDRegistry
-				.getType(DecisionNameEditPart.VISUAL_ID));
+				.getType(ActionNameEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -278,10 +278,10 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 		if (targetEditPart instanceof SubflowEditPart) {
 			types.add(FlowchartElementTypes.Transition_4001);
 		}
-		if (targetEditPart instanceof ActionEditPart) {
+		if (targetEditPart instanceof flowchart.diagram.edit.parts.ActionEditPart) {
 			types.add(FlowchartElementTypes.Transition_4001);
 		}
-		if (targetEditPart instanceof flowchart.diagram.edit.parts.DecisionEditPart) {
+		if (targetEditPart instanceof DecisionEditPart) {
 			types.add(FlowchartElementTypes.Transition_4001);
 		}
 		return types;
@@ -338,17 +338,17 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public class DecisionFigure extends DiamondFigure {
+	public class ActionFigure extends SquareFigure {
 
 		/**
 		 * @generated
 		 */
-		private WrappingLabel fFigureDecisionLabelFigure;
+		private WrappingLabel fFigureActionLabelFigure;
 
 		/**
 		 * @generated
 		 */
-		public DecisionFigure() {
+		public ActionFigure() {
 
 			createContents();
 		}
@@ -358,20 +358,20 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 		 */
 		private void createContents() {
 
-			fFigureDecisionLabelFigure = new WrappingLabel();
-			fFigureDecisionLabelFigure.setText("Decision");
+			fFigureActionLabelFigure = new WrappingLabel();
+			fFigureActionLabelFigure.setText("Action");
 
-			fFigureDecisionLabelFigure.setFont(FFIGUREDECISIONLABELFIGURE_FONT);
+			fFigureActionLabelFigure.setFont(FFIGUREACTIONLABELFIGURE_FONT);
 
-			this.add(fFigureDecisionLabelFigure);
+			this.add(fFigureActionLabelFigure);
 
 		}
 
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getFigureDecisionLabelFigure() {
-			return fFigureDecisionLabelFigure;
+		public WrappingLabel getFigureActionLabelFigure() {
+			return fFigureActionLabelFigure;
 		}
 
 	}
@@ -379,8 +379,8 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	static final Font FFIGUREDECISIONLABELFIGURE_FONT = new Font(
+	static final Font FFIGUREACTIONLABELFIGURE_FONT = new Font(
 			Display.getCurrent(), Display.getDefault().getSystemFont()
-					.getFontData()[0].getName(), 9, SWT.ITALIC);
+					.getFontData()[0].getName(), 9, SWT.BOLD);
 
 }

@@ -15,19 +15,19 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 
+import flowchart.Action;
 import flowchart.Flowchart;
 import flowchart.FlowchartFactory;
-import flowchart.Subflow;
 
 /**
  * @generated
  */
-public class SubflowCreateCommand extends EditElementCommand {
+public class ActionCreateCommand extends EditElementCommand {
 
 	/**
 	 * @generated
 	 */
-	public SubflowCreateCommand(CreateElementRequest req) {
+	public ActionCreateCommand(CreateElementRequest req) {
 		super(req.getLabel(), null, req);
 	}
 
@@ -57,7 +57,7 @@ public class SubflowCreateCommand extends EditElementCommand {
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		Subflow newElement = FlowchartFactory.eINSTANCE.createSubflow();
+		Action newElement = FlowchartFactory.eINSTANCE.createAction();
 
 		Flowchart owner = (Flowchart) getElementToEdit();
 		owner.getNodes().add(newElement);
@@ -71,7 +71,7 @@ public class SubflowCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Subflow newElement, IProgressMonitor monitor,
+	protected void doConfigure(Action newElement, IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 		IElementType elementType = ((CreateElementRequest) getRequest())
 				.getElementType();

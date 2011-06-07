@@ -45,15 +45,15 @@ public class FlowchartMarkerNavigationProvider extends
 		DiagramEditor editor = (DiagramEditor) getEditor();
 		Map editPartRegistry = editor.getDiagramGraphicalViewer()
 				.getEditPartRegistry();
-		EObject targetView = editor.getDiagram().eResource().getEObject(
-				elementId);
+		EObject targetView = editor.getDiagram().eResource()
+				.getEObject(elementId);
 		if (targetView == null) {
 			return;
 		}
 		EditPart targetEditPart = (EditPart) editPartRegistry.get(targetView);
 		if (targetEditPart != null) {
-			FlowchartDiagramEditorUtil.selectElementsInDiagram(editor, Arrays
-					.asList(new EditPart[] { targetEditPart }));
+			FlowchartDiagramEditorUtil.selectElementsInDiagram(editor,
+					Arrays.asList(new EditPart[] { targetEditPart }));
 		}
 	}
 
@@ -79,10 +79,9 @@ public class FlowchartMarkerNavigationProvider extends
 			marker = file.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, message);
 			marker.setAttribute(IMarker.LOCATION, location);
-			marker
-					.setAttribute(
-							org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID,
-							elementId);
+			marker.setAttribute(
+					org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID,
+					elementId);
 			int markerSeverity = IMarker.SEVERITY_INFO;
 			if (statusSeverity == IStatus.WARNING) {
 				markerSeverity = IMarker.SEVERITY_WARNING;

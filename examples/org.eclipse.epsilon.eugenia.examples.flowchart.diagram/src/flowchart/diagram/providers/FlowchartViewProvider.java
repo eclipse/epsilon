@@ -45,6 +45,8 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 
+import flowchart.diagram.edit.parts.ActionEditPart;
+import flowchart.diagram.edit.parts.ActionNameEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.DecisionNameEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
@@ -119,8 +121,8 @@ public class FlowchartViewProvider extends AbstractProvider implements
 			if (elementType != null || domainElement == null) {
 				return false;
 			}
-			visualID = FlowchartVisualIDRegistry.getNodeVisualID(op
-					.getContainerView(), domainElement);
+			visualID = FlowchartVisualIDRegistry.getNodeVisualID(
+					op.getContainerView(), domainElement);
 		} else {
 			visualID = FlowchartVisualIDRegistry.getVisualID(op
 					.getSemanticHint());
@@ -148,6 +150,7 @@ public class FlowchartViewProvider extends AbstractProvider implements
 				}
 				switch (visualID) {
 				case SubflowEditPart.VISUAL_ID:
+				case ActionEditPart.VISUAL_ID:
 				case DecisionEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != FlowchartVisualIDRegistry
@@ -162,6 +165,7 @@ public class FlowchartViewProvider extends AbstractProvider implements
 			}
 		}
 		return SubflowEditPart.VISUAL_ID == visualID
+				|| ActionEditPart.VISUAL_ID == visualID
 				|| DecisionEditPart.VISUAL_ID == visualID;
 	}
 
@@ -222,6 +226,9 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		case SubflowEditPart.VISUAL_ID:
 			return createSubflow_2001(domainElement, containerView, index,
 					persisted, preferencesHint);
+		case ActionEditPart.VISUAL_ID:
+			return createAction_2004(domainElement, containerView, index,
+					persisted, preferencesHint);
 		case DecisionEditPart.VISUAL_ID:
 			return createDecision_2003(domainElement, containerView, index,
 					persisted, preferencesHint);
@@ -267,9 +274,9 @@ public class FlowchartViewProvider extends AbstractProvider implements
 
 		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
 				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
-		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-				.getLineStyle_LineColor(), FigureUtilities
-				.RGBToInteger(lineRGB));
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
 		FontStyle nodeFontStyle = (FontStyle) node
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (nodeFontStyle != null) {
@@ -286,11 +293,57 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		}
 		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
 				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
-		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-				.getFillStyle_FillColor(), FigureUtilities
-				.RGBToInteger(fillRGB));
-		Node label5001 = createLabel(node, FlowchartVisualIDRegistry
-				.getType(SubflowNameEditPart.VISUAL_ID));
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5001 = createLabel(node,
+				FlowchartVisualIDRegistry
+						.getType(SubflowNameEditPart.VISUAL_ID));
+		return node;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createAction_2004(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(FlowchartVisualIDRegistry
+				.getType(ActionEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+
+		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
+		FontStyle nodeFontStyle = (FontStyle) node
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5004 = createLabel(node,
+				FlowchartVisualIDRegistry.getType(ActionNameEditPart.VISUAL_ID));
 		return node;
 	}
 
@@ -312,9 +365,9 @@ public class FlowchartViewProvider extends AbstractProvider implements
 
 		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
 				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
-		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-				.getLineStyle_LineColor(), FigureUtilities
-				.RGBToInteger(lineRGB));
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
 		FontStyle nodeFontStyle = (FontStyle) node
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (nodeFontStyle != null) {
@@ -331,11 +384,12 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		}
 		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
 				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
-		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-				.getFillStyle_FillColor(), FigureUtilities
-				.RGBToInteger(fillRGB));
-		Node label5003 = createLabel(node, FlowchartVisualIDRegistry
-				.getType(DecisionNameEditPart.VISUAL_ID));
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5003 = createLabel(node,
+				FlowchartVisualIDRegistry
+						.getType(DecisionNameEditPart.VISUAL_ID));
 		return node;
 	}
 
@@ -349,7 +403,8 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
 		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE
 				.createRelativeBendpoints();
-		ArrayList points = new ArrayList(2);
+		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(
+				2);
 		points.add(new RelativeBendpoint());
 		points.add(new RelativeBendpoint());
 		bendpoints.setPoints(points);
@@ -364,9 +419,9 @@ public class FlowchartViewProvider extends AbstractProvider implements
 
 		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
 				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
-		ViewUtil.setStructuralFeatureValue(edge, NotationPackage.eINSTANCE
-				.getLineStyle_LineColor(), FigureUtilities
-				.RGBToInteger(lineRGB));
+		ViewUtil.setStructuralFeatureValue(edge,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
 		FontStyle edgeFontStyle = (FontStyle) edge
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (edgeFontStyle != null) {
@@ -384,11 +439,13 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		Routing routing = Routing.get(prefStore
 				.getInt(IPreferenceConstants.PREF_LINE_STYLE));
 		if (routing != null) {
-			ViewUtil.setStructuralFeatureValue(edge, NotationPackage.eINSTANCE
-					.getRoutingStyle_Routing(), routing);
+			ViewUtil.setStructuralFeatureValue(edge,
+					NotationPackage.eINSTANCE.getRoutingStyle_Routing(),
+					routing);
 		}
-		Node label6001 = createLabel(edge, FlowchartVisualIDRegistry
-				.getType(TransitionNameEditPart.VISUAL_ID));
+		Node label6001 = createLabel(edge,
+				FlowchartVisualIDRegistry
+						.getType(TransitionNameEditPart.VISUAL_ID));
 		label6001.setLayoutConstraint(NotationFactory.eINSTANCE
 				.createLocation());
 		Location location6001 = (Location) label6001.getLayoutConstraint();
@@ -431,8 +488,8 @@ public class FlowchartViewProvider extends AbstractProvider implements
 		}
 		EObject eObject = (EObject) semanticAdapter.getAdapter(EObject.class);
 		if (eObject != null) {
-			return EMFCoreUtil.resolve(TransactionUtil
-					.getEditingDomain(eObject), eObject);
+			return EMFCoreUtil.resolve(
+					TransactionUtil.getEditingDomain(eObject), eObject);
 		}
 		return null;
 	}

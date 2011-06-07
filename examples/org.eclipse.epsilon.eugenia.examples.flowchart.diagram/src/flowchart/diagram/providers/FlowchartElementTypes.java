@@ -20,6 +20,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
 import flowchart.FlowchartPackage;
+import flowchart.diagram.edit.parts.ActionEditPart;
 import flowchart.diagram.edit.parts.DecisionEditPart;
 import flowchart.diagram.edit.parts.FlowchartEditPart;
 import flowchart.diagram.edit.parts.SubflowEditPart;
@@ -29,7 +30,7 @@ import flowchart.diagram.part.FlowchartDiagramEditorPlugin;
 /**
  * @generated
  */
-public class FlowchartElementTypes extends ElementInitializers {
+public class FlowchartElementTypes {
 
 	/**
 	 * @generated
@@ -40,7 +41,7 @@ public class FlowchartElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Map elements;
+	private static Map<IElementType, ENamedElement> elements;
 
 	/**
 	 * @generated
@@ -50,7 +51,7 @@ public class FlowchartElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Set KNOWN_ELEMENT_TYPES;
+	private static Set<IElementType> KNOWN_ELEMENT_TYPES;
 
 	/**
 	 * @generated
@@ -60,6 +61,11 @@ public class FlowchartElementTypes extends ElementInitializers {
 	 * @generated
 	 */
 	public static final IElementType Subflow_2001 = getElementType("org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Subflow_2001"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType Action_2004 = getElementType("org.eclipse.epsilon.eugenia.examples.flowchart.diagram.Action_2004"); //$NON-NLS-1$
+
 	/**
 	 * @generated
 	 */
@@ -178,18 +184,20 @@ public class FlowchartElementTypes extends ElementInitializers {
 	public static ENamedElement getElement(IAdaptable hint) {
 		Object type = hint.getAdapter(IElementType.class);
 		if (elements == null) {
-			elements = new IdentityHashMap();
+			elements = new IdentityHashMap<IElementType, ENamedElement>();
 
-			elements.put(Flowchart_1000, FlowchartPackage.eINSTANCE
-					.getFlowchart());
+			elements.put(Flowchart_1000,
+					FlowchartPackage.eINSTANCE.getFlowchart());
 
 			elements.put(Subflow_2001, FlowchartPackage.eINSTANCE.getSubflow());
 
-			elements.put(Decision_2003, FlowchartPackage.eINSTANCE
-					.getDecision());
+			elements.put(Action_2004, FlowchartPackage.eINSTANCE.getAction());
 
-			elements.put(Transition_4001, FlowchartPackage.eINSTANCE
-					.getTransition());
+			elements.put(Decision_2003,
+					FlowchartPackage.eINSTANCE.getDecision());
+
+			elements.put(Transition_4001,
+					FlowchartPackage.eINSTANCE.getTransition());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -206,9 +214,10 @@ public class FlowchartElementTypes extends ElementInitializers {
 	 */
 	public static boolean isKnownElementType(IElementType elementType) {
 		if (KNOWN_ELEMENT_TYPES == null) {
-			KNOWN_ELEMENT_TYPES = new HashSet();
+			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
 			KNOWN_ELEMENT_TYPES.add(Flowchart_1000);
 			KNOWN_ELEMENT_TYPES.add(Subflow_2001);
+			KNOWN_ELEMENT_TYPES.add(Action_2004);
 			KNOWN_ELEMENT_TYPES.add(Decision_2003);
 			KNOWN_ELEMENT_TYPES.add(Transition_4001);
 		}
@@ -224,6 +233,8 @@ public class FlowchartElementTypes extends ElementInitializers {
 			return Flowchart_1000;
 		case SubflowEditPart.VISUAL_ID:
 			return Subflow_2001;
+		case ActionEditPart.VISUAL_ID:
+			return Action_2004;
 		case DecisionEditPart.VISUAL_ID:
 			return Decision_2003;
 		case TransitionEditPart.VISUAL_ID:

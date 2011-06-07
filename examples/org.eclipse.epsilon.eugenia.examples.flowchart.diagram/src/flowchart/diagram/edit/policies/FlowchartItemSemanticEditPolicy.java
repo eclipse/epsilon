@@ -10,6 +10,7 @@ import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsComma
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 
+import flowchart.diagram.edit.commands.ActionCreateCommand;
 import flowchart.diagram.edit.commands.DecisionCreateCommand;
 import flowchart.diagram.edit.commands.SubflowCreateCommand;
 import flowchart.diagram.providers.FlowchartElementTypes;
@@ -33,6 +34,9 @@ public class FlowchartItemSemanticEditPolicy extends
 	protected Command getCreateCommand(CreateElementRequest req) {
 		if (FlowchartElementTypes.Subflow_2001 == req.getElementType()) {
 			return getGEFWrapper(new SubflowCreateCommand(req));
+		}
+		if (FlowchartElementTypes.Action_2004 == req.getElementType()) {
+			return getGEFWrapper(new ActionCreateCommand(req));
 		}
 		if (FlowchartElementTypes.Decision_2003 == req.getElementType()) {
 			return getGEFWrapper(new DecisionCreateCommand(req));
