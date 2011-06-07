@@ -1,6 +1,5 @@
 @setup
 operation prepare() {
-  Element.allInstances.println();
   var firstElement  := Element.allInstances.first();
 }
 
