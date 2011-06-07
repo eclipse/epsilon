@@ -41,18 +41,19 @@ public class EolOperation extends AbstractModuleElement{
 	private AST body;
 	private EolFormalParameterList formalParameters = null;
 	private AST ast;
-	
+
 	//protected TreeMap cache = new TreeMap(new EqualsComparator());
 	protected EolMap cache = new EolMap();
-	
+
 	public void clearCache() {
 		cache.clear();
 
-		// This is important for EUnit, as it ensures that the return type will
-		// be evaluated again, with the reloaded models
-		returnType = null;
+		// This is important for EUnit, as it ensures that the cached
+		// type information will be re-evaluated for the reloaded models
+		contextType = returnType = null;
+		formalParameters.clearCache();
 	}
-	
+
 	/*
 	class EqualsComparator implements Comparator {
 

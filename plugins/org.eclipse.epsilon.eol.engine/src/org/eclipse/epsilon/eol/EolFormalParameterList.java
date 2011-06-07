@@ -23,7 +23,15 @@ public class EolFormalParameterList extends ArrayList{
 	public EolFormalParameterList(AST ast){
 		parse(ast);
 	}
-	
+
+	public void clearCache() {
+		for (Object o : this) {
+			if (o instanceof EolFormalParameter) {
+				((EolFormalParameter)o).clearCache();
+			}
+		}
+	}
+
 	public void parse(AST ast){
 		this.ast = ast;
 		if (ast == null) return;

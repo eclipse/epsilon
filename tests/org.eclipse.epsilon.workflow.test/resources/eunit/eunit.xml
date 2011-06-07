@@ -36,6 +36,12 @@
 		<antcall target="template"/>
 	</target>
 
+	<target name="allPassContextOperations">
+		<property name="eunit.file" location="basic/all-pass-context.eunit"/>
+		<property name="eunit.failOnErrors" value="true"/>
+		<antcall target="template"/>
+	</target>
+
 	<target name="allPassCustom">
 		<epsilon.eunit src="basic/all-pass.eunit" todir="${basedir}/..">
 			<modelTasks>

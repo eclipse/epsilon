@@ -42,6 +42,11 @@ public class EUnitBasicTests extends EUnitTestCase {
 	}
 
 	@Test
+	public void allPassWithContextOperations() throws Exception {
+		runTarget(ANT_BUILD_FILE, "allPassContextOperations");
+	}
+
+	@Test
 	public void allPassProducesGoodOutputWithCustomRelativePathFromBuildDir()
 			throws Exception {
 				runTarget(ANT_BUILD_FILE, "allPassCustom");

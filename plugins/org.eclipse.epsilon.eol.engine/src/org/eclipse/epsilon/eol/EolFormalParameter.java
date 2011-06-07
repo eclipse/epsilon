@@ -78,5 +78,13 @@ public class EolFormalParameter {
 		}
 		return type;
 	}
-	
+
+	/**
+	 * Clear any cached information. This is useful for running EUnit, which has to rerun
+	 * the same EOL script with different sets of models without reparsing it.
+	 */
+	public void clearCache() {
+		type = null;
+	}
+
 }
