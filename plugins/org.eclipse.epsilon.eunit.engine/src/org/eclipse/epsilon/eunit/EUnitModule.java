@@ -163,7 +163,7 @@ public class EUnitModule extends EolModule {
 		}
 		finally {
 			// Wipe any EOL operation caches
-			wipeCaches();
+			clearCache();
 			// Save the time required to run the test
 			node.setEndCpuTime(THREAD_MXBEAN.getCurrentThreadCpuTime());
 			node.setEndWallclockTime(System.currentTimeMillis());
@@ -432,13 +432,6 @@ public class EUnitModule extends EolModule {
 		for (IModel model : otherModels) {
 			modelRepository.addModel(model);
 		}
-	}
-
-	private void wipeCaches() {
-		for (EolOperation op : getOperations()) {
-			op.clearCache();
-		}
-		getContext().getExtendedProperties().clear();
 	}
 
 	private ArrayList<EolOperation> getOperationsAnnotatedWith(String annotationName) {

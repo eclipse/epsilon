@@ -72,4 +72,16 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		context = new EolContext();
 	}
 
+	/**
+	 * Clear all cached results and type information, and all extended
+	 * properties. Useful for rerunning the same EolModule with different sets
+	 * of models, without having to parse it again.
+	 */
+	public void clearCache() {
+		for (EolOperation op : getOperations()) {
+			op.clearCache();
+		}
+		getContext().getExtendedProperties().clear();
+	}
+
 }
