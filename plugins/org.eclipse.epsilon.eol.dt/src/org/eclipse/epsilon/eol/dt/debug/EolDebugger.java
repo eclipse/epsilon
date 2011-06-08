@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
@@ -185,9 +186,10 @@ public class EolDebugger implements ExecutionController {
 		
 		IFile iFile = iFiles.get(file.getAbsolutePath());
 		if (iFile == null) {
-			iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(URI.create("file:/" + file.getAbsolutePath()))[0];
+			iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
 			iFiles.put(file.getAbsolutePath(), iFile);
 		}
 		return iFile;
 	}
+
 }
