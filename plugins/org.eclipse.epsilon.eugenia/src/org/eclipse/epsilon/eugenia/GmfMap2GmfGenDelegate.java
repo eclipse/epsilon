@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -30,13 +31,19 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 		options.setUseMapMode(true);
 		options.setUseRuntimeFigures(true);
 
-		final IFolder fGmfmapTemplateDir = getSelectedFile().getParent().getFolder(new Path("../templates-gmfmap"));
-		if (fGmfmapTemplateDir.exists()) {
-			try {
-				options.setFigureTemplatesPath(new URL(fGmfmapTemplateDir.getLocationURI().toString()));
-			} catch (MalformedURLException e) {
-				Activator.getDefault().getLog().log(new Status(
-					IStatus.ERROR, Activator.PLUGIN_ID, "Could not set the path to the figure templates", e));
+		final IContainer parent = getSelectedFile().getParent();
+		if (parent instanceof IFolder && parent.getParent() instanceof IFolder) {
+			final IFolder fGmfmapTemplateDir = parent.getParent().getFolder(
+				new Path("templates-gmfmap"));
+			if (fGmfmapTemplateDir.exists()) {
+				try {
+					options.setFigureTemplatesPath(new URL(
+						fGmfmapTemplateDir.getLocationURI().toString()));
+				} catch (MalformedURLException e) {
+					Activator.getDefault().getLog().log(new Status(
+						IStatus.ERROR, Activator.PLUGIN_ID,
+						"Could not set the path to the figure templates", e));
+				}
 			}
 		}
 
