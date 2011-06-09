@@ -755,7 +755,7 @@ switch (i) {
 
 \subsection{While Statement}
  
-A while statement consists of a condition and a block of statements which are executed as long as the condition is satisfied. For example, in Listing \ref{lst:WhileStatement} the body of the while statement is executed 5 times printing the numbers 0 to 4 to the output console.
+A while statement consists of a condition and a block of statements which are executed as long as the condition is satisfied. For example, in Listing \ref{lst:WhileStatement} the body of the while statement is executed 5 times printing the numbers 0 to 4 to the output console. Inside the body of a \emph{while} statement, the built-in read-only \emph{loopCount} integer variable holds the number of times the innermost loop has been executed so far (including the current iteration).
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL, tabsize=2]
 var i : Integer = 0;
@@ -769,7 +769,7 @@ while (i < 5) {
 
 In EOL, for statements are used to iterate the contents of collections. A for statement defines a typed iterator and an iterated collection as well as a block of statements that is executed for every item in the collection that has a kind-of relationship with the type defined by the iterator. As with the majority of programming languages, modifying a collection while iterating it raises a runtime error. To avoid this situation, users can use the clone() built-in operation of the Collection type discussed in \ref{sec:Design.EOL.Collections}.
 
-Inside the body of a for statements two built-in read-only variables are visible: the hasMore boolean variable is used to determine if there are more items if the collection for which the loop will be executed and the loopCount integer variable holds the number of times the innermost loop has been executed so far (including the current iteration). For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
+Inside the body of a \emph{for} statement two built-in read-only variables are visible: the \emph{hasMore} boolean variable is used to determine if there are more items if the collection for which the loop will be executed and the \emph{loopCount} integer variable holds the number of times the innermost loop has been executed so far (including the current iteration). For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a for statement, label=lst:ForStatement, numbers=left, language=EOL, tabsize=2]
 var col : Sequence = Sequence{"a", 1, 2, 2.5, "b"};
