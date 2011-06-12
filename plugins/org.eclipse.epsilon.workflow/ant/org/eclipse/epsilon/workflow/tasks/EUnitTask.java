@@ -31,6 +31,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
@@ -228,9 +229,16 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		// it as usual
 		if (module == null) {
 			module = new EUnitModule();
-			module.getContext().setOperationFactory(new RunTargetOperationFactory());
-			module.getContext().getFrameStack().put(
-				new Variable("antProject", getProject(), new EolAnyType(), true));
+			final IEolContext context = module.getContext();
+			context.setOperationFactory(new RunTargetOperationFactory());
+			context.getFrameStack().put(
+					new Variable("antProject", getProject(), new EolAnyType(), true));
+
+			// Replace the default native type delegate (which uses the Eclipse class loader) with
+			// one which uses the Ant classpath, as customized by the user
+			final ClassLoader classLoaderAnt = getProject().createClassLoader(org.apache.tools.ant.types.Path.systemClasspath);
+			context.getNativeTypeDelegates().clear();
+			context.getNativeTypeDelegates().add(new EolClasspathNativeTypeDelegate(classLoaderAnt));
 		}
 		return module;
 	}
