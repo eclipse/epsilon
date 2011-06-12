@@ -27,9 +27,10 @@ import org.osgi.framework.BundleContext;
  * The main plugin class to be used in the desktop.
  */
 public class EolPlugin extends AbstractUIPlugin implements EpsilonPlugin{
-	
-	public static String EOLPROGRAM = "SOURCE.EOL";
-	
+
+	public final static String PLUGIN_ID = "org.eclipse.epsilon.eol.dt";
+	public final static String EOLPROGRAM = "SOURCE.EOL";
+
 	//The shared instance.
 	private static EolPlugin plugin;
 	

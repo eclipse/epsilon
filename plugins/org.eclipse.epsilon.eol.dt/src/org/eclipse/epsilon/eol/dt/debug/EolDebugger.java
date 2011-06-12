@@ -2,19 +2,23 @@ package org.eclipse.epsilon.eol.dt.debug;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.URIUtil;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
@@ -99,9 +103,8 @@ public class EolDebugger implements ExecutionController {
 	public void control(AST ast, IEolContext context) {
 
 		if (!controls(ast, context)) return;
-		
-		IFile file = getIFile(ast.getFile());
-		
+		IFile file = getIFile(ast);
+
 		if (stepping) {
 			stepping = false; suspend(file, ast);
 		}
@@ -156,7 +159,7 @@ public class EolDebugger implements ExecutionController {
 			
 			IMarker marker = breakpoint.getMarker();
 			
-			if (marker.getResource().equals(getIFile(ast.getFile())) && 
+			if (marker.getResource().equals(getIFile(ast)) &&
 					marker.getAttribute(IMarker.LINE_NUMBER, 0) == 
 						getRealLine(ast.getLine())) {
 				return true;
@@ -182,14 +185,31 @@ public class EolDebugger implements ExecutionController {
 		target = null;
 	}
 
-	protected IFile getIFile(File file) {
-		
+	protected IFile getIFile(AST ast) {
+		if (ast.getFile() != null) {
+			return getIFile(ast.getFile());
+		} else {
+			return getIFile(ast.getUri());
+		}
+	}
+
+	private IFile getIFile(File file) {
 		IFile iFile = iFiles.get(file.getAbsolutePath());
 		if (iFile == null) {
-			iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
+			iFile = getIFile(file.toURI());
 			iFiles.put(file.getAbsolutePath(), iFile);
 		}
 		return iFile;
+	}
+
+	private IFile getIFile(URI uri) {
+		// If the URI starts by platform:/resource, we need to strip that off
+		// before invoking ResourcesPlugin - see bug #286017 and its patch
+		final String[] uriParts = uri.toString().split("platform:/resource");
+		if (uriParts.length > 1) {
+			return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uriParts[1]));
+		}
+		return ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(uri)[0];
 	}
 
 }
