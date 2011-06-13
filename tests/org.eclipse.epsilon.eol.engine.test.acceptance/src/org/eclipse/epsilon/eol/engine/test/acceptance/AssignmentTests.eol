@@ -36,5 +36,14 @@ operation testOtherRelationalExpressionIsUnaffected() {
 @test
 operation testOtherRelationalExpressionIsUnaffectedByRewrite() {
 	var a; a = 2 > 1;
-	assertEquals(a, true);	
+	assertEquals(a, true);
+}
+
+@test
+operation testExtendedPropertyAssignmentUsesIdentity() {
+	var x : Sequence;
+	var y : Sequence;
+	x.~extended = 1;
+	assertEquals(1, x.~extended);
+	assertTrue(y.~extended.isUndefined());
 }

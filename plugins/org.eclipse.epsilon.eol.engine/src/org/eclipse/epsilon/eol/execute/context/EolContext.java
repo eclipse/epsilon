@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class EolContext implements IEolContext{
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
-	protected Map<Object, Map<String, Object>> extendedProperties = new HashMap<Object, Map<String,Object>>();
+	protected Map<Object, Map<String, Object>> extendedProperties = new IdentityHashMap<Object, Map<String,Object>>();
 	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
