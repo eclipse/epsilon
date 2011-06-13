@@ -42,11 +42,14 @@ public class EolOperation extends AbstractModuleElement{
 	private EolFormalParameterList formalParameters = null;
 	private AST ast;
 
-	//protected TreeMap cache = new TreeMap(new EqualsComparator());
-	protected EolMap cache = new EolMap();
+	// This field is lazily initialized by calling isCached(). If this
+	// operation cannot be cached, it will stay null, to save some memory.
+	protected EolMap cache;
 
 	public void clearCache() {
-		cache.clear();
+		if (isCached()) {
+			cache.clear();
+		}
 
 		// This is important for EUnit, as it ensures that the cached
 		// type information will be re-evaluated for the reloaded models
@@ -186,12 +189,19 @@ public class EolOperation extends AbstractModuleElement{
 	public void setFormalParameters(EolFormalParameterList formalParameters) {
 		this.formalParameters = formalParameters;
 	}
-	
-	public boolean isCached() {
-		return EolAnnotationsUtil.hasAnnotation(ast, "cached") && 
-			this.formalParameters.isEmpty();
+
+	public synchronized boolean isCached() {
+		if (EolAnnotationsUtil.hasAnnotation(ast, "cached") && this.formalParameters.isEmpty()) {
+			// The cache only needs to be created if we use it
+			if (cache == null) {
+				// Do not clobber an already existing cache
+				cache = new EolMap();
+			}
+			return true;
+		}
+		return false;
 	}
-	
+
 	public Object execute(Object self, List parameterValues, IEolContext context) throws EolRuntimeException{
 		return execute(self, parameterValues, context, true);
 	}
