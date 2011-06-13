@@ -7,7 +7,9 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Frame;
+import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolThread extends EolDebugElement implements IThread {
 
@@ -80,7 +82,7 @@ public class EolThread extends EolDebugElement implements IThread {
 		IStackFrame[] stackFrames  = new IStackFrame[frames.size()];
 		int i = 0;
 		for (Frame frame : frames) {
-			stackFrames[i] = new EolStackFrame(this, frame, "[" + i + "]");
+			stackFrames[i] = new EolStackFrame(this, frame, getStackFrameName(i, frame));
 			i++;
 		}
 		return stackFrames;
@@ -106,6 +108,24 @@ public class EolThread extends EolDebugElement implements IThread {
 	public IBreakpoint[] getBreakpoints() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private String getStackFrameName(int position, Frame frame) {
+		final AST entryPoint = frame.getEntryPoint();
+		if (entryPoint != null) {
+			StringBuilder builder = new StringBuilder();
+			if (entryPoint.getType() == EolParser.HELPERMETHOD) {
+				builder.append(entryPoint.getFirstChild().toString());
+			} else {
+				builder.append(entryPoint.toString());
+			}
+			builder.append(" at ");
+			builder.append(entryPoint.getUri().toString());
+			return builder.toString();
+		}
+		else {
+			return "globals";
+		}
 	}
 
 }

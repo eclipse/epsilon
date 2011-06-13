@@ -102,17 +102,23 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 
 	public int getLineNumber() throws DebugException {
 		// TODO Auto-generated method stub
-		return 0;
+		if (frame.getCurrentStatement() != null) {
+			return frame.getCurrentStatement().getLine();
+		}
+		return -1;
 	}
 
 	public int getCharStart() throws DebugException {
 		// TODO Auto-generated method stub
-		return 0;
+		if (frame.getCurrentStatement() != null) {
+			return frame.getCurrentStatement().getColumn();
+		}
+		return -1;
 	}
 
 	public int getCharEnd() throws DebugException {
 		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	public String getName() throws DebugException {
