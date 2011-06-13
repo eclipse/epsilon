@@ -285,7 +285,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		final PrintStream err = module.getContext().getErrorStream();
 		final String sMillis = String.format(" [cpu: %d ms, wallclock: %d ms]", test.getCpuTimeMillis(), test.getWallclockTimeMillis());
 
-		final String testDescription = "Test " + test.getMethodName() + " (" + test.explainAllBindings() + ")";
+		final String testDescription = "Test " + test.getMethodName() + " {" + test.explainAllBindings() + "}";
 		if (test.getResult() == EUnitTestResultType.SUCCESS) {
 			out.println(testDescription + " passed" + sMillis);
 		} else if (test.getResult() == EUnitTestResultType.SKIPPED){
