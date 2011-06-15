@@ -7,7 +7,7 @@ import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
-public class LoadModel extends EpsilonTask {
+public class LoadXmlModel extends EpsilonTask {
 	
 	protected String name;
 	protected String alias;

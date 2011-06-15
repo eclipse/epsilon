@@ -22,7 +22,7 @@ import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
 //TODO: Finish this
-public class LoadModel extends EpsilonTask {
+public class LoadEmfModel extends EpsilonTask {
 
 	protected String name;
 	protected String alias;
