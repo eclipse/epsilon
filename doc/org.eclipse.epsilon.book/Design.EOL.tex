@@ -435,6 +435,13 @@ frame.setBounds(100,100,300,200);
 frame.visible = true;
 \end{lstlisting}
 
+To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native, numbers=left, language=EOL, tabsize=2]
+var file = new Native("java.io.File")("myfile.txt");
+file.absolutePath.println();
+\end{lstlisting}
+
 \subsection{Model Element Types}
 
 A model element type represents a meta-level classifier. As discussed in Section \ref{sec:Design.EMC}, Epsilon intentionally refrains from defining more details about the meaning of a model element type to be able to support diverse modelling technologies where a type has different semantics. For instance a MOF class, an XSD complex type and a Java class can all be regarded as model element types according to the implementation of the underlying modelling framework.
@@ -474,6 +481,60 @@ UML14!Core::Foundation::Class.allInstances();
 
 \section{Expressions}
 
+\subsection{Literal Values}
+
+EOL provides special syntax constructs to create instances of each of the built-in types:
+
+\begin{description}
+\item[Integer] literals are defined by using one or more decimal
+  digits (such as \emph{42} or \emph{999}). Optionally, long integers
+  (with the same precision as a Java \emph{Long}) can be produced by
+  adding a ``l'' suffix, such as \emph{42l}.
+
+\item[Real] literals are defined by:
+  \begin{itemize}
+  \item Adding a decimal separator and non-empty fractional part to
+    the integer part, such as \emph{42.0} or \emph{3.14}. Please note
+    that \emph{.2} and \emph{2.} are \emph{not} valid literals.
+  \item Adding a floating point suffix: ``f'' and ``F'' denote single
+    precision, and ``d'' and ``D'' denote double precision. For
+    example, \emph{2f} or \emph{3D}.
+  \item Adding an exponent, such as \emph{2e+1} (equal to \emph{2e1})
+    or \emph{2e-1}.
+  \item Using any combination of the above options.
+  \end{itemize}
+
+\item[String] literals are sequences of characters delimited by single
+  (\verb#'hi'#) or double (\verb#"hi"#) quotes. Quotes inside the
+  string can be escaped by using a backslash, such as in \verb#'A\'s'#
+  or \verb#"A\"s"#. Literal backslashes need to be escaped as well,
+  such as in \verb#'A\\B'#. Special escape sequences are also
+  provided: \verb#\n# for a newline, \verb#\t# for a horizontal tab
+  and \verb#\r# for a carriage return, among others.
+
+\item[Boolean] literals use the \emph{true} reserved keyword for the
+  true Boolean value, and \emph{false} reserved keyword for the false
+  Boolean value.
+
+\item[Sequence] and most other collections (except \emph{Map}s) also
+  have literals. Their format is \emph{T \{e\}}, where \emph{T} is the
+  name of the type and \emph{e} are zero or more elements, separated
+  by commas. For instance, \emph{Sequence \{\}} is the empty sequence,
+  and \emph{Set \{1, 2, 3\}} is the set of numbers between 1 and 3.
+
+\item[Map] literals are similar to the sequential collection literals,
+  but their elements are of the form \emph{key = value}. For instance,
+  \emph{Map \{'a' = 1, 'b' = 2\}} is a map which has two keys, ``a''
+  and ``b'', which map to the integer values 1 and 2, respectively.
+
+  Please note that, when defining an element such as \emph{1 = 2 = 3},
+  the key would be \emph{1} and the value would be the result of
+  evaluating \emph{2 = 3} (false). If you would like to use the result
+  of the expression \emph{1 = 2} as key, you will need to enclose it
+  in parenthesis, such as in \emph{(1 = 2) = 3}.
+
+\end{description}
+
 \subsection{Feature Navigation}
 \label{sec:Design.EOL.FeatureNavigation}
 Since EOL needs to manage models defined using object oriented modelling technologies, it provides expressions to navigate properties and invoke simple and declarative operations on objects (as presented in Figure \ref{fig:EOLExpressions}). 
@@ -484,8 +545,6 @@ Since EOL needs to manage models defined using object oriented modelling technol
 	\caption{Overview of the feature navigation EOL expressions}
 	\label{fig:EOLExpressions}
 \end{figure}
-
-
 
 In terms of concrete syntax, `.' is used as a uniform operator to access a property of an object and to invoke an operation on it. The `$\rightarrow$' operator, which is used in OCL to invoke first-order logic operations on sets, has been also preserved for syntax compatibility reasons. In EOL, every operation can be invoked both using the `.' or the '$\rightarrow$' operators, with a slightly different semantics to enable overriding the built-in operations. If the `.' operator is used, precedence is given to the user-defined operations, otherwise precedence is given to the built-in operations. For instance, the Any type defines a println() method that prints the string representation of an object to the standard output stream. In Listing \ref{lst:Expressions}, the user has defined another parameterless println() operation in the context of Any. Therefore the call to println() in Line 1 will be dispatched to the user-defined println() operation defined in line 3. In its body the operation uses the `$\rightarrow$' operator to invoke the built-in println() operation (line 4).
 
@@ -562,10 +621,6 @@ EOL provides common operators for performing arithmetical computations and compa
 		
 \end{longtable}
 
-\subsection{Enumerations}
-
-EOL provides the \# operator for accessing enumeration literals. For example, the VisibilityEnum\#vk\_public expression returns the value of the literal \emph{vk\_public} of the \emph{VisibilityEnum} enumeration. For EMF metamodels, \emph{VisibilityEnum\#vk\_public.instance} can also be used.
-
 \subsection{Logical Operators}
 
 EOL provides common operators for performing logical computations illustrated in Table \ref{tab:LogicalOperators}. Logical operations apply only to instances of the Boolean primitive type.
@@ -611,6 +666,10 @@ EOL provides common operators for performing logical computations illustrated in
 		false & false & true \\\hline			
 
 \end{longtable}
+
+\subsection{Enumerations}
+
+EOL provides the \# operator for accessing enumeration literals. For example, the VisibilityEnum\#vk\_public expression returns the value of the literal \emph{vk\_public} of the \emph{VisibilityEnum} enumeration. For EMF metamodels, \emph{VisibilityEnum\#vk\_public.instance} can also be used.
 
 \section{Statements}
 
