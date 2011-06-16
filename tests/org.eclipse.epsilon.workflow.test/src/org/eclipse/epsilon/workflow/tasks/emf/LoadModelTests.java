@@ -89,7 +89,7 @@ public class LoadModelTests extends WorkflowTaskTestCase {
 	 * method to return a spy (which can be interrogated by the tests)
 	 * rather than a real model. 
 	 */
-	public static class LoadModelWithSpy extends LoadModel {
+	public static class LoadModelWithSpy extends LoadEmfModel {
 		
 		public static ModelSpy spy;
 		
