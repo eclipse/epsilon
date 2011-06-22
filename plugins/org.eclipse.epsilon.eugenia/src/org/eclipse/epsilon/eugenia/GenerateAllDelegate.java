@@ -177,47 +177,39 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		ecore2GenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
 		ecore2GenModelDelegate.runImpl(action);
 		ecore2GenModelDelegate.refresh();
-		WorkspaceUtil.waitFor(gmfFileSet.getGenModelPath());
 	}
 
-	private void generateGMFBasicModels(final IAction action) {
+	private void generateGMFBasicModels(final IAction action) throws Exception {
 		// Do Ecore  to GmfTool, GmfGraph and GmfMap
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
 		generateToolGraphMapDelegate.setClearConsole(false);
 		generateToolGraphMapDelegate.setSelectedFile(selectedFile);
 		generateToolGraphMapDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
-		generateToolGraphMapDelegate.run(action);
+		generateToolGraphMapDelegate.runImpl(action);
 		generateToolGraphMapDelegate.refresh();
-		WorkspaceUtil.waitFor(gmfFileSet.getGmfMapPath());
 	}
 
-	private void generateGMFGenModel(final IAction action) {
+	private void generateGMFGenModel(final IAction action) throws Exception {
 		// Do GmfMap to GmfGen
 		GmfMap2GmfGenDelegate gmfMap2GmfGenDelegate = new GmfMap2GmfGenDelegate();
 		gmfMap2GmfGenDelegate.setClearConsole(false);
 		gmfMap2GmfGenDelegate.setSelectedFile(selectedFile);
 		gmfMap2GmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
-		gmfMap2GmfGenDelegate.run(action);
+		gmfMap2GmfGenDelegate.runImpl(action);
 		gmfMap2GmfGenDelegate.refresh();
-		WorkspaceUtil.waitFor(gmfFileSet.getGmfGenPath());
-		
+
 		// Do FixGmfGen
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelectedFile(selectedFile);
 		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
-		fixGmfGenDelegate.run(action);
+		fixGmfGenDelegate.runImpl(action);
 	}
 
-	private void generateEMFCode(final IAction action) throws CoreException {
+	private void generateEMFCode(final IAction action) throws Exception {
 		GenerateEmfCodeDelegate generateEmfCodeDelegate = new GenerateEmfCodeDelegate();
 		generateEmfCodeDelegate.setSelectedFile(selectedFile);
-		try {
-			generateEmfCodeDelegate.runImpl(action);
-		}
-		catch (Throwable t) {
-			t.printStackTrace();
-		}
+		generateEmfCodeDelegate.runImpl(action);
 		getSelectedFile().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 	}
 

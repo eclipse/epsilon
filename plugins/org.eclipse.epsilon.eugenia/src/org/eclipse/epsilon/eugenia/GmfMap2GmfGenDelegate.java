@@ -19,9 +19,9 @@ import org.eclipse.gmf.internal.bridge.transform.TransformToGenModelOperation;
 import org.eclipse.jface.action.IAction;
 
 public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
-	
+
 	@Override
-	public void run(IAction action) {
+	public void runImpl(IAction action) {
 		// Transform GmfMap to GmfGen model
 		ResourceSet resourceSet = new ResourceSetImpl();
 		TransformToGenModelOperation transformToGenModelOperation = new TransformToGenModelOperation(resourceSet);
