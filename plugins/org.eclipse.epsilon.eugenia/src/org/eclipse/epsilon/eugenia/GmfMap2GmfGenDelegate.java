@@ -32,7 +32,7 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 		options.setUseRuntimeFigures(true);
 
 		final IContainer parent = getSelectedFile().getParent();
-		if (parent instanceof IFolder && parent.getParent() instanceof IFolder) {
+		if (parent instanceof IFolder && parent.getParent() != null) {
 			final IFolder fGmfmapTemplateDir = parent.getParent().getFolder(
 				new Path("templates-gmfmap"));
 			if (fGmfmapTemplateDir.exists()) {
