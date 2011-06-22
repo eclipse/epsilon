@@ -12,7 +12,6 @@
 		<property name="test.dir.location" location="${case.name}" />
 
 		<!-- Prepare the work directory -->
-		<delete dir="${test.tmp.location}" failonerror="no" />
 		<mkdir dir="${test.tmp.location}" />
 		<copy todir="${test.tmp.location}">
 			<fileset dir="${test.dir.location}" includes="*.emf *.eol" />
@@ -66,4 +65,11 @@
 		</epsilon.eunit>
 	</target>
 
+	<target name="emf-in-root">
+		<property name="project.root" location="${basedir}/.."/>
+		<copy todir="${project.root}">
+			<fileset dir="${case.name}" includes="*.emf *.eol" />
+		</copy>
+		<epsilon.eugenia src="${project.root}/${case.name}.emf" lastStep="gmfgen" />
+	</target>
 </project>
