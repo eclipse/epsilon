@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -135,6 +136,7 @@ public class PointExecutor extends AbstractExecutor{
 		
 		AST parametersAst = featureCallAst.getFirstChild();
 		
+		// Handles calls to first-order operations (select(), collect() etc)
 		if (parametersAst.getType() == EolParser.PARAMLIST) {
 			return context.getOperationFactory().executeOperation(source, featureCallAst, context);
 		}
@@ -163,7 +165,12 @@ public class PointExecutor extends AbstractExecutor{
 
 		// Execute user-defined operation (if isArrow() == true)
 		if (operation != null){
-			return operation.execute(source, featureCallAst, context);
+			if (operation instanceof AbstractSimpleOperation) {
+				return ((AbstractSimpleOperation) operation).execute(source, parameters, context, featureCallAst);
+			}
+			else {
+				return operation.execute(source, featureCallAst, context);
+			}
 		}
 
 		throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst, context.getPrettyPrinterManager());
