@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import org.apache.tools.ant.Task;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.models.ModelRepository;
-import org.eclipse.epsilon.workflow.tasks.transactions.NamedTransactionSupport;
 
 public abstract class EpsilonTask extends Task {
 	

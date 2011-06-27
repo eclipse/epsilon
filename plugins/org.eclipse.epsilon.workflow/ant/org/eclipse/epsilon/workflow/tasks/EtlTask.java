@@ -22,6 +22,7 @@ import org.eclipse.epsilon.etl.TransformRule;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 import org.eclipse.epsilon.etl.trace.Transformations;
+import org.eclipse.epsilon.workflow.tasks.common.ExportableModuleTask;
 
 public class EtlTask extends ExportableModuleTask {
 	

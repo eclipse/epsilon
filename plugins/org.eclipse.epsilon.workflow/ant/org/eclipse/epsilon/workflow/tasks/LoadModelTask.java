@@ -18,7 +18,9 @@ import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
+import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.common.ShutdownProjectRepositoryListener;
+import org.eclipse.epsilon.workflow.tasks.common.nestedelements.ParameterNestedElement;
 
 public class LoadModelTask extends EpsilonTask{
 

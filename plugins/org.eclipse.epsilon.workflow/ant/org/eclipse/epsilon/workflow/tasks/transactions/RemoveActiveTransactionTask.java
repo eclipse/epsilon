@@ -13,7 +13,8 @@ package org.eclipse.epsilon.workflow.tasks.transactions;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.common.NamedTransactionSupport;
 
 public abstract class RemoveActiveTransactionTask extends EpsilonTask {
 	

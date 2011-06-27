@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
+import org.eclipse.epsilon.workflow.tasks.common.ExecutableModuleTask;
 
 public class EolTask extends ExecutableModuleTask {
 	

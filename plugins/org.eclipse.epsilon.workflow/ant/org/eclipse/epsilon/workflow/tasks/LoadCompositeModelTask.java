@@ -17,7 +17,8 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.emc.composite.CompositeModel;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
+import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.common.nestedelements.ModelNestedElement;
 
 public class LoadCompositeModelTask extends EpsilonTask {
 	

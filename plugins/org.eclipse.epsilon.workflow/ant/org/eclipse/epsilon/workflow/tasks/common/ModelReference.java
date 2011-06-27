@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - implemented IComparableModel and IAdaptableModel
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import java.util.ArrayList;
 import java.util.Collection;

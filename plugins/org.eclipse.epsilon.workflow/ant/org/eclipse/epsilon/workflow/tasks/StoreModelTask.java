@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
 
 public class StoreModelTask extends EpsilonTask {
 	

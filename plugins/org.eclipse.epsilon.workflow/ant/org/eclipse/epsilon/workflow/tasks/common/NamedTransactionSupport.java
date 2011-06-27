@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks.transactions;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 

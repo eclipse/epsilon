@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.Project;

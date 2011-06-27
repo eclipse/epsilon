@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -42,9 +42,9 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
-import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
+import org.eclipse.epsilon.workflow.tasks.common.nestedelements.ModelNestedElement;
+import org.eclipse.epsilon.workflow.tasks.common.nestedelements.ParameterNestedElement;
+import org.eclipse.epsilon.workflow.tasks.common.nestedelements.VariableNestedElement;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IOConsole;

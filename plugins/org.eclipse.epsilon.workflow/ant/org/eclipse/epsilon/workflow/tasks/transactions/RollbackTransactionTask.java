@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.transactions;
 
+import org.eclipse.epsilon.workflow.tasks.common.NamedTransactionSupport;
+
 
 public class RollbackTransactionTask extends RemoveActiveTransactionTask {
 

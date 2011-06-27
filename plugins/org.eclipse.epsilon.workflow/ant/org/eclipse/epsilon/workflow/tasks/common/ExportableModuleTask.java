@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.workflow.tasks.common;
 
 import java.util.Collection;
 
