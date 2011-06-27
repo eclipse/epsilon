@@ -242,4 +242,11 @@ litigation.
          version="0.9.0.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.epsilon.workflow.eugenia"
+         download-size="0"
+         install-size="0"
+         version="0.9.0.qualifier"
+         unpack="false"/>
+
 </feature>
