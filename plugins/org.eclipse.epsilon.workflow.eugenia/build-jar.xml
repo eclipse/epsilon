@@ -3,23 +3,6 @@
 		<echo>Building ANT jar</echo>
 		<delete dir="lib" />
 		<mkdir dir="lib" />
-		<jar destfile="lib/org.eclipse.epsilon.workflow.eugenia.jar">
-			<fileset dir="bin" />
-			<!--
-				The .jar for the Eugenia Ant task needs to include its own private copy of
-				the common workflow classes: we cannot share classes between the extension JARs
-				for the Eclipse Ant tasks.
-				
-				We cannot move the common classes to a regular Eclipse plugin, either. AntRunner
-				uses a specialized classloader which follows a self-first approach for the Ant
-				classes: doing this would result in LinkageError exceptions, as Project and other
-				Ant classes would be loaded twice: once in the default Eclipse classloader, and
-				once more in the AntClassLoader.
-
-				This should be safe, anyway, as the common classes are simply for internal
-				consumption by the Ant tasks.
-			-->
-			<fileset dir="../org.eclipse.epsilon.workflow/bin" includes="org/eclipse/epsilon/workflow/tasks/common/**" />
-		</jar>
+		<jar destfile="lib/org.eclipse.epsilon.workflow.eugenia.jar" basedir="bin"/>
 	</target>
 </project>
