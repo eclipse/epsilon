@@ -4,27 +4,18 @@ Bundle-Name: Epsilon ANT Workflow (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.workflow;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ant.core,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.eclipse.ant.core,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.commons,
  org.eclipse.epsilon.etl.engine,
  org.eclipse.epsilon.etl.dt,
- org.eclipse.epsilon.erl.engine,
  org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.ecl.dt,
- org.eclipse.ant.ui,
  org.eclipse.ui.console,
- org.eclipse.ui,
- org.eclipse.jface.text,
  org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.evl.dt,
  org.eclipse.epsilon.eml.engine,
  org.eclipse.epsilon.eml.dt,
- org.eclipse.core.variables,
- org.eclipse.core.resources,
  org.eclipse.epsilon.egl.engine,
  org.apache.ant,
  org.eclipse.epsilon.util.emf;resolution:=optional,
@@ -32,13 +23,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.composite,
  org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.emc.hutn,
- org.eclipse.epsilon.eunit.engine,
- org.eclipse.epsilon.eugenia
+ org.eclipse.epsilon.eunit.engine
 Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.common,
  org.eclipse.epsilon.workflow.tasks.common.nestedelements,
  org.eclipse.epsilon.workflow.tasks.emf,
- org.eclipse.epsilon.workflow.tasks.eugenia,
  org.eclipse.epsilon.workflow.tasks.transactions,
  org.eclipse.epsilon.workflow.tasks.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
