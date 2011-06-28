@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.util.emf.EmfRegistryManager;
-import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 
 public class RegisterTask extends EpsilonTask {
 	

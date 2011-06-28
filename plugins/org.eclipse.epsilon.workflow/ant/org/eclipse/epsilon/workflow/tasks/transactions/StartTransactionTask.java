@@ -14,8 +14,7 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.transactions.CompositeModelTransactionSupport;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
-import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.common.NamedTransactionSupport;
+import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 
 public class StartTransactionTask extends EpsilonTask {
 	

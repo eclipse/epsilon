@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
 
 public class DisposeModelsTask extends EpsilonTask {
 

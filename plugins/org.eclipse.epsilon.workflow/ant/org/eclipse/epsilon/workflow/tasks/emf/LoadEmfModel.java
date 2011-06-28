@@ -18,8 +18,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.common.ShutdownProjectRepositoryListener;
+import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
 //TODO: Finish this
 public class LoadEmfModel extends EpsilonTask {

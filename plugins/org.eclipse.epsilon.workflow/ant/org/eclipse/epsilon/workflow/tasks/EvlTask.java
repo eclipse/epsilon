@@ -20,7 +20,6 @@ import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
-import org.eclipse.epsilon.workflow.tasks.common.ExportableModuleTask;
 
 public class EvlTask extends ExportableModuleTask {
 	

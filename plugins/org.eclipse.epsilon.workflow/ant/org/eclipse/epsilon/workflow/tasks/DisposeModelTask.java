@@ -14,7 +14,6 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.workflow.tasks.common.EpsilonTask;
  
 public class DisposeModelTask extends EpsilonTask {
 	 

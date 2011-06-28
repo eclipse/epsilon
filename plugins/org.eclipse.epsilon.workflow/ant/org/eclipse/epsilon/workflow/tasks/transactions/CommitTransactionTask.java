@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.transactions;
 
-import org.eclipse.epsilon.workflow.tasks.common.NamedTransactionSupport;
 
 
 

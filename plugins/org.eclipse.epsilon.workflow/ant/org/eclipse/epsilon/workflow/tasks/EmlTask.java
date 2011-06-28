@@ -16,7 +16,6 @@ import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.workflow.tasks.common.ExecutableModuleTask;
 
 public class EmlTask extends ExecutableModuleTask {
 

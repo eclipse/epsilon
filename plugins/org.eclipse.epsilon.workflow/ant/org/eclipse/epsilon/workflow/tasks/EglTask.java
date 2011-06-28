@@ -17,7 +17,6 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.workflow.tasks.common.ExecutableModuleTask;
 
 public class EglTask extends ExecutableModuleTask {
 	

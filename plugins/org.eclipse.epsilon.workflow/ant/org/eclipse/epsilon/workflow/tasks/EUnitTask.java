@@ -38,7 +38,6 @@ import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eunit.execute.EUnitOperationFactory;
-import org.eclipse.epsilon.workflow.tasks.common.ExecutableModuleTask;
 
 /**
  * Ant task for running EUnit test suites.

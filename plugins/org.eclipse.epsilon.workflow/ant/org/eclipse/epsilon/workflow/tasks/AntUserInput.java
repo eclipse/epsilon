@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks.common;
+package org.eclipse.epsilon.workflow.tasks;
 
 import java.util.Collection;
 

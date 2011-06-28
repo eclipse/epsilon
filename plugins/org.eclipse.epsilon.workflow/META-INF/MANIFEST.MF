@@ -25,9 +25,8 @@ Require-Bundle: org.eclipse.ant.core,
  org.eclipse.epsilon.emc.hutn,
  org.eclipse.epsilon.eunit.engine
 Export-Package: org.eclipse.epsilon.workflow.tasks,
- org.eclipse.epsilon.workflow.tasks.common,
- org.eclipse.epsilon.workflow.tasks.common.nestedelements,
  org.eclipse.epsilon.workflow.tasks.emf,
+ org.eclipse.epsilon.workflow.tasks.nestedelements,
  org.eclipse.epsilon.workflow.tasks.transactions,
  org.eclipse.epsilon.workflow.tasks.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
