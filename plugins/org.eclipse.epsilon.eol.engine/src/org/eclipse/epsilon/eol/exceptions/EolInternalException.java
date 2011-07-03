@@ -1,12 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2011 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - override getCause, to comply with standard API
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
@@ -45,9 +46,14 @@ public class EolInternalException extends EolRuntimeException{
 	public Throwable getInternal() {
 		return internal;
 	}
-	
+
+	@Override
+	public Throwable getCause() {
+		return internal;
+	}
+
 	class StringOutputStream extends OutputStream {
-		
+
 		StringBuffer buffer = new StringBuffer();
 		
 		@Override

@@ -23,12 +23,14 @@ public class EolRuntimeException extends Exception{
 	public EolRuntimeException(){
 		
 	}
-	
+
 	public EolRuntimeException(String reason){
+		super(reason);
 		this.reason = reason;
 	}
-	
+
 	public EolRuntimeException(String reason, AST ast) {
+		super(reason);
 		this.ast = ast;
 		this.reason = reason;
 	}
