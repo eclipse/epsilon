@@ -185,14 +185,28 @@ The Epsilon Object Language script is the second half of the EUnit test suite. E
 
 \subsubsection{Data bindings}
 
-Data bindings repeat all test cases with different values in some variables. To define a data binding, users must define an operation which returns a sequence of elements and is marked with \eolannotation{@data variable}. All test cases will be repeated once for each element of the returned sequence, setting the specified variable to the corresponding element. Listing~\ref{lst:eunit-databind} shows two nested data bindings and a test case which will be run four times: with \variable{x=1} and \variable{y=1}, \variable{x=1} and \variable{y=2}, \variable{x=2} and \variable{y=1} and finally \variable{x=2} and \variable{y=2}. The example shows how \variable{x} and \variable{y} could be used by the setup section to generate an input model for the test. This can be useful if the intent of the test is ensuring that a certain property holds in a class of models, rather than a single model.
+Data bindings repeat all test cases with different values in some variables. To define a data binding, users must define an operation which returns a sequence of elements and is marked with \eolannotation{@data variable}. All test cases will be repeated once for each element of the returned sequence, setting the specified variable to the corresponding element. Listing~\ref{lst:eunit-databind} shows two nested data bindings and a test case which will be run four times: with \variable{x=1} and \variable{y=5}, \variable{x=1} and \variable{y=6}, \variable{x=2} and \variable{y=5} and finally \variable{x=2} and \variable{y=6}. The example shows how \variable{x} and \variable{y} could be used by the setup section to generate an input model for the test. This can be useful if the intent of the test is ensuring that a certain property holds in a class of models, rather than a single model.
 
 \begin{lstlisting}[language=EOL,caption=Example of a 2-level data binding,label=lst:eunit-databind,columns=fixed,float]
 @data x
 operation firstLevel()  { return 1.to(2); }
 
 @data y
-operation secondLevel() { return 1.to(2); }
+operation secondLevel() { return 5.to(6); }
+
+@setup
+operation generateModel() { -* generate model using x and y *- }
+
+@test
+operation mytest() { -* test with the generated model *- }
+\end{lstlisting}
+
+Alternatively, if both \variable{x} and \variable{y} were to use the same sets of values, we could add two \eolannotation{@data} annotations to the same operation. For instance, Listing~\ref{lst:eunit-databind-reused} shows how we could test with 4 cases: \variable{x=1} and \variable{y=1}, \variable{x=1} and \variable{y=2}, \variable{x=2} and \variable{y=1} and \variable{x=2} and \variable{y=2}.
+
+\begin{lstlisting}[language=EOL,caption=Example of reusing the same operation for several data bindings,label=lst:eunit-databind-reused,columns=fixed,float]
+@data x
+@data y
+operation levels()  { return 1.to(2); }
 
 @setup
 operation generateModel() { -* generate model using x and y *- }

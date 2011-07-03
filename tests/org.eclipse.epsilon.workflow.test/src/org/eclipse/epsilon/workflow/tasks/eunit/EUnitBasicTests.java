@@ -19,10 +19,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitParseException;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 /**
  * EUnit tests: basic aspects.
@@ -134,8 +137,18 @@ public class EUnitBasicTests extends EUnitTestCase {
 
 	@Test
 	public void parametric2LevelsProducesGoodOutput() throws Exception {
-		runTarget(ANT_BUILD_FILE, "parametric2levels");
-		checkOutput(new File(BASE_DIR, "TEST-default.2levels.xml"),
+		assertParametric2LevelWorks("parametric2levels", "2levels");
+	}
+
+	@Test
+	public void parametric2LevelsWithReusedOpProducesGoodOutput() throws Exception {
+		assertParametric2LevelWorks("parametric2levels-reused-op", "2levels-reused-op");
+	}
+
+	private void assertParametric2LevelWorks(final String targetName, String eunitBasename)
+			throws IOException, SAXException, ParserConfigurationException {
+		runTarget(ANT_BUILD_FILE, targetName);
+		checkOutput(new File(BASE_DIR, "TEST-default." + eunitBasename + ".xml"),
 				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{
 					"twoElements[1][1]", "firstElement[1][1]",

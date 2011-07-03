@@ -109,6 +109,12 @@
 		<antcall target="template"/>
 	</target>
 
+	<target name="parametric2levels-reused-op">
+		<property name="eunit.file" location="parametric/2levels-reused-op.eunit"/>
+		<property name="eunit.failOnErrors" value="false"/>
+		<antcall target="template"/>
+	</target>
+
 	<target name="package">
 		<property name="eunit.file" location="basic/all-pass.eunit"/>
 		<property name="eunit.failOnErrors" value="true"/>

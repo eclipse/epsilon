@@ -17,7 +17,6 @@ import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -26,6 +25,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
+import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -39,6 +39,7 @@ import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eunit.execute.operations.ExtraEUnitOperationContributor;
 import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
+import org.eclipse.epsilon.internal.eunit.util.Pair;
 import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
 public class EUnitModule extends EolModule {
@@ -83,20 +84,21 @@ public class EUnitModule extends EolModule {
 		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
-	public Map<EolOperation, String> getDataVariableNames() {
-		final Map<EolOperation, String> results = new LinkedHashMap<EolOperation, String>();
-	    for (EolOperation op : getOperations()) {
-			try {
-				String variableName = (String)EolAnnotationsUtil.getAnnotationValue(op.getAst(), "data", getContext());
-				if (variableName == null) {
-					variableName = (String)EolAnnotationsUtil.getAnnotationValue(op.getAst(), "Data", getContext());
+	public List<Pair<EolOperation, String>> getDataVariableNames() {
+		final List<Pair<EolOperation, String>> results = new ArrayList<Pair<EolOperation, String>>();
+		for (EolOperation op : getOperations()) {
+			for (IEolAnnotation ann : EolAnnotationsUtil.getAnnotations(op.getAst())) {
+				final String annName = ann.getName();
+				if (!"data".equals(annName) && !"Data".equals(annName)) continue;
+
+				try {
+					results.add(new Pair<EolOperation, String>(op, (String)ann.getValue(context)));
+				} catch (EolRuntimeException e) {
+					// skip annotation and go on
 				}
-				if (variableName != null) {
-					results.put(op, variableName);
-				}
-			} catch (EolRuntimeException e) {}
+			}
 		}
-	    return results;
+		return results;
 	}
 
 	public boolean isAnnotatedAs(EolOperation operation, String annotation) {
@@ -135,11 +137,9 @@ public class EUnitModule extends EolModule {
 			return suiteRoot;
 		}
 
-		Map<EolOperation, String> dataVariables = getDataVariableNames();
-		List<Map.Entry<EolOperation, String>> pairs
-			= new ArrayList<Map.Entry<EolOperation, String>>(dataVariables.entrySet());
+		List<Pair<EolOperation, String>> dataVariables = getDataVariableNames();
 		suiteRoot = new EUnitTest();
-		populateSuiteTree(suiteRoot, pairs.listIterator());
+		populateSuiteTree(suiteRoot, dataVariables.listIterator());
 
 		return suiteRoot;
 	}
@@ -199,7 +199,7 @@ public class EUnitModule extends EolModule {
 		return EolAnnotationsUtil.hasAnnotation(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME);
 	}
 
-	private void populateSuiteTree(EUnitTest parent, ListIterator<Map.Entry<EolOperation,String>> dataIterator) throws EolRuntimeException {
+	private void populateSuiteTree(EUnitTest parent, ListIterator<Pair<EolOperation,String>> dataIterator) throws EolRuntimeException {
 		if (dataIterator.hasNext()) {
 			populateSuiteTreeDataOperation(parent, dataIterator);
 		} else {
@@ -240,20 +240,20 @@ public class EUnitModule extends EolModule {
 	}
 
 	private void populateSuiteTreeDataOperation(EUnitTest parent,
-			ListIterator<Map.Entry<EolOperation, String>> dataIterator)
+			ListIterator<Pair<EolOperation, String>> dataIterator)
 			throws EolRuntimeException {
-		final Map.Entry<EolOperation, String> entry = dataIterator.next();
+		final Pair<EolOperation, String> entry = dataIterator.next();
 
 		try {
 			final EolSequence values
-				= (EolSequence) entry.getKey().execute(null, Collections.EMPTY_LIST, context, true);
-			final String variableName = entry.getValue();
+				= (EolSequence) entry.getLeft().execute(null, Collections.EMPTY_LIST, context, true);
+			final String variableName = entry.getRight();
 			for (Object value : values) {
 				EUnitTest child = new EUnitTest();
 				child.setParent(parent);
 				child.setDataVariableName(variableName);
 				child.setDataValue(value);
-				child.setOperation(entry.getKey());
+				child.setOperation(entry.getLeft());
 				parent.addChildren(child);
 
 				// If the node has a data binding, use it while populating this
