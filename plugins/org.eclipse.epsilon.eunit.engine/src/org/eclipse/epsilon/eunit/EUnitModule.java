@@ -155,11 +155,11 @@ public class EUnitModule extends EolModule {
 			// case does not crash the test suite, and is properly reported
 			runSuiteInternal(node);
 		}
-		catch (EolAssertionException asex) {
-			setResultWithFailureTrace(node, asex, EUnitTestResultType.FAILURE);
-		}
 		catch (Exception ex) {
-			setResultWithFailureTrace(node, ex, EUnitTestResultType.ERROR);
+			setResultWithFailureTrace(node, ex,
+				isTestFailureException(ex)
+					? EUnitTestResultType.FAILURE
+					: EUnitTestResultType.ERROR);
 		}
 		finally {
 			// Wipe any EOL operation caches
@@ -174,6 +174,20 @@ public class EUnitModule extends EolModule {
 				getContext().getFrameStack().leave(node.getOperation().getAst());
 			}
 		}
+	}
+
+	/**
+	 * Returns <code>true</code> if the (possibly wrapped) exception originated from a failed EOL assertion,
+	 * and <code>false</code> otherwise.
+	 */
+	private boolean isTestFailureException(Throwable ex) {
+		while (ex instanceof EolRuntimeException) {
+			if (ex instanceof EolAssertionException) {
+				return true;
+			}
+			ex = ex.getCause();
+		}
+		return false;
 	}
 
 	protected List<Object> getModelBindings(EolOperation opTest)

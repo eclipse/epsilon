@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -68,13 +69,20 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-left");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			if (!(ex.getCause() instanceof EolAssertionException)) {
-				fail("Expected an EolAssertionException");
-			}
-			final EolAssertionException assEx = (EolAssertionException)ex.getCause();
+			final EolAssertionException assEx = getAssertionException(ex);
 			assertThat(assEx.getMessage(), containsString("Expected B to be also empty, but it is not"));
 			assertThat(assEx.getDelta(), is(notNullValue()));
 		}
+	}
+
+	private EolAssertionException getAssertionException(Throwable ex) {
+		for (Throwable t = ex.getCause(); t instanceof EolRuntimeException; t = t.getCause()) {
+			if (t instanceof EolAssertionException) {
+				return (EolAssertionException)t;
+			}
+		}
+		fail("The exception is not originated from an assertion exception");
+		return null;
 	}
 
 	@Test
@@ -83,10 +91,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-right");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			if (!(ex.getCause() instanceof EolAssertionException)) {
-				fail("Expected an EolAssertionException");
-			}
-			final EolAssertionException assEx = (EolAssertionException)ex.getCause();
+			final EolAssertionException assEx = getAssertionException(ex);
 			assertThat(assEx.getMessage(), containsString("Expected B to be equal to A, but it is empty"));
 			assertThat(assEx.getDelta(), is(notNullValue()));
 		}
@@ -113,10 +118,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-both-noteq");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			if (!(ex.getCause() instanceof EolAssertionException)) {
-				fail("Expected an EolAssertionException");
-			}
-			final EolAssertionException assEx = (EolAssertionException)ex.getCause();
+			final EolAssertionException assEx = getAssertionException(ex);
 			assertThat(assEx.getMessage(), containsString("Expected B not to be empty, but it is empty"));
 			assertThat(assEx.getDelta(), is(nullValue()));
 		}

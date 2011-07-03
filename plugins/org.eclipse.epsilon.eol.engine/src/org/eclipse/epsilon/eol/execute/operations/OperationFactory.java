@@ -30,13 +30,9 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertErrorOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.BooleanAssertionOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.EqualityAssertionOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.FailOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.ModelEqualityAssertionOperation;
 
 public class OperationFactory {
-	
+
 	//protected ArrayList lookupPackages = new ArrayList();
 	
 	protected HashMap<String, AbstractOperation> operationCache = new HashMap<String, AbstractOperation>();
@@ -46,16 +42,9 @@ public class OperationFactory {
 	}
 	
 	protected void createCache() {
-		
+
 		operationCache.put("assert", new AssertOperation());
-		operationCache.put("assertTrue", new BooleanAssertionOperation(true));
-		operationCache.put("assertFalse", new BooleanAssertionOperation(false));
-		operationCache.put("assertEquals", new EqualityAssertionOperation(true));
-		operationCache.put("assertEqualModels", new ModelEqualityAssertionOperation(true));
 		operationCache.put("assertError", new AssertErrorOperation());
-		operationCache.put("assertNotEquals", new EqualityAssertionOperation(false));
-		operationCache.put("assertNotEqualModels", new ModelEqualityAssertionOperation(false));
-		operationCache.put("fail", new FailOperation());
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());
 		operationCache.put("one", new OneOperation());

@@ -228,6 +228,10 @@ public class FrameStack {
 		return buffer.toString();
 	}
 
+	public AST getCurrentStatement() {
+		return frames.get(0).getCurrentStatement();
+	}
+
 	public void setCurrentStatement(AST ast) {
 		frames.get(0).setCurrentStatement(ast);
 	}
