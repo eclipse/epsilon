@@ -20,16 +20,15 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
-import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
@@ -73,20 +72,17 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 	}
 
-	/**
-	 * Operation which can call a series of Ant tasks described inside a
-	 * "script" nested element of this Ant task.
-	 */
-	private class RunTargetOperation extends AbstractSimpleOperation {
-		@SuppressWarnings("rawtypes")
+	public class RunTargetOperationContributor extends OperationContributor {
 		@Override
-		public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
-			// Check that we only get the name of the script to be run
-			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
-				throw new EolRuntimeException("runTarget only takes a String with the name of the Ant target to be run");
-			}
-			final String targetName = (String)parameters.get(0);
+		public boolean contributesTo(Object target) {
+			return true;
+		}
 
+		/**
+		 * Operation which can call a series of Ant tasks described inside a
+		 * "script" nested element of this Ant task.
+		 */
+		public void runTarget(String targetName) throws EolRuntimeException {
 			// Check that the name of the target is not null
 			if (targetName == null) {
 				throw new EolRuntimeException("The name of the target to be run cannot be null");
@@ -94,83 +90,30 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 			// Run tasks, ensuring they manipulate our model repository instead of the project's
 			getProject().executeTarget(targetName);
-			return true;
 		}
-	}
 
-	/**
-	 * EUnit-specific operation which is equivalent to the "exports" nested element.
-	 */
-	private class ExportVariableOperation extends AbstractSimpleOperation {
-		@Override
-		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast) throws EolRuntimeException {
-			// Check that we only get the name of the script to be run
-			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
-				throw new EolRuntimeException("exportVariable only takes a String with the name of the variable to be exported");
-			}
-
-			final String varName = (String)parameters.get(0);
+		/**
+		 * EUnit-specific operation which is equivalent to the "exports" nested element.
+		 */
+		public void exportVariable(String varName) {
 			EUnitTask.this.exportVariable(varName, varName, false);
-			return true;
 		}
-	}
 
-	/**
-	 * EUnit-specific operation which is equivalent to the "imports" nested element.
-	 */
-	private class UseVariableOperation extends AbstractSimpleOperation {
-		@Override
-		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast) throws EolRuntimeException {
-			// Check that we only get the name of the script to be run
-			if (parameters.size() != 1 || !(parameters.get(0) instanceof String)) {
-				throw new EolRuntimeException("useVariable only takes a String with the name of the variable to be exported");
-			}
-
-			final String varName = (String)parameters.get(0);
+		/**
+		 * EUnit-specific operation which is equivalent to the "imports" nested element.
+		 */
+		public void useVariable(String varName) {
 			EUnitTask.this.useVariable(varName, varName, false);
-			return true;
 		}
-	}
 
-	/**
-	 * EUnit-specific operation for loading models inside the .eunit file from HUTN fragments.
-	 */
-	private class LoadHutnOperation extends AbstractSimpleOperation {
-		@Override
-		public Object execute(Object source, @SuppressWarnings("rawtypes") List parameters, IEolContext context, AST ast)
-			throws EolRuntimeException
-		{
-			if (parameters.size() != 2) {
-				throw new EolRuntimeException(
-					"loadHutn expected 2 arguments (model name and HUTN fragment), but got "
-						+ parameters.size(),
-					ast);
-			}
-
-			final String modelName = (String)parameters.remove(0);
-			final String hutnContent = (String)parameters.remove(0);
+		/**
+		 * EUnit-specific operation for loading models inside the .eunit file from HUTN fragments.
+		 */
+		public void loadHutn(String modelName, String hutnContent) throws EolModelLoadingException {
 			final HutnModel hutnModel = new HutnModel(modelName, hutnContent);
 			hutnModel.load();
-
 			ModelRepository modelRepository = module.getContext().getModelRepository();
 			modelRepository.addModel(hutnModel);
-			return true;
-		}
-	}
-
-	/**
-	 * OperationFactory which contributes runScript. As the behaviour of runScript
-	 * depends on the contents of the Ant task, this factory belongs to the Ant task,
-	 * rather than to the EUnitModule class.
-	 */
-	private class RunTargetOperationFactory extends OperationFactory {
-		@Override
-		protected void createCache() {
-			super.createCache();
-			operationCache.put("runTarget", new RunTargetOperation());
-			operationCache.put("exportVariable", new ExportVariableOperation());
-			operationCache.put("useVariable", new UseVariableOperation());
-			operationCache.put("loadHutn", new LoadHutnOperation());
 		}
 	}
 
@@ -230,7 +173,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (module == null) {
 			module = new EUnitModule();
 			final IEolContext context = module.getContext();
-			context.setOperationFactory(new RunTargetOperationFactory());
+			context.getOperationContributorRegistry().add(new RunTargetOperationContributor());
 			context.getFrameStack().put(
 					new Variable("antProject", getProject(), new EolAnyType(), true));
 
