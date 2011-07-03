@@ -20,7 +20,7 @@ public class OperationContributorRegistry extends ArrayList<OperationContributor
 		add(new CollectionOperationContributor());
 		add(new ScalarOperationContributor());
 		add(new AnyOperationContributor());
-		add(new EUnitOperationContributor());
+		add(new BasicEUnitOperationContributor());
 	}
 
 	public ObjectMethod getContributedMethod(Object o, String name, Object[] parameters, IEolContext context) {

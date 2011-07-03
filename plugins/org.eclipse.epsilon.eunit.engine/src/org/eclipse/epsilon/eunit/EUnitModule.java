@@ -37,7 +37,7 @@ import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eunit.execute.EUnitOperationFactory;
+import org.eclipse.epsilon.eunit.execute.operations.ExtraEUnitOperationContributor;
 import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
 import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
@@ -64,7 +64,7 @@ public class EUnitModule extends EolModule {
 	}
 
 	public EUnitModule() {
-		this.getContext().setOperationFactory(new EUnitOperationFactory());
+		this.getContext().getOperationContributorRegistry().add(new ExtraEUnitOperationContributor());
 	}
 
 	public ArrayList<EolOperation> getTests() {

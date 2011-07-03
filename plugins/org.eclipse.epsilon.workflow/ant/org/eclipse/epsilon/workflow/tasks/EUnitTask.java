@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
@@ -37,7 +38,6 @@ import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
-import org.eclipse.epsilon.eunit.execute.EUnitOperationFactory;
 
 /**
  * Ant task for running EUnit test suites.
@@ -163,7 +163,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 * depends on the contents of the Ant task, this factory belongs to the Ant task,
 	 * rather than to the EUnitModule class.
 	 */
-	private class RunTargetOperationFactory extends EUnitOperationFactory {
+	private class RunTargetOperationFactory extends OperationFactory {
 		@Override
 		protected void createCache() {
 			super.createCache();

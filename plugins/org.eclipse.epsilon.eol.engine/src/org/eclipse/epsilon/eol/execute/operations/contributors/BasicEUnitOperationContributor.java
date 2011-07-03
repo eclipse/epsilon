@@ -18,9 +18,12 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 
 /**
- * Operation contributor for the EUnit assertions.
+ * Operation contributor for the simplest EUnit assertions. More advanced
+ * assertions (or assertions which require additional dependencies) should
+ * be placed in the ExtraEUnitOperationContributor in the eunit.engine
+ * project.
  */
-public class EUnitOperationContributor extends OperationContributor {
+public class BasicEUnitOperationContributor extends OperationContributor {
 
 	@Override
 	public boolean contributesTo(Object target) {
