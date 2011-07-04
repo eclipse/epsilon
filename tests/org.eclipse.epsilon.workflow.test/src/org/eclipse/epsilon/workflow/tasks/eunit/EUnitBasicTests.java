@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -169,6 +171,14 @@ public class EUnitBasicTests extends EUnitTestCase {
 				expectedTestCases,
 				new HashSet<String>(),
 				new HashSet<String>(Arrays.asList(expectedTestCases)));
+	}
+
+	@Test
+	public void suiteSetupTeardown() throws Exception {
+		runTarget(ANT_BUILD_FILE, "suite-ops");
+		final List<String> expected = Arrays.asList("mytest - 0", "mytest - 1", "mytest - 2", "mytest - 3", "end test");
+		final List<String> obtained = SharedStringCollector.getList();
+		assertEquals(expected, obtained);
 	}
 
 	@Test

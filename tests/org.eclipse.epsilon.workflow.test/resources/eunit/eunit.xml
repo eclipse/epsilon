@@ -115,6 +115,12 @@
 		<antcall target="template"/>
 	</target>
 
+	<target name="suite-ops">
+		<property name="eunit.file" location="basic/suite-setup-teardown.eunit"/>
+		<property name="eunit.failOnErrors" value="true"/>
+		<antcall target="template"/>
+	</target>
+
 	<target name="package">
 		<property name="eunit.file" location="basic/all-pass.eunit"/>
 		<property name="eunit.failOnErrors" value="true"/>

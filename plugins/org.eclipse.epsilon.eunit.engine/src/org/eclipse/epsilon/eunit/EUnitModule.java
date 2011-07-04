@@ -84,6 +84,14 @@ public class EUnitModule extends EolModule {
 		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
+	public ArrayList<EolOperation> getSuiteSetups() {
+		return collectOperationsAnnotatedWith("BeforeClass", getOperationsAnnotatedWith("suitesetup"));
+	}
+
+	public ArrayList<EolOperation> getSuiteTeardowns() {
+		return collectOperationsAnnotatedWith("AfterClass", getOperationsAnnotatedWith("suiteteardown"));
+	}
+
 	public List<Pair<EolOperation, String>> getDataVariableNames() {
 		final List<Pair<EolOperation, String>> results = new ArrayList<Pair<EolOperation, String>>();
 		for (EolOperation op : getOperations()) {
@@ -315,14 +323,29 @@ public class EUnitModule extends EolModule {
 			// Epsilon console in the beforeCase EUnitTestListener handler.
 			getContext().setOutputStream(new ByteBufferTeePrintStream(getContext().getOutputStream()));
 			getContext().setErrorStream(new ByteBufferTeePrintStream(getContext().getErrorStream()));
+
+			// Run the suite setup operations before all tests
+			for (EolOperation op : getSuiteSetups()) {
+				op.execute(null, Collections.EMPTY_LIST, context, false);
+			}
 		}
 
-		if (node.getResult().equals(EUnitTestResultType.RUNNING)) {
-			if (node.getChildren().isEmpty()) {
-				// Leaf test case: simply run it
-				runLeafTestCase(node.getOperation(), node);
-			} else {
-				runInnerTestCase(node);
+		try {
+			if (node.getResult().equals(EUnitTestResultType.RUNNING)) {
+				if (node.getChildren().isEmpty()) {
+					// Leaf test case: simply run it
+					runLeafTestCase(node.getOperation(), node);
+				} else {
+					runInnerTestCase(node);
+				}
+			}
+		}
+		finally {
+			if (node.isRootTest()) {
+				// Run the suite teardown operations after all tests
+				for (EolOperation op : getSuiteTeardowns()) {
+					op.execute(null, Collections.EMPTY_LIST, context, false);
+				}
 			}
 		}
 	}
