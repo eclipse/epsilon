@@ -8,26 +8,27 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.beautify;
+package org.eclipse.epsilon.egl.formatter.language;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.util.StringUtil;
 
-public class SimpleBeautifier implements IBeautifier {
+public abstract class LanguageFormatter implements Formatter {
 
 	private final Pattern increasePattern;
 	private final Pattern decreasePattern;
 	
-	public SimpleBeautifier(String increasePattern, String decreasePattern) {
+	protected LanguageFormatter(String increasePattern, String decreasePattern) {
 		this.increasePattern = Pattern.compile(increasePattern);
 		this.decreasePattern = Pattern.compile(decreasePattern);
 	}
 
-	public SimpleBeautifier(Pattern increasePattern, Pattern decreasePattern) {
+	protected LanguageFormatter(Pattern increasePattern, Pattern decreasePattern) {
 		this.increasePattern = increasePattern;
 		this.decreasePattern = decreasePattern;
 	}
@@ -58,7 +59,7 @@ public class SimpleBeautifier implements IBeautifier {
 		return sb.toString();
 	}
 	
-	public String beautify(String text) {
+	public String format(String text) {
 		final String cleaned = clean(text);
 		
 		final Matcher increaseMatcher = increasePattern.matcher(cleaned);

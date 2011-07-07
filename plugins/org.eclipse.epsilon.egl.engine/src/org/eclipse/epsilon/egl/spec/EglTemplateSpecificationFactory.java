@@ -10,29 +10,27 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.spec;
 
+import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.IEglModule;
-import org.eclipse.epsilon.egl.traceability.Template;
 
-public abstract class EglTemplateSpecification {
+public class EglTemplateSpecificationFactory {
 
-	private final String name;
 	private final Formatter defaultFormatter;
 	
-	protected EglTemplateSpecification(String name, Formatter defaultFormatter) {
-		this.name = name;
+	public EglTemplateSpecificationFactory(Formatter defaultFormatter) {
 		this.defaultFormatter = defaultFormatter;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public Formatter getDefaultFormatter() {
-		return defaultFormatter;
+	public EglTemplateSpecification fromCode(String code) {
+		return new CodeBackedTemplateSpecification(code, defaultFormatter);
 	}
 
-	public abstract Template createTemplate();
-	public abstract void parseInto(IEglModule module) throws Exception;
+	public EglTemplateSpecification fromResource(String name, URI resource) {
+		return new ResourceBackedTemplateSpecification(name, resource, defaultFormatter);
+	}
+
+	public EglTemplateSpecification fromDirtyResource(String name, String latestCode, URI resource) {
+		return new DirtyResourceBackedTemplateSpecification(name, latestCode, resource, defaultFormatter);
+	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.spec;
 import java.io.File;
 import java.net.URI;
 
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -22,8 +23,8 @@ class DirtyResourceBackedTemplateSpecification extends EglTemplateSpecification 
 	private final String latestCode;
 	private final URI resource;
 	
-	protected DirtyResourceBackedTemplateSpecification(String name, String latestCode, URI resource) {
-		super(name);
+	protected DirtyResourceBackedTemplateSpecification(String name, String latestCode, URI resource, Formatter defaultFormatter) {
+		super(name, defaultFormatter);
 		
 		this.latestCode = latestCode;
 		this.resource = resource;

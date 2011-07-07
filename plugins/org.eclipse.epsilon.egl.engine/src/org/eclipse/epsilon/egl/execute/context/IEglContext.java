@@ -12,11 +12,12 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.List;
 
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -49,4 +50,6 @@ public interface IEglContext extends IEolContext {
 	public OutputBuffer getOutputBuffer();
 	
 	public Template getBaseTemplate();
+
+	public void formatWith(Formatter formatter);
 }

@@ -19,7 +19,10 @@ import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class EglTemplateFactory {
@@ -31,6 +34,8 @@ public class EglTemplateFactory {
 	private URI    templateRoot;
 	private String templateRootPath;
 	
+	private Formatter defaultFormatter = new NullFormatter();
+	
 	
 	public EglTemplateFactory() {
 		this.context = new EglContext(this);
@@ -40,6 +45,9 @@ public class EglTemplateFactory {
 		this.context = context;
 	}
 	
+	public void setDefaultFormatter(Formatter defaultFormatter) {
+		this.defaultFormatter = defaultFormatter;
+	}
 	
 	public IEglContext getContext() {
 		return context;
@@ -102,7 +110,7 @@ public class EglTemplateFactory {
 		final String name = name(file.getAbsolutePath());
 		
 		try {
-			return load(EglTemplateSpecification.fromResource(name, UriUtil.fileToUri(file)));
+			return load(createTemplateSpecificationFactory().fromResource(name, UriUtil.fileToUri(file)));
 		
 		} catch (URISyntaxException e) {
 			return handleFailedLoad(name, e);
@@ -126,7 +134,7 @@ public class EglTemplateFactory {
 		final String name = name(file.getAbsolutePath());
 
 		try {
-			return load(EglTemplateSpecification.fromDirtyResource(name, code, UriUtil.fileToUri(file)));
+			return load(createTemplateSpecificationFactory().fromDirtyResource(name, code, UriUtil.fileToUri(file)));
 		
 		} catch (URISyntaxException e) {
 			return handleFailedLoad(name, e);
@@ -145,7 +153,7 @@ public class EglTemplateFactory {
 	 * @throws EglRuntimeException
 	 */
 	public EglTemplate load(String path) throws EglRuntimeException {
-		return load(EglTemplateSpecification.fromResource(name(path), resolveTemplate(path)));
+		return load(createTemplateSpecificationFactory().fromResource(name(path), resolveTemplate(path)));
 	}
 	
 	/**
@@ -162,7 +170,7 @@ public class EglTemplateFactory {
 	public EglTemplate load(URI resource) throws EglRuntimeException {
 		final String name = resource.toString(); // FIXME better name for URIs
 		
-		return load(EglTemplateSpecification.fromResource(name, resource));
+		return load(createTemplateSpecificationFactory().fromResource(name, resource));
 	}
 
 	/**
@@ -210,7 +218,7 @@ public class EglTemplateFactory {
 	 * @return
 	 */
 	public EglTemplate prepare(String code) throws Exception {
-		return createTemplate(EglTemplateSpecification.fromCode(code));
+		return createTemplate(createTemplateSpecificationFactory().fromCode(code));
 	}
 
 	/**
@@ -224,11 +232,15 @@ public class EglTemplateFactory {
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
 		return new EglTemplate(spec, context);
 	}
-	
-	
+
+	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
+		return new EglTemplateSpecificationFactory(defaultFormatter);
+	}
+		
 	@Override
 	public String toString() {
 		final String root = templateRoot == null ? "" : templateRoot.toString();
 		return "TemplateFactory: root='" + root + "'";
 	}
+
 }

@@ -14,10 +14,13 @@ import java.net.URI;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
+import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -26,25 +29,27 @@ public class EglTemplate extends AbstractEglTemplate {
 	protected final String name;
 	protected final Template template;
 	
+	private Formatter formatter;
 	private String contents = "";
 	private boolean processed = false;
 	
 	// For tests
 	protected EglTemplate(URI path, IEglContext context) throws Exception {
-		this(EglTemplateSpecification.fromResource(path.toString(), path), context);
+		this(new EglTemplateSpecificationFactory(new NullFormatter()).fromResource(path.toString(), path), context);
 	}
 
 	public EglTemplate(EglTemplateSpecification spec, IEglContext context) throws Exception {
-		this(spec.getName(), context, spec.createTemplate());
+		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter());
 		
 		spec.parseInto(module);
 	}
 	
-	private EglTemplate(String name, IEglContext context, Template template) {
+	private EglTemplate(String name, IEglContext context, Template template, Formatter postprocessor) {
 		super(new EglModule(context));
 		
 		this.name     = name;
 		this.template = template;
+		this.formatter = postprocessor;
 	}
 	
 	public String getName() {
@@ -55,8 +60,8 @@ public class EglTemplate extends AbstractEglTemplate {
 		template.addVariable(name, value);
 	}
 	
-	public String process() throws EglRuntimeException {			
-		contents = module.execute(template);
+	public String process() throws EglRuntimeException {
+		contents = module.execute(template, formatter);
 		
 		processed = true;
 
@@ -89,6 +94,10 @@ public class EglTemplate extends AbstractEglTemplate {
 	
 	protected boolean isProcessed() {
 		return processed;
+	}
+	
+	public void setFormatter(Formatter formatter) {
+		this.formatter = formatter;
 	}
 
 	// TODO merge traceability template class into here?

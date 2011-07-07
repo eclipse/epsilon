@@ -17,6 +17,7 @@ import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -197,9 +198,19 @@ public class OutputBuffer {
 	public int getCurrentLineNumber() {
 		return toString().split(FileUtil.NEWLINE).length;
 	}
+
+	public void formatWith(Formatter formatter) {
+		replaceContentsWith(formatter.format(buffer.toString()));
+	}
+
+	private void replaceContentsWith(String newContents) {
+		buffer.setLength(0);
+		buffer.append(newContents);
+	}
 	
 	@Override
 	public String toString(){
 		return buffer.toString();
 	}
+
 }

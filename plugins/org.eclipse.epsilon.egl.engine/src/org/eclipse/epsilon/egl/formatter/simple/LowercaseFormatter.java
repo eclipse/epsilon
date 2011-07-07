@@ -8,28 +8,14 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.spec;
+package org.eclipse.epsilon.egl.formatter.simple;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.IEglModule;
-import org.eclipse.epsilon.egl.traceability.Template;
 
+public class LowercaseFormatter implements Formatter {
 
-class CodeBackedTemplateSpecification extends EglTemplateSpecification {
-
-	private final String code;
-	
-	protected CodeBackedTemplateSpecification(String code, Formatter defaultFormatter) {
-		super("Anonymous", defaultFormatter);
-		
-		this.code = code;
+	@Override
+	public String format(String text) {
+		return text.toLowerCase();
 	}
-	
-	public Template createTemplate() {
-		return new Template();
-	}
-	
-	public void parseInto(IEglModule module) throws Exception {
-		module.parse(code);
-	}	
 }

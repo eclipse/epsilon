@@ -30,6 +30,7 @@ import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
@@ -155,8 +156,18 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 			}
 		}
 	}
+	
+	public String execute(Template template, Formatter postprocessor) throws EglRuntimeException {
+		context.enter(template);
+		
+		final String result = execute(postprocessor);
+		
+		context.exit();
+		
+		return result;
+	}
 
-	public String execute() throws EglRuntimeException {
+	private String execute(Formatter postprocessor) throws EglRuntimeException {
 		context.setModule(this);
 		context.getTemplateFactory().setRoot(templateRoot);
 
@@ -164,21 +175,13 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		context.copyInto(preprocessorModule.getContext());
 
 		preprocessorModule.execute(); 
-		
-		checkOutput();
+		context.formatWith(postprocessor);
 
+		checkOutput();
+		
 		return context.getOutputBuffer().toString();
 	}
-	
-	public String execute(Template template) throws EglRuntimeException {
-		context.enter(template);
-		
-		final String result = execute();
-		
-		context.exit();
-		
-		return result;
-	}
+
 
 	private void checkOutput() throws EglRuntimeException {
 		final List<String> problems = context.getPartitioningProblems();

@@ -20,6 +20,7 @@ import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
@@ -142,5 +143,9 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	public Template getBaseTemplate() {
 		return executionManager.getBase().template;
+	}
+	
+	public void formatWith(Formatter formatter) {
+		getOutputBuffer().formatWith(formatter);
 	}
 }

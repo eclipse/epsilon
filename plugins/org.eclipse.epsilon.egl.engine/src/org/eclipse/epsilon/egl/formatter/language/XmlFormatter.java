@@ -8,10 +8,12 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.beautify;
+package org.eclipse.epsilon.egl.formatter.language;
+
+import org.eclipse.epsilon.egl.formatter.Formatter;
 
 
-public class XmlBeautifier extends SimpleBeautifier implements IBeautifier {
+public class XmlFormatter extends LanguageFormatter implements Formatter {
 
 	/*
 	 * A start tag begins with < and ends with >
@@ -34,7 +36,7 @@ public class XmlBeautifier extends SimpleBeautifier implements IBeautifier {
 	private static final String endTagPattern = "</[^>]*>";
 	
 	
-	public XmlBeautifier() {
+	public XmlFormatter() {
 		super(startTagPattern, endTagPattern);
 	}
 }

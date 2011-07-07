@@ -17,6 +17,7 @@ import org.eclipse.epsilon.egl.test.acceptance.builtins.EglCanAccessBuiltinsTest
 import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
 import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
+import org.eclipse.epsilon.egl.test.acceptance.formatters.Formatters;
 import org.eclipse.epsilon.egl.test.acceptance.merge.Merge;
 import org.eclipse.epsilon.egl.test.acceptance.operations.template.TemplateOperations;
 import org.eclipse.epsilon.egl.test.acceptance.output.Output;
@@ -38,7 +39,8 @@ import org.junit.runners.Suite.SuiteClasses;
                Stop.class,
                Extensibility.class,
                TemplateOperations.class,
-               CurrentLineNumber.class})
+               CurrentLineNumber.class,
+               Formatters.class})
 public class AcceptanceTestSuite {
 
 	public static Test suite() {

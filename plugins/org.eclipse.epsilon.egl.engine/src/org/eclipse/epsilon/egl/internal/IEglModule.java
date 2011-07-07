@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.internal;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 
@@ -19,7 +20,5 @@ public interface IEglModule extends IEolLibraryModule {
 
 	public IEglContext getContext();
 	
-	public String execute() throws EglRuntimeException;
-	
-	public String execute(Template template) throws EglRuntimeException;
+	public String execute(Template template, Formatter postprocessor) throws EglRuntimeException;
 }

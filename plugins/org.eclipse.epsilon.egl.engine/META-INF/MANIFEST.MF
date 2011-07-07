@@ -8,11 +8,11 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.commons
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
- org.eclipse.epsilon.egl.beautify,
  org.eclipse.epsilon.egl.config,
  org.eclipse.epsilon.egl.exceptions,
  org.eclipse.epsilon.egl.execute.context,
  org.eclipse.epsilon.egl.execute.operations,
+ org.eclipse.epsilon.egl.formatter,
  org.eclipse.epsilon.egl.internal;x-friends:="org.eclipse.epsilon.egl.engine.test.dependencies",
  org.eclipse.epsilon.egl.merge,
  org.eclipse.epsilon.egl.merge.output,

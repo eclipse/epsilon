@@ -8,9 +8,9 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.beautify;
+package org.eclipse.epsilon.egl.formatter;
 
-public interface IBeautifier {
+public interface Formatter {
 
-	public String beautify(String text);
+	public String format(String text);
 }
