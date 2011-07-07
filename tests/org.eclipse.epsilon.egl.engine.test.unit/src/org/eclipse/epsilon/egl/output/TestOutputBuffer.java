@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.test.MockContext;
@@ -234,6 +235,20 @@ public class TestOutputBuffer {
 		
 		assertEquals(expected, buffer.toString());
 		assertEquals(expectedPartitioners, context.getPartitioner());
+	}
+	
+	@Test
+	public void formattingReplacesContents() {
+		buffer.print("foo");
+		buffer.formatWith(new Formatter() {
+			
+			@Override
+			public String format(String text) {
+				return "bar";
+			}
+		});
+		
+		assertEquals("bar", buffer.toString());
 	}
 
 	private static CompositePartitioner getJavaPartitioner() {

@@ -16,5 +16,14 @@ public class NullFormatter implements Formatter {
 	public String format(String text) {
 		return text;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof NullFormatter;
+	}
+	
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }

@@ -14,11 +14,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.eclipse.epsilon.commons.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -47,6 +50,14 @@ public class EglTemplateFactory {
 	
 	public void setDefaultFormatter(Formatter defaultFormatter) {
 		this.defaultFormatter = defaultFormatter;
+	}
+	
+	public void setDefaultFormatters(Formatter... defaultFormatters) {
+		setDefaultFormatters(Arrays.asList(defaultFormatters));
+	}
+	
+	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
+		setDefaultFormatter(new CompositeFormatter(defaultFormatters));
 	}
 	
 	public IEglContext getContext() {
@@ -242,5 +253,4 @@ public class EglTemplateFactory {
 		final String root = templateRoot == null ? "" : templateRoot.toString();
 		return "TemplateFactory: root='" + root + "'";
 	}
-
 }

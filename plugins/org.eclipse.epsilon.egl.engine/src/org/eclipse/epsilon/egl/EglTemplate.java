@@ -11,9 +11,12 @@
 package org.eclipse.epsilon.egl;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.internal.EglModule;
@@ -96,8 +99,20 @@ public class EglTemplate extends AbstractEglTemplate {
 		return processed;
 	}
 	
+	public Formatter getFormatter() {
+		return formatter;
+	}
+	
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
+	}
+	
+	public void setFormatters(Formatter... formatters) {
+		setFormatters(Arrays.asList(formatters));
+	}
+	
+	public void setFormatters(Collection<Formatter> formatters) {
+		setFormatter(new CompositeFormatter(formatters));
 	}
 
 	// TODO merge traceability template class into here?
