@@ -43,10 +43,6 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 
 	private ListWithControls<FormatterSpecification> defaultFormattersTable;
 	
-	// TODO before commit
-	/// - better name for OrderedList and friends (don't forget about the test class)
-	/// - extract main from OrderedList widget into an example
-	
 	/// TODO next
 	/// - selection of default content type (can be none: "unspecified")
 	/// ---- can a content type have a default formatter attached. priority (from lowest to highest): template factory formatters, content type formatters, template-specific formatters

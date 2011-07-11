@@ -6,5 +6,6 @@ Bundle-Version: 0.8.4.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
- org.eclipse.epsilon.egl.dt
+ org.eclipse.epsilon.egl.dt,
+ org.eclipse.epsilon.common.dt.test
 Export-Package: org.eclipse.epsilon.egl.dt.test

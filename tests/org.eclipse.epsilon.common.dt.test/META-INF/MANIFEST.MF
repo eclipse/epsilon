@@ -6,7 +6,7 @@ Bundle-Version: 0.8.7.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.common.dt;visibility:=reexport,
  org.eclipse.epsilon.test.dependencies,
- org.eclipse.debug.ui
+ org.eclipse.debug.ui;visibility:=reexport
 Export-Package: org.eclipse.epsilon.common.dt.nature,
  org.eclipse.epsilon.common.dt.test,
  org.eclipse.epsilon.common.dt.test.util
