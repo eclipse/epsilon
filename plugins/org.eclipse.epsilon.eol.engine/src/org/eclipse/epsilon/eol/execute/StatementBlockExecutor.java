@@ -25,13 +25,8 @@ public class StatementBlockExecutor extends AbstractExecutor {
 		
 		while (statementAst != null){
 			
-			if (statementAst.getType() == EolParser.OPERATOR && "=".equals(statementAst.getText())) {
-				statementAst.getToken().setType(EolParser.ASSIGNMENT);
-				statementAst.getToken().setText(":=");
-			}
-
 			context.getFrameStack().setCurrentStatement(ast);
-			Object result = context.getExecutorFactory().executeAST(statementAst, context);
+			Object result = context.getExecutorFactory().executeAST(statementAst, context, true);
 			
 			if (result instanceof Return) {
 				return result;

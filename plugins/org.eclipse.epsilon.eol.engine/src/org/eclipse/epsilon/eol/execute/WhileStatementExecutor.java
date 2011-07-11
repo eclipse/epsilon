@@ -49,7 +49,7 @@ public class WhileStatementExecutor extends AbstractExecutor{
 				
 				
 				try {
-					result = context.getExecutorFactory().executeAST(bodyAst, context);
+					result = context.getExecutorFactory().executeAST(bodyAst, context, true);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){

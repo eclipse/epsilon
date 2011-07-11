@@ -159,6 +159,18 @@ public class ExecutorFactory {
 
 	}
 	
+	public Object executeAST(AST ast, IEolContext context, boolean asStatement) throws EolRuntimeException {
+		
+		if (ast == null) return null;
+		
+		if (asStatement && ast.getType() == EolParser.OPERATOR && "=".equals(ast.getText())) {
+			ast.getToken().setType(EolParser.ASSIGNMENT);
+			ast.getToken().setText(":=");
+		}
+		
+		return executeAST(ast, context);
+	}
+	
 	public Object executeAST(AST ast, IEolContext context) throws EolRuntimeException{
 		
 		if (ast == null) return null;

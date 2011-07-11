@@ -40,10 +40,10 @@ public class IfStatementExecutor extends AbstractExecutor{
 		Object result = null;
 		
 		if (((Boolean) condition).booleanValue()){
-			result = context.getExecutorFactory().executeAST(thenAst, context);
+			result = context.getExecutorFactory().executeAST(thenAst, context, true);
 		}
 		else if (elseAst != null){
-			result = context.getExecutorFactory().executeAST(elseAst, context);
+			result = context.getExecutorFactory().executeAST(elseAst, context, true);
 		}
 		
 		context.getFrameStack().leave(ast);

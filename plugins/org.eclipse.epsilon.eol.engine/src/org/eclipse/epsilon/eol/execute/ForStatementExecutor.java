@@ -109,7 +109,7 @@ public class ForStatementExecutor extends AbstractExecutor{
 			Object result = null; 
 			
 			try {
-				result = context.getExecutorFactory().executeAST(bodyAst, context);
+				result = context.getExecutorFactory().executeAST(bodyAst, context, true);
 				context.getFrameStack().leave(ast);
 			}
 			catch (EolBreakException ex){
