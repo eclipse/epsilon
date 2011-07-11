@@ -44,14 +44,13 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		}
 		return super.preLaunchCheck(configuration, mode, monitor);
 	}
+	
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
+		this.configuration = configuration;
 		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
-	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
-
-		this.configuration = configuration;
-		
+	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {		
 		if (setup) EpsilonConsole.getInstance().clear();
 		
 		preParse(module);
@@ -105,7 +104,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return true;
 	}
 	
-	public abstract IEolExecutableModule createModule();
+	public abstract IEolExecutableModule createModule() throws CoreException;
 	
 	protected void preParse(IEolExecutableModule module) {}
 	
