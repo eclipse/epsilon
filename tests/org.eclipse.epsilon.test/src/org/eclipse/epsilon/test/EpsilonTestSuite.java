@@ -20,6 +20,7 @@ import junit.framework.Test;
 import org.eclipse.epsilon.commons.test.CommonsTestSuite;
 import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestSuite;
+import org.eclipse.epsilon.egl.dt.test.EglDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
@@ -50,6 +51,7 @@ import org.junit.runners.Suite.SuiteClasses;
                EmlAcceptanceTestSuite.class,
                EwlAcceptanceTestSuite.class,
                EglTestSuite.class,
+               EglDevelopmentToolsTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
                HutnEmcDriverTestSuite.class,
