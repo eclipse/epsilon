@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -55,6 +54,8 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		
 		if (setup) EpsilonConsole.getInstance().clear();
 		
+		preParse(module);
+		
 		if (!parse(module, lauchConfigurationSourceAttribute, configuration, mode, launch, progressMonitor)) return false;
 		
 		EolDebugTarget target = null;
@@ -71,7 +72,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			}
 			else if ("debug".equalsIgnoreCase(mode)){
 				// Copy launch configuration attributes to launch
-				Map configurationAttributes = configuration.getAttributes();
+				Map<?,?> configurationAttributes = configuration.getAttributes();
 				for (Object key : configurationAttributes.keySet()) {
 					launch.setAttribute(key + "", configurationAttributes.get(key) + "");
 				}
@@ -105,6 +106,8 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	}
 	
 	public abstract IEolExecutableModule createModule();
+	
+	protected void preParse(IEolExecutableModule module) {}
 	
 	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {}
 	
