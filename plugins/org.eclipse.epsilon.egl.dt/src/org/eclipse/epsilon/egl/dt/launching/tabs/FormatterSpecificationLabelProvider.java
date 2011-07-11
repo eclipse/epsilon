@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.launching.tabs;
 
-import org.eclipse.epsilon.egl.dt.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;

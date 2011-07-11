@@ -26,9 +26,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.dt.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecification;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -44,11 +45,21 @@ import org.eclipse.ui.PlatformUI;
 public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 
 	@Override
-	public IEolExecutableModule createModule() {
-		return new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
+	public IEolExecutableModule createModule() throws CoreException {
+		return new EglTemplateFactoryModuleAdapter(createTemplateFactoryFromConfiguration());
 	}
 
+	private EglTemplateFactory createTemplateFactoryFromConfiguration() throws CoreException {
+		final String templateFactoryTypeIdentifier = configuration.getAttribute(EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE, TemplateFactoryTypeSpecification.getDefault());
+		
+		return TemplateFactoryTypeSpecification.findByIdentifier(templateFactoryTypeIdentifier).instantiate();
+	}
+
+	@Override
 	protected void preParse(IEolExecutableModule module) {
+		// The default formatters must be set when the template is instantiated.
+		// EglTemplateFactoryModuleAdapter#parse instantiates templates.
+		// Therefore, the default formatters must be set before parsing occurs.
 		loadDefaultFormatters(module);
 	}
 	

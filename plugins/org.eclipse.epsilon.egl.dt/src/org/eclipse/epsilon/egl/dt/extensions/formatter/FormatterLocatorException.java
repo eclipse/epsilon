@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.dt.formatter;
+package org.eclipse.epsilon.egl.dt.extensions.formatter;
 
 public class FormatterLocatorException extends RuntimeException {
 

@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension-point id="formatter" name="Formatter" schema="schema/formatter.exsd"/>
+   <extension-point id="templateFactoryType" name="TemplateFactoryType" schema="schema/templateFactoryType.exsd"/>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
@@ -72,6 +73,13 @@
             implementation="org.eclipse.epsilon.egl.formatter.language.XmlFormatter"
             name="XML Formatter">
       </formatter>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.egl.dt.templateFactoryType">
+      <templateFactoryType
+            implementation="org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory"
+            name="File-Generating Template Factory">
+      </templateFactoryType>
    </extension>
 
 </plugin>

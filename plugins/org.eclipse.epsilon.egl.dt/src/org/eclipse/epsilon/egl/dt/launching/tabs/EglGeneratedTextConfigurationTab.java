@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.egl.dt.launching.tabs;
 
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS;
+import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,8 +24,9 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.egl.dt.formatter.FormatterLocatorException;
-import org.eclipse.epsilon.egl.dt.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterLocatorException;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecification;
 import org.eclipse.epsilon.egl.dt.widgets.ListListener;
 import org.eclipse.epsilon.egl.dt.widgets.ListWithControls;
 import org.eclipse.epsilon.egl.dt.widgets.ListWithControls.ItemFactory;
@@ -36,12 +38,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfigurationTab {
 
 	private ListWithControls<FormatterSpecification> defaultFormattersTable;
+	private Combo templateFactoryTypeCombo;
 	
 	/// TODO next
 	/// - selection of default content type (can be none: "unspecified")
@@ -61,6 +65,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 			control.setLayout(new GridLayout(1, false));
 			
 			createDefaultFormattersGroup(control);
+			createTemplateFactoryTypeGroup(control);
 			
 			control.setBounds(0, 0, 300, 300);
 			control.layout();
@@ -71,11 +76,8 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		}
 	}
 
-	private void createDefaultFormattersGroup(final Composite control) {
-		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
-		group.setLayout(new GridLayout(2, false));
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		group.setText("Default Formatters: ");
+	private void createDefaultFormattersGroup(Composite control) {
+		final Group group = createGroup(control, "Default Formatters: ");
 		
 		final GridData tableData = new GridData();
 		tableData.horizontalAlignment = SWT.FILL;
@@ -127,6 +129,42 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 			}
 		});
 	}
+	
+	private void createTemplateFactoryTypeGroup(Composite control) {
+		final Group group = createGroup(control, "Type of Template Factory: ");
+		
+		final Collection<TemplateFactoryTypeSpecification> specs = TemplateFactoryTypeSpecification.loadAllFromExtensionPoints();
+		final Collection<String> templateFactoryTypeNames = new LinkedList<String>();
+		
+		for (TemplateFactoryTypeSpecification spec : specs) {
+			templateFactoryTypeNames.add(spec.getName());
+		}
+		
+		templateFactoryTypeCombo = new Combo(group, SWT.READ_ONLY);
+		templateFactoryTypeCombo.setItems(templateFactoryTypeNames.toArray(new String[]{}));
+		templateFactoryTypeCombo.select(0);
+		
+		templateFactoryTypeCombo.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateLaunchConfigurationDialog();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				updateLaunchConfigurationDialog();
+			}
+		});
+	}
+	
+	private Group createGroup(Composite control, final String name) {
+		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
+		group.setLayout(new GridLayout(2, false));
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		group.setText(name);
+		return group;
+	}
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {}
@@ -136,10 +174,11 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		try {
 			@SuppressWarnings("unchecked")
 			final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, Collections.emptyList());
-			final Collection<FormatterSpecification> defaultFormatters = FormatterSpecification.findByIdentifiers(defaultFormatterIdentifiers);
+			defaultFormattersTable.setItems(FormatterSpecification.findByIdentifiers(defaultFormatterIdentifiers));
 			
-			defaultFormattersTable.setItems(defaultFormatters);
-		
+			final String templateFactoryTypeIdentifier = configuration.getAttribute(TEMPLATE_FACTORY_TYPE, TemplateFactoryTypeSpecification.getDefault());
+			templateFactoryTypeCombo.select(TemplateFactoryTypeSpecification.indexOf(templateFactoryTypeIdentifier));
+			
 		} catch (CoreException e) {
 			LogUtil.log("Error encountered whilst attempting to restore selection of default formatters from launch configuration", e);
 		}
@@ -155,6 +194,9 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		}
 		
 		configuration.setAttribute(DEFAULT_FORMATTERS, defaultFormatterIdentifiers);
+		
+		final String indexOfSelectedTemplateFactoryType = TemplateFactoryTypeSpecification.findByIndex(templateFactoryTypeCombo.getSelectionIndex()).getIdentifier();
+		configuration.setAttribute(TEMPLATE_FACTORY_TYPE, indexOfSelectedTemplateFactoryType);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.dt.launching.tabs;
 
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.egl.dt.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
