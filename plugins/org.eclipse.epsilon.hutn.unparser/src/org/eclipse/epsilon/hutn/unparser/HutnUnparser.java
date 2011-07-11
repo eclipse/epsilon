@@ -14,19 +14,19 @@
 package org.eclipse.epsilon.hutn.unparser;
 
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
-import org.eclipse.epsilon.hutn.unparser.beautifier.HutnBeautifier;
+import org.eclipse.epsilon.hutn.unparser.formatter.HutnFormatter;
 import org.eclipse.epsilon.hutn.unparser.internal.SpecUnparser;
 
 public class HutnUnparser {
 
 	private final SpecUnparser   unparser;
-	private final HutnBeautifier beautifier = new HutnBeautifier();
+	private final HutnFormatter beautifier = new HutnFormatter();
 	
 	public HutnUnparser(Spec spec) {
 		this.unparser = new SpecUnparser(spec);
 	}
 	
 	public String unparse() {
-		return beautifier.beautify(unparser.unparse());
+		return beautifier.format(unparser.unparse());
 	}
 }

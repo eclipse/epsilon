@@ -11,17 +11,17 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.hutn.unparser.beautifier;
+package org.eclipse.epsilon.hutn.unparser.formatter;
 
 import java.util.regex.Pattern;
 
-import org.eclipse.epsilon.egl.beautify.JavaBeautifier;
+import org.eclipse.epsilon.egl.formatter.language.JavaFormatter;
 
-public class HutnBeautifier extends JavaBeautifier {
+public class HutnFormatter extends JavaFormatter {
 
 	@Override
-	public String beautify(String text) {
-		return super.beautify(correctLineBreaks(text));
+	public String format(String text) {
+		return super.format(correctLineBreaks(text));
 	}
 
 	private String correctLineBreaks(String text) {
