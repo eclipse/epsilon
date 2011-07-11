@@ -20,4 +20,6 @@ public interface EglLaunchConfigurationAttributes extends EolLaunchConfiguration
 	
 	public static final int GENERATE_TO_CONSOLE = 1;
 	public static final int GENERATE_TO_FILE    = 2;
+	
+	public static final String DEFAULT_FORMATTERS = "defaultFormatters";
 }

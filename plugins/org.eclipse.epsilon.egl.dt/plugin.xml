@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+   <extension-point id="formatter" name="Formatter" schema="schema/formatter.exsd"/>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
@@ -58,6 +59,19 @@
             icon="icons/egl.png"
             id="org.eclipse.epsilon.egl.dt.views.TemplateView"
             name="EGL Template Output"/>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.egl.dt.formatter">
+      <formatter
+            icon="icons/formatters/java.png"
+            implementation="org.eclipse.epsilon.egl.formatter.language.JavaFormatter"
+            name="Java Formatter">
+      </formatter>
+      <formatter
+            icon="icons/formatters/xml.png"
+            implementation="org.eclipse.epsilon.egl.formatter.language.XmlFormatter"
+            name="XML Formatter">
+      </formatter>
    </extension>
 
 </plugin>

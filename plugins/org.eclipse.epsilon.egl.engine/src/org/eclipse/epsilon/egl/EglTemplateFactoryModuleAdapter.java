@@ -15,6 +15,7 @@ package org.eclipse.epsilon.egl;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Set;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
@@ -122,5 +124,9 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		current.setOperationFactory(operationFactory);
+	}
+
+	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
+		factory.setDefaultFormatters(defaultFormatters);
 	}
 }

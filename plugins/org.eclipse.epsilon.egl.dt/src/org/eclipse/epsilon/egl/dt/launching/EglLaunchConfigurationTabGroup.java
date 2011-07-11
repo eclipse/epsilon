@@ -15,6 +15,7 @@ import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.egl.dt.launching.tabs.EglGeneratedTextConfigurationTab;
 import org.eclipse.epsilon.egl.dt.launching.tabs.EglSourceConfigurationTab;
 
 public class EglLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
@@ -24,7 +25,7 @@ public class EglLaunchConfigurationTabGroup extends AbstractLaunchConfigurationT
 			new ILaunchConfigurationTab[]{
 				new EglSourceConfigurationTab(),
 				new ModelsConfigurationTab(),
-				//new ToolsConfigurationTab(),
+				new EglGeneratedTextConfigurationTab(),
 				new CommonTab()
 			};
 		setTabs(tabs);
