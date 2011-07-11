@@ -128,4 +128,8 @@ public class StringUtil {
 	        }
 	    return sb.toString();
 	}
+
+	public static String reverse(String text) {
+		return new StringBuilder(text).reverse().toString();
+	}
 }
