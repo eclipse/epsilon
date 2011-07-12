@@ -112,10 +112,6 @@ public class EglTemplateFactory {
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which a file is
 	 * transformed into an EglTemplateSpecification
-	 * 
-	 * @param file
-	 * @return
-	 * @throws EglRuntimeException
 	 */
 	public EglTemplate load(File file) throws EglRuntimeException {
 		final String name = name(file.getAbsolutePath());
@@ -136,10 +132,6 @@ public class EglTemplateFactory {
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which a dirty 
 	 * resource is transformed into an EglTemplateSpecification
-	 * 
-	 * @param code
-	 * @param file
-	 * @return
 	 */
 	protected EglTemplate load(String code, File file) throws EglRuntimeException {
 		final String name = name(file.getAbsolutePath());
@@ -158,10 +150,6 @@ public class EglTemplateFactory {
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which a path is
 	 * transformed into an EglTemplateSpecification
-	 * 
-	 * @param path
-	 * @return
-	 * @throws EglRuntimeException
 	 */
 	public EglTemplate load(String path) throws EglRuntimeException {
 		return load(createTemplateSpecificationFactory().fromResource(name(path), resolveTemplate(path)));
@@ -173,10 +161,6 @@ public class EglTemplateFactory {
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which a resource is
 	 * transformed into an EglTemplateSpecification
-	 * 
-	 * @param path
-	 * @return
-	 * @throws EglRuntimeException
 	 */
 	public EglTemplate load(URI resource) throws EglRuntimeException {
 		final String name = resource.toString(); // FIXME better name for URIs
@@ -190,10 +174,6 @@ public class EglTemplateFactory {
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which IOExceptions
 	 * are handled.
-	 * 
-	 * @param spec
-	 * @return
-	 * @throws EglRuntimeException
 	 */
 	protected EglTemplate load(EglTemplateSpecification spec) throws EglRuntimeException {
 		try {
@@ -224,9 +204,6 @@ public class EglTemplateFactory {
 	 * {@link #createTemplate(String)}, rather than this method,
 	 * as this method may, in the future, acquire additional
 	 * responsibilities, such as exception handling.
-	 * 
-	 * @param code
-	 * @return
 	 */
 	public EglTemplate prepare(String code) throws Exception {
 		return createTemplate(createTemplateSpecificationFactory().fromCode(code));
@@ -235,10 +212,6 @@ public class EglTemplateFactory {
 	/**
 	 * Creates a template from the given specification.
 	 * Subclasses may override to create different types of template.
-	 * 
-	 * @param spec
-	 * @return
-	 * @throws Exception 
 	 */
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
 		return new EglTemplate(spec, context);
