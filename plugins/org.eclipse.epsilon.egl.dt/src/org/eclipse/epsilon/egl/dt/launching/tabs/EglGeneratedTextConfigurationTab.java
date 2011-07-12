@@ -46,14 +46,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 
 	private ListWithControls<FormatterSpecification> defaultFormattersTable;
 	private Combo templateFactoryTypeCombo;
-	
-	/// TODO next
-	/// - selection of default content type (can be none: "unspecified")
-	/// ---- can a content type have a default formatter attached. priority (from lowest to highest): template factory formatters, content type formatters, template-specific formatters
-	/// - selection of template factory (defaults to EglFileGeneratingTemplate)
-	/// - descriptions for selected formatters / content types / template factory
-	/// - online help (see EMF model config dialogue for an example)
-	
+		
 	@Override
 	public void createControl(Composite parent) {
 		try {
