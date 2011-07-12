@@ -35,12 +35,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
 	private final EglTemplateFactory factory;
+	private EglTemplate current;
 	
 	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
 		this.factory = factory;
 	}
-
-	private EglTemplate current;
 	
 	public boolean parse(File file) throws Exception {
 		current = factory.load(file);
