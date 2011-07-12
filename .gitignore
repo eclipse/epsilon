@@ -1,0 +1,62 @@
+# binaries
+bin/
+
+# /trunk/doc/org.eclipse.epsilon.book/
+/trunk/doc/org.eclipse.epsilon.book/*.aux
+/trunk/doc/org.eclipse.epsilon.book/*.bbl
+/trunk/doc/org.eclipse.epsilon.book/*.blg
+/trunk/doc/org.eclipse.epsilon.book/*.dvi
+/trunk/doc/org.eclipse.epsilon.book/*.fdb*
+/trunk/doc/org.eclipse.epsilon.book/*.lof
+/trunk/doc/org.eclipse.epsilon.book/*.lot
+/trunk/doc/org.eclipse.epsilon.book/*.out
+/trunk/doc/org.eclipse.epsilon.book/*.synctex.*
+/trunk/doc/org.eclipse.epsilon.book/*.toc
+/trunk/doc/org.eclipse.epsilon.book/*.log
+/trunk/doc/org.eclipse.epsilon.book/auto
+
+# /trunk/plugins/org.eclipse.epsilon.emc.emf.dt/src/org/eclipse/epsilon/emc/emf/dt/
+/trunk/plugins/org.eclipse.epsilon.emc.emf.dt/src/org/eclipse/epsilon/emc/emf/dt/parex
+
+# /trunk/plugins/org.eclipse.epsilon.help/
+/trunk/plugins/org.eclipse.epsilon.help/Thumbs.db
+
+# /trunk/plugins/org.eclipse.epsilon.updatesite/
+/trunk/plugins/org.eclipse.epsilon.updatesite/features
+/trunk/plugins/org.eclipse.epsilon.updatesite/plugins
+
+# /trunk/plugins/org.eclipse.epsilon.workflow/lib/
+/trunk/plugins/org.eclipse.epsilon.workflow/lib/*.jar
+/trunk/plugins/org.eclipse.epsilon.workflow/lib/*.tmp
+
+# /trunk/plugins/org.eclipse.epsilon.workflow.eugenia/
+/trunk/plugins/org.eclipse.epsilon.workflow.eugenia/lib
+
+# /trunk/tests/org.eclipse.epsilon.eol.engine.test.acceptance/
+/trunk/tests/org.eclipse.epsilon.eol.engine.test.acceptance/TEST-*.xml
+
+# /trunk/tests/org.eclipse.epsilon.hutn.test/
+/trunk/tests/org.eclipse.epsilon.hutn.test/foo.ecore
+
+# /trunk/tests/org.eclipse.epsilon.hutn.test.unit/
+/trunk/tests/org.eclipse.epsilon.hutn.test.unit/foo.ecore
+
+# /trunk/tests/org.eclipse.epsilon.test/
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.CreateDeleteTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.AssignmentTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.ComparisonTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.MathTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.EqualityTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.CollectionsTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.AnnotatedOperationTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.IsDefinedTests.xml
+/trunk/tests/org.eclipse.epsilon.test/foo.ecore
+/trunk/tests/org.eclipse.epsilon.test/TEST-default.StringTests.xml
+/trunk/tests/org.eclipse.epsilon.test/TEST-*.xml
+
+# /trunk/tests/org.eclipse.epsilon.workflow.test/resources/
+/trunk/tests/org.eclipse.epsilon.workflow.test/resources/TEST-default.sample.xml
+
+# /trunk/tests/org.eclipse.epsilon.workflow.test/resources/eunit/
+/trunk/tests/org.eclipse.epsilon.workflow.test/resources/eunit/TESTS-TestSuites.xml
+/trunk/tests/org.eclipse.epsilon.workflow.test/resources/eunit/junit-noframes.html
