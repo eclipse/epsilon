@@ -383,6 +383,6 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	protected abstract EolDebugger createDebugger();
 
-	protected abstract IEolExecutableModule createModule();
+	protected abstract IEolExecutableModule createModule() throws Exception;
 		
 }
