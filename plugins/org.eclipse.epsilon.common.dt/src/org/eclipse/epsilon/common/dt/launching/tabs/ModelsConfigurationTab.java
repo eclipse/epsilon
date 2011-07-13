@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.PlatformUI;
 
 public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
@@ -62,6 +63,8 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		createModelViewerControl(control);
 		
 		createBottomControl(control);
+		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, "org.eclipse.epsilon.help.emc_dialogs");
 		
 		control.pack();
 		control.layout();
@@ -88,10 +91,12 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		modelsViewer.setLabelProvider(new ModelLabelProvider());
 		modelsViewer.setInput(models);
 		
+		
 		GridData buttonsData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 
 		GridData viewerData = new GridData(GridData.FILL_BOTH);
 		modelsViewer.getControl().setLayoutData(viewerData);
+		modelsViewer.getControl().setFocus();
 
 		Composite buttons = new Composite(topControl, SWT.FILL | SWT.TOP);
 		buttons.setLayoutData(buttonsData);

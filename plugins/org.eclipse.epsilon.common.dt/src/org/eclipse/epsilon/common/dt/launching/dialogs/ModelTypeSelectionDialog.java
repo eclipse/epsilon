@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelectionChangedListener {
@@ -69,6 +70,8 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		GridData dialogAreaData = new GridData(GridData.FILL_BOTH);
 		dialogArea.setLayoutData(dialogAreaData);
 		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.eclipse.epsilon.help.emc_dialogs");
+		
 		this.setTitle("Select type of model");
 		this.setMessage("Select the type of model to add");
 		this.getShell().setText("Select type of model");
@@ -92,6 +95,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		
 		GridData viewerData = new GridData(GridData.FILL_BOTH);
 		modelTypesViewer.getControl().setLayoutData(viewerData);
+		modelTypesViewer.getControl().setFocus();
 		
 		showAllButton = new Button(control, SWT.CHECK);
 		GridData showAllButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
