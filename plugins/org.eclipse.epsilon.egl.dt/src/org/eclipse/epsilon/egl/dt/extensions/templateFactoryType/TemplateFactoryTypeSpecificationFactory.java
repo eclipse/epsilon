@@ -10,13 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.extensions.templateFactoryType;
 
+
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.dt.extensions.ExtensionSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.ExtensionSpecificationFactory;
 
-public class TemplateFactoryTypeSpecification extends ExtensionSpecification<EglTemplateFactory> {
+public class TemplateFactoryTypeSpecificationFactory extends ExtensionSpecificationFactory<TemplateFactoryTypeSpecification> {
 
-	public TemplateFactoryTypeSpecification(IConfigurationElement extension) {
-		super(extension);
+	private static final String TEMPLATE_FACTORY_TYPE_EXT_POINT_ID = "org.eclipse.epsilon.egl.dt.templateFactoryType";
+	
+	@Override
+	protected String getExtensionPointIdentifier() {
+		return TEMPLATE_FACTORY_TYPE_EXT_POINT_ID;
+	}
+
+	@Override
+	protected TemplateFactoryTypeSpecification createExtensionSpecification(IConfigurationElement extension) {
+		return new TemplateFactoryTypeSpecification(extension);
 	}
 }

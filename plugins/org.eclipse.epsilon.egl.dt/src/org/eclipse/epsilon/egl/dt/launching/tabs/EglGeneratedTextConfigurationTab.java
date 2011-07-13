@@ -24,9 +24,11 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterLocatorException;
+import org.eclipse.epsilon.egl.dt.extensions.ExtensionLocatorException;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.widgets.ListListener;
 import org.eclipse.epsilon.egl.dt.widgets.ListWithControls;
 import org.eclipse.epsilon.egl.dt.widgets.ListWithControls.ItemFactory;
@@ -69,7 +71,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 			
 		    defaultFormattersTable.setFocus();
 		
-		} catch (FormatterLocatorException e) {
+		} catch (ExtensionLocatorException e) {
 			LogUtil.log(e);
 		}
 	}
@@ -131,7 +133,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 	private void createTemplateFactoryTypeGroup(Composite control) {
 		final Group group = createGroup(control, "Type of Template Factory: ");
 		
-		final Collection<TemplateFactoryTypeSpecification> specs = TemplateFactoryTypeSpecification.loadAllFromExtensionPoints();
+		final Collection<TemplateFactoryTypeSpecification> specs = new TemplateFactoryTypeSpecificationFactory().loadAllFromExtensionPoints();
 		final Collection<String> templateFactoryTypeNames = new LinkedList<String>();
 		
 		for (TemplateFactoryTypeSpecification spec : specs) {
@@ -170,12 +172,8 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			@SuppressWarnings("unchecked")
-			final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, Collections.emptyList());
-			defaultFormattersTable.setItems(FormatterSpecification.findByIdentifiers(defaultFormatterIdentifiers));
-			
-			final String templateFactoryTypeIdentifier = configuration.getAttribute(TEMPLATE_FACTORY_TYPE, TemplateFactoryTypeSpecification.getDefault());
-			templateFactoryTypeCombo.select(TemplateFactoryTypeSpecification.indexOf(templateFactoryTypeIdentifier));
+			initializeDefaultFormattersFrom(configuration);
+			initializeTemplateFactoryTypeFrom(configuration);
 			
 		} catch (CoreException e) {
 			LogUtil.log("Error encountered whilst attempting to restore selection of default formatters from launch configuration", e);
@@ -183,8 +181,26 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		
 	}
 
+	@SuppressWarnings("unchecked")
+	private void initializeDefaultFormattersFrom(ILaunchConfiguration configuration) throws CoreException {
+		final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, Collections.emptyList());
+		defaultFormattersTable.setItems(new FormatterSpecificationFactory().findByIdentifiers(defaultFormatterIdentifiers));
+	}
+
+	private void initializeTemplateFactoryTypeFrom(ILaunchConfiguration configuration) throws CoreException {
+		final TemplateFactoryTypeSpecificationFactory factory = new TemplateFactoryTypeSpecificationFactory();
+		
+		final String templateFactoryTypeIdentifier = configuration.getAttribute(TEMPLATE_FACTORY_TYPE, factory.findByIndex(0).getIdentifier());
+		templateFactoryTypeCombo.select(factory.indexOf(templateFactoryTypeIdentifier));
+	}
+
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		saveDefaultFormattersTo(configuration);
+		saveTemplateFactoryTypeTo(configuration);
+	}
+
+	private void saveDefaultFormattersTo(ILaunchConfigurationWorkingCopy configuration) {
 		final List<String> defaultFormatterIdentifiers = new LinkedList<String>();
 		
 		for (FormatterSpecification spec : defaultFormattersTable.getItems()) {
@@ -192,8 +208,12 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		}
 		
 		configuration.setAttribute(DEFAULT_FORMATTERS, defaultFormatterIdentifiers);
+	}
+
+	private void saveTemplateFactoryTypeTo(ILaunchConfigurationWorkingCopy configuration) {
+		final TemplateFactoryTypeSpecificationFactory factory = new TemplateFactoryTypeSpecificationFactory();
 		
-		final String indexOfSelectedTemplateFactoryType = TemplateFactoryTypeSpecification.findByIndex(templateFactoryTypeCombo.getSelectionIndex()).getIdentifier();
+		final String indexOfSelectedTemplateFactoryType = factory.findByIndex(templateFactoryTypeCombo.getSelectionIndex()).getIdentifier();
 		configuration.setAttribute(TEMPLATE_FACTORY_TYPE, indexOfSelectedTemplateFactoryType);
 	}
 

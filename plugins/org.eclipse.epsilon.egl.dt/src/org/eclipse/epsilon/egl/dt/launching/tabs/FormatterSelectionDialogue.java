@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.dt.launching.tabs;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -76,7 +77,7 @@ public class FormatterSelectionDialogue extends TitleAreaDialog implements ISele
 		
 		
 		formatterViewer.setContentProvider(new ListContentProvider());
-		formatterViewer.setInput(FormatterSpecification.loadAllFromExtensionPoints());
+		formatterViewer.setInput(new FormatterSpecificationFactory().loadAllFromExtensionPoints());
 		formatterViewer.addSelectionChangedListener(this);
 		formatterViewer.setLabelProvider(new FormatterSpecificationLabelProvider());
 		

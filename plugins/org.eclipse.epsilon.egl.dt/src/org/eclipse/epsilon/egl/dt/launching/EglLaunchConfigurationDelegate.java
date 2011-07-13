@@ -29,7 +29,8 @@ import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
-import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
+import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -50,9 +51,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 
 	private EglTemplateFactory createTemplateFactoryFromConfiguration() throws CoreException {
-		final String templateFactoryTypeIdentifier = configuration.getAttribute(EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE, TemplateFactoryTypeSpecification.getDefault());
+		final TemplateFactoryTypeSpecificationFactory factory = new TemplateFactoryTypeSpecificationFactory();
 		
-		return TemplateFactoryTypeSpecification.findByIdentifier(templateFactoryTypeIdentifier).instantiate();
+		final String templateFactoryTypeIdentifier = configuration.getAttribute(EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE, factory.findByIndex(0).getIdentifier());
+		return factory.findByIdentifier(templateFactoryTypeIdentifier).instantiate();
 	}
 
 	@Override
@@ -76,7 +78,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();
 		final Collection<String> identifiers = configuration.getAttribute(EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS, Collections.emptyList());
 		
-		for (FormatterSpecification spec : FormatterSpecification.findByIdentifiers(identifiers)) {
+		for (FormatterSpecification spec : new FormatterSpecificationFactory().findByIdentifiers(identifiers)) {
 			defaultFormatters.add(spec.instantiate());
 		}
 		
