@@ -41,6 +41,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.ui.PlatformUI;
 
 public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfigurationTab {
 
@@ -57,12 +58,16 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 			setControl(control);
 			control.setLayout(new GridLayout(1, false));
 			
+			PlatformUI.getWorkbench().getHelpSystem().setHelp(control, "org.eclipse.epsilon.help.egl_generated_text_tab");
+			
 			createDefaultFormattersGroup(control);
 			createTemplateFactoryTypeGroup(control);
 			
 			control.setBounds(0, 0, 300, 300);
 			control.layout();
 			control.pack();
+			
+		    defaultFormattersTable.setFocus();
 		
 		} catch (FormatterLocatorException e) {
 			LogUtil.log(e);
@@ -80,7 +85,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		defaultFormattersTable = new ListWithControls<FormatterSpecification>(group, SWT.NONE);
 	    defaultFormattersTable.setSize(500, 200);
 	    defaultFormattersTable.setLayoutData(tableData);
-	    
+	    	    
 	    defaultFormattersTable.setLabelProvider(new FormatterSpecificationLabelProvider());
 	    defaultFormattersTable.setItemFactory(new ItemFactory<FormatterSpecification>() {
 
