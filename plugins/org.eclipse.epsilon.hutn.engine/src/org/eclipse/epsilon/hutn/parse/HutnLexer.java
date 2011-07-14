@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2011-05-20 11:52:18
+// $ANTLR 3.1b1 /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g 2011-07-10 21:25:01
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -84,15 +84,15 @@ public class HutnLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "/local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g"; }
+    public String getGrammarFileName() { return "/Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g"; }
 
     // $ANTLR start TRUE
     public final void mTRUE() throws RecognitionException {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:44:6: ( 'true' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:44:8: 'true'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:44:6: ( 'true' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:44:8: 'true'
             {
             match("true"); 
 
@@ -112,8 +112,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = FALSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:45:7: ( 'false' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:45:9: 'false'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:45:7: ( 'false' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:45:9: 'false'
             {
             match("false"); 
 
@@ -133,8 +133,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NULL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:46:6: ( 'null' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:46:8: 'null'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:46:6: ( 'null' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:46:8: 'null'
             {
             match("null"); 
 
@@ -154,8 +154,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:47:7: ( ';' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:47:9: ';'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:47:7: ( ';' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:47:9: ';'
             {
             match(';'); 
 
@@ -174,8 +174,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:48:7: ( '.' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:48:9: '.'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:48:7: ( '.' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:48:9: '.'
             {
             match('.'); 
 
@@ -194,8 +194,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:154:14: ( ',' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:154:16: ','
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:154:14: ( ',' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:154:16: ','
             {
             match(','); 
 
@@ -214,8 +214,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:155:14: ( '{' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:155:16: '{'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:155:14: ( '{' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:155:16: '{'
             {
             match('{'); 
 
@@ -234,8 +234,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:156:14: ( '}' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:156:16: '}'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:156:14: ( '}' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:156:16: '}'
             {
             match('}'); 
 
@@ -254,8 +254,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ASSIGNMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:157:13: ( ':' | '=' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:157:13: ( ':' | '=' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
             if ( input.LA(1)==':'||input.LA(1)=='=' ) {
                 input.consume();
@@ -282,11 +282,11 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:14: ( ID_START_LETTER ( ID_LETTER )* )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:16: ID_START_LETTER ( ID_LETTER )*
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:14: ( ID_START_LETTER ( ID_LETTER )* )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:16: ID_START_LETTER ( ID_LETTER )*
             {
             mID_START_LETTER(); 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:32: ( ID_LETTER )*
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:32: ( ID_LETTER )*
             loop1:
             do {
                 int alt1=2;
@@ -299,7 +299,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:32: ID_LETTER
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:158:32: ID_LETTER
             	    {
             	    mID_LETTER(); 
 
@@ -331,11 +331,11 @@ public class HutnLexer extends Lexer {
             Token normal=null;
 
             StringBuilder lBuf = new StringBuilder();
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:163:5: ( '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:164:12: '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:163:5: ( '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:164:12: '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"'
             {
             match('\"'); 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:165:12: (escaped= ESC | normal= TEXT_LETTER )*
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:165:12: (escaped= ESC | normal= TEXT_LETTER )*
             loop2:
             do {
                 int alt2=3;
@@ -351,7 +351,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:166:14: escaped= ESC
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:166:14: escaped= ESC
             	    {
             	    int escapedStart196 = getCharIndex();
             	    mESC(); 
@@ -361,7 +361,7 @@ public class HutnLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:168:14: normal= TEXT_LETTER
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:168:14: normal= TEXT_LETTER
             	    {
             	    int normalStart239 = getCharIndex();
             	    mTEXT_LETTER(); 
@@ -394,10 +394,10 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NUMERIC_VALUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:14: ( ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:16: ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )?
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:14: ( ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:16: ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )?
             {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:16: ( '-' | '+' )?
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:16: ( '-' | '+' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -406,7 +406,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
                     {
                     if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
                         input.consume();
@@ -423,7 +423,7 @@ public class HutnLexer extends Lexer {
 
             }
 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:27: ( DIGIT )+
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:27: ( DIGIT )+
             int cnt4=0;
             loop4:
             do {
@@ -437,7 +437,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:27: DIGIT
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:27: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -453,7 +453,7 @@ public class HutnLexer extends Lexer {
                 cnt4++;
             } while (true);
 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:34: ( '.' ( DIGIT )+ )?
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:34: ( '.' ( DIGIT )+ )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -462,10 +462,10 @@ public class HutnLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:35: '.' ( DIGIT )+
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:35: '.' ( DIGIT )+
                     {
                     match('.'); 
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:39: ( DIGIT )+
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:39: ( DIGIT )+
                     int cnt5=0;
                     loop5:
                     do {
@@ -479,7 +479,7 @@ public class HutnLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:39: DIGIT
+                    	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:175:39: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -517,8 +517,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ADJECTIVE_PREFIX;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:176:17: ( '~' | '#' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:176:17: ( '~' | '#' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
             if ( input.LA(1)=='#'||input.LA(1)=='~' ) {
                 input.consume();
@@ -545,10 +545,10 @@ public class HutnLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             int alt7=5;
             switch ( input.LA(1) ) {
             case ' ':
@@ -585,21 +585,21 @@ public class HutnLexer extends Lexer {
 
             switch (alt7) {
                 case 1 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:179:2: ' '
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:179:2: ' '
                     {
                     match(' '); 
 
                     }
                     break;
                 case 2 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:180:2: '\\r'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:180:2: '\\r'
                     {
                     match('\r'); 
 
                     }
                     break;
                 case 3 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:181:2: '\\t'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:181:2: '\\t'
                     {
                     match('\t'); 
                     input.setCharPositionInLine(input.getCharPositionInLine() + 3);
@@ -607,14 +607,14 @@ public class HutnLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:182:3: '\\u000C'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:182:3: '\\u000C'
                     {
                     match('\f'); 
 
                     }
                     break;
                 case 5 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:183:3: '\\n'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:183:3: '\\n'
                     {
                     match('\n'); 
 
@@ -640,12 +640,12 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:5: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:9: '/*' ( options {greedy=false; } : . )* '*/'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:5: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:9: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:14: ( options {greedy=false; } : . )*
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:14: ( options {greedy=false; } : . )*
             loop8:
             do {
                 int alt8=2;
@@ -670,7 +670,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:42: .
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:188:42: .
             	    {
             	    matchAny(); 
 
@@ -701,12 +701,12 @@ public class HutnLexer extends Lexer {
         try {
             int _type = SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:12: (~ ( '\\n' | '\\r' ) )*
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:12: (~ ( '\\n' | '\\r' ) )*
             loop9:
             do {
                 int alt9=2;
@@ -719,7 +719,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:12: ~ ( '\\n' | '\\r' )
+            	    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:12: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -739,7 +739,7 @@ public class HutnLexer extends Lexer {
                 }
             } while (true);
 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:26: ( '\\r' )?
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:26: ( '\\r' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -748,7 +748,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:26: '\\r'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:192:26: '\\r'
                     {
                     match('\r'); 
 
@@ -773,8 +773,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ID_START_LETTER
     public final void mID_START_LETTER() throws RecognitionException {
         try {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:197:2: ( '_' | 'a' .. 'z' | 'A' .. 'Z' | '@' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:197:2: ( '_' | 'a' .. 'z' | 'A' .. 'Z' | '@' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
             if ( (input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -797,8 +797,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ID_LETTER
     public final void mID_LETTER() throws RecognitionException {
         try {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:205:5: ( ID_START_LETTER | '0' .. '9' | '-' | '#' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:205:5: ( ID_START_LETTER | '0' .. '9' | '-' | '#' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:
             {
             if ( input.LA(1)=='#'||input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -821,11 +821,11 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ESC
     public final void mESC() throws RecognitionException {
         try {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:213:5: ( '\\\\' ( '\"' | '\\\\' ) )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:213:9: '\\\\' ( '\"' | '\\\\' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:213:5: ( '\\\\' ( '\"' | '\\\\' ) )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:213:9: '\\\\' ( '\"' | '\\\\' )
             {
             match('\\'); 
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:214:9: ( '\"' | '\\\\' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:214:9: ( '\"' | '\\\\' )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -843,7 +843,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt11) {
                 case 1 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:215:12: '\"'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:215:12: '\"'
                     {
                     match('\"'); 
                     setText("\"");
@@ -851,7 +851,7 @@ public class HutnLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:216:12: '\\\\'
+                    // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:216:12: '\\\\'
                     {
                     match('\\'); 
                     setText("\\");
@@ -873,8 +873,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start TEXT_LETTER
     public final void mTEXT_LETTER() throws RecognitionException {
         try {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:222:5: (~ ( '\\\"' | '\\\\' ) )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:222:10: ~ ( '\\\"' | '\\\\' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:222:5: (~ ( '\\\"' | '\\\\' ) )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:222:10: ~ ( '\\\"' | '\\\\' )
             {
             if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                 input.consume();
@@ -897,8 +897,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:226:7: ( '0' .. '9' )
-            // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:226:9: '0' .. '9'
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:226:7: ( '0' .. '9' )
+            // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:226:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -911,117 +911,117 @@ public class HutnLexer extends Lexer {
     // $ANTLR end DIGIT
 
     public void mTokens() throws RecognitionException {
-        // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:8: ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT )
+        // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:8: ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT )
         int alt12=16;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:10: TRUE
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:10: TRUE
                 {
                 mTRUE(); 
 
                 }
                 break;
             case 2 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:15: FALSE
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:15: FALSE
                 {
                 mFALSE(); 
 
                 }
                 break;
             case 3 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:21: NULL
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:21: NULL
                 {
                 mNULL(); 
 
                 }
                 break;
             case 4 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:26: T__27
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:26: T__27
                 {
                 mT__27(); 
 
                 }
                 break;
             case 5 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:32: T__28
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:32: T__28
                 {
                 mT__28(); 
 
                 }
                 break;
             case 6 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:38: COMMA
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:38: COMMA
                 {
                 mCOMMA(); 
 
                 }
                 break;
             case 7 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:44: LBRACKET
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:44: LBRACKET
                 {
                 mLBRACKET(); 
 
                 }
                 break;
             case 8 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:53: RBRACKET
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:53: RBRACKET
                 {
                 mRBRACKET(); 
 
                 }
                 break;
             case 9 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:62: ASSIGNMENT
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:62: ASSIGNMENT
                 {
                 mASSIGNMENT(); 
 
                 }
                 break;
             case 10 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:73: NAME
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:73: NAME
                 {
                 mNAME(); 
 
                 }
                 break;
             case 11 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:78: TEXTUAL_VALUE
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:78: TEXTUAL_VALUE
                 {
                 mTEXTUAL_VALUE(); 
 
                 }
                 break;
             case 12 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:92: NUMERIC_VALUE
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:92: NUMERIC_VALUE
                 {
                 mNUMERIC_VALUE(); 
 
                 }
                 break;
             case 13 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:106: ADJECTIVE_PREFIX
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:106: ADJECTIVE_PREFIX
                 {
                 mADJECTIVE_PREFIX(); 
 
                 }
                 break;
             case 14 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:123: WS
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:123: WS
                 {
                 mWS(); 
 
                 }
                 break;
             case 15 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:126: ML_COMMENT
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:126: ML_COMMENT
                 {
                 mML_COMMENT(); 
 
                 }
                 break;
             case 16 :
-                // /local/d0p6/antonio/repositories/org.eclipse.gmt.epsilon/plugins/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:137: SL_COMMENT
+                // /Users/dimitrioskolovos/Projects/Eclipse/3.6.1/Eclipse.app/Contents/MacOS/workspace/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/Hutn.g:1:137: SL_COMMENT
                 {
                 mSL_COMMENT(); 
 
