@@ -87,9 +87,4 @@ public class EglTask extends ExecutableModuleTask {
 		return nestedElement;
 	}
 	
-	@Override
-	protected EolDebugger createDebugger() {
-		return new EolDebugger();
-	}
-
 }

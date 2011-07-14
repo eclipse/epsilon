@@ -84,12 +84,6 @@ public class EvlTask extends ExportableModuleTask {
 		return classes;
 	}
 
-
-	@Override
-	public EolDebugger createDebugger() {
-		return new EvlDebugger();
-	}
-
 	@Override
 	protected ArrayList<Object> getObjectsForExportedModel() {
 		return new ArrayList<Object>(((EvlModule)module).getContext().getUnsatisfiedConstraints());

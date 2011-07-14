@@ -55,11 +55,6 @@ public class EtlTask extends ExportableModuleTask {
 	}
 	
 	@Override
-	public EolDebugger createDebugger() {
-		return new EtlDebugger();
-	}
-
-	@Override
 	protected Collection<? extends Object> getObjectsForExportedModel() {
 		final TransformationTrace trace = ((IEtlModule)module).getContext().getTransformationTrace();
 		return Collections.singleton(trace);

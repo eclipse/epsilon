@@ -63,8 +63,4 @@ public class EclTask extends ExecutableModuleTask{
 		}
 	}
 	
-	@Override
-	protected EolDebugger createDebugger() {
-		return new EclDebugger();
-	}
 }

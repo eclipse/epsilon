@@ -96,14 +96,14 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		 * EUnit-specific operation which is equivalent to the "exports" nested element.
 		 */
 		public void exportVariable(String varName) {
-			EUnitTask.this.exportVariable(varName, varName, false);
+			EUnitTask.this.exportVariable(varName, varName, false, false);
 		}
 
 		/**
 		 * EUnit-specific operation which is equivalent to the "imports" nested element.
 		 */
 		public void useVariable(String varName) {
-			EUnitTask.this.useVariable(varName, varName, false);
+			EUnitTask.this.useVariable(varName, varName, false, false);
 		}
 
 		/**
@@ -158,11 +158,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
 			fail("At least one test case had a failure or an error", test.getException());
 		}
-	}
-
-	@Override
-	protected EolDebugger createDebugger() {
-		return new EolDebugger();
 	}
 
 	@Override

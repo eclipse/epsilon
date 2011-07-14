@@ -13,11 +13,10 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 
 public class LoadModelTask extends EpsilonTask{
@@ -60,15 +59,6 @@ public class LoadModelTask extends EpsilonTask{
 		}
 	}
 	
-	protected IModel createModel(String type) throws BuildException {
-		try {
-			IModel model = ModelTypeExtension.forType(type).createModel();
-			return model;
-		} catch (CoreException e) {
-			throw new BuildException(e);
-		}
-	}
-	
 	protected StringProperties getStringProperties() {
 		StringProperties properties = new StringProperties();
 		for (ParameterNestedElement parameterNestedElement : parameterNestedElements) {
@@ -105,5 +95,9 @@ public class LoadModelTask extends EpsilonTask{
 		ParameterNestedElement parameterNestedElement = new ParameterNestedElement();
 		parameterNestedElements.add(parameterNestedElement);
 		return parameterNestedElement;
+	}
+
+	protected IModel createModel(String type) throws BuildException {
+		return HostManager.getHost().createModel(type);
 	}
 }

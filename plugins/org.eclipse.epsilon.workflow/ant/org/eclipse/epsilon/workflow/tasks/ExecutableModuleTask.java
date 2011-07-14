@@ -19,35 +19,23 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.ant.core.AntCorePlugin;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListener;
-import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.profiling.FileMarker;
 import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
+import org.eclipse.epsilon.eol.types.EolType;
+import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IOConsole;
 
 public abstract class ExecutableModuleTask extends EpsilonTask {
 	
@@ -62,16 +50,9 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected String uri;
 	protected Object result;
 	private boolean isGUI = true, isDebug = false;
-
+	
 	static {
-		if (ConsolePlugin.getDefault() != null) {
-			for (IConsole c : ConsolePlugin.getDefault().getConsoleManager().getConsoles()) {
-				if (c instanceof IOConsole) {
-					IOConsole ioConsole = ((IOConsole) c);
-					ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
-				}
-			}
-		}
+		HostManager.getHost().initialise();
 	}
 
 	public ModelNestedElement createModel() {
@@ -102,21 +83,13 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		// We can only run these if we're inside a real Eclipse instance:
 		// we must avoid these calls if we're running the Ant task inside
 		// a JUnit test
-		if (Platform.getExtensionRegistry() != null) {
-			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
-			if (!isGUI()) {
-				module.getContext().setUserInput(new JFaceUserInput(module.getContext().getPrettyPrinterManager()));
-			}
-		}
+		HostManager.getHost().addNativeTypeDelegates(module);
+		HostManager.getHost().configureUserInput(module, isGUI());
+		
 		module.getContext().setExtendedProperties(getExtendedProperties());
 
-		// Allow the user to stop any E*L task through the stop button in the console
-		IProgressMonitor monitor =
-			(IProgressMonitor) getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
-		if (monitor != null) {
-			module.getContext().getExecutorFactory().setExecutionController(new EclipseExecutionController(monitor));
-		}
-
+		HostManager.getHost().addStopCapabilities(getProject(), module);
+		
 		EolSystem system = new EolSystem();
 		system.setContext(module.getContext());
 		module.getContext().setAssertionsEnabled(assertions);
@@ -169,7 +142,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		for (VariableNestedElement usesVariableNestedElement : usesVariableNestedElements) {
 			useVariable(usesVariableNestedElement.getRef(),
 					usesVariableNestedElement.getAs(),
-					usesVariableNestedElement.isOptional());
+					usesVariableNestedElement.isOptional(),
+					usesVariableNestedElement.isAnt());
 		}		
 	}
 
@@ -178,7 +152,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			exportVariable(
 					exportVariableNestedElement.getRef(),
 					exportVariableNestedElement.getAs(),
-					exportVariableNestedElement.isOptional());
+					exportVariableNestedElement.isOptional(),
+					exportVariableNestedElement.isAnt());
 		}
 	}
 
@@ -203,23 +178,10 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			configureModule();
 			initialize();
 
-			if (!isDebug()) {
+			if (!isDebug() || !HostManager.getHost().supportsDebugging()) {
 				result = module.execute();
 			} else {
-				final EolDebugger debugger = createDebugger();
-
-				// HACK: we assume the only running launch is the Ant launch. There's no clear way to
-				// tell apart an Ant launch from a regular Run launch, apart from using internal classes
-				// in the Eclipse Ant internal API.
-				final ILaunch currentLaunch = DebugPlugin.getDefault().getLaunchManager().getLaunches()[0];
-				// HACK: we need to remove the Ant source locator so Eclipse can find the source file
-				currentLaunch.setSourceLocator(null);
-
-				final EolDebugTarget target = new EolDebugTarget(
-					currentLaunch, module, debugger, getSrc().getAbsolutePath());
-				debugger.setTarget(target);
-				currentLaunch.addDebugTarget(target);
-				result = target.debug();
+				HostManager.getHost().debug(module, getSrc());
 			}
 
 			useResults();
@@ -319,8 +281,15 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return isDebug;
 	}
 
-	protected void useVariable(final String var, final String as, final boolean optional) {
-		Variable usedVariable = getProjectStackFrame().get(var);
+	protected void useVariable(final String var, final String as, final boolean optional, boolean ant) {
+		Variable usedVariable = null;
+		
+		if (ant) {
+			usedVariable = new Variable(var, getProject().getProperty(var), EolPrimitiveType.String);
+		}
+		else {
+			usedVariable = getProjectStackFrame().get(var);			
+		}
 
 		// FIXME : Remove this hack using a proper design!
 		if (usedVariable != null) {
@@ -353,9 +322,9 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		module.getContext().getFrameStack().getGlobals().put(usedVariable);
 	}
 
-	protected void exportVariable(String var, String as, final boolean optional) {
+	protected void exportVariable(String var, String as, final boolean optional, boolean ant) {
 		Variable exportedVariable = module.getContext().getFrameStack().get(var);
-	
+		
 		// FIXME : 2nd part of the hack
 		if (exportedVariable == null) {
 			IModel model = module.getContext().getModelRepository().getModelByNameSafe(var);
@@ -369,19 +338,22 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			if (as != null) {
 				exportedVariable.setName(as);
 			}
-			getProjectStackFrame().put(exportedVariable);
+			if (ant) {
+				getProject().setProperty(exportedVariable.getName(), module.getContext().getPrettyPrinterManager().print(exportedVariable.getValue()));
+			}
+			else {
+				getProjectStackFrame().put(exportedVariable);				
+			}
 		} else {
 			if (!optional) {
 				throw new BuildException("Variable " + var + " is undefined");
 			}
 		}
 	}
-
+	
 	protected abstract void initialize() throws Exception;
 
 	protected abstract void examine() throws Exception;
-
-	protected abstract EolDebugger createDebugger();
 
 	protected abstract IEolExecutableModule createModule() throws Exception;
 		

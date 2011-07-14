@@ -79,11 +79,6 @@ public class EmlTask extends ExecutableModuleTask {
 	
 	}
 
-	@Override
-	public EolDebugger createDebugger() {
-		return new EmlDebugger();
-	}
-
 	//public String getEclsrc() {
 	//	return eclsrc;
 	//}
