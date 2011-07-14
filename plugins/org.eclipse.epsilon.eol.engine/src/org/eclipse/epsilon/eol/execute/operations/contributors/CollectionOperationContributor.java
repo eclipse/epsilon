@@ -276,19 +276,15 @@ public class CollectionOperationContributor extends OperationContributor {
 	}
 	
 	public String concat(String delimiter) {
-		final StringBuilder result = new StringBuilder();
+		return CollectionUtil.join(getCollection(), delimiter, new CollectionUtil.ElementPrinter() {
 
-		for (Iterator<?> iterator = getCollection().iterator(); iterator.hasNext();) {
-			Object next = iterator.next();
-			
-			//FIXME : Use the pretty printer manager here
-			result.append(StringUtil.toString(next, ""));
-			
-			if (iterator.hasNext()) {
-				result.append(delimiter);
+			@Override
+			public String print(Object element) {
+				//FIXME : Use the pretty printer manager here
+				return StringUtil.toString(element, "");
 			}
-		}
-		return result.toString();
+			
+		});
 	}
 	
 	public Number max() {

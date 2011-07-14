@@ -1,0 +1,12 @@
+@namespace(uri="fruits", prefix="fruits")
+
+package fruits;
+
+class Basket {
+   val Fruit[*] fruits;
+}
+
+abstract class Fruit {
+   
+}
+

@@ -14,12 +14,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.commons.util.CollectionUtil.ElementPrinter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository.AmbiguityCheckResult;
 
 public class EolModelElementType extends EolType{
 	
@@ -52,6 +55,8 @@ public class EolModelElementType extends EolType{
 			typeName = modelAndMetaClass;
 		}
 		
+		checkAmbiguityOfType(context);
+
 		model = context.getModelRepository().getModelByName(modelName);
 
 		if (model==null || !model.hasType(typeName)){
@@ -68,7 +73,37 @@ public class EolModelElementType extends EolType{
 			throw new EolModelElementTypeNotFoundException(modelName,typeName);
 		}
 	}
+
+	private void checkAmbiguityOfType(IEolContext context) {
+		final AmbiguityCheckResult result = context.getModelRepository().checkAmbiguity(typeName);
 	
+		if (modelName.isEmpty() && result.isAmbiguous) {
+			issueAmbiguousTypeWarning(context, result);
+		}
+	}
+
+	private void issueAmbiguousTypeWarning(IEolContext context, AmbiguityCheckResult result) {
+		final String potentialTypes = CollectionUtil.join(result.namesOfOwningModels, " ", new ElementPrinter() {
+			
+			@Override
+			public String print(Object element) {
+				return "'" + element + "!" + typeName + "'";
+			}
+		});
+		
+		context.getWarningStream().println("Warning: The type '" + typeName + "' " + 
+		                                   "is ambiguous and could refer to any of the following: " + potentialTypes + ". " + 
+		                                   "The type '" + result.nameOfSelectedModel + "!" + typeName + "' has been assumed. " +
+		                                   determineLocation(context.getFrameStack().getCurrentStatement()));
+	}
+
+	private String determineLocation(AST statement) {
+		if (statement == null)
+			return "";
+		else
+			return "(" + statement.getFile() + "@" + statement.getLine() + ":" + statement.getColumn() + ")";
+	}
+
 	public String getModelName() {
 		return modelName;
 	}
@@ -85,7 +120,7 @@ public class EolModelElementType extends EolType{
 		this.typeName = type;
 	}
 	
-	public Collection getAllOfKind(){
+	public Collection<?> getAllOfKind(){
 		try {
 			return model.getAllOfKind(typeName);
 		}
@@ -95,7 +130,7 @@ public class EolModelElementType extends EolType{
 		}
 	}
 	
-	public Collection getAllOfType(){
+	public Collection<?> getAllOfType(){
 		try {
 			return model.getAllOfType(typeName);
 		}
@@ -105,19 +140,19 @@ public class EolModelElementType extends EolType{
 		}
 	}
 	
-	public Collection getAll() {
+	public Collection<?> getAll() {
 		return getAllOfKind();
 	}
 	
-	public Collection all() {
+	public Collection<?> all() {
 		return getAllOfKind();
 	}
 	
-	public Collection getAllInstances(){
+	public Collection<?> getAllInstances(){
 		return getAllOfKind();
 	}
 	
-	public Collection allInstances(){
+	public Collection<?> allInstances(){
 		return getAllOfKind();
 	}
 	

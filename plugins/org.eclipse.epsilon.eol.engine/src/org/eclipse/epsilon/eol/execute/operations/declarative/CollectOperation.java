@@ -54,7 +54,7 @@ public class CollectOperation extends AbstractOperation{
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		Collection<Object> source = CollectionUtil.asCollection(obj);
+		Collection<?>      source = CollectionUtil.asCollection(obj);
 		Collection<Object> result = null;
 		
 		if (EolCollectionType.isOrdered(source)) {

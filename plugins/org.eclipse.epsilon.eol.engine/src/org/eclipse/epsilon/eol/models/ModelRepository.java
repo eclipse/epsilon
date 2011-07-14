@@ -11,7 +11,9 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -78,17 +80,41 @@ public class ModelRepository {
 		return modelGroup;
 	}
 	
-	/*
-	public Collection<IModel> getModelsByAlias(String metaModelName){
-		ArrayList<IModel> selected = new ArrayList<IModel>();
-		for (IModel model : models){
-			if (model.getAliases().contains(metaModelName)){
-				selected.add(model);
+	/**
+	 * Returns a result that indicates (1) whether the specified type
+	 * is ambiguous (i.e. more than one {@link IModel} in this repository
+	 * has the type), and (2) the set of models that do have this type.
+	 */
+	public AmbiguityCheckResult checkAmbiguity(String typeName) {	
+		final List<String> namesOfModelsThatHaveThisType = namesOfModelsThatHaveTheType(typeName);
+		final boolean      typeIsAmbiguous               = namesOfModelsThatHaveThisType.size() > 1;
+		final String       nameOfSelectedModel           = namesOfModelsThatHaveThisType.isEmpty() ? "" : namesOfModelsThatHaveThisType.get(0);
+		
+		return new AmbiguityCheckResult(typeIsAmbiguous, namesOfModelsThatHaveThisType, nameOfSelectedModel);
+	}
+
+	private List<String> namesOfModelsThatHaveTheType(String typeName) {
+		final List<String> modelNames = new LinkedList<String>();
+		
+		for (IModel model : getModels()) {
+			if (model.hasType(typeName)) {
+				modelNames.add(model.getName());
 			}
 		}
-		return selected;
+		return modelNames;
 	}
-	*/
+	
+	public static class AmbiguityCheckResult {
+		public final boolean isAmbiguous;
+		public final Collection<String> namesOfOwningModels;
+		public final String nameOfSelectedModel;
+		
+		public AmbiguityCheckResult(boolean isAmbiguous, Collection<String> namesOfOwningModels, String nameOfSelectedModel) {
+			this.isAmbiguous = isAmbiguous;
+			this.namesOfOwningModels = namesOfOwningModels;
+			this.nameOfSelectedModel = nameOfSelectedModel;
+		} 		
+	}
 	
 	//TODO : Add support for using #vk_public straight
 	// and test for MDR models
@@ -104,77 +130,6 @@ public class ModelRepository {
 		return model.getEnumerationValue(enumeration, label);
 	}
 	
-	/*
-	public Object createInstance(String modelAndMetaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException, EolModelNotFoundException {
-		String modelName = getModelName(modelAndMetaClass);
-		IModel model = getModelByName(modelName);
-		if (model != null){
-			return model.createInstance(getMetaClassName(modelAndMetaClass));
-			
-		}
-		else {
-			throw new EolModelNotFoundException(modelName);
-		}
-	}
-	*/
-	
-	/*
-	public Collection getAllOfType(String modelAndMetaClass) throws EolModelElementTypeNotFoundException, EolModelNotFoundException{
-		String modelName = getModelName(modelAndMetaClass);
-		String metaClass = getMetaClassName(modelAndMetaClass);
-		IModel model = getModelByName(modelName);
-		if (model != null){
-			return model.getAllOfType(metaClass);
-		} else {
-			Collection<IModel> models = getModelsByAlias(modelName);
-			if (models.size() > 0){
-				ArrayList allOfClass = new ArrayList();
-				for (IModel m : models) {
-					allOfClass.addAll(m.getAllOfType(metaClass));
-				}
-				return allOfClass;
-			}
-		}
-		throw new EolModelNotFoundException(modelName);
-	}
-	
-	public Collection getAllOfKind(String modelAndMetaClass) throws EolModelElementTypeNotFoundException, EolModelNotFoundException{
-		String modelName = getModelName(modelAndMetaClass);
-		String metaClass = getMetaClassName(modelAndMetaClass);
-		IModel model = getModelByName(modelName);
-		if (model != null){
-			return model.getAllOfKind(getMetaClassName(modelAndMetaClass));
-		} else {
-			Collection<IModel> models = getModelsByAlias(modelName);
-			if (models.size() > 0){
-				ArrayList allOfType = new ArrayList();
-				for (IModel m : models) {
-					allOfType.addAll(m.getAllOfType(metaClass));
-				}
-				return allOfType;
-			}
-		}
-		throw new EolModelNotFoundException(modelName);		
-	}
-	*/
-	
-	/*
-	public boolean isInstantiable(String modelAndMetaClass) throws EolModelNotFoundException {
-		String modelName = getModelName(modelAndMetaClass);
-		String metaClass = getMetaClassName(modelAndMetaClass);
-		IModel model = getModelByName(modelName);
-		return model.isInstantiable(metaClass);
-	}
-	*/
-	/*
-	public boolean existsMetaClass(String modelAndMetaClass) throws EolModelNotFoundException {
-		String modelName = getModelName(modelAndMetaClass);
-		String metaClass = getMetaClassName(modelAndMetaClass);
-		IModel model = getModelByName(modelName);
-		return model.hasType(metaClass);		
-	}
-	*/
-	
 	public IModel getOwningModel(Object instance){
 		for (IModel model : models) {
 			if (model.owns(instance)){
@@ -183,15 +138,6 @@ public class ModelRepository {
 		}
 		return null;
 	}
-	
-	/*
-	public boolean isModelElement(Object instance){
-		for (IModel model : models) {
-			if (model.isModelElement(instance)) return true;
-		}
-		return false;
-	}
-	*/
 	
 	protected String getMetaClassName(String modelAndMetaClass){
 		if (modelAndMetaClass.indexOf("!") != -1){

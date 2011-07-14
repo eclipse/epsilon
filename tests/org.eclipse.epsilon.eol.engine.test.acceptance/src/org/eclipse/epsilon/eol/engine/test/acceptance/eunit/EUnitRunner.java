@@ -26,6 +26,7 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
@@ -51,6 +52,7 @@ public class EUnitRunner extends Runner {
 		
 		module = new EUnitModule();
 		testSuiteDescription = Description.createSuiteDescription(clazz);
+		module.getContext().getOperationContributorRegistry().add(new AssertWarningOperationContributor(module.getContext()));
 		
 		try {
 			eolFile = FileUtil.getFile(clazz.getSimpleName() + ".eol", clazz);
@@ -100,6 +102,8 @@ public class EUnitRunner extends Runner {
 		EUnitTest suiteRoot;
 		try {
 			module.getContext().getModelRepository().addModel(getEcoreModel());
+			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("modelManager", new ModelManager(module.getContext())));
+			
 			module.execute();
 			suiteRoot = module.getSuiteRoot();
 

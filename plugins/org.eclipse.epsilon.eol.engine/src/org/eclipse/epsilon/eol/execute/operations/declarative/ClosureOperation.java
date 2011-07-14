@@ -45,7 +45,7 @@ public class ClosureOperation extends AbstractOperation {
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		Collection<Object> source = CollectionUtil.asCollection(obj);
+		Collection<?>      source = CollectionUtil.asCollection(obj);
 		Collection<Object> result = CollectionUtil.createDefaultList();
 		
 		closure(source,iteratorName,iteratorType,bodyAst,context,result);
@@ -53,7 +53,7 @@ public class ClosureOperation extends AbstractOperation {
 		return result;
 	}
 	
-	public void closure(Collection<Object> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
+	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
