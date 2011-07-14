@@ -10,15 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -27,12 +27,21 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class ExecutorFactory {
 	
 	protected ExecutionController executionController = null;
-	protected HashMap executorCache = new HashMap();
+	protected HashMap<Integer, AbstractExecutor> executorCache = new HashMap<Integer, AbstractExecutor>();
 	protected AST activeAst = null;
+	protected ArrayList<IExecutionListener> executionListeners = new ArrayList<IExecutionListener>();
 	
 	public ExecutorFactory(){
 		executionController = new DefaultExecutionController();
 		cacheExecutors();
+	}
+	
+	public void addExecutionListener(IExecutionListener listener) {
+		executionListeners.add(listener);
+	}
+	
+	public boolean removeExecutionListener(IExecutionListener listener) {
+		return executionListeners.remove(listener);
 	}
 	
 	public ExecutionController getExecutionController() {
@@ -191,6 +200,10 @@ public class ExecutorFactory {
 			throw new EolRuntimeException("No executor found for type #" + ast.getType(), ast);
 		}
 		
+		for (IExecutionListener listener : executionListeners) {
+			listener.aboutToExecute(ast, context);
+		}
+		
 		try {
 			return executor.execute(ast, context);
 		}
@@ -204,6 +217,11 @@ public class ExecutorFactory {
 			}
 			else {
 				throw new EolInternalException(ex, ast);
+			}
+		}
+		finally {
+			for (IExecutionListener listener : executionListeners) {
+				listener.finishedExecuting(ast, context);
 			}
 		}
 	}

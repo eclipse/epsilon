@@ -1,0 +1,36 @@
+<project>
+	    <macrodef name="buildEpsilonParser">
+        <attribute name="lang"/>
+    	<attribute name="langUpperCase"/>
+		<attribute name="extends" default="eol"/>
+	    
+        <sequential>
+        	<property name="project_loc" location="../../../../../.."/>
+    	    <property name="workspace_loc" location="../../../../../../.."/>
+			
+        	<echo message="Generating @{langUpperCase} parser..."></echo>
+        	<java classname="org.eclipse.epsilon.antlr.dev.Tool">
+    			
+    			<classpath>
+    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/org.eclipse.epsilon.antlr.dev.jar"/>
+    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/antlr-3.1b1.jar"/>
+    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/stringtemplate-3.1.jar"/>
+    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/antlr-2.7.7.jar"/>
+    			</classpath>
+    			
+    			<arg value="-package"/>
+    			<arg value="org.eclipse.epsilon.@{lang}.parse"/>
+    			<arg value="-lib"/>
+        		<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/;${workspace_loc}/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/;${workspace_loc}/org.eclipse.epsilon.@{extends}.engine/src/org/eclipse/epsilon/@{extends}/parse/"/>
+        		<arg value="-o"/>
+    			<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
+    			<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/@{langUpperCase}.g"/>
+    			
+    		</java>
+        	
+        	<eclipse.refreshLocal resource="org.eclipse.epsilon.@{lang}.engine"/>
+        	
+        </sequential>
+    </macrodef>
+	
+</project>

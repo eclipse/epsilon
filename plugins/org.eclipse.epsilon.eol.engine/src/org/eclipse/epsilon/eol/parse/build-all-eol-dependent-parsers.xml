@@ -1,0 +1,20 @@
+<project default="main">
+	
+	<macrodef name="runParserBuildFile">
+		<attribute name="lang"/>
+		<sequential>
+			<property name="workspace_loc" location="../../../../../../.."/>
+			<ant inheritall="false" antfile="${workspace_loc}/org.eclipse.epsilon.@{lang}.engine/src/org/eclipse/epsilon/@{lang}/parse/build-@{lang}-parser.xml"/>			
+		</sequential>
+	</macrodef>
+	
+	<target name="main">
+		<runParserBuildFile lang="eol"/>
+		<runParserBuildFile lang="evl"/>
+		<runParserBuildFile lang="etl"/>
+		<runParserBuildFile lang="ecl"/>
+		<runParserBuildFile lang="eml"/>
+		<runParserBuildFile lang="ewl"/>
+	</target>
+	
+</project>
