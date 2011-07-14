@@ -15,6 +15,7 @@ public class VariableNestedElement {
 	protected String ref;
 	protected String as;
 	protected boolean optional;
+	protected boolean ant;
 	
 	public String getRef() {
 		return ref;
@@ -40,6 +41,12 @@ public class VariableNestedElement {
 		this.optional = optional;
 	}
 
+	public boolean isAnt() {
+		return ant;
+	}
 	
+	public void setAnt(boolean ant) {
+		this.ant = ant;
+	}
 	
 }
