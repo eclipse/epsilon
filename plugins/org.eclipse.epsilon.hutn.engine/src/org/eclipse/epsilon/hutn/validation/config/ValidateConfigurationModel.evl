@@ -44,11 +44,11 @@ operation Rule getAttributeObject() : MetaModel!EStructuralFeature {
 }
 
 operation String existsAsClassifier() : Boolean {
-	return MetaModel!EClassifier.allInstances.exists(c : EClassifier | c.name = self);
+	return MetaModel!EClassifier.allInstances.exists(c : MetaModel!EClassifier | c.name = self);
 }
 
 operation String toClassifier() : MetaModel!EClassifier {
-	return MetaModel!EClassifier.allInstances.select(c : EClassifier | c.name = self).first();
+	return MetaModel!EClassifier.allInstances.select(c : MetaModel!EClassifier | c.name = self).first();
 }
 
 operation String toStructuralFeature(classifier : MetaModel!EClassifier) : MetaModel!EStructuralFeature {

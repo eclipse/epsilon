@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class ReuseMigrationForSomeSubtypes extends Strong2StrongMigrationAcceptanceTest {
 
-	private static final String strategy = "migrate NamedElement when: not original.isKindOf(Dog) {" +
+	private static final String strategy = "migrate NamedElement when: not original.isKindOf(Original!Dog) {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}";
 	
