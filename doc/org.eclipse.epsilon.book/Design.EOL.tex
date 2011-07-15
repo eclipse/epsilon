@@ -122,6 +122,7 @@ operation Integer fibonacci() : Integer {
 \end{lstlisting}
 
 \section{Types}
+\label{sec:eol_types}
 
 As is the case for most programming languages, EOL defines a built-in system of types, illustrated in Figure \ref{fig:EOLTypes}. The \emph{Any} type, inspired by the \emph{OclAny} type of OCL, is the basis of all types in EOL including Collection types. The operations supported by instances of the Any type are outlined in Table \ref{tab:AnyOperations}\footnote{Parameters within square braces [ ] are optional}.
 
@@ -437,7 +438,7 @@ frame.visible = true;
 
 To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL, tabsize=2]
 var file = new Native("java.io.File")("myfile.txt");
 file.absolutePath.println();
 \end{lstlisting}
