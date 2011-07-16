@@ -32,7 +32,7 @@ Moreover, OCL does not support a number of common features required by model man
 
 \paragraph{Low Modularity and Reusability:} Modularity and re-usability are essential features for any programming language. In the context of model management, it is common practice to abstract complex model queries into re-usable operations. For example, when navigating UML models, it is useful to abstract the significantly longer query looking for a particular stereotype in the context of a model element (as displayed in Listing \ref{lst:isStereotyped}) with a shorthand \verb|isStereotyped(stereotypeName : String)| operation. 
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, flexiblecolumns=true, nolol=false, caption=Example OCL Query, label=lst:isStereotyped, language=OCL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, flexiblecolumns=true, nolol=false, caption=Example OCL Query, label=lst:isStereotyped, language=OCL]
 modelElement.stereptype->exists(
          stereotype:Stereotype|stereotype.name = stereotypeName)
 \end{lstlisting}

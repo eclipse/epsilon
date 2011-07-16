@@ -40,7 +40,7 @@ To address Case 1, a new Competition metamodel has been designed for capturing i
 
 Before the Competition model can be transformed into a TVApp model, it should be validated against a number of constraints so that potential errors are detected at this level and not propagated to the TVApp model. In Listing \ref{lst:ValidateCompetition} an Epsilon Validation Language module is used for this purpose. The \emph{NameSpecified} constraint in line \ref{line:NameSpecified} specifies that all named elements (that is \emph{Groups} and \emph{Competitors}) must specify a non-empty name. Moreover, in line \ref{line:NotEmpty}, the \emph{NotEmpty} constraint applies to Groups and specifies that each group must have at least one competitor. Here it is worth noticing that in its guard, the \emph{NotEmpty} constraint requires that to apply to particular Group, the Group must first satisfy the \emph{NameSpecified} constraint presented above. Finally, in line \ref{line:InUniqueGroup}, the \emph{InUniqueGroup} constraint checks that each competitor only participates in one Group.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=EVL module that validates a Competition model, label=lst:ValidateCompetition, language=EVL, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=EVL module that validates a Competition model, label=lst:ValidateCompetition, language=EVL, tabsize=2]
 context Competition!NamedElement {
 	
 	constraint NameSpecified { /*@\label{line:NameSpecified}@*/
@@ -85,7 +85,7 @@ context Competition!Competitor {
 
 Having validated the input Competition mode, the Epsilon Transformation Language discussed in Section \ref{sec:ETL} is used to transform it into a TVApp model. The transformation displayed in Listing \ref{lst:TransformCompetition} defines that an \texttt{Application} and a \texttt{Vote} will be generated from each \texttt{Competition}, and that the \texttt{Vote} will contain a flattened sequence of \texttt{Label}s (one for each \texttt{Group}) and \texttt{Choice}s (one for each \texttt{Competitor} in the group).
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, numbers=left, caption=ETL transformation that transforms a Competition model into a TVApp model, tabsize=2, label=lst:TransformCompetition, language=ETL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, numbers=left, caption=ETL transformation that transforms a Competition model into a TVApp model, tabsize=2, label=lst:TransformCompetition, language=ETL]
 rule Competition2Application
 	transform c : Competition!Competition
 	to a : TVApp!Application, v : TVApp!Vote {
@@ -119,7 +119,7 @@ rule Group2Label
 
 The two steps are combined into a composite task that validates and - if all constraints are satisfied - then transforms the Competition model using the workflow presented in Listing \ref{lst:TransformCompetitionWorkflow}. In lines \ref{line:LoadCompetitionTask} and \ref{line:LoadTVAppTask}, the involved models are loaded using the \emph{epsilon.loadModel} task. In line \ref{line:ValidateCompetitionTask} the Competition model is validated using the EVL module presented in Listing \ref{lst:ValidateCompetition}, and if all constraints are satisfied, in line \ref{line:TransformCompetitionTask}, it is transformed into a TVApp model using the ETL module presented in Listing \ref{lst:TransformCompetition}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Workflow that integrates the validation and transformation steps, label=lst:TransformCompetitionWorkflow, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Workflow that integrates the validation and transformation steps, label=lst:TransformCompetitionWorkflow, language=XML, tabsize=2]
 <?xml version="1.0"?>
 <project default="main">
 	
@@ -169,7 +169,7 @@ As discussed in Section \ref{sec:EML}, EML operates in two steps. In the first s
 
 Then, in Listing \ref{lst:CaseStudyEML}, matching \texttt{Report}s and \texttt{Text}s are merged using the \texttt{MergeReportWithText} merge-rule in line \ref{line:MergeReportWithText} which specifies that the \texttt{Text} should be updated and that the old version of the text should be stored in the form of a new \texttt{TextHistory} model element with a proper information and revision number. The rest of the elements of the original TVApp model are copied to the target model using the transformation rules provided by the CopyTVApp module, displayed in Listing \ref{lst:CaseStudyCopyETL}, which is imported by the EML module using the \emph{import} statement in line \ref{line:ImportETL}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=ECL module that compares a TVApp with a Report model, label=lst:CaseStudyECL, language=ECL, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=ECL module that compares a TVApp with a Report model, label=lst:CaseStudyECL, language=ECL, tabsize=2]
 rule MatchReportWithText /*@\label{line:MatchReportWithText}@*/
 	match t : OldTVApp!Text
 	with r : Report!Report {
@@ -178,7 +178,7 @@ rule MatchReportWithText /*@\label{line:MatchReportWithText}@*/
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EML module that merges a TVApp with a Report model, tabsize=2, label=lst:CaseStudyEML, language=EML]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EML module that merges a TVApp with a Report model, tabsize=2, label=lst:CaseStudyEML, language=EML]
 import "CopyTVApp.etl"; /*@\label{line:ImportETL}@*/
 
 rule MergeReportWithText /*@\label{line:MergeReportWithText}@*/
@@ -198,7 +198,7 @@ rule MergeReportWithText /*@\label{line:MergeReportWithText}@*/
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=ETL transformation that copies a TVApp module, label=lst:CaseStudyCopyETL, language=ETL, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=ETL transformation that copies a TVApp module, label=lst:CaseStudyCopyETL, language=ETL, tabsize=2]
 rule CopyApplication
 	transform s : OldTVApp!Application
 	to t : Target!Application {
@@ -251,7 +251,7 @@ rule CopyMenu
 
 In case a report in the Report model does not match a text in the TVApp model, the report is (correctly) not added into the target TVApp model. To inform the user about such cases, the EVL module of Listing \ref{lst:ValidateReport} is injected between the comparison and merging steps. The \emph{RefersToValidText} constraint specified in line \ref{line:RefersToValidText} examines the match-trace (\emph{trace}) established by the comparison step and requires that each report must match with a Text from the TVApp model.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=EVL module that validates a Report model against a TVApp model, label=lst:ValidateReport, language=EVL, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=EVL module that validates a Report model against a TVApp model, label=lst:ValidateReport, language=EVL, tabsize=2]
 context Report!Report {
 	
 	constraint RefersToValidText { /*@\label{line:RefersToValidText}@*/
@@ -266,7 +266,7 @@ context Report!Report {
 The ECL, EVL and EML modules presented above are integrated using the workflow of Listing \ref{lst:CaseStudyMergingWorkflow}. In lines \ref{line:LoadReportTask}, \ref{line:LoadOldTVAppTask} and \ref{line:LoadNewTVAppTask} the involved models are loaded. In line 
 \ref{line:MatchReportWithTVAppTask} the \emph{Report} model is compared with the \emph{OldTVApp} model using the ECL module of Listing \ref{lst:CaseStudyECL}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Workflow integrating the comparison\, validation and merging steps, label=lst:CaseStudyMergingWorkflow, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Workflow integrating the comparison\, validation and merging steps, label=lst:CaseStudyMergingWorkflow, language=XML, tabsize=2]
 <?xml version="1.0"?>
 <project default="main">
 	
@@ -335,7 +335,7 @@ To generate an XML document from a TVApp model, as required by the case study de
 	\label{fig:XML}
 \end{figure}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=ETL transformation that transforms TVApp models to XML models, tabsize=2, label=lst:TVApp2XML, language=ETL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=ETL transformation that transforms TVApp models to XML models, tabsize=2, label=lst:TVApp2XML, language=ETL]
 pre {
 	var doc : new Xml!Document;
 	doc.rootElement = TVApp!Application.
@@ -409,7 +409,7 @@ operation Xml!Element addAttribute
 
 The ETL transformation of Listing \ref{lst:TVApp2XML}, demonstrates two important characteristics of ETL: rule inheritance and state-changing operations. By inheriting from the abstract rule \textit{NamedElement2Element}, the rest of the rules are maintained simple and without duplication. Moreover, defining the \textit{addAttribute()} state-changing operation simplifies the \textit{NamedElement2Element} rule. 
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EGL template that generates XML text from XML models, tabsize=2, label=lst:EGL, language=EOL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EGL template that generates XML text from XML models, tabsize=2, label=lst:EGL, language=EOL]
 <?xml version="1.0"?>
 [%=Document.allInstances().first().rootElement.toString(0)%]
 
@@ -468,7 +468,7 @@ Generating XML text from an XML model in Listing \ref{lst:EGL} involves much dyn
 
 To integrate the two steps presented above into a coherent process that transforms a TVApp model directly to textual XML, the Epsilon Workflow is used. Thus, in Listing \ref{lst:CaseStudyCodeGenWorkflow}, two tasks for loading the involved models (epsilon.loadModel), one that invokes the ETL transformation (epsilon.etl) and one that invokes the EGL model-to-text transformation on the intermediate XML model (epsilon.egl) are used.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, numbers=left, flexiblecolumns=true, caption=The workflow that integrates the ETL and EGL tasks, tabsize=2, label=lst:CaseStudyCodeGenWorkflow, language=XML]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, numbers=left, flexiblecolumns=true, caption=The workflow that integrates the ETL and EGL tasks, tabsize=2, label=lst:CaseStudyCodeGenWorkflow, language=XML]
 <?xml version="1.0"?>
 <project default="main">
 	
@@ -505,7 +505,7 @@ To integrate the two steps presented above into a coherent process that transfor
 
 A feature that is not required explicitly by the case study description, but which was regarded as particularly useful is to be able to \textit{preview} a TVApp model using a mock-up that closely resembles the appearance of the final deployed application. Therefore, EGL has been used to compose a model-to-text transformation that generates a set of linked HTML screens that emulate the look-and-feel and functionality of the deployed application. Listing \ref{lst:Mockup} presents the main template of the EGL solution that iterates the model and invokes the respective sub-templates (Text.egl, Menu.egl, Vote.egl) to generate the mockup HTML screens.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EGL template that generates mockup HTML screens for a TVApp model, tabsize=2, label=lst:Mockup, language=EOL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=EGL template that generates mockup HTML screens for a TVApp model, tabsize=2, label=lst:Mockup, language=EOL]
 [%
 	import "include\\Common.eol";
 
