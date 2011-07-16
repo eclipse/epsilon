@@ -1,3 +1,16 @@
+%!TEX root = ../EpsilonBook.tex
+
 \subsection{Model-to-Text Transformation Task}
 \label{sec:EglTask}
-To support model to text transformations, \textit{EglTask (epsilon.egl)} task is provided that executes an Epsilon Generation Language (EGL) module\footnote{As discussed in Section \ref{sec:EGL} EGL has been built atop Epsilon with a minimal contribution of the author}. In addition to the attributes defined by \textit{ExecutableModuleTask}, \textit{EglTask} also defines a \textit{target} attribute that defines where the path of the file where the generated text will be stored.
+To support model to text transformations, \textit{EglTask (epsilon.egl)} task is provided that executes an Epsilon Generation Language (EGL) module\footnote{As discussed in Section \ref{sec:EGL} EGL has been built atop Epsilon with a minimal contribution of the author}. In addition to the attributes defined by \textit{ExecutableModuleTask}, \textit{EglTask} also defines the following attributes:
+
+\begin{itemize}
+	\item \textit{target} : Defines a file in which all of the generated text will be stored.
+	\item \textit{templateFactoryType} : Defines the Java class that will be instantiated to provide a \emph{TemplateFactory} for the EGL program. The specified class must be on the classpath and must subtype \emph{EglTemplateFactory}. See Section~\ref{sec:custom_co-ordination} for more information.
+\end{itemize}
+
+\emph{EglTask} may nest any number of \emph{formatter} elements. The \emph{formatter} nested element has the following attributes:
+
+\begin{itemize}
+	\item \textit{implementation} (required) : Defines the Java class that will be instantiated to provide a \emph{Formatter} for the EGL program. The specified class must be on the classpath and must subtype \emph{Formatter}. See Section~\ref{sec:custom_formatter} for more information.
+\end{itemize}

@@ -20,13 +20,14 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {7.1}{Operations of type Template}}{128}{table.7.1}
-\contentsline {table}{\numberline {7.2}{Operations of the TemplateFactory object}}{129}{table.7.2}
-\contentsline {table}{\numberline {7.3}{\ignorespaces EGL's default merging behaviour.}}{136}{table.7.3}
+\contentsline {table}{\numberline {7.1}{Operations of type Template}}{126}{table.7.1}
+\contentsline {table}{\numberline {7.2}{Operations of type Template}}{130}{table.7.2}
+\contentsline {table}{\numberline {7.3}{Operations of the TemplateFactory object}}{132}{table.7.3}
+\contentsline {table}{\numberline {7.4}{\ignorespaces EGL's default merging behaviour.}}{139}{table.7.4}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {12.1}{\ignorespaces Extra operations and variables in EUnit}}{204}{table.12.1}
-\contentsline {table}{\numberline {12.2}{Assertions in EUnit}}{205}{table.12.2}
+\contentsline {table}{\numberline {12.1}{\ignorespaces Extra operations and variables in EUnit}}{210}{table.12.1}
+\contentsline {table}{\numberline {12.2}{Assertions in EUnit}}{211}{table.12.2}

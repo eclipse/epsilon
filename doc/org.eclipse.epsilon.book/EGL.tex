@@ -4,9 +4,7 @@
 \label{sec:EGL}
 EGL provides a language tailored for model-to-text transformation (M2T). EGL can be used to transform models into various types of textual artefact, including executable code (e.g. Java), reports (e.g. in HTML), images (e.g. using DOT), formal specifications (e.g. Z notation), or even entire applications comprising code in multiple languages (e.g. HTML, Javascript and CSS).
 
-EGL is a \emph{template-based} code generator (i.e. EGL programs resemble the text that they generate), and provides several features that simplify and support the generation of text from models, including: a sophisticated and language-independent merging engine (for preserving hand-written sections of generated text), an extensible template system (for generating text to a variety of sources, such as a file on disk, a database server, or even as a response issued by a web server), beautification algorithms (for producing generated text that is well-formatted and hence readable), and traceability mechanisms (for linking generated text with source models). 
-
-% TODO: Discuss formatters, and how to define custom types and invoke them via DT and ANT
+EGL is a \emph{template-based} code generator (i.e. EGL programs resemble the text that they generate), and provides several features that simplify and support the generation of text from models, including: a sophisticated and language-independent merging engine (for preserving hand-written sections of generated text), an extensible template system (for generating text to a variety of sources, such as a file on disk, a database server, or even as a response issued by a web server), formatting algorithms (for producing generated text that is well-formatted and hence readable), and traceability mechanisms (for linking generated text with source models). 
 
 % TODO: improve merge engine section: running example and describe how to use protected regions in the generated text
 
@@ -151,6 +149,51 @@ and does not return a value.
 %]
 \end{lstlisting}
 
+\section{The OutputBuffer}
+As an EGL program is executed, text is appended to a data structure termed 
+the \emph{OutputBuffer}. In every EGL program, the \emph{OutputBuffer} is 
+accessible via the \texttt{out} built-in variable. The \emph{OutputBuffer} 
+provides operations for appending to and removing from the buffer, and for 
+merging generated text with existing text (see Section~\ref{sec:merging}).
+
+For many EGL programs, interacting directly with the \emph{OutputBuffer} is 
+unnecessary. The contents of static and dynamic output sections are sent 
+directly to the \emph{OutputBuffer}, and no operation of the \emph{OutputBuffer}
+need be invoked directly. However, in cases when generated text must be sent
+to the \emph{OutputBuffer} from dynamic sections, or when generated text must
+be merged with existing text, the operations of \emph{OutputBuffer} (Table~\ref{tab:OutputBufferOperations}) are provided. Section~\ref{sec:merging}
+discusses merging generated and existing text, and presents several examples
+of invoking the operations of \emph{OutputBuffer}.
+
+\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+			
+			\caption{Operations of type Template}
+			\label{tab:OutputBufferOperations}\\
+			
+			\hline
+							
+			\textbf{Signature} & \textbf{Description} \\\hline
+			
+			chop(numberOfChars : Integer) & Removes the specified number of characters from the end of the buffer \\\hline
+			
+			print(object : Any) & Appends a string representation of the specified object to the buffer \\\hline
+			
+			println(object : Any) & Appends a string representation of the specified character and a new line to the buffer \\\hline
+			
+			println() & Appends a new line to the buffer \\\hline
+			
+			setContentType(contentType : String) & Updates the content type of this template. Subsequent calls to \texttt{pr\-es\-er\-ve} or \texttt{st\-a\-rtPr\-es\-er\-ve} that do not specify a style of comment will use the style of comment defined by the specified content type. See Section~\ref{sec:merging}. \\\hline
+			
+			preserve(id : String, enabled : Boolean, contents : String) & Appends a protected region to the buffer with the given identifier, enabled state and contents. Uses the current content type to determine how to format the start and end markers. See Section~\ref{sec:merging}. \\\hline
+			
+			preserve(startComment : String, endComment : String, id : String, enabled : Boolean, contents : String) & Appends a protected region to the buffer with the given identifier, enabled state and contents. Uses the first two parameters as start and end markers. See Section~\ref{sec:merging}. \\\hline
+			
+			startPreserve(id : String, enabled : Boolean) & Begins a protected region by appending the start marker for a protected region to the buffer with the given identifier and enabled state. Uses the current content type to determine how to format the start and end markers. See Section~\ref{sec:merging}. \\\hline
+			
+			startPreserve(startComment : String, endComment : String, id : String, enabled : Boolean) & Begins a protected region by appending the start marker to the buffer with the given identifier and enabled state. Uses the first two parameters as start and end markers. See Section~\ref{sec:merging}. \\\hline
+			
+			stopPreserve() & Ends the current protected region by appending the end marker to the buffer. This operation should be invoked only if there a protected region is currently open (i.e. has been started by invoking \texttt{st\-a\-rtPr\-es\-er\-ve} but not yet stopped by invoking \texttt{st\-opPr\-es\-er\-ve}). See Section~\ref{sec:merging}. \\\hline
+\end{longtable}
 
 \section{Co-ordination}
 \label{Co-ordination}
@@ -201,7 +244,7 @@ can invoke other \emph{Templates}, and hence can be shared and re-used
 between EGL programs. Secondly, the \emph{Template} type has been implemented
 in an extensible manner: users can define their own types of \emph{Template} 
 that generate text to any destination (e.g. a database or a network
-socket), as described in Section~\ref{sec:custom_co-ordiantion}. Finally, 
+socket), as described in Section~\ref{sec:custom_co-ordination}. Finally, 
 the \emph{Template} type provides a set of operations that are used to 
 control the destination of generated text. Users typically define a ``driver''
 template that does not generate text, but rather controls the destination 
@@ -237,11 +280,15 @@ In addition to \texttt{generate}, the Template type defines further operations f
 							
 			\textbf{Signature} & \textbf{Description} \\\hline
 			
-			populate(name : String, value : Any) & Makes a variable with the specified name and value available during the execution of the template \\\hline
+			populate(name : String, value : Any) & Makes a variable with the specified name and value available during the execution of the template. \\\hline
 			
-			process() : String & Executes the template and returns the text that is generated  \\\hline
+			process() : String & Executes the template and returns the text that is generated.  \\\hline
 			
-			generate(destination : String) & Executes the template and stores the text to the specified destination. The format of the destination parameter is dictated by the type of template. For example, the default template type (which can generate files on disk) expects a file system path as the destination parameter \\\hline
+			generate(destination : String) & Executes the template and stores the text to the specified destination. The format of the destination parameter is dictated by the type of template. For example, the default template type (which can generate files on disk) expects a file system path as the destination parameter. \\\hline
+			
+			setFormatter(formatter : Formatter) & Changes the formatter for this template to the specified formatter. Subsequent calls to generate or process will produce text that is formatted with the specified formatter. See Section~\ref{sec:formatters}. \\\hline
+			
+			setFormatters(formatters : Sequence(Formatter)) & Changes the formatter for this template to the specified sequence of formatters. Subsequent calls to generate or process will produce text that is formatted with each of the specified formatters in turn. See Section~\ref{sec:formatters}. \\\hline
 \end{longtable}
 
 
@@ -260,13 +307,18 @@ By default, EGL provides a \emph{TemplateFactory} that exposes operations for lo
 							
 			\textbf{Signature} & \textbf{Description} \\\hline
 			
-			load(path : String) : Template & Returns an instance of \emph{Template} that can be used to execute the EGL template stored at the specified path  \\\hline
+			load(path : String) : Template & Returns an instance of \emph{Template} that can be used to execute the EGL template stored at the specified path.  \\\hline
 			
-			prepare(code : String) : Template & Returns an instance of \emph{Template} that can be used to execute the specified EGL code  \\\hline
+			prepare(code : String) : Template & Returns an instance of \emph{Template} that can be used to execute the specified EGL code.  \\\hline
 			
-			setRoot(path : String) & Changes the default path that is used to resolve relative paths when generating files to disk. Subsequent calls to load and prepare will create templates that use the new path \\\hline
+			setRoot(path : String) & Changes the default path that is used to resolve relative paths when generating files to disk. Subsequent calls to load and prepare will create templates that use the new path. \\\hline
 			
-			setTemplateRoot(path : String) & Changes the default path that is used to resolve relative paths when loading templates with the load operation. Subsequent calls to load will use the new path \\\hline
+			setTemplateRoot(path : String) & Changes the default path that is used to resolve relative paths when loading templates with the load operation. Subsequent calls to load will use the new path. \\\hline
+			
+			setDefaultFormatter(formatter : Formatter) & Changes the formatter for this template factory to the specified formatter. Templates that are constructed after this
+operation has been invoked will produce text that is, by default, formatted with the specified formatter. See Section~\ref{sec:formatters}. \\\hline
+			
+			setDefaultFormatters(fo\-rm\-at\-te\-rs : Sequence(Formatter)) & Changes the formatter for this template to the specified sequence of formatters. Templates that are constructed after this operation has been invoked will produce text that is, by default, formatted with each of the specified formatters in turn. See Section~\ref{sec:formatters}.  \\\hline
 \end{longtable}
 
 \subsection{An Example of Co-ordination with EGL}
@@ -388,13 +440,8 @@ For example, the EGL development tools provide an Eclipse launch configuration t
 provides a tab named ``Generated Text.'' On this tab, users can select a 
 \emph{TemplateFactory} (under the group called ``Type of Template Factory''). 
 Note that a \emph{TemplateFactory} only appears on the launch configuration tab 
-if it has been registered with EGL via an Eclipse extension.
-
-Similarly, the workflow language provided by Epsilon (\ref{chp:Workflow}) allows the
-specification of custom types of \emph{TemplateFactory}. When using EGL in a standalone
-environment or invoking an EGL template programmatically from Java, a custom type of
-\emph{TemplateFactory} is used simply by instantiating it and calling the appropriate 
-operation for constructing an instance of \emph{Template}.
+if it has been registered with EGL via an Eclipse extension. Similarly, the workflow language provided by Epsilon (Chapter~\ref{chp:Workflow}) allows the
+specification of custom types of \emph{TemplateFactory} via the \texttt{te\-m\-pl\-a\-teFa\-ct\-o\-ryTy\-pe} parameter.
 
 
 \subsection{Summary}
@@ -405,6 +452,7 @@ specifying the contents of generated text is kept separate
 from the logic for specifying the destination of generated text.
 
 \section{Merge Engine}
+\label{sec:merging}
 EGL provides language constructs that allow M2T transformations to
 designate regions of generated text as \textit{protected}. Whenever 
 an EGL program attempts to generate text, any protected regions that
@@ -494,15 +542,90 @@ the default behaviour of EGL's merge engine.
 \label{tab:merging}
 \end{table}
 
-\section{Readability and traceability} 
+\section{Formatters}
+\label{sec:formatters}
+Often the text generated by a model-to-text transformation is not formatted 
+in a desirable  manner. Text generated with a model-to-text transformation
+might contain extra whitespace or inconsistent indentation. This is because controlling the formatting of generated text in a model-to-text transformation language can be challenging.
+
+In a template-based model-to-text language, such as EGL, it can be difficult 
+to know how best to format a transformation. On the one hand, the transformation 
+must be readable and understandable, and on the other hand, the generated text 
+must typically also be readable and understandable. 
+
 Conscientious developers apply various \emph{conventions} to produce
 readable code. EGL encourages template developers to prioritise the
-readability of templates over the text that they generate, and provides
-built-in post-processors -- or \textit{beautifiers} -- for improving
-the readability of generated text.  Currently, beautifiers are
-invoked via Epsilon's extensions to Apache Ant, an
-XML-based build tool for Java.
+readability of templates over the readability of generated text when 
+writing EGL templates. For formatting generated text, EGL provides an 
+extensible set of \textit{formatters} that can be invoked during
+a model-to-text transformation.
 
+\subsection{Using a Formatter}
+EGL provides several built-in formatters. Users can implement additional 
+formatters (Section~\ref{sec:custom_formatter}). To use a formatter, 
+invoke the \texttt{setFo\-rm\-at\-t\-er} or \texttt{setFo\-rm\-at\-te\-rs} 
+operation on an instance of the \emph{Template} type. A formatter is a
+Java class that implements EGL's Formatter interface. From within an 
+EGL program, formatters can be created using a Native (i.e. Java) type.
+Listing~\ref{lst:programmatic_formatter} demonstrates the use of a 
+built-in formatter (XmlFormatter).
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, language=EGL, tabsize=2, flexiblecolumns=true, caption=Using a formatter from within an EGL program., label=lst:programmatic_formatter]
+[%
+	var f = new Native("org.eclipse.epsilon.egl.formatter.language.XmlFormatter");
+	var t = TemplateFactory.load("generate_some_xml.egl");
+	t.setFormatter(f);
+	t.generate("formatted.xml");
+%]
+\end{lstlisting}
+
+To facilitate the re-use of a formatter with many templates, the
+\emph{TemplateFactory} object provides the 
+\texttt{setDe\-fa\-u\-ltFo\-rm\-at\-ter} and \texttt{setDe\-fa\-u\-ltFo\-rm\-at\-ters}
+operations. Templates that are loaded or prepared after a call to
+\texttt{setDe\-fa\-u\-ltFo\-rm\-at\-ter} or \texttt{setDe\-fa\-u\-ltFo\-rm\-at\-ters}
+will, by default, use the formatter(s) specified for the \emph{TemplateFactory}.
+Note that setting the formatter on a template overwrite any formatter 
+that may have been set on that template by the \emph{TemplateFactory}.
+
+The default formatters for an EGL program can also be set when invoking the
+program. For example, the EGL development tools provide an Eclipse launch configuration that provides a tab named ``Generated Text.'' On this tab, users can configure
+one or more formatters which will be used as the default formatters for this 
+EGL program. Note that custom formatters only appear on the launch configuration 
+tab if they have been registered with EGL via an Eclipse extension. Similarly, the workflow language provided by Epsilon (Chapter~\ref{chp:Workflow}) provides a \texttt{for\-ma\-tt\-er} nested element that can be used to specify one or more
+default formatters.
+
+\subsection{Implementing a Custom Formatter}
+\label{sec:custom_formatter}
+Providing a user-defined formatter involves implementing the \texttt{Fo\-rm\-at\-ter} 
+interface (in \texttt{org.eclipse.epsilon.egl.formatter}). For example, 
+Listing~\ref{lst:custom_formatter} demonstrates a simple formatter that 
+transforms all generated text to uppercase.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, language=Java, tabsize=2, flexiblecolumns=true, caption=A simple custom formatter that transforms text to uppercase., label=lst:custom_formatter]
+import org.eclipse.epsilon.egl.formatter.Formatter;
+
+public class UppercaseFormatter implements Formatter {
+
+	@Override
+	public String format(String text) {
+		return text.toUpperCase();
+	}
+}
+\end{lstlisting}
+
+The set of built-in formatters provided by EGL includes some partial 
+implementations of the \texttt{Fo\-rm\-at\-ter} interface that can be
+re-used to simplify the implementation of custom formatters. For instance,
+the \texttt{Lan\-gu\-a\-geFo\-rm\-at\-t\-er} class can correct the indentation 
+of a program written in most languages, when given a start and end regular
+expression.
+
+Finally, an Eclipse extension point is provided for custom formatters. Providing 
+an extension that conforms to the custom formatter extension point allows EGL to
+display the custom formatter in the launch configuration tabs of the EGL development tools.
+
+\section{Traceability} 
 EGL also provides a traceability API, as a debugging aid, to
 support auditing of the M2T transformation process, and to facilitate
 change propagation.  This API facilitates exploration of the templates 
@@ -512,12 +635,6 @@ after execution of an EGL M2T transformation to generate Java
 code from an instance of an OO metamodel. The view show in Figure~\ref{fig:traceability}
 is accessed via the ... menu in Eclipse. Traceability information can
 also be accessed programmatically, as demonstrated in Listing~\ref{lst:traceability}.
-
-The beautification interface is minimal, in order to allow re-use of existing 
-code formatting algorithms. Consequently, there is presently no traceability support 
-for beautified text. However, due to the coarse-grained approach employed by 
-EGL's traceability API, this has little impact: Clicking on a beautified protected 
-region in the traceability view might not highlight the correct line in the editor.
 
 \begin{figure}[htbp]
   \begin{center}

@@ -8,7 +8,7 @@
 \contentsline {section}{\numberline {1.4}Additional Resources}{13}{section.1.4}
 \contentsline {subsection}{\numberline {1.4.1}Epsilon Eclipse GMT}{13}{subsection.1.4.1}
 \contentsline {subsection}{\numberline {1.4.2}EpsilonLabs}{13}{subsection.1.4.2}
-\contentsline {subsection}{\numberline {1.4.3}Epsilon Weblog}{13}{subsection.1.4.3}
+\contentsline {subsection}{\numberline {1.4.3}Epsilon Weblog}{14}{subsection.1.4.3}
 \contentsline {subsection}{\numberline {1.4.4}Twitter}{14}{subsection.1.4.4}
 \contentsline {chapter}{\chapternumberline {2}The Epsilon Model Connectivity Layer (EMC)}{15}{chapter.2}
 \contentsline {section}{\numberline {2.1}The IModel interface}{17}{section.2.1}
@@ -113,98 +113,102 @@
 \contentsline {section}{\numberline {7.1}Abstract Syntax}{122}{section.7.1}
 \contentsline {section}{\numberline {7.2}Concrete Syntax}{123}{section.7.2}
 \contentsline {subsection}{\numberline {7.2.1}User-Defined Operations}{124}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}Co-ordination}{126}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}The Template type}{127}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}The TemplateFactory object}{128}{subsection.7.3.2}
-\contentsline {subsection}{\numberline {7.3.3}An Example of Co-ordination with EGL}{129}{subsection.7.3.3}
-\contentsline {subsection}{\numberline {7.3.4}Customising the Co-ordination Engine}{130}{subsection.7.3.4}
-\contentsline {subsubsection}{Implementing a custom TemplateFactory}{131}{section*.22}
-\contentsline {subsubsection}{Using a custom TemplateFactory}{133}{section*.23}
-\contentsline {subsection}{\numberline {7.3.5}Summary}{133}{subsection.7.3.5}
-\contentsline {section}{\numberline {7.4}Merge Engine}{134}{section.7.4}
-\contentsline {section}{\numberline {7.5}Readability and traceability}{135}{section.7.5}
-\contentsline {chapter}{\chapternumberline {8}The Epsilon Comparison Language (ECL)}{139}{chapter.8}
-\contentsline {section}{\numberline {8.1}Abstract Syntax}{140}{section.8.1}
-\contentsline {section}{\numberline {8.2}Concrete Syntax}{142}{section.8.2}
-\contentsline {section}{\numberline {8.3}Execution Semantics}{143}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Rule and Block Overriding}{143}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Comparison Outcome}{143}{subsection.8.3.2}
-\contentsline {subsection}{\numberline {8.3.3}Rule Execution Scheduling}{144}{subsection.8.3.3}
-\contentsline {subsection}{\numberline {8.3.4}The \emph {matches()} built-in operation}{145}{subsection.8.3.4}
-\contentsline {subsection}{\numberline {8.3.5}Cyclic invocation of \emph {matches()}}{146}{subsection.8.3.5}
-\contentsline {section}{\numberline {8.4}Fuzzy and Dictionary-based String Matching}{147}{section.8.4}
-\contentsline {section}{\numberline {8.5}Interactive Matching}{149}{section.8.5}
-\contentsline {section}{\numberline {8.6}Exploiting the Comparison Outcome}{149}{section.8.6}
-\contentsline {chapter}{\chapternumberline {9}The Epsilon Merging Language (EML)}{151}{chapter.9}
-\contentsline {section}{\numberline {9.1}Motivation}{151}{section.9.1}
-\contentsline {subsection}{\numberline {9.1.1}Phases of Model Merging}{152}{subsection.9.1.1}
-\contentsline {paragraph}{Comparison Phase}{152}{section*.24}
-\contentsline {paragraph}{Conformance Checking Phase}{152}{section*.25}
-\contentsline {paragraph}{Merging Phase}{152}{section*.26}
-\contentsline {paragraph}{Reconciliation and Restructuring Phase}{152}{section*.27}
-\contentsline {subsection}{\numberline {9.1.2}Relationship between Model Merging and Model Transformation}{153}{subsection.9.1.2}
-\contentsline {section}{\numberline {9.2}Realizing a Model Merging Process with Epsilon}{153}{section.9.2}
-\contentsline {section}{\numberline {9.3}Abstract Syntax}{154}{section.9.3}
-\contentsline {section}{\numberline {9.4}Concrete Syntax}{156}{section.9.4}
-\contentsline {section}{\numberline {9.5}Execution Semantics}{157}{section.9.5}
-\contentsline {subsection}{\numberline {9.5.1}Rule and Block Overriding}{157}{subsection.9.5.1}
-\contentsline {subsection}{\numberline {9.5.2}Rule Scheduling}{157}{subsection.9.5.2}
-\contentsline {subsection}{\numberline {9.5.3}Rule Applicability}{157}{subsection.9.5.3}
-\contentsline {subsection}{\numberline {9.5.4}Source Elements Resolution}{158}{subsection.9.5.4}
-\contentsline {section}{\numberline {9.6}Homogeneous Model Merging Example}{158}{section.9.6}
-\contentsline {chapter}{\chapternumberline {10}Implementing a New Task-Specific Language}{165}{chapter.10}
-\contentsline {section}{\numberline {10.1}Identifying the need for a new language}{165}{section.10.1}
-\contentsline {section}{\numberline {10.2}Eliciting higher-level constructs from recurring patterns}{167}{section.10.2}
-\contentsline {section}{\numberline {10.3}Implement Execution Semantics and Scheduling}{168}{section.10.3}
-\contentsline {section}{\numberline {10.4}Overriding Semantics}{168}{section.10.4}
-\contentsline {chapter}{\chapternumberline {11}Orchestration Workflow}{169}{chapter.11}
-\contentsline {section}{\numberline {11.1}Motivation}{169}{section.11.1}
-\contentsline {section}{\numberline {11.2}The ANT Tool}{171}{section.11.2}
-\contentsline {subsection}{\numberline {11.2.1}Structure}{171}{subsection.11.2.1}
-\contentsline {subsection}{\numberline {11.2.2}Concrete Syntax}{172}{subsection.11.2.2}
-\contentsline {subsection}{\numberline {11.2.3}Extending ANT}{173}{subsection.11.2.3}
-\contentsline {section}{\numberline {11.3}Integration Challenges}{174}{section.11.3}
-\contentsline {section}{\numberline {11.4}Framework Design and Core Tasks}{175}{section.11.4}
-\contentsline {subsection}{\numberline {11.4.1}The EpsilonTask task}{177}{subsection.11.4.1}
-\contentsline {subsection}{\numberline {11.4.2}Model Loading Task}{178}{subsection.11.4.2}
-\contentsline {subsection}{\numberline {11.4.3}Model Storing Task}{179}{subsection.11.4.3}
-\contentsline {subsection}{\numberline {11.4.4}Model Disposal Tasks}{179}{subsection.11.4.4}
-\contentsline {subsection}{\numberline {11.4.5}The StartTransaction Task}{180}{subsection.11.4.5}
-\contentsline {subsection}{\numberline {11.4.6}The CommitTransaction and RollbackTransaction Tasks}{180}{subsection.11.4.6}
-\contentsline {subsection}{\numberline {11.4.7}The Abstract Executable Module Task}{182}{subsection.11.4.7}
-\contentsline {paragraph}{0..n $model$ nested elements}{183}{section*.28}
-\contentsline {paragraph}{0..n $parameter$ nested elements}{183}{section*.29}
-\contentsline {paragraph}{0..n $exports$ nested elements}{183}{section*.30}
-\contentsline {paragraph}{0..n $uses$ nested elements}{184}{section*.31}
-\contentsline {section}{\numberline {11.5}Model Management Tasks}{185}{section.11.5}
-\contentsline {subsection}{\numberline {11.5.1}Generic Model Management Task}{185}{subsection.11.5.1}
-\contentsline {subsection}{\numberline {11.5.2}Model Validation Task}{185}{subsection.11.5.2}
-\contentsline {subsection}{\numberline {11.5.3}Model-to-Model Transformation Task}{187}{subsection.11.5.3}
-\contentsline {subsection}{\numberline {11.5.4}Model Comparison Task}{187}{subsection.11.5.4}
-\contentsline {subsection}{\numberline {11.5.5}Model Merging Task}{188}{subsection.11.5.5}
-\contentsline {subsection}{\numberline {11.5.6}Model-to-Text Transformation Task}{188}{subsection.11.5.6}
-\contentsline {subsection}{\numberline {11.5.7}Adding a new Model Management Task}{188}{subsection.11.5.7}
-\contentsline {section}{\numberline {11.6}Chapter Summary}{189}{section.11.6}
-\contentsline {chapter}{\chapternumberline {12}The Epsilon Unit Testing Framework (EUnit)}{191}{chapter.12}
-\contentsline {section}{\numberline {12.1}Motivation}{191}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Common Issues}{192}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Testing with JUnit}{193}{subsection.12.1.2}
-\contentsline {subsection}{\numberline {12.1.3}Selected Approach}{195}{subsection.12.1.3}
-\contentsline {section}{\numberline {12.2}Test Organization}{196}{section.12.2}
-\contentsline {subsection}{\numberline {12.2.1}Test Suites}{196}{subsection.12.2.1}
-\contentsline {subsection}{\numberline {12.2.2}Test Cases}{197}{subsection.12.2.2}
-\contentsline {section}{\numberline {12.3}Test Specification}{199}{section.12.3}
-\contentsline {subsection}{\numberline {12.3.1}Ant Buildfile}{199}{subsection.12.3.1}
-\contentsline {subsubsection}{EUnit Invocations}{199}{section*.32}
-\contentsline {subsubsection}{Helper Targets}{201}{section*.33}
-\contentsline {subsection}{\numberline {12.3.2}EOL script}{201}{subsection.12.3.2}
-\contentsline {subsubsection}{Data bindings}{202}{section*.34}
-\contentsline {subsubsection}{Model bindings}{203}{section*.35}
-\contentsline {subsubsection}{Additional variables and built-in operations}{203}{section*.36}
-\contentsline {subsubsection}{Assertions}{204}{section*.37}
-\contentsline {section}{\numberline {12.4}Examples}{207}{section.12.4}
-\contentsline {subsection}{\numberline {12.4.1}Models and Tasks in the Buildfile}{207}{subsection.12.4.1}
-\contentsline {subsection}{\numberline {12.4.2}Models and Tasks in the EOL Script}{210}{subsection.12.4.2}
-\contentsline {section}{\numberline {12.5}Extending EUnit}{210}{section.12.5}
-\contentsline {section}{\numberline {12.6}Summary}{214}{section.12.6}
-\contentsline {chapter}{Bibliography}{215}{section*.39}
+\contentsline {section}{\numberline {7.3}The OutputBuffer}{126}{section.7.3}
+\contentsline {section}{\numberline {7.4}Co-ordination}{128}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}The Template type}{129}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}The TemplateFactory object}{131}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}An Example of Co-ordination with EGL}{133}{subsection.7.4.3}
+\contentsline {subsection}{\numberline {7.4.4}Customising the Co-ordination Engine}{134}{subsection.7.4.4}
+\contentsline {subsubsection}{Implementing a custom TemplateFactory}{135}{section*.22}
+\contentsline {subsubsection}{Using a custom TemplateFactory}{137}{section*.23}
+\contentsline {subsection}{\numberline {7.4.5}Summary}{137}{subsection.7.4.5}
+\contentsline {section}{\numberline {7.5}Merge Engine}{137}{section.7.5}
+\contentsline {section}{\numberline {7.6}Formatters}{140}{section.7.6}
+\contentsline {subsection}{\numberline {7.6.1}Using a Formatter}{140}{subsection.7.6.1}
+\contentsline {subsection}{\numberline {7.6.2}Implementing a Custom Formatter}{141}{subsection.7.6.2}
+\contentsline {section}{\numberline {7.7}Traceability}{142}{section.7.7}
+\contentsline {chapter}{\chapternumberline {8}The Epsilon Comparison Language (ECL)}{145}{chapter.8}
+\contentsline {section}{\numberline {8.1}Abstract Syntax}{146}{section.8.1}
+\contentsline {section}{\numberline {8.2}Concrete Syntax}{148}{section.8.2}
+\contentsline {section}{\numberline {8.3}Execution Semantics}{149}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Rule and Block Overriding}{149}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Comparison Outcome}{149}{subsection.8.3.2}
+\contentsline {subsection}{\numberline {8.3.3}Rule Execution Scheduling}{150}{subsection.8.3.3}
+\contentsline {subsection}{\numberline {8.3.4}The \emph {matches()} built-in operation}{151}{subsection.8.3.4}
+\contentsline {subsection}{\numberline {8.3.5}Cyclic invocation of \emph {matches()}}{152}{subsection.8.3.5}
+\contentsline {section}{\numberline {8.4}Fuzzy and Dictionary-based String Matching}{153}{section.8.4}
+\contentsline {section}{\numberline {8.5}Interactive Matching}{155}{section.8.5}
+\contentsline {section}{\numberline {8.6}Exploiting the Comparison Outcome}{155}{section.8.6}
+\contentsline {chapter}{\chapternumberline {9}The Epsilon Merging Language (EML)}{157}{chapter.9}
+\contentsline {section}{\numberline {9.1}Motivation}{157}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}Phases of Model Merging}{158}{subsection.9.1.1}
+\contentsline {paragraph}{Comparison Phase}{158}{section*.24}
+\contentsline {paragraph}{Conformance Checking Phase}{158}{section*.25}
+\contentsline {paragraph}{Merging Phase}{158}{section*.26}
+\contentsline {paragraph}{Reconciliation and Restructuring Phase}{158}{section*.27}
+\contentsline {subsection}{\numberline {9.1.2}Relationship between Model Merging and Model Transformation}{159}{subsection.9.1.2}
+\contentsline {section}{\numberline {9.2}Realizing a Model Merging Process with Epsilon}{159}{section.9.2}
+\contentsline {section}{\numberline {9.3}Abstract Syntax}{160}{section.9.3}
+\contentsline {section}{\numberline {9.4}Concrete Syntax}{162}{section.9.4}
+\contentsline {section}{\numberline {9.5}Execution Semantics}{163}{section.9.5}
+\contentsline {subsection}{\numberline {9.5.1}Rule and Block Overriding}{163}{subsection.9.5.1}
+\contentsline {subsection}{\numberline {9.5.2}Rule Scheduling}{163}{subsection.9.5.2}
+\contentsline {subsection}{\numberline {9.5.3}Rule Applicability}{163}{subsection.9.5.3}
+\contentsline {subsection}{\numberline {9.5.4}Source Elements Resolution}{164}{subsection.9.5.4}
+\contentsline {section}{\numberline {9.6}Homogeneous Model Merging Example}{164}{section.9.6}
+\contentsline {chapter}{\chapternumberline {10}Implementing a New Task-Specific Language}{171}{chapter.10}
+\contentsline {section}{\numberline {10.1}Identifying the need for a new language}{171}{section.10.1}
+\contentsline {section}{\numberline {10.2}Eliciting higher-level constructs from recurring patterns}{173}{section.10.2}
+\contentsline {section}{\numberline {10.3}Implement Execution Semantics and Scheduling}{174}{section.10.3}
+\contentsline {section}{\numberline {10.4}Overriding Semantics}{174}{section.10.4}
+\contentsline {chapter}{\chapternumberline {11}Orchestration Workflow}{175}{chapter.11}
+\contentsline {section}{\numberline {11.1}Motivation}{175}{section.11.1}
+\contentsline {section}{\numberline {11.2}The ANT Tool}{177}{section.11.2}
+\contentsline {subsection}{\numberline {11.2.1}Structure}{177}{subsection.11.2.1}
+\contentsline {subsection}{\numberline {11.2.2}Concrete Syntax}{178}{subsection.11.2.2}
+\contentsline {subsection}{\numberline {11.2.3}Extending ANT}{179}{subsection.11.2.3}
+\contentsline {section}{\numberline {11.3}Integration Challenges}{180}{section.11.3}
+\contentsline {section}{\numberline {11.4}Framework Design and Core Tasks}{181}{section.11.4}
+\contentsline {subsection}{\numberline {11.4.1}The EpsilonTask task}{183}{subsection.11.4.1}
+\contentsline {subsection}{\numberline {11.4.2}Model Loading Task}{184}{subsection.11.4.2}
+\contentsline {subsection}{\numberline {11.4.3}Model Storing Task}{185}{subsection.11.4.3}
+\contentsline {subsection}{\numberline {11.4.4}Model Disposal Tasks}{185}{subsection.11.4.4}
+\contentsline {subsection}{\numberline {11.4.5}The StartTransaction Task}{186}{subsection.11.4.5}
+\contentsline {subsection}{\numberline {11.4.6}The CommitTransaction and RollbackTransaction Tasks}{186}{subsection.11.4.6}
+\contentsline {subsection}{\numberline {11.4.7}The Abstract Executable Module Task}{188}{subsection.11.4.7}
+\contentsline {paragraph}{0..n $model$ nested elements}{189}{section*.28}
+\contentsline {paragraph}{0..n $parameter$ nested elements}{189}{section*.29}
+\contentsline {paragraph}{0..n $exports$ nested elements}{189}{section*.30}
+\contentsline {paragraph}{0..n $uses$ nested elements}{190}{section*.31}
+\contentsline {section}{\numberline {11.5}Model Management Tasks}{191}{section.11.5}
+\contentsline {subsection}{\numberline {11.5.1}Generic Model Management Task}{191}{subsection.11.5.1}
+\contentsline {subsection}{\numberline {11.5.2}Model Validation Task}{191}{subsection.11.5.2}
+\contentsline {subsection}{\numberline {11.5.3}Model-to-Model Transformation Task}{193}{subsection.11.5.3}
+\contentsline {subsection}{\numberline {11.5.4}Model Comparison Task}{193}{subsection.11.5.4}
+\contentsline {subsection}{\numberline {11.5.5}Model Merging Task}{194}{subsection.11.5.5}
+\contentsline {subsection}{\numberline {11.5.6}Model-to-Text Transformation Task}{194}{subsection.11.5.6}
+\contentsline {subsection}{\numberline {11.5.7}Adding a new Model Management Task}{195}{subsection.11.5.7}
+\contentsline {section}{\numberline {11.6}Chapter Summary}{196}{section.11.6}
+\contentsline {chapter}{\chapternumberline {12}The Epsilon Unit Testing Framework (EUnit)}{197}{chapter.12}
+\contentsline {section}{\numberline {12.1}Motivation}{197}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Common Issues}{198}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Testing with JUnit}{199}{subsection.12.1.2}
+\contentsline {subsection}{\numberline {12.1.3}Selected Approach}{201}{subsection.12.1.3}
+\contentsline {section}{\numberline {12.2}Test Organization}{202}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}Test Suites}{202}{subsection.12.2.1}
+\contentsline {subsection}{\numberline {12.2.2}Test Cases}{203}{subsection.12.2.2}
+\contentsline {section}{\numberline {12.3}Test Specification}{205}{section.12.3}
+\contentsline {subsection}{\numberline {12.3.1}Ant Buildfile}{205}{subsection.12.3.1}
+\contentsline {subsubsection}{EUnit Invocations}{205}{section*.32}
+\contentsline {subsubsection}{Helper Targets}{207}{section*.33}
+\contentsline {subsection}{\numberline {12.3.2}EOL script}{207}{subsection.12.3.2}
+\contentsline {subsubsection}{Data bindings}{208}{section*.34}
+\contentsline {subsubsection}{Model bindings}{209}{section*.35}
+\contentsline {subsubsection}{Additional variables and built-in operations}{209}{section*.36}
+\contentsline {subsubsection}{Assertions}{210}{section*.37}
+\contentsline {section}{\numberline {12.4}Examples}{213}{section.12.4}
+\contentsline {subsection}{\numberline {12.4.1}Models and Tasks in the Buildfile}{213}{subsection.12.4.1}
+\contentsline {subsection}{\numberline {12.4.2}Models and Tasks in the EOL Script}{216}{subsection.12.4.2}
+\contentsline {section}{\numberline {12.5}Extending EUnit}{216}{section.12.5}
+\contentsline {section}{\numberline {12.6}Summary}{220}{section.12.6}
+\contentsline {chapter}{Bibliography}{221}{section*.39}
