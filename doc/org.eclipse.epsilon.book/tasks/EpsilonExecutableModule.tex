@@ -3,7 +3,7 @@
 
 This task is the base of all the model management tasks presented in Section \ref{sec:Workflow.ModelManagementTasks}. Its aim is to encapsulate the commonalities of Epsilon tasks in order to reduce duplication among them. As already discussed, in Epsilon, specifications of model management tasks are organized in executable modules. While modules can be stored anywhere, in the case of the workflow it is assumed that they are either stored as separate files in the file-system or they are provided inline within the worfklow. Thus, this abstract task defines an \textit{src} attribute that specifies the path of the source file in which the Epsilon module is stored, but also supports inline specification of the source of the module. The two alternatives are demonstrated in Listings \ref{lst:External} and \ref{lst:Inline} respectively.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=External Module Specification, label=lst:External, numbers=left, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=External Module Specification, label=lst:External, numbers=left, language=XML, tabsize=2]
 <project default="main">
 	<target name="main">
 		<epsilon.eol src="HelloWorld.eol"/>
@@ -11,7 +11,7 @@ This task is the base of all the model management tasks presented in Section \re
 </project>
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Inline Module Specification, label=lst:Inline, numbers=left, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Inline Module Specification, label=lst:Inline, numbers=left, language=XML, tabsize=2]
 <project default="main">
 	<target name="main">
 		<epsilon.eol>
@@ -25,7 +25,7 @@ This task is the base of all the model management tasks presented in Section \re
 
 Optionally, users can enable debugging for the module to be run by setting the \textit{debug} attribute to \textit{true}. An example is shown in Listing~\ref{lst:workflow-debug}. If the module reaches a breakpoint, users will be able to run the code step by step and inspect the stack trace and its variables.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Inline Module Specification, label=lst:workflow-debug, numbers=left, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Inline Module Specification, label=lst:workflow-debug, numbers=left, language=XML, tabsize=2]
 <project default="main">
 	<target name="main">
         	<epsilon.eol src="HelloWorld.eol" debug="true"/>
@@ -53,15 +53,15 @@ The \emph{uses} nested elements enable tasks to import variables exported by pre
 
 To better illustrate the runtime communication mechanism, a minimal example is provided in Listings \ref{lst:Exporter} - \ref{lst:ExporterUserWorkflow}. In Listing \ref{lst:Exporter}, \emph{Exporter.eol} defines a String variable named \emph{x} and assigns a value to it. The workflow of Listing \ref{lst:ExporterUserWorkflow} specifies that after executing \emph{Exporter.eol}, it must export a variable named \emph{x} with the new name \emph{y} to the project context. Finally, it defines that before executing \emph{User.eol} (Listing \ref{lst:User}), it must query the project context for a variable named \emph{y} and in case this is available, add the variable to the module's context and then execute it. Thus, the result of executing the workflow is \emph{Some String} printed in the output console.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the Exporter.eol module, label=lst:Exporter, language=EOL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the Exporter.eol module, label=lst:Exporter, language=EOL]
 var x : String = "Some string";
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the User.eol module, label=lst:User, language=EOL]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Source code of the User.eol module, label=lst:User, language=EOL]
 z.println();
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=ANT Workflow connecting modules  \ref{lst:Exporter} and \ref{lst:User} using the epsilon.eol task, label=lst:ExporterUserWorkflow , language=XML]
+\begin{lstlisting}[float=tbp, basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=ANT Workflow connecting modules  \ref{lst:Exporter} and \ref{lst:User} using the epsilon.eol task, label=lst:ExporterUserWorkflow , language=XML]
 <epsilon.eol src="Exporter.eol">
 	<exports ref="x" as="y"/>
 </epsilon.eol>

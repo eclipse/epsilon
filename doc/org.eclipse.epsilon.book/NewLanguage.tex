@@ -11,7 +11,7 @@ For example, before the introduction of the Epsilon Comparison Language, pure EO
 
 Two patterns can be readily detected by inspecting the EOL code in Listing \ref{lst:ComparisonEOL}. First, explicit variables (\emph{matchingCT}, \emph{matchingAT}) are defined to capture the matching elements (class-table and attribute-column)identified during the comparison process. Also, to check all elements of one type (classes against tables and attributes against columns) repeated for statements are used in lines \ref{line:For11}--\ref{line:For12} and \ref{line:For21}--\ref{line:For22}. By contrast, Listing \ref{lst:ComparisonECL} which is specified using the task-specific ECL language does not include such low-level information. Instead it defines only the types of elements that need to be compared and the criteria on which comparison must performed and leaves the mundane tasks of scheduling and maintaining the match trace to the execution engine.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Comparing an OO model with a DB model using EOL, label=lst:ComparisonEOL, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Comparing an OO model with a DB model using EOL, label=lst:ComparisonEOL, language=EOL]
 var matchingCT : Sequence; /*@\label{line:MatchTrace1}@*/
 var matchingAC : Sequence; /*@\label{line:MatchTrace2}@*/
 for (c in OO!Class.allInstances) { /*@\label{line:For11}@*/
@@ -30,7 +30,7 @@ for (c in OO!Class.allInstances) { /*@\label{line:For11}@*/
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Comparing an OO model with a DB model using ECL, label=lst:ComparisonECL, language=ECL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Comparing an OO model with a DB model using ECL, label=lst:ComparisonECL, language=ECL]
 rule ClassTable
 	match c : OO!Class
 	with t : DB!Table {

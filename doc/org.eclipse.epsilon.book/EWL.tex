@@ -31,7 +31,7 @@ Update transformations are actions that automatically create, update or delete m
 
 In its simplest form, a wizard only needs to define the actions it will perform when it is applied to a selection of model elements. The structure of such a wizard that transforms a UML class into a \textit{singleton} is shown using pseudo-code in Listing \ref{lst:Basic}.\\
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The simplest form of a wizard for refactoring a class into a singleton, label=lst:Basic, language=EWL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=The simplest form of a wizard for refactoring a class into a singleton, label=lst:Basic, language=EWL]
 do :
 	attach the singleton stereotype
 	create the instance attribute
@@ -40,7 +40,7 @@ do :
 
 Since not all wizards apply to all types of elements in the model, each wizard needs to specify the types of elements to which it applies. For example, the wizard of Listing \ref{lst:Basic}, which automatically transforms a class into a singleton, applies only when the selected model element is a class. The simplest approach to ensuring that the wizard will only be applied on classes is to enclose its body in an \emph{if} condition as shown in Listing \ref{lst:WithoutGuard}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:Basic} enhanced with an $if$ condition, label=lst:WithoutGuard, language=EWL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=The wizard of Listing \ref{lst:Basic} enhanced with an $if$ condition, label=lst:WithoutGuard, language=EWL]
 do : 
 	if (selected element is a class) {
 		attach the singleton stereotype
@@ -51,7 +51,7 @@ do :
 
 A more modular approach is to separate this condition from the body of the wizard. This is shown in Listing \ref{lst:WithGuard} where the condition of the wizard is specified as a separate \emph{guard} stating that the wizard applies only to elements of type Class. The latter is preferable since it enables filtering out wizards that are not applicable to the current selection of elements by evaluating only their \emph{guard} parts and rejecting those that return \emph{false}. Thus, at any time, the user can be provided with only the wizards that are applicable to the current selection of elements. Filtering out irrelevant wizards reduces confusion and enhances usability, particularly as the list of specified wizards grows.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:WithoutGuard} with an explicit $guard$ instead of the $if$ condition, label=lst:WithGuard, language=EWL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=The wizard of Listing \ref{lst:WithoutGuard} with an explicit $guard$ instead of the $if$ condition, label=lst:WithGuard, language=EWL]
 guard : selected element is a class
 do : 
 	attach the singleton stereotype
@@ -61,7 +61,7 @@ do :
 
 To enhance usability, a wizard also needs to define a short human-readable description of its functionality. To achieve this, another field named \emph{title} has been added. There are two options for defining the title of a wizard: the first is to use a static string and the second to use a dynamic expression. The latter is preferable since it enables definition of context-aware titles.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=The wizard of Listing \ref{lst:WithGuard} enhanced with a $title$ part, label=lst:FinalForm, language=EWL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=The wizard of Listing \ref{lst:WithGuard} enhanced with a $title$ part, label=lst:FinalForm, language=EWL]
 guard : selected element is a class
 title : Convert class <class-name> into a singleton
 do : 
@@ -93,7 +93,7 @@ The basic concept of the EWL abstract syntax is a \emph{Wizard}. A wizard define
 
 Listing \ref{lst:EwlConcreteSyntax} presents the concrete syntax of EWL wizards.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of EWL wizards, label=lst:EwlConcreteSyntax, language=EWL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Concrete syntax of EWL wizards, label=lst:EwlConcreteSyntax, language=EWL]
 wizard <name> {
 	(guard (:expression)|({statementBlock}))?
 	(title (:expression)|({statementBlock}))?

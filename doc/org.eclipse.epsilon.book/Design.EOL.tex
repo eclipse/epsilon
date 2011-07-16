@@ -1,3 +1,5 @@
+%!TEX root = ./EpsilonBook.tex
+
 \chapter{The Epsilon Object Language (EOL)}
 \label{sec:Design.EOL}
 
@@ -24,7 +26,7 @@ In typical object oriented languages such as Java and C++, operations are define
 
 For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, in line 1 they can be invoked using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar context-defining EOL operations, label=lst:OperationsContext, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Exemplar context-defining EOL operations, label=lst:OperationsContext, language=EOL]
 1.add1().add2().println();
 
 operation Integer add1() : Integer {
@@ -36,7 +38,7 @@ operation Integer add2() : Integer {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar EOL context-less EOL operations, label=lst:OperationsNoContext, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Exemplar EOL context-less EOL operations, label=lst:OperationsNoContext, language=EOL]
 add2(add1(1)).println();
 
 operation add1(base : Integer) : Integer {
@@ -50,7 +52,7 @@ operation add2(base : Integer) : Integer {
 
 EOL supports polymorphic operations using a runtime dispatch mechanism. Multiple operations with the same name and parameters can be defined, each defining a distinct context type. For example, in Listing \ref{lst:Polymorphism}, the statement in line 1 invokes the test operation defined in line 4, while the statement in line 2 invokes the test operation defined in line 8.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of polymorphism in EOL, label=lst:Polymorphism, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Demonstration of polymorphism in EOL, label=lst:Polymorphism, numbers=left, language=EOL]
 "1".test();
 1.test();
 
@@ -68,15 +70,15 @@ operation Integer test() {
 \label{sec:Design.EOL.Annotations}
 EOL supports two types of annotations: simple and executable. A simple annotation specifies a name and a set of String values while an executable annotation specifies a name and an expression. The concrete syntaxes of simple and executable annotations are displayed in Listings \ref{lst:SimpleAnnotations} and \ref{lst:ExecutableAnnotations} respectively. Several examples for simple annotations are shown in Listing~\ref{lst:SimpleAnnotationsExamples}. Examples for executable annotations will be given in the following sections.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, escapechar=!]
 !\textbf{@}!name value(,value)*
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, escapechar=!]
 !\textbf{\$}!name expression
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Examples of simple annotations, label=lst:SimpleAnnotationsExamples, language=EOL, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Examples of simple annotations, label=lst:SimpleAnnotationsExamples, language=EOL, escapechar=!]
 !\textbf{@}!colors red
 !\textbf{@}!colors red, blue
 !\textbf{@}!colors red, blue, green
@@ -89,7 +91,7 @@ In stand-alone EOL, annotations are supported only in the context of operations,
 
 A number of \emph{pre} and \emph{post} executable annotations can be attached to EOL operations to specify the pre- and post-conditions of the operation. When an operation is invoked, before its body is evaluated, the expressions of the \emph{pre} annotations are evaluated. If all of them return \emph{true}, the body of the operation is processed, otherwise, an error is raised. Similarly, once the body of the operation has been executed, the expressions of the \emph{post} annotations of the operation are executed to ensure that the operation has had the desired effects. \emph{Pre} and \emph{post} annotations can access all the variables in the parent scope, as well as the parameters of the operation and the object on which the operation is invoked (through the \emph{self} variable). Moreover, in \emph{post} annotations, the returned value of the operation is accessible through the built-in \emph{\_result} variable. An example of using pre and post conditions in EOL appears in Listing \ref{lst:PrePostConditionsExample}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Example of pre- and post-conditions in an EOL operation, label=lst:PrePostConditionsExample, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example of pre- and post-conditions in an EOL operation, label=lst:PrePostConditionsExample, language=EOL]
 1.add(2); /*@\label{line:ConditionsOK}@*/
 1.add(-1); /*@\label{line:PreConditionFails}@*/
 
@@ -107,7 +109,7 @@ In line \ref{line:PreCondition} the \emph{add} operation defines a pre-condition
 
 EOL supports caching the results of parameter-less operations using the \emph{@cached} simple annotation. In the following example, the Fibonacci number of a given Integer is calculated using the \emph{fibonacci} recursive operation displayed in Listing \ref{lst:Fibonacci}. Since the \emph{fibonacci} operation is declared as \emph{cached}, it is only executed once for each distinct Integer and subsequent calls on the same target return the cached result. Therefore, when invoked in line \ref{line:FibonnaciCall}, the body of the operation is called 16 times. By contrast, if no \emph{@cached} annotation was specified, the body of the operation would be called recursively 1973 times. This feature is particularly useful for performing queries on large models and caching their results without needing to introduce explicit variables that store the cached results.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=Calculating the Fibonacci number using a cached operation, label=lst:Fibonacci, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Calculating the Fibonacci number using a cached operation, label=lst:Fibonacci, language=EOL]
 15.fibonacci().println(); /*@\label{line:FibonnaciCall}@*/
 
 @cached
@@ -429,7 +431,7 @@ The Map type represents an array of key-value pairs in which the keys are unique
 
 As discussed earlier, while the purpose of EOL is to provide significant expressive power to enable users to manage models at a high level of abstraction, it is not intended to be a general-purpose programming language. Therefore, there may be cases where users need to implement some functionality that is either not efficiently supported by the EOL runtime (e.g. complex mathematical computations) or that EOL does not support at all (e.g. developing user interfaces, accessing databases). To overcome this problem, EOL enables users to create objects of the underlying programming environment by using \emph{native} types. A native type specifies an $implementation$ property that indicates the unique identifier for an underlying platform type. For instance, in a Java implementation of EOL the user can instantiate and use a Java class via its class identifier. Thus, in Listing \ref{lst:Native} the EOL excerpt creates a Java window (Swing JFrame) and uses its methods to change its title and dimensions and make it visible.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Demonstration of NativeType in EOL, label=lst:Native, language=EOL]
 var frame = new Native("javax.swing.JFrame");
 frame.title = "Opened with EOL";
 frame.setBounds(100,100,300,200);
@@ -438,7 +440,7 @@ frame.visible = true;
 
 To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL]
 var file = new Native("java.io.File")("myfile.txt");
 file.absolutePath.println();
 \end{lstlisting}
@@ -476,7 +478,7 @@ In terms of concrete syntax, inspired by ATL, the ! character is used to separat
 
 As an example of the concrete sytnax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of the concrete syntax for accessing model element types, label=lst:ModelElementTypes, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Demonstration of the concrete syntax for accessing model element types, label=lst:ModelElementTypes, language=EOL]
 UML14!Core::Foundation::Class.allInstances();
 \end{lstlisting}
 
@@ -549,7 +551,7 @@ Since EOL needs to manage models defined using object oriented modelling technol
 
 In terms of concrete syntax, `.' is used as a uniform operator to access a property of an object and to invoke an operation on it. The `$\rightarrow$' operator, which is used in OCL to invoke first-order logic operations on sets, has been also preserved for syntax compatibility reasons. In EOL, every operation can be invoked both using the `.' or the '$\rightarrow$' operators, with a slightly different semantics to enable overriding the built-in operations. If the `.' operator is used, precedence is given to the user-defined operations, otherwise precedence is given to the built-in operations. For instance, the Any type defines a println() method that prints the string representation of an object to the standard output stream. In Listing \ref{lst:Expressions}, the user has defined another parameterless println() operation in the context of Any. Therefore the call to println() in Line 1 will be dispatched to the user-defined println() operation defined in line 3. In its body the operation uses the `$\rightarrow$' operator to invoke the built-in println() operation (line 4).
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Invoking operations using EOL, label=lst:Expressions, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Invoking operations using EOL, label=lst:Expressions, language=EOL]
 "Something".println();
 
 operation Any println() : Any {
@@ -694,7 +696,7 @@ A variable declaration statement declares the name and (optionally) the type and
 
 In Listing \ref{lst:Variables}, an example of declaring and using variables is provided. Line 1 defines a variable named \emph{i} of type \emph{Integer} and assigns it an initial value of \emph{5}. Line 2 defines a variable named \emph{c} of type \emph{Class} (from model Uml) and creates a new instance of the type in the model (by using the \emph{new} keyword). The commented out assignment statement of line 3 would raise a runtime error since it would attempt to assign a \emph{String} value to an \emph{Integer} variable. The condition of line 4 returns true since the \emph{c} variable has been initialized before. Line 5 defines a new variable also named \emph{i} that is of type \emph{String} and which overrides the \emph{Integer} variable declared in line 1. Therefore the assignment statement of line 6 is legitimate as it assigns a string value to a variable of type String. Finally, as the program has exited the scope of the \emph{if} statement, the assignment statement of line 7 is also legitimate as it refers to the \emph{i} variable defined in line 1.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating declaration and use of variables, label=lst:Variables, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example illustrating declaration and use of variables, label=lst:Variables, language=EOL]
 var i : Integer = 5;
 var c : new Uml!Class;
 //i = "somevalue";
@@ -714,14 +716,14 @@ The assignment statement is used to update the values of variables and  properti
 When the left hand side of an assignment statement is a variable, the value of the variable is updated to the object to which the right hand side evaluates to. If the type of the right hand side is not compatible (kind-of relationship) with the type of the variable, the assignment is illegal and a runtime error is raised. Assignment to objects of primitive types is performed by value while assignment to instances of non-primitive values is performed by reference. For example, in Listing \ref{lst:VariableAssignmentByReference}, in line 1 the value
 of the a variable is set to a new Class in the Uml model. In line 2, a new untyped variable b is declared and its value is assigned to a. In line 3 the name of the class is updated to Customer and thus, line 4 prints Customer to the standard output stream. On the other hand, in Listing \ref{lst:VariableAssignmentByValue}, in line 1 the a String variable is declared. In line 2 an untyped variable b is declared. In line 3, the value of a is changed to Customer (which is an instance of the primitive \emph{String} type). This has no effect on b and thus line 4 prints an empty string to the standard output stream.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Assigning the value of a variable by reference, label=lst:VariableAssignmentByReference, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Assigning the value of a variable by reference, label=lst:VariableAssignmentByReference, language=EOL]
 var a : new Uml!Class;
 var b = a;
 a.name = "Customer";
 b.name.println();
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Assigning the value of a variable by value, label=lst:VariableAssignmentByValue, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Assigning the value of a variable by value, label=lst:VariableAssignmentByValue, language=EOL]
 var a : String;
 var b = a;
 a = "Customer";
@@ -737,12 +739,12 @@ the language natively supports properties in classes.
 
 When the left hand side of the assignment is a property of a model element, the model that owns the particular model element (accessible using the \emph{ModelRepository.getOwningModel() }operation) is responsible for implementing the semantics of the assignment using its associated \emph{propertyGetter} as discussed in Section \ref{sec:Design.EMC.CRUD}. For example, if x is a model element, the statement \emph{x.y = a} may be interpreted using the Java code of Listing \ref{lst:EmfModelElementPropertyAssignment} if x belongs to an EMF-based model or using the Java code of Listing \ref{lst:MdrModelElementPropertyAssignment} if it belongs to an MDR-based model.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Java code that assigns the value of a property of a model element that belongs to an EMF-based model, label=lst:EmfModelElementPropertyAssignment, numbers=left, language=Java, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Java code that assigns the value of a property of a model element that belongs to an EMF-based model, label=lst:EmfModelElementPropertyAssignment, language=Java]
 EStructuralFeature feature = x.eClass().getEStructuralFeature("y");
 x.eSet(feature, a);
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Java code that assigns the value of a property of a model element that belongs to an MDR-based model, label=lst:MdrModelElementPropertyAssignment, numbers=left, language=Java, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Java code that assigns the value of a property of a model element that belongs to an MDR-based model, label=lst:MdrModelElementPropertyAssignment, language=Java]
 StructuralFeature feature = findStructuralFeature(x.refClass(), "y");
 x.refSetValue(feature, a);
 \end{lstlisting}
@@ -754,8 +756,8 @@ assignment behaviour. For example, consider the simple model-to-model transforma
 a Table in the DB model and sets the name of the table to be the same as the name of the class. Rule Atribute2Column transforms an Attribute from the OO model into a column in the DB model. Except for setting its name (line 12), it also needs to define that the column belongs to the table which corresponds to the class that defines the source attribute. The commented-out assignment statement of line 13 cannot
 be used for this purpose since it would illegaly attempt to assign the owningTable feature of the column to a model element of an inappropriate type (OO!Class). However, the special assignment operator in the task-specific language implements the semantics discussed in Section \ref{sec:Design.ETL.SpecialAssignmentOperator}, and thus in line 14 it assigns to the owningTable feature not the class that owns the attribute but its corresponding table (calculated using the Class2Table rule) in the DB model. 
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=A simple model-to-model transformation
-demonstrating the special assignment statement, label=lst:SpecialAssignmentStatement, numbers=left, language=ETL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=A simple model-to-model transformation
+demonstrating the special assignment statement, label=lst:SpecialAssignmentStatement, language=ETL]
 rule Class2Table
   transform c : OO!Class
   to t : DB!Table {
@@ -778,7 +780,7 @@ rule Attribute2Column
 
 As in most programming languages, an if statement consists of a condition, a block of statements that is executed if the condition is satisfied and (optionally) a block of statements that is executed otherwise. As an example, in Listing \ref{lst:IfStatement}, if variable a holds a value that is greater than 0 the statement of line 3 is executed, otherwise the statement of line 5 is executed.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating an if statement, label=lst:IfStatement, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example illustrating an if statement, label=lst:IfStatement, language=EOL]
 if (a > 0) {
 	"A is greater than 0".println();
 }
@@ -789,7 +791,7 @@ else { "A is less equal than 0".println(); }
 
 A switch statement consists of an expression and a set of cases, and can be used to implement multi-brancing. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, language=EOL]
 var i = "2";
 
 switch (i) {
@@ -801,7 +803,7 @@ switch (i) {
 
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example illustrating falling through cases in a switch statement, label=lst:SwitchStatement2, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example illustrating falling through cases in a switch statement, label=lst:SwitchStatement2, language=EOL]
 var i = "2";
 
 switch (i) {
@@ -818,7 +820,7 @@ switch (i) {
 
 A while statement consists of a condition and a block of statements which are executed as long as the condition is satisfied. For example, in Listing \ref{lst:WhileStatement} the body of the while statement is executed 5 times printing the numbers 0 to 4 to the output console. Inside the body of a \emph{while} statement, the built-in read-only \emph{loopCount} integer variable holds the number of times the innermost loop has been executed so far (including the current iteration). Right after entering the loop for the first time and before running the first statement in its body, \emph{loopCount} is set to 1, and it is incremented after each following iteration.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL]
 var i : Integer = 0;
 while (i < 5) {
   -- both lines print the same thing
@@ -835,7 +837,7 @@ In EOL, for statements are used to iterate the contents of collections. A for st
 
 Inside the body of a \emph{for} statement two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a for statement, label=lst:ForStatement, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example of a for statement, label=lst:ForStatement, language=EOL]
 var col : Sequence = Sequence{"a", 1, 2, 2.5, "b"};
 for (r : Real in col) {
 	r.print();
@@ -847,7 +849,7 @@ for (r : Real in col) {
 
 To exit from for and while loops on demand, EOL provides the break and breakAll statements. The break statement exits the innermost loop while the breakAll statement exits all outer loops as well. On the other hand, to skip a particular loop and proceed with the next one, EOL provides the continue statement. For example, the excerpt of Listing \ref{lst:BreakStatement}, prints \textit{2,1 3,1} to the standard output stream.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of the break\, breakAll and continue statements, label=lst:BreakStatement, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example of the break\, breakAll and continue statements, label=lst:BreakStatement, language=EOL]
 for (i in Sequence{1..3}) {
 	if (i = 1) {continue;}
 	for (j in Sequence{1..4}) {
@@ -866,7 +868,7 @@ In this problem, a system consists of a number of processors. A processor manage
 
 After a simulation step, the state of the model has been drastically changed since processors have failed and tasks have been relocated. To be able to restore the model to its original state after every simulation step, each step is executed in the context of a transaction which is explicitly aborted (line \ref{line:Abort}) after evaluating the availability of the system. Therefore after each simulation step the model is restored to its original state for the next step to be executed.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Example of a for statement, label=lst:TransactionStatement, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Example of a for statement, label=lst:TransactionStatement, language=EOL]
 var system : System.allInstances.first();
 
 for (i in Sequence {1..100}) {
@@ -898,7 +900,7 @@ for (i in Sequence {1..100}) {
 Quite often, during a model management operation it is necessary to associate model elements with information that is not supported by the metamodel they conform to. For instance, the EOL program in listing \ref{lst:NoExtendedProperties} calculates the depth of each Tree element in a model that conforms to the Tree metamodel displayed in Figure \ref{fig:Tree1}.
 
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, language=EOL]
 var depths = new Map; /*@\label{line:DeclareMap}@*/
 
 for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
@@ -928,7 +930,7 @@ As the Tree metamodel doesn't support a \emph{depth} property in the Tree metacl
 
 To simplify the code required in such cases, EOL provides the concept of \emph{extended properties}. In terms of concrete syntax, an extended property is a normal property, the name of which starts with the tilde character (\verb|~|). With regards to its execution semantics, the first time the value of an extended property of an object is assigned, the property is created and associated with the object. Then, the property can be accessed as a normal property. Listing \ref{lst:ExtendedProperties} demonstrates using a $~$\emph{depth} extended property to eliminate the need for using the \emph{depths} map in Listing \ref{lst:NoExtendedProperties}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=A simplified version of Listing \ref{lst:NoExtendedProperties} using extended properties, label=lst:ExtendedProperties, numbers=left, language=EOL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=A simplified version of Listing \ref{lst:NoExtendedProperties} using extended properties, label=lst:ExtendedProperties, language=EOL]
 for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
 	n.setDepth(0);
 }

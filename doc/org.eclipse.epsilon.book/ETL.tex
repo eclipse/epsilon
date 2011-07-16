@@ -34,7 +34,7 @@ Besides transformation rules, an ETL module can also optionally contain a number
 
 The concrete syntax of a transformation rule is displayed in Listing \ref{lst:TransformationRuleConcreteSyntax}. The optional \emph{abstract}, \emph{lazy} and \emph{primary} attributes of the rule are specified using respective annotations. The name of the rule follows the \emph{rule} keyword and the \emph{source} and \emph{target} parameters are defined after the \emph{transform} and \emph{to} keywords. Also, the rule can define an optional comma-separated list of rules it extends after the \emph{extends} keyword. Inside the curly braces (\{\}), the rule can optionally specify its \emph{guard} either as an EOL expression following a colon (:) (for simple guards) or as a block of statements in curly braces (for more complex guards). Finally, the \emph{body} of the rule is specified as a sequence of EOL statements.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of a TransformationRule, label=lst:TransformationRuleConcreteSyntax, language=ETL, numbers=left, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of a TransformationRule, label=lst:TransformationRuleConcreteSyntax, language=ETL]
 (@abstract)?
 (@lazy)?
 (@primary)?
@@ -52,7 +52,7 @@ rule <name>
 
 \emph{Pre} and \emph{post} blocks have a simple syntax that, as presented in Listing \ref{lst:EtlPrePostConcreteSyntax}, consists of the identifier (\emph{pre} or \emph{post}), an optional name and the set of statements to be executed enclosed in curly braces.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of Pre and Post blocks, label=lst:EtlPrePostConcreteSyntax, language=ETL, numbers=left, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of Pre and Post blocks, label=lst:EtlPrePostConcreteSyntax, language=ETL]
 (pre|post) <name> {
 	statement+
 }
@@ -93,7 +93,7 @@ In lines \ref{lst:etl-simple-def-start}--\ref{lst:etl-simple-def-end}, the \emph
 	\label{fig:Graph}
 \end{figure}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar ETL Rule demonstrating the \emph{equivalent()} operation, label=lst:SimpleETLTransformationRule, numbers=left, language=ETL, tabsize=2,escapechar=\#]
+\begin{lstlisting}[float=tbp, caption=Exemplar ETL Rule demonstrating the \emph{equivalent()} operation, label=lst:SimpleETLTransformationRule, language=ETL, escapechar=\#]
 rule Tree2Node#\label{lst:etl-simple-def-start}#
 	transform t : Tree!Tree
 	to n : Graph!Node {#\label{lst:etl-simple-def-end}#
@@ -122,7 +122,7 @@ rule Tree2Node#\label{lst:etl-simple-def-start}#
 
 As discussed above, resolving the equivalent(s) or source model elements in the target model is a recurring task in model transformation. Furthermore, in most cases resolving the equivalent of a model element is immediately followed by assigning/adding the obtained target model elements to the value(s) of a property of another target model element. For example, in line 10 of Listing \ref{lst:SimpleETLTransformationRule} the \emph{equivalent} obtained is immediately assigned to the \emph{target} property of the generated \emph{Edge}. To make transformation specifications more readable, ETL overrides the semantics of the \emph{SpecialAssignmentStatement} (\emph{::=} in terms of concrete syntax), described in Section \ref{sec:Design.EOL.SpecialAssignmentStatement} to set its left-hand side, not to the element its right-hand side evaluates to, but to its \emph{equivalent} as calculated using the \emph{equivalent()} operation discussed above. Using this feature, line 10 of the \emph{Tree2Node} rule can be rewritten as shown in Listing \ref{lst:SpecialAssignmentETLTransformationRule}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Rewritten Line 10 of the \emph{Tree2Node} Rule Demonstrated in Listing \ref{lst:SimpleETLTransformationRule}, label=lst:SpecialAssignmentETLTransformationRule, numbers=left, language=ETL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Rewritten Line 10 of the \emph{Tree2Node} Rule Demonstrated in Listing \ref{lst:SimpleETLTransformationRule}, label=lst:SpecialAssignmentETLTransformationRule, language=ETL]
 edge.target ::= t.parent;
 \end{lstlisting}
 
@@ -132,7 +132,7 @@ edge.target ::= t.parent;
 
 Using the user interaction facilities of EOL discussed in Section \ref{sec:Design.EOL.UserInput}, an ETL transformation can become interactive by prompting the user for input during its execution. For example in Listing \ref{lst:InteractiveETLTransformationRule}, we modify the \emph{Tree2Node} rule originally presented in Listing \ref{lst:SimpleETLTransformationRule} by adding a \emph{guard} part that uses the user-input facilities of EOL (more specifically the \emph{UserInput.confirm(String,Boolean)} operation) to enable the user select manually at runtime which of the Tree elements need to be transformed to respective Node elements in the target model and which not. 
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar Interactive ETL Transformation, label=lst:InteractiveETLTransformationRule, numbers=left, language=ETL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Exemplar Interactive ETL Transformation, label=lst:InteractiveETLTransformationRule, language=ETL]
 rule Tree2Node
 	transform t : Tree!Tree
 	to n : Graph!Node {

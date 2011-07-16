@@ -10,7 +10,7 @@ Although many approaches have been proposed to enable automated model validation
 
 In OCL, structural constraints are captured in the form of \textit{invariants}. Each invariant is defined in the context of a meta-class of the metamodel and specifies a name and a body. The body is an OCL expression that must evaluate to a \emph{Boolean} result, indicating whether an instance of the meta-class satisfies the invariant or not. Execution-wise, the body of each invariant is evaluated for each instance of the meta-class and the results are stored in a set of $<$Element, Invariant, Boolean$>$ triplets. Each triplet captures the \emph{Boolean} result of the evaluation of an \emph{Invariant} on a qualified \emph{Element}. An exemplar OCL invariant for UML 1.4, requiring that abstract operations only belong to abstract classes, is shown in Listing \ref{lst:AbstractOperations}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=OCL constraint on UML operations, label=lst:AbstractOperations, language=OCL]
+\begin{lstlisting}[float=tbp, caption=OCL constraint on UML operations, label=lst:AbstractOperations, language=OCL]
 context Operation
   inv AbstractOperationInAbstractClassOnly :
     self.isAbstract implies self.owner.isAbstract
@@ -32,7 +32,7 @@ Nevertheless, in OCL there is no such distinction between errors and warnings an
 \label{sec:Issue3}
 Each OCL invariant is a self-contained unit that does not depend on other invariants. There are cases where this design decision is particularly restrictive. For instance consider the invariants \emph{I1} and \emph{I2} displayed in Listing \ref{lst:RelatedConstraints}. Both I1 and I2 are applicable on UML classes with \emph{I1} requiring that: \textit{the name of a class must not be empty} and \emph{I2} requiring that: \textit{the name of a class must start with a capital letter}. In the case of those two invariants, if \emph{I1} is not satisfied for a particular UML class, evaluating \emph{I2} on that class would be meaningless. In fact it would be worse than meaningless since it would consume time to evaluate and would also produce an extraneous error message to the user. In practice, to avoid the extraneous message, \emph{I2} needs to replicate the body of \emph{I1} using an \textit{if} expression (lines 2 and 5).
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Conceptually related OCL constraints, label=lst:RelatedConstraints, numbers=left, tabsize=2, language=OCL]
+\begin{lstlisting}[float=tbp, caption=Conceptually related OCL constraints, label=lst:RelatedConstraints, language=OCL]
 context Class
 	inv I1 : self.name.size() > 0
     	
@@ -49,7 +49,7 @@ context Class
 \label{sec:Issue4}
 As already discussed, in OCL invariants are defined in the context of meta-classes. While this achieves a reasonable partitioning of the model element space, there are cases where more fine-grained partitioning is required. For instance, consider the following scenario. Let $IA_{1..N}$, $IB_{1..M}$ be invariants applying to classes that are stereotyped as \verb|<<A>>| and \verb|<<B>>| respectively. Since OCL only supports partitioning the model element space using meta-classes, all $IA_{1..N}$, $IB_{1..M}$ must appear under the same context (i.e. \textit{Class}). Moreover, each invariant must explicitly define that it addresses the one or the other conceptual sub-partition. Therefore, each of $IA_{1..N}$ must limit its scope initially (using the $self.isA$ expression) and then express the real body. In our example the simplest way to achieve this would be by combining a scope-limiting expression with the real invariant body using the \textit{implies} clause as demonstrated in Listing \ref{lst:OCLDuplication}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Demonstration of OCL constraints with duplication, label=lst:OCLDuplication, tabsize=2, language=OCL2]
+\begin{lstlisting}[float=tbp, caption=Demonstration of OCL constraints with duplication, label=lst:OCLDuplication, language=OCL2]
 context Class
 	inv I1 : self.isA implies <real-invariant-body>
 	inv I2 : self.isA implies <real-invariant-body>
@@ -110,7 +110,7 @@ An EVL module can define a number of named \emph{pre} and a \emph{post} blocks t
 
 Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and \ref{lst:FixConcreteSyntax} demonstrate the concrete sytnax of the \emph{context}, \emph{invariant} and \emph{fix} abstract syntax constructs discussed above.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, escapechar=!]
 
 context !\textit{name}! !\textbf{\{}!
 
@@ -121,7 +121,7 @@ context !\textit{name}! !\textbf{\{}!
 !\textbf{\}}!
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, escapechar=!]
 
 (@lazy)?
 (constraint|critique) !\textit{name}! !\textbf{\{}!
@@ -137,7 +137,7 @@ context !\textit{name}! !\textbf{\{}!
 !\textbf{\}}
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, numbers=left, tabsize=2, escapechar=!]
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, escapechar=!]
 fix !\textbf{\{}!
 	
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
@@ -249,7 +249,7 @@ There are two constraints that need to be defined and evaluated in this example:
 	\label{fig:ProcessPerformance}
 \end{figure}
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar EVL module containing a cross-model constraint, label=lst:InterModelCaseStudy, numbers=left, language=EVL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Exemplar EVL module containing a cross-model constraint, label=lst:InterModelCaseStudy, language=EVL]
 context PM!Process {
 	
 	constraint PerformanceIsDefined { /*@\label{CaseStudy:PerformanceIsDefined}@*/

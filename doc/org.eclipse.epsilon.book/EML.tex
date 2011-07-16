@@ -54,7 +54,7 @@ Each merge rule defines a name, a left, a right, and one or more target paramete
 
 Listing \ref{lst:EmlConcreteSyntax} demonstrates the concrete syntax of EML merge-rules.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Concrete syntax of an EML merge-rule, label=lst:EmlConcreteSyntax, language=EML, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Concrete syntax of an EML merge-rule, label=lst:EmlConcreteSyntax, language=EML]
 (@abstract)?
 (@lazy)?
 (@primary)?
@@ -102,7 +102,7 @@ Similarly to ETL, the order of the results of the \emph{equivalents()} operation
 
 In this scenario, two models conforming to the Graph metamodel need to be merged. The first step is to compare the two graphs using the ECL module of Listing \ref{lst:CompareGraph}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=ECL module for comparing two instances of the Graph metamodel, label=lst:CompareGraph, language=ECL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=ECL module for comparing two instances of the Graph metamodel, label=lst:CompareGraph, language=ECL, tabsize=2]
 rule MatchNodes /*@\label{line:MatchNodes}@*/
 	match l : Left!Node
 	with r : Right!Node {
@@ -130,7 +130,7 @@ The \emph{MatchNodes} rule in line \ref{line:MatchNodes} defines that two nodes 
 
 Having established the necessary correspondences between matching elements of the two models, the EML specification of listing \ref{lst:MergeGraphs}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, label=lst:MergeGraphs, caption=EML module for merging two instances of the Graph metamodel on the correspondences identified in Listing \ref{lst:CompareGraph} , language=EML, tabsize=2]
+\begin{lstlisting}[float=tbp, label=lst:MergeGraphs, caption=EML module for merging two instances of the Graph metamodel on the correspondences identified in Listing \ref{lst:CompareGraph} , language=EML]
 import "Graphs.etl";
 
 rule MergeGraphs /*@\label{line:MergeGraphs}@*/
@@ -179,7 +179,7 @@ To reduce duplication, the \emph{MergeNodes} and \emph{MergeEdges} rules extend 
 
 The rules displayed in Listing \ref{lst:MergeGraphs} address only the matching elements of the two models. To also copy the elements for which no equivalent has been found in the opposite model, the EML module imports the ETL module of Listing \ref{lst:CopyGraph}.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=The Graphs.etl ETL transformation module, label=lst:CopyGraph, language=ETL, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=The Graphs.etl ETL transformation module, label=lst:CopyGraph, language=ETL]
 rule TransformGraph 
 	transform s : Source!Graph
 	to t : Target!Graph {

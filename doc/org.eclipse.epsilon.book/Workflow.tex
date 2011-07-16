@@ -46,7 +46,7 @@ In ANT, each workflow is captured as a \textit{project}. A simplified illustrati
 
 In terms of concrete syntax, ANT provides an XML-based syntax. In Listing \ref{lst:ANTExample}, an exemplar ANT project that compiles a set of Java files is illustrated. The project contains one target (\emph{main}) which is also set to be the \emph{default} target. The \emph{main} target contains one \emph{javac} task that specifies attributes such as \emph{srcdir}, \emph{destdir} and \emph{classpath}, which define that the Java compiler will compile a set of Java files contained into the \emph{src} directory into classes that should be placed in the \emph{buiild} directory using \emph{dependencies.jar} as an external library.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, nolol=true, flexiblecolumns=true, caption=Compiling Java classes using the javac task, label=lst:ANTExample]
+\begin{lstlisting}[float=tbp, caption=Compiling Java classes using the javac task, label=lst:ANTExample]
 <project default="main">
 	<target name="main"/>
 	  <javac srcdir="${src}"
@@ -125,7 +125,7 @@ The \emph{epsilon.commitTransaction} and \emph{epsilon.rollbackTransaction} task
 
 The example of Listing \ref{lst:ANTTransactionsExample} demonstrates an exemplar usage of the \emph{epsilon.startTransaction} and \emph{epsilon.rollbackTransaction} tasks. In this example, two empty models Tree1 and Tree2 are loaded in lines 1,2. Then, the EOL task of line \ref{line:initialQuery} queries the models and prints the number of instances of the \emph{Tree} metaclass in each one of them (which is 0 for both). Then, in line \ref{line:transactionStart}, a transaction named T1 is started on model Tree1. The EOL task of line \ref{line:newInstances}, creates a new instance of Tree in both Tree1 and Tree2 and prints the number of instances of Tree in the two models (which is 1 for both models). Then, in line \ref{line:transactionRollback}, the T1 transaction is rolled-back and any changes done in its context to model Tree1 (but not Tree2) are undone. Therefore, the EOL task of line \ref{line:finalQuery}, which prints the number of instances of Tree in both models, prints 0 for Tree1 but 1 for Tree2.
 
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=none, nolol=true, caption=Exemplar usage of the \emph{epsilon.startTransaction} and \emph{epsilon.rollbackTransaction} tasks, label=lst:ANTTransactionsExample, numbers=left, language=XML, tabsize=2]
+\begin{lstlisting}[float=tbp, caption=Exemplar usage of the \emph{epsilon.startTransaction} and \emph{epsilon.rollbackTransaction} tasks, label=lst:ANTTransactionsExample, language=XML]
 <epsilon.loadModel name="Tree1" type="EMF">...</epsilon.loadModel>
 <epsilon.loadModel name="Tree2" type="EMF">...</epsilon.loadModel>
 
