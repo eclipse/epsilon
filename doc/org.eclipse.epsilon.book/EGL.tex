@@ -7,12 +7,7 @@ EGL provides a language tailored for model-to-text transformation (M2T). EGL can
 EGL is a \emph{template-based} code generator (i.e. EGL programs resemble the text that they generate), and provides several features that simplify and support the generation of text from models, including: a sophisticated and language-independent merging engine (for preserving hand-written sections of generated text), an extensible template system (for generating text to a variety of sources, such as a file on disk, a database server, or even as a response issued by a web server), formatting algorithms (for producing generated text that is well-formatted and hence readable), and traceability mechanisms (for linking generated text with source models). 
 
 % TODO: improve merge engine section: running example and describe how to use protected regions in the generated text
-
-% TODO Provide (one or more) table that summarises the operations available on out
-% Note that the \verb|out| keyword also
-% provides \emph{println(Object)} and \emph{chop(Integer)} methods, which
-% can be used to construct text with linefeeds, and to remove the
-% specified number of characters from the end of the generated text.
+% TODO: improve traceability section
 
 \section{Abstract Syntax}
 Figure \ref{fig:abstractsyntax} depicts the abstract syntax of EGL's core functionality.
