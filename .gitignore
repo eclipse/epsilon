@@ -25,12 +25,18 @@ bin/
 /plugins/org.eclipse.epsilon.updatesite/features
 /plugins/org.eclipse.epsilon.updatesite/plugins
 
+# /plugins/org.eclipse.epsilon.workflow/
+/plugins/org.eclipse.epsilon.workflow/epsilon-ant-standalone.jar
+
 # /plugins/org.eclipse.epsilon.workflow/lib/
 /plugins/org.eclipse.epsilon.workflow/lib/*.jar
 /plugins/org.eclipse.epsilon.workflow/lib/*.tmp
 
 # /plugins/org.eclipse.epsilon.workflow.eugenia/
 /plugins/org.eclipse.epsilon.workflow.eugenia/lib
+
+# /serverside/org.eclipse.epsilon.egl.servlet/
+/serverside/org.eclipse.epsilon.egl.servlet/build
 
 # /tests/org.eclipse.epsilon.eol.engine.test.acceptance/
 /tests/org.eclipse.epsilon.eol.engine.test.acceptance/TEST-*.xml
