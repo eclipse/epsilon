@@ -18,6 +18,9 @@ bin/
 /doc/org.eclipse.epsilon.book/*.log
 /doc/org.eclipse.epsilon.book/auto
 
+# /examples/org.eclipse.epsilon.workflow.extension.example/
+/examples/org.eclipse.epsilon.workflow.extension.example/lib/org.eclipse.epsilon.workflow.extension.example.jar
+
 # /plugins/org.eclipse.epsilon.emc.emf.dt/src/org/eclipse/epsilon/emc/emf/dt/
 /plugins/org.eclipse.epsilon.emc.emf.dt/src/org/eclipse/epsilon/emc/emf/dt/parex
 
