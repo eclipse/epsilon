@@ -106,4 +106,9 @@ public class AstUtil {
 		}
 	}
 	
+	public static int getParentType(AST child) {
+		if (child.getParent() == null) return -1;
+		return child.getParent().getType();
+	}
+	
 }
