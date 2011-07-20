@@ -25,4 +25,15 @@ public class DebugUtil {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
+	public static void freeze (long millis) {
+		long now = System.currentTimeMillis();
+		while (System.currentTimeMillis() < now + millis) {
+			System.out.print("");
+		}
+	}
+	
+	public static void showStackTrace() {
+		new Exception().printStackTrace();
+	}
+	
 }
