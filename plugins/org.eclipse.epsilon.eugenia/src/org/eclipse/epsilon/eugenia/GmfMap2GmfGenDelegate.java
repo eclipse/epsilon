@@ -33,7 +33,7 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 
 		//TODO: Set more transformation options
 		TransformOptions options = transformToGenModelOperation.getOptions();
-		options.setGenerateRCP(getBooleanAnnotationDetailValue("gmf.diagram", "rpc", false));
+		options.setGenerateRCP(getBooleanAnnotationDetailValue("gmf.diagram", "rcp", false));
 		options.setUseMapMode(getBooleanAnnotationDetailValue("gmf.diagram", "useMapMode", true));
 		options.setUseRuntimeFigures(getBooleanAnnotationDetailValue("gmf.diagram", "useRuntimeFigures", true));
 		
@@ -89,7 +89,9 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 	protected EolEvaluator evaluator = null;
 	
 	protected boolean getBooleanAnnotationDetailValue(String annotation, String detail, boolean default_) {
-		return "true".equals(getAnnotationDetailValue(annotation, detail, default_ + ""));
+		boolean result = "true".equals(getAnnotationDetailValue(annotation, detail, default_ + ""));
+		
+		return result;
 	}
 	
 	protected String getAnnotationDetailValue(String annotation, String detail, String default_) {
