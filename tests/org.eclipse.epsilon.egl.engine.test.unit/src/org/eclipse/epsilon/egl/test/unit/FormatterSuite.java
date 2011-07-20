@@ -13,24 +13,16 @@ package org.eclipse.epsilon.egl.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.egl.formatter.language.JavaFormatterTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({OutputSuite.class,
-               ParseSuite.class,
-               PreprocessorSuite.class,
-               ContextSuite.class,
-               TemplateSuite.class,
-               TypesSuite.class,
-               UtilSuite.class,
-               MergeSuite.class,
-               ConfigSuite.class,
-               FormatterSuite.class})
-public class UnitTestSuite {
+@SuiteClasses({JavaFormatterTests.class})
+public class FormatterSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(UnitTestSuite.class);
+		return new JUnit4TestAdapter(FormatterSuite.class);
 	}
 }

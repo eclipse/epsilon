@@ -45,7 +45,7 @@ public abstract class LanguageFormatter implements Formatter {
 				char current  = line.charAt(0);
 			
 				// Count the number of leading space and tab characters
-				while (position < line.length() && (current == ' ' || current == '\t')) {
+				while ((position < line.length() - 1) && (current == ' ' || current == '\t')) {
 					position++;
 					current = line.charAt(position);
 				}
