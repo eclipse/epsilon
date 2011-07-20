@@ -10,27 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.launching;
 
-import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
-import org.eclipse.debug.ui.CommonTab;
-import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
 import org.eclipse.epsilon.eol.dt.launching.tabs.EolSourceConfigurationTab;
 
-public class EolLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+public class EolLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTabGroup{
 
-	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
-		ILaunchConfigurationTab[] tabs = 
-			new ILaunchConfigurationTab[]{
-				new EolSourceConfigurationTab(),
-				new ModelsConfigurationTab(),
-				//new ToolsConfigurationTab(),
-				//new MofModelsConfigurationTab(),
-				//new EmfModelsConfigurationTab(),
-				//new LibrariesConfigurationTab(),
-				new CommonTab()
-				};
-		setTabs(tabs);
+	@Override
+	public ILaunchConfigurationTab getSourceConfigurationTab() {
+		return new EolSourceConfigurationTab();
 	}
 
 }

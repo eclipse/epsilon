@@ -14,4 +14,5 @@ public interface EolLaunchConfigurationAttributes {
 
 	public static final String SOURCE = "source";
 	public static final String MODELS = "models";
+	
 }

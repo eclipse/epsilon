@@ -10,27 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
-import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
-import org.eclipse.debug.ui.CommonTab;
-import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
 import org.eclipse.epsilon.etl.dt.launching.tabs.EtlSourceConfigurationTab;
 
-public class EtlLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+public class EtlLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTabGroup{
 
-	public void createTabs(ILaunchConfigurationDialog dialog, String mode) { 
-		ILaunchConfigurationTab[] tabs = 
-			new ILaunchConfigurationTab[]{
-				new EtlSourceConfigurationTab(),
-				new ModelsConfigurationTab(),
-				//new ModelChoiceTab(),
-				//new TransformationStrategyConfigurationTab(),
-				//new LibrariesConfigurationTab(),
-				//new ToolsConfigurationTab(),
-				new CommonTab()
-			};
-		setTabs(tabs);
+	@Override
+	public ILaunchConfigurationTab getSourceConfigurationTab() {
+		return new EtlSourceConfigurationTab();
 	}
 
 }

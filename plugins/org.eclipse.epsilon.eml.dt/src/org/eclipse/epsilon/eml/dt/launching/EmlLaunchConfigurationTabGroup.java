@@ -15,6 +15,7 @@ import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.ProfilingConfigurationTab;
 import org.eclipse.epsilon.eml.dt.launching.tabs.EmlEclSourceConfigurationTab;
 import org.eclipse.epsilon.eml.dt.launching.tabs.EmlSourceConfigurationTab;
 
@@ -26,13 +27,7 @@ public class EmlLaunchConfigurationTabGroup extends AbstractLaunchConfigurationT
 				new EmlSourceConfigurationTab(),
 				new EmlEclSourceConfigurationTab(),
 				new ModelsConfigurationTab(),
-				//new ModelChoiceTab(),
-				//new MatchingStrategyConfigurationTab(),
-				//new MergingStrategyConfigurationTab(),
-				//new LeftTransformationStrategyTab(),
-				//new RightTransformationStrategyTab(),
-				//new LibrariesConfigurationTab(),
-				//new ToolsConfigurationTab(),
+				//new ProfilingConfigurationTab(),
 				new CommonTab()
 				};
 		setTabs(tabs);

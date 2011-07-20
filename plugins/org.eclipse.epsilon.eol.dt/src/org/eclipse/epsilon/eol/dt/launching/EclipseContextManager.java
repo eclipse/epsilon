@@ -26,16 +26,22 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
+import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationAttributes;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.ExecutionController;
+import org.eclipse.epsilon.eol.execute.control.ProfilingExecutionListener;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 
 public class EclipseContextManager {
@@ -64,11 +70,31 @@ public class EclipseContextManager {
 	public static void setup(IEolContext context) {
 		loadPrettyPrinters(context);
 		loadIo(context);
-		context.getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());	
+		context.getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());		
 	}
 	
-	public static void setup(IEolContext context, IProgressMonitor progressMonitor) {
-		context.getExecutorFactory().setExecutionController(new EclipseExecutionController(progressMonitor));		
+	public static void setup(IEolContext context, IProgressMonitor progressMonitor, boolean profilingEnabled, boolean resetProfiler) {
+		ExecutionController executionController = new EclipseExecutionController(progressMonitor);
+		context.getExecutorFactory().setExecutionController(executionController);
+		if (profilingEnabled) {
+			context.getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
+			
+			Display.getDefault().asyncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.profiling.dt.ProfilerView");
+					}
+					catch (Exception ex) {ex.printStackTrace();}
+				}
+				
+			});
+			
+			if (resetProfiler) {
+				Profiler.INSTANCE.reset();
+			}
+		}
 		setup(context);
 	}
 	
@@ -80,7 +106,17 @@ public class EclipseContextManager {
 		if (loadModels) {
 			loadModels(context,configuration,progressMonitor);
 		}
-		setup(context, progressMonitor);
+		
+		boolean profilerEnabled = false;
+		boolean resetProfiler = false;
+		
+		try {
+			profilerEnabled = configuration.getAttribute(EpsilonLaunchConfigurationAttributes.PROFILING_ENABLED, false);
+			resetProfiler = configuration.getAttribute(EpsilonLaunchConfigurationAttributes.RESET_PROFILER, false);
+		}
+		catch (CoreException e) {}
+		
+		setup(context, progressMonitor, profilerEnabled, resetProfiler);
 	}
 	
 	private static void loadIo(IEolContext context) {
