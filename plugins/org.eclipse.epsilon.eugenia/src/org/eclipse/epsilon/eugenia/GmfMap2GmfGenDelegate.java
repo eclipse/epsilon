@@ -33,7 +33,7 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 
 		//TODO: Set more transformation options
 		TransformOptions options = transformToGenModelOperation.getOptions();
-		options.setGenerateRCP(getBooleanAnnotationDetailValue("gmf.diagram", "generateRPC", false));
+		options.setGenerateRCP(getBooleanAnnotationDetailValue("gmf.diagram", "rpc", false));
 		options.setUseMapMode(getBooleanAnnotationDetailValue("gmf.diagram", "useMapMode", true));
 		options.setUseRuntimeFigures(getBooleanAnnotationDetailValue("gmf.diagram", "useRuntimeFigures", true));
 		
