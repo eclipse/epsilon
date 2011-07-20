@@ -48,9 +48,11 @@ genDiagram.validationDecorators := true;
 genDiagram.validationEnabled := true;
 genDiagram.liveValidationUIFeedback := true;
 
--- Enable printing
-var genPlugin := GmfGen!GenPlugin.all.first();
-genPlugin.printingEnabled := true;
+-- Enable printing if not RCP
+if (getDiagramClass().getAnnotationValue("gmf.diagram", "rcp") <> "true") {
+	var genPlugin := GmfGen!GenPlugin.all.first();
+	genPlugin.printingEnabled := true;
+}
 
 -- Adjust compartment layout
 for (class in getNodes()) {
