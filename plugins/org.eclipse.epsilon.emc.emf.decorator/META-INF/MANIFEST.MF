@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMF Decorator Model Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.decorator
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.emf.decorator.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
