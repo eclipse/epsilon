@@ -524,7 +524,7 @@ operation createFigureDescriptor(name : String) {
 operation createCreationTool(element : Any) {
 
 	var annotation : String;
-	if (element.isTypeOf(ECore!EClass) and element.isNode()) {
+	if (element.isKindOf(ECore!EClass) and element.isNode()) {
 		annotation := 'gmf.node';
 	}
 	else {
@@ -533,7 +533,7 @@ operation createCreationTool(element : Any) {
 
 	var toolName := element.getAnnotationValue(annotation, 'tool.name');
 	if (toolName.isUndefined()) {
-		if (element.isTypeOf(ECore!EClass)) {
+		if (element.isKindOf(ECore!EClass)) {
 			toolName := element.name;
 		}
 		else {
