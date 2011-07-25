@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.concordance.feature"
       label="Epsilon Concordance (Incubation)"
-      version="0.9.0.qualifier"
+      version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
@@ -233,21 +233,21 @@ litigation.
          id="org.eclipse.epsilon.concordance.clients"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.concordance.core"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.concordance.core.hashing"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
 </feature>
