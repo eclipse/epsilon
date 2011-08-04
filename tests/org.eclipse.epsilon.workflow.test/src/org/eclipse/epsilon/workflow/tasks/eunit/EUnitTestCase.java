@@ -10,10 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -137,11 +135,10 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 						final String tagName = e.getTagName();
 						if (tagName.equals("testcase")) {
 							final String testCaseName = e.getAttribute("name");
-							assertThat(
+							assertEquals(
 								String.format("The %d-th test case in the report should be %s",
 										nTestCases+1, expectedTestCases[nTestCases]),
-								testCaseName,
-								is(equalTo(expectedTestCases[nTestCases])));
+								expectedTestCases[nTestCases], testCaseName);
 			
 							final String className = e.getAttribute("classname");
 							assertTrue(className.startsWith(expectedPackagePrefix));
@@ -153,8 +150,8 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 								assertHasChildWithTag(e, "error");
 							}
 							else {
-								assertThat("The test " + testCaseName + " should pass",
-									e.getChildNodes().getLength(), is(equalTo(0)));
+								assertEquals("The test " + testCaseName + " should pass",
+									0, e.getChildNodes().getLength());
 							}
 							nTestCases++;
 						}
@@ -166,12 +163,12 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 						}
 					}
 				}
-				assertThat(
+				assertEquals(
 					"There should be " + expectedTestCases.length + " test cases in the report",
-					nTestCases, is(equalTo(expectedTestCases.length)));
+					nTestCases, expectedTestCases.length);
 			
-				assertThat("Report should include stdout", sysOut, is(notNullValue()));
-				assertThat("Report should include stderr", sysErr, is(notNullValue()));
+				assertNotNull("Report should include stdout", sysOut);
+				assertNotNull("Report should include stderr", sysErr);
 				for (String testCase : expectedTestCases) {
 					assertTrue("Report should mention test case " + testCase,
 							sysOut.contains(testCase) || sysErr.contains(testCase));

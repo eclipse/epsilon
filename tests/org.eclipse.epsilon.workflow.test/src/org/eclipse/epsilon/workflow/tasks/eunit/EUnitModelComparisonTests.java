@@ -10,11 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -25,8 +21,8 @@ import java.util.HashSet;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.ant.core.AntRunner;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -84,20 +80,8 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-left");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			final EolAssertionException assEx = getAssertionException(ex);
-			assertThat(assEx.getMessage(), containsString("Expected B to be also empty, but it is not"));
-			assertThat(assEx.getDelta(), is(notNullValue()));
+			assertTrue(ex.getMessage().contains("Expected B to be also empty, but it is not"));
 		}
-	}
-
-	private EolAssertionException getAssertionException(Throwable ex) {
-		for (Throwable t = ex.getCause(); t instanceof EolRuntimeException; t = t.getCause()) {
-			if (t instanceof EolAssertionException) {
-				return (EolAssertionException)t;
-			}
-		}
-		fail("The exception is not originated from an assertion exception");
-		return null;
 	}
 
 	@Test
@@ -106,9 +90,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-right");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			final EolAssertionException assEx = getAssertionException(ex);
-			assertThat(assEx.getMessage(), containsString("Expected B to be equal to A, but it is empty"));
-			assertThat(assEx.getDelta(), is(notNullValue()));
+			assertTrue(ex.getMessage().contains("but it is empty"));
 		}
 	}
 
@@ -133,9 +115,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-both-noteq");
 			fail("Expected a BuildException");
 		} catch (BuildException ex) {
-			final EolAssertionException assEx = getAssertionException(ex);
-			assertThat(assEx.getMessage(), containsString("Expected B not to be empty, but it is empty"));
-			assertThat(assEx.getDelta(), is(nullValue()));
+			assertTrue(ex.getMessage().contains("Expected B not to be empty, but it is empty"));
 		}
 	}
 
