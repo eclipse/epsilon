@@ -134,7 +134,7 @@ public class HutnModel extends Model implements IComparableModel, IAdaptableMode
 		try {
 			final StringOutputStream xmi = new StringOutputStream();
 			
-			model.getModelImpl().save(xmi, Collections.EMPTY_MAP);
+			model.getResource().save(xmi, Collections.EMPTY_MAP);
 			
 			return new Xmi2Hutn(xmi.toString()).getHutn();
 		
