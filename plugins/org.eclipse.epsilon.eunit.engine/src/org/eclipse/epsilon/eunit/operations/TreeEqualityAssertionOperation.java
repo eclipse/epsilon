@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.eunit.execute.operations;
+package org.eclipse.epsilon.eunit.operations;
 
 import java.io.File;
 import java.util.List;
