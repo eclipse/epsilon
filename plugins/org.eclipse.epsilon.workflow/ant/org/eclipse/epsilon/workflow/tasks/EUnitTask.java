@@ -46,8 +46,6 @@ import org.eclipse.epsilon.eunit.EUnitTestResultType;
  */
 public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener {
 
-	private static final String EUNIT_TEST_LISTENER_EXTENSION_POINT_ID = "org.eclipse.epsilon.workflow.eunit.listener";
-
 	/**
 	 * Class for a nested element which simply contains tasks.
 	 */
@@ -144,7 +142,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			eunitModule.setReportDirectory(null);
 		}
 
-		for (EUnitTestListener extraListener : ClassBasedExtension.getImplementations(EUNIT_TEST_LISTENER_EXTENSION_POINT_ID, EUnitTestListener.class)) {
+		for (EUnitTestListener extraListener : ClassBasedExtension.getImplementations(EUnitTestListener.EXTENSION_POINT_ID, EUnitTestListener.class)) {
 			eunitModule.addTestListener(extraListener);
 		}
 	}

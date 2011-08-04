@@ -19,6 +19,8 @@ package org.eclipse.epsilon.eunit;
  */
 public interface EUnitTestListener {
 
+	String EXTENSION_POINT_ID = "org.eclipse.epsilon.workflow.eunit.listener";
+
 	/**
 	 * Notification sent before running a test case.
 	 * @param module EUnit module under execution.

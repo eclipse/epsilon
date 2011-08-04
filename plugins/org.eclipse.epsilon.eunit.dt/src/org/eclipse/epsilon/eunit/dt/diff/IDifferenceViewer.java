@@ -18,6 +18,8 @@ package org.eclipse.epsilon.eunit.dt.diff;
  */
 public interface IDifferenceViewer {
 
+	String EXTENSION_POINT_ID = "org.eclipse.epsilon.eunit.dt.diffviewer";
+
 	/**
 	 * Returns <code>true</code> if this viewer can show the differences between
 	 * the expected and the actual results. This method will be called from the
