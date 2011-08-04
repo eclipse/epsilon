@@ -19,21 +19,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchResourceSet;
-import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -55,11 +46,9 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
-import org.eclipse.epsilon.eol.models.IAdaptableModel;
-import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public abstract class AbstractEmfModel extends CachedModel<EObject> implements IComparableModel {
+public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	//DONE : Improve support for file-based metamodels
 	//FIXME : If the user wants, they can load it as a local copy
@@ -536,97 +525,5 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> implements I
 
 	public void setExpand(boolean expand) {
 		this.expand = expand;
-	}
-
-	public Object computeDifferencesWith(IComparableModel model) throws IOException, InterruptedException {
-		// If the other model is not a pure EMF model, it may need to be adapted
-		if (model instanceof IAdaptableModel) {
-			final IAdaptableModel adapModel = (IAdaptableModel)model;
-			model = adapModel.adaptTo(AbstractEmfModel.class);
-		}
-		if (!(model instanceof AbstractEmfModel)) {
-			throw new IllegalArgumentException("Cannot compare an EMF model with a non-EMF model");
-		}
-
-		// For later viewing, we need to ensure the models are saved. If they are not, just
-		// store them to a temporary file.
-		final AbstractEmfModel other = (AbstractEmfModel)model;
-		final ResourceSet myResourceSet = cloneToTmpFiles(getResource().getResourceSet());
-		final ResourceSet otherResourceSet = cloneToTmpFiles(other.getResource().getResourceSet());
-
-		final HashMap<String, Object> options = new HashMap<String, Object>();
-		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		MatchResourceSet match = MatchService.doResourceSetMatch(myResourceSet, otherResourceSet, options);
-		DiffResourceSet diff = DiffService.doDiff(match);
-		boolean bAnyDifferences = false;
-		for (DiffModel diffModel : diff.getDiffModels()) {
-			if (!diffModel.getDifferences().isEmpty()) {
-				bAnyDifferences = true;
-			}
-		}
-		if (!bAnyDifferences) {
-			return null;
-		}
-
-		ComparisonResourceSetSnapshot snap = DiffFactory.eINSTANCE.createComparisonResourceSetSnapshot();
-		snap.setDate(new Date());
-		snap.setDiffResourceSet(diff);
-		snap.setMatchResourceSet(match);
-		return snap;
-	}
-
-	/**
-	 * This method is used to take a snapshot of an entire resource set. Resources which
-	 * do not have platform:// URIs are saved into temporary files. Cross-references are
-	 * preserved: all non-platform:// URIs are rewritten to the proper temporary files.
-	 */
-	private ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
-		EcoreUtil.resolveAll(resourceSet);
-		ResourceSet newResourceSet = new EmfModelResourceSet();
-
-		// Save the original non-platform URIs
-		final Map<Resource, URI> originalURIMap = new HashMap<Resource, URI>();
-		for (Resource res : resourceSet.getResources()) {
-			if ("platform".equals(res.getURI().scheme())) {
-				// skip platform: models
-				continue;
-			}
-			originalURIMap.put(res, res.getURI());
-		}
-
-		try {
-			// Map each non-platform resource to a new temporary file
-			for (Resource res : originalURIMap.keySet()) {
-				File tmpFile = File.createTempFile(res.getURI().lastSegment() + ".", ".model");
-				res.setURI(URI.createFileURI(tmpFile.getAbsolutePath()));
-			}
-
-			// Save all the non-platform resources and add them to the new resource set.
-			// The platform: resources will be resolved implicitly by the comparison.
-			final List<Resource> newResources = new ArrayList<Resource>(originalURIMap.size());
-			for (Resource res : originalURIMap.keySet()) {
-				res.save(Collections.EMPTY_MAP);
-				final Resource newResource = newResourceSet.createResource(res.getURI());
-				newResources.add(newResource);
-			}
-
-			// Reuse the metamodels loaded by the user in the new resource set, by
-			// using the same package registry as in the original resource set.
-			newResourceSet.setPackageRegistry(resourceSet.getPackageRegistry());
-
-			// Load all the resources in the new resource set.
-			for (Resource res : newResources) {
-				res.load(null);
-				EcoreUtil.resolveAll(res);
-			}
-		}
-		finally {
-			// Restore the original URIs to the original resource set
-			for (Map.Entry<Resource, URI> entry : originalURIMap.entrySet()) {
-				entry.getKey().setURI(entry.getValue());
-			}
-		}
-
-		return newResourceSet;
 	}
 }

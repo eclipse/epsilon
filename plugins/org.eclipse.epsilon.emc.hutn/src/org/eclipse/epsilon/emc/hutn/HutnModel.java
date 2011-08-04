@@ -29,7 +29,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IAdaptableModel;
-import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.hutn.HutnModule;
@@ -39,7 +38,7 @@ import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 
 
-public class HutnModel extends Model implements IComparableModel, IAdaptableModel, IReflectiveModel {
+public class HutnModel extends Model implements IAdaptableModel, IReflectiveModel {
 
 	public static final String PROPERTY_SOURCE_FILE = "sourceFile";
 	
@@ -237,9 +236,5 @@ public class HutnModel extends Model implements IComparableModel, IAdaptableMode
 		else {
 			return null;
 		}
-	}
-
-	public Object computeDifferencesWith(IComparableModel otherModel) throws Exception {
-		return model.computeDifferencesWith(otherModel);
 	}
 }

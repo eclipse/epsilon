@@ -25,11 +25,10 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.eol.models.IAdaptableModel;
-import org.eclipse.epsilon.eol.models.IComparableModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public class ModelReference implements IComparableModel, IAdaptableModel, IWrapper {
+public class ModelReference implements IAdaptableModel, IWrapper {
 
 	protected IModel target;
 	protected String name;
@@ -196,15 +195,4 @@ public class ModelReference implements IComparableModel, IAdaptableModel, IWrapp
 		}
 	}
 
-	public Object computeDifferencesWith(IComparableModel otherModel) throws Exception {
-		if (target instanceof IComparableModel) {
-			return ((IComparableModel)target).computeDifferencesWith(otherModel);
-		}
-		else {
-			throw new IllegalArgumentException(
-				"Target model "
-					+ target.getName()
-					+ " does not support model comparison");
-		}
-	}
 }

@@ -11,12 +11,18 @@
 package org.eclipse.epsilon.eunit.operations;
 
 import java.io.File;
+import java.util.List;
 
+import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
+import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 
 /**
  * Operation contributor for the EUnit operations which may require external
@@ -39,12 +45,28 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		compareTrees(pathExpected, pathActual, true);
 	}
 
+	public void assertEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+		assertEqualModels(null, expectedModelName, obtainedModelName);
+	}
+
+	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+		compareModels(message, expectedModelName, obtainedModelName, true);
+	}
+
 	public void assertNotEqualFiles(String pathExpected, String pathActual) throws EolAssertionException, EolInternalException {
 		compareTrees(pathExpected, pathActual, false);
 	}
 
 	public void assertNotEqualDirectories(String pathExpected, String pathActual) throws EolAssertionException, EolInternalException {
 		compareTrees(pathExpected, pathActual, false);
+	}
+
+	public void assertNotEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+		assertNotEqualModels(null, expectedModelName, obtainedModelName);
+	}
+
+	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+		compareModels(message, expectedModelName, obtainedModelName, false);
 	}
 
 	private void compareTrees(final String pathExpected, final String pathActual, boolean mustBeEqual) throws EolAssertionException, EolInternalException {
@@ -85,4 +107,74 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		throw new EolAssertionException(
 			message, ast, fileExpected, fileActual, null);
 	}
+
+	private IModel getModel(String name) throws EolModelNotFoundException
+	{
+		return context.getModelRepository().getModelByName(name);
+	}
+
+	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+		final IModel expectedCModel = getModel(expectedModelName);
+		final IModel actualCModel = getModel(actualModelName);
+		final IModelComparator comparator = getComparator(expectedCModel, actualCModel);
+		if (comparator == null) {
+			throw new IllegalArgumentException("No matching comparator has been found for " + expectedCModel + " and " + actualCModel);
+		}
+
+		// Compare the models
+		Object delta = null;
+		final boolean bExpectedEmpty = expectedCModel.allContents().isEmpty();
+		final boolean bActualEmpty = actualCModel.allContents().isEmpty();
+		try {
+			if (!bExpectedEmpty && !bActualEmpty) {
+				// We only use the driver-specific comparison if both models are not empty
+				delta = comparator.compare(expectedCModel, actualCModel);
+			}
+			else if (bExpectedEmpty != bActualEmpty) {
+				delta = "expected "
+					+ (bExpectedEmpty ? "is" : "is not")
+					+ " empty, actual "
+					+ (bActualEmpty ? "is" : "is not")
+					+ " empty";
+			}
+		} catch (Exception e) {
+			throw new EolInternalException(e);
+		}
+
+		// Does the comparison result match our expectations?
+		if ((delta == null) == mustBeEqual) {
+			return;
+		}
+
+		if (message == null) {
+			if (bExpectedEmpty) {
+				message = "Expected " + actualModelName
+					+ (mustBeEqual ? " to be also" : " not to be") + " empty, but it is "
+					+ (bActualEmpty ? "empty" : "not");
+			}
+			else {
+				message = "Expected " + actualModelName
+					+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
+					+ expectedModelName + ", but it is " + (bActualEmpty ? "empty" : "not");
+			}
+		}
+
+		if (mustBeEqual) {
+			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
+		}
+		else {
+			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), null, null, null);
+		}
+	}
+
+	private IModelComparator getComparator(IModel expectedCModel, IModel actualCModel) throws IllegalExtensionException {
+		List<IModelComparator> comparators = ClassBasedExtension.getImplementations(IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
+		for (IModelComparator comparator : comparators) {
+			if (comparator.canCompare(expectedCModel, actualCModel)) {
+				return comparator;
+			}
+		}
+		return null;
+	}
+
 }

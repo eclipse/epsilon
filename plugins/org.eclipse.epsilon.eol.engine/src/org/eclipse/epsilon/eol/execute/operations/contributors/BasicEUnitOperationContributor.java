@@ -11,10 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
-import org.eclipse.epsilon.eol.models.IComparableModel;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 
 /**
@@ -65,14 +61,6 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 		compareUlps(message, expected, obtained, ulps, true);
 	}
 
-	public void assertEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
-		assertEqualModels(null, expectedModelName, obtainedModelName);
-	}
-
-	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
-		compareModels(message, expectedModelName, obtainedModelName, true);
-	}
-
 	public void assertNotEquals(Object expected, Object obtained) throws EolAssertionException {
 		assertNotEquals("Expected something different from " + expected + ", but got something equal to it", expected, obtained);
 	}
@@ -89,26 +77,8 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 		compareUlps(message, expected, obtained, ulps, false);
 	}
 
-	public void assertNotEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
-		assertNotEqualModels(null, expectedModelName, obtainedModelName);
-	}
-
-	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
-		compareModels(message, expectedModelName, obtainedModelName, false);
-	}
-
 	public void fail(String message) throws EolAssertionException {
 		throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), null, null, null);
-	}
-
-	private IComparableModel getComparableModel(String name) throws EolModelNotFoundException
-	{
-		IModel expectedModel = context.getModelRepository().getModelByName(name);
-		if (!(expectedModel instanceof IComparableModel)) {
-			throw new IllegalArgumentException(
-				String.format("The model '%s' does not support comparison", name));
-		}
-		return (IComparableModel)expectedModel;
 	}
 
 	private void compareBoolean(String message, boolean condition, final boolean expected) throws EolAssertionException {
@@ -125,56 +95,6 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 		if (EolObjectComparator.equals(expected, obtained) != mustBeEqual) {
 			throw new EolAssertionException(
 					message, context.getFrameStack().getCurrentStatement(), expected, obtained, null);
-		}
-	}
-
-	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
-		final IComparableModel expectedCModel = getComparableModel(expectedModelName);
-		final IComparableModel actualCModel = getComparableModel(actualModelName);
-
-		// Compare the models
-		Object delta = null;
-		final boolean bExpectedEmpty = expectedCModel.allContents().isEmpty();
-		final boolean bActualEmpty = actualCModel.allContents().isEmpty();
-		try {
-			if (!bExpectedEmpty && !bActualEmpty) {
-				// We only use the driver-specific comparison if both models are not empty
-				delta = actualCModel.computeDifferencesWith(expectedCModel);
-			}
-			else if (bExpectedEmpty != bActualEmpty) {
-				delta = "expected "
-					+ (bExpectedEmpty ? "is" : "is not")
-					+ " empty, actual "
-					+ (bActualEmpty ? "is" : "is not")
-					+ " empty";
-			}
-		} catch (Exception e) {
-			throw new EolInternalException(e);
-		}
-
-		// Does the comparison result match our expectations?
-		if ((delta == null) == mustBeEqual) {
-			return;
-		}
-
-		if (message == null) {
-			if (bExpectedEmpty) {
-				message = "Expected " + actualModelName
-					+ (mustBeEqual ? " to be also" : " not to be") + " empty, but it is "
-					+ (bActualEmpty ? "empty" : "not");
-			}
-			else {
-				message = "Expected " + actualModelName
-					+ " to be " + (mustBeEqual ? "equal" : "different") + " to "
-					+ expectedModelName + ", but it is " + (bActualEmpty ? "empty" : "not");
-			}
-		}
-
-		if (mustBeEqual) {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
-		}
-		else {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), null, null, null);
 		}
 	}
 
