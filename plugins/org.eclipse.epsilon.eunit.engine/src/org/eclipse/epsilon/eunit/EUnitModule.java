@@ -360,11 +360,14 @@ public class EUnitModule extends EolModule {
 		for (EUnitTest child : node.getChildren()) {
 			runSuite(child);
 			switch (child.getResult()) {
-			case ERROR: node.setResult(EUnitTestResultType.ERROR);
+			case ERROR:
+				node.setResult(EUnitTestResultType.ERROR);
+				node.setException(child.getException());
+				break;
 			case FAILURE:
-				if (node.getResult() != EUnitTestResultType.ERROR) {
-					node.setResult(EUnitTestResultType.FAILURE);
-				}
+				node.setResult(EUnitTestResultType.FAILURE);
+				node.setException(child.getException());
+				break;
 			}
 		}
 		if (node.getResult() != EUnitTestResultType.ERROR && node.getResult() != EUnitTestResultType.FAILURE) {

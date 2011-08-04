@@ -154,7 +154,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 		out.println("Global result: " + test.getResult());
 		if (test.getResult() == EUnitTestResultType.FAILURE || test.getResult() == EUnitTestResultType.ERROR) {
-			fail("At least one test case had a failure or an error", test.getException());
+			fail("At least one test case had a failure or an error: " + test.getException().getMessage(), test.getException());
 		}
 	}
 
