@@ -43,9 +43,12 @@ public class ToolExtension {
 	public static ArrayList<ToolExtension> getInstances() {
 		
 		if (instances == null) {
-		
 			instances = new ArrayList();
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
+			if (registry == null) {
+				return instances;
+			}
+
 			IExtensionPoint extenstionPoint = registry.getExtensionPoint(extensionPoint);
 			
 			IConfigurationElement[] configurationElements = extenstionPoint.getConfigurationElements();
