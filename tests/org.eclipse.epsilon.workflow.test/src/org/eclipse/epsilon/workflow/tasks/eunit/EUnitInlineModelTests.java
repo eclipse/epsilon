@@ -13,7 +13,8 @@ package org.eclipse.epsilon.workflow.tasks.eunit;
 import org.junit.Test;
 
 /**
- * Tests for the inline model support.
+ * Tests for the inline model support, except for model comparison,
+ * which has its own test suite ({@link EUnitModelComparisonTests}).
  *
  * @author Antonio Garcia-Dominguez
  */
@@ -22,11 +23,6 @@ public class EUnitInlineModelTests extends EUnitTestCase {
 	@Test
 	public void inlineHutnModelsWork() throws Exception {
 		runTarget(ANT_BUILD_FILE, "inline-hutn");
-	}
-
-	@Test
-	public void inlineHutnModelsCanBeCompared() throws Exception {
-		runTarget(ANT_BUILD_FILE, "inline-hutn-compare");
 	}
 
 	@Test

@@ -32,11 +32,26 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * Tests for the EUnit model comparison assertions.
+ * Tests for the EUnit model comparison assertions. Since these depend on the
+ * registered model comparators, this test should be run as a JUnit plug-in
+ * test.
  *
  * @author Antonio Garcia-Dominguez
  */
 public class EUnitModelComparisonTests extends EUnitTestCase {
+
+	@Override
+	public void runTarget(File buildFile, String targetName)
+			throws BuildException, IOException {
+		AntRunner runner = new AntRunner();
+		runner.setBuildFileLocation(buildFile.getCanonicalPath());
+		runner.setExecutionTargets(new String[] { targetName });
+		try {
+			runner.run();
+		} catch (CoreException e) {
+			throw new BuildException(e);
+		}
+	}
 
 	@Test
 	public void compareEMFWithEMF() throws Exception {
@@ -122,6 +137,11 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 			assertThat(assEx.getMessage(), containsString("Expected B not to be empty, but it is empty"));
 			assertThat(assEx.getDelta(), is(nullValue()));
 		}
+	}
+
+	@Test
+	public void inlineHutnModelsCanBeCompared() throws Exception {
+		runTarget(ANT_BUILD_FILE, "inline-hutn-compare");
 	}
 
 	private void runBasicTests(String targetName) throws IOException,
