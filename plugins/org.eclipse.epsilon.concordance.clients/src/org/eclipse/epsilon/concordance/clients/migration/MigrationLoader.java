@@ -49,7 +49,7 @@ class MigrationLoader {
 			
 			final String originalNsUri    = extPoint.getAttribute("originalNsUri");
 			final String evolvedNsUri     = extPoint.getAttribute("evolvedNsUri");
-			final URI strategy            = bundle.getResource(extPoint.getAttribute("migrationStrategy")).toURI();
+			final URI strategy            = bundle.getEntry(extPoint.getAttribute("migrationStrategy")).toURI();
 			final MigratorFactory factory = (MigratorFactory)extPoint.createExecutableExtension("migratorFactory");
 			
 			

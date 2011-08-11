@@ -29,10 +29,9 @@ public class MigrationStrategyExtension {
 		final Bundle bundle = Platform.getBundle(extPoint.getDeclaringExtension().getNamespaceIdentifier());
 		
 		this.pluginId              = extPoint.getDeclaringExtension().getNamespaceIdentifier();
-		this.strategyFile          = bundle.getResource(extPoint.getAttribute("strategyFile")).toURI();
+		this.strategyFile          = bundle.getEntry(extPoint.getAttribute("strategyFile")).toURI();
 		this.originalMetamodelFile = extPoint.getAttribute("originalMetamodelFile");
 		this.evolvedMetamodelFile  = extPoint.getAttribute("migratedMetamodelFile");
-
 	}
 	
 	public URI getStrategyFile() {
