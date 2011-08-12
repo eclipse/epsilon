@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.epsilon.eunit.engine,
  org.eclipse.emf.compare.diff,
  org.eclipse.emf.compare.match,
  org.eclipse.epsilon.common.dt
+Export-Package: org.eclipse.epsilon.eunit.dt.cmp.emf

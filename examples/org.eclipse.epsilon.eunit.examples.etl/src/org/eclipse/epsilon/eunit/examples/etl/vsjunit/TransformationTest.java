@@ -17,6 +17,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.eunit.dt.cmp.emf.EMFModelComparator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class TransformationTest {
 
 		// Using generic comparison through EMC
 		assertThat(
-			expectedGraph.computeDifferencesWith(resultGraph),
+			new EMFModelComparator().compare(expectedGraph, resultGraph),
 			is(nullValue()));
 	}
 

@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.emf.compare;bundle-version="1.1.1",
  org.eclipse.epsilon.erl.engine,
  org.eclipse.epsilon.etl.engine,
  org.antlr.runtime_3.1.b1,
- org.junit4
+ org.junit4,
+ org.eclipse.epsilon.eunit.dt.cmp.emf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
