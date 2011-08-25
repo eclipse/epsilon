@@ -64,6 +64,14 @@ public class EglTemplateFactory {
 		return context;
 	}
 	
+	/**
+	 * Sets the root of this template factory, unless it has already been set.
+	 */
+	public void initialiseRoot(URI root) {
+		if (this.root == null)
+			setRoot(root);
+	}
+	
 	public void setRoot(URI root) {
 		this.root = root;
 	}

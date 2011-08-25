@@ -107,15 +107,11 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 		try {
 			this.sourceUri = uri;
+			this.templateRoot = uri;
 
 			if (uri.getScheme() != null && uri.getScheme().equals("file")) {
 				this.sourceFile = new File(uri);
 			}
-
-			templateRoot = uri;
-			
-			if (context != null)
-				context.getTemplateFactory().setRoot(uri);
 
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 
@@ -169,7 +165,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 	private String execute(Formatter postprocessor) throws EglRuntimeException {
 		context.setModule(this);
-		context.getTemplateFactory().setRoot(templateRoot);
+		context.getTemplateFactory().initialiseRoot(templateRoot);
 
 		// HACK : Talk to Louis and redesign properly
 		context.copyInto(preprocessorModule.getContext());

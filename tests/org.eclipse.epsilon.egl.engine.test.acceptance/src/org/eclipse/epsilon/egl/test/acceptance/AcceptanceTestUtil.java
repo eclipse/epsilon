@@ -85,7 +85,7 @@ public class AcceptanceTestUtil {
 		if (program instanceof File) {
 			final File file = (File)program;
 			
-			factory.setRoot(file.getParentFile().toURI());
+			factory.initialiseRoot(file.getParentFile().toURI());
 			template = factory.load(file.getName());
 			
 		} else if (program instanceof URI) {

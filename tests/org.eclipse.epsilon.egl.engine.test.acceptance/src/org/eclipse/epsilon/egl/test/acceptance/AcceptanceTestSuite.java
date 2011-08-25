@@ -15,6 +15,7 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.egl.test.acceptance.builtins.EglCanAccessBuiltinsTests;
 import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
+import org.eclipse.epsilon.egl.test.acceptance.engine.subtemplates.InvokingSubtemplates;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
 import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
 import org.eclipse.epsilon.egl.test.acceptance.formatters.Formatters;
@@ -32,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({Engine.class,
                EglCanAccessBuiltinsTests.class,
+               InvokingSubtemplates.class,
                Output.class, OutputNewlines.class,
                Merge.class,
                Traceability.class,
