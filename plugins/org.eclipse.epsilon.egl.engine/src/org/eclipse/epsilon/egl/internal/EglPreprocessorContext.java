@@ -19,10 +19,7 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBufferOperationContributor;
-import org.eclipse.epsilon.egl.output.OutputBufferPrinterAdaptor;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -45,11 +42,6 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 		this.delegate = delegate;
 	}
 	
-	@Override
-	public Printer getPrinter() {
-		return new OutputBufferPrinterAdaptor((OutputBuffer)getFrameStack().get("out").getValue());
-	}
-
 	public void setTraceabilityContext(IEglTraceabilityContext traceabilityContext) {
 		this.traceabilityContext = traceabilityContext;
 	}

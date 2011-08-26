@@ -12,9 +12,9 @@ package org.eclipse.epsilon.egl.output;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintsAndTraces;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 
@@ -26,31 +26,26 @@ public class OutputBufferOperationContributor extends OperationContributor {
 	}
 
 	public void print(AST featureCallAst) throws EolRuntimeException {
-		final Object evaluatedParameter = getContext().getTraceabilityContext().recordPropertyAccessesWhileExecuting(featureCallAst.getFirstChild().getFirstChild());
-		final Region destination = getPrinter().print(evaluatedParameter, new RegionBuilder());
-	
-		getContext().getTraceabilityContext().traceLatestPropertyAccesses(destination);
+		print(featureCallAst, new OutputBufferPrinterAdaptor.NormalPrinter(getOutputBuffer()));
 	}
 	
 	public void printdyn(AST featureCallAst) throws EolRuntimeException {
-		final Object evaluatedParameter = getContext().getTraceabilityContext().recordPropertyAccessesWhileExecuting(featureCallAst.getFirstChild().getFirstChild());
-		final Region destination = getPrinter().printdyn(evaluatedParameter, new RegionBuilder());
-		
-		getContext().getTraceabilityContext().traceLatestPropertyAccesses(destination);
+		print(featureCallAst, new OutputBufferPrinterAdaptor.DynamicPrinter(getOutputBuffer()));
 	}
 	
 	public void println(AST featureCallAst) throws EolRuntimeException {
-		final Object evaluatedParameter = getContext().getTraceabilityContext().recordPropertyAccessesWhileExecuting(featureCallAst.getFirstChild().getFirstChild());
-		final Region destination = getPrinter().println(evaluatedParameter, new RegionBuilder());
-		
-		getContext().getTraceabilityContext().traceLatestPropertyAccesses(destination);
+		print(featureCallAst, new OutputBufferPrinterAdaptor.LinePrinter(getOutputBuffer()));
+	}
+
+	private void print(AST featureCallAst, Printer printer) throws EolRuntimeException {
+		new PrintsAndTraces(printer, getTraceabilityContext()).execute(featureCallAst.getFirstChild().getFirstChild());
 	}
 	
-	private Printer getPrinter() {
-		return new OutputBufferPrinterAdaptor((OutputBuffer)target);
+	private OutputBuffer getOutputBuffer() {
+		return (OutputBuffer)target;
 	}
 	
-	private IEglContextWithFineGrainedTraceability getContext() {
-		return (IEglContextWithFineGrainedTraceability)context;
+	private IEglTraceabilityContext getTraceabilityContext() {
+		return ((IEglContextWithFineGrainedTraceability)context).getTraceabilityContext();
 	}
 }

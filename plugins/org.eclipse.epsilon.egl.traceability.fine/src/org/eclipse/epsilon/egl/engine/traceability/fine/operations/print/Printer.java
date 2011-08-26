@@ -17,12 +17,11 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 
 
-
-public interface Printer {
+public abstract class Printer {
 	
-	public Region print(Object object, RegionBuilder builder);
+	public Region print(Object object) {
+		return print(object, new RegionBuilder());
+	}
 
-	public Region println(Object object, RegionBuilder builder);
-
-	public Region printdyn(Object object, RegionBuilder builder);
+	protected abstract Region print(Object object, RegionBuilder regionBuilder);
 }

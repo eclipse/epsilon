@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperation;
 import org.eclipse.epsilon.egl.execute.operations.IncludeOperation;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 
@@ -20,15 +19,6 @@ public class EglOperationFactory extends OperationFactory {
 	protected void createCache() {
 		super.createCache();
 		operationCache.put("include", new IncludeOperation());
-		
-		// TODO Speak to Dimitris: this might be better as an 
-		// operation that has been contributed to OutputBuffer,
-		// but contributed operations don't receive the full AST..
-		// TODO Also, we need to support traceability when
-		// out.println is used: I think that an operation contributor
-		// is the only way to achieve this?
-		operationCache.put("printop",    new PrintOperation());
-		operationCache.put("printopdyn", new PrintOperation());
 	}
 	
 }

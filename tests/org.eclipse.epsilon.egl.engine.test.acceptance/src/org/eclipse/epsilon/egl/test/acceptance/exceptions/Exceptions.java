@@ -18,11 +18,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -133,10 +134,23 @@ public class Exceptions {
 			
 		} catch (EglRuntimeException e) {
 			assertThat(e.getReason(), startsWith("Error encountered whilst processing template."));
-			assertTrue(((EolInternalException)e.getCause()).getInternal() instanceof ArithmeticException);
+			assertTrue(typeOfCauses(e).contains(ArithmeticException.class));
 		}
 	}
 	
+	private static Collection<Class<? extends Throwable>> typeOfCauses(Exception e) {
+		final Collection<Class<? extends Throwable>> causes = new HashSet<Class<? extends Throwable>>();
+		
+		Throwable current = e;
+		while (current.getCause() != null) {
+			causes.add(current.getCause().getClass());
+			current = current.getCause();
+		}
+
+		return causes;
+	}
+
+
 	@Test
 	public void load() throws Exception {
 		try {

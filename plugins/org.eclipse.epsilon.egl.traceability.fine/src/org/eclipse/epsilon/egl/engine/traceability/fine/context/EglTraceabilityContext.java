@@ -53,12 +53,12 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 	}
 
 	@Override
-	public void traceLatestPropertyAccesses(Region destination) {
+	public void addDestinationRegionForLatestPropertyAccesses(Region destination) {
 		traceBuilder.withTraceElements(recorder.getFeatureAccesses(), destination);
 	}
 	
 	@Override
-	public void addTargetResourceToTrace(String resource) {
+	public void addDestinationResourceForUnclaimedPropertyAccesses(String resource) {
 		traceBuilder.withResource(resource);
 	}
 }

@@ -47,7 +47,7 @@ public class TestPreprocessor {
 	@Test
 	public void testText() {
 		final String egl = "Hello World!";
-		final String eol = "printop('Hello World!');";
+		final String eol = "out.print('Hello World!');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -56,9 +56,9 @@ public class TestPreprocessor {
 	public void testTextMultiline() {
 		final String egl = "Hello World!" + NEWLINE +
 		                   "foo";
-		final String eol = "printop('Hello World!');" + NEWLINE +
-		                   "printop('" + ESCAPED_NEWLINE + "');" + NEWLINE +
-		                   "printop('foo');";
+		final String eol = "out.print('Hello World!');" + NEWLINE +
+		                   "out.print('" + ESCAPED_NEWLINE + "');" + NEWLINE +
+		                   "out.print('foo');";
 		
 		assertEquals(eol, preprocess(egl));
 	}
@@ -66,7 +66,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeQuote() {
 		final String egl = "'";
-		final String eol = "printop('\\'');";
+		final String eol = "out.print('\\'');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -74,7 +74,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeDoubleQuote() {
 		final String egl = "\"";
-		final String eol = "printop('\\\"');";
+		final String eol = "out.print('\\\"');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -82,7 +82,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeBackslash() {
 		final String egl = "\\";
-		final String eol = "printop('\\\\');";
+		final String eol = "out.print('\\\\');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -90,7 +90,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeTab() {
 		final String egl = "\t";
-		final String eol = "printop('\\t');";
+		final String eol = "out.print('\\t');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -98,7 +98,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeLineFeed() {
 		final String egl = "\r";
-		final String eol = "printop('\\r');";
+		final String eol = "out.print('\\r');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -106,7 +106,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeNewLine() {
 		final String egl = "\n";
-		final String eol = "printop('\\n');";
+		final String eol = "out.print('\\n');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -114,7 +114,7 @@ public class TestPreprocessor {
 	@Test
 	public void testOutput() {
 		final String egl = "[%=foo%]";
-		final String eol = "printopdyn(foo);";
+		final String eol = "out.printdyn(foo);";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -342,7 +342,7 @@ public class TestPreprocessor {
 //		System.err.println(preprocess(program));
 //		System.err.println(preprocessor.getTrace());
 		
-		final int offset = "printopdyn(".length();
+		final int offset = "out.printdyn(".length();
 		
 		assertEquals( 4, preprocessor.getTrace().getEglColumnNumberFor(1, offset + 1));
 		assertEquals(12, preprocessor.getTrace().getEglColumnNumberFor(2, offset + 1));
@@ -371,12 +371,12 @@ public class TestPreprocessor {
 		assertEquals(3, preprocessor.getTrace().getEglLineNumberFor(5));
 		assertEquals(4, preprocessor.getTrace().getEglLineNumberFor(6));
 		
-		assertEquals(3, preprocessor.getTrace().getEglColumnNumberFor(1, 1));
-		assertEquals(5, preprocessor.getTrace().getEglColumnNumberFor(2, 1));
-		assertEquals(1, preprocessor.getTrace().getEglColumnNumberFor(3, 1));
-		assertEquals(6, preprocessor.getTrace().getEglColumnNumberFor(4, "printopdyn(".length() + 1));
-		assertEquals(9, preprocessor.getTrace().getEglColumnNumberFor(5, "printop(".length() + 1));
-		assertEquals(3, preprocessor.getTrace().getEglColumnNumberFor(6, 1));
+		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(1, 1));
+		assertEquals(5,  preprocessor.getTrace().getEglColumnNumberFor(2, 1));
+		assertEquals(1,  preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(6,  preprocessor.getTrace().getEglColumnNumberFor(4, "out.printdyn('".length()));
+		assertEquals(11, preprocessor.getTrace().getEglColumnNumberFor(5, "out.print('".length()));
+		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(6, 1));
 	}
 	
 	

@@ -26,9 +26,9 @@ public interface IEglTraceabilityContext {
 
 	public void recordPropertyAccess(Object modelElement, String featureName);
 	
-	public void traceLatestPropertyAccesses(Region destination);
+	public void addDestinationRegionForLatestPropertyAccesses(Region destination);
 	
-	public void addTargetResourceToTrace(String resource);
+	public void addDestinationResourceForUnclaimedPropertyAccesses(String resource);
 
 	public Trace getFineGrainedTrace();
 

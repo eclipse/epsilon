@@ -10,12 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEglContextWithFineGrainedTraceability extends IEolContext {
 
-	public Printer getPrinter(); // TODO merge this with getOuputBuffer()?
-	
 	public IEglTraceabilityContext getTraceabilityContext();
 }

@@ -14,46 +14,60 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 
-public class OutputBufferPrinterAdaptor implements Printer {
+public abstract class OutputBufferPrinterAdaptor extends Printer {
 
-	private final OutputBuffer adaptee;
+	protected final OutputBuffer adaptee;
 	
 	public OutputBufferPrinterAdaptor(OutputBuffer adaptee) {
 		this.adaptee = adaptee;
 	}
-	
-	@Override
-	public Region print(Object object, RegionBuilder builder) {
-		buildStartOfRegion(builder);
-		adaptee.print(object);
-		buildEndOfRegion(builder);
-		
-		return builder.build();
-	}
-	
-	@Override
-	public Region println(Object object, RegionBuilder builder) {
-		buildStartOfRegion(builder);
-		adaptee.println(object);
-		buildEndOfRegion(builder);
-		
-		return builder.build();
-	}
-	
-	@Override
-	public Region printdyn(Object object, RegionBuilder builder) {
-		buildStartOfRegion(builder);
-		adaptee.printdyn(object);
-		buildEndOfRegion(builder);
-		
-		return builder.build();
-	}
 
+	@Override
+	protected final Region print(Object object, RegionBuilder builder) {
+		buildStartOfRegion(builder);
+		basicPrint(object);
+		buildEndOfRegion(builder);
+		
+		return builder.build();
+	}
+	
 	private void buildStartOfRegion(RegionBuilder builder) {
 		builder.aRegion().startingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
 	}
-	
+
+	protected abstract void basicPrint(Object object);
+
 	private RegionBuilder buildEndOfRegion(RegionBuilder builder) {
 		return builder.endingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+	}
+	
+	static class NormalPrinter extends OutputBufferPrinterAdaptor {
+		public NormalPrinter(OutputBuffer adaptee) {
+			super(adaptee);
+		}
+
+		public void basicPrint(Object object) {
+			adaptee.print(object);
+		}
+	}
+	
+	static class DynamicPrinter extends OutputBufferPrinterAdaptor {
+		public DynamicPrinter(OutputBuffer adaptee) {
+			super(adaptee);
+		}
+
+		public void basicPrint(Object object) {
+			adaptee.printdyn(object);
+		}
+	}
+	
+	static class LinePrinter extends OutputBufferPrinterAdaptor {
+		public LinePrinter(OutputBuffer adaptee) {
+			super(adaptee);
+		}
+
+		public void basicPrint(Object object) {
+			adaptee.println(object);
+		}
 	}
 }
