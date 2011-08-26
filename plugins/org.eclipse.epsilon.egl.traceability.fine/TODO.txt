@@ -1,6 +1,6 @@
 - Features
 -- Fix accuracy of trace for INESS example
---- Tests for OutputBuffer#getCurrent{Line,Column}Number() <- make it really clear what the line / col number will be when the buffer is empty, and when a line is empty
+--- How should tabs be counted by the column counter?
 --- TDD the TraceCombiner
 -- Add ability to extract trace model from ANT Task
 -- Is the trace accurate when @template operations are used?
