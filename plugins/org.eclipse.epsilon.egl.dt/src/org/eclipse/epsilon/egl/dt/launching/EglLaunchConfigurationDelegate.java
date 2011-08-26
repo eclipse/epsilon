@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
@@ -34,8 +33,10 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.Pojo2Emf;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.Trace;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TracePackage;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -156,9 +157,9 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	
 	private void storeTraceModel(IEglContext context) throws CoreException {
 		final String traceDestination = configuration.getAttribute(TRACE_DESTINATION, "");
-		final Resource trace = EmfUtil.createResource(context.getFineGrainedTrace());
+		final Trace trace = new Pojo2Emf().transform(context.getFineGrainedTrace());
 		
-		new InMemoryEmfModel("Trace", trace, TracePackage.eINSTANCE).store(traceDestination);
+		new InMemoryEmfModel("Trace", EmfUtil.createResource(trace), TracePackage.eINSTANCE).store(traceDestination);
 	}
 	
 	private String absolutePathFor(String workspaceRelativePath) {

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EGL Development Tools: EMF Traceability Model
+Bundle-SymbolicName: org.eclipse.epsilon.egl.dt.traceability.fine.emf;singleton:=true
+Bundle-Version: 0.9.1.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.epsilon.egl.dt.traceability.fine.emf,
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace,
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.impl,
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.epsilon.egl.traceability.fine
+Bundle-ActivationPolicy: lazy
