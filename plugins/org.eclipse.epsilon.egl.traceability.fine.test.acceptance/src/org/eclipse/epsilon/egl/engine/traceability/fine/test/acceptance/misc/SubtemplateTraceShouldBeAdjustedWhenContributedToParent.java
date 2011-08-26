@@ -21,7 +21,7 @@ import org.junit.Test;
 public class SubtemplateTraceShouldBeAdjustedWhenContributedToParent extends EglFineGrainedTraceabilityAcceptanceTest {
 
 	//                                 12345678901
-	private static final String egl = "EClasses: [%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
+	private static final String egl = "EClasses: [%=TemplateFactory.prepare(openOutputTag + 'EClass.all.first.name' + closeTag).process()%]";
 
 	private static final EPackage model = aMetamodel().with(anEClass().named("Person")).build();
 	

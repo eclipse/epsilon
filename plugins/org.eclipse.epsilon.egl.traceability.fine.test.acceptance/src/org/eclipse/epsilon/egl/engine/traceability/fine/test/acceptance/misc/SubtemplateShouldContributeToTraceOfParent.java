@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTraceabilityAcceptanceTest {
 
-	private static final String egl = "[%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
+	private static final String egl = "[%=TemplateFactory.prepare(openOutputTag + 'EClass.all.first.name' + closeTag).process()%]";
 
 	private static final EPackage model = aMetamodel().with(anEClass().named("Person")).build();
 	
@@ -30,7 +30,7 @@ public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTr
 	}
 	
 	@Test
-	public void thereShouldBeOneTraceElement() {
+	public void thereShouldBeOneTraceElement() throws Throwable {
 		trace.assertEquals(1, "trace.elements.size()");
 	}
 	
