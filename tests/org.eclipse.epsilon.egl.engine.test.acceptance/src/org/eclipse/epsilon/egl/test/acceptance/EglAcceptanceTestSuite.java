@@ -43,10 +43,10 @@ import org.junit.runners.Suite.SuiteClasses;
                TemplateOperations.class,
                CurrentLineNumber.class,
                Formatters.class})
-public class AcceptanceTestSuite {
+public class EglAcceptanceTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(AcceptanceTestSuite.class);
+		return new JUnit4TestAdapter(EglAcceptanceTestSuite.class);
 	}
 }
 

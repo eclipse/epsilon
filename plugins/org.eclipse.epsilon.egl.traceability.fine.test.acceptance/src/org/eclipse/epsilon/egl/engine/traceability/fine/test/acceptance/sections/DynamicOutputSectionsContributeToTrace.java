@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.test.acceptance.traceability.sections;
+package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.sections;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.egl.test.acceptance.traceability.EglFineGrainedTraceabilityAcceptanceTest;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

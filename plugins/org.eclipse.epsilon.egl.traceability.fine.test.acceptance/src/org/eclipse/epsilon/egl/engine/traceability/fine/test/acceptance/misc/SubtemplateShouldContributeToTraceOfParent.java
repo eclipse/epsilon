@@ -8,19 +8,19 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.test.acceptance.traceability.misc;
+package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.egl.test.acceptance.traceability.EglFineGrainedTraceabilityAcceptanceTest;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation extends EglFineGrainedTraceabilityAcceptanceTest {
+public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTraceabilityAcceptanceTest {
 
-	private static final String egl = "[%=EClass.all.first.name + EClass.all.first.name%]";
+	private static final String egl = "[%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
 
 	private static final EPackage model = aMetamodel().with(anEClass().named("Person")).build();
 	
@@ -33,4 +33,10 @@ public class TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation extend
 	public void thereShouldBeOneTraceElement() {
 		trace.assertEquals(1, "trace.elements.size()");
 	}
+	
+	@Test
+	public void elementShouldStartAtTheStartOfTheOutput() {
+		trace.assertEquals(1, "trace.elements.first.destination.region.start.line");		
+		trace.assertEquals(1, "trace.elements.first.destination.region.start.column");		
+	}	
 }

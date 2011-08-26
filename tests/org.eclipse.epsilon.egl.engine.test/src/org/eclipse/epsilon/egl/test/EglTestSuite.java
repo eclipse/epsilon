@@ -14,17 +14,18 @@ package org.eclipse.epsilon.egl.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceabilityUnitTestSuite;
-import org.eclipse.epsilon.egl.test.acceptance.traceability.EglFineGrainedTraceabilityAcceptanceTestSuite;
-import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestSuite;
-import org.eclipse.epsilon.egl.test.unit.UnitTestSuite;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTestSuite;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
+import org.eclipse.epsilon.egl.test.acceptance.EglAcceptanceTestSuite;
+import org.eclipse.epsilon.egl.test.unit.EglUnitTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({UnitTestSuite.class, AcceptanceTestSuite.class,
+@SuiteClasses({EglUnitTestSuite.class,
                EglFineGrainedTraceabilityUnitTestSuite.class,
+               EglAcceptanceTestSuite.class,
                EglFineGrainedTraceabilityAcceptanceTestSuite.class})
 public class EglTestSuite {
 

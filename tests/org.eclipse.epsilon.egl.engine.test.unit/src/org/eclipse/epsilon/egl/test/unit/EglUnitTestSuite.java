@@ -28,9 +28,9 @@ import org.junit.runners.Suite.SuiteClasses;
                MergeSuite.class,
                ConfigSuite.class,
                FormatterSuite.class})
-public class UnitTestSuite {
+public class EglUnitTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(UnitTestSuite.class);
+		return new JUnit4TestAdapter(EglUnitTestSuite.class);
 	}
 }

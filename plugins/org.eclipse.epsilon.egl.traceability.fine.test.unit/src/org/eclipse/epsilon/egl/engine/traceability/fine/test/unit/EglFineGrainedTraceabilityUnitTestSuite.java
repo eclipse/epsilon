@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine;
+package org.eclipse.epsilon.egl.engine.traceability.fine.test.unit;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.FeatureAccessRecorderTests;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecutionTests;
