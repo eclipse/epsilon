@@ -10,16 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceFactory;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
 
 public class ModelLocationBuilder {
 	
-	public ModelLocation buildModelLocation(EObject modelElement, String featureName) {
-		final ModelLocation modelLocation = TraceFactory.eINSTANCE.createModelLocation();		
-		modelLocation.setModelElement(modelElement);
-		modelLocation.setFeatureName(featureName);
-		return modelLocation;
+	public ModelLocation buildModelLocation(Object modelElement, String featureName) {
+		return new ModelLocation(modelElement, featureName);
 	}
 }

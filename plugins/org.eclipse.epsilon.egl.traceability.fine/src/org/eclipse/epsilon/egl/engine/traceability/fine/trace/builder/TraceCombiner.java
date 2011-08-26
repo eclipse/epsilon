@@ -10,35 +10,34 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceFactory;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Position;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TextLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
 
 public class TraceCombiner {
 
 	public Trace combine(Trace first, Trace second, Position current) {
-		final Trace combined = TraceFactory.eINSTANCE.createTrace();
+		final Trace combined = new Trace();
 		
-		combined.getElements().addAll(first.getElements());
-		combined.getLocations().addAll(first.getLocations());
+		combined.elements.addAll(first.elements);
+		combined.locations.addAll(first.locations);
 		
-		combined.getElements().addAll(second.getElements());
+		combined.elements.addAll(second.elements);
 
-		System.out.println("incrementing: " + second.getLocations().size());
+		System.out.println("incrementing: " + second.locations.size());
 		System.out.println("incrementing by:  "  + current);
-		for (TextLocation location : second.getLocations()) {
-			final Region region = location.getRegion();
+		for (TextLocation location : second.locations) {
+			final Region region = location.region;
 			
-			region.getStart().setLine(current.getLine() + region.getStart().getLine());
-			region.getStart().setColumn(current.getColumn() + region.getStart().getColumn());
+			region.start.line   = current.line + region.start.line;
+			region.start.column = current.column + region.start.column;
 
-			region.getEnd().setLine(current.getLine() + region.getEnd().getLine());
-			region.getEnd().setColumn(current.getColumn() + region.getEnd().getColumn());
+			region.end.line = current.line + region.end.line;
+			region.end.column = current.column + region.end.column;
 		}
 		
-		combined.getLocations().addAll(second.getLocations());
+		combined.locations.addAll(second.locations);
 		
 		return combined;
 	}

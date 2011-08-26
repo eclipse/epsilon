@@ -14,25 +14,24 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TracePackage;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.egl.util.StringUtil;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.java.JavaModel;
 
 public class AcceptanceTestUtil {
 	
@@ -140,8 +139,10 @@ public class AcceptanceTestUtil {
 		return context.getBaseTemplate();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static IModel getFineGrainedTrace() {
-		final Resource trace = EmfUtil.createResource(context.getFineGrainedTrace());
-		return new InMemoryEmfModel("FineGrainedTrace", trace, TracePackage.eINSTANCE);
+		final JavaModel model = new JavaModel(Arrays.asList(context.getFineGrainedTrace()), Arrays.asList(Trace.class));
+		model.setName("TraceModel");
+		return model;
 	}
 }

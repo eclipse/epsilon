@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.egl.output;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 
 public class OutputBufferPrinterAdaptor implements Printer {

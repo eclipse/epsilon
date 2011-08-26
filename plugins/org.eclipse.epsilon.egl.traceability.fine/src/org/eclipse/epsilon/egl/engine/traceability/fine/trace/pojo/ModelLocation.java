@@ -8,13 +8,26 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
+package org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Position;
+public class ModelLocation {
 
-public class PositionBuilder {
+	public final Object modelElement;
+	public final String featureName;
+	
+	public ModelLocation(Object modelElement, String featureName) {
+		this.modelElement = modelElement;
+		this.featureName  = featureName;
+	}
+	
+	
+	// Getters for compatibility with JavaModel, which are used in acceptance tests
 
-	public Position buildPosition(int line, int column) {
-		return new Position(line, column);
+	public Object getModelElement() {
+		return modelElement;
+	}
+	
+	public String getFeatureName() {
+		return featureName;
 	}
 }

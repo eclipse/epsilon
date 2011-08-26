@@ -16,7 +16,6 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.FeatureAccessRecorder;
 import org.junit.Test;
 
@@ -25,15 +24,15 @@ import org.junit.Test;
 public class FeatureAccessRecorderTests {
 
 	private final FeatureAccessRecorder recorder = new FeatureAccessRecorder();
-	private final EObject dummyModelElement = mock(EObject.class);
+	private final Object dummyModelElement = mock(Object.class);
 	
 	@Test
 	public void shouldRecordFeatureAccess() {
 		recorder.startRecording();
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(dummyModelElement,  recorder.getFeatureAccesses().get(0).getModelElement());
-		assertEquals("DummyFeatureName", recorder.getFeatureAccesses().get(0).getFeatureName());
+		assertEquals(dummyModelElement,  recorder.getFeatureAccesses().get(0).modelElement);
+		assertEquals("DummyFeatureName", recorder.getFeatureAccesses().get(0).featureName);
 	}
 	
 	@Test

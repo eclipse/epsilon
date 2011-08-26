@@ -12,7 +12,9 @@ package org.eclipse.epsilon.egl.test.acceptance.traceability.sections;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.junit.Assert.assertEquals;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.egl.test.acceptance.traceability.EglFineGrainedTraceabilityAcceptanceTest;
 import org.junit.BeforeClass;
@@ -24,7 +26,8 @@ public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTracea
 	
 	private static final String egl = "[%=EClass.all.first.name%]";
 
-	private static final EPackage model = aMetamodel().with(anEClass().named("Person")).build();
+	private static final EClass   person = anEClass().named("Person").build();
+	private static final EPackage model  = aMetamodel().with(person).build();
 	
 	@BeforeClass
 	public static void setup() throws Exception {
@@ -34,8 +37,8 @@ public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTracea
 	}
 	
 	@Test
-	public void sourceShouldBeTheNameAttributeOfPerson() {
-		trace.assertInstanceOf("EClass", "element.source.modelElement");
+	public void sourceShouldBeTheNameAttributeOfPerson() throws Throwable {
+		assertEquals(person, trace.evaluate("element.source.modelElement"));
 		trace.assertEquals("name", "element.source.featureName");
 	}
 	

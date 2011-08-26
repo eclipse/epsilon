@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.wrappers;
 
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -31,9 +30,7 @@ public class TraceablePropertyGetter implements IPropertyGetter {
 	}
 
 	public Object invoke(Object modelElement, String featureName) throws EolRuntimeException {
-		if (modelElement instanceof EObject) {
-			getContext().getTraceabilityContext().recordPropertyAccess((EObject)modelElement, featureName);
-		}
+		getContext().getTraceabilityContext().recordPropertyAccess(modelElement, featureName);
 		
 		return delegate.invoke(modelElement, featureName);
 	}

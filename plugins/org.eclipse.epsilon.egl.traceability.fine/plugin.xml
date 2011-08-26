@@ -10,11 +10,5 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://www.eclipse.org/gmt/epsilon/egl/trace"
-            class="org.eclipse.epsilon.egl.engine.traceability.fine.trace.TracePackage"
-            genModel="model/trace.genmodel"/>
-   </extension>
 
 </plugin>

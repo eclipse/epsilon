@@ -12,17 +12,16 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceFactory;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TextLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TraceElement;
 
 
 public class TraceBuilder {
 	
-	private final Trace trace = TraceFactory.eINSTANCE.createTrace();
+	private final Trace trace = new Trace();
 	
 	public void withTraceElements(Collection<ModelLocation> featureAccesses, Region destination) {
 		if (!featureAccesses.isEmpty()) {
@@ -31,30 +30,25 @@ public class TraceBuilder {
 	}
 	
 	private TextLocation createTextLocationFor(Region region) {
-		final TextLocation location = TraceFactory.eINSTANCE.createTextLocation();
-		location.setRegion(region);
-		return location;
+		return new TextLocation(region);
 	}
 	
 	private void withTraceElements(Collection<ModelLocation> featureAccesses, TextLocation destination) {
-		trace.getLocations().add(destination);
+		trace.locations.add(destination);
 		
 		for (ModelLocation featureAccess : featureAccesses) {
-			trace.getElements().add(createTraceElement(featureAccess, destination));
+			trace.elements.add(createTraceElement(featureAccess, destination));
 		}
 	}
 
-	private TraceElement createTraceElement(ModelLocation featureAccess, TextLocation destination) {
-		final TraceElement element = TraceFactory.eINSTANCE.createTraceElement();
-		element.setSource(featureAccess);
-		element.setDestination(destination);
-		return element;
+	private TraceElement createTraceElement(ModelLocation source, TextLocation destination) {
+		return new TraceElement(source, destination);
 	}
 	
 	
 	public void withResource(String resource) {
-		for (TextLocation location : trace.getLocations()) {
-			location.getResources().add(resource);
+		for (TextLocation location : trace.locations) {
+			location.resources.add(resource);
 		}
 	}
 	

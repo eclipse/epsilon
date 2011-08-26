@@ -14,10 +14,9 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
@@ -25,7 +24,7 @@ public interface IEglTraceabilityContext {
 
 	public Object recordPropertyAccessesWhileExecuting(AST ast) throws EolRuntimeException;
 
-	public void recordPropertyAccess(EObject modelElement, String featureName);
+	public void recordPropertyAccess(Object modelElement, String featureName);
 	
 	public void traceLatestPropertyAccesses(Region destination);
 	

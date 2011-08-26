@@ -8,13 +8,28 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
+package org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Position;
+import java.util.LinkedList;
+import java.util.List;
 
-public class PositionBuilder {
+public class TextLocation {
 
-	public Position buildPosition(int line, int column) {
-		return new Position(line, column);
+	public final List<String> resources = new LinkedList<String>();
+	public final Region region;
+	
+	public TextLocation(Region region) {
+		this.region = region;
+	}
+
+
+	// Getters for compatibility with JavaModel, which are used in acceptance tests
+
+	public List<String> getResources() {
+		return resources;
+	}
+	
+	public Region getRegion() {
+		return region;
 	}
 }

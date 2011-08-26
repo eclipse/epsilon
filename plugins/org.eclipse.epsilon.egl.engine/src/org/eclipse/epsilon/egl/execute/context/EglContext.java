@@ -18,12 +18,11 @@ import java.util.List;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.PositionBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceCombiner;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Position;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -170,10 +169,10 @@ public class EglContext extends EolContext implements IEglContext {
 		
 		if (executionManager.hasParent()) {
 			final OutputBuffer outputBuffer = executionManager.getParent().outputBuffer;
-			return builder.aPosition().withLine(outputBuffer.getCurrentLineNumber() - 1).withColumn(outputBuffer.getCurrentColumnNumber()).build();
+			return builder.buildPosition(outputBuffer.getCurrentLineNumber() - 1, outputBuffer.getCurrentColumnNumber());
 		
 		} else {
-			return builder.aPosition().withLine(0).withColumn(0).build();			
+			return builder.buildPosition(0, 0);			
 		}
 	}
 }

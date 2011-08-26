@@ -15,9 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
 
 
 public class FeatureAccessRecorder {
@@ -35,7 +34,7 @@ public class FeatureAccessRecorder {
 		recording = false;
 	}
 
-	public void record(EObject modelElement, String featureName) {
+	public void record(Object modelElement, String featureName) {
 		if (recording) recentFeatureAccesses.add(new FeatureAccess(modelElement, featureName));
 	}
 
@@ -51,10 +50,10 @@ public class FeatureAccessRecorder {
 	
 	private class FeatureAccess {
 		
-		public final EObject modelElement;
+		public final Object modelElement;
 		public final String  featureName;
 		
-		public FeatureAccess(EObject modelElement, String featureName) {
+		public FeatureAccess(Object modelElement, String featureName) {
 			this.modelElement = modelElement;
 			this.featureName  = featureName;
 		}

@@ -23,7 +23,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceability
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Arguments;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.junit.Test;
 

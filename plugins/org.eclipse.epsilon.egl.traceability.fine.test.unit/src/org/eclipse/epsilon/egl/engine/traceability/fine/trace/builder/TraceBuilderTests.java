@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TraceElement;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
@@ -49,25 +49,25 @@ public class TraceBuilderTests {
 	public void createsTraceElementForSingleFeatureAccess() throws Exception {
 		builder.withTraceElements(Collections.singleton(nameOfAnElement), partOfFirstTwoLines);
 		
-		assertEquals(1, builder.build().getElements().size());
-		assertTraceElementEquals(nameOfAnElement, partOfFirstTwoLines, builder.build().getElements().get(0));
+		assertEquals(1, builder.build().elements.size());
+		assertTraceElementEquals(nameOfAnElement, partOfFirstTwoLines, builder.build().elements.get(0));
 	}
 	
 	@Test
 	public void createsTraceElementsWithSameTextLocationForAllFeatureAccesses() throws Exception { 
 		builder.withTraceElements(Arrays.asList(nameOfAnElement, nameOfAnotherElement), partOfFirstTwoLines);
 		
-		assertEquals(2, builder.build().getElements().size());
-		assertTraceElementEquals(nameOfAnElement,      partOfFirstTwoLines, builder.build().getElements().get(0));
-		assertTraceElementEquals(nameOfAnotherElement, partOfFirstTwoLines, builder.build().getElements().get(1));
+		assertEquals(2, builder.build().elements.size());
+		assertTraceElementEquals(nameOfAnElement,      partOfFirstTwoLines, builder.build().elements.get(0));
+		assertTraceElementEquals(nameOfAnotherElement, partOfFirstTwoLines, builder.build().elements.get(1));
 	}
 	
 	@Test
 	public void createsNoTraceElementsAndNoLocationsWhenThereAreNoFeatureAccesses() throws Exception { 
 		builder.withTraceElements(new LinkedList<ModelLocation>(), partOfFirstTwoLines);
 		
-		assertEquals(0, builder.build().getElements().size());
-		assertEquals(0, builder.build().getLocations().size());
+		assertEquals(0, builder.build().elements.size());
+		assertEquals(0, builder.build().locations.size());
 	}
 	
 	@Test
@@ -75,8 +75,8 @@ public class TraceBuilderTests {
 		builder.withTraceElements(Arrays.asList(nameOfAnElement, nameOfAnotherElement), partOfFirstTwoLines);
 		builder.withResource("aFileOnDisk.txt");
 	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().getElements().get(0).getDestination().getResources());	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().getElements().get(1).getDestination().getResources());	
+		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().elements.get(0).destination.resources);	
+		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().elements.get(1).destination.resources);	
 	}
 	
 	@Test
@@ -85,13 +85,13 @@ public class TraceBuilderTests {
 		builder.withResource("aFileOnDisk.txt");
 		builder.withResource("anotherFileOnDisk.txt");
 	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().getElements().get(0).getDestination().getResources());	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().getElements().get(1).getDestination().getResources());	
+		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().elements.get(0).destination.resources);	
+		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().elements.get(1).destination.resources);	
 	}
 	
 	private static void assertTraceElementEquals(ModelLocation expectedFeatureAccess, Region expectedRegion, TraceElement actual) {
-		assertEquals(expectedFeatureAccess, actual.getSource());
-		assertEquals(expectedRegion,        actual.getDestination().getRegion());
+		assertEquals(expectedFeatureAccess, actual.source);
+		assertEquals(expectedRegion,        actual.destination.region);
 	}
 	
 	
