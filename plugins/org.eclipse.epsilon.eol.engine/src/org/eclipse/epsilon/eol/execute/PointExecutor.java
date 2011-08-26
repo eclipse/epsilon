@@ -10,14 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -27,7 +25,6 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolSequence;
@@ -63,66 +60,18 @@ public class PointExecutor extends AbstractExecutor{
 			} else{
 				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, featureCallAst.getText(), context);
 				getter.setAst(featureCallAst);
+				
+				if (context.getIntrospectionManager().isModelBasedPropertyGetter(source, featureCallAst.getText(), context)) {
+					context.getPropertyAccessRecorder().record(source, featureCallAst.getText());
+				}
+				
 				return wrap(getter.invoke(source, featureCallAst.getText()));
 			}
-		}
-		//TODO : See parameters defining variables
-		//else if (parametersAst.getType() == EolParser.PARAMETERSDEFININGVARS){
-		//	return context.getOperationFactory().executeOperation(source, featureCallAst, context);
-		//}
-		else { //if (parametersAst.getType() == EolParser.PARAMETERS){
+		
+		} else {
 
 			return executeOperation(context, source, featureCallAst);
-			
-			/*
-			else{
-			// Non-overridable operations
-			AbstractOperation operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
-			if (operation != null && (!operation.isOverridable())){
-				return operation.execute(source, featureCallAst, context);
-			}
-			
-			ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
-			
-			if (context.getModule() instanceof IEolLibraryModule){
-				
-				// Helpers
-				EolOperation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(source, featureCallAst , parameters, context);
-				if (helper != null){
-					return ((IEolLibraryModule) context.getModule()).getOperations().execute(source, helper, featureCallAst, parameters, context);
-				}
-			}
-			
-			// Reflection
-			
-			Method method = null;
-			
-			// First try with unwrapped parameters
-			
-			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), true);
-			if (method != null) {
-				//FIXED : Do not recalculate method when calling execute() - call another execute!
-				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), true, featureCallAst));
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), true, featureCallAst));
-			}
-			
-			// Then try with wrapped parameters
-			method = ReflectionUtil.getMethodFor(source, featureCallAst.getText(), parameters.toArray(), false);
-			if (method != null) {
-				//return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, featureCallAst.getText(), parameters.toArray(), false, featureCallAst));
-				return EolTypeWrapper.getInstance().wrap(ReflectionUtil.executeMethod(source, method, parameters.toArray(), false, featureCallAst));
-			}
-			
-			// Operations
-			// operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
-			if (operation != null){
-				return operation.execute(source, featureCallAst, context);
-			}
-			*/
 		}
-		
-		//throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst);
-		
 	}
 	
 	@Override
@@ -148,9 +97,6 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		// Method contributors that use the unevaluated AST
-		// FIXME: passing AST inside an Object array does not restrict this match enough.
-		// For example, searching for System.out.println(AST) should return nothing, but instead it returns java.io.PrintStream.println(java.lang.Object)
-		// One solution might be too add a new method that searches by exact type (method must be for AST, not for subclasses or superclasses)
 		ObjectMethod objectMethodAst = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), featureCallAst, context);
 		if (objectMethodAst != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethodAst.getObject(), objectMethodAst.getMethod(), new Object[]{featureCallAst}, featureCallAst));

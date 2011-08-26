@@ -21,7 +21,9 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
+import org.eclipse.epsilon.eol.execute.introspection.NullPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
@@ -51,6 +53,7 @@ public class EolContext implements IEolContext{
 	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
+	protected IPropertyAccessRecorder propertyAccessRecorder = new NullPropertyAccessRecorder();
 	
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return methodContributorRegistry;
@@ -188,6 +191,10 @@ public class EolContext implements IEolContext{
 			Map<Object, Map<String, Object>> extendedProperties) {
 		this.extendedProperties = extendedProperties;
 	}
+	
+	public IPropertyAccessRecorder getPropertyAccessRecorder() {
+		return propertyAccessRecorder;
+	}
 
 	public void dispose() {
 		if (executorFactory.getExecutionController() != null) {
@@ -211,5 +218,4 @@ public class EolContext implements IEolContext{
 	public void leaveFrame(AST ast) {
 		getFrameStack().leave(ast);
 	}
-	
 }

@@ -12,6 +12,8 @@ package org.eclipse.epsilon.eol.execute.introspection;
 
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
@@ -115,6 +117,22 @@ public class IntrospectionManager {
 		defaultPropertyGetter.setContext(context);
 		return defaultPropertyGetter;
 	}
+	
+	public boolean isModelBasedPropertyGetter(Object object, String property, IEolContext context){
+		
+		if (property.startsWith("~")) {
+			return false;
+		}
+		
+		for (IModel model : context.getModelRepository().getModels()) {
+			if (model.knowsAboutProperty(object, property)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 	public IPropertyGetter getDefaultPropertyGetter() {
 		return defaultPropertyGetter;

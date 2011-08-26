@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
@@ -89,5 +90,7 @@ public interface IEolContext {
 	public List<AsyncStatement> getAsyncStatementsQueque();
 	
 	public OperationContributorRegistry getOperationContributorRegistry();
+	
+	public IPropertyAccessRecorder getPropertyAccessRecorder();
 	
 }
