@@ -22,5 +22,7 @@ public interface Printer {
 	
 	public Region print(Object object, RegionBuilder builder);
 
+	public Region println(Object object, RegionBuilder builder);
+
 	public Region printdyn(Object object, RegionBuilder builder);
 }

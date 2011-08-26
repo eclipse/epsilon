@@ -32,6 +32,15 @@ public class OutputBufferPrinterAdaptor implements Printer {
 	}
 	
 	@Override
+	public Region println(Object object, RegionBuilder builder) {
+		buildStartOfRegion(builder);
+		adaptee.println(object);
+		buildEndOfRegion(builder);
+		
+		return builder.build();
+	}
+	
+	@Override
 	public Region printdyn(Object object, RegionBuilder builder) {
 		buildStartOfRegion(builder);
 		adaptee.printdyn(object);

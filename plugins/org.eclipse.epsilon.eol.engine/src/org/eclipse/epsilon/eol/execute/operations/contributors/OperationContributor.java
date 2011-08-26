@@ -2,6 +2,7 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -18,6 +19,18 @@ public abstract class OperationContributor {
 		// i.e. ignore Object methods
 		Object reflectionTarget = getReflectionTarget(target);
 		Method method = ReflectionUtil.getMethodFor(reflectionTarget, name, parameters, includeInheritedMethods()); 
+		return createObjectMethod(target, reflectionTarget, method, context);
+	}
+	
+	public ObjectMethod getObjectMethodFor(Object target, String name, AST ast, IEolContext context) {
+		// Only include in the search methods defined by the contributor 
+		// i.e. ignore Object methods
+		Object reflectionTarget = getReflectionTarget(target);
+		Method method = ReflectionUtil.getMethodFor(reflectionTarget, name, new Object[]{ast}, includeInheritedMethods(), false); 
+		return createObjectMethod(target, reflectionTarget, method, context);
+	}
+
+	private ObjectMethod createObjectMethod(Object target, Object reflectionTarget, Method method, IEolContext context) {
 		if (method != null) {
 			ObjectMethod objectMethod = new ObjectMethod();
 			setTarget(target);

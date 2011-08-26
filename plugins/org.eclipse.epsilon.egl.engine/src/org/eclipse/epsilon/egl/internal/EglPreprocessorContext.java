@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.egl.internal;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithF
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.OutputBufferOperationContributor;
 import org.eclipse.epsilon.egl.output.OutputBufferPrinterAdaptor;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
@@ -27,6 +29,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -56,13 +59,23 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 		return traceabilityContext;
 	}
 
-	
-	// The following methods delegate to the EolContext member
-	
 	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
-		return delegate.getOperationContributorRegistry();
+		return new OperationContributorRegistry() {
+
+			@Override
+			protected List<OperationContributor> getDefaultOperationContributors() {
+				final List<OperationContributor> operationContributors = new LinkedList<OperationContributor>();
+				operationContributors.add(new OutputBufferOperationContributor());
+				operationContributors.addAll(super.getDefaultOperationContributors());
+				return operationContributors;
+			}
+			
+		};
 	}
+	
+	
+	// The following methods delegate to the EolContext member	
 
 	@Override
 	public PrintStream getWarningStream() {

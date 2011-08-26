@@ -42,6 +42,15 @@ public class ReflectionUtil {
 	}
 	
 	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods){
+		return getMethodFor(obj, methodName, parameters, true, true);
+	}
+	
+	/**
+	 * @param allowContravariantConversionForParameters
+	 *   when false, parameters will have exactly the same class as the arguments to the returned method
+	 *   when true, parameters may have a type that is more specific than the arguments to the returned method   
+	 */
+	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters){
 		
 		if (obj == null) return null;
 		
@@ -71,7 +80,12 @@ public class ReflectionUtil {
 					for (int j=0;j<parameterTypes.length && parametersMatch; j++){
 						Class parameterType = parameterTypes[j];
 						Object parameter = parameters[j];
-						parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+						
+						if (allowContravariantConversionForParameters) {
+							parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+						} else {
+							parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
+						}
 					}
 					
 					if (parametersMatch){

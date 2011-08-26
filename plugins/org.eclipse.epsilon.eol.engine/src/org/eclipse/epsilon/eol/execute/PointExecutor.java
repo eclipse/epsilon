@@ -147,6 +147,16 @@ public class PointExecutor extends AbstractExecutor{
 			return operation.execute(source, featureCallAst, context);
 		}
 		
+		// Method contributors that use the unevaluated AST
+		// FIXME: passing AST inside an Object array does not restrict this match enough.
+		// For example, searching for System.out.println(AST) should return nothing, but instead it returns java.io.PrintStream.println(java.lang.Object)
+		// One solution might be too add a new method that searches by exact type (method must be for AST, not for subclasses or superclasses)
+		ObjectMethod objectMethodAst = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), featureCallAst, context);
+		if (objectMethodAst != null) {
+			return wrap(ReflectionUtil.executeMethod(objectMethodAst.getObject(), objectMethodAst.getMethod(), new Object[]{featureCallAst}, featureCallAst));
+		}
+		
+		
 		ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
 		
 		// Execute user-defined operation (if isArrow() == false)
@@ -157,7 +167,7 @@ public class PointExecutor extends AbstractExecutor{
 			}
 		}
 		
-		// Method contributors
+		// Method contributors that use the evaluated parameters
 		ObjectMethod objectMethod = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), parameters.toArray(), context);
 		if (objectMethod != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethod.getObject(), objectMethod.getMethod(), parameters.toArray(), featureCallAst));

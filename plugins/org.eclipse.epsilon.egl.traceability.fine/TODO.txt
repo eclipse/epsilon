@@ -1,10 +1,20 @@
 - Features
 -- Fix accuracy of trace for INESS example
 --- TDD EglContext#appendToFineGrainedTrace and the TraceCombiner
+
 -- Tracing for [% out.print("abc") %] and similar statements
---- One solution: allow OperationContributors to evaluate the AST, and contribute the print operations
---- Another solution: preprocess out.print statements into printy operation calls
+--- Remove duplication between PrintOperationExecution and OutputBufferOperationContributor
+--- Delete PrintOperationExecution?
+--- Should OutputBuffer just implement Printer, rather than use OutputBufferPrintAdaptor?
+--- Should other operations of OutputBuffer be implemented with contributors, to help modularise the class?
+
 -- Add ability to extract trace model from ANT Task
 -- Is the trace accurate when @template operations are used?
 -- How to deal with model locations that are not EMF models?
 -- Decide what to do with old traceability code
+
+
+- Refactorings / review
+-- Speak to Dimitris about passing AST to contributed operations: review the current solution.
+--- I added this to allow traceability for explicit "out.print". See ExplicitPrintsShouldContributeToTrace
+-- Speak to Dimitris about tracing property accesses with EMC: review the current solution.
