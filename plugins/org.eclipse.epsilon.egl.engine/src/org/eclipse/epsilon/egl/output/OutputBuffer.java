@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.output;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class OutputBuffer {
 	
 	private final StringBuilder buffer = new StringBuilder();
 	private final IEglContext context;
+
+	private final LineCounter   lineCounter   = new LineCounter(FileUtil.NEWLINE);
+	private final ColumnCounter columnCounter = new ColumnCounter(FileUtil.NEWLINE);
 	
 	private final List<CommentBlockPartitioner> customPartitioners = new LinkedList<CommentBlockPartitioner>();
 	private boolean contentTypeSet = false;
@@ -197,26 +199,11 @@ public class OutputBuffer {
 	}
 	
 	public int getCurrentLineNumber() {
-		return getLines().size();
+		return lineCounter.getCurrentLineNumberFor(this.buffer.toString());
 	}
 	
 	public int getCurrentColumnNumber() {
-		final List<String> lines = getLines();
-		
-		final String lastLine = lines.isEmpty() ? "" : lines.get(lines.size()-1);
-		System.out.println(lastLine);
-		
-		return lastLine.length();
-	}
-
-	private List<String> getLines() {
-		final List<String> lines = new LinkedList<String>(Arrays.asList(toString().split(FileUtil.NEWLINE)));
-		
-		if (toString().endsWith(FileUtil.NEWLINE)) {
-			lines.add("");
-		}
-		
-		return lines;
+		return columnCounter.getCurrentColumnNumberFrom(this.buffer.toString());
 	}
 
 	public void formatWith(Formatter formatter) {
