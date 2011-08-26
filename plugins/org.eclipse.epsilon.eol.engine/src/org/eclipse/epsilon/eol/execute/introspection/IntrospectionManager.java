@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import java.util.ListIterator;
-
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
@@ -21,118 +17,65 @@ import org.eclipse.epsilon.eol.models.IModel;
 
 public class IntrospectionManager {
 	
-	/*
-	protected ArrayList<PropertySetter> propertySetters = new ArrayList();
-	protected ArrayList<PropertyGetter> propertyGetters = new ArrayList();
-	*/
-	
 	protected IPropertyGetter defaultPropertyGetter = null;
 	protected IPropertySetter defaultPropertySetter = null;
 	
 	public IntrospectionManager(){
-		
 		defaultPropertyGetter = new JavaPropertyGetter();
 		defaultPropertySetter = new JavaPropertySetter();
-		
-		/*
-		propertySetters.add(new EmfPropertySetter());
-		propertyGetters.add(new EmfPropertyGetter());
-	
-		if (useExperimental){
-			propertySetters.add(new MofPropertySetter());
-			propertyGetters.add(new MofPropertyGetter());
-			propertySetters.add(new XmlPropertySetter());
-			propertyGetters.add(new XmlPropertyGetter());
-		}
-		*/
 	}
 	
 	public IPropertySetter getPropertySetterFor(Object object, String property, IEolContext context) {
+		final IPropertySetter propertySetter;
 		
 		if (property.startsWith("~")) {
-			ExtendedPropertySetter propertySetter = new ExtendedPropertySetter(context);
-			propertySetter.setObject(object);
-			propertySetter.setProperty(property.substring(1));
-			propertySetter.setContext(context);
-			return propertySetter;
+			propertySetter = new ExtendedPropertySetter(context);
+		
+		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		
+			propertySetter = getModelThatKnowsAboutProperty(object, property, context).getPropertySetter();
+			
+		} else {	
+			propertySetter = defaultPropertySetter;
 		}
 		
-		/*
-		ListIterator li = propertySetters.listIterator();
-		while (li.hasNext()){
-			PropertySetter propertySetter = (PropertySetter) li.next();
-			if (propertySetter.appliesTo(object, property)){
-				PropertySetter ps = (PropertySetter) newInstance(propertySetter);
-				ps.setProperty(property);
-				ps.setObject(object);
-				return ps;
-			}
-		}
-		JavaPropertySetter jps = new JavaPropertySetter();
-		jps.setProperty(property);
-		jps.setObject(object);
-		return jps;
-		*/
+		propertySetter.setProperty(property);
+		propertySetter.setObject(object);
+		propertySetter.setContext(context);
 		
-		ListIterator li = context.getModelRepository().getModels().listIterator();
-		while (li.hasNext()){
-			IModel model = (IModel) li.next();
-			if (model.knowsAboutProperty(object, property)) {
-				IPropertySetter ps = model.getPropertySetter();
-				ps.setObject(object);
-				ps.setProperty(property);
-				ps.setContext(context);
-				return ps;
-			}
-		}
-		
-		//JavaPropertySetter jps = new JavaPropertySetter();
-		//jps.setProperty(property);
-		//jps.setObject(object);
-		//return jps;
-		
-		defaultPropertySetter.setProperty(property);
-		defaultPropertySetter.setObject(object);
-		defaultPropertySetter.setContext(context);
-		return defaultPropertySetter;
-		
+		return propertySetter;
 	}
 	
-	public IPropertyGetter getPropertyGetterFor(Object object, String property, IEolContext context){
+	public IPropertyGetter getPropertyGetterFor(Object object, String property, IEolContext context) {
+		final IPropertyGetter propertyGetter;
 		
 		if (property.startsWith("~")) {
-			ExtendedPropertyGetter propertyGetter = new ExtendedPropertyGetter(context);
-			propertyGetter.setContext(context);
-			return propertyGetter;
+			propertyGetter = new ExtendedPropertyGetter(context);
+		
+		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		
+			propertyGetter = getModelThatKnowsAboutProperty(object, property, context).getPropertyGetter();
+		
+		} else {
+			propertyGetter = defaultPropertyGetter;
 		}
 		
+		propertyGetter.setContext(context);
+		
+		return propertyGetter;
+	}
+	
+	public boolean isModelBasedProperty(Object object, String property, IEolContext context){
+		return getModelThatKnowsAboutProperty(object, property, context) != null;
+	}
+	
+	private IModel getModelThatKnowsAboutProperty(Object object, String property, IEolContext context) {
 		for (IModel model : context.getModelRepository().getModels()) {
 			if (model.knowsAboutProperty(object, property)) {
-				IPropertyGetter pg = model.getPropertyGetter();
-				pg.setContext(context);
-				return pg;
+				return model;
 			}
 		}
 		
-		defaultPropertyGetter.setContext(context);
-		return defaultPropertyGetter;
+		return null;
 	}
-	
-	public boolean isModelBasedPropertyGetter(Object object, String property, IEolContext context){
-		
-		if (property.startsWith("~")) {
-			return false;
-		}
-		
-		for (IModel model : context.getModelRepository().getModels()) {
-			if (model.knowsAboutProperty(object, property)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
 
 	public IPropertyGetter getDefaultPropertyGetter() {
 		return defaultPropertyGetter;

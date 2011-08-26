@@ -32,7 +32,7 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 			extendedProperties = new HashMap<String, Object>();
 			context.getExtendedProperties().put(object, extendedProperties);
 		}
-		extendedProperties.put(this.property, value);
+		extendedProperties.put(this.property.substring(1), value);
 	}
 
 	public Object coerce(Object value) throws EolIllegalPropertyException {

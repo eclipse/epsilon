@@ -61,9 +61,7 @@ public class PointExecutor extends AbstractExecutor{
 				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, featureCallAst.getText(), context);
 				getter.setAst(featureCallAst);
 				
-				if (context.getIntrospectionManager().isModelBasedPropertyGetter(source, featureCallAst.getText(), context)) {
-					context.getPropertyAccessRecorder().record(source, featureCallAst.getText());
-				}
+				recordPropertyAccess(source, featureCallAst, context);
 				
 				return wrap(getter.invoke(source, featureCallAst.getText()));
 			}
@@ -71,6 +69,14 @@ public class PointExecutor extends AbstractExecutor{
 		} else {
 
 			return executeOperation(context, source, featureCallAst);
+		}
+	}
+
+	private void recordPropertyAccess(Object source, AST featureCallAst, IEolContext context) {
+		// Only record property accesses that involve obtaining a property's value from an IModel
+		// (and not, for example, the set of extended properties) 
+		if (context.getIntrospectionManager().isModelBasedProperty(source, featureCallAst.getText(), context)) {
+			context.getPropertyAccessRecorder().record(source, featureCallAst.getText());
 		}
 	}
 	
