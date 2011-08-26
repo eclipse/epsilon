@@ -6,3 +6,4 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
  org.eclipse.epsilon.egl.engine.test.acceptance
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

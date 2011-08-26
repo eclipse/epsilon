@@ -71,6 +71,7 @@ public class TestEglFileGeneratingTemplate {
 		testNumber++;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStore() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -84,6 +85,7 @@ public class TestEglFileGeneratingTemplate {
 		assertEquals(expected, FileUtil.read(OUTPUT1));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreAbsolute() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -97,6 +99,7 @@ public class TestEglFileGeneratingTemplate {
 		assertEquals(expected, FileUtil.read(OUTPUT1));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -110,6 +113,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreWithoutProcess() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -122,6 +126,7 @@ public class TestEglFileGeneratingTemplate {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreOverExisting() throws Exception {
 		String contents = "Hello world!" + testNumber;
@@ -134,6 +139,7 @@ public class TestEglFileGeneratingTemplate {
 		assertEquals("", FileUtil.read(EXISTING));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreOverExistingWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
