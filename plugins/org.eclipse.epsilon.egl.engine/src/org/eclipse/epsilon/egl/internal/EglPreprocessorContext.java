@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
@@ -64,6 +65,11 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 			}
 			
 		};
+	}
+	
+	@Override
+	public IPropertyAccessRecorder getPropertyAccessRecorder() {
+		return getTraceabilityContext().getPropertyAccessRecorder();
 	}
 	
 	

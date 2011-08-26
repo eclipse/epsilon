@@ -16,6 +16,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 
 
 public class EglTraceabilityContext implements IEglTraceabilityContext {
@@ -32,6 +33,11 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 		this.parent   = parent;
 		this.recorder = recorder;
 	}
+	
+	@Override
+	public IPropertyAccessRecorder getPropertyAccessRecorder() {
+		return recorder;
+	}
 
 	@Override
 	public Trace getFineGrainedTrace() {
@@ -45,11 +51,6 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 		recorder.stopRecording();
 		
 		return result;
-	}
-	
-	@Override
-	public void recordPropertyAccess(Object modelElement, String featureName) {
-		recorder.record(modelElement, featureName);
 	}
 
 	@Override

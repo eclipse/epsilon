@@ -17,9 +17,10 @@ import java.util.Set;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 
 
-public class FeatureAccessRecorder {
+public class FeatureAccessRecorder implements IPropertyAccessRecorder {
 	
 	private final ModelLocationBuilder builder = new ModelLocationBuilder();
 	private final Set<FeatureAccess> recentFeatureAccesses = new HashSet<FeatureAccess>();
@@ -34,6 +35,7 @@ public class FeatureAccessRecorder {
 		recording = false;
 	}
 
+	@Override
 	public void record(Object modelElement, String featureName) {
 		if (recording) recentFeatureAccesses.add(new FeatureAccess(modelElement, featureName));
 	}

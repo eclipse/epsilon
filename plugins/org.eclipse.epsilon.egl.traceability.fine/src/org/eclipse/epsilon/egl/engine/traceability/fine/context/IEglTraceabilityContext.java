@@ -18,18 +18,18 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 
 
 public interface IEglTraceabilityContext {
 
 	public Object recordPropertyAccessesWhileEvaluating(AST ast) throws EolRuntimeException;
 
-	public void recordPropertyAccess(Object modelElement, String featureName);
-	
 	public void addDestinationRegionForLatestPropertyAccesses(Region destination);
 	
 	public void addDestinationResourceForUnclaimedPropertyAccesses(String resource);
 
-	public Trace getFineGrainedTrace();
+	public IPropertyAccessRecorder getPropertyAccessRecorder();
 
+	public Trace getFineGrainedTrace();
 }
