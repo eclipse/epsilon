@@ -153,14 +153,14 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		}
 	}
 	
-	public String execute(Template template, Formatter postprocessor) throws EglRuntimeException {
+	public EglResult execute(Template template, Formatter postprocessor) throws EglRuntimeException {
 		context.enter(template);
 		
-		final String result = execute(postprocessor);
+		final String generatedText = execute(postprocessor);
 		
 		context.exit();
 		
-		return result;
+		return new EglResult(generatedText);
 	}
 
 	private String execute(Formatter postprocessor) throws EglRuntimeException {

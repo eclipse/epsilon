@@ -18,30 +18,37 @@ import java.util.List;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContext;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.OutputBufferPrinterAdaptor;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EglContext extends EolContext implements IEglContext {
+public class EglContext extends EolContext implements IEglContext, IEglContextWithFineGrainedTraceability {
 
 	private final EglTemplateFactory templateFactory;
 	
+	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
+	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
+	private final EglTraceabilityContext traceabilityContext = new EglTraceabilityContext(this);
+	
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-		
-	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
-	
-	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
 	
 	private IEglContext parentContext;
+	private Trace trace;
 	
 	public EglContext(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
@@ -147,5 +154,25 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	public void formatWith(Formatter formatter) {
 		getOutputBuffer().formatWith(formatter);
+	}
+
+	@Override
+	public Trace getFineGrainedTrace() {
+		return trace;
+	}
+
+	@Override
+	public void setFineGrainedTrace(Trace trace) {
+		this.trace = trace;
+	}
+
+	@Override
+	public Printer getPrinter() {
+		return new OutputBufferPrinterAdaptor(getOutputBuffer());
+	}
+
+	@Override
+	public IEglTraceabilityContext getTraceabilityContext() {
+		return traceabilityContext;
 	}
 }

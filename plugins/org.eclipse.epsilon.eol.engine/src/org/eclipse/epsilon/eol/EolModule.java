@@ -38,9 +38,9 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	}
 	
 	public Object execute() throws EolRuntimeException {
-		prepareContext(context);
+		prepareContext(getContext());
 		
-		return Return.getValue(context.getExecutorFactory().executeAST(main.getAst(), context));
+		return Return.getValue(getContext().getExecutorFactory().executeAST(main.getAst(), getContext()));
 		
 	}
 

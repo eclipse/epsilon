@@ -15,19 +15,24 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.net.URI;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TracePackage;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.egl.util.StringUtil;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.eol.models.IModel;
 
 public class AcceptanceTestUtil {
 	
@@ -60,11 +65,28 @@ public class AcceptanceTestUtil {
 		return run(new EglFileGeneratingTemplateFactory(), program, models);
 	}
 	
+	public static String run(Object program, IModel model) throws Exception {
+		return run(new EglFileGeneratingTemplateFactory(), program, model);
+	}
+	
 	private static EglTemplate current;
 	
-	public static String run(EglTemplateFactory factory, Object program, Model... models) throws Exception {
+	public static String run(EglTemplateFactory factory, Object program, Model... modelSpecs) throws Exception {
+		final List<IModel> models = new LinkedList<IModel>();
+		
+		for (Model modelSpec : modelSpecs) {
+			models.add(modelSpec.loadEmfModel());
+		}
+	
+		return run(factory, program, models.toArray(new IModel[]{}));
+	}
+	
+	public static String run(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
 		context = factory.getContext();
-		loadModels(models);
+		
+		for (IModel model : models) {
+			context.getModelRepository().addModel(model);
+		}
 
 		current = loadTemplate(factory, program);
 		
@@ -104,12 +126,6 @@ public class AcceptanceTestUtil {
 		return current.getParseProblems();
 	}
 	
-	private static void loadModels(Model... models) throws EolModelLoadingException {
-		for (Model model : models) {
-			context.getModelRepository().addModel(model.loadEmfModel());
-		}
-	}
-	
 	private static void report() {
 		for (StatusMessage message : context.getStatusMessages()) {
 			System.out.println(message);
@@ -122,5 +138,10 @@ public class AcceptanceTestUtil {
 	
 	public static Template getTemplate() {
 		return context.getBaseTemplate();
+	}
+	
+	public static IModel getFineGrainedTrace() {
+		final Resource trace = EmfUtil.createResource(context.getFineGrainedTrace());
+		return new InMemoryEmfModel("FineGrainedTrace", trace, TracePackage.eINSTANCE);
 	}
 }

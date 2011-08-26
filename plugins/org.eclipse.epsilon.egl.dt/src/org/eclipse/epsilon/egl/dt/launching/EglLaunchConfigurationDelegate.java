@@ -14,6 +14,8 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO_CONSOLE;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.OUTPUT_FILE_PATH;
+import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.PRODUCE_TRACE;
+import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TRACE_DESTINATION;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
@@ -32,10 +35,14 @@ import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TracePackage;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -113,24 +120,11 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			if (configuration.getAttribute(GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 				EpsilonConsole.getInstance().getDebugStream().println(output);
 			} else {
-				// FIXME use the template to write to file?
-				final String outputFilePath = configuration.getAttribute(OUTPUT_FILE_PATH, "");
-				
-				if (outputFilePath.length() > 0) {
-					try {
-						final boolean appendToFile = configuration.getAttribute(APPEND_TO_FILE, false);
-						final String verb = appendToFile ? "appended" : "generated";
-						
-						final String workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
-						FileUtil.write(workspaceLocation + outputFilePath, output, appendToFile);
-						EpsilonConsole.getInstance().getInfoStream().println("Output " + verb + " to " + outputFilePath);
-						
-					} catch (IOException e) {
-						module.getContext().getErrorStream().println("Could not write to " + outputFilePath + ":");
-						module.getContext().getErrorStream().print('\t');
-						module.getContext().getErrorStream().println(e);
-					}
-				}
+				storeOutput(module, output);
+			}
+			
+			if (configuration.getAttribute(PRODUCE_TRACE, false)) {
+				storeTraceModel(((EglTemplateFactoryModuleAdapter)module).getContext());
 			}
 		}
 		
@@ -138,7 +132,37 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			EpsilonConsole.getInstance().getInfoStream().println(message);
 		
 		CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
+	}
+
+	private void storeOutput(IEolExecutableModule module, final String output) throws CoreException {
+		// FIXME use the template to write to file?
+		final String outputFilePath = configuration.getAttribute(OUTPUT_FILE_PATH, "");
 		
+		if (outputFilePath.length() > 0) {
+			try {
+				final boolean appendToFile = configuration.getAttribute(APPEND_TO_FILE, false);
+				final String verb = appendToFile ? "appended" : "generated";
+				
+				FileUtil.write(absolutePathFor(outputFilePath), output, appendToFile);
+				EpsilonConsole.getInstance().getInfoStream().println("Output " + verb + " to " + outputFilePath);
+				
+			} catch (IOException e) {
+				module.getContext().getErrorStream().println("Could not write to " + outputFilePath + ":");
+				module.getContext().getErrorStream().print('\t');
+				module.getContext().getErrorStream().println(e);
+			}
+		}
+	}
+	
+	private void storeTraceModel(IEglContext context) throws CoreException {
+		final String traceDestination = configuration.getAttribute(TRACE_DESTINATION, "");
+		final Resource trace = EmfUtil.createResource(context.getFineGrainedTrace());
+		
+		new InMemoryEmfModel("Trace", trace, TracePackage.eINSTANCE).store(traceDestination);
+	}
+	
+	private String absolutePathFor(String workspaceRelativePath) {
+		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + workspaceRelativePath;
 	}
 }
 

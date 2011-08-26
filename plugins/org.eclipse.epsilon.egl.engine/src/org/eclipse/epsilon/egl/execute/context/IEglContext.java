@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
@@ -52,4 +53,8 @@ public interface IEglContext extends IEolContext {
 	public Template getBaseTemplate();
 
 	public void formatWith(Formatter formatter);
+
+	public Trace getFineGrainedTrace();
+	
+	public void setFineGrainedTrace(Trace trace);
 }

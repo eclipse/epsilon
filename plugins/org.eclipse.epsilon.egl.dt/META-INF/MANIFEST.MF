@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jface.text,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.epsilon.emc.emf
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.egl.dt,
  org.eclipse.epsilon.egl.dt.launching.tabs,

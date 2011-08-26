@@ -20,6 +20,7 @@ import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.internal.EglModule;
+import org.eclipse.epsilon.egl.internal.EglResult;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -47,12 +48,12 @@ public class EglTemplate extends AbstractEglTemplate {
 		spec.parseInto(module);
 	}
 	
-	private EglTemplate(String name, IEglContext context, Template template, Formatter postprocessor) {
+	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter) {
 		super(new EglModule(context));
 		
 		this.name     = name;
 		this.template = template;
-		this.formatter = postprocessor;
+		this.formatter = formatter;
 	}
 	
 	public String getName() {
@@ -64,8 +65,10 @@ public class EglTemplate extends AbstractEglTemplate {
 	}
 	
 	public String process() throws EglRuntimeException {
-		contents = module.execute(template, formatter);
+		final EglResult result = module.execute(template, formatter);
 		
+		contents = result.generatedText;
+		System.out.println(module.getContext().getFineGrainedTrace());
 		processed = true;
 
 		return contents;

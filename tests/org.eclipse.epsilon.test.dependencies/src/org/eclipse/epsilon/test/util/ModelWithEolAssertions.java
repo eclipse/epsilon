@@ -198,7 +198,10 @@ public class ModelWithEolAssertions {
 			org.junit.Assert.assertNull(result);
 		else
 			org.junit.Assert.assertNull(message, result);
+	}
 	
+	public void assertInstanceOf(String expectedType, String actual) {
+		assertTrue(expectedType + ".isKind(" + actual + ")");
 	}
 	
 	public Object evaluate(String eolStatement) throws Throwable {
@@ -238,8 +241,10 @@ public class ModelWithEolAssertions {
 	public void store(String path) {
 		if (model instanceof AbstractEmfModel) {
 			((AbstractEmfModel)model).getModelImpl().setURI(URI.createFileURI(path));
+			model.store();
+		} else {
+			model.store(path);
 		}
-		model.store(path);
 	}
 	
 	public Resource getResource() {

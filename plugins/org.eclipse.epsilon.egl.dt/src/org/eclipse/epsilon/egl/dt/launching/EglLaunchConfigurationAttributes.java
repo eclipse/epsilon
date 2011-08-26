@@ -21,6 +21,9 @@ public interface EglLaunchConfigurationAttributes extends EolLaunchConfiguration
 	public static final int GENERATE_TO_CONSOLE = 1;
 	public static final int GENERATE_TO_FILE    = 2;
 	
+	public static final String PRODUCE_TRACE     = "produceTrace";
+	public static final String TRACE_DESTINATION = "traceDestination";
+	
 	public static final String DEFAULT_FORMATTERS    = "defaultFormatters";
 	public static final String TEMPLATE_FACTORY_TYPE = "templateFactoryType";
 }

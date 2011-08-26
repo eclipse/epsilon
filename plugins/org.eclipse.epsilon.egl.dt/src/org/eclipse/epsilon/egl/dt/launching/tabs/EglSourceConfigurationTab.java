@@ -10,11 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.launching.tabs;
 
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.APPEND_TO_FILE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO_CONSOLE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO_FILE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.OUTPUT_FILE_PATH;
+import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.*;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -44,6 +40,9 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	private Button generateToFile;
 	private Button browseForOutputFile;
 	private Button appendToFile;
+	private Text traceDestination;
+	private Button browseForTraceDestination;
+	private Button produceTrace;
 	
 	public static void main(String[] args) {
 		Display display = new Display();
@@ -73,11 +72,19 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 		control.setLayout(new GridLayout(1, false));
 		
+		createSourceGroup(control);
+		createTargetGroup(control);
+		createTraceGroup(control);
 		
-		Group sourceGroup = new Group(control, SWT.SHADOW_ETCHED_IN);
-		sourceGroup.setLayout(new GridLayout(2, false));
-		sourceGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		sourceGroup.setText("Source: ");
+		control.setBounds(0, 0, 300, 300);
+		control.layout();
+		control.pack();
+		
+		canSave();
+	}
+
+	private void createSourceGroup(Composite control) {
+		final Group sourceGroup = createGroup(control, "Source", 2);
 		
 		GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
 		filePath = new Text(sourceGroup, SWT.BORDER);
@@ -87,12 +94,10 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		Button browse = new Button(sourceGroup, SWT.NONE);
 		browse.setText("Browse Workspace...");
 		browse.addListener(SWT.Selection, new SelectSourceListener(filePath));
-		
-		
-		Group targetGroup = new Group(control, SWT.SHADOW_ETCHED_IN);
-		targetGroup.setLayout(new GridLayout(1, false));
-		targetGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		targetGroup.setText("Target: ");
+	}
+
+	private void createTargetGroup(Composite control) {
+		final Group targetGroup = createGroup(control, "Target:", 1);
 		
 		generateToConsole = new Button(targetGroup, SWT.RADIO);
 		generateToConsole.setText("Generate text to console");
@@ -135,12 +140,49 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		appendToFile.setText("Append to file");
 		appendToFile.setLayoutData(appendToFileData);
 		appendToFile.addSelectionListener(this);
+	}
+	
+	private void createTraceGroup(Composite control) {
+		final Group traceGroup = createGroup(control, "Trace:", 1);
 		
-		control.setBounds(0, 0, 300, 300);
-		control.layout();
-		control.pack();
+		produceTrace = new Button(traceGroup, SWT.CHECK);
+		produceTrace.setText("Produce a trace model?");
+				
+		final Composite traceDestinationContainer = new Composite(traceGroup, SWT.NONE);
+		traceDestinationContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		traceDestinationContainer.setLayout(new GridLayout(2, false));
 		
-		canSave();
+		GridData traceDestinationData = new GridData(GridData.FILL_HORIZONTAL);
+		traceDestinationData.horizontalIndent = 25;
+		traceDestination = new Text(traceDestinationContainer, SWT.BORDER);
+		traceDestination.setLayoutData(traceDestinationData);
+		traceDestination.addModifyListener(this);
+		
+		browseForTraceDestination = new Button(traceDestinationContainer, SWT.NONE);
+		browseForTraceDestination.setText("Browse Workspace...");
+		browseForTraceDestination.addListener(SWT.Selection, new SelectSourceListener(traceDestination));
+		
+		
+		produceTrace.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateEnabledStateOfTraceWidgets();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				updateEnabledStateOfTraceWidgets();
+			}
+		});
+	}
+
+	private Group createGroup(Composite control, String name, int numberOfColumns) {
+		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
+		group.setLayout(new GridLayout(numberOfColumns, false));
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		group.setText(name);
+		return group;
 	}
 	
 	protected void updateEnabledStateOfOutputFileWidgets() {
@@ -151,6 +193,11 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		appendToFile.setEnabled(enable);
 	}
 	
+	private void updateEnabledStateOfTraceWidgets() {
+		traceDestination.setEnabled(produceTrace.getSelection());
+		browseForTraceDestination.setEnabled(produceTrace.getSelection());
+	}
+	
 	
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		super.setDefaults(configuration);
@@ -158,6 +205,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		configuration.setAttribute(GENERATE_TO, GENERATE_TO_CONSOLE);
 		configuration.setAttribute(OUTPUT_FILE_PATH, "");
 		configuration.setAttribute(APPEND_TO_FILE, false);
+		configuration.setAttribute(PRODUCE_TRACE, false);
 	}
 	
 	public void initializeFrom(ILaunchConfiguration configuration) {
@@ -179,7 +227,11 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 			outputFilePath.setText(configuration.getAttribute(OUTPUT_FILE_PATH, ""));			
 			appendToFile.setSelection(configuration.getAttribute(APPEND_TO_FILE, false));
 			
+			traceDestination.setText(configuration.getAttribute(TRACE_DESTINATION, ""));
+			produceTrace.setSelection(configuration.getAttribute(PRODUCE_TRACE, false));
+			
 			updateEnabledStateOfOutputFileWidgets();
+			updateEnabledStateOfTraceWidgets();
 			
 		} catch (CoreException e) {
 			// ignore
@@ -194,6 +246,9 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		                           generateToFile.getSelection() ? GENERATE_TO_FILE : GENERATE_TO_CONSOLE);
 		configuration.setAttribute(OUTPUT_FILE_PATH, outputFilePath.getText());
 		configuration.setAttribute(APPEND_TO_FILE, appendToFile.getSelection());
+		
+		configuration.setAttribute(TRACE_DESTINATION, traceDestination.getText());
+		configuration.setAttribute(PRODUCE_TRACE, produceTrace.getSelection());
 	}
 	
 	@Override

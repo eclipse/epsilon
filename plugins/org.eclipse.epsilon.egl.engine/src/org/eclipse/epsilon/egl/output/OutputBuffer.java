@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.output;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -196,7 +197,19 @@ public class OutputBuffer {
 	}
 	
 	public int getCurrentLineNumber() {
-		return toString().split(FileUtil.NEWLINE).length;
+		return getLines().size();
+	}
+	
+	public int getCurrentColumnNumber() {
+		final List<String> lines = getLines();
+			
+		final String lastLine = lines.isEmpty() ? "" : lines.get(lines.size()-1);
+		
+		return lastLine.length() + 1;
+	}
+
+	private List<String> getLines() {
+		return Arrays.asList(toString().split(FileUtil.NEWLINE));
 	}
 
 	public void formatWith(Formatter formatter) {

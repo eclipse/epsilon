@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.egl.engine.traceability.fine.wrappers.TraceableModelInjector;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
@@ -28,10 +29,24 @@ import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EglPreprocessorModule extends EolModule {
 
 	private final Preprocessor preprocessor = new Preprocessor();
+	
+	@Override
+	protected void prepareContext(IEolContext context) {
+		super.prepareContext(context);
+
+		//  TODO Speak to Dimitris
+		//  Previously, we've avoided wrapping models because users might
+		//  be surprised when getting a model out of the repository after
+		//  executing code with a module.
+		//  An alternative to wrapping models would be push the trace support
+		//  down into EMC, and onto IPropertyGetter (and probably IPropertySetter).
+		new TraceableModelInjector().makeTraceable(context.getModelRepository());
+	}
 	
 	public boolean preprocess(AST ast, File sourceFile, URI sourceUri) {
 		this.sourceFile = sourceFile;
