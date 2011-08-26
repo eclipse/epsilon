@@ -1,0 +1,37 @@
+@namespace(uri="http://www.eclipse.org/gmt/epsilon/egl/trace", prefix="trace")
+
+package trace;
+
+class Trace {
+   val TraceElement[*] elements;
+   val TextLocation[*] locations;
+}
+
+class TraceElement {
+   val ModelLocation[1] source;
+   ref TextLocation[1] destination;
+}
+
+@exeed(label="return self.modelElement + '#' + featureName;")
+class ModelLocation {
+   ref  EObject[1] modelElement;
+   attr String[1] featureName;
+}
+
+@exeed(label="return self.resources.first + '@' + self.region;")
+class TextLocation {
+   attr String[1..*] resources;
+   val Region[1] region;
+}
+
+@exeed(label="return self.start + '-' + self.end;")
+class Region {
+   val Position[1] start;
+   val Position[1] end;
+}
+
+@exeed(label="return self.line + ':' + self.column;")
+class Position {
+   attr int[1] line;
+   attr int[1] column;
+}

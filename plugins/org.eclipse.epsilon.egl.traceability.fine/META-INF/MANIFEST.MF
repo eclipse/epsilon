@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Generation Language Engine: Fine-Grained Traceability (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine;singleton:=true
+Bundle-Version: 0.9.1.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.context,
+ org.eclipse.epsilon.egl.engine.traceability.fine.operations.print,
+ org.eclipse.epsilon.egl.engine.traceability.fine.trace,
+ org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder,
+ org.eclipse.epsilon.egl.engine.traceability.fine.trace.impl,
+ org.eclipse.epsilon.egl.engine.traceability.fine.trace.util,
+ org.eclipse.epsilon.egl.engine.traceability.fine.wrappers
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.emf.ecore

@@ -1,0 +1,9 @@
+Features:
+- Integrate with EGL
+-- Add acceptance tests to EGL
+-- Integrate with existing classes
+-- Remove MyContext
+-- Decide what to do with old traceability code
+-- Add ability to extract trace model from ANT Task
+-- Refactor EglSourceConfigurationTab: split groups into separate files
+-- How to deal with model locations that are not EMF models?

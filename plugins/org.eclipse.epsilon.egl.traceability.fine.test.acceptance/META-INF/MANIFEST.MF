@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EGL Fine-Grained Traceability Acceptance Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine.test.acceptance
+Bundle-Version: 0.9.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
+ org.eclipse.epsilon.egl.engine.test.acceptance
