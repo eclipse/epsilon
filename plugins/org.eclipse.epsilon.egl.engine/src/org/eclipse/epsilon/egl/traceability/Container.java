@@ -43,14 +43,8 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	
 	@SuppressWarnings("unchecked")
 	public void add(E child) {
-		if (child.equals(this)) {
-			try {
-				throw new IllegalArgumentException();
-			} catch(IllegalArgumentException ex) {
-				ex.printStackTrace();
-			}
-		}
-		// TODO : Fix unchecked assignment
+		if (child.equals(this)) return;
+		
 		child.setParent(this);
 		contents.add(child);
 	}
