@@ -120,19 +120,9 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 			
 		});
 		
-		Composite outputFileContainer = new Composite(targetGroup, SWT.NONE);
-		outputFileContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		outputFileContainer.setLayout(new GridLayout(2, false));
-		
-		GridData outputFilePathData = new GridData(GridData.FILL_HORIZONTAL);
-		outputFilePathData.horizontalIndent = 25;
-		outputFilePath = new Text(outputFileContainer, SWT.BORDER);
-		outputFilePath.setLayoutData(outputFilePathData);
-		outputFilePath.addModifyListener(this);
-		
-		browseForOutputFile = new Button(outputFileContainer, SWT.NONE);
-		browseForOutputFile.setText("Browse Workspace...");
-		browseForOutputFile.addListener(SWT.Selection, new SelectSourceListener(outputFilePath));
+		final Composite outputFileContainer = createTwoColumnComposite(targetGroup);
+		outputFilePath = createPathTextBox(outputFileContainer);		
+		browseForOutputFile = createBrowseWorkspaceButton(outputFileContainer);
 		
 		GridData appendToFileData = new GridData(GridData.FILL_HORIZONTAL);
 		appendToFileData.horizontalIndent = 25;
@@ -147,22 +137,6 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 		produceTrace = new Button(traceGroup, SWT.CHECK);
 		produceTrace.setText("Produce a trace model?");
-				
-		final Composite traceDestinationContainer = new Composite(traceGroup, SWT.NONE);
-		traceDestinationContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		traceDestinationContainer.setLayout(new GridLayout(2, false));
-		
-		GridData traceDestinationData = new GridData(GridData.FILL_HORIZONTAL);
-		traceDestinationData.horizontalIndent = 25;
-		traceDestination = new Text(traceDestinationContainer, SWT.BORDER);
-		traceDestination.setLayoutData(traceDestinationData);
-		traceDestination.addModifyListener(this);
-		
-		browseForTraceDestination = new Button(traceDestinationContainer, SWT.NONE);
-		browseForTraceDestination.setText("Browse Workspace...");
-		browseForTraceDestination.addListener(SWT.Selection, new SelectSourceListener(traceDestination));
-		
-		
 		produceTrace.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -174,15 +148,45 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 			public void widgetDefaultSelected(SelectionEvent e) {
 				updateEnabledStateOfTraceWidgets();
 			}
-		});
+		});		
+		
+		final Composite traceDestinationContainer = createTwoColumnComposite(traceGroup);
+		traceDestination = createPathTextBox(traceDestinationContainer);
+		browseForTraceDestination = createBrowseWorkspaceButton(traceDestinationContainer);
 	}
-
+	
 	private Group createGroup(Composite control, String name, int numberOfColumns) {
 		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
 		group.setLayout(new GridLayout(numberOfColumns, false));
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setText(name);
 		return group;
+	}
+	
+	private Composite createTwoColumnComposite(Composite parent) {
+		final Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		composite.setLayout(new GridLayout(2, false));
+		return composite;
+	}
+	
+	private Text createPathTextBox(Composite parent) {
+		final Text text = new Text(parent, SWT.BORDER);
+		
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalIndent = 25;
+		text.setLayoutData(data);
+		
+		text.addModifyListener(this);
+		
+		return text;
+	}
+	
+	private Button createBrowseWorkspaceButton(Composite parent) {
+		final Button button = new Button(parent, SWT.NONE);
+		button.setText("Browse Workspace...");
+		button.addListener(SWT.Selection, new SelectSourceListener(traceDestination));
+		return button;
 	}
 	
 	protected void updateEnabledStateOfOutputFileWidgets() {
