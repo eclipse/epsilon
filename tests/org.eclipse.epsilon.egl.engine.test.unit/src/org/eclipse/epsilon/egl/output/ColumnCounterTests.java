@@ -67,6 +67,11 @@ public class ColumnCounterTests {
 		public void shouldCountNumberOfColumnsInLastLineAfterSeveralBlankLines() {
 			assertEquals(3, getCurrentColumnNumberFrom("abc" + getNewLine() + getNewLine() + "de"));
 		}
+		
+		@Test
+		public void aTabShouldOccupyOneColumn() {
+			assertEquals(2, getCurrentColumnNumberFrom("\t"));
+		}
 
 		protected int getCurrentColumnNumberFrom(String text) {
 			return counter.getCurrentColumnNumberFrom(text);

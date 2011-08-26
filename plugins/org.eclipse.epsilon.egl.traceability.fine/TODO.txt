@@ -1,6 +1,5 @@
 - Features
 -- Fix accuracy of trace for INESS example
---- How should tabs be counted by the column counter?
 --- TDD EglContext#appendToFineGrainedTrace and the TraceCombiner
 -- Tracing for [% out.print("abc") %] and similar statements
 --- One solution: allow OperationContributors to evaluate the AST, and contribute the print operations
