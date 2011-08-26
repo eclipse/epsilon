@@ -272,36 +272,4 @@ public class TestEglLexer {
 			assertTrue(expected.equals(actual));
 		}
 	}
-	
-	@Test
-	public void testStartTagInLiteralString() throws RecognitionException {
-		//                               123456789
-		final EglLexer l = new EglLexer("[%='[%'%]");
-		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_OUTPUT_TAG, "[%=",  1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "'[%'", 1, 4));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",   1, 8));
-		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
-			assertEquals(expected, actual);
-		}
-	}
-	
-	@Test
-	public void testEndTagInLiteralString() throws RecognitionException {
-		//                               1234 56789012345 6
-		final EglLexer l = new EglLexer("[%=\"abc %] def\"%]");
-		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_OUTPUT_TAG, "[%=",            1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "\"abc %] def\"", 1, 4));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",             1, 16));
-		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
-			assertEquals(expected, actual);
-		}
-	}
 }

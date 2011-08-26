@@ -84,22 +84,16 @@ public class EglLexer {
 		
 		} else {
 			
-			boolean inStringLiteral = false;
-			
 			for (index = 0; index < program.length(); index++) {
 				
-				if (programMatches("'", "\"")) {
-					inStringLiteral = !inStringLiteral;
-				}
-				
 				// Check if any other token is next
-				if (programMatches("\n", "\r\n")) {
-					return tokenise(TokenType.PLAIN_TEXT, program.substring(0, index));
-				
-				} else if (!inStringLiteral && programMatches("[%", "%]", "[*", "*]")) {
+				if (programMatches("\n") || programMatches("\r\n") ||
+					programMatches("[%") || programMatches("%]")   ||
+					programMatches("[*") || programMatches("*]")) {
 					
 					return tokenise(TokenType.PLAIN_TEXT, program.substring(0, index));
 				}
+				
 			}
 			
 			return tokenise(TokenType.PLAIN_TEXT, program);
@@ -143,21 +137,19 @@ public class EglLexer {
 		return t;
 	}
 	
-	private boolean programMatches(String... patterns) {
-		for (String pattern : patterns) {
-			if (programMatches(pattern)) return true;
-		}
-		
-		return false;
-	}
 	
-	private boolean programMatches(String pattern) {
+	private boolean programMatches(String toMatch) {
+		// Use the field called index by default
+		return programMatches(toMatch, index);
+	} 
+	
+	private boolean programMatches(String toMatch, int index) {
 		if (index < 0)
 			throw new IllegalStateException("index is less than zero");
 		
-		if (index + pattern.length() > program.length())
+		if (index + toMatch.length() > program.length())
 			return false;
 		
-		return program.substring(index, index + pattern.length()).equals(pattern);
-	} 
+		return program.substring(index, index + toMatch.length()).equals(toMatch);
+	}
 }
