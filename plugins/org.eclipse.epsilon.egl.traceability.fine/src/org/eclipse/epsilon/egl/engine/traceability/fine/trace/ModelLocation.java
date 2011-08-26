@@ -16,11 +16,11 @@ import java.util.Collection;
 public class ModelLocation {
 
 	public final Object modelElement;
-	public final String featureName;
+	public final String propertyName;
 	
-	public ModelLocation(Object modelElement, String featureName) {
+	public ModelLocation(Object modelElement, String propertyName) {
 		this.modelElement = modelElement;
-		this.featureName  = featureName;
+		this.propertyName = propertyName;
 	}
 	
 	
@@ -30,8 +30,8 @@ public class ModelLocation {
 		return modelElement;
 	}
 	
-	public String getFeatureName() {
-		return featureName;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
 	public Collection<? extends Object> getAllContents() {

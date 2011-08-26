@@ -56,7 +56,7 @@ public class Pojo2Emf {
 			
 		final EmfModelLocation transformed = TraceFactory.eINSTANCE.createEmfModelLocation();
 		transformed.setModelElement((EObject)original.modelElement);
-		transformed.setFeatureName(original.featureName);
+		transformed.setPropertyName(original.propertyName);
 		return transformed;					
 	}
 

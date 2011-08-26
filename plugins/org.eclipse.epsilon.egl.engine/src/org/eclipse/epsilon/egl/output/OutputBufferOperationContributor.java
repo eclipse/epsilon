@@ -25,20 +25,23 @@ public class OutputBufferOperationContributor extends OperationContributor {
 		return target instanceof OutputBuffer;
 	}
 
-	public void print(AST featureCallAst) throws EolRuntimeException {
-		print(featureCallAst, new OutputBufferPrinterAdaptor.NormalPrinter(getOutputBuffer()));
+	public void print(AST operationAst) throws EolRuntimeException {
+		print(operationAst, new OutputBufferPrinterAdaptor.NormalPrinter(getOutputBuffer()));
 	}
 	
-	public void printdyn(AST featureCallAst) throws EolRuntimeException {
-		print(featureCallAst, new OutputBufferPrinterAdaptor.DynamicPrinter(getOutputBuffer()));
+	public void printdyn(AST operationAst) throws EolRuntimeException {
+		print(operationAst, new OutputBufferPrinterAdaptor.DynamicPrinter(getOutputBuffer()));
 	}
 	
-	public void println(AST featureCallAst) throws EolRuntimeException {
-		print(featureCallAst, new OutputBufferPrinterAdaptor.LinePrinter(getOutputBuffer()));
+	public void println(AST operationAst) throws EolRuntimeException {
+		print(operationAst, new OutputBufferPrinterAdaptor.LinePrinter(getOutputBuffer()));
 	}
 
-	private void print(AST featureCallAst, Printer printer) throws EolRuntimeException {
-		new PrintsAndTraces(printer, getTraceabilityContext()).forAst(featureCallAst.getFirstChild().getFirstChild());
+	private void print(AST operationAst, Printer printer) throws EolRuntimeException {
+		final AST parametersAst = operationAst.getFirstChild();
+		final AST firstParameterAst = parametersAst.getFirstChild();
+		
+		new PrintsAndTraces(printer, getTraceabilityContext()).forAst(firstParameterAst);
 	}
 	
 	private OutputBuffer getOutputBuffer() {

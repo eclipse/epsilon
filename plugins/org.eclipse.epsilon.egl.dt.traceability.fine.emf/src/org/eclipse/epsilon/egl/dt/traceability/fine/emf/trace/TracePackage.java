@@ -148,13 +148,13 @@ public interface TracePackage extends EPackage {
 	int MODEL_LOCATION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Property Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_LOCATION__FEATURE_NAME = 0;
+	int MODEL_LOCATION__PROPERTY_NAME = 0;
 
 	/**
 	 * The number of structural features of the '<em>Model Location</em>' class.
@@ -176,13 +176,13 @@ public interface TracePackage extends EPackage {
 	int EMF_MODEL_LOCATION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Property Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EMF_MODEL_LOCATION__FEATURE_NAME = MODEL_LOCATION__FEATURE_NAME;
+	int EMF_MODEL_LOCATION__PROPERTY_NAME = MODEL_LOCATION__PROPERTY_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Model Element</b></em>' reference.
@@ -389,15 +389,15 @@ public interface TracePackage extends EPackage {
 	EClass getModelLocation();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getFeatureName <em>Feature Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getPropertyName <em>Property Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Feature Name</em>'.
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getFeatureName()
+	 * @return the meta object for the attribute '<em>Property Name</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getPropertyName()
 	 * @see #getModelLocation()
 	 * @generated
 	 */
-	EAttribute getModelLocation_FeatureName();
+	EAttribute getModelLocation_PropertyName();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.EmfModelLocation <em>Emf Model Location</em>}'.
@@ -601,12 +601,12 @@ public interface TracePackage extends EPackage {
 		EClass MODEL_LOCATION = eINSTANCE.getModelLocation();
 
 		/**
-		 * The meta object literal for the '<em><b>Feature Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Property Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MODEL_LOCATION__FEATURE_NAME = eINSTANCE.getModelLocation_FeatureName();
+		EAttribute MODEL_LOCATION__PROPERTY_NAME = eINSTANCE.getModelLocation_PropertyName();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.impl.EmfModelLocationImpl <em>Emf Model Location</em>}' class.

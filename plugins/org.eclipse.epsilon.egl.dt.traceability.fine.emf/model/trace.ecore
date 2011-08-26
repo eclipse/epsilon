@@ -16,7 +16,7 @@
         eType="#//TextLocation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModelLocation" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EmfModelLocation" eSuperTypes="#//ModelLocation">

@@ -23,9 +23,9 @@ public class TraceBuilder {
 	
 	private final Trace trace = new Trace();
 	
-	public void withTraceElements(Collection<ModelLocation> featureAccesses, Region destination) {
-		if (!featureAccesses.isEmpty()) {
-			withTraceElements(featureAccesses, createTextLocationFor(destination));
+	public void withTraceElements(Collection<ModelLocation> propertyAccesses, Region destination) {
+		if (!propertyAccesses.isEmpty()) {
+			withTraceElements(propertyAccesses, createTextLocationFor(destination));
 		}
 	}
 	
@@ -33,11 +33,11 @@ public class TraceBuilder {
 		return new TextLocation(region);
 	}
 	
-	private void withTraceElements(Collection<ModelLocation> featureAccesses, TextLocation destination) {
+	private void withTraceElements(Collection<ModelLocation> propertyAccesses, TextLocation destination) {
 		trace.locations.add(destination);
 		
-		for (ModelLocation featureAccess : featureAccesses) {
-			trace.elements.add(createTraceElement(featureAccess, destination));
+		for (ModelLocation propertyAccess : propertyAccesses) {
+			trace.elements.add(createTraceElement(propertyAccess, destination));
 		}
 	}
 

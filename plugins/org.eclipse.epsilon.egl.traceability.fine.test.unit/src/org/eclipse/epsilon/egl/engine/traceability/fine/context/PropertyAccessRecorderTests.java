@@ -16,14 +16,14 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.FeatureAccessRecorder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.PropertyAccessRecorder;
 import org.junit.Test;
 
 
 
-public class FeatureAccessRecorderTests {
+public class PropertyAccessRecorderTests {
 
-	private final FeatureAccessRecorder recorder = new FeatureAccessRecorder();
+	private final PropertyAccessRecorder recorder = new PropertyAccessRecorder();
 	private final Object dummyModelElement = mock(Object.class);
 	
 	@Test
@@ -31,8 +31,8 @@ public class FeatureAccessRecorderTests {
 		recorder.startRecording();
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(dummyModelElement,  recorder.getFeatureAccesses().get(0).modelElement);
-		assertEquals("DummyFeatureName", recorder.getFeatureAccesses().get(0).featureName);
+		assertEquals(dummyModelElement,  recorder.getPropertyAccesses().get(0).modelElement);
+		assertEquals("DummyFeatureName", recorder.getPropertyAccesses().get(0).propertyName);
 	}
 	
 	@Test
@@ -41,14 +41,14 @@ public class FeatureAccessRecorderTests {
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(1, recorder.getFeatureAccesses().size());
+		assertEquals(1, recorder.getPropertyAccesses().size());
 	}
 	
 	@Test
 	public void shouldNotRecordUnlessToldToStart() {
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(0, recorder.getFeatureAccesses().size());
+		assertEquals(0, recorder.getPropertyAccesses().size());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class FeatureAccessRecorderTests {
 		recorder.stopRecording();
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(0, recorder.getFeatureAccesses().size());
+		assertEquals(0, recorder.getPropertyAccesses().size());
 	}
 	
 	@Test
@@ -68,6 +68,6 @@ public class FeatureAccessRecorderTests {
 		
 		recorder.startRecording();
 		
-		assertEquals(0, recorder.getFeatureAccesses().size());
+		assertEquals(0, recorder.getPropertyAccesses().size());
 	}
 }

@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.test.unit;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContextTests;
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.FeatureAccessRecorderTests;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.PropertyAccessRecorderTests;
 import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintsAndTracesTests;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilderTests;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EglTraceabilityContextTests.class,
-	           FeatureAccessRecorderTests.class,
+	           PropertyAccessRecorderTests.class,
 	           PrintsAndTracesTests.class,
 		       TraceBuilderTests.class})
 public class EglFineGrainedTraceabilityUnitTestSuite {

@@ -14,7 +14,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 
 public class ModelLocationBuilder {
 	
-	public ModelLocation buildModelLocation(Object modelElement, String featureName) {
-		return new ModelLocation(modelElement, featureName);
+	public ModelLocation buildModelLocation(Object modelElement, String propertyName) {
+		return new ModelLocation(modelElement, propertyName);
 	}
 }

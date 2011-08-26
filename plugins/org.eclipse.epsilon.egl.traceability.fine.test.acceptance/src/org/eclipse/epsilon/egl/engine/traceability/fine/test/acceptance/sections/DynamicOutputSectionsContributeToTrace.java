@@ -37,7 +37,7 @@ public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTracea
 	@Test
 	public void sourceShouldBeTheNameAttributeOfPerson() throws Throwable {
 		assertEquals(person, trace.evaluate("element.source.modelElement"));
-		trace.assertEquals("name", "element.source.featureName");
+		trace.assertEquals("name", "element.source.propertyName");
 	}
 	
 	@Test

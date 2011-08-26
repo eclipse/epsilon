@@ -212,7 +212,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getModelLocation_FeatureName() {
+	public EAttribute getModelLocation_PropertyName() {
 		return (EAttribute)modelLocationEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -352,7 +352,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		createEReference(traceElementEClass, TRACE_ELEMENT__DESTINATION);
 
 		modelLocationEClass = createEClass(MODEL_LOCATION);
-		createEAttribute(modelLocationEClass, MODEL_LOCATION__FEATURE_NAME);
+		createEAttribute(modelLocationEClass, MODEL_LOCATION__PROPERTY_NAME);
 
 		emfModelLocationEClass = createEClass(EMF_MODEL_LOCATION);
 		createEReference(emfModelLocationEClass, EMF_MODEL_LOCATION__MODEL_ELEMENT);
@@ -410,7 +410,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initEReference(getTraceElement_Destination(), this.getTextLocation(), null, "destination", null, 1, 1, TraceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(modelLocationEClass, ModelLocation.class, "ModelLocation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getModelLocation_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, ModelLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelLocation_PropertyName(), ecorePackage.getEString(), "propertyName", null, 1, 1, ModelLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(emfModelLocationEClass, EmfModelLocation.class, "EmfModelLocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEmfModelLocation_ModelElement(), ecorePackage.getEObject(), null, "modelElement", null, 1, 1, EmfModelLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

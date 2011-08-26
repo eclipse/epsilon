@@ -22,14 +22,14 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 public class EglTraceabilityContext implements IEglTraceabilityContext {
 
 	private final TraceBuilder traceBuilder = new TraceBuilder();
-	private final FeatureAccessRecorder recorder;
+	private final PropertyAccessRecorder recorder;
 	private final IEolContext parent;
 	
 	public EglTraceabilityContext(IEolContext parent) {
-		this(parent, new FeatureAccessRecorder());
+		this(parent, new PropertyAccessRecorder());
 	}
 	
-	public EglTraceabilityContext(IEolContext parent, FeatureAccessRecorder recorder) {
+	public EglTraceabilityContext(IEolContext parent, PropertyAccessRecorder recorder) {
 		this.parent   = parent;
 		this.recorder = recorder;
 	}
@@ -55,7 +55,7 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 
 	@Override
 	public void addDestinationRegionForLatestPropertyAccesses(Region destination) {
-		traceBuilder.withTraceElements(recorder.getFeatureAccesses(), destination);
+		traceBuilder.withTraceElements(recorder.getPropertyAccesses(), destination);
 	}
 	
 	@Override

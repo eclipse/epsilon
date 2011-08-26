@@ -20,15 +20,15 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocat
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 
 
-public class FeatureAccessRecorder implements IPropertyAccessRecorder {
+public class PropertyAccessRecorder implements IPropertyAccessRecorder {
 	
 	private final ModelLocationBuilder builder = new ModelLocationBuilder();
-	private final Set<FeatureAccess> recentFeatureAccesses = new HashSet<FeatureAccess>();
+	private final Set<PropertyAccess> recentPropertyAccesses = new HashSet<PropertyAccess>();
 	private boolean recording = false;
 
 	public void startRecording() {
 		recording = true;
-		recentFeatureAccesses.clear();
+		recentPropertyAccesses.clear();
 	}
 	
 	public void stopRecording() {
@@ -36,52 +36,52 @@ public class FeatureAccessRecorder implements IPropertyAccessRecorder {
 	}
 
 	@Override
-	public void record(Object modelElement, String featureName) {
-		if (recording) recentFeatureAccesses.add(new FeatureAccess(modelElement, featureName));
+	public void record(Object modelElement, String propertyName) {
+		if (recording) recentPropertyAccesses.add(new PropertyAccess(modelElement, propertyName));
 	}
 
-	public List<ModelLocation> getFeatureAccesses() {
+	public List<ModelLocation> getPropertyAccesses() {
 		final List<ModelLocation> modelLocations = new LinkedList<ModelLocation>();
 		
-		for (FeatureAccess featureAccess : recentFeatureAccesses) {
-			modelLocations.add(featureAccess.toModelLocation());
+		for (PropertyAccess propertyAccess : recentPropertyAccesses) {
+			modelLocations.add(propertyAccess.toModelLocation());
 		}
 
 		return modelLocations;
 	}
 	
-	private class FeatureAccess {
+	private class PropertyAccess {
 		
 		public final Object modelElement;
-		public final String  featureName;
+		public final String propertyName;
 		
-		public FeatureAccess(Object modelElement, String featureName) {
+		public PropertyAccess(Object modelElement, String propertyName) {
 			this.modelElement = modelElement;
-			this.featureName  = featureName;
+			this.propertyName = propertyName;
 		}
 		
 		public ModelLocation toModelLocation() {
-			return builder.buildModelLocation(modelElement, featureName);
+			return builder.buildModelLocation(modelElement, propertyName);
 		}
 		
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof FeatureAccess)) return false;
+			if (!(obj instanceof PropertyAccess)) return false;
 			
-			final FeatureAccess other = (FeatureAccess)obj;
+			final PropertyAccess other = (PropertyAccess)obj;
 			
 			return modelElement.equals(other.modelElement) &&
-			       featureName.equals(other.featureName);
+			       propertyName.equals(other.propertyName);
 		}
 		
 		@Override
 		public int hashCode() {
-			return modelElement.hashCode() + featureName.hashCode();
+			return modelElement.hashCode() + propertyName.hashCode();
 		}
 		
 		@Override
 		public String toString() {
-			return "FeatureAccess: " + featureName + " on " + modelElement;
+			return "PropertyAccess: " + propertyName + " on " + modelElement;
 		}
 	}
 }

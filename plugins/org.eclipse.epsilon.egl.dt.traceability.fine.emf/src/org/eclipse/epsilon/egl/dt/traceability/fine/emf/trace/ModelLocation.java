@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getFeatureName <em>Feature Name</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getPropertyName <em>Property Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,29 +30,29 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ModelLocation extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Property Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Feature Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Property Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Feature Name</em>' attribute.
-	 * @see #setFeatureName(String)
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage#getModelLocation_FeatureName()
+	 * @return the value of the '<em>Property Name</em>' attribute.
+	 * @see #setPropertyName(String)
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage#getModelLocation_PropertyName()
 	 * @model required="true"
 	 * @generated
 	 */
-	String getFeatureName();
+	String getPropertyName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getFeatureName <em>Feature Name</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation#getPropertyName <em>Property Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Feature Name</em>' attribute.
-	 * @see #getFeatureName()
+	 * @param value the new value of the '<em>Property Name</em>' attribute.
+	 * @see #getPropertyName()
 	 * @generated
 	 */
-	void setFeatureName(String value);
+	void setPropertyName(String value);
 
 } // ModelLocation

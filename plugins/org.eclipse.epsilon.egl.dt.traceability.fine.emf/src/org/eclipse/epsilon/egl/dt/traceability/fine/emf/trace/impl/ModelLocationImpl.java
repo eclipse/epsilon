@@ -24,7 +24,7 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.impl.ModelLocationImpl#getFeatureName <em>Feature Name</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.impl.ModelLocationImpl#getPropertyName <em>Property Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,24 +32,24 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage;
  */
 public abstract class ModelLocationImpl extends EObjectImpl implements ModelLocation {
 	/**
-	 * The default value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
+	 * The default value of the '{@link #getPropertyName() <em>Property Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFeatureName()
+	 * @see #getPropertyName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String FEATURE_NAME_EDEFAULT = null;
+	protected static final String PROPERTY_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
+	 * The cached value of the '{@link #getPropertyName() <em>Property Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFeatureName()
+	 * @see #getPropertyName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String featureName = FEATURE_NAME_EDEFAULT;
+	protected String propertyName = PROPERTY_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,8 +75,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFeatureName() {
-		return featureName;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
 	/**
@@ -84,11 +84,11 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFeatureName(String newFeatureName) {
-		String oldFeatureName = featureName;
-		featureName = newFeatureName;
+	public void setPropertyName(String newPropertyName) {
+		String oldPropertyName = propertyName;
+		propertyName = newPropertyName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.MODEL_LOCATION__FEATURE_NAME, oldFeatureName, featureName));
+			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.MODEL_LOCATION__PROPERTY_NAME, oldPropertyName, propertyName));
 	}
 
 	/**
@@ -99,8 +99,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TracePackage.MODEL_LOCATION__FEATURE_NAME:
-				return getFeatureName();
+			case TracePackage.MODEL_LOCATION__PROPERTY_NAME:
+				return getPropertyName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -113,8 +113,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TracePackage.MODEL_LOCATION__FEATURE_NAME:
-				setFeatureName((String)newValue);
+			case TracePackage.MODEL_LOCATION__PROPERTY_NAME:
+				setPropertyName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -128,8 +128,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TracePackage.MODEL_LOCATION__FEATURE_NAME:
-				setFeatureName(FEATURE_NAME_EDEFAULT);
+			case TracePackage.MODEL_LOCATION__PROPERTY_NAME:
+				setPropertyName(PROPERTY_NAME_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -143,8 +143,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TracePackage.MODEL_LOCATION__FEATURE_NAME:
-				return FEATURE_NAME_EDEFAULT == null ? featureName != null : !FEATURE_NAME_EDEFAULT.equals(featureName);
+			case TracePackage.MODEL_LOCATION__PROPERTY_NAME:
+				return PROPERTY_NAME_EDEFAULT == null ? propertyName != null : !PROPERTY_NAME_EDEFAULT.equals(propertyName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -159,8 +159,8 @@ public abstract class ModelLocationImpl extends EObjectImpl implements ModelLoca
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (featureName: ");
-		result.append(featureName);
+		result.append(" (propertyName: ");
+		result.append(propertyName);
 		result.append(')');
 		return result.toString();
 	}

@@ -13,7 +13,7 @@ class TraceElement {
 }
 
 abstract class ModelLocation {
-   attr String[1] featureName;
+   attr String[1] propertyName;
 }
 
 class EmfModelLocation extends ModelLocation {
