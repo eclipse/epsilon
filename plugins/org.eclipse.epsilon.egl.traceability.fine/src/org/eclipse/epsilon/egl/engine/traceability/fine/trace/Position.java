@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class Position {
 
 	public int line, column;
@@ -28,5 +31,9 @@ public class Position {
 	
 	public int getColumn() {
 		return column;
+	}
+
+	public Collection<? extends Object> getAllContents() {
+		return Collections.singleton(this);
 	}
 }

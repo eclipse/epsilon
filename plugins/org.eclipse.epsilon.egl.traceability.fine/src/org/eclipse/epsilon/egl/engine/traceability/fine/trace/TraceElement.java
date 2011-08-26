@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 public class TraceElement {
 
 	public final ModelLocation source;
@@ -29,5 +33,12 @@ public class TraceElement {
 	
 	public TextLocation getDestination() {
 		return destination;
+	}
+
+	public Collection<? extends Object> getAllContents() {
+		final List<Object> allContents = new LinkedList<Object>();
+		allContents.add(this);
+		allContents.addAll(source.getAllContents());
+		return allContents;
 	}
 }

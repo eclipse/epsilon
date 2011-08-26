@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 public class ModelLocation {
 
 	public final Object modelElement;
@@ -29,5 +32,9 @@ public class ModelLocation {
 	
 	public String getFeatureName() {
 		return featureName;
+	}
+
+	public Collection<? extends Object> getAllContents() {
+		return Arrays.asList(this, modelElement);
 	}
 }

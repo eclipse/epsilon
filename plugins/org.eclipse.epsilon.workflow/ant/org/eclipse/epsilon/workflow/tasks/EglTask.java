@@ -12,6 +12,8 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,12 +21,18 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
 
-public class EglTask extends ExecutableModuleTask {
+public class EglTask extends ExportableModuleTask {
 	
 	protected File target;
 	protected Class<? extends EglTemplateFactory> templateFactoryType = EglFileGeneratingTemplateFactory.class;
@@ -49,6 +57,8 @@ public class EglTask extends ExecutableModuleTask {
 
 	@Override
 	protected void examine() throws Exception {
+		super.examine();
+		
 		if (target!=null) {
 			FileWriter fw = new FileWriter(target);
 			fw.write(String.valueOf(result));
@@ -87,4 +97,15 @@ public class EglTask extends ExecutableModuleTask {
 		return nestedElement;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Collection<? extends Class<?>> getClassesForExportedModel() {
+		return Arrays.asList(Trace.class, TraceElement.class, TextLocation.class, ModelLocation.class, Position.class, Region.class);
+	}
+	
+	@Override
+	protected Collection<? extends Object> getObjectsForExportedModel() {
+		final Trace trace = ((IEglContext)module.getContext()).getFineGrainedTrace();
+		return trace.getAllContents();
+	}
 }

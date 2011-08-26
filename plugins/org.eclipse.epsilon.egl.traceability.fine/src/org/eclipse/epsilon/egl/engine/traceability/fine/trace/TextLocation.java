@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,5 +32,12 @@ public class TextLocation {
 	
 	public Region getRegion() {
 		return region;
+	}
+	
+	public Collection<? extends Object> getAllContents() {
+		final List<Object> allContents = new LinkedList<Object>();
+		allContents.add(this);
+		allContents.addAll(region.getAllContents());
+		return allContents;
 	}
 }
