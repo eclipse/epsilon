@@ -18,7 +18,10 @@ import java.util.List;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.PositionBuilder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceCombiner;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
@@ -159,6 +162,18 @@ public class EglContext extends EolContext implements IEglContext {
 
 	@Override
 	public void appendToFineGrainedTrace(Trace trace) {
-		this.trace = new TraceCombiner().combine(this.trace, trace);
+		this.trace = new TraceCombiner().combine(this.trace, trace, getPositionInParent());
+	}
+
+	private Position getPositionInParent() {
+		final PositionBuilder builder = new PositionBuilder();
+		
+		if (executionManager.hasParent()) {
+			final OutputBuffer outputBuffer = executionManager.getParent().outputBuffer;
+			return builder.aPosition().withLine(outputBuffer.getCurrentLineNumber()).withColumn(outputBuffer.getCurrentColumnNumber()).build();
+		
+		} else {
+			return builder.aPosition().withLine(0).withColumn(0).build();			
+		}
 	}
 }

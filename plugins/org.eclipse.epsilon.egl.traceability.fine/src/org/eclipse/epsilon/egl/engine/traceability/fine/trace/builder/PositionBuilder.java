@@ -11,34 +11,28 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceFactory;
 
-public class RegionBuilder {
+public class PositionBuilder {
 
-	private final PositionBuilder positionBuilder = new PositionBuilder();
-	private Region currentRegion;
+	private Position currentPosition;
 	
-	public RegionBuilder aRegion() {
-		currentRegion = TraceFactory.eINSTANCE.createRegion();
+	public PositionBuilder aPosition() {
+		currentPosition = TraceFactory.eINSTANCE.createPosition();
 		return this;
 	}
 
-	public RegionBuilder startingAt(int line, int column) {
-		currentRegion.setStart(createPosition(line, column));
+	public PositionBuilder withLine(int line) {
+		currentPosition.setLine(line);
 		return this;
 	}
 	
-	public RegionBuilder endingAt(int line, int column) {
-		currentRegion.setEnd(createPosition(line, column));
+	public PositionBuilder withColumn(int column) {
+		currentPosition.setColumn(column);
 		return this;
 	}
 	
-	public Region build() {
-		return currentRegion;
-	}
-	
-	private Position createPosition(int line, int column) {
-		return positionBuilder.aPosition().withLine(line).withColumn(column).build();
+	public Position build() {
+		return currentPosition;
 	}
 }

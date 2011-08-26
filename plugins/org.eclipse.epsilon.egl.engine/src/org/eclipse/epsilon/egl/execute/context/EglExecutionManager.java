@@ -32,11 +32,19 @@ public class EglExecutionManager {
 	}
 
 	public ExecutableTemplateSpecification getCurrent() {
-		return specs.peek();
+		return specs.top();
+	}
+	
+	public boolean hasParent() {
+		return specs.size() > 1;
+	}
+	
+	public ExecutableTemplateSpecification getParent() {
+		return specs.second();
 	}
 
 	public ExecutableTemplateSpecification getBase() {
-		return specs.first();
+		return specs.bottom();
 	}
 	
 	
@@ -59,12 +67,25 @@ public class EglExecutionManager {
 			specs.pop();
 		}
 		
-		public ExecutableTemplateSpecification peek() {
+		public ExecutableTemplateSpecification top() {
 			return specs.isEmpty() ? null : specs.peek();
 		}
 		
-		public ExecutableTemplateSpecification first() {
+		/**
+		 * @return the executable template specification
+		 *         that is one below the top() of the stack.
+		 */
+		public ExecutableTemplateSpecification second() {
+			return specs.elementAt(specs.size()-2);
+		}
+		
+		public ExecutableTemplateSpecification bottom() {
 			return firstSpec;
+		}
+		
+
+		public int size() {
+			return specs.size();
 		}
 	}
 }
