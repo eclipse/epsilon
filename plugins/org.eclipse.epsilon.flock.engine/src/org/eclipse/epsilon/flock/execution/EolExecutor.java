@@ -13,6 +13,7 @@ package org.eclipse.epsilon.flock.execution;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
@@ -25,22 +26,22 @@ public class EolExecutor {
 	}
 	
 	public boolean executeGuard(AST guard, Variable originalVar) throws FlockRuntimeException {
-		context.enterProtectedFrame(guard, originalVar);
+		context.getFrameStack().enter(FrameType.PROTECTED, guard, originalVar);
 		
 		final Boolean guardSatisfied = (Boolean)context.getExecutorFactory().executeBlockOrExpressionAst(guard, context, false);
 		
-		context.leaveFrame(guard);
+		context.getFrameStack().leave(guard);
 		
 		return guardSatisfied.booleanValue();
 	}
 
 	public Object executeBlock(AST block, Variable... variables) throws FlockRuntimeException {
 		try {
-			context.enterProtectedFrame(block, variables);
+			context.getFrameStack().enter(FrameType.PROTECTED, block, variables);
 			
 			final Object result = context.getExecutorFactory().executeAST(block, context);
 			
-			context.leaveFrame(block);
+			context.getFrameStack().leave(block);
 			
 			return result;
 			

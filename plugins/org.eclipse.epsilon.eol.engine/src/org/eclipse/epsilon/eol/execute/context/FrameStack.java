@@ -57,10 +57,14 @@ public class FrameStack {
 	 * @param type The type of the frame
 	 * @param entryPoint The AST from which the entry is performed
 	 */
-	public Frame enter(FrameType type, AST entryPoint){
+	public Frame enter(FrameType type, AST entryPoint, Variable... variables){
 		
 		Frame frame = new Frame(type, entryPoint);
 		frames.add(0, frame);
+		
+		for (Variable variable : variables) {
+			put(variable);
+		}
 		
 		return frame;
 	}

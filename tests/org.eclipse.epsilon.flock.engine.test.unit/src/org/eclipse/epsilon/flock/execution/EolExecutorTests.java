@@ -16,6 +16,8 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +26,7 @@ public class EolExecutorTests {
 
 	private final EolContext      context         = mock(EolContext.class);
 	private final ExecutorFactory executorFactory = mock(ExecutorFactory.class);
+	private final FrameStack      frameStack      = mock(FrameStack.class);
 	private final Variable        variable        = mock(Variable.class);
 	
 	private final EolExecutor executor = new EolExecutor(context);
@@ -33,6 +36,9 @@ public class EolExecutorTests {
 	public void setup() {
 		when(context.getExecutorFactory())
 			.thenReturn(executorFactory);
+		
+		when(context.getFrameStack())
+			.thenReturn(frameStack);
 	}
 	
 	@Test
@@ -44,9 +50,9 @@ public class EolExecutorTests {
 		
 		executor.executeGuard(guard, variable);
 		
-		verify(context).enterProtectedFrame(guard, new Variable[]{variable});
+		verify(frameStack).enter(FrameType.PROTECTED, guard, new Variable[]{variable});
 		verify(executorFactory).executeBlockOrExpressionAst(guard, context, false);
-		verify(context).leaveFrame(guard);
+		verify(frameStack).leave(guard);
 	}
 	
 	@Test
@@ -58,8 +64,8 @@ public class EolExecutorTests {
 		
 		executor.executeBlock(block, variable);
 		
-		verify(context).enterProtectedFrame(block, new Variable[]{variable});
+		verify(frameStack).enter(FrameType.PROTECTED, block, new Variable[]{variable});
 		verify(executorFactory).executeAST(block, context);
-		verify(context).leaveFrame(block);
+		verify(frameStack).leave(block);
 	}
 }
