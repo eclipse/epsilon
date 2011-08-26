@@ -68,7 +68,6 @@ public class EglTemplate extends AbstractEglTemplate {
 		final EglResult result = module.execute(template, formatter);
 		
 		contents = result.generatedText;
-		System.out.println(module.getContext().getFineGrainedTrace());
 		processed = true;
 
 		return contents;

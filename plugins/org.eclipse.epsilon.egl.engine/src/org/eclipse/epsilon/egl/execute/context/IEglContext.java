@@ -56,5 +56,5 @@ public interface IEglContext extends IEolContext {
 
 	public Trace getFineGrainedTrace();
 	
-	public void setFineGrainedTrace(Trace trace);
+	public void appendToFineGrainedTrace(Trace trace);
 }

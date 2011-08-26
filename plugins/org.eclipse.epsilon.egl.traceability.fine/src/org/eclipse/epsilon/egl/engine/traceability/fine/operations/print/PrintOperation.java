@@ -34,4 +34,13 @@ public class PrintOperation extends AbstractOperation {
 		
 		new PrintOperationExecution(context.getPrinter(), arguments, traceabilityContext).execute();
 	}
+	
+	@Override
+	public boolean isOverridable() {
+		// PointExecutor will evaluate the arguments to an operation
+		// if it is overridable. Non-overridable operations are free
+		// to evaluate their own arguments.
+		
+		return false;
+	}
 }

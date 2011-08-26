@@ -22,8 +22,7 @@ public class EglFineGrainedTraceabilityAcceptanceTest {
 	protected static ModelWithEolAssertions trace;
 	
 	protected static void generateTrace(String egl, EObject root) throws Exception {
-		String s = AcceptanceTestUtil.run(egl, new InMemoryEmfModel("Ecore", EmfUtil.createResource(root), EcorePackage.eINSTANCE));
-		System.out.println(s);
+		AcceptanceTestUtil.run(egl, new InMemoryEmfModel("Ecore", EmfUtil.createResource(root), EcorePackage.eINSTANCE));
 		trace = new ModelWithEolAssertions(AcceptanceTestUtil.getFineGrainedTrace());
 		trace.setVariable("trace", "Trace.all.first");
 	}

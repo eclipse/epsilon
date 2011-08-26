@@ -31,7 +31,6 @@ public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTr
 	
 	@Test
 	public void thereShouldBeOneTraceElement() {
-		trace.store("subtemplate_trace.xmi");
 		trace.assertEquals(1, "trace.elements.size()");
 	}
 }

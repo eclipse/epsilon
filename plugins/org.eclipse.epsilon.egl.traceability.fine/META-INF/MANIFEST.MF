@@ -15,4 +15,4 @@ Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.context,
  org.eclipse.epsilon.egl.engine.traceability.fine.trace.util,
  org.eclipse.epsilon.egl.engine.traceability.fine.wrappers
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore;visibility:=reexport

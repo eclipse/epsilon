@@ -34,6 +34,18 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class EglPreprocessorModule extends EolModule {
 
 	private final Preprocessor preprocessor = new Preprocessor();
+	private EglPreprocessorContext context = new EglPreprocessorContext(super.context);
+	
+	@Override
+	public EglPreprocessorContext getContext() {
+		return context;
+	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+		this.context = new EglPreprocessorContext(super.context);
+	}
 	
 	@Override
 	protected void prepareContext(IEolContext context) {

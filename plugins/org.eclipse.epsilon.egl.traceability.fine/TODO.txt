@@ -7,3 +7,8 @@ Features:
 -- Add ability to extract trace model from ANT Task
 -- Refactor EglSourceConfigurationTab: split groups into separate files
 -- How to deal with model locations that are not EMF models?
+
+- Trace model can't be specified in EMF, because Epsilon can't depend on EMF
+-- Add POJO version of the trace model traceability plugin
+-- Move the EMF version to a dt.traceability plugin
+-- Have the launch config delegate persist the POJO as an EMF model
