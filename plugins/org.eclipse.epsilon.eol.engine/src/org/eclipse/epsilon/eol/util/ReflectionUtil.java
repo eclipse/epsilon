@@ -42,7 +42,7 @@ public class ReflectionUtil {
 	}
 	
 	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods){
-		return getMethodFor(obj, methodName, parameters, true, true);
+		return getMethodFor(obj, methodName, parameters, includeInheritedMethods, true);
 	}
 	
 	/**
@@ -122,7 +122,12 @@ public class ReflectionUtil {
 						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
 							Class parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
-							parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+							
+							if (allowContravariantConversionForParameters) {
+								parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+							} else {
+								parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
+							}
 						}
 						
 						if (parametersMatch){
