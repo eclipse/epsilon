@@ -9,7 +9,7 @@
 -- Is the trace accurate when @template operations are used?
 -- How to deal with model locations that are not EMF models?
 -- Decide what to do with old traceability code
-
+-- TextLocation should be updated when generating to a file
 
 - Refactorings / review
 -- Speak to Dimitris about passing AST to contributed operations: review the current solution.

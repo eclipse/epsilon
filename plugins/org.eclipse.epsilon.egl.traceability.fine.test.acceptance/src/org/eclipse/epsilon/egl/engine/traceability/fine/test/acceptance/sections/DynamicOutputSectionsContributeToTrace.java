@@ -21,8 +21,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTraceabilityAcceptanceTest {
-
-	// TODO: location should be updated when generating to a file
 	
 	private static final String egl = "[%=EClass.all.first.name%]";
 
