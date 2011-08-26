@@ -1,5 +1,8 @@
 - Features
 -- Add ability to extract trace model from ANT Task
+-- Fix accuracy of trace for INESS example
+--- Tests for OutputBuffer#getCurrent{Line,Column}Number() <- make it really clear what the line / col number will be when the buffer is empty, and when a line is empty
+-- Is the trace accurate when @template operations are used?
 -- How to deal with model locations that are not EMF models?
 
 - Refactorings

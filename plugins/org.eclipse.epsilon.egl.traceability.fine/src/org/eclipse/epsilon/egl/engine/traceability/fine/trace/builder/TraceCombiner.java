@@ -31,11 +31,11 @@ public class TraceCombiner {
 		for (TextLocation location : second.getLocations()) {
 			final Region region = location.getRegion();
 			
-			region.getStart().setLine(region.getStart().getLine() + current.getLine());
-			region.getStart().setColumn(region.getStart().getColumn() + current.getColumn());
+			region.getStart().setLine(current.getLine() + region.getStart().getLine());
+			region.getStart().setColumn(current.getColumn() + region.getStart().getColumn());
 
-			region.getEnd().setLine(region.getEnd().getLine() + current.getLine());
-			region.getEnd().setColumn(region.getEnd().getColumn() + current.getColumn());
+			region.getEnd().setLine(current.getLine() + region.getEnd().getLine());
+			region.getEnd().setColumn(current.getColumn() + region.getEnd().getColumn());
 		}
 		
 		combined.getLocations().addAll(second.getLocations());

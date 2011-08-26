@@ -18,9 +18,10 @@ import org.eclipse.epsilon.egl.test.acceptance.traceability.EglFineGrainedTracea
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTraceabilityAcceptanceTest {
+public class SubtemplateTraceShouldBeAdjustedWhenContributeToParent extends EglFineGrainedTraceabilityAcceptanceTest {
 
-	private static final String egl = "[%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
+	//                                 12345678901
+	private static final String egl = "EClasses: [%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
 
 	private static final EPackage model = aMetamodel().with(anEClass().named("Person")).build();
 	
@@ -35,8 +36,8 @@ public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTr
 	}
 	
 	@Test
-	public void elementShouldStartAtTheStartOfTheOutput() {
-		trace.assertEquals(1, "trace.elements.first.destination.region.start.line");		
-		trace.assertEquals(1, "trace.elements.first.destination.region.start.column");		
-	}	
+	public void elementShouldStartAfterTextEmittedByParent() {
+		trace.assertEquals(1,  "trace.elements.first.destination.region.start.line");		
+		trace.assertEquals(11, "trace.elements.first.destination.region.start.column");		
+	}
 }

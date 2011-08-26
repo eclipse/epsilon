@@ -202,14 +202,21 @@ public class OutputBuffer {
 	
 	public int getCurrentColumnNumber() {
 		final List<String> lines = getLines();
-			
-		final String lastLine = lines.isEmpty() ? "" : lines.get(lines.size()-1);
 		
-		return lastLine.length() + 1;
+		final String lastLine = lines.isEmpty() ? "" : lines.get(lines.size()-1);
+		System.out.println(lastLine);
+		
+		return lastLine.length();
 	}
 
 	private List<String> getLines() {
-		return Arrays.asList(toString().split(FileUtil.NEWLINE));
+		final List<String> lines = new LinkedList<String>(Arrays.asList(toString().split(FileUtil.NEWLINE)));
+		
+		if (toString().endsWith(FileUtil.NEWLINE)) {
+			lines.add("");
+		}
+		
+		return lines;
 	}
 
 	public void formatWith(Formatter formatter) {
