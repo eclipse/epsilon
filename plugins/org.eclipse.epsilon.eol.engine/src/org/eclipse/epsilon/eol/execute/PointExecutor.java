@@ -103,7 +103,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		// Method contributors that use the unevaluated AST
-		ObjectMethod objectMethodAst = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), featureCallAst, context);
+		ObjectMethod objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
 		if (objectMethodAst != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethodAst.getObject(), objectMethodAst.getMethod(), new Object[]{featureCallAst}, featureCallAst));
 		}
@@ -120,7 +120,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		// Method contributors that use the evaluated parameters
-		ObjectMethod objectMethod = context.getOperationContributorRegistry().getContributedMethod(source, featureCallAst.getText(), parameters.toArray(), context);
+		ObjectMethod objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
 		if (objectMethod != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethod.getObject(), objectMethod.getMethod(), parameters.toArray(), featureCallAst));
 		}

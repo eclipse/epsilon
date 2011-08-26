@@ -25,17 +25,17 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
 		// Look for a getX() method
-		ObjectMethod om = registry.getContributedMethod(object, "get" + property, new Object[]{}, context);
+		ObjectMethod om = registry.findContributedMethodForEvaluatedParameters(object, "get" + property, new Object[]{}, context);
 		if (om != null) return om;
 
 		// Look for an X() method
 		om = context.getOperationContributorRegistry().
-			getContributedMethod(object, property, new Object[]{}, context);
+			findContributedMethodForEvaluatedParameters(object, property, new Object[]{}, context);
 		if (om != null) return om;
 	
 		// Look for an isX() method
 		om = context.getOperationContributorRegistry().
-		getContributedMethod(object, "is" + property, new Object[]{}, context);
+		findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
 		if (om != null) return om;
 		
 		return objectMethod;

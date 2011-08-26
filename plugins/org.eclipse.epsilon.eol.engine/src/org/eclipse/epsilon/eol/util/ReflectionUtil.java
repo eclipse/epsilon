@@ -13,13 +13,10 @@ package org.eclipse.epsilon.eol.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class ReflectionUtil {
@@ -34,15 +31,6 @@ public class ReflectionUtil {
 			}
 		}
 		return false;
-	}
-	
-
-	public static Method getMethodFor(Object obj, String methodName, Object[] parameters){
-		return getMethodFor(obj, methodName, parameters, true);
-	}
-	
-	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods){
-		return getMethodFor(obj, methodName, parameters, includeInheritedMethods, true);
 	}
 	
 	/**
@@ -73,12 +61,12 @@ public class ReflectionUtil {
 			if (namesMatch){
 				Method method = methods[i];
 				
-				Class[] parameterTypes = method.getParameterTypes();
+				Class<?>[] parameterTypes = method.getParameterTypes();
 				boolean parametersMatch = parameterTypes.length == parameters.length;
 				if (parametersMatch){
 					//TODO: See why parameter type checking does not work with EolSequence
 					for (int j=0;j<parameterTypes.length && parametersMatch; j++){
-						Class parameterType = parameterTypes[j];
+						Class<?> parameterType = parameterTypes[j];
 						Object parameter = parameters[j];
 						
 						if (allowContravariantConversionForParameters) {
@@ -96,12 +84,12 @@ public class ReflectionUtil {
 		}
 		
 		// Find static methods
-		Class javaClass = null;
+		Class<?> javaClass = null;
 		if (obj instanceof EolNativeType) {
 			javaClass = ((EolNativeType) obj).getJavaClass();
 		}
 		if (obj instanceof Class) {
-			javaClass = (Class) obj;
+			javaClass = (Class<?>) obj;
 		}
 		
 		if (javaClass != null) {
@@ -115,12 +103,12 @@ public class ReflectionUtil {
 				if (namesMatch){
 					Method method = methods[i];
 					
-					Class[] parameterTypes = method.getParameterTypes();
+					Class<?>[] parameterTypes = method.getParameterTypes();
 					boolean parametersMatch = parameterTypes.length == parameters.length;
 					if (parametersMatch){
 						//TODO: See why parameter type checking does not work with EolSequence
 						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
-							Class parameterType = parameterTypes[j];
+							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
 							
 							if (allowContravariantConversionForParameters) {
@@ -140,43 +128,6 @@ public class ReflectionUtil {
 		
 		
 		return null;
-	}	
-	
-	/**
-	 * Used only by property getters and setters
-	 * @param obj
-	 * @param methodName
-	 * @param parametersCount
-	 * @return
-	 */
-	public static Method getMethodFor(Object obj, String methodName, int parametersCount){
-		Method[] methods = obj.getClass().getMethods();
-		for (int i=0;i<methods.length;i++){
-			boolean namesMatch = false;
-			namesMatch = methods[i].getName().equalsIgnoreCase(methodName);
-			if (namesMatch){
-				boolean parametersMatch = 
-					methods[i].getParameterTypes().length == parametersCount;
-				
-				if (parametersMatch) {
-					return methods[i];
-				}
-			}
-		}
-		return null;
-	}	
-
-	public static Object executeMethod(Object obj, String methodName, Object[] parameters, AST ast, PrettyPrinterManager prettyPrintManager) throws EolRuntimeException{
-		Method method = getMethodFor(obj, methodName, parameters);
-		if (method != null){
-			try {
-				return executeMethod(method, obj, parameters);
-			} catch (Throwable t) {
-				throw new EolInternalException(t, ast);
-			}
-		} else {
-			throw new EolIllegalOperationException(obj, methodName, ast, prettyPrintManager);
-		}
 	}
 
 	public static Object executeMethod(Object obj, Method method, Object[] parameters, AST ast) throws EolRuntimeException{
@@ -188,7 +139,7 @@ public class ReflectionUtil {
 	}
 	
 	public static Object executeMethod(Object obj, String methodName, Object[] parameters) throws Throwable {
-		Method method = getMethodFor(obj, methodName, parameters);
+		Method method = getMethodFor(obj, methodName, parameters, true, true);
 		try {
 			return method.invoke(obj, parameters);
 		} 
@@ -198,7 +149,6 @@ public class ReflectionUtil {
 	}
 	
 	public static Object executeMethod(Method method, Object obj, Object[] parameters) throws Throwable {
-		
 		try {
 			return method.invoke(obj, parameters);
 		}
@@ -217,7 +167,7 @@ public class ReflectionUtil {
 		String str = method.getName();
 		str += "(";
 		for (int i=0;i<method.getParameterTypes().length;i++){
-			Class parameterType = method.getParameterTypes()[i];
+			Class<?> parameterType = method.getParameterTypes()[i];
 			str += parameterType.getName();
 			if (i < method.getParameterTypes().length - 1) {
 				str += " ,";
@@ -253,7 +203,7 @@ public class ReflectionUtil {
 	 * @param fieldName
 	 * @return
 	 */
-	public static Field getField(Class clazz, String fieldName){
+	public static Field getField(Class<?> clazz, String fieldName){
 	
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i=0;i<fields.length;i++){
@@ -274,7 +224,7 @@ public class ReflectionUtil {
 	 * @param instance
 	 * @return
 	 */
-	public static boolean isInstance(Class clazz, Object instance){
+	public static boolean isInstance(Class<?> clazz, Object instance){
 		if (instance == null) return true;
 		else if (clazz == int.class) return Integer.class.isInstance(instance);
 		else if (clazz == float.class) return Float.class.isInstance(instance);

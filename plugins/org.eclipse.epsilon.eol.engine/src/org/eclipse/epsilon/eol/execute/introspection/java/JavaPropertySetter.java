@@ -31,7 +31,7 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
 		// Look for a getX() method
-		ObjectMethod om = registry.getContributedMethod(object, "set" + property, new Object[]{value}, context);
+		ObjectMethod om = registry.findContributedMethodForEvaluatedParameters(object, "set" + property, new Object[]{value}, context);
 		if (om != null) return om;
 		
 		return objectMethod;
