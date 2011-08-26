@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.SubtemplateShouldContributeToTraceOfParent;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.SubtemplateTraceShouldBeAdjustedWhenContributeToParent;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.SubtemplateTraceShouldBeAdjustedWhenContributedToParent;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.sections.DynamicOutputSectionsContributeToTrace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.sections.StaticSectionsDoNotContributeToTrace;
@@ -22,7 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({DynamicOutputSectionsContributeToTrace.class,
                StaticSectionsDoNotContributeToTrace.class,
-               SubtemplateShouldContributeToTraceOfParent.class, SubtemplateTraceShouldBeAdjustedWhenContributeToParent.class,
+               SubtemplateShouldContributeToTraceOfParent.class, SubtemplateTraceShouldBeAdjustedWhenContributedToParent.class,
                TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation.class })
 public class EglFineGrainedTraceabilityAcceptanceTestSuite {
 

@@ -18,7 +18,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineG
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SubtemplateTraceShouldBeAdjustedWhenContributeToParent extends EglFineGrainedTraceabilityAcceptanceTest {
+public class SubtemplateTraceShouldBeAdjustedWhenContributedToParent extends EglFineGrainedTraceabilityAcceptanceTest {
 
 	//                                 12345678901
 	private static final String egl = "EClasses: [%=TemplateFactory.prepare('[%=EClass.all.first.name%]').process()%]";
