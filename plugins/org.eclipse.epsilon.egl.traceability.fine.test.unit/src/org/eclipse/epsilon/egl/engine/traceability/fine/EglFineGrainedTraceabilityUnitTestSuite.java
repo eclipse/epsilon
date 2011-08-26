@@ -22,6 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ FeatureAccessRecorderTests.class, PrintOperationExecutionTests.class,
 		        TraceablePropertyGetterTests.class, TraceBuilderTests.class })
-public class EglTraceabilityUnitTestSuite {
+public class EglFineGrainedTraceabilityUnitTestSuite {
 
 }
