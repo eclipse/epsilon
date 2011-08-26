@@ -29,7 +29,7 @@ public class CurrentLineNumber {
 		                        "and "                             + NEWLINE +
 		                        "[%=out.getCurrentLineNumber()%].";                
 		
-		final String expected = "These are lines 3 and 5.".replaceAll(" ", " \n");
+		final String expected = "These are lines 4 and 6.".replaceAll(" ", " \n");
 		
 		AcceptanceTestUtil.test(template, expected);
 	}

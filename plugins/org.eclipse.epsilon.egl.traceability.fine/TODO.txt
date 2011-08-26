@@ -1,7 +1,7 @@
 - Features
 -- Fix accuracy of trace for INESS example
 --- How should tabs be counted by the column counter?
---- TDD the TraceCombiner
+--- TDD EglContext#appendToFineGrainedTrace and the TraceCombiner
 -- Add ability to extract trace model from ANT Task
 -- Is the trace accurate when @template operations are used?
 -- How to deal with model locations that are not EMF models?

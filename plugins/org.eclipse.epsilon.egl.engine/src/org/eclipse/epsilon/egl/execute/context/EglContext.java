@@ -169,7 +169,7 @@ public class EglContext extends EolContext implements IEglContext {
 		
 		if (executionManager.hasParent()) {
 			final OutputBuffer outputBuffer = executionManager.getParent().outputBuffer;
-			return builder.buildPosition(outputBuffer.getCurrentLineNumber() - 1, outputBuffer.getCurrentColumnNumber());
+			return builder.buildPosition(outputBuffer.getCurrentLineNumber() - 1, outputBuffer.getCurrentColumnNumber() - 1);
 		
 		} else {
 			return builder.buildPosition(0, 0);			

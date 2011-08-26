@@ -25,8 +25,6 @@ public class TraceCombiner {
 		
 		combined.elements.addAll(second.elements);
 
-		System.out.println("incrementing: " + second.locations.size());
-		System.out.println("incrementing by:  "  + current);
 		for (TextLocation location : second.locations) {
 			final Region region = location.region;
 			
