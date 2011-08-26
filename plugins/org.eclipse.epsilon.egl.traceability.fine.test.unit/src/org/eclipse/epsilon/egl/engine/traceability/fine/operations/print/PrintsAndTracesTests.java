@@ -33,14 +33,12 @@ public class PrintsAndTracesTests {
 	
 	@Test
 	public void shouldUpdateTheTrace() throws Exception {
-		final PrintsAndTraces printOperationExecution = new PrintsAndTraces(printer, context);
-
-		when(context.recordPropertyAccessesWhileExecuting(dummyPrintee)).thenReturn("dummyEvaluation");
+		when(context.recordPropertyAccessesWhileEvaluating(dummyPrintee)).thenReturn("dummyEvaluation");
 		when(printer.print("dummyEvaluation")).thenReturn(dummyRegion);
 		
-		printOperationExecution.execute(dummyPrintee);
+		new PrintsAndTraces(printer, context).forAst(dummyPrintee);
 
-		verify(context).recordPropertyAccessesWhileExecuting(dummyPrintee);
+		verify(context).recordPropertyAccessesWhileEvaluating(dummyPrintee);
 		verify(printer).print("dummyEvaluation");
 		verify(context).addDestinationRegionForLatestPropertyAccesses(dummyRegion);
 	}

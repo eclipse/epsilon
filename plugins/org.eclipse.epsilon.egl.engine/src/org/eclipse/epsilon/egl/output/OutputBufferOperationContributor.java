@@ -38,7 +38,7 @@ public class OutputBufferOperationContributor extends OperationContributor {
 	}
 
 	private void print(AST featureCallAst, Printer printer) throws EolRuntimeException {
-		new PrintsAndTraces(printer, getTraceabilityContext()).execute(featureCallAst.getFirstChild().getFirstChild());
+		new PrintsAndTraces(printer, getTraceabilityContext()).forAst(featureCallAst.getFirstChild().getFirstChild());
 	}
 	
 	private OutputBuffer getOutputBuffer() {

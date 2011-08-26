@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public interface IEglTraceabilityContext {
 
-	public Object recordPropertyAccessesWhileExecuting(AST ast) throws EolRuntimeException;
+	public Object recordPropertyAccessesWhileEvaluating(AST ast) throws EolRuntimeException;
 
 	public void recordPropertyAccess(Object modelElement, String featureName);
 	

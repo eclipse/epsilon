@@ -42,7 +42,7 @@ public class EglTraceabilityContextTests {
 	
 	@Test
 	public void shouldDelegateToContextToCapturePropertyAccessesAndToPerformEvaluation() throws Exception {	
-		context.recordPropertyAccessesWhileExecuting(argument);
+		context.recordPropertyAccessesWhileEvaluating(argument);
 		
 		final InOrder verifier = inOrder(recorder, executor);
 		
@@ -55,7 +55,7 @@ public class EglTraceabilityContextTests {
 	public void shouldReturnResultOfEvaluation() throws Exception {
 		when(executor.executeAST(argument, parent)).thenReturn("dummyResult");
 		
-		final Object result = context.recordPropertyAccessesWhileExecuting(argument);
+		final Object result = context.recordPropertyAccessesWhileEvaluating(argument);
 		
 		assertEquals("dummyResult", result);
 	}

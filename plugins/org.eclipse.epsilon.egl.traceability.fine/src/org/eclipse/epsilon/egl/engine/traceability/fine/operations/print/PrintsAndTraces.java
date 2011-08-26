@@ -30,14 +30,10 @@ public class PrintsAndTraces {
 		this.context = context;
 	}
 	
-	public void execute(AST unevaluatedPrintee) throws EolRuntimeException {
-		final Object printee = context.recordPropertyAccessesWhileExecuting(unevaluatedPrintee);
-		final Region destinationOfPrintee = print(printee);
+	public void forAst(AST unevaluatedPrintee) throws EolRuntimeException {
+		final Object printee = context.recordPropertyAccessesWhileEvaluating(unevaluatedPrintee);
+		final Region destinationOfPrintee = printer.print(printee);
 		
 		context.addDestinationRegionForLatestPropertyAccesses(destinationOfPrintee);
-	}
-
-	private Region print(Object printee) {
-		return printer.print(printee);
 	}
 }

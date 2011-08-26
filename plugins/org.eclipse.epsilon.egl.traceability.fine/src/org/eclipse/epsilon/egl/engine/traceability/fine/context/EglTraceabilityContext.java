@@ -39,7 +39,7 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 	}
 	
 	@Override
-	public Object recordPropertyAccessesWhileExecuting(AST ast) throws EolRuntimeException {
+	public Object recordPropertyAccessesWhileEvaluating(AST ast) throws EolRuntimeException {
 		recorder.startRecording();
 		final Object result = parent.getExecutorFactory().executeAST(ast, parent);
 		recorder.stopRecording();
