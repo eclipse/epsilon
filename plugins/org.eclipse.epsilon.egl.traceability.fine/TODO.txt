@@ -10,8 +10,6 @@
 -- How to deal with model locations that are not EMF models?
 -- Decide what to do with old traceability code
 -- TextLocation should be updated when generating to a file
-
-- Refactorings / review
--- Speak to Dimitris about passing AST to contributed operations: review the current solution.
---- I added this to allow traceability for explicit "out.print". See ExplicitPrintsShouldContributeToTrace
--- Speak to Dimitris about tracing property accesses with EMC: review the current solution.
+-- Find a way to turn off traceability when running outside of Eclipse
+   so that we don't have to maintain separate POJO and EMF domain models.
+   Might need to speak to Dimitris about best way to achieve this...
