@@ -123,7 +123,7 @@ public class Preprocessor {
 					
 					// Gobble whitespace before [% %] and [* *] pairs
 					if (!isWhitespacePrecedingTagged) {
-						appendToEolOnANewLine("printy('" + escape(child.getText()) + "');", child.getLine());
+						appendToEolOnANewLine("printop('" + escape(child.getText()) + "');", child.getLine());
 					}
 					
 					break;
@@ -169,7 +169,7 @@ public class Preprocessor {
 						
 						updateOffset(child.getLine(), 3, child.getFirstChild().getText().length());
 						
-						String printCall = "printy(";
+						String printCall = "printopdyn(";
 						
 						// Update trace to account for length of printCall
 						trace.incrementColumnCorrectionNumber(-printCall.length());

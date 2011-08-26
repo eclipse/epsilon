@@ -2,6 +2,9 @@
 -- Fix accuracy of trace for INESS example
 --- How should tabs be counted by the column counter?
 --- TDD EglContext#appendToFineGrainedTrace and the TraceCombiner
+-- Tracing for [% out.print("abc") %] and similar statements
+--- One solution: allow OperationContributors to evaluate the AST, and contribute the print operations
+--- Another solution: preprocess out.print statements into printy operation calls
 -- Add ability to extract trace model from ANT Task
 -- Is the trace accurate when @template operations are used?
 -- How to deal with model locations that are not EMF models?

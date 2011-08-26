@@ -24,7 +24,11 @@ public class EglOperationFactory extends OperationFactory {
 		// TODO Speak to Dimitris: this might be better as an 
 		// operation that has been contributed to OutputBuffer,
 		// but contributed operations don't receive the full AST..
-		operationCache.put("printy", new PrintOperation());
+		// TODO Also, we need to support traceability when
+		// out.println is used: I think that an operation contributor
+		// is the only way to achieve this?
+		operationCache.put("printop",    new PrintOperation());
+		operationCache.put("printopdyn", new PrintOperation());
 	}
 	
 }

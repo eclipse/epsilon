@@ -24,11 +24,27 @@ public class OutputBufferPrinterAdaptor implements Printer {
 	
 	@Override
 	public Region print(Object object, RegionBuilder builder) {
-		builder.aRegion().startingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+		buildStartOfRegion(builder);
 		adaptee.print(object);
-		builder.endingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+		buildEndOfRegion(builder);
+		
+		return builder.build();
+	}
+	
+	@Override
+	public Region printdyn(Object object, RegionBuilder builder) {
+		buildStartOfRegion(builder);
+		adaptee.printdyn(object);
+		buildEndOfRegion(builder);
 		
 		return builder.build();
 	}
 
+	private void buildStartOfRegion(RegionBuilder builder) {
+		builder.aRegion().startingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+	}
+	
+	private RegionBuilder buildEndOfRegion(RegionBuilder builder) {
+		return builder.endingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+	}
 }

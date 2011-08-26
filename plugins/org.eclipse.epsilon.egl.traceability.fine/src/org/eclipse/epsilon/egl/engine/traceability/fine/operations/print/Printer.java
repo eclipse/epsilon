@@ -21,4 +21,6 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuil
 public interface Printer {
 	
 	public Region print(Object object, RegionBuilder builder);
+
+	public Region printdyn(Object object, RegionBuilder builder);
 }

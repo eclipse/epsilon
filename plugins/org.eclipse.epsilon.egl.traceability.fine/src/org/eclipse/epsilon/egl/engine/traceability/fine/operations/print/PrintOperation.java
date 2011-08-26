@@ -16,6 +16,8 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.operations.print;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution.BasicPrintOperationExecution;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution.DynamicPrintOperationExecution;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
@@ -32,8 +34,21 @@ public class PrintOperation extends AbstractOperation {
 		final Arguments arguments = new Arguments(operationAst.getFirstChild());
 		final IEglTraceabilityContext traceabilityContext = context.getTraceabilityContext();
 		
-		new PrintOperationExecution(context.getPrinter(), arguments, traceabilityContext).execute();
+		execute(operationAst.getText(), context, arguments, traceabilityContext);
 	}
+
+	private void execute(String operationName, IEglContextWithFineGrainedTraceability context, Arguments arguments, IEglTraceabilityContext traceabilityContext) throws EolRuntimeException {
+		if (operationName.equals("printop")) {
+			new BasicPrintOperationExecution(context.getPrinter(), arguments, traceabilityContext).execute();
+		
+		} else if (operationName.equals("printopdyn")) {
+			new DynamicPrintOperationExecution(context.getPrinter(), arguments, traceabilityContext).execute();
+		
+		} else {
+			throw new IllegalStateException("PrintOperation cannot be executed for an operation named '" + operationName + "'");
+		}
+	}
+	
 	
 	@Override
 	public boolean isOverridable() {

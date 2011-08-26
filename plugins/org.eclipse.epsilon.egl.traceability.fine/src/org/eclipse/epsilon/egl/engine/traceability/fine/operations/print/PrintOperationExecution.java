@@ -22,9 +22,9 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
 
-class PrintOperationExecution {
+abstract class PrintOperationExecution {
 	
-	private final Printer printer;
+	protected final Printer printer;
 	private final Arguments arguments;
 	private final IEglTraceabilityContext context;
 	
@@ -36,8 +36,33 @@ class PrintOperationExecution {
 	
 	public void execute() throws EolRuntimeException {	
 		final Object printee = arguments.evaluateFirstArgument(context);
-		final Region destinationOfPrintee = printer.print(printee, new RegionBuilder());
+		final Region destinationOfPrintee = print(printee, new RegionBuilder());
 		
 		context.traceLatestPropertyAccesses(destinationOfPrintee);
+	}
+
+	protected abstract Region print(Object printee, RegionBuilder builder);
+	
+	
+	static class BasicPrintOperationExecution extends PrintOperationExecution {		
+		public BasicPrintOperationExecution(Printer printer, Arguments arguments, IEglTraceabilityContext context) {
+			super(printer, arguments, context);
+		}
+
+		@Override
+		protected Region print(Object printee, RegionBuilder builder) {
+			return printer.print(printee, builder);
+		}
+	}
+	
+	static class DynamicPrintOperationExecution extends PrintOperationExecution {
+		public DynamicPrintOperationExecution(Printer printer, Arguments arguments, IEglTraceabilityContext context) {
+			super(printer, arguments, context);
+		}
+
+		@Override
+		protected Region print(Object printee, RegionBuilder builder) {
+			return printer.printdyn(printee, builder);
+		}
 	}
 }

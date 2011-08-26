@@ -20,34 +20,67 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Arguments;
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution;
-import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.Printer;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution.BasicPrintOperationExecution;
+import org.eclipse.epsilon.egl.engine.traceability.fine.operations.print.PrintOperationExecution.DynamicPrintOperationExecution;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-
-
-
+@RunWith(Suite.class)
+@SuiteClasses({PrintOperationExecutionTests.BasicPrintOperationExecutionTests.class,
+               PrintOperationExecutionTests.DynamicPrintOperationExecutionTests.class})
 public class PrintOperationExecutionTests {
 	
-	private final Printer printer = mock(Printer.class);
-	private final Arguments arguments = mock(Arguments.class);
-	private final IEglTraceabilityContext context = mock(IEglTraceabilityContext.class);
+	public static class BasicPrintOperationExecutionTests extends AbstractPrintOperationExecutionTests {
+		@Test public void shouldPrintTheEvaluatedArgument() throws Exception {
+			verify(printer).print(eq("dummyEvaluation"), any(RegionBuilder.class));
+		}
+
+		@Override
+		protected PrintOperationExecution createExecution(Printer printer, Arguments arguments, IEglTraceabilityContext context) {
+			return new BasicPrintOperationExecution(printer, arguments, context);
+		}
+	}
 	
-	private final Region dummyRegion = mock(Region.class);
+	public static class DynamicPrintOperationExecutionTests extends AbstractPrintOperationExecutionTests {
+		@Test public void shouldDynamicallyPrintTheEvaluatedArgument() throws Exception {
+			verify(printer).printdyn(eq("dummyEvaluation"), any(RegionBuilder.class));
+		}
+
+		@Override
+		protected PrintOperationExecution createExecution(Printer printer, Arguments arguments, IEglTraceabilityContext context) {
+			return new DynamicPrintOperationExecution(printer, arguments, context);
+		}
+	}
 	
-	private final PrintOperationExecution printOperationExecution = new PrintOperationExecution(printer, arguments, context);
+	public static abstract class AbstractPrintOperationExecutionTests {
 	
-	@Test
-	public void shouldPrintAndUpdateTheTrace() throws Exception {
-		when(arguments.evaluateFirstArgument(context)).thenReturn("dummyEvaluation");
-		when(printer.print(eq("dummyEvaluation"), any(RegionBuilder.class))).thenReturn(dummyRegion);
+		protected final Printer printer = mock(Printer.class);
+		private final Arguments arguments = mock(Arguments.class);
+		private final IEglTraceabilityContext context = mock(IEglTraceabilityContext.class);
 		
-		printOperationExecution.execute();
+		private final Region dummyRegion = mock(Region.class);
 		
-		verify(printer).print(eq("dummyEvaluation"), any(RegionBuilder.class));
-		verify(context).traceLatestPropertyAccesses(dummyRegion);
+		private final PrintOperationExecution printOperationExecution = createExecution(printer, arguments, context);
+
+		protected abstract PrintOperationExecution createExecution(Printer printer, Arguments arguments, IEglTraceabilityContext context);
+		
+		@Before
+		public void invokeExecuteMethod() throws Exception {
+			when(arguments.evaluateFirstArgument(context)).thenReturn("dummyEvaluation");
+			when(printer.print(eq("dummyEvaluation"), any(RegionBuilder.class))).thenReturn(dummyRegion);
+			when(printer.printdyn(eq("dummyEvaluation"), any(RegionBuilder.class))).thenReturn(dummyRegion);
+			
+			printOperationExecution.execute();
+		}
+		
+		@Test
+		public void shouldUpdateTheTrace() throws Exception {
+			verify(context).traceLatestPropertyAccesses(dummyRegion);
+		}
 	}
 }
