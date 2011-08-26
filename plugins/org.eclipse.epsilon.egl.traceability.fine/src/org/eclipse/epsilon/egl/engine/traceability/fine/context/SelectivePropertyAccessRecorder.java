@@ -20,7 +20,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocat
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 
 
-public class PropertyAccessRecorder implements IPropertyAccessRecorder {
+public class SelectivePropertyAccessRecorder implements IPropertyAccessRecorder {
 	
 	private final ModelLocationBuilder builder = new ModelLocationBuilder();
 	private final Set<PropertyAccess> recentPropertyAccesses = new HashSet<PropertyAccess>();

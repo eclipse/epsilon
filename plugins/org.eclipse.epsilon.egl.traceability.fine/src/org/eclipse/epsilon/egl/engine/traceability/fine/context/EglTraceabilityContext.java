@@ -22,14 +22,14 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 public class EglTraceabilityContext implements IEglTraceabilityContext {
 
 	private final TraceBuilder traceBuilder = new TraceBuilder();
-	private final PropertyAccessRecorder recorder;
+	private final SelectivePropertyAccessRecorder recorder;
 	private final IEolContext parent;
 	
 	public EglTraceabilityContext(IEolContext parent) {
-		this(parent, new PropertyAccessRecorder());
+		this(parent, new SelectivePropertyAccessRecorder());
 	}
 	
-	public EglTraceabilityContext(IEolContext parent, PropertyAccessRecorder recorder) {
+	public EglTraceabilityContext(IEolContext parent, SelectivePropertyAccessRecorder recorder) {
 		this.parent   = parent;
 		this.recorder = recorder;
 	}

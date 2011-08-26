@@ -16,14 +16,14 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.PropertyAccessRecorder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.SelectivePropertyAccessRecorder;
 import org.junit.Test;
 
 
 
-public class PropertyAccessRecorderTests {
+public class SelectivePropertyAccessRecorderTests {
 
-	private final PropertyAccessRecorder recorder = new PropertyAccessRecorder();
+	private final SelectivePropertyAccessRecorder recorder = new SelectivePropertyAccessRecorder();
 	private final Object dummyModelElement = mock(Object.class);
 	
 	@Test
