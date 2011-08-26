@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TraceElement;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;

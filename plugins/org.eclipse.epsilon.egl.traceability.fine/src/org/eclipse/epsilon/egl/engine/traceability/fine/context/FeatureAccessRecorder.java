@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
 
 
 public class FeatureAccessRecorder {

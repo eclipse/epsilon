@@ -8,25 +8,26 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo;
+package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
-public class Region {
+public class ModelLocation {
 
-	public final Position start, end;
+	public final Object modelElement;
+	public final String featureName;
 	
-	public Region(Position start, Position end) {
-		this.start = start;
-		this.end   = end;
+	public ModelLocation(Object modelElement, String featureName) {
+		this.modelElement = modelElement;
+		this.featureName  = featureName;
 	}
-
+	
 	
 	// Getters for compatibility with JavaModel, which are used in acceptance tests
 
-	public Position getStart() {
-		return start;
+	public Object getModelElement() {
+		return modelElement;
 	}
 	
-	public Position getEnd() {
-		return end;
+	public String getFeatureName() {
+		return featureName;
 	}
 }

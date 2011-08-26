@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.ModelLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 
 public class ModelLocationBuilder {
 	

@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo;
+package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
 import java.util.LinkedList;
 import java.util.List;

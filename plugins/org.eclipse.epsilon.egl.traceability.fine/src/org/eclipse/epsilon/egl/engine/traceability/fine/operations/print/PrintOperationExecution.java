@@ -15,7 +15,7 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.operations.print;
 
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 

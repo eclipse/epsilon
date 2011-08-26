@@ -10,10 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.TextLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo.Trace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 
 public class TraceCombiner {
 

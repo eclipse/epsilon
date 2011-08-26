@@ -9,7 +9,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.context,
  org.eclipse.epsilon.egl.engine.traceability.fine.operations.print,
+ org.eclipse.epsilon.egl.engine.traceability.fine.trace,
  org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder,
- org.eclipse.epsilon.egl.engine.traceability.fine.trace.pojo,
  org.eclipse.epsilon.egl.engine.traceability.fine.wrappers
 Require-Bundle: org.eclipse.epsilon.eol.engine
