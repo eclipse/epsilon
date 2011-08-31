@@ -104,6 +104,8 @@ public class EvlConstraint extends AbstractModuleElement{
 					ListIterator li = fixes.listIterator();
 					while (li.hasNext()) {
 						EvlFix fix = (EvlFix) li.next();
+						if (!fix.appliesTo(self, context)) continue;
+
 						EvlFixInstance fixInstance = new EvlFixInstance(context);
 						fixInstance.setFix(fix);
 						fixInstance.setSelf(self);

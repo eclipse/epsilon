@@ -64,4 +64,9 @@ public class EUnitWithEVLTests extends EUnitTestCase {
 	public void exportAsModel() throws Exception {
 		runTarget(ANT_BUILD_FILE, "evl-exportAsModel");
 	}
+
+	@Test
+	public void guardedFixes() throws Exception {
+		runTarget(ANT_BUILD_FILE, "evl-guarded-fixes");
+	}
 }

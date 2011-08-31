@@ -28,7 +28,8 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 
 public class EvlFix extends AbstractModuleElement{
-	
+
+	protected EvlGuard guardBlock;
 	protected EolLabeledBlock titleBlock;
 	protected EolLabeledBlock bodyBlock;
 	
@@ -37,6 +38,7 @@ public class EvlFix extends AbstractModuleElement{
 	}
 	
 	public void parse(AST ast) {
+		guardBlock = new EvlGuard(AstUtil.getChild(ast, EvlParser.GUARD));
 		titleBlock = new EolLabeledBlock(AstUtil.getChild(ast,EvlParser.TITLE), "title");
 		bodyBlock = new EolLabeledBlock(AstUtil.getChild(ast,EvlParser.DO), "DO");
 	}
@@ -65,5 +67,9 @@ public class EvlFix extends AbstractModuleElement{
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		context.getExecutorFactory().executeBlockOrExpressionAst(bodyBlock.getAst(), context);
 		context.getFrameStack().leave(bodyBlock.getAst());
+	}
+
+	public boolean appliesTo(Object self, IEvlContext context) throws EolRuntimeException {
+		return guardBlock.evaluate(self, context);
 	}
 }

@@ -345,11 +345,13 @@
 	<target name="evl-macrodef">
 		<macrodef name="evl-eunit-test">
 			<attribute name="nodename" default="t1n"/>
+			<attribute name="evl" default="tree-constraints"/>
 			<attribute name="failOnErrors" default="true"/>
 			<attribute name="failOnWarnings" default="true"/>
 			<attribute name="exportAsModel" default="false"/>
 			<attribute name="script" default="tree-only-run-evl"/>
 			<sequential>
+				<property name="validate-tree.evl" value="evl/@{evl}.evl"/>
 				<property name="validate-tree.failOnErrors" value="@{failOnErrors}"/>
 				<property name="validate-tree.failOnWarnings" value="@{failOnWarnings}"/>
 				<property name="validate-tree.exportAsModel" value="@{exportAsModel}"/>
@@ -387,6 +389,10 @@
 
 	<target name="evl-exportAsModel" depends="evl-macrodef">
 		<evl-eunit-test script="tree-export-as-model" exportAsModel="EVL" failOnErrors="false" failOnWarnings="false"/>
+	</target>
+
+	<target name="evl-guarded-fixes" depends="evl-macrodef">
+		<evl-eunit-test script="guarded-fixes" evl="guarded-fixes" exportAsModel="EVL" failOnErrors="false" failOnWarnings="false" />
 	</target>
 
 	<!-- Inline model tests -->
@@ -444,7 +450,7 @@
 	</target>
 
 	<target name="validate-tree">
-		<epsilon.evl src="evl/tree-constraints.evl"
+		<epsilon.evl src="${validate-tree.evl}"
 			failOnErrors="${validate-tree.failOnErrors}"
 			failOnWarnings="${validate-tree.failOnWarnings}"
 			exportAsModel="${validate-tree.exportAsModel}">
