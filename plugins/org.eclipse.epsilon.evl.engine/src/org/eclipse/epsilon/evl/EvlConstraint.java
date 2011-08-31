@@ -43,7 +43,7 @@ public class EvlConstraint extends AbstractModuleElement{
 	protected boolean isCritique = false;
 	protected ArrayList fixes = new ArrayList();
 	protected EvlConstraintContext constraintContext;
-	protected EolLabeledBlock guard;
+	protected EvlGuard guard;
 	protected EolLabeledBlock body;
 	protected EolLabeledBlock message;
 	protected int level = EvlConstraint.MEDIUM;
@@ -58,7 +58,7 @@ public class EvlConstraint extends AbstractModuleElement{
 			isCritique = true;
 		}
 		this.name = ast.getText();
-		this.guard = new EolLabeledBlock(AstUtil.getChild(ast, EvlParser.GUARD),"guard");
+		this.guard = new EvlGuard(AstUtil.getChild(ast, EvlParser.GUARD));
 		this.body = new EolLabeledBlock(AstUtil.getChild(ast,EvlParser.CHECK),"check");
 		this.message = new EolLabeledBlock(AstUtil.getChild(ast, EvlParser.MESSAGE),"message");
 		Collection fixesAst = AstUtil.getChildren(ast, EvlParser.FIX);
@@ -76,32 +76,10 @@ public class EvlConstraint extends AbstractModuleElement{
 	
 	//FIXME : Currently examines only the local guard
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException{
-		
 		if (!constraintContext.getAllOfSourceKind(context).contains(object)) return false;
-		
-		if (guard.getAst() != null) {
-			context.getFrameStack().enter(FrameType.PROTECTED, guard.getAst());
-			context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));
-			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guard.getAst(), context);
-			
-			if (result instanceof Return) {
-				Object value = Return.getValue(result);
-				if (value instanceof Boolean){
-					return ((Boolean) value);
-				}
-				else {
-					throw new EolIllegalReturnException("Boolean",value,guard.getAst(),context);
-				}
-			}
-			else {
-				throw new EolNoReturnException("Boolean", guard.getAst(), context);
-			}
-		}
-		else {
-			return true;
-		}
+		return guard.evaluate(object, context);
 	}
-	
+
 	public boolean check(Object self, IEvlContext context) throws EolRuntimeException {
 		
 		// First look in the trace
