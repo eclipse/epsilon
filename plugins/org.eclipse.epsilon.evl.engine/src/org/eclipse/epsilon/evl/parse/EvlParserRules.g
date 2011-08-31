@@ -82,7 +82,7 @@ message
 	;
 
 fix 
-	:	f='fix'^ '{'! title fixBody '}'!
+	:	f='fix'^ '{'! guard? title fixBody '}'!
 	{$f.setType(FIX);}
 	;
 
