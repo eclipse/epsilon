@@ -70,6 +70,14 @@ rule <name>
 }
 \end{lstlisting}
 
+\emph{Pre} and \emph{post} blocks have a simple syntax that, as presented in Listing \ref{lst:EmlPrePostConcreteSyntax}, consists of the identifier (\emph{pre} or \emph{post}), an optional name and the set of statements to be executed enclosed in curly braces.
+
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of Pre and Post blocks, label=lst:EmlPrePostConcreteSyntax, language=EML]
+(pre|post) <name> {
+	statement+
+}
+\end{lstlisting}
+
 \section{Execution Semantics}
 
 \subsection{Rule and Block Overriding}

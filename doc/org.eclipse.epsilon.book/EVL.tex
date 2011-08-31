@@ -151,6 +151,14 @@ fix !\textbf{\{}!
 !\textbf{\}}!
 \end{lstlisting}
 
+\emph{Pre} and \emph{post} blocks have a simple syntax that, as presented in Listing \ref{lst:EvlPrePostConcreteSyntax}, consists of the identifier (\emph{pre} or \emph{post}), an optional name and the set of statements to be executed enclosed in curly braces.
+
+\begin{lstlisting}[float=tbp, caption=Concrete Syntax of Pre and Post blocks, label=lst:EvlPrePostConcreteSyntax, language=EVL]
+(pre|post) <name> {
+	statement+
+}
+\end{lstlisting}
+
 %\subsection{Concepts reused from EOL}
 
 %As EVL has been built atop EOL, it reuses the following constructs from the base-language:
@@ -367,3 +375,8 @@ Evaluating the constraints in the context of those two models reveals two proble
 \section{Summary}
 
 This section has provided a detailed discussion on the EVL model-validation language which conceptually (as opposed to technically) extends OCL. EVL provides a number of features such as support for detailed user feedback, constraint dependency management, semi-automatic transactional inconsistency resolution and (as it is based on EOL) access to multiple models of diverse metamodels and technologies.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "EpsilonBook"
+%%% End:
