@@ -1,4 +1,4 @@
-context NamedElement {
+context OO!NamedElement {
 	
 	-- Every NamedElement must define a name
 	constraint HasName {
@@ -11,7 +11,7 @@ context NamedElement {
 	
 } 
 
-context Feature {
+context OO!Feature {
 	
 	-- The name of a feature (attribute,referecne,parameter)
 	-- should start with a lower case letter
@@ -25,7 +25,7 @@ context Feature {
 
 }
 
-context Class {
+context OO!Class {
 	
 	-- The name of a class should start with
 	-- an upper case letter
