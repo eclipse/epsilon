@@ -9,7 +9,8 @@
     editorPluginClass="org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.presentation.TraceEditorPlugin"
     testSuiteClass="org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.tests.TraceAllTests"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    editPluginID="org.eclipse.epsilon.egl.dt.traceability.fine.emf.edit" editorPluginID="org.eclipse.epsilon.egl.dt.traceability.fine.emf.editor">
+    editPluginID="org.eclipse.epsilon.egl.dt.traceability.fine.emf.edit" editorPluginID="org.eclipse.epsilon.egl.dt.traceability.fine.emf.editor"
+    runtimeVersion="2.5">
   <foreignModel>trace.ecore</foreignModel>
   <genPackages prefix="Trace" basePackage="org.eclipse.epsilon.egl.dt.traceability.fine.emf"
       disposableProviderFactory="true" ecorePackage="trace.ecore#/">
@@ -22,8 +23,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference trace.ecore#//TraceElement/destination"/>
     </genClasses>
     <genClasses ecoreClass="trace.ecore#//ModelLocation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference trace.ecore#//ModelLocation/modelElement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute trace.ecore#//ModelLocation/featureName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute trace.ecore#//ModelLocation/propertyName"/>
+    </genClasses>
+    <genClasses ecoreClass="trace.ecore#//EmfModelLocation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//EmfModelLocation/modelElement"/>
     </genClasses>
     <genClasses ecoreClass="trace.ecore#//TextLocation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute trace.ecore#//TextLocation/resources"/>
