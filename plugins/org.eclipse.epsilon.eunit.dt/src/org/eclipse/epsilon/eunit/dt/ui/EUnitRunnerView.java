@@ -619,6 +619,10 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 					}
 					updateTestCaseCounts();
 				}
+				
+				if (nErrors + nFailures > 0) {
+					treeViewerTests.expandAll();
+				}
 			}
 		});
 	}
