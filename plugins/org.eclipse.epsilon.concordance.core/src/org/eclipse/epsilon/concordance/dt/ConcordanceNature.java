@@ -24,6 +24,6 @@ public class ConcordanceNature extends BuilderConfiguringNature {
 	}
 	
 	public static boolean hasConcordanceNature(IProject project) throws CoreException {
-		return project.getNature(ConcordanceNature.ID) != null;
+		return project.isOpen() && project.hasNature(ConcordanceNature.ID);
 	}
 }
