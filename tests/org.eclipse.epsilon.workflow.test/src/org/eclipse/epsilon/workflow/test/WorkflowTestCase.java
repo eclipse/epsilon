@@ -38,6 +38,7 @@ public abstract class WorkflowTestCase {
 	 */
 	public void runTarget(File buildFile, String targetName) throws BuildException, IOException {
 		Project project = new Project();
+		project.init();
 		project.setProperty("ant.file", buildFile.getName());
 		addTaskDefinitionsTo(project);
 		project.addTaskDefinition("epsilon.eol", EolTask.class);

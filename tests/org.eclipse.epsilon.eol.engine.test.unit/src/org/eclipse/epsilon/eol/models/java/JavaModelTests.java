@@ -14,6 +14,7 @@
 package org.eclipse.epsilon.eol.models.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,9 +45,14 @@ public class JavaModelTests {
 	@Test
 	public void getPropertiesOf() throws EolModelElementTypeNotFoundException {
 		final IReflectiveModel javaModel = new JavaModel(Arrays.asList((Object)new TestSubject()));
-		
-		assertEquals(Arrays.asList("foo", "bar", "baz"),
-		            javaModel.getPropertiesOf(TestSubject.class.getCanonicalName()));
+
+		// We need to report the right properties, but the exact order does not matter 
+		final String[] expectedProperties = { "bar", "baz", "foo" };
+		final Collection<String> obtainedProperties = javaModel.getPropertiesOf(TestSubject.class.getCanonicalName());
+		assertEquals(expectedProperties.length, obtainedProperties.size());
+		for (String expectedProperty : expectedProperties) {
+			assertTrue(obtainedProperties.contains(expectedProperty));
+		}
 	}
 	
 	public static class TestSubject {
