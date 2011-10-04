@@ -9,6 +9,17 @@ operation ECore!EClass createFigure() {
 	else if (shapeName = 'ellipse') {
 		shape := new GmfGraph!Ellipse;
 	}
+	else if (shapeName = 'polygon') {
+		shape := new GmfGraph!ScalablePolygon;
+		var polygonX := self.getFormatOption('polygon.x').trim().split('\\s+');
+		var polygonY := self.getFormatOption('polygon.y').trim().split('\\s+');
+		for (i in 0.to(polygonX.size() - 1)) {
+			var point := new GmfGraph!Point;
+			point.x := polygonX.get(i).asInteger();
+			point.y := polygonY.get(i).asInteger();
+	 		shape.template.add(point);
+		}
+	}
 	else if (shapeName.isUndefined() or shapeName='rounded') {
 		shape := new GmfGraph!RoundedRectangle;
 		shape.cornerHeight := 8;
