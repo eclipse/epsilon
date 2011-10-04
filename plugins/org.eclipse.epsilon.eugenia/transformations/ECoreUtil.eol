@@ -200,13 +200,12 @@ operation ECore!EClass getLabelName() : String {
 }
 
 @cached
-operation ECore!EClass hasInternalLabel() : Boolean {
+operation ECore!EClass getLabelPlacement() : String {
 	var labelPosition := self.getAnnotationValue('gmf.node', 'label.placement');
-	if (labelPosition.isUndefined() or labelPosition = 'internal') {
-		return true;
-	}
-	else {
-		return false;
+	if (labelPosition.isUndefined()) {
+		return 'internal';
+	} else {
+		return labelPosition;
 	}
 }
 

@@ -107,53 +107,52 @@ for (class in getNodes()) {
 		node.facets.add(defaultSizeFacet);
 		defaultSizeFacet.defaultSize := class.getNodeSize();
 	}
-	
-	-- Create GmfGraph diagram label
-	var diagramLabel := new GmfGraph!DiagramLabel;
-	diagramLabel.name := class.getLabelName();
-	diagramLabel.elementIcon := class.labelHasIcon(true);
-	canvas.labels.add(diagramLabel);
-	
-	if (not class.hasInternalLabel()) {
-		-- Create GmfGraph label figure
-		var labelFigureDescriptor := createFigureDescriptor(class.name + 'LabelFigure');
-		labelFigureDescriptor.actualFigure := label;
-		diagramLabel.figure := labelFigureDescriptor;
-	}
-	else {
-	
-		figure.children.add(label);
-		
-		-- Create GmfGraph child access
-		var childAccess : new GmfGraph!ChildAccess;
-		childAccess.figure := label;
-		childAccess.accessor := 'getFigure' + class.getLabelName() + 'Figure';
-		figureDescriptor.accessors.add(childAccess);
-		
-		diagramLabel.accessor := childAccess;
-		diagramLabel.figure := figureDescriptor;
-	}
-	
-	class.~diagramLabel := diagramLabel;
-	
+
 	-- Create GmfMap node mapping
 	var nodeMapping : new GmfMap!NodeMapping;
 	--topNodeReference.ownedChild := nodeMapping;
 	nodeMapping.diagramNode := node;
 	nodeMapping.domainMetaElement := class;
 	nodeMapping.tool := creationTool;
-	
 	class.~nodeMapping := nodeMapping;
 	
-	-- Create GmfMap feature label mapping
-	var featureLabelMapping : new GmfMap!FeatureLabelMapping;
-	nodeMapping.labelMappings.add(featureLabelMapping);
-	featureLabelMapping.diagramLabel := diagramLabel;
-	featureLabelMapping.editPattern := class.getLabelPattern();
-	featureLabelMapping.editorPattern := class.getLabelPattern();
-	featureLabelMapping.viewPattern := class.getLabelPattern();
-	featureLabelMapping.features.addAll(class.getLabelAttributes());
-	featureLabelMapping.readOnly := class.getLabelReadOnly();
+	-- Create GmfGraph diagram label
+	var labelPlacement := class.getLabelPlacement();
+    if (labelPlacement <> 'none') {
+		var diagramLabel := new GmfGraph!DiagramLabel;
+		diagramLabel.name := class.getLabelName();
+		diagramLabel.elementIcon := class.labelHasIcon(true);
+		canvas.labels.add(diagramLabel);
+
+		if (labelPlacement = 'internal') {
+			figure.children.add(label);
+
+			-- Create GmfGraph child access
+			var childAccess : new GmfGraph!ChildAccess;
+			childAccess.figure := label;
+			childAccess.accessor := 'getFigure' + class.getLabelName() + 'Figure';
+			figureDescriptor.accessors.add(childAccess);
+
+			diagramLabel.accessor := childAccess;
+			diagramLabel.figure := figureDescriptor;
+		} else {
+			-- Create GmfGraph label figure
+			var labelFigureDescriptor := createFigureDescriptor(class.name + 'LabelFigure');
+			labelFigureDescriptor.actualFigure := label;
+			diagramLabel.figure := labelFigureDescriptor;
+		}
+		class.~diagramLabel := diagramLabel;
+
+		-- Create GmfMap feature label mapping
+		var featureLabelMapping : new GmfMap!FeatureLabelMapping;
+		nodeMapping.labelMappings.add(featureLabelMapping);
+		featureLabelMapping.diagramLabel := diagramLabel;
+		featureLabelMapping.editPattern := class.getLabelPattern();
+		featureLabelMapping.editorPattern := class.getLabelPattern();
+		featureLabelMapping.viewPattern := class.getLabelPattern();
+		featureLabelMapping.features.addAll(class.getLabelAttributes());
+		featureLabelMapping.readOnly := class.getLabelReadOnly();
+	}
 	
 	-- Process EAttributes (gmf.labels)
 	for (attribute in getLabelledAttributesFor(class)) {
