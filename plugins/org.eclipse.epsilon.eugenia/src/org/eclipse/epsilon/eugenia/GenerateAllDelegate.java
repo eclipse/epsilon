@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -202,7 +201,6 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelectedFile(selectedFile);
-		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
 		fixGmfGenDelegate.runImpl(action);
 	}
 

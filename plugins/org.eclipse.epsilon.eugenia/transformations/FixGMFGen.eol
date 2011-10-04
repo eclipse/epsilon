@@ -84,6 +84,13 @@ for (link in getLinks()) {
 	setIncoming(link.name, link.getLinkIncoming());
 }
 
+-- Add runtime.lite dependencies if using a GMF SVGFigure
+if (GmfGraph!SVGFigure.all.size > 0) {
+	var genPlugin = GmfGen!GenPlugin.all.first();
+	genPlugin.requiredPlugins.add('org.eclipse.gmf.runtime.lite');
+	genPlugin.requiredPlugins.add('org.eclipse.gmf.runtime.lite.svg');
+}
+
 operation setIncoming(name : String, value : Boolean) {
 	var genEditPart := GmfGen!GenLink.all.selectOne(l|l.editPartClassName = name + 'EditPart');
 		

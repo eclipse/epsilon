@@ -20,6 +20,10 @@ operation ECore!EClass createFigure() {
 	 		shape.template.add(point);
 		}
 	}
+	else if (shapeName = 'svg') {
+	    shape := new GmfGraph!SVGFigure;
+	    shape.documentURI := self.getFormatOption('svg.uri');
+	}
 	else if (shapeName.isUndefined() or shapeName='rounded') {
 		shape := new GmfGraph!RoundedRectangle;
 		shape.cornerHeight := 8;
