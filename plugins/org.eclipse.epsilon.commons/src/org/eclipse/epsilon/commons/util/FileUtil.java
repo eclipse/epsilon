@@ -48,9 +48,10 @@ public class FileUtil {
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		StringBuffer buffer = new StringBuffer();
 		String line = bufferedReader.readLine();
+		String lineSeparator = System.getProperty("line.separator");
 		while (line != null) {
 			buffer.append(line);
-			buffer.append("\r\n");
+			buffer.append(lineSeparator);
 			line = bufferedReader.readLine();
 		}
 		return buffer.toString();
