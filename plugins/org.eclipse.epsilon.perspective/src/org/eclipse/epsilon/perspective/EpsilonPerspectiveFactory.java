@@ -48,7 +48,7 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         bottom.addView(IPageLayout.ID_PROP_SHEET); 
         bottom.addView("org.eclipse.pde.runtime.LogView");
         bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
-        bottom.addView("org.eclipse.epsilon.dt.profiling.ProfilerView");
+        bottom.addView("org.eclipse.epsilon.profiling.dt.ProfilerView");
         bottom.addView("org.eclipse.epsilon.common.dt.tools.ToolsView");
         
         //bottom.addView(IPageLayout.ID_PROP_SHEET); 
