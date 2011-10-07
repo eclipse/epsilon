@@ -11,8 +11,10 @@
 package org.eclipse.epsilon.egl.dt.traceability.fine.emf;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.EmfModelLocation;
@@ -26,10 +28,14 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TraceFactory;
 
 public class Pojo2Emf {
 
+	private final Map<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation, TextLocation> textLocationEquivalences 
+		= new HashMap<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation, TextLocation>();
+	
+	
 	public Trace transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace original) {
 		final Trace transformed = TraceFactory.eINSTANCE.createTrace();
-		transformed.getElements().addAll(transform(original.elements));
 		transformed.getLocations().addAll(transform(original.locations));
+		transformed.getElements().addAll(transform(original.elements));
 		return transformed;
 	}
 	
@@ -61,9 +67,13 @@ public class Pojo2Emf {
 	}
 
 	private TextLocation transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation original) {
-		final TextLocation transformed = TraceFactory.eINSTANCE.createTextLocation();
-		transformed.setRegion(transform(original.region));
-		return transformed;
+		if (!textLocationEquivalences.containsKey(original)) {
+			final TextLocation transformed = TraceFactory.eINSTANCE.createTextLocation();
+			transformed.setRegion(transform(original.region));
+			textLocationEquivalences.put(original, transformed);			
+		}
+		
+		return textLocationEquivalences.get(original);
 	}
 
 	private Region transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region original) {
