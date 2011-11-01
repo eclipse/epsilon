@@ -29,9 +29,9 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
@@ -117,7 +117,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			if (mustReload) {
 				model.load();
 			}
-			ModelReference reference = new ModelReference(model);
+			ModelReference reference = createReference(model);
 			if (modelNestedElement.getAs() != null) {
 				reference.setName(modelNestedElement.getAs());
 			}
@@ -125,6 +125,15 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 				reference.getAliases().addAll(StringUtil.split(modelNestedElement.getAlias(), ","));
 			}
 			repository.addModel(reference);
+		}
+	}
+
+	private ModelReference createReference(IModel model) {
+		if (model instanceof IReflectiveModel) {
+			return new ReflectiveModelReference((IReflectiveModel)model);
+			
+		} else {
+			return new ModelReference(model);
 		}
 	}
 	
@@ -296,7 +305,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			Object value = usedVariable.getValue();
 			if (value instanceof IModel) {
 				IModel model = (IModel) value;
-				ModelReference reference = new ModelReference(model);
+				ModelReference reference = createReference(model);
 				if (as != null) {
 					reference.setName(as);
 				}

@@ -64,4 +64,9 @@
         classname="org.eclipse.epsilon.workflow.tasks.EglTask"
       />
       
+	  <taskdef
+	 	name="epsilon.flock"
+	    classname="org.eclipse.epsilon.workflow.tasks.FlockTask"
+	  />
+      
 </antlib>

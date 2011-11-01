@@ -19,6 +19,9 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
 public interface IFlockModule extends IEolExecutableModule {
-		
+	
+	@Override
+	public IFlockContext getContext();
+	
 	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException, FlockUnsupportedModelException;
 }

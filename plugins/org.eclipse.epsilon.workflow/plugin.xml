@@ -36,6 +36,10 @@
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.egl"/>
       <antTask
+            class="org.eclipse.epsilon.workflow.tasks.FlockTask"
+            library="lib/org.eclipse.epsilon.workflow.jar"
+            name="epsilon.flock"/>
+      <antTask
             class="org.eclipse.epsilon.workflow.tasks.StoreModelTask"
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.storeModel"/>
