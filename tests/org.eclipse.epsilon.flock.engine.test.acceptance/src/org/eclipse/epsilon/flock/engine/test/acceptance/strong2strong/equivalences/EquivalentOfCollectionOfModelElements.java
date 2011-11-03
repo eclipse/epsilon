@@ -49,6 +49,7 @@ public class EquivalentOfCollectionOfModelElements extends Strong2StrongMigratio
 	                                          .build();
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                    .named("families")
 	                                                    .with(personClass)
 	                                                 	.with(anEClass().named("Family")
 	                                                 		.with(anEReference()

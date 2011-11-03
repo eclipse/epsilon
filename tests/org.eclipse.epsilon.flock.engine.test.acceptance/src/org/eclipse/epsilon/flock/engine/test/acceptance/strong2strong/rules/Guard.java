@@ -40,6 +40,7 @@ public class Guard extends Strong2StrongMigrationAcceptanceTest {
 	                                            "}";
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                    .named("families")
 	                                                 	.with(anEClass().named("Person")
 	                                                 		.with(anEAttribute()
 	                                                 			.named("name")

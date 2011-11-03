@@ -59,7 +59,7 @@ public class DoNotCopyListWhenUpperboundDecreases extends Strong2StrongMigration
 	                                          	 // with an allParents reference defined below, in setup()
 	                                          .build();
 
-	private static final EPackage evolvedMetamodel = aMetamodel().with(personClass).build();
+	private static final EPackage evolvedMetamodel = aMetamodel().named("families").with(personClass).build();
 	
 	@BeforeClass
 	public static void setup() throws Exception {

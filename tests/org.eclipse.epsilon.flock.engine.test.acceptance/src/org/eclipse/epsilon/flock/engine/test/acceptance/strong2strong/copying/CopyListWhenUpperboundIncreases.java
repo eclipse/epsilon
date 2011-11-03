@@ -52,7 +52,7 @@ public class CopyListWhenUpperboundIncreases extends Strong2StrongMigrationAccep
 	                                          	 // with a parents reference defined below, in setup()
 	                                          .build();
 
-	private static final EPackage evolvedMetamodel = aMetamodel().with(personClass).build();
+	private static final EPackage evolvedMetamodel = aMetamodel().named("families").with(personClass).build();
 	
 	@BeforeClass
 	public static void setup() throws Exception {

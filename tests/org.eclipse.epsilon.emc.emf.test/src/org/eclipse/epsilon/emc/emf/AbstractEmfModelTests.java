@@ -39,8 +39,8 @@ public class AbstractEmfModelTests {
 	
 	@Test
 	public void getTypeNameOf() {
-		assertEquals("EPackage", emfModel.getTypeNameOf(pkg));
-		assertEquals("EClass",   emfModel.getTypeNameOf(cls));
+		assertEquals("ecore::EPackage", emfModel.getTypeNameOf(pkg));
+		assertEquals("ecore::EClass",   emfModel.getTypeNameOf(cls));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

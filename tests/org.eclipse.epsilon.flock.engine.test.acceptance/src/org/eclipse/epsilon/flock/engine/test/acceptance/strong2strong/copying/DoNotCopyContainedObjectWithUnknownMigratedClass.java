@@ -37,6 +37,7 @@ public class DoNotCopyContainedObjectWithUnknownMigratedClass extends Strong2Str
 	private static final EClass memberClass = anEClass().named("Member").build();
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                 	.named("families")
 	                                                 	.with(anEClass().named("Family")
 	                                                 		.with(anEReference()
 	                                                 			.named("members")

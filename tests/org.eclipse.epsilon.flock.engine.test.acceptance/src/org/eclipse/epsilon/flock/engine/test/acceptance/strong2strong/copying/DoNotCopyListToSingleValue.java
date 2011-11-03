@@ -46,6 +46,7 @@ public class DoNotCopyListToSingleValue extends Strong2StrongMigrationAcceptance
 	                                          .build();
 
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                 	.named("families")
 	                                                 	.with(personClass)
 	                                                 	.with(anEClass().named("Family")
 	                                                 		.with(anEReference()

@@ -65,6 +65,7 @@ public class DoNotCopyListWhenLowerboundIncreases extends Strong2StrongMigration
 	                                          .build();
 
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                 	.named("families")
 	                                                 	.with(personClass)
 	                                                 	.with(anEClass().named("Band")
 	                                                 	      	.with(anEReference()

@@ -31,7 +31,7 @@ public class MetamodelBuilder {
 	}
 
 	private final List<EClassifier> eClassifiers = new LinkedList<EClassifier>();
-	private String nsURI;
+	private String nsURI, name;
 	
 	public MetamodelBuilder withNsURI(String nsURI) {
 		this.nsURI = nsURI;
@@ -47,9 +47,15 @@ public class MetamodelBuilder {
 		return this;
 	}
 	
+	public MetamodelBuilder named(String name) {
+		this.name = name;
+		return this;
+	}
+	
 	public EPackage build() {
 		final EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		
+		ePackage.setName(name);
 		ePackage.setNsURI(nsURI);
 		
 		for (EClassifier eClassifier : eClassifiers) {

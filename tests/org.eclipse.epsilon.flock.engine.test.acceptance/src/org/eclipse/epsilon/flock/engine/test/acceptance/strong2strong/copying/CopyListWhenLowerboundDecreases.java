@@ -56,6 +56,7 @@ public class CopyListWhenLowerboundDecreases extends Strong2StrongMigrationAccep
 	                                          .build();
 
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                 	.named("families")
 	                                                 	.with(personClass)
 	                                                 	.with(anEClass().named("Band")
 	                                                 	      	.with(anEReference()

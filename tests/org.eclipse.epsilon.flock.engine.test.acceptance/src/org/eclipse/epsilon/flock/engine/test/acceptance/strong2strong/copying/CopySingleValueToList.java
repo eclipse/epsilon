@@ -48,6 +48,7 @@ public class CopySingleValueToList extends Strong2StrongMigrationAcceptanceTest 
 	                                          .build();
 
 	private static final EPackage evolvedMetamodel = aMetamodel()
+	                                                 	.named("families")
 	                                                 	.with(familyClass)
 	                                                 	.with(anEClass().named("Bike")
 	                                                 		.with(anEReference()
