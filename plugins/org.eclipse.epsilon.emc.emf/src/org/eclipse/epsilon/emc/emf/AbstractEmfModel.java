@@ -444,6 +444,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public String getTypeNameOf(Object instance) {
 		if (!isModelElement(instance))
 			throw new IllegalArgumentException("Not a valid EMF model element: " + instance + " (" + instance.getClass().getCanonicalName() + ") ");
+	
+		return ((EClass)getTypeOf(instance)).getName();
+	}
+	
+	public String getFullyQualifiedTypeNameOf(Object instance) {
+		if (!isModelElement(instance))
+			throw new IllegalArgumentException("Not a valid EMF model element: " + instance + " (" + instance.getClass().getCanonicalName() + ") ");
 		
 		return getFullyQualifiedName(((EClass)getTypeOf(instance)));
 	}

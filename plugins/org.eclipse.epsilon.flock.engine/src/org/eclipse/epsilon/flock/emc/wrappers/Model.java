@@ -100,7 +100,7 @@ public class Model {
 	}
 
 	String getTypeNameOf(Object underlyingModelElement) {
-		return underlyingModel.getTypeNameOf(underlyingModelElement);
+		return underlyingModel.getFullyQualifiedTypeNameOf(underlyingModelElement);
 	}
 	
 	boolean isKindOf(Object underlyingModelElement, String originalType) {

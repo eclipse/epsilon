@@ -111,6 +111,10 @@ public class ModelReference implements IAdaptableModel, IWrapper {
 	public String getTypeNameOf(Object instance) {
 		return target.getTypeNameOf(instance);
 	}
+	
+	public String getFullyQualifiedTypeNameOf(Object instance) {
+		return target.getFullyQualifiedTypeNameOf(instance);
+	}
 
 	public boolean hasType(String type) {
 		return target.hasType(type);

@@ -63,6 +63,18 @@ public interface IModel {
 	 */
 	public String getTypeNameOf(Object instance);
 	
+	/**
+	 * Returns a string representing the fully-qualified type of the instance object. The value
+	 * returned by this function can be passed to createInstance to instantiate
+	 * another object of the same type as instance.
+	 * 
+	 * @param instance The model object whose type is to be determined.
+	 * @return the name of the type of the model object, instance.
+	 * 
+	 * @throws IllegalArgumentException when isModelElement(instance) returns false
+	 */
+	public String getFullyQualifiedTypeNameOf(Object instance);
+	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	
 	public Object createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;

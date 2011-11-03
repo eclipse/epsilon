@@ -110,6 +110,11 @@ public abstract class Model implements IModel{
 		}		
 	}
 	
+	@Override
+	public String getFullyQualifiedTypeNameOf(Object instance) {
+		return getTypeNameOf(instance);
+	}
+	
 	/*
 	EolEngine eolEngine = new EolEngine();
 	public Object execute(EolString eol) throws Exception {
