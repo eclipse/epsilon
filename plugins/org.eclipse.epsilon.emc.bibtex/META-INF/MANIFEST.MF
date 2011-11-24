@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Bibtex Model Support (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.emc.bibtex
+Bundle-Version: 0.9.1.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.test.dependencies
+Export-Package: org.eclipse.epsilon.emc.bibtex,
+ org.eclipse.epsilon.emc.bibtex.domain,
+ org.eclipse.epsilon.emc.bibtex.parser

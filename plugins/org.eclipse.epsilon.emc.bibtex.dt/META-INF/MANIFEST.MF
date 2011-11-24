@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Bibtex Model Support Development Tools (Incubation)
+Bundle-SymbolicName: org.eclipse.epsilon.emc.bibtex.dt;singleton:=true
+Bundle-Version: 0.9.1.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.epsilon.emc.bibtex,
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.commons
