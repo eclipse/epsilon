@@ -19,9 +19,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({BibtexModelTests.class, BibtextUnparserTests.class})
-public class BibtexModelSuite {
+public class BibtexModelTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(BibtexModelSuite.class);
+		return new JUnit4TestAdapter(BibtexModelTestSuite.class);
 	}
 }

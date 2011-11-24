@@ -24,5 +24,6 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.evl.engine.test.acceptance,
  org.eclipse.epsilon.ecl.engine.test.acceptance,
  org.eclipse.epsilon.eml.engine.test.acceptance,
- org.eclipse.epsilon.ewl.engine.test.acceptance
+ org.eclipse.epsilon.ewl.engine.test.acceptance,
+ org.eclipse.epsilon.emc.bibtex.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
