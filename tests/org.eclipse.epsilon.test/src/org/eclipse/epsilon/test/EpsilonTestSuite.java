@@ -22,6 +22,8 @@ import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestSuite;
 import org.eclipse.epsilon.egl.dt.test.EglDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceabilityEditorTestSuite;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTestSuite;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.emc.bibtex.BibtexModelTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
@@ -55,6 +57,8 @@ import org.junit.runners.Suite.SuiteClasses;
                EglTestSuite.class,
                EglDevelopmentToolsTestSuite.class,
                EglTraceabilityEditorTestSuite.class,
+               EglFineGrainedTraceabilityAcceptanceTestSuite.class,
+               EglFineGrainedTraceabilityUnitTestSuite.class,
                HutnTestSuite.class,
                HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
                HutnEmcDriverTestSuite.class,

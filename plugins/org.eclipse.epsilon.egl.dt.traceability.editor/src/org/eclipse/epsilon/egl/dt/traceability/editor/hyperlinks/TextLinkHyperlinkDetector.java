@@ -28,13 +28,10 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
 public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 
-	private TextLinkEditor editor;
-	
 	@Override
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {	
 		if (textViewer.getDocument() == null)
@@ -43,16 +40,17 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 		if (!(getActiveEditor() instanceof TextLinkEditor))
 			return null;
 		
-		editor = (TextLinkEditor)getActiveEditor();
-		
-		final Collection<TraceLink> matchingTraceLinks = matchingTraceLinksFor(new DocumentLocation(region.getOffset()), editor.getTextlinkModel());
+		final Collection<TraceLink> matchingTraceLinks = matchingTraceLinksFor(new DocumentLocation(region.getOffset()), getActiveEditor().getTextlinkModel());
 		final Collection<HyperlinkSpec> hyperlinkSpecs = createHyperlinkSpecsFor(matchingTraceLinks);
 		
 		return createHyperlinks(hyperlinkSpecs);
 	}
 
-	private static IEditorPart getActiveEditor() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	private static TextLinkEditor getActiveEditor() {
+		if (PlatformUI.isWorkbenchRunning())
+			return (TextLinkEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		else
+			return null;
 	}
 
 	Collection<TraceLink> matchingTraceLinksFor(DocumentLocation hoverLocation, TextLinkModel model) {
@@ -61,12 +59,19 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 		for (TraceLink candidate : model.getTraceLinks()) {
 			final Region region = candidate.getDestination().getRegion();
 		
-			if (editor.isActiveDestination(candidate.getDestination()) && hoverLocation.isIn(region)) {				
+			if (isActive(candidate) && hoverLocation.isIn(region)) {				
 				matching.add(candidate);
 			}
 		}
 		
 		return matching;
+	}
+
+	boolean isActive(TraceLink candidate) {
+		if (getActiveEditor() == null)
+			return false;
+		else
+			return getActiveEditor().isActiveDestination(candidate.getDestination());
 	}
 	
 	Set<HyperlinkSpec> createHyperlinkSpecsFor(Collection<TraceLink> traceLinks) {
@@ -122,7 +127,9 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 		
 		@Override
 		public int hashCode() {
-			return region.getOffset() + region.getLength() + getModelElement().hashCode();
+			final int modelElementHash = getModelElement() == null ? 0 : getModelElement().hashCode();
+			
+			return region.getOffset() + region.getLength() + modelElementHash;
 		}
 		
 		private EObject getModelElement() {
@@ -175,7 +182,7 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 
 		@Override
 		public void open() {
-			editor.selectAndReveal(spec.source);
+			getActiveEditor().selectAndReveal(spec.source);
 		}
 	}
 }

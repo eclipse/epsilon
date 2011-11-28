@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.Collection;
@@ -40,10 +41,13 @@ public class TextLinkHyperlinkDetectorTests {
 		private final DocumentLocation hoverLocation = mock(DocumentLocation.class);
 		private final TextLinkModel model = mock(TextLinkModel.class);
 		private final TraceLink traceLink = createTraceLink();
+		private final TextLinkHyperlinkDetector hyperlinkDetector = spy(new TextLinkHyperlinkDetector());
+
 	
 		@Before
 		public void setup() {
-			when(model.getTraceLinks()).thenReturn(Collections.singleton(traceLink));		
+			when(model.getTraceLinks()).thenReturn(Collections.singleton(traceLink));
+			when(hyperlinkDetector.isActive(traceLink)).thenReturn(true);
 		}
 		
 		@Test
@@ -69,7 +73,7 @@ public class TextLinkHyperlinkDetectorTests {
 		}
 		
 		private Collection<TraceLink> filter() throws EolModelElementTypeNotFoundException {
-			return new TextLinkHyperlinkDetector().matchingTraceLinksFor(hoverLocation, model);
+			return hyperlinkDetector.matchingTraceLinksFor(hoverLocation, model);
 		}
 	}
 
