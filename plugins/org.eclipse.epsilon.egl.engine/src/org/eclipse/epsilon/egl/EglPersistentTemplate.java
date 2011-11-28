@@ -38,7 +38,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 		try {
 			final String encodedPath = UriUtil.encode(path, false);
 			final URI resolved = UriUtil.resolve(encodedPath, outputRoot);
-			
+
 			if ("file".equals(resolved.getScheme()))
 				return new File(resolved);
 
@@ -122,6 +122,8 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 			}
 
 			doGenerate(outputFile, name(path), overwrite, protectRegions);
+			module.getContext().getFineGrainedTraceManager().addDestinationResourceForUnclaimedPropertyAccesses(outputFile.getAbsolutePath());
+			
 		} else {
 			addMessage("Existing contents of " + name(path) + " were preserved.");
 		}

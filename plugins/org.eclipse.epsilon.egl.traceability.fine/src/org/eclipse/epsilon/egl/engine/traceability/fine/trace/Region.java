@@ -10,35 +10,24 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Region {
 
-	public final Position start, end;
+	public int offset, length;
 	
-	public Region(Position start, Position end) {
-		this.start = start;
-		this.end   = end;
+	public Region(int offset, int length) {
+		this.offset = offset;
+		this.length = length;
 	}
 
 	
 	// Getters for compatibility with JavaModel, which are used in acceptance tests
 
-	public Position getStart() {
-		return start;
+	public int getOffset() {
+		return offset;
 	}
 	
-	public Position getEnd() {
-		return end;
-	}
-
-	public Collection<? extends Object> getAllContents() {
-		final List<Object> allContents = new LinkedList<Object>();
-		allContents.add(this);
-		allContents.addAll(start.getAllContents());
-		allContents.addAll(end.getAllContents());
-		return allContents;
+	public int getLength() {
+		return length;
 	}
 }

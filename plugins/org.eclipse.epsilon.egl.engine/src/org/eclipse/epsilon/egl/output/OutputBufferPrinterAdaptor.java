@@ -32,13 +32,13 @@ public abstract class OutputBufferPrinterAdaptor extends Printer {
 	}
 	
 	private void buildStartOfRegion(RegionBuilder builder) {
-		builder.aRegion().startingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+		builder.aRegion().startingAt(adaptee.getOffset());
 	}
 
 	protected abstract void basicPrint(Object object);
 
 	private RegionBuilder buildEndOfRegion(RegionBuilder builder) {
-		return builder.endingAt(adaptee.getCurrentLineNumber(), adaptee.getCurrentColumnNumber());
+		return builder.endingAt(adaptee.getOffset());
 	}
 	
 	static class NormalPrinter extends OutputBufferPrinterAdaptor {

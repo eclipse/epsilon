@@ -22,11 +22,10 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
@@ -100,12 +99,12 @@ public class EglTask extends ExportableModuleTask {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Collection<? extends Class<?>> getClassesForExportedModel() {
-		return Arrays.asList(Trace.class, TraceElement.class, TextLocation.class, ModelLocation.class, Position.class, Region.class);
+		return Arrays.asList(Trace.class, TraceLink.class, TextLocation.class, ModelLocation.class, Region.class);
 	}
 	
 	@Override
 	protected Collection<? extends Object> getObjectsForExportedModel() {
-		final Trace trace = ((IEglContext)module.getContext()).getFineGrainedTrace();
+		final Trace trace = ((IEglContext)module.getContext()).getFineGrainedTraceManager().getFineGrainedTrace();
 		return trace.getAllContents();
 	}
 }

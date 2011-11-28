@@ -141,7 +141,7 @@ public class AcceptanceTestUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static IModel getFineGrainedTrace() {
-		final JavaModel model = new JavaModel(Arrays.asList(context.getFineGrainedTrace()), Arrays.asList(Trace.class));
+		final JavaModel model = new JavaModel(Arrays.asList(context.getFineGrainedTraceManager().getFineGrainedTrace()), Arrays.asList(Trace.class));
 		model.setName("TraceModel");
 		return model;
 	}

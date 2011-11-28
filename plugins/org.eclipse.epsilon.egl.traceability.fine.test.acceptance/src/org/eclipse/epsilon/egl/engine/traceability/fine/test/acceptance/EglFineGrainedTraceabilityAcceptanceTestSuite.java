@@ -10,20 +10,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.SubtemplateShouldContributeToTraceOfParent;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.SubtemplateTraceShouldBeAdjustedWhenContributedToParent;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.sections.DynamicOutputSectionsContributeToTrace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.sections.StaticSectionsDoNotContributeToTrace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.contributions.DynamicOutputSectionsContributeToTrace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.contributions.ExplicitPrintsShouldContributeToTrace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.contributions.StaticSectionsDoNotContributeToTrace;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.misc.TraceShouldNotContainDuplicateFeatureAccessesPerTextLocation;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.subtemplates.SubtemplateShouldContributeToTraceOfParent;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.subtemplates.SubtemplateTraceShouldBeAdjustedWhenContributedToParent;
+import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.textlocations.GenerateShouldUpdateTextLocation;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({DynamicOutputSectionsContributeToTrace.class,
-               StaticSectionsDoNotContributeToTrace.class,
+@SuiteClasses({DynamicOutputSectionsContributeToTrace.class, StaticSectionsDoNotContributeToTrace.class, ExplicitPrintsShouldContributeToTrace.class,
                SubtemplateShouldContributeToTraceOfParent.class, SubtemplateTraceShouldBeAdjustedWhenContributedToParent.class,
-               TraceShouldNotContainMoreThanOneFeatureAccessPerTextLocation.class })
+               TraceShouldNotContainDuplicateFeatureAccessesPerTextLocation.class,
+               GenerateShouldUpdateTextLocation.class})
 public class EglFineGrainedTraceabilityAcceptanceTestSuite {
 
 }

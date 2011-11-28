@@ -34,8 +34,8 @@ import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.Pojo2Emf;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.Trace;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TracePackage;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -123,10 +123,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			} else {
 				storeOutput(module, output);
 			}
-			
-			if (configuration.getAttribute(PRODUCE_TRACE, false)) {
-				storeTraceModel(((EglTemplateFactoryModuleAdapter)module).getContext());
-			}
+		}
+		
+		if (configuration.getAttribute(PRODUCE_TRACE, false)) {
+			storeTraceModel(((EglTemplateFactoryModuleAdapter)module).getContext());
 		}
 		
 		for (StatusMessage message : ((EglContext) module.getContext()).getStatusMessages())
@@ -143,8 +143,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			try {
 				final boolean appendToFile = configuration.getAttribute(APPEND_TO_FILE, false);
 				final String verb = appendToFile ? "appended" : "generated";
+			
+				final String absoluteOutputFilePath = absolutePathFor(outputFilePath);
 				
-				FileUtil.write(absolutePathFor(outputFilePath), output, appendToFile);
+				FileUtil.write(absoluteOutputFilePath, output, appendToFile);
+				((IEglContext)module.getContext()).getFineGrainedTraceManager().addDestinationResourceForUnclaimedPropertyAccesses(absoluteOutputFilePath);
+				
 				EpsilonConsole.getInstance().getInfoStream().println("Output " + verb + " to " + outputFilePath);
 				
 			} catch (IOException e) {
@@ -157,9 +161,9 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	
 	private void storeTraceModel(IEglContext context) throws CoreException {
 		final String traceDestination = configuration.getAttribute(TRACE_DESTINATION, "");
-		final Trace trace = new Pojo2Emf().transform(context.getFineGrainedTrace());
+		final Trace trace = new Pojo2Emf().transform(context.getFineGrainedTraceManager().getFineGrainedTrace());
 		
-		new InMemoryEmfModel("Trace", EmfUtil.createResource(trace), TracePackage.eINSTANCE).store(traceDestination);
+		new InMemoryEmfModel("Trace", EmfUtil.createResource(trace), TextlinkPackage.eINSTANCE).store(traceDestination);
 	}
 	
 	private String absolutePathFor(String workspaceRelativePath) {

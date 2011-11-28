@@ -8,9 +8,9 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.egl.dt.traceability.fine.emf,
- org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace,
- org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.impl,
- org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.util
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink,
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl,
+ org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.egl.traceability.fine

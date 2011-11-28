@@ -16,7 +16,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 
 
 public class TraceBuilder {
@@ -25,7 +25,7 @@ public class TraceBuilder {
 	
 	public void withTraceElements(Collection<ModelLocation> propertyAccesses, Region destination) {
 		if (!propertyAccesses.isEmpty()) {
-			withTraceElements(propertyAccesses, createTextLocationFor(destination));
+			withTraceLinks(propertyAccesses, createTextLocationFor(destination));
 		}
 	}
 	
@@ -33,23 +33,16 @@ public class TraceBuilder {
 		return new TextLocation(region);
 	}
 	
-	private void withTraceElements(Collection<ModelLocation> propertyAccesses, TextLocation destination) {
+	private void withTraceLinks(Collection<ModelLocation> propertyAccesses, TextLocation destination) {
 		trace.locations.add(destination);
 		
 		for (ModelLocation propertyAccess : propertyAccesses) {
-			trace.elements.add(createTraceElement(propertyAccess, destination));
+			trace.elements.add(createTraceLink(propertyAccess, destination));
 		}
 	}
 
-	private TraceElement createTraceElement(ModelLocation source, TextLocation destination) {
-		return new TraceElement(source, destination);
-	}
-	
-	
-	public void withResource(String resource) {
-		for (TextLocation location : trace.locations) {
-			location.resources.add(resource);
-		}
+	private TraceLink createTraceLink(ModelLocation source, TextLocation destination) {
+		return new TraceLink(source, destination);
 	}
 	
 	public Trace build() {

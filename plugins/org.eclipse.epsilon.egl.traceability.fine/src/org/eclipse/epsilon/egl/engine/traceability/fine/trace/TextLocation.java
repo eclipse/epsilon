@@ -16,8 +16,8 @@ import java.util.List;
 
 public class TextLocation {
 
-	public final List<String> resources = new LinkedList<String>();
 	public final Region region;
+	public String resource;
 	
 	public TextLocation(Region region) {
 		this.region = region;
@@ -26,8 +26,12 @@ public class TextLocation {
 
 	// Getters for compatibility with JavaModel, which are used in acceptance tests
 
-	public List<String> getResources() {
-		return resources;
+	public String getResource() {
+		return resource;
+	}
+	
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 	
 	public Region getRegion() {
@@ -37,7 +41,7 @@ public class TextLocation {
 	public Collection<? extends Object> getAllContents() {
 		final List<Object> allContents = new LinkedList<Object>();
 		allContents.add(this);
-		allContents.addAll(region.getAllContents());
+		allContents.add(region);
 		return allContents;
 	}
 }

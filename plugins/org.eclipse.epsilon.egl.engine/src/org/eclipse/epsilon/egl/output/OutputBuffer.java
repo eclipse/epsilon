@@ -206,6 +206,14 @@ public class OutputBuffer {
 		return columnCounter.getCurrentColumnNumberFrom(this.buffer.toString());
 	}
 
+	public int getOffset() {
+		return contentWithoutLineBreaks().length();
+	}
+
+	private String contentWithoutLineBreaks() {
+		return buffer.toString().replaceAll(FileUtil.NEWLINE, "");
+	}
+	
 	public void formatWith(Formatter formatter) {
 		replaceContentsWith(formatter.format(buffer.toString()));
 	}
@@ -219,5 +227,4 @@ public class OutputBuffer {
 	public String toString(){
 		return buffer.toString();
 	}
-
 }

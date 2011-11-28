@@ -18,11 +18,8 @@ import java.util.List;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.PositionBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceCombiner;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManager;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManager.PositionReporter;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -38,6 +35,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class EglContext extends EolContext implements IEglContext {
 
 	private final EglTemplateFactory templateFactory;
+	private final TraceManager traceManager;
 	
 	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
 	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
@@ -46,10 +44,10 @@ public class EglContext extends EolContext implements IEglContext {
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 	
 	private IEglContext parentContext;
-	private Trace trace = new TraceBuilder().build();
 	
 	public EglContext(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
+		this.traceManager = new TraceManager(new PositionInParentReporter());
 		
 		populateScope();
 		setOperationFactory(new EglOperationFactory());
@@ -155,24 +153,21 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 
 	@Override
-	public Trace getFineGrainedTrace() {
-		return trace;
+	public TraceManager getFineGrainedTraceManager() {
+		return traceManager;
 	}
-
-	@Override
-	public void appendToFineGrainedTrace(Trace trace) {
-		this.trace = new TraceCombiner().combine(this.trace, trace, getPositionInParent());
-	}
-
-	private Position getPositionInParent() {
-		final PositionBuilder builder = new PositionBuilder();
+	
+	
+	protected class PositionInParentReporter implements PositionReporter {
 		
-		if (executionManager.hasParent()) {
-			final OutputBuffer outputBuffer = executionManager.getParent().outputBuffer;
-			return builder.buildPosition(outputBuffer.getCurrentLineNumber() - 1, outputBuffer.getCurrentColumnNumber() - 1);
-		
-		} else {
-			return builder.buildPosition(0, 0);			
+		@Override
+		public int getCurrentOffset() {
+			if (executionManager.hasParent()) {
+				return executionManager.getParent().outputBuffer.getOffset();
+				
+			} else {
+				return 0;
+			}			
 		}
 	}
 }

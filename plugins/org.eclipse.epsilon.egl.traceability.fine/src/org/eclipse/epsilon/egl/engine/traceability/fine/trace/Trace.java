@@ -17,12 +17,12 @@ import java.util.List;
 public class Trace {
 
 	public final List<TextLocation> locations = new LinkedList<TextLocation>();
-	public final List<TraceElement> elements = new LinkedList<TraceElement>();
+	public final List<TraceLink> elements = new LinkedList<TraceLink>();
 	
 	
 	// Getters for compatibility with JavaModel, which are used in acceptance tests 
 	
-	public List<TraceElement> getElements() {
+	public List<TraceLink> getElements() {
 		return elements;
 	}
 	
@@ -34,7 +34,7 @@ public class Trace {
 		final List<Object> allContents = new LinkedList<Object>();
 		allContents.add(this);
 	
-		for (TraceElement element : elements) {
+		for (TraceLink element : elements) {
 			allContents.addAll(element.getAllContents());
 		}
 		

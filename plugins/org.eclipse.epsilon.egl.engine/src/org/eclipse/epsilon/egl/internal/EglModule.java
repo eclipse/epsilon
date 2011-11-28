@@ -172,7 +172,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 		preprocessorModule.execute(); 
 		context.formatWith(postprocessor);
-		context.appendToFineGrainedTrace(preprocessorModule.getContext().getTraceabilityContext().getFineGrainedTrace());
+		context.getFineGrainedTraceManager().appendToFineGrainedTrace(preprocessorModule.getContext().getTraceabilityContext().getFineGrainedTrace());
 		
 		checkOutput();
 		

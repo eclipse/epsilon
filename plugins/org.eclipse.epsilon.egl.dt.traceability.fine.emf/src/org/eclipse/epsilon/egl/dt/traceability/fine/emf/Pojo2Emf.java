@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+\ * Copyright (c) 2011 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,46 +11,37 @@
 package org.eclipse.epsilon.egl.dt.traceability.fine.emf;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.EmfModelLocation;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.ModelLocation;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.Position;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.Region;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TextLocation;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.Trace;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TraceElement;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.trace.TraceFactory;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.EmfModelLocation;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.ModelLocation;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
 
 public class Pojo2Emf {
-
-	private final Map<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation, TextLocation> textLocationEquivalences 
-		= new HashMap<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation, TextLocation>();
-	
 	
 	public Trace transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace original) {
-		final Trace transformed = TraceFactory.eINSTANCE.createTrace();
-		transformed.getLocations().addAll(transform(original.locations));
-		transformed.getElements().addAll(transform(original.elements));
+		final Trace transformed = TextlinkFactory.eINSTANCE.createTrace();
+		transformed.getTraceLinks().addAll(transform(original.elements));
 		return transformed;
 	}
 	
-	private Collection<? extends TraceElement> transform(Collection<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement> original) {
-		final Collection<TraceElement> transformed = new LinkedList<TraceElement>();
+	private Collection<? extends TraceLink> transform(Collection<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink> original) {
+		final Collection<TraceLink> transformed = new LinkedList<TraceLink>();
 		
-		for (org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement element : original) {
+		for (org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink element : original) {
 			transformed.add(transform(element));
 		}
 		
 		return transformed;
 	}
 	
-	private TraceElement transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement original) {
-		final TraceElement transformed = TraceFactory.eINSTANCE.createTraceElement();
+	private TraceLink transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink original) {
+		final TraceLink transformed = TextlinkFactory.eINSTANCE.createTraceLink();
 		transformed.setSource(transform(original.source));
 		transformed.setDestination(transform(original.destination));
 		return transformed;
@@ -60,44 +51,23 @@ public class Pojo2Emf {
 		if (!(original.modelElement instanceof EObject))
 			throw new IllegalArgumentException("Cannot translate model locations whose model element is: " + original.modelElement);
 			
-		final EmfModelLocation transformed = TraceFactory.eINSTANCE.createEmfModelLocation();
+		final EmfModelLocation transformed = TextlinkFactory.eINSTANCE.createEmfModelLocation();
 		transformed.setModelElement((EObject)original.modelElement);
 		transformed.setPropertyName(original.propertyName);
 		return transformed;					
 	}
 
 	private TextLocation transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation original) {
-		if (!textLocationEquivalences.containsKey(original)) {
-			final TextLocation transformed = TraceFactory.eINSTANCE.createTextLocation();
-			transformed.setRegion(transform(original.region));
-			textLocationEquivalences.put(original, transformed);			
-		}
-		
-		return textLocationEquivalences.get(original);
+		final TextLocation transformed = TextlinkFactory.eINSTANCE.createTextLocation();
+		transformed.setResource(original.resource);
+		transformed.setRegion(transform(original.region));
+		return transformed;
 	}
 
 	private Region transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region original) {
-		final Region transformed = TraceFactory.eINSTANCE.createRegion();
-		transformed.setStart(transform(original.start));
-		transformed.setEnd(transform(original.end));
+		final Region transformed = TextlinkFactory.eINSTANCE.createRegion();
+		transformed.setOffset(original.offset);
+		transformed.setLength(original.length);
 		return transformed;
-	}
-
-	private Position transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position original) {
-		final Position transformed = TraceFactory.eINSTANCE.createPosition();
-		transformed.setLine(original.line);
-		transformed.setColumn(original.column);
-		return transformed;
-	}
-
-	private Collection<? extends TextLocation> transform(List<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation> original) {
-		final Collection<TextLocation> transformed = new LinkedList<TextLocation>();
-		
-		for (org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation element : original) {
-			transformed.add(transform(element));
-		}
-		
-		return transformed;
-	}
-	
+	}	
 }

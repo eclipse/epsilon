@@ -14,18 +14,13 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceElement;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.ModelLocationBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuilder;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.junit.Test;
 
 
@@ -41,8 +36,8 @@ public class TraceBuilderTests {
 	
 	private final Region partOfFirstTwoLines = new RegionBuilder()
 	                                                 .aRegion()
-	                                                 .startingAt(1, 10)
-	                                                 .endingAt(2, 50)
+	                                                 .startingAt(10)
+	                                                 .endingAt(50)
 	                                                 .build();
 	
 	@Test
@@ -70,42 +65,8 @@ public class TraceBuilderTests {
 		assertEquals(0, builder.build().locations.size());
 	}
 	
-	@Test
-	public void withResourceAddsToEveryTextLocation() throws Exception {
-		builder.withTraceElements(Arrays.asList(nameOfAnElement, nameOfAnotherElement), partOfFirstTwoLines);
-		builder.withResource("aFileOnDisk.txt");
-	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().elements.get(0).destination.resources);	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt"), builder.build().elements.get(1).destination.resources);	
-	}
-	
-	@Test
-	public void withResourceAppendsToExistingResources() throws Exception {
-		builder.withTraceElements(Arrays.asList(nameOfAnElement, nameOfAnotherElement), partOfFirstTwoLines);
-		builder.withResource("aFileOnDisk.txt");
-		builder.withResource("anotherFileOnDisk.txt");
-	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().elements.get(0).destination.resources);	
-		assertCollectionEquals(Arrays.asList("aFileOnDisk.txt", "anotherFileOnDisk.txt"), builder.build().elements.get(1).destination.resources);	
-	}
-	
-	private static void assertTraceElementEquals(ModelLocation expectedFeatureAccess, Region expectedRegion, TraceElement actual) {
+	private static void assertTraceElementEquals(ModelLocation expectedFeatureAccess, Region expectedRegion, TraceLink actual) {
 		assertEquals(expectedFeatureAccess, actual.source);
 		assertEquals(expectedRegion,        actual.destination.region);
-	}
-	
-	
-	private static <T> void assertCollectionEquals(Collection<? extends T> expected, Collection<? extends T> actual) {
-		assertEquals(expected.size(), actual.size());
-		
-		final Iterator<? extends T> expectedIterator = expected.iterator();
-		final Iterator<? extends T> actualIterator   = actual.iterator();
-				
-		while (expectedIterator.hasNext()) {
-			final T expectedElement = expectedIterator.next();
-			final T actualElement   = actualIterator.next();
-			
-			assertEquals(expectedElement, actualElement);
-		}
 	}
 }

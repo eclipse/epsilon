@@ -10,36 +10,30 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 
 public class RegionBuilder {
 
-	private final PositionBuilder builder = new PositionBuilder();
-	private Position start, end;
+	private int startingOffset, endingOffset;
 	
 	public RegionBuilder aRegion() {
-		start = null;
-		end   = null;
+		startingOffset = 0;
+		endingOffset   = 0;
 		
 		return this;
 	}
 
-	public RegionBuilder startingAt(int line, int column) {
-		start = createPosition(line, column);
+	public RegionBuilder startingAt(int offset) {
+		startingOffset = offset;
 		return this;
 	}
 	
-	public RegionBuilder endingAt(int line, int column) {
-		end = createPosition(line, column);
+	public RegionBuilder endingAt(int offset) {
+		endingOffset = offset;
 		return this;
 	}
 	
 	public Region build() {
-		return new Region(start, end);
-	}
-	
-	private Position createPosition(int line, int column) {
-		return builder.buildPosition(line, column);
+		return new Region(startingOffset, endingOffset - startingOffset);
 	}
 }

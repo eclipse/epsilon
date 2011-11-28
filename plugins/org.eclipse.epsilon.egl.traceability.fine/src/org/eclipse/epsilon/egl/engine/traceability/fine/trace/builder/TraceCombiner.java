@@ -10,14 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Position;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 
 public class TraceCombiner {
 
-	public Trace combine(Trace first, Trace second, Position current) {
+	public Trace combine(Trace first, Trace second, int currentOffset) {
 		final Trace combined = new Trace();
 		
 		combined.elements.addAll(first.elements);
@@ -26,13 +24,7 @@ public class TraceCombiner {
 		combined.elements.addAll(second.elements);
 
 		for (TextLocation location : second.locations) {
-			final Region region = location.region;
-			
-			region.start.line   = current.line + region.start.line;
-			region.start.column = current.column + region.start.column;
-
-			region.end.line = current.line + region.end.line;
-			region.end.column = current.column + region.end.column;
+			location.region.offset += currentOffset;
 		}
 		
 		combined.locations.addAll(second.locations);
