@@ -38,6 +38,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 public class TextLinkEditor extends MultiEditor {
 		
+	public static final String ID = "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor";
 	private TabbedEditor<EcoreEditor> sources;
 	private TabbedEditor<ITextEditor> destinations;
 	private TextLinkInnerEditors innerEditors;
@@ -65,6 +66,12 @@ public class TextLinkEditor extends MultiEditor {
 		});
 		
 		setPartName(getTextlinkModel().getFileName());
+	}
+	
+	@Override
+	public void dispose() {
+		getTextlinkModel().dispose();
+		super.dispose();
 	}
 
 	public boolean isActiveDestination(TextLocation destination) {

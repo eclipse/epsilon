@@ -62,35 +62,31 @@ public class TextLinkEditorStarter extends EditorPart {
 	}
 
 	protected void startTraceAwareEditor() throws PartInitException {
-		final PartInitException[] ex = new PartInitException[1];
 		final TextLinkEditorStarter starter = this;
 		
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
+				EmfModel textlinkModel = null;
+				
 				getSite().getPage().closeEditor(starter, false);
 				try {
 					final FileEditorInput editorInput = (FileEditorInput)starter.getEditorInput();
-					final EmfModel textlinkModel = EmfModelFactory.getInstance().loadEmfModel("Textlink",
-					                                                                          new File(editorInput.getPath().toOSString()),
-					                                                                          TextlinkPackage.eINSTANCE);
-					getSite()
-							.getPage()
-							.openEditor(
-									new FileEditorInputConverter(new TextLinkModel(textlinkModel, editorInput.getName())).convert(),
-									"org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
+					textlinkModel = EmfModelFactory.getInstance().loadEmfModel("Textlink",
+					                                                           new File(editorInput.getPath().toOSString()),
+					                                                           TextlinkPackage.eINSTANCE);
 					
+					final TextLinkEditorInput convertedInput = new FileEditorInputConverter(new TextLinkModel(textlinkModel, editorInput.getName())).convert();
+					
+					getSite().getPage().openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
 
 				} catch (Exception e) {
-					ex[0] = new PartInitException("Error encountered whilst loading Textlink model at: " + starter.getEditorInput());
+					if (textlinkModel != null) textlinkModel.dispose();
+					throw new IllegalArgumentException("Error encountered whilst loading TextLink model at: " + starter.getEditorInput(), e);
 				}
 			}
 
 		});
-		
-		if (ex[0] != null) {
-			throw ex[0];
-		}
 	}
 
 	@Override

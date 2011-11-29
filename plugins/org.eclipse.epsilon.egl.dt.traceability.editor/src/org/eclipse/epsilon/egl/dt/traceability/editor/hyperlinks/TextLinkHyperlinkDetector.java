@@ -28,6 +28,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 
 public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
@@ -42,15 +43,21 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 		
 		final Collection<TraceLink> matchingTraceLinks = matchingTraceLinksFor(new DocumentLocation(region.getOffset()), getActiveEditor().getTextlinkModel());
 		final Collection<HyperlinkSpec> hyperlinkSpecs = createHyperlinkSpecsFor(matchingTraceLinks);
+		final Collection<IHyperlink> hyperlinks = createHyperlinks(hyperlinkSpecs);
 		
-		return createHyperlinks(hyperlinkSpecs);
+		return hyperlinks.isEmpty() ? null : hyperlinks.toArray(new IHyperlink[]{});
 	}
 
 	private static TextLinkEditor getActiveEditor() {
-		if (PlatformUI.isWorkbenchRunning())
-			return (TextLinkEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		else
-			return null;
+		if (PlatformUI.isWorkbenchRunning()) {
+			for (IEditorReference candidateReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
+				if (candidateReference.getId().equals(TextLinkEditor.ID)) {
+					return (TextLinkEditor)candidateReference.getEditor(false);
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	Collection<TraceLink> matchingTraceLinksFor(DocumentLocation hoverLocation, TextLinkModel model) {
@@ -87,14 +94,14 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 		return hyperlinkSpecs;
 	}
 	
-	private IHyperlink[] createHyperlinks(Collection<HyperlinkSpec> hyperlinkSpecs) {
+	private Collection<IHyperlink> createHyperlinks(Collection<HyperlinkSpec> hyperlinkSpecs) {
 		final List<IHyperlink> hyperlinks = new LinkedList<IHyperlink>();
 		
 		for (HyperlinkSpec hyperlinkSpec : hyperlinkSpecs) {
 			hyperlinks.add(new TextlinkHyperlink(hyperlinkSpec));
 		}
 		
-		return hyperlinks.toArray(new IHyperlink[]{});
+		return hyperlinks;
 	}
 	
 	class HyperlinkSpec {

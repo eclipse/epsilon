@@ -78,7 +78,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		for (AST matchRuleAst : AstUtil.getChildren(ast, EtlParser.TRANSFORM)) {
 			declaredTransformRules.add(new TransformRule(matchRuleAst));
 		}
-		
+
 		getParseProblems().addAll(declaredTransformRules.calculateSuperRules(getTransformRules()));
 	}
 	

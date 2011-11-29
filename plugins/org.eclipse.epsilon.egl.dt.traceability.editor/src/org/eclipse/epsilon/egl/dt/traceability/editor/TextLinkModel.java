@@ -131,4 +131,8 @@ public class TextLinkModel {
 	private String getURIFragmentFor(EObject first) {
 		return first.eResource().getURIFragment(first);
 	}
+
+	public void dispose() {
+		model.dispose();
+	}
 }
