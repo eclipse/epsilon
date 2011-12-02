@@ -91,9 +91,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		filePath.setLayoutData(filePathData);
 		filePath.addModifyListener(this);
 		
-		Button browse = new Button(sourceGroup, SWT.NONE);
-		browse.setText("Browse Workspace...");
-		browse.addListener(SWT.Selection, new SelectSourceListener(filePath));
+		createBrowseWorkspaceButton(sourceGroup, filePath);
 	}
 
 	private void createTargetGroup(Composite control) {
@@ -122,7 +120,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 		final Composite outputFileContainer = createTwoColumnComposite(targetGroup);
 		outputFilePath = createPathTextBox(outputFileContainer);		
-		browseForOutputFile = createBrowseWorkspaceButton(outputFileContainer);
+		browseForOutputFile = createBrowseWorkspaceButton(outputFileContainer, outputFilePath);
 		
 		GridData appendToFileData = new GridData(GridData.FILL_HORIZONTAL);
 		appendToFileData.horizontalIndent = 25;
@@ -152,7 +150,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 		final Composite traceDestinationContainer = createTwoColumnComposite(traceGroup);
 		traceDestination = createPathTextBox(traceDestinationContainer);
-		browseForTraceDestination = createBrowseWorkspaceButton(traceDestinationContainer);
+		browseForTraceDestination = createBrowseWorkspaceButton(traceDestinationContainer, traceDestination);
 	}
 	
 	private Group createGroup(Composite control, String name, int numberOfColumns) {
@@ -182,10 +180,10 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		return text;
 	}
 	
-	private Button createBrowseWorkspaceButton(Composite parent) {
+	private Button createBrowseWorkspaceButton(Composite parent, Text target) {
 		final Button button = new Button(parent, SWT.NONE);
 		button.setText("Browse Workspace...");
-		button.addListener(SWT.Selection, new SelectSourceListener(traceDestination));
+		button.addListener(SWT.Selection, new SelectSourceListener(target));
 		return button;
 	}
 	
