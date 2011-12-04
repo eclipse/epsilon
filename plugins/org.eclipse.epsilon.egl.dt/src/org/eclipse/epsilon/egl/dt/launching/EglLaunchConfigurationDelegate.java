@@ -31,6 +31,7 @@ import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
@@ -46,6 +47,7 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -195,5 +197,14 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 	}
 	
+	@Override
+	protected EolDebugger createDebugger() {
+		if (isEgx()) {
+			return new EgxDebugger();
+		}
+		else {
+			return super.createDebugger();
+		}
+	}
 }
 

@@ -14,6 +14,8 @@ import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.dt.launching.EclDebugger;
+import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
@@ -96,6 +98,8 @@ public class EclipseHost implements Host{
 			return new EtlDebugger();
 		} else if (module instanceof EvlModule) {
 			return new EvlDebugger();
+		} else if (module instanceof EgxModule) {
+			return new EgxDebugger();
 		}
 		else return new EolDebugger();
 	}
