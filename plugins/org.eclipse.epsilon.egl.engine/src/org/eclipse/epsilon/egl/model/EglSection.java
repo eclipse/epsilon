@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 public abstract class EglSection implements ModuleElement {
 

@@ -20,9 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.parse.EglLexer;
-import org.eclipse.epsilon.egl.parse.RecognitionException;
-import org.eclipse.epsilon.egl.parse.Token;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglRecognitionException;
+import org.eclipse.epsilon.egl.parse.EglToken;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.commons.util.FileUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -51,114 +51,114 @@ public class TestEglLexer {
 	}
 	
 	@Test
-	public void testStartTag() throws RecognitionException {
+	public void testStartTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("[%");
 		
-		Token expected = new Token(TokenType.START_TAG, "[%", 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.START_TAG, "[%", 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	
 	@Test
-	public void testStartOutputTag() throws RecognitionException {
+	public void testStartOutputTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("[%=");
 		
-		Token expected = new Token(TokenType.START_OUTPUT_TAG, "[%=", 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.START_OUTPUT_TAG, "[%=", 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	@Test
-	public void testEndTag() throws RecognitionException {
+	public void testEndTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("%]");
 		
-		Token expected = new Token(TokenType.END_TAG, "%]", 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.END_TAG, "%]", 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	@Test
-	public void testStartCommentTag() throws RecognitionException {
+	public void testStartCommentTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("[*");
 		
-		Token expected = new Token(TokenType.START_COMMENT_TAG, "[*", 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	@Test
-	public void testEndCommentTag() throws RecognitionException {
+	public void testEndCommentTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("*]");
 		
-		Token expected = new Token(TokenType.END_COMMENT_TAG, "*]", 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	@Test
-	public void testPlainText() throws RecognitionException {
+	public void testPlainText() throws EglRecognitionException {
 		final String program = "ab[c%d]";
 		final EglLexer l = new EglLexer(program);
 		
-		Token expected = new Token(TokenType.PLAIN_TEXT, program, 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.PLAIN_TEXT, program, 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	@Test
-	public void testNewLine() throws RecognitionException {
+	public void testNewLine() throws EglRecognitionException {
 		final String program = NEWLINE;
 		final EglLexer l = new EglLexer(program);
 		
-		Token expected = new Token(TokenType.NEW_LINE, program, 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.NEW_LINE, program, 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 
 	@Test
-	public void testEOF() throws RecognitionException {
+	public void testEOF() throws EglRecognitionException {
 		final String program = "";
 		final EglLexer l = new EglLexer(program);
 		
-		Token expected = new Token(TokenType.EOF, program, 1, 1);
-		Token actual = l.nextToken();
+		EglToken expected = new EglToken(TokenType.EOF, program, 1, 1);
+		EglToken actual = l.nextToken();
 		
 		assertTrue(expected.equals(actual));
 	}
 	
 	
 	@Test
-	public void testMultipleTokens() throws RecognitionException {
+	public void testMultipleTokens() throws EglRecognitionException {
 		//                      0        1         2         3
 		//                      12345678901234567890123456789012
 		final String program = "plaintext[% eol %] moreplaintext";
 		final EglLexer l = new EglLexer(program);
 		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT, "plaintext",      1, 1));
-		expectedTokens.add(new Token(TokenType.START_TAG,  "[%",             1, 10));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT, " eol ",          1, 12));
-		expectedTokens.add(new Token(TokenType.END_TAG,    "%]",             1, 17));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT, " moreplaintext", 1, 19));
-		expectedTokens.add(new Token(TokenType.EOF,        "",               1, 33));
+		List<EglToken> expectedTokens = new LinkedList<EglToken>();
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT, "plaintext",      1, 1));
+		expectedTokens.add(new EglToken(TokenType.START_TAG,  "[%",             1, 10));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT, " eol ",          1, 12));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,    "%]",             1, 17));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT, " moreplaintext", 1, 19));
+		expectedTokens.add(new EglToken(TokenType.EOF,        "",               1, 33));
 		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
+		for (EglToken expected : expectedTokens) {
+			final EglToken actual = l.nextToken();
 			assertTrue(expected.equals(actual));
 		}
 	}
 	
 	
 	@Test
-	public void testMultipleLines() throws RecognitionException {
+	public void testMultipleLines() throws EglRecognitionException {
 		//                      0        1         2         3
 		//                      12345678901234567890123456789012
 		final String program = "[% for(i in Sequence(1..10) { %]" + NEWLINE +
@@ -166,30 +166,30 @@ public class TestEglLexer {
 		                       "[% } %]";
 		final EglLexer l = new EglLexer(program);
 		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           1, 31));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
-		expectedTokens.add(new Token(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i",                            2, 9));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           2, 10));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           3, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           3, 6));
-		expectedTokens.add(new Token(TokenType.EOF,              "",                             3, 8));
+		List<EglToken> expectedTokens = new LinkedList<EglToken>();
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           1, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           1, 31));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
+		expectedTokens.add(new EglToken(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i",                            2, 9));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           2, 10));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           3, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           3, 6));
+		expectedTokens.add(new EglToken(TokenType.EOF,              "",                             3, 8));
 		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
+		for (EglToken expected : expectedTokens) {
+			final EglToken actual = l.nextToken();
 			assertTrue(expected.equals(actual));
 		}
 	}
 	
 	
 	@Test
-	public void testMultipleLinesReader() throws RecognitionException, IOException {
+	public void testMultipleLinesReader() throws EglRecognitionException, IOException {
 		//                      0        1         2         3
 		//                      12345678901234567890123456789012
 		final String program = "[% for(i in Sequence(1..10) { %]" + NEWLINE +
@@ -197,49 +197,49 @@ public class TestEglLexer {
 		                       "[% } %]";
 		final EglLexer l = new EglLexer(new StringReader(program));
 		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           1, 31));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
-		expectedTokens.add(new Token(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i",                            2, 9));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           2, 10));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           3, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           3, 6));
-		expectedTokens.add(new Token(TokenType.EOF,              "",                             3, 8));
+		List<EglToken> expectedTokens = new LinkedList<EglToken>();
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           1, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           1, 31));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
+		expectedTokens.add(new EglToken(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i",                            2, 9));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           2, 10));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           3, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           3, 6));
+		expectedTokens.add(new EglToken(TokenType.EOF,              "",                             3, 8));
 		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
+		for (EglToken expected : expectedTokens) {
+			final EglToken actual = l.nextToken();
 			assertTrue(expected.equals(actual));
 		}
 	}
 	
 	
 	@Test
-	public void testMultipleLinesInputStream() throws RecognitionException, IOException {
+	public void testMultipleLinesInputStream() throws EglRecognitionException, IOException {
 		final EglLexer l = new EglLexer(new FileInputStream(TEST_FILE));
 		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           1, 31));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
-		expectedTokens.add(new Token(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "i",                            2, 9));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           2, 10));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                           3, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                           3, 6));
-		expectedTokens.add(new Token(TokenType.EOF,              "",                             3, 8));
+		List<EglToken> expectedTokens = new LinkedList<EglToken>();
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           1, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " for(i in Sequence(1..10) { ", 1, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           1, 31));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        1, 33));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i is ",                        2, 1));
+		expectedTokens.add(new EglToken(TokenType.START_OUTPUT_TAG, "[%=",                          2, 6));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "i",                            2, 9));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           2, 10));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                        2, 12));
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                           3, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " } ",                          3, 3));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                           3, 6));
+		expectedTokens.add(new EglToken(TokenType.EOF,              "",                             3, 8));
 		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
+		for (EglToken expected : expectedTokens) {
+			final EglToken actual = l.nextToken();
 			assertTrue(expected.equals(actual));
 		}
 	}
@@ -247,7 +247,7 @@ public class TestEglLexer {
 	
 	
 	@Test
-	public void testMultiLineTaggedText() throws RecognitionException, IOException {
+	public void testMultiLineTaggedText() throws EglRecognitionException, IOException {
 		//                               1         2         3         4
 		//                      123456789012345678901234567890123456789012345678
 		final String program = "[%for (i in Sequence{1..10})" + NEWLINE + 
@@ -255,20 +255,20 @@ public class TestEglLexer {
 		
 		final EglLexer l = new EglLexer(program);
 		
-		List<Token> expectedTokens = new LinkedList<Token>();
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                         1, 1));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "for (i in Sequence{1..10})", 1, 3));
-		expectedTokens.add(new Token(TokenType.NEW_LINE,         NEWLINE,                      1, 29));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "  var y : String;  ",        2, 1));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                         2, 20));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       " ",                          2, 22));
-		expectedTokens.add(new Token(TokenType.START_TAG,        "[%",                         2, 23));
-		expectedTokens.add(new Token(TokenType.PLAIN_TEXT,       "var x : Integer := i+2",     2, 25));
-		expectedTokens.add(new Token(TokenType.END_TAG,          "%]",                         2, 47));
-		expectedTokens.add(new Token(TokenType.EOF,              "",                           2, 49));
+		List<EglToken> expectedTokens = new LinkedList<EglToken>();
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                         1, 1));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "for (i in Sequence{1..10})", 1, 3));
+		expectedTokens.add(new EglToken(TokenType.NEW_LINE,         NEWLINE,                      1, 29));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "  var y : String;  ",        2, 1));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                         2, 20));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       " ",                          2, 22));
+		expectedTokens.add(new EglToken(TokenType.START_TAG,        "[%",                         2, 23));
+		expectedTokens.add(new EglToken(TokenType.PLAIN_TEXT,       "var x : Integer := i+2",     2, 25));
+		expectedTokens.add(new EglToken(TokenType.END_TAG,          "%]",                         2, 47));
+		expectedTokens.add(new EglToken(TokenType.EOF,              "",                           2, 49));
 		
-		for (Token expected : expectedTokens) {
-			final Token actual = l.nextToken();
+		for (EglToken expected : expectedTokens) {
+			final EglToken actual = l.nextToken();
 			assertTrue(expected.equals(actual));
 		}
 	}

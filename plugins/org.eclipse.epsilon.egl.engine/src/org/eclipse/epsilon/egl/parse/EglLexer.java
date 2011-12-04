@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 public class EglLexer {
 
@@ -57,7 +57,7 @@ public class EglLexer {
 		this.program = program;
 	}
 	
-	public Token nextToken() throws RecognitionException {
+	public EglToken nextToken() throws EglRecognitionException {
 		if (program.length()==0) {
 			return tokenise(TokenType.EOF, "");
 		
@@ -121,13 +121,13 @@ public class EglLexer {
 		col = 1;
 	}
 	
-	private Token tokenise(TokenType type, String text) {
-		Token t;
+	private EglToken tokenise(TokenType type, String text) {
+		EglToken t;
 		
 		if (type == TokenType.PLAIN_TEXT)
-			t = new Token(type, unescape(text), line, col);
+			t = new EglToken(type, unescape(text), line, col);
 		else
-			t = new Token(type, text, line, col);
+			t = new EglToken(type, text, line, col);
 		
 		program = program.substring(text.length());
 		col += text.length();

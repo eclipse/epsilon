@@ -30,6 +30,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
@@ -45,6 +46,7 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.swt.SWT;
@@ -55,7 +57,13 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 
 	@Override
 	public IEolExecutableModule createModule() throws CoreException {
-		return new EglTemplateFactoryModuleAdapter(createTemplateFactoryFromConfiguration());
+		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
+		if (isEgx()) {
+			return new EgxModule(templateFactory);
+		}
+		else {
+			return new EglTemplateFactoryModuleAdapter(templateFactory); 
+		}
 	}
 
 	private EglTemplateFactory createTemplateFactoryFromConfiguration() throws CoreException {
@@ -75,7 +83,13 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	
 	private void loadDefaultFormatters(IEolExecutableModule module) {
 		try {
-			((EglTemplateFactoryModuleAdapter)module).setDefaultFormatters(loadDefaultFormattersFromConfiguration());
+			Collection<Formatter> defaultFormatters = loadDefaultFormattersFromConfiguration();
+			if (isEgx()) {
+				((EgxModule) module).getTemplateFactory().setDefaultFormatters(defaultFormatters);
+			}
+			else {
+				((EglTemplateFactoryModuleAdapter)module).setDefaultFormatters(defaultFormatters);
+			}
 		} catch (CoreException e) {
 			LogUtil.log("Error encountered whilst trying to load postprocessor", e);
 		}
@@ -126,13 +140,16 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 		
 		if (configuration.getAttribute(PRODUCE_TRACE, false)) {
-			storeTraceModel(((EglTemplateFactoryModuleAdapter)module).getContext());
+			storeTraceModel((IEglContext) module.getContext());
 		}
 		
 		for (StatusMessage message : ((EglContext) module.getContext()).getStatusMessages())
 			EpsilonConsole.getInstance().getInfoStream().println(message);
 		
-		CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
+		//TODO: Make EgxModule work with the traceability infrastructure
+		if (!isEgx()) {
+			CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
+		}
 	}
 
 	private void storeOutput(IEolExecutableModule module, final String output) throws CoreException {
@@ -169,5 +186,14 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	private String absolutePathFor(String workspaceRelativePath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + workspaceRelativePath;
 	}
+	
+	protected boolean isEgx() {
+		try {
+			return configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "").endsWith("egx");
+		} catch (CoreException e) {
+			return false;
+		}
+	}
+	
 }
 

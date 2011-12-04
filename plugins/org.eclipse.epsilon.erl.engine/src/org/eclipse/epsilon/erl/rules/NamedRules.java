@@ -61,19 +61,23 @@ public class NamedRules extends ArrayList<INamedRule>{
 		List<ParseProblem> parseProblems = new ArrayList();
 		Iterator it = iterator();
 		while (it.hasNext()){
-			ExtensibleNamedRule rule = (ExtensibleNamedRule) it.next();
-			try {
-				rule.calculateSuperRules(allRules);
-			} catch (ErlRuleNotFoundException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getAst().getLine());
-				problem.setReason(e.getReason());
-				parseProblems.add(problem);
-			} catch (ErlCircularRuleInheritanceException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getAst().getLine());
-				problem.setReason(e.getReason());
-				parseProblems.add(problem);
+			Object next = it.next();
+			if (next instanceof ExtensibleNamedRule) {
+				ExtensibleNamedRule rule = (ExtensibleNamedRule) next;
+				try {
+					rule.calculateSuperRules(allRules);
+				} catch (ErlRuleNotFoundException e) {
+					ParseProblem problem = new ParseProblem();
+					problem.setLine(rule.getAst().getLine());
+					problem.setReason(e.getReason());
+					parseProblems.add(problem);
+				} catch (ErlCircularRuleInheritanceException e) {
+					ParseProblem problem = new ParseProblem();
+					problem.setLine(rule.getAst().getLine());
+					problem.setReason(e.getReason());
+					parseProblems.add(problem);
+				}
+				
 			}
 		}
 		return parseProblems;

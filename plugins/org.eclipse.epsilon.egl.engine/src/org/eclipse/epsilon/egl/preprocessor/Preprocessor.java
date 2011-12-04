@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 
 

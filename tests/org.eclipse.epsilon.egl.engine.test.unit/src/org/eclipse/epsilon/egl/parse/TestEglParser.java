@@ -18,8 +18,8 @@ import java.io.IOException;
 
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
-import org.eclipse.epsilon.egl.parse.Token;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
@@ -29,12 +29,12 @@ public class TestEglParser {
 	
 	private final EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor((File)null);
 	
-	private void walkAst(AST ast, Token... tokens) {
+	private void walkAst(AST ast, EglToken... tokens) {
 		
 		AST current = ast;
 		AST parent  = null;
 		
-		for (Token token : tokens) {
+		for (EglToken token : tokens) {
 			assertTrue(current != null);
 //			System.out.println(token + " | " + current);
 			
@@ -67,7 +67,7 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -79,8 +79,8 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, "abc", 1, 1));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "abc", 1, 1));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -92,10 +92,10 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.START_TAG, "[%", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, "abc", 1, 3),
-		                         new Token(TokenType.END_TAG, "%]", 1, 6));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_TAG, "[%", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "abc", 1, 3),
+		                         new EglToken(TokenType.END_TAG, "%]", 1, 6));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -107,10 +107,10 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-				                 new Token(TokenType.START_OUTPUT_TAG, "[%=", 1, 1),
-				                 new Token(TokenType.PLAIN_TEXT, "abc", 1, 4),
-				                 new Token(TokenType.END_TAG, "%]", 1, 7));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+				                 new EglToken(TokenType.START_OUTPUT_TAG, "[%=", 1, 1),
+				                 new EglToken(TokenType.PLAIN_TEXT, "abc", 1, 4),
+				                 new EglToken(TokenType.END_TAG, "%]", 1, 7));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -122,11 +122,11 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, "abc", 1, 1),
-		                         new Token(TokenType.START_OUTPUT_TAG, "[%=", 1, 4),
-		                         new Token(TokenType.PLAIN_TEXT, "def", 1, 7),
-		                         new Token(TokenType.END_TAG, "%]", 1, 10));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "abc", 1, 1),
+		                         new EglToken(TokenType.START_OUTPUT_TAG, "[%=", 1, 4),
+		                         new EglToken(TokenType.PLAIN_TEXT, "def", 1, 7),
+		                         new EglToken(TokenType.END_TAG, "%]", 1, 10));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -138,11 +138,11 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.START_OUTPUT_TAG, "[%=", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, "abc", 1, 4),
-		                         new Token(TokenType.END_TAG, "%]", 1, 7),
-		                         new Token(TokenType.PLAIN_TEXT, "def", 1, 9));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_OUTPUT_TAG, "[%=", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "abc", 1, 4),
+		                         new EglToken(TokenType.END_TAG, "%]", 1, 7),
+		                         new EglToken(TokenType.PLAIN_TEXT, "def", 1, 9));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -154,9 +154,9 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.START_COMMENT_TAG, "[*", 1, 1),
-		                         new Token(TokenType.END_COMMENT_TAG, "*]", 1, 3));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1),
+		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 3));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -170,10 +170,10 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.START_COMMENT_TAG, "[*", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, " foo ", 1, 3),
-		                         new Token(TokenType.END_COMMENT_TAG, "*]", 1, 8));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, " foo ", 1, 3),
+		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 8));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -187,10 +187,10 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
-		                         new Token(TokenType.START_COMMENT_TAG, "[*", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, " [% for (i in Sequence{1..5}) { %] i is [%=i%] [% } %] ", 1, 3),
-		                         new Token(TokenType.END_COMMENT_TAG, "*]", 1, 58));
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, " [% for (i in Sequence{1..5}) { %] i is [%=i%] [% } %] ", 1, 3),
+		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 58));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
@@ -331,30 +331,30 @@ public class TestEglParser {
 		
 		assertTrue(parser.parse());
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "", 1, 1),
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
 				
-		                         new Token(TokenType.START_TAG, "[%", 1, 1),
-		                         new Token(TokenType.PLAIN_TEXT, " for(i in Sequence(1..10) { ", 1, 3),
-		                         new Token(TokenType.END_TAG, "%]", 1, 31), 
-		                         new Token(TokenType.NEW_LINE, NEWLINE, 1, 33),
+		                         new EglToken(TokenType.START_TAG, "[%", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, " for(i in Sequence(1..10) { ", 1, 3),
+		                         new EglToken(TokenType.END_TAG, "%]", 1, 31), 
+		                         new EglToken(TokenType.NEW_LINE, NEWLINE, 1, 33),
 		                         
-		                         new Token(TokenType.PLAIN_TEXT, "i is ", 2, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "i is ", 2, 1),
 		                         
-		                         new Token(TokenType.START_OUTPUT_TAG, "[%=", 2, 6),
-		                         new Token(TokenType.PLAIN_TEXT, "i", 2, 9),
-		                         new Token(TokenType.END_TAG, "%]", 2, 10),
-		                         new Token(TokenType.NEW_LINE, NEWLINE, 2, 12),
+		                         new EglToken(TokenType.START_OUTPUT_TAG, "[%=", 2, 6),
+		                         new EglToken(TokenType.PLAIN_TEXT, "i", 2, 9),
+		                         new EglToken(TokenType.END_TAG, "%]", 2, 10),
+		                         new EglToken(TokenType.NEW_LINE, NEWLINE, 2, 12),
 		                         
-		                         new Token(TokenType.START_TAG, "[%", 3, 1),
-		                         new Token(TokenType.PLAIN_TEXT, " } ", 3, 3),
-		                         new Token(TokenType.END_TAG, "%]", 3, 6));
+		                         new EglToken(TokenType.START_TAG, "[%", 3, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, " } ", 3, 3),
+		                         new EglToken(TokenType.END_TAG, "%]", 3, 6));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}
 	
 	
 	@Test
-	public void testMultiLineTaggedText() throws RecognitionException, IOException {
+	public void testMultiLineTaggedText() throws EglRecognitionException, IOException {
 		//                               1         2         3         4
 		//                      123456789012345678901234567890123456789012345678
 		final String program = "[%for (i in Sequence{1..10})" + NEWLINE + 
@@ -366,19 +366,19 @@ public class TestEglParser {
 		assertTrue(parser.parse());
 
 		
-		walkAst(parser.getAST(), new Token(TokenType.PROGRAM, "",                                    1, 1),
-		                         new Token(TokenType.START_TAG,        "[%",                         1, 1),
-				                 new Token(TokenType.PLAIN_TEXT,       "for (i in Sequence{1..10})", 1, 3),
-				                 new Token(TokenType.NEW_LINE,         NEWLINE,                      1, 29),
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "",                                    1, 1),
+		                         new EglToken(TokenType.START_TAG,        "[%",                         1, 1),
+				                 new EglToken(TokenType.PLAIN_TEXT,       "for (i in Sequence{1..10})", 1, 3),
+				                 new EglToken(TokenType.NEW_LINE,         NEWLINE,                      1, 29),
 				                 
-		                         new Token(TokenType.PLAIN_TEXT,       "  var y : String;  ",        2, 1),
-		                         new Token(TokenType.END_TAG,          "%]",                         2, 20),
+		                         new EglToken(TokenType.PLAIN_TEXT,       "  var y : String;  ",        2, 1),
+		                         new EglToken(TokenType.END_TAG,          "%]",                         2, 20),
 		                         
-		                         new Token(TokenType.PLAIN_TEXT,       " ",                          2, 22),
+		                         new EglToken(TokenType.PLAIN_TEXT,       " ",                          2, 22),
 		                         
-		                         new Token(TokenType.START_TAG,        "[%",                         2, 23),
-		                         new Token(TokenType.PLAIN_TEXT,       "var x : Integer := i+2",     2, 25),
-		                         new Token(TokenType.END_TAG,          "%]",                         2, 47));
+		                         new EglToken(TokenType.START_TAG,        "[%",                         2, 23),
+		                         new EglToken(TokenType.PLAIN_TEXT,       "var x : Integer := i+2",     2, 25),
+		                         new EglToken(TokenType.END_TAG,          "%]",                         2, 47));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}

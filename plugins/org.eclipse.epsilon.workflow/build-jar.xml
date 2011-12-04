@@ -8,6 +8,7 @@
 		<jar destfile="epsilon-ant-standalone.jar">
 			<fileset dir="../org.eclipse.epsilon.eol.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.egl.engine/bin"/>
+			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.eml.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
@@ -20,5 +21,6 @@
 			<fileset dir="../org.eclipse.epsilon.workflow/bin"/>
 			<fileset dir="../org.antlr.runtime_3.1.b1"/>
 		</jar>
+		
 	</target>
 </project>

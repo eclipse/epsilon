@@ -6,7 +6,8 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.commons,
- org.eclipse.epsilon.egl.traceability.fine;visibility:=reexport
+ org.eclipse.epsilon.egl.traceability.fine;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport
 Bundle-ClassPath: org.eclipse.epsilon.egl.engine.jar
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.config,

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.model;
 
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 public class EglShortcutSection extends EglSection implements ModuleElement {
 

@@ -21,6 +21,7 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
@@ -41,7 +42,12 @@ public class EglTask extends ExportableModuleTask {
 	protected IEolExecutableModule createModule() throws InstantiationException, IllegalAccessException {
 		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
-		return new EglTemplateFactoryModuleAdapter(templateFactory);
+		if (src.getName().endsWith("egx")) {
+			return new EgxModule(templateFactory);
+		}
+		else {
+			return new EglTemplateFactoryModuleAdapter(templateFactory);
+		}
 	}
 
 	private List<Formatter> instantiateDefaultFormatters() throws InstantiationException, IllegalAccessException {

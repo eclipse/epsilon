@@ -32,6 +32,7 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	}
 	
 	public void setOutputRoot(String path) throws EglRuntimeException {
+		
 		outputRootPath = path;
 		outputRoot     = resolveRoot(path);
 	}

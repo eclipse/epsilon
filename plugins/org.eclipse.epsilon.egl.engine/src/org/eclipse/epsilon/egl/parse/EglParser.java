@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.egl.parse.Token.TokenType;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 public class EglParser {
 	
@@ -27,7 +27,7 @@ public class EglParser {
 	private final EpsilonTreeAdaptor astFactory;
 	
 	private ParseProblem lastError = null;
-	private Token current; 
+	private EglToken current; 
 	
 	private AST ast;
 	
@@ -55,18 +55,18 @@ public class EglParser {
 			nextToken();
 			return parseProgram();
 		
-		} catch (RecognitionException e) {
+		} catch (EglRecognitionException e) {
 			problems.add(new ParseProblem(e.getLineNumber(), e.getColumnNumber(), e.getMessage()));
 			return false;
 		}
 	}
 	
 	
-	private void nextToken() throws RecognitionException {
+	private void nextToken() throws EglRecognitionException {
 		current = lexer.nextToken();
 	}
 	
-	private boolean parseProgram() throws RecognitionException {
+	private boolean parseProgram() throws EglRecognitionException {
 		while(true) {
 			if (current.getTokenType() == TokenType.EOF)
 				return true;
@@ -98,7 +98,7 @@ public class EglParser {
 		}
 	}
 	
-	private AST parseText() throws RecognitionException {
+	private AST parseText() throws EglRecognitionException {
 		StringBuilder text = new StringBuilder();
 		
 		int line = -1;
@@ -130,8 +130,8 @@ public class EglParser {
 		} 
 	}
 	
-	private AST parseTagged() throws RecognitionException {
-		final Token startTagToken = current; 
+	private AST parseTagged() throws EglRecognitionException {
+		final EglToken startTagToken = current; 
 		
 		if (current.getTokenType() != TokenType.START_TAG &&
 		    current.getTokenType() != TokenType.START_OUTPUT_TAG)
@@ -171,8 +171,8 @@ public class EglParser {
 		return null;
 	}
 	
-	private AST parseCommented() throws RecognitionException {
-		final Token startCommentTagToken = current; 
+	private AST parseCommented() throws EglRecognitionException {
+		final EglToken startCommentTagToken = current; 
 		
 		if (current.getTokenType() != TokenType.START_COMMENT_TAG)
 			return null;
@@ -212,12 +212,12 @@ public class EglParser {
 		return null;
 	}
 	
-	private AST createAST(Token t) {
+	private AST createAST(EglToken t) {
 		return astFactory.create(t);
 	}
 	
 	private AST createAST(TokenType type, String text, int line, int col) {
-		return astFactory.create(new Token(type, text, line, col));
+		return astFactory.create(new EglToken(type, text, line, col));
 	}
 
 	private void reportError(TokenType expectedType) {
