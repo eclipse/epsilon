@@ -30,6 +30,12 @@ public interface IEglContext extends IEolContext {
 	
 	public void copyInto(IEolContext context);
 
+	public void copyInto(IEolContext context, boolean preserveFrameStack);
+	
+	public void setTraceManager(TraceManager traceManager);
+	
+	public TraceManager getTraceManager();
+	
 	public CompositePartitioner getPartitioner();
 	
 	public void setPartitioner(CompositePartitioner partitioner);

@@ -117,5 +117,9 @@ public class EglTemplate extends AbstractEglTemplate {
 		setFormatter(new CompositeFormatter(formatters));
 	}
 
+	public Template getTemplate() {
+		return template;
+	}
+	
 	// TODO merge traceability template class into here?
 }

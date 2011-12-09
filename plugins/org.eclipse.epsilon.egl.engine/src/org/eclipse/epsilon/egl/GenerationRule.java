@@ -61,7 +61,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 		return isGreedy;
 	}
 	
-	public void generateAll(IEglContext context, EglTemplateFactory templateFactory) throws EolRuntimeException {
+	public void generateAll(IEglContext context, EglTemplateFactory templateFactory, EgxModule module) throws EolRuntimeException {
 		
 		EolType sourceParameterType = sourceParameter.getType(context);
 		
@@ -124,6 +124,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 				}
 				
 				EglTemplate eglTemplate = templateFactory.load(template);
+				
 				eglTemplate.populate(sourceParameter.getName(), o);
 				for (Object key : parameters.keySet()) {
 					eglTemplate.populate(key + "", parameters.get(key));
@@ -133,9 +134,12 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 					((EglFileGeneratingTemplate) eglTemplate).generate(target, overwrite, protectRegions);
 				}
 				
+				module.getInvokedTemplates().add(eglTemplate.getTemplate());
+				
 				if (postAst != null) context.getExecutorFactory().executeAST(postAst.getFirstChild(), context);
 				
 				context.getFrameStack().leave(getAst());
+				
 				
 			}
 			

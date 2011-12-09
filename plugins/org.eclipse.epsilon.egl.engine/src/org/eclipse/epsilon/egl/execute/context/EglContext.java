@@ -35,13 +35,13 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class EglContext extends EolContext implements IEglContext {
 
 	private final EglTemplateFactory templateFactory;
-	private final TraceManager traceManager;
 	
 	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
 	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
 	
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
+	private TraceManager traceManager;
 	
 	private IEglContext parentContext;
 	
@@ -71,17 +71,21 @@ public class EglContext extends EolContext implements IEglContext {
 		getFrameStack().put(Variable.createReadOnlyVariable("closeTag",       "%]"));
 	}
 	
-	public void copyInto(IEolContext context) {
+	public void copyInto(IEolContext context, boolean preserveFrameStack) {
 		context.setErrorStream(getErrorStream());
 		context.setExecutorFactory(getExecutorFactory());
 		context.setIntrospectionManager(getIntrospectionManager());
 		context.setModelRepository(getModelRepository());
 		context.setOperationFactory(getOperationFactory());
 		context.setOutputStream(getOutputStream());
-		context.setFrameStack(getFrameStack());
+		if (!preserveFrameStack) context.setFrameStack(getFrameStack());
 		context.setUserInput(getUserInput());
 		context.setNativeTypeDelegates(getNativeTypeDelegates());
-		context.setExtendedProperties(getExtendedProperties());
+		context.setExtendedProperties(getExtendedProperties());		
+	}
+	
+	public void copyInto(IEolContext context) {
+		copyInto(context, false);
 	}
 
 	public CompositePartitioner getPartitioner() {
@@ -169,5 +173,16 @@ public class EglContext extends EolContext implements IEglContext {
 				return 0;
 			}			
 		}
+	}
+
+
+	@Override
+	public void setTraceManager(TraceManager traceManager) {
+		this.traceManager = traceManager;
+	}
+
+	@Override
+	public TraceManager getTraceManager() {
+		return traceManager;
 	}
 }

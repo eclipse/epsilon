@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.egl;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,35 +9,38 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.Lexer;
-import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.commons.module.ModuleElement;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.parse.EglLexer;
-import org.eclipse.epsilon.egl.parse.EglParser;
+import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.internal.EglResult;
+import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
+import org.eclipse.epsilon.egl.traceability.Content;
+import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.rules.NamedRules;
 
-public class EgxModule extends ErlModule implements IEolExecutableModule {
+public class EgxModule extends ErlModule implements IEolExecutableModule, IEglModule {
 	
 	protected NamedRules declaredGenerationRules = null;
 	protected NamedRules generationRules = null;
-	protected IEglContext context = null;
+	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
-	
+	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
+ 	
 	public static void main(String[] args) throws Exception {
 		
 		EgxModule module = new EgxModule(new EglTemplateFactory());
@@ -60,6 +62,10 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 	
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
+	}
+	
+	public List<Content<Template>> getInvokedTemplates() {
+		return invokedTemplates;
 	}
 	
 	@Override
@@ -124,8 +130,12 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 	
 	public Object execute() throws EolRuntimeException {
 		
+		context.setModule(this);
+		context.copyInto(templateFactory.getContext(), true);
+		templateFactory.getContext().setTraceManager(context.getTraceManager());
+		
 		for (INamedRule rule : getGenerationRules()) {
-			((GenerationRule) rule).generateAll(context, templateFactory);
+			((GenerationRule) rule).generateAll(context, templateFactory, this);
 		}
 		
 		return null;
@@ -170,11 +180,11 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 	}
 
 	@Override
-	public IEglContext getContext(){
+	public EgxContext getContext(){
 		return context;
 	}
 	
-	public void setContext(IEglContext context){
+	public void setContext(EgxContext context){
 		this.context = context;
 	}
 	
@@ -194,7 +204,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 		super.reset();
 		generationRules = null;
 		declaredGenerationRules = new NamedRules();
-		context = new EglContext(templateFactory);
+		context = new EgxContext(templateFactory);
 	}
 
 	public NamedRules getGenerationRules() {
@@ -219,6 +229,13 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 	@Override
 	protected int getPreBlockTokenType() {
 		return EgxParser.PRE;
+	}
+
+	@Override
+	public EglResult execute(Template template, Formatter postprocessor)
+			throws EglRuntimeException {
+		System.err.println("EgxModule.execute() invoked");
+		return null;
 	}
 	
 }

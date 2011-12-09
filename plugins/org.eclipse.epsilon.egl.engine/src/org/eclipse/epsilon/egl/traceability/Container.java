@@ -43,7 +43,9 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	
 	@SuppressWarnings("unchecked")
 	public void add(E child) {
-		if (child.equals(this)) return;
+		//if (child.equals(this)) return;
+		
+		if (child == this) return;
 		
 		child.setParent(this);
 		contents.add(child);
@@ -54,7 +56,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	}
 	
 	public boolean hasChildren() {
-		return !contents.isEmpty();
+		return !getChildren().isEmpty();
 	}
 	
 	@Override

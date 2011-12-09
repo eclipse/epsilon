@@ -148,10 +148,8 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		for (StatusMessage message : ((EglContext) module.getContext()).getStatusMessages())
 			EpsilonConsole.getInstance().getInfoStream().println(message);
 		
-		//TODO: Make EgxModule work with the traceability infrastructure
-		if (!isEgx()) {
-			CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
-		}
+		CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
+		
 	}
 
 	private void storeOutput(IEolExecutableModule module, final String output) throws CoreException {
