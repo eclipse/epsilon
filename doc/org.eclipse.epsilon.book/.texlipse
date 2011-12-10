@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Sat Dec 10 11:00:46 GMT 2011
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=EpsilonBook.tex
+outputFile=EpsilonBook.pdf
+langSpell=en
+markDer=true
+srcDir=
