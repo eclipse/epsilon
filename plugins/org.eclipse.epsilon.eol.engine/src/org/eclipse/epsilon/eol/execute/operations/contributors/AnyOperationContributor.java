@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
@@ -104,8 +105,8 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isDefined() {
-		if (target == null) {
-			return false;
+		if (target == null || target instanceof IUndefined) {
+			return false ;
 		}
 		else if (target instanceof String && (((String) target).length() == 0)) {
 			return false;

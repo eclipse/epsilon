@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.collectionType_return;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
@@ -72,6 +73,9 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			result = result + "}";
 			
 			return result;
+		}
+		else if (o instanceof IUndefined) {
+			return "";
 		}
 		
 		return StringUtil.toString(o);
