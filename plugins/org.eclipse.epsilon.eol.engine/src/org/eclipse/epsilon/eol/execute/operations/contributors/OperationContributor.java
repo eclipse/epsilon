@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -11,6 +12,7 @@ public abstract class OperationContributor {
 	
 	protected Object target;
 	protected IEolContext context;
+	protected Set<String> cachedMethodNames = null;
 	
 	public abstract boolean contributesTo(Object target);
 	
@@ -27,11 +29,23 @@ public abstract class OperationContributor {
 	}
 
 	private Method getObjectMethodFor(Object target, String name, Object[] parameters, boolean allowContravariantConversionForParameters) {
-		return ReflectionUtil.getMethodFor(getReflectionTarget(target),
+		
+		// Maintain a cache of method names if the reflection target is this
+		// so that we don't iterate through all methods every time
+		if (getReflectionTarget(target) == this && cachedMethodNames == null) {
+			cachedMethodNames = ReflectionUtil.getMethodNames(this, includeInheritedMethods());
+		}
+		
+		if (cachedMethodNames == null || cachedMethodNames.contains(name)) {
+			return ReflectionUtil.getMethodFor(getReflectionTarget(target),
 		                                   name,
 		                                   parameters,
 		                                   includeInheritedMethods(),
 		                                   allowContravariantConversionForParameters);
+		}
+		else {
+			return null;
+		}
 	}
 
 	private ObjectMethod createObjectMethod(Object target, Method method, IEolContext context) {

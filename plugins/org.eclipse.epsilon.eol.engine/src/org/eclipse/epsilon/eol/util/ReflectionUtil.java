@@ -13,6 +13,8 @@ package org.eclipse.epsilon.eol.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -31,6 +33,28 @@ public class ReflectionUtil {
 			}
 		}
 		return false;
+	}
+	
+	public static Set<String> getMethodNames(Object obj, boolean includeInheritedMethods) {
+		
+		HashSet<String> methodNames = new HashSet<String>();
+		
+		if (obj == null) return methodNames;
+		
+		Method[] methods = null;
+		
+		if (includeInheritedMethods) {
+			methods = obj.getClass().getMethods();
+		}
+		else {
+			methods = obj.getClass().getDeclaredMethods();
+		}
+		
+		for (int i=0;i<methods.length;i++) { 
+			methodNames.add(methods[i].getName());
+		}
+		
+		return methodNames;
 	}
 	
 	/**
