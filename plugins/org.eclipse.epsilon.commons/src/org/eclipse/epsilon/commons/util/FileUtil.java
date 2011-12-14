@@ -43,6 +43,14 @@ public class FileUtil {
 		return filename;
 	}
 	
+	public static String removeExtension(String filename) {
+		int dotIndex = filename.lastIndexOf('.');
+		if (dotIndex > -1) {
+			filename = filename.substring(0, dotIndex);
+		}
+		return filename;
+	}
+	
 	public static String getFileContents(File file) throws Exception {
 		FileReader reader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(reader);
