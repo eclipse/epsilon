@@ -19,6 +19,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
+import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -91,9 +92,7 @@ public abstract class AbstractSourceConfigurationTab
 			if (part.getEditorInput() instanceof FileEditorInput){
 				FileEditorInput fileEditorInput = (FileEditorInput) part.getEditorInput();
 				String path = fileEditorInput.getFile().getFullPath().toString();
-				if (path.endsWith(getFileExtension())){
-					return path;
-				}
+				return path;
 			}
 			
 			return "";
@@ -108,12 +107,9 @@ public abstract class AbstractSourceConfigurationTab
 			
 			if (part != null && part.getEditorInput() instanceof FileEditorInput){
 				FileEditorInput fileEditorInput = (FileEditorInput) part.getEditorInput();
-				String path = fileEditorInput.getFile().getFullPath().toOSString();
-				if (path.endsWith(getFileExtension())){
-					String fileName = fileEditorInput.getFile().getName();
-					fileName = fileName.substring(0,fileName.length() - getFileExtension().length() + -1);
-					return fileName;
-				}
+				String fileName = fileEditorInput.getFile().getName();
+				fileName = FileUtil.removeExtension(fileName);
+				return fileName;
 			}
 			
 			return "";
@@ -219,7 +215,7 @@ public abstract class AbstractSourceConfigurationTab
 					BrowseWorkspaceUtil.browseFilePath(getShell(),
 					getSelectionTitle()
 					,getSelectionSubtitle()
-					,getFileExtension()
+					,"" //TODO: Remove this as filters are no longer used
 					,getPlugin().createImage(getImagePath()));
 				
 				if (selected!=null) text.setText(selected);
@@ -236,7 +232,11 @@ public abstract class AbstractSourceConfigurationTab
 		
 		public abstract String getImagePath();
 		
-		public abstract String getFileExtension();
+		/**
+		 * @deprecated We don't care about file extensions any more
+		 * @return
+		 */
+		public String getFileExtension() {return "";}
 		
 		public abstract String getSelectionTitle();
 		
