@@ -25,7 +25,11 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IntegerOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -102,8 +106,23 @@ public class PointExecutor extends AbstractExecutor{
 			return operation.execute(source, featureCallAst, context);
 		}
 		
+		// Operation contributor for model elements
+		IModel owningModel = context.getModelRepository().getOwningModel(source);
+		OperationContributor modelOperationContributor = null;
+		if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
+			modelOperationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
+		}
+		
 		// Method contributors that use the unevaluated AST
-		ObjectMethod objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
+		ObjectMethod objectMethodAst = null;
+		
+		if (modelOperationContributor != null) {
+			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
+		}
+		if (objectMethodAst == null) {
+			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
+		}
+		
 		if (objectMethodAst != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethodAst.getObject(), objectMethodAst.getMethod(), new Object[]{featureCallAst}, featureCallAst));
 		}
@@ -119,8 +138,18 @@ public class PointExecutor extends AbstractExecutor{
 			}
 		}
 		
+		
+		
 		// Method contributors that use the evaluated parameters
-		ObjectMethod objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
+		ObjectMethod objectMethod = null;
+		if (modelOperationContributor != null) {
+			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
+		}
+		
+		if (objectMethod == null) {
+			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
+		}
+		
 		if (objectMethod != null) {
 			return wrap(ReflectionUtil.executeMethod(objectMethod.getObject(), objectMethod.getMethod(), parameters.toArray(), featureCallAst));
 		}
