@@ -7,6 +7,10 @@ public interface IExecutionListener {
 
 	public void aboutToExecute(AST ast, IEolContext context);
 	
-	public void finishedExecuting(AST ast, IEolContext context);
+	/**
+	 * @param evaluatedAst the result of evaluating ast, calculated during execution
+	 *                     or null if an exception occurred during the execution of ast
+	 */
+	public void finishedExecuting(AST ast, Object evaluatedAst, IEolContext context);
 	
 }

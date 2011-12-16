@@ -204,8 +204,11 @@ public class ExecutorFactory {
 			listener.aboutToExecute(ast, context);
 		}
 		
+		Object result = null;
+		
 		try {
-			return executor.execute(ast, context);
+			result = executor.execute(ast, context);
+			return result;
 		}
 		catch (Exception ex){
 			if (ex instanceof EolRuntimeException){
@@ -221,7 +224,7 @@ public class ExecutorFactory {
 		}
 		finally {
 			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(ast, context);
+				listener.finishedExecuting(ast, result, context);
 			}
 		}
 	}

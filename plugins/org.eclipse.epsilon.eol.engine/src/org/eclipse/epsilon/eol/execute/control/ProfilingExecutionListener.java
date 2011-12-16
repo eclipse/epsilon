@@ -16,7 +16,7 @@ public class ProfilingExecutionListener implements IExecutionListener {
 	}
 
 	@Override
-	public void finishedExecuting(AST ast, IEolContext context) {
+	public void finishedExecuting(AST ast, Object evaluatedAst, IEolContext context) {
 		if (AstUtil.getParentType(ast) == EolParser.BLOCK)
 			Profiler.INSTANCE.stop(getLabel(ast));
 	}
