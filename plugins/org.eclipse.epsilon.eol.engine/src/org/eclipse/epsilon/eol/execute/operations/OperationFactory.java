@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.declarative.AggregateOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.AsOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ClosureOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
@@ -56,7 +57,7 @@ public class OperationFactory {
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());
-		
+		operationCache.put("as", new AsOperation());
 	}
 
 	
