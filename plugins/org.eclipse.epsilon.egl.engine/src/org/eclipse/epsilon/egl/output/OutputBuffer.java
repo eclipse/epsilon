@@ -207,11 +207,7 @@ public class OutputBuffer {
 	}
 
 	public int getOffset() {
-		return contentWithoutLineBreaks().length();
-	}
-
-	private String contentWithoutLineBreaks() {
-		return buffer.toString().replaceAll(FileUtil.NEWLINE, "");
+		return buffer.toString().length();
 	}
 	
 	public void formatWith(Formatter formatter) {
