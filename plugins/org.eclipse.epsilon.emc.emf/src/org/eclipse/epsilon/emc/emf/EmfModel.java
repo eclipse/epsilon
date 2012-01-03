@@ -211,28 +211,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 		
 		Resource model = null;
-		packages = new ArrayList<EPackage>();
-		
-		if (isMetamodelFileBased) {
-			
-			List<EPackage> metamodelPackages;
-			try {
-				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
-			} catch (Exception e) {
-				throw new EolModelLoadingException(e,this);
-			}
-			
-			for (EPackage metamodelPackage : metamodelPackages) {
-				packages.add(metamodelPackage);
-				EmfUtil.collectDependencies(metamodelPackage, packages);
-			}
-			
-		}
-		else {
-			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri);
-			packages.add(ePackage);
-			EmfUtil.collectDependencies(ePackage, packages);
-		}
+		determinePackagesFrom(resourceSet);
 		
 		for (EPackage ep : packages) {
 			String nsUri = ep.getNsURI();
@@ -260,6 +239,35 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		
 		modelImpl = model;
 
+	}
+
+	private void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
+		packages = new ArrayList<EPackage>();
+		
+		if (isMetamodelFileBased) {
+			
+			List<EPackage> metamodelPackages;
+			try {
+				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+			} catch (Exception e) {
+				throw new EolModelLoadingException(e,this);
+			}
+			
+			for (EPackage metamodelPackage : metamodelPackages) {
+				packages.add(metamodelPackage);
+				EmfUtil.collectDependencies(metamodelPackage, packages);
+			}
+			
+		}
+		else {
+			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri);
+			
+			if (ePackage == null)
+				throw new EolModelLoadingException(new IllegalArgumentException("Could not locate a metamodel with the URI '" + metamodelUri + "'. Please ensure that this metamodel has been registered with Epsilon."), this);
+			
+			packages.add(ePackage);
+			EmfUtil.collectDependencies(ePackage, packages);
+		}
 	}
 
 	public boolean store() {

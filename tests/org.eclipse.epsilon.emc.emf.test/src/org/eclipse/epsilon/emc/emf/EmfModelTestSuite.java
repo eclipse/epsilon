@@ -18,7 +18,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EmfModelStoreTests.class,
+@SuiteClasses({EmfModelLoadTests.class,
+               EmfModelStoreTests.class,
                EmfModelGetPropertiesOfTests.class,
                EmfModelPropertyMigratorTests.class})
 public class EmfModelTestSuite {
