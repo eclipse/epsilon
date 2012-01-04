@@ -113,6 +113,10 @@ public class TextLinkModel {
 			throw new IllegalStateException("Error encountered whilst navigating TextLink model. The following TextLink type was not found: " + textlinkTypeName);
 		}
 	}
+	
+	public boolean hasDestinationFor(EObject source) {
+		return getFirstDestinationFor(source) != null;
+	}
 
 	public TextLocation getFirstDestinationFor(EObject source) {
 		for (TraceLink traceLink : getTraceLinks()) {

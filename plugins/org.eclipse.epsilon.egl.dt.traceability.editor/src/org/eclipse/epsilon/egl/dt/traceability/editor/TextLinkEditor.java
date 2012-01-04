@@ -25,13 +25,18 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.EmfModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.ModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation;
+import org.eclipse.jface.resource.FontRegistry;
+import org.eclipse.jface.viewers.ITableFontProvider;
 import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.MultiEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -65,7 +70,35 @@ public class TextLinkEditor extends MultiEditor {
 			}
 		});
 		
+		addIndicatorstoModelEditors();
+		
 		setPartName(getTextlinkModel().getFileName());
+	}
+
+	private void addIndicatorstoModelEditors() {
+		for (EcoreEditor modelEditor : innerEditors.getAllModelEditors()) {
+			addIndicatorsToModelElementsWithTraceLinks(modelEditor);
+		}
+	}
+
+	/**
+	 * Emboldens the labels of model elements that have trace links
+	 */
+	private void addIndicatorsToModelElementsWithTraceLinks(EcoreEditor editor) {
+		new AddFontProviderToTreeViewer((TreeViewer)editor.getViewer()).add(new EmboldeningLabelProvider());
+	}
+	
+	private class EmboldeningLabelProvider implements ITableFontProvider {
+
+		private final FontRegistry registry = new FontRegistry();
+		
+		@Override
+		public Font getFont(Object element, int columnIndex) {
+			if (element instanceof EObject && getTextlinkModel().hasDestinationFor((EObject)element))
+				return registry.getBold(Display.getCurrent().getSystemFont().getFontData()[0].getName());
+			else
+				return null;
+		}	
 	}
 	
 	@Override
