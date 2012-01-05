@@ -207,7 +207,7 @@ public class OutputBuffer {
 	}
 
 	public int getOffset() {
-		return buffer.toString().length();
+		return buffer.toString().replaceAll("\\n|\\r", "").length();
 	}
 	
 	public void formatWith(Formatter formatter) {
