@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.output;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.epsilon.egl.util.FileUtil;
 import org.junit.Test;
 
 public class OutputBufferOffsetTests {
@@ -32,11 +33,11 @@ public class OutputBufferOffsetTests {
 	}
 	
 	@Test
-	public void offsetIgnoresLineBreaks() throws Exception {
+	public void offsetRespectsLineBreaks() throws Exception {
 		final OutputBuffer buffer = new OutputBuffer();
 		buffer.println("foo");
 		buffer.print("bar");
 		
-		assertEquals("foobar".length(), buffer.getOffset());
+		assertEquals(("foo" + FileUtil.NEWLINE + "bar").length(), buffer.getOffset());
 	}
 }
