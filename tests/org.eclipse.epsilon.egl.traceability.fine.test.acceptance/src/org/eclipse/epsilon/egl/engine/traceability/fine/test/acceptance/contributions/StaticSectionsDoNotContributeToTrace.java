@@ -29,8 +29,8 @@ public class StaticSectionsDoNotContributeToTrace extends EglFineGrainedTraceabi
 	}
 	
 	@Test
-	public void thereShouldBeNoTraceElements() {
-		trace.assertEquals(0, "trace.elements.size()");
+	public void thereShouldBeNoTraceLinks() {
+		trace.assertEquals(0, "trace.traceLinks.size()");
 	}
 	
 	@Test

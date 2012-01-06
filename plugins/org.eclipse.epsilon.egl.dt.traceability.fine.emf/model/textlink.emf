@@ -7,9 +7,18 @@ class Trace {
 }
 
 class TraceLink {
-   attr String type;
    val ModelLocation[1] source;
    val TextLocation[1] destination;
+   val TraceLinkData[1] customData;
+}
+
+class TraceLinkData {
+   val TraceLinkDataItem[*] items;
+}
+
+class TraceLinkDataItem {
+   attr String[1] key;
+   attr String[1] value;
 }
 
 abstract class TraceLinkEnd {}

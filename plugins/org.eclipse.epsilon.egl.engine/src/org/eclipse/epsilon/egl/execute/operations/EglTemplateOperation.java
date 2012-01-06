@@ -13,17 +13,12 @@ package org.eclipse.epsilon.egl.execute.operations;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EglTemplateOperation extends EolOperation{
-
-	public EglTemplateOperation() {
-		super();
-	}
+public class EglTemplateOperation extends EglOperation {
 
 	public EglTemplateOperation(AST ast) {
 		super(ast);

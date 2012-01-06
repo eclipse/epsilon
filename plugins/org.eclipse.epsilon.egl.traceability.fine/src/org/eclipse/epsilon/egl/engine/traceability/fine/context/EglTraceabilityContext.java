@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
@@ -55,6 +58,21 @@ public class EglTraceabilityContext implements IEglTraceabilityContext {
 
 	@Override
 	public void addDestinationRegionForLatestPropertyAccesses(Region destination) {
-		traceBuilder.withTraceElements(recorder.getPropertyAccesses(), destination);
+		traceBuilder.fromPropertyAccesses(recorder.getPropertyAccesses(), destination);
+	}
+
+	@Override
+	public void setCustomDataForFutureTraceLinks(Map<?, ?> customData) {
+		recorder.setCustomData(stringifyEntries(customData));
+	}
+	
+	private static Map<String, String> stringifyEntries(Map<?, ?> customData) {
+		final Map<String, String> stringifiedCustomData = new HashMap<String, String>();
+		
+		for (Map.Entry<?, ?> customDataItem : customData.entrySet()) {
+			stringifiedCustomData.put(customDataItem.getKey().toString(), customDataItem.getValue().toString());
+		}
+		
+		return stringifiedCustomData;
 	}
 }

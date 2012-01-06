@@ -32,15 +32,15 @@ public class GenerateShouldUpdateTextLocation extends EglFineGrainedTraceability
 	}
 	
 	@Test
-	public void thereShouldBeOneTraceElement() throws Throwable {
-		trace.assertEquals(1, "trace.elements.size()");
+	public void thereShouldBeOneTraceLink() throws Throwable {
+		trace.assertEquals(1, "trace.traceLinks.size()");
 	}
 	
 	@Test
 	public void destinationShouldHaveGenerationLocationAsResource() {
 		final File generatedFile = new File(getOutputPath(), "Out.txt"); 
 		
-		trace.assertEquals(generatedFile.getAbsolutePath(), "trace.elements.first.destination.resource");		
+		trace.assertEquals(generatedFile.getAbsolutePath(), "trace.traceLinks.first.destination.resource");		
 	}	
 
 }

@@ -23,6 +23,7 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.ModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,35 +32,15 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkImpl#getDestination <em>Destination</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkImpl#getCustomData <em>Custom Data</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class TraceLinkImpl extends EObjectImpl implements TraceLink {
-	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TYPE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getType()
-	 * @generated
-	 * @ordered
-	 */
-	protected String type = TYPE_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -81,6 +62,16 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	protected TextLocation destination;
 
 	/**
+	 * The cached value of the '{@link #getCustomData() <em>Custom Data</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCustomData()
+	 * @generated
+	 * @ordered
+	 */
+	protected TraceLinkData customData;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,27 +88,6 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@Override
 	protected EClass eStaticClass() {
 		return TextlinkPackage.Literals.TRACE_LINK;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setType(String newType) {
-		String oldType = type;
-		type = newType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TextlinkPackage.TRACE_LINK__TYPE, oldType, type));
 	}
 
 	/**
@@ -211,6 +181,49 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TraceLinkData getCustomData() {
+		return customData;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCustomData(TraceLinkData newCustomData, NotificationChain msgs) {
+		TraceLinkData oldCustomData = customData;
+		customData = newCustomData;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TextlinkPackage.TRACE_LINK__CUSTOM_DATA, oldCustomData, newCustomData);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCustomData(TraceLinkData newCustomData) {
+		if (newCustomData != customData) {
+			NotificationChain msgs = null;
+			if (customData != null)
+				msgs = ((InternalEObject)customData).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TextlinkPackage.TRACE_LINK__CUSTOM_DATA, null, msgs);
+			if (newCustomData != null)
+				msgs = ((InternalEObject)newCustomData).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TextlinkPackage.TRACE_LINK__CUSTOM_DATA, null, msgs);
+			msgs = basicSetCustomData(newCustomData, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TextlinkPackage.TRACE_LINK__CUSTOM_DATA, newCustomData, newCustomData));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -218,6 +231,8 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 				return basicSetSource(null, msgs);
 			case TextlinkPackage.TRACE_LINK__DESTINATION:
 				return basicSetDestination(null, msgs);
+			case TextlinkPackage.TRACE_LINK__CUSTOM_DATA:
+				return basicSetCustomData(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -230,12 +245,12 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TextlinkPackage.TRACE_LINK__TYPE:
-				return getType();
 			case TextlinkPackage.TRACE_LINK__SOURCE:
 				return getSource();
 			case TextlinkPackage.TRACE_LINK__DESTINATION:
 				return getDestination();
+			case TextlinkPackage.TRACE_LINK__CUSTOM_DATA:
+				return getCustomData();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,14 +263,14 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TextlinkPackage.TRACE_LINK__TYPE:
-				setType((String)newValue);
-				return;
 			case TextlinkPackage.TRACE_LINK__SOURCE:
 				setSource((ModelLocation)newValue);
 				return;
 			case TextlinkPackage.TRACE_LINK__DESTINATION:
 				setDestination((TextLocation)newValue);
+				return;
+			case TextlinkPackage.TRACE_LINK__CUSTOM_DATA:
+				setCustomData((TraceLinkData)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -269,14 +284,14 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TextlinkPackage.TRACE_LINK__TYPE:
-				setType(TYPE_EDEFAULT);
-				return;
 			case TextlinkPackage.TRACE_LINK__SOURCE:
 				setSource((ModelLocation)null);
 				return;
 			case TextlinkPackage.TRACE_LINK__DESTINATION:
 				setDestination((TextLocation)null);
+				return;
+			case TextlinkPackage.TRACE_LINK__CUSTOM_DATA:
+				setCustomData((TraceLinkData)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -290,30 +305,14 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TextlinkPackage.TRACE_LINK__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case TextlinkPackage.TRACE_LINK__SOURCE:
 				return source != null;
 			case TextlinkPackage.TRACE_LINK__DESTINATION:
 				return destination != null;
+			case TextlinkPackage.TRACE_LINK__CUSTOM_DATA:
+				return customData != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (type: ");
-		result.append(type);
-		result.append(')');
-		return result.toString();
 	}
 
 } //TraceLinkImpl

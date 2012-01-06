@@ -8,11 +8,11 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.contributions;
+package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.customdata;
 
+import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
-import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -20,9 +20,14 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineG
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTraceabilityAcceptanceTest {
+public class AnnotatedOperationsShouldCreateCustomData extends EglFineGrainedTraceabilityAcceptanceTest {
 	
-	private static final String egl = "[%=EClass.all.first.name%]";
+	private static final String egl = "[%=crucial(EClass.all.first)%]"      + NEWLINE +
+	                                  "[%"                                  + NEWLINE +
+	                                  "$trace Map {'priority' = 'crucial'}" + NEWLINE +
+	                                  "operation crucial(c : EClass)  {"    + NEWLINE +
+	                                  "   return c.name;"                   + NEWLINE +
+	                                  "} %]";
 
 	private static final EClass   person = anEClass().named("Person").build();
 	private static final EPackage model  = aMetamodel().with(person).build();
@@ -31,22 +36,17 @@ public class DynamicOutputSectionsContributeToTrace extends EglFineGrainedTracea
 	public static void setup() throws Exception {
 		generateTrace(egl, model);
 		
-		trace.setVariable("element", "trace.traceLinks.first");
+		trace.setVariable("traceLink", "trace.traceLinks.first");
 	}
 	
 	@Test
-	public void sourceShouldBeTheNameAttributeOfPerson() throws Throwable {
-		assertEquals(person, trace.evaluate("element.source.modelElement"));
-		trace.assertEquals("name", "element.source.propertyName");
+	public void customDataShouldHaveOneDataItem() throws Throwable {
+		trace.assertEquals(1, "traceLink.customData.size");
 	}
 	
 	@Test
-	public void destinationShouldStartAtOrigin() {
-		trace.assertEquals(0, "element.destination.region.offset");
-	}
-	
-	@Test
-	public void destinationShouldEndAtTheEndOfTheValue() {
-		trace.assertEquals("Person".length(), "element.destination.region.length");
+	public void dataItemShouldHaveValuesFromAnnotation() {
+		trace.assertEquals("priority", "traceLink.customData.keySet.first");
+		trace.assertEquals("crucial",  "traceLink.customData.values.first");
 	}
 }

@@ -10,9 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
@@ -25,6 +26,7 @@ public class SelectivePropertyAccessRecorder implements IPropertyAccessRecorder 
 	private final ModelLocationBuilder builder = new ModelLocationBuilder();
 	private final Set<PropertyAccess> recentPropertyAccesses = new HashSet<PropertyAccess>();
 	private boolean recording = false;
+	private Map<String, String> customData = new HashMap<String, String>();
 
 	public void startRecording() {
 		recording = true;
@@ -37,27 +39,27 @@ public class SelectivePropertyAccessRecorder implements IPropertyAccessRecorder 
 
 	@Override
 	public void record(Object modelElement, String propertyName) {
-		if (recording) recentPropertyAccesses.add(new PropertyAccess(modelElement, propertyName));
-	}
-
-	public List<ModelLocation> getPropertyAccesses() {
-		final List<ModelLocation> modelLocations = new LinkedList<ModelLocation>();
-		
-		for (PropertyAccess propertyAccess : recentPropertyAccesses) {
-			modelLocations.add(propertyAccess.toModelLocation());
-		}
-
-		return modelLocations;
+		if (recording) recentPropertyAccesses.add(new PropertyAccess(modelElement, propertyName, customData));
 	}
 	
-	private class PropertyAccess {
+	public void setCustomData(Map<String, String> customData) {
+		this.customData = new HashMap<String, String>(customData);
+	}
+
+	public Collection<PropertyAccess> getPropertyAccesses() {
+		return recentPropertyAccesses;
+	}
+	
+	public class PropertyAccess {
 		
 		public final Object modelElement;
 		public final String propertyName;
+		public final Map<String, String> customData;
 		
-		public PropertyAccess(Object modelElement, String propertyName) {
+		public PropertyAccess(Object modelElement, String propertyName, Map<String, String> customData) {
 			this.modelElement = modelElement;
 			this.propertyName = propertyName;
+			this.customData   = customData;
 		}
 		
 		public ModelLocation toModelLocation() {
@@ -71,17 +73,18 @@ public class SelectivePropertyAccessRecorder implements IPropertyAccessRecorder 
 			final PropertyAccess other = (PropertyAccess)obj;
 			
 			return modelElement.equals(other.modelElement) &&
-			       propertyName.equals(other.propertyName);
+			       propertyName.equals(other.propertyName) &&
+			       customData.equals(other.customData);
 		}
 		
 		@Override
 		public int hashCode() {
-			return modelElement.hashCode() + propertyName.hashCode();
+			return modelElement.hashCode() + propertyName.hashCode() + customData.hashCode();
 		}
 		
 		@Override
 		public String toString() {
-			return "PropertyAccess: " + propertyName + " on " + modelElement;
+			return "PropertyAccess: " + propertyName + " on " + modelElement + " with custom data: " + customData;
 		}
 	}
 }

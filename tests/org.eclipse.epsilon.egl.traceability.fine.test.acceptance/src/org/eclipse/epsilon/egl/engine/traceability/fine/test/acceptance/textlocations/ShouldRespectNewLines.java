@@ -31,13 +31,13 @@ public class ShouldRespectNewLines extends EglFineGrainedTraceabilityAcceptanceT
 	}
 	
 	@Test
-	public void thereShouldBeOneTraceElement() throws Throwable {
-		trace.assertEquals(1, "trace.elements.size()");
+	public void thereShouldBeOneTraceLink() throws Throwable {
+		trace.assertEquals(1, "trace.traceLinks.size()");
 	}
 	
 	@Test
 	public void destinationShouldBeginAtOffsetAfterNewLine() {
-		trace.assertEquals(("Hello" + FileUtil.NEWLINE).length(), "trace.elements.first.destination.region.offset");		
+		trace.assertEquals(("Hello" + FileUtil.NEWLINE).length(), "trace.traceLinks.first.destination.region.offset");		
 	}	
 
 }

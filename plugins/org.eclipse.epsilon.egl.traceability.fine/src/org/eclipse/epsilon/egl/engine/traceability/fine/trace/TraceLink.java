@@ -13,15 +13,18 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class TraceLink {
 
 	public final ModelLocation source;
 	public final TextLocation destination;
+	public final Map<String, String> customData;
 
-	public TraceLink(ModelLocation source, TextLocation destination) {
+	public TraceLink(ModelLocation source, TextLocation destination, Map<String, String> customData) {
 		this.source = source;
 		this.destination = destination;
+		this.customData = customData;
 	}
 
 	
@@ -33,6 +36,10 @@ public class TraceLink {
 	
 	public TextLocation getDestination() {
 		return destination;
+	}
+	
+	public Map<String, String> getCustomData() {
+		return customData;
 	}
 
 	public Collection<? extends Object> getAllContents() {

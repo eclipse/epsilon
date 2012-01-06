@@ -18,10 +18,10 @@ public class TraceCombiner {
 	public Trace combine(Trace first, Trace second, int currentOffset) {
 		final Trace combined = new Trace();
 		
-		combined.elements.addAll(first.elements);
+		combined.traceLinks.addAll(first.traceLinks);
 		combined.locations.addAll(first.locations);
 		
-		combined.elements.addAll(second.elements);
+		combined.traceLinks.addAll(second.traceLinks);
 
 		for (TextLocation location : second.locations) {
 			location.region.offset += currentOffset;

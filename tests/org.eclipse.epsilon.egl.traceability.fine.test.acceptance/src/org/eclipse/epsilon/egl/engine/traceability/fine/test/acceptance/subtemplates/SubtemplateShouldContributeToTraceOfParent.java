@@ -30,12 +30,12 @@ public class SubtemplateShouldContributeToTraceOfParent extends EglFineGrainedTr
 	}
 	
 	@Test
-	public void thereShouldBeOneTraceElement() throws Throwable {
-		trace.assertEquals(1, "trace.elements.size()");
+	public void thereShouldBeOneTraceLink() throws Throwable {
+		trace.assertEquals(1, "trace.traceLinks.size()");
 	}
 	
 	@Test
-	public void elementShouldStartAtTheOrigin() {
-		trace.assertEquals(0, "trace.elements.first.destination.region.offset");		
+	public void destinationShouldStartAtTheOrigin() {
+		trace.assertEquals(0, "trace.traceLinks.first.destination.region.offset");		
 	}	
 }

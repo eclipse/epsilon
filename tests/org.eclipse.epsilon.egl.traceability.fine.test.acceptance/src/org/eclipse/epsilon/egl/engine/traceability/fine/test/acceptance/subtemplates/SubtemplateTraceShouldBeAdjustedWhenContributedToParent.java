@@ -32,13 +32,13 @@ public class SubtemplateTraceShouldBeAdjustedWhenContributedToParent extends Egl
 	
 	@Test
 	public void thereShouldBeOneTraceElement() {
-		trace.assertEquals(1, "trace.elements.size()");
+		trace.assertEquals(1, "trace.traceLinks.size()");
 	}
 	
 	@Test
-	public void elementShouldStartAfterTextEmittedByParent() {
+	public void destinationShouldStartAfterTextEmittedByParent() {
 		// offsets start at 0 rather than 1
 		// => an offset of 10 is the 11th character
-		trace.assertEquals(10, "trace.elements.first.destination.region.offset");		
+		trace.assertEquals(10, "trace.traceLinks.first.destination.region.offset");		
 	}
 }

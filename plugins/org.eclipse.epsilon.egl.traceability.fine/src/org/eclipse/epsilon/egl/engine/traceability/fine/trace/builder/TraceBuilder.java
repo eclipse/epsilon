@@ -11,7 +11,9 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
 import java.util.Collection;
+import java.util.Map;
 
+import org.eclipse.epsilon.egl.engine.traceability.fine.context.SelectivePropertyAccessRecorder.PropertyAccess;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
@@ -21,11 +23,11 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 
 public class TraceBuilder {
 	
-	private final Trace trace = new Trace();
+	private final Trace trace = new Trace();	
 	
-	public void withTraceElements(Collection<ModelLocation> propertyAccesses, Region destination) {
+	public void fromPropertyAccesses(Collection<PropertyAccess> propertyAccesses, Region destination) {
 		if (!propertyAccesses.isEmpty()) {
-			withTraceLinks(propertyAccesses, createTextLocationFor(destination));
+			fromPropertyAccesses(propertyAccesses, createTextLocationFor(destination));
 		}
 	}
 	
@@ -33,16 +35,16 @@ public class TraceBuilder {
 		return new TextLocation(region);
 	}
 	
-	private void withTraceLinks(Collection<ModelLocation> propertyAccesses, TextLocation destination) {
+	private void fromPropertyAccesses(Collection<PropertyAccess> propertyAccesses, TextLocation destination) {
 		trace.locations.add(destination);
 		
-		for (ModelLocation propertyAccess : propertyAccesses) {
-			trace.elements.add(createTraceLink(propertyAccess, destination));
+		for (PropertyAccess propertyAccess : propertyAccesses) {
+			trace.traceLinks.add(createTraceLink(propertyAccess.toModelLocation(), destination, propertyAccess.customData));
 		}
 	}
 
-	private TraceLink createTraceLink(ModelLocation source, TextLocation destination) {
-		return new TraceLink(source, destination);
+	private TraceLink createTraceLink(ModelLocation source, TextLocation destination, Map<String, String> customData) {
+		return new TraceLink(source, destination, customData);
 	}
 	
 	public Trace build() {

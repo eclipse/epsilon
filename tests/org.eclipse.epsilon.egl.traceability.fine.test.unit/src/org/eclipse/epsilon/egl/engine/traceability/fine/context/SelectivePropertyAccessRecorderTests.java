@@ -31,8 +31,8 @@ public class SelectivePropertyAccessRecorderTests {
 		recorder.startRecording();
 		recorder.record(dummyModelElement, "DummyFeatureName");
 		
-		assertEquals(dummyModelElement,  recorder.getPropertyAccesses().get(0).modelElement);
-		assertEquals("DummyFeatureName", recorder.getPropertyAccesses().get(0).propertyName);
+		assertEquals(dummyModelElement,  recorder.getPropertyAccesses().iterator().next().modelElement);
+		assertEquals("DummyFeatureName", recorder.getPropertyAccesses().iterator().next().propertyName);
 	}
 	
 	@Test

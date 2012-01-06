@@ -102,22 +102,13 @@ public interface TextlinkPackage extends EPackage {
 	int TRACE_LINK = 1;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACE_LINK__TYPE = 0;
-
-	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACE_LINK__SOURCE = 1;
+	int TRACE_LINK__SOURCE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Destination</b></em>' containment reference.
@@ -126,7 +117,16 @@ public interface TextlinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACE_LINK__DESTINATION = 2;
+	int TRACE_LINK__DESTINATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Custom Data</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK__CUSTOM_DATA = 2;
 
 	/**
 	 * The number of structural features of the '<em>Trace Link</em>' class.
@@ -138,6 +138,71 @@ public interface TextlinkPackage extends EPackage {
 	int TRACE_LINK_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataImpl <em>Trace Link Data</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataImpl
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTraceLinkData()
+	 * @generated
+	 */
+	int TRACE_LINK_DATA = 2;
+
+	/**
+	 * The feature id for the '<em><b>Items</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK_DATA__ITEMS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Trace Link Data</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK_DATA_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataItemImpl <em>Trace Link Data Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataItemImpl
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTraceLinkDataItem()
+	 * @generated
+	 */
+	int TRACE_LINK_DATA_ITEM = 3;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK_DATA_ITEM__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK_DATA_ITEM__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Trace Link Data Item</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_LINK_DATA_ITEM_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkEndImpl <em>Trace Link End</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -145,7 +210,7 @@ public interface TextlinkPackage extends EPackage {
 	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTraceLinkEnd()
 	 * @generated
 	 */
-	int TRACE_LINK_END = 2;
+	int TRACE_LINK_END = 4;
 
 	/**
 	 * The number of structural features of the '<em>Trace Link End</em>' class.
@@ -164,7 +229,7 @@ public interface TextlinkPackage extends EPackage {
 	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getModelLocation()
 	 * @generated
 	 */
-	int MODEL_LOCATION = 3;
+	int MODEL_LOCATION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Property Name</b></em>' attribute.
@@ -192,7 +257,7 @@ public interface TextlinkPackage extends EPackage {
 	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getEmfModelLocation()
 	 * @generated
 	 */
-	int EMF_MODEL_LOCATION = 4;
+	int EMF_MODEL_LOCATION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Property Name</b></em>' attribute.
@@ -229,7 +294,7 @@ public interface TextlinkPackage extends EPackage {
 	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTextLocation()
 	 * @generated
 	 */
-	int TEXT_LOCATION = 5;
+	int TEXT_LOCATION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Resource</b></em>' attribute.
@@ -266,7 +331,7 @@ public interface TextlinkPackage extends EPackage {
 	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getRegion()
 	 * @generated
 	 */
-	int REGION = 6;
+	int REGION = 8;
 
 	/**
 	 * The feature id for the '<em><b>Offset</b></em>' attribute.
@@ -327,17 +392,6 @@ public interface TextlinkPackage extends EPackage {
 	EClass getTraceLink();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getType()
-	 * @see #getTraceLink()
-	 * @generated
-	 */
-	EAttribute getTraceLink_Type();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -358,6 +412,70 @@ public interface TextlinkPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTraceLink_Destination();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getCustomData <em>Custom Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Custom Data</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getCustomData()
+	 * @see #getTraceLink()
+	 * @generated
+	 */
+	EReference getTraceLink_CustomData();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData <em>Trace Link Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Trace Link Data</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData
+	 * @generated
+	 */
+	EClass getTraceLinkData();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData#getItems <em>Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Items</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData#getItems()
+	 * @see #getTraceLinkData()
+	 * @generated
+	 */
+	EReference getTraceLinkData_Items();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem <em>Trace Link Data Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Trace Link Data Item</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem
+	 * @generated
+	 */
+	EClass getTraceLinkDataItem();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem#getKey <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem#getKey()
+	 * @see #getTraceLinkDataItem()
+	 * @generated
+	 */
+	EAttribute getTraceLinkDataItem_Key();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem#getValue()
+	 * @see #getTraceLinkDataItem()
+	 * @generated
+	 */
+	EAttribute getTraceLinkDataItem_Value();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkEnd <em>Trace Link End</em>}'.
@@ -526,14 +644,6 @@ public interface TextlinkPackage extends EPackage {
 		EClass TRACE_LINK = eINSTANCE.getTraceLink();
 
 		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRACE_LINK__TYPE = eINSTANCE.getTraceLink_Type();
-
-		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -548,6 +658,58 @@ public interface TextlinkPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRACE_LINK__DESTINATION = eINSTANCE.getTraceLink_Destination();
+
+		/**
+		 * The meta object literal for the '<em><b>Custom Data</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE_LINK__CUSTOM_DATA = eINSTANCE.getTraceLink_CustomData();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataImpl <em>Trace Link Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataImpl
+		 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTraceLinkData()
+		 * @generated
+		 */
+		EClass TRACE_LINK_DATA = eINSTANCE.getTraceLinkData();
+
+		/**
+		 * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE_LINK_DATA__ITEMS = eINSTANCE.getTraceLinkData_Items();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataItemImpl <em>Trace Link Data Item</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkDataItemImpl
+		 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextlinkPackageImpl#getTraceLinkDataItem()
+		 * @generated
+		 */
+		EClass TRACE_LINK_DATA_ITEM = eINSTANCE.getTraceLinkDataItem();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRACE_LINK_DATA_ITEM__KEY = eINSTANCE.getTraceLinkDataItem_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRACE_LINK_DATA_ITEM__VALUE = eINSTANCE.getTraceLinkDataItem_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceLinkEndImpl <em>Trace Link End</em>}' class.

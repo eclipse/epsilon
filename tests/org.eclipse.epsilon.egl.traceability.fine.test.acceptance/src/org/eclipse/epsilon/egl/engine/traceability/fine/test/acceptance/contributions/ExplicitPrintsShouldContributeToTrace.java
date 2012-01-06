@@ -30,7 +30,7 @@ public class ExplicitPrintsShouldContributeToTrace extends EglFineGrainedTraceab
 	}
 	
 	@Test
-	public void thereShouldBeOneTraceElement() {
-		trace.assertEquals(1, "trace.elements.size()");
+	public void thereShouldBeOneTraceLink() {
+		trace.assertEquals(1, "trace.traceLinks.size()");
 	}
 }
