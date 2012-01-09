@@ -113,8 +113,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		for (Object pkg : getPackageRegistry().values()) {
 
-			if (pkg instanceof EPackage) {
-				EPackage ePackage = (EPackage) pkg;
+			if (pkg instanceof EPackage || pkg instanceof EPackage.Descriptor) {
+				EPackage ePackage = null;
+				
+				if (pkg instanceof EPackage) {
+					ePackage = (EPackage) pkg;
+				}
+				else {
+					ePackage = ((EPackage.Descriptor) pkg).getEPackage();
+				}
+				
 				for (EClassifier classifier : EmfUtil.getAllEClassifiers(ePackage)) {
 				//for (EClassifier classifier : ePackage.getEClassifiers()) {
 					if (classifier instanceof EEnum && 
