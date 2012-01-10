@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.presentation.EcoreEditor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.epsilon.egl.dt.traceability.editor.SelectTextDestinationDialogue.ISelectedTextDestinationHandler;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.EmfModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.ModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation;
@@ -144,13 +145,21 @@ public class TextLinkEditor extends MultiEditor {
 	}
 	
 	private void selectAndRevealDestination() {
-		final TextLocation firstDestination = getTextlinkModel().getFirstDestinationFor(getFirstSelectedModelElement());
+		final List<TextLocation> destinations = getTextlinkModel().getDestinationsFor(getFirstSelectedModelElement());
 			
-		if (firstDestination != null) {
-			selectAndReveal(firstDestination);
+		if (destinations.size() == 1) {
+			selectAndReveal(destinations.iterator().next());
+		
+		} else if (destinations.size() > 1) {
+			SelectTextDestinationDialogue.promptForSelectionFrom(getEditorSite().getShell(), destinations, new ISelectedTextDestinationHandler() {
+				@Override
+				public void reactToSelectionOf(TextLocation destination) {
+					selectAndReveal(destination);
+				}
+			});
 		}
 	}
-	
+
 	private EObject getFirstSelectedModelElement() {
 		final EcoreEditor activeModelEditor = sources.getActiveEditor();
 		final ITreeSelection selection = (ITreeSelection)activeModelEditor.getSelection();

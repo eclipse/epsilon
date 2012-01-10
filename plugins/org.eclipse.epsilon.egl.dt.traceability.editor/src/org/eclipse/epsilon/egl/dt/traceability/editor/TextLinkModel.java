@@ -115,21 +115,42 @@ public class TextLinkModel {
 	}
 	
 	public boolean hasDestinationFor(EObject source) {
-		return getFirstDestinationFor(source) != null;
+		return !getDestinationsFor(source).isEmpty();
 	}
 
-	public TextLocation getFirstDestinationFor(EObject source) {
+	public List<TextLocation> getDestinationsFor(EObject source) {
+		final List<TextLocation> destinations = new LinkedList<TextLocation>();
+		
 		for (TraceLink traceLink : getTraceLinks()) {
-			if (traceLink.getSource() instanceof EmfModelLocation && sameEObject(source, ((EmfModelLocation)traceLink.getSource()).getModelElement())) {
-				return traceLink.getDestination();
+			if (isNavigableAndMatchingTraceLink(traceLink, source, destinations)) {
+				destinations.add(traceLink.getDestination());
 			}
 		}
 		
-		return null;
+		return destinations;
 	}
-	
+
+	private boolean isNavigableAndMatchingTraceLink(TraceLink traceLink, EObject source, List<TextLocation> destinations) {
+		return traceLink.getSource() instanceof EmfModelLocation &&
+		       sameEObject(source, ((EmfModelLocation)traceLink.getSource()).getModelElement()) &&
+		       distinctFromExistingDestinations(traceLink.getDestination(), destinations);
+	}
+
 	private boolean sameEObject(EObject first, EObject second) {
 		return first.equals(first.eResource().getEObject(getURIFragmentFor(second)));
+	}
+	
+	private boolean distinctFromExistingDestinations(TextLocation destination, List<TextLocation> existingDestinations) {
+		for (TextLocation existingDestination : existingDestinations) {
+			if (existingDestination.getResource().equals(destination.getResource()) &&
+			    existingDestination.getRegion().getOffset().equals(destination.getRegion().getOffset()) &&
+			    existingDestination.getRegion().getLength().equals(destination.getRegion().getLength())) {
+				
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	private String getURIFragmentFor(EObject first) {
