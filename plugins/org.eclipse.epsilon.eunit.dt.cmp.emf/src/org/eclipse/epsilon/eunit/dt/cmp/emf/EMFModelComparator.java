@@ -63,6 +63,9 @@ public class EMFModelComparator implements IModelComparator {
 		final HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 		MatchResourceSet match = MatchService.doResourceSetMatch(myResourceSet, otherResourceSet, options);
+		if (match.getUnmatchedModels().size() > 0) {
+			throw new UnmatchedModelsException(match.getUnmatchedModels());
+		}
 		DiffResourceSet diff = DiffService.doDiff(match);
 		boolean bAnyDifferences = false;
 		for (DiffModel diffModel : diff.getDiffModels()) {
@@ -115,7 +118,15 @@ public class EMFModelComparator implements IModelComparator {
 		try {
 			// Map each non-platform resource to a new temporary file
 			for (Resource res : originalURIMap.keySet()) {
-				File tmpFile = File.createTempFile(res.getURI().lastSegment() + ".", ".model");
+				/*
+				 * It is important to build the file names for the temporary files in a way
+				 * that ensures that the 70% URI minimum similarity threshold for the default
+				 * EMF Compare match engine is reached. Since creating a temporary file adds
+				 * an unique suffix, it might lower the value to the point in which a false
+				 * negative is produced. For this reason, we will add a long common prefix to
+				 * all these temporary clones.
+				 */
+				File tmpFile = File.createTempFile("emf-model-comparator-clone-" + res.getURI().lastSegment() + ".", ".model");
 				res.setURI(URI.createFileURI(tmpFile.getAbsolutePath()));
 			}
 

@@ -132,7 +132,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 				new String[]{
 					"sameModelsAreEqual[1]", "sameModelsAreEqual[2]", "sameModelsAreEqual[3]",
 					"modelsFromDifferentMetamodelsAreDifferent[1]",
-					"modelsFromDifferentMetamodelsAreDifferent[2]",
+					"modelsFromDifferentMetamodelsAreDifferent[2]",					
 					"modelsWithDifferentContentAreDifferent",
 					"modelsWithDifferentContentAreDifferentFailing",
 					"transformedIsEqualToExpected",
