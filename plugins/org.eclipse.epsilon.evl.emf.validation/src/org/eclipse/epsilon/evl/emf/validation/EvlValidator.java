@@ -109,6 +109,7 @@ public class EvlValidator implements EValidator {
 		try {
 			module.parse(source);
 		} catch (Exception e) {
+			LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, true);
 			return new ValidationResults();
 		}
 		
