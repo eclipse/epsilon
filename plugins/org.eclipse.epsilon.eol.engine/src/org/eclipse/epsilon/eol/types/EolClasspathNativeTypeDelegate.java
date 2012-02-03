@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelegate{
 
@@ -43,19 +44,32 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		try {
 			Class c = fClassLoader.loadClass(clazz);
 			if (parameters.size() > 0) {
-				Constructor con = c.getConstructor(getTypes(parameters));
-				return con.newInstance(parameters.toArray());
+				for (Constructor con : c.getConstructors()) {
+					if (con.getParameterTypes().length != parameters.size()) continue;
+					boolean parameterTypesMatch = true;
+					for (int i=0;i<parameters.size();i++) {
+						parameterTypesMatch = parameterTypesMatch && 
+							ReflectionUtil.isInstance(con.getParameterTypes()[i], parameters.get(i));
+					}
+					if (parameterTypesMatch) {
+						return con.newInstance(parameters.toArray());
+					}
+				}
+				//Constructor con = c.getConstructor(getTypes(parameters));
+				
 			}
 			else {
 				return c.newInstance();
 			}
 		} 
-		catch (NoSuchMethodException mex) {
-			throw new EolRuntimeException("Native type " + clazz + " does not define a suitable constructor for arguments " + parameters);
-		}
+		//catch (NoSuchMethodException mex) {
+		//	throw new EolRuntimeException("Native type " + clazz + " does not define a suitable constructor for arguments " + parameters);
+		//}
 		catch (Exception e) {
 			throw new EolInternalException(e);
 		}
+		
+		throw new EolRuntimeException("Native type " + clazz + " does not define a suitable constructor for arguments " + parameters);
 	}
 
 	public Class[] getTypes(Collection objects) {
