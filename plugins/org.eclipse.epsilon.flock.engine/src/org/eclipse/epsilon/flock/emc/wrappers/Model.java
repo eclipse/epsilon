@@ -69,11 +69,18 @@ public class Model {
 		return underlyingModel.hasProperty(type, property);
 	}
 	
-	public Iterable<ModelElement> allContents() {
+	/**
+	 * Returns all of the model elements that are directly contained in this model.
+	 * This <em>excludes</em> model elements that are referenced from this model,
+	 * but contained in another model.
+	 */
+	public Iterable<ModelElement> directContents() {
 		final Collection<ModelElement> modelElements = new LinkedList<ModelElement>();
 		
 		for (Object unwrappedModelElement : underlyingModel.allContents()) {
-			modelElements.add(wrapModelElement(unwrappedModelElement));
+			if (underlyingModel.owns(unwrappedModelElement)) {
+				modelElements.add(wrapModelElement(unwrappedModelElement));
+			}
 		}
 		
 		return modelElements;

@@ -28,6 +28,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.Do
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyContainedObjectWithUnknownMigratedClass;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyListWhenLowerboundIncreases;
 import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyListWhenUpperboundDecreases;
+import org.eclipse.epsilon.flock.engine.test.acceptance.strong2strong.copying.DoNotCopyTypesThatDoNotBelongToTheOriginalMetamodel;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -41,7 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
                CopyListWhenUpperboundIncreases.class, DoNotCopyListWhenUpperboundDecreases.class,
                CopyListWhenLowerboundDecreases.class, DoNotCopyListWhenLowerboundIncreases.class,
                CopyValueFromAnotherModel.class,
-               CopyPersistsIdentity.class})
+               CopyPersistsIdentity.class,
+               DoNotCopyTypesThatDoNotBelongToTheOriginalMetamodel.class})
 public class Strong2StrongCopyingSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(Strong2StrongCopyingSuite.class);

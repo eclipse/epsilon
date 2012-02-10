@@ -30,4 +30,8 @@ public abstract class FlockAcceptanceTestModels {
 	public static URI getDoesModelUri() {
 		return URI.createFileURI(getDoesModelFile().getAbsolutePath());
 	}
+
+	public static File getBloggsModelFile() {
+		return FileUtil.getFile("Bloggs.model", FlockAcceptanceTestModels.class);
+	}
 }

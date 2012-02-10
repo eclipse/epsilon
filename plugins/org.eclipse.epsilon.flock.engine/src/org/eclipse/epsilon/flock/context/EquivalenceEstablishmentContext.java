@@ -37,7 +37,7 @@ public class EquivalenceEstablishmentContext {
 	public Collection<TypeMappingContext> getTypeMappingContexts() {
 		final Collection<TypeMappingContext> contexts = new LinkedList<TypeMappingContext>();
 		
-		for (ModelElement original : originalModel.allContents()) {
+		for (ModelElement original : originalModel.directContents()) {
 			contexts.add(new TypeMappingContext(original, executor, factory));
 		}
 		

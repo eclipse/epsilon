@@ -142,11 +142,12 @@ public class ModelTests {
 		expect(mockUnderlyingModel.allContents())
 			.andReturn((Collection)Arrays.asList("foo", "bar", "baz"));
 		
+		expect(mockUnderlyingModel.owns("foo")).andReturn(true);
+		expect(mockUnderlyingModel.owns("bar")).andReturn(false);
+		expect(mockUnderlyingModel.owns("baz")).andReturn(true);
+		
 		expect(mockWrapper.wrapModelElement("foo"))
 			.andReturn(new ModelElement(model, dummyType, "foo"));
-		
-		expect(mockWrapper.wrapModelElement("bar"))
-			.andReturn(new ModelElement(model, dummyType, "bar"));
 		
 		expect(mockWrapper.wrapModelElement("baz"))
 			.andReturn(new ModelElement(model, dummyType, "baz"));
@@ -158,10 +159,9 @@ public class ModelTests {
 		
 		assertEquals(Arrays.asList(
 		             	new ModelElement(model, dummyType, "foo"),
-		             	new ModelElement(model, dummyType, "bar"),
 		             	new ModelElement(model, dummyType, "baz")
 		             ), 
-		             model.allContents());
+		             model.directContents());
 		
 		verify(mockUnderlyingModel, mockWrapper);
 	}
