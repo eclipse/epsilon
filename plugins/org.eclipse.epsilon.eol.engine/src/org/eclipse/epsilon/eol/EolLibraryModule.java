@@ -99,8 +99,8 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		system.setContext(context);
 
 		context.setModule(this);
-		context.getFrameStack().put(Variable.createReadOnlyVariable("null", null));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("System",system));
+		context.getFrameStack().getGlobals().put(Variable.createReadOnlyVariable("null", null));
+		context.getFrameStack().getGlobals().put(Variable.createReadOnlyVariable("System",system));
 	}
 	
 	@Override
