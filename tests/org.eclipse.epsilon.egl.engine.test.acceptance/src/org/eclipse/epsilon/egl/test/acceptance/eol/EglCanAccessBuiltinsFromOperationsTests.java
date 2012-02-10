@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.test.acceptance.builtins;
+package org.eclipse.epsilon.egl.test.acceptance.eol;
 
 import java.io.File;
 

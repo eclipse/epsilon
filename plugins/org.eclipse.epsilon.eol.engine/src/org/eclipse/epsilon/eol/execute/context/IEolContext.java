@@ -32,6 +32,8 @@ public interface IEolContext {
 	public IUserInput getUserInput();
 	
 	public PrettyPrinterManager getPrettyPrinterManager();
+	
+	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager);
 
 	public PrintStream getOutputStream();
 
@@ -91,6 +93,5 @@ public interface IEolContext {
 	
 	public OperationContributorRegistry getOperationContributorRegistry();
 	
-	public IPropertyAccessRecorder getPropertyAccessRecorder();
-	
+	public IPropertyAccessRecorder getPropertyAccessRecorder();	
 }

@@ -77,6 +77,10 @@ public class EolContext implements IEolContext{
 	public PrettyPrinterManager getPrettyPrinterManager() {
 		return prettyPrinterManager;
 	}
+	
+	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager) {
+		this.prettyPrinterManager = prettyPrinterManager;
+	}
 
 	public PrintStream getOutputStream() {
 		return outputStream;

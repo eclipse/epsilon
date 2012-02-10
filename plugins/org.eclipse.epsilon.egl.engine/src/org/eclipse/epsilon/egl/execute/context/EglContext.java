@@ -81,7 +81,8 @@ public class EglContext extends EolContext implements IEglContext {
 		if (!preserveFrameStack) context.setFrameStack(getFrameStack());
 		context.setUserInput(getUserInput());
 		context.setNativeTypeDelegates(getNativeTypeDelegates());
-		context.setExtendedProperties(getExtendedProperties());		
+		context.setExtendedProperties(getExtendedProperties());
+		context.setPrettyPrinterManager(getPrettyPrinterManager());
 	}
 	
 	public void copyInto(IEolContext context) {

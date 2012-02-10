@@ -84,6 +84,11 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 	public PrettyPrinterManager getPrettyPrinterManager() {
 		return delegate.getPrettyPrinterManager();
 	}
+	
+	@Override
+	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager) {
+		delegate.setPrettyPrinterManager(prettyPrinterManager);
+	}
 
 	@Override
 	public PrintStream getOutputStream() {
