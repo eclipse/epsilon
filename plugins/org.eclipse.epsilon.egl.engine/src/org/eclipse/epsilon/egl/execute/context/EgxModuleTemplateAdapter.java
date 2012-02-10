@@ -30,7 +30,7 @@ public class EgxModuleTemplateAdapter extends Template {
 		
 		@Override
 		public Collection<Variable> getVariables() {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		
 		@Override
