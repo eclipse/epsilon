@@ -21,7 +21,7 @@ import org.eclipse.epsilon.commons.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.commons.parse.StaticFieldNameResolver;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.parse.V2V3Viewer;
+import org.eclipse.epsilon.eol.parse.AstExplorer;
 
 public class EtlParserWorkbench {
 	
@@ -86,7 +86,7 @@ public class EtlParserWorkbench {
 			System.err.println(problem);
 		}
 		
-		new V2V3Viewer(tree, EtlParser.class);
+		new AstExplorer(tree, EtlParser.class);
 		
 		print(((Tree)parser.etlModule().getTree()), 0);
 	}
