@@ -116,6 +116,10 @@ public class FrameStack {
 		((Frame) frames.get(0)).put(variable);
 	}
 	
+	public void remove(String variable) {
+		((Frame) frames.get(0)).remove(variable);
+	}
+	
 	/**
 	 * Returns the variable with the specified
 	 * name and if it does not exist returns <code>null</code>

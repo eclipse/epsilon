@@ -75,6 +75,10 @@ public class Frame {
 		put(Variable.createReadOnlyVariable(name, value));
 	}
 	
+	public void remove(String name) {
+		storage.remove(name);
+	}
+	
 	public void put(Variable variable){
 		storage.put(variable.getName(), variable);
 	}
