@@ -28,7 +28,7 @@ public class EolParserWorkbench {
 		new EolParserWorkbench().work();
 	}
 	
-	static String basePath = "D:/Projects/Eclipse/3.5.1/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/test.eol";
+	static String basePath = "/Users/dimitrioskolovos/Projects/Eclipse/3.7.1/workspace-new/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/test.eol";
 	
 	
 	public void workPathName() throws Exception {
@@ -66,28 +66,20 @@ public class EolParserWorkbench {
 	StaticFieldNameResolver r;
 	
 	public void work() throws Exception {
-		//String basePath = "E:\\Projects\\Eclipse\\3.5.1\\workspace\\org.eclipse.epsilon.eol.engine\\src\\org\\eclipse\\epsilon\\eol\\parse\\test.eol";
 		
-		//r = new StaticFieldNameResolver(EolParser.class);
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));
 		EolLexer lexer = new EolLexer(input);
 		CommonTokenStream stream = new CommonTokenStream(lexer);
 		EolParser parser = new EolParser(stream);
-		
-		//EolModule module = new EolModule();
-		//module.parse(new File(basePath));
-		
+
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
 		Tree tree = parser.eolModule().tree;
-		
 		for (ParseProblem problem : EpsilonParseProblemManager.INSTANCE.getParseProblems()) {
 			System.err.println(problem);
 		}
 		
-		new V2V3Viewer(tree, EolParser.class);
-		
-		print(((Tree)parser.eolModule().getTree()), 0);
+		new AstExplorer(tree, EolParser.class);
 	}
 	
 	public void print(Tree tree, int indent) {

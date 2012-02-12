@@ -27,11 +27,11 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.StringUtil;
 
 
-public class AstViewer extends JFrame{
+public class OldAstViewer extends JFrame{
 	JTree tree = new JTree();
 	
 	//TODO: Add support for viewing properties of RichAst
-	public AstViewer(AST ast){
+	public OldAstViewer(AST ast){
 		
 		tree.setModel(new ASTModel(ast));
 		tree.setCellRenderer(new ASTTreeCellRenderer());
