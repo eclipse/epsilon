@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.dt.launching;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -29,13 +30,15 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigurationDelegate {
+public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigurationDelegate implements EpsilonLaunchConfigurationDelegateListener {
 	
 	protected Object result = null;
 	protected ILaunchConfiguration configuration = null;
+	protected ArrayList<EpsilonLaunchConfigurationDelegateListener> listeners = new ArrayList<EpsilonLaunchConfigurationDelegateListener>();
 	
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor) throws CoreException {
@@ -61,7 +64,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		
 		try { 
 			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch, setup);
-			preExecute(module);
+			aboutToExecute(configuration, mode, launch, progressMonitor, module);
 			String subtask = "Executing";
 			progressMonitor.subTask(subtask);
 			progressMonitor.beginTask(subtask, 100);
@@ -83,9 +86,10 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 				result = target.debug();
 			}
 			
-			postExecute(module);
+			executed(configuration, mode, launch, progressMonitor, module, result);
 			
-		} catch (EolRuntimeException e) {
+		} catch (Exception e) {
+			if (!(e instanceof EolRuntimeException)) e = new EolInternalException(e);
 			e.printStackTrace();
 			module.getContext().getErrorStream().println(e.toString());
 			progressMonitor.setCanceled(true);
@@ -105,6 +109,39 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	}
 	
 	public abstract IEolExecutableModule createModule() throws CoreException;
+	
+	@Override
+	public void aboutToParse(ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor progressMonitor,
+			IEolExecutableModule module) throws Exception {
+		
+		preParse(module);
+		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
+			listener.aboutToParse(configuration, mode, launch, progressMonitor, module);
+		}
+	}
+	
+	@Override
+	public void aboutToExecute(ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor progressMonitor,
+			IEolExecutableModule module) throws Exception {
+		
+		preExecute(module);
+		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
+			listener.aboutToExecute(configuration, mode, launch, progressMonitor, module);
+		}
+	}
+	
+	@Override
+	public void executed(ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor progressMonitor,
+			IEolExecutableModule module, Object result) throws Exception {
+		
+		postExecute(module);
+		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
+			listener.executed(configuration, mode, launch, progressMonitor, module, result);
+		}
+	}
 	
 	protected void preParse(IEolExecutableModule module) {}
 	

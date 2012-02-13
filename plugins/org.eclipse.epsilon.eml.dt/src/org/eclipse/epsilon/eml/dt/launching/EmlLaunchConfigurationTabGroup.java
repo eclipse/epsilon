@@ -10,27 +10,23 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.dt.launching;
 
-import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
-import org.eclipse.debug.ui.CommonTab;
-import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ProfilingConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
 import org.eclipse.epsilon.eml.dt.launching.tabs.EmlEclSourceConfigurationTab;
 import org.eclipse.epsilon.eml.dt.launching.tabs.EmlSourceConfigurationTab;
 
-public class EmlLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+public class EmlLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTabGroup{
 
-	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
-		ILaunchConfigurationTab[] tabs = 
-			new ILaunchConfigurationTab[]{
-				new EmlSourceConfigurationTab(),
-				new EmlEclSourceConfigurationTab(),
-				new ModelsConfigurationTab(),
-				//new ProfilingConfigurationTab(),
-				new CommonTab()
-				};
-		setTabs(tabs);
+	@Override
+	public ILaunchConfigurationTab getSourceConfigurationTab() {
+		// It's fine to return null here as this is superseded by
+		// the getSourceConfigurationTabs() method
+		return null;
+	}
+	
+	@Override
+	public ILaunchConfigurationTab[] getSourceConfigurationTabs() {
+		return new ILaunchConfigurationTab[]{new EmlSourceConfigurationTab(), new EmlEclSourceConfigurationTab()};
 	}
 
 }
