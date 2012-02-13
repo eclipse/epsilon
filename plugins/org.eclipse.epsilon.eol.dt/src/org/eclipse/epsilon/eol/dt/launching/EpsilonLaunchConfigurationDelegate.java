@@ -18,8 +18,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
@@ -38,7 +42,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	protected Object result = null;
 	protected ILaunchConfiguration configuration = null;
-	protected ArrayList<EpsilonLaunchConfigurationDelegateListener> listeners = new ArrayList<EpsilonLaunchConfigurationDelegateListener>();
+	protected ArrayList<EpsilonLaunchConfigurationDelegateListener> listeners = null;
 	
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor) throws CoreException {
@@ -53,10 +57,13 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
-	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {		
+	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
+		
+		collectListeners();
+		
 		if (setup) EpsilonConsole.getInstance().clear();
 		
-		preParse(module);
+		aboutToParse(configuration, mode, launch, progressMonitor, module);
 		
 		if (!parse(module, lauchConfigurationSourceAttribute, configuration, mode, launch, progressMonitor)) return false;
 		
@@ -110,10 +117,30 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	public abstract IEolExecutableModule createModule() throws CoreException;
 	
+	protected void collectListeners() {
+		
+		listeners = new ArrayList<EpsilonLaunchConfigurationDelegateListener>();
+		
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.eol.dt.launchConfigurationExtension");
+		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
+		for (int i=0;i<configurationElements.length; i++){
+			IConfigurationElement configurationElement = configurationElements[i];
+			
+			try {
+				EpsilonLaunchConfigurationDelegateListener listener = (EpsilonLaunchConfigurationDelegateListener) configurationElement.createExecutableExtension("listener");
+				listeners.add(listener);
+			}
+			catch (CoreException e) {
+				LogUtil.log(e);
+			}
+		}
+	}
+	
 	@Override
-	public void aboutToParse(ILaunchConfiguration configuration, String mode,
+	public void aboutToParse(ILaunchConfiguration configuration, String mode, 
 			ILaunch launch, IProgressMonitor progressMonitor,
-			IEolExecutableModule module) throws Exception {
+			IEolExecutableModule module) throws CoreException {
 		
 		preParse(module);
 		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
