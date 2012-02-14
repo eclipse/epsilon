@@ -114,9 +114,9 @@ public class CsvModel extends CachedModel<Collection<String>> {
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		try {
-			final String contents = FileUtil.getFileContents(new File(file));
+			final Collection<String> lines = FileUtil.getFileLineContents(new File(file));
 			
-			for (String row : contents.split("\\r\\n")) {
+			for (String row : lines) {
 				final Collection<String> cells = new LinkedList<String>();
 				
 				for (String cell : row.split(",")) {

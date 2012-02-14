@@ -23,7 +23,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class FileUtil {
@@ -52,17 +55,29 @@ public class FileUtil {
 	}
 	
 	public static String getFileContents(File file) throws Exception {
-		FileReader reader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(reader);
-		StringBuffer buffer = new StringBuffer();
-		String line = bufferedReader.readLine();
-		String lineSeparator = System.getProperty("line.separator");
-		while (line != null) {
+		final StringBuffer buffer = new StringBuffer();
+		final String lineSeparator = System.getProperty("line.separator");
+
+		for (String line : getFileLineContents(file)) {
 			buffer.append(line);
 			buffer.append(lineSeparator);
+		}
+		
+		return buffer.toString();
+	}
+	
+	public static Collection<String> getFileLineContents(File file) throws Exception {
+		final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+		final List<String> lines = new LinkedList<String>();
+		
+		String line = bufferedReader.readLine();
+
+		while (line != null) {
+			lines.add(line);
 			line = bufferedReader.readLine();
 		}
-		return buffer.toString();
+		
+		return lines;
 	}
 	
 	public static String getAbsolutePath(String basePath, String relativePath) {
