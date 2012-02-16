@@ -11,22 +11,20 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.eol.test.unit;
+package org.eclipse.epsilon.eol;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.eol.EolModuleUnitTestSuite;
-import org.eclipse.epsilon.eol.models.EolModelsUnitTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EolModuleUnitTestSuite.class, EolModelsUnitTestSuite.class})
-public class EolUnitTestSuite {
+@SuiteClasses({ResetModuleTests.class})
+public class EolModuleUnitTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(EolUnitTestSuite.class);
+		return new JUnit4TestAdapter(EolModuleUnitTestSuite.class);
 	}
 }

@@ -107,6 +107,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public void reset() {
 		imports.clear();
 		declaredOperations.clear();
+		operations = null;
 	}
 
 	@Override
