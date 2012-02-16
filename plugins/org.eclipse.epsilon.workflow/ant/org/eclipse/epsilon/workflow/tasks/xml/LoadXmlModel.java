@@ -24,6 +24,8 @@ public class LoadXmlModel extends EpsilonTask {
 		
 		model.setName(name);
 		model.getAliases().add(alias);
+		model.setReadOnLoad(read);
+		model.setStoredOnDisposal(store);
 		if (file != null) model.setFile(file);
 		if (uri != null) model.setUri(uri);
 		
