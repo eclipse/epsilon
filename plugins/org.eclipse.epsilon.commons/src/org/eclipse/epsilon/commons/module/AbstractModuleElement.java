@@ -30,6 +30,14 @@ public abstract class AbstractModuleElement implements ModuleElement{
 		this.ast = ast;
 	} 
 	
+	public File getSourceFile() {
+		return sourceFile;
+	}
+	
+	public URI getSourceUri() {
+		return sourceUri;
+	}
+	
 	/*
 	public void setSourceFile(File file) {
 		this.sourceFile = file;
