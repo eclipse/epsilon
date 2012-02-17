@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - implemented IComparableModel and IAdaptableModel
  ******************************************************************************/
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.eol.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,8 +24,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
-import org.eclipse.epsilon.eol.models.IAdaptableModel;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public class ModelReference implements IAdaptableModel, IWrapper {

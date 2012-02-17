@@ -11,13 +11,12 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.workflow.tasks;
+package org.eclipse.epsilon.eol.models;
 
 import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
-import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
 public class ReflectiveModelReference extends ModelReference implements IReflectiveModel {
 	
