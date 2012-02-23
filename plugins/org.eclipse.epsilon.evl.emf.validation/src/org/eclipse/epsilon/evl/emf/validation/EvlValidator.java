@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -66,31 +65,30 @@ public class EvlValidator implements EValidator {
 		
 		EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
 		
-		// If it is the root that is validated
-		// validate the whole resource and cache
-		// the results
+		// If it is the root that is validated validate the whole resource and cache the results
 		if (eObject.eContainer() == null) {
 			results = validate(eObject.eResource());
-		}
-		
-		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
-		
-		if (unsatisfiedConstraints != null && unsatisfiedConstraints.size() > 0) {
-			for (EvlUnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
-				diagnostics.add(createDiagnostic(unsatisfied));
-				for (Object fix : unsatisfied.getFixes()) {
-					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName, ePackageUri);
+
+			// Add problem markers for violations in objects in externally referenced models
+			for (Map.Entry<Object, Collection<EvlUnsatisfiedConstraint>> entry : results.entrySet()) {
+				if (!(entry.getKey() instanceof EObject)) {
+					continue;
 				}
+				final EObject key = (EObject)entry.getKey();
+				if (key.eResource() == eObject.eResource()) {
+					continue;
+				}
+
+				addMarkers("[" + key.eResource().getURI() + "] ", key, diagnostics);
 			}
-			return true;
 		}
-		
+
+		addMarkers("", eObject, diagnostics);
 		return true;
 	}
-	
-	protected Diagnostic createDiagnostic(EvlUnsatisfiedConstraint unsatisfied) {
+
+	protected Diagnostic createDiagnostic(String msgPrefix, EvlUnsatisfiedConstraint unsatisfied) {
 		
-		String source = "";
 		int severity = 0;
 		
 		if (unsatisfied.getConstraint().isCritique()) severity = 2;
@@ -98,7 +96,7 @@ public class EvlValidator implements EValidator {
 		String message = unsatisfied.getMessage();
 		int code = 0;
 		
-		BasicDiagnostic diagnostic = new BasicDiagnostic(severity,source,code,message,new Object[]{unsatisfied.getInstance()});
+		BasicDiagnostic diagnostic = new BasicDiagnostic(severity, "", code, msgPrefix + message, new Object[]{ unsatisfied.getInstance() });
 		
 		return diagnostic;
 	}
@@ -135,21 +133,17 @@ public class EvlValidator implements EValidator {
 				// Do nothing
 			}
 		});
-		
+
 		ValidationResults results = new ValidationResults();
-		
-		TreeIterator<EObject> allContents = resource.getAllContents();
-		
-		while (allContents.hasNext()) {
-			EObject eObject = allContents.next();
-			ArrayList<EvlUnsatisfiedConstraint> unsatisfied = new ArrayList<EvlUnsatisfiedConstraint>();
-			results.put(eObject, unsatisfied);
-		}
-		
+
 		for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
-			results.get(unsatisfied.getInstance()).add(unsatisfied);
+			Object key = unsatisfied.getInstance();
+			if (!results.containsKey(key)) {
+				results.put(key, new ArrayList<EvlUnsatisfiedConstraint>());
+			}
+			results.get(key).add(unsatisfied);
 		}
-		
+
 		module.getContext().dispose();
 		module.getContext().getModelRepository().dispose();
 		
@@ -160,6 +154,19 @@ public class EvlValidator implements EValidator {
 	public boolean validate(EDataType dataType, Object value,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
+	}
+
+	private void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
+		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
+		
+		if (unsatisfiedConstraints != null && unsatisfiedConstraints.size() > 0) {
+			for (EvlUnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
+				diagnostics.add(createDiagnostic(msgPrefix, unsatisfied));
+				for (Object fix : unsatisfied.getFixes()) {
+					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName, ePackageUri);
+				}
+			}
+		}
 	}
 
 }
