@@ -57,7 +57,7 @@
                enablesFor="1"
                icon="icons/gmfgen.png"
                id="org.eclipse.epsilon.eugenia.FixGmfGenDelegate"
-               label="Synchronize GMF gen model"
+               label="Synchronize GMFGen"
                menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">
          </action>
          <menu
@@ -78,7 +78,7 @@
                class="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
                enablesFor="1"
                id="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
-               label="Synchronize EMF gen model"
+               label="Synchronize EMF GenModel"
                menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">
          </action>
          <menu
