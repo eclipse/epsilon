@@ -176,6 +176,13 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		ecore2GenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
 		ecore2GenModelDelegate.runImpl(action);
 		ecore2GenModelDelegate.refresh();
+
+		FixGenModelDelegate fixEcoreGenModelDelegate = new FixGenModelDelegate();
+		fixEcoreGenModelDelegate.setClearConsole(false);
+		fixEcoreGenModelDelegate.setSelectedFile(selectedFile);
+		fixEcoreGenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
+		fixEcoreGenModelDelegate.runImpl(action);
+		fixEcoreGenModelDelegate.refresh();
 	}
 
 	private void generateGMFBasicModels(final IAction action) throws Exception {
