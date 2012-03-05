@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.emfatic.core.generator.ecore.EcoreGenerator;
-import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 
 public class Emfatic2EcoreDelegate extends EugeniaActionDelegate {
@@ -28,7 +28,7 @@ public class Emfatic2EcoreDelegate extends EugeniaActionDelegate {
 	}
 
 	@Override
-	public List<EmfModel> getModels() throws Exception {
+	public List<IModel> getModels() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

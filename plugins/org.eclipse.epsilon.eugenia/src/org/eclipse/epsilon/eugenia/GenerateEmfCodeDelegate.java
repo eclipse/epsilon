@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 
 public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
@@ -54,7 +54,7 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 	}
 
 	@Override
-	public List<EmfModel> getModels() throws Exception {
+	public List<IModel> getModels() throws Exception {
 		return null;
 	}
 

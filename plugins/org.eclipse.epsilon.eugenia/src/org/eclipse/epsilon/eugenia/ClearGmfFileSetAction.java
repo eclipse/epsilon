@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 
 public class ClearGmfFileSetAction extends EugeniaActionDelegate {
@@ -44,7 +44,7 @@ public class ClearGmfFileSetAction extends EugeniaActionDelegate {
 	}
 
 	@Override
-	public List<EmfModel> getModels() throws Exception {
+	public List<IModel> getModels() throws Exception {
 		return null;
 	}
 

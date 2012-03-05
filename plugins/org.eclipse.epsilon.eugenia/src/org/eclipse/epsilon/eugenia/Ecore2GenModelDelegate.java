@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelReference;
 import org.eclipse.epsilon.etl.EtlModule;
 
 public class Ecore2GenModelDelegate extends EugeniaActionDelegate {
@@ -38,11 +40,17 @@ public class Ecore2GenModelDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
-	public List<EmfModel> getModels() throws Exception {
+	public List<IModel> getModels() throws Exception {
 		
-		List<EmfModel> models = new ArrayList<EmfModel>();
-		
-		models.add(loadModel("Ecore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, true));
+		List<IModel> models = new ArrayList<IModel>();
+
+		// Bug 360629: to avoid breaking code, we keep the old 'Ecore' name, but we add an 'ECore' alias for consistency
+		final EmfModel ecoreModel = loadModel("Ecore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, true);
+		final IModel ecoreModelAlias = new ModelReference(ecoreModel);
+		ecoreModelAlias.setName("ECore");
+
+		models.add(ecoreModel);
+		models.add(ecoreModelAlias);
 		models.add(loadModel("GenModel", gmfFileSet.getGenModelPath(), GenModelPackage.eINSTANCE.getNsURI(), false, true, false));
 		
 		return models;

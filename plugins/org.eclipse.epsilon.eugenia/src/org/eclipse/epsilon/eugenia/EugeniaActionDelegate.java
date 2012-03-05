@@ -93,7 +93,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		job.schedule(); // start as soon as possible*/
 	}
 	
-	public abstract List<EmfModel> getModels() throws Exception;
+	public abstract List<IModel> getModels() throws Exception;
 	
 	public IFile getSelectedFile() {
 		return selectedFile;
@@ -135,7 +135,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			builtin.getContext().getFrameStack().put(variable);
 		}
 		
-		for (EmfModel model : getModels()) {
+		for (IModel model : getModels()) {
 			builtin.getContext().getModelRepository().addModel(model);
 		}
 

@@ -14,11 +14,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.util.DebugUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolEvaluator;
-import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.newExpression_return;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.gmf.internal.bridge.transform.TransformOptions;
 import org.eclipse.gmf.internal.bridge.transform.TransformToGenModelOperation;
 import org.eclipse.jface.action.IAction;
@@ -77,7 +75,7 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 	}
 
 	@Override
-	public List<EmfModel> getModels() throws Exception {
+	public List<IModel> getModels() throws Exception {
 		return null;
 	}
 

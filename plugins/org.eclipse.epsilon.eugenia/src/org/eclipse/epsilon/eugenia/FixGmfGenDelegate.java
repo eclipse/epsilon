@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.gmf.codegen.gmfgen.GMFGenPackage;
 import org.eclipse.gmf.gmfgraph.GMFGraphPackage;
 
@@ -32,10 +32,9 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
-	public List<EmfModel> getModels() throws Exception {
-		
-		List<EmfModel> models = new ArrayList<EmfModel>();
-		
+	public List<IModel> getModels() throws Exception {
+		List<IModel> models = new ArrayList<IModel>();
+
 		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, false, true));
 		models.add(loadModel("GmfGen", gmfFileSet.getGmfGenPath(), GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
 		models.add(loadModel("GmfGraph", gmfFileSet.getGmfGraphPath(), GMFGraphPackage.eINSTANCE.getNsURI(), true, false, false));
