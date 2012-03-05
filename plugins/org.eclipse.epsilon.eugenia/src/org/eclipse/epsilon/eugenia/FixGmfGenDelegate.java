@@ -18,6 +18,8 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.gmf.codegen.gmfgen.GMFGenPackage;
 import org.eclipse.gmf.gmfgraph.GMFGraphPackage;
+import org.eclipse.gmf.mappings.GMFMapPackage;
+import org.eclipse.gmf.tooldef.GMFToolPackage;
 
 public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	
@@ -38,7 +40,9 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, false, true));
 		models.add(loadModel("GmfGen", gmfFileSet.getGmfGenPath(), GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
 		models.add(loadModel("GmfGraph", gmfFileSet.getGmfGraphPath(), GMFGraphPackage.eINSTANCE.getNsURI(), true, false, false));
-		
+		models.add(loadModel("GmfTool", gmfFileSet.getGmfToolPath(), GMFToolPackage.eINSTANCE.getNsURI(), true, false, false));
+		models.add(loadModel("GmfMap", gmfFileSet.getGmfMapPath(), GMFMapPackage.eINSTANCE.getNsURI(), true, false, false));
+
 		return models;
 	}
 
