@@ -71,8 +71,7 @@ public class ExeedPlugin extends AbstractUIPlugin {
 	
 	ImageRegistry imageRegistry = null; //new ImageRegistry();
 	
-	public ImageDescriptor getImageDescriptor(String path) {
-		
+	public ImageDescriptor getImageDescriptor(String pluginId, String path) {
 		if (imageRegistry == null) imageRegistry = new ImageRegistry();
 		
 		ImageDescriptor descriptor = null;
@@ -80,23 +79,18 @@ public class ExeedPlugin extends AbstractUIPlugin {
 			descriptor = imageRegistry.getDescriptor(path);
 		}
 		else {
-			descriptor = imageDescriptorFromPlugin(getPluginId(), path);
-			if (descriptor == null) {
-				if (getSecondaryPluginId() != null) {
-					descriptor = imageDescriptorFromPlugin(getSecondaryPluginId(), path);
-				}
-			}
+			descriptor = imageDescriptorFromPlugin(pluginId, path);
 			imageRegistry.put(path, descriptor);
 		}
 		return descriptor;
 	}
+	
+	public ImageDescriptor getImageDescriptor(String path) {
+		return getImageDescriptor(getPluginId(), path);
+	}
 
 	protected String getPluginId() {
 		return PLUGIN_ID;
-	}
-	
-	protected String getSecondaryPluginId() {
-		return null;
 	}
 
 }

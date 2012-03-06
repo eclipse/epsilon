@@ -91,6 +91,9 @@ public class ExeedEditor extends EcoreEditor {
 		//}
 	}
 	
+	protected String getPluginId() {
+		return getPlugin().getPluginId();
+	}
 	
 	protected ExeedPlugin getPlugin() {
 		return ExeedPlugin.getDefault();
@@ -448,7 +451,7 @@ public class ExeedEditor extends EcoreEditor {
 		}
 		*/
 
-		imageTextProvider = new ImageTextProvider(model, getPlugin());
+		imageTextProvider = new ImageTextProvider(model, getPlugin(), this);
 
 		exeedItemProviderAdapterFactory.setImageTextProvider(imageTextProvider);
 

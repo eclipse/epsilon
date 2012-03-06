@@ -40,9 +40,11 @@ public class ImageTextProvider {
 	protected InMemoryEmfModel model;
 	EolModule module; 
 	protected ExeedPlugin plugin = null;
+	protected ExeedEditor editor = null;
 	
-	protected ImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin) {
+	protected ImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
 		this.plugin = plugin;
+		this.editor = editor;
 		this.showStructuralInfo = plugin.getPreferenceStore().getBoolean(ExeedPreferencePage.SHOW_STRUCTURAL_INFO);
 		module = new EolModule();
 		module.getContext().getModelRepository().addModel(model);
@@ -189,10 +191,7 @@ public class ImageTextProvider {
 			if (labelCode != null) {
 				module.parse(labelCode);
 				icon = StringUtil.toString(module.execute());
-				imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".gif");
-				if (imageDescriptor == null) {
-					imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".png");
-				}
+				imageDescriptor = getImageDescriptor(icon);
 			}
 			else {
 				imageDescriptor = getEClassImageDescriptor(eObject.eClass() ,null);
@@ -210,6 +209,17 @@ public class ImageTextProvider {
 		return def;
 	}
 	
+	protected ImageDescriptor getImageDescriptor(String icon) {
+		ImageDescriptor imageDescriptor = null;
+		
+		imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".gif");
+		if (imageDescriptor == null) {
+			imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".png");
+		}
+		
+		return imageDescriptor;
+	}
+	
 	protected ImageDescriptor getEClassImageDescriptor(EClass eClass, ImageDescriptor def) {
 		
 		String icon = "";
@@ -218,10 +228,10 @@ public class ImageTextProvider {
 			//if (icon == null) {
 			//	icon = eClass.getName();
 			//}
-			ImageDescriptor imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".gif");
+			ImageDescriptor imageDescriptor = getImageDescriptor(icon);
 			
 			if (imageDescriptor == null) {
-				imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".png");
+				imageDescriptor = getImageDescriptor(eClass.getName());
 			}
 			
 			if (imageDescriptor != null) {
