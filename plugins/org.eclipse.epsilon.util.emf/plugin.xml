@@ -30,6 +30,18 @@
                id="org.eclipse.epsilon.util.emf.RegisterMetamodelAction"
                label="Register EPackages"/>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.perspective.popups.ecore"
+            nameFilter="*.xsd"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.util.emf.XSD2EcoreAction"
+               icon="icons/xsd2ecore.png"
+               id="org.eclipse.epsilon.util.emf.XSD2EcoreAction"
+               label="Generate Ecore model">
+         </action>
+      </objectContribution>
    </extension>
    <extension
          point="org.eclipse.ui.startup">

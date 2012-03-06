@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.common.dt
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.emf.mapping.xsd2ecore
 Bundle-ClassPath: org.eclipse.epsilon.util.emf.jar
 Bundle-Activator: org.eclipse.epsilon.util.emf.EmfUtilPlugin
 Bundle-ActivationPolicy: lazy
