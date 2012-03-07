@@ -12,6 +12,7 @@ package org.eclipse.epsilon.dt.exeed.modelink;
 
 import java.util.ListIterator;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -23,6 +24,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jdom.Document;
@@ -143,11 +145,14 @@ public class ModeLinkStarter extends EditorPart {
 								getPosition(el.getAttributeValue("position",
 										"left")));
 						
+						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
 						
-						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path, IDE.getContentType(file));
+						System.err.println(editorDescriptor + " " + path);
 						String editorId = null;
 						if (editorDescriptor != null) editorId = editorDescriptor.getId();
-						else editorId = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
+						else 
+							editorId = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
 							
 						editorIds[i] = editorId;
 						
