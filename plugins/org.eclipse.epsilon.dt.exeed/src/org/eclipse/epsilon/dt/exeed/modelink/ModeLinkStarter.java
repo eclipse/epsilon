@@ -93,7 +93,7 @@ public class ModeLinkStarter extends EditorPart {
 									new FileEditorInputToModeLinkEditorInputConverter()
 											.convert((FileEditorInput) ModeLinkStarter.this
 													.getEditorInput()),
-									"org.eclipse.epsilon.dt.exeed.modelink.ModeLinkEditor");
+									getEditorId());
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -102,7 +102,11 @@ public class ModeLinkStarter extends EditorPart {
 
 		});
 	}
-
+	
+	protected String getEditorId() {
+		return "org.eclipse.epsilon.dt.exeed.modelink.ModeLinkEditor";
+	}
+	
 	@Override
 	public void setFocus() {
 

@@ -17,15 +17,23 @@ import java.util.List;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -51,7 +59,12 @@ public class ModeLinkEditor extends MultiEditor {
 	protected CTabFolder leftFolder;
 	protected CTabFolder rightFolder;
 	protected CTabFolder middleFolder;
+	protected ToolBar toolbar;
 	//protected List<ExeedEditor> closedEditors = new ArrayList();
+	
+	public ToolBar getToolbar() {
+		return toolbar;
+	}
 	
 	@Override
 	protected void drawGradient(IEditorPart innerEditor, Gradient g) {
@@ -110,7 +123,7 @@ public class ModeLinkEditor extends MultiEditor {
 		*/
 		ToolBar t = new ToolBar(folder, SWT.HORIZONTAL | SWT.FLAT);
 		ToolBarManager tbm = new ToolBarManager(t);
-		//tbm.add(new AddModelAction(folder));
+		
 		tbm.update(true);
 		//folder.setTabPosition(SWT.BOTTOM);
 		//folder.setTopRight(t, SWT.RIGHT);
@@ -202,7 +215,11 @@ public class ModeLinkEditor extends MultiEditor {
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		SashForm form = new SashForm(parent, SWT.HORIZONTAL);
+		ViewForm container = new ViewForm(parent, SWT.NONE);
+		
+
+		
+		SashForm form = new SashForm(container, SWT.HORIZONTAL);
 		leftFolder = createFolder(form);
 		if (getEditorInput().isThreeWay()) {
 			middleFolder = createFolder(form);
@@ -219,6 +236,12 @@ public class ModeLinkEditor extends MultiEditor {
 		}
 		initFolder(rightFolder);
 		
+		toolbar = new ToolBar(container, SWT.FLAT | SWT.WRAP);
+		ToolBarManager tbm = new ToolBarManager(toolbar);
+		tbm.update(true);
+		container.setTopCenter(toolbar);
+		container.setContent(form);
+		toolbar.setVisible(true);
 	}
     
 	/*
