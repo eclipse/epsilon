@@ -13,7 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;

@@ -15,11 +15,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.epsilon.commons.profiling.Profiler;
-import org.eclipse.epsilon.commons.profiling.ProfilerTarget;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -32,7 +29,6 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.Model;
-import org.eclipse.epsilon.eol.models.java.JavaObjectModel;
 
 public class CompositeModel extends Model {
 	

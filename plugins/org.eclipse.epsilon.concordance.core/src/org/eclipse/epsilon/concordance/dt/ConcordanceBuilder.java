@@ -21,7 +21,6 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.model.Model;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 import org.eclipse.ui.PlatformUI;
@@ -63,7 +62,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 	
 	private void fullBuild(final IProgressMonitor monitor) {
 		try {
-			Profiler.INSTANCE.start("Indexing");
+			//Profiler.INSTANCE.start("Indexing");
 			
 			getProject().accept(new IResourceVisitor() {
 
@@ -81,7 +80,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 				
 			});
 			
-			Profiler.INSTANCE.stop("Indexing");
+			//Profiler.INSTANCE.stop("Indexing");
 			
 		} catch (Exception e) {
 			logException(e);

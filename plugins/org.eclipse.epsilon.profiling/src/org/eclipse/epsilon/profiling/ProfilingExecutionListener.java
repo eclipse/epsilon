@@ -1,10 +1,9 @@
-package org.eclipse.epsilon.eol.execute.control;
+package org.eclipse.epsilon.profiling;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.profiling.FileMarker;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ProfilingExecutionListener implements IExecutionListener {

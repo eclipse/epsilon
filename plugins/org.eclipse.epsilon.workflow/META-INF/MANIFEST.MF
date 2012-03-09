@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ant.core,
  org.eclipse.epsilon.emc.hutn,
  org.eclipse.epsilon.eunit.engine,
  org.eclipse.epsilon.flock.engine,
- org.eclipse.epsilon.egl.dt
+ org.eclipse.epsilon.egl.dt,
+ org.eclipse.epsilon.profiling
 Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.emf,
  org.eclipse.epsilon.workflow.tasks.nestedelements,

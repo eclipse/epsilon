@@ -9,7 +9,6 @@ Bundle-ClassPath: org.eclipse.epsilon.commons.jar
 Export-Package: org.eclipse.epsilon.commons.module,
  org.eclipse.epsilon.commons.parse,
  org.eclipse.epsilon.commons.parse.problem,
- org.eclipse.epsilon.commons.profiling,
  org.eclipse.epsilon.commons.util
 Require-Bundle: org.eclipse.epsilon.dependencies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -11,8 +11,8 @@
 package org.eclipse.epsilon.eol.tools;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.profiling.FileMarker;
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.profiling.FileMarker;
+import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.tools.AbstractTool;
 

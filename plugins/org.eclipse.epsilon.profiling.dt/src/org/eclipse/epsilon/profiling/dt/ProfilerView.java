@@ -17,10 +17,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.commons.profiling.FileMarker;
-import org.eclipse.epsilon.commons.profiling.IProfilerListener;
-import org.eclipse.epsilon.commons.profiling.Profiler;
-import org.eclipse.epsilon.commons.profiling.ProfilerTarget;
+import org.eclipse.epsilon.profiling.FileMarker;
+import org.eclipse.epsilon.profiling.IProfilerListener;
+import org.eclipse.epsilon.profiling.Profiler;
+import org.eclipse.epsilon.profiling.ProfilerTarget;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;

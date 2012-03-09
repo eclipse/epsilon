@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
  

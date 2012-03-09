@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.concordance.clients.xref;
 
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
 import org.eclipse.epsilon.concordance.model.Model;
@@ -38,9 +37,9 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	public void modelAdded(Model model) {
 //		System.out.println("model added: " + model);
 		
-		Profiler.INSTANCE.start("Add");
+		//Profiler.INSTANCE.start("Add");
 		unmarker.unmarkResolvedCrossReferencesTo(model);
-		Profiler.INSTANCE.stop("Add");
+		//Profiler.INSTANCE.stop("Add");
 
 		
 		history.log(new Event(EventType.ADD, model));
@@ -49,9 +48,9 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	@Override
 	public void modelRemoved(Model model) {
 //		System.out.println("model removed: " + model);
-		Profiler.INSTANCE.start("Delete");
+		//Profiler.INSTANCE.start("Delete");
 		marker.markDanglingCrossReferencesTo(model);
-		Profiler.INSTANCE.stop("Delete");
+		//Profiler.INSTANCE.stop("Delete");
 		
 		history.log(new Event(EventType.DELETE, model));
 	}
@@ -60,10 +59,10 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	public void modelChanged(Model model) {
 //		System.out.println("model changed: " + model);
 		
-		Profiler.INSTANCE.start("Change");
+		//Profiler.INSTANCE.start("Change");
 		marker.markDanglingCrossReferencesTo(model);
 		unmarker.unmarkResolvedCrossReferencesTo(model);
-		Profiler.INSTANCE.stop("Change");
+		//Profiler.INSTANCE.stop("Change");
 		
 		history.log(new Event(EventType.CHANGE, model));
 	}
@@ -71,9 +70,9 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	@Override
 	public void modelMoved(Model original, Model moved) {
 //		System.out.println("model moved: " + original + " to " + moved);
-		Profiler.INSTANCE.start("Move");
+		//Profiler.INSTANCE.start("Move");
 		reconciler.reconcileCrossReferences(original, moved);
-		Profiler.INSTANCE.stop("Move");
+		//Profiler.INSTANCE.stop("Move");
 
 		history.log(new Event(EventType.MOVE, moved));
 	}

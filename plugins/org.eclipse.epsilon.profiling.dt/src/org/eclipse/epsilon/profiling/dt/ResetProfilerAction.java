@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling.dt;
 
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.profiling.Profiler;
 
 
 public class ResetProfilerAction extends ProfilerViewAction {

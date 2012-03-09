@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.model.nsuri.EObjectContainer;
 import org.eclipse.epsilon.concordance.model.nsuri.ModelWalkingNsUriAnalyser;
 
@@ -86,9 +85,9 @@ public class Model implements EObjectContainer {
 	}
 
 	public String getNsUri() {
-		Profiler.INSTANCE.start("DetermineNsUri");
+		//Profiler.INSTANCE.start("DetermineNsUri");
 		final Collection<String> nsUris = new ModelWalkingNsUriAnalyser(this).determineNsUris();
-		Profiler.INSTANCE.stop("DetermineNsUri");
+		//Profiler.INSTANCE.stop("DetermineNsUri");
 		
 		return nsUris.isEmpty() ? null : nsUris.iterator().next();
 	}

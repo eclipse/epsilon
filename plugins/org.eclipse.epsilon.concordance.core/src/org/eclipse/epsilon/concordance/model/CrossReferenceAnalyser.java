@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 
 public class CrossReferenceAnalyser {
 
@@ -38,13 +37,13 @@ public class CrossReferenceAnalyser {
 	
 	public Set<CrossReference> determineCrossReferences() {
 		try {
-			Profiler.INSTANCE.start("DetermineCrossReferences");
+			//Profiler.INSTANCE.start("DetermineCrossReferences");
 			
 			for (EObject object : sourceModel.getAllContents(true)) {
 				determineCrossReferencesFrom(object);
 			}
 			
-			Profiler.INSTANCE.stop("DetermineCrossReferences");
+			//Profiler.INSTANCE.stop("DetermineCrossReferences");
 			
 		} catch (IOException e) {
 			LogUtil.log("Error encountered while trying to determine cross references for: " + sourceModel, e);

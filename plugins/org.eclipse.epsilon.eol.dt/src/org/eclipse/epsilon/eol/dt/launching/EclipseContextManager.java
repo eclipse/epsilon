@@ -30,14 +30,14 @@ import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationAttribu
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.profiling.Profiler;
+import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
-import org.eclipse.epsilon.eol.execute.control.ProfilingExecutionListener;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.swt.widgets.Display;

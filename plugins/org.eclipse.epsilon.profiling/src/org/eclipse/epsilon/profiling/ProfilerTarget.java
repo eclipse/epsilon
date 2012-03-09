@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.profiling;
+package org.eclipse.epsilon.profiling;
 
 import java.util.ArrayList;
 import java.util.List;

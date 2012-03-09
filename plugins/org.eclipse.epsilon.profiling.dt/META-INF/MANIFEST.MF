@@ -8,7 +8,8 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.commons,
- org.eclipse.epsilon.common.dt
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.profiling
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
 Export-Package: org.eclipse.epsilon.profiling.dt,

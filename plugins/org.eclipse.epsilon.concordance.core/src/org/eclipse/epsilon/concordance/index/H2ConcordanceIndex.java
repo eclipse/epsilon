@@ -17,7 +17,6 @@ package org.eclipse.epsilon.concordance.index;
 import java.util.Collection;
 
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.db.ConcordanceH2Database;
 import org.eclipse.epsilon.concordance.db.common.H2DatabaseAccessException;
 import org.eclipse.epsilon.concordance.model.CrossReference;
@@ -35,9 +34,9 @@ public class H2ConcordanceIndex implements ConcordanceIndex {
 
 	public void visitAllInstancesOf(String nsUri, ModelVisitor visitor) {
 		try {
-			Profiler.INSTANCE.start("FindingAllInstances");			
+			//Profiler.INSTANCE.start("FindingAllInstances");			
 			final Collection<Model> instances = database.findAllInstancesOf(nsUri);
-			Profiler.INSTANCE.stop("FindingAllInstances");
+			//Profiler.INSTANCE.stop("FindingAllInstances");
 			
 			for (Model model : instances) {
 				visitor.visit(model);
