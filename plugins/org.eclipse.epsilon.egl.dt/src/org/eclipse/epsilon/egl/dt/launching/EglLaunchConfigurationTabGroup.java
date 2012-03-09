@@ -15,7 +15,6 @@ import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ProfilingConfigurationTab;
 import org.eclipse.epsilon.egl.dt.launching.tabs.EglGeneratedTextConfigurationTab;
 import org.eclipse.epsilon.egl.dt.launching.tabs.EglSourceConfigurationTab;
 
