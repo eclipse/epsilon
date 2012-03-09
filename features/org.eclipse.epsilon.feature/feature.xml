@@ -420,49 +420,56 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.egl.dt.traceability.fine.emf"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.traceability.fine"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.dt.traceability.editor"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.bibtex"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.bibtex.dt"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.csv"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.csv.dt"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.profiling"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
 </feature>
