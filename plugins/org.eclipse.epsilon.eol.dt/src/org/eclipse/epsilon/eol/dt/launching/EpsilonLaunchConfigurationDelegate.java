@@ -96,7 +96,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			executed(configuration, mode, launch, progressMonitor, module, result);
 			
 		} catch (Exception e) {
-			if (!(e instanceof EolRuntimeException)) e = new EolInternalException(e);
+			e = EolRuntimeException.wrap(e);
 			e.printStackTrace();
 			module.getContext().getErrorStream().println(e.toString());
 			progressMonitor.setCanceled(true);

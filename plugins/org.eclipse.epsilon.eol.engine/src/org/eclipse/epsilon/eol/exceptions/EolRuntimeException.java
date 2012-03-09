@@ -82,4 +82,13 @@ public class EolRuntimeException extends Exception{
 	public String toString(){
 		return getMessage();
 	}
+	
+	public static EolRuntimeException wrap(Throwable t) {
+		if (t instanceof EolRuntimeException) return (EolRuntimeException) t;
+		else return new EolInternalException(t);
+	}
+	
+	public static void propagate(Throwable t) throws EolRuntimeException {
+		throw wrap(t);
+	}
 }
