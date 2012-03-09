@@ -19,7 +19,6 @@ import org.eclipse.concordance.test.performance.generator.xrefs.CrossReferencing
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.clients.test.ConcordanceClientIntegrationTest;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
 import org.junit.Before;
@@ -43,7 +42,7 @@ public class CrossReferenceReconcilerPerformanceTests extends ConcordanceClientI
 		
 		printTimes("Indexing");
 		
-		Profiler.INSTANCE.reset();
+		//Profiler.INSTANCE.reset();
 	}
 
 	@Test
@@ -90,9 +89,9 @@ public class CrossReferenceReconcilerPerformanceTests extends ConcordanceClientI
 	
 	
 	private void printTimes(String type) {
-		System.out.println(type + " was executed " + Profiler.INSTANCE.getExecutionCount(type) + " times.");
-		System.out.println("Aggregated total: " + Profiler.INSTANCE.getTotalTime(type, true));
-		System.out.println("Individual total: " + Profiler.INSTANCE.getTotalTime(type, false));
+		//System.out.println(type + " was executed " + Profiler.INSTANCE.getExecutionCount(type) + " times.");
+		//System.out.println("Aggregated total: " + Profiler.INSTANCE.getTotalTime(type, true));
+		//System.out.println("Individual total: " + Profiler.INSTANCE.getTotalTime(type, false));
 	}
 	
 	

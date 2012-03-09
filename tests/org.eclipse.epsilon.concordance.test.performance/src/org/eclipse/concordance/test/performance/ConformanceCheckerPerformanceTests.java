@@ -15,7 +15,6 @@ package org.eclipse.concordance.test.performance;
 
 import org.eclipse.concordance.test.performance.generator.metamodel.MixedGraphAndEcoreGenerator;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.epsilon.commons.profiling.Profiler;
 import org.eclipse.epsilon.concordance.clients.migration.AutomaticMigrationIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class ConformanceCheckerPerformanceTests extends AutomaticMigrationIntegr
 		
 		printTimes("Indexing");
 		printTimes("DetermineNsUri");
-		Profiler.INSTANCE.reset();
+		//Profiler.INSTANCE.reset();
 	}
 
 	@Test
@@ -48,8 +47,8 @@ public class ConformanceCheckerPerformanceTests extends AutomaticMigrationIntegr
 
 	
 	private void printTimes(String type) {
-		System.out.println(type + " was executed " + Profiler.INSTANCE.getExecutionCount(type) + " times.");
-		System.out.println("Aggregated total: " + Profiler.INSTANCE.getTotalTime(type, true));
-		System.out.println("Individual total: " + Profiler.INSTANCE.getTotalTime(type, false));
+		//System.out.println(type + " was executed " + Profiler.INSTANCE.getExecutionCount(type) + " times.");
+		//System.out.println("Aggregated total: " + Profiler.INSTANCE.getTotalTime(type, true));
+		//System.out.println("Individual total: " + Profiler.INSTANCE.getTotalTime(type, false));
 	}
 }
