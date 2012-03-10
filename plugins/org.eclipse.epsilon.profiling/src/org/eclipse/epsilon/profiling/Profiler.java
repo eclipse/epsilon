@@ -123,6 +123,22 @@ public class Profiler {
 		return targetNames;
 	}
 	
+	public List<ProfilerTargetSummary> getTargetSummaries() {
+		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<ProfilerTargetSummary>();
+		int i = 0;
+		for (String targetName : targetNames) {
+			ProfilerTargetSummary summary = new ProfilerTargetSummary();
+			summary.setName(targetName);
+			summary.setExecutionCount(getExecutionCount(targetName));
+			summary.setAggregateExecutionTime(getTotalTime(targetName, true));
+			summary.setExecutionTime(getTotalTime(targetName, false));
+			summary.setIndex(i);
+			summaries.add(summary);
+			i++;
+		}
+		return summaries;
+	}
+	
 	public void print() {
 		for (String targetName : getTargetNames()) {
 			System.out.println(targetName + " -> " + getTotalTime(targetName, true) + "/" + getExecutionCount(targetName));

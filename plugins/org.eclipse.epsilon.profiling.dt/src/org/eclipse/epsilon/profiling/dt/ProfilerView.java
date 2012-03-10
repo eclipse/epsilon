@@ -21,6 +21,7 @@ import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.IProfilerListener;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilerTarget;
+import org.eclipse.epsilon.profiling.ProfilerTargetSummary;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -68,7 +69,8 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			return Profiler.INSTANCE.getTargetNames().toArray();
+			//return Profiler.INSTANCE.getTargetNames().toArray();
+			return Profiler.INSTANCE.getTargetSummaries().toArray();
 		}
 	}
 	
@@ -153,24 +155,31 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 
 		public String getColumnText(Object obj, int index) {
 			
+			ProfilerTargetSummary summary = (ProfilerTargetSummary) obj;
+			
 			if (index == ORDER_COLUMN) {
-				return Profiler.INSTANCE.getTargetNames().indexOf(obj.toString()) + "";
+				//return Profiler.INSTANCE.getTargetNames().indexOf(obj.toString()) + "";
+				return summary.getIndex() + "";
 			}
 			else if (index == TARGET_COLUMN) {
-				return obj.toString();
+				//return obj.toString();
+				return summary.getName();
 			}
 			else if (index == CPU_COLUMN){
-				long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
-				return cpuTime + "";
+				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
+				//return cpuTime + "";
+				return showAggregatedWork ? summary.getAggregateExecutionTime() + "" : summary.getExecutionTime() + "";
 			}
 			else if (index == TIMES_COLUMN){
-				long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
-				return "" + numberOfTimes;
+				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
+				//return "" + numberOfTimes;
+				return summary.getExecutionCount() + "";
 			}
 			else if (index == AVG_COLUMN) {
-				long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
-				long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
-				return "" + ((double)cpuTime) / numberOfTimes ;
+				long executionTime = showAggregatedWork ? summary.getAggregateExecutionTime() : summary.getExecutionTime();
+				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
+				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
+				return "" + ((double)executionTime) / summary.getExecutionCount() ;
 			}
 			else {
 				return ""; //CollectionUtil.toString(Profiler.INSTANCE.getTargetHistory(obj.toString()));
