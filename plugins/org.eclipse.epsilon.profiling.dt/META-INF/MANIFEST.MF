@@ -11,7 +11,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.profiling,
  org.eclipse.debug.core,
- org.eclipse.debug.ui
+ org.eclipse.debug.ui,
+ org.eclipse.epsilon.eol.dt,
+ org.eclipse.epsilon.eol.engine
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
 Export-Package: org.eclipse.epsilon.profiling.dt,

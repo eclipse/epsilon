@@ -15,7 +15,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.common.dt.launching.EpsilonLaunchConfigurationAttributes;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -58,8 +57,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			boolean profilerEnabled = configuration.getAttribute(EpsilonLaunchConfigurationAttributes.PROFILING_ENABLED, false);
-			boolean resetProfiler = configuration.getAttribute(EpsilonLaunchConfigurationAttributes.RESET_PROFILER, false);
+			boolean profilerEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
+			boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
 			enableProfilerButton.setSelection(profilerEnabled);
 			resetProfilerButton.setSelection(resetProfiler);
 			resetProfilerButton.setEnabled(enableProfilerButton.getSelection());
@@ -71,8 +70,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	}
 	
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(EpsilonLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
-		configuration.setAttribute(EpsilonLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
+		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
+		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
 	}
 
 	public String getName() {

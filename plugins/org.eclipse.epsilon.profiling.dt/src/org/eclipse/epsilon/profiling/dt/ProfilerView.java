@@ -153,9 +153,6 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 
 		public String getColumnText(Object obj, int index) {
 			
-			long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
-			long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
-			
 			if (index == ORDER_COLUMN) {
 				return Profiler.INSTANCE.getTargetNames().indexOf(obj.toString()) + "";
 			}
@@ -163,12 +160,16 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				return obj.toString();
 			}
 			else if (index == CPU_COLUMN){
+				long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
 				return cpuTime + "";
 			}
 			else if (index == TIMES_COLUMN){
+				long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
 				return "" + numberOfTimes;
 			}
 			else if (index == AVG_COLUMN) {
+				long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
+				long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
 				return "" + ((double)cpuTime) / numberOfTimes ;
 			}
 			else {
@@ -261,7 +262,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				if (target != null) {
 					FileMarker marker = target.getFileMarker();
 					if (marker != null) {
-						EclipseUtil.openEditorAt(marker.getFile(), marker.getLine(), marker.getColumn(), true);
+						EclipseUtil.openEditorAt(marker.getFile(), marker.getLine(), marker.getColumn(), false);
 					}
 				}
 			}

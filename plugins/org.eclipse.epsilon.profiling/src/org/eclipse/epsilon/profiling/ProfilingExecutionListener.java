@@ -10,18 +10,18 @@ public class ProfilingExecutionListener implements IExecutionListener {
 
 	@Override
 	public void aboutToExecute(AST ast, IEolContext context) {
-		if (AstUtil.getParentType(ast) == EolParser.BLOCK)
+		//if (AstUtil.getParentType(ast) == EolParser.POINT)
 			Profiler.INSTANCE.start(getLabel(ast), "", new FileMarker(ast.getFile(), ast.getLine(), ast.getColumn()));
 	}
 
 	@Override
 	public void finishedExecuting(AST ast, Object evaluatedAst, IEolContext context) {
-		if (AstUtil.getParentType(ast) == EolParser.BLOCK)
+		//if (AstUtil.getParentType(ast) == EolParser.POINT)
 			Profiler.INSTANCE.stop(getLabel(ast));
 	}
 	
 	protected String getLabel(AST ast) {
-		return "Line " + ast.getLine();
+		return ast.getText() + " (" + ast.getLine() + ":" + ast.getColumn() + ")";
 	}
 	
 }

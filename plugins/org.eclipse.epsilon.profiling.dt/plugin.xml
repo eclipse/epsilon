@@ -11,5 +11,12 @@
             name="Profiling">
       </view>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.eol.dt.launchConfigurationExtension">
+      <launchConfigurationExtension
+            listener="org.eclipse.epsilon.profiling.dt.ProfilingLaunchConfigurationListener"
+            tabContributor="org.eclipse.epsilon.profiling.dt.ProfilingTabContributor">
+      </launchConfigurationExtension>
+   </extension>
 
 </plugin>
