@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IterateOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.OneOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
@@ -57,6 +58,7 @@ public class OperationFactory {
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());
+		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
 	}
 
