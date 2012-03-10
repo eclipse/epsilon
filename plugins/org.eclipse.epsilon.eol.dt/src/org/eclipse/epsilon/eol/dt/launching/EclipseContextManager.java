@@ -147,38 +147,4 @@ public class EclipseContextManager {
 		progressMonitor.done();		
 	}
 	
-	/*
-	private void loadTools(EolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor) throws EolRuntimeException {
-		String subtask = "Loading tools";
-		progressMonitor.subTask(subtask);
-		progressMonitor.beginTask(subtask, 100);
-		
-		List tools = null;
-		
-		try {
-			tools = configuration.getAttribute("tools", new ArrayList());
-		} catch (CoreException e1) {
-			e1.printStackTrace(context.getErrorStream());
-		}
-		
-		ListIterator li = tools.listIterator();
-		
-		//while (li.hasNext()){
-			//String toolDescriptor = li.next().toString();
-			//StringProperties properties = new StringProperties();
-			//properties.load(toolDescriptor);
-			
-			//ToolExtension extension = ToolExtension.forClass(properties.getProperty("class"));
-			
-			//Object tool = extension.createTool();
-			//if (tool instanceof Tool){
-			//	((Tool) tool).setContext(context);
-			//}
-			
-			//context.getScope().put(Variable.createReadOnlyVariable(properties.getProperty("name"), tool));
-		}
-		
-		progressMonitor.done();		
-	}
-	*/
 }
