@@ -39,7 +39,7 @@ public class OverviewViewer extends Composite {
 	
 	public void setProfilerOverview(ProfilerOverview overview) {
 		if (overview == null) {
-			executionTimeLabel.setText("Nothing has been profiled.");
+			executionTimeLabel.setText("Nothing has been profiled yet.");
 			executionCountLabel.setText("");
 			averageLabel.setText("");
 		}
