@@ -61,7 +61,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	private TableViewer targetsViewer;
 	private TreeViewer detailsViewer;
-	protected ScrolledForm overviewLabel;
+	protected OverviewViewer overviewViewer;
 	private CTabFolder folder;
 	protected boolean autoRefresh = false;
 	protected Image running = Activator.getImageDescriptor("icons/running.gif").createImage();
@@ -232,13 +232,8 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 		CTabItem overviewItem = new CTabItem(folder,SWT.NONE);
 		overviewItem.setText("Summary");
-		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-		overviewLabel = toolkit.createScrolledForm(folder);
-		overviewLabel.setText("No execution has been profiled yet");
-		//overviewLabel = new StyledText(folder, SWT.NONE);
-		//o//verviewLabel.setEditable(false);
-		//overviewLabel.setEnabled(false);
-		overviewItem.setControl(overviewLabel);
+		overviewViewer = new OverviewViewer(folder, SWT.NONE);
+		overviewItem.setControl(overviewViewer);
 		
 		CTabItem targetsViewerItem = new CTabItem(folder,SWT.NONE);
 		targetsViewerItem.setText("Targets");
@@ -420,7 +415,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 					total += summary.getExecutionTime().getAggregate();
 				}
 				
-				overviewLabel.setText("Execution time: " + total + "ms");
+				overviewViewer.setProfilerOverview(Profiler.INSTANCE.getOverview());
 				
 				targetsViewer.refresh();
 				detailsViewer.refresh();

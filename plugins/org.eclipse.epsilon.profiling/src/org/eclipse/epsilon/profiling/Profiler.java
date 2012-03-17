@@ -122,6 +122,19 @@ public class Profiler {
 		return targetNames;
 	}
 	
+	public ProfilerOverview getOverview() {
+		ProfilerOverview overview = new ProfilerOverview();
+		long executionTime = 0;
+		long executionCount = 0;
+		for (ProfilerTargetSummary summary : getTargetSummaries()) {
+			executionTime += summary.getExecutionTime().getIndividual();
+			executionCount += summary.getExecutionCount();
+		}
+		overview.setExecutionCount(executionCount);
+		overview.setExecutionTime(executionTime);
+		return overview;
+	}
+	
 	public List<ProfilerTargetSummary> getTargetSummaries() {
 		
 		HashMap<String, ExecutionTime> executionTimes = new HashMap<String, ExecutionTime>();
