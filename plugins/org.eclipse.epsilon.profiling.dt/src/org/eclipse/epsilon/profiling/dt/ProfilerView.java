@@ -34,16 +34,21 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.part.ViewPart;
 
 public class ProfilerView extends ViewPart implements IProfilerListener{
@@ -56,12 +61,15 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	private TableViewer targetsViewer;
 	private TreeViewer detailsViewer;
+	protected ScrolledForm overviewLabel;
 	private CTabFolder folder;
 	protected boolean autoRefresh = false;
 	protected Image running = Activator.getImageDescriptor("icons/running.gif").createImage();
 	protected Image completed = Activator.getImageDescriptor("icons/completed.gif").createImage();
 	protected boolean sortChildrenTargetsByTime = false;
 	protected boolean showAggregatedWork = true;
+	protected List<ProfilerTargetSummary> targetSummaries = new ArrayList<ProfilerTargetSummary>();
+	protected List<ProfilerTarget> rootTargets = new ArrayList<ProfilerTarget>();
 	
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -69,15 +77,14 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			//return Profiler.INSTANCE.getTargetNames().toArray();
-			return Profiler.INSTANCE.getTargetSummaries().toArray();
+			return targetSummaries.toArray();
 		}
 	}
 	
 	class DetailsViewerContentProvider implements ITreeContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			return ((ProfilerTarget) inputElement).getChildren().toArray();
+			return rootTargets.toArray();
 		}
 
 		public void dispose() {
@@ -168,7 +175,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			else if (index == CPU_COLUMN){
 				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
 				//return cpuTime + "";
-				return showAggregatedWork ? summary.getAggregateExecutionTime() + "" : summary.getExecutionTime() + "";
+				return showAggregatedWork ? summary.getExecutionTime().getAggregate() + "" : summary.getExecutionTime().getIndividual() + "";
 			}
 			else if (index == TIMES_COLUMN){
 				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
@@ -176,7 +183,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				return summary.getExecutionCount() + "";
 			}
 			else if (index == AVG_COLUMN) {
-				long executionTime = showAggregatedWork ? summary.getAggregateExecutionTime() : summary.getExecutionTime();
+				long executionTime = showAggregatedWork ? summary.getExecutionTime().getAggregate() : summary.getExecutionTime().getIndividual();
 				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
 				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
 				return "" + ((double)executionTime) / summary.getExecutionCount() ;
@@ -223,8 +230,18 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		folder.setSimple(true);
 		folder.setTabPosition(SWT.BOTTOM);
 		
+		CTabItem overviewItem = new CTabItem(folder,SWT.NONE);
+		overviewItem.setText("Summary");
+		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
+		overviewLabel = toolkit.createScrolledForm(folder);
+		overviewLabel.setText("No execution has been profiled yet");
+		//overviewLabel = new StyledText(folder, SWT.NONE);
+		//o//verviewLabel.setEditable(false);
+		//overviewLabel.setEnabled(false);
+		overviewItem.setControl(overviewLabel);
+		
 		CTabItem targetsViewerItem = new CTabItem(folder,SWT.NONE);
-		targetsViewerItem.setText("Summary");
+		targetsViewerItem.setText("Targets");
 		
 		CTabItem detailsViewerItem = new CTabItem(folder,SWT.NONE);
 		detailsViewerItem.setText("Details");
@@ -235,7 +252,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		targetsViewerItem.setControl(targetsViewer.getControl());
 		//detailsViewerItem.setControl(new PlotComposite(folder,SWT.NONE));
 		detailsViewerItem.setControl(detailsViewer.getControl());
-		folder.setSelection(targetsViewerItem);
+		folder.setSelection(overviewItem);
 		
 		//hookContextMenu();
 		contributeToActionBars();
@@ -391,9 +408,20 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	public void refresh() {
 		
+		targetSummaries = Profiler.INSTANCE.getTargetSummaries();
+		rootTargets = Profiler.INSTANCE.getRoot().getChildren();
+		
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
+				
+				long total = 0;
+				for (ProfilerTargetSummary summary : targetSummaries) {
+					total += summary.getExecutionTime().getAggregate();
+				}
+				
+				overviewLabel.setText("Execution time: " + total + "ms");
+				
 				targetsViewer.refresh();
 				detailsViewer.refresh();
 			}

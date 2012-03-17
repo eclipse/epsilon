@@ -119,19 +119,21 @@ public class Profiler {
 	}
 	
 	public List<String> getTargetNames() {
-		//return targets.keySet();
 		return targetNames;
 	}
 	
 	public List<ProfilerTargetSummary> getTargetSummaries() {
+		
+		HashMap<String, ExecutionTime> executionTimes = new HashMap<String, ExecutionTime>();
+		collectExecutionTimes(executionTimes, root);
+		
 		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<ProfilerTargetSummary>();
 		int i = 0;
 		for (String targetName : targetNames) {
 			ProfilerTargetSummary summary = new ProfilerTargetSummary();
 			summary.setName(targetName);
 			summary.setExecutionCount(getExecutionCount(targetName));
-			summary.setAggregateExecutionTime(getTotalTime(targetName, true));
-			summary.setExecutionTime(getTotalTime(targetName, false));
+			summary.setExecutionTime(executionTimes.get(targetName));
 			summary.setIndex(i);
 			summaries.add(summary);
 			i++;
@@ -139,33 +141,22 @@ public class Profiler {
 		return summaries;
 	}
 	
-	public void print() {
-		for (String targetName : getTargetNames()) {
-			System.out.println(targetName + " -> " + getTotalTime(targetName, true) + "/" + getExecutionCount(targetName));
+	protected void collectExecutionTimes(HashMap<String, ExecutionTime> executionTimes, ProfilerTarget target) {
+		ExecutionTime executionTime = executionTimes.get(target.getName());
+		if (executionTime == null) {
+			executionTime = new ExecutionTime();
+			executionTimes.put(target.getName(), executionTime);
+		}
+		executionTime.setAggregate(executionTime.getAggregate() + target.getWorked(true));
+		executionTime.setIndividual(executionTime.getIndividual() + target.getWorked(false));
+		
+		for (ProfilerTarget child : target.getChildren()) {
+			collectExecutionTimes(executionTimes, child);
 		}
 	}
 	
-	public long getTotalTime(String targetName, boolean aggregate) {
-		return getWorked(root, targetName, aggregate);
-	}
-	
-	public long getExecutionCount(String targetName) {
+	protected long getExecutionCount(String targetName) {
 		return targets.containsKey(targetName) ? targets.get(targetName) : 0;
-	}
-	
-	protected long getWorked(ProfilerTarget target, String targetName, boolean aggregate) {
-		if (target.getName().compareTo(targetName) == 0) {
-			return target.getWorked(aggregate);
-		}
-		else {
-			long sum = 0l;
-			Collection<ProfilerTarget> children = new ArrayList<ProfilerTarget>();
-			children.addAll(target.getChildren());
-			for (ProfilerTarget child : children) {
-				sum += getWorked(child, targetName, aggregate);
-			}
-			return sum;
-		}
 	}
 	
 	public boolean isRunning(String targetName) {

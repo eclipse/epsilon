@@ -63,6 +63,9 @@ public class ProfilingLaunchConfigurationListener implements
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolExecutableModule module, Object result) throws Exception {
 		
+		if (profilingEnabled) {
+			Profiler.INSTANCE.refresh();
+		}
 		
 	}
 	

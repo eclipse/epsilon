@@ -5,8 +5,7 @@ public class ProfilerTargetSummary {
 	protected int index = 0;
 	protected String name;
 	protected long executionCount = 0l;
-	protected long executionTime = 0l;
-	protected long aggregateExecutionTime = 0l;
+	protected ExecutionTime executionTime = new ExecutionTime();
 	
 	public String getName() {
 		return name;
@@ -32,20 +31,12 @@ public class ProfilerTargetSummary {
 		this.executionCount = executionCount;
 	}
 	
-	public long getExecutionTime() {
+	public ExecutionTime getExecutionTime() {
 		return executionTime;
 	}
 	
-	public void setExecutionTime(long executionTime) {
+	public void setExecutionTime(ExecutionTime executionTime) {
 		this.executionTime = executionTime;
-	}
-	
-	public long getAggregateExecutionTime() {
-		return aggregateExecutionTime;
-	}
-	
-	public void setAggregateExecutionTime(long aggregateExecutionTime) {
-		this.aggregateExecutionTime = aggregateExecutionTime;
 	}
 	
 }
