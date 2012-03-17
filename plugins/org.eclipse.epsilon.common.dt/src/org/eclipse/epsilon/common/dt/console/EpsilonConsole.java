@@ -78,8 +78,9 @@ public class EpsilonConsole {
 		//but schedules a job instead
 		ioConsole.clearConsole();
 		
-		//Wait until the console is clear and then return
-		while (ioConsole.getDocument().getLength() > 0);
+		// Wait until the console is clear and then return
+		// Update: Don't do this as it can it can lead to an infinite loop
+		// while (ioConsole.getDocument().getLength() > 0){System.err.print("");};
 	}
 	
 	public PrintStream getDebugStream() {
