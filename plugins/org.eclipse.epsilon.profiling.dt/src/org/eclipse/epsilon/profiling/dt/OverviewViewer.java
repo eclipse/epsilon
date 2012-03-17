@@ -1,7 +1,5 @@
 package org.eclipse.epsilon.profiling.dt;
 
-import java.awt.Toolkit;
-
 import org.eclipse.epsilon.profiling.ProfilerOverview;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
