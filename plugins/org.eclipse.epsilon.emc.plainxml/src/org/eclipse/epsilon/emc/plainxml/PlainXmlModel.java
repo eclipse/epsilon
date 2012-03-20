@@ -40,7 +40,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		m.setXml("<?xml version='1.0'?><foo/>");
 		m.load();
 		
-		Object x = m.createInstance("zoo");
+		Object x = m.createInstance("t_zoo");
 		m.setRoot((Node)x);
 		
 		System.err.println(m.getXml());
