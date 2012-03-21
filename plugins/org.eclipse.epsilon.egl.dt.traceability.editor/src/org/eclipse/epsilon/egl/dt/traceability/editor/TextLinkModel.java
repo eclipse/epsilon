@@ -61,6 +61,7 @@ public class TextLinkModel {
 		final Set<Resource> resources = new HashSet<Resource>();
 		
 		for (EmfModelLocation modelLocation : getEmfModelLocations()) {
+			if (modelLocation.getModelElement().eResource() != null)
 			resources.add(modelLocation.getModelElement().eResource());
 		}
 		
@@ -154,6 +155,7 @@ public class TextLinkModel {
 	}
 
 	private String getURIFragmentFor(EObject first) {
+		if (first.eResource() == null) return "";
 		return first.eResource().getURIFragment(first);
 	}
 

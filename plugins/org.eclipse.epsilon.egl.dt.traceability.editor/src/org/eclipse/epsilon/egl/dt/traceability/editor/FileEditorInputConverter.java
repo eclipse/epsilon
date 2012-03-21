@@ -39,6 +39,7 @@ class FileEditorInputConverter {
 		final List<IEditorInput> editorInputs = new LinkedList<IEditorInput>();
 		
 		for (Resource source : textlinkModel.getSources()) {
+			if (source == null) continue;
 			final IFile sourceFile = resourceToFile(source);
 			editorIDs.add(getModelEditorIdFor(sourceFile));
 			editorInputs.add(TextLinkInnerEditorInput.createEditorInputForSource(sourceFile, source));
@@ -54,6 +55,9 @@ class FileEditorInputConverter {
 	}
 	
 	private IFile resourceToFile(Resource resource) {
+		
+		System.err.println("Resource; " + resource);
+		
 		final URI uri = resource.getURI();
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		
