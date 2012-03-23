@@ -29,6 +29,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	private Button enableProfilerButton = null;
 	private Button resetProfilerButton = null;
+	private Button fineGrainedProfilingButton = null;
 	
 	public void createControl(Composite parent) {
 		
@@ -43,6 +44,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		enableProfilerButton = createCheckbox(control, "Enable profiling", null);
 		resetProfilerButton = createCheckbox(control, "Reset profiler before launch", enableProfilerButton);
 		resetProfilerButton.setEnabled(false);
+		fineGrainedProfilingButton = createCheckbox(control, "Fine-grained profiling", enableProfilerButton);
+		fineGrainedProfilingButton.setEnabled(false);
 		
 		control.pack();
 		control.layout();
@@ -59,9 +62,12 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		try {
 			boolean profilerEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
 			boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
+			boolean fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
 			enableProfilerButton.setSelection(profilerEnabled);
 			resetProfilerButton.setSelection(resetProfiler);
+			fineGrainedProfilingButton.setSelection(fineGrainedProfiling);
 			resetProfilerButton.setEnabled(enableProfilerButton.getSelection());
+			fineGrainedProfilingButton.setEnabled(enableProfilerButton.getSelection());
 			canSave();
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
@@ -72,6 +78,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
+		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, fineGrainedProfilingButton.getSelection());
+		
 	}
 
 	public String getName() {

@@ -5,6 +5,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
+import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegateListener; 
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
@@ -35,26 +37,19 @@ public class ProfilingLaunchConfigurationListener implements
 		
 		profilingEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
 		boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
+		boolean fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
 		
 		if (profilingEnabled) {
-			module.getContext().getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
-			
-			Display.getDefault().asyncExec(new Runnable() {
-	
-				@Override
-				public void run() {
-					try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.profiling.dt.ProfilerView");
-					}
-					catch (Exception ex) {ex.printStackTrace();}
-				}
-				
-			});
 			
 			if (resetProfiler) {
 				Profiler.INSTANCE.reset();
 			}
 			
+			Profiler.INSTANCE.start(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, ""));
+			
+			if (fineGrainedProfiling) {
+				module.getContext().getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
+			}
 		}
 	}
 
@@ -64,7 +59,22 @@ public class ProfilingLaunchConfigurationListener implements
 			IEolExecutableModule module, Object result) throws Exception {
 		
 		if (profilingEnabled) {
+			
+			Profiler.INSTANCE.stop(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, ""));
+			
 			Profiler.INSTANCE.refresh();
+			
+			Display.getDefault().asyncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.profiling.dt.ProfilerView");
+					}
+					catch (Exception ex) {ex.printStackTrace();}
+				}
+				
+			});
 		}
 		
 	}
