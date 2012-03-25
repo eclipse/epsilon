@@ -62,6 +62,10 @@ public class AnyOperationContributor extends OperationContributor {
 		}
 	}
 	
+	public boolean instanceOf(EolType type) {
+		return isKindOf(type);
+	}
+	
 	public boolean isTypeOf(EolType type) {
 		return type.isType(target);
 	}
