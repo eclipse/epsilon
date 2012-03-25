@@ -17,6 +17,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.forms
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar
-Export-Package: org.eclipse.epsilon.profiling.dt,
- org.eclipse.epsilon.profiling.dt.plot
+Export-Package: org.eclipse.epsilon.profiling.dt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
