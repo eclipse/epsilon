@@ -10,26 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.launching;
 
-import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
-import org.eclipse.debug.ui.CommonTab;
-import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
 import org.eclipse.epsilon.egl.dt.launching.tabs.EglGeneratedTextConfigurationTab;
 import org.eclipse.epsilon.egl.dt.launching.tabs.EglSourceConfigurationTab;
 
-public class EglLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+public class EglLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTabGroup {
 
-	public void createTabs(ILaunchConfigurationDialog dialog, String mode) { 
-		ILaunchConfigurationTab[] tabs = 
-			new ILaunchConfigurationTab[]{
-				new EglSourceConfigurationTab(),
-				new ModelsConfigurationTab(),
-				new EglGeneratedTextConfigurationTab(),
-				//new ProfilingConfigurationTab(),
-				new CommonTab()
-			};
-		setTabs(tabs);
+	@Override
+	public ILaunchConfigurationTab getSourceConfigurationTab() {
+		return new EglSourceConfigurationTab();
 	}
-
+	
+	@Override
+	public ILaunchConfigurationTab[] getOtherConfigurationTabs() {
+		return new ILaunchConfigurationTab[]{new EglGeneratedTextConfigurationTab()};
+	}
+	
 }
