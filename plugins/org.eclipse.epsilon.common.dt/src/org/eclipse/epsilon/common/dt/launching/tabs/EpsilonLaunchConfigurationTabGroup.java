@@ -23,8 +23,12 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 			for (ILaunchConfigurationTab tab : getSourceConfigurationTabs()) {
 				tabList.add(tab);
 			}
+			
 			tabList.add(new ModelsConfigurationTab());
-			tabList.add(new CommonTab());
+			
+			for (ILaunchConfigurationTab tab : getOtherConfigurationTabs()) {
+				tabList.add(tab);
+			}
 			
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
 			IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.eol.dt.launchConfigurationExtension");
@@ -42,6 +46,7 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 					LogUtil.log(e);
 				}
 			}
+			tabList.add(new CommonTab());
 			
 			ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[tabList.size()];
 			int i = 0;
@@ -58,5 +63,9 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 		
 		public ILaunchConfigurationTab[] getSourceConfigurationTabs() {
 			return new ILaunchConfigurationTab[]{getSourceConfigurationTab()};
+		}
+		
+		public ILaunchConfigurationTab[] getOtherConfigurationTabs() {
+			return new ILaunchConfigurationTab[]{};
 		}
 }
