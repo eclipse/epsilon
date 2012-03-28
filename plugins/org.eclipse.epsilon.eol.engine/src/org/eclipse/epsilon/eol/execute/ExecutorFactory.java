@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
@@ -132,6 +133,21 @@ public class ExecutorFactory {
 		return null;
 	}
 	*/
+	
+	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Class<?> returnType, Object default_) throws EolRuntimeException {
+		if (ast == null) return default_;
+		
+		Object result = executeBlockOrExpressionAst(ast, context);
+		if (result instanceof Return) result = ((Return) result).getValue();
+		if (result == null) return result;
+		
+		if (returnType.isAssignableFrom(result.getClass())) {
+			return result;
+		}
+		else {
+			throw new EolIllegalReturnException(returnType.getSimpleName(), result, ast, context);
+		}
+	}
 	
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		
