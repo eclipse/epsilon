@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching;
 
+import java.awt.Color;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -29,6 +31,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -46,6 +49,7 @@ public abstract class AbstractSourceConfigurationTab
 		protected Label fileLabel;
 		protected Text filePath;
 		protected Button browse;
+		protected Composite extras;
 		
 		public void createControl(Composite parent) {
 			
@@ -71,12 +75,22 @@ public abstract class AbstractSourceConfigurationTab
 			
 			fileLabel.setText(getFileLabel() + ": ");
 			
+			extras = new Composite(control, SWT.NONE);
+			GridData extrasData = new GridData(GridData.FILL_BOTH);
+			extrasData.horizontalSpan = 3;
+			extras.setLayoutData(extrasData);
+			//extras.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+			
 			control.setBounds(0, 0, 300, 300);
 			control.layout();
 			control.pack();
 			
 			canSave();
 			
+		}
+		
+		public Composite getExtras() {
+			return extras;
 		}
 		
 		public String getFileLabel() {
