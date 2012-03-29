@@ -62,16 +62,16 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 */
 	protected abstract Collection<String> getAllTypeNamesOf(Object instance);
 	
-	private final Collection<ModelElementType> allContentsCache = new ArrayList<ModelElementType>();
-	private boolean allContentsAreCached = false;
+	protected final Collection<ModelElementType> allContentsCache = new ArrayList<ModelElementType>();
+	protected boolean allContentsAreCached = false;
 
-	private final List<Object> cachedTypes = new ArrayList<Object>();
-	private final Multimap<Object, ModelElementType> typeCache = new Multimap<Object, ModelElementType>();
+	protected final List<Object> cachedTypes = new ArrayList<Object>();
+	protected final Multimap<Object, ModelElementType> typeCache = new Multimap<Object, ModelElementType>();
 
-	private final List<Object> cachedKinds = new ArrayList<Object>();
-	private final Multimap<Object, ModelElementType> kindCache = new Multimap<Object, ModelElementType>();
+	protected final List<Object> cachedKinds = new ArrayList<Object>();
+	protected final Multimap<Object, ModelElementType> kindCache = new Multimap<Object, ModelElementType>();
 	
-	private boolean cachingEnabled = true;
+	protected boolean cachingEnabled = true;
 	
 	public void setCachingEnabled(boolean cachingEnabled) {
 		this.cachingEnabled = cachingEnabled;
