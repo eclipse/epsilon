@@ -17,6 +17,9 @@ public class ProfilingLaunchConfigurationListener implements
 		EpsilonLaunchConfigurationDelegateListener {
 	
 	protected boolean profilingEnabled = false;
+	protected boolean resetProfiler = false;
+	protected boolean fineGrainedProfiling = false;
+	protected boolean profileModelLoading = false;
 	
 	public ProfilingLaunchConfigurationListener() {
 		
@@ -27,6 +30,17 @@ public class ProfilingLaunchConfigurationListener implements
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolExecutableModule module) throws CoreException {
 		
+		profilingEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
+		resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
+		fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
+		profileModelLoading = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, false);
+		
+		if (profilingEnabled && profileModelLoading) {
+			if (resetProfiler) {
+				Profiler.INSTANCE.reset();
+			}
+			Profiler.INSTANCE.start("Model loading");
+		}
 		
 	}
 
@@ -35,13 +49,14 @@ public class ProfilingLaunchConfigurationListener implements
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolExecutableModule module) throws Exception {
 		
-		profilingEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
-		boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
-		boolean fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
 		
 		if (profilingEnabled) {
 			
-			if (resetProfiler) {
+			if (profileModelLoading) {
+				Profiler.INSTANCE.stop();
+			}
+			
+			if (resetProfiler && !profileModelLoading) {
 				Profiler.INSTANCE.reset();
 			}
 			

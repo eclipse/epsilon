@@ -30,6 +30,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	private Button enableProfilerButton = null;
 	private Button resetProfilerButton = null;
 	private Button fineGrainedProfilingButton = null;
+	private Button profileModelLoadingButton = null;
 	
 	public void createControl(Composite parent) {
 		
@@ -46,6 +47,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		resetProfilerButton.setEnabled(false);
 		fineGrainedProfilingButton = createCheckbox(control, "Fine-grained profiling", enableProfilerButton);
 		fineGrainedProfilingButton.setEnabled(false);
+		profileModelLoadingButton = createCheckbox(control, "Profile model loading", enableProfilerButton);
+		profileModelLoadingButton.setEnabled(false);
 		
 		control.pack();
 		control.layout();
@@ -63,11 +66,16 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 			boolean profilerEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
 			boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
 			boolean fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
+			boolean profileModelLoading = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, false);
 			enableProfilerButton.setSelection(profilerEnabled);
 			resetProfilerButton.setSelection(resetProfiler);
 			fineGrainedProfilingButton.setSelection(fineGrainedProfiling);
+			profileModelLoadingButton.setSelection(profileModelLoading);
+			
 			resetProfilerButton.setEnabled(enableProfilerButton.getSelection());
 			fineGrainedProfilingButton.setEnabled(enableProfilerButton.getSelection());
+			profileModelLoadingButton.setEnabled(enableProfilerButton.getSelection());
+			
 			canSave();
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
@@ -79,6 +87,8 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, fineGrainedProfilingButton.getSelection());
+		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, profileModelLoadingButton.getSelection());
+		
 		
 	}
 

@@ -42,9 +42,9 @@ public class OverviewViewer extends Composite {
 			averageLabel.setText("");
 		}
 		else {
-			executionTimeLabel.setText( "Total execution time: " + overview.getExecutionTime() + "ms");
-			executionCountLabel.setText("Targets executed: " + overview.getExecutionCount());
-			averageLabel.setText(       "Average execution time: " + overview.getAverageExecutionTime() + "ms");
+			executionTimeLabel.setText( "Total profiled time: " + overview.getExecutionTime() + "ms");
+			executionCountLabel.setText("Targets profiled: " + overview.getExecutionCount());
+			averageLabel.setText(       "Average target time: " + overview.getAverageExecutionTime() + "ms");
 		}
 	}
 	
