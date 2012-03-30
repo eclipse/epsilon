@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.launching;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
@@ -27,5 +30,13 @@ public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		return new EplDebugger();
 	}
 	
+	@Override
+	public void executed(ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor progressMonitor,
+			IEolExecutableModule module, Object result) throws Exception {
+		// TODO Auto-generated method stub
+		super.executed(configuration, mode, launch, progressMonitor, module, result);
+		this.result = null;
+	}
 }
 
