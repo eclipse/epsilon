@@ -472,4 +472,18 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.9.1.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.epsilon.epl.dt"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.epl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
 </feature>
