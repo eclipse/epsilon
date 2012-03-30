@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EPL Engine
+Bundle-SymbolicName: org.eclipse.epsilon.epl.engine
+Bundle-Version: 0.9.1.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.emc.plainxml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.epsilon.epl,
+ org.eclipse.epsilon.epl.combinations,
+ org.eclipse.epsilon.epl.parse,
+ org.eclipse.epsilon.epl.workbench

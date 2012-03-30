@@ -1,0 +1,12 @@
+pattern P1
+	n1, n2 : t_node as nodes in: t_node.all guard: n1.a_name = n2.a_name {
+	
+	match { var i = 5; return true; }
+	
+	do {
+		(n1.a_name + ' - ' + n2.a_name + ' -> ' + i + nodes.size() /*+ ' - ' + n3.a_name*/).println();
+	}
+	
+	// merge : self.nodes.intersects(other.nodes)
+	
+}

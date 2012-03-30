@@ -1,0 +1,6 @@
+var pm = new Native("org.eclipse.epsilon.epl.PatternMatcherTool");
+pm.match("library.epl", "EPL");
+
+for (p in EPL!P1.all) {
+	p.nodes.size().println();
+}
