@@ -11,7 +11,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.StringOperationContributor;
@@ -24,6 +23,16 @@ public class PatternMatchModel extends Model{
 	protected PatternMatchPropertyGetter propertyGetter;
 	protected PatternMatchPropertySetter propertySetter = new PatternMatchPropertySetter();
 	protected HashMap<String, HashSet<Object>> componentMap = new HashMap<String, HashSet<Object>>();
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		matches.clear();
+		for (String key : componentMap.keySet()) {
+			componentMap.get(key).clear();
+		}
+		componentMap.clear();
+	}
 	
 	public void addMatch(PatternMatch match) {
 		String patternName = match.getPattern().getName();
