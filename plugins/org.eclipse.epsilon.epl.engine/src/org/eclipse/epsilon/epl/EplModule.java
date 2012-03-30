@@ -138,15 +138,11 @@ public class EplModule extends EolLibraryModule implements IEolExecutableModule{
 					loops++;
 				}
 			}
-			else {
-				
-				return matchModel;
-			}
 		}
 		catch (Exception ex) {
 			EolRuntimeException.propagate(ex);
 		}
-		// Never gets here. Statement above always throws an exception
+		
 		return matchModel;
 	}
 	
