@@ -13,8 +13,8 @@ public class LoadXmlModel extends EpsilonTask {
 	protected String alias;
 	protected File file;
 	protected String uri;
-	protected boolean read;
-	protected boolean store;
+	protected boolean read = true;
+	protected boolean store = false;
 	
 	@Override
 	public void executeImpl() throws BuildException {
