@@ -40,7 +40,7 @@ public class EvlValidator implements EValidator {
 	protected URI source;
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
 	protected Resource currentResource = null;
-	protected ValidationResults results;
+	protected ValidationResults results = new ValidationResults();;
 	protected Collection<EObject> history = new ArrayList<EObject>();
 	protected String modelName;
 	protected String ePackageUri;
@@ -67,7 +67,7 @@ public class EvlValidator implements EValidator {
 		
 		// If it is the root that is validated validate the whole resource and cache the results
 		if (eObject.eContainer() == null) {
-			results = validate(eObject.eResource());
+			validate(eObject.eResource());
 
 			// Add problem markers for violations in objects in externally referenced models
 			for (Map.Entry<Object, Collection<EvlUnsatisfiedConstraint>> entry : results.entrySet()) {
@@ -87,54 +87,55 @@ public class EvlValidator implements EValidator {
 		return true;
 	}
 
+	public boolean validate(EDataType dataType, Object value,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
 	protected Diagnostic createDiagnostic(String msgPrefix, EvlUnsatisfiedConstraint unsatisfied) {
-		
 		int severity = 0;
-		
+
 		if (unsatisfied.getConstraint().isCritique()) severity = 2;
 		else severity = 4;
 		String message = unsatisfied.getMessage();
 		int code = 0;
-		
+
 		BasicDiagnostic diagnostic = new BasicDiagnostic(severity, "", code, msgPrefix + message, new Object[]{ unsatisfied.getInstance() });
-		
+
 		return diagnostic;
 	}
 	
-	protected ValidationResults validate(Resource resource) {
-				
+	private void validate(Resource resource) {
+		results.clear();
+
 		module = new EvlModule();
 		try {
 			module.parse(source);
 		} catch (Exception e) {
 			LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, true);
-			return new ValidationResults();
 		}
-		
+
 		if (module.getParseProblems().size() > 0) {
 			LogUtil.log(source + " has one or more syntax errors : " + module.getParseProblems().get(0).toString(), null, true);			
 		}
-		
+
 		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackageUri);
 		//model.setName(modelName);
 		module.getContext().getModelRepository().addModel(model);
-		
+
 		EclipseContextManager.setup(module.getContext()); 
-		
+
 		try {
 			module.execute();
 		} catch (EolRuntimeException e) {
 			LogUtil.log("A runtime error was raised during the evaluation of " + source + " : " + e.getMessage(), e, true);
-			return new ValidationResults();
 		}
-		
+
 		module.setUnsatisfiedConstraintFixer(new IEvlFixer() {
 			public void fix(IEvlModule module) throws EolRuntimeException {
 				// Do nothing
 			}
 		});
-
-		ValidationResults results = new ValidationResults();
 
 		for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
 			Object key = unsatisfied.getInstance();
@@ -146,14 +147,6 @@ public class EvlValidator implements EValidator {
 
 		module.getContext().dispose();
 		module.getContext().getModelRepository().dispose();
-		
-		return results;
-	}
-	
-	
-	public boolean validate(EDataType dataType, Object value,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return true;
 	}
 
 	private void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
