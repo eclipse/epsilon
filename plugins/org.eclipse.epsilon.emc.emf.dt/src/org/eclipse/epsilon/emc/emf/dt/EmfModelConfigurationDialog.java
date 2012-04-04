@@ -131,7 +131,6 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			@Override
 			public void handleEvent(Event event) {
 				super.handleEvent(event);
-				System.err.println("Here!");
 				Collection<EPackage> ePackages = findEPackages(modelFileText.getText());
 				if (ePackages.size() > 0) {
 					if (!isMetamodelFileBasedButton.getSelection())
