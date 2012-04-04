@@ -32,7 +32,9 @@ public class CompositeEValidator implements EValidator {
 			Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
-			validate = validate && validator.validate(object, diagnostics, context);
+			if (validate || diagnostics != null) {
+				validate &=  validator.validate(object, diagnostics, context);
+			}
 		}
 		return validate;
 	}
@@ -41,7 +43,9 @@ public class CompositeEValidator implements EValidator {
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
-			validate = validate && validator.validate(class1, object, diagnostics, context);
+			if (validate || diagnostics != null) {
+				validate &= validator.validate(class1, object, diagnostics, context);
+			}
 		}
 		return validate;
 	}
@@ -50,7 +54,9 @@ public class CompositeEValidator implements EValidator {
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
-			validate = validate && validator.validate(dataType, value, diagnostics, context);
+			if (validate || diagnostics != null) {
+				validate &= validator.validate(dataType, value, diagnostics, context);
+			}
 		}
 		return validate;
 	}
