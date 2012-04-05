@@ -140,101 +140,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 				IDocumentExtension3.DEFAULT_PARTITIONING);
 		support.setCharacterPairMatcher(matcher);
 		support.setMatchingCharacterPainterPreferenceKeys(EDITOR_MATCHING_BRACKETS,EDITOR_MATCHING_BRACKETS_COLOR);
-
+		
 		IPreferenceStore store = getPreferenceStore();
 		store.setDefault(EDITOR_MATCHING_BRACKETS, true);
 		store.setDefault(EDITOR_MATCHING_BRACKETS_COLOR, "128,128,128");
-	}
-	
-	protected ArrayList<AutoclosingPair> autoclosingPairs = null;
-	
-	public ArrayList<AutoclosingPair> getAutoclosingPairs() {
-		if (autoclosingPairs == null) {
-			autoclosingPairs = new ArrayList<AutoclosingPair>();
-			autoclosingPairs.add(new AutoclosingPair("\"", "\""));
-			autoclosingPairs.add(new AutoclosingPair("(", ")"));
-			autoclosingPairs.add(new AutoclosingPair("{", "}"));
-			autoclosingPairs.add(new AutoclosingPair("'", "'"));
-		}
-		return autoclosingPairs;
-	}
-	
-	// for auto-closing wait a bit before actually auto completing
-	// if what pressed is . and is between parentheses, move it outside
-	// if what pressed is ; and its right is a ) move it outside
-	// ctrl + . moves . outside
-	// enter between {} adds new line + tab
-	// shift + space adds (|)
-	protected void addSmartTyping() {
-		
-		boolean enableAutoClosing = true;
-		if (!enableAutoClosing) return;
-		
-		IDocument doc = this.getDocumentProvider().getDocument(
-				this.getEditorInput());
-	
-		doc.addDocumentListener(new IDocumentListener() {
-			
-			boolean auto = false;
-			
-			public void documentAboutToBeChanged(DocumentEvent event) {
-				
-				if (auto) return;
-				boolean skip = false;
-				
-				/*
-				if (event.fText.equals("\n")) {
-					System.err.println("here...");
-					try {
-						String before = event.getDocument().get(event.fOffset-1, 1);
-						String after = event.getDocument().get(event.fOffset, 1);
-						
-						if (before.equalsIgnoreCase("{") && after.equalsIgnoreCase("}")) {
-							System.err.println("here we go...");
-							auto = true;
-							event.fDocument.replace(event.fOffset, 0, "\n");
-							auto = false;
-						}
-						
-					}
-					catch(BadLocationException ex) {
-						ex.printStackTrace();
-					}
-				}*/
-				
-				for (AutoclosingPair pair : getAutoclosingPairs()) {
-					try {
-						try {
-							String before = event.getDocument().get(event.fOffset-1, 1);
-							String after = event.getDocument().get(event.fOffset, 1);
-							if (event.fText.equalsIgnoreCase(pair.getRight()) && before.equalsIgnoreCase(pair.getLeft()) && after.equalsIgnoreCase(pair.getRight())) {
-								skip = true;
-								auto = true;
-								event.fDocument.replace(event.fOffset, 1, "");
-								auto = false;
-							}
-						}
-						catch (BadLocationException ex) {
-							// Ignore exception
-						}
-						if (!skip && event.fText.equalsIgnoreCase(pair.getLeft())) {
-							auto = true;
-							event.fDocument.replace(event.fOffset, 0, pair.getRight());
-							auto = false;
-						}
-					}
-					catch (BadLocationException e) {
-						// Ignore exception
-					}
-					
-				}
-			}
-
-			public void documentChanged(DocumentEvent event) {
-
-			}
-			
-		});
 	}
 	
 	@Override
@@ -303,7 +212,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 		
-		addSmartTyping();
+		IDocument doc = this.getDocumentProvider().getDocument(
+				this.getEditorInput());
+		
+		doc.addDocumentListener(new PairAutoCloser());
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
 		
