@@ -33,12 +33,16 @@ import org.eclipse.epsilon.commons.module.IModule;
 import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.commons.util.ListBuilder;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.source.AnnotationModel;
+import org.eclipse.jface.text.source.DefaultCharacterPairMatcher;
+import org.eclipse.jface.text.source.ICharacterPairMatcher;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
@@ -56,6 +60,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.MarkerUtilities;
+import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -120,6 +125,25 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public final static String EDITOR_MATCHING_BRACKETS = "matchingBrackets";
+	public final static String EDITOR_MATCHING_BRACKETS_COLOR= "matchingBracketsColor";
+	
+	@Override
+	protected void configureSourceViewerDecorationSupport(
+			SourceViewerDecorationSupport support) {
+
+		super.configureSourceViewerDecorationSupport(support);
+		char[] matchChars = {'(', ')', '[', ']', '{', '}'}; 		
+		ICharacterPairMatcher matcher = new DefaultCharacterPairMatcher(matchChars ,
+				IDocumentExtension3.DEFAULT_PARTITIONING);
+		support.setCharacterPairMatcher(matcher);
+		support.setMatchingCharacterPainterPreferenceKeys(EDITOR_MATCHING_BRACKETS,EDITOR_MATCHING_BRACKETS_COLOR);
+
+		IPreferenceStore store = getPreferenceStore();
+		store.setDefault(EDITOR_MATCHING_BRACKETS, true);
+		store.setDefault(EDITOR_MATCHING_BRACKETS_COLOR, "128,128,128");
 	}
 	
 	protected ArrayList<AutoclosingPair> autoclosingPairs = null;
