@@ -218,7 +218,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		
 		
 		autoclosingPairManager = new AutoclosingPairManager(doc);
-		viewer.getTextWidget().addVerifyKeyListener(autoclosingPairManager);
 		getSourceViewerDecorationSupport(viewer);
 		
 		return viewer;

@@ -10,7 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.VerifyEvent;
 
-public class AutoclosingPairManager implements IDocumentListener, VerifyKeyListener {
+public class AutoclosingPairManager implements IDocumentListener {
 
 	protected ArrayList<AutoclosingPair> autoclosingPairs = null;
 	protected IDocument document;
@@ -109,22 +109,4 @@ public class AutoclosingPairManager implements IDocumentListener, VerifyKeyListe
 		
 	}
 
-	@Override
-	public void verifyKey(VerifyEvent event) {
-		//try {
-		if (event.keyCode == SWT.BS) {
-			
-			//System.err.println(event.getSource());
-			//String before = document.get(event.fOffset - 1, 1);
-			//String after = "";
-			//try {
-			//	after = event.getDocument().get(event.fOffset, 1);
-			//}
-			//catch (BadLocationException ex) {}
-		}
-		//}
-		//catch (BadLocationException ex) {
-			
-		//}
-	}
 }
