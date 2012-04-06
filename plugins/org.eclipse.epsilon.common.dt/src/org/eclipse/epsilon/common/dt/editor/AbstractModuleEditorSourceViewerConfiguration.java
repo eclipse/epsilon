@@ -14,6 +14,8 @@ package org.eclipse.epsilon.common.dt.editor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
 import org.eclipse.epsilon.common.dt.editor.hyperlinks.AbstractModuleEditorHyperlinkDetector;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
+import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextViewer;
@@ -57,6 +59,12 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		reconciler.setRepairer(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
 
 		return reconciler;
+	}
+	
+	@Override
+	public IAutoEditStrategy[] getAutoEditStrategies(
+			ISourceViewer sourceViewer, String contentType) {
+		return new IAutoEditStrategy[]{new DefaultIndentLineAutoEditStrategy(), new AutoCloseEditStrategy()};
 	}
 	
 	@Override
