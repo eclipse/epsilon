@@ -71,6 +71,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected Job parseModuleJob = null;
 	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
+	protected AutoclosingPairManager autoclosingPairManager = null;
 	
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
 	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
@@ -215,8 +216,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		IDocument doc = this.getDocumentProvider().getDocument(
 				this.getEditorInput());
 		
-		doc.addDocumentListener(new PairAutoCloser());
-		// ensure decoration support has been created and configured.
+		
+		autoclosingPairManager = new AutoclosingPairManager(doc);
+		viewer.getTextWidget().addVerifyKeyListener(autoclosingPairManager);
 		getSourceViewerDecorationSupport(viewer);
 		
 		return viewer;
