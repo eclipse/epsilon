@@ -217,7 +217,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 				this.getEditorInput());
 		
 		
-		autoclosingPairManager = new AutoclosingPairManager(doc);
+		autoclosingPairManager = new AutoclosingPairManager(doc, getSourceViewerConfiguration().getUndoManager(viewer));
+		viewer.getTextWidget().addVerifyKeyListener(autoclosingPairManager);
 		getSourceViewerDecorationSupport(viewer);
 		
 		return viewer;
