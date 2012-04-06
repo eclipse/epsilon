@@ -67,7 +67,6 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 	Image templateImage = EpsilonCommonsPlugin.createImage("icons/template.gif");
 	@Override
 	protected Image getImage(Template template) {
-		System.err.println("Getting image for " + template.getName());
 		if (template instanceof TemplateWithImage) {
 			return ((TemplateWithImage) template).getImage();
 		}

@@ -80,7 +80,7 @@ public class EpsilonConsole {
 		
 		// Wait until the console is clear and then return
 		// Update: Don't do this as it can it can lead to an infinite loop
-		// while (ioConsole.getDocument().getLength() > 0){System.err.print("");};
+		// while (ioConsole.getDocument().getLength() > 0){System.out.print("");};
 	}
 	
 	public PrintStream getDebugStream() {
