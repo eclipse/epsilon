@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.emf.virtual,
  org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.epsilon.util.emf
+ org.eclipse.epsilon.util.emf,
+ org.eclipse.ui.ide
 Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.emc.emf.dt

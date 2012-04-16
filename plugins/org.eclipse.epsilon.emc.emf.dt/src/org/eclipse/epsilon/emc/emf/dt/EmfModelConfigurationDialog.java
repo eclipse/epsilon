@@ -139,6 +139,10 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		});
 		
+		//WorkspaceResourceSelector selector = new WorkspaceResourceSelector(groupContent, false);
+		//selector.inject();
+		//selector.setLabelText("Model file:");
+		
 		metaModelFileLabel = new Label(groupContent, SWT.NONE);
 		metaModelFileLabel.setText("Meta-model file: ");
 		
