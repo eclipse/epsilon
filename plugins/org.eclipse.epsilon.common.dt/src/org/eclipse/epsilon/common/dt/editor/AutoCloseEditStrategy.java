@@ -19,36 +19,47 @@ import org.eclipse.jface.text.IRegion;
 public class AutoCloseEditStrategy implements IAutoEditStrategy {
 
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
-		if (d.getLength() == 0 ||
-				c.offset == -1 || c.length > 0 || c.text == null || c.text.length() != 1) {
-			return;
+
+		try {
+			char next = d.getChar(c.offset);
+			if (Character.isJavaIdentifierPart(next)) return;
+		}
+		catch (Exception ex) {
+			// Ignore and move on
 		}
 		
-		char ch = c.text.charAt(0);
-		if (ch == '(') {
-			setClosingChar(c, ')');
+		try {
+		
+			char ch = c.text.charAt(0);
+			if (ch == '(') {
+				setClosingChar(c, ')');
+			}
+			else if (ch == '{') {
+				setClosingChar(c, '}');
+			}
+			else if (ch == '[') {
+				setClosingChar(c, ']');
+			}
+			else if (ch == ')') {
+				checkClosingChar(d, c, '(', ')');
+			}
+			else if (ch == '}') {
+				checkClosingChar(d, c, '{', '}');
+			}
+			else if (ch == ']') {
+				checkClosingChar(d, c, '[', ']');
+			}
+			else if (ch == '\"') {
+				checkQuoteChar(d, c, '\"');
+			}
+			else if (ch == '\'') {
+				checkQuoteChar(d, c, '\'');
+			}
 		}
-		else if (ch == '{') {
-			setClosingChar(c, '}');
+		catch (Exception ex) {
+			
 		}
-		else if (ch == '[') {
-			setClosingChar(c, ']');
-		}
-		else if (ch == ')') {
-			checkClosingChar(d, c, '(', ')');
-		}
-		else if (ch == '}') {
-			checkClosingChar(d, c, '{', '}');
-		}
-		else if (ch == ']') {
-			checkClosingChar(d, c, '[', ']');
-		}
-		else if (ch == '\"') {
-			checkQuoteChar(d, c, '\"');
-		}
-		else if (ch == '\'') {
-			checkQuoteChar(d, c, '\'');
-		}
+
 	}
 	
 	private void setClosingChar(DocumentCommand c, char closingChar) {
