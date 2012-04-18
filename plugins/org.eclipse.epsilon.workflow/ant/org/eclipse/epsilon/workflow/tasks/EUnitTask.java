@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,6 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
-import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
@@ -105,13 +106,22 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 
 		/**
-		 * EUnit-specific operation for loading models inside the .eunit file from HUTN fragments.
+		 * EUnit-specific operation for loading models inside the .eunit file
+		 * from HUTN fragments.
 		 */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public void loadHutn(String modelName, String hutnContent) throws EolModelLoadingException {
-			final HutnModel hutnModel = new HutnModel(modelName, hutnContent);
-			hutnModel.load();
-			ModelRepository modelRepository = module.getContext().getModelRepository();
-			modelRepository.addModel(hutnModel);
+			IModel hutnModel = null;
+			try {
+				final Class hutnModelClass = Class.forName("org.eclipse.epsilon.emc.hutn.HutnModel");
+				final Constructor constructor = hutnModelClass.getConstructor(String.class, String.class);
+				hutnModel = (IModel)constructor.newInstance(modelName, hutnContent);
+				hutnModel.load();
+				ModelRepository modelRepository = module.getContext().getModelRepository();
+				modelRepository.addModel(hutnModel);
+			} catch (Exception ex) {
+				throw new EolModelLoadingException(ex, hutnModel);
+			}
 		}
 	}
 
