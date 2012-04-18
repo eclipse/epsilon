@@ -19,8 +19,10 @@ import org.eclipse.jface.text.IRegion;
 public class AutoCloseEditStrategy implements IAutoEditStrategy {
 
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
-
+		
 		try {
+			if (c.length > 0 || c.text == null || c.text.length() != 1) return;
+			
 			char next = d.getChar(c.offset);
 			if (Character.isJavaIdentifierPart(next)) return;
 		}
