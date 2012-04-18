@@ -23,10 +23,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({FlockCanAccessBuiltinsTests.class,
+               GuardedConstructSuite.class,
                TypeMappingsSuite.class,
                RulesSuite.class,
                MigrationLogicSuite.class,
-               InheritanceSuite.class,
                CopyingSuite.class,
                IgnoringSuite.class,
                EquivalencesSuite.class,

@@ -8,13 +8,13 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.engine.test.acceptance.inheritance;
+package org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class IgnoredPropertiesAreAccumalatedOverTypeHierachy extends FlockAcceptanceTest {
+public class IgnoreAccumalatesOverTypeHierachy extends FlockAcceptanceTest {
 
 	private static final String strategy = "migrate NamedElement ignoring name" + "\n" +
 	                                       "migrate Family ignoring numberOfChildren";

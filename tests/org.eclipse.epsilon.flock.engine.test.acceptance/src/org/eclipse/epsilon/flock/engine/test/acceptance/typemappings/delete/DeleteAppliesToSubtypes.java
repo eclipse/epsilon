@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class DeleteAppliedToAbstractType extends FlockAcceptanceTest {
+public class DeleteAppliesToSubtypes extends FlockAcceptanceTest {
 
 	private static final String strategy = "delete NamedElement";
 	
@@ -26,8 +26,8 @@ public class DeleteAppliedToAbstractType extends FlockAcceptanceTest {
 	                                            "	Person {"                  +
 	                                            "		name: \"John\""        +
 	                                            "	}"                         +
-	                                            "	Family {"                  +
-	                                            "		name: \"The Smiths\""  +
+	                                            "	Dog {"                     +
+	                                            "		name: \"Fido\""        +
 	                                            "	}"                         +
 	                                            "}";
 	
@@ -37,12 +37,12 @@ public class DeleteAppliedToAbstractType extends FlockAcceptanceTest {
 	}
 	
 	@Test
-	public void migratedShouldContainNoFamilies() {
-		migrated.assertEquals(0, "Family.all.size()");
+	public void migratedShouldContainNoPeople() {
+		migrated.assertEquals(0, "Person.all.size()");
 	}
 	
 	@Test
-	public void migratedShouldContainNoPeople() {
-		migrated.assertEquals(0, "Person.all.size()");
+	public void migratedShouldContainNoDogs() {
+		migrated.assertEquals(0, "Dog.all.size()");
 	}
 }

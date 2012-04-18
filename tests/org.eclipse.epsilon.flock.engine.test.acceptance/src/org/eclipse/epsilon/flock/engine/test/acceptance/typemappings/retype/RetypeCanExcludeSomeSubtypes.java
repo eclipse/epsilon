@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2011 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,48 +7,46 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
- ******************************************************************************
- *
- * $Id$
- */
-package org.eclipse.epsilon.flock.engine.test.acceptance.inheritance;
+ ******************************************************************************/
+package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
-public class ReuseMigrationAndRetype extends FlockAcceptanceTest {
-
-	private static final String strategy = "migrate NamedElement {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}" +
-	                                       "retype Pet to Person";
+public class RetypeCanExcludeSomeSubtypes extends FlockAcceptanceTest  {
 	
+	private static final String strategy = "retype NamedElement to Family when: not original.isKindOf(Original!Dog)";
+
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
 	                                            "   Pet {"               +
+	                                            "       name: \"Tom\""   +
+	                                            "   }"                   +
+	                                            "   Dog {"               +
 	                                            "       name: \"Fido\""  +
 	                                            "   }"                   +
 	                                            "}";
-	
+
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
 		
-		migrated.setVariable("person",            "Person.all.selectOne(p|p.name.startsWith('John'))");
-		migrated.setVariable("personThatWasAPet", "Person.all.selectOne(p|p.name.startsWith('Fido'))");
+		migrated.setVariable("john", "NamedElement.all.selectOne(e|e.name == 'John')");
+		migrated.setVariable("tom",  "NamedElement.all.selectOne(e|e.name == 'Tom')");
+		migrated.setVariable("fido", "NamedElement.all.selectOne(e|e.name == 'Fido')");
 	}
-	
+
 	@Test
-	public void migratedPersonShouldHaveCorrectName() {
-		migrated.assertEquals("John Smith", "person.name");
+	public void subtypesOfNamedElementShouldBeRetyped() {
+		migrated.assertInstanceOf("Family", "john");
+		migrated.assertInstanceOf("Family", "tom");
 	}
-	
+
 	@Test
-	public void migratedPetShouldHaveCorrectName() {
-		migrated.assertEquals("Fido Smith", "personThatWasAPet.name");
+	public void specifiedSubtypeShouldBeExcluded() {
+		migrated.assertInstanceOf("Dog", "fido");
 	}
 }

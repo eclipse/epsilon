@@ -11,46 +11,35 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
+package org.eclipse.epsilon.flock.engine.test.acceptance.guardedconstructs;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class SeveralRules extends FlockAcceptanceTest {
+public class RetypeGuardsShouldBeEvaluatedOnlyOnce extends FlockAcceptanceTest {
 
-	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}" +
-	                                       "migrate Dog {" +
-	                                       "    migrated.name := original.name + ' Smith';" +
+	private static final String strategy = "retype Person to Family when: guardWithSideEffect() " +
+	                                       "" +
+	                                       "operation guardWithSideEffect() {" +
+	                                       "  new Migrated!Dog;" +
+	                                       "  return true;" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
-	                                            "	Dog {"               +
-	                                            "		name: \"Fido\""  +
-	                                            "	}"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
-		
-		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void personHasSurname() {
-		migrated.assertEquals("John Smith", "person.name");
-	}
-	
-	@Test
-	public void dogHasSurname() {
-		migrated.assertEquals("Fido Smith", "dog.name");
+	public void onlyOneDogShouldHaveBeenCreatedByTheGuard() {
+		migrated.assertEquals(1, "Dog.all.size");
 	}
 }

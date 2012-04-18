@@ -18,30 +18,33 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class GuardsShouldBeEvaluatedOnlyOnce extends FlockAcceptanceTest {
+public class SeveralRulesRunInTheOrderThatTheyAppear extends FlockAcceptanceTest {
 
-	private static final String strategy = "migrate Person when: guardWithSideEffect() {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
+	private static final String strategy = "migrate Dog {" +
+	                                       "	migrated.name := original.name + ' Dog';" +
 	                                       "}" +
-	                                       "" +
-	                                       "operation guardWithSideEffect() {" +
-	                                       "  new Migrated!Dog;" +
-	                                       "  return true;" +
+	                                       "migrate NamedElement {" +
+	                                       "	migrated.name := original.name + ' NE';" +
+	                                       "}" +
+	                                       "migrate Pet {" +
+	                                       "	migrated.name := original.name + ' Pet';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
-	                                            "	Person {"            +
-	                                            "		name: \"John\""  +
-	                                            "	}"                   +
+	                                            "   Dog {"               +
+	                                            "       name: \"Fido\""  +
+	                                            "   }"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
+		
+		migrated.setVariable("dog", "Dog.all.first");
 	}
 	
 	@Test
-	public void onlyOneDogShouldHaveBeenCreatedByTheGuard() {
-		migrated.assertEquals(1, "Dog.all.size");
+	public void nameShouldBeSetBeLastRule() {
+		migrated.assertEquals("Fido Pet", "dog.name");
 	}
 }

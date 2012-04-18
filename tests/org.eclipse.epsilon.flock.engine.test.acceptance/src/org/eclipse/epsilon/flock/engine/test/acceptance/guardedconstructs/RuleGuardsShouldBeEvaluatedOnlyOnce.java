@@ -11,52 +11,37 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.inheritance;
+package org.eclipse.epsilon.flock.engine.test.acceptance.guardedconstructs;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class ReuseMigrationForSomeSubtypes extends FlockAcceptanceTest {
+public class RuleGuardsShouldBeEvaluatedOnlyOnce extends FlockAcceptanceTest {
 
-	private static final String strategy = "migrate NamedElement when: not original.isKindOf(Original!Dog) {" +
+	private static final String strategy = "migrate Person when: guardWithSideEffect() {" +
 	                                       "	migrated.name := original.name + ' Smith';" +
+	                                       "}" +
+	                                       "" +
+	                                       "operation guardWithSideEffect() {" +
+	                                       "  new Migrated!Dog;" +
+	                                       "  return true;" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
-	                                            "   Pet {"               +
-	                                            "       name: \"Tom\""   +
-	                                            "   }"                   +
-	                                            "   Dog {"               +
-	                                            "       name: \"Fido\""  +
-	                                            "   }"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
-		
-		migrated.setVariable("person", "Person.all.first");
-		migrated.setVariable("pet",    "Pet.all.selectOne(p|p.name.startsWith('Tom'))");
-		migrated.setVariable("dog",    "Dog.all.first");
 	}
 	
 	@Test
-	public void migratedPersonShouldHaveCorrectName() {
-		migrated.assertEquals("John Smith", "person.name");
-	}
-	
-	@Test
-	public void migratedPetShouldHaveCorrectName() {
-		migrated.assertEquals("Tom Smith", "pet.name");
-	}
-	
-	@Test
-	public void migratedDogShouldHaveCorrectName() {
-		migrated.assertEquals("Fido", "dog.name");
+	public void onlyOneDogShouldHaveBeenCreatedByTheGuard() {
+		migrated.assertEquals(1, "Dog.all.size");
 	}
 }

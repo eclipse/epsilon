@@ -19,6 +19,7 @@ import junit.framework.Test;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.BodyTakesPriorityOverIgnore;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.GuardedIgnore;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.BodyAndIgnored;
+import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.IgnoreAccumalatesOverTypeHierachy;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.IgnoreEscapedProperty;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.IgnoreOneProperty;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.ignoring.IgnoreSeveralProperties;
@@ -32,7 +33,8 @@ import org.junit.runners.Suite.SuiteClasses;
                IgnoreSeveralProperties.class,
                GuardedIgnore.class,
                BodyAndIgnored.class,
-               BodyTakesPriorityOverIgnore.class})
+               BodyTakesPriorityOverIgnore.class,
+               IgnoreAccumalatesOverTypeHierachy.class})
 public class IgnoringSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(IgnoringSuite.class);
