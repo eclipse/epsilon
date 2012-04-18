@@ -49,7 +49,7 @@ public class CopyPersistsIdentity extends Strong2StrongMigrationAcceptanceTest {
 	
 	private static AbstractEmfModel addIdentities(String originalmodel2) {
 		final AbstractEmfModel model = hutnToFamily(originalModel);
-		final XMIResource resource = (XMIResource) model.getModelImpl();
+		final XMIResource resource = (XMIResource) model.getResource();
 		
 		resource.setID(resource.getContents().get(0), "alice");
 		resource.setID(resource.getContents().get(1), "bob");
