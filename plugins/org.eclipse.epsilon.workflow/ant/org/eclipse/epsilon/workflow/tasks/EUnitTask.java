@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -32,6 +31,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
+import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
@@ -73,7 +73,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	public class RunTargetOperationContributor extends OperationContributor {
 		@Override
 		public boolean contributesTo(Object target) {
-			return true;
+			return EolNoType.NoInstance.equals(target);
 		}
 
 		/**

@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
+import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 
 /**
@@ -23,7 +24,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 
 	@Override
 	public boolean contributesTo(Object target) {
-		return true;
+		return EolNoType.NoInstance.equals(target);
 	}
 
 	public void assertTrue(boolean condition) throws EolAssertionException {
