@@ -11,14 +11,14 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules.delete;
+package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class DeleteRule extends FlockAcceptanceTest {
+public class Delete extends FlockAcceptanceTest {
 
 	private static final String strategy = "delete Person";
 	

@@ -11,23 +11,18 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
+package org.eclipse.epsilon.flock.engine.test.acceptance.migrationlogic;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
-public class Operation extends FlockAcceptanceTest {
+public class UnsetFeature extends FlockAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name.smithise();" +
-	                                       "}" +
-	                                       "" +
-	                                       "operation String smithise() {" +
-	                                       "	return self + ' Smith';" +
+	                                       "	migrated.name := null;" +
 	                                       "}";
-	
+
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
@@ -43,6 +38,6 @@ public class Operation extends FlockAcceptanceTest {
 	
 	@Test
 	public void migratedShouldHaveCorrectName() {
-		migrated.assertEquals("John Smith", "person.name");
+		migrated.assertUndefined("person.name");
 	}
 }

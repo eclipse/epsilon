@@ -24,18 +24,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class Retype extends FlockAcceptanceTest {
+public class RuleWithGuard extends FlockAcceptanceTest {
 
-	private static final String strategy = "retype Person to Salesperson";
+
+	private static final String strategy = "migrate Person when: original.name.isDefined() {" +
+	                                       "	migrated.name := original.name + ' Smith';" +
+	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
+	                                            "	Person {"            +
+	                                            "	}"                   +
 	                                            "}";
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
-	                                                 	.with(anEClass().named("Salesperson")
+	                                                    .named("families")
+	                                                 	.with(anEClass().named("Person")
 	                                                 		.with(anEAttribute()
 	                                                 			.named("name")
 	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
@@ -46,11 +52,17 @@ public class Retype extends FlockAcceptanceTest {
 	public static void setup() throws Exception {
 		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
 		
-		migrated.setVariable("salesperson", "Salesperson.all.first");
+		migrated.setVariable("named",     "Person.all.at(0)");
+		migrated.setVariable("anonymous", "Person.all.at(1)");
 	}
 	
 	@Test
-	public void shouldHaveSameName() {
-		migrated.assertEquals("John", "salesperson.name");
+	public void namedHasSurname() {
+		migrated.assertEquals("John Smith", "named.name");
+	}
+	
+	@Test
+	public void anonymousHasNoName() {
+		migrated.assertUndefined("anonymous.name");
 	}
 }

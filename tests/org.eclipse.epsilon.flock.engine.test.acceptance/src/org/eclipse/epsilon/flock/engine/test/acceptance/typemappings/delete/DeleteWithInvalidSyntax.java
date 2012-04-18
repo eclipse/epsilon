@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules.delete;
+package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete;
 
 import static org.junit.Assert.assertFalse;
 
@@ -19,7 +19,7 @@ import org.eclipse.epsilon.flock.FlockModule;
 import org.junit.Test;
 
 
-public class DeleteRuleWithInvalidSyntax {
+public class DeleteWithInvalidSyntax {
 
 	@Test
 	public void deleteRuleWithToPart() throws Exception {

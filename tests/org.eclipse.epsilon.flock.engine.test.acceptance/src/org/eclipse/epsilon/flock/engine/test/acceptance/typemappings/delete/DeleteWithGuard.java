@@ -11,33 +11,38 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
+package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SetToNull extends FlockAcceptanceTest {
 
-	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := null;" +
-	                                       "}";
+public class DeleteWithGuard extends FlockAcceptanceTest {
 
+	private static final String strategy = "delete Person when: original.name = 'John'";
+	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
+	                                            "	}"                   +
+	                                            "	Person {"            +
+	                                            "		name: \"Jane\""  +
 	                                            "	}"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
-		
-		migrated.setVariable("person", "Person.all.first");
 	}
 	
 	@Test
-	public void migratedShouldHaveCorrectName() {
-		migrated.assertUndefined("person.name");
+	public void migratedShouldContainOnePerson() {
+		migrated.assertEquals(1, "Person.all.size()");
+	}
+	
+	@Test
+	public void migratedShouldContainPersonCalledJane() {
+		migrated.assertEquals("Jane", "Person.all.first.name");
 	}
 }

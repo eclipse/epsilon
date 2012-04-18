@@ -18,15 +18,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class AnnotatedOperation extends FlockAcceptanceTest {
+public class Rule extends FlockAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name.smithise();" +
-	                                       "}" +
-	                                       "" +
-	                                       "@cached \n" +
-	                                       "operation String smithise() {" +
-	                                       "	return self + ' Smith';" +
+	                                       "	migrated.name := original.name + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +

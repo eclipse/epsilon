@@ -11,17 +11,21 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
+package org.eclipse.epsilon.flock.engine.test.acceptance.migrationlogic;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class SimpleRule extends FlockAcceptanceTest {
+public class UseOperation extends FlockAcceptanceTest {
 
 	private static final String strategy = "migrate Person {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
+	                                       "	migrated.name := original.name.smithise();" +
+	                                       "}" +
+	                                       "" +
+	                                       "operation String smithise() {" +
+	                                       "	return self + ' Smith';" +
 	                                       "}";
 	
 	private static final String originalModel = "Families {"             +

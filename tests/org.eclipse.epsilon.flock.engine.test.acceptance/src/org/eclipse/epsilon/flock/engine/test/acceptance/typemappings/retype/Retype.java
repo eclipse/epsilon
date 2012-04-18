@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
+package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
@@ -24,24 +24,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class Guard extends FlockAcceptanceTest {
+public class Retype extends FlockAcceptanceTest {
 
-
-	private static final String strategy = "migrate Person when: original.name.isDefined() {" +
-	                                       "	migrated.name := original.name + ' Smith';" +
-	                                       "}";
+	private static final String strategy = "retype Person to Salesperson";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
 	                                            "	}"                   +
-	                                            "	Person {"            +
-	                                            "	}"                   +
 	                                            "}";
 	
 	private static final EPackage evolvedMetamodel = aMetamodel()
-	                                                    .named("families")
-	                                                 	.with(anEClass().named("Person")
+	                                                 	.with(anEClass().named("Salesperson")
 	                                                 		.with(anEAttribute()
 	                                                 			.named("name")
 	                                                 			.withType(EcorePackage.eINSTANCE.getEString())
@@ -52,17 +46,11 @@ public class Guard extends FlockAcceptanceTest {
 	public static void setup() throws Exception {
 		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
 		
-		migrated.setVariable("named",     "Person.all.at(0)");
-		migrated.setVariable("anonymous", "Person.all.at(1)");
+		migrated.setVariable("salesperson", "Salesperson.all.first");
 	}
 	
 	@Test
-	public void namedHasSurname() {
-		migrated.assertEquals("John Smith", "named.name");
-	}
-	
-	@Test
-	public void anonymousHasNoName() {
-		migrated.assertUndefined("anonymous.name");
+	public void shouldHaveSameName() {
+		migrated.assertEquals("John", "salesperson.name");
 	}
 }

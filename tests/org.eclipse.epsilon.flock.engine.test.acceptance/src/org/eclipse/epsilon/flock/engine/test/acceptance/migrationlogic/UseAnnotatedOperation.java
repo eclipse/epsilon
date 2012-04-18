@@ -11,38 +11,39 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.engine.test.acceptance.rules.delete;
+package org.eclipse.epsilon.flock.engine.test.acceptance.migrationlogic;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class DeleteRuleWithGuard extends FlockAcceptanceTest {
+public class UseAnnotatedOperation extends FlockAcceptanceTest {
 
-	private static final String strategy = "delete Person when: original.name = 'John'";
+	private static final String strategy = "migrate Person {" +
+	                                       "	migrated.name := original.name.smithise();" +
+	                                       "}" +
+	                                       "" +
+	                                       "@cached \n" +
+	                                       "operation String smithise() {" +
+	                                       "	return self + ' Smith';" +
+	                                       "}";
 	
 	private static final String originalModel = "Families {"             +
 	                                            "	Person {"            +
 	                                            "		name: \"John\""  +
-	                                            "	}"                   +
-	                                            "	Person {"            +
-	                                            "		name: \"Jane\""  +
 	                                            "	}"                   +
 	                                            "}";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
 		migrateFamiliesToFamilies(strategy, originalModel);
+		
+		migrated.setVariable("person", "Person.all.first");
 	}
 	
 	@Test
-	public void migratedShouldContainOnePerson() {
-		migrated.assertEquals(1, "Person.all.size()");
-	}
-	
-	@Test
-	public void migratedShouldContainPersonCalledJane() {
-		migrated.assertEquals("Jane", "Person.all.first.name");
+	public void migratedShouldHaveCorrectName() {
+		migrated.assertEquals("John Smith", "person.name");
 	}
 }
