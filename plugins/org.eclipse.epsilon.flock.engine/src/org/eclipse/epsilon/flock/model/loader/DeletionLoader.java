@@ -23,7 +23,7 @@ public class DeletionLoader extends Loader {
 	}
 	
 	public Deletion run() {
-		return new Deletion(ast, getOriginalType(), getGuard());
+		return new Deletion(ast, getAnnotations(), getOriginalType(), getGuard());
 	}
 
 	private String getOriginalType() {

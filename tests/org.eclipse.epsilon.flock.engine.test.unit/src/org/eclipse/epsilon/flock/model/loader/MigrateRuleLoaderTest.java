@@ -18,7 +18,7 @@ import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.*;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
+import org.eclipse.epsilon.flock.model.domain.common.FlockConstruct;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class MigrateRuleLoaderTest {
 	public void basicMigrateRule() {
 		final AST ruleAst = createMigrateRuleAst("Person", body);
 		
-		final MigrateRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final FlockConstruct rule = runMigrationRuleLoaderOn(ruleAst);
 		
 		assertEquals(personRule().build(), rule);
 	}
@@ -40,7 +40,7 @@ public class MigrateRuleLoaderTest {
 	public void migrateRuleWithGuard() {
 		final AST ruleAst = createMigrateRuleWithGuardAst("Person", guard, body);
 		
-		final MigrateRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final FlockConstruct rule = runMigrationRuleLoaderOn(ruleAst);
 		
 		assertEquals(personRule().withGuard(guard.getFirstChild()).build(), rule);
 	}
@@ -50,7 +50,7 @@ public class MigrateRuleLoaderTest {
 		final AST ignoredProperties = createIgnoredPropertiesAst("name");
 		final AST ruleAst           = createMigrateRuleWithIgnoredPropertiesAst("Person", ignoredProperties, body);
 		
-		final MigrateRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final FlockConstruct rule = runMigrationRuleLoaderOn(ruleAst);
 		
 		assertEquals(personRule().withIgnoredProperties("name").build(), rule);
 	}
@@ -60,9 +60,18 @@ public class MigrateRuleLoaderTest {
 		final AST ignoredProperties = createIgnoredPropertiesAst("name", "number", "address");
 		final AST ruleAst           = createMigrateRuleWithIgnoredPropertiesAst("Person", ignoredProperties, body);
 		
-		final MigrateRule rule = runMigrationRuleLoaderOn(ruleAst);
+		final FlockConstruct rule = runMigrationRuleLoaderOn(ruleAst);
 		
 		assertEquals(personRule().withIgnoredProperties("name", "number", "address").build(), rule);
+	}
+	
+	@Test
+	public void strictMigrateRule() {
+		final AST ruleAst = annotateAst(createMigrateRuleAst("Person", body), "@strict");
+		
+		final FlockConstruct rule = runMigrationRuleLoaderOn(ruleAst);
+		
+		assertEquals(personRule().withAnnotations("strict").build(), rule);
 	}
 	
 	
@@ -70,7 +79,7 @@ public class MigrateRuleLoaderTest {
 		return anUntraceableMigrateRule("Person").withBody(body);
 	}
 	
-	private static MigrateRule runMigrationRuleLoaderOn(AST rule) {
+	private static FlockConstruct runMigrationRuleLoaderOn(AST rule) {
 		return new MigrateRuleLoader(rule).run();
 	}
 }

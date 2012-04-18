@@ -50,8 +50,12 @@ public class ModelElement extends BackedModelValue<Object> {
 		return type.getName();
 	}
 	
-	public boolean isKindOf(String originalType) {
-		return model.isKindOf(underlyingModelObject, originalType);
+	public boolean isTypeOf(String type) {
+		return model.isTypeOf(underlyingModelObject, type);
+	}
+	
+	public boolean isKindOf(String type) {
+		return model.isKindOf(underlyingModelObject, type);
 	}
 	
 	public void copyIdentityFrom(ModelElement original) {

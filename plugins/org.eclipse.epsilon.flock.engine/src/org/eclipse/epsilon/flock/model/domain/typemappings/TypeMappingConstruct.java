@@ -10,13 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
 
 public abstract class TypeMappingConstruct extends TypedAndGuardedConstruct implements EquivalenceFactory {
 
-	protected TypeMappingConstruct(AST ast, String originalType, AST guard) {
-		super(ast, originalType, guard);
+	protected TypeMappingConstruct(AST ast, Collection<String> annotations, String originalType, AST guard) {
+		super(ast, annotations, originalType, guard);
 	}
 }

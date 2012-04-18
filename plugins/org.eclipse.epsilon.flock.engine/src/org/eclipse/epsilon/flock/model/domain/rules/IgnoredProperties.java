@@ -26,9 +26,7 @@ public class IgnoredProperties {
 	}
 	
 	public IgnoredProperties(Collection<String> ignoredProperties) {
-		if (ignoredProperties != null) {
-			this.ignoredProperties.addAll(ignoredProperties);
-		}
+		this.ignoredProperties.addAll(ignoredProperties);
 	}
 
 	

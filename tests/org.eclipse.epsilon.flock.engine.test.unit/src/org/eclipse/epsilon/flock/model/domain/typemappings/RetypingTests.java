@@ -15,6 +15,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.LinkedList;
+
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -26,7 +28,7 @@ public class RetypingTests {
 
 	@Test
 	public void createEquivalenceShouldDelegateToFactoryToCreateEquivalent() throws FlockRuntimeException {
-		final Retyping retyping = new Retyping(null, "Person", "Salesperson");
+		final Retyping retyping = new Retyping(null, new LinkedList<String>(), "Person", "Salesperson");
 		
 		final EquivalentFactory factory     = mock(EquivalentFactory.class);
 		final ModelElement      equivalent = mock(ModelElement.class);

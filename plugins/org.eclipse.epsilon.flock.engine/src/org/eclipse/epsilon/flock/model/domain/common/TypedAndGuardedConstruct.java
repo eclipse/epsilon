@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
@@ -24,8 +26,8 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 	private final String originalType;
 	private final Guard guard;
 	
-	public TypedAndGuardedConstruct(AST ast, String originalType, AST guard) {
-		super(ast);
+	public TypedAndGuardedConstruct(AST ast, Collection<String> annotations, String originalType, AST guard) {
+		super(ast, annotations);
 		
 		if (originalType == null)
 			throw new IllegalArgumentException("originalType cannot be null");
@@ -42,8 +44,13 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 		return guard;
 	}
 	
+	protected boolean isStrict() {
+		return isAnnotatedWith("strict");
+	}
+	
 	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
-		return context.originalConformsTo(originalType) && context.satisfies(guard);
+		return context.originalConformsTo(originalType, isStrict()) && 
+			   context.satisfies(guard);
 	}
 	
 	public void check(MigrationStrategyCheckingContext context) {
@@ -57,7 +64,8 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 		
 		final TypedAndGuardedConstruct other = (TypedAndGuardedConstruct)object;
 		
-		return originalType.equals(other.originalType) &&
+		return super.equals(other) &&
+			   originalType.equals(other.originalType) &&
 		       guard.equals(other.guard);
 	}
 	

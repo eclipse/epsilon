@@ -24,10 +24,13 @@ public class GuardedConstructContext {
 		this.executor = executor;
 	}
 	
-	public boolean originalConformsTo(String originalType) {
-		return element.isKindOf(originalType);
+	public boolean originalConformsTo(String originalType, boolean strict) {
+		if (strict)
+			return element.isTypeOf(originalType);
+		else
+			return element.isKindOf(originalType);
 	}
-
+	
 	public boolean satisfies(Guard guard) throws FlockRuntimeException {
 		return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
 	}

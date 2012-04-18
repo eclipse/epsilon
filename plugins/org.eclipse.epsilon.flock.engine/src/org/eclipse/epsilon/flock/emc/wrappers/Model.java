@@ -110,9 +110,19 @@ public class Model {
 		return underlyingModel.getFullyQualifiedTypeNameOf(underlyingModelElement);
 	}
 	
-	boolean isKindOf(Object underlyingModelElement, String originalType) {
+
+	public boolean isTypeOf(Object underlyingModelElement, String type) {
 		try {
-			return underlyingModel.isOfKind(underlyingModelElement, originalType);
+			return underlyingModel.isOfType(underlyingModelElement, type);
+			
+		} catch (EolModelElementTypeNotFoundException e) {
+			return false;
+		}
+	}
+	
+	boolean isKindOf(Object underlyingModelElement, String type) {
+		try {
+			return underlyingModel.isOfKind(underlyingModelElement, type);
 			
 		} catch (EolModelElementTypeNotFoundException e) {
 			return false;

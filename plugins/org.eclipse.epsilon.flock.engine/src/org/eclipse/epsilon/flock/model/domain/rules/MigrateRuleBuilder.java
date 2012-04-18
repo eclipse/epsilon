@@ -12,6 +12,7 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.epsilon.commons.parse.AST;
 
@@ -31,7 +32,8 @@ public class MigrateRuleBuilder {
 	
 	private AST body;
 	private AST guard;
-	private Collection<String> ignoredProperties;
+	private Collection<String> ignoredProperties = Collections.emptyList();
+	private Collection<String> annotations = Collections.emptyList();
 	
 	private MigrateRuleBuilder(AST ast, String originalType) {
 		this.ast          = ast;
@@ -56,8 +58,18 @@ public class MigrateRuleBuilder {
 		this.ignoredProperties = properties;
 		return this;
 	}
+
+	public MigrateRuleBuilder withAnnotations(String... annotations) {
+		return withAnnotations(Arrays.asList(annotations)); 
+	}
+	
+	public MigrateRuleBuilder withAnnotations(Collection<String> annotations) {
+		this.annotations = annotations; 
+		return this;
+	}
 	
 	public MigrateRule build() {
-		return new MigrateRule(ast, originalType, ignoredProperties, guard, body);
+		return new MigrateRule(ast, annotations, originalType, ignoredProperties, guard, body);
 	}
+
 }

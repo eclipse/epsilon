@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.loader;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -20,6 +24,18 @@ public abstract class Loader {
 	
 	public Loader(AST ast) {
 		this.ast = ast;
+	}
+	
+	protected Collection<String> getAnnotations() {
+		final List<String> annotations = new LinkedList<String>();
+		
+		if (ast.getAnnotationsAst() != null) {
+			for (AST annotationAst : ast.getAnnotationsAst().getChildren()) {
+				annotations.add(annotationAst.getText().substring(1));
+			}
+		}
+		
+		return annotations;
 	}
 
 	protected AST getGuard() {

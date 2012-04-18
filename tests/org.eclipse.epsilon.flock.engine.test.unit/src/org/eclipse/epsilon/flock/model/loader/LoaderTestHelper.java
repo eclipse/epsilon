@@ -23,6 +23,18 @@ public abstract class LoaderTestHelper {
 	
 	private LoaderTestHelper() {}
 	
+	static AST annotateAst(AST root, String... annotations) {
+		final AST annotationsAst = createAST(FlockParser.ANNOTATIONBLOCK, "ANNOTATIONBLOCK");
+		
+		for (String annotation : annotations) {
+			annotationsAst.addChild(createAST(FlockParser.Annotation, annotation));
+		}
+		
+		root.setAnnotationsAst(annotationsAst);
+		
+		return root;
+	}
+	
 	static AST createMigrationStrategyAst(AST... content) {
 		final AST strategy = createAST(FlockParser.FLOCKMODULE, "FLOCKMODULE");
 		strategy.addChildren(Arrays.asList(content));

@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -23,8 +25,8 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class Deletion extends TypeMappingConstruct {
 
-	public Deletion(AST ast, String type, AST guard) {
-		super(ast, type, guard);
+	public Deletion(AST ast, Collection<String> annotations, String type, AST guard) {
+		super(ast, annotations, type, guard);
 	}
 	
 	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {

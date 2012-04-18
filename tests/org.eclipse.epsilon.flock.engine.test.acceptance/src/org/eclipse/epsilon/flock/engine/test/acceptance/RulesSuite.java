@@ -23,6 +23,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.SeveralRulesCanBeAppliedPerModelElement;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.SeveralRulesRunInTheOrderThatTheyAppear;
+import org.eclipse.epsilon.flock.engine.test.acceptance.rules.StrictRuleDoesNotApplyToSubtypes;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,7 +35,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	           RuleCanExcludeSomeSubtypes.class,
 	           RuleWithInvalidSyntax.class,
                SeveralRulesCanBeAppliedPerModelElement.class,
-               SeveralRulesRunInTheOrderThatTheyAppear.class})
+               SeveralRulesRunInTheOrderThatTheyAppear.class,
+               StrictRuleDoesNotApplyToSubtypes.class})
 public class RulesSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(RulesSuite.class);

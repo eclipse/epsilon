@@ -30,6 +30,7 @@ public class MigrateRuleLoader extends Loader {
 	
 	public MigrateRule run() {
 		return aMigrateRule(ast, getOriginalType())
+				.withAnnotations(getAnnotations())
 		       	.withBody(getBody())
 		       	.withGuard(getGuard())
 		       	.withIgnoredProperties(getIgnoredProperties())

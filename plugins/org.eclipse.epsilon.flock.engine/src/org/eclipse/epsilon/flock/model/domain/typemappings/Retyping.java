@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -25,8 +27,8 @@ public class Retyping extends TypeMappingConstruct {
 
 	private final String evolvedType;
 	
-	public Retyping(AST ast, String originalType, String evolvedType, AST guard) {
-		super(ast, originalType, guard);
+	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType, AST guard) {
+		super(ast, annotations, originalType, guard);
 		
 		if (evolvedType == null)
 			throw new IllegalArgumentException("evolvedType cannot be null");
@@ -34,8 +36,8 @@ public class Retyping extends TypeMappingConstruct {
 		this.evolvedType = evolvedType;
 	}
 	
-	public Retyping(AST ast, String originalType, String evolvedType) {
-		this(ast, originalType, evolvedType, null);
+	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType) {
+		this(ast, annotations, originalType, evolvedType, null);
 	}
 	
 	public String getEvolvedType() {

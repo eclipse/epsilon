@@ -24,7 +24,8 @@ public class FlockParserWorkbench {
 	}
 	
 	public void work() throws Exception {
-		final String source = "migrate Person {\n" + 
+		final String source = "@strict\n" + 
+	                          "migrate Person {\n" + 
 		                      "	migrated.name := original.name + ' Smith';\n" +
 		                      "}" +
 		                      "@cached " +

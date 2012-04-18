@@ -23,7 +23,7 @@ public class RetypingLoader extends Loader {
 	}
 	
 	public Retyping run() {
-		return new Retyping(ast, getOriginalType(), getMigratedType(), getGuard());
+		return new Retyping(ast, getAnnotations(), getOriginalType(), getMigratedType(), getGuard());
 	}
 
 	private String getOriginalType() {
