@@ -85,6 +85,17 @@ public abstract class TestCommentBlockPartitioner {
 		
 		assertEquals(expected, partitioner.partition(text));
 	}
+	
+	public void testPartitionSingleProtectedRegionWithComplexId() {
+		final String regionContents = "This text is protected" + NEWLINE;
+		final String id             = "'this_is a *more* complicated" + endComment + "id' on";
+		final String text           = startComment + "protected region " + id + " on begin" + endComment + NEWLINE + regionContents + startComment + "protected region " + id + " end"
+				+ endComment;
+		
+		final Output expected = new Output(partitioner.new CommentedProtectedRegion(id, 0, true, regionContents));
+		
+		assertEquals(expected, partitioner.partition(text));
+	}
 
 	public void testPartitionSingleProtectedRegionOff() {
 		final String regionContents = "This text is protected" + NEWLINE;

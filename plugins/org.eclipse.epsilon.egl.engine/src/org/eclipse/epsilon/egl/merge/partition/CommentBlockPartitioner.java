@@ -63,9 +63,8 @@ public class CommentBlockPartitioner implements Partitioner {
 		// The protected region literal
 		regex.append("protected region ");
 		
-		// The region's id (any number of word characters and spaces, zero or more times
-		// matched reluctantly and terminated with a space
-		regex.append("([\\w ]*?) ");
+		// The region's id, matched reluctantly and terminated with a space
+		regex.append("(.*?) ");
 		
 		// on or off followed by begin
 		regex.append("(on|off) begin");

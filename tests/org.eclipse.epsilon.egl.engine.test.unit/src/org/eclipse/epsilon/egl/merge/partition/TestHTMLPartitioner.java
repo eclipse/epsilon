@@ -38,6 +38,11 @@ public class TestHTMLPartitioner extends TestCommentBlockPartitioner {
 	public void testPartitionSingleProtectedRegion() {
 		super.testPartitionSingleProtectedRegion();
 	}
+
+	@Test @Override
+	public void testPartitionSingleProtectedRegionWithComplexId() {
+		super.testPartitionSingleProtectedRegionWithComplexId();
+	}
 	
 	@Test @Override
 	public void testPartitionSingleProtectedRegionOff() {

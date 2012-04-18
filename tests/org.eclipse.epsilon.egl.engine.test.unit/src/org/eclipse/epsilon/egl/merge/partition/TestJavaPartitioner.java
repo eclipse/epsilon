@@ -40,6 +40,11 @@ public class TestJavaPartitioner extends TestCommentBlockPartitioner {
 	}
 	
 	@Test @Override
+	public void testPartitionSingleProtectedRegionWithComplexId() {
+		super.testPartitionSingleProtectedRegionWithComplexId();
+	}
+	
+	@Test @Override
 	public void testPartitionSingleProtectedRegionOff() {
 		super.testPartitionSingleProtectedRegionOff();
 	}
