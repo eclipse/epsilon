@@ -46,6 +46,6 @@ public class EolNoType extends EolType {
 		return o == EolNoType.NoInstance;
 	}
 	
-	static class EolNoTypeInstance{}
+	public static class EolNoTypeInstance{}
 	
 }
