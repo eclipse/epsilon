@@ -24,17 +24,15 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.parse.EpsilonParser;
 import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.EolImport;
-import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.epl.parse.EplLexer;
 import org.eclipse.epsilon.epl.parse.EplParser;
+import org.eclipse.epsilon.erl.ErlModule;
 
-public class EplModule extends EolLibraryModule implements IEolExecutableModule{
+public class EplModule extends ErlModule implements IEolExecutableModule{
 	
 	protected List<Pattern> declaredPatterns = new ArrayList<Pattern>();
 	protected EolContext context;
@@ -107,9 +105,9 @@ public class EplModule extends EolLibraryModule implements IEolExecutableModule{
 	public List<ModuleElement> getChildren() {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
-		//children.addAll(getDeclaredPre());
+		children.addAll(getDeclaredPre());
 		children.addAll(getDeclaredPatterns());
-		//children.addAll(getDeclaredPost());
+		children.addAll(getDeclaredPost());
 		children.addAll(getDeclaredOperations());
 		return children;
 	}
@@ -133,6 +131,9 @@ public class EplModule extends EolLibraryModule implements IEolExecutableModule{
 	@Override
 	public Object execute() throws EolRuntimeException {
 		this.getContext().setModule(this);
+		
+		execute(getPre(), context);
+		
 		PatternMatcher patternMatcher = new PatternMatcher();
 		PatternMatchModel matchModel = null;
 		try {
@@ -153,6 +154,8 @@ public class EplModule extends EolLibraryModule implements IEolExecutableModule{
 			EolRuntimeException.propagate(ex);
 		}
 		
+		execute(getPost(), context);
+		
 		return matchModel;
 	}
 	
@@ -170,6 +173,16 @@ public class EplModule extends EolLibraryModule implements IEolExecutableModule{
 	
 	public void setRepeatWhileMatches(boolean repeatWhileMatches) {
 		this.repeatWhileMatchesFound = repeatWhileMatches;
+	}
+
+	@Override
+	protected int getPreBlockTokenType() {
+		return EplParser.PRE;
+	}
+
+	@Override
+	protected int getPostBlockTokenType() {
+		return EplParser.POST;
 	}
 	
 }

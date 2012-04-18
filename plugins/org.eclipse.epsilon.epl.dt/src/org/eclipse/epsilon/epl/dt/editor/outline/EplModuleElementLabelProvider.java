@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.editor.outline;
 
+import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.epsilon.epl.Pattern;
 import org.eclipse.epsilon.epl.dt.EplPlugin;
@@ -32,6 +33,9 @@ public class EplModuleElementLabelProvider extends EolModuleElementLabelProvider
 	
 		if (element instanceof Pattern) {
 			return patternImage;
+		}
+		else if (element instanceof EolLabeledBlock){
+			return EplPlugin.getDefault().createImage("icons/" + ((EolLabeledBlock) element).getLabel() +".gif");
 		}
 		else {
 			return super.getImage(element);

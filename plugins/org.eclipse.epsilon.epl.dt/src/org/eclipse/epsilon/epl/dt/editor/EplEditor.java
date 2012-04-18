@@ -30,6 +30,8 @@ public class EplEditor extends EolEditor{
 		
 		List<String> keywords = new ArrayList<String>();
 		
+		keywords.add("pre");
+		keywords.add("post");
 		keywords.add("pattern");
 		keywords.add("match");
 		keywords.add("guard");
