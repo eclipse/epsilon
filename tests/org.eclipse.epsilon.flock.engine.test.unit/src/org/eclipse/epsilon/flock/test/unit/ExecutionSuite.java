@@ -11,23 +11,28 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.test;
+package org.eclipse.epsilon.flock.test.unit;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.engine.test.acceptance.EpsilonFlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.unit.EpsilonFlockEngineUnitTestSuite;
+import org.eclipse.epsilon.flock.FlockExecutionTests;
+import org.eclipse.epsilon.flock.equivalences.EquivalencesTests;
+import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalenceTests;
+import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactoryTests;
+import org.eclipse.epsilon.flock.execution.EolExecutorTests;
+import org.eclipse.epsilon.flock.execution.MigrateRuleContextTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({EpsilonFlockEngineAcceptanceTestSuite.class,
-               EpsilonFlockEngineUnitTestSuite.class})
-public class EpsilonFlockEngineTestSuite {
+@SuiteClasses({FlockExecutionTests.class,
+               DefaultEquivalenceFactoryTests.class,
+               EquivalencesTests.class, TypeBasedEquivalenceTests.class,
+               EolExecutorTests.class, MigrateRuleContextTests.class})
+public class ExecutionSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineTestSuite.class);
+		return new JUnit4TestAdapter(ExecutionSuite.class);
 	}
 }

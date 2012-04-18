@@ -11,23 +11,23 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.test;
+package org.eclipse.epsilon.flock.engine.test.acceptance;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.engine.test.acceptance.EpsilonFlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.unit.EpsilonFlockEngineUnitTestSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.EquivalentOfCollectionOfModelElements;
+import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.EquivalentOfModelElement;
+import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.IgnoreInstancesWithUnknownMigratedClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({EpsilonFlockEngineAcceptanceTestSuite.class,
-               EpsilonFlockEngineUnitTestSuite.class})
-public class EpsilonFlockEngineTestSuite {
+@SuiteClasses({EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
+               IgnoreInstancesWithUnknownMigratedClass.class})
+public class EquivalencesSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineTestSuite.class);
+		return new JUnit4TestAdapter(EquivalencesSuite.class);
 	}
 }

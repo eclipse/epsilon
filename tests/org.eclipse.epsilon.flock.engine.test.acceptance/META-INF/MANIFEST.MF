@@ -6,6 +6,6 @@ Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.flock.engine.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn
-Export-Package: suite
+Export-Package: org.eclipse.epsilon.flock.engine.test.acceptance
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

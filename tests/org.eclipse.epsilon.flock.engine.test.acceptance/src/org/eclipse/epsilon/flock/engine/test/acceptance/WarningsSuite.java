@@ -11,23 +11,22 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.test;
+package org.eclipse.epsilon.flock.engine.test.acceptance;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.engine.test.acceptance.EpsilonFlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.unit.EpsilonFlockEngineUnitTestSuite;
+import org.eclipse.epsilon.flock.engine.test.acceptance.warnings.IgnoreAnUnknownOriginalProperty;
+import org.eclipse.epsilon.flock.engine.test.acceptance.warnings.RuleForUnknownOriginalType;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({EpsilonFlockEngineAcceptanceTestSuite.class,
-               EpsilonFlockEngineUnitTestSuite.class})
-public class EpsilonFlockEngineTestSuite {
+@SuiteClasses({RuleForUnknownOriginalType.class,
+               IgnoreAnUnknownOriginalProperty.class})
+public class WarningsSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineTestSuite.class);
+		return new JUnit4TestAdapter(WarningsSuite.class);
 	}
 }

@@ -11,23 +11,21 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.test;
+package org.eclipse.epsilon.flock.test.unit;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.engine.test.acceptance.EpsilonFlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.unit.EpsilonFlockEngineUnitTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
-@SuiteClasses({EpsilonFlockEngineAcceptanceTestSuite.class,
-               EpsilonFlockEngineUnitTestSuite.class})
-public class EpsilonFlockEngineTestSuite {
+@SuiteClasses({ParserSuite.class, DomainModelSuite.class,
+               EmcWrappersSuite.class,
+               ExecutionSuite.class})
+public class EpsilonFlockEngineUnitTestSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineTestSuite.class);
+		return new JUnit4TestAdapter(EpsilonFlockEngineUnitTestSuite.class);
 	}
 }
