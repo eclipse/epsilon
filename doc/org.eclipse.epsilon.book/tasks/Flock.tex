@@ -1,0 +1,10 @@
+%!TEX root = ../EpsilonBook.tex
+
+\subsection{Model Migration Task}
+\label{sec:FlockTask}
+To support model migration, \textit{FlockTask (epsilon.flock)} is provided for executing an Epsilon Flock module (Chapter~\ref{sec:Flock}). In addition to the attributes defined by \textit{ExecutableModuleTask}, \textit{FlockTask} also defines the following mandatory attributes:
+
+\begin{itemize}
+	\item \textit{originalModel} : Specifies which of the currently loaded models should be used as the source of the model migration.
+	\item \textit{migratedModel} : Specifies which of the currently loaded models should be used as the target of the model migration.
+\end{itemize}
