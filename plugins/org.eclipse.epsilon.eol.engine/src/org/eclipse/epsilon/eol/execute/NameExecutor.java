@@ -71,11 +71,14 @@ public class NameExecutor extends AbstractExecutor{
 		}
 		
 		if (variable == null) {
-			AbstractExecutor typeExecutor = context.getExecutorFactory().getExecutorFor(EolParser.TYPE);
-			EolType type = (EolType) typeExecutor.execute(ast, context);
-			if (type != null) {
-				variable = Variable.createReadOnlyVariable(type.getName(), type);
+			try {
+				AbstractExecutor typeExecutor = context.getExecutorFactory().getExecutorFor(EolParser.TYPE);
+				EolType type = (EolType) typeExecutor.execute(ast, context);
+				if (type != null) {
+					variable = Variable.createReadOnlyVariable(type.getName(), type);
+				}
 			}
+			catch (EolTypeNotFoundException ex) {}
 		}
 		
 		if (variable == null) throw new EolUndefinedVariableException(name, ast);
