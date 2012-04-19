@@ -1,19 +1,19 @@
 @namespace(uri="flock", prefix="flock")
 package flock;
 
-class FlockModule extends EolModule {
+class FlockModule extends EolLibraryModule {
   val TypeMappingConstruct[*] typeMappings;
   val MigrateRule[*] rules;
 }
 
 abstract class TypedAndGuardedConstruct {
   attr String[1] originalType;
-  ref EolExpressionOrStatementBlock guard;
+  ref ExpressionOrStatementBlock guard;
+  attr boolean[1] strict;
 }
 
 class MigrateRule extends TypedAndGuardedConstruct {
-  ref EolStatementBlock[1] body;
-  attr String[*] ignored;
+  ref StatementBlock[1] body;
 }
 
 abstract class TypeMappingConstruct extends TypedAndGuardedConstruct {
@@ -26,6 +26,12 @@ class Retyping extends TypeMappingConstruct {
   attr String[1] evolvedType;
 }
 
-abstract class EolModule {}
-class EolExpressionOrStatementBlock {}
-class EolStatementBlock {}
+class EolLibraryModule {
+}
+
+class ExpressionOrStatementBlock {
+}
+
+class StatementBlock {
+}
+

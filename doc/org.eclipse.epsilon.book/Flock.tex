@@ -1,0 +1,171 @@
+%!TEX root = ./EpsilonBook.tex
+
+\chapter{Epsilon Flock for Model Migration}
+\label{sec:Flock}
+
+The aim of Epsilon Flock is to contribute \emph{model migration} capabilities to Epsilon. Model migration is the process of updating models in response to metamodel changes. This section discusses the motivation for implementing Flock, introduces its syntax and execution semantics, and demonstrates the use of Flock with an example.
+Flock can be used to update models to a new version of their metamodel, or even to move from one modelling technology to another (e.g., from XML to EMF).
+
+\section{Background and Motivation}
+\label{sec:flock_background}
+Model migration involves updating a model in response to changes to the metamodel. Typically, metamodel evolution is accomplished incrementally: changes are made to part of the metamodel and hence model migration typically involves updating only a small proportion of a model's elements \cite{sprinkle03thesis,herrmannsdoerfer08automatability}. Effectively then, model migration is a model-to-model transformation in which the source and target metamodels are similar but not the same. However, as discussed below, model-to-model transformation languages are often cumbersome for specifying model migration.
+
+To illustrate the challenges of model migration, we use the example of metamodel evolution in Figure~\ref{fig:po_mms}. In Figure~\ref{fig:original_po_mm}, a \texttt{Co\-mp\-on\-e\-nt} comprises other \texttt{Co\-mp\-on\-e\-nt}s, \texttt{Co\-nn\-ec\-t\-or}s and \texttt{Po\-rt}s. A \texttt{Co\-nn\-ec\-t\-or} joins two \texttt{Po\-rt}s. \texttt{Co\-nn\-ec\-t\-or}s are unidirectional, and hence define \texttt{to} and \texttt{fr\-om} references to \texttt{Po\-rt}. The original metamodel allows a \texttt{Co\-nn\-ec\-t\-or} to start and end at the same \texttt{Po\-rt}, and the metamodel was evolved to prevent this, as shown in Figure~\ref{fig:evolved_po_mm}. \texttt{Po\-rt} was made abstract, and split into two subtypes, \texttt{In\-p\-utPo\-rt} and \texttt{Ou\-t\-putPo\-rt}. The references between \texttt{Co\-nn\-ec\-t\-or} and (the subtypes of) \texttt{Po\-rt} were renamed for consistency with the names of the subtypes.
+
+Some models that conform to the original metamodel do not conform to the evolved metamodel. Specifically, models might not conform to the evolved metamodel because:
+
+\begin{enumerate}
+	\item They contain instances of \texttt{Port}, which is an abstract class in the evolved metamodel.
+	\item They contain instances of \texttt{Connector} that specify values for the features \texttt{to} and \texttt{from}, which are not defined for the \texttt{Connector} type in the evolved metamodel.
+	\item They contain instances of \texttt{Connector} that do not specify a value for the \texttt{in} and \texttt{out} features, which are mandatory for the \texttt{Connector} type in the evolved metamodel.
+\end{enumerate}
+
+Model migration can be achieved with a general-purpose model-to-model transformation using a language such as ETL (Chapter~\ref{sec:ETL}). However, this typically involves writing a large amount of repetitive and redundant code \cite{rose12flock}. Flock reduces the amount of repetitive and redundant code needed to specify model migration by automatically copying from the original to the migrated model all of the model elements that conform to the evolved metamodel as described below.
+
+
+\begin{landscape}
+\begin{figure}[htbp]
+	\centering
+	\subfigure[Original metamodel.]
+	{
+	    \label{fig:original_po_mm}
+	    \includegraphics{images/FlockPOExampleOriginal.pdf}
+	}
+	\subfigure[Evolved metamodel.]
+	{
+	    \label{fig:evolved_po_mm}
+	    \includegraphics{images/FlockPOExampleEvolved.pdf}
+	}
+	\caption{Process-oriented metamodel evolution.}
+\label{fig:po_mms}
+\end{figure}
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}
+	\centering
+		\includegraphics{images/FlockAbstractSyntax.pdf}
+	\caption{The Abstract Syntax of Flock}
+	\label{fig:flock_abstract_syntax}
+\end{figure}
+\end{landscape}
+
+
+\section{Abstract Syntax}
+
+As illustrated by Figure~\ref{fig:flock_abstract_syntax}, Flock migration strategies are organised into individual modules (\texttt{Flo\-ckMo\-du\-le}). Flock modules inherit from EOL language constructs for specifying user-defined operations and for importing other (EOL and Flock) modules. Flock modules comprise any number of type mappings (\texttt{Ty\-peMa\-pp\-i\-ng}) and rules (\texttt{Ru\-le}). Type mappings are used for retyping and deleting model elements, and have an original metamodel type (\texttt{or\-ig\-in\-alTy\-pe}). \texttt{Rety\-pi\-ng}s also specify an evolved metamodel type (\texttt{ev\-ol\-vedTy\-pe}). Each rule has an original metamodel type (\texttt{or\-ig\-in\-alTy\-pe}), a \texttt{bo\-dy} comprising a block of EOL statements, and zero or more \texttt{ig\-no\-r\-edFe\-at\-ur\-es}. Both rules and type mappings can be marked as \texttt{str\-ict} and can optionally specify a \texttt{gu\-ard}, which is either an EOL statement or a block of EOL statements.
+
+\section{Concrete Syntax}
+
+Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Flock language constructs. All of the constructs begin with a keyword (\texttt{retype}, \texttt{delete} or \texttt{migrate}), followed by the original metamodel type. Additionally, all of the constructs can be annotated with the \texttt{strict} modifier. Guards are specified using the \texttt{when} keyword.
+
+Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have either a list of ignored features, a body, or both.
+
+\begin{lstlisting}[float=tbp, caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock]
+(@strict)?
+retype <originalType> to <evolvedType>
+(when (:<eolExpression>)|({<eolStatement>+}))?
+
+(@strict)?
+delete <originalType>
+(when (:<eolExpression>)|({<eolStatement>+}))?
+
+(@strict)?
+migrate <originalType>
+(ignoring <featureList>)?
+(when (:<eolExpression>)|({<eolStatement>+}))? {
+	<eolStatement>+
+}
+\end{lstlisting}
+
+
+
+\section{Execution Semantics}
+The execution semantics of a Flock module are now described. Note that the Epsilon Model Connectivity (EMC) layer (Chapter~\ref{sec:Design.EMC}), which Flock uses to access and manipulate models supports a range of modelling technologies, and identifies types by name. Consequently, the term \emph{type} is used to mean ``the name of an element of a metamodel'' in the following discussion. For example, \texttt{Co\-mp\-on\-e\-nt}, \texttt{Co\-nn\-ec\-t\-or} and \texttt{In\-p\-utPo\-rt} are three of the types defined in Figure~\ref{fig:evolved_po_mm}.
+
+Execution of a Flock module occurs in four phases. Firstly, type mapping constructs (retypings and deletions) are processed to identify the way in which original and evolved metamodel types are to be related. Secondly, migrate rules are inspected to build sets of ignored properties. Thirdly, the information determined in steps 1 and 2 is used as input a copying algorithm, which creates an (equivalent) element in the migrated model for each element of the original model, and copies values from original to equivalent model elements. Finally, migrate rules are executed on each pair of original and (equivalent) migrated model elements. In all phases, language constructs are executed only when they are \emph{applicable}.
+
+The \emph{applicability} of the Flock language constructs (retyping, deletion or migrate rule) is determined from their type and guard. For a language construct $c$ to be applicable to an original model element $o$, $o$ must instantiate either the original type of $c$ or one of the subtypes of the original type of $c$; and $o$ must satisfy the guard of $c$. For language constructs that have been annotated as strict, type-checking is more restrictive: $o$ must instantiate the original type of $c$ (and not one its subtypes). In other words, the applicability of strict constructs is determined with EOL's \texttt{isTypeOf} operation and the applicability of non-strict constructs is determined with EOL's \texttt{isKindOf} operation (Table~\ref{tab:AnyOperations}).
+
+The first three phases of execution implement a copying algorithm which has been termed conservative copy and is discussed thoroughly elsewhere \cite{rose12flock}. Essentially, conservative copy will do the following for each element of the original model, $o$:
+
+\begin{enumerate}
+	\item \textbf{Do nothing} when $o$ instantiates a type that cannot be instantiated in the evolved metamodel (e.g., because the type of $o$ is now abstract or no longer exists). Example: instances of \texttt{Port} in Figure~\ref{fig:po_mms} are not copied because \texttt{Port} has become abstract.
+	\item \textbf{Fully copy} $o$ to produce $m$ in the migrated model when $o$ instantiate a type that has not been at all affected by metamodel evolution. Example: instances of \texttt{Component} in Figure~\ref{fig:po_mms} are fully copied because neither \texttt{Component} nor any of its features have been changed.
+	\item \textbf{Partially copy} $o$ to produce $m$ in the migrated model when $o$ instantiates a type with one or more features that have been affected by metamodel evolution. Example: instances of \texttt{Connector} in Figure~\ref{fig:po_mms} are partially copied because the \texttt{from} and \texttt{to} features have been renamed. Note that in a partial copy only the features that have not been affected by metamodel evolution are copied (e.g., the \texttt{name}s of \texttt{Connector}s).
+\end{enumerate}
+
+In the fourth phase of execution, migrate rules are applied. These rules specify the problem-specific migration logic and might, for example, create migrated model elements for original model elements that were skipped or partially copied by the copying algorithm described above. The Flock engine makes available two variables (\texttt{or\-ig\-in\-al} and \texttt{mi\-gr\-at\-ed}) for use in the body of any migration rule. These variables are used to refer to the particular elements of the original and migrated models to which the rule is currently being applied. In addition, Flock defines an \texttt{equivalent()} operation that can be called on any original model element and returns the equivalent migrated model element (or \texttt{null}). The \texttt{equivalent()} operation is used to access elements of the migrated model that cannot be accessed via the \texttt{migrated} variable due to metamodel evolution. Flock rules often contain statements of the form: \texttt{original.x.equivalent()} where \texttt{x} is a feature that has been removed from the evolved metamodel.
+
+Finally, we should consider the order in which Flock schedules language constructs: a construct that appears earlier (higher) in the source file has priority. This is important because only one type mapping (retypings and deletions) is applied per original model element, and because this implies that migrate rules are applied from top-to-bottom. This ordering is consistent with the other languages of the Epsilon platform.
+
+\begin{figure}[tbp]
+	\begin{framed}
+		\footnotesize
+		\begin{itemize}
+			\item For every instance, p, of \texttt{Port} in the original model: 
+			\subitem $-$ If there exists in the original model a \texttt{Connector}, c, that specifies p as the value for its \texttt{from} feature:
+			\subsubitem $-$ Create a new instance, i, of \texttt{InputPort} in the migrated model.
+			\subsubitem $-$ Set c as the \texttt{connector} of i.
+			\subsubitem $-$ Add c to the \texttt{ports} reference of the \texttt{Component} that contains c.
+	
+			\subitem $-$ If there exists in the original model a \texttt{Connector}, c, that specifies p as the value for its \texttt{to} feature:
+			\subsubitem $-$ Create a new instance of \texttt{OutputPort} in the migrated model.
+			\subsubitem $-$ Set c as the \texttt{connector} of i.
+			\subsubitem $-$ Add c to the \texttt{ports} reference of the \texttt{Component} that contains c.
+
+			\item And nothing else changes.
+		\end{itemize}
+	\end{framed}
+	\caption{Model migration strategy in pseudo code for the metamodel evolution in Figure~\ref{fig:po_mms}.}
+	\label{fig:po_migration_strategy}
+\end{figure}
+
+\begin{lstlisting}[float=tbp, caption=Flock migration strategy for the process-oriented metamodel evolution in Figure~\ref{fig:po_mms}, label=lst:flock, language=Flock]
+delete Port when: not (original.isInput() xor original.isOutput())
+
+retype Port to InputPort  when: original.isInput()
+retype Port to OutputPort when: original.isOutput()
+
+migrate Connector {
+	migrated.`in` = original.from.equivalent();
+	migrated.out = original.`to`.equivalent();
+}
+
+operation Original!Port isInput() : Boolean {
+	return Original!Connector.all.exists(c|c.from == self);
+}
+
+operation Original!Port isOutput() : Boolean {
+	return Original!Connector.all.exists(c|c.`to` == self);
+}
+\end{lstlisting}
+
+\section{Example}
+Flock is now demonstrated using the example of model migration introduced in Section~\ref{sec:flock_background}. Recall that the metamodel evolution in Figure~\ref{fig:po_mms} involves splitting the \texttt{Po\-rt} type to form the \texttt{In\-p\-utPo\-rt} and \texttt{Ou\-tp\-utPo\-rt} types. Figure~\ref{fig:po_migration_strategy} provides a high-level design for migrating models from the original to the evolved metamodel in Figure~\ref{fig:po_mms}.
+
+
+The Flock migration strategy that implements this design is shown\footnote{Note that \texttt{in} and \texttt{to} are reserved words in EOL, and hence backticks are used to refer to the metamodel features \texttt{in} and \texttt{to} on lines 7, 8 and 16 of Listing~\ref{lst:flock}.} in Listing~\ref{lst:flock}. Three type mappings constructs (on lines 1-4) are used to control the way in which instances of \texttt{Po\-rt} are migrated. For example, line 3 specifies that instances of \texttt{Po\-rt} that are referenced via the \texttt{fr\-om} feature of a \texttt{Co\-nn\-ec\-t\-or} are retyped, becoming \texttt{In\-pu\-tPo\-rt}s. Instances of \texttt{Co\-nn\-ec\-t\-or} are migrated using the rule on lines 6-9, which specifies the way in which the \texttt{fr\-om} and \texttt{to} features have evolved to form the \texttt{in} and \texttt{out} features.
+
+Note that metamodel elements that have not been affected by the metamodel evolution, such as \texttt{Co\-mp\-on\-e\-nt}s, are migrated automatically. Explicit copying code would be needed to achieve this with a general purpose model-to-model transformation language.
+
+\section{Limitations and Scope}
+Although Flock has been shown to much more concise than general purpose model-to-model transformation languages for specifying model migration, Flock does not provide some of the features commonly available in general-purpose model-to-model transformation language. This section discusses the limitations of Flock and its intended scope with respect to other tools for model migration.
+
+\subsection{Limitations}
+Firstly, Flock does not support rule inheritance, and re-use of migration logic is instead achieved by exploiting the inheritance hierarchy of the original metamodel. The form of re-use provided by Flock is less general than rule-inheritance, but has proved sufficient for existing use-cases.
+
+Secondly, Flock does not provide language constructs for controlling the order in which rules are scheduled (other than the ordering of the rules in the program file). ATL, for example, includes constructs that allow users to specify that rules are scheduled explicitly (lazy rules) or in a memoised manner (unique rules). We anticipate that scheduling constructs might be necessary for larger migration strategies, but have not yet encountered situations in which they have been required.
+
+Thirdly, Flock is tailored for applying migration to a single original and a single migrated model. Although further models can be accessed by a Flock migration strategy, they cannot be used as the source or target of the conservative copy algorithm. By contrast, some general-purpose model transformation languages can access and manipulate any number of models.
+
+Finally, Flock has been tailored to the model migration problem. In other words, we believe that Flock is well-suited to specifying model transformations between two metamodels that are very similar. For metamodel evolution in which the original metamodel undergoes significant and large-scale revision, a general-purpose transformation might be more suitable than Flock for specifying model migration.
+
+\subsection{Scope}
+Flock is typically used as a manual specification approach in which model migration strategies are written by hand. As such, we believe that Flock provides a flexible and concise way to specify migration, and is a foundation for further tools that seek to automate the metamodel evolution and model migration processes. There are approaches to model migration that encompass both the metamodel evolution and model migration processes, seeking to automatically derive model migration strategies (e.g., Edapt \url{http://www.eclipse.org/edapt/}). These approaches provide more automation but at the cost of flexibility: for example, you might be restricted to using a tool-specific editor to perform model migration, or to using only EMF.
+
+
+\section{Further Reading}
+Further examples of applying Flock include migration of UML activity diagrams (at Transformation Tool Contest 2010 workshop\footnote{\url{http://planet-mde.org/ttc2010/}}), and migration of UML class diagrams, GMF models, and a domain-specific modelling language for NNTP newsgroups in Rose's doctoral thesis \cite{rose11thesis}.
+
+A more thorough discussion of the design decisions and execution semantics of Flock can be found in a SoSyM journal article \cite{rose12flock}. Flock has been compared with other model migration tools and languages in a MoDELS paper \cite{rose10comparison}. 
