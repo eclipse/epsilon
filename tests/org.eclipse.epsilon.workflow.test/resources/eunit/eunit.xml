@@ -197,10 +197,19 @@
 				</epsilon.etl>
 			</modelTasks>
 		</epsilon.eunit>
+		<!--
+			Sadly, junitreport is broken in embedded environments in Ant 1.8.2 (see
+			https://issues.apache.org/bugzilla/show_bug.cgi?id=51668). Seems to have
+			been fixed in Ant 1.8.3, though.
+			
+			FIXME: uncomment this part when org.apache.ant is upgraded to 1.8.3 (for Juno, I guess).
+		-->
+		<!--
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
 			<report format="noframes" todir="."/>
 		</junitreport>
+		-->
 	</target>
 
 	<target name="emf-emf-refs">
