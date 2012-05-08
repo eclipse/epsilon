@@ -77,6 +77,9 @@ public class EugeniaTest {
 		final IWorkspaceRoot root = workspace.getRoot();
 
 		testProject = root.getProject("eugenia.test." + caseName);
+		if (testProject.exists()) {
+			deleteTestProject();
+		}
 		testProject.create(null);
 		testProject.open(null);
 
