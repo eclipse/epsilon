@@ -76,7 +76,7 @@ public class EugeniaTest {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IWorkspaceRoot root = workspace.getRoot();
 
-		testProject = root.getProject("eugenia.test");
+		testProject = root.getProject("eugenia.test." + caseName);
 		testProject.create(null);
 		testProject.open(null);
 

@@ -434,26 +434,26 @@
     </palette>
     <preferencePages
         xsi:type="gmfgen:GenStandardPreferencePage"
-        iD="eugenia.test.diagram.general"
+        iD="eugenia.test.filesystem.diagram.general"
         name="Filesystem Diagram">
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.appearance"
+          iD="eugenia.test.filesystem.diagram.appearance"
           name="Appearance"
           kind="Appearance"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.connections"
+          iD="eugenia.test.filesystem.diagram.connections"
           name="Connections"
           kind="Connections"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.printing"
+          iD="eugenia.test.filesystem.diagram.printing"
           name="Printing"
           kind="Printing"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.rulersAndGrid"
+          iD="eugenia.test.filesystem.diagram.rulersAndGrid"
           name="Rulers And Grid"
           kind="RulersAndGrid"/>
     </preferencePages>

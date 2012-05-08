@@ -178,26 +178,26 @@
     </palette>
     <preferencePages
         xsi:type="gmfgen:GenStandardPreferencePage"
-        iD="eugenia.test.diagram.general"
+        iD="eugenia.test.friends.diagram.general"
         name="Friends Diagram">
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.appearance"
+          iD="eugenia.test.friends.diagram.appearance"
           name="Appearance"
           kind="Appearance"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.connections"
+          iD="eugenia.test.friends.diagram.connections"
           name="Connections"
           kind="Connections"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.printing"
+          iD="eugenia.test.friends.diagram.printing"
           name="Printing"
           kind="Printing"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.rulersAndGrid"
+          iD="eugenia.test.friends.diagram.rulersAndGrid"
           name="Rulers And Grid"
           kind="RulersAndGrid"/>
     </preferencePages>

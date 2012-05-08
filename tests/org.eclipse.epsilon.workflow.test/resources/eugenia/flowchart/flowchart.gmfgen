@@ -235,26 +235,26 @@
     </palette>
     <preferencePages
         xsi:type="gmfgen:GenStandardPreferencePage"
-        iD="eugenia.test.diagram.general"
+        iD="eugenia.test.flowchart.diagram.general"
         name="Flowchart Diagram">
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.appearance"
+          iD="eugenia.test.flowchart.diagram.appearance"
           name="Appearance"
           kind="Appearance"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.connections"
+          iD="eugenia.test.flowchart.diagram.connections"
           name="Connections"
           kind="Connections"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.printing"
+          iD="eugenia.test.flowchart.diagram.printing"
           name="Printing"
           kind="Printing"/>
       <children
           xsi:type="gmfgen:GenStandardPreferencePage"
-          iD="eugenia.test.diagram.rulersAndGrid"
+          iD="eugenia.test.flowchart.diagram.rulersAndGrid"
           name="Rulers And Grid"
           kind="RulersAndGrid"/>
     </preferencePages>
