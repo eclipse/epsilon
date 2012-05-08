@@ -36,8 +36,8 @@ public class EMFDifferenceViewer implements IDifferenceViewer {
 		// it sets diff and match to null, for some reason.
 		ComparisonSnapshot copy = (ComparisonSnapshot)EcoreUtil.copy(snap);
 		final ModelCompareEditorInput input = new ModelCompareEditorInput(copy);
-		input.getCompareConfiguration().setLeftLabel("Obtained model");
-		input.getCompareConfiguration().setRightLabel("Expected model");
+		input.getCompareConfiguration().setLeftLabel("Expected model");
+		input.getCompareConfiguration().setRightLabel("Obtained model");
 		CompareUI.openCompareEditor(input, true);
 	}
 

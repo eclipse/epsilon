@@ -27,7 +27,7 @@ public interface IModelComparator {
 	 * @return <code>true</code> if {@link #compare(IModel, IModel)} should
 	 *         finish successfully, and <tt>false</tt> otherwise.
 	 */
-	boolean canCompare(IModel m1, IModel m2);
+	boolean canCompare(IModel expectedModel, IModel obtainedModel);
 
 	/**
 	 * Returns an object with the differences between this model and
@@ -46,6 +46,6 @@ public interface IModelComparator {
 	 *             There was some other kind of problem when performing the
 	 *             comparison.
 	 */
-	Object compare(IModel m1, IModel m2) throws Exception;
+	Object compare(IModel expectedModel, IModel obtainedModel) throws Exception;
 
 }
