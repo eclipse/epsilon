@@ -111,11 +111,16 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
       <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.ant.ui"/>
       <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.antlr.runtime_3.1.b1" version="3.1.0" match="greaterOrEqual"/>
+      <import plugin="org.jdom_1.0"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.emf.compare.ui"/>
+      <import plugin="org.eclipse.emf.compare.diff"/>
+      <import plugin="org.eclipse.emf.compare.match"/>
    </requires>
 
    <plugin
@@ -480,6 +485,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.epl.engine"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.cmp.emf"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
