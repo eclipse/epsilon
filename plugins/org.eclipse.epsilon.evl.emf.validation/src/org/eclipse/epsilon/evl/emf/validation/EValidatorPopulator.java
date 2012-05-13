@@ -51,7 +51,7 @@ public class EValidatorPopulator implements IStartup {
 				if (url.toString().endsWith("evl")) {
 					String modelName = configurationElement.getAttribute("modelName");
 					if (modelName == null || modelName.trim().length() == 0) modelName = EvlValidator.DEFAULT_MODEL_NAME;
-					evlValidator = new EvlValidator(url.toURI(), modelName, ePackageUri);
+					evlValidator = new EvlValidator(url.toURI(), modelName, ePackageUri, bundleId);
 				}
 				else {
 					evlValidator = new OclValidator(url.toURI());

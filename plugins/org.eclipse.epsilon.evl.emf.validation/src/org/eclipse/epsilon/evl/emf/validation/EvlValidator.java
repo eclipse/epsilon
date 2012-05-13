@@ -44,13 +44,15 @@ public class EvlValidator implements EValidator {
 	protected Collection<EObject> history = new ArrayList<EObject>();
 	protected String modelName;
 	protected String ePackageUri;
+	protected String bundleId;
 	
 	public static final String DEFAULT_MODEL_NAME = "_Model";
 	
-	public EvlValidator(URI source, String modelName, String ePackageUri) {
+	public EvlValidator(URI source, String modelName, String ePackageUri, String bundleId) {
 		this.source = source;
 		this.modelName = modelName;
 		this.ePackageUri = ePackageUri;
+		this.bundleId = bundleId;
 	}
 	
 	public boolean validate(EObject object, DiagnosticChain diagnostics,
@@ -100,7 +102,7 @@ public class EvlValidator implements EValidator {
 		String message = unsatisfied.getMessage();
 		int code = 0;
 
-		BasicDiagnostic diagnostic = new BasicDiagnostic(severity, "", code, msgPrefix + message, new Object[]{ unsatisfied.getInstance() });
+		BasicDiagnostic diagnostic = new BasicDiagnostic(severity, bundleId, code, msgPrefix + message, new Object[]{ unsatisfied.getInstance() });
 
 		return diagnostic;
 	}
