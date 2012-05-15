@@ -212,6 +212,11 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <url>
+      <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
+      <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
+   </url>
+
    <includes
          id="org.eclipse.epsilon.concordance.dependencies.feature"
          version="0.0.0"/>
