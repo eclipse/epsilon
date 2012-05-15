@@ -109,18 +109,19 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
       <import plugin="org.eclipse.ant.core"/>
       <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.antlr.runtime_3.1.b1" version="3.1.0" match="greaterOrEqual"/>
       <import plugin="org.jdom_1.0"/>
-      <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.emf.compare.ui"/>
-      <import plugin="org.eclipse.emf.compare.diff"/>
-      <import plugin="org.eclipse.emf.compare.match"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.swt"/>
    </requires>
 
    <plugin
@@ -395,32 +396,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.eunit.dt"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eunit.dt.diff.emf"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eunit.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eunit.dt.diff.files"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
          id="org.eclipse.epsilon.egl.dt.traceability.fine.emf"
          download-size="0"
          install-size="0"
@@ -491,7 +466,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.eunit.dt.cmp.emf"
+         id="org.eclipse.epsilon.eunit.engine"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
