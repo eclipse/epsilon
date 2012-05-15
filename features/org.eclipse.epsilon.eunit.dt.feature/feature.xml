@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.dependencies.feature"
-      label="Epsilon Core Dependencies (Incubation)"
+      id="org.eclipse.epsilon.eunit.dt.feature"
+      label="Epsilon EUnit Developer Tools (Incubation)"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
-   <description url="http://www.eclipse.org/gmt/epsilon">
-      Epsilon Dependencies feature
+   <description url="http://www.example.com/description">
+      Epsilon EUnit Developer Tools
+
+This feature bundles the EUnit Eclipse view and the implementation of the assertEqualTrees and assertEqualModels file and model comparison assertions.
+
+The core Epsilon feature already includes the EUnit Ant task: if you only need to run EUnit from Ant and do not need to compare models, you may not need this feature.
    </description>
 
-   <copyright>
-      Please refer to the Licence Agreement.
+   <copyright url="http://www.example.com/copyright">
+      Please refer to the Licence Agreement
    </copyright>
 
-   <license url="http://www.eclipse.org/legal/epl-v10.html">
+   <license url="Eclipse Public License - v 1.0">
       Eclipse Public License - v 1.0
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS
 ECLIPSE PUBLIC LICENSE (&quot;AGREEMENT&quot;). ANY USE, REPRODUCTION OR
@@ -212,18 +216,54 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <url>
+      <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
+      <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.epsilon.eol.dt"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.epsilon.eunit.engine"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.emf.compare.diff"/>
+      <import plugin="org.eclipse.emf.compare.match"/>
+      <import plugin="org.eclipse.emf.compare.ui"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
+   </requires>
+
    <plugin
-         id="org.antlr.runtime_3.1.b1"
+         id="org.eclipse.epsilon.eunit.dt"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.jdom_1.0"
+         id="org.eclipse.epsilon.eunit.dt.cmp.emf"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.1.qualifier"
          unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.diff.emf"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.diff.files"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"/>
 
 </feature>
