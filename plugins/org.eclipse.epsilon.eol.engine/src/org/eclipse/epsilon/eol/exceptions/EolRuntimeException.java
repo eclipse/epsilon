@@ -65,17 +65,17 @@ public class EolRuntimeException extends Exception{
 	@Override
 	public String getMessage() {
 		String str = getReason().replace('(','[').replace(')',']');
-		if (getAst() != null) {
+		if (ast != null) {
 			str += " (";
-		}
-		if (getAst() != null && getAst().getFile() != null) {
-			str += getAst().getFile().getAbsolutePath() + "@" ;
-		}
-		if (getAst() != null) {
+			if (ast.getFile() != null) {
+				str += ast.getFile().getAbsolutePath() + "@" ;
+			}
+			else if (ast.getUri() != null) {
+				str += ast.getUri() + "@";
+			}
 			str += getLine() + ":" + getColumn() + ")";
 		}
 		return str;
-
 	}
 	
 	@Override
