@@ -23,10 +23,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -35,48 +34,24 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDropAdapter {
 
-	protected List<EReference> qualifiedReferences = new ArrayList<EReference>();
-	protected EditingDomain editingDomain;
-	protected Viewer viewer;
 	protected Image setReferenceValueImage = null;
 	protected Image addReferenceValueImage = null;
 	
-	
 	public ExeedEditingDomainViewerDropAdapter(EditingDomain domain, Viewer viewer, ExeedPlugin plugin) {
 		super(domain, viewer);
-		this.editingDomain = domain;
-		this.viewer = viewer;
 		addReferenceValueImage = plugin.getImageDescriptor("icons/add.gif").createImage();
 		setReferenceValueImage = plugin.getImageDescriptor("icons/set.gif").createImage();
 	}
 
-	protected String detailToString(int detail) {
-		if (detail == DND.DROP_COPY) {
-			return "Copy";
-		} else if (detail == DND.DROP_DEFAULT) {
-			return "Default";
-		} else if (detail == DND.DROP_LINK) {
-			return "Link";
-		} else if (detail == DND.DROP_MOVE) {
-			return "Move";
-		} else if (detail == DND.DROP_NONE) {
-			return "None";
-		} else if (detail == DND.DROP_TARGET_MOVE) {
-			return "TargetMove";
-		} else {
-			return "Unrecognized : " + detail;
-		}
-	}
-	
+
 	@Override
 	public void drop(final DropTargetEvent event) {
 		super.drop(event);
 
 		source = getDragSource(event);
-		System.out.println("drop: " + event + ", source: " + source);
-		updateQualifiedReferences(event);
+		final List<EReference> qualifiedReferences = listQualifiedReferences(event);
 		if (!qualifiedReferences.isEmpty()) {
-			Menu m = new Menu(viewer.getControl().getShell(), SWT.POP_UP);
+			Menu m = new Menu(viewer.getControl());
 
 			for (EReference reference : qualifiedReferences) {
 				final Command command;
@@ -98,25 +73,29 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 				mi.setImage(image);
 				mi.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
-						editingDomain.getCommandStack().execute(command);
+						domain.getCommandStack().execute(command);
 					}
 				});
-	
 			}
 
-			m.setLocation(new Point(event.x, event.y));
+			final Display display = Display.getCurrent();
+			m.setLocation(event.x, event.y);
 			m.setVisible(true);
+			while (!m.isDisposed () && m.isVisible ()) {
+				if (!display.readAndDispatch ()) display.sleep ();
+			}
+			m.dispose ();
 			qualifiedReferences.clear();
 			source = null;
 		}
 	}
 
-	private void updateQualifiedReferences(DropTargetEvent event) {
-		qualifiedReferences.clear();
+	private List<EReference> listQualifiedReferences(DropTargetEvent event) {
+		final List<EReference> qualifiedReferences = new ArrayList<EReference>();
 	
 		TreeItem item = (TreeItem) event.item;
 		if (item == null || !(item.getData() instanceof EObject)) {
-			return;
+			return qualifiedReferences;
 		}
 
 		EObject targetEObject = (EObject) item.getData();
@@ -137,6 +116,8 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 				qualifiedReferences.add(ref);
 			}
 		}
+
+		return qualifiedReferences;
 	}
 
 }

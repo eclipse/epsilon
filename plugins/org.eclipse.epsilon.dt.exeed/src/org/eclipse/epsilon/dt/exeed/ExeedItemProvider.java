@@ -77,7 +77,6 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 								new Object[] { getFeatureText(eFeature),
 										eFeature.getEType().getName() }),
 						eFeature, eFeature.isChangeable(),
-						//ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
 						getImageForEType(eFeature.getEType()),
 						imageTextProvider);
 				
