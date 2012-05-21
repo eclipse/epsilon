@@ -139,13 +139,6 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			builtin.getContext().getModelRepository().addModel(model);
 		}
 
-		// If the user has specified any additional models to be used, add them now
-		if (getExtraModels() != null) {
-			for (IModel model : getExtraModels()) {
-				builtin.getContext().getModelRepository().addModel(model);
-			}
-		}
-
 		String customizationPath = getSelectedFile().getParent().getFile(new Path(getCustomizationTransformation())).getLocation().toOSString();
 		File customizationFile = new File(customizationPath);
 		
@@ -166,6 +159,11 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 					customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
 					for (Variable variable : getExtraVariables()) {
 						customization.getContext().getFrameStack().put(variable);
+					}
+					if (getExtraModels() != null) {
+						for (IModel model : getExtraModels()) {
+							customization.getContext().getModelRepository().addModel(model);
+						}
 					}
 					customization.execute();
 				}
