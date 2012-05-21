@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 
@@ -31,8 +32,9 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(URI.createURI(gmfFileSet.getGenModelPath()));
 		resource.load(null);
+		EcoreUtil.resolveAll(resourceSet);
+
 		GenModel genModel = (GenModel) resource.getContents().get(0);
-		
 		genModel.setCanGenerate(true);
 		
 		// generate the code
@@ -50,9 +52,8 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 		generator.generate(genModel,
 				GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE,
 				new BasicMonitor.Printing(System.err));
-		
 	}
-	
+
 	@Override
 	public String getBuiltinTransformation() {
 		return null;
