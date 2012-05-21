@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -26,12 +25,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ExeedItemProvider extends ReflectiveItemProvider {
-
 	protected ImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
 	
@@ -75,16 +74,13 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 	}
 	
 	@Override
-	public List getPropertyDescriptors(Object object) {
-		
-		itemPropertyDescriptors = new ArrayList();
+	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+		itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
 
-		for (Iterator i = ((EObject) object).eClass()
+		for (Iterator<EStructuralFeature> i = ((EObject) object).eClass()
 				.getEAllStructuralFeatures().iterator(); i.hasNext();) {
-			EStructuralFeature eFeature = (EStructuralFeature) i.next();
-			if (!(eFeature instanceof EReference)
-					|| !((EReference) eFeature).isContainment()) {
-//				itemPropertyDescriptors.add(new ItemPropertyDescriptor(
+			EStructuralFeature eFeature = i.next();
+			if (!(eFeature instanceof EReference) || !((EReference) eFeature).isContainment()) {
 				ItemPropertyDescriptor itemPropertyDescriptor = new ExeedItemPropertyDescriptor(
 						((ComposeableAdapterFactory) adapterFactory)
 								.getRootAdapterFactory(),
@@ -105,75 +101,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 
 		return itemPropertyDescriptors;
 	}
-	
-	/*
-	@Override
-	public Collection<?> getChildren(Object object) {
-		Collection children = super.getChildren(object);
-		
-		Collection toRemove = new ArrayList();
-		
-		for (Object child : children) {
-			EObject eObject = (EObject) child;
-			Collection<Setting> settings = 
-				UsageCrossReferencer.find(eObject, eObject.eResource().getResourceSet());
-			
-			for (Setting setting : settings) {
-				if (isNested(setting.getEStructuralFeature())) {
-					toRemove.add(child);
-				}
-			}
-			
-		}
-		
-		children.removeAll(toRemove);
-		
-		EObject eObject = (EObject) object;
-		
-		for (EReference ref : eObject.eClass().getEAllReferences()) {
-			if(isNested(ref)) {
-				if (ref.isMany()) {
-					children.addAll((Collection)eObject.eGet(ref));
-				}
-				else {
-					children.add(eObject.eGet(ref));
-				}
-			}
-		}
-		
-		return children;
-	}
-	*/
-	protected boolean isNested(EStructuralFeature sf) {
-		EAnnotation eAnnotation = sf.getEAnnotation("exeed");
-		if (eAnnotation != null) {
-			Object detailValue = eAnnotation.getDetails().get("nested");
-			return detailValue != null;
-		}
-		return false;
-	}
-	
-	/*
-	@Override
-	protected Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
-		ArrayList<EStructuralFeature> childrenFeatures = new ArrayList<EStructuralFeature>();
-		childrenFeatures.addAll(super.getChildrenFeatures(object));
-		
-		EObject eObject = (EObject) object;
-		for (EReference ref : eObject.eClass().getEAllReferences()) {
-			EAnnotation eAnnotation = ref.getEAnnotation("exeed");
-			if (eAnnotation != null) {
-				Object detailValue = eAnnotation.getDetails().get("nested");
-				if (detailValue != null) {
-					childrenFeatures.add(ref);
-				}
-			}
-		}
-		return childrenFeatures;
-	}
-	*/
-	
+
 	protected Object getImageForEType(EClassifier eType) {
 		if (eType instanceof EDataType) {
 			if (eType.getName().equalsIgnoreCase("Integer")) {
@@ -203,59 +131,35 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		}
 		return false;
 	}
-	
+
 	@Override
 	protected void gatherMetaData(EModelElement eModelElement) {
 		initializeCache();
 		super.gatherMetaData(eModelElement);
 	}
-	
+
 	protected void initializeCache() {
 		// Override the initialization of super.gatherMetadata
 		// to avoid double EClasses added by late discovery of extensions
 		if (allRoots == null) {
-			allRoots = new UniqueArrayList();
-			allEClasses = new UniqueArrayList();
-			allEPackages = new UniqueArrayList();
+			allRoots = new UniqueArrayList<EObject>();
+			allEClasses = new UniqueArrayList<EClass>();
+			allEPackages = new UniqueArrayList<EPackage>();
 		}
 	}
-	
+
 	public void loadRegisteredEPackage(String nsUri) {
 		initializeCache();
 		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(nsUri); 
 		if (!allEPackages.contains(ePackage)) {
 			allEPackages.add(ePackage);
-			ListIterator li = ePackage.getEClassifiers().listIterator();
+			ListIterator<EClassifier> li = ePackage.getEClassifiers().listIterator();
 			while (li.hasNext()) {
-				Object next = li.next();
+				final EClassifier next = li.next();
 				if (!allEClasses.contains(next)) {
 					allEClasses.add((EClass)next);
 				}
 			}
 		}
 	}
-
-
-	
-	/*
-	public void unloadRegisteredEPackage(String nsUri) {
-		initializeCache();
-		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(nsUri); 
-		if (allEPackages.contains(ePackage)) {
-			allEPackages.remove(ePackage);
-			ListIterator li = ePackage.getEClassifiers().listIterator();
-			while (li.hasNext()) {
-				Object next = li.next();
-				if (allEClasses.contains(next)) {
-					allEClasses.remove((EClass)next);
-				}
-			}
-		}
-	}
-	
-	public List<EPackage> getEPackages() {
-		return allEPackages;
-	}
-	*/
-	
 }
