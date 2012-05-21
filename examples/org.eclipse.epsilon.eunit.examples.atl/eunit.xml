@@ -1,4 +1,4 @@
-<project>
+<project default="run-tests">
 	<target name="run-tests">
 		<epsilon.eunit src="tests/atl.eunit">
 			<modelTasks>
@@ -25,7 +25,8 @@
 			<inmodel name="IN"   model="Tree" />
 			<outmodel name="OUT" model="Graph" metamodel="GraphMM" />
 		</atl.launch>
-		<atl.saveModel model="Graph" path="${atl.temp.dstfile}" />
+                <!-- derived="true" (the default) fails on a headless build -->
+		<atl.saveModel model="Graph" path="${atl.temp.dstfile}" derived="false" />
 
 		<!-- Load it back into the EUnit suite -->
 		<epsilon.emf.loadModel name="Graph"

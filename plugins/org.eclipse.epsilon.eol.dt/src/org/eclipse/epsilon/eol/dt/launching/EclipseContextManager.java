@@ -37,6 +37,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.ui.PlatformUI;
 
 public class EclipseContextManager {
 	
@@ -85,9 +86,11 @@ public class EclipseContextManager {
 	}
 	
 	private static void loadIo(IEolContext context) {
-		context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-		context.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-		context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());
+		if (PlatformUI.isWorkbenchRunning()) {
+			context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+			context.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+			context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());
+		}
 		
 		//context.setUserInput(new EpsilonConsoleUserInput());		
 		context.setUserInput(new JFaceUserInput(context.getPrettyPrinterManager()));

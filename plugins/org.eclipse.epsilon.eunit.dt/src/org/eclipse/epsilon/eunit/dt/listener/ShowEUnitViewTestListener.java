@@ -42,16 +42,18 @@ public class ShowEUnitViewTestListener implements EUnitTestListener {
 	private EUnitRunnerView eunitView;
 
 	private void showEUnitView() {
-		display.syncExec(new Runnable(){
-			public void run() {
-				IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				try {
-					eunitView = (EUnitRunnerView)activePage.showView(EUnitRunnerView.ID);
-				} catch (PartInitException e) {
-					EUnitPlugin.getDefault().logException(e);
+		if (PlatformUI.isWorkbenchRunning()) {
+			display.syncExec(new Runnable(){
+				public void run() {
+					IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					try {
+						eunitView = (EUnitRunnerView)activePage.showView(EUnitRunnerView.ID);
+					} catch (PartInitException e) {
+						EUnitPlugin.getDefault().logException(e);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	@Override
