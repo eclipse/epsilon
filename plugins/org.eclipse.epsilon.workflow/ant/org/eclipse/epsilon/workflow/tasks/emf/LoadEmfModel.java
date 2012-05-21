@@ -27,6 +27,7 @@ public class LoadEmfModel extends EpsilonTask {
 	protected String name;
 	protected String alias;
 	protected File modelFile;
+	protected String modelUri;
 	protected File metamodelFile;
 	protected String metamodelUri;
 	protected boolean read = true;
@@ -35,7 +36,6 @@ public class LoadEmfModel extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		
 		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
 		
 		final EmfModel model = createEmfModel();
@@ -48,8 +48,17 @@ public class LoadEmfModel extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
-		properties.put(EmfModel.PROPERTY_MODEL_URI, convertFileToUri(modelFile));
-		
+
+		if (modelFile != null && modelUri != null) {
+			throw new BuildException("Only one of modelFile or modelUri may be used");
+		}
+		else if (modelUri != null) {
+			properties.put(EmfModel.PROPERTY_MODEL_URI, modelUri);
+		}
+		else {
+			properties.put(EmfModel.PROPERTY_MODEL_URI, convertFileToUri(modelFile));
+		}
+
 		if (metamodelFile != null) {
 			properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, convertFileToUri(metamodelFile));
 		}
@@ -111,6 +120,14 @@ public class LoadEmfModel extends EpsilonTask {
 
 	public void setModelFile(File modelFile) {
 		this.modelFile = modelFile;
+	}
+
+	public String getModelUri() {
+		return modelUri;
+	}
+
+	public void setModelUri(String modelUri) {
+		this.modelUri = modelUri;
 	}
 
 	public File getMetamodelFile() {
