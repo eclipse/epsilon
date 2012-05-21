@@ -34,15 +34,6 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 	protected ImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
 	
-	@Override
-	protected String getFeatureText(Object feature) {
-		String def = super.getFeatureText(feature);
-		if (feature instanceof EStructuralFeature) {
-			return imageTextProvider.getEStructuralFeatureLabel((EStructuralFeature) feature, def);
-		}
-		return def;
-	}
-	
 	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin) {
 		super(arg0);
 		this.plugin = plugin;
@@ -69,10 +60,6 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		}
 	}
 
-	public void setImageTextProvider(ImageTextProvider imageTextProvider) {
-		this.imageTextProvider = imageTextProvider;
-	}
-	
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
@@ -100,6 +87,40 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		}
 
 		return itemPropertyDescriptors;
+	}
+
+	public void setImageTextProvider(ImageTextProvider imageTextProvider) {
+		this.imageTextProvider = imageTextProvider;
+	}
+
+	public void loadRegisteredEPackage(String nsUri) {
+		initializeCache();
+		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(nsUri); 
+		if (!allEPackages.contains(ePackage)) {
+			allEPackages.add(ePackage);
+			ListIterator<EClassifier> li = ePackage.getEClassifiers().listIterator();
+			while (li.hasNext()) {
+				final EClassifier next = li.next();
+				if (!allEClasses.contains(next)) {
+					allEClasses.add((EClass)next);
+				}
+			}
+		}
+	}
+
+	@Override
+	protected String getFeatureText(Object feature) {
+		String def = super.getFeatureText(feature);
+		if (feature instanceof EStructuralFeature) {
+			return imageTextProvider.getEStructuralFeatureLabel((EStructuralFeature) feature, def);
+		}
+		return def;
+	}
+
+	@Override
+	protected void gatherMetaData(EModelElement eModelElement) {
+		initializeCache();
+		super.gatherMetaData(eModelElement);
 	}
 
 	protected Object getImageForEType(EClassifier eType) {
@@ -132,12 +153,6 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		return false;
 	}
 
-	@Override
-	protected void gatherMetaData(EModelElement eModelElement) {
-		initializeCache();
-		super.gatherMetaData(eModelElement);
-	}
-
 	protected void initializeCache() {
 		// Override the initialization of super.gatherMetadata
 		// to avoid double EClasses added by late discovery of extensions
@@ -145,21 +160,6 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 			allRoots = new UniqueArrayList<EObject>();
 			allEClasses = new UniqueArrayList<EClass>();
 			allEPackages = new UniqueArrayList<EPackage>();
-		}
-	}
-
-	public void loadRegisteredEPackage(String nsUri) {
-		initializeCache();
-		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(nsUri); 
-		if (!allEPackages.contains(ePackage)) {
-			allEPackages.add(ePackage);
-			ListIterator<EClassifier> li = ePackage.getEClassifiers().listIterator();
-			while (li.hasNext()) {
-				final EClassifier next = li.next();
-				if (!allEClasses.contains(next)) {
-					allEClasses.add((EClass)next);
-				}
-			}
 		}
 	}
 }
