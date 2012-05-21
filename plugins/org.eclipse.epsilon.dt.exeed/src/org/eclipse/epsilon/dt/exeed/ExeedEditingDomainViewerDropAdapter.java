@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - fix DND in Eclipse Juno
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -31,10 +33,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TreeItem;
 
-public class ExeedEditingDomainViewerDropAdapter extends
-		EditingDomainViewerDropAdapter {
+public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDropAdapter {
 
-	protected List<EReference> qualifiedReferences = new ArrayList();
+	protected List<EReference> qualifiedReferences = new ArrayList<EReference>();
 	protected EditingDomain editingDomain;
 	protected Viewer viewer;
 	protected Image setReferenceValueImage = null;
@@ -49,57 +50,6 @@ public class ExeedEditingDomainViewerDropAdapter extends
 		setReferenceValueImage = plugin.getImageDescriptor("icons/set.gif").createImage();
 	}
 
-	@Override
-	public void dragOver(DropTargetEvent event) {
-		
-		super.dragOver(event);
-		
-		
-		//if (event.detail == DND.DROP_NONE || event.detail == DND.DROP_COPY) {
-		
-		if (event.detail == DND.DROP_NONE) {
-			
-			qualifiedReferences.clear();
-			
-			TreeItem item = (TreeItem) event.item;
-			
-			if (item == null || !(item.getData() instanceof EObject)) {
-				return;
-			}
-
-			EObject targetEObject = (EObject) item.getData();
-
-			Iterator rit = targetEObject.eClass().getEAllReferences()
-					.iterator();
-			
-			while (rit.hasNext()) {
-				EReference ref = (EReference) rit.next();
-
-				boolean areInstancesOf = true;
-				Iterator it = source.iterator();
-				
-				if (!ref.isMany() && source.size() > 1) continue;
-				
-				while (it.hasNext() && areInstancesOf) {
-					Object next = it.next();
-					if (ref.getEType().isInstance(next)) {
-						areInstancesOf = true;
-					}
-					else {
-						areInstancesOf = false;
-					}
-				}
-				if (areInstancesOf) {
-					if (event.detail != DND.DROP_LINK) {
-						event.detail = DND.DROP_LINK;
-					}
-					qualifiedReferences.add(ref);
-				}
-			}
-
-		}
-	}
-	
 	protected String detailToString(int detail) {
 		if (detail == DND.DROP_COPY) {
 			return "Copy";
@@ -119,55 +69,74 @@ public class ExeedEditingDomainViewerDropAdapter extends
 	}
 	
 	@Override
-	public void dropAccept(final DropTargetEvent event) {
-		
-		
-		//if (event.detail != DND.DROP_LINK) {
-			super.dropAccept(event);
-		//}
-		//else {
-		// Create a SetReferenceValueCommand with undo support etc.
-			if (qualifiedReferences.size() > 0) {
-	
-				//Menu m = new Menu(ExeedEditor.this.getSite().getShell(), SWT.POP_UP);
-				Menu m = new Menu(viewer.getControl().getShell(), SWT.POP_UP);
-	
-				for (EReference reference : qualifiedReferences) {
-	
-					final Command command;
-					Image image = null;
-	
-					if (reference.isMany()) {
-						command = new AddReferenceValuesCommand(
-								(EObject) event.item.getData(), source, reference);
-						image = addReferenceValueImage;
-					} else {
-						command = new SetReferenceValueCommand(
-								(EObject) event.item.getData(), (EObject) source
-										.iterator().next(), reference);
-						image = setReferenceValueImage;
-					}
-	
-					MenuItem mi = new MenuItem(m, SWT.PUSH);
-					mi.setText(command.getLabel());
-					mi.setImage(image);
-					
-					mi.addListener(SWT.Selection, new Listener() {
-	
-						public void handleEvent(Event event) {
-							editingDomain.getCommandStack().execute(command);
-						}
-	
-					});
-	
+	public void drop(final DropTargetEvent event) {
+		super.drop(event);
+
+		source = getDragSource(event);
+		System.out.println("drop: " + event + ", source: " + source);
+		updateQualifiedReferences(event);
+		if (!qualifiedReferences.isEmpty()) {
+			Menu m = new Menu(viewer.getControl().getShell(), SWT.POP_UP);
+
+			for (EReference reference : qualifiedReferences) {
+				final Command command;
+				Image image = null;
+
+				if (reference.isMany()) {
+					command = new AddReferenceValuesCommand(
+							(EObject) event.item.getData(), source, reference);
+					image = addReferenceValueImage;
+				} else {
+					command = new SetReferenceValueCommand(
+							(EObject) event.item.getData(), (EObject) source
+									.iterator().next(), reference);
+					image = setReferenceValueImage;
 				}
+
+				MenuItem mi = new MenuItem(m, SWT.PUSH);
+				mi.setText(command.getLabel());
+				mi.setImage(image);
+				mi.addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
+						editingDomain.getCommandStack().execute(command);
+					}
+				});
 	
-				m.setLocation(new Point(event.x, event.y));
-				m.setVisible(true);
-				qualifiedReferences.clear();
-				source = null;
+			}
+
+			m.setLocation(new Point(event.x, event.y));
+			m.setVisible(true);
+			qualifiedReferences.clear();
+			source = null;
+		}
+	}
+
+	private void updateQualifiedReferences(DropTargetEvent event) {
+		qualifiedReferences.clear();
+	
+		TreeItem item = (TreeItem) event.item;
+		if (item == null || !(item.getData() instanceof EObject)) {
+			return;
+		}
+
+		EObject targetEObject = (EObject) item.getData();
+		Iterator<EReference> rit = targetEObject.eClass().getEAllReferences().iterator();
+
+		while (rit.hasNext()) {
+			final EReference ref = (EReference) rit.next();
+			if (!ref.isMany() && source.size() > 1) continue;
+
+			boolean areInstancesOf = true;
+			final Iterator<?> it = source.iterator();
+			final EClassifier eType = ref.getEType();
+			while (it.hasNext() && areInstancesOf) {
+				Object next = it.next();
+				areInstancesOf = eType.isInstance(next);
+			}
+			if (areInstancesOf) {
+				qualifiedReferences.add(ref);
 			}
 		}
-	//}
+	}
 
 }

@@ -216,9 +216,7 @@ public class ModeLinkEditor extends MultiEditor {
 	@Override
 	public void createPartControl(Composite parent) {
 		ViewForm container = new ViewForm(parent, SWT.NONE);
-		
 
-		
 		SashForm form = new SashForm(container, SWT.HORIZONTAL);
 		leftFolder = createFolder(form);
 		if (getEditorInput().isThreeWay()) {
