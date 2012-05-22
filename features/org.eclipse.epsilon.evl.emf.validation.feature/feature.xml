@@ -233,7 +233,6 @@ litigation.
       <import plugin="org.eclipse.emf.ecore.editor" version="2.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit" version="2.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit.ui" version="2.4.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.1.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

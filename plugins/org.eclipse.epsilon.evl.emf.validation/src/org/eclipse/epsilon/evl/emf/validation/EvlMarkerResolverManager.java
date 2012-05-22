@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.ui.IEditorPart;
@@ -26,7 +28,15 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 	
 	private EvlMarkerResolverManager() {
 		delegates.add(new EmfMarkerResolver());
-		delegates.add(new GmfMarkerResolver());
+		try {
+			Class.forName("org.eclipse.gmf.runtime.notation.View");
+			delegates.add(new GmfMarkerResolver());
+		} catch (ClassNotFoundException ex) {
+			// GMF is not available - do not add the marker resolver, but log it somewhere (just in case)
+			Activator.getDefault().getLog().log(
+				new Status(IStatus.WARNING, Activator.PLUGIN_ID,
+						"GMF is not available: disabling the GMF marker resolver", ex));
+		}
 	}
 	
 	public boolean canResolve(IMarker marker) {
