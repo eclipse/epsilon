@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.workflow.tasks.AntLibTests;
 import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitBasicTests;
@@ -26,6 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({LoadModelTaskTests.class,
                LoadModelTests.class,
+               AntLibTests.class,
                EUnitBasicTests.class,
                EUnitWithEVLTests.class,
                EUnitWithEGLTests.class,
