@@ -13,7 +13,7 @@ package org.eclipse.epsilon.emc.bibtex;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
-import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.Test;
@@ -103,7 +103,7 @@ public class BibtexModelTests {
 			model.assertEquals("Antonio Cicchetti et al.", "Inproceedings.all.first.author");
 		}
 		
-		@Test(expected=EolTypeNotFoundException.class)
+		@Test(expected=EolRuntimeException.class)
 		public void errorForUnknownType() throws Throwable {
 			final String bibtex = "";
 			
