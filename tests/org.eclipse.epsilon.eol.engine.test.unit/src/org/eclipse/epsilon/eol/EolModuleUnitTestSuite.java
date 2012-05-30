@@ -16,12 +16,13 @@ package org.eclipse.epsilon.eol;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.eol.util.ReflectionUtilTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ResetModuleTests.class})
+@SuiteClasses({ResetModuleTests.class, ReflectionUtilTests.class})
 public class EolModuleUnitTestSuite {
 
 	public static Test suite() {

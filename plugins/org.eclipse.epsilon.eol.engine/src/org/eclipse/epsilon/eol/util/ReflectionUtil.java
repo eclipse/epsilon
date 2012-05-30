@@ -64,8 +64,24 @@ public class ReflectionUtil {
 	 */
 	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters){
 		
-		if (obj == null) return null;
+		if (obj == null)
+			return null;
 		
+		
+		Method instanceMethod = getInstanceMethodFor(obj, methodName, parameters, includeInheritedMethods, allowContravariantConversionForParameters);
+		if (instanceMethod != null)
+			return instanceMethod;
+		
+		
+		Method staticMethod = getStaticMethodFor(obj, methodName, parameters, allowContravariantConversionForParameters);
+		if (staticMethod != null)
+			return staticMethod;
+		
+		
+		return null;
+	}
+
+	private static Method getInstanceMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters) {
 		Method[] methods = null;
 		
 		if (includeInheritedMethods) {
@@ -75,39 +91,12 @@ public class ReflectionUtil {
 			methods = obj.getClass().getDeclaredMethods();
 		}
 		
-		// Faster than for (Method method : methods)
-		// Custom search a lot faster than Class.getMethod(...)
-		for (int i=0;i<methods.length;i++){
-			boolean namesMatch = false;
-			
-			namesMatch = methods[i].getName().equalsIgnoreCase(methodName);
-			
-			if (namesMatch){
-				Method method = methods[i];
-				
-				Class<?>[] parameterTypes = method.getParameterTypes();
-				boolean parametersMatch = parameterTypes.length == parameters.length;
-				if (parametersMatch){
-					//TODO: See why parameter type checking does not work with EolSequence
-					for (int j=0;j<parameterTypes.length && parametersMatch; j++){
-						Class<?> parameterType = parameterTypes[j];
-						Object parameter = parameters[j];
-						
-						if (allowContravariantConversionForParameters) {
-							parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
-						} else {
-							parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
-						}
-					}
-					
-					if (parametersMatch){
-						return method;
-					}
-				}
-			}
-		}
-		
-		// Find static methods
+		return searchMethodsFor(methods, methodName, parameters, allowContravariantConversionForParameters);
+	}
+	
+	private static Method getStaticMethodFor(Object obj, String methodName, Object[] parameters, boolean allowContravariantConversionForParameters) {
+		Method staticMethod = null;
+
 		Class<?> javaClass = null;
 		if (obj instanceof EolNativeType) {
 			javaClass = ((EolNativeType) obj).getJavaClass();
@@ -117,16 +106,26 @@ public class ReflectionUtil {
 		}
 		
 		if (javaClass != null) {
-			methods = javaClass.getMethods();
-			
+			staticMethod = searchMethodsFor(javaClass.getMethods(), methodName, parameters, allowContravariantConversionForParameters);
+		}
+		
+		return staticMethod;
+	}
+
+	private static Method searchMethodsFor(Method[] methods, String methodName, Object[] parameters, boolean allowContravariantConversionForParameters) {
+		// Antonio: according to the Java Language Specification, Sections 15.12.2.2 to 15.12.2.4,
+		// method resolution is done in three stages: in the first one, no autoboxing is used. In
+		// the second one, autoboxing (like that in our isInstance static method) is used. In the
+		// third one, varargs are used. We should do the same if we want to tell apart remove(Object)
+		// from remove(int) like Java normally would.
+		for (int stage=0; stage < 2; ++stage) {
 			for (int i=0;i<methods.length;i++){
 				boolean namesMatch = false;
-				
 				namesMatch = methods[i].getName().equalsIgnoreCase(methodName);
-				
+			
 				if (namesMatch){
 					Method method = methods[i];
-					
+				
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					boolean parametersMatch = parameterTypes.length == parameters.length;
 					if (parametersMatch){
@@ -134,14 +133,12 @@ public class ReflectionUtil {
 						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
 							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
-							
 							if (allowContravariantConversionForParameters) {
-								parametersMatch = parametersMatch && (isInstance(parameterType,parameter));
+								parametersMatch = parametersMatch && (stage == 0 ? parameterType.isInstance(parameter) : isInstance(parameterType,parameter));
 							} else {
 								parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
 							}
 						}
-						
 						if (parametersMatch){
 							return method;
 						}
@@ -149,8 +146,6 @@ public class ReflectionUtil {
 				}
 			}
 		}
-		
-		
 		return null;
 	}
 
