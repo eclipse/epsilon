@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.examples.tools.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.epsilon.common.dt;bundle-version="0.8.8"
+ org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.eol.engine
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.examples.tools
