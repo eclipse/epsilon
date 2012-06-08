@@ -35,7 +35,6 @@ public class LogUtil {
 	
 	public static void log(String message, Exception ex) {
 		log(IStatus.ERROR, 0, message, ex);
-		//MessageDialog.openError(null, "Error", message + "\r\nPlease check the error log for further information");
 	}
 	
 	public static void log(String message, Exception ex, boolean openErrorDialog) {
@@ -43,8 +42,6 @@ public class LogUtil {
 		if (openErrorDialog) 
 			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message + "\r\nPlease check the error log for further information");
 	}
-	
-	
 	
 	public static void log(Exception ex) {
 		log(ex.getMessage(), ex);

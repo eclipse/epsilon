@@ -36,8 +36,6 @@ public class ExeedItemProviderAdapterFactory extends
 	 */
 	@Override
 	public Adapter adapt(Notifier notifier, Object type) {
-		//Thread.dumpStack();
-		//return reflectiveItemProviderAdapter;
 		return super.adapt(notifier, type);
 	}
 	
