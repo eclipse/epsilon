@@ -70,6 +70,10 @@ public class ExeedPlugin extends AbstractUIPlugin {
 	 */
 	
 	ImageRegistry imageRegistry = null; //new ImageRegistry();
+
+	public static final String EXEED_EDITOR_ID = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
+
+	public static final String MODELINK_EDITOR_ID = "org.eclipse.epsilon.dt.exeed.modelink.ModeLinkEditor";
 	
 	public ImageDescriptor getImageDescriptor(String pluginId, String path) {
 		if (imageRegistry == null) imageRegistry = new ImageRegistry();

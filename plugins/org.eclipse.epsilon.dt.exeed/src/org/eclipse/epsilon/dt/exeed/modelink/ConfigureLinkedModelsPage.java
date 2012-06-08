@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - clean up, add "Force Exeed" check box
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
 
@@ -24,6 +25,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,6 +40,7 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 	private ModeLink modeLink;
 	private TableViewer modelsViewer;
 	protected Position position;
+	private Button btnUseExeed;
 	
 	protected ConfigureLinkedModelsPage(String pageName, ModeLink modeLink, Position position) {
 		super(pageName);
@@ -47,36 +51,32 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 	}
 	
 	public void createControl(Composite parent) {
-		
-		Composite control = new Composite(parent, SWT.FILL);
+		final Composite control = new Composite(parent, SWT.FILL);
 		setControl(control);
-		GridLayout controlLayout = new GridLayout(2, false);
-		control.setLayout(controlLayout);
+		control.setLayout(new GridLayout(2, false));
 
 		modelsViewer = new TableViewer(control, SWT.BORDER);
-
 		modelsViewer.setContentProvider(new LinkedModelsContentProvider());
 		modelsViewer.setLabelProvider(new ModelLabelProvider());
 		modelsViewer.setInput(modeLink.getLinkedModels());
-		
-		GridData buttonsData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		modelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		GridData viewerData = new GridData(GridData.FILL_BOTH);
-		modelsViewer.getControl().setLayoutData(viewerData);
-
-		Composite buttons = new Composite(control, SWT.FILL | SWT.TOP);
-		buttons.setLayoutData(buttonsData);
-
-		GridLayout buttonsLayout = new GridLayout(1, true);
-		buttons.setLayout(buttonsLayout);
-
+		final Composite buttons = new Composite(control, SWT.FILL | SWT.TOP);
 		createButton(buttons, "Add...").addListener(SWT.Selection, new AddModelListener());
-		//createButton(buttons, "Add2...").addListener(SWT.Selection, new AddRegisteredEPackageListener());
 		createButton(buttons, "Remove").addListener(SWT.Selection, new RemoveModelListener());
-		
+		buttons.setLayout(new GridLayout(1, true));
+		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+
+		btnUseExeed = new Button(control, SWT.CHECK);
+		btnUseExeed.setText("Force E&xeed");
+		btnUseExeed.setToolTipText(
+			"Forces the usage of the Exeed editor, even if another default editor has been set." +
+			" Required for the weaving model when using ModeLink's drag-and-drop weaving.");
+		btnUseExeed.addSelectionListener(new UseExeedSelectionListener());
+		btnUseExeed.setSelection(modeLink.isForceExeed(position));
+
 		control.pack();
 		control.layout();
-		
 	}
 
 	
@@ -86,76 +86,25 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return button;
 	}
-	/*
-	class AddRegisteredEPackageListener implements Listener{
 
+	private class AddModelListener implements Listener{
 		public void handleEvent(Event event) {
-			
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog( 
-					Display.getDefault().getActiveShell(), 
-					new LabelProvider() {
-
-						@Override
-						public String getText(Object element) {
-							return ((EPackage) element).getNsURI();
-						}
-						
-						
-						
-					});
-			
-			dialog.setMessage("Select an EPackage");
-			dialog.setTitle("Registered EPackages");
-			
-			List<EPackage> ePackages = new ArrayList<EPackage>();
-			
-			for (Object value : EPackage.Registry.INSTANCE.values()) {
-				if (value instanceof EPackage) {
-					ePackages.add((EPackage) value);
-				}
-			}
-			
-			dialog.setElements(ePackages.toArray());
-			
-			if (dialog.open() == Window.OK) {
-				if (dialog.getResult().length > 0) {
-					EPackage ePackage = (EPackage) dialog.getResult()[0];
-					modeLink.getLinkedModels().add(new LinkedModel("virtual/" + ePackage.eResource().getURI().toFileString() + ".registry", position.toString()));
-				}
-			}
-		
-			modelsViewer.refresh();
-		}
-	}
-*/
-	class AddModelListener implements Listener{
-
-		public void handleEvent(Event event) {
-			
 			IFile selection = BrowseWorkspaceUtil.browseFile(ConfigureLinkedModelsPage.this.getShell(), "Select a model", "Select a model", "", null);
-			
-			//for (int i=0;i<selection.length;i++) {
-				//if (selection[i] instanceof IFile) {
-					modeLink.getLinkedModels().add(new LinkedModel(selection.getFullPath().toOSString(), position.toString()));
-				//}
-			//}
+			modeLink.getLinkedModels().add(new LinkedModel(selection.getFullPath().toOSString(), position.toString()));
 			modelsViewer.refresh();
 		}
 	}
 
-
-	class RemoveModelListener implements Listener{
-
+	private class RemoveModelListener implements Listener {
 		public void handleEvent(Event event) {
 			IStructuredSelection selection = (IStructuredSelection) modelsViewer.getSelection();
 			if (selection.getFirstElement() == null) return;
 			modeLink.getLinkedModels().remove(selection.getFirstElement());
 			modelsViewer.refresh(true);
 		}
-		
 	}
 
-	class ModelLabelProvider implements ILabelProvider{
+	private class ModelLabelProvider implements ILabelProvider {
 		
 		Image emfModelImage = ExeedPlugin.getDefault().getImageDescriptor("icons/emfmodel.gif").createImage();
 		
@@ -168,30 +117,25 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 		}
 
 		public void addListener(ILabelProviderListener listener) {
-			// TODO Auto-generated method stub
+			// nothing
 		}
 
 		public void dispose() {
-			// TODO Auto-generated method stub
-			
+			// nothing
 		}
 
 		public boolean isLabelProperty(Object element, String property) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public void removeListener(ILabelProviderListener listener) {
-			// TODO Auto-generated method stub
-			
+			// nothing
 		}
-		
 	}
 	
-	class LinkedModelsContentProvider implements IStructuredContentProvider {
-
+	private class LinkedModelsContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			ArrayList filtered = new ArrayList();
+			ArrayList<LinkedModel> filtered = new ArrayList<LinkedModel>();
 			for (LinkedModel m : modeLink.getLinkedModels()) {
 				if (m.getPosition() == position) {
 					filtered.add(m);
@@ -207,7 +151,18 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			
 		}
-		
 	}
-	
+
+	private class UseExeedSelectionListener implements SelectionListener {
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			modeLink.setForceExeed(position, btnUseExeed.getSelection());
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// nothing
+		}
+	}
 }

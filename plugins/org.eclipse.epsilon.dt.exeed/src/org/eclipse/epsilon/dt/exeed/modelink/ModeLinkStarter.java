@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,15 +7,17 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - use ModeLink instead of SAX parsing, honor the isForceExeed flags
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
-
-import java.util.ListIterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.epsilon.dt.exeed.ExeedPlugin;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -27,21 +29,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 public class ModeLinkStarter extends EditorPart {
-
-	@Override
-	public void doSave(IProgressMonitor monitor) {
-
-	}
-
-	@Override
-	public void doSaveAs() {
-
-	}
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
@@ -49,6 +38,16 @@ public class ModeLinkStarter extends EditorPart {
 		setSite(site);
 		setInput(input);
 		startModeLinkEditor();
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		// do nothing
+	}
+
+	@Override
+	public void doSaveAs() {
+		// do nothing
 	}
 
 	@Override
@@ -63,131 +62,76 @@ public class ModeLinkStarter extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-
-		// startModeLinkEditor();
-		/*
-		 * Thread thread = new Thread(new Runnable(){
-		 * 
-		 * public void run() { try { //Thread.currentThread().sleep(50);
-		 * 
-		 *  } catch (InterruptedException e) { // TODO Auto-generated catch
-		 * block e.printStackTrace(); } }
-		 * 
-		 * });
-		 * 
-		 * thread.start();
-		 */ 
+		// do nothing
 	}
 
-	protected void startModeLinkEditor() {
-		Display.getDefault().asyncExec(new Runnable() {
+	@Override
+	public void setFocus() {
+		// do nothing
+	}
 
+	private void startModeLinkEditor() {
+		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				getSite().getPage().closeEditor(ModeLinkStarter.this, false);
 				try {
-					// getSite().getPage().openEditor(ModeLinkStarter.this.getEditorInput(),
-					// "org.eclipse.ui.DefaultTextEditor");
-					getSite()
-							.getPage()
-							.openEditor(
-									new FileEditorInputToModeLinkEditorInputConverter()
-											.convert((FileEditorInput) ModeLinkStarter.this
-													.getEditorInput()),
-									getEditorId());
+					getSite().getPage().openEditor(
+						new FileEditorInputToModeLinkEditorInputConverter()
+							.convert((FileEditorInput) ModeLinkStarter.this.getEditorInput()),
+						ExeedPlugin.MODELINK_EDITOR_ID);
 				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ExeedPlugin.getDefault().getLog().log(new Status(
+						IStatus.ERROR, ExeedPlugin.PLUGIN_ID,
+						"Error while starting the ModeLink editor", e));
 				}
 			}
-
 		});
 	}
-	
-	protected String getEditorId() {
-		return "org.eclipse.epsilon.dt.exeed.modelink.ModeLinkEditor";
-	}
-	
-	@Override
-	public void setFocus() {
 
-	}
-
-	class FileEditorInputToModeLinkEditorInputConverter {
-
+	private class FileEditorInputToModeLinkEditorInputConverter {
 		public ModeLinkEditorInput convert(FileEditorInput input) {
-
 			IEditorInput[] inputs = null;
 			String[] editorIds = null;
 			boolean threeWay = true;
 
 			try {
-				SAXBuilder builder = new SAXBuilder();
-				input.getFile().refreshLocal(0, null);
-				Document doc = builder.build(input.getFile().getContents());
-				Element root = doc.getDocument().getRootElement();
+				final ModeLink ml = new ModeLink();
+				ml.load(input.getFile());
+				threeWay = ml.isThreeWay();
 
-				threeWay = !root.getAttributeValue("threeWay", "")
-						.equalsIgnoreCase("false");
-
-				int size = root.getChildren().size();
+				final int size = ml.getLinkedModels().size();
 				inputs = new IEditorInput[size];
 				editorIds = new String[size];
 
-				ListIterator li = root.getChildren().listIterator();
-				int i = 0;
-				while (li.hasNext()) {
-					Object next = li.next();
-					if (next instanceof Element) {
-						Element el = (Element) next;
+				for (int i = 0; i < size; ++i) {
+					final LinkedModel linkedModel = ml.getLinkedModels().get(i);
+					final String path = linkedModel.getPath();
+					final Position pos = ml.getLinkedModels().get(i).getPosition();
 
-						IEditorInput editorInput = null;
-						String path = el.getAttributeValue("path");
+					final IEditorInput editorInput = new ModeLinkInnerEditorInput(
+						ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)), pos);
+					final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
 
-						editorInput = new ModeLinkInnerEditorInput(
-								ResourcesPlugin.getWorkspace().getRoot()
-										.getFile(new Path(path)),
-								getPosition(el.getAttributeValue("position",
-										"left")));
-						
-						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
-						
-						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path, IDE.getContentType(file));
-						System.err.println(editorDescriptor + " " + path);
-						String editorId = null;
-						if (editorDescriptor != null) editorId = editorDescriptor.getId();
-						else 
-							editorId = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
-							
-						editorIds[i] = editorId;
-						
-						
-						inputs[i] = editorInput;
-						// editorIds[i] = editorId;
-						i++;
+					String editorId = ExeedPlugin.EXEED_EDITOR_ID;
+					if (!ml.isForceExeed(pos)) {
+						final IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path, IDE.getContentType(file));
+						if (editorDescriptor != null)
+							editorId = editorDescriptor.getId();
 					}
-				}
 
+					editorIds[i] = editorId;
+					inputs[i] = editorInput;
+				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				ExeedPlugin.getDefault().getLog().log(new Status(
+					IStatus.ERROR, ExeedPlugin.PLUGIN_ID, "Error while reading the ModeLink configuratio", ex));
 			}
 
 			ModeLinkEditorInput modeLinkEditorInput = new ModeLinkEditorInput(
 					editorIds, inputs, (FileEditorInput) getEditorInput());
 			modeLinkEditorInput.setThreeWay(threeWay);
 			return modeLinkEditorInput;
-
 		}
-
-		protected Position getPosition(String str) {
-			if (str.equalsIgnoreCase("right")) {
-				return Position.RIGHT;
-			} else if (str.equalsIgnoreCase("middle")) {
-				return Position.MIDDLE;
-			} else {
-				return Position.LEFT;
-			}
-		}
-
 	}
 
 }
