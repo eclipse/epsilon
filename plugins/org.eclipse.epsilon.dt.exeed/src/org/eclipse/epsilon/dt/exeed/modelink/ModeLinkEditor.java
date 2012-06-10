@@ -13,9 +13,16 @@ package org.eclipse.epsilon.dt.exeed.modelink;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -32,13 +39,17 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.MultiEditor;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 /**
  * Two-way or three-way model editor. Can use both the default registered editors or the Exeed editors.
  */
-public class ModeLinkEditor extends MultiEditor {
+public class ModeLinkEditor extends MultiEditor implements ISelectionChangedListener {
+
 	//TODO: When a tab is closed prompt the user to save editor if dirty
 	//TODO: Figure out how to add an editor at runtime
 
@@ -46,6 +57,8 @@ public class ModeLinkEditor extends MultiEditor {
 	private CTabFolder rightFolder;
 	private CTabFolder middleFolder;
 	private ToolBar toolbar;
+
+	private PropertySheetPage properties;
 
 	public ToolBar getToolbar() {
 		return toolbar;
@@ -177,6 +190,27 @@ public class ModeLinkEditor extends MultiEditor {
         catch (Exception ex) {}
     }
 
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
+		if (key.equals(IPropertySheetPage.class)) {
+			// Workaround for Eclipse 4.x: we can't activate the inner editors anymore,
+			// so the ModeLink editor has to supply its own property sheet page. This
+			// trick does not work in Eclipse 3.x, though, so it has its own workaround.
+			if (properties == null) {
+				 properties = new PropertySheetPage();
+			}
+			return properties;
+		}
+		return super.getAdapter(key);
+	}
+
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		if (properties != null && event.getSource() instanceof IWorkbenchPart) {
+			properties.selectionChanged((IWorkbenchPart)event.getSource(), event.getSelection());
+		}
+	}
+
 	private void addSelectionPropagationSupport(ExeedEditor editor, ModeLinkEditor modeLinkEditor) {
 		((TreeViewer) editor.getViewer()).addSelectionChangedListener(
 				new LinkingModelSelectionListener(editor, modeLinkEditor)
@@ -213,9 +247,34 @@ public class ModeLinkEditor extends MultiEditor {
 	    content.addListener(SWT.Activate, new Listener() {
 	        public void handleEvent(Event event) {
 	            if (event.type == SWT.Activate) {
+	            	removeListenerFromActiveEditor();
+
+	            	if (properties != null && editor instanceof IEditingDomainProvider) {
+	            		final IEditingDomainProvider iedp = (IEditingDomainProvider)editor;
+	            		if (iedp.getEditingDomain() instanceof AdapterFactoryEditingDomain) {
+	            			final AdapterFactoryEditingDomain afed = (AdapterFactoryEditingDomain)iedp.getEditingDomain();
+	            			final AdapterFactory af = afed.getAdapterFactory();
+            				properties.setPropertySourceProvider(new AdapterFactoryContentProvider(af));
+	            		}
+	            	}
 					activateEditor(editor);
+					addListenerToActiveEditor();
 				}
 	        }
+
+			private void addListenerToActiveEditor() {
+				if (getActiveEditor() instanceof ISelectionProvider) {
+					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
+					oldSP.addSelectionChangedListener(ModeLinkEditor.this);
+				}
+			}
+
+			private void removeListenerFromActiveEditor() {
+				if (getActiveEditor() instanceof ISelectionProvider) {
+					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
+					oldSP.removeSelectionChangedListener(ModeLinkEditor.this);
+				}
+			}
 	    });
 	    
 	    return content;
