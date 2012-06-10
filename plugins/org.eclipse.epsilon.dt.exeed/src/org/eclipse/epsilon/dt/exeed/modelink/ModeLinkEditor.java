@@ -7,17 +7,22 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - code cleanup, add support for forcing the Exeed editor
+ *     Antonio García-Domínguez - code cleanup, add support for forcing the Exeed editor,
+ *                                workarounds for the Properties view in Eclipse 3.x and
+ *                                4.x
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
+import org.eclipse.epsilon.dt.exeed.ExeedPlugin;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -58,42 +63,22 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	private CTabFolder middleFolder;
 	private ToolBar toolbar;
 
+	// Eclipse 4.x: the ModeLink editor requires its own property sheet page.
+	// The property sheet page delegates on any editor that implements
+	// ISelectionProvider and IEditingDomainProvider, and whose editing domain
+	// is an AdapterFactoryEditingDomain. It's stricter than in Eclipse 3.x,
+	// but the Exeed editor and all EMF-based editors support it, so it should
+	// be good enough. We cannot activate the inner editors in E4, due to some
+	// changes in the codebase.
+	//
+	// We use lazy initialization on this field, as it is not required in
+	// Eclipse 3.x.
 	private PropertySheetPage properties;
 
 	public ToolBar getToolbar() {
 		return toolbar;
 	}
 	
-	@Override
-	protected void drawGradient(IEditorPart innerEditor, Gradient g) {
-		// do nothing
-	}
-
-	public CTabFolder createFolder(Composite parent) {
-		CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
-		ToolBar t = new ToolBar(folder, SWT.HORIZONTAL | SWT.FLAT);
-		ToolBarManager tbm = new ToolBarManager(t);
-
-		tbm.update(true);
-		folder.setTabPosition(SWT.BOTTOM);
-		folder.setSimple(true);
-		t.setVisible(true);
-	
-		folder.addSelectionListener(new SelectionListener(){
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// do nothing
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				if (e.item != null && e.item instanceof CTabItem) {
-					((CTabItem) e.item).getControl().setFocus();
-				}
-			}
-		});
-
-		return folder;
-	}
-
 	@Override
 	public void createPartControl(Composite parent) {
 		ViewForm container = new ViewForm(parent, SWT.NONE);
@@ -131,7 +116,8 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 		 * work properly in Eclipse 3.x with the ModeLink editor.
 		 *
 		 * Also, we need to use reflection, as getPane() is no longer available in PartSite
-		 * in Eclipse 4.x.
+		 * in Eclipse 4.x. Eclipse 4.x requires a different set of workarounds, which are also
+		 * mentioned in the rest of this file.
 		 */
 		for (IEditorPart innerEditor : getInnerEditors()) {
 			final IWorkbenchPartSite site = innerEditor.getSite();
@@ -147,8 +133,10 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 				// workaround is unavailable in Eclipse 4.x
 			}
 			catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ExeedPlugin.getDefault().getLog().log(new Status(
+					IStatus.ERROR, ExeedPlugin.PLUGIN_ID,
+					"There was an error while setting up a workaround for the " +
+					"Properties view in Eclipse 3.x", e));
 			}
 		}
 	}
@@ -193,9 +181,7 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (key.equals(IPropertySheetPage.class)) {
-			// Workaround for Eclipse 4.x: we can't activate the inner editors anymore,
-			// so the ModeLink editor has to supply its own property sheet page. This
-			// trick does not work in Eclipse 3.x, though, so it has its own workaround.
+			// WORKAROUND for Eclipse 4.x
 			if (properties == null) {
 				 properties = new PropertySheetPage();
 			}
@@ -206,9 +192,15 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
+		// WORKAROUND for Eclipse 4.x
 		if (properties != null && event.getSource() instanceof IWorkbenchPart) {
 			properties.selectionChanged((IWorkbenchPart)event.getSource(), event.getSelection());
 		}
+	}
+
+	@Override
+	protected void drawGradient(IEditorPart innerEditor, Gradient g) {
+		// do nothing
 	}
 
 	private void addSelectionPropagationSupport(ExeedEditor editor, ModeLinkEditor modeLinkEditor) {
@@ -248,8 +240,8 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	        public void handleEvent(Event event) {
 	            if (event.type == SWT.Activate) {
 	            	removeListenerFromActiveEditor();
-
 	            	if (properties != null && editor instanceof IEditingDomainProvider) {
+	        			// WORKAROUND for Eclipse 4.x
 	            		final IEditingDomainProvider iedp = (IEditingDomainProvider)editor;
 	            		if (iedp.getEditingDomain() instanceof AdapterFactoryEditingDomain) {
 	            			final AdapterFactoryEditingDomain afed = (AdapterFactoryEditingDomain)iedp.getEditingDomain();
@@ -263,6 +255,7 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	        }
 
 			private void addListenerToActiveEditor() {
+				// WORKAROUND for Eclipse 4.x
 				if (getActiveEditor() instanceof ISelectionProvider) {
 					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
 					oldSP.addSelectionChangedListener(ModeLinkEditor.this);
@@ -270,6 +263,7 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 			}
 
 			private void removeListenerFromActiveEditor() {
+				// WORKAROUND for Eclipse 4.x
 				if (getActiveEditor() instanceof ISelectionProvider) {
 					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
 					oldSP.removeSelectionChangedListener(ModeLinkEditor.this);
@@ -278,6 +272,31 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	    });
 	    
 	    return content;
+	}
+
+	private CTabFolder createFolder(Composite parent) {
+		CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
+		ToolBar t = new ToolBar(folder, SWT.HORIZONTAL | SWT.FLAT);
+		ToolBarManager tbm = new ToolBarManager(t);
+	
+		tbm.update(true);
+		folder.setTabPosition(SWT.BOTTOM);
+		folder.setSimple(true);
+		t.setVisible(true);
+	
+		folder.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// do nothing
+			}
+	
+			public void widgetSelected(SelectionEvent e) {
+				if (e.item != null && e.item instanceof CTabItem) {
+					((CTabItem) e.item).getControl().setFocus();
+				}
+			}
+		});
+	
+		return folder;
 	}
 
 	private void initFolder(CTabFolder folder) {
