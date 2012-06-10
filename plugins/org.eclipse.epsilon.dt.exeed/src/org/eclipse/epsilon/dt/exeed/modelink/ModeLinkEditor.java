@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
 
+import java.lang.reflect.Method;
+
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.action.ToolBarManager;
@@ -24,11 +26,13 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.MultiEditor;
 
 /**
@@ -104,6 +108,36 @@ public class ModeLinkEditor extends MultiEditor {
 		container.setTopCenter(toolbar);
 		container.setContent(form);
 		toolbar.setVisible(true);
+
+		/*
+		 * WORKAROUND for Eclipse 3.x: this is required in order to make the control of each
+		 * inner editor's site's pane visible and with a non-zero size. Otherwise,
+		 * org.eclipse.ui.internal.PartService#firePartActivated will not notify
+		 * its listeners properly, since deferControl will return a non-null value.
+		 * If the listeners are not properly notified, the Properties view will not
+		 * work properly in Eclipse 3.x with the ModeLink editor.
+		 *
+		 * Also, we need to use reflection, as getPane() is no longer available in PartSite
+		 * in Eclipse 4.x.
+		 */
+		for (IEditorPart innerEditor : getInnerEditors()) {
+			final IWorkbenchPartSite site = innerEditor.getSite();
+			try {
+				final Method getPane = site.getClass().getMethod("getPane");
+				final Object pane = getPane.invoke(site);
+				final Method getControl = pane.getClass().getMethod("getControl");
+				final Control paneControl = (Control)getControl.invoke(pane);
+				paneControl.setSize(1, 1);
+				paneControl.setVisible(true);
+			}
+			catch (NoSuchMethodException e) {
+				// workaround is unavailable in Eclipse 4.x
+			}
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
