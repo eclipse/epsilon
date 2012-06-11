@@ -21,6 +21,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.SingleFrame;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.workflow.tasks.transactions.NamedTransactionSupport;
 
@@ -116,7 +117,7 @@ public abstract class EpsilonTask extends Task {
 		Frame frame = (Frame) getProject().getReference(EpsilonTask.EPSILON_FRAME);
 		
 		if (frame == null) {
-			frame = new Frame(FrameType.PROTECTED, null);
+			frame = new SingleFrame(FrameType.PROTECTED, null);
 			getProject().addReference(EpsilonTask.EPSILON_FRAME, frame);
 		}
 		

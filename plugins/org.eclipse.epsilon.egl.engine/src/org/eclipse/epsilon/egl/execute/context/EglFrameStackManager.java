@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2011-2012 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,9 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-import org.eclipse.epsilon.eol.execute.context.Frame;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 
@@ -24,9 +25,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
  * <ol>
  * 	<li> The client calls
  *       {@link #prepareFrameStackFor(ExecutableTemplateSpecification)}
- *       to save the current global variables of the {@link FrameStack}.
- *       Note that the global variables are not cleared at this point, 
- *       and hence the specified template has access to any global 
+ *       which ensures that the global variables of the parent template
+ *       (if any) are accessible to the child, unless they are overwritten.
  *       variables of its parent, unless they are overwritten. Note that
  *       {@link ExecutableTemplateSpecification#addVariablesTo(FrameStack)}
  *       is called at this point to initialise any template-specific
@@ -37,9 +37,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
  *  <li> The client calls {@link #restoreFrameStackToPreviousState()}
  *       to restore the previous set of global variables to the
  *       {@link FrameStack}. Any global variables created for the
- *       this template are cleared. All of the global variables
- *       saved before this template was executed are now restored
- *       to the {@link FrameStack}. The {@link FrameStack} is now
+ *       this template are cleared. The {@link FrameStack} is now
  *       setup for executing the parent template, which continues
  *       to execute.</li>
  *  </ol>
@@ -47,29 +45,32 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 public class EglFrameStackManager {
 
 	private final FrameStack frameStack;
-	private final Stack<Frame> savedGlobals = new Stack<Frame>();
+	private final Deque<AST> localMarkers = new ArrayDeque<AST>(), globalMarkers = new ArrayDeque<AST>();
 	
 	public EglFrameStackManager(FrameStack frameStack) {
 		this.frameStack = frameStack;
 	}
 
 	public void prepareFrameStackFor(ExecutableTemplateSpecification spec) {
-		saveGlobals();
-		frameStack.enter(FrameType.PROTECTED, null);
+		createFrameForTemplateSpecificGlobals();
+		createOwnFrameForLocals();
 		spec.addVariablesTo(frameStack);
 	}
 
 	public void restoreFrameStackToPreviousState() {
-		frameStack.leave(null);
-		restoreGlobals();
+		frameStack.leave(localMarkers.pop());
+		frameStack.leaveGlobal(globalMarkers.pop());
 	}
 	
-	private void saveGlobals() {
-		savedGlobals.push(frameStack.getGlobals().clone());
+	private void createFrameForTemplateSpecificGlobals() {
+		final AST frameGlobalStackMarker = new AST();
+		globalMarkers.push(frameGlobalStackMarker);
+		frameStack.enterGlobal(FrameType.UNPROTECTED, frameGlobalStackMarker);
 	}
 	
-	private void restoreGlobals() {
-		frameStack.getGlobals().clear();
-		frameStack.getGlobals().putAll(savedGlobals.pop().getAll());
+	private void createOwnFrameForLocals() {
+		final AST frameLocalStackMarker = new AST();
+		localMarkers.push(frameLocalStackMarker);
+		frameStack.enter(FrameType.PROTECTED, frameLocalStackMarker);
 	}
 }

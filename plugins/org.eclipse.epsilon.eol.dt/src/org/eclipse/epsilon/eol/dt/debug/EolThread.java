@@ -19,6 +19,7 @@ import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Frame;
+import org.eclipse.epsilon.eol.execute.context.SingleFrame;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolThread extends EolDebugElement implements IThread {
@@ -88,7 +89,7 @@ public class EolThread extends EolDebugElement implements IThread {
 	}
 
 	public IStackFrame[] getStackFrames() throws DebugException {
-		List<Frame> frames = ((EolDebugTarget) getDebugTarget()).getModule().getContext().getFrameStack().getFrames();
+		List<SingleFrame> frames = ((EolDebugTarget) getDebugTarget()).getModule().getContext().getFrameStack().getFrames();
 		IStackFrame[] stackFrames  = new IStackFrame[frames.size()];
 		int i = 0;
 		for (Frame frame : frames) {

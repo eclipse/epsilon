@@ -141,7 +141,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	
 	private void accessParameters() {
 		for (ParameterNestedElement parameterNestedElement : parameterNestedElements) {
-			module.getContext().getFrameStack().getGlobals().put(
+			module.getContext().getFrameStack().putGlobal(
 					Variable.createReadOnlyVariable(
 							parameterNestedElement.getName(), 
 							parameterNestedElement.getValue()
@@ -330,7 +330,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		if (as != null) {
 			usedVariable.setName(as);
 		}
-		module.getContext().getFrameStack().getGlobals().put(usedVariable);
+		module.getContext().getFrameStack().putGlobal(usedVariable);
 	}
 
 	protected void exportVariable(String var, String as, final boolean optional, boolean ant) {

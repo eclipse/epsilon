@@ -33,7 +33,7 @@ public abstract class AbstractECoreGenerationAction extends AbstractECoreModelAc
 		
 		factory.getContext().getModelRepository().addModel(model);
 		name = file.getName().substring(0, file.getName().length() - 6);
-		factory.getContext().getFrameStack().getGlobals().put(Variable.createReadOnlyVariable("eCoreName", name));
+		factory.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("eCoreName", name));
 		
 		// TODO cast is smelly
 		final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate)factory.load(getTemplateUri());

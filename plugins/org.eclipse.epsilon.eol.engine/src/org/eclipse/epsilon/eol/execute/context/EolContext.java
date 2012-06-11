@@ -159,7 +159,7 @@ public class EolContext implements IEolContext{
 			DeprecationInfo deprecationInfo = new DeprecationInfo();
 			deprecationInfo.setMessage("Variable UserInput is deprecated. Use System.user instead.");
 			var.setDeprecationInfo(deprecationInfo);
-			frameStack.getGlobals().put(var);
+			frameStack.putGlobal(var);
 		}
 		else {
 			var.setValueBruteForce(userInput);

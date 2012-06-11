@@ -35,7 +35,7 @@ public class ExecutableTemplateSpecification {
 	}
 	
 	private void addOutAsGlobalVariable(FrameStack frameStack) {
-		frameStack.getGlobals().put(createEolVariable("out", outputBuffer));
+		frameStack.putGlobal(createEolVariable("out", outputBuffer));
 	}
 	
 	private void addTemplateVariablesAsLocalVariables(FrameStack frameStack) {

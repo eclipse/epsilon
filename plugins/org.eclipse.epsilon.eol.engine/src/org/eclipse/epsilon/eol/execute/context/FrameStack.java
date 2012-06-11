@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,176 +7,289 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - allow for multiple global stack frames
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 
 /**
- * A FrameStack is a stack of frames that store
- * the variables created during the execution
- * of an EOL program
- * @author Dimitrios Kolovos
- * @version 1.0
+ * A FrameStack is a stack of frames that stores the variables created during the
+ * execution of an EOL program.
+ *
+ * @author Dimitrios Kolovos, Antonio García-Domínguez
+ * @version 1.1
  * @see org.eclipse.epsilon.eol.execute.context.Frame
  */
 public class FrameStack {
 	
-	protected List<Frame> frames = new ArrayList<Frame>();
-	protected Frame global = null;
+	/**
+	 * <p>
+	 * Implementation of {@link Frame} which hides the fact that global
+	 * variables can now be split over several stack frames. Tries to follow a
+	 * "Do What I Mean" approach:
+	 * </p>
+	 * <ul>
+	 * <li>{@link #dispose()} and {@link #clear()} propagate over all stack
+	 * frames.</li>
+	 * <li>{@link #getAll()} continues until the topmost protected stack frame
+	 * (inclusive).</li>
+	 * <li>{@link #get(String)} and {@link #remove(String)} continue until the
+	 * topmost match (up to the topmost protected stack frame, inclusive).</li>
+	 * <li>and the rest only operate on the topmost global stack frame.</li>
+	 * </ul>
+	 *
+	 * @author Antonio García-Domínguez
+	 */
+	private class GlobalFrame implements Frame {
+		@Override
+		public void dispose() {
+			globals.dispose();
+		}
+
+		@Override
+		public void clear() {
+			globals.clear();
+		}
+
+		@Override
+		public String getLabel() {
+			return globals.top().getLabel();
+		}
+
+		@Override
+		public void setLabel(String label) {
+			globals.top().setLabel(label);
+		}
+
+		@Override
+		public void put(String name, Object value) {
+			globals.put(name, value);
+		}
+
+		@Override
+		public void remove(String name) {
+			globals.remove(name);
+		}
+
+		@Override
+		public void put(Variable variable) {
+			globals.put(variable);
+		}
+
+		@Override
+		public void putAll(Map<String, Variable> variables) {
+			globals.putAll(variables);
+		}
+
+		@Override
+		public Variable get(String name) {
+			return globals.get(name);
+		}
+
+		@Override
+		public Map<String, Variable> getAll() {
+			return globals.getAll();
+		}
+
+		@Override
+		public boolean contains(String key) {
+			return get(key) != null;
+		}
+
+		@Override
+		public FrameType getType() {
+			return globals.top().getType();
+		}
+
+		@Override
+		public void setType(FrameType type) {
+			globals.top().setType(type);
+		}
+
+		@Override
+		public AST getEntryPoint() {
+			return globals.top().getEntryPoint();
+		}
+
+		@Override
+		public void setEntryPoint(AST entryPoint) {
+			globals.top().setEntryPoint(entryPoint);
+		}
+
+		@Override
+		public AST getCurrentStatement() {
+			return globals.top().getCurrentStatement();
+		}
+
+		@Override
+		public void setCurrentStatement(AST ast) {
+			globals.top().setCurrentStatement(ast);
+		}
+	}
+
+	protected FrameStackRegion globals = new FrameStackRegion();
+	protected FrameStackRegion locals = new FrameStackRegion();
 	protected HashMap<String, Variable> builtInVariables = new HashMap<String, Variable>();
+	
 	/**
 	 * Creates a new frame stack
 	 */
-	
 	public FrameStack(){
-		global = enter(FrameType.UNPROTECTED, null);
+		enterGlobal(FrameType.UNPROTECTED, null);
 		builtInVariables.put("null", Variable.createReadOnlyVariable("null", null));
-		//enter(FrameType.LOCAL, null); 
 	}
 	
 	public void dispose() {
-		for (Frame frame : frames) {
-			frame.dispose();
-		}
-		global.dispose();
-		frames.clear();
-		//global = null;
-		//frames = null;
+		globals.dispose();
+		locals.dispose();
+	}
+
+	/**
+	 * Enters a new global frame. Global frames work like regular frames, but
+	 * the topmost global frame is always visible, regardless of the stack
+	 * frames above it. However, a {@link FrameType#PROTECTED} global stack
+	 * frame may hide the global stack frames below it.
+	 *
+	 * @see #enter(FrameType, AST, Variable...)
+	 */
+	public Frame enterGlobal(FrameType type, AST entryPoint, Variable... variables) {
+		return globals.enter(type, entryPoint, variables);
 	}
 	
 	/**
-	 * Enters a new frame
-	 * @param type The type of the frame
-	 * @param entryPoint The AST from which the entry is performed
+	 * Enters a new local frame.
+	 *
+	 * @param type
+	 *            The type of the frame: variables in lower stack frames are
+	 *            visible from an {@link FrameType#UNPROTECTED} frame, and
+	 *            invisible from a {@link FrameType#PROTECTED} frame.
+	 * @param entryPoint
+	 *            The AST from which the entry is performed
+	 * @return
 	 */
 	public Frame enter(FrameType type, AST entryPoint, Variable... variables){
+		return locals.enter(type, entryPoint, variables);
+	}
 		
-		Frame frame = new Frame(type, entryPoint);
-		frames.add(0, frame);
-		
-		for (Variable variable : variables) {
-			put(variable);
-		}
-		
-		return frame;
+	/**
+	 * Leaves the current local frame and returns to the previous frame in the
+	 * stack. This method cannot leave a global stack frame: use
+	 * {@link #leaveGlobal(AST, boolean)} for that.
+	 */
+	public void leave(AST entryPoint, boolean dispose) {
+		locals.leave(entryPoint, dispose);
 	}
 	
 	/**
-	 * Enters a new frame
-	 * @param type The type of the frame
-	 * @param entryPoint The AST from which the entry is performed
+	 * Leaves the current global stack frame and returns to the previous frame
+	 * in the stack. This method cannot leave a local stack frame: use
+	 * {@link #leave(AST, boolean)} for that. This method will not leave the
+	 * last remaining global stack frame.
 	 */
-	//public void enter(FrameType type, AST entryPoint, String label){
-	//	frames.add(0, new Frame(type, entryPoint, label));
-	//}
-	
-	/**
-	 * Leaves the current frame and 
-	 * returns to the previous frame in 
-	 * the stack
-	 */
-	public void leave(AST entryPoint, boolean dispose){
-		
-		if (frames.size() > 1 ) {
-			Frame top = (Frame) frames.get(0);
-			while (top.getEntryPoint() != entryPoint){
-				frames.get(0).dispose();
-				frames.remove(0);
-				top = (Frame) frames.get(0);
-			}
-			if (dispose) { 
-				frames.get(0).dispose(); 
-			}
-			frames.remove(0);
-		}
-		//while (frames.size() > 1 && ((Frame)frames.get(1)).getType() != FrameType.OPERATION){
-		//	frames.remove(frames.get(0));
-		//}
+	public void leaveGlobal(AST entryPoint, boolean dispose) {
+		if (countGlobalFrames() > 1)
+			globals.leave(entryPoint, dispose);
 	}
 	
+	/**
+	 * Convenience method for {@link #leave(AST)} which disposes of the stack
+	 * frame that was left.
+	 */
 	public void leave(AST entryPoint) {
 		leave(entryPoint, true);
 	}
-	
+
 	/**
-	 * Puts a new variable in the topmost frame
-	 * of the scope
-	 * @param name Then name of the variable
-	 * @param variable The variable 
+	 * Convenience method for {@link #leaveGlobal(AST)} which disposes of the
+	 * global stack frame that was left.
 	 */
-	public void put(Variable variable){
-		((Frame) frames.get(0)).put(variable);
+	public void leaveGlobal(AST entryPoint) {
+		leaveGlobal(entryPoint, true);
+	}
+
+	/**
+	 * Puts one or more new variables in the topmost frame of the scope.
+	 */
+	public void put(Variable... variables) {
+		activeGroup().put(variables);
+	}
+
+	/**
+	 * Puts a new variable in the topmost frame of the scope.
+	 */
+	public void put(Variable variable) {
+		activeGroup().put(variable);
 	}
 	
+	/**
+	 * Puts one or more new variables in the topmost global stack frame.
+	 */
+	public void putGlobal(Variable... variables) {
+		globals.put(variables);
+	}
+	
+	/**
+	 * Puts a new variable in the topmost global stack frame.
+	 */
+	public void putGlobal(Variable variable) {
+		globals.put(variable);
+	}
+	
+	/**
+	 * Removes a variable by name from the topmost frame of the scope.
+	 */
 	public void remove(String variable) {
-		((Frame) frames.get(0)).remove(variable);
+		activeGroup().top().remove(variable);
 	}
 	
 	/**
 	 * Returns the variable with the specified
-	 * name and if it does not exist returns <code>null</code>
+	 * name and if it does not exist returns <code>null</code>. Note
+	 * that variables are returned in order of recentness of declaration.
+	 * For example, variables in a higher frame shadow variables with
+	 * the same name in lower frames, and likewise local variables
+	 * shadow global variables with the same name.
+	 *
 	 * @param name The name of the variable
 	 * @return The variable with the specified name or <code>null</code>
 	 */
 	public Variable get(String name){
-		
 		if (builtInVariables.containsKey(name)) return builtInVariables.get(name);
 		
-		//Profiler.INSTANCE.start("Variable");
-		ListIterator<Frame> li = frames.listIterator();
-		
-		boolean protectedFrameFound = false;
-		// Then look into the variable stack
-		while (li.hasNext() && !protectedFrameFound){
-			Frame frame = li.next();
-			if (frame.getType() == FrameType.PROTECTED){
-				protectedFrameFound = true;
-			}
-			if (frame.contains(name))
-				//Profiler.INSTANCE.stop();
-				return frame.get(name);
-		}
-		//Profiler.INSTANCE.stop();
-		return global.get(name);
-	}
+		Variable var = locals.get(name);
+		if (var == null) var = globals.get(name);
 	
-	public boolean isInLoop() {
-		return getLoopDepth() > 0;
-	}
-	
-	public int getLoopDepth() {
-		int loopDepth = 0;
-		ListIterator<Frame> li = frames.listIterator();
-		boolean protectedFrameFound = false;
-		while (li.hasNext() && !protectedFrameFound) {
-			Frame frame = li.next();
-			if (frame.getType() == FrameType.PROTECTED){
-				protectedFrameFound = true;
-			}
-			else {
-				if (isLoopAst(frame.getEntryPoint())){
-					loopDepth ++;
-				}
-			}
-		}
-		return loopDepth;
-	}
-	
-	protected boolean isLoopAst(AST ast) {
-		return ast!=null && (ast.getType() == EolParser.FOR ||
-			ast.getType() == EolParser.WHILE);
+		return var;
 	}
 	
 	/**
-	 * Returns if a variable with the 
+	 * Returns the global variable with the specified
+	 * name and if it does not exist returns <code>null</code> Note
+	 * that variables are returned in order of recentness of declaration.
+	 * For example, variables in a higher frame shadow variables with
+	 * the same name in lower frames.
+	 *
+	 * @param name The name of the variable
+	 * @return The variable with the specified name or <code>null</code>
+	 */
+	public Variable getGlobal(String name) {
+		if (builtInVariables.containsKey(name)) return builtInVariables.get(name);
+		return globals.get(name);
+	}
+	
+	public boolean isInLoop() {
+		return locals.isInLoop() || globals.isInLoop();
+	}
+	
+	/**
+	 * Returns true if a variable with the
 	 * specified name exists in the scope
 	 * @param name
 	 * @return
@@ -186,62 +299,76 @@ public class FrameStack {
 	}
 	
 	/**
-	 * Returns the bottom frame of the scope
-	 * which stores the global variables
+	 * Returns true if a global variable with the 
+	 * specified name exists
+	 * @param name
 	 * @return 
 	 */
-	public Frame getGlobals(){
-		return (Frame) frames.get(frames.size()-1);
+	public boolean containsGlobal(String name){
+		return globals.get(name) != null;
 	}
 	
-	public void printTrace(){
-		for (Frame frame : frames) {
-			if (frame.getType() == FrameType.PROTECTED){
-				System.out.println(frame.getLabel() + " (Line:" + frame.getEntryPoint().getLine() + " Column: " + frame.getEntryPoint().getColumn() + ")");
-			}
-		}
-		System.out.println("");
+	/**
+	 * Returns a single frame containing all global variables. Note that this
+	 * representation does not allow clients to determine in which global frame
+	 * a variable resides. This method is provided only for
+	 * backwards-compatibility reasons: previous version of EOL did not support
+	 * multiple global variable frames.
+	 * 
+	 * @deprecated Use the designated methods for manipulating global variables
+	 *             (e.g. {@link #enterGlobal(FrameType, AST, Variable...)},
+	 *             {@link #putGlobal(Variable)} and {@link #getGlobal(String)}).
+	 *             If no appropriate method exists, please open a bug report to
+	 *             request it. This method will be removed in a future version
+	 *             of Epsilon.
+	 */
+	@Deprecated
+	public Frame getGlobals() {
+		return new GlobalFrame();
 	}
 	
-	public List<Frame> getFrames(){
+	public List<SingleFrame> getFrames() {
+		final List<SingleFrame> frames = new ArrayList<SingleFrame>();
+		frames.addAll(locals.getFrames());
+		frames.addAll(globals.getFrames());
 		return frames;
 	}
 	
 	public int getDepth() {
-		return frames.size();
+		return locals.frameCount() + globals.frameCount();
 	}
 	
 	@Override
 	public FrameStack clone() {
-		FrameStack scope = new FrameStack();
-		List<Frame> frames = new ArrayList<Frame>();
-		
-		assert this.frames != null;
-		
-		for (Frame frame : this.frames) {
-			if (frame!=null) frames.add(frame.clone());
-		}
-		scope.frames = frames;
-		scope.global = global.clone();
-		return scope;
+		FrameStack clone = new FrameStack();
+		clone.locals = locals.clone();
+		clone.globals = globals.clone();
+		return clone;
 	}
 	
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("-----------SCOPE------------\r\n");
-		for (Frame frame : frames) {
-			buffer.append(frame.toString());
-		}
+		buffer.append(locals.toString());
+		buffer.append("----------GLOBALS-----------\r\n");
+		buffer.append(globals.toString());
 		return buffer.toString();
 	}
 
 	public AST getCurrentStatement() {
-		return frames.get(0).getCurrentStatement();
+		return activeGroup().top().getCurrentStatement();
 	}
 
 	public void setCurrentStatement(AST ast) {
-		frames.get(0).setCurrentStatement(ast);
+		activeGroup().top().setCurrentStatement(ast);
+	}
+
+	protected int countGlobalFrames()  {
+		return globals.frameCount();
 	}
 	
+	private FrameStackRegion activeGroup() {
+		return locals.isEmpty() ? globals : locals;
+	}
 }

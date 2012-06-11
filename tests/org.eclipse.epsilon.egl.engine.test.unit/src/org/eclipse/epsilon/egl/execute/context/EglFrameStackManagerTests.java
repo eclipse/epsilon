@@ -55,7 +55,7 @@ public class EglFrameStackManagerTests {
 		
 		@Test
 		public void prepareShouldOverwriteExitingOutVariable() {
-			frameStack.getGlobals().put("out", new OutputBuffer());
+			frameStack.putGlobal(Variable.createReadOnlyVariable("out", new OutputBuffer()));
 			
 			manager.prepareFrameStackFor(spec);
 			
@@ -101,7 +101,7 @@ public class EglFrameStackManagerTests {
 		@Test
 		public void restoreShouldRestoreExistingOutToFrameStack() {
 			final Variable existingOut = Variable.createReadOnlyVariable("out", new OutputBuffer());
-			frameStack.getGlobals().put(existingOut);
+			frameStack.putGlobal(existingOut);
 			
 			manager.prepareFrameStackFor(spec);
 			manager.restoreFrameStackToPreviousState();
@@ -147,7 +147,7 @@ public class EglFrameStackManagerTests {
 	}
 	
 	private static Variable getGlobalVariable(String name) {
-		return frameStack.getGlobals().get(name);
+		return frameStack.getGlobal(name);
 	}
 
 	private static Variable getLocalVariable(String name) {
