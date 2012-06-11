@@ -15,7 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
-import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.w3c.dom.Element;
 
 public class PlainXmlPropertySetter extends JavaPropertySetter {
@@ -75,7 +75,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 										}
 									}	
 								}
-								e.setAttribute(sourceAttribute, new CollectionOperationContributor(referenceIds).concat(", "));
+								e.setAttribute(sourceAttribute, new IterableOperationContributor(referenceIds).concat(", "));
 								return;
 							}
 							else {

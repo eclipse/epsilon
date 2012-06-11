@@ -58,7 +58,7 @@ public class OperationContributorRegistry {
 		                           new NumberOperationContributor(),
 		                           new BooleanOperationContributor(),
 		                           new ArrayOperationContributor(),
-		                           new CollectionOperationContributor(),
+		                           new IterableOperationContributor(),
 		                           new ScalarOperationContributor(),
 		                           new AnyOperationContributor(),
 		                           new BasicEUnitOperationContributor()));

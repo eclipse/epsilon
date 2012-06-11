@@ -16,7 +16,7 @@ import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
@@ -133,7 +133,7 @@ public class OperatorExecutor extends AbstractExecutor{
 			return NumberUtil.subtract((Number) o1, (Number) o2);
 		}
 		else if (o1 instanceof Collection && o2 instanceof Collection){
-			return new CollectionOperationContributor((Collection) o1).excludingAll((Collection) o2);
+			return new IterableOperationContributor((Collection) o1).excludingAll((Collection) o2);
 		}
 		
 		return null;

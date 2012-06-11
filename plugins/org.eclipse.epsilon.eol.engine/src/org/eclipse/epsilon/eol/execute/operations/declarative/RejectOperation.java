@@ -17,7 +17,7 @@ import org.eclipse.epsilon.commons.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.execute.operations.contributors.CollectionOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 
 
 public class RejectOperation extends AbstractOperation{
@@ -30,7 +30,7 @@ public class RejectOperation extends AbstractOperation{
 		Collection selected = (Collection) selectOperation.execute(obj, ast, context);		
 		Collection source = CollectionUtil.asCollection(obj);
 		
-		return new CollectionOperationContributor(source).excludingAll(selected);
+		return new IterableOperationContributor(source).excludingAll(selected);
 		
 	}
 
