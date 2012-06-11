@@ -109,17 +109,13 @@ public class CollectionUtil {
 		}
 	}
 	
-	public static <T> Object getFirst(Collection<T> c) {
-		
-		if (c.size() == 0) return null;
-		
-		if (c instanceof List) {
-			return ((List<T>) c).get(0);
+	public static <T> Object getFirst(Iterable<T> c) {
+		final Iterator<T> it = c.iterator();
+		if (!it.hasNext()) {
+			return null;
+		} else {
+			return it.next();
 		}
-		else {
-			return c.iterator().next();
-		}
-		
 	}
 	
 	public static <T> List<T> iterate(Iterable<T> iterable) {
@@ -131,9 +127,8 @@ public class CollectionUtil {
 		return filled;
 	}
 	
-	public static String join(Collection<?> collection, String delimiter) {
+	public static String join(Iterable<?> collection, String delimiter) {
 		return join(collection, delimiter, new ElementPrinter() {
-			
 			@Override
 			public String print(Object element) {
 				return element.toString();
@@ -141,14 +136,12 @@ public class CollectionUtil {
 		});
 	}
 	
-	public static String join(Collection<?> collection, String delimiter, ElementPrinter printer) {
+	public static String join(Iterable<?> collection, String delimiter, ElementPrinter printer) {
 		final StringBuilder result = new StringBuilder();
 
 		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
 			Object next = iterator.next();
-			
 			result.append(printer.print(next));
-			
 			if (iterator.hasNext()) {
 				result.append(delimiter);
 			}
