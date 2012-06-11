@@ -94,7 +94,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 		objects.remove(instance);
 	}
 
-	
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
 		Collection<Object> allOfKind = new ArrayList<Object>();
@@ -111,7 +110,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 		}
 	}
 
-	
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
 		Collection<Object> allOfType = new ArrayList<Object>();
@@ -128,7 +126,18 @@ public class JavaModel extends Model implements IReflectiveModel {
 		}
 	}
 
-	
+	@Override
+	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
+		Class<?> c = classForName(metaClass);
+		return c.isAssignableFrom(instance.getClass());
+	}
+
+	@Override
+	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
+		Class<?> c = classForName(metaClass);
+		return instance.getClass() == c;
+	}
+
 	public Object getElementById(String id) {
 		int hashCode = 0;
 		try {
