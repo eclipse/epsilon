@@ -184,13 +184,6 @@ public class PointExecutor extends AbstractExecutor{
 			}
 			return list;
 		}
-		else if ((o instanceof Iterable) && !(o instanceof Collection)) {
-			List list = new EolSequence();
-			for (Object item : (Iterable) o) {
-				list.add(item);
-			}
-			return list;			
-		}
 		else 
 			return o;
 	}
