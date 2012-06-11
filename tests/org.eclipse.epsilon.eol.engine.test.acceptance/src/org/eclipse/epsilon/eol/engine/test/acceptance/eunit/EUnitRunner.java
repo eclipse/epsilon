@@ -12,7 +12,11 @@
 package org.eclipse.epsilon.eol.engine.test.acceptance.eunit;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -27,6 +31,7 @@ import org.eclipse.epsilon.commons.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
@@ -49,7 +54,6 @@ public class EUnitRunner extends Runner {
 		
 	@Override
 	public Description getDescription() {
-		
 		module = new EUnitModule();
 		testSuiteDescription = Description.createSuiteDescription(clazz);
 		module.getContext().getOperationContributorRegistry().add(new AssertWarningOperationContributor(module.getContext()));
@@ -60,7 +64,6 @@ public class EUnitRunner extends Runner {
 		} catch (Exception e) {
 			return testSuiteDescription;
 		}
-		
 		
 		if (module.getParseProblems().size() > 0) {
 			return testSuiteDescription;
@@ -102,6 +105,7 @@ public class EUnitRunner extends Runner {
 		EUnitTest suiteRoot;
 		try {
 			module.getContext().getModelRepository().addModel(getEcoreModel());
+			addExtraModels();
 			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("modelManager", new ModelManager(module.getContext())));
 			
 			module.execute();
@@ -134,7 +138,7 @@ public class EUnitRunner extends Runner {
 		notifier.fireTestFinished(testSuiteDescription);
 		
 	}
-	
+
 	public InMemoryEmfModel getEcoreModel() {
 		ResourceSet rs = new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -144,6 +148,23 @@ public class EUnitRunner extends Runner {
 		rs.getResources().add(r);
 		InMemoryEmfModel ecore = new InMemoryEmfModel("Ecore", r);
 		return ecore;
+	}
+
+	private void addExtraModels() throws InstantiationException,
+			IllegalAccessException, InvocationTargetException {
+		final List<Method> extraModelMethods = new ArrayList<Method>();
+		for (Method m : clazz.getMethods()) {
+			if (m.isAnnotationPresent(ExtraModel.class)) {
+				extraModelMethods.add(m);
+			}
+		}
+		if (!extraModelMethods.isEmpty()) {
+			final Object oClazz = clazz.newInstance();
+			for (Method m : extraModelMethods) {
+				final IModel model = (IModel)m.invoke(oClazz);
+				module.getContext().getModelRepository().addModel(model);
+			}
+		}
 	}
 	
 }

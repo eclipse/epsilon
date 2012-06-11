@@ -1,6 +1,6 @@
 @test
 operation testFirst() {
-	assertEquals(Sequence{1,2,3}.first,1);
+	assertEquals(1, Sequence{1,2,3}.first);
 }
 
 @test
@@ -254,7 +254,7 @@ operation testRemoveByIndexInSequence() {
 operation testRemoveByIndexInOrderedSet() {
 	var s = OrderedSet{1,2,3};
 	s.removeAt(1);
-	assertEquals(s, OrderedSet{1,3});
+	assertEquals(OrderedSet{1,3}, s);
 }
 
 
@@ -366,4 +366,19 @@ operation testMapLiteralWithCollectionKeys() {
 	var m := Map { s = "me!" };
 	assertEquals(1, m.size());
 	assertEquals("me!", m.get(s));
+}
+
+@test
+operation testSequenceSize() {
+    assertEquals(0, Sequence {}.size);
+}
+
+@test
+operation testBagSize() {
+    assertEquals(1, Bag {1}.size);
+}
+
+@test
+operation testMapSize() {
+    assertEquals(2, Map {1 = 2, 2 = 3}.size);
 }
