@@ -50,9 +50,9 @@ public class EolExecutorTests {
 		
 		executor.executeGuard(guard, variable);
 		
-		verify(frameStack).enter(FrameType.PROTECTED, guard, new Variable[]{variable});
+		verify(frameStack).enterLocal(FrameType.PROTECTED, guard, new Variable[]{variable});
 		verify(executorFactory).executeBlockOrExpressionAst(guard, context, false);
-		verify(frameStack).leave(guard);
+		verify(frameStack).leaveLocal(guard);
 	}
 	
 	@Test
@@ -64,8 +64,8 @@ public class EolExecutorTests {
 		
 		executor.executeBlock(block, variable);
 		
-		verify(frameStack).enter(FrameType.PROTECTED, block, new Variable[]{variable});
+		verify(frameStack).enterLocal(FrameType.PROTECTED, block, new Variable[]{variable});
 		verify(executorFactory).executeAST(block, context);
-		verify(frameStack).leave(block);
+		verify(frameStack).leaveLocal(block);
 	}
 }

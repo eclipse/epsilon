@@ -342,7 +342,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		FrameStack scope = context.getFrameStack();
 		
-		scope.enter(FrameType.PROTECTED, ast);
+		scope.enterLocal(FrameType.PROTECTED, ast);
 		
 		scope.put(new Variable(leftParameter.getName(), match.getLeft(), leftParameter.getType(context), true));
 		scope.put(new Variable(rightParameter.getName(), match.getRight(), rightParameter.getType(context), true));
@@ -355,7 +355,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		}
 		context.getExecutorFactory().executeAST(bodyAst, context);
 		
-		scope.leave(ast);
+		scope.leaveLocal(ast);
 		
 	}
 

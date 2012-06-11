@@ -61,7 +61,7 @@ public class AggregateOperation extends AbstractOperation {
 			Object listItem = li.next();
 			
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, ast);
+				scope.enterLocal(FrameType.UNPROTECTED, ast);
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
 				Object keyResult = context.getExecutorFactory().executeAST(keyAst, context);
 				Object total = null;
@@ -76,7 +76,7 @@ public class AggregateOperation extends AbstractOperation {
 				scope.put(Variable.createReadOnlyVariable("total", total));
 				Object valueResult = context.getExecutorFactory().executeAST(valueAst, context);
 				result.put(keyResult, valueResult);
-				scope.leave(ast);
+				scope.leaveLocal(ast);
 			}
 		}
 		

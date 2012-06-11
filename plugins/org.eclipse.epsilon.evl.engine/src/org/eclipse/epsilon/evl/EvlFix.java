@@ -19,7 +19,6 @@ import org.eclipse.epsilon.commons.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -48,7 +47,7 @@ public class EvlFix extends AbstractModuleElement{
 	}
 	
 	public String getTitle(Object self, IEvlContext context) throws EolRuntimeException{
-		context.getFrameStack().enter(FrameType.UNPROTECTED, titleBlock.getAst());
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, titleBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
 		if (result instanceof Return) {
@@ -58,15 +57,15 @@ public class EvlFix extends AbstractModuleElement{
 			throw new EolNoReturnException("String", titleBlock.getAst(), context);		
 		}
 
-		context.getFrameStack().leave(titleBlock.getAst());
+		context.getFrameStack().leaveLocal(titleBlock.getAst());
 		return String.valueOf(result);
 	}
 	
 	public void execute(Object self, IEvlContext context) throws EolRuntimeException{
-		context.getFrameStack().enter(FrameType.UNPROTECTED, bodyBlock.getAst());
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		context.getExecutorFactory().executeBlockOrExpressionAst(bodyBlock.getAst(), context);
-		context.getFrameStack().leave(bodyBlock.getAst());
+		context.getFrameStack().leaveLocal(bodyBlock.getAst());
 	}
 
 	public boolean appliesTo(Object self, IEvlContext context) throws EolRuntimeException {

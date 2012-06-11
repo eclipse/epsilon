@@ -113,11 +113,11 @@ public class ImageTextProvider {
 			labelCode = getEClassAnnotationDetail(eObject, "exeed", "label");
 			if (labelCode != null) {
 				parse(labelCode);
-				module.getContext().getFrameStack().enter(FrameType.UNPROTECTED, null);
+				module.getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, null);
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("thisModule", module));
 				String label = StringUtil.toString(module.execute());
-				module.getContext().getFrameStack().leave(null);
+				module.getContext().getFrameStack().leaveLocal(null);
 				return addStructuralInfo(object,label,forReference);
 			}
 		} catch (Exception e) {
@@ -138,10 +138,11 @@ public class ImageTextProvider {
 			String labelCode = getEClassAnnotationDetail(eObject, "exeed", "referenceLabel");
 			if (labelCode != null) {
 				parse(labelCode);
-				module.getContext().getFrameStack().enter(FrameType.UNPROTECTED, null);
+				Variable[] variables = {};
+				module.getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, null, variables);
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
 				String label = StringUtil.toString(module.execute());
-				module.getContext().getFrameStack().leave(null);
+				module.getContext().getFrameStack().leaveLocal(null);
 				return label;
 			}
 		} catch (Exception e) {

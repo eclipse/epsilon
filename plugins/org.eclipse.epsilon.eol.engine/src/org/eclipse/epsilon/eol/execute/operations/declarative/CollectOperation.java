@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
@@ -68,11 +67,11 @@ public class CollectOperation extends AbstractOperation{
 		
 		for (Object listItem : source) {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, operationAst);
+				scope.enterLocal(FrameType.UNPROTECTED, operationAst);
 				scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
 				result.add(bodyResult);
-				scope.leave(operationAst);
+				scope.leaveLocal(operationAst);
 			}
 		}
 		

@@ -49,7 +49,7 @@ public class EwlWizard extends AbstractModuleElement{
 	
 	public boolean appliesTo(Object self, IEolContext context) throws EolRuntimeException{
 		if (guardBlock.getAst() != null) {
-			context.getFrameStack().enter(FrameType.UNPROTECTED, guardBlock.getAst());
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, guardBlock.getAst());
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
 			Object result = null;
 			result = context.getExecutorFactory().executeBlockOrExpressionAst(guardBlock.getAst(), context);
@@ -74,14 +74,14 @@ public class EwlWizard extends AbstractModuleElement{
 	}
 	
 	public void process(Object self, IEolContext context) throws EolRuntimeException {
-		context.getFrameStack().enter(FrameType.UNPROTECTED, bodyBlock.getAst());
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		context.getExecutorFactory().executeAST(bodyBlock.getAst(), context);
-		context.getFrameStack().leave(bodyBlock.getAst());
+		context.getFrameStack().leaveLocal(bodyBlock.getAst());
 	}
 	
 	public String getTitle(Object self, IEolContext context) throws EolRuntimeException{
-		context.getFrameStack().enter(FrameType.UNPROTECTED, titleBlock.getAst());
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, titleBlock.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
 		Object result = null;
 		result = context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getAst(), context);
@@ -92,7 +92,7 @@ public class EwlWizard extends AbstractModuleElement{
 			throw new EolNoReturnException("String", titleBlock.getAst(), context);		
 		}
 		
-		context.getFrameStack().leave(titleBlock.getAst());
+		context.getFrameStack().leaveLocal(titleBlock.getAst());
 		return String.valueOf(result);
 	}
 	

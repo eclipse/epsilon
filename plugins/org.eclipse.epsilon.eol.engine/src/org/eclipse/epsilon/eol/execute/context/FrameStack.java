@@ -20,8 +20,13 @@ import org.eclipse.epsilon.commons.parse.AST;
 
 
 /**
- * A FrameStack is a stack of frames that stores the variables created during the
- * execution of an EOL program.
+ * <p>A FrameStack is a stack of frames that stores the variables created during the
+ * execution of an EOL program.</p>
+ * 
+ * <p>A FrameStack is divided into two distinct regions, one for global variables and
+ * one for local variables. The global region always contains at least one frame, while 
+ * the local region can be empty.</p> 
+ * 
  *
  * @author Dimitrios Kolovos, Antonio García-Domínguez
  * @version 1.1
@@ -141,7 +146,7 @@ public class FrameStack {
 	/**
 	 * Creates a new frame stack
 	 */
-	public FrameStack(){
+	public FrameStack() {
 		enterGlobal(FrameType.UNPROTECTED, null);
 		builtInVariables.put("null", Variable.createReadOnlyVariable("null", null));
 	}
@@ -152,12 +157,16 @@ public class FrameStack {
 	}
 
 	/**
-	 * Enters a new global frame. Global frames work like regular frames, but
-	 * the topmost global frame is always visible, regardless of the stack
-	 * frames above it. However, a {@link FrameType#PROTECTED} global stack
-	 * frame may hide the global stack frames below it.
-	 *
-	 * @see #enter(FrameType, AST, Variable...)
+	 * Enters a new global frame.
+	 * 
+	 * @param type
+	 *            The type of the frame: variables in lower stack frames are
+	 *            visible from an {@link FrameType#UNPROTECTED} frame, and
+	 *            invisible from a {@link FrameType#PROTECTED} frame.
+	 * @param entryPoint
+	 *            The AST from which the entry is performed
+	 * @param variables
+	 *            Zero or more variables that will be added to the new frame.
 	 */
 	public Frame enterGlobal(FrameType type, AST entryPoint, Variable... variables) {
 		return globals.enter(type, entryPoint, variables);
@@ -172,25 +181,46 @@ public class FrameStack {
 	 *            invisible from a {@link FrameType#PROTECTED} frame.
 	 * @param entryPoint
 	 *            The AST from which the entry is performed
+	 * @param variables
+	 *            Zero or more variables that will be added to the new frame.
 	 * @return
 	 */
-	public Frame enter(FrameType type, AST entryPoint, Variable... variables){
+	public Frame enterLocal(FrameType type, AST entryPoint, Variable... variables) {
 		return locals.enter(type, entryPoint, variables);
 	}
+	
+	/**
+	 * Enters a new local frame.
+	 *
+	 * @deprecated Use {@link #enterLocal(FrameType, AST, Variable...)} instead.
+	 *             This method will be removed from a future version of Epsilon.
+	 */
+	public Frame enter(FrameType type, AST entryPoint, Variable... variables) {
+		return enterLocal(type, entryPoint, variables);
+	}
+	
 		
 	/**
 	 * Leaves the current local frame and returns to the previous frame in the
 	 * stack. This method cannot leave a global stack frame: use
 	 * {@link #leaveGlobal(AST, boolean)} for that.
 	 */
-	public void leave(AST entryPoint, boolean dispose) {
+	public void leaveLocal(AST entryPoint, boolean dispose) {
 		locals.leave(entryPoint, dispose);
+	}
+	
+	/**
+	 * Convenience method for {@link #leaveLocal(AST, boolean))} which disposes of the stack
+	 * frame that was left.
+	 */
+	public void leaveLocal(AST entryPoint) {
+		leaveLocal(entryPoint, true);
 	}
 	
 	/**
 	 * Leaves the current global stack frame and returns to the previous frame
 	 * in the stack. This method cannot leave a local stack frame: use
-	 * {@link #leave(AST, boolean)} for that. This method will not leave the
+	 * {@link #leaveLocal(AST, boolean)} for that. This method will not leave the
 	 * last remaining global stack frame.
 	 */
 	public void leaveGlobal(AST entryPoint, boolean dispose) {
@@ -199,23 +229,39 @@ public class FrameStack {
 	}
 	
 	/**
-	 * Convenience method for {@link #leave(AST)} which disposes of the stack
-	 * frame that was left.
-	 */
-	public void leave(AST entryPoint) {
-		leave(entryPoint, true);
-	}
-
-	/**
-	 * Convenience method for {@link #leaveGlobal(AST)} which disposes of the
+	 * Convenience method for {@link #leaveGlobal(AST, boolean)} which disposes of the
 	 * global stack frame that was left.
 	 */
 	public void leaveGlobal(AST entryPoint) {
 		leaveGlobal(entryPoint, true);
 	}
+	
+	/**
+	 * Leaves the current local frame and returns to the previous frame in the
+	 * stack.
+	 * 
+	 * @deprecated Use {@link #leaveLocal(AST, boolean)} instead.
+	 *             This method will be removed from a future version of Epsilon.
+	 */
+	public void leave(AST entryPoint, boolean dispose) {
+		leaveLocal(entryPoint, dispose);
+	}
+	
+	/**
+	 * Convenience method for {@link #leaveLocal(AST)} which disposes of the stack
+	 * frame that was left.
+	 * 
+	 * @deprecated Use {@link #leaveLocal(AST)} instead.
+	 *             This method will be removed from a future version of Epsilon.
+	 */
+	public void leave(AST entryPoint) {
+		leaveLocal(entryPoint, true);
+	}
 
 	/**
 	 * Puts one or more new variables in the topmost frame of the scope.
+	 * Note that the topmost frame can be either a local or a global frame,
+	 * depending on the current state of the FrameStack.
 	 */
 	public void put(Variable... variables) {
 		activeGroup().put(variables);
@@ -223,6 +269,8 @@ public class FrameStack {
 
 	/**
 	 * Puts a new variable in the topmost frame of the scope.
+	 * Note that the topmost frame can be either a local or a global frame,
+	 * depending on the current state of the FrameStack.
 	 */
 	public void put(Variable variable) {
 		activeGroup().put(variable);
@@ -244,6 +292,8 @@ public class FrameStack {
 	
 	/**
 	 * Removes a variable by name from the topmost frame of the scope.
+	 * Note that the topmost frame can be either a local or a global frame,
+	 * depending on the current state of the FrameStack.
 	 */
 	public void remove(String variable) {
 		activeGroup().top().remove(variable);
@@ -252,9 +302,8 @@ public class FrameStack {
 	/**
 	 * Returns the variable with the specified
 	 * name and if it does not exist returns <code>null</code>. Note
-	 * that variables are returned in order of recentness of declaration.
-	 * For example, variables in a higher frame shadow variables with
-	 * the same name in lower frames, and likewise local variables
+	 * that variables in a higher frame shadow variables with
+	 * the same name in lower frames. Similarly, local variables
 	 * shadow global variables with the same name.
 	 *
 	 * @param name The name of the variable
@@ -270,17 +319,36 @@ public class FrameStack {
 	}
 	
 	/**
-	 * Returns the global variable with the specified
-	 * name and if it does not exist returns <code>null</code> Note
-	 * that variables are returned in order of recentness of declaration.
-	 * For example, variables in a higher frame shadow variables with
-	 * the same name in lower frames.
+	 * <p>Returns the local variable with the specified name
+	 * If the local variable does not exist, this method 
+	 * returns <code>null</code>.</p>
+	 * 
+	 * <p><strong>Note:</strong> this method does not respect the 
+	 * usual shadowing semantics of the FrameStack, and consequently
+	 * most clients should call {@link #get(String)} (i.e., only call 
+	 * this method if you really know what you are doing!)</p> 
 	 *
-	 * @param name The name of the variable
-	 * @return The variable with the specified name or <code>null</code>
+	 * @param name The name of the local variable
+	 * @return The local variable with the specified name or <code>null</code>
+	 */
+	public Variable getLocal(String name) {
+		return locals.get(name);
+	}
+	
+	/**
+	 * <p>Returns the global variable with the specified name
+	 * If the global variable does not exist, this method 
+	 * returns <code>null</code>.</p>
+	 * 
+	 * <p><strong>Note:</strong> this method does not respect the 
+	 * usual shadowing semantics of the FrameStack, and consequently
+	 * most clients should call {@link #get(String)} (i.e., only call 
+	 * this method if you really know what you are doing!)</p> 
+	 *
+	 * @param name The name of the global variable
+	 * @return The global variable with the specified name or <code>null</code>
 	 */
 	public Variable getGlobal(String name) {
-		if (builtInVariables.containsKey(name)) return builtInVariables.get(name);
 		return globals.get(name);
 	}
 	
@@ -299,8 +367,30 @@ public class FrameStack {
 	}
 	
 	/**
+	 * Returns true if a local variable with the 
+	 * specified name exists.
+	 * 
+	 * <p><strong>Note:</strong> this method does not respect the 
+	 * usual shadowing semantics of the FrameStack, and consequently
+	 * most clients should call {@link #contains(String)} (i.e., only call 
+	 * this method if you really know what you are doing!)</p> 
+	 * 
+	 * @param name
+	 * @return 
+	 */
+	public boolean containsLocal(String name){
+		return locals.get(name) != null;
+	}
+	
+	/**
 	 * Returns true if a global variable with the 
-	 * specified name exists
+	 * specified name exists.
+	 * 
+	 * <p><strong>Note:</strong> this method does not respect the 
+	 * usual shadowing semantics of the FrameStack, and consequently
+	 * most clients should call {@link #contains(String)} (i.e., only call 
+	 * this method if you really know what you are doing!)</p> 
+	 * 
 	 * @param name
 	 * @return 
 	 */

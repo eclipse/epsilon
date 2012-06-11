@@ -89,7 +89,7 @@ public class EvlConstraint extends AbstractModuleElement{
 		
 		if (!appliesTo(self,context)) return false;
 		
-		context.getFrameStack().enter(FrameType.UNPROTECTED, body.getAst());
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, body.getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
 		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(body.getAst(), context);
 		if (result instanceof Return) {
@@ -133,17 +133,17 @@ public class EvlConstraint extends AbstractModuleElement{
 					context.getConstraintTrace().addChecked(this,self,false);
 					context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
 					// We don't dispose the frame we leave because it may be needed for fix parts
-					context.getFrameStack().leave(body.getAst(), false);
+					context.getFrameStack().leaveLocal(body.getAst(), false);
 					return false;
 				}
 				else {
 					context.getConstraintTrace().addChecked(this,self,true);
-					context.getFrameStack().leave(body.getAst());
+					context.getFrameStack().leaveLocal(body.getAst());
 					return true;
 				}
 			}
 			else {
-				context.getFrameStack().leave(body.getAst());
+				context.getFrameStack().leaveLocal(body.getAst());
 				throw new EolIllegalReturnException("Boolean",result,body.getAst(),context);
 			}	
 		}

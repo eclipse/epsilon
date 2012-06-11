@@ -27,7 +27,7 @@ public class IfStatementExecutor extends AbstractExecutor{
 		AST thenAst = conditionAst.getNextSibling();
 		AST elseAst = null;
 		
-		context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast);
 		
 		if (ast.getNumberOfChildren() == 3){
 			elseAst = thenAst.getNextSibling();
@@ -46,7 +46,7 @@ public class IfStatementExecutor extends AbstractExecutor{
 			result = context.getExecutorFactory().executeAST(elseAst, context, true);
 		}
 		
-		context.getFrameStack().leave(ast);
+		context.getFrameStack().leaveLocal(ast);
 		return result;
 	}
 

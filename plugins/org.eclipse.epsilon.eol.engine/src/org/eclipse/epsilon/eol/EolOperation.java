@@ -231,7 +231,7 @@ public class EolOperation extends AbstractModuleElement{
 		FrameStack scope = context.getFrameStack();
 		
 		if (inNewStackFrame) {
-			scope.enter(FrameType.PROTECTED, this.getAst());
+			scope.enterLocal(FrameType.PROTECTED, this.getAst());
 			scope.put(Variable.createReadOnlyVariable("self",self));
 		}
 		
@@ -256,7 +256,7 @@ public class EolOperation extends AbstractModuleElement{
 		evaluatePostConditions(context, result);
 		
 		if (inNewStackFrame) {
-			scope.leave(this.getAst());
+			scope.leaveLocal(this.getAst());
 		}
 		
 		/*

@@ -84,7 +84,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 			
 			for (Object o : all) {
 				
-				context.getFrameStack().enter(FrameType.PROTECTED, getAst(), Variable.createReadOnlyVariable(sourceParameter.getName(), o));
+				context.getFrameStack().enterLocal(FrameType.PROTECTED, getAst(), Variable.createReadOnlyVariable(sourceParameter.getName(), o));
 				
 				if (preAst != null) context.getExecutorFactory().executeAST(preAst.getFirstChild(), context);
 				
@@ -145,7 +145,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 				
 				if (postAst != null) context.getExecutorFactory().executeAST(postAst.getFirstChild(), context);
 				
-				context.getFrameStack().leave(getAst());
+				context.getFrameStack().leaveLocal(getAst());
 				
 				
 			}

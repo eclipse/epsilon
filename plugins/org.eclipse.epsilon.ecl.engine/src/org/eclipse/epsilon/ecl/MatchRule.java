@@ -315,7 +315,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		}
 
 		FrameStack scope = context.getFrameStack();
-		scope.enter(FrameType.PROTECTED, ast);
+		scope.enterLocal(FrameType.PROTECTED, ast);
 		
 		// Execute the compare part of the rule
 		
@@ -393,7 +393,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			}
 		}
 		
-		scope.leave(ast);
+		scope.leaveLocal(ast);
 		
 		return match;
 	}

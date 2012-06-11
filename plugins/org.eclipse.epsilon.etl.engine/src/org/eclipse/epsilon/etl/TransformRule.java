@@ -140,7 +140,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		if (appliesToTypes && guardAst != null){
 			
-			context.getFrameStack().enter(FrameType.PROTECTED, guardAst);
+			context.getFrameStack().enterLocal(FrameType.PROTECTED, guardAst);
 			context.getFrameStack().put(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 			
@@ -148,7 +148,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			// context.getExecutorFactory().getExecutionController().control(guardAst, context);
 			
 			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
-			context.getFrameStack().leave(guardAst);
+			context.getFrameStack().leaveLocal(guardAst);
 			
 			if (result instanceof Return) {
 				Object value = Return.getValue(result);
@@ -250,7 +250,8 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		}
 		
 		FrameStack scope = context.getFrameStack();
-		scope.enter(FrameType.PROTECTED, ast);
+		Variable[] variables = {};
+		scope.enterLocal(FrameType.PROTECTED, ast, variables);
 		
 		scope.put(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
 		scope.put(Variable.createReadOnlyVariable("self", this));
@@ -262,7 +263,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		context.getExecutorFactory().executeAST(bodyAst, context);
 		
-		scope.leave(ast);
+		scope.leaveLocal(ast);
 		
 	}
 	

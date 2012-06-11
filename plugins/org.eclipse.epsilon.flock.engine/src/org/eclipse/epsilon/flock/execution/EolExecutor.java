@@ -26,22 +26,22 @@ public class EolExecutor {
 	}
 	
 	public boolean executeGuard(AST guard, Variable originalVar) throws FlockRuntimeException {
-		context.getFrameStack().enter(FrameType.PROTECTED, guard, originalVar);
+		context.getFrameStack().enterLocal(FrameType.PROTECTED, guard, originalVar);
 		
 		final Boolean guardSatisfied = (Boolean)context.getExecutorFactory().executeBlockOrExpressionAst(guard, context, false);
 		
-		context.getFrameStack().leave(guard);
+		context.getFrameStack().leaveLocal(guard);
 		
 		return guardSatisfied.booleanValue();
 	}
 
 	public Object executeBlock(AST block, Variable... variables) throws FlockRuntimeException {
 		try {
-			context.getFrameStack().enter(FrameType.PROTECTED, block, variables);
+			context.getFrameStack().enterLocal(FrameType.PROTECTED, block, variables);
 			
 			final Object result = context.getExecutorFactory().executeAST(block, context);
 			
-			context.getFrameStack().leave(block);
+			context.getFrameStack().leaveLocal(block);
 			
 			return result;
 			

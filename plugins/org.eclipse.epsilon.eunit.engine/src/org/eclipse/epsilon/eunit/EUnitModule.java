@@ -179,7 +179,7 @@ public class EUnitModule extends EolModule {
 			fireAfterCase(node);
 
 			if (node.getOperation() != null) {
-				getContext().getFrameStack().leave(node.getOperation().getAst());
+				getContext().getFrameStack().leaveLocal(node.getOperation().getAst());
 			}
 		}
 	}
@@ -268,10 +268,10 @@ public class EUnitModule extends EolModule {
 				// node's subtree: it may be used in a $with annotation.
 				final FrameStack frameStack = getContext().getFrameStack();
 				final AST operationAST = child.getOperation().getAst();
-				frameStack.enter(FrameType.UNPROTECTED, operationAST);
+				frameStack.enterLocal(FrameType.UNPROTECTED, operationAST);
 				applyDataBinding(child);
 				populateSuiteTree(child, dataIterator);
-				frameStack.leave(operationAST);
+				frameStack.leaveLocal(operationAST);
 			}
 		}
 		catch (Exception ex) {
@@ -297,7 +297,7 @@ public class EUnitModule extends EolModule {
 		// We need separate stack frames to ensure everything is clean after
 		// each test case
 		if (node.getOperation() != null) {
-			getContext().getFrameStack().enter(FrameType.UNPROTECTED, node.getOperation().getAst());
+			getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, node.getOperation().getAst());
 		}
 
 		// Implement data bindings

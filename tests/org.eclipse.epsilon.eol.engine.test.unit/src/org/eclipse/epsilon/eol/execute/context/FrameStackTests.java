@@ -33,7 +33,7 @@ public class FrameStackTests {
 		final Variable global = createStringVariable("name", "Joe Bloggs");
 		
 		frameStack.put(global);
-		frameStack.enter(FrameType.PROTECTED, null);
+		frameStack.enterLocal(FrameType.PROTECTED, null);
 		
 		assertEquals(global, frameStack.get(global.name));
 	}
@@ -44,7 +44,7 @@ public class FrameStackTests {
 		final Variable local = createStringVariable("name", "John Doe");
 		
 		frameStack.put(global);
-		frameStack.enter(FrameType.PROTECTED, null);
+		frameStack.enterLocal(FrameType.PROTECTED, null);
 		frameStack.put(local);
 				
 		assertEquals(local, frameStack.get(global.name));
@@ -56,11 +56,35 @@ public class FrameStackTests {
 		final Variable local = createStringVariable("name", "John Doe");
 		
 		frameStack.put(global);
-		frameStack.enter(FrameType.PROTECTED, null);
+		frameStack.enterLocal(FrameType.PROTECTED, null);
 		frameStack.put(local);
-		frameStack.leave(null);
+		frameStack.leaveLocal(null);
 		
 		assertEquals(global, frameStack.get(global.name));
+	}
+	
+	@Test
+	public void getGlobalIgnoresShadowing() throws Exception {
+		final Variable global = createStringVariable("name", "Joe Bloggs");
+		final Variable local = createStringVariable("name", "John Doe");
+		
+		frameStack.put(global);
+		frameStack.enterLocal(FrameType.PROTECTED, null);
+		frameStack.put(local);
+		
+		assertEquals(global, frameStack.getGlobal(global.name));
+	}
+	
+	@Test
+	public void getLocalIgnoresShadowing() throws Exception {
+		final Variable local = createStringVariable("null", "John Doe");
+		
+		assertNotNull("Test now invalid: frameStack should define a built-in variable called 'null' for this test to be valid", frameStack.get(local.name));
+		
+		frameStack.enterLocal(FrameType.PROTECTED, null);
+		frameStack.put(local);
+		
+		assertEquals(local, frameStack.getLocal(local.name));
 	}
 	
 	@Test
@@ -91,7 +115,7 @@ public class FrameStackTests {
 
 		frameStack.enterGlobal(FrameType.UNPROTECTED, null);
 		frameStack.put(global);
-		frameStack.leave(null);
+		frameStack.leaveLocal(null);
 		
 		assertEquals(global, frameStack.get(global.name));
 	}

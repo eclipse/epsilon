@@ -32,13 +32,13 @@ public class WhileStatementExecutor extends AbstractExecutor{
 		int loop = 0;
 		
 		while (true){
-			context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast);
 			
 			loop ++;
 			Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
 			
 			if (!(condition instanceof Boolean)) {
-				context.getFrameStack().leave(ast);
+				context.getFrameStack().leaveLocal(ast);
 				throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
 			}
 			
@@ -55,11 +55,11 @@ public class WhileStatementExecutor extends AbstractExecutor{
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
 						throw bex;
 					}
-					context.getFrameStack().leave(ast);
+					context.getFrameStack().leaveLocal(ast);
 					break;
 				}
 				catch (EolContinueException cex){
-					context.getFrameStack().leave(ast);
+					context.getFrameStack().leaveLocal(ast);
 					continue;
 				}
 				
@@ -69,11 +69,11 @@ public class WhileStatementExecutor extends AbstractExecutor{
 				
 			}
 			else {
-				context.getFrameStack().leave(ast);
+				context.getFrameStack().leaveLocal(ast);
 				break;
 			}
 			
-			context.getFrameStack().leave(ast);
+			context.getFrameStack().leaveLocal(ast);
 		
 			if (result instanceof Return) {
 				return result;

@@ -58,7 +58,7 @@ public class ClosureOperation extends AbstractOperation {
 		
 		for (Object listItem : source) {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, expressionAST);
+				scope.enterLocal(FrameType.UNPROTECTED, expressionAST);
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
 				Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
 				if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
@@ -70,7 +70,7 @@ public class ClosureOperation extends AbstractOperation {
 					}
 					
 				}
-				scope.leave(expressionAST);
+				scope.leaveLocal(expressionAST);
 			}
 		}
 	}

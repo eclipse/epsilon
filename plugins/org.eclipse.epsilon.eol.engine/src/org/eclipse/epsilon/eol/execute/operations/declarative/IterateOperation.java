@@ -76,23 +76,23 @@ public class IterateOperation extends AbstractOperation {
 		
 		FrameStack scope = context.getFrameStack();
 		
-		scope.enter(FrameType.UNPROTECTED, ast);
+		scope.enterLocal(FrameType.UNPROTECTED, ast);
 		scope.put(new Variable(resultName, resultInitialValue, resultType));
 		
 		while (li.hasNext()){
 			Object listItem = li.next();
 			
-			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, bodyAst);
+			if (iteratorType==null || iteratorType.isKind(listItem)) {
+				scope.enterLocal(FrameType.UNPROTECTED, bodyAst);
 				scope.put(new Variable(iteratorName, listItem, iteratorType));
 				context.getExecutorFactory().executeAST(bodyAst, context);
-				scope.leave(bodyAst);
+				scope.leaveLocal(bodyAst);
 			}
 		}
 		
 		result = scope.get(resultName).getValue();
 		
-		scope.leave(ast);
+		scope.leaveLocal(ast);
 		
 		return result;
 	}

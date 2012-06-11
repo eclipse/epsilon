@@ -46,12 +46,12 @@ public class PatternMatcher {
 		for (PatternMatch match : model.getMatches()) {
 			AST doAst = match.getPattern().getDoAst();
 			if (doAst != null) {
-				context.getFrameStack().enter(FrameType.UNPROTECTED, doAst);
+				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, doAst);
 				for (String componentName : match.getRoleBindings().keySet()) {
 					context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
 				}
 				context.getExecutorFactory().executeAST(doAst, context);
-				context.getFrameStack().leave(doAst);
+				context.getFrameStack().leaveLocal(doAst);
 			}
 		}
 		
@@ -62,7 +62,7 @@ public class PatternMatcher {
 		
 		List<PatternMatch> patternMatches = new ArrayList<PatternMatch>();
 		
-		context.getFrameStack().enter(FrameType.PROTECTED, pattern.getAst());
+		context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern.getAst());
 		
 		CompositeCombinationGenerator<Object> generator = new CompositeCombinationGenerator<Object>();
 		
@@ -79,7 +79,7 @@ public class PatternMatcher {
 					if (o instanceof NoMatch) return true;
 				}
 				
-				frame = context.getFrameStack().enter(FrameType.PROTECTED, pattern.getAst());
+				frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern.getAst());
 				boolean result = true;
 				int i = 0;
 				Role role = null;
@@ -95,7 +95,7 @@ public class PatternMatcher {
 					ret = (Return) context.getExecutorFactory().executeBlockOrExpressionAst(role.getGuard().getAst().getFirstChild(), context);
 					if (ret.getValue() instanceof Boolean) result = (Boolean) ret.getValue();
 				}
-				context.getFrameStack().leave(pattern.getAst());
+				context.getFrameStack().leaveLocal(pattern.getAst());
 				return result;
 			}
 		});
@@ -106,7 +106,7 @@ public class PatternMatcher {
 		
 			boolean matches = true;
 			
-			frame = context.getFrameStack().enter(FrameType.PROTECTED, pattern.getAst());
+			frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern.getAst());
 			
 			if (pattern.getMatchAst() != null || pattern.getNoMatchAst() != null || pattern.getOnMatchAst() != null) {
 				int i = 0;
@@ -133,11 +133,11 @@ public class PatternMatcher {
 			}
 			else context.getExecutorFactory().executeAST(pattern.getNoMatchAst(), context);
 			
-			context.getFrameStack().leave(pattern.getAst());
+			context.getFrameStack().leaveLocal(pattern.getAst());
 			
 		}
 		
-		context.getFrameStack().leave(pattern.getAst());
+		context.getFrameStack().leaveLocal(pattern.getAst());
 		
 		return patternMatches;
 	}

@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.commons.util.CollectionUtil;
@@ -22,8 +21,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -63,7 +60,7 @@ public class MapByOperation extends AbstractOperation{
 		
 		for (Object listItem : source) {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enter(FrameType.UNPROTECTED, operationAst);
+				scope.enterLocal(FrameType.UNPROTECTED, operationAst);
 				scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
 				
@@ -72,7 +69,7 @@ public class MapByOperation extends AbstractOperation{
 				sequence.add(listItem);
 				result.put(bodyResult, sequence);
 				
-				scope.leave(operationAst);
+				scope.leaveLocal(operationAst);
 			}
 		}
 		

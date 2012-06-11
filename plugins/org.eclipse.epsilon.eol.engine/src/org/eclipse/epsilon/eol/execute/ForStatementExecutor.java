@@ -98,9 +98,8 @@ public class ForStatementExecutor extends AbstractExecutor{
 			Object next = li.next();
 			
 			if (!iteratorType.isKind(next)) continue;
-			
 			// TODO: See if enter and leave should be performed inside or outside the while loop
-			context.getFrameStack().enter(FrameType.UNPROTECTED, ast);
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast);
 			
 			context.getFrameStack().put(new Variable(iteratorName, next, iteratorType));
 			context.getFrameStack().put(new Variable("hasMore", li.hasNext(), EolPrimitiveType.Boolean, true));
@@ -110,17 +109,17 @@ public class ForStatementExecutor extends AbstractExecutor{
 			
 			try {
 				result = context.getExecutorFactory().executeAST(bodyAst, context, true);
-				context.getFrameStack().leave(ast);
+				context.getFrameStack().leaveLocal(ast);
 			}
 			catch (EolBreakException ex){
 				loopBroken = true;
-				context.getFrameStack().leave(ast);
+				context.getFrameStack().leaveLocal(ast);
 				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()){
 					throw ex;
 				}
 			}
 			catch (EolContinueException cex){
-				context.getFrameStack().leave(ast);
+				context.getFrameStack().leaveLocal(ast);
 			}
 			
 			if (result instanceof Return) {

@@ -174,10 +174,10 @@ public class Role extends AbstractModuleElement {
 				
 				if (getGuard()!=null) {
 					for (Object o : instances) {
-						context.getFrameStack().enter(FrameType.UNPROTECTED, getGuard().getAst(), Variable.createReadOnlyVariable(getNames().get(0), o));
+						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, getGuard().getAst(), Variable.createReadOnlyVariable(getNames().get(0), o));
 						boolean ok = (Boolean) context.getExecutorFactory().executeBlockOrExpressionAst(getGuard().getAst().getFirstChild(), context, Boolean.class, false);
 						if (ok) { filtered.add(o); }
-						context.getFrameStack().leave(getGuard().getAst());
+						context.getFrameStack().leaveLocal(getGuard().getAst());
 					}
 				}
 				else {
@@ -214,9 +214,9 @@ public class Role extends AbstractModuleElement {
 					for (Object o : instances) {
 						boolean result = true;
 						Return ret = null;
-						context.getFrameStack().enter(FrameType.UNPROTECTED, getGuard().getAst(), Variable.createReadOnlyVariable(getNames().get(0), o));
+						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, getGuard().getAst(), Variable.createReadOnlyVariable(getNames().get(0), o));
 						ret = (Return) context.getExecutorFactory().executeBlockOrExpressionAst(getGuard().getAst().getFirstChild(), context);
-						context.getFrameStack().leave(getGuard().getAst());
+						context.getFrameStack().leaveLocal(getGuard().getAst());
 						if (ret.getValue() instanceof Boolean) result = (Boolean) ret.getValue();
 						if (result == true) {
 							return new ArrayList();

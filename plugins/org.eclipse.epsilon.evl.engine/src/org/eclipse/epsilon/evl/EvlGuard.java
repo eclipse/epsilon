@@ -47,7 +47,7 @@ public class EvlGuard extends EolLabeledBlock {
 			return true;
 		}
 
-		context.getFrameStack().enter(FrameType.PROTECTED, getAst());
+		context.getFrameStack().enterLocal(FrameType.PROTECTED, getAst());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));
 		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(getAst(), context);
 		
