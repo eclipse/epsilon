@@ -14,8 +14,9 @@ import java.util.ArrayList;
 
 import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
 
-public class EolSequence extends ArrayList{
-	
+public class EolSequence<T> extends ArrayList<T> {
+	private static final long serialVersionUID = -2401272219693014633L;
+
 	public EolSequence() {
 		super();
 		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Sequence);

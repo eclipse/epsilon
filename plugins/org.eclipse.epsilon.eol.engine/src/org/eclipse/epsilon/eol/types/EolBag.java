@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - add type parameter and serial version UID
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
@@ -17,19 +18,19 @@ import java.util.List;
 
 import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
 
-public class EolBag implements Collection{
-	
+public class EolBag<T> implements Collection<T> {
+
 	public EolBag() {
 		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
 	}
 	
-	protected List wrapped = new ArrayList();
+	protected List<T> wrapped = new ArrayList<T>();
 	
-	public boolean add(Object e) {
+	public boolean add(T e) {
 		return wrapped.add(e);
 	}
 
-	public boolean addAll(Collection c) {
+	public boolean addAll(Collection<? extends T> c) {
 		return wrapped.addAll(c);
 	}
 
@@ -41,7 +42,7 @@ public class EolBag implements Collection{
 		return wrapped.contains(o);
 	}
 
-	public boolean containsAll(Collection c) {
+	public boolean containsAll(Collection<?> c) {
 		return wrapped.containsAll(c);
 	}
 
@@ -49,7 +50,7 @@ public class EolBag implements Collection{
 		return wrapped.isEmpty();
 	}
 
-	public Iterator iterator() {
+	public Iterator<T> iterator() {
 		return wrapped.iterator();
 	}
 
@@ -57,11 +58,11 @@ public class EolBag implements Collection{
 		return wrapped.remove(o);
 	}
 
-	public boolean removeAll(Collection c) {
+	public boolean removeAll(Collection<?> c) {
 		return wrapped.removeAll(c);
 	}
 
-	public boolean retainAll(Collection c) {
+	public boolean retainAll(Collection<?> c) {
 		return wrapped.retainAll(c);
 	}
 
@@ -73,6 +74,7 @@ public class EolBag implements Collection{
 		return wrapped.toArray();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object[] toArray(Object[] a) {
 		return wrapped.toArray(a);
 	}

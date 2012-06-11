@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,19 +7,17 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García Domínguez - add generics, clean up dead code.
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
-
 
 public class EolCollectionType extends EolType {
 
@@ -35,8 +33,7 @@ public class EolCollectionType extends EolType {
 		this.name = name;
 	}
 	
-	public EolCollectionType getTypeOf(Collection c) {
-		
+	public EolCollectionType getTypeOf(Collection<?> c) {
 		AnnotatedCollectionType annotatedCollectionType = CollectionAnnotator.getInstance().getType(c);
 		if (annotatedCollectionType != null) {
 			if (annotatedCollectionType == AnnotatedCollectionType.Bag) return Bag;
@@ -49,45 +46,14 @@ public class EolCollectionType extends EolType {
 		if (c instanceof EolOrderedSet || (c instanceof List && c instanceof Set)) return OrderedSet;
 		if (c instanceof EolSet || (c instanceof Set && !(c instanceof List))) return Set;
 		else return Bag;
-		
 	}
 	
 	@Override
 	public boolean isType(Object o) {
-		
 		if (!(o instanceof Collection)) return false;
-		
-		Collection c = (Collection) o;
-		
+		Collection<?> c = (Collection<?>) o;
 		if (this == Collection) return false; // Collection is abstract
-		
 		return getTypeOf(c) == this;
-		
-		/*
-		AnnotatedCollectionType annotatedCollectionType = CollectionAnnotator.getInstance().getType(c);
-		if (annotatedCollectionType != null) {
-			if (this == Bag && annotatedCollectionType == AnnotatedCollectionType.Bag) return true;
-			if (this == Sequence && annotatedCollectionType == AnnotatedCollectionType.Sequence) return true;
-			if (this == Set && annotatedCollectionType == AnnotatedCollectionType.Set) return true;
-			if (this == OrderedSet && annotatedCollectionType == AnnotatedCollectionType.OrderedSet) return true;
-			return false;
-		}
-		
-		if (this == Bag) 
-			return c instanceof EolBag;
-		else if (this == Sequence) 
-			return 
-				c instanceof EolSequence || 
-				(c instanceof List && !(c instanceof Set));
-		else if (this == OrderedSet) 
-			return c instanceof EolOrderedSet || 
-			(c instanceof List && c instanceof Set); 
-		else if (this == Set) {
-			return c instanceof EolSet || 
-			(c instanceof Set && !(c instanceof List)) ;
-		}
-		return true;
-		*/
 	}
 
 	@Override
@@ -108,15 +74,15 @@ public class EolCollectionType extends EolType {
 		try {
 			if (this == Collection) return null;
 			else if (this == Bag) {
-				return new EolBag();
+				return new EolBag<Object>();
 			}
 			else if (this == Sequence) {
-				return new EolSequence();
+				return new EolSequence<Object>();
 			}
 			else if (this == OrderedSet) {
-				return new EolOrderedSet();
+				return new EolOrderedSet<Object>();
 			}
-			else return new EolSet();
+			else return new EolSet<Object>();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,7 +101,7 @@ public class EolCollectionType extends EolType {
 		return name;
 	}
 	
-	public static String getTypeName(Collection c) {
+	public static String getTypeName(Collection<?> c) {
 		if (Bag.isType(c)) return Bag.getName();
 		else if (Sequence.isType(c)) return Sequence.getName();
 		else if (OrderedSet.isType(c)) return OrderedSet.getName();
@@ -143,32 +109,32 @@ public class EolCollectionType extends EolType {
 		else return c.getClass().getSimpleName();
 	}
 	
-	public static Collection createSameType(Collection c) {
-		if (Bag.isType(c)) return new EolBag();
-		else if (Sequence.isType(c)) return new EolSequence();
-		else if (OrderedSet.isType(c)) return new EolOrderedSet();
-		else if (Set.isType(c)) return new EolSet();
+	public static <T> Collection<T> createSameType(Collection<T> c) {
+		if (Bag.isType(c)) return new EolBag<T>();
+		else if (Sequence.isType(c)) return new EolSequence<T>();
+		else if (OrderedSet.isType(c)) return new EolOrderedSet<T>();
+		else if (Set.isType(c)) return new EolSet<T>();
 		else return null;
 	}
 	
-	public static Collection clone(Collection c) {
-		Collection clone = createSameType(c);
+	public static <T> Collection<T> clone(Collection<T> c) {
+		Collection<T> clone = createSameType(c);
 		clone.addAll(c);
 		return clone;
 	}
 	
-	public static Collection join(Collection c1, Collection c2) {
-		Collection joined = createSameType(c1);
+	public static <T> Collection<T> join(Collection<T> c1, Collection<T> c2) {
+		Collection<T> joined = createSameType(c1);
 		joined.addAll(c1);
 		joined.addAll(c2);
 		return joined;
 	}
 	
-	public static boolean isUnique(Collection c) {
+	public static boolean isUnique(Collection<?> c) {
 		return Set.isType(c) || OrderedSet.isType(c);
 	}
 	
-	public static boolean isOrdered(Collection c) {
+	public static boolean isOrdered(Collection<?> c) {
 		return Sequence.isType(c) || OrderedSet.isType(c);
 	}
 	
