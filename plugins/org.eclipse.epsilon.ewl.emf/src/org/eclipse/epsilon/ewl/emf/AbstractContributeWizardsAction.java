@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,8 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - recreate the menu on every call to getMenu
+ *                                (required in Eclipse 4.x), clean up
  ******************************************************************************/
 package org.eclipse.epsilon.ewl.emf;
 
@@ -59,8 +61,6 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public abstract class AbstractContributeWizardsAction implements IObjectActionDelegate, IMenuCreator, MenuListener {
-	
-	protected Menu wizardsMenu;
 	protected ISelection selection;
 	protected IWorkbenchPart targetPart;
 	protected InMemoryEmfModel model;
@@ -83,7 +83,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		
+		// do nothing
 	}
 
 	/**
@@ -94,67 +94,102 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		action.setMenuCreator(this);
 	}
 
+	@Override
 	public void dispose() {
-		
-	}
-	
-	public Menu getMenu(Menu parent) {
-		if (wizardsMenu == null) {
-			wizardsMenu = new Menu(parent);
-			wizardsMenu.addMenuListener(this);
+		if (model != null) {
+			model.dispose();
 		}
+	}
+
+	@Override
+	public Menu getMenu(Menu parent) {
+		Menu wizardsMenu = new Menu(parent);
+		wizardsMenu.addMenuListener(this);
 		return wizardsMenu;
 	}
-	
+
+	@Override
+	public Menu getMenu(Control parent) {
+		Menu wizardsMenu = new Menu(parent);
+		wizardsMenu.addMenuListener(this);
+		return wizardsMenu;
+	}
+
+	public void menuHidden(MenuEvent e) {
+		// not interested in this event
+	}
+
+	public void menuShown(MenuEvent e) {
+		populateWizardsMenu((Menu)e.widget);
+	}
+
 	protected abstract EObject getEObject(Object selected);
+
+	protected abstract EditingDomain getEditingDomain();
+
+	protected abstract WorkbenchPartRefresher getWorkbenchPartRefresher();
+
+	protected void execute(Command command) {
+		EditingDomain editingDomain = getEditingDomain();		
+		if (editingDomain != null) {
+			editingDomain.getCommandStack().execute(command);
+		}
+		else {
+			command.execute();
+		}
+	}
+
+	protected List<URI> getEwlURIsForEObjects(Collection<EObject> eObjects) {
+		Set<String> eObjectURIs = new TreeSet<String>(); 
+		for (EObject eObject : eObjects) {
+			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
+			eObjectURIs.add(eObjectNsURI);
+		}
 	
-	protected void populateWizardsMenu() {
+		List<URI> wizardURIs = new ArrayList<URI>();
+		for (IConfigurationElement configurationElement : getConfigurationElements()) {
+			String namespaceURI = configurationElement.getAttribute("namespaceURI");
+			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
+				String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
+				try {
+					String path = configurationElement.getAttribute("file");
+					wizardURIs.add(FileLocator.find(Platform.getBundle(pluginId), new Path(path), null).toURI());
+				} catch (Exception e) {
+					LogUtil.log(e);
+				}
+			}
+		}
+		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
+			String namespaceURI = preference.getNamespaceURI();
+			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
+				wizardURIs.add(new File(EclipseUtil.getWorkspaceFileAbsolutePath(preference.getWizards())).toURI());
+			}
+		}
 		
+		return wizardURIs;
+	}
+
+	private void populateWizardsMenu(Menu wizardsMenu) {
 		// Clean the menu
 		for (MenuItem item : wizardsMenu.getItems()) {
 			item.dispose();
 		}
 		
 		List<EObject> eObjects = new ArrayList<EObject>();
-		//List<IGraphicalEditPart> graphicalEditParts = new ArrayList<IGraphicalEditPart>();
 		List<EwlWizardInstance> applicableWizards = new ArrayList<EwlWizardInstance>();
-		
+
 		if ((selection instanceof IStructuredSelection)) {
-			
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			
-			Iterator it = structuredSelection.iterator();
+			Iterator<?> it = structuredSelection.iterator();
 			
 			while (it.hasNext()) {
 				Object next = it.next();
 				
 				EObject eObject = getEObject(next);
-				
 				if (eObject != null) {
 					eObjects.add(eObject);
 				}
-				
-				/*
-				if (next instanceof IGraphicalEditPart) {
-					IGraphicalEditPart gep = (IGraphicalEditPart) next;
-					EObject semanticElement = gep.resolveSemanticElement();
-					if (semanticElement != null) {
-						graphicalEditParts.add(gep);
-					}
-					
-				}
-				*/
 			}
-			/*
-			String extension = "";
-			
-			String[] parts = targetPart.getTitle().split("\\.");
-			if (parts.length > 0) {
-				extension = parts[parts.length - 1];
-			}
-			*/
-			
-			
 			
 			List<URI> uris = getEwlURIsForEObjects(eObjects);
 			Resource resource = eObjects.get(0).eResource();
@@ -163,7 +198,6 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			model = new InMemoryEmfModel("Model", resource, EmfUtil.getTopEPackage(eObjects.get(0)));
 			
 			for (URI uri : uris) {
-				
 				EwlModule module = new EwlModule();
 				
 				try {
@@ -209,7 +243,6 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				LogUtil.log(e);
 			}
 			wizardItem.addSelectionListener(new SelectionListener() {
-
 				public void widgetDefaultSelected(SelectionEvent e) {
 				
 				}
@@ -223,12 +256,9 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 							new ExecuteWizardInstanceCommand(wizard, model, refresher);
 						
 						execute(command);
-						
 				}
-				
 			});
 		}
-		
 	}
 
 	private void loadExtraPackages(Resource resource) {
@@ -245,72 +275,6 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			}
 		}
 	}
-	
-	protected void execute(Command command) {
-		EditingDomain editingDomain = getEditingDomain();		
-		if (editingDomain != null) {
-			editingDomain.getCommandStack().execute(command);
-		}
-		else {
-			command.execute();
-		}
-	}
-	
-	protected List<URI> getEwlURIsForEObjects(Collection<EObject> eObjects) {
-		List<URI> wizardURIs = new ArrayList<URI>();
-		Set<String> eObjectURIs = new TreeSet<String>(); 
-		
-		
-		for (EObject eObject : eObjects) {
-			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
-			eObjectURIs.add(eObjectNsURI);
-		}
-		
-		
-		for (IConfigurationElement configurationElement : getConfigurationElements()) {
-			String namespaceURI = configurationElement.getAttribute("namespaceURI");
-			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
-				String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-				try {
-					String path = configurationElement.getAttribute("file");
-					wizardURIs.add(FileLocator.find(Platform.getBundle(pluginId), new Path(path), null).toURI());
-				} catch (Exception e) {
-					LogUtil.log(e);
-				}
-			}
-		}
-		
-		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
-			String namespaceURI = preference.getNamespaceURI();
-			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
-				//wizardURIs.add(new File(EclipseUtil.getWorkspacePath() + "/" + preference.getWizards()).toURI());
-				wizardURIs.add(new File(EclipseUtil.getWorkspaceFileAbsolutePath(preference.getWizards())).toURI());
-			}
-		}
-		
-		return wizardURIs;
-	}
-
-
-	protected MenuItem createMenuItem(EwlWizardInstance wizard) {
-		return null;
-	}
-
-	public Menu getMenu(Control parent) {
-		return null;
-	}
-
-	public void menuHidden(MenuEvent e) {
-		
-	}
-
-	public void menuShown(MenuEvent e) {
-		populateWizardsMenu();
-	}
-
-	protected abstract EditingDomain getEditingDomain();
-	
-	protected abstract WorkbenchPartRefresher getWorkbenchPartRefresher();
 	
 	private IConfigurationElement[] getConfigurationElements() {
 		return Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.epsilon.ewl.emf.wizards");
