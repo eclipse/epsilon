@@ -35,23 +35,14 @@ import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+class ImageTextProvider {
 
-public class ImageTextProvider {
-	
 	private boolean showStructuralInfo = false;
 	private EolModule module;
 	private ExeedPlugin plugin = null;
 	private ExeedEditor editor = null;
 
-	public boolean isShowStructuralInfo() {
-		return showStructuralInfo;
-	}
-
-	public void setShowStructuralInfo(boolean showStructuralInfo) {
-		this.showStructuralInfo = showStructuralInfo;
-	}
-
-	protected ImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
+	public ImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
 		this.plugin = plugin;
 		this.editor = editor;
 		this.showStructuralInfo = plugin.getPreferenceStore().getBoolean(ExeedPreferencePage.SHOW_STRUCTURAL_INFO);
@@ -91,7 +82,7 @@ public class ImageTextProvider {
 		module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 	}
 
-	protected String getEStructuralFeatureLabel(EStructuralFeature feature, String def) {
+	public String getEStructuralFeatureLabel(EStructuralFeature feature, String def) {
 		EAnnotation eAnnotation = feature.getEAnnotation("exeed");
 		if (eAnnotation != null) {
 			Object detailValue = eAnnotation.getDetails().get("featureLabel");
@@ -102,7 +93,7 @@ public class ImageTextProvider {
 		return def;
 	}
 
-	protected String getEObjectLabel(Object object, String def, boolean forReference) {
+	public String getEObjectLabel(Object object, String def, boolean forReference) {
 		if (!(object instanceof EObject)) return def;
 		String labelCode = "";
 
@@ -123,10 +114,10 @@ public class ImageTextProvider {
 		} catch (Exception e) {
 			LogUtil.log(e);
 		}
-		return addStructuralInfo(object,def,forReference);
+		return addStructuralInfo(object, def, forReference);
 	}
 
-	protected String getEObjectReferenceLabel(Object object, String def) {
+	public String getEObjectReferenceLabel(Object object, String def) {
 		if (!(object instanceof EObject)) return def;
 
 		if (object instanceof EEnumLiteral) {
@@ -152,7 +143,7 @@ public class ImageTextProvider {
 		return getEObjectLabel(object, def, true);
 	}	
 	
-	protected ImageDescriptor getEObjectImageDescriptor(Object object, ImageDescriptor def) {
+	public ImageDescriptor getEObjectImageDescriptor(Object object, ImageDescriptor def) {
 		if (!(object instanceof EObject)) return def;
 
 		String icon = "";
@@ -180,7 +171,7 @@ public class ImageTextProvider {
 		return def;
 	}
 
-	protected ImageDescriptor getEClassImageDescriptor(EClass eClass, ImageDescriptor def) {
+	public ImageDescriptor getEClassImageDescriptor(EClass eClass, ImageDescriptor def) {
 		String icon = "";
 		try {
 			icon = getEClassAnnotationDetail(eClass, "exeed", "classIcon");
@@ -198,6 +189,14 @@ public class ImageTextProvider {
 		}
 
 		return def;
+	}
+
+	public boolean isShowStructuralInfo() {
+		return showStructuralInfo;
+	}
+
+	public void setShowStructuralInfo(boolean showStructuralInfo) {
+		this.showStructuralInfo = showStructuralInfo;
 	}
 
 	private String addStructuralInfo(Object object, String label, boolean forReference) {

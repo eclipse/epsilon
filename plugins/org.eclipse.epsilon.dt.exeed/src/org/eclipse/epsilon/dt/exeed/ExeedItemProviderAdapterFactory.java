@@ -10,15 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 
-public class ExeedItemProviderAdapterFactory extends
-		ReflectiveItemProviderAdapterFactory {
-	
+public class ExeedItemProviderAdapterFactory extends ReflectiveItemProviderAdapterFactory {
 	protected ImageTextProvider imageTextProvider = null;
-	
+
 	public ExeedItemProviderAdapterFactory(ExeedPlugin plugin) {
 		super();
 		reflectiveItemProviderAdapter = new ExeedItemProvider(this, plugin);
@@ -30,17 +26,7 @@ public class ExeedItemProviderAdapterFactory extends
 				.setImageTextProvider(imageTextProvider);
 	}
 
-	/**
-	 * This implementation substitutes the factory itself as the key for the
-	 * adapter.
-	 */
-	@Override
-	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, type);
-	}
-	
 	public ExeedItemProvider getItemProvider() {
 		return (ExeedItemProvider) reflectiveItemProviderAdapter;
 	}
-	
 }

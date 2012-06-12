@@ -33,7 +33,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class ExeedItemProvider extends ReflectiveItemProvider {
 	protected ImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
-	
+
 	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin) {
 		super(arg0);
 		this.plugin = plugin;
@@ -54,9 +54,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		if (isCalledFromTreeViewer()) {
 			return imageTextProvider.getEObjectLabel(arg0, super.getText(arg0), false);
 		} else {
-			return imageTextProvider.getEObjectReferenceLabel(arg0,
-					imageTextProvider
-							.getEObjectLabel(arg0, super.getText(arg0), false));
+			return imageTextProvider.getEObjectReferenceLabel(arg0, imageTextProvider.getEObjectLabel(arg0, super.getText(arg0), false));
 		}
 	}
 
