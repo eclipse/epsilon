@@ -11,19 +11,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -34,7 +33,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -174,14 +172,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			if (eClassCache.containsKey(name)) {
 				return eClassCache.get(name);
 			}
-			
+
 			EClass eClass = classForName(name, getPackageRegistry());
-			
-			//EClass eClass = classForName(name, EPackage.Registry.INSTANCE);
-			//if (eClass == null) {
-			//	eClass = classForName(name, EPackage.Registry.INSTANCE);
-			//}
-			
 			if (eClass != null) {
 				eClassCache.put(name, eClass);
 				return eClass;
@@ -193,24 +185,45 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected EClass classForName(String name, Registry registry) {	
 		boolean absolute = name.indexOf("::") > -1;
-		
+
+		if (!absolute) {
+			// There may be several EPackages with an EClass of the same name.
+			// We should try first with the EPackage of the first element of
+			// the model, as a precaution to avoid conflicts on common nouns
+			// (such as "Action", which is available both in UML and in xText).
+			final TreeIterator<EObject> iterContents = getResource().getAllContents();
+			if (iterContents.hasNext()) {
+				final EObject root = iterContents.next();
+				final EClass eClass = classForName(name, absolute, root.eClass().getEPackage());
+				if (eClass != null) {
+					return eClass;
+				}
+			}
+		}
 		for (Object pkg : registry.values()) {
 			if (pkg instanceof EPackage) {
+				EClass eClass = classForName(name, absolute, pkg);
+				if (eClass != null) {
+					return eClass;
+				}
+			}
+		}
+		return null;
+	}
+
+	private EClass classForName(String name, boolean absolute, Object pkg) {
+		for (EClassifier eClassifier : EmfUtil.getAllEClassifiers((EPackage)pkg)) {
+			if (eClassifier instanceof EClass) {
+				String eClassifierName = "";
+				if (absolute) {
+					eClassifierName = getFullyQualifiedName(eClassifier);
+				}
+				else {
+					eClassifierName = eClassifier.getName();
+				}
 				
-				for (EClassifier eClassifier : EmfUtil.getAllEClassifiers((EPackage)pkg)) {
-					if (eClassifier instanceof EClass) {
-						String eClassifierName = "";
-						if (absolute) {
-							eClassifierName = getFullyQualifiedName(eClassifier);
-						}
-						else {
-							eClassifierName = eClassifier.getName();
-						}
-						
-						if (eClassifierName.compareTo(name) == 0) {
-							return (EClass) eClassifier;
-						}
-					}
+				if (eClassifierName.compareTo(name) == 0) {
+					return (EClass) eClassifier;
 				}
 			}
 		}

@@ -91,8 +91,8 @@ public abstract class Model implements IModel{
 	}
 
 	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException{
-		Collection allOfType = getAllOfKind(metaClass);
-		if (allOfType != null && allOfType.contains(instance)){
+		Collection allOfKind = getAllOfKind(metaClass);
+		if (allOfKind != null && allOfKind.contains(instance)){
 			return true;
 		}
 		else {
