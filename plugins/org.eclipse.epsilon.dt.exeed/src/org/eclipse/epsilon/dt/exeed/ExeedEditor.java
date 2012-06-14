@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -192,9 +193,19 @@ public class ExeedEditor extends EcoreEditor {
 
 		final Map<String, Object> extensionToFactoryMap =
 				editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap();
-
 		extensionToFactoryMap.put("xml", new GenericXMLResourceFactoryImpl());
-		extensionToFactoryMap.put("*", new IDXMIResourceFactoryImpl());
+
+		// We shouldn't override the existing "*" default, which is the ECore
+		// RegistryReader$ResourceFactoryDescriptor.
+		// Otherwise, some models will not be loaded correctly (e.g. Papyrus UML
+		// models).
+		//
+		//extensionToFactoryMap.put("*", new IDXMIResourceFactoryImpl());
+		//
+		// I will leave "model" as the 'generic' extension for models, though,
+		// which is the usual convention followed throughout Epsilon's docs.
+
+		extensionToFactoryMap.put("model", new IDXMIResourceFactoryImpl());
 		extensionToFactoryMap.put("bim", new ResourceFactoryImpl() {
 			@Override
 			public Resource createResource(URI uri) {
