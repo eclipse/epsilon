@@ -51,7 +51,7 @@ public class AntUserInput extends AbstractUserInput{
 		return new Integer(request.getInput()).intValue();
 	}
 
-	public float promptReal(String question, float default_) {
+	public double promptReal(String question, double default_) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

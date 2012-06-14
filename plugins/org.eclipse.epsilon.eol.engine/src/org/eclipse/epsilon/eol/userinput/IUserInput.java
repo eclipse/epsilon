@@ -28,6 +28,6 @@ public interface IUserInput {
 	
 	public int promptInteger(String question, int default_);
 	
-	public float promptReal(String question, float default_);
+	public double promptReal(String question, double default_);
 	
 }

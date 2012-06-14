@@ -262,6 +262,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 
 	private void loadExtraPackages(Resource resource) {
+		System.err.println("resource: " + resource);
+		System.err.println("resourceSet: " + resource.getResourceSet());
 		final Registry packageRegistry = resource.getResourceSet().getPackageRegistry();
 		for (IConfigurationElement elem : this.getConfigurationElements()) {
 			final String extraPackages = elem.getAttribute("extraPackages");

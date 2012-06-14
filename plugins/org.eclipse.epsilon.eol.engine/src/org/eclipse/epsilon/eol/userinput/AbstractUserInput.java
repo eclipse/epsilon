@@ -38,7 +38,7 @@ public abstract class AbstractUserInput implements IUserInput {
 		return promptInteger(question, 0);
 	}
 
-	public float promptReal(String question) {
+	public double promptReal(String question) {
 		return promptReal(question, 0.0f);
 	}
 

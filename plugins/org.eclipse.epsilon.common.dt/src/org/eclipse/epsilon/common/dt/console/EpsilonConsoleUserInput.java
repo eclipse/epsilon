@@ -15,7 +15,7 @@ import java.io.PrintStream;
 
 import org.eclipse.epsilon.eol.userinput.ConsoleUserInput;
 
-public class EpsilonConsoleUserInput extends ConsoleUserInput{
+public class EpsilonConsoleUserInput extends ConsoleUserInput {
 
 	public EpsilonConsoleUserInput() {
 		super();

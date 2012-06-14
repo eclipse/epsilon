@@ -129,17 +129,17 @@ public abstract class ConsoleUserInput extends AbstractUserInput {
 		return response;
 	}
 
-	public float promptReal(String question, float default_) {
+	public double promptReal(String question, double default_) {
 		
 		boolean validResponse = false;
-		float response = 0;
+		double response = 0;
 		String responseStr = "";
 		
 		while (!validResponse) {
 			try {
 				getOutputStream().println(question);
 				responseStr = readString().trim();
-				response = Float.parseFloat(responseStr);
+				response = Double.parseDouble(responseStr);
 				validResponse = true;
 			}
 			catch (NumberFormatException ex) {
