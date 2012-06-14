@@ -40,11 +40,9 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			String result = EolCollectionType.getTypeName(c) + " {";
 			Iterator li = c.iterator();
 			
-			PrettyPrinter prettyPrinter = null;
 			while (li.hasNext()){
 				Object next = li.next();
-				prettyPrinter = manager.getPrettyPrinterFor(next);
-				result = result + prettyPrinter.print(next);
+				result = result + manager.print(next);
 				if (li.hasNext()){
 					result = result + ", ";
 				}
@@ -58,14 +56,10 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			String result = simpleClassName.substring(3, simpleClassName.length()) + " {";
 			Iterator li = ((EolMap) o).keySet().iterator();
 			
-			PrettyPrinter keyPrettyPrinter = null;
-			PrettyPrinter valuePrettyPrinter = null;
 			while (li.hasNext()){
 				Object key = li.next();
 				Object value = ((EolMap) o).get(key);
-				keyPrettyPrinter = manager.getPrettyPrinterFor(key);
-				valuePrettyPrinter = manager.getPrettyPrinterFor(value);
-				result = result + keyPrettyPrinter.print(key) + "->" + valuePrettyPrinter.print(value);
+				result = result + manager.print(key) + "->" + manager.print(value);
 				if (li.hasNext()){
 					result = result + ", ";
 				}

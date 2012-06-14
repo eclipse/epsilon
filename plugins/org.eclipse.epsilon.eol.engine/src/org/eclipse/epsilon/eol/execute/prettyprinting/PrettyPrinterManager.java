@@ -69,8 +69,7 @@ public class PrettyPrinterManager {
 	*/
 	
 	public String toString(Object o){
-		PrettyPrinter prettyPrinter = getPrettyPrinterFor(o);
-		return prettyPrinter.print(o);
+		return print(o);
 	}
 	
 }

@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 import org.eclipse.epsilon.eol.types.NumberUtil;
@@ -123,9 +124,9 @@ public class OperatorExecutor extends AbstractExecutor{
 		// If we can do nothing more, we concat their string
 		// representations
 		
-		PrettyPrinter prettyPrinter1 = context.getPrettyPrinterManager().getPrettyPrinterFor(o1);
-		PrettyPrinter prettyPrinter2 = context.getPrettyPrinterManager().getPrettyPrinterFor(o2);	
-		return prettyPrinter1.print(o1) + prettyPrinter2.print(o2);
+		PrettyPrinterManager prettyPrinterManager = context.getPrettyPrinterManager();	
+		return prettyPrinterManager.print(o1) + prettyPrinterManager.print(o2);
+
 	}
 
 	private Object subtract(Object o1, Object o2){
