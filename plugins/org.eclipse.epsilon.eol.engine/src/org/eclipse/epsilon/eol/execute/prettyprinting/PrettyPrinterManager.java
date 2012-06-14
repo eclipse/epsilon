@@ -37,6 +37,12 @@ public class PrettyPrinterManager {
 		prettyPrinters.add(0, prettyPrinter);
 	}
 	
+	/**
+	 * Returns a pretty printer for o
+	 * @param o
+	 * @return A pretty printer for o
+	 * @deprecated External clients should use print(Object object) instead
+	 */
 	public PrettyPrinter getPrettyPrinterFor(Object o){
 		
 		//if (eolPrettyPrinter.appliesTo(o)) return eolPrettyPrinter;
@@ -58,7 +64,12 @@ public class PrettyPrinterManager {
 	}
 	
 	public String print(Object object) {
-		return getPrettyPrinterFor(object).print(object);
+		try {
+			return getPrettyPrinterFor(object).print(object);
+		}
+		catch (Exception ex) {
+			return defaultPrettyPrinter.print(object);
+		}
 	}
 	
 	/*
