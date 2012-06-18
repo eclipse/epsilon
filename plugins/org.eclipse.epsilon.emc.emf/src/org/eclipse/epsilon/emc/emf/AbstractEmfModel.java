@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -186,20 +185,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected EClass classForName(String name, Registry registry) {	
 		boolean absolute = name.indexOf("::") > -1;
 
-		if (!absolute) {
-			// There may be several EPackages with an EClass of the same name.
-			// We should try first with the EPackage of the first element of
-			// the model, as a precaution to avoid conflicts on common nouns
-			// (such as "Action", which is available both in UML and in xText).
-			final TreeIterator<EObject> iterContents = getResource().getAllContents();
-			if (iterContents.hasNext()) {
-				final EObject root = iterContents.next();
-				final EClass eClass = classForName(name, absolute, root.eClass().getEPackage());
-				if (eClass != null) {
-					return eClass;
-				}
-			}
-		}
 		for (Object pkg : registry.values()) {
 			if (pkg instanceof EPackage) {
 				EClass eClass = classForName(name, absolute, pkg);
