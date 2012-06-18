@@ -103,9 +103,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			try {
 				toRemove.unload();
 			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			catch (Exception ex) {}
 			
 			if (toRemove.getResourceSet() != null) {
 				for (Resource resource : toRemove.getResourceSet().getResources()) {
