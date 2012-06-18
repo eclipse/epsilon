@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class InMemoryEmfModel extends EmfModel {
@@ -36,11 +37,11 @@ public class InMemoryEmfModel extends EmfModel {
 	}
 
 	public InMemoryEmfModel(Resource modelImpl) {
-		init("Model", modelImpl, Collections.EMPTY_LIST);
+		init("Model", modelImpl, Collections.<EPackage> emptyList());
 	}
 	
 	public InMemoryEmfModel(String name, Resource modelImpl) {
-		init(name, modelImpl, Collections.EMPTY_LIST);
+		init(name, modelImpl, Collections.<EPackage> emptyList());
 	}
 	
 	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages) {
@@ -59,7 +60,7 @@ public class InMemoryEmfModel extends EmfModel {
 			modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
 		}
 		else {
-			
+			modelImpl.getResourceSet().setPackageRegistry(new EPackageRegistryImpl(EPackage.Registry.INSTANCE));
 			for (EPackage ePackage : ePackages) {
 				modelImpl.getResourceSet().getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 				

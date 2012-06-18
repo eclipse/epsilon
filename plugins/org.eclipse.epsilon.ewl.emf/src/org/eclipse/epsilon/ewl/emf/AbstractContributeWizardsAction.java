@@ -190,13 +190,15 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 					eObjects.add(eObject);
 				}
 			}
-			
-			List<URI> uris = getEwlURIsForEObjects(eObjects);
-			Resource resource = eObjects.get(0).eResource();
-			loadExtraPackages(resource);
 
-			model = new InMemoryEmfModel("Model", resource, EmfUtil.getTopEPackage(eObjects.get(0)));
-			
+			final List<URI> uris = getEwlURIsForEObjects(eObjects);
+			final Resource resource = eObjects.get(0).eResource();
+			final List<EPackage> ePackages = loadExtraPackages(resource);
+			if (!eObjects.isEmpty()) {
+				ePackages.add(EmfUtil.getTopEPackage(eObjects.get(0)));
+			}
+			model = new InMemoryEmfModel("Model", resource, ePackages);
+
 			for (URI uri : uris) {
 				EwlModule module = new EwlModule();
 				
@@ -261,10 +263,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 	}
 
-	private void loadExtraPackages(Resource resource) {
-		System.err.println("resource: " + resource);
-		System.err.println("resourceSet: " + resource.getResourceSet());
-		final Registry packageRegistry = resource.getResourceSet().getPackageRegistry();
+	private List<EPackage> loadExtraPackages(Resource resource) {
+		final List<EPackage> ePackages = new ArrayList<EPackage>();
 		for (IConfigurationElement elem : this.getConfigurationElements()) {
 			final String extraPackages = elem.getAttribute("extraPackages");
 			if (extraPackages == null) continue;
@@ -272,10 +272,11 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			for (String packageURI : extraPackages.split(",")) {
 				final EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(packageURI);
 				if (ePackage != null) {
-					packageRegistry.put(packageURI, ePackage);
+					ePackages.add(ePackage);
 				}
 			}
 		}
+		return ePackages;
 	}
 	
 	private IConfigurationElement[] getConfigurationElements() {
