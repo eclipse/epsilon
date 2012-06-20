@@ -362,4 +362,10 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return getPropertiesOf(type).contains(property);
 	}
+
+	@Override
+	public String toString() {
+		return "EmfModel [name=" + getName() + "]";
+	}
+
 }

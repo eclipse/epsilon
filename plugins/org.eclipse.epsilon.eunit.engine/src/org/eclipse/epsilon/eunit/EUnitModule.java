@@ -442,11 +442,20 @@ public class EUnitModule extends EolModule {
 		final ModelBindings bindings = node.getModelBindings();
 		final Map<String, String> mappings = bindings.getMappings();
 
-		IModel defaultModel = modelRepository.getModelByName("");
+		// The default model (usable without an X! prefix) is the first one, so we have
+		// to preserve that property. When using EXCLUDE_OTHERS, the default model prefix
+		// "" has to be used explicitly. When using INCLUDE_OTHERS, the existing default
+		// model is preserved, unless the "" key is explicitly used.
+		IModel defaultModel = null;
 		if (mappings.containsKey("")) {
 			defaultModel = modelRepository.getModelByName(mappings.get(""));
 		}
-		modelRepository.removeModel(defaultModel);
+		else if (bindings.getExclusiveMode() == ExclusiveMode.INCLUDE_OTHERS) {
+			defaultModel = modelRepository.getModelByName("");
+		}
+		if (defaultModel != null) {
+			modelRepository.removeModel(defaultModel);
+		}
 
 		// Store the models to be renamed
 		final List<IModel> renamedModels = new ArrayList<IModel>();
@@ -475,7 +484,9 @@ public class EUnitModule extends EolModule {
 
 		// Add the models back: first the default, then the renamed models, and then the rest
 		assert modelRepository.getModels().isEmpty();
-		modelRepository.addModel(defaultModel);
+		if (defaultModel != null) {
+			modelRepository.addModel(defaultModel);
+		}
 		for (IModel model : renamedModels) {
 			modelRepository.addModel(model);
 		}

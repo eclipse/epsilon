@@ -87,4 +87,10 @@ public class ModelBindings {
 	public Map<String, String> getMappings() {
 		return Collections.unmodifiableMap(modelMapping);
 	}
+
+	@Override
+	public String toString() {
+		return "ModelBindings [modelMapping=" + modelMapping + ", exclusiveMode=" + exclusiveMode + "]";
+	}
+
 }

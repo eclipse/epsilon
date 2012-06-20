@@ -177,5 +177,10 @@ public class ModelRepository {
 	public List<IModel> getModels(){
 		return models;
 	}
+
+	@Override
+	public String toString() {
+		return "ModelRepository [transactionSupport=" + transactionSupport + ", models=" + models + "]";
+	}
 	
 }
