@@ -102,31 +102,31 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 	private void compareUlps(String message, Number expected, Number obtained, Number ulps, boolean mustBeEqual) throws EolAssertionException {
 		final long intUlps = ulps.longValue();
 
-		boolean bIsEqual = false;
+		boolean bIsEqual = (expected == null) == (obtained == null);
 		String upperBound = null, lowerBound = null;
-		if (expected instanceof Float) {
-			final float flExpected = ((Number)expected).floatValue();
-			final float flActual = obtained.floatValue();
-			final float flMargin = intUlps * Math.ulp(flExpected);
-			bIsEqual = Math.abs(flActual - flExpected) <= flMargin;
-			lowerBound = Float.toString(flExpected - flMargin);
-			upperBound = Float.toString(flExpected + flMargin);
-		}
-		else {
-			final double dblExpected = expected.doubleValue();
-			final double dblActual = obtained.doubleValue();
-			final double dblMargin = intUlps * Math.ulp(dblExpected);
-			bIsEqual = Math.abs(dblActual - dblExpected) <= dblMargin;
-			lowerBound = Double.toString(dblExpected - dblMargin);
-			upperBound = Double.toString(dblExpected + dblMargin);
+		if (expected != null) {
+			if (expected instanceof Float) {
+				final float flExpected = ((Number)expected).floatValue();
+				final float flMargin = intUlps * Math.ulp(flExpected);
+				bIsEqual = bIsEqual && Math.abs(obtained.floatValue() - flExpected) <= flMargin;
+				lowerBound = Float.toString(flExpected - flMargin);
+				upperBound = Float.toString(flExpected + flMargin);
+			}
+			else {
+				final double dblExpected = expected.doubleValue();
+				final double dblMargin = intUlps * Math.ulp(dblExpected);
+				bIsEqual = bIsEqual && Math.abs(obtained.doubleValue() - dblExpected) <= dblMargin;
+				lowerBound = Double.toString(dblExpected - dblMargin);
+				upperBound = Double.toString(dblExpected + dblMargin);
+			}
 		}
 
 		if (bIsEqual != mustBeEqual) {
 			if (message == null) {
-				message = "Expected " + expected + (mustBeEqual ? "not " : "")
-					+ "to be in [" + lowerBound + ", " + upperBound + "]";
+				message = "Expected " + obtained + (mustBeEqual ? "" : " not")
+					+ " to be in [" + lowerBound + ", " + upperBound + "]";
 			}
-			throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), expected, obtained, null);
+			throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), expected, obtained != null ? obtained : "null", null);
 		}
 	}
 }
