@@ -211,13 +211,26 @@ operation mytest() { -* test with the generated model *- }
 
 \subsubsection{Model bindings}
 
-Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with map} one or more times, where \eol{map} is an EOL expression that produces a \class{Map}. For each key-value pair \variable{key = value}, EUnit will rename the model named \variable{value} to \variable{key}. Listing~\ref{lst:eunit-modelbind} shows a test which will be run twice: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model.
+Model bindings repeat a test case with different subsets of models. They can be defined by annotating a test case with \eolannotation{\$with map} or \eolannotation{\$onlyWith map} one or more times, where \eol{map} is an EOL expression that produces a \class{Map}. For each key-value pair \variable{key = value}, EUnit will rename the model named \variable{value} to \variable{key}. The difference between \eolannotation{\$with} and \eolannotation{\$onlyWith} is how they handle the models not mentioned in the \class{Map}: \eolannotation{\$with} will preserve them as is, and \eolannotation{\$onlyWith} will make them unavailable during the test. \eolannotation{\$onlyWith} is useful for tightly restricting the set of available models in a test and for avoiding ambiguous type references when handling multiple models using the same metamodel.
 
-\begin{lstlisting}[float=tbp, language=EOL,caption=Example of a model binding,label=lst:eunit-modelbind,columns=fixed]
+Listing~\ref{lst:eunit-modelbind} shows two tests which will be each run twice. The first test uses \eolannotation{\$with}, which preserves models not mentioned in the \class{Map}: the first time, model \modelname{A} will be the default model and model \modelname{B} will be the \modelname{Other} model, and the second time, model \modelname{B} will be the default model and model \modelname{A} will be the \modelname{Other} model. The second test uses two \eolannotation{\$onlyWith} annotations: on the first run, \modelname{A} will be available as \modelname{Model} and \modelname{B} will not unavailable, and on the second run, only \modelname{B} will be available as \modelname{Model} and \modelname{A} will be unavailable.
+
+\begin{lstlisting}[float=tbp, language=EOL,caption=Examples of model bindings,label=lst:eunit-modelbind,columns=fixed]
 $with Map {"" = "A", "Other" = "B"}
 $with Map {"" = "B", "Other" = "A"}
 @test
-operation mytest() { -* use the default and Other models *- }
+operation mytest() {
+  -* use the default and Other models, while
+     keeping the rest as is *-
+}
+
+$onlyWith Map { "Model" = "A" }
+$onlyWith Map { "Model" = "B" }
+@test
+operation mytest2() {
+  -- first time: A as 'Model', B is unavailable
+  -- second time: B as 'Model', A is unavailable
+}
 \end{lstlisting}
 
 \subsubsection{Additional variables and built-in operations}
