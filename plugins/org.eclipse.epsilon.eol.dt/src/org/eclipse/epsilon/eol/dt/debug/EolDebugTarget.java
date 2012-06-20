@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.dt.debug;
 
 import org.eclipse.core.resources.IMarkerDelta;
+import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IBreakpoint;
@@ -47,10 +48,21 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 	
 	public void stepInto() throws DebugException {
-		fireSuspendEvent(1);
+		fireSuspendEvent(DebugEvent.SUSPEND);
 		debugger.step();
-		fireResumeEvent(1);
-		//fireEvent(new DebugEvent(threads[0], DebugEvent.STEP_INTO));
+		fireResumeEvent(DebugEvent.STEP_INTO);
+	}
+
+	public void stepOver() throws DebugException {
+		fireSuspendEvent(DebugEvent.SUSPEND);
+		debugger.stepOver();
+		fireResumeEvent(DebugEvent.STEP_OVER);
+	}
+
+	public void stepReturn() {
+		fireSuspendEvent(DebugEvent.SUSPEND);
+		debugger.stepReturn();
+		fireResumeEvent(DebugEvent.STEP_RETURN);
 	}
 
 	public Object debug() throws DebugException, EolRuntimeException {
@@ -104,18 +116,15 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	public void breakpointAdded(IBreakpoint breakpoint) {
-		// TODO Auto-generated method stub
-
+		// nothing to do
 	}
 
 	public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
-		// TODO Auto-generated method stub
-
+		// nothing to do
 	}
 
 	public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
-		// TODO Auto-generated method stub
-
+		// nothing to do
 	}
 
 	public IProcess getProcess() {
@@ -135,7 +144,6 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	public boolean supportsBreakpoint(IBreakpoint breakpoint) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -148,7 +156,7 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	public void disconnect() throws DebugException {
-
+		// do nothing
 	}
 
 	public boolean isDisconnected() {
@@ -159,8 +167,7 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 		return false;
 	}
 
-	public IMemoryBlock getMemoryBlock(long startAddress, long length)
-			throws DebugException {
+	public IMemoryBlock getMemoryBlock(long startAddress, long length) throws DebugException {
 		return null;
 	}
 

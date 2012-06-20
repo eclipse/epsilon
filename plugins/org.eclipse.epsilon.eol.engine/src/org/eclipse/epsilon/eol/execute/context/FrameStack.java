@@ -416,7 +416,11 @@ public class FrameStack {
 	public Frame getGlobals() {
 		return new GlobalFrame();
 	}
-	
+
+	/**
+	 * Returns a list with all local (from top to bottom) and global (from top
+	 * to bottom) stack frames, in that order.
+	 */
 	public List<SingleFrame> getFrames() {
 		final List<SingleFrame> frames = new ArrayList<SingleFrame>();
 		frames.addAll(locals.getFrames());

@@ -242,6 +242,9 @@ public class ExecutorFactory {
 			for (IExecutionListener listener : executionListeners) {
 				listener.finishedExecuting(ast, result, context);
 			}
+			if (executionController != null) {
+				executionController.done(ast, context);
+			}
 		}
 	}
 

@@ -56,5 +56,10 @@ public class DebugExecutionController implements ExecutionController{
 	public boolean isSuspended() {
 		return suspended;
 	}
+
+	@Override
+	public void done(AST ast, IEolContext context) {
+		// do nothing
+	}
 }
  

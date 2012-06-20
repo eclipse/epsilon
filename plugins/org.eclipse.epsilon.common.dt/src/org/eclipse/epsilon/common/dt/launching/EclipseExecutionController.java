@@ -24,19 +24,14 @@ public class EclipseExecutionController implements ExecutionController {
 	protected Timer timer;
 	protected boolean terminated = false;
 	
-	
 	public EclipseExecutionController(final IProgressMonitor monitor) {
-		
-		
 		TimerTask pollMonitorTask = new TimerTask() {
-
 			@Override
 			public void run() {
 				setTerminated(monitor.isCanceled());
 			}
 			
 		};
-		
 		timer = new Timer();
 		timer.schedule(pollMonitorTask, 0l, 200l);
 	}
@@ -58,7 +53,10 @@ public class EclipseExecutionController implements ExecutionController {
 	public void dispose() {
 		timer.cancel();
 	}
-	
-	
+
+	@Override
+	public void done(AST ast, IEolContext context) {
+		// do nothing
+	}
 	
 }

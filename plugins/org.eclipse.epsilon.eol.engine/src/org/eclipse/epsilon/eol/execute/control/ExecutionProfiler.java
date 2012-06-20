@@ -28,7 +28,6 @@ public class ExecutionProfiler implements ExecutionController {
 	}
 
 	public void control(AST ast, IEolContext context) {
-		
 		long currentTime = 0;
 		
 		if (previousAst != null){
@@ -66,6 +65,11 @@ public class ExecutionProfiler implements ExecutionController {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void done(AST ast, IEolContext context) {
+		// nothing to do
 	}
 	
 }

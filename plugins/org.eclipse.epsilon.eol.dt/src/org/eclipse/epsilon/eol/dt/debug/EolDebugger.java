@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,180 +7,70 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - clean up, add "step over" and "step return"
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolDebugger implements ExecutionController {
-	
-	protected IDebugTarget target = null;
-	protected boolean stepping = false;
-	protected HashMap<String, IFile> iFiles = new HashMap<String, IFile>();
 	protected ArrayList<Integer> expressionOrStatementBlockContainers = new ArrayList<Integer>();
 	protected ArrayList<Integer> structuralBlocks = new ArrayList<Integer>();
-	
+
+	private IDebugTarget target = null;
+	private boolean stepping = false;
+	private HashMap<String, IFile> iFiles = new HashMap<String, IFile>();
+	private AST currentAST, stopAfterAST;
+	private Integer stopAfterFrameStackSizeDropsBelow;
+
 	public EolDebugger() {
 		expressionOrStatementBlockContainers.add(EolParser.HELPERMETHOD);
 	}
 	
-	public void setTarget(IDebugTarget target) {
-		this.target = target;
-	}
-	
-	public IDebugTarget getTarget() {
-		return target;
-	}
-	
-	public void step() {
-		stepping = true;
-	}
-
-	public Object debug(IEolExecutableModule module) throws EolRuntimeException {
-		return module.execute();
-	}
-	
-	protected AST getParent(AST ast) {
-		if (ast == null) return null;
-		else return (AST) ast.getParent();
-	}
-	
-	protected AST getGrandparent(AST ast) {
-		return getParent(getParent(ast));
-	}
-	
-	protected boolean isExpressionOrStatementBlockContainer(AST ast) {
-		if (ast == null) return false;
-		return getExpressionOrStatementBlockHolders().contains(ast.getType());
-	}
-	
-	protected boolean isStructuralBlock(AST ast) {
-		if (ast == null) return false;
-		else return structuralBlocks.contains(ast.getType());
-	}
-	
-	protected boolean isContainedExpression(AST ast) {
-		AST parent = getParent(ast);
-		if (parent == null) return false;
-		return isExpressionOrStatementBlockContainer(parent) && parent.getChildCount() == 1;
-	}
-	
-	protected boolean isFirstStatement(AST ast) {
-		AST parent = getParent(ast);
-		if (parent == null) return false;
-		if (parent.getType() != EolParser.BLOCK) return false;
-		AST grandparent = getParent(parent);
-		if (!isExpressionOrStatementBlockContainer(grandparent)) return false;
-		return parent.getFirstChild() == ast;
-	}
-	
-	protected boolean isStatement(AST ast) {
-		AST parent = getParent(ast);
-		if (parent == null) return false;
-		return parent.getType() == EolParser.BLOCK;
-	}
-	
-	protected boolean controls(AST ast, IEolContext context) {
-		
-		// Top level element or block
-		if (ast.getParent() == null || ast.getType() == EolParser.BLOCK) return false;
-		return isStatement(ast) || isContainedExpression(ast);
-		
-	}
-	
 	public void control(AST ast, IEolContext context) {
-
 		if (!controls(ast, context)) return;
-		IFile file = getIFile(ast);
+		IFile lastFile = getIFile(ast);
+		currentAST = ast;
 
 		if (stepping) {
-			stepping = false; suspend(file, ast);
+			stepping = false;
+			suspend(lastFile, ast);
 		}
 		else if (hasBreakpoint(ast)) {
-			suspend(file, ast);
+			suspend(lastFile, ast);
 		}
-		
+	
 		if (target.isTerminated()) return;
 	}
-	
-	protected ArrayList<Integer> getExpressionOrStatementBlockHolders() {
-		return expressionOrStatementBlockContainers;
-	}
-	
-	public void suspend(IFile file, AST ast) {
-		try {
-//			System.err.println("Suspending at: " + ast);
-			target.suspend();
-			EclipseUtil.openEditorAt(file, getRealLine(ast.getLine()), 1, false);
-			while (target.isSuspended() && !stepping) { System.err.print(""); }
+
+	@Override
+	public void done(AST ast, IEolContext context) {
+		if (stopAfterAST != null && ast == stopAfterAST) {
+			stepping = true;
+			stopAfterAST = null;
 		}
-		catch (Exception ex) { }
-		
-	}
-	
-	public boolean hasBreakpoint(AST ast) {
-		if (hasBreakpointItself(ast)) return true;
-		
-		if (isFirstStatement(ast)) {
-			return hasBreakpoint(getGrandparent(ast));
+		if (stopAfterFrameStackSizeDropsBelow != null && frameStackSize() < stopAfterFrameStackSizeDropsBelow) {
+			stepping = true;
+			stopAfterFrameStackSizeDropsBelow = null;
 		}
-		else if (isContainedExpression(ast)) {
-			return hasBreakpoint(getParent(ast));
-		}
-		
-		if (isStructuralBlock(getParent(ast))) {
-			if (isExpressionOrStatementBlockContainer(ast)) {
-				return hasBreakpoint(getParent(ast));
-			}
-			else if (isStructuralBlock(ast)) {
-				return hasBreakpoint(getParent(ast));
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean hasBreakpointItself(AST ast) {
-		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(EolDebugConstants.MODEL_IDENTIFIER);
-		
-		for (IBreakpoint breakpoint : breakpoints) {
-			
-			IMarker marker = breakpoint.getMarker();
-			
-			if (marker.getResource().equals(getIFile(ast)) &&
-					marker.getAttribute(IMarker.LINE_NUMBER, 0) == 
-						getRealLine(ast.getLine())) {
-				return true;
-			}
-			
-		}
-		return false;
-	}
-	
-	protected int getRealLine(int line) {
-		return line;
 	}
 
 	public boolean isTerminated() {
@@ -195,7 +85,49 @@ public class EolDebugger implements ExecutionController {
 		target = null;
 	}
 
-	protected IFile getIFile(AST ast) {
+	public Object debug(IEolExecutableModule module) throws EolRuntimeException {
+		return module.execute();
+	}
+
+	public void setTarget(IDebugTarget target) {
+		this.target = target;
+	}
+	
+	public IDebugTarget getTarget() {
+		return target;
+	}
+	
+	public void step() {
+		stepping = true;
+	}
+
+	public void stepOver() {
+		stopAfterAST = currentAST;
+	}
+
+	public void stepReturn() {
+		stopAfterFrameStackSizeDropsBelow = frameStackSize();
+	}
+
+	private boolean controls(AST ast, IEolContext context) {
+		// Top level element or block
+		if (ast.getParent() == null || ast.getType() == EolParser.BLOCK) return false;
+		return isStatement(ast) || isContainedExpression(ast);
+	}
+
+	private int frameStackSize() {
+		return ((EolDebugTarget)target).getModule().getContext().getFrameStack().getFrames().size();
+	}
+
+	private ArrayList<Integer> getExpressionOrStatementBlockHolders() {
+		return expressionOrStatementBlockContainers;
+	}
+
+	private int getRealLine(int line) {
+		return line;
+	}
+
+	private IFile getIFile(AST ast) {
 		if (ast.getFile() != null) {
 			return getIFile(ast.getFile());
 		} else {
@@ -220,6 +152,100 @@ public class EolDebugger implements ExecutionController {
 			return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uriParts[1]));
 		}
 		return ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(uri)[0];
+	}
+
+	private AST getGrandparent(AST ast) {
+		return getParent(getParent(ast));
+	}
+	
+	private AST getParent(AST ast) {
+		return ast != null ? ast.getParent() : null;
+	}
+
+	private boolean hasBreakpoint(AST ast) {
+		if (hasBreakpointItself(ast)) return true;
+		
+		if (isFirstStatement(ast)) {
+			return hasBreakpoint(getGrandparent(ast));
+		}
+		else if (isContainedExpression(ast)) {
+			return hasBreakpoint(getParent(ast));
+		}
+		
+		if (isStructuralBlock(getParent(ast))) {
+			if (isExpressionOrStatementBlockContainer(ast)) {
+				return hasBreakpoint(getParent(ast));
+			}
+			else if (isStructuralBlock(ast)) {
+				return hasBreakpoint(getParent(ast));
+			}
+		}
+		
+		return false;
+	}
+
+	private boolean hasBreakpointItself(AST ast) {
+		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(EolDebugConstants.MODEL_IDENTIFIER);
+		for (IBreakpoint breakpoint : breakpoints) {
+			IMarker marker = breakpoint.getMarker();
+			if (marker.getResource().equals(getIFile(ast)) &&
+					marker.getAttribute(IMarker.LINE_NUMBER, 0) == 
+						getRealLine(ast.getLine())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isExpressionOrStatementBlockContainer(AST ast) {
+		if (ast == null) return false;
+		return getExpressionOrStatementBlockHolders().contains(ast.getType());
+	}
+
+	private boolean isStructuralBlock(AST ast) {
+		if (ast == null) return false;
+		else return structuralBlocks.contains(ast.getType());
+	}
+	
+	private boolean isContainedExpression(AST ast) {
+		AST parent = getParent(ast);
+		if (parent == null) return false;
+		return isExpressionOrStatementBlockContainer(parent) && parent.getChildCount() == 1;
+	}
+	
+	private boolean isFirstStatement(AST ast) {
+		AST parent = getParent(ast);
+		if (parent == null) return false;
+		if (parent.getType() != EolParser.BLOCK) return false;
+		AST grandparent = getParent(parent);
+		if (!isExpressionOrStatementBlockContainer(grandparent)) return false;
+		return parent.getFirstChild() == ast;
+	}
+	
+	private boolean isStatement(AST ast) {
+		AST parent = getParent(ast);
+		if (parent == null) return false;
+		return parent.getType() == EolParser.BLOCK;
+	}
+	
+	private void suspend(IFile file, AST ast) {
+		try {
+			target.suspend();
+			EclipseUtil.openEditorAt(file, getRealLine(ast.getLine()), 1, false);
+			while (target.isSuspended()
+					&& !stepping
+					&& stopAfterAST == null
+					&& stopAfterFrameStackSizeDropsBelow == null) {
+				synchronized(this) {
+					try {
+						wait(500);
+					} catch (InterruptedException ex) {
+						// timeout
+					}
+				}
+			}
+		}
+		catch (Exception ex) {}
 	}
 
 }

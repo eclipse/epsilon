@@ -53,11 +53,11 @@ public class EolThread extends EolDebugElement implements IThread {
 	}
 
 	public boolean canStepOver() {
-		return false;
+		return true;
 	}
 
 	public boolean canStepReturn() {
-		return false;
+		return true;
 	}
 
 	public boolean isStepping() {
@@ -69,11 +69,11 @@ public class EolThread extends EolDebugElement implements IThread {
 	}
 
 	public void stepOver() throws DebugException {
-
+		((EolDebugTarget) getDebugTarget()).stepOver();
 	}
 
 	public void stepReturn() throws DebugException {
-
+		((EolDebugTarget) getDebugTarget()).stepReturn();
 	}
 
 	public boolean canTerminate() {

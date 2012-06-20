@@ -27,7 +27,11 @@ public class DefaultExecutionController implements ExecutionController{
 	}
 
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		// do nothing
+	}
+
+	@Override
+	public void done(AST ast, IEolContext context) {
+		// do nothing
 	}
 }
