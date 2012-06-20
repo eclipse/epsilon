@@ -14,8 +14,6 @@ package org.eclipse.epsilon.eunit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +21,6 @@ import java.util.Map;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.types.EolMap;
 
 public class EUnitTest {
 	
@@ -37,7 +34,7 @@ public class EUnitTest {
 	// Data/model bindings
 	private String dataVariable;
 	private Object dataValue;
-	private Map<String, String> modelBindings = null;
+	private ModelBindings modelBindings;
 
 	public final static long UNSET_TIME = -1;
 	private long startCpuTime = UNSET_TIME;
@@ -279,7 +276,7 @@ public class EUnitTest {
 		boolean bFirst = true;
 
 		if (getModelBindings() != null) {
-			for (Map.Entry<String, String> entry : getModelBindings().entrySet()) {
+			for (Map.Entry<String, String> entry : getModelBindings().getMappings().entrySet()) {
 				if (bFirst) {
 					bFirst = false;
 				}
@@ -484,20 +481,8 @@ public class EUnitTest {
 	 * 'Sequence {"", "X"}'.
 	 * @throws EolRuntimeException The map includes a key or a value that is not a String.
 	 */
-	public synchronized void setModelBindings(EolMap annotation) throws EolRuntimeException {
-		if (modelBindings == null) {
-			modelBindings = new LinkedHashMap<String, String>();
-		}
-		else {
-			modelBindings.clear();
-		}
-		for (Object key : annotation.keySet()) {
-			final Object value = annotation.get(key);
-			if (!(key instanceof String) || !(value instanceof String)) {
-				throw new EolRuntimeException("Model bindings expect a map with String keys and values");
-			}
-			modelBindings.put((String)key, (String)value);
-		}
+	public synchronized void setModelBindings(ModelBindings mb) throws EolRuntimeException {
+		this.modelBindings = mb;
 	}
 
 	/**
@@ -506,10 +491,7 @@ public class EUnitTest {
 	 * changed: if you want to make changes to it, you'll need to make a copy.
 	 * Trying to change it will throw an {@link UnsupportedOperationException}.
 	 */
-	public synchronized Map<String, String> getModelBindings() {
-		if (modelBindings != null) {
-			return Collections.unmodifiableMap(modelBindings);
-		}
-		return null;
+	public synchronized ModelBindings getModelBindings() {
+		return modelBindings;
 	}
 }

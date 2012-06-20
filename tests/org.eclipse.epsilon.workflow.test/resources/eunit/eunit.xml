@@ -167,6 +167,11 @@
 		<antcall target="withAnnotation"/>
 	</target>
 
+	<target name="onlyWithAnnotation">
+		<property name="eunit.file" location="with/only-with.eunit"/>
+		<antcall target="withAnnotation"/>
+	</target>
+
 	<target name="variables">
 		<epsilon.eunit src="variables/variables.eunit"/>
 	</target>

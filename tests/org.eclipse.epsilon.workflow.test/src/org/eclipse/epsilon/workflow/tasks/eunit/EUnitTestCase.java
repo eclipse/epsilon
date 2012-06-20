@@ -139,7 +139,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 								String.format("The %d-th test case in the report should be %s",
 										nTestCases+1, expectedTestCases[nTestCases]),
 								expectedTestCases[nTestCases], testCaseName);
-			
+
 							final String className = e.getAttribute("classname");
 							assertTrue(className.startsWith(expectedPackagePrefix));
 			

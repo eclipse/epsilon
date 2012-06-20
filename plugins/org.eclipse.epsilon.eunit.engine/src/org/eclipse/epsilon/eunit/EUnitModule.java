@@ -16,7 +16,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -35,16 +34,18 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eunit.ModelBindings.ExclusiveMode;
 import org.eclipse.epsilon.eunit.operations.ExtraEUnitOperationContributor;
 import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
 import org.eclipse.epsilon.internal.eunit.util.Pair;
 import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
 public class EUnitModule extends EolModule {
-	
+
+	private static final String MODEL_EXCLUSIVE_BINDING_ANNOTATION_NAME = "onlyWith";
 	private static final String MODEL_BINDING_ANNOTATION_NAME = "with";
+
 	/** Default package name for the JUnit reports. */
 	public static final String DEFAULT_PACKAGE = "default";
 	private String packageName = DEFAULT_PACKAGE;
@@ -198,13 +199,16 @@ public class EUnitModule extends EolModule {
 		return false;
 	}
 
-	protected List<Object> getModelBindings(EolOperation opTest)
-			throws EolRuntimeException {
-		return EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME, getContext());
-	}
-
-	protected boolean hasModelBindings(EolOperation opTest) {
-		return EolAnnotationsUtil.hasAnnotation(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME);
+	@SuppressWarnings("unchecked")
+	protected List<ModelBindings> getModelBindings(EolOperation opTest) throws EolRuntimeException {
+		final List<ModelBindings> results = new ArrayList<ModelBindings>();
+		for (Object withValue : EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME, getContext())) {
+			results.add(new ModelBindings((Map<String, String>)withValue, ModelBindings.ExclusiveMode.INCLUDE_OTHERS));
+		}
+		for (Object onlyWithValue : EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_EXCLUSIVE_BINDING_ANNOTATION_NAME, getContext())) {
+			results.add(new ModelBindings((Map<String, String>)onlyWithValue, ModelBindings.ExclusiveMode.EXCLUDE_OTHERS));
+		}
+		return results;
 	}
 
 	private void populateSuiteTree(EUnitTest parent, ListIterator<Pair<EolOperation,String>> dataIterator) throws EolRuntimeException {
@@ -224,21 +228,19 @@ public class EUnitModule extends EolModule {
 			parent.addChildren(test);
 
 			try {
-				if (hasModelBindings(opTest)) {
-					final List<Object> annotationsValues = getModelBindings(opTest);
+				final List<ModelBindings> annotationsValues = getModelBindings(opTest);
 
-					if (annotationsValues.size() == 1) {
-						// Do not create an inner node if there is only one
-						// model binding
-						test.setModelBindings((EolMap) annotationsValues.get(0));
-					} else {
-						for (Object annotation : annotationsValues) {
-							EUnitTest child = new EUnitTest();
-							child.setParent(test);
-							child.setOperation(opTest);
-							child.setModelBindings((EolMap) annotation);
-							test.addChildren(child);
-						}
+				if (annotationsValues.size() == 1) {
+					// Do not create an inner node if there is only one
+					// model binding
+					test.setModelBindings(annotationsValues.get(0));
+				} else if (!annotationsValues.isEmpty()) {
+					for (ModelBindings mb : annotationsValues) {
+						EUnitTest child = new EUnitTest();
+						child.setParent(test);
+						child.setOperation(opTest);
+						child.setModelBindings(mb);
+						test.addChildren(child);
 					}
 				}
 			} catch (Exception ex) {
@@ -247,6 +249,7 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void populateSuiteTreeDataOperation(EUnitTest parent,
 			ListIterator<Pair<EolOperation, String>> dataIterator)
 			throws EolRuntimeException {
@@ -368,6 +371,8 @@ public class EUnitModule extends EolModule {
 				node.setResult(EUnitTestResultType.FAILURE);
 				node.setException(child.getException());
 				break;
+			default:
+				// do nothing
 			}
 		}
 		if (node.getResult() != EUnitTestResultType.ERROR && node.getResult() != EUnitTestResultType.FAILURE) {
@@ -434,17 +439,22 @@ public class EUnitModule extends EolModule {
 		// Store the model to be used as default model (usable with no prefix,
 		// must be first in the list of models in the model repository).
 		final ModelRepository modelRepository = getContext().getModelRepository();
-		final Map<String, String> bindings = new HashMap<String, String>(node.getModelBindings());
+		final ModelBindings bindings = node.getModelBindings();
+		final Map<String, String> mappings = bindings.getMappings();
+
 		IModel defaultModel = modelRepository.getModelByName("");
-		if (bindings.containsKey("")) {
-			defaultModel = modelRepository.getModelByName(bindings.get(""));
-			bindings.remove("");
+		if (mappings.containsKey("")) {
+			defaultModel = modelRepository.getModelByName(mappings.get(""));
 		}
 		modelRepository.removeModel(defaultModel);
 
 		// Store the models to be renamed
 		final List<IModel> renamedModels = new ArrayList<IModel>();
-		for (Map.Entry<String, String> entry : bindings.entrySet()) {
+		for (Map.Entry<String, String> entry : mappings.entrySet()) {
+			if ("".equals(entry.getKey())) {
+				// We already explicitly handled the "" key before
+				continue;
+			}
 			if (defaultModel != null && entry.getValue().equals(defaultModel.getName())) {
 				// Check if the module to be renamed is the default model
 				defaultModel.setName(entry.getKey());
@@ -469,8 +479,10 @@ public class EUnitModule extends EolModule {
 		for (IModel model : renamedModels) {
 			modelRepository.addModel(model);
 		}
-		for (IModel model : otherModels) {
-			modelRepository.addModel(model);
+		if (bindings.getExclusiveMode() == ExclusiveMode.INCLUDE_OTHERS) {
+			for (IModel model : otherModels) {
+				modelRepository.addModel(model);
+			}
 		}
 	}
 

@@ -33,9 +33,7 @@ public class AntUserInput extends AbstractUserInput{
 	public boolean confirm(String question, boolean default_)
 			throws EolUserException {
 		// TODO Auto-generated method stub
-	
 		return false;
-		
 	}
  
 	public String prompt(String question, String default_) {

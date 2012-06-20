@@ -211,6 +211,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 				new String[]{
 					"hasOneA[1]", "hasOneA[2]",
 					"hasOneB", "hasTwoB",
+					"hasTwoElements", "hasThreeElements"
 				},
 				new HashSet<String>(), new HashSet<String>());
 	}
@@ -224,6 +225,21 @@ public class EUnitBasicTests extends EUnitTestCase {
 					"hasOneA[1]", "hasOneA[2]"
 				},
 				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[2]")));
+	}
+
+	@Test
+	public void onlyWithIsHonored() throws Exception {
+		runTarget(ANT_BUILD_FILE, "onlyWithAnnotation");
+		checkOutput(new File(BASE_DIR, "TEST-default.only-with.xml"),
+				EUnitModule.DEFAULT_PACKAGE,
+				new String[]{
+					"hasOneA", "hasTwoB",
+					"hasTwoElements_bIsRemoved", "hasTwoElements_aIsRemoved",
+					"hasThreeElements_bIsRemoved", "hasThreeElements_aIsRemoved"
+				},
+				new HashSet<String>(),
+				new HashSet<String>(Arrays.asList(
+					"hasTwoElements_aIsRemoved", "hasThreeElements_bIsRemoved")));
 	}
 
 	@Test
