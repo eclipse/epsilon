@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,46 +7,86 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - implement getVariables() and hasVariables()
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class EolVariableValue extends EolDebugElement implements IValue {
-
-	protected Object value = null;
+	private Object value = null;
+	private IVariable[] variables = null;
 	
 	public EolVariableValue(IDebugTarget target, Object value) {
 		super(target);
 		this.value = value;
 	}
 
-
 	public String getReferenceTypeName() throws DebugException {
 		return value.getClass().getCanonicalName();
 	}
-
 
 	public String getValueString() throws DebugException {
 		return value + "";
 	}
 
-
 	public boolean isAllocated() throws DebugException {
 		return true;
 	}
 
+	public synchronized IVariable[] getVariables() throws DebugException {
+		if (variables == null && value != null) {
+			final List<IVariable> subvars = new ArrayList<IVariable>();
 
-	public IVariable[] getVariables() throws DebugException {
-		return null;
+			// Elements (only on arrays: collections can be inspected through their fields)
+			if (value instanceof Object[]) {
+				final Object[] array = (Object[])value;
+				for (int i = 0; i < array.length; ++i) {
+					subvars.add(new EolVariable(getDebugTarget(), "[" + i + "]", array[i]));
+				}
+			}
+
+			// Fields
+			final List<Field> fields = ReflectionUtil.getAllInheritedInstanceFields(value.getClass());
+			for (Field f : fields) {
+				boolean oldAccessible = f.isAccessible();
+				try {
+					f.setAccessible(true);
+					subvars.add(new EolVariable(getDebugTarget(), f.getName(), f.get(value)));
+					f.setAccessible(oldAccessible);
+				} catch (IllegalAccessException ex) {
+					// could not access the field
+				}
+				catch (SecurityException ex) {
+					// could not make the field accessible
+				}
+			}
+
+			// Extended properties
+			final EolDebugTarget dt = (EolDebugTarget)getDebugTarget();
+			final Map<Object, Map<String, Object>> allExtProps = dt.getModule().getContext().getExtendedProperties();
+			if (allExtProps.containsKey(value)) {
+				for (Map.Entry<String, Object> eP : allExtProps.get(value).entrySet()) {
+					subvars.add(new EolVariable(getDebugTarget(), "~" + eP.getKey(), eP.getValue()));
+				}
+			}
+
+			variables = subvars.toArray(new IVariable[subvars.size()]);
+		}
+		return variables;
 	}
-
 
 	public boolean hasVariables() throws DebugException {
-		return false;
+		final IVariable[] vars = getVariables();
+		return vars != null && vars.length > 0;
 	}
-
 }

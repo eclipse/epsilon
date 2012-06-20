@@ -13,7 +13,10 @@ package org.eclipse.epsilon.eol.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.epsilon.commons.parse.AST;
@@ -251,6 +254,20 @@ public class ReflectionUtil {
 		else if (clazz == boolean.class) return Boolean.class.isInstance(instance);
 		else if (clazz == long.class) return Long.class.isInstance(instance);
 		else return clazz.isInstance(instance);
+	}
+
+	public static List<Field> getAllInheritedInstanceFields(Class<?> klazz) {
+		final List<Field> fields = new ArrayList<Field>();
+		for (Field f : klazz.getDeclaredFields()) {
+			if (Modifier.isStatic(f.getModifiers())) {
+				continue;
+			}
+			fields.add(f);
+		}
+		if (klazz.getSuperclass() != null) {
+			fields.addAll(getAllInheritedInstanceFields(klazz.getSuperclass()));
+		}
+		return fields;
 	}
 	
 }
