@@ -44,11 +44,15 @@ public class AntUserInput extends AbstractUserInput{
 	}
 
 	public int promptInteger(String question, int default_) {
-		
 		IntegerInputRequest request = new IntegerInputRequest(question);
 		request.setDefaultValue(default_ + "");
 		inputHandler.handleInput(request);
 		return new Integer(request.getInput()).intValue();
+	}
+
+	public float promptReal(String question, float default_) {
+		// For backwards compatibility
+		return 0;
 	}
 
 	public double promptReal(String question, double default_) {

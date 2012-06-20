@@ -129,6 +129,11 @@ public abstract class ConsoleUserInput extends AbstractUserInput {
 		return response;
 	}
 
+	public float promptReal(String question, float default_) {
+		// For backwards compatibility
+		return (float) promptReal(question, (double)default_);
+	}
+
 	public double promptReal(String question, double default_) {
 		
 		boolean validResponse = false;

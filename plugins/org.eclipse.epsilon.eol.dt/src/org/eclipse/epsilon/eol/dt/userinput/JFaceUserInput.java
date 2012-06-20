@@ -191,6 +191,11 @@ public class JFaceUserInput extends AbstractUserInput {
 
 	}
 
+	public float promptReal(String question, float default_) {
+		// For backwards compatibility
+		return (float) promptReal(question, (double)default_);
+	}
+
 	public double promptReal(String question, double default_) {
 		InputDialog dialog = new InputDialog(Display.getDefault().getActiveShell(), "Real value prompt", question, default_ + "", new FloatValidator());
 		if (dialog.open() == Window.OK) {
