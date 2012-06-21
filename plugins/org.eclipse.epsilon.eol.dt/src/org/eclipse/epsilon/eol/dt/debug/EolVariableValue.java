@@ -47,49 +47,54 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 
 	@SuppressWarnings("unchecked")
 	public synchronized IVariable[] getVariables() throws DebugException {
-		if (variables == null && value != null) {
-			final List<IVariable> subvars = new ArrayList<IVariable>();
+		if (variables == null) {
+			if (value != null) {
+				final List<IVariable> subvars = new ArrayList<IVariable>();
 
-			// Elements (for collections and arrays)
-			if (value instanceof Collection) {
-				int i = 0;
-				for (Iterator<Object> it = ((Collection<Object>)value).iterator(); it.hasNext(); ) {
-					subvars.add(new EolVariable(getDebugTarget(), "[" + i++ + "]", it.next()));
+				// Elements (for collections and arrays)
+				if (value instanceof Collection) {
+					int i = 0;
+					for (Iterator<Object> it = ((Collection<Object>)value).iterator(); it.hasNext(); ) {
+						subvars.add(new EolVariable(getDebugTarget(), "[" + i++ + "]", it.next()));
+					}
 				}
-			}
-			else if (value instanceof Object[]) {
-				final Object[] array = (Object[])value;
-				for (int i = 0; i < array.length; ++i) {
-					subvars.add(new EolVariable(getDebugTarget(), "[" + i + "]", array[i]));
+				else if (value instanceof Object[]) {
+					final Object[] array = (Object[])value;
+					for (int i = 0; i < array.length; ++i) {
+						subvars.add(new EolVariable(getDebugTarget(), "[" + i + "]", array[i]));
+					}
 				}
-			}
 
-			// Fields (for any object)
-			final List<Field> fields = ReflectionUtil.getAllInheritedInstanceFields(value.getClass());
-			for (Field f : fields) {
-				boolean oldAccessible = f.isAccessible();
-				try {
-					f.setAccessible(true);
-					subvars.add(new EolVariable(getDebugTarget(), f.getName(), f.get(value)));
-					f.setAccessible(oldAccessible);
-				} catch (IllegalAccessException ex) {
-					// could not access the field
+				// Fields (for any object)
+				final List<Field> fields = ReflectionUtil.getAllInheritedInstanceFields(value.getClass());
+				for (Field f : fields) {
+					boolean oldAccessible = f.isAccessible();
+					try {
+						f.setAccessible(true);
+						subvars.add(new EolVariable(getDebugTarget(), f.getName(), f.get(value)));
+						f.setAccessible(oldAccessible);
+					} catch (IllegalAccessException ex) {
+						// could not access the field
+					}
+					catch (SecurityException ex) {
+						// could not make the field accessible
+					}
 				}
-				catch (SecurityException ex) {
-					// could not make the field accessible
-				}
-			}
 
-			// Extended properties
-			final EolDebugTarget dt = (EolDebugTarget)getDebugTarget();
-			final Map<Object, Map<String, Object>> allExtProps = dt.getModule().getContext().getExtendedProperties();
-			if (allExtProps.containsKey(value)) {
-				for (Map.Entry<String, Object> eP : allExtProps.get(value).entrySet()) {
-					subvars.add(new EolVariable(getDebugTarget(), "~" + eP.getKey(), eP.getValue()));
+				// Extended properties
+				final EolDebugTarget dt = (EolDebugTarget)getDebugTarget();
+				final Map<Object, Map<String, Object>> allExtProps = dt.getModule().getContext().getExtendedProperties();
+				if (allExtProps.containsKey(value)) {
+					for (Map.Entry<String, Object> eP : allExtProps.get(value).entrySet()) {
+						subvars.add(new EolVariable(getDebugTarget(), "~" + eP.getKey(), eP.getValue()));
+					}
 				}
-			}
 
-			variables = subvars.toArray(new IVariable[subvars.size()]);
+				variables = subvars.toArray(new IVariable[subvars.size()]);
+			}
+			else {
+				variables = new IVariable[0];
+			}
 		}
 		return variables;
 	}

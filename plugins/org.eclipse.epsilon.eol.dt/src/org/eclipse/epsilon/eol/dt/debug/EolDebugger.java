@@ -19,6 +19,7 @@ import java.util.HashMap;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
@@ -26,6 +27,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
@@ -185,13 +187,21 @@ public class EolDebugger implements ExecutionController {
 	}
 
 	private boolean hasBreakpointItself(AST ast) {
+		if (!DebugPlugin.getDefault().getBreakpointManager().isEnabled()) {
+			// Debugging has been globally disabled
+			return false;
+		}
+
 		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(EolDebugConstants.MODEL_IDENTIFIER);
 		for (IBreakpoint breakpoint : breakpoints) {
 			IMarker marker = breakpoint.getMarker();
-			if (marker.getResource().equals(getIFile(ast)) &&
-					marker.getAttribute(IMarker.LINE_NUMBER, 0) == 
-						getRealLine(ast.getLine())) {
-				return true;
+			if (marker.getResource().equals(getIFile(ast)) && marker.getAttribute(IMarker.LINE_NUMBER, 0) == getRealLine(ast.getLine())) {
+				try {
+					return breakpoint.isEnabled();
+				} catch (CoreException e) {
+					EolPlugin.getDefault().logException(e);
+					return false;
+				}
 			}
 		}
 		return false;
