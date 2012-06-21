@@ -67,7 +67,7 @@ public class EclipseUtil {
 	public static void openEditorAt(AST astNode) {
 		final IFile file = findIFile(astNode);
 		if (file != null) {
-			openEditorAt(file, astNode.getLine() - 1, astNode.getColumn(), true);
+			openEditorAt(file, astNode.getLine(), astNode.getColumn(), true);
 		}
 	}
 
