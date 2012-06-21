@@ -13,6 +13,8 @@ package org.eclipse.epsilon.eol.dt.debug;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 	}
 
 	public String getReferenceTypeName() throws DebugException {
-		return value.getClass().getCanonicalName();
+		return value != null ? value.getClass().getCanonicalName() : "(null)";
 	}
 
 	public String getValueString() throws DebugException {
@@ -43,19 +45,26 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public synchronized IVariable[] getVariables() throws DebugException {
 		if (variables == null && value != null) {
 			final List<IVariable> subvars = new ArrayList<IVariable>();
 
-			// Elements (only on arrays: collections can be inspected through their fields)
-			if (value instanceof Object[]) {
+			// Elements (for collections and arrays)
+			if (value instanceof Collection) {
+				int i = 0;
+				for (Iterator<Object> it = ((Collection<Object>)value).iterator(); it.hasNext(); ) {
+					subvars.add(new EolVariable(getDebugTarget(), "[" + i++ + "]", it.next()));
+				}
+			}
+			else if (value instanceof Object[]) {
 				final Object[] array = (Object[])value;
 				for (int i = 0; i < array.length; ++i) {
 					subvars.add(new EolVariable(getDebugTarget(), "[" + i + "]", array[i]));
 				}
 			}
 
-			// Fields
+			// Fields (for any object)
 			final List<Field> fields = ReflectionUtil.getAllInheritedInstanceFields(value.getClass());
 			for (Field f : fields) {
 				boolean oldAccessible = f.isAccessible();
