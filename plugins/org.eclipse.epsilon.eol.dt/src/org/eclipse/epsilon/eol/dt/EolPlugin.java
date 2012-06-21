@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -118,7 +120,6 @@ public class EolPlugin extends AbstractUIPlugin implements EpsilonPlugin{
 	}
 	
 	class DeltaVisitor {
-		
 		public IResource resource;
 		
 		public void visitDelta(IResourceDelta delta){
@@ -132,70 +133,14 @@ public class EolPlugin extends AbstractUIPlugin implements EpsilonPlugin{
 				}
 			}
 		}
-		
 	}
-	/*
-	class EolResourceChangeListener implements IResourceChangeListener {
-		
-		public void resourceChanged(IResourceChangeEvent event) {
-			
-			System.out.println("Changed");
-			IResource resource = null;
 
-			DeltaVisitor visitor = new DeltaVisitor();
-			visitor.visitDelta(event.getDelta());
-			resource = visitor.resource;
-			
-			event = null;
-			
-			if (resource!=null){
-				try {
-					resource.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-				} catch (CoreException e) {
-					//e.printStackTrace();
-				}
-				
-				EolLexer lexer = null;
-				try {
-					lexer = new EolLexer(new FileReader(resource.getLocation().toString()));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				EolParser parser = new EolParser(lexer);
-				parser.setASTFactory(new EolAstFactory());
-				
-				
-				try {
-					parser.eolModule();
-				} catch (Exception e) {
-					reportError(resource, 0,0, e.getLocalizedMessage());
-				}
-				
-				ListIterator li = parser.getParseProblems().listIterator();
-				
-				while (li.hasNext()){
-					ParseProblem pan = (ParseProblem) li.next();
-					reportError(resource, pan.getLine(), pan.getColumn(), pan.getReason());
-				}
-				
-			}
-		}
-		
-		private void reportError(IResource res, int line, int column, String msg){
-			try {
-				IMarker marker = res.createMarker(IMarker.PROBLEM);
-				marker.setAttribute(IMarker.LINE_NUMBER, line);
-				marker.setAttribute(IMarker.CHAR_START, column);
-				marker.setAttribute(IMarker.MESSAGE, msg);
-				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-			}
-			catch (CoreException cex){
-				cex.printStackTrace();
-			}
-		}
-		
+	/**
+	 * Logs an exception as an error in the Error Log view.
+	 * @param e Exception to be logged.
+	 */
+	public void logException(Exception e) {
+		getLog().log(
+			new Status(IStatus.ERROR, PLUGIN_ID, e.getLocalizedMessage(), e));
 	}
-	*/
 }

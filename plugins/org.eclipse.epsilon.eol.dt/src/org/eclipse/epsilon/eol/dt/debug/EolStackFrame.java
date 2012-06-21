@@ -10,15 +10,79 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IRegisterGroup;
+import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.debug.ui.ISourcePresentation;
+import org.eclipse.debug.ui.sourcelookup.ISourceDisplay;
+import org.eclipse.debug.ui.sourcelookup.ISourceLookupResult;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 public class EolStackFrame extends EolDebugElement implements IStackFrame {
+
+	private static final class EolSourceDisplay implements ISourceDisplay {
+		@Override
+		public void displaySource(Object element, IWorkbenchPage page, boolean forceSourceLookup) {
+			if (element instanceof EolStackFrame) {
+				ISourceLookupResult lookupResult = DebugUITools.lookupSource(element, new EolSourceLocator());
+				DebugUITools.displaySource(lookupResult, page);
+			}
+		}
+	}
+
+	private static final class EolSourceLocator implements ISourceLocator, ISourcePresentation {
+		@Override
+		public Object getSourceElement(IStackFrame stackFrame) {
+			if (stackFrame instanceof EolStackFrame) {
+				final EolStackFrame eolSF = (EolStackFrame)stackFrame;
+				IFile file = EclipseUtil.findIFile(eolSF.frame.getCurrentStatement());
+				if (file == null) {
+					file = EclipseUtil.findIFile(eolSF.frame.getEntryPoint());
+				}
+				return file;
+			}
+			return null;
+		}
+
+		@Override
+		public IEditorInput getEditorInput(Object element) {
+			if (element instanceof IFile) {
+				return new FileEditorInput((IFile)element);
+			}
+			return null;
+		}
+
+		@Override
+		public String getEditorId(IEditorInput input, Object element) {
+			if (element instanceof IFile) {
+				final IEditorDescriptor editor = IDE.getDefaultEditor((IFile)element);
+				if (editor != null) {
+					return editor.getId();
+				}
+			}
+			return null;
+		}
+	}
 
 	protected IThread thread;
 	protected Frame frame;
@@ -29,6 +93,14 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		this.thread = thread;
 		this.frame = frame;
 		this.name = name;
+	}
+
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+		if (adapter.equals(ISourceDisplay.class)) {
+			return new EolSourceDisplay();
+		}
+		return super.getAdapter(adapter);
 	}
 
 	public boolean canStepInto() {
@@ -96,7 +168,6 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 	}
 
 	public IVariable[] getVariables() throws DebugException {
-		
 		int i = 0;
 		EolVariable[] eolVariables = new EolVariable[frame.getAll().size()];
 		for (Variable v : frame.getAll().values()) {
@@ -111,7 +182,6 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 	}
 
 	public int getLineNumber() throws DebugException {
-		// TODO Auto-generated method stub
 		if (frame.getCurrentStatement() != null) {
 			return frame.getCurrentStatement().getLine();
 		}
@@ -119,16 +189,19 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 	}
 
 	public int getCharStart() throws DebugException {
-		// TODO Auto-generated method stub
-		if (frame.getCurrentStatement() != null) {
-			return frame.getCurrentStatement().getColumn();
+		int charStart = getCharStart(frame.getCurrentStatement());
+		if (charStart < 0) {
+			charStart = getCharStart(frame.getEntryPoint());
 		}
-		return -1;
+		return charStart;
 	}
 
 	public int getCharEnd() throws DebugException {
-		// TODO Auto-generated method stub
-		return -1;
+		int charEnd = getCharEnd(frame.getCurrentStatement());
+		if (charEnd < 0) {
+			return getCharEnd(frame.getEntryPoint());
+		}
+		return charEnd;
 	}
 
 	public String getName() throws DebugException {
@@ -136,13 +209,54 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 	}
 
 	public IRegisterGroup[] getRegisterGroups() throws DebugException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public boolean hasRegisterGroups() throws DebugException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	private int getCharStart(final AST ast) throws DebugException {
+		if (ast != null) {
+			final IDocument doc = getDocument(ast);
+			try {
+				if (doc != null) {
+					return doc.getLineOffset(ast.getLine() - 1) + ast.getColumn();
+				}
+			} catch (BadLocationException e) {
+				EolPlugin.getDefault().logException(e);
+			}
+		}
+		return -1;
+	}
+
+	private int getCharEnd(final AST ast) throws DebugException {
+		if (ast != null) {
+			final IDocument doc = getDocument(ast);
+			try {
+				if (doc != null) {
+					return doc.getLineOffset(ast.getLine());
+				}
+			} catch (BadLocationException e) {
+				EolPlugin.getDefault().logException(e);
+			}
+		}
+		return -1;
+	}
+
+	private IDocument getDocument(final AST current) {
+		final IFile file = EclipseUtil.findIFile(current);
+		try {
+			if (file != null) {
+				IEditorPart editor = IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), file, false);
+				if (editor instanceof AbstractTextEditor) {
+					return ((AbstractTextEditor)editor).getDocumentProvider().getDocument(new FileEditorInput(file));
+				}
+			}
+		} catch (PartInitException e) {
+			EolPlugin.getDefault().logException(e);
+		}
+
+		return null;
+	}
 }

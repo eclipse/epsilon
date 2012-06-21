@@ -13,6 +13,8 @@ package org.eclipse.epsilon.common.dt;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -23,7 +25,9 @@ import org.osgi.framework.BundleContext;
  */
 public class EpsilonCommonsPlugin extends AbstractUIPlugin {
 
-	//The shared instance.
+	private static final String PLUGIN_ID = "org.eclipse.epsilon.common.dt";
+
+	// The shared instance
 	private static EpsilonCommonsPlugin plugin;
 	
 	/**
@@ -49,12 +53,7 @@ public class EpsilonCommonsPlugin extends AbstractUIPlugin {
 		super.stop(context);
 		plugin = null;
 	}
-	
-	/*
-	public String getWorkspacePath(){
-		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
-	}
-*/
+
 	/**
 	 * Returns the shared instance.
 	 */
@@ -87,5 +86,14 @@ public class EpsilonCommonsPlugin extends AbstractUIPlugin {
 		catch(MalformedURLException e) {}
 		return null;
 	}
-	
+
+	/**
+	 * Logs an exception as an error in the Error Log view.
+	 * @param e Exception to be logged.
+	 */
+	public void logException(Exception e) {
+		getLog().log(
+			new Status(IStatus.ERROR, PLUGIN_ID, e.getLocalizedMessage(), e));
+	}
+
 }
