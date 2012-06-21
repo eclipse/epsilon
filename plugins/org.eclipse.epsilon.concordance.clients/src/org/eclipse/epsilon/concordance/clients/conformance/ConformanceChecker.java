@@ -83,6 +83,8 @@ public class ConformanceChecker extends DefaultMetamodelChangeListener {
 			if (!nonConformantModels.isEmpty()) {
 				LogUtil.logInfo("The following " + nonConformantModels.size() + " models do not conform to their metamodel...\n" + present(nonConformantModels));
 			}
+			
+			reset();
 		}
 		
 		private String present(Collection<String> models) {
@@ -94,6 +96,11 @@ public class ConformanceChecker extends DefaultMetamodelChangeListener {
 			}
 			
 			return modelList.toString();
+		}
+		
+		private void reset() {
+			conformantModels.clear();
+			nonConformantModels.clear();
 		}
 	}
 }
