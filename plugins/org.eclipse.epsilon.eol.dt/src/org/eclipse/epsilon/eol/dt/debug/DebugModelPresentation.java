@@ -10,13 +10,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.ui.IDebugModelPresentation;
 import org.eclipse.debug.ui.IValueDetailListener;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.commons.parse.AST;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Presentation model for the E*L debuggers. It's required in order to avoid a
@@ -47,11 +53,19 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 
 	@Override
 	public IEditorInput getEditorInput(Object element) {
+		final IFile file = getIFile(element);
+		if (file != null) {
+			return new FileEditorInput(file);
+		}
 		return null;
 	}
 
 	@Override
 	public String getEditorId(IEditorInput input, Object element) {
+		final IFile file = getIFile(element);
+		if (file != null) {
+			return IDE.getDefaultEditor(file).getId();
+		}
 		return null;
 	}
 
@@ -73,5 +87,20 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 	@Override
 	public void computeDetail(IValue value, IValueDetailListener listener) {
 		// nothing to do
+	}
+
+	private IFile getIFile(Object element) {
+		IFile file = null;
+		if (element instanceof EolBreakpoint) {
+			final EolBreakpoint eolB = (EolBreakpoint)element;
+			final IResource resource = eolB.getMarker().getResource();
+			if (resource instanceof IFile) {
+				file = (IFile)resource;
+			}
+		}
+		if (element instanceof AST) {
+			file = EclipseUtil.findIFile((AST)element);
+		}
+		return file;
 	}
 }
