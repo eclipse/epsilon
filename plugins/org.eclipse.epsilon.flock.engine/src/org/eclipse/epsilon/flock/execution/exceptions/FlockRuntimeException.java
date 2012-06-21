@@ -32,4 +32,10 @@ public class FlockRuntimeException extends EolRuntimeException {
 		super(message);
 		initCause(cause);
 	}
+	
+	@Override
+	public String toString() {
+		final String cause = (getCause() == null ? "" : "\n" + getCause().toString()); 
+		return super.toString() + cause;
+	}
 }
