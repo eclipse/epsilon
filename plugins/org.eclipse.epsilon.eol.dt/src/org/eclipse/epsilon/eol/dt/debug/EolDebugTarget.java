@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 
 	protected boolean suspended;
-	protected boolean termninated;
+	protected boolean terminated;
 	protected EolDebugger debugger = null;
 	protected ILaunch launch;
 	protected IThread[] threads = new IThread[1];
@@ -84,11 +84,11 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	public boolean isTerminated() {
-		return termninated;
+		return terminated;
 	}
 
 	public void terminate() throws DebugException {
-		this.termninated = true;
+		this.terminated = true;
 		this.suspended = false;
 		fireTerminateEvent();
 	}
@@ -107,12 +107,12 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 
 	public void resume() throws DebugException {
 		this.suspended = false;
-		fireResumeEvent(1);
+		fireResumeEvent(DebugEvent.RESUME);
 	}
 
 	public void suspend() throws DebugException {
 		this.suspended = true;
-		fireSuspendEvent(1);
+		fireSuspendEvent(DebugEvent.SUSPEND);
 	}
 
 	public void breakpointAdded(IBreakpoint breakpoint) {

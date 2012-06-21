@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
@@ -88,7 +89,13 @@ public class EolDebugger implements ExecutionController {
 	}
 
 	public Object debug(IEolExecutableModule module) throws EolRuntimeException {
-		return module.execute();
+		final Object result = module.execute();
+		try {
+			target.terminate();
+		} catch (DebugException e) {
+			throw new EolRuntimeException(e.getLocalizedMessage());
+		}
+		return result;
 	}
 
 	public void setTarget(IDebugTarget target) {

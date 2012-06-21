@@ -104,7 +104,6 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		}
 		finally{
 			if (target != null) {
-				target.terminate();
 				if (!disposeModelRepository) launch.removeDebugTarget(target);
 			}
 			teardown(module.getContext(), disposeModelRepository);
