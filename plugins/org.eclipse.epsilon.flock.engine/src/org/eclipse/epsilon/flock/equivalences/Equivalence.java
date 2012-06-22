@@ -13,7 +13,12 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
@@ -25,8 +30,8 @@ public abstract class Equivalence {
 
 	private final MigrateRuleContext context;
 	
-	public Equivalence(EolExecutor executor) {
-		this.context = new MigrateRuleContext(this, executor);
+	public Equivalence(EolExecutor executor, FlockExecution execution) {
+		this.context = new MigrateRuleContext(this, executor, execution);
 	}
 	
 	public MigrateRuleContext getContext() {
@@ -37,11 +42,24 @@ public abstract class Equivalence {
 
 	public abstract ModelElement getEquivalent();
 	
-	public Variable[] getVariables() {
-		return new Variable[] {
-		                        getOriginal().createReadOnlyVariable("original"),
-		                        getEquivalent().createReadOnlyVariable("migrated")
-		                      };
+	public abstract void ruleApplied(FlockExecution execution);
+	
+	public Collection<Variable> getVariables() {
+		final List<Variable> variables = new LinkedList<Variable>();
+		
+		variables.add(createVariable("original", getOriginal()));
+		variables.add(createVariable("migrated", getEquivalent()));
+		
+		return variables;
+	}
+	
+	private Variable createVariable(String name, ModelElement element) {
+		if (element == null) {
+			return Variable.createReadOnlyVariable(name, null);
+		} else {
+			return element.createReadOnlyVariable(name);
+		}
+			
 	}
 
 	public abstract void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException;

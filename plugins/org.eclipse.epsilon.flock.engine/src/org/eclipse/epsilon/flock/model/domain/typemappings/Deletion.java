@@ -16,6 +16,7 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -29,8 +30,8 @@ public class Deletion extends TypeMappingConstruct {
 		super(ast, annotations, type, guard);
 	}
 	
-	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
-		return new NoEquivalence(executor, original);
+	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
+		return new NoEquivalence(executor, execution, original);
 	}
 	
 	@Override

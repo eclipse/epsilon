@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.LinkedList;
 
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -37,14 +38,18 @@ public class RetypingTests {
 			.thenReturn(equivalent);
 		
 		
-		final Equivalence equivalence = retyping.createEquivalence(dummyExecutor(), dummyOriginalModelElement(), factory);
+		final Equivalence equivalence = retyping.createEquivalence(dummyExecutor(), dummyExecution(), dummyOriginalModelElement(), factory);
 		
 		verify(factory).createModelElementInMigratedModel("Salesperson");
 		assertEquals(equivalent, equivalence.getEquivalent());
 	}
-	
+
 	private EolExecutor dummyExecutor() {
 		return mock(EolExecutor.class);
+	}
+
+	private FlockExecution dummyExecution() {
+		return mock(FlockExecution.class);
 	}
 	
 	private ModelElement dummyOriginalModelElement() {

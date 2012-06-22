@@ -36,7 +36,7 @@ public class Equivalences {
 		for (TypeMappingContext c : context.getTypeMappingContexts()) {
 			equivalences.add(strategy.createEquivalence(c));
 		}
-				
+		
 		return equivalences;
 	}
 	

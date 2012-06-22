@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -46,6 +47,6 @@ public class DefaultEquivalenceFactoryTests {
 	}
 
 	private Equivalence createEquivalence(final EquivalentFactory equivalentFactory) throws FlockRuntimeException {
-		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(EolExecutor.class), mock(ModelElement.class), equivalentFactory);
+		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(EolExecutor.class), mock(FlockExecution.class), mock(ModelElement.class), equivalentFactory);
 	}
 }

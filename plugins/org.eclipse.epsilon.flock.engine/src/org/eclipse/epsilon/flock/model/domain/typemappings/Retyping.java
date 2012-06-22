@@ -16,6 +16,7 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 import java.util.Collection;
 
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -44,9 +45,9 @@ public class Retyping extends TypeMappingConstruct {
 		return evolvedType;
 	}
 
-	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
+	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
 		final ModelElement equivalent = factory.createModelElementInMigratedModel(evolvedType);
-		return new TypeBasedEquivalence(executor, original, equivalent);
+		return new TypeBasedEquivalence(executor, execution, original, equivalent);
 	}
 	
 	@Override

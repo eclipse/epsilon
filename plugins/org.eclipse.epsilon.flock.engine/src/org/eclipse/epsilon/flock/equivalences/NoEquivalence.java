@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
@@ -23,8 +24,8 @@ public class NoEquivalence extends Equivalence {
 
 	public final ModelElement original;
 	
-	public NoEquivalence(EolExecutor executor, ModelElement original) {
-		super(executor);
+	public NoEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original) {
+		super(executor, execution);
 		
 		if (original == null)
 			throw new IllegalArgumentException("original cannot be null");
@@ -42,6 +43,12 @@ public class NoEquivalence extends Equivalence {
 
 	public ModelElement getEquivalent() {
 		return null;
+	}
+	
+	@Override
+	public void ruleApplied(FlockExecution execution) {
+		execution.addWarning("Rule defined for migrating instances of " + original.getTypeName() + " " + 
+	                         "but that type cannot be instantiated in the evolved metamodel.");
 	}
 	
 	@Override

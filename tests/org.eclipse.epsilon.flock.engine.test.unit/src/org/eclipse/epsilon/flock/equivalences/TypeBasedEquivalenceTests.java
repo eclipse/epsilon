@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
@@ -33,11 +34,12 @@ import org.junit.Test;
 public class TypeBasedEquivalenceTests {
 
 	private final EolExecutor             executor     = mock(EolExecutor.class);
+	private final FlockExecution          execution    = mock(FlockExecution.class);
 	private final ModelElement            original     = mock(ModelElement.class);
 	private final ModelElement            equivalent   = mock(ModelElement.class);
 	private final ConservativeCopyContext context      = mock(ConservativeCopyContext.class);
 	
-	private final Equivalence equivalence = new TypeBasedEquivalence(executor, original, equivalent);
+	private final Equivalence equivalence = new TypeBasedEquivalence(executor, execution, original, equivalent);
 	
 	@Test
 	public void automaticallyPopulateEquivalentShouldPreserveIdentity() throws FlockRuntimeException {		

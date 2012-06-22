@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.flock.equivalences.factory;
 
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -29,11 +30,11 @@ public class DefaultEquivalenceFactory implements EquivalenceFactory {
 		return instance;
 	}
 
-	public Equivalence createEquivalence(EolExecutor executor, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
+	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		if (equivalentFactory.typeConformsToEvolvedMetamodel(original.getTypeName())) {
-			return new TypeBasedEquivalence(executor, original, equivalentFactory.createModelElementInMigratedModel(original.getTypeName()));
+			return new TypeBasedEquivalence(executor, execution, original, equivalentFactory.createModelElementInMigratedModel(original.getTypeName()));
 		} else {
-			return new NoEquivalence(executor, original);
+			return new NoEquivalence(executor, execution, original);
 		}
 	}
 }

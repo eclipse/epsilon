@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
+import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -21,11 +22,13 @@ public class TypeMappingContext {
 	
 	private final ModelElement original;
 	private final EolExecutor executor;
+	private final FlockExecution execution;
 	private final EquivalentFactory equivalentFactory;
 
-	public TypeMappingContext(ModelElement original, EolExecutor executor, EquivalentFactory equivalentFactory) {
+	public TypeMappingContext(ModelElement original, EolExecutor executor, FlockExecution execution, EquivalentFactory equivalentFactory) {
 		this.original = original;
 		this.executor = executor;
+		this.execution = execution;
 		this.equivalentFactory = equivalentFactory;
 	}
 	
@@ -38,6 +41,6 @@ public class TypeMappingContext {
 	}
 
 	public Equivalence createEquivalenceUsing(EquivalenceFactory equivalenceFactory) throws FlockRuntimeException {
-		return equivalenceFactory.createEquivalence(executor, original, equivalentFactory);
+		return equivalenceFactory.createEquivalence(executor, execution, original, equivalentFactory);
 	}
 }

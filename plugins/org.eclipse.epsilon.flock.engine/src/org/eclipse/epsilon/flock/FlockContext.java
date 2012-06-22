@@ -94,7 +94,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 	private final EolExecutor executor = new EolExecutor(this);
 	
 	public EquivalenceEstablishmentContext getEquivalenceEstablishmentContext() {
-		return new EquivalenceEstablishmentContext(originalModel, migratedModel, executor);
+		return new EquivalenceEstablishmentContext(originalModel, migratedModel, executor, execution);
 	}
 
 	public MigrationStrategyCheckingContext getMigrationStrategyCheckingContext() {
