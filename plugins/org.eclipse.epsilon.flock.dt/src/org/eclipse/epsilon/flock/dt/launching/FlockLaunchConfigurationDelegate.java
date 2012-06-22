@@ -11,12 +11,14 @@
 package org.eclipse.epsilon.flock.dt.launching;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.FlockModule;
+import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.dt.FlockDebugger;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
@@ -44,6 +46,11 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 		catch (FlockUnsupportedModelException ex) {
 			throw new EolInternalException(ex);
 		}
+	}
+	
+	@Override
+	protected void postExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+		((FlockResult)result).printWarnings(EpsilonConsole.getInstance().getWarningStream());
 	}
 	
 	/*

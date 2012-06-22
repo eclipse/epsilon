@@ -34,7 +34,6 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
