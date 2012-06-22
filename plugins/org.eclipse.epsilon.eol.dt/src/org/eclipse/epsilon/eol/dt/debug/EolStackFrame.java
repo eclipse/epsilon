@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
 
+import java.util.Arrays;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IRegisterGroup;
@@ -174,6 +176,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 			eolVariables[i] = new EolVariable(getDebugTarget(), v.getName(), v.getValue());
 			i++;
 		}
+		Arrays.sort(eolVariables, new IVariableNameComparator());
 		return eolVariables;
 	}
 

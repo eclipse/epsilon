@@ -62,4 +62,8 @@ public class EolVariable extends EolDebugElement implements IVariable {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "EolVariable [name=" + name + ", value=" + value + "]";
+	}
 }

@@ -14,6 +14,7 @@ package org.eclipse.epsilon.eol.dt.debug;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,8 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 					}
 				}
 
+				// Sort fields by name
+				Collections.sort(subvars, new IVariableNameComparator());
 				variables = subvars.toArray(new IVariable[subvars.size()]);
 			}
 			else {
