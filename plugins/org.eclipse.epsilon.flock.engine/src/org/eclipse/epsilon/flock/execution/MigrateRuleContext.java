@@ -22,8 +22,8 @@ import org.eclipse.epsilon.flock.model.domain.rules.Body;
 
 public class MigrateRuleContext {
 	
-	public final Equivalence equivalence;
-	public final EolExecutor executor;
+	private final Equivalence equivalence;
+	private final EolExecutor executor;
 	private final FlockExecution execution;
 	private final Map<TypedAndGuardedConstruct, Boolean> applicabilityCache = new HashMap<TypedAndGuardedConstruct, Boolean>();
 
