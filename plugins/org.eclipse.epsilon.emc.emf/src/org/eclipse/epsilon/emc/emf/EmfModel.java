@@ -183,34 +183,12 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	
 	public void loadModelFromUri() throws EolModelLoadingException {
 		ResourceSet resourceSet = new EmfModelResourceSet(); //new ResourceSetImpl();
-		
-		//Factory defaultFactory = Resource.Factory.Registry.INSTANCE.getFactory(modelFileUri);
-		
-		//if (defaultFactory instanceof XMIResourceFactoryImpl) {
-		
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", EmfModelResourceFactory.getInstance());
-		
-		//}
-		
-		/*
-		Map<String, Object> etfm = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		if(!etfm.containsKey("*")) {
-			etfm.put("*", EmfModelResourceFactory.getInstance());
-			etfm.put("xml", new GenericXMLResourceFactoryImpl());
-			etfm.put("bim", new ResourceFactoryImpl() {
-				@Override
-				public Resource createResource(URI uri) {
-					return new BinaryResourceImpl(uri);
-				}
-			});
-		}
-		*/
 		
 		if (EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) == null) {
 			EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		}
 		
-		Resource model = null;
 		determinePackagesFrom(resourceSet);
 		
 		for (EPackage ep : packages) {
@@ -222,10 +200,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
-		model = resourceSet.createResource(modelUri);
-		
-		//EcoreResourceFactoryImpl f;
-		
+		Resource model = resourceSet.createResource(modelUri);
 		if (this.readOnLoad){
 			try {
 				model.load(null);
@@ -236,9 +211,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 				throw new EolModelLoadingException(e, this);
 			}
 		}
-		
 		modelImpl = model;
-
 	}
 
 	private void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
