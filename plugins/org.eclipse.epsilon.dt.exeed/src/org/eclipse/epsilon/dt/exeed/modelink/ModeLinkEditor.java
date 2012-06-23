@@ -241,7 +241,7 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	            if (event.type == SWT.Activate) {
 	            	removeListenerFromActiveEditor();
 	            	if (properties != null && editor instanceof IEditingDomainProvider) {
-	        			// WORKAROUND for Eclipse 4.x
+	        			// WORKAROUND for Eclipse 4.x for the Properties view
 	            		final IEditingDomainProvider iedp = (IEditingDomainProvider)editor;
 	            		if (iedp.getEditingDomain() instanceof AdapterFactoryEditingDomain) {
 	            			final AdapterFactoryEditingDomain afed = (AdapterFactoryEditingDomain)iedp.getEditingDomain();
@@ -251,11 +251,14 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	            	}
 					activateEditor(editor);
 					addListenerToActiveEditor();
+
+					// WORKAROUND for Eclipse 4.x for the "New Child" and "New Sibling" popup menu entries
+					editor.getEditorSite().getActionBarContributor().setActiveEditor(editor);
 				}
 	        }
 
 			private void addListenerToActiveEditor() {
-				// WORKAROUND for Eclipse 4.x
+				// WORKAROUND for Eclipse 4.x for the Properties view
 				if (getActiveEditor() instanceof ISelectionProvider) {
 					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
 					oldSP.addSelectionChangedListener(ModeLinkEditor.this);
@@ -263,7 +266,7 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 			}
 
 			private void removeListenerFromActiveEditor() {
-				// WORKAROUND for Eclipse 4.x
+				// WORKAROUND for Eclipse 4.x for the Properties view
 				if (getActiveEditor() instanceof ISelectionProvider) {
 					final ISelectionProvider oldSP = (ISelectionProvider)getActiveEditor();
 					oldSP.removeSelectionChangedListener(ModeLinkEditor.this);
