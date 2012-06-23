@@ -65,7 +65,10 @@ public class EvlValidator implements EValidator {
 		
 		if (eObject.eResource() == null) return false;
 		
-		EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
+		if(diagnostics != null) {
+			// A complete validation is performed, so clear old fixes
+			EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
+		}
 		
 		// If it is the root that is validated validate the whole resource and cache the results
 		if (eObject.eContainer() == null) {
@@ -86,7 +89,7 @@ public class EvlValidator implements EValidator {
 		}
 
 		addMarkers("", eObject, diagnostics);
-		return true;
+		return results.size() == 0;
 	}
 
 	public boolean validate(EDataType dataType, Object value,
@@ -152,6 +155,10 @@ public class EvlValidator implements EValidator {
 	}
 
 	private void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
+		if(diagnostics == null) {
+			// user is not interested in markers...
+			return;
+		}
 		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
 		
 		if (unsatisfiedConstraints != null && unsatisfiedConstraints.size() > 0) {
