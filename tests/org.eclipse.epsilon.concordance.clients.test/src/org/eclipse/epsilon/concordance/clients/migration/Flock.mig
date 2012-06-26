@@ -1,2 +1,2 @@
-migrate Person to Man when: original.male
-migrate Person to Woman
+retype Person to Man when: original.male
+retype Person to Woman
