@@ -311,16 +311,21 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				
-				if (!isClosed() && status != getText().hashCode()) {
-					parseModule();
-					status = getText().hashCode();
+				if (!isClosed()) {
+					int textHashCode = getText().hashCode();
+					if (status != textHashCode) {
+						parseModule();
+						status = textHashCode;
+					}
+					
+					this.schedule(delay);
 				}
 				
-				this.schedule(delay);
 				return Status.OK_STATUS;
 			}
 		};
 		
+		parseModuleJob.setSystem(true);
 		parseModuleJob.schedule(delay);
 	
 	}
@@ -419,7 +424,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	private static final String CONTENTASSIST_PROPOSAL_ID = 
-		   "com.bdaum.HTMLeditor.ContentAssistProposal"; 
+		   "org.eclipse.common.dt.editor.AbsractModuleEditor.ContentAssistProposal"; 
 		protected void createActions() {
 		   super.createActions();
 
