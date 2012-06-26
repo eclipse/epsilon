@@ -20,6 +20,7 @@ import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModelTypeLabelProvider;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -171,19 +172,25 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.modelType");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
-		for (int i=0;i<configurationElements.length; i++){
-			IConfigurationElement configurationElement = configurationElements[i];
-			ModelTypeExtension modelType = new ModelTypeExtension();
-			modelType.setClazz(configurationElement.getAttribute("class"));
-			modelType.setType(configurationElement.getAttribute("type"));
-			modelType.setLabel(configurationElement.getAttribute("label"));
-			modelType.setStable(Boolean.parseBoolean(configurationElement.getAttribute("stable")));
-
-			String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-			Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
-			modelType.setImage(image);
-			modelType.setConfigurationElement(configurationElement);
-			modelTypes.add(modelType);
+		
+		try {
+			for (int i=0;i<configurationElements.length; i++){
+				IConfigurationElement configurationElement = configurationElements[i];
+				ModelTypeExtension modelType = new ModelTypeExtension();
+				modelType.setClazz(configurationElement.getAttribute("class"));
+				modelType.setType(configurationElement.getAttribute("type"));
+				modelType.setLabel(configurationElement.getAttribute("label"));
+				modelType.setStable(Boolean.parseBoolean(configurationElement.getAttribute("stable")));
+	
+				String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
+				Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
+				modelType.setImage(image);
+				modelType.setConfigurationElement(configurationElement);
+				modelTypes.add(modelType);
+			}
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
 		}
 		
 	}
