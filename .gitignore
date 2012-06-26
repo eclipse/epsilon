@@ -72,3 +72,5 @@ bin/
 # /tests/org.eclipse.epsilon.workflow.test/resources/eunit/
 /tests/org.eclipse.epsilon.workflow.test/resources/eunit/TESTS-TestSuites.xml
 /tests/org.eclipse.epsilon.workflow.test/resources/eunit/junit-noframes.html
+
+/plugins/org.eclipse.epsilon.updatesite.interim/index.html
