@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,11 +11,11 @@
 package org.eclipse.epsilon.evl.emf.validation;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 
-public class ValidationResults extends HashMap<Object, Collection<EvlUnsatisfiedConstraint>> {
+public class ValidationResults extends IdentityHashMap<Object, Collection<EvlUnsatisfiedConstraint>> {
 
 	private static final long serialVersionUID = -4636840792602473855L;
 	
