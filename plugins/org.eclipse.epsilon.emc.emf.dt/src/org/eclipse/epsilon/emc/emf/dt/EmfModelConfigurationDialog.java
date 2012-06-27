@@ -321,6 +321,16 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		});
 
+		final Button clearAllMetamodelsButton = new Button(metamodelButtons, SWT.BORDER);
+		clearAllMetamodelsButton.setText("Clear");
+		clearAllMetamodelsButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				metamodels.clear();
+				metamodelList.refresh();
+			}
+		});
+
 		groupContent.layout();
 		groupContent.pack();
 		return groupContent;
