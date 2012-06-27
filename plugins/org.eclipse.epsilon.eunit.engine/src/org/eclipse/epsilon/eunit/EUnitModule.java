@@ -272,8 +272,9 @@ public class EUnitModule extends EolModule {
 				final FrameStack frameStack = getContext().getFrameStack();
 				final AST operationAST = child.getOperation().getAst();
 				frameStack.enterLocal(FrameType.UNPROTECTED, operationAST);
-				applyDataBinding(child);
+				final AST dataBindingAST = applyDataBinding(child);
 				populateSuiteTree(child, dataIterator);
+				frameStack.leaveGlobal(dataBindingAST);
 				frameStack.leaveLocal(operationAST);
 			}
 		}
@@ -304,9 +305,10 @@ public class EUnitModule extends EolModule {
 		}
 
 		// Implement data bindings
+		AST dataBindEntryPoint = null;
 		if (node.getDataVariableName() != null) {
 			// This node has a variable binding: use it
-			applyDataBinding(node);
+			dataBindEntryPoint = applyDataBinding(node);
 		}
 
 		// We need to set test start time *before* firing the beforeCase notification
@@ -344,6 +346,9 @@ public class EUnitModule extends EolModule {
 			}
 		}
 		finally {
+			if (dataBindEntryPoint != null) {
+				getContext().getFrameStack().leaveGlobal(dataBindEntryPoint);
+			}
 			if (node.isRootTest()) {
 				// Run the suite teardown operations after all tests
 				for (EolOperation op : getSuiteTeardowns()) {
@@ -422,9 +427,11 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
-	private void applyDataBinding(EUnitTest node) {
+	private AST applyDataBinding(EUnitTest node) {
 		Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
-		getContext().getFrameStack().putGlobal(dataVariable);
+		AST dummyEntryPoint = new AST();
+		getContext().getFrameStack().enterGlobal(FrameType.UNPROTECTED, dummyEntryPoint, dataVariable);
+		return dummyEntryPoint;
 	}
 
 	/**
