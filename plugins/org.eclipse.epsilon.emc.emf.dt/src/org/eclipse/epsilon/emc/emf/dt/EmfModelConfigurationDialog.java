@@ -53,8 +53,8 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		private Image imgFile, imgURI;
 
 		public MetamodelListLabelProvider() {
-			imgFile = Activator.getDefault().getImageDescriptor("icons/is_file.gif").createImage();
-			imgURI = Activator.getDefault().getImageDescriptor("icons/is_uri.gif").createImage();
+			imgFile = Activator.getDefault().getImageDescriptor("icons/ecorefile.gif").createImage();
+			imgURI = Activator.getDefault().getImageDescriptor("icons/epackage.png").createImage();
 		}
 
 		@Override
