@@ -82,7 +82,6 @@ public class EmfM0ModelConfigurationDialog extends EmfModelConfigurationDialog {
 		super.loadProperties();
 		if (properties == null) return;
 		m0SpecificationFileText.setText(properties.getProperty("m0SpecificationFile"));
-		toggleEnabledFields();
 	}
 	
 	@Override

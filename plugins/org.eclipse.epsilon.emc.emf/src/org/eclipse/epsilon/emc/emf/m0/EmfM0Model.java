@@ -48,15 +48,7 @@ public class EmfM0Model extends EmfModel {
 			this.aliases.add(aliases[i].trim());
 		}
 		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
-		//this.metamodelFile = basePath + properties.getProperty("metamodelFile");
-		this.metamodelUri = properties.getProperty("metamodelUri");
-		//this.isMetamodel = Boolean.parseBoolean(properties.getProperty("isMetamodel"));
-		//if (this.isMetamodel){
-		//	this.modelFile = this.metamodelFile;
-		//}
-		//else {
-		//	this.modelFile = basePath + properties.getProperty("modelFile");
-		//}
+		setMetamodelUri(properties.getProperty("metamodelUri"));
 		this.isMetamodelFileBased = Boolean.parseBoolean(properties.getProperty("isMetamodelFileBased"));
 		this.m0SpecificationFile = new File(basePath + properties.getProperty("m0SpecificationFile"));
 		this.readOnLoad = Boolean.parseBoolean(properties.getProperty("readOnLoad"));
@@ -81,8 +73,8 @@ public class EmfM0Model extends EmfModel {
 		
 		//copy.setMetamodel(this.isMetamodel());
 		copy.getAliases().addAll(this.getAliases());
-		copy.setMetamodelFile(this.getMetamodelFile());
-		copy.setMetamodelUri(this.getMetamodelUri());
+		copy.setMetamodelFiles(this.getMetamodelFiles());
+		copy.setMetamodelUris(this.getMetamodelUris());
 		copy.setModelFile(this.getModelFile());
 		copy.setMetamodelFileBased(this.isMetamodelFileBased());
 		//copy.setMetamodelImpl(this.getMetamodelImpl());

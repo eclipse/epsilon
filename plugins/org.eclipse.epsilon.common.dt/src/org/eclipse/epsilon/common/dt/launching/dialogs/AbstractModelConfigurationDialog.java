@@ -188,7 +188,6 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 	}
 
 	protected class BrowseWorkspaceForMetaModelsListener implements Listener{
-		
 		private Text text = null;
 		
 		public BrowseWorkspaceForMetaModelsListener(Text text){

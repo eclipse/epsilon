@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,12 +7,15 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - allow loading more than one metamodel
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf.dt;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -23,37 +26,98 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class EmfModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
-	 
-	protected Button expandButton;
-	protected Button isMetamodelFileBasedButton;
-	//protected Button useExtendedMetadataButton;
-	protected Button browseModelFile;
-	protected Button browseMetamodelFile;
-	protected Text modelFileText;
-	protected Label metaModelFileLabel;
-	protected Text metaModelFileText;
-	protected Label metaModelUriLabel;
-	//protected Combo metaModelUriCombo;
-	protected Text metaModelUriText;
-	protected Button browseMetamodelUri;
-	protected Label modelFileLabel;
-	
-	public EmfModelConfigurationDialog(){
-		super();
+
+	private static final class MetamodelListLabelProvider implements ILabelProvider {
+		private Image imgFile, imgURI;
+
+		public MetamodelListLabelProvider() {
+			imgFile = Activator.getDefault().getImageDescriptor("icons/is_file.gif").createImage();
+			imgURI = Activator.getDefault().getImageDescriptor("icons/is_uri.gif").createImage();
+		}
+
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+			// we don't need any listeners (cells are only added or removed, not edited)
+		}
+
+		@Override
+		public void dispose() {
+			imgFile.dispose();
+			imgURI.dispose();
+		}
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+			// we don't need any listeners (cells are only added or removed, not edited)
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			if (element instanceof String) {
+				return imgFile;
+			}
+			else if (element instanceof URI) {
+				return imgURI;
+			}
+			return null;
+		}
+
+		@Override
+		public String getText(Object element) {
+			return element + "";
+		}
 	}
+
+	@SuppressWarnings("deprecation")
+	private static final String PROPERTY_IS_METAMODEL_FILE_BASED = EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED;
+
+	/**
+	 * Key used to store the raw (i.e. unqualified URI) model file value. 
+	 */
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
+	@SuppressWarnings("deprecation")
+	private final static String PROPERTY_MODEL_FILE     = EmfModel.PROPERTY_MODEL_FILE;
+
+	/**
+	 * Key used to store the raw (i.e. unqualified URI) metamodel file value. 
+	 */
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
+	@SuppressWarnings("deprecation")
+	private final static String PROPERTY_METAMODEL_FILE = EmfModel.PROPERTY_METAMODEL_FILE;
+
+	protected Button expandButton;
+	private Text modelFileText;
+	private TableViewer metamodelList;
+
+	// May contain metamodel URIs (as URI objects) or String (file-based metamodel paths) objects
+	private List<Object> metamodels = new ArrayList<Object>();
 	
 	@Override
 	protected String getModelName() {
@@ -66,141 +130,6 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		createEmfGroup(control);
 		createFilesGroup(control);
 		createLoadStoreOptionsGroup(control);
-		toggleEnabledFields();
-	}
-	
-	protected void createEmfGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "EMF", 3);
-		
-		//isMetamodelButton = new Button(groupContent, SWT.CHECK);
-		//isMetamodelButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		//isMetamodelButton.setText("Model is a meta-model");
-		//isMetamodelButton.addListener(SWT.Selection, new IsMetaModelListener());
-		
-		isMetamodelFileBasedButton = new Button(groupContent, SWT.CHECK);
-		isMetamodelFileBasedButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		isMetamodelFileBasedButton.setText("Meta-model is file-based");
-		isMetamodelFileBasedButton.addListener(SWT.Selection, new IsMetaModelListener());
-		isMetamodelFileBasedButton.setSelection(false);
-		
-		expandButton = new Button(groupContent, SWT.CHECK);
-		expandButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		expandButton.setText("Include external references");
-		expandButton.setSelection(true);
-
-		//useExtendedMetadataButton = new Button(groupContent, SWT.CHECK);
-		//useExtendedMetadataButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		//useExtendedMetadataButton.setText("Use extended metadata");
-		//useExtendedMetadataButton.setSelection(false);		
-		
-		//GridData isMetaModelButtonData = new GridData();
-		//isMetaModelButtonData.horizontalSpan = 2;
-		//isMetamodelButton.setLayoutData(isMetaModelButtonData);
-		
-		GridData expandButtonData = new GridData();
-		expandButtonData.horizontalSpan = 2;
-		expandButton.setLayoutData(expandButtonData);
-		
-		GridData isMetaModelFileBasedButtonData = new GridData();
-		isMetaModelFileBasedButtonData.horizontalSpan = 2;
-		isMetamodelFileBasedButton.setLayoutData(isMetaModelFileBasedButtonData);
-
-		GridData useExtendedMetadataButtonData = new GridData();
-		useExtendedMetadataButtonData.horizontalSpan = 2;
-		//useExtendedMetadataButton.setLayoutData(useExtendedMetadataButtonData);
-
-		
-		groupContent.layout();
-		groupContent.pack();
-				
-	}
-	
-	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
-		
-		modelFileLabel = new Label(groupContent, SWT.NONE);
-		modelFileLabel.setText("Model file: ");
-		
-		modelFileText = new Text(groupContent, SWT.BORDER);
-		modelFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		browseModelFile = new Button(groupContent, SWT.NONE);
-		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener
-				(modelFileText, "EMF models in the workspace", "Select an EMF model") {
-			@Override
-			public void handleEvent(Event event) {
-				super.handleEvent(event);
-				Collection<EPackage> ePackages = findEPackages(modelFileText.getText());
-				if (ePackages.size() > 0) {
-					if (!isMetamodelFileBasedButton.getSelection())
-						metaModelUriText.setText(getEPackagesUris(ePackages));
-				}
-			}
-		});
-		
-		//WorkspaceResourceSelector selector = new WorkspaceResourceSelector(groupContent, false);
-		//selector.inject();
-		//selector.setLabelText("Model file:");
-		
-		metaModelFileLabel = new Label(groupContent, SWT.NONE);
-		metaModelFileLabel.setText("Meta-model file: ");
-		
-		metaModelFileText = new Text(groupContent, SWT.BORDER);
-		metaModelFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		browseMetamodelFile = new Button(groupContent, SWT.NONE);
-		browseMetamodelFile.setText("Browse Workspace...");
-		browseMetamodelFile.addListener(SWT.Selection, new BrowseWorkspaceForMetaModelsListener(metaModelFileText));
-		
-		metaModelUriLabel = new Label(groupContent, SWT.NONE);
-		metaModelUriLabel.setText("Meta-model URI: ");
-		
-		metaModelUriText = new Text(groupContent, SWT.BORDER);
-		metaModelUriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		browseMetamodelUri = new Button(groupContent, SWT.NONE);
-		browseMetamodelUri.setText("Browse EPackages...");
-		browseMetamodelUri.addListener(SWT.Selection, new BrowseEPackagesListener() {
-
-			@Override
-			public void selectionChanged(String ePackageUri) {
-				//ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
-				//ePackages.add(ePackage);
-				//String str = getEPackagesUris(ePackages);
-				
-				//if (metaModelUriText.getText().trim().length() > 0) {
-				//	metaModelUriText.setText(metaModelUriText.getText() + ", " + str);
-				//}
-				//else {
-					metaModelUriText.setText(ePackageUri);
-				//}
-			}
-			
-		});
-		
-		//metaModelUriCombo = new Combo(groupContent, SWT.BORDER|SWT.READ_ONLY);
-		
-		//for (String key : EPackage.Registry.INSTANCE.keySet()){
-		//	metaModelUriCombo.add(key);
-		//}
-		
-		//metaModelUriCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		//Label emptyLabel = new Label(groupContent, SWT.NONE);
-		//emptyLabel.setText("");
-		
-		groupContent.layout();
-		groupContent.pack();
-		return groupContent;
-	}
-
-	
-	class IsMetaModelListener implements Listener{
-
-		public void handleEvent(Event event) {
-			toggleEnabledFields();
-		}
-		
 	}
 	
 	@Override
@@ -208,52 +137,193 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		return "EMF";
 	}
 	
-	/**
-	 * Key used to store the raw (i.e. unqualified URI) model file value. 
-	 */
-	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
-	@SuppressWarnings("deprecation")
-	private final static String PROPERTY_MODEL_FILE     = EmfModel.PROPERTY_MODEL_FILE;
-	
-	/**
-	 * Key used to store the raw (i.e. unqualified URI) metamodel file value. 
-	 */
-	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
-	@SuppressWarnings("deprecation")
-	private final static String PROPERTY_METAMODEL_FILE = EmfModel.PROPERTY_METAMODEL_FILE;
-	
 	@Override
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
-		
+
+		metamodels.clear();
+
 		// Restore values from legacy launch configuration
 		modelFileText.setText(properties.getProperty(PROPERTY_MODEL_FILE));
-		metaModelFileText.setText(properties.getProperty(PROPERTY_METAMODEL_FILE));
-		
-		// Restore values that are used directly to construct an instance of EmfModel
-		metaModelUriText.setText(properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI));
-		expandButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_EXPAND)).booleanValue());
-		isMetamodelFileBasedButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED)).booleanValue());
+		final String sLegacyFileMetamodels = properties.getProperty(PROPERTY_METAMODEL_FILE);
+		for (String sPath : sLegacyFileMetamodels.trim().split("\\s*,\\s*")) {
+			if (sPath.length() > 0) {
+				metamodels.add(sPath);
+			}
+		}
 
-		toggleEnabledFields();
+		// Restore values that are used directly to construct an instance of EmfModel
+		final String sURIMetamodels = properties.getProperty(EmfModel.PROPERTY_METAMODEL_URI);
+		for (String sURI : sURIMetamodels.trim().split("\\s*,\\s*")) {
+			if (sURI.length() > 0) {
+				metamodels.add(URI.createURI(sURI));
+			}
+		}
+		expandButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_EXPAND)).booleanValue());
+
+		metamodelList.refresh();
 	}
 	
 	@Override
 	protected void storeProperties(){
 		super.storeProperties();
-		
+
+		/*
+		 * Compute comma-separated lists with the file paths and URIs. If we
+		 * only have one metamodel (either file- or URI-based), it should be
+		 * compatible with previous versions of Epsilon.
+		 */
+		final StringBuilder sbFileMetamodels = new StringBuilder();
+		final StringBuilder sbFileMetamodelURIs = new StringBuilder();
+		final StringBuilder sbURIMetamodels = new StringBuilder();
+		boolean bFirstFileMetamodel = true, bFirstURIMetamodel = true;
+		for (Object o : metamodels) {
+			if (o instanceof String) {
+				if (!bFirstFileMetamodel) {
+					sbFileMetamodelURIs.append(',');
+					sbFileMetamodels.append(',');
+				}
+				else {
+					bFirstFileMetamodel = false;
+				}
+				sbFileMetamodels.append((String)o);
+				sbFileMetamodelURIs.append(createFullyQualifiedUri((String)o));
+			}
+			else if (o instanceof URI) {
+				if (!bFirstURIMetamodel) {
+					sbURIMetamodels.append(',');
+				}
+				else {
+					bFirstURIMetamodel = false;
+				}
+				sbURIMetamodels.append(o.toString());
+			}
+		}
 		properties.put(PROPERTY_MODEL_FILE,     modelFileText.getText());
-		properties.put(PROPERTY_METAMODEL_FILE, metaModelFileText.getText());
-		
-		// Persist values that are used directly to construct an instance of EmfModel
-		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metaModelUriText.getText());
+		properties.put(PROPERTY_METAMODEL_FILE, sbFileMetamodels.toString());
+
+		// Persist values that are used directly to construct an instance of EmfModel (legacy - only one metamodel was supported)
+		properties.put(EmfModel.PROPERTY_METAMODEL_URI, sbURIMetamodels.toString());
 		properties.put(EmfModel.PROPERTY_EXPAND, expandButton.getSelection() + "");
-		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, isMetamodelFileBasedButton.getSelection() + "");
-		
+		properties.put(PROPERTY_IS_METAMODEL_FILE_BASED, "".equals(sbURIMetamodels.toString()));
+
 		// Create and persist URI values that are needed to construct an instance of EmfModel
 		properties.put(EmfModel.PROPERTY_MODEL_URI, createFullyQualifiedUri(modelFileText.getText()));
-		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, createFullyQualifiedUri(metaModelFileText.getText()));
+		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, sbFileMetamodelURIs.toString());
+	}
+
+	protected void createEmfGroup(Composite parent) {
+		final Composite groupContent = createGroupContainer(parent, "EMF", 3);
+	
+		expandButton = new Button(groupContent, SWT.CHECK);
+		expandButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		expandButton.setText("Include external references");
+		expandButton.setSelection(true);
+	
+		GridData expandButtonData = new GridData();
+		expandButtonData.horizontalSpan = 2;
+		expandButton.setLayoutData(expandButtonData);
+	
+		groupContent.layout();
+		groupContent.pack();
+	}
+
+	protected Composite createFilesGroup(Composite parent) {
+		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
+		((GridData)groupContent.getParent().getLayoutData()).grabExcessVerticalSpace = true;
+
+		final Label modelFileLabel = new Label(groupContent, SWT.NONE);
+		modelFileLabel.setText("Model file: ");
+		
+		modelFileText = new Text(groupContent, SWT.BORDER);
+		modelFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		final Button browseModelFile = new Button(groupContent, SWT.NONE);
+		browseModelFile.setText("Browse Workspace...");
+		browseModelFile.addListener(SWT.Selection,
+			new BrowseWorkspaceForModelsListener(modelFileText, "EMF models in the workspace", "Select an EMF model") {
+			@Override
+			public void handleEvent(Event event) {
+				super.handleEvent(event);
+				Collection<EPackage> ePackages = findEPackages(modelFileText.getText());
+				if (ePackages.size() > 0) {
+					for (EPackage ePkg : ePackages) {
+						final URI uri = URI.createURI(ePkg.getNsURI());
+						if (!metamodels.contains(uri)) {
+							metamodels.add(uri);
+						}
+					}
+					metamodelList.refresh();
+				}
+			}
+		});
+
+		final Label metamodelListLabel = new Label(groupContent, SWT.LEFT | SWT.TOP);
+		final GridData metamodelListLabelLayout = new GridData(SWT.LEFT, SWT.TOP, false, false);
+		metamodelListLabelLayout.verticalIndent = 4;
+		metamodelListLabel.setLayoutData(metamodelListLabelLayout);
+		metamodelListLabel.setText("Metamodels:");
+
+		metamodelList = new TableViewer(groupContent);
+		metamodelList.setContentProvider(ArrayContentProvider.getInstance());
+		metamodelList.setInput(metamodels);
+		metamodelList.setLabelProvider(new MetamodelListLabelProvider());
+		GridData metamodelListLayout = new GridData(SWT.FILL, SWT.FILL, true, true);
+		metamodelList.getControl().setLayoutData(metamodelListLayout);
+
+		final Composite metamodelButtons = new Composite(groupContent, SWT.NONE);
+		final GridData metamodelButtonsLayout = new GridData();
+		metamodelButtonsLayout.horizontalAlignment = SWT.FILL;
+		metamodelButtons.setLayoutData(metamodelButtonsLayout);
+		metamodelButtons.setLayout(new FillLayout(SWT.VERTICAL));
+		final Button addFileMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		addFileMetamodelButton.setText("Add file...");
+		addFileMetamodelButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				final String path = BrowseWorkspaceUtil.browseFilePath(getShell(),
+						"EMF meta-models in the workspace",
+						"Select an EMF meta-model (ECore)",
+						"ecore", null);
+				if (path != null && !metamodels.contains(path)) {
+					metamodels.add(path);
+					metamodelList.refresh();
+				}
+			}
+		});
+
+		final Button addURIMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		addURIMetamodelButton.setText("Add URI...");
+		addURIMetamodelButton.addListener(SWT.Selection, new BrowseEPackagesListener() {
+			@Override
+			public void selectionChanged(String ePackageUri) {
+				URI uri = URI.createURI(ePackageUri);
+				if (!metamodels.contains(uri)) {
+					metamodels.add(uri);
+					metamodelList.refresh();
+				}
+			}
+		});
+
+		final Button removeMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		removeMetamodelButton.setText("Remove");
+		removeMetamodelButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (metamodelList.getSelection() instanceof IStructuredSelection) {
+					final IStructuredSelection sel = (IStructuredSelection)metamodelList.getSelection();
+					for (Iterator<?> it = sel.iterator(); it.hasNext(); ) {
+						metamodels.remove(it.next());
+					}
+					metamodelList.refresh();
+				}
+			}
+		});
+
+		groupContent.layout();
+		groupContent.pack();
+		return groupContent;
 	}
 
 	private String createFullyQualifiedUri(String relativePath) {
@@ -263,35 +333,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			return EmfUtil.createPlatformResourceURI(relativePath).toString();
 	}
 	
-	protected void toggleEnabledFields(){
-		/*
-		boolean enabled = !isMetamodelButton.getSelection();
-		modelFileText.setEnabled(enabled);
-		modelFileLabel.setEnabled(enabled);
-		browseModelFile.setEnabled(enabled);
-		aliasesText.setEnabled(enabled);
-		aliasesLabel.setEnabled(enabled);
-		*/
-		boolean isFileBased = isMetamodelFileBasedButton.getSelection();
-		metaModelFileLabel.setEnabled(isFileBased);
-		metaModelFileText.setEnabled(isFileBased);
-		browseMetamodelFile.setEnabled(isFileBased);
-		metaModelUriText.setEnabled(!isFileBased);
-		metaModelUriLabel.setEnabled(!isFileBased);
-		browseMetamodelUri.setEnabled(!isFileBased);
-	}
-	
-	protected String getEPackagesUris(Collection<EPackage> ePackages) {
-		String str = "";
-		Iterator<EPackage> it = ePackages.iterator();
-		while (it.hasNext()) {
-			str = str + it.next().getNsURI();
-			if (it.hasNext()) { str = str + ", ";}
-		}
-		return str;
-	}
-	
-	protected Collection<EPackage> findEPackages(String resourcePath) {
+	private Collection<EPackage> findEPackages(String resourcePath) {
 		Set<EPackage> ePackages = new HashSet<EPackage>();
 		
 		try {

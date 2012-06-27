@@ -47,7 +47,10 @@ public class LoadEmfModel extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
-		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
+
+		if (metamodelUri != null) {
+			properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
+		}
 
 		if (modelFile != null && modelUri != null) {
 			throw new BuildException("Only one of modelFile or modelUri may be used");

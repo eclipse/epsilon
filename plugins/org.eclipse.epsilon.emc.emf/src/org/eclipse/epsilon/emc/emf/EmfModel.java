@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,30 +46,31 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public static final String PROPERTY_EXPAND = "expand";
 
 	/**
-	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
-	 * 
-	 * When paired with "true", the metamodel is loaded from the URI stored in
-	 * {@link #PROPERTY_FILE_BASED_METAMODEL_URI}.
-	 * Otherwise, the metamodel is loaded from the EPackage registry using
-	 * the namespace URI stored in {@link #PROPERTY_METAMODEL_URI}.
-	 * 
-	 * Paired with "false" by default.
+	 * @deprecated {@link #PROPERTY_METAMODEL_URI} and {@link #PROPERTY_FILE_BASED_METAMODEL_URI} are now
+	 * interpreted as comma-separated lists of 0+ metamodel locations, and it is allowed to mix both types
+	 * of metamodels now. This property is no longer used.
 	 */
+	@Deprecated
 	public static final String PROPERTY_IS_METAMODEL_FILE_BASED = "isMetamodelFileBased";
+
 	/**
 	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
 	 * 
-	 * This key is paired with the namespace URI of the metamodel to which this model conforms.
-	 * This key is used only when {@link #PROPERTY_IS_METAMODEL_FILE_BASED} is paired with "false".
+	 * This key is a comma-separated list of zero or more namespaces URI of some of the metamodels to which
+	 * this model conforms. Users may combine this key with {@link #PROPERTY_FILE_BASED_METAMODEL_URI} to load
+	 * both file-based and URI-based metamodels at the same time.
 	 */
 	public static final String PROPERTY_METAMODEL_URI = "metamodelUri";
+
 	/**
 	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
 	 * 
-	 * This key is paired with a {@link URI} that can be used to locate the metamodel to which this model conforms.
-	 * This key is used only when {@link #PROPERTY_IS_METAMODEL_FILE_BASED} is paired with "true". 
+	 * This key is a comma-separated list of zero or more {@link URI}s that can be used to locate some of the
+	 * metamodels to which this model conforms. Users may combine this key with {@link #PROPERTY_METAMODEL_URI}
+	 * to load both file-based and URI-based metamodels at the same time.
 	 */
 	public static final String PROPERTY_FILE_BASED_METAMODEL_URI = "fileBasedMetamodelUri";
+
 	/**
 	 * @deprecated Replaced by
 	 *             {@link #PROPERTY_FILE_BASED_METAMODEL_URI}.
@@ -84,6 +86,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 * This key must always be paired with a value.
 	 */
 	public static final String PROPERTY_MODEL_URI = "modelUri";
+
 	/**
 	 * @deprecated  Replaced by
 	 *              {@link #PROPERTY_MODEL_URI}.
@@ -93,14 +96,24 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public static final String PROPERTY_MODEL_FILE = "modelFile";
 	
 	
-	protected String metamodelUri;
+	protected List<URI> metamodelUris = new ArrayList<URI>();
 	protected List<EPackage> packages;
 	protected boolean isMetamodelFileBased;
 	protected URI modelUri = null;
-	protected URI metamodelFileUri = null;
+	protected List<URI> metamodelFileUris = new ArrayList<URI>();
 	protected boolean useExtendedMetadata = false;
-	
-	
+
+
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		final Collection<String> properties = new LinkedList<String>();
+		
+		for (EStructuralFeature feature : featuresForType(type)) {
+			properties.add(feature.getName());
+		}
+		
+		return properties;
+	}
+
 	/**
 	 * Load the model using the set of properties specified by the first argument.
 	 * 
@@ -114,17 +127,31 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		PropertyMigrator.migrateDeprecatedProperties(properties);	
 		
 		super.load(properties, basePath);
-		this.metamodelUri = properties.getProperty(PROPERTY_METAMODEL_URI);
+		this.modelUri = URI.createURI(properties.getProperty(PROPERTY_MODEL_URI));
 		this.expand = properties.getBooleanProperty(PROPERTY_EXPAND, true);
 		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, false);
-		
-		this.modelUri = URI.createURI(properties.getProperty(PROPERTY_MODEL_URI));
-		
-		if (isMetamodelFileBased) {
-			this.metamodelFileUri = URI.createURI(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
-		}
-		
+
+		this.metamodelUris = toURIList(properties.getProperty(PROPERTY_METAMODEL_URI));
+		this.metamodelFileUris = toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
+
 		load();
+	}
+
+	public boolean store() {
+		if (modelImpl == null) return false;
+		
+		try {
+			modelImpl.save(null);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	protected void loadModel() throws EolModelLoadingException {
+		loadModelFromUri();
+		setupContainmentChangeListeners();
 	}
 
 	/**
@@ -156,11 +183,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 	}
 	
-	
-	protected void loadModel() throws EolModelLoadingException {
-		loadModelFromUri();
-		setupContainmentChangeListeners();
-	}
 	
 	public void setupContainmentChangeListeners() {
 		// Add a notification adapter to all objects in the model
@@ -214,68 +236,45 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		modelImpl = model;
 	}
 
-	private void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
-		packages = new ArrayList<EPackage>();
-		
-		if (isMetamodelFileBased) {
-			
-			List<EPackage> metamodelPackages;
-			try {
-				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
-			} catch (Exception e) {
-				throw new EolModelLoadingException(e,this);
-			}
-			
-			for (EPackage metamodelPackage : metamodelPackages) {
-				packages.add(metamodelPackage);
-				EmfUtil.collectDependencies(metamodelPackage, packages);
-			}
-			
+	public List<String> getMetamodelFiles() {
+		final List<String> files = new ArrayList<String>(metamodelFileUris.size());
+		for (URI metamodelFileUri : this.metamodelFileUris) {
+			files.add(EmfUtil.getFile(metamodelFileUri));
 		}
-		else {
-			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri);
-			
-			if (ePackage == null)
-				throw new EolModelLoadingException(new IllegalArgumentException("Could not locate a metamodel with the URI '" + metamodelUri + "'. Please ensure that this metamodel has been registered with Epsilon."), this);
-			
-			packages.add(ePackage);
-			EmfUtil.collectDependencies(ePackage, packages);
-		}
+		return files;
 	}
 
-	public boolean store() {
-		if (modelImpl == null) return false;
-		
-		try {
-			modelImpl.save(null);
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		//return store(this.modelFile);
-	}
-
-	public String getMetamodelFile() {
-		return EmfUtil.getFile(metamodelFileUri);
-		//return null;
-		//return metamodelFile;
-	}
-
+	/**
+	 * @deprecated This value is no longer used to load models: it is only
+	 * kept for backwards compatibility, and it now simply indicates whether
+	 * a file metamodel was loaded at all, or not.
+	 */
+	@Deprecated
 	public boolean isMetamodelFileBased() {
 		return isMetamodelFileBased;
 	}
 
-	public String getMetamodelUri() {
-		return metamodelUri;
+	/**
+	 * @deprecated This value is no longer honored anymore. Please populate the
+	 *             lists in {@link #getMetamodelUris()} (URI-based metamodels)
+	 *             and {@link #getMetamodelFileUris()} (file-based metamodels)
+	 *             appropriately instead.
+	 */
+	@Deprecated
+	public void setMetamodelFileBased(boolean isMetamodelFileBased) {
+		this.isMetamodelFileBased = isMetamodelFileBased;
+	}
+
+	public List<String> getMetamodelUris() {
+		final List<String> uris = new ArrayList<String>(metamodelUris.size());
+		for (URI metamodelUri : this.metamodelUris) {
+			uris.add(metamodelUri.toString());
+		}
+		return uris;
 	}
 
 	public String getModelFile() {
 		return EmfUtil.getFile(modelUri);
-		//return null;
-		//return modelFile;
-		//return getModelFileUri().toString();
 	}
 
 	public URI getModelFileUri() {
@@ -286,47 +285,44 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		this.modelUri = modelFileUri;
 	}
 
-	public URI getMetamodelFileUri() {
-		return metamodelFileUri;
+	public List<URI> getMetamodelFileUris() {
+		return metamodelFileUris;
 	}
 
-	public void setMetamodelFileUri(URI metamodelFileUri) {
-		this.metamodelFileUri = metamodelFileUri;
+	public void setMetamodelFileUris(List<URI> fileUris) {
+		this.metamodelFileUris = new ArrayList<URI>(fileUris);
 	}
 
-	public void setMetamodelUri(String metamodelUri) {
-		this.metamodelUri = metamodelUri;
+	public void setMetamodelFileUri(URI uri) {
+		metamodelFileUris = Arrays.asList(uri);
 	}
 
-	public void setMetamodelFile(String metamodelFile) {
-		//this.metamodelFile = metamodelFile;
-		this.metamodelFileUri = URI.createFileURI(metamodelFile);
-	}
-
-	public void setModelFile(String modelFile) {
-		//this.modelFile = modelFile;
-		this.modelUri = URI.createFileURI(modelFile);
-	}
-
-	public void setMetamodelFileBased(boolean isMetamodelFileBased) {
-		this.isMetamodelFileBased = isMetamodelFileBased;
-	}
-
-	
-	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		final Collection<String> properties = new LinkedList<String>();
-		
-		for (EStructuralFeature feature : featuresForType(type)) {
-			properties.add(feature.getName());
+	public void setMetamodelUris(List<String> uris) {
+		this.metamodelUris.clear();
+		for (String sURI : uris) {
+			this.metamodelUris.add(URI.createURI(sURI));
 		}
-		
-		return properties;
 	}
-	
-	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
-		return classForName(type).getEAllStructuralFeatures();
+
+	public void setMetamodelUri(String uri) {
+		metamodelUris = Arrays.asList(URI.createURI(uri));
 	}
-	
+
+	public void setMetamodelFiles(List<String> paths) {
+		this.metamodelFileUris.clear();
+		for (String sPath : paths) {
+			this.metamodelFileUris.add(URI.createFileURI(sPath));
+		}
+	}
+
+	public void setMetamodelFile(String path) {
+		setMetamodelFileUri(URI.createFileURI(path));
+	}
+
+	public void setModelFile(String path) {
+		this.modelUri = URI.createFileURI(path);
+	}
+
 	@Override
 	public IReflectivePropertySetter getPropertySetter() {
 		return new EmfPropertySetter();
@@ -341,4 +337,43 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return "EmfModel [name=" + getName() + "]";
 	}
 
+	private void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
+		packages = new ArrayList<EPackage>();
+
+		for (URI metamodelFileUri : this.metamodelFileUris) {
+			List<EPackage> metamodelPackages;
+			try {
+				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+			} catch (Exception e) {
+				throw new EolModelLoadingException(e,this);
+			}
+			for (EPackage metamodelPackage : metamodelPackages) {
+				packages.add(metamodelPackage);
+				EmfUtil.collectDependencies(metamodelPackage, packages);
+			}
+		}
+	
+		for (URI metamodelUri : this.metamodelUris) {
+			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri.toString());
+			if (ePackage == null) {
+				throw new EolModelLoadingException(new IllegalArgumentException("Could not locate a metamodel with the URI '" + metamodelUri + "'. Please ensure that this metamodel has been registered with Epsilon."), this);
+			}
+			packages.add(ePackage);
+			EmfUtil.collectDependencies(ePackage, packages);
+		}
+	}
+
+	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
+		return classForName(type).getEAllStructuralFeatures();
+	}
+
+	private List<URI> toURIList(final String commaSeparatedList) {
+		final List<URI> list = new ArrayList<URI>();
+		for (String s : commaSeparatedList.trim().split("\\s*,\\s*")) {
+			if (s.length() > 0) {
+				list.add(URI.createURI(s));
+			}
+		}
+		return list;
+	}
 }
