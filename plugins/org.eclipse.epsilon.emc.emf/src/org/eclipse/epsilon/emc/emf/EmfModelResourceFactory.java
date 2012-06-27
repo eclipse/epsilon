@@ -17,13 +17,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	
 	protected static EmfModelResourceFactory instance;
-	protected HashMap<String, Resource> resourceMap;
+	protected HashMap<URI, Resource> resourceMap;
 	
 	public static EmfModelResourceFactory getInstance() {
 		if (instance == null) {
@@ -33,14 +34,14 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	}
 	
 	private EmfModelResourceFactory() {
-		resourceMap = new HashMap<String, Resource>();
+		resourceMap = new HashMap<URI, Resource>();
 	}
 	
 	@Override
 	public Resource createResource(URI uri) {
 		
-		if (resourceMap.containsKey(uri.toString())) {
-			return resourceMap.get(uri.toString());
+		if (resourceMap.containsKey(uri)) {
+			return resourceMap.get(uri);
 		}
 		else {
 			
@@ -60,14 +61,14 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			}
 			
 			resource.setTrackingModification(false);
-			resourceMap.put(uri.toString(), resource);
+			resourceMap.put(uri, resource);
 			return resource;
 			
 		}
 	}
 	
 	public void addResource(Resource resource) {
-		resourceMap.put(resource.getURI().toString(), resource);
+		resourceMap.put(resource.getURI(), resource);
 	}
 	
 	public void addResourceSet(ResourceSet resourceSet) {
@@ -87,7 +88,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	
 	public void removeCachedResource(URI uri) {
 		
-		Resource toRemove = resourceMap.get(uri.toString());
+		Resource toRemove = resourceMap.get(uri);
 		
 		if (toRemove != null) {
 			safeRemove(toRemove);
@@ -110,7 +111,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 		}
 		if (shouldRemove) {
 
-			resourceMap.remove(toRemove.getURI().toString());
+			resourceMap.remove(toRemove.getURI());
 			try {
 				toRemove.unload();
 			}
@@ -127,7 +128,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	protected String toString(String header) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(header + "\r\n");
-		for (String key : resourceMap.keySet()) {
+		for (URI key : resourceMap.keySet()) {
 			buffer.append("+ " + key + "->" + resourceMap.get(key) + "\r\n");
 		}
 		return buffer.toString();
