@@ -17,7 +17,6 @@ import java.util.ListIterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -101,7 +100,7 @@ public class ModeLink {
 		this.threeWay = threeWay;
 	}
 
-	public boolean isForceExeed(Position position) {
+	public boolean isForceExeed(ModelPosition position) {
 		switch (position) {
 		case LEFT:
 			return forceExeedL;
@@ -112,7 +111,7 @@ public class ModeLink {
 		}
 	}
 
-	public void setForceExeed(Position position, boolean force) {
+	public void setForceExeed(ModelPosition position, boolean force) {
 		switch (position) {
 		case LEFT:
 			forceExeedL = force;

@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.epsilon.dt.exeed.ExeedPlugin;
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
@@ -106,7 +105,7 @@ public class ModeLinkStarter extends EditorPart {
 				for (int i = 0; i < size; ++i) {
 					final LinkedModel linkedModel = ml.getLinkedModels().get(i);
 					final String path = linkedModel.getPath();
-					final Position pos = ml.getLinkedModels().get(i).getPosition();
+					final ModelPosition pos = ml.getLinkedModels().get(i).getPosition();
 
 					final IEditorInput editorInput = new ModeLinkInnerEditorInput(
 						ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)), pos);

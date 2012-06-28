@@ -23,7 +23,6 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.epsilon.dt.exeed.ExeedPlugin;
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -150,9 +149,9 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	public Composite createInnerPartControl(Composite parent, final IEditorPart e) {
     	CTabFolder folder;
     	ModeLinkInnerEditorInput input = (ModeLinkInnerEditorInput) e.getEditorInput();
-    	if (input.getPosition() == Position.LEFT) {
+    	if (input.getPosition() == ModelPosition.LEFT) {
     		folder = leftFolder;
-    	} else if (input.getPosition() == Position.RIGHT){
+    	} else if (input.getPosition() == ModelPosition.RIGHT){
     		folder = rightFolder;
     	}
     	else {

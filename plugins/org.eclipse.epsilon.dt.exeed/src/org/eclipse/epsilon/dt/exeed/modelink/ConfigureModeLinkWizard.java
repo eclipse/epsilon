@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.dt.exeed.modelink;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
@@ -31,11 +30,11 @@ public class ConfigureModeLinkWizard extends Wizard {
 	public void addPages() {
 		if (modeLink == null) modeLink = new ModeLink();
 		//addPage(new ConfigureThreeWayPage("Three way", modeLink));
-		leftPage = new ConfigureLinkedModelsPage("Left models", modeLink, Position.LEFT);
+		leftPage = new ConfigureLinkedModelsPage("Left models", modeLink, ModelPosition.LEFT);
 		addPage(leftPage);
-		middlePage = new ConfigureLinkedModelsPage("Middle models", modeLink, Position.MIDDLE);
+		middlePage = new ConfigureLinkedModelsPage("Middle models", modeLink, ModelPosition.MIDDLE);
 		addPage(middlePage);
-		rightPage = new ConfigureLinkedModelsPage("Right models", modeLink, Position.RIGHT);
+		rightPage = new ConfigureLinkedModelsPage("Right models", modeLink, ModelPosition.RIGHT);
 		addPage(rightPage);
 	}
 	

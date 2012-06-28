@@ -15,25 +15,19 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class ModeLinkInnerEditorInput extends FileEditorInput {
 
-	protected Position position;
+	protected ModelPosition position;
 	
-	public ModeLinkInnerEditorInput(IFile file, Position position) {
+	public ModeLinkInnerEditorInput(IFile file, ModelPosition position) {
 		super(file);
 		setPosition(position);
 	}
 	
-	public Position getPosition() {
+	public ModelPosition getPosition() {
 		return position;
 	}
 
-	public void setPosition(Position position) {
+	public void setPosition(ModelPosition position) {
 		this.position = position;
-	}
-	
-	public enum Position {
-		LEFT,
-		RIGHT,
-		MIDDLE
 	}
 
 }

@@ -10,21 +10,25 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed.modelink;
 
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 
 public class LinkedModel {
 	
 	protected String path;
-	protected Position position;
-	
+	protected ModelPosition position;
+
+	public LinkedModel(String path, ModelPosition position) {
+		this.path = path;
+		this.position = position;
+	}
+
 	public LinkedModel(String path, String position) {
 		this.path = path;
 		if (position.equalsIgnoreCase("right")) {
-			this.position = Position.RIGHT;
+			this.position = ModelPosition.RIGHT;
 		} else if (position.equalsIgnoreCase("middle")) {
-			this.position = Position.MIDDLE;
+			this.position = ModelPosition.MIDDLE;
 		} else {
-			this.position = Position.LEFT;
+			this.position = ModelPosition.LEFT;
 		}
 		
 	}
@@ -32,13 +36,16 @@ public class LinkedModel {
 	public String getPath() {
 		return path;
 	}
+
 	public void setPath(String file) {
 		this.path = file;
 	}
-	public Position getPosition() {
+
+	public ModelPosition getPosition() {
 		return position;
 	}
-	public void setPosition(Position position) {
+
+	public void setPosition(ModelPosition position) {
 		this.position = position;
 	}
 	

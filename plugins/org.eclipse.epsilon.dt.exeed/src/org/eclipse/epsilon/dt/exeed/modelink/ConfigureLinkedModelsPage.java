@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
 import org.eclipse.epsilon.dt.exeed.ExeedPlugin;
-import org.eclipse.epsilon.dt.exeed.modelink.ModeLinkInnerEditorInput.Position;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -39,10 +38,10 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 	
 	private ModeLink modeLink;
 	private TableViewer modelsViewer;
-	protected Position position;
+	protected ModelPosition position;
 	private Button btnUseExeed;
 	
-	protected ConfigureLinkedModelsPage(String pageName, ModeLink modeLink, Position position) {
+	protected ConfigureLinkedModelsPage(String pageName, ModeLink modeLink, ModelPosition position) {
 		super(pageName);
 		this.modeLink = modeLink;
 		this.position = position;
