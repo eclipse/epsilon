@@ -49,12 +49,17 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 
 	private static TextLinkEditor getActiveEditor() {
-		if (PlatformUI.isWorkbenchRunning()) {
+		// On Juno, PlatformUI.isWorkbenchRunning() seems to be broken
+		// when the workbench is not running, so we have to use try/catch
+		// for control logic :-(
+		try {
 			for (IEditorReference candidateReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
 				if (candidateReference.getId().equals(TextLinkEditor.ID)) {
 					return (TextLinkEditor)candidateReference.getEditor(false);
 				}
 			}
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 		
 		return null;
