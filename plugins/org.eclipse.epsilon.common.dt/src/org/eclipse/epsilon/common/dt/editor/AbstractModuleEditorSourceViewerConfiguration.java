@@ -11,6 +11,7 @@
 
 package org.eclipse.epsilon.common.dt.editor;
 
+import org.eclipse.epsilon.common.dt.editor.autoclose.AutoCloseEditStrategy;
 import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
 import org.eclipse.epsilon.common.dt.editor.hyperlinks.AbstractModuleEditorHyperlinkDetector;
 import org.eclipse.jface.text.BadLocationException;
