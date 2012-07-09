@@ -15,9 +15,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
@@ -26,12 +28,36 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class EolVariableValue extends EolDebugElement implements IValue {
-	private Object value = null;
-	private IVariable[] variables = null;
-	
-	public EolVariableValue(IDebugTarget target, Object value) {
+	private final Object value;
+	private final EolVariable variable;
+	private IVariable[] children;
+
+	private static final Set<Class<?>> PRIMITIVE_WRAPPER_CLASSES = new HashSet<Class<?>>();
+
+	static {
+		PRIMITIVE_WRAPPER_CLASSES.add(Boolean.class);
+		PRIMITIVE_WRAPPER_CLASSES.add(Character.class);
+		PRIMITIVE_WRAPPER_CLASSES.add(Byte.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Short.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Integer.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Long.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Float.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Double.class);
+        PRIMITIVE_WRAPPER_CLASSES.add(Void.class);
+	}
+
+	public EolVariableValue(IDebugTarget target, EolVariable variable, Object value) {
 		super(target);
+		this.variable = variable;
 		this.value = value;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public EolVariable getVariable() {
+		return variable;
 	}
 
 	public String getReferenceTypeName() throws DebugException {
@@ -48,8 +74,9 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 
 	@SuppressWarnings("unchecked")
 	public synchronized IVariable[] getVariables() throws DebugException {
-		if (variables == null) {
-			if (value != null) {
+		if (children == null) {
+			// loops, primitive wrappers and null values do not have any children
+			if (!isNullOrPrimitiveWrapper(value) && !variable.isLoop()) {
 				final List<IVariable> subvars = new ArrayList<IVariable>();
 
 				// Elements (for collections and arrays)
@@ -93,13 +120,28 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 
 				// Sort fields by name
 				Collections.sort(subvars, new IVariableNameComparator());
-				variables = subvars.toArray(new IVariable[subvars.size()]);
+
+				// Mark values equal to the current value as loops
+				for (IVariable v : subvars) {
+					final EolVariable eolVar = (EolVariable)v;
+					final EolVariableValue eolVarValue = (EolVariableValue)v.getValue();
+					if (eolVarValue.getValue() == value) {
+						eolVar.setLoop(true);
+					}
+				}
+
+				// Convert into an array
+				children = subvars.toArray(new IVariable[subvars.size()]);
 			}
 			else {
-				variables = new IVariable[0];
+				children = new IVariable[0];
 			}
 		}
-		return variables;
+		return children;
+	}
+
+	private boolean isNullOrPrimitiveWrapper(Object value) {
+		return value == null || PRIMITIVE_WRAPPER_CLASSES.contains(value.getClass());
 	}
 
 	public boolean hasVariables() throws DebugException {

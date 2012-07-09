@@ -18,6 +18,7 @@ import org.eclipse.debug.ui.IDebugModelPresentation;
 import org.eclipse.debug.ui.IValueDetailListener;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
@@ -30,6 +31,11 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class DebugModelPresentation implements IDebugModelPresentation {
 	private ListenerList listeners = new ListenerList();
+	private Image imgLoopVariable;
+
+	public DebugModelPresentation() {
+		imgLoopVariable = EolPlugin.getImageDescriptor("/icons/variable_loop.gif").createImage();
+	}
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -38,7 +44,10 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 
 	@Override
 	public void dispose() {
-		// nothing to do
+		if (imgLoopVariable != null) {
+			imgLoopVariable.dispose();
+			imgLoopVariable = null;
+		}
 	}
 
 	@Override
@@ -76,6 +85,12 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 
 	@Override
 	public Image getImage(Object element) {
+		if (element instanceof EolVariable) {
+			final EolVariable v = (EolVariable)element;
+			if (v.isLoop()) {
+				return imgLoopVariable;
+			}
+		}
 		return null;
 	}
 

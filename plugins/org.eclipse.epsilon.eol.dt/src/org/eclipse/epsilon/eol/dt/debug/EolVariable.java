@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - added isLoop
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.debug;
 
@@ -19,19 +20,20 @@ public class EolVariable extends EolDebugElement implements IVariable {
 
 	protected String name;
 	protected IValue value;
+	private boolean isLoop = false;
 
 	public EolVariable(IDebugTarget target, String name, Object value) {
 		super(target);
 		this.name = name;
-		this.value = new EolVariableValue(target, value);
+		this.value = new EolVariableValue(target, this, value);
 	}
 
 	public void setValue(String expression) throws DebugException {
-
+		// do nothing
 	}
 
 	public void setValue(IValue value) throws DebugException {
-
+		// do nothing
 	}
 
 	public boolean supportsValueModification() {
@@ -62,8 +64,16 @@ public class EolVariable extends EolDebugElement implements IVariable {
 		return false;
 	}
 
+	public boolean isLoop() {
+		return isLoop;
+	}
+
+	public void setLoop(boolean isLoop) {
+		this.isLoop = isLoop;
+	}
+
 	@Override
 	public String toString() {
-		return "EolVariable [name=" + name + ", value=" + value + "]";
+		return "EolVariable [name=" + name + ", value=" + value + ", isLoop=" + isLoop + "]";
 	}
 }

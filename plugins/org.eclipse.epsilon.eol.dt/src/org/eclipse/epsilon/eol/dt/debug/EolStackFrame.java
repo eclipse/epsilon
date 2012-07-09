@@ -224,7 +224,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 			final IDocument doc = getDocument(ast);
 			try {
 				if (doc != null) {
-					return doc.getLineOffset(ast.getLine() - 1) + ast.getColumn();
+						return doc.getLineOffset(ast.getLine() - 1);
 				}
 			} catch (BadLocationException e) {
 				EolPlugin.getDefault().logException(e);
