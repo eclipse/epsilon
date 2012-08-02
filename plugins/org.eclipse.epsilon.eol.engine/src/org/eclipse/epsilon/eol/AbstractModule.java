@@ -49,11 +49,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public abstract String getMainRule();
 	
-	//public abstract TokenStream createLexer(Reader reader);
-	
 	public abstract Lexer createLexer(InputStream inputStream);
-	
-	//public abstract LLkParser createParser(TokenStream tokenStream);
 	
 	public abstract EpsilonParser createParser(TokenStream tokenStream);
 	
@@ -62,16 +58,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public abstract List<ModuleElement> getChildren();
 	
 	public List<ParseProblem> getParseProblems() {
-		
-		/*
-		try {
-			return (List) ReflectionUtil.executeMethod(parser, "getParseProblems", new Object[]{}, false, null);
-		} catch (EolRuntimeException e) {
-			e.printStackTrace();
-			return new ArrayList();
-		}*/
 		return parseProblems;
-		//return new ArrayList<ParseProblem>();
 	}
 	
 	public boolean parse(String code) throws Exception {
@@ -99,8 +86,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		Lexer lexer = null;
 		BufferedReader fr = null;
 		try {
-			
-			//fr = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 			lexer = createLexer(uri.toURL().openStream());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -168,15 +153,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			problem.setReason(ex.getMessage());
 			getParseProblems().add(problem);			
 			ex.printStackTrace();
-		}/*
-		catch (TokenStreamRecognitionException tex) {
-			RecognitionException rex = tex.recog;
-			ParseProblem problem = new ParseProblem();
-			problem.setLine(rex.line);
-			problem.setColumn(rex.column);
-			problem.setReason(rex.getMessage());
-			getParseProblems().add(problem);
-		}*/
+		}
 		catch (Throwable ex) {
 			ParseProblem problem = new ParseProblem();
 			Token next = parser.input.LT(1);

@@ -18,18 +18,18 @@ import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
 
 public interface IModule extends ModuleElement {
 	
-	public boolean parse(File file) throws Exception;
+	boolean parse(File file) throws Exception;
 	
-	public boolean parse(URI uri) throws Exception;
+	boolean parse(URI uri) throws Exception;
 	
-	public boolean parse(String code) throws Exception;
+	boolean parse(String code) throws Exception;
 	
-	public boolean parse(String code, File file) throws Exception;
-	
-	public void buildModel() throws Exception;	
-	
-	public List<ParseProblem> getParseProblems();
-	
-	public void reset();
+	boolean parse(String code, File file) throws Exception;
+
+	void buildModel() throws Exception;
+
+	List<ParseProblem> getParseProblems();
+
+	void reset();
 	
 }

@@ -37,14 +37,5 @@ public abstract class AbstractModuleElement implements ModuleElement{
 	public URI getSourceUri() {
 		return sourceUri;
 	}
-	
-	/*
-	public void setSourceFile(File file) {
-		this.sourceFile = file;
-	}
-	
-	public File getSourceFile(){
-		return sourceFile;
-	}
-	*/
+
 }
