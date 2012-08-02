@@ -50,20 +50,18 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
  	
 	public static void main(String[] args) throws Exception {
-		
 		EgxModule module = new EgxModule(new EglTemplateFactory());
 		module.parse("rule C2J transform c : EClass { target: 1+2+'c' pre {'pre'.println();'pre1'.println();}  post{'post'.println();} }");
 		System.err.println(module.getParseProblems());
 		module.execute();
 		
 	}
-	
+
 	public EgxModule() {
-		this.templateFactory = new EglTemplateFactory();
-		reset();
+		this(new EglTemplateFactory());
 	}
 	
-	public EgxModule(EglTemplateFactory templateFactory){
+	public EgxModule(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
 		reset();
 	}

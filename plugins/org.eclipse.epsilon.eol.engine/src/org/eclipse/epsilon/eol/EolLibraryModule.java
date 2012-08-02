@@ -44,7 +44,9 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	protected Set<EolModelDefinition> modelDefinitions = null;
 	protected Set<EolModelGroupDefinition> modelGroupDefinitions = null;
 	protected EolOperationFactory operationFactory = new EolOperationFactory();
-	
+
+	private IEolLibraryModule parent;
+
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
 		ANTLRInputStream input = null;
@@ -172,11 +174,14 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 			IModule module = null;
 			try {
 				module = (IModule) moduleImplClass.newInstance();
+				if (module instanceof IEolLibraryModule) {
+					((IEolLibraryModule)module).setParent(this);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				continue;
 			}
-			EolImport import_ = new EolImport(importAst, module);
+			EolImport import_ = new EolImport(importAst, this, module);
 			if (!import_.getPath().endsWith("." + extension)) continue;
 			
 			if (sourceUri == null && sourceFile == null) {
@@ -255,5 +260,14 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		this.operationFactory = operationFactory;
 	}
-	
+
+	@Override
+	public IEolLibraryModule getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(IEolLibraryModule parent) {
+		this.parent = parent;
+	}
 }

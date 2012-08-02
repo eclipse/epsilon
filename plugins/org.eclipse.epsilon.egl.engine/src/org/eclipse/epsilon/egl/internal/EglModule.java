@@ -78,13 +78,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	}
 	
 	public boolean parse(File file) throws Exception {
-		try {
-			reader = new BufferedReader(new FileReader(file));
-			return parseFromLexer(new EglLexer(reader), file);
-			
-		} finally {
-			if (reader!=null) reader.close();
-		}
+		return parse(file.toURI());
 	}
 
 	private boolean parseFromLexer(EglLexer lexer, File file) throws Exception {
@@ -114,9 +108,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 			}
 
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
-
-			return parseAndPreprocess(new EglLexer(reader), null);
-
+			return parseAndPreprocess(new EglLexer(reader), this.sourceFile);
 		} finally {
 			if (reader!=null) reader.close();
 		}

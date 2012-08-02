@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - add getSourceURI
  ******************************************************************************/
 package org.eclipse.epsilon.commons.module;
 
@@ -25,6 +26,8 @@ public interface IModule extends ModuleElement {
 	boolean parse(String code) throws Exception;
 	
 	boolean parse(String code, File file) throws Exception;
+
+	URI getSourceUri();
 
 	void buildModel() throws Exception;
 

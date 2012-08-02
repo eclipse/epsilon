@@ -23,31 +23,44 @@ import org.eclipse.epsilon.commons.util.UriUtil;
 
 public class EolImport extends AbstractModuleElement{
 	
-	protected IModule module;
-	protected boolean loaded = false;
-	protected boolean found = false;
+	private IEolLibraryModule parentModule;
+	private IModule importedModule;
+	private boolean loaded = false;
+	private boolean found = false;
 	
-	public EolImport(AST ast, IModule module){
+	public EolImport(AST ast, IEolLibraryModule parentModule, IModule importedModule) {
 		setAst(ast);
-		this.module = module;
+		this.parentModule = parentModule;
+		this.importedModule = importedModule;
 	}
 	
 	public void load(URI baseUri) {
-		//module = new EolLibraryModuleImpl();
 		try {
-			//String path = ast.getFirstChild().getText();
-			File file = new File(getPath());
+			final File file = new File(getPath());
+			URI uri;
 			
 			if (file.isAbsolute()) {
 				if (!file.exists()) return;
-				
-				module.parse(file);
+				uri = file.toURI();
 			} else {
-				module.parse(UriUtil.resolve(getPath(), baseUri));
+				uri = UriUtil.resolve(getPath(), baseUri);
+			}
+
+			// Detect and handle circular imports gracefully
+			for (IEolLibraryModule ancestor = parentModule;
+					ancestor != null && !found;
+					ancestor = ancestor.getParent()) {
+				if (ancestor.getSourceUri() != null && ancestor.getSourceUri().equals(uri)) {
+					found = true;
+					importedModule = ancestor;
+				}
+			}
+			if (!found) {
+				importedModule.parse(uri);
 			}
 			
 			found = true;
-			if (module.getParseProblems().size() == 0) {
+			if (importedModule.getParseProblems().size() == 0) {
 				loaded = true;
 			}
 		} catch (Exception e) {
@@ -58,7 +71,7 @@ public class EolImport extends AbstractModuleElement{
 	//TODO: Show the helpers under the imports
 	public List getChildren() {
 		if (!loaded) return Collections.EMPTY_LIST;
-		else return module.getChildren();
+		else return importedModule.getChildren();
 		//return Collections.EMPTY_LIST;
 	}
 	
@@ -76,7 +89,7 @@ public class EolImport extends AbstractModuleElement{
 	}
 	
 	public IModule getModule() {
-		return module;
+		return importedModule;
 	}
 	
 	public String getPath() {

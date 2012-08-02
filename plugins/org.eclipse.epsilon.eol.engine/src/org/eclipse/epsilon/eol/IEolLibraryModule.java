@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - add {get, set}Parent
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
 
@@ -30,6 +31,10 @@ public interface IEolLibraryModule extends IModule{
 	public List<EolModelGroupDefinition> getDeclaredModelGroupDefinitions();
 	
 	public Set<EolModelGroupDefinition> getModelGroupDefinitions();
+	
+	public IEolLibraryModule getParent();
+	
+	public void setParent(IEolLibraryModule parent);
 	
 	public List getImports();
 	

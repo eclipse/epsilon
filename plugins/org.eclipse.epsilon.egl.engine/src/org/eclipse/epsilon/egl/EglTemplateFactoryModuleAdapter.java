@@ -30,6 +30,7 @@ import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
 import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
@@ -127,5 +128,20 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
 	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
 		factory.setDefaultFormatters(defaultFormatters);
+	}
+
+	@Override
+	public IEolLibraryModule getParent() {
+		return null;
+	}
+
+	@Override
+	public void setParent(IEolLibraryModule parent) {
+		// do nothing
+	}
+
+	@Override
+	public URI getSourceUri() {
+		return null;
 	}
 }

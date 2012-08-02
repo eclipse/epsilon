@@ -13,9 +13,7 @@ package org.eclipse.epsilon.eol;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -67,6 +65,10 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public boolean parse(String code, File file) throws Exception {
 		this.sourceFile = file;
+		if (file != null) {
+			this.sourceUri = file.toURI();
+		}
+		
 		Lexer lexer = createLexer(new ByteArrayInputStream(code.getBytes()));
 		CommonTokenStream stream = new CommonTokenStream(lexer);
 		EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(file);
@@ -112,28 +114,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	}
 	
 	public boolean parse(File file) throws Exception {
-		this.sourceFile = file;
-		Lexer lexer = null;
-		FileReader fr = null;
-		lexer = createLexer(new FileInputStream(file));
-		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
-		
-		CommonTokenStream stream = new CommonTokenStream(lexer);
-		parser = createParser(stream);
-		parser.setDeepTreeAdaptor(astFactory);
-		
-		boolean mainRuleResult = invokeMainRule();
-		
-		try {
-			if (fr != null) {
-				fr.close();
-			}
-		}
-		catch (Throwable t) {
-			// Ignore exception
-		}
-		
-		return mainRuleResult;
+		return parse(file.toURI());
 	}
 
 	protected boolean invokeMainRule() throws Exception {
