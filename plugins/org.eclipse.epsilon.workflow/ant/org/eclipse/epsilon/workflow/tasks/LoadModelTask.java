@@ -25,23 +25,10 @@ public class LoadModelTask extends EpsilonTask{
 	protected String type;
 	protected String config;
 	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
-	//public static BuildFinishedListener BuildFinishedListener;
 	
 	@Override
 	public void executeImpl() throws BuildException {	
-		
 		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
-		
-		/*
-		if (BuildFinishedListener == null) {
-			BuildFinishedListener = new BuildFinishedListener() {
-				@Override
-				public void buildFinished(BuildEvent event) {
-					getProjectRepository().dispose();
-				}
-			};
-			getProject().addBuildListener(BuildFinishedListener);
-		}*/
 		
 		if (profile) Profiler.INSTANCE.start("Load model : " + name);
 		IModel model = createModel(type);
