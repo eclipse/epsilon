@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -176,9 +177,16 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		private static void migrateUriValue(StringProperties properties, String oldProperty, String newProperty) {
 			if (properties.hasValueFor(oldProperty) && !properties.hasValueFor(newProperty)) {
 				final String oldValue = properties.getProperty(oldProperty);
-				final URI    newValue = EmfUtil.createPlatformResourceURI(oldValue);
-				
-				properties.put(newProperty, newValue);
+
+				final File oldFile = new File(oldValue);
+				if (oldFile.canRead() || oldFile.getParentFile() != null && oldFile.getParentFile().canRead()) {
+					// This is a regular path to a readable file (to be read) or in a readable directory (to be saved)
+					properties.put(newProperty, EmfUtil.createFileBasedURI(oldValue));
+				}
+				else {
+					// It's not a regular file path: treat it as a platform:/resource/ URI
+					properties.put(newProperty, EmfUtil.createPlatformResourceURI(oldValue));
+				}
 			}
 		}
 	}
@@ -223,13 +231,16 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
 		Resource model = resourceSet.createResource(modelUri);
-		if (this.readOnLoad){
+		if (this.readOnLoad) {
 			try {
 				model.load(null);
 				if (expand) {
 					EcoreUtil.resolveAll(model);
 				}
 			} catch (IOException e) {
+				// Unload the model, so it will not be wrongly cached as "loaded",
+				// causing the intermittent errors produced in bug #386255
+				model.unload();
 				throw new EolModelLoadingException(e, this);
 			}
 		}
