@@ -18,7 +18,7 @@
  		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/OO.ecore"/>
  		 		
  		<epsilon.loadModel name="OO" type="EMF">
-			<parameter name="modelFile" file="models/OOInstance.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/OOInstance.model"/>
 			<parameter name="metamodelUri" value="OO"/>
 			<parameter name="readOnLoad" value="false"/>
 			<parameter name="storeOnDisposal" value="true"/>

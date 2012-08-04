@@ -5,14 +5,14 @@
 	<epsilon.emf.register file="../metamodels/TVAppDsl.ecore"/>
 		
 	<epsilon.loadModel name="Competition" type="EMF">
-		<parameter name="modelFile" file="models/WorldCup.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/WorldCup.model"/>
 		<parameter name="metamodelUri" value="CompetitionDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="true"/>
 	</epsilon.loadModel>
 	
 	<epsilon.loadModel name="TVApp" type="EMF">
-		<parameter name="modelFile" file="models/TVApp3.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/TVApp3.model"/>
 		<parameter name="metamodelUri" value="TVAppDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="false"/>

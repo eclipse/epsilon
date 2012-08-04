@@ -11,7 +11,7 @@
 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/DomainVocabulary.ecore"/>
 		
 		<epsilon.loadModel name="Source" type="EMF" profile="true">
-			<parameter name="modelFile" file="models/Source.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Source.model"/>
 			<parameter name="metamodelUri" value="Entity"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>
@@ -19,7 +19,7 @@
 		</epsilon.loadModel>
 
 		<epsilon.loadModel name="Target" type="EMF" profile="true">
-			<parameter name="modelFile" file="models/Target.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Target.model"/>
 			<parameter name="metamodelUri" value="Entity"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="false"/>
@@ -27,7 +27,7 @@
 		</epsilon.loadModel>
 		
 		<epsilon.loadModel name="Vocabulary" type="EMF" profile="true">
-			<parameter name="modelFile" file="models/Vocabulary.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Vocabulary.model"/>
 			<parameter name="metamodelUri" value="DomainVocabulary"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>

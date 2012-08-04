@@ -9,7 +9,7 @@
 		
 		<epsilon.loadModel name="Left" type="EMF" profile="true">
 			<parameter name="aliases" value="Source"/>
-			<parameter name="modelFile" file="models/Educational.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Educational.model"/>
 			<parameter name="metamodelUri" value="OO"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>
@@ -18,7 +18,7 @@
 			
 		<epsilon.loadModel name="Right" type="EMF" profile="true">
 			<parameter name="aliases" value="Source"/>
-			<parameter name="modelFile" file="models/Management.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Management.model"/>
 			<parameter name="metamodelUri" value="OO"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="true"/>
@@ -26,7 +26,7 @@
 		</epsilon.loadModel>
 		
 		<epsilon.loadModel name="Target" type="EMF" profile="true">
-			<parameter name="modelFile" file="models/Merged.model"/>
+			<parameter name="modelUri" value="file://${basedir}/models/Merged.model"/>
 			<parameter name="metamodelUri" value="OO"/>
 			<parameter name="isMetamodelFileBased" value="false"/>
 			<parameter name="readOnLoad" value="false"/>

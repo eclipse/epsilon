@@ -5,7 +5,7 @@
 	<epsilon.emf.register file="../metamodels/ReportDsl.ecore"/>
 		
 	<epsilon.loadModel name="Report" type="EMF">
-		<parameter name="modelFile" file="models/Report.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/Report.model"/>
 		<parameter name="metamodelUri" value="ReportDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="true"/>
@@ -13,7 +13,7 @@
 	
 	<epsilon.loadModel name="OldTVApp" type="EMF">
 		<parameter name="aliases" value="Source"/>
-		<parameter name="modelFile" file="models/TVApp1.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/TVApp1.model"/>
 		<parameter name="metamodelUri" value="TVAppDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="true"/>
@@ -21,7 +21,7 @@
 	
 	<epsilon.loadModel name="NewTVApp" type="EMF">
 		<parameter name="aliases" value="Target"/>
-		<parameter name="modelFile" file="models/TVApp2.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/TVApp2.model"/>
 		<parameter name="metamodelUri" value="TVAppDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="false"/>

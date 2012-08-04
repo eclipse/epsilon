@@ -5,14 +5,14 @@
 	<epsilon.emf.register file="../metamodels/TVAppDsl.ecore"/>
 	
 	<epsilon.loadModel name="TVApp" type="EMF">
-		<parameter name="modelFile" file="models/ChampionsLeague.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/ChampionsLeague.model"/>
 		<parameter name="metamodelUri" value="TVAppDsl"/>
 		<parameter name="isMetamodelFileBased" value="false"/>
 		<parameter name="readOnLoad" value="true"/>
 	</epsilon.loadModel>
 	
 	<epsilon.loadModel name="Xml" type="EMF">
-		<parameter name="modelFile" file="models/TVAppXml.model"/>
+		<parameter name="modelUri" value="file://${basedir}/models/TVAppXml.model"/>
 		<parameter name="metamodelUri" value="Xml"/>
 		<parameter name="isMetamodelFileBased" value="false"/> 
 		<parameter name="readOnLoad" value="false"/>
