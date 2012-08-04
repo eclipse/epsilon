@@ -18,19 +18,15 @@
  		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Tree.ecore"/>
  		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Graph.ecore"/>
  		 		
- 		<epsilon.loadModel name="Tree" type="EMF">
-			<parameter name="modelUri" value="file://${basedir}/tree.model"/>
-			<parameter name="metamodelUri" value="Tree"/>
-			<parameter name="readOnLoad" value="true"/>
-			<parameter name="storeOnDisposal" value="false"/>
-		</epsilon.loadModel>
+ 		<epsilon.emf.loadModel name="Tree" type="EMF"
+                                       modelFile="tree.model"
+                                       metamodelUri="Tree"
+                                       read="true" store="false"/>
  		
- 		<epsilon.loadModel name="Graph" type="EMF">
-			<parameter name="modelUri" value="file://${basedir}/graph.model"/>
-			<parameter name="metamodelUri" value="Graph"/>
-			<parameter name="readOnLoad" value="false"/>
-			<parameter name="storeOnDisposal" value="true"/>
-		</epsilon.loadModel>
+ 		<epsilon.emf.loadModel name="Graph"
+                                       modelFile="graph.model"
+                                       metamodelUri="Graph"
+                                       read="false" store="true"/>
  	</target>
  	
 	<target name="main" depends="loadModels">		

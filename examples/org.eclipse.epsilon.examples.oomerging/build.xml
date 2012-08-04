@@ -4,24 +4,20 @@
 		
 		<epsilon.emf.register file="SimpleOO.ecore"/>
 		
-		<epsilon.loadModel name="Left" type="EMF">
-			<parameter name="modelUri" value="file://${basedir}/Left.model"/>
-			<parameter name="metamodelUri" value="SimpleOO"/>
-			<parameter name="readOnLoad" value="true"/>
-		</epsilon.loadModel>
+		<epsilon.emf.loadModel name="Left"
+                                       modelFile="Left.model"
+                                       metamodelUri="SimpleOO"
+                                       read="true" store="false" />
 		
-		<epsilon.loadModel name="Right" type="EMF">
-			<parameter name="modelUri" value="file://${basedir}/Right.model"/>
-			<parameter name="metamodelUri" value="SimpleOO"/>
-			<parameter name="readOnLoad" value="true"/>
-		</epsilon.loadModel>
+		<epsilon.emf.loadModel name="Right"
+                                       modelFile="Right.model"
+                                       metamodelUri="SimpleOO"
+                                       read="true" store="false" />
  
-		<epsilon.loadModel name="Target" type="EMF">
-			<parameter name="modelUri" value="file://${basedir}/Target.model"/>
-			<parameter name="metamodelUri" value="SimpleOO"/>
-			<parameter name="readOnLoad" value="false"/>
-			<parameter name="storeOnDisposal" value="true"/>
-		</epsilon.loadModel>
+		<epsilon.emf.loadModel name="Target"
+                                       modelFile="Target.model"
+                                       metamodelUri="SimpleOO"
+                                       read="false" store="true" />
 		
 	</target>
 	

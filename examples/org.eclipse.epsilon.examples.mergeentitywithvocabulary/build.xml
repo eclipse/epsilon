@@ -10,30 +10,20 @@
 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Entity.ecore"/>
 		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/DomainVocabulary.ecore"/>
 		
-		<epsilon.loadModel name="Source" type="EMF" profile="true">
-			<parameter name="modelUri" value="file://${basedir}/models/Source.model"/>
-			<parameter name="metamodelUri" value="Entity"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="true"/>
-			<parameter name="storeOnDisposal" value="false"/>
-		</epsilon.loadModel>
+		<epsilon.emf.loadModel name="Source" profile="true"
+                                       modelFile="models/Source.model"
+                                       metamodelUri="Entity"
+                                       read="true" store="false"/>
 
-		<epsilon.loadModel name="Target" type="EMF" profile="true">
-			<parameter name="modelUri" value="file://${basedir}/models/Target.model"/>
-			<parameter name="metamodelUri" value="Entity"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="false"/>
-			<parameter name="storeOnDisposal" value="true"/>
-		</epsilon.loadModel>
+		<epsilon.emf.loadModel name="Target" profile="true"
+                                       modelFile="models/Target.model"
+                                       metamodelUri="Entity"
+                                       read="false" store="true"/>
 		
-		<epsilon.loadModel name="Vocabulary" type="EMF" profile="true">
-			<parameter name="modelUri" value="file://${basedir}/models/Vocabulary.model"/>
-			<parameter name="metamodelUri" value="DomainVocabulary"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="true"/>
-			<parameter name="storeOnDisposal" value="false"/>
-		</epsilon.loadModel>
-		
+		<epsilon.emf.loadModel name="Vocabulary" profile="true"
+                                       modelFile="models/Vocabulary.model"
+                                       metamodelUri="DomainVocabulary"
+                                       read="true" store="false"/>
 	</target>
 	
 	<target name="compare">

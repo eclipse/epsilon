@@ -7,34 +7,22 @@
 	
 	<target name="loadModels">
 		
-		<epsilon.loadModel name="Left" type="EMF" profile="true">
-			<parameter name="aliases" value="Source"/>
-			<parameter name="modelUri" value="file://${basedir}/models/Educational.model"/>
-			<parameter name="metamodelUri" value="OO"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="true"/>
-			<parameter name="storeOnDisposal" value="false"/>
-		</epsilon.loadModel>
+	    <epsilon.emf.loadModel name="Left" profile="true"
+                                   aliases="Source"
+                                   modelFile="models/Educational.model"
+                                   metamodelUri="OO"
+                                   read="true" store="false"/>
 			
-		<epsilon.loadModel name="Right" type="EMF" profile="true">
-			<parameter name="aliases" value="Source"/>
-			<parameter name="modelUri" value="file://${basedir}/models/Management.model"/>
-			<parameter name="metamodelUri" value="OO"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="true"/>
-			<parameter name="storeOnDisposal" value="false"/>
-		</epsilon.loadModel>
+	    <epsilon.emf.loadModel name="Right" profile="true"
+                                   aliases="Source"
+                                   modelFile="models/Management.model"
+                                   metamodelUri="OO"
+                                   read="true" store="false"/>
 		
-		<epsilon.loadModel name="Target" type="EMF" profile="true">
-			<parameter name="modelUri" value="file://${basedir}/models/Merged.model"/>
-			<parameter name="metamodelUri" value="OO"/>
-			<parameter name="isMetamodelFileBased" value="false"/>
-			<parameter name="readOnLoad" value="false"/>
-			<parameter name="storeOnDisposal" value="true"/>
-		</epsilon.loadModel>
-		
-
-		
+	    <epsilon.emf.loadModel name="Target" profile="true"
+                                   modelFile="models/Merged.model"
+                                   metamodelUri="OO"
+                                   read="false" store="true"/>
 	</target>
 	
 	<target name="compare">

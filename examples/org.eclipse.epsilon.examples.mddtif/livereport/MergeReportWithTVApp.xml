@@ -4,31 +4,24 @@
 	<epsilon.emf.register file="../metamodels/TVAppDsl.ecore"/>
 	<epsilon.emf.register file="../metamodels/ReportDsl.ecore"/>
 		
-	<epsilon.loadModel name="Report" type="EMF">
-		<parameter name="modelUri" value="file://${basedir}/models/Report.model"/>
-		<parameter name="metamodelUri" value="ReportDsl"/>
-		<parameter name="isMetamodelFileBased" value="false"/>
-		<parameter name="readOnLoad" value="true"/>
-	</epsilon.loadModel>
+	<epsilon.emf.loadModel name="Report"
+                               modelFile="models/Report.model"
+                               metamodelUri="ReportDsl"
+                               read="true" store="false" />
 	
-	<epsilon.loadModel name="OldTVApp" type="EMF">
-		<parameter name="aliases" value="Source"/>
-		<parameter name="modelUri" value="file://${basedir}/models/TVApp1.model"/>
-		<parameter name="metamodelUri" value="TVAppDsl"/>
-		<parameter name="isMetamodelFileBased" value="false"/>
-		<parameter name="readOnLoad" value="true"/>
-	</epsilon.loadModel>	
+	<epsilon.emf.loadModel name="OldTVApp"
+                               aliases="Source"
+                               modelUri="file://${basedir}/models/TVApp1.model"
+                               metamodelUri="TVAppDsl"
+                               read="true" store="false"/>
 	
-	<epsilon.loadModel name="NewTVApp" type="EMF">
-		<parameter name="aliases" value="Target"/>
-		<parameter name="modelUri" value="file://${basedir}/models/TVApp2.model"/>
-		<parameter name="metamodelUri" value="TVAppDsl"/>
-		<parameter name="isMetamodelFileBased" value="false"/>
-		<parameter name="readOnLoad" value="false"/>
-	</epsilon.loadModel>
+	<epsilon.emf.loadModel name="NewTVApp"
+                               aliases="Target"
+                               modelUri="file://${basedir}/models/TVApp2.model"
+                               metamodelUri="TVAppDsl"
+                               read="false" store="true"/>
 
 	<target name="main">
-		
 		<epsilon.ecl src="MatchReportWithTVApp.ecl" exportmatchtrace="trace">
 			<model ref="OldTVApp"/>
 			<model ref="Report"/>
