@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

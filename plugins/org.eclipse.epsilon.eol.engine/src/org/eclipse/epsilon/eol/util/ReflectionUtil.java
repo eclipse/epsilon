@@ -253,6 +253,7 @@ public class ReflectionUtil {
 		else if (clazz == double.class) return Double.class.isInstance(instance);
 		else if (clazz == boolean.class) return Boolean.class.isInstance(instance);
 		else if (clazz == long.class) return Long.class.isInstance(instance);
+		else if (clazz == char.class) return Character.class.isInstance(instance);
 		else return clazz.isInstance(instance);
 	}
 

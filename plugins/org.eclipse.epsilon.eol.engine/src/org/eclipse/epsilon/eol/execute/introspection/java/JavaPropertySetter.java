@@ -10,18 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
-import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 	

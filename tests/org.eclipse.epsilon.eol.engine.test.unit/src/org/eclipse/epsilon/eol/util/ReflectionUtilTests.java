@@ -17,7 +17,14 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 public class ReflectionUtilTests {
-	
+
+	@Test
+	public void primitiveInstanceForPrimitiveType2() throws Exception {
+		Method expected = Fixture.class.getMethod("primitive2", char.class);
+		Method actual = ReflectionUtil.getMethodFor(new Fixture(), "primitive2", new Object[]{'a'}, true, true);
+		assertEquals(expected, actual);
+	}
+
 	@Test
 	public void primitiveInstanceForPrimitiveType() throws Exception {
 		Method expected = Fixture.class.getMethod("primitive", int.class);
@@ -67,6 +74,7 @@ public class ReflectionUtilTests {
 	}
 	
 	public class Fixture {
+		public void primitive2(char c) {}
 		public void primitive(int i) {}
 		public void reference(Integer i) {}
 		public void top(Object o) {}
