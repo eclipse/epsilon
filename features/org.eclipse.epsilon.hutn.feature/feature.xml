@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.hutn.feature"
       label="Human Usable Textual Notation (Incubation)"
-      version="0.8.1.qualifier"
+      version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/gmt/epsilon">
