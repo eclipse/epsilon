@@ -266,4 +266,11 @@ litigation.
          install-size="0"
          version="0.9.1.qualifier"/>
 
+   <plugin
+         id="org.eclipse.epsilon.eunit.junit"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
 </feature>
