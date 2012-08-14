@@ -56,7 +56,16 @@ public class EolImport extends AbstractModuleElement{
 				}
 			}
 			if (!found) {
-				importedModule.parse(uri);
+				try {
+					importedModule.parse(uri);
+				} catch (Exception e) {
+					// Useful for plugin developers: fall back on platform:/resource if platform:/plugin does not work
+					if ("platform".equals(uri.getScheme()) && uri.getPath().startsWith("/plugin/")) {
+						final String sNewURI = uri.toString().replaceFirst("/plugin/", "/resource/");
+						uri = new URI(sNewURI);
+						importedModule.parse(uri);
+					}
+				}
 			}
 			
 			found = true;
