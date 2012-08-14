@@ -299,12 +299,7 @@ public class EUnitTest {
 			sbuf.append(" = ");
 
 			final String sValue = getDataValue().toString();
-			if (sValue.length() < 10) {
-				sbuf.append(sValue);
-			} else {
-				sbuf.append(sValue, 0, 7);
-				sbuf.append("...");
-			}
+			sbuf.append(sValue);
 		}
 
 		return sbuf.toString();

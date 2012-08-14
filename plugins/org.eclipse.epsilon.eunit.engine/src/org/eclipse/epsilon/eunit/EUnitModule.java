@@ -121,17 +121,6 @@ public class EUnitModule extends EolModule {
 
 	@Override
 	public Object execute() throws EolRuntimeException {
-		// We're stricter when running EUnit than with the other E*L languages:
-		// we will abort test execution if the EUnit module had any parse problems
-		if (!getParseProblems().isEmpty()) {
-			throw new EUnitParseException(this.getParseProblems());
-		}
-
-		// Run the EUnit script as a regular EOL script first,
-		// so global variables are properly assigned and we do
-		// not confuse users
-		super.execute();
-
 		// Run the tests in the suite now
 		try {
 			runSuite(getSuiteRoot());
@@ -142,6 +131,17 @@ public class EUnitModule extends EolModule {
 	}
 
 	public EUnitTest getSuiteRoot() throws EolRuntimeException {
+		// We're stricter when running EUnit than with the other E*L languages:
+		// we will abort test execution if the EUnit module had any parse problems
+		if (!getParseProblems().isEmpty()) {
+			throw new EUnitParseException(this.getParseProblems());
+		}
+
+		// Run the EUnit script as a regular EOL script first,
+		// so global variables are properly assigned and user
+		// operations are defined
+		super.execute();
+
 		if (suiteRoot != null) {
 			return suiteRoot;
 		}
@@ -522,10 +522,14 @@ public class EUnitModule extends EolModule {
 
 	/* EVENT NOTIFICATION METHODS */
 
-	public void addTestListener(EUnitTestListener listener) {
-		testListeners.add(listener);
+	public boolean addTestListener(EUnitTestListener listener) {
+		return testListeners.add(listener);
 	}
 
+	public boolean removeTestListener(EUnitTestListener listener) {
+		return testListeners.remove(listener);
+	}
+	
 	private void fireAfterCase(EUnitTest test) {
 		for (EUnitTestListener listener : testListeners) {
 			listener.afterCase(this, test);
