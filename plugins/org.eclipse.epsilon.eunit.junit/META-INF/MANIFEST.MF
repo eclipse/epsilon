@@ -5,11 +5,13 @@ Bundle-SymbolicName: org.eclipse.epsilon.eunit.junit
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.junit;version="4.5.0",
+Import-Package: org.eclipse.core.runtime,
+ org.junit;version="4.5.0",
  org.junit.runner;version="4.5.0",
  org.junit.runner.notification;version="4.5.0",
  org.junit.runners;version="4.5.0",
  org.junit.runners.model;version="4.5.0"
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.eunit.engine;visibility:=reexport
+ org.eclipse.epsilon.eunit.engine;visibility:=reexport,
+ org.eclipse.epsilon.eol.dt
 Export-Package: org.eclipse.epsilon.eunit.junit

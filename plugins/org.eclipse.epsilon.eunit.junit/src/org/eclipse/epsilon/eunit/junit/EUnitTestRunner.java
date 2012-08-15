@@ -16,9 +16,12 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
+import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
@@ -65,8 +68,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			}
 
 			if (test.isLeafTest()) {
-				final ModelRepository repository = module.getContext()
-						.getModelRepository();
+				final ModelRepository repository = module.getContext().getModelRepository();
 				repository.dispose();
 				try {
 					final List<IModel> models = suiteInstance.prepareModels();
@@ -97,13 +99,20 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 	private EUnitModule module;
 	private IEUnitSuite suiteInstance;
 
-	public EUnitTestRunner(Class<? extends IEUnitSuite> testClass)
-			throws InitializationError {
+	public EUnitTestRunner(Class<? extends IEUnitSuite> testClass) throws InitializationError {
 		super(testClass);
 		try {
 			suiteInstance = testClass.newInstance();
 			module = new EUnitModule();
 			module.parse(suiteInstance.getModuleURI());
+
+			if (Platform.getExtensionRegistry() != null) {
+				EclipseContextManager.setup(module.getContext());
+
+				// Disable notification through dialogs: it's bad for automated test cases.
+				// Use the console instead.
+				module.getContext().setUserInput(new JavaConsoleUserInput());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InitializationError(e);
