@@ -78,12 +78,18 @@ object-oriented system. % TODO include metamodel diagram
 \end{lstlisting}
 
 \subsection{User-Defined Operations}
-Like EOL, EGL permits users to define re-usable units of code via operations (Section~\ref{sec:Design.EOL.Operations}). In EGL, user-defined operations  
-are defined in dynamic sections, but may mix static and dynamic sections in their
+
+Like EOL, EGL permits users to define re-usable units of code via
+operations (Section~\ref{sec:Design.EOL.Operations}). EGL operations
+support the predefined annotations for regular EOL operations, such as
+optional pre-/post-conditions (Section~\ref{sec:prep-cond-user}) or
+result caching (Section~\ref{sec:EolCaching}).
+
+In EGL, user-defined operations are defined in dynamic sections, but may mix static and dynamic sections in their
 bodies. Consider, for example, the EGL code in Listing~\ref{lst:egl_operation}, 
 which emits a declaration for a Java class (e.g. \texttt{public class Foo \{\}}).
 Lines 2-4 declare the operation. Note that the start and the end of the operation's 
-declaration (on line 2 and 4, respectively) are contained in dynamic sections. The
+declaration (on lines 2 and 4, respectively) are contained in dynamic sections. The
 body of the operation (line 3), however, mixes static and dynamic output sections.
 Finally, note that the operation is invoked from a dynamic section (line 1).
 
