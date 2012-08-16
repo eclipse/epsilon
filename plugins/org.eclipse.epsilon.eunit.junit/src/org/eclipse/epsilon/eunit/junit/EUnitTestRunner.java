@@ -49,6 +49,15 @@ import org.junit.runners.model.InitializationError;
  * this runner supports every feature in EUnit except for those specific to Ant,
  * such as runTarget, useVariable, exportVariable and loadHutn.
  * </p>
+ * 
+ * TODO: integrate the EOL debugger somehow.
+ * 
+ * TODO: add support for running utility methods in the test suite from the
+ * EUnit script, to have an equivalent for the runTarget operation.
+ * 
+ * TODO: add support for running Ant targets from a previously specified Ant
+ * script, in order to reuse the workflow tasks. We could get back most of the
+ * missing functionality this way.
  */
 public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 
