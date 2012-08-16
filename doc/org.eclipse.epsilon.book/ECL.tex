@@ -18,7 +18,7 @@ The aim of the Epsilon Comparison Language (ECL) is to enable users to specify c
 
 \section{Abstract Syntax}
 
-In ECL, comparison specifications are organized in modules (\emph{EcLModule}). As illustrated in Figure \ref{fig:ECL}, EclModule extends EOLLibraryModule which means that it can contain user-defined operations and import other library modules and ECL modules. Apart from operations, an ECL module contains a set of match-rules (\emph{MatchRule}) and a set of \emph{pre} and \emph{post} blocks.
+In ECL, comparison specifications are organized in modules (\emph{EcLModule}). As illustrated in Figure \ref{fig:ECL}, EclModule extends EOLLibraryModule which means that it can contain user-defined operations and import other library modules and ECL modules. Apart from operations, an ECL module contains a set of match-rules (\emph{MatchRule}) and a set of \emph{pre} and \emph{post} blocks than run before and after all comparisons, respectively.
 
 \emph{MatchRules} enable users to perform comparison of model elements at a high level of abstraction. Each match-rule declares a name, and two parameters (\emph{leftParameter} and \emph{rightParameter}) that specify the types of elements it can compare. It also optionally defines a number of rules it inherits (\emph{extends}) and if it is \emph{abstract}, \emph{lazy} and/or \emph{greedy}. The semantics of the latter are discussed shortly.
 
@@ -33,7 +33,7 @@ In ECL, comparison specifications are organized in modules (\emph{EcLModule}). A
 
 A match rule has three parts. The \emph{guard} part is an EOL expression or statement block that further limits the applicability of the rule to an even narrower range of elements than that specified by the \emph{left} and \emph{right} parameters. The \emph{compare} part is an EOL expression or statement block that is responsible for comparing a pair of elements and deciding if they match or not. Finally, the \emph{do} part is an EOL expression or block that is executed if the \emph{compare} part returns true to perform any additional actions required.
 
-\emph{Pre} and \emph{Post} blocks are named blocks of EOL statements which as discussed in the sequel are executed before and after the match-rules have been executed respectively.
+\emph{Pre} and \emph{post} blocks are named blocks of EOL statements which as discussed in the sequel are executed before and after the match-rules have been executed respectively.
 
 \section{Concrete Syntax}
 

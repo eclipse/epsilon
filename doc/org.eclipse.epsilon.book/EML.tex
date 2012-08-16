@@ -37,16 +37,14 @@ The first two steps of the process described above can be realized with existing
 
 In EML, merging specifications are organized in modules (\emph{EmlModule}). As displayed in Figure \ref{fig:EmlAbstractSyntax}, \emph{EmlModule} inherits from \emph{EtlModule}.
 
-\begin{landscape}
-\begin{figure}
-	\centering
-		\includegraphics{images/EmlAbstractSyntax.png}
-	\caption{The Abstract Syntax of EML}
-	\label{fig:EmlAbstractSyntax}
-\end{figure}
-\end{landscape}
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics{images/EmlAbstractSyntax.png}
+  \caption{The Abstract Syntax of EML}
+  \label{fig:EmlAbstractSyntax}
+\end{sidewaysfigure}
 
-By extending \emph{EtlModule}, an EML module can contain a number of transformation rules and user-defined operations. An EML module can also contain one or more merge rules as well as a set of pre and post named statement blocks.
+By extending \emph{EtlModule}, an EML module can contain a number of transformation rules and user-defined operations. An EML module can also contain one or more merge rules as well as a set of \emph{pre} and \emph{post} named EOL statement blocks. As usual, \emph{pre} and \emph{post} blocks will be run before and after all rules, respectively.
 
 Each merge rule defines a name, a left, a right, and one or more target parameters. It can also extend one or more other merge rules and be defined as having one or more of the following properties: abstract, greedy, lazy and primary.
 

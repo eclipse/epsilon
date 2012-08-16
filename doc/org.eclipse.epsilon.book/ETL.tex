@@ -19,7 +19,7 @@ Another common assumption is that the contents of the target models are insignif
 
 As illustrated in Figure \ref{fig:EtlAbstractSyntax}, ETL transformations are organized in modules (\emph{EtlModule}). A module can contain a number of transformation rules (\emph{TransformationRule}). Each rule has a unique name (in the context of the module) and also specifies one \emph{source} and many \emph{target} parameters. A transformation rule can also \emph{extend} a number of other transformation rules and be declared as \emph{abstract}, \emph{primary} and/or \emph{lazy}\footnote{The concept of lazy rules was first introduced in ATL}. To limit its applicability to a subset of elements that conform to the type of the \emph{source} parameter, a rule can optionally define a guard which is either an EOL expression or a block of EOL statements. Finally, each rule defines a block of EOL statements (\emph{body}) where the logic for populating the property values of the target model elements is specified.
 
-Besides transformation rules, an ETL module can also optionally contain a number of \emph{pre} and \emph{post} named blocks of EOL statements which, as discussed later, are executed before and after the transformation rules respectively.
+Besides transformation rules, an ETL module can also optionally contain a number of \emph{pre} and \emph{post} named blocks of EOL statements which, as discussed later, are executed before and after the transformation rules respectively. These should not be confused with the pre-/post-condition annotations available for EOL user-defined operations (Section~\ref{sec:prep-cond-user}).
 
 \begin{landscape}
 \begin{figure}
