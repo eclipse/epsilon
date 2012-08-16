@@ -138,7 +138,7 @@ As is the case for most programming languages, EOL defines a built-in system of 
 			\hline
 							
 			\textbf{Signature} & \textbf{Description} \\\hline
-			
+
 			isDefined() : Boolean & Returns true if the object is defined and false otherwise \\\hline
 			
 			isUndefined() : Boolean & Returns true if the object is undefined and false otherwise \\\hline
@@ -150,7 +150,11 @@ As is the case for most programming languages, EOL defines a built-in system of 
 			isKindOf(type : Type) : Boolean & Returns true if the object is of the given type or one of its subtypes and false otherwise \\\hline
 			
 			type() : Type & Returns the type of the object. The EOL type system is illustrated in Figure \ref{fig:EOLTypes} \\\hline
-			
+
+                        owningModel() : Model & Returns the model that contains this object or an undefined value otherwise \\\hline
+
+                        hasProperty(name : String) : Boolean & Returns true if the object has a property with the specified name or false otherwise \\\hline
+                        
 			asString() : String & Returns a string representation of the object \\\hline
 			
 			asInteger() : Integer & Returns an Integer based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
@@ -167,9 +171,13 @@ As is the case for most programming languages, EOL defines a built-in system of 
 			
 			asOrderedSet() : OrderedSet & Returns a new OrderedSet containing the object \\\hline
 			
-			print([prefix : String]) : Any & Prints a string representation of the object on which it is invoked prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
+			print([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the regular output stream, prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
 			
-			println([prefix : String]) : Any & Has the same effects with the \emph{print} operation but also produces a new line in the output stream. \\\hline
+			println([prefix : String]) : Any & Has the same effects as the \emph{print} operation but also produces a new line in the output stream. \\\hline
+
+			err([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the error stream prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
+			
+			errln([prefix : String]) : Any & Has the same effects as the \emph{err} operation but also produces a new line in the output stream. \\\hline
 			
 			format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
 
@@ -480,7 +488,7 @@ In terms of concrete syntax, inspired by ATL, the ! character is used to separat
 			
 \end{longtable}
 
-As an example of the concrete sytnax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
+As an example of the concrete syntax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
 
 \begin{lstlisting}[float=tbp, caption=Demonstration of the concrete syntax for accessing model element types, label=lst:ModelElementTypes, language=EOL]
 UML14!Core::Foundation::Class.allInstances();
