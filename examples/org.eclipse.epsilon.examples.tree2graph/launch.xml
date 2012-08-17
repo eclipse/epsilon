@@ -18,7 +18,7 @@
  		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Tree.ecore"/>
  		<epsilon.emf.register file="../org.eclipse.epsilon.examples.metamodels/Graph.ecore"/>
  		 		
- 		<epsilon.emf.loadModel name="Tree" type="EMF"
+ 		<epsilon.emf.loadModel name="Tree"
                                        modelFile="tree.model"
                                        metamodelUri="Tree"
                                        read="true" store="false"/>
