@@ -9,4 +9,4 @@ Export-Package: org.eclipse.epsilon.eunit,
  org.eclipse.epsilon.eunit.extensions,
  org.eclipse.epsilon.eunit.operations
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.common.dt
+ org.eclipse.epsilon.common.dt;resolution:=optional

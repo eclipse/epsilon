@@ -168,11 +168,16 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 	}
 
 	private IModelComparator getComparator(IModel expectedCModel, IModel actualCModel) throws IllegalExtensionException {
-		List<IModelComparator> comparators = ClassBasedExtension.getImplementations(IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
-		for (IModelComparator comparator : comparators) {
-			if (comparator.canCompare(expectedCModel, actualCModel)) {
-				return comparator;
+		try {
+			Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
+			List<IModelComparator> comparators = ClassBasedExtension.getImplementations(IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
+			for (IModelComparator comparator : comparators) {
+				if (comparator.canCompare(expectedCModel, actualCModel)) {
+					return comparator;
+				}
 			}
+		} catch (ClassNotFoundException ex) {
+			// do nothing
 		}
 		return null;
 	}
