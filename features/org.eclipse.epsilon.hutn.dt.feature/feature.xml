@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.hutn.feature"
-      label="Human Usable Textual Notation Core (Incubation)"
+      id="org.eclipse.epsilon.hutn.dt.feature"
+      label="Human Usable Textual Notation Development Tools (Incubation)"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon-based HUTN tooling
+      Development tools for the Epsilon-based HUTN tooling
    </description>
 
    <copyright>
@@ -222,75 +222,35 @@ litigation.
          version="0.0.0"/>
 
    <requires>
+      <import plugin="org.hamcrest.matchers_1.2"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.epsilon.etl.engine"/>
-      <import plugin="org.eclipse.epsilon.egl.engine"/>
-      <import plugin="org.eclipse.epsilon.evl.engine"/>
-      <import plugin="org.eclipse.epsilon.commons"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.epsilon.dependencies"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.editor"/>
+      <import plugin="org.eclipse.epsilon.util.emf"/>
+      <import plugin="org.eclipse.epsilon.emc.composite"/>
+      <import plugin="org.eclipse.epsilon.hutn.engine"/>
+      <import plugin="org.eclipse.epsilon.hutn.xmi"/>
+      <import plugin="org.eclipse.epsilon.emc.hutn"/>
    </requires>
 
    <plugin
-         id="org.eclipse.epsilon.hutn.engine"
+         id="org.eclipse.epsilon.hutn.dt"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.hutn.model"
+         id="org.eclipse.epsilon.hutn.xmi.dt"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.hutn.model.antlrAst"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.hutn.model.config"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.hutn.xmi"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.hutn.unparser"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.hutn"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.antlr.postprocessor"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.antlr.postprocessor.model"
+         id="org.eclipse.epsilon.emc.hutn.dt"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
