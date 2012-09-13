@@ -3,12 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EMF Decorator Model Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.decorator
 Bundle-Version: 0.9.1.qualifier
-Bundle-Activator: org.eclipse.epsilon.emc.emf.decorator.Activator
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.emc.emf.decorator

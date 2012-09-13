@@ -3,12 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Composite Model Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.composite
 Bundle-Version: 0.9.1.qualifier
-Bundle-Activator: org.eclipse.epsilon.emc.composite.Activator
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.epsilon.ecl.engine,
- org.eclipse.epsilon.etl.engine,
+Require-Bundle: org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.eol.engine
-Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.emc.composite
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
