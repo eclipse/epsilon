@@ -305,20 +305,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.9.1.qualifier"/>
 
    <plugin
-         id="org.eclipse.epsilon.antlr.postprocessor"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.antlr.postprocessor.model"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.epsilon.ewl.emf"
          download-size="0"
          install-size="0"

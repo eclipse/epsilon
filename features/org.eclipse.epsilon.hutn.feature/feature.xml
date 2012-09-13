@@ -236,8 +236,8 @@ litigation.
       <import plugin="org.eclipse.epsilon.evl.engine"/>
       <import plugin="org.eclipse.epsilon.commons"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.epsilon.antlr.postprocessor"/>
-      <import plugin="org.eclipse.epsilon.antlr.postprocessor.model"/>
+      <import plugin="org.eclipse.epsilon.dependencies"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
    </requires>
 
    <plugin
@@ -305,6 +305,20 @@ litigation.
 
    <plugin
          id="org.eclipse.epsilon.emc.hutn.dt"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.antlr.postprocessor"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.antlr.postprocessor.model"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
