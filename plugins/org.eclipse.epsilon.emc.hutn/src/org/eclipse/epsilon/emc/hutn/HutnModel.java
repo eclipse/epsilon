@@ -25,6 +25,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
@@ -53,7 +54,11 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 		this.hutn = hutn;
 		setName(name);
 	}
-
+	
+	public boolean preventLoadingOfExternalModelElements() {
+		return false;
+	}
+	
 	public void load() throws EolModelLoadingException {
 		try {
 			final IHutnModule module = new HutnModule();
@@ -229,6 +234,18 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 		return model.hasProperty(type, property);
 	}
 
+	public boolean isEnumerationValue(Object object) {
+		return model.isEnumerationValue(object);
+	}
+
+	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
+		return model.getEnumerationTypeOf(literal);
+	}
+
+	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
+		return model.getEnumerationLabelOf(literal);
+	}
+	
 	public <T> T adaptTo(Class<T> modelType) {
 		if (modelType.isInstance(model)) {
 			return modelType.cast(model);
@@ -237,4 +254,5 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 			return null;
 		}
 	}
+
 }

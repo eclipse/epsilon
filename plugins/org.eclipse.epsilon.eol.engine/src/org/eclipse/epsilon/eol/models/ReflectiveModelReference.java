@@ -16,6 +16,7 @@ package org.eclipse.epsilon.eol.models;
 import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
 public class ReflectiveModelReference extends ModelReference implements IReflectiveModel {
@@ -25,18 +26,42 @@ public class ReflectiveModelReference extends ModelReference implements IReflect
 	}
 	
 	@Override
+	public boolean preventLoadingOfExternalModelElements() {
+		return getTypeSafeTarget().preventLoadingOfExternalModelElements();
+	}
+	
+	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return ((IReflectiveModel)target).getPropertySetter();
+		return getTypeSafeTarget().getPropertySetter();
 	}
 	
 	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		return ((IReflectiveModel)target).getPropertiesOf(type);
+		return getTypeSafeTarget().getPropertiesOf(type);
 	}
 
 	@Override
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
-		return ((IReflectiveModel)target).hasProperty(type, property);
+		return getTypeSafeTarget().hasProperty(type, property);
 	}
 
+	@Override
+	public boolean isEnumerationValue(Object object) {
+		return getTypeSafeTarget().isEnumerationValue(object);
+	}
+
+	@Override
+	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
+		return getTypeSafeTarget().getEnumerationTypeOf(literal);
+	}
+
+	@Override
+	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
+		return getTypeSafeTarget().getEnumerationLabelOf(literal);
+	}
+
+
+	private IReflectiveModel getTypeSafeTarget() {
+		return (IReflectiveModel)target;
+	}
 }

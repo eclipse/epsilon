@@ -20,7 +20,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -31,6 +33,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.commons.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
@@ -115,6 +118,16 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return properties;
 	}
 
+	public boolean preventLoadingOfExternalModelElements() {
+		if (isExpand()) {
+			setExpand(false);
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Load the model using the set of properties specified by the first argument.
 	 * 
@@ -341,6 +354,28 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return getPropertiesOf(type).contains(property);
+	}
+	
+	public boolean isEnumerationValue(Object object) {
+		return object instanceof Enumerator;
+	}
+
+	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
+		if (!isEnumerationValue(literal))
+			throw new EolNotAnEnumerationValueException(literal);
+		
+		if (literal instanceof EEnumLiteral) {
+			return ((EEnumLiteral)literal).getEEnum().getName();
+		} else {
+			return ((Enumerator)literal).getClass().getSimpleName();
+		}		
+	}
+
+	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
+		if (!isEnumerationValue(literal))
+			throw new EolNotAnEnumerationValueException(literal);
+			
+		return ((Enumerator)literal).getName();
 	}
 
 	@Override

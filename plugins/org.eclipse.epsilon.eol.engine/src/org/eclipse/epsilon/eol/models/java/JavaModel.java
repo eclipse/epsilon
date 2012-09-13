@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
@@ -223,7 +224,22 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public boolean isModelElement(Object instance) {
 		return true;
 	}
+	
+	public boolean isEnumerationValue(Object object) {
+		return false;
+	}
 
+	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
+		throw new EolNotAnEnumerationValueException(literal);
+	}
+
+	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
+		throw new EolNotAnEnumerationValueException(literal);
+	}
+
+	public boolean preventLoadingOfExternalModelElements() {
+		return false;
+	}
 	
 	public void load() throws EolModelLoadingException {
 		
@@ -253,5 +269,4 @@ public class JavaModel extends Model implements IReflectiveModel {
 		objects = null;
 		classes = null;
 	}
-
 }
