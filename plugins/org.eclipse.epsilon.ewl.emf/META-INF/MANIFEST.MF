@@ -5,14 +5,11 @@ Bundle-SymbolicName: org.eclipse.epsilon.ewl.emf;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.ewl.emf.EwlEmfPlugin
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.emc.emf,
+Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.ewl.engine,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.emf.ecore.edit,
  org.eclipse.emf.ecore.editor,
- org.eclipse.core.runtime,
  org.eclipse.epsilon.util.emf
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.ewl.emf

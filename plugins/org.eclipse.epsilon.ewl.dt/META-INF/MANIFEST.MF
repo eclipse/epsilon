@@ -7,7 +7,6 @@ Bundle-Activator: org.eclipse.epsilon.ewl.dt.EwlPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.ewl.engine,
  org.eclipse.epsilon.common.dt,
  org.eclipse.jface.text

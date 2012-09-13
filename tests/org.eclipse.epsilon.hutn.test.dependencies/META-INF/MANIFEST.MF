@@ -7,9 +7,6 @@ Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.hutn.test.util
 Require-Bundle: org.eclipse.epsilon.test.dependencies;visibility:=reexport,
- org.eclipse.epsilon.hutn.engine;visibility:=reexport,
- org.eclipse.epsilon.eol.engine;visibility:=reexport,
- org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.hutn.test.dependencies.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

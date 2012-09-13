@@ -7,9 +7,7 @@ Bundle-Activator: org.eclipse.epsilon.profiling.dt.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.profiling,
- org.eclipse.debug.ui,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.ui.forms
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.profiling.dt.jar

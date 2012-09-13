@@ -6,19 +6,13 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.ui.workbench;visibility:=reexport,
- org.eclipse.core.runtime,
- org.eclipse.swt,
- org.eclipse.jface,
- org.eclipse.ui,
- org.eclipse.ui.ide,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf;visibility:=reexport,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jface.text,
- org.eclipse.emf.ecore.editor,
- org.eclipse.ui.editors
+ org.eclipse.emf.ecore.editor
 Export-Package: org.eclipse.epsilon.egl.dt.traceability.editor,
  org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks

@@ -7,8 +7,6 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.concordance.core;visibility:=reexport,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.hutn.xmi.dt,
- org.eclipse.epsilon.commons,
- org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport
 Export-Package: org.eclipse.epsilon.concordance.clients.conformance,
  org.eclipse.epsilon.concordance.clients.migration,

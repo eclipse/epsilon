@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.hutn.dt.test
 Bundle-Version: 0.7.7.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.hutn.dt,
- org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.hutn.test.dependencies
 Export-Package: org.eclipse.epsilon.hutn.dt.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

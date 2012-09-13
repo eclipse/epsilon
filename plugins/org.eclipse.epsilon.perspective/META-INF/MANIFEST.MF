@@ -6,9 +6,7 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.perspective.EpsilonPerspectivePlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui.console,
- org.eclipse.debug.ui,
  org.eclipse.epsilon.common.dt,
- org.eclipse.ui.editors,
  org.eclipse.jface.text
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse.org

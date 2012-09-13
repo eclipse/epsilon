@@ -6,15 +6,8 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.epsilon.util.emf
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.ide,
- org.eclipse.emf.common;visibility:=reexport,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.core.resources,
+Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.common.dt
 Bundle-ClassPath: org.eclipse.epsilon.util.emf.jar
 Bundle-Activator: org.eclipse.epsilon.util.emf.EmfUtilPlugin

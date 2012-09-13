@@ -7,7 +7,6 @@ Bundle-Activator: org.eclipse.epsilon.productivity.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.egl.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.productivity.jar

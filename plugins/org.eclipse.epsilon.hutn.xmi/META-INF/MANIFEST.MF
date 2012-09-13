@@ -4,11 +4,8 @@ Bundle-Name: Human Usable Textual Notation XMI Bridge (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.xmi
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.epsilon.hutn.engine,
- org.eclipse.epsilon.hutn.unparser,
- org.eclipse.epsilon.emc.emf
+Require-Bundle: org.eclipse.epsilon.hutn.engine,
+ org.eclipse.epsilon.hutn.unparser
 Export-Package: org.eclipse.epsilon.hutn.xmi,
  org.eclipse.epsilon.hutn.xmi.coerce,
  org.eclipse.epsilon.hutn.xmi.parser,

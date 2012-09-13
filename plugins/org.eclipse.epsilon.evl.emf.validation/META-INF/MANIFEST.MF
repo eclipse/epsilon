@@ -5,24 +5,12 @@ Bundle-SymbolicName: org.eclipse.epsilon.evl.emf.validation;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.evl.emf.validation.Activator
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.epsilon.evl.engine,
+Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.emf.validation,
- org.eclipse.emf.validation.ui,
- org.eclipse.emf.validation.ui.ide,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.debug.core,
- org.eclipse.ui.ide,
- org.eclipse.emf.ecore.edit,
  org.eclipse.emf.ecore.editor,
- org.eclipse.emf.edit,
- org.eclipse.emf.edit.ui,
  org.eclipse.gmf.runtime.diagram.ui;resolution:=optional,
- org.eclipse.emf.ocl;resolution:=optional,
- org.eclipse.ocl;resolution:=optional,
  org.eclipse.ocl.ecore;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.emf.validation

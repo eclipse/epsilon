@@ -4,11 +4,7 @@ Bundle-Name: EPackage Registry Explorer Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.dt.epackageregistryexplorer;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.dt.epackageregistryexplorer.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.emf.ecore,
- org.eclipse.ui.ide,
- org.eclipse.emf.edit,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

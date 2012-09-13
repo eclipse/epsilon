@@ -4,8 +4,7 @@ Bundle-Name: Epsilon Comparison Language Engine (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.ecl.engine
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.commons,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.ecl,
  org.eclipse.epsilon.ecl.exceptions,

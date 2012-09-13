@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ETL acceptance tests
 Bundle-SymbolicName: org.eclipse.epsilon.etl.engine.test.acceptance
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.epsilon.test.dependencies,
- org.eclipse.epsilon.erl.engine
+Require-Bundle: org.eclipse.epsilon.test.dependencies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.etl.engine.test.acceptance,
  org.eclipse.epsilon.etl.engine.test.acceptance.oo2db

@@ -10,8 +10,7 @@ Export-Package: org.eclipse.epsilon.hutn.model.config,
  org.eclipse.epsilon.hutn.model.config.hutnConfig,
  org.eclipse.epsilon.hutn.model.config.hutnConfig.impl,
  org.eclipse.epsilon.hutn.model.config.hutnConfig.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.commons
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -9,9 +9,7 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,
  org.eclipse.epsilon.hutn.model.hutnAntlrAst.impl,
  org.eclipse.epsilon.hutn.model.hutnAntlrAst.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.epsilon.commons,
+Require-Bundle: org.eclipse.epsilon.commons,
  org.eclipse.epsilon.antlr.postprocessor.model
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

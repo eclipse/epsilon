@@ -11,9 +11,7 @@ Export-Package: org.eclipse.epsilon.egl.dt.traceability.fine.emf,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.epsilon.egl.traceability.fine,
+Require-Bundle: org.eclipse.epsilon.egl.traceability.fine,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.egl.dt
 Bundle-ActivationPolicy: lazy

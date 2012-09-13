@@ -5,17 +5,12 @@ Bundle-SymbolicName: org.eclipse.epsilon.eugenia;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.eugenia.Activator
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.gmf.map,
  org.eclipse.gmf.codegen,
  org.eclipse.epsilon.etl.engine,
- org.eclipse.epsilon.erl.engine,
  org.eclipse.gmf.bridge.ui,
- org.eclipse.emf.importer.ecore,
  org.eclipse.emf.emfatic.core;resolution:=optional,
  org.eclipse.epsilon.eol.dt
 Bundle-ActivationPolicy: lazy

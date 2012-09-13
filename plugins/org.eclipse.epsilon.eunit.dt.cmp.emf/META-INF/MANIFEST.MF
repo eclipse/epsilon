@@ -6,7 +6,6 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.eunit.engine,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.emf.compare.diff,
  org.eclipse.emf.compare.match,

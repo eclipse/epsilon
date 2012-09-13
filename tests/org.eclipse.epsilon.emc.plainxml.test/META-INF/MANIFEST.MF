@@ -7,7 +7,6 @@ Bundle-Activator: org.eclipse.epsilon.emc.plainxml.test.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.plainxml,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.test.dependencies
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

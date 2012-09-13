@@ -7,8 +7,6 @@ Bundle-Activator: org.eclipse.epsilon.eml.dt.EmlPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.debug.ui,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.eml.engine,
  org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.etl.dt,

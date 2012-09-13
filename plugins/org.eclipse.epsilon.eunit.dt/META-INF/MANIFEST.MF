@@ -5,14 +5,8 @@ Bundle-SymbolicName: org.eclipse.epsilon.eunit.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.eunit.dt.EUnitPlugin
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.debug.ui,
- org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.eunit.engine,
+Require-Bundle: org.eclipse.epsilon.eunit.engine,
  org.eclipse.epsilon.common.dt,
- org.eclipse.ui.ide,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.jface.text,
  org.eclipse.compare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

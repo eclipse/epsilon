@@ -4,13 +4,8 @@ Bundle-Name: Epsilon Wizard Language GMF Support (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.ewl.gmf;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.emc.emf,
+Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.ewl.engine,
- org.eclipse.epsilon.eol.dt,
- org.eclipse.core.runtime,
- org.eclipse.gmf,
  org.eclipse.epsilon.ewl.emf,
  org.eclipse.gmf.runtime.diagram.ui
 Export-Package: org.eclipse.epsilon.ewl.gmf

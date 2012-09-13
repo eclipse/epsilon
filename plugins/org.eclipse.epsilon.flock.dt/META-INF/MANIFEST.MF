@@ -8,7 +8,6 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.flock.engine,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.jface.text,
- org.eclipse.debug.ui,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.flock.dt,

@@ -7,9 +7,7 @@ Bundle-Activator: org.eclipse.epsilon.ecl.dt.EclPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.eol.engine,
  org.eclipse.jface.text,
- org.eclipse.debug.ui,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.ecl.dt,

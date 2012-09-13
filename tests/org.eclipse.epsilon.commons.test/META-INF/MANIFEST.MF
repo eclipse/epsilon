@@ -5,6 +5,5 @@ Bundle-SymbolicName: org.eclipse.epsilon.commons.test
 Bundle-Version: 0.8.9.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.epsilon.commons,
- org.eclipse.epsilon.test.dependencies
+Require-Bundle: org.eclipse.epsilon.test.dependencies
 Export-Package: org.eclipse.epsilon.commons.test

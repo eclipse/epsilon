@@ -5,14 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.common.dt,
- org.eclipse.jface,
- org.eclipse.epsilon.commons,
- org.eclipse.emf,
- org.eclipse.emf.ecore,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.emc.emf.virtual,
- org.eclipse.ui,
- org.eclipse.core.runtime,
  org.eclipse.epsilon.util.emf,
  org.eclipse.ui.ide
 Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar

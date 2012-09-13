@@ -16,9 +16,7 @@ Export-Package: org.eclipse.epsilon.hutn.test.model,
  org.eclipse.epsilon.hutn.test.model.families.util,
  org.eclipse.epsilon.hutn.test.models,
  org.eclipse.epsilon.hutn.test.models.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.junit4,
+Require-Bundle: org.junit4,
  org.eclipse.epsilon.emc.emf
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
