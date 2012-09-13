@@ -20,5 +20,11 @@
             class="org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage"
             genModel="model/textlink.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.egl.dt.fineGrainedTracePostprocessor">
+      <templateFactoryType
+            implementation="org.eclipse.epsilon.egl.dt.traceability.fine.emf.Pojo2Emf">
+      </templateFactoryType>
+   </extension>
 
 </plugin>

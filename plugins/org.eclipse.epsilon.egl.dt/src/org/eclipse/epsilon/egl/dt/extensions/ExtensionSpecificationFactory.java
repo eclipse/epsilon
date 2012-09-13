@@ -63,9 +63,11 @@ public abstract class ExtensionSpecificationFactory<T extends ExtensionSpecifica
 	public List<T> loadAllFromExtensionPoints() {
 		final List<T> specs = new LinkedList<T>();
 		
-		for (IConfigurationElement extension : getFormatterExtensionDefinitions()) {
-			specs.add(createExtensionSpecification(extension));
-		} 
+		if (Platform.getExtensionRegistry() != null) {
+			for (IConfigurationElement extension : getFormatterExtensionDefinitions()) {
+				specs.add(createExtensionSpecification(extension));
+			} 
+		}
 		
 		return specs;
 	}

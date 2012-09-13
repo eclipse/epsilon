@@ -16,23 +16,17 @@ import org.eclipse.core.runtime.IConfigurationElement;
 public abstract class ExtensionSpecification<T> {
 
 	private final T implementation;
-	private final String name;
 	
 	@SuppressWarnings("unchecked")
 	public ExtensionSpecification(IConfigurationElement extension) {
 		try {
 			this.implementation = (T)extension.createExecutableExtension("implementation");
-			this.name = extension.getAttribute("name");
 		
 		} catch (CoreException e) {
 			throw new ExtensionLocatorException("Error encountered whilst loading formatter from extension point in: " + 
 			                                    extension.getDeclaringExtension().getNamespaceIdentifier(),
 			                                    e);
 		}
-	}
-	
-	public String getName() {
-		return name;
 	}
 
 	public String getIdentifier() {

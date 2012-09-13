@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="formatter" name="Formatter" schema="schema/formatter.exsd"/>
    <extension-point id="templateFactoryType" name="TemplateFactoryType" schema="schema/templateFactoryType.exsd"/>
+   <extension-point id="fineGrainedTracePostprocessor" name="FineGrainedTracePostprocessor" schema="schema/fineGrainedTracePostprocessor.exsd"/>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType

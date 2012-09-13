@@ -18,6 +18,7 @@ public class Trace {
 
 	public final List<TextLocation> locations = new LinkedList<TextLocation>();
 	public final List<TraceLink> traceLinks = new LinkedList<TraceLink>();
+	public String destination;
 	
 	
 	// Getters for compatibility with JavaModel, which are used in acceptance tests 
@@ -43,5 +44,13 @@ public class Trace {
 		}
 		
 		return allContents;
+	}
+	
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String attribute) {
+		this.destination = attribute;
 	}
 }

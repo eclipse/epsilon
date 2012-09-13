@@ -32,20 +32,18 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
+import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecification;
+import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.Pojo2Emf;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
@@ -177,10 +175,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	private void storeTraceModel(IEglContext context) throws CoreException {
-		final String traceDestination = configuration.getAttribute(TRACE_DESTINATION, "");
-		final Trace trace = new Pojo2Emf().transform(context.getFineGrainedTraceManager().getFineGrainedTrace());
+		final Trace trace = context.getFineGrainedTraceManager().getFineGrainedTrace();
+		trace.setDestination(configuration.getAttribute(TRACE_DESTINATION, ""));
 		
-		new InMemoryEmfModel("Trace", EmfUtil.createResource(trace), TextlinkPackage.eINSTANCE).store(traceDestination);
+		for (FineGrainedTracePostprocessorSpecification spec : new FineGrainedTracePostprocessorSpecificationFactory().loadAllFromExtensionPoints()) {
+			spec.instantiate().postprocess(trace);
+		}
 	}
 	
 	private String absolutePathFor(String workspaceRelativePath) {

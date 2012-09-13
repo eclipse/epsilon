@@ -8,23 +8,14 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.dt.extensions.templateFactoryType;
+package org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.dt.extensions.ExtensionSpecification;
 
-public class TemplateFactoryTypeSpecification extends ExtensionSpecification<EglTemplateFactory> {
+public class FineGrainedTracePostprocessorSpecification extends ExtensionSpecification<IFineGrainedTracePostprocessor> {
 
-	private final String name;
-
-	public TemplateFactoryTypeSpecification(IConfigurationElement extension) {
+	public FineGrainedTracePostprocessorSpecification(IConfigurationElement extension) {
 		super(extension);
-		
-		this.name = extension.getAttribute("name");
-	}
-
-	public String getName() {
-		return name;
 	}
 }

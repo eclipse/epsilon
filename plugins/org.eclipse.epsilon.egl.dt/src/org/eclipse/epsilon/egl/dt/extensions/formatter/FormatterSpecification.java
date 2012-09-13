@@ -19,9 +19,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class FormatterSpecification extends ExtensionSpecification<Formatter> {
 
 	private final Image icon;
+	private final String name;
 	
 	public FormatterSpecification(IConfigurationElement extension) {
 		super(extension);
+		
+		this.name = extension.getAttribute("name");
 		
 		if (extension.getAttribute("icon") != null) {
 			this.icon = AbstractUIPlugin.imageDescriptorFromPlugin(extension.getContributor().getName(),
@@ -29,6 +32,10 @@ public class FormatterSpecification extends ExtensionSpecification<Formatter> {
 		} else {
 			this.icon = null;
 		}
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public Image getIcon() {

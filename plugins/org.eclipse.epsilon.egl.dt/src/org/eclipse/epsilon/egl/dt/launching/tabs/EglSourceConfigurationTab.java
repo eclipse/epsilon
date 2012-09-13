@@ -18,6 +18,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
+import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecificationFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -131,28 +132,34 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	}
 	
 	private void createTraceGroup(Composite control) {
-		final Group traceGroup = createGroup(control, "Trace:", 1);
-		
-		produceTrace = new Button(traceGroup, SWT.CHECK);
-		produceTrace.setText("Produce a trace model?");
-		produceTrace.addSelectionListener(new SelectionListener() {
+		if (thereAreAnyFineGrainedTracePostprocessors()) {
+			final Group traceGroup = createGroup(control, "Trace:", 1);
 			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateEnabledStateOfTraceWidgets();
-			}
+			produceTrace = new Button(traceGroup, SWT.CHECK);
+			produceTrace.setText("Produce a trace model?");
+			produceTrace.addSelectionListener(new SelectionListener() {
+				
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					updateEnabledStateOfTraceWidgets();
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					updateEnabledStateOfTraceWidgets();
+				}
+			});		
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				updateEnabledStateOfTraceWidgets();
-			}
-		});		
-		
-		final Composite traceDestinationContainer = createTwoColumnComposite(traceGroup);
-		traceDestination = createPathTextBox(traceDestinationContainer);
-		browseForTraceDestination = createBrowseWorkspaceButton(traceDestinationContainer, traceDestination);
+			final Composite traceDestinationContainer = createTwoColumnComposite(traceGroup);
+			traceDestination = createPathTextBox(traceDestinationContainer);
+			browseForTraceDestination = createBrowseWorkspaceButton(traceDestinationContainer, traceDestination);
+		}
 	}
-	
+
+	private boolean thereAreAnyFineGrainedTracePostprocessors() {
+		return !(new FineGrainedTracePostprocessorSpecificationFactory().loadAllFromExtensionPoints().isEmpty());
+	}
+
 	private Group createGroup(Composite control, String name, int numberOfColumns) {
 		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
 		group.setLayout(new GridLayout(numberOfColumns, false));
@@ -196,8 +203,8 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	}
 	
 	private void updateEnabledStateOfTraceWidgets() {
-		traceDestination.setEnabled(produceTrace.getSelection());
-		browseForTraceDestination.setEnabled(produceTrace.getSelection());
+		if (traceDestination != null) traceDestination.setEnabled(produceTrace.getSelection());
+		if (browseForTraceDestination != null) browseForTraceDestination.setEnabled(produceTrace.getSelection());
 	}
 	
 	
@@ -229,8 +236,8 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 			outputFilePath.setText(configuration.getAttribute(OUTPUT_FILE_PATH, ""));			
 			appendToFile.setSelection(configuration.getAttribute(APPEND_TO_FILE, false));
 			
-			traceDestination.setText(configuration.getAttribute(TRACE_DESTINATION, ""));
-			produceTrace.setSelection(configuration.getAttribute(PRODUCE_TRACE, false));
+			if (traceDestination != null) traceDestination.setText(configuration.getAttribute(TRACE_DESTINATION, ""));
+			if (produceTrace != null) produceTrace.setSelection(configuration.getAttribute(PRODUCE_TRACE, false));
 			
 			updateEnabledStateOfOutputFileWidgets();
 			updateEnabledStateOfTraceWidgets();
@@ -249,8 +256,8 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		configuration.setAttribute(OUTPUT_FILE_PATH, outputFilePath.getText());
 		configuration.setAttribute(APPEND_TO_FILE, appendToFile.getSelection());
 		
-		configuration.setAttribute(TRACE_DESTINATION, traceDestination.getText());
-		configuration.setAttribute(PRODUCE_TRACE, produceTrace.getSelection());
+		if (traceDestination != null) configuration.setAttribute(TRACE_DESTINATION, traceDestination.getText());
+		if (produceTrace != null) configuration.setAttribute(PRODUCE_TRACE, produceTrace.getSelection());
 	}
 	
 	@Override

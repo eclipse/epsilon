@@ -16,19 +16,28 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.IFineGrainedTracePostprocessor;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.EmfModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.ModelLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory;
+import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 
-public class Pojo2Emf {
+public class Pojo2Emf implements IFineGrainedTracePostprocessor {
 	
-	public Trace transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace original) {
+	@Override
+	public void postprocess(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace trace) {
+		new InMemoryEmfModel("Trace", EmfUtil.createResource(transform(trace)), TextlinkPackage.eINSTANCE).store(trace.getDestination());
+	}	
+		
+	private Trace transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace original) {
 		final Trace transformed = TextlinkFactory.eINSTANCE.createTrace();
 		transformed.getTraceLinks().addAll(transform(original.traceLinks));
 		return transformed;
@@ -89,5 +98,5 @@ public class Pojo2Emf {
 		transformed.setOffset(original.offset);
 		transformed.setLength(original.length);
 		return transformed;
-	}	
+	}
 }
