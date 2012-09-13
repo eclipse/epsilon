@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.concordance.clients.migration.Migrator;
 import org.eclipse.epsilon.concordance.clients.migration.MigratorFactory;
-import org.eclipse.epsilon.flock.dt.util.MigrationStrategyExecutor;
+import org.eclipse.epsilon.flock.dt.emf.util.MigrationStrategyExecutor;
 
 public class FlockConcordanceMigratorFactory implements MigratorFactory {
 

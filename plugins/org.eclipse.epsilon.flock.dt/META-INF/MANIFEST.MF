@@ -15,6 +15,5 @@ Export-Package: org.eclipse.epsilon.flock.dt,
  org.eclipse.epsilon.flock.dt.editor.outline,
  org.eclipse.epsilon.flock.dt.launching,
  org.eclipse.epsilon.flock.dt.launching.tabs,
- org.eclipse.epsilon.flock.dt.util,
  org.eclipse.epsilon.flock.dt.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

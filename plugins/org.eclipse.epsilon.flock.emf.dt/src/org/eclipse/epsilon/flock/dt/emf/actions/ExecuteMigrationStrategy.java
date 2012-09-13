@@ -8,12 +8,12 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.dt.actions;
+package org.eclipse.epsilon.flock.dt.emf.actions;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.flock.dt.util.MigrationStrategyExecutor;
+import org.eclipse.epsilon.flock.dt.emf.util.MigrationStrategyExecutor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 

@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.dt.util;
+package org.eclipse.epsilon.flock.dt.emf.util;
 
 import java.io.File;
 import java.net.URI;

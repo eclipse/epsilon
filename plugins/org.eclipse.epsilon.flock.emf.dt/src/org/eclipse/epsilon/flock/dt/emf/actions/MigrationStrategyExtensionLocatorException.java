@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.dt.actions;
+package org.eclipse.epsilon.flock.dt.emf.actions;
 
 public class MigrationStrategyExtensionLocatorException extends Exception {
 

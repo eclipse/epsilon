@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.dt.actions;
+package org.eclipse.epsilon.flock.dt.emf.actions;
 
 import java.net.URI;
 import java.net.URISyntaxException;
