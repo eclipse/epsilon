@@ -5,7 +5,7 @@
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
-   <description url="http://www.eclipse.org/gmt/epsilon">
+   <description url="http://www.eclipse.org/epsilon">
       Epsilon Concordance Dependencies feature
    </description>
 

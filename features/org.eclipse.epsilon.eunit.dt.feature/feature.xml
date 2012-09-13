@@ -5,15 +5,17 @@
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
-   <description url="http://www.example.com/description">
+   <description url="http://www.eclipse.org/epsilon">
       Epsilon EUnit Developer Tools
-
-This feature bundles the EUnit Eclipse view and the implementation of the assertEqualTrees and assertEqualModels file and model comparison assertions.
-
-The core Epsilon feature already includes the EUnit Ant task: if you only need to run EUnit from Ant and do not need to compare models, you may not need this feature.
+This feature bundles the EUnit Eclipse view and the implementation
+of the assertEqualTrees and assertEqualModels file and model
+comparison assertions.
+The core Epsilon feature already includes the EUnit Ant task:
+if you only need to run EUnit from Ant and do not need to compare
+models, you may not need this feature.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright>
       Please refer to the Licence Agreement
    </copyright>
 
