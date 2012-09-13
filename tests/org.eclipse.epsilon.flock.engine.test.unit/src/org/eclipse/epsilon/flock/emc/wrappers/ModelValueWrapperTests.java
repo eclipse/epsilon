@@ -64,7 +64,7 @@ public class ModelValueWrapperTests {
 	
 	@Test
 	public void wrapEnumerationValue() {
-		wrapValueTest(DogBreed.LABRADOR, EnumValue.class);
+		wrapValueTest(DogBreed.LABRADOR, true, EnumValue.class);
 	}
 	
 	@Test
@@ -78,7 +78,11 @@ public class ModelValueWrapperTests {
 	
 	
 	private static <T extends ModelValue<?>> T wrapValueTest(Object unwrappedValue, Class<T> expectedWrappedType, Object... modelElements) {	
-		final ModelValue<?> wrappedValue = wrapValue(unwrappedValue, modelElements);
+		return wrapValueTest(unwrappedValue, false, expectedWrappedType, modelElements);
+	}
+	
+	private static <T extends ModelValue<?>> T wrapValueTest(Object unwrappedValue, boolean isEnumValue, Class<T> expectedWrappedType, Object... modelElements) {	
+		final ModelValue<?> wrappedValue = wrapValue(unwrappedValue, isEnumValue ,modelElements);
 		
 		assertWrappedValueTypeEquals(expectedWrappedType, wrappedValue);
 		
@@ -86,7 +90,11 @@ public class ModelValueWrapperTests {
 	}
 	
 	private static ModelValue<?> wrapValue(Object unwrappedValue, Object... modelElements) {	
-		final ModelValueWrapper wrapper = new ModelValueWrapper(createModelStubWithModelElements(modelElements));
+		return wrapValue(unwrappedValue, false, modelElements);
+	}
+	
+	private static ModelValue<?> wrapValue(Object unwrappedValue, boolean isEnumValue, Object... modelElements) {	
+		final ModelValueWrapper wrapper = new ModelValueWrapper(createModelStubWithModelElements(isEnumValue, modelElements));
 		
 		return wrapper.wrapValue(unwrappedValue);
 	}
@@ -99,8 +107,12 @@ public class ModelValueWrapperTests {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Model createModelStubWithModelElements(Object... modelElements) {
+	private static Model createModelStubWithModelElements(boolean isEnumValue, Object... modelElements) {
 		final Model modelStub = createMock(Model.class);
+		
+		// Respond as to whether this is an enumeration value
+		expect(modelStub.isEnumeration(isA(Object.class)))
+			.andReturn(isEnumValue).anyTimes();
 		
 		// Return true for any object contained in modelElements
 		expect(modelStub.isModelElement(oneOf(Arrays.asList(modelElements))))

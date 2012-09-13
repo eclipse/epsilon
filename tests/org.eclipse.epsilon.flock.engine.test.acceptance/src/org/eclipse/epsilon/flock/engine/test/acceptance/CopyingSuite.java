@@ -16,6 +16,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyEnumerationValue;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyListWhenLowerboundDecreases;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyListWhenUpperboundIncreases;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyModelElementsThatHaveARule;
@@ -24,6 +25,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyNestedModelE
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyPersistsIdentity;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopySingleValueToList;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.CopyValueFromAnotherModel;
+import org.eclipse.epsilon.flock.engine.test.acceptance.copying.DoNotCopyEnumerationLiteralsThatDoNotExistInTheTargetMetamodel;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.DoNotCopyListToSingleValue;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.DoNotCopyContainedObjectWithUnknownMigratedClass;
 import org.eclipse.epsilon.flock.engine.test.acceptance.copying.DoNotCopyListWhenLowerboundIncreases;
@@ -43,7 +45,9 @@ import org.junit.runners.Suite.SuiteClasses;
                CopyListWhenLowerboundDecreases.class, DoNotCopyListWhenLowerboundIncreases.class,
                CopyValueFromAnotherModel.class,
                CopyPersistsIdentity.class,
-               DoNotCopyTypesThatDoNotBelongToTheOriginalMetamodel.class})
+               DoNotCopyTypesThatDoNotBelongToTheOriginalMetamodel.class,
+               CopyEnumerationValue.class,
+               DoNotCopyEnumerationLiteralsThatDoNotExistInTheTargetMetamodel.class})
 public class CopyingSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(CopyingSuite.class);

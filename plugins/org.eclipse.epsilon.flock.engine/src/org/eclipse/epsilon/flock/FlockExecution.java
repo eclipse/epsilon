@@ -43,8 +43,8 @@ public class FlockExecution {
 		 * merging). This is typically not desirable, so we force expand
 		 * to false.
 		 */
-		if (originalModel.ensureExpandIsOff()) {
-			addWarning("Flock may produce unexpected results when the original model is expanded. Turning off expand and proceeding.");
+		if (originalModel.preventLoadingOfExternalModelElements()) {
+			addWarning("Flock can produce unexpected results when the original model includes references to other models. Flock is ignoring these external references in your original model and proceeding.");
 		}
 	}	
 	

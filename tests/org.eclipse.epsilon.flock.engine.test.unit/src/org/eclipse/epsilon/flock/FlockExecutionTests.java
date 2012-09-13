@@ -25,12 +25,12 @@ public class FlockExecutionTests {
 	public void runShouldEnsureExpandIsOff() throws FlockRuntimeException {
 		run();
 		
-		verify(originalModel).ensureExpandIsOff();
+		verify(originalModel).preventLoadingOfExternalModelElements();
 	}
 	
 	@Test
 	public void runShouldAddWarningIfExpandWasTurnedOff() throws FlockRuntimeException {
-		when(originalModel.ensureExpandIsOff())
+		when(originalModel.preventLoadingOfExternalModelElements())
 			.thenReturn(true);
 		
 		assertEquals(1, run().getWarnings().size());
@@ -38,7 +38,7 @@ public class FlockExecutionTests {
 	
 	@Test
 	public void runShouldNotAddWarningIfExpandWasNotTurnedOff() throws FlockRuntimeException {
-		when(originalModel.ensureExpandIsOff())
+		when(originalModel.preventLoadingOfExternalModelElements())
 			.thenReturn(false);
 		
 		assertEquals(0, run().getWarnings().size());

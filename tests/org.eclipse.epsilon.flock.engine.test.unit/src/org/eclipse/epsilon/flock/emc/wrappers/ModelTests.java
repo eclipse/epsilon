@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -168,13 +169,18 @@ public class ModelTests {
 	
 	
 	@Test
-	public void getEquivalentForEnumeratorDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
+	public void getEquivalentForEnumeratorDelegatesToUnderlyingModel() throws EolRuntimeException {
 		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
 		
 		// Expectations
+		expect(mockUnderlyingModel.getEnumerationTypeOf(DogBreed.LABRADOR))
+			.andReturn("DogBreed");
+		
+		expect(mockUnderlyingModel.getEnumerationLabelOf(DogBreed.LABRADOR))
+			.andReturn("labrador");
 		
 		expect(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
 			.andReturn(DogBreed.LABRADOR);
@@ -184,56 +190,10 @@ public class ModelTests {
 
 		// Verification
 		
-		assertEquals(DogBreed.LABRADOR, model.getEquivalent(DogBreed.LABRADOR));
+		assertEquals(DogBreed.LABRADOR, model.getEquivalentEnumerationValue(DogBreed.LABRADOR));
 		
 		verify(mockUnderlyingModel);
 	}
-	
-	@Test
-	public void getEquivalentForEEnumLiteralDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		
-		final Model model = new Model(mockUnderlyingModel);
-		
-		
-		// Expectations
-		
-		expect(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
-			.andReturn(DogBreed.LABRADOR);
-		
-		replay(mockUnderlyingModel);
-
-		
-		// Verification
-		
-		assertEquals(DogBreed.LABRADOR, model.getEquivalent(FamiliesPackage.eINSTANCE.getDogBreed().getEEnumLiteral("labrador")));
-		
-		verify(mockUnderlyingModel);
-	}
-	
-	
-	@Test
-	public void isManyDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		
-		final Model model = new Model(mockUnderlyingModel);
-		
-		
-		// Expectations
-		
-		expect(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
-			.andReturn(DogBreed.LABRADOR);
-		
-		replay(mockUnderlyingModel);
-
-		
-		// Verification
-		
-		assertEquals(DogBreed.LABRADOR, model.getEquivalent(FamiliesPackage.eINSTANCE.getDogBreed().getEEnumLiteral("labrador")));
-		
-		verify(mockUnderlyingModel);
-	}
-	
 	
 	@Test
 	public void getIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {

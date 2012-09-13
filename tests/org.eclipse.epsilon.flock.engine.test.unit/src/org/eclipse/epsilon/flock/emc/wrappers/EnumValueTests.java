@@ -19,10 +19,8 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.emc.wrappers.EnumValue;
-import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;
@@ -38,13 +36,13 @@ public class EnumValueTests {
 	}
 	
 	@Test
-	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException, EolEnumerationValueNotFoundException {
+	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException, EolRuntimeException {
 		final Model               mockMigratedModel = createMock(Model.class);
 		final ConservativeCopyContext dummyContext      = createMock(ConservativeCopyContext.class);
 		
 		// Expectations
 		
-		expect(mockMigratedModel.getEquivalent(DogBreed.LABRADOR))
+		expect(mockMigratedModel.getEquivalentEnumerationValue(DogBreed.LABRADOR))
 			.andReturn(DogBreed.POODLE);
 		
 		replay(mockMigratedModel);

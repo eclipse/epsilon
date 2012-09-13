@@ -4,11 +4,9 @@ Bundle-Name: Epsilon Flock Engine (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.flock.engine
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
- org.eclipse.epsilon.emc.emf;visibility:=reexport
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.flock,
  org.eclipse.epsilon.flock.context,
- org.eclipse.epsilon.flock.emc.intermediate,
  org.eclipse.epsilon.flock.emc.wrappers,
  org.eclipse.epsilon.flock.equivalences,
  org.eclipse.epsilon.flock.equivalences.factory,

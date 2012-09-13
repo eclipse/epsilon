@@ -16,8 +16,6 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.eclipse.emf.common.util.Enumerator;
-
 class ModelValueWrapper {
 
 	private final Model model;
@@ -30,8 +28,8 @@ class ModelValueWrapper {
 		if (value instanceof BackedModelValue<?>) {
 			return (BackedModelValue<?>)value;
 		
-		} else if (value instanceof Enumerator) {
-			return new EnumValue(model, (Enumerator)value);
+		} else if (model.isEnumeration(value)) {
+			return new EnumValue(model, value);
 			
 		} else if (model.isModelElement(value)) {
 			return wrapModelElement(value);
