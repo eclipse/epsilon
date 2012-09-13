@@ -5,12 +5,8 @@ Bundle-SymbolicName: org.eclipse.epsilon.profiling.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.profiling.dt.Activator
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.epsilon.commons,
- org.eclipse.epsilon.common.dt,
+Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.profiling,
- org.eclipse.debug.core,
  org.eclipse.debug.ui,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.eol.engine,

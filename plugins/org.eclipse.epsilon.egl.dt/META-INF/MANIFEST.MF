@@ -5,15 +5,9 @@ Bundle-SymbolicName: org.eclipse.epsilon.egl.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Activator: org.eclipse.epsilon.egl.dt.EglPlugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.debug.core,
- org.eclipse.debug.ui,
- org.eclipse.core.resources,
+Require-Bundle: org.eclipse.debug.ui,
  org.eclipse.epsilon.egl.engine,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.ui.views,
- org.eclipse.epsilon.commons,
  org.eclipse.epsilon.common.dt,
  org.eclipse.ui.editors,
  org.eclipse.ui.workbench.texteditor,

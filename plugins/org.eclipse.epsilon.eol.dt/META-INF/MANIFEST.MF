@@ -6,21 +6,13 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Activator: org.eclipse.epsilon.eol.dt.EolPlugin
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.debug.core;visibility:=reexport,
- org.eclipse.debug.ui,
+Require-Bundle: org.eclipse.debug.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.console,
- org.eclipse.core.resources,
- org.eclipse.ui.editors,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.ui.ide,
- org.eclipse.ui.views,
- org.eclipse.epsilon.common.dt,
- org.eclipse.core.expressions,
- org.eclipse.epsilon.profiling
+ org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.eol.dt.debug,

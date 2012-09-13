@@ -4,11 +4,7 @@ Bundle-Name: EMX Plain XML development tools
 Bundle-SymbolicName: org.eclipse.epsilon.emc.plainxml.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.plainxml.dt.Activator
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.jface,
- org.eclipse.epsilon.commons,
- org.eclipse.ui,
- org.eclipse.epsilon.emc.plainxml,
+Require-Bundle: org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

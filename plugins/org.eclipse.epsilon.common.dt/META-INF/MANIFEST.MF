@@ -8,19 +8,16 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.ui.editors,
+ org.eclipse.ui.editors;visibility:=reexport,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jface.text,
  org.eclipse.ui.views,
- org.eclipse.core.resources;visibility:=reexport,
- org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.ui.ide,
- org.eclipse.epsilon.commons,
- org.eclipse.debug.core,
- org.eclipse.debug.ui,
+ org.eclipse.debug.ui;visibility:=reexport,
  org.eclipse.ui.console,
- org.eclipse.epsilon.erl.engine,
- org.eclipse.core.variables
+ org.eclipse.core.variables,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.actions,

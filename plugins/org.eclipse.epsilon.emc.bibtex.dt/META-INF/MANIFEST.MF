@@ -6,5 +6,4 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.emc.bibtex,
- org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.commons
+ org.eclipse.epsilon.common.dt

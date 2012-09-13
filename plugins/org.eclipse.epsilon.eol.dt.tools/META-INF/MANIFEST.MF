@@ -5,6 +5,4 @@ Bundle-SymbolicName: org.eclipse.epsilon.eol.dt.tools;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.epsilon.eol.tools,
- org.eclipse.epsilon.common.dt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

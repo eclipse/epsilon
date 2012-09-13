@@ -6,15 +6,9 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.productivity.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.egl.engine,
- org.eclipse.core.resources,
- org.eclipse.core.runtime,
- org.eclipse.ui.ide,
- org.eclipse.jface,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.commons,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.common.dt,
- org.eclipse.ui
+ org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: org.eclipse.epsilon.productivity.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

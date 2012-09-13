@@ -5,25 +5,14 @@ Bundle-SymbolicName: org.eclipse.epsilon.eml.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.eml.dt.EmlPlugin
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.jface.text,
- org.eclipse.ui.editors,
- org.eclipse.ui.workbench.texteditor,
+Require-Bundle: org.eclipse.jface.text,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.debug.core,
  org.eclipse.debug.ui,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.eml.engine,
- org.eclipse.core.resources,
- org.eclipse.ui.ide,
- org.eclipse.ui.views,
  org.eclipse.epsilon.ecl.engine,
- org.eclipse.epsilon.commons,
- org.eclipse.epsilon.etl.engine,
  org.eclipse.epsilon.etl.dt,
  org.eclipse.epsilon.ecl.dt,
- org.eclipse.epsilon.erl.engine,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse.org
