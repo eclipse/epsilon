@@ -218,15 +218,10 @@ litigation.
    </url>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.ewl.engine"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
-      <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.gmf"/>
       <import plugin="org.eclipse.epsilon.ewl.emf"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
    </requires>
 
    <plugin
