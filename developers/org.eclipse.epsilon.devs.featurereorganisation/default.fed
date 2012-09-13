@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="fed">
+  <features name="org.eclipse.epsilon.core.feature">
+    <plugins name="org.eclipse.epsilon.e*l.engine"/>
+    <plugins name="org.eclipse.epsilon.commons"/>
+    <plugins name="org.eclipse.epsilon.emc.bibtex"/>
+    <plugins name="org.eclipse.epsilon.emc.composite"/>
+    <plugins name="org.eclipse.epsilon.emc.csv"/>
+    <plugins name="org.eclipse.epsilon.profiling"/>
+  </features>
+  <features name="org.eclipse.epsilon.core.dt.feature" includes="//@features.2">
+    <plugins name="org.eclipse.epsilon.e*l.dt"/>
+    <plugins name="org.eclipse.epsilon.common.dt"/>
+    <plugins name="org.eclipse.epsilon.ecl.dt.tools"/>
+    <plugins name="org.eclipse.epsilon.emc.bibtex.dt"/>
+    <plugins name="org.eclipse.epsilon.emc.csv.dt"/>
+    <plugins name="org.eclipse.epsilon.emc.plainxml"/>
+    <plugins name="org.eclipse.epsilon.eol.tools"/>
+    <plugins name="org.eclipse.epsilon.help"/>
+    <plugins name="org.eclipse.epsilon.profiling.dt"/>
+    <plugins name="org.eclipse.epsilon.emc.plainxml.dt"/>
+    <plugins name="org.eclipse.epsilon.eol.dt.tools"/>
+    <plugins name="org.eclipse.epsilon.perspective"/>
+    <plugins name="org.eclipse.epsilon.workflow"/>
+  </features>
+  <features name="org.eclipse.epsilon.core.dependencies.feature">
+    <plugins name="org.antlr.runtime_3.1.b1"/>
+    <plugins name="org.eclipse.epsilon.dependencies"/>
+  </features>
+  <features name="org.eclipse.epsilon.concordance.feature" includes="//@features.13">
+    <plugins name="org.eclipse.epsilon.concordance.clients"/>
+    <plugins name="org.eclipse.epsilon.concordance.core"/>
+    <plugins name="org.eclipse.epsilon.concordance.core.hashing"/>
+  </features>
+  <features name="org.eclipse.epsilon.eugenia.feature">
+    <plugins name="org.eclipse.epsilon.eugenia"/>
+    <plugins name="org.eclipse.epsilon.eugenia.runtime"/>
+    <plugins name="org.eclipse.epsilon.workflow.eugenia"/>
+  </features>
+  <features name="org.eclipse.epsilon.hutn.dt.feature" depends="//@features.6">
+    <plugins name="org.eclipse.epsilon.hutn.dt"/>
+    <plugins name="org.eclipse.epsilon.hutn.xmi.dt"/>
+    <plugins name="org.eclipse.epsilon.emc.hutn.dt"/>
+  </features>
+  <features name="org.eclipse.epsilon.hutn.feature">
+    <plugins name="org.eclipse.epsilon.hutn.engine"/>
+    <plugins name="org.eclipse.epsilon.hutn.model"/>
+    <plugins name="org.eclipse.epsilon.hutn.model.antlrAst"/>
+    <plugins name="org.eclipse.epsilon.hutn.model.config"/>
+    <plugins name="org.eclipse.epsilon.hutn.unparser"/>
+    <plugins name="org.eclipse.epsilon.hutn.xmi"/>
+    <plugins name="org.eclipse.epsilon.emc.hutn"/>
+  </features>
+  <features name="org.eclipse.epsilon.ewl.emf.feature">
+    <plugins name="org.eclipse.epsilon.ewl.emf"/>
+  </features>
+  <features name="org.eclipse.epsilon.ewl.gmf.feature">
+    <plugins name="org.eclipse.epsilon.ewl.gmf"/>
+  </features>
+  <features name="org.eclipse.epsilon.emf.feature">
+    <plugins name="org.eclipse.epsilon.emc.emf"/>
+    <plugins name="org.eclipse.epsilon.emc.emf.decorator"/>
+    <plugins name="org.eclipse.epsilon.emc.emf.virtual"/>
+    <plugins name="org.eclipse.epsilon.util.emf"/>
+    <plugins name="org.eclipse.epsilon.workflow.emf"/>
+  </features>
+  <features name="org.eclipse.epsilon.emf.dt.feature" depends="//@features.9" includes="//@features.11">
+    <plugins name="org.eclipse.epsilon.dt.exeed"/>
+    <plugins name="org.eclipse.epsilon.emc.emf.decorator.dt"/>
+    <plugins name="org.eclipse.epsilon.emc.emf.dt"/>
+    <plugins name="org.eclipse.epsilon.dt.epackageregistryexplorer"/>
+    <plugins name="org.eclipse.epsilon.productivity"/>
+    <plugins name="org.eclipse.epsilon.emf.dt.wizards"/>
+  </features>
+  <features name="org.eclipse.epsilon.emf.dt.dependencies.feature">
+    <plugins name="org.jdom_1.0"/>
+  </features>
+  <features name="org.eclipse.epsilon.evl.emf.feature">
+    <plugins name="org.eclipse.epsilon.evl.emf.validation"/>
+  </features>
+  <features name="org.eclipse.epsilon.concordance.dependencies.feature">
+    <plugins name="org.h2_1.1.117"/>
+  </features>
+  <features name="org.eclipse.epsilon.evl.gmf.feature">
+    <plugins name="org.eclipse.epsilon.evl.gmf"/>
+  </features>
+  <plugins name="org.eclipse.epsilon.antlr.postprocessor"/>
+  <plugins name="org.eclipse.epsilon.antlr.postprocessor.model"/>
+  <plugins name="org.eclipse.epsilon.egl.dt.traceability.editor"/>
+  <plugins name="org.eclipse.epsilon.egl.dt.traceability.fine.emf"/>
+  <plugins name="org.eclipse.epsilon.egl.traceability.fine"/>
+  <plugins name="org.eclipse.epsilon.eunit.dt"/>
+  <plugins name="org.eclipse.epsilon.eunit.dt.cmp.emf"/>
+  <plugins name="org.eclipse.epsilon.eunit.dt.diff.emf"/>
+  <plugins name="org.eclipse.epsilon.eunit.dt.diff.files"/>
+  <plugins name="org.eclipse.epsilon.eunit.dt.feature"/>
+  <plugins name="org.eclipse.epsilon.eunit.engine"/>
+  <plugins name="org.eclipse.epsilon.eunit.junit"/>
+  <plugins name="org.eclipse.epsilon.flock.dt"/>
+  <plugins name="org.eclipse.epsilon.flock.dt.concordance"/>
+  <plugins name="org.eclipse.epsilon.flock.engine"/>
+  <plugins name="org.hamcrest.matchers_1.2"/>
+</Configuration>
