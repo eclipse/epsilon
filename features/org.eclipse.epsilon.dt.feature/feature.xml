@@ -93,20 +93,16 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.epsilon.ecl.engine"/>
-      <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.eclipse.core.variables"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.emf.ecore.editor"/>
-      <import plugin="org.jdom_1.0"/>
+      <import plugin="org.eclipse.epsilon.erl.engine"/>
       <import plugin="org.eclipse.epsilon.egl.engine"/>
       <import plugin="org.eclipse.epsilon.eml.engine"/>
       <import plugin="org.eclipse.epsilon.etl.engine"/>
@@ -114,15 +110,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.ewl.engine"/>
       <import plugin="org.eclipse.epsilon.profiling"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.epsilon.emc.plainxml"/>
-      <import plugin="org.eclipse.epsilon.flock.engine"/>
-      <import plugin="org.eclipse.epsilon.egl.traceability.fine"/>
       <import plugin="org.eclipse.epsilon.emc.bibtex"/>
       <import plugin="org.eclipse.epsilon.emc.csv"/>
       <import plugin="org.eclipse.epsilon.epl.engine"/>
-      <import plugin="org.eclipse.epsilon.erl.engine"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.plainxml"/>
+      <import plugin="org.eclipse.epsilon.flock.engine"/>
    </requires>
 
    <plugin
@@ -134,18 +129,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.common.dt"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.dt.exeed"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.emf.dt"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>
@@ -209,21 +192,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.9.1.qualifier"/>
 
    <plugin
-         id="org.eclipse.epsilon.dt.epackageregistryexplorer"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.epsilon.help"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.emf.decorator.dt"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
@@ -238,20 +207,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.flock.dt"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.egl.dt.traceability.editor"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.egl.dt.traceability.fine.emf"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
@@ -290,17 +245,5 @@ This Agreement is governed by the laws of the State of New York and the intellec
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.epsilon.ewl.emf"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.util.emf"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
 
 </feature>

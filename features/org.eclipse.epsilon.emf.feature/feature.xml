@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.feature"
-      label="Epsilon Core (Incubation)"
+      id="org.eclipse.epsilon.emf.feature"
+      label="Epsilon EMF Integration (Incubation)"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon Platform Feature
+      Epsilon EMF Feature
    </description>
 
    <copyright>
@@ -96,151 +96,28 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.antlr.runtime_3.1.b1" version="3.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.etl.dt"/>
-      <import plugin="org.eclipse.epsilon.ecl.dt"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.epsilon.evl.dt"/>
-      <import plugin="org.eclipse.epsilon.eml.dt"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.epsilon.egl.dt"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.change"/>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
    </requires>
 
    <plugin
-         id="org.eclipse.epsilon.commons"
+         id="org.eclipse.epsilon.emc.emf"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>
 
    <plugin
-         id="org.eclipse.epsilon.dependencies"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.ecl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.egl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eml.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eol.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eol.tools"
+         id="org.eclipse.epsilon.emc.emf.virtual"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.erl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.etl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.evl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.workflow"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.ewl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.composite"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.plainxml"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.flock.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.egl.traceability.fine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.bibtex"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.emc.csv"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.profiling"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.epl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.eunit.engine"
+         id="org.eclipse.epsilon.emc.emf.decorator"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
