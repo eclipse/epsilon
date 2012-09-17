@@ -117,6 +117,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.emc.bibtex"/>
       <import plugin="org.eclipse.epsilon.emc.csv"/>
       <import plugin="org.eclipse.epsilon.epl.engine"/>
+      <import plugin="org.eclipse.ant.core"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.epsilon.emc.composite"/>
+      <import plugin="org.eclipse.epsilon.eunit.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.junit"/>
    </requires>
 
    <plugin
@@ -234,6 +241,33 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.perspective"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.workflow"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.diff.files"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.junit"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"

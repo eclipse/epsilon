@@ -96,28 +96,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.antlr.runtime_3.1.b1" version="3.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.etl.dt"/>
-      <import plugin="org.eclipse.epsilon.ecl.dt"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.epsilon.evl.dt"/>
-      <import plugin="org.eclipse.epsilon.eml.dt"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.epsilon.egl.dt"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.epsilon.dependencies"/>
    </requires>
 
    <plugin
          id="org.eclipse.epsilon.commons"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.dependencies"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>
@@ -167,12 +150,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.evl.engine"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.workflow"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>

@@ -101,6 +101,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.epsilon.util.emf"/>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.jdom_1.0"/>
       <import plugin="org.eclipse.ui.ide"/>
@@ -111,8 +112,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.epsilon.egl.traceability.fine"/>
       <import plugin="org.eclipse.epsilon.egl.dt"/>
-      <import plugin="org.eclipse.epsilon.egl.engine"/>
       <import plugin="org.eclipse.epsilon.flock.engine"/>
+      <import plugin="org.eclipse.epsilon.eunit.engine"/>
+      <import plugin="org.eclipse.emf.compare.diff"/>
+      <import plugin="org.eclipse.emf.compare.match"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.emf.compare.ui"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.epsilon.eunit.dt"/>
    </requires>
 
    <plugin
@@ -168,16 +175,23 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.productivity"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
          id="org.eclipse.epsilon.flock.dt.emf"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"
          unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.cmp.emf"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.eunit.dt.diff.emf"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"/>
 
 </feature>
