@@ -10,7 +10,7 @@ Export-Package: org.eclipse.epsilon.hutn.model,
  org.eclipse.epsilon.hutn.model.hutn,
  org.eclipse.epsilon.hutn.model.hutn.impl,
  org.eclipse.epsilon.hutn.model.hutn.util
-Require-Bundle: org.eclipse.epsilon.commons,
+Require-Bundle: org.eclipse.epsilon.common,
  org.eclipse.epsilon.emc.emf;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -6,7 +6,7 @@ Bundle-Version: 0.9.1.qualifier
 Require-Bundle: org.eclipse.epsilon.antlr.postprocessor.model;visibility:=reexport,
  org.eclipse.epsilon.dependencies,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.epsilon.commons
+ org.eclipse.epsilon.common
 Export-Package: org.eclipse.epsilon.antlr.postprocessor
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

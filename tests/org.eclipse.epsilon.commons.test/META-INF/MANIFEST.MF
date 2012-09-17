@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Commons Tests (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.commons.test
+Bundle-SymbolicName: org.eclipse.epsilon.common.test
 Bundle-Version: 0.8.9.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
