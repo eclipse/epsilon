@@ -216,14 +216,13 @@ litigation.
          id="org.antlr.runtime_3.1.b1"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.1.0"
          unpack="false"/>
 
    <plugin
-         id="org.jdom_1.0"
+         id="org.eclipse.epsilon.dependencies"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.9.1.qualifier"/>
 
 </feature>
