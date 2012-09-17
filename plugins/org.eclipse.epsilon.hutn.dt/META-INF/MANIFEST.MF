@@ -15,7 +15,7 @@ Require-Bundle: org.hamcrest.matchers_1.2,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.emf.ecore.editor,
- org.eclipse.epsilon.util.emf,
+ org.eclipse.epsilon.emf.util,
  org.eclipse.epsilon.emc.composite
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

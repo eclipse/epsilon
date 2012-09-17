@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.ewl.engine,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.emf.ecore.editor,
- org.eclipse.epsilon.util.emf
+ org.eclipse.epsilon.emf.util
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.ewl.emf
 Bundle-ClassPath: org.eclipse.epsilon.ewl.emf.jar
