@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.feature"
+      id="org.eclipse.epsilon.core.feature"
       label="Epsilon Core (Incubation)"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">

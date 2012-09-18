@@ -92,7 +92,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <includes
-         id="org.eclipse.epsilon.dependencies.feature"
+         id="org.eclipse.epsilon.core.dependencies.feature"
          version="0.0.0"/>
 
    <requires>
@@ -101,7 +101,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.util.emf"/>
+      <import plugin="org.eclipse.epsilon.emf.util"/>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.jdom_1.0"/>
       <import plugin="org.eclipse.ui.ide"/>
