@@ -116,10 +116,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.eunit.engine"/>
       <import plugin="org.eclipse.emf.compare.diff"/>
       <import plugin="org.eclipse.emf.compare.match"/>
+      <import plugin="org.eclipse.epsilon.eunit.dt"/>
       <import plugin="org.eclipse.compare"/>
       <import plugin="org.eclipse.emf.compare.ui"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.epsilon.eunit.dt"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.ant.core"/>
+      <import plugin="org.eclipse.epsilon.workflow"/>
+      <import plugin="org.eclipse.ui"/>
    </requires>
 
    <plugin
@@ -187,5 +191,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>
+
+   <plugin
+         id="org.eclipse.epsilon.workflow.emf"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
 
 </feature>

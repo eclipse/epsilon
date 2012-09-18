@@ -105,21 +105,6 @@
       />
 
      <taskdef
-     	name="epsilon.emf.register"
-        classname="org.eclipse.epsilon.workflow.tasks.emf.RegisterTask"
-      />
-
-     <taskdef
-     	name="epsilon.emf.loadModel"
-        classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModel"
-      />
-
-     <taskdef
-     	name="epsilon.emf.loadRegisteredMetamodel"
-        classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModel"
-      />
-
-     <taskdef
      	name="epsilon.xml.loadModel"
         classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"
       />

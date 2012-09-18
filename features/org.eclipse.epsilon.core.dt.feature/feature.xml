@@ -121,7 +121,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.epsilon.emc.composite"/>
       <import plugin="org.eclipse.epsilon.eunit.engine"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.compare"/>
       <import plugin="org.junit"/>
    </requires>

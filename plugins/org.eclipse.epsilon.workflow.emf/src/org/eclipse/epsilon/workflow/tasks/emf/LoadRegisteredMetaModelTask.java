@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
-public class LoadRegisteredMetaModel extends EpsilonTask {
+public class LoadRegisteredMetaModelTask extends EpsilonTask {
 
 	protected String name;
 	protected String aliases;

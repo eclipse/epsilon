@@ -64,23 +64,9 @@
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.rollbackTransaction"/>
       <antTask
-            class="org.eclipse.epsilon.workflow.tasks.emf.RegisterTask"
-            library="lib/org.eclipse.epsilon.workflow.jar"
-            name="epsilon.emf.register"/>
-      <antTask
             class="org.eclipse.epsilon.workflow.tasks.LoadCompositeModelTask"
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.loadCompositeModel">
-      </antTask>
-      <antTask
-            class="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModel"
-            library="lib/org.eclipse.epsilon.workflow.jar"
-            name="epsilon.emf.loadModel">
-      </antTask>
-      <antTask
-            class="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModel"
-            library="lib/org.eclipse.epsilon.workflow.jar"
-            name="epsilon.emf.loadRegisteredMetamodel">
       </antTask>
       <antTask
             class="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"
