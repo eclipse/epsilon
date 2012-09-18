@@ -1,0 +1,38 @@
+<project name="populate" default="populate">
+
+	<property name="features_dir" location="/Users/louis/Code/Work/epsilon/juno/epsilon-workspace/epsilon-repository/features"/>
+	<property name="output_dir" location="./rev1979"/>
+	
+	<target name="mergexml">
+	  <!-- concat all of the feature.xml files, ensuring that:
+	        * only a single XML preamble appears at the top of the file
+	        * there is a new root element ("product") that contains all of the feature elements
+	   -->
+	  <concat destfile="composite.feature.xml">
+	  	<header filtering="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+	  	&lt;product&gt;
+	  	</header>
+	    <fileset dir="${features_dir}" includes="*feature/feature.xml"/>
+	  	<filterchain>
+	      <linecontains negate="true">
+	        <contains value="?xml"/>
+	      </linecontains>
+	  	</filterchain>
+	  	<footer>&lt;/product&gt;</footer>
+	  </concat>
+	</target>
+	
+	<target name="loadmodels" depends="mergexml">
+		<epsilon.xml.loadModel name="XML" file="composite.feature.xml" read="true" store="false" />
+		<mkdir dir="${output_dir}"/>
+		<epsilon.emf.loadModel name="FED" modelfile="${output_dir}/current.fed" metamodeluri="fed" read="false" store="true" />
+	</target>
+	
+	<target name="populate" depends="loadmodels">
+		<epsilon.etl src="populate.etl">
+			<model ref="XML" />
+			<model ref="FED" />
+	    </epsilon.etl>	
+	</target>
+
+</project>

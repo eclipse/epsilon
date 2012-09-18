@@ -1,0 +1,52 @@
+pre {
+	var configuration = new FED!Configuration();
+}
+
+rule Feature2Feature 
+	transform s : XML!t_feature
+	to t : FED!Feature {
+	
+	configuration.features.add(t);
+	t.name = s.a_id;
+	t.plugins = s.children.select(a|a.tagName = "plugin").equivalent();
+	
+	t.includes = s.includes().equivalent();
+	t.depends = s.dependencies().equivalent();
+}
+
+rule Plugin2Plugin
+	transform s : XML!t_plugin
+	to t: FED!Plugin {
+
+	t.name = s.a_id;	
+}
+
+operation t_feature includes() : Collection(t_feature) {
+	var includes = self.children.select(a|a.tagName = "includes");
+	var included_feature_names = includes.collect(a|a.a_id);
+	var included_features = included_feature_names.collect(name|t_feature.all.selectOne(f|f.a_id == name));
+	
+	return included_features.asSet();
+}
+
+operation t_feature dependencies() : Collection(t_feature) {
+	var requires = self.children.selectOne(a|a.tagName = "requires");
+	
+	if (requires.isDefined()) {
+		var required_plugins = requires.children.collect(i|i.a_plugin);
+		var required_features = required_plugins.collect(p|features_for(p)).flatten();
+	
+		return required_features.asSet();
+	
+	} else {
+		return Set{};
+	}
+}
+
+operation features_for(plugin_id : String) : Collection(t_feature) {
+	return t_feature.all.select(f|f.contains(plugin_id));
+}
+
+operation t_feature contains(plugin_id : String) : Boolean {
+	return self.children.exists(a|a.tagName = "plugin" and a.a_id == plugin_id);
+}
