@@ -2,13 +2,17 @@ pre {
 	var configuration = new FED!Configuration();
 }
 
+post {
+	configuration.features = configuration.features.sortBy(f|f.name);
+}
+
 rule Feature2Feature 
 	transform s : XML!t_feature
 	to t : FED!Feature {
 	
 	configuration.features.add(t);
 	t.name = s.a_id;
-	t.plugins = s.children.select(a|a.tagName = "plugin").equivalent();
+	t.plugins = s.children.select(a|a.tagName = "plugin").equivalent().sortBy(p|p.name);
 	
 	t.includes = s.includes().equivalent();
 	t.depends = s.dependencies().equivalent();
