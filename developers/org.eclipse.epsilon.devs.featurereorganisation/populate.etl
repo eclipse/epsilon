@@ -15,6 +15,8 @@ rule Feature2Feature
 	t.plugins = s.children.select(a|a.tagName = "plugin").equivalent().sortBy(p|p.name);
 	
 	t.includes = s.includes().equivalent();
+	
+	t.pluginDependencies = s.plugin_dependencies();
 	t.depends = s.dependencies().equivalent();
 }
 
@@ -31,6 +33,35 @@ operation t_feature includes() : Collection(t_feature) {
 	var included_features = included_feature_names.collect(name|t_feature.all.selectOne(f|f.a_id == name));
 	
 	return included_features.asSet();
+}
+
+operation t_feature plugin_dependencies() : Collection(FED!Plugin) {
+	var requires = self.children.selectOne(a|a.tagName = "requires");
+	
+	if (requires.isDefined()) {
+		var required_plugin_names = requires.children.collect(i|i.a_plugin);
+		var required_plugins = required_plugin_names.collect(name|find_or_create_plugin(name));
+	
+		return required_plugins.asSet();
+	
+	} else {
+		return Set{};
+	}
+}
+
+operation find_or_create_plugin(name : String) : FED!Plugin {
+	var plugin = t_plugin.all.selectOne(p|p.a_id == name);
+	
+	if (plugin.isDefined()) {
+		plugin = plugin.equivalent();
+	
+	} else {
+		plugin = new FED!Plugin;
+		plugin.name = name;
+		configuration.plugins.add(plugin);
+	}
+	
+	return plugin;
 }
 
 operation t_feature dependencies() : Collection(t_feature) {

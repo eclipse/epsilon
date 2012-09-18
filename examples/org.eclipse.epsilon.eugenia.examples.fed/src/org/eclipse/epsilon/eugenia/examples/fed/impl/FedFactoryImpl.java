@@ -21,110 +21,106 @@ import org.eclipse.epsilon.eugenia.examples.fed.*;
 public class FedFactoryImpl extends EFactoryImpl implements FedFactory
 {
   /**
-   * Creates the default factory implementation.
-   * <!-- begin-user-doc -->
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public static FedFactory init()
   {
-    try
-    {
-      FedFactory theFedFactory = (FedFactory)EPackage.Registry.INSTANCE.getEFactory("fed"); 
-      if (theFedFactory != null)
-      {
-        return theFedFactory;
-      }
-    }
-    catch (Exception exception)
-    {
-      EcorePlugin.INSTANCE.log(exception);
-    }
-    return new FedFactoryImpl();
-  }
+		try {
+			FedFactory theFedFactory = (FedFactory)EPackage.Registry.INSTANCE.getEFactory("fed"); 
+			if (theFedFactory != null) {
+				return theFedFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new FedFactoryImpl();
+	}
 
   /**
-   * Creates an instance of the factory.
-   * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public FedFactoryImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public EObject create(EClass eClass)
   {
-    switch (eClass.getClassifierID())
-    {
-      case FedPackage.CONFIGURATION: return createConfiguration();
-      case FedPackage.FEATURE: return createFeature();
-      case FedPackage.PLUGIN: return createPlugin();
-      default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-    }
-  }
+		switch (eClass.getClassifierID()) {
+			case FedPackage.CONFIGURATION: return createConfiguration();
+			case FedPackage.FEATURE: return createFeature();
+			case FedPackage.PLUGIN: return createPlugin();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Configuration createConfiguration()
   {
-    ConfigurationImpl configuration = new ConfigurationImpl();
-    return configuration;
-  }
+		ConfigurationImpl configuration = new ConfigurationImpl();
+		return configuration;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Feature createFeature()
   {
-    FeatureImpl feature = new FeatureImpl();
-    return feature;
-  }
+		FeatureImpl feature = new FeatureImpl();
+		return feature;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Plugin createPlugin()
   {
-    PluginImpl plugin = new PluginImpl();
-    return plugin;
-  }
+		PluginImpl plugin = new PluginImpl();
+		return plugin;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public FedPackage getFedPackage()
   {
-    return (FedPackage)getEPackage();
-  }
+		return (FedPackage)getEPackage();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @deprecated
-   * @generated
-   */
+	 * @deprecated
+	 * @generated
+	 */
   @Deprecated
   public static FedPackage getPackage()
   {
-    return FedPackage.eINSTANCE;
-  }
+		return FedPackage.eINSTANCE;
+	}
 
 } //FedFactoryImpl

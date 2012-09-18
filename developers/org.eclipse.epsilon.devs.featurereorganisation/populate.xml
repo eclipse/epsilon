@@ -1,4 +1,4 @@
-<project name="populate" default="populate">
+<project name="populate" default="analyse">
 
 	<property name="features_dir" location="/Users/louis/Code/Work/epsilon/juno/epsilon-workspace/epsilon-repository/features"/>
 	<property name="output_dir" location="./rev1979"/>
@@ -33,6 +33,12 @@
 			<model ref="XML" />
 			<model ref="FED" />
 	    </epsilon.etl>	
+	</target>
+	
+	<target name="analyse" depends="populate">
+		<epsilon.eol src="analyse_dependencies.eol">
+			<model ref="FED" />
+	    </epsilon.eol>	
 	</target>
 
 </project>

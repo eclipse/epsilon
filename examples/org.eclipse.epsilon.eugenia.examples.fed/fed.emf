@@ -20,6 +20,8 @@ class Feature extends NamedElement {
    ref Feature[*] depends;
    @gmf.link(target.decoration="arrow", source.decoration="filledrhomb")
    ref Feature[*] includes;
+   
+   ref Plugin[*] pluginDependencies;
 }
 
 class Plugin extends NamedElement {

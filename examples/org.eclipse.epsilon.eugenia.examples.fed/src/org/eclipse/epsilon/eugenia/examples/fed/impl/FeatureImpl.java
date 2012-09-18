@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eugenia.examples.fed.Plugin;
  *   <li>{@link org.eclipse.epsilon.eugenia.examples.fed.impl.FeatureImpl#getPlugins <em>Plugins</em>}</li>
  *   <li>{@link org.eclipse.epsilon.eugenia.examples.fed.impl.FeatureImpl#getDepends <em>Depends</em>}</li>
  *   <li>{@link org.eclipse.epsilon.eugenia.examples.fed.impl.FeatureImpl#getIncludes <em>Includes</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.eugenia.examples.fed.impl.FeatureImpl#getPluginDependencies <em>Plugin Dependencies</em>}</li>
  * </ul>
  * </p>
  *
@@ -37,201 +38,226 @@ import org.eclipse.epsilon.eugenia.examples.fed.Plugin;
 public class FeatureImpl extends NamedElementImpl implements Feature
 {
   /**
-   * The cached value of the '{@link #getPlugins() <em>Plugins</em>}' containment reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getPlugins() <em>Plugins</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getPlugins()
-   * @generated
-   * @ordered
-   */
+	 * @see #getPlugins()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<Plugin> plugins;
 
   /**
-   * The cached value of the '{@link #getDepends() <em>Depends</em>}' reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getDepends() <em>Depends</em>}' reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDepends()
-   * @generated
-   * @ordered
-   */
+	 * @see #getDepends()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<Feature> depends;
   /**
-   * The cached value of the '{@link #getIncludes() <em>Includes</em>}' reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getIncludes() <em>Includes</em>}' reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getIncludes()
-   * @generated
-   * @ordered
-   */
+	 * @see #getIncludes()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<Feature> includes;
 
   /**
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getPluginDependencies() <em>Plugin Dependencies</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPluginDependencies()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Plugin> pluginDependencies;
+
+		/**
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected FeatureImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FedPackage.Literals.FEATURE;
-  }
+		return FedPackage.Literals.FEATURE;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<Plugin> getPlugins()
   {
-    if (plugins == null)
-    {
-      plugins = new EObjectContainmentEList<Plugin>(Plugin.class, this, FedPackage.FEATURE__PLUGINS);
-    }
-    return plugins;
-  }
+		if (plugins == null) {
+			plugins = new EObjectContainmentEList<Plugin>(Plugin.class, this, FedPackage.FEATURE__PLUGINS);
+		}
+		return plugins;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<Feature> getDepends()
   {
-    if (depends == null)
-    {
-      depends = new EObjectResolvingEList<Feature>(Feature.class, this, FedPackage.FEATURE__DEPENDS);
-    }
-    return depends;
-  }
+		if (depends == null) {
+			depends = new EObjectResolvingEList<Feature>(Feature.class, this, FedPackage.FEATURE__DEPENDS);
+		}
+		return depends;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<Feature> getIncludes()
   {
-    if (includes == null)
-    {
-      includes = new EObjectResolvingEList<Feature>(Feature.class, this, FedPackage.FEATURE__INCLUDES);
-    }
-    return includes;
-  }
+		if (includes == null) {
+			includes = new EObjectResolvingEList<Feature>(Feature.class, this, FedPackage.FEATURE__INCLUDES);
+		}
+		return includes;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Plugin> getPluginDependencies() {
+		if (pluginDependencies == null) {
+			pluginDependencies = new EObjectResolvingEList<Plugin>(Plugin.class, this, FedPackage.FEATURE__PLUGIN_DEPENDENCIES);
+		}
+		return pluginDependencies;
+	}
+
+		/**
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FedPackage.FEATURE__PLUGINS:
-        return ((InternalEList<?>)getPlugins()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FedPackage.FEATURE__PLUGINS:
+				return ((InternalEList<?>)getPlugins()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FedPackage.FEATURE__PLUGINS:
-        return getPlugins();
-      case FedPackage.FEATURE__DEPENDS:
-        return getDepends();
-      case FedPackage.FEATURE__INCLUDES:
-        return getIncludes();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FedPackage.FEATURE__PLUGINS:
+				return getPlugins();
+			case FedPackage.FEATURE__DEPENDS:
+				return getDepends();
+			case FedPackage.FEATURE__INCLUDES:
+				return getIncludes();
+			case FedPackage.FEATURE__PLUGIN_DEPENDENCIES:
+				return getPluginDependencies();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FedPackage.FEATURE__PLUGINS:
-        getPlugins().clear();
-        getPlugins().addAll((Collection<? extends Plugin>)newValue);
-        return;
-      case FedPackage.FEATURE__DEPENDS:
-        getDepends().clear();
-        getDepends().addAll((Collection<? extends Feature>)newValue);
-        return;
-      case FedPackage.FEATURE__INCLUDES:
-        getIncludes().clear();
-        getIncludes().addAll((Collection<? extends Feature>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FedPackage.FEATURE__PLUGINS:
+				getPlugins().clear();
+				getPlugins().addAll((Collection<? extends Plugin>)newValue);
+				return;
+			case FedPackage.FEATURE__DEPENDS:
+				getDepends().clear();
+				getDepends().addAll((Collection<? extends Feature>)newValue);
+				return;
+			case FedPackage.FEATURE__INCLUDES:
+				getIncludes().clear();
+				getIncludes().addAll((Collection<? extends Feature>)newValue);
+				return;
+			case FedPackage.FEATURE__PLUGIN_DEPENDENCIES:
+				getPluginDependencies().clear();
+				getPluginDependencies().addAll((Collection<? extends Plugin>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FedPackage.FEATURE__PLUGINS:
-        getPlugins().clear();
-        return;
-      case FedPackage.FEATURE__DEPENDS:
-        getDepends().clear();
-        return;
-      case FedPackage.FEATURE__INCLUDES:
-        getIncludes().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FedPackage.FEATURE__PLUGINS:
+				getPlugins().clear();
+				return;
+			case FedPackage.FEATURE__DEPENDS:
+				getDepends().clear();
+				return;
+			case FedPackage.FEATURE__INCLUDES:
+				getIncludes().clear();
+				return;
+			case FedPackage.FEATURE__PLUGIN_DEPENDENCIES:
+				getPluginDependencies().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FedPackage.FEATURE__PLUGINS:
-        return plugins != null && !plugins.isEmpty();
-      case FedPackage.FEATURE__DEPENDS:
-        return depends != null && !depends.isEmpty();
-      case FedPackage.FEATURE__INCLUDES:
-        return includes != null && !includes.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FedPackage.FEATURE__PLUGINS:
+				return plugins != null && !plugins.isEmpty();
+			case FedPackage.FEATURE__DEPENDS:
+				return depends != null && !depends.isEmpty();
+			case FedPackage.FEATURE__INCLUDES:
+				return includes != null && !includes.isEmpty();
+			case FedPackage.FEATURE__PLUGIN_DEPENDENCIES:
+				return pluginDependencies != null && !pluginDependencies.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //FeatureImpl

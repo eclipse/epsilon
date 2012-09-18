@@ -19,24 +19,24 @@ import org.eclipse.epsilon.eugenia.examples.fed.Plugin;
 public class PluginImpl extends NamedElementImpl implements Plugin
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected PluginImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FedPackage.Literals.PLUGIN;
-  }
+		return FedPackage.Literals.PLUGIN;
+	}
 
 } //PluginImpl

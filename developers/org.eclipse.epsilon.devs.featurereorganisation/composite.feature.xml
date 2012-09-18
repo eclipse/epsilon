@@ -1090,7 +1090,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <includes
-         id="org.eclipse.epsilon.dependencies.feature"
+         id="org.eclipse.epsilon.core.dependencies.feature"
          version="0.0.0"/>
 
    <requires>
@@ -1609,7 +1609,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <includes
-         id="org.eclipse.epsilon.dependencies.feature"
+         id="org.eclipse.epsilon.core.dependencies.feature"
          version="0.0.0"/>
 
    <requires>
