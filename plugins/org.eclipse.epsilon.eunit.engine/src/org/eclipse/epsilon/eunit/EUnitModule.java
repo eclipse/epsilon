@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;

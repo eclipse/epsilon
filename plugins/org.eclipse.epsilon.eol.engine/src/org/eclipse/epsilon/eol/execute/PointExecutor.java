@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;

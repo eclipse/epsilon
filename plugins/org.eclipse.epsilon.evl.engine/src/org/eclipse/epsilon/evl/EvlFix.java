@@ -13,9 +13,9 @@ package org.eclipse.epsilon.evl;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

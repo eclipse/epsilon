@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;

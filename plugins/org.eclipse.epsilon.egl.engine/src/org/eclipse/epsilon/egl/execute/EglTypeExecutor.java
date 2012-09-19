@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.types.EglComplexType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.TypeExecutor;

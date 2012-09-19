@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.control;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 

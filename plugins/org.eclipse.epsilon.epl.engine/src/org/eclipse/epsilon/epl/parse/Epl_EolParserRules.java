@@ -48,7 +48,7 @@ import org.antlr.runtime.tree.*;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-public class Epl_EolParserRules extends org.eclipse.epsilon.commons.parse.EpsilonParser {
+public class Epl_EolParserRules extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int EXPONENT=6;
     public static final int T__159=159;
     public static final int WHILE=33;

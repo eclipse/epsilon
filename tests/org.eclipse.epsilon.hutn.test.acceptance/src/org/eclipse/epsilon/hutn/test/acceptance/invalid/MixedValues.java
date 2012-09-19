@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.test.acceptance.util.InvalidHutnAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;

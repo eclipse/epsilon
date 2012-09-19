@@ -23,7 +23,7 @@ import org.eclipse.epsilon.common.dt.launching.dialogs.ModelTypeSelectionDialog;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.common.dt.util.StringList;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;

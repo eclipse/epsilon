@@ -13,8 +13,8 @@ package org.eclipse.epsilon.eol;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;

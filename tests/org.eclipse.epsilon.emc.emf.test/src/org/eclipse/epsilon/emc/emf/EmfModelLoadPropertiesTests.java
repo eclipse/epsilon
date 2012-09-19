@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.test.util.TestThatUsesAProject;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

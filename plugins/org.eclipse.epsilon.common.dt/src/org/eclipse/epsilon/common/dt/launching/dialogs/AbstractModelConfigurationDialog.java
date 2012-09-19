@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.dialogs;
 
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

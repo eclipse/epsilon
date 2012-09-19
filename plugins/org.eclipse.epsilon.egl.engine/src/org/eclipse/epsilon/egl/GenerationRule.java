@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.EolFormalParameter;

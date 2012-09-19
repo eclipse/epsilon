@@ -16,9 +16,9 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.ArrayUtil;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.ArrayUtil;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.util.EolParserUtil;

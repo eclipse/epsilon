@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 

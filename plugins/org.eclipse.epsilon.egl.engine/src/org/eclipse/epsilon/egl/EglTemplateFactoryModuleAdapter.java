@@ -21,8 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.EolModelDefinition;

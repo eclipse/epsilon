@@ -15,7 +15,7 @@ package org.eclipse.epsilon.hutn.test.acceptance.valid;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.hutn.test.acceptance.util.HutnAcceptanceTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

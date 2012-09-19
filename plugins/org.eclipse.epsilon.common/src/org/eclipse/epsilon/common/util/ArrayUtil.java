@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

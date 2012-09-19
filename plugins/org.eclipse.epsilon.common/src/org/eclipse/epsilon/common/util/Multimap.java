@@ -8,7 +8,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.util;
 
 import java.util.Collection;
 import java.util.Collections;

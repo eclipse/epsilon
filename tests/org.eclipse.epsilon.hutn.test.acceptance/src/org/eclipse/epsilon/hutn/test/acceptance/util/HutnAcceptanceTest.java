@@ -20,7 +20,7 @@ import java.io.File;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.validation.config.HutnConfigFileValidationTest;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

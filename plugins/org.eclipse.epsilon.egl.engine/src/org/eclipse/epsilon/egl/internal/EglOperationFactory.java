@@ -11,7 +11,7 @@
 
 package org.eclipse.epsilon.egl.internal;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.execute.operations.EglOperation;
 import org.eclipse.epsilon.egl.execute.operations.EglTemplateOperation;
 import org.eclipse.epsilon.eol.EolOperation;

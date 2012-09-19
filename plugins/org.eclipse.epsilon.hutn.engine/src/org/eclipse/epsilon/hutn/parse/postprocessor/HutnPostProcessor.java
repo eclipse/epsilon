@@ -15,7 +15,7 @@ import java.util.List;
 import org.antlr.runtime.tree.CommonTree;
 import org.eclipse.epsilon.antlr.postprocessor.AbstractAstPostProcessor;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 

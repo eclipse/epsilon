@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;

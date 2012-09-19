@@ -17,7 +17,7 @@ package org.eclipse.epsilon.hutn.test.acceptance.util;
 import java.util.List;
 
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 

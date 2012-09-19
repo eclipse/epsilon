@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.types;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;

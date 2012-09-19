@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;

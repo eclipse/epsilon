@@ -12,7 +12,7 @@ package org.eclipse.epsilon.epl.workbench;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.PatternMatchModel;

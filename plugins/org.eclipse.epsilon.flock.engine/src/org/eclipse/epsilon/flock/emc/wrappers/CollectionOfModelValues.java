@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 

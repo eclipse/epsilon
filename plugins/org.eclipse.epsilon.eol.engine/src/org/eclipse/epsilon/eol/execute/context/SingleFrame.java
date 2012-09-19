@@ -16,8 +16,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 /**
  * An individual stack frame for the EOL frame stack.

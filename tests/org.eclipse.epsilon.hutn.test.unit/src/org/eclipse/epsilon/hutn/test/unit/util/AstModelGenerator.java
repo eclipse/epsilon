@@ -21,7 +21,7 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.parse.HutnLexer;

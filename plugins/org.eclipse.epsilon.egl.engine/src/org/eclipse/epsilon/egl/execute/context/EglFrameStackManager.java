@@ -13,7 +13,7 @@ package org.eclipse.epsilon.egl.execute.context;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 

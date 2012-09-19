@@ -5,8 +5,8 @@ import java.io.StringBufferInputStream;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Token;
-import org.eclipse.epsilon.commons.parse.StaticFieldNameResolver;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
 
 public class EolFormalParametersWorkbench {

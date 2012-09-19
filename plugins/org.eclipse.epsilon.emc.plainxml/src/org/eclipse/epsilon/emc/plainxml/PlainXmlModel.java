@@ -28,7 +28,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;

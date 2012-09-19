@@ -17,7 +17,7 @@ import static org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder.an
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.*;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.common.FlockConstruct;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder;
 import org.junit.Test;

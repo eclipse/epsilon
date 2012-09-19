@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.exceptions;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class EglStoppedException extends EglRuntimeException {
 

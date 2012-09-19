@@ -16,7 +16,7 @@ import static org.eclipse.epsilon.egl.util.StringUtil.isWhitespace;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 

@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;

@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;

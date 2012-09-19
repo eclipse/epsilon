@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor.outline;
 
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.module.ModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 

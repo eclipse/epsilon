@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.status.StatusMessage;

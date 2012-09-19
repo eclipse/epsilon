@@ -23,7 +23,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 

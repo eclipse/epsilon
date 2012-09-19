@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
 import org.eclipse.epsilon.dt.exeed.UniqueArrayList;
 import org.eclipse.jface.viewers.ISelectionChangedListener;

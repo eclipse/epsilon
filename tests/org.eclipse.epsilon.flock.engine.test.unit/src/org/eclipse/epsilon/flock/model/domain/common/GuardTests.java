@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;

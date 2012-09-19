@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.parse;
+package org.eclipse.epsilon.common.parse;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -26,7 +26,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.antlr.runtime.tree.Tree;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 public class Antlr3TreeViewer extends JFrame{
 	

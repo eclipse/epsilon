@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.AntlrAstFactory;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public abstract class AbstractAstPostProcessor {

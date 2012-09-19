@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
 
 public class EolVariablesWorkbench {

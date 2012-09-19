@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.prettyprinting;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.collectionType_return;
 import org.eclipse.epsilon.eol.types.EolBag;

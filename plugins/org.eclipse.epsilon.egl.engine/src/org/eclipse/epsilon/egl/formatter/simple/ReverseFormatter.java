@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.formatter.simple;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 
 public class ReverseFormatter implements Formatter {

@@ -20,9 +20,9 @@ import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.egl.parse.EglToken;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.junit.Test;
 
 public class TestEglParser {

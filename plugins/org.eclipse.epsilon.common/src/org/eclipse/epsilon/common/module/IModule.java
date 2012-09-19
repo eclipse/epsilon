@@ -9,13 +9,13 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio García-Domínguez - add getSourceURI
  ******************************************************************************/
-package org.eclipse.epsilon.commons.module;
+package org.eclipse.epsilon.common.module;
 
 import java.io.File;
 import java.net.URI;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public interface IModule extends ModuleElement {
 	

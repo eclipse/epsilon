@@ -8,12 +8,12 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public class AstUtil {

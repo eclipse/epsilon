@@ -13,7 +13,7 @@ package org.eclipse.epsilon.emc.emf;
 
 import junit.framework.Assert;
 
-import org.eclipse.epsilon.commons.util.OperatingSystem;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.junit.Test;
 

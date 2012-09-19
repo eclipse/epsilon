@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.util.Multimap;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.Multimap;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;

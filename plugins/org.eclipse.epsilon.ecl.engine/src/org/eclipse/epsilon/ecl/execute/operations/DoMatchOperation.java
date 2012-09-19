@@ -12,8 +12,8 @@ package org.eclipse.epsilon.ecl.execute.operations;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;

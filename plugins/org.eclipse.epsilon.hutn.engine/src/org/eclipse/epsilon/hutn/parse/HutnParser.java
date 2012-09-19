@@ -49,7 +49,7 @@ import org.antlr.runtime.tree.*;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-public class HutnParser extends org.eclipse.epsilon.commons.parse.EpsilonParser {
+public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "TRUE", "FALSE", "NULL", "ADJECTIVE", "CLS_LVL_ATTRIBUTE", "ASSOC_INSTANCE", "REFERENCE", "NAME", "TEXTUAL_VALUE", "LBRACKET", "RBRACKET", "ASSIGNMENT", "ADJECTIVE_PREFIX", "COMMA", "NUMERIC_VALUE", "ID_START_LETTER", "ID_LETTER", "ESC", "TEXT_LETTER", "DIGIT", "WS", "ML_COMMENT", "SL_COMMENT", "';'", "'.'"
     };

@@ -18,7 +18,7 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
-import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;

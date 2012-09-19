@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.test.acceptance.eol;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.IEolLibraryModule;

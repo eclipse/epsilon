@@ -12,9 +12,9 @@ package org.eclipse.epsilon.erl;
 
 import java.util.Comparator;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.EolLibraryModule;

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.epl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;

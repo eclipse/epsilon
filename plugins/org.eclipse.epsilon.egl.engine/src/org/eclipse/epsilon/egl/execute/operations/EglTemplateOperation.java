@@ -11,7 +11,7 @@
 
 package org.eclipse.epsilon.egl.execute.operations;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;

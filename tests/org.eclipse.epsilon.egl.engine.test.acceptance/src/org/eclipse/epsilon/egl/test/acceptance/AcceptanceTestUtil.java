@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;

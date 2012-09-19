@@ -13,8 +13,8 @@ package org.eclipse.epsilon.epl;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class Cardinality extends AbstractModuleElement {
 	

@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;

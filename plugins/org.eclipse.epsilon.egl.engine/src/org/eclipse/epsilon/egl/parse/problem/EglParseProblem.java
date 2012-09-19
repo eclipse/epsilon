@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.parse.problem;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.PreprocessorTrace;
 
 public class EglParseProblem extends ParseProblem {

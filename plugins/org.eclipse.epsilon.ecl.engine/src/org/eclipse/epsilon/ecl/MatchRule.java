@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.ecl.exceptions.EclNotApplicableSuperRuleException;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.parse.EclParser;

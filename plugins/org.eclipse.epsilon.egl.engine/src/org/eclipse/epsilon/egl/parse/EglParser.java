@@ -14,9 +14,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 
 public class EglParser {

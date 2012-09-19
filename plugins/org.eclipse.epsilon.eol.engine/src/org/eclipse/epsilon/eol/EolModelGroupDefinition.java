@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class EolModelGroupDefinition extends AbstractModuleElement{
 

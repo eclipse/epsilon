@@ -48,7 +48,7 @@ import org.antlr.runtime.tree.*;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-public class Egx_EgxParserRules extends org.eclipse.epsilon.commons.parse.EpsilonParser {
+public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int EXPONENT=6;
     public static final int OVERWRITE=83;
     public static final int T__159=159;

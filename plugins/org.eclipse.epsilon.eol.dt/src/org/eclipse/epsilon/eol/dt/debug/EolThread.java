@@ -17,7 +17,7 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.SingleFrame;
 import org.eclipse.epsilon.eol.parse.EolParser;

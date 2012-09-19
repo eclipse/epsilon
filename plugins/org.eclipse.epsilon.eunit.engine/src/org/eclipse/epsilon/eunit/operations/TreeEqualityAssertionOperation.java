@@ -13,8 +13,8 @@ package org.eclipse.epsilon.eunit.operations;
 import java.io.File;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

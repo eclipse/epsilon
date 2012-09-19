@@ -19,7 +19,7 @@ import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.launching.dialogs.ToolConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.StringList;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;

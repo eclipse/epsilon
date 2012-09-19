@@ -17,8 +17,8 @@ import static org.eclipse.epsilon.egl.util.FileUtil.ESCAPED_NEWLINE;
 import java.io.File;
 
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.junit.Test;

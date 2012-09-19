@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.EpsilonTreeAdaptor;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;

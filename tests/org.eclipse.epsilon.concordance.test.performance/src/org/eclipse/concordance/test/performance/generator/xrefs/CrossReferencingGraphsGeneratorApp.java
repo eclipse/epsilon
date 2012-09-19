@@ -18,7 +18,7 @@ import java.io.File;
 import org.eclipse.concordance.test.performance.generator.graph.GraphGenerator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 
 public class CrossReferencingGraphsGeneratorApp {

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.hutn.model.hutnAntlrAst;
 import java.io.File;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public class HutnAntlrAstMetamodel {
 

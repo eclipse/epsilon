@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.ListIterator;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.EolOperation;

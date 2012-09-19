@@ -11,7 +11,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 /**
  * Exception which is thrown when the expectations in a test case are not met.

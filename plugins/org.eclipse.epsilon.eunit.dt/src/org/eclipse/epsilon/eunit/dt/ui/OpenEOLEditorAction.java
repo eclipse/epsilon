@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.jface.action.Action;
 
 abstract class OpenEOLEditorAction extends Action {

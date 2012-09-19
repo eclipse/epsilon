@@ -18,7 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.dt.markers.MarkerManager;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 

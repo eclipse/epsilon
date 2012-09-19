@@ -14,8 +14,8 @@ package org.eclipse.epsilon.eol;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEolLibraryModule extends IModule{

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eugenia;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public class GmfFileSet {
 	

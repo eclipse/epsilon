@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.common.dt.editor.hyperlinks;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 

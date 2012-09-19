@@ -14,9 +14,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.commons.util.StringProperties;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.bibtex.domain.Bibliography;
 import org.eclipse.epsilon.emc.bibtex.domain.Publication;
 import org.eclipse.epsilon.emc.bibtex.parser.BibtexParser;

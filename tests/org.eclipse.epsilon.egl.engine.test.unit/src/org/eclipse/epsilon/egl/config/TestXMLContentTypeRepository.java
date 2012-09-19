@@ -20,7 +20,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

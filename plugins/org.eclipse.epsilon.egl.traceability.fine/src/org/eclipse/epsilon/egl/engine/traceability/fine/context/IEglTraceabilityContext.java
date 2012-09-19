@@ -16,7 +16,7 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.context;
 
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

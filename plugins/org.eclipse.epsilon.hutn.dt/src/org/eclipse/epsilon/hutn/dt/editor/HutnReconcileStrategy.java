@@ -19,7 +19,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.util.WorkspaceUtil;

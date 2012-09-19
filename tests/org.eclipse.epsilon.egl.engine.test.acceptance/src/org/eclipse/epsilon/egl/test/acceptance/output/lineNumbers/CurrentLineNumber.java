@@ -14,7 +14,7 @@ import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.Test;
 

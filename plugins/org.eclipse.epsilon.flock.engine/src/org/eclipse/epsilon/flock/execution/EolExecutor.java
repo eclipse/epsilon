@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameType;

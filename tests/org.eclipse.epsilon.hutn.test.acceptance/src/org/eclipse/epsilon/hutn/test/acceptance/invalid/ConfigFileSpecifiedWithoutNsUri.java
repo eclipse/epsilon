@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.eclipse.epsilon.hutn.test.acceptance.util.InvalidHutnAcceptanceTest;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

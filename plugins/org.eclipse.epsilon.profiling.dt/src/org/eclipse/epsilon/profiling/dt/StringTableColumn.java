@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling.dt;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.jface.viewers.TableViewer;
 
 public class StringTableColumn extends SortableTableColumn {

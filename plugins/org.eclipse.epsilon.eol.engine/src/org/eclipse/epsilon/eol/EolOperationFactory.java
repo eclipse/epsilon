@@ -11,7 +11,7 @@
 
 package org.eclipse.epsilon.eol;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class EolOperationFactory {
 	

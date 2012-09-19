@@ -8,20 +8,34 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.module;
 
-import java.util.Comparator;
+import java.io.File;
+import java.net.URI;
 
-public class OrderComparator implements Comparator {
+import org.eclipse.epsilon.common.parse.AST;
 
-	public OrderComparator() {
-		super();
+
+public abstract class AbstractModuleElement implements ModuleElement{
+	
+	protected AST ast;
+	protected File sourceFile;
+	protected URI sourceUri;
+	
+	public AST getAst() {
+		return ast;
 	}
 	
-	public int compare(Object arg0, Object arg1) {
-		if (arg0 == null || arg1 == null) return 1;
-		if (arg0.equals(arg1)) return 0;
-		else return 1;
+	public void setAst(AST ast) {
+		this.ast = ast;
+	} 
+	
+	public File getSourceFile() {
+		return sourceFile;
 	}
 	
+	public URI getSourceUri() {
+		return sourceUri;
+	}
+
 }

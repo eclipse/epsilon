@@ -16,7 +16,7 @@ import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.junit.AfterClass;
 import org.junit.Before;

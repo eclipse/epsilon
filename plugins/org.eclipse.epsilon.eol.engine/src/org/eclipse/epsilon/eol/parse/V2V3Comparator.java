@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.runtime.tree.Tree;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.StaticFieldNameResolver;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
+import org.eclipse.epsilon.common.util.AstUtil;
 
 
 public class V2V3Comparator {

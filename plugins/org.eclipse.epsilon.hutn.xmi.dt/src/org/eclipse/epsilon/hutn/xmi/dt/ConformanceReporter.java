@@ -5,7 +5,7 @@ package org.eclipse.epsilon.hutn.xmi.dt;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public interface ConformanceReporter {
 	public void reportConformant(String name);

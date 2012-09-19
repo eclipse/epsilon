@@ -29,7 +29,7 @@ import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

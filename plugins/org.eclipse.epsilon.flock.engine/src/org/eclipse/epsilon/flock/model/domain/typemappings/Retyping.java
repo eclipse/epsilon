@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;

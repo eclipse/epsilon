@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;

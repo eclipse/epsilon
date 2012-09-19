@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNoType;
 

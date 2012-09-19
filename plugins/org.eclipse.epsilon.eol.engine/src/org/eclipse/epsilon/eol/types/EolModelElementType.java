@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
-import org.eclipse.epsilon.commons.util.CollectionUtil.ElementPrinter;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil.ElementPrinter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;

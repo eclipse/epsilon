@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.execute.operations;
 
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.output.OutputBuffer;

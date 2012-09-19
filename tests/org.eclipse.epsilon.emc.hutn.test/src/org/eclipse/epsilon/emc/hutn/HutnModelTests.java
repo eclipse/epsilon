@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolEvaluator;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;

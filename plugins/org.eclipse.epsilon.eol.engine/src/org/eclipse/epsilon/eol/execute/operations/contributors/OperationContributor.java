@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;

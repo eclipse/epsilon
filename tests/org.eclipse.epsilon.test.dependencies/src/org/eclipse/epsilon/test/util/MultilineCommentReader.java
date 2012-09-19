@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public class MultilineCommentReader {
 	

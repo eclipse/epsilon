@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public class EolInternalException extends EolRuntimeException{

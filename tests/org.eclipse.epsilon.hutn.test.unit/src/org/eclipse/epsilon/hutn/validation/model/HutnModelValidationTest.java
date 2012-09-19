@@ -16,7 +16,7 @@ package org.eclipse.epsilon.hutn.validation.model;
 
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;

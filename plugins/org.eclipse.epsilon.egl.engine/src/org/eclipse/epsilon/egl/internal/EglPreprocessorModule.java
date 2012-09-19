@@ -18,8 +18,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;

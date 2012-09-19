@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.junit.Test;

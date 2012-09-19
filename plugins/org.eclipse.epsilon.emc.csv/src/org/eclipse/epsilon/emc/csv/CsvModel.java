@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;

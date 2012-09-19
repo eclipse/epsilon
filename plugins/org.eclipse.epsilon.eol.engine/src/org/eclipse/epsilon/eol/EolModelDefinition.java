@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
-import org.eclipse.epsilon.commons.util.ListSet;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.util.ListSet;
 
 public class EolModelDefinition extends AbstractModuleElement {
 

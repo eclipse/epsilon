@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.prettyprinting;
 
 import java.util.Collections;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

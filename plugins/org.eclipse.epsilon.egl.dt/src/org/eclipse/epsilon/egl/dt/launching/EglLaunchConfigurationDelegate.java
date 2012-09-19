@@ -27,7 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;

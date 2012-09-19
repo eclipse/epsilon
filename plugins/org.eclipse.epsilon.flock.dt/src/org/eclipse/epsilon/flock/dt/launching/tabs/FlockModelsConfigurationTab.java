@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModelsConfigurationTab;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.flock.dt.launching.FlockLaunchConfigurationAttributes;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;

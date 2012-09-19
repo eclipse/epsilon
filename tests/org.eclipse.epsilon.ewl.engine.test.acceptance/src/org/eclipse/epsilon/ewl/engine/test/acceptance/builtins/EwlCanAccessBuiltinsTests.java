@@ -14,7 +14,7 @@ package org.eclipse.epsilon.ewl.engine.test.acceptance.builtins;
 import java.io.File;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.EwlModule;

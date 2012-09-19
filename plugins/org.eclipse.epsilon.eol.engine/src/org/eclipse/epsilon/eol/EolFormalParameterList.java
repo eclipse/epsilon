@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public class EolFormalParameterList extends ArrayList{

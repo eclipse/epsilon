@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.validation;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlFixer;

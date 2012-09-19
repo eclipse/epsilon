@@ -22,7 +22,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.StringList;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;

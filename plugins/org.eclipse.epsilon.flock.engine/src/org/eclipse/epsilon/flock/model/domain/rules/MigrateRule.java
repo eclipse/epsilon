@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;

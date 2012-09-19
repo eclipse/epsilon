@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.eclipse.epsilon.egl.traceability.OutputFile;

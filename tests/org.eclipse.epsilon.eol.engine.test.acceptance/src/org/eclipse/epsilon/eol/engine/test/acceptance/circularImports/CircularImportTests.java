@@ -16,7 +16,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.EolModule;
 import org.junit.Test;
 

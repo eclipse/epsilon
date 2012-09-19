@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;

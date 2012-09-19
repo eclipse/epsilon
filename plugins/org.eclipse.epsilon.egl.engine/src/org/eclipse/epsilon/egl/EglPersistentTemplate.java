@@ -14,7 +14,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;

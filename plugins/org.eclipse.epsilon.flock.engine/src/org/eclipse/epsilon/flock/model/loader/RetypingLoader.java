@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.flock.model.loader;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 
 public class RetypingLoader extends Loader {

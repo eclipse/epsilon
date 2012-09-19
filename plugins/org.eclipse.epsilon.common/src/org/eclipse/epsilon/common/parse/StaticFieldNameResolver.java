@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.parse;
+package org.eclipse.epsilon.common.parse;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

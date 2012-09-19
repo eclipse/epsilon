@@ -26,8 +26,8 @@ import javax.swing.tree.TreePath;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
-import org.eclipse.epsilon.commons.parse.StaticFieldNameResolver;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 public class AstExplorer extends JFrame {
 

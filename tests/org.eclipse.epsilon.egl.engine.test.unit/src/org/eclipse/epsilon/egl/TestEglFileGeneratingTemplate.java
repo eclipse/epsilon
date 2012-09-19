@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.test.MockContext;
@@ -41,13 +41,13 @@ public class TestEglFileGeneratingTemplate {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {
-		PROGRAM   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Generate.egl",  TestEglFileGeneratingTemplate.class);
-		OUTPUT1   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Output1.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT2   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Output2.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT3   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Output3.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT4   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Output4.txt",   TestEglFileGeneratingTemplate.class);
-		EXISTING  = org.eclipse.epsilon.commons.util.FileUtil.getFile("Existing.txt",  TestEglFileGeneratingTemplate.class);
-		GENERATED = org.eclipse.epsilon.commons.util.FileUtil.getFile("Generated.txt", TestEglFileGeneratingTemplate.class);
+		PROGRAM   = org.eclipse.epsilon.common.util.FileUtil.getFile("Generate.egl",  TestEglFileGeneratingTemplate.class);
+		OUTPUT1   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output1.txt",   TestEglFileGeneratingTemplate.class);
+		OUTPUT2   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output2.txt",   TestEglFileGeneratingTemplate.class);
+		OUTPUT3   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output3.txt",   TestEglFileGeneratingTemplate.class);
+		OUTPUT4   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output4.txt",   TestEglFileGeneratingTemplate.class);
+		EXISTING  = org.eclipse.epsilon.common.util.FileUtil.getFile("Existing.txt",  TestEglFileGeneratingTemplate.class);
+		GENERATED = org.eclipse.epsilon.common.util.FileUtil.getFile("Generated.txt", TestEglFileGeneratingTemplate.class);
 		
 		if (!EXISTING.exists()) EXISTING.createNewFile();
 	}

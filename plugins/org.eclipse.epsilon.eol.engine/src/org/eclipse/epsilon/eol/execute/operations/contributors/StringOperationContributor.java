@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 
 public class StringOperationContributor extends OperationContributor {
 

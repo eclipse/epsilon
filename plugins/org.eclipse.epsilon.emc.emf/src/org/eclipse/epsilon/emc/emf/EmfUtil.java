@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.commons.util.OperatingSystem;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 
 public class EmfUtil {
 		

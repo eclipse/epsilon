@@ -13,7 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
 
 public abstract class WorkflowTaskTestCase extends WorkflowTestCase {

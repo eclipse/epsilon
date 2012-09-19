@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eunit;
 
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**

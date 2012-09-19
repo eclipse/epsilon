@@ -9,7 +9,7 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.util;
 
 public class OperatingSystem {
     

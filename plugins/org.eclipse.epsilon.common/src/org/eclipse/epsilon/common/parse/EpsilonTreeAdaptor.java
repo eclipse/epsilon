@@ -8,32 +8,31 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.util;
+package org.eclipse.epsilon.common.parse;
 
-import javax.swing.JOptionPane;
+import java.io.File;
+import java.net.URI;
 
-public class DebugUtil {
+import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
 
-	}
+public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 	
-	public static void msgbox(Object message){
-		JOptionPane.showMessageDialog(null, message);
-	}
-	
-	public static void freeze (long millis) {
-		long now = System.currentTimeMillis();
-		while (System.currentTimeMillis() < now + millis) {
-			System.out.print("");
+	protected URI uri = null;
+
+	public EpsilonTreeAdaptor(File file) {
+		if (file != null) {
+			this.uri = file.toURI();
 		}
 	}
-	
-	public static void showStackTrace() {
-		new Exception().printStackTrace();
+
+	public EpsilonTreeAdaptor(URI uri) {
+		this.uri = uri;
 	}
 	
+    public AST create(Token token)
+    {
+        return new AST(token, uri);
+    }
 }

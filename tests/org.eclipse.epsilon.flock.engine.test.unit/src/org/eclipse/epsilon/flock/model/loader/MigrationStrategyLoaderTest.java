@@ -23,7 +23,7 @@ import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createOper
 import static org.eclipse.epsilon.flock.model.loader.LoaderTestHelper.createRetypingAst;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.junit.Test;

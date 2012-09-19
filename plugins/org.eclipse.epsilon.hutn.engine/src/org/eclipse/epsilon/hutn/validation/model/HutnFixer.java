@@ -13,7 +13,7 @@ package org.eclipse.epsilon.hutn.validation.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlFixInstance;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.common.dt.console;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;

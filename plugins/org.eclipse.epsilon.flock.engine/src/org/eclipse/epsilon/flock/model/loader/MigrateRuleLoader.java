@@ -18,7 +18,7 @@ import static org.eclipse.epsilon.flock.model.domain.rules.MigrateRuleBuilder.aM
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 

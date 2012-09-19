@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.test.acceptance.formatters;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.parse;
+package org.eclipse.epsilon.common.parse;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +17,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
-import org.eclipse.epsilon.commons.util.ReflectionUtil;
+import org.eclipse.epsilon.common.util.ReflectionUtil;
 
 public abstract class EpsilonParser extends Parser {
 	

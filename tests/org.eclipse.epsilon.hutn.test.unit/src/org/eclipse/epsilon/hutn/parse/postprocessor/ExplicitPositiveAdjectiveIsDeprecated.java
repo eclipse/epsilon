@@ -16,7 +16,7 @@ package org.eclipse.epsilon.hutn.parse.postprocessor;
 
 import static org.junit.Assert.*;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -8,15 +8,20 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.module;
+package org.eclipse.epsilon.common.util;
 
-import java.util.List;
+import java.util.Comparator;
 
-import org.eclipse.epsilon.commons.parse.AST;
+public class OrderComparator implements Comparator {
 
-
-public interface ModuleElement {
-	AST getAst();
+	public OrderComparator() {
+		super();
+	}
 	
-	List<?> getChildren();
+	public int compare(Object arg0, Object arg1) {
+		if (arg0 == null || arg1 == null) return 1;
+		if (arg0.equals(arg1)) return 0;
+		else return 1;
+	}
+	
 }

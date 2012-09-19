@@ -18,10 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.parse.EmlParser;

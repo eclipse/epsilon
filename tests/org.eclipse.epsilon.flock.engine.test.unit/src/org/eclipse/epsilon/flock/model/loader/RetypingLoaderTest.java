@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 import org.junit.Test;
 

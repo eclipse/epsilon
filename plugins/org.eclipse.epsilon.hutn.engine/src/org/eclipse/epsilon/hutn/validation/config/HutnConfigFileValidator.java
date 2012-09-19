@@ -12,7 +12,7 @@ package org.eclipse.epsilon.hutn.validation.config;
 
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance.builtins;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;

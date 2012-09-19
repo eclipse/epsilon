@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
-import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 

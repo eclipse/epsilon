@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.simple;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;

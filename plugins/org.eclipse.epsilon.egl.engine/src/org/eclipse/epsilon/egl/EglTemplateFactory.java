@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;

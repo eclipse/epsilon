@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.parse.problem;
+package org.eclipse.epsilon.common.parse.problem;
 
 
 public class ParseProblem {

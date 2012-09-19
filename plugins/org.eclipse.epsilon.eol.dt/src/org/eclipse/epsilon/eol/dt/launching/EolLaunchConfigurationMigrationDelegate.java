@@ -20,7 +20,7 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.util.ReflectionUtil;
+import org.eclipse.epsilon.common.util.ReflectionUtil;
 
 public class EolLaunchConfigurationMigrationDelegate implements
 		ILaunchConfigurationMigrationDelegate {

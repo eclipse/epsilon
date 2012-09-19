@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.model;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public class EglStaticSection extends EglSection implements ModuleElement {

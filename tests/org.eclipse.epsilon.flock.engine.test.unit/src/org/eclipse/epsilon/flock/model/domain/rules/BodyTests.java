@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 
 import static org.mockito.Mockito.*;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Test;

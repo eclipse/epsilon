@@ -14,7 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 

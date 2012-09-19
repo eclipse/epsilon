@@ -10,10 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.Profiler;
-import org.eclipse.epsilon.commons.util.StringUtil;
 import org.eclipse.epsilon.eol.tools.AbstractTool;
 
 

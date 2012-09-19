@@ -5,10 +5,10 @@ Bundle-SymbolicName: org.eclipse.epsilon.common
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Bundle-ClassPath: org.eclipse.epsilon.commons.jar
-Export-Package: org.eclipse.epsilon.commons.module,
- org.eclipse.epsilon.commons.parse,
- org.eclipse.epsilon.commons.parse.problem,
- org.eclipse.epsilon.commons.util
+Bundle-ClassPath: org.eclipse.epsilon.common.jar
+Export-Package: org.eclipse.epsilon.common.module,
+ org.eclipse.epsilon.common.parse,
+ org.eclipse.epsilon.common.parse.problem,
+ org.eclipse.epsilon.common.util
 Require-Bundle: org.eclipse.epsilon.dependencies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

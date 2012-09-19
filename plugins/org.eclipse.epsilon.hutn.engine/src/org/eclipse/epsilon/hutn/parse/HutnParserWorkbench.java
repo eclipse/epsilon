@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.eclipse.epsilon.commons.parse.Antlr3TreeViewer;
+import org.eclipse.epsilon.common.parse.Antlr3TreeViewer;
 
 public class HutnParserWorkbench {
 	

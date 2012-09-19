@@ -12,8 +12,8 @@ package org.eclipse.epsilon.eol;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.parse.Antlr3TreeViewer;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.Antlr3TreeViewer;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolWorkbench {

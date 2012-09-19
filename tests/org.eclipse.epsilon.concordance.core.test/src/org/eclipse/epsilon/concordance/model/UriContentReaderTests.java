@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

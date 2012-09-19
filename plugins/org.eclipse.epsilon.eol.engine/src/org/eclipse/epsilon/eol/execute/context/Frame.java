@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 public interface Frame {
 

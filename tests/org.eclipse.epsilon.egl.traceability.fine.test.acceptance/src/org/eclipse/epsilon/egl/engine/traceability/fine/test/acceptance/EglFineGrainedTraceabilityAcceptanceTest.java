@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;

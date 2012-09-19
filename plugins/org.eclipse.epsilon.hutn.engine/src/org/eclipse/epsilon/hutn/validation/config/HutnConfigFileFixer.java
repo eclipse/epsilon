@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.validation.config;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.hutn.validation.AbstractFixer;
 

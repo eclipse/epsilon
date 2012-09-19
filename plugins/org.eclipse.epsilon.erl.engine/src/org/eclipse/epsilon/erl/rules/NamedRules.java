@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 

@@ -26,7 +26,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.annotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
 public class EolSimpleAnnotationFactory {

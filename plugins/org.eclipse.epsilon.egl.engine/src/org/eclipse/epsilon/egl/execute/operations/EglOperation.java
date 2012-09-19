@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.execute.operations;
 
 import java.util.HashMap;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
 import org.eclipse.epsilon.eol.EolOperation;

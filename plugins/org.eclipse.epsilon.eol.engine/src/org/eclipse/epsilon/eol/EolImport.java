@@ -15,10 +15,10 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.UriUtil;
 
 
 public class EolImport extends AbstractModuleElement{

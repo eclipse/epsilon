@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor;
 
-import org.eclipse.epsilon.commons.module.IModule;
+import org.eclipse.epsilon.common.module.IModule;
 
 public interface IModuleParseListener {
 	

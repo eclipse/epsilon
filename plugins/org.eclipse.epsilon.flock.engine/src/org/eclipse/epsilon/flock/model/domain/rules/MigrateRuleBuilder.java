@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class MigrateRuleBuilder {
 

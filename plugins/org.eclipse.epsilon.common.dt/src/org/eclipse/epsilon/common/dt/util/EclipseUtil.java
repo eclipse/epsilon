@@ -20,7 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.PlatformUI;

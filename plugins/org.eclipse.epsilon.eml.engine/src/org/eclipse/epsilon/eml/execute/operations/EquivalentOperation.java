@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

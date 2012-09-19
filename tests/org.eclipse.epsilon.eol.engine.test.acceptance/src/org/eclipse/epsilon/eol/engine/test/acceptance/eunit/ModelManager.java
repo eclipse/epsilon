@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.eunit;
 
-import static org.eclipse.epsilon.commons.util.FileUtil.getPath;
+import static org.eclipse.epsilon.common.util.FileUtil.getPath;
 
 import java.util.List;
 

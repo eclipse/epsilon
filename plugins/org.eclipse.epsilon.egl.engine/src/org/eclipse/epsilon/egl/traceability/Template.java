@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 
 public class Template extends Container<Content<Template>> {
 	

@@ -17,7 +17,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.epsilon.commons.util.UriUtil;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -45,13 +45,13 @@ public class TestEglTemplate {
 	
 	@BeforeClass
 	public static void setUpOnce() {
-		SIMPLE   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Simple.egl", TestEglTemplate.class);
-		ABSENT   = org.eclipse.epsilon.commons.util.FileUtil.getFile("Absent.egl", TestEglTemplate.class);
+		SIMPLE   = org.eclipse.epsilon.common.util.FileUtil.getFile("Simple.egl", TestEglTemplate.class);
+		ABSENT   = org.eclipse.epsilon.common.util.FileUtil.getFile("Absent.egl", TestEglTemplate.class);
 		
-		POPULATE = org.eclipse.epsilon.commons.util.FileUtil.getFile("Populate.egl", TestEglTemplate.class);
+		POPULATE = org.eclipse.epsilon.common.util.FileUtil.getFile("Populate.egl", TestEglTemplate.class);
 		
-		MERGE    = org.eclipse.epsilon.commons.util.FileUtil.getFile("Merge.egl", TestEglTemplate.class);
-		EXISTING = org.eclipse.epsilon.commons.util.FileUtil.getFile("Existing.txt", TestEglTemplate.class);
+		MERGE    = org.eclipse.epsilon.common.util.FileUtil.getFile("Merge.egl", TestEglTemplate.class);
+		EXISTING = org.eclipse.epsilon.common.util.FileUtil.getFile("Existing.txt", TestEglTemplate.class);
 		
 		if (ABSENT.exists()) ABSENT.delete();
 	}

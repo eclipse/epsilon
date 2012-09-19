@@ -13,8 +13,8 @@ package org.eclipse.epsilon.emc.emf;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.commons.util.OperatingSystem;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.OperatingSystem;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

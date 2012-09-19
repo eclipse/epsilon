@@ -16,8 +16,8 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.module.IModule;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public class EtlModuleWorkbench {
 	

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.egl.output;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;

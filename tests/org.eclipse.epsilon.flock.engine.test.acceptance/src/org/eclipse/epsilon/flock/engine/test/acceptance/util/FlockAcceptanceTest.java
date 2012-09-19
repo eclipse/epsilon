@@ -16,7 +16,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.util;
 import static org.junit.Assert.fail;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;

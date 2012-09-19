@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;

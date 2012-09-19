@@ -16,10 +16,10 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.util.FileUtil;
-import org.eclipse.epsilon.commons.util.StringProperties;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;

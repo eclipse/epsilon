@@ -13,7 +13,7 @@ package org.eclipse.epsilon.erl.rules;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class NamedRule implements INamedRule {
 	

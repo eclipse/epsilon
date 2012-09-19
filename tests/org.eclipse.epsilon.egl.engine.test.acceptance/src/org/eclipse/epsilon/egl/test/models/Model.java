@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.test.models;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;

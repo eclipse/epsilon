@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.flowcontrol;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolTerminationException extends EolRuntimeException{

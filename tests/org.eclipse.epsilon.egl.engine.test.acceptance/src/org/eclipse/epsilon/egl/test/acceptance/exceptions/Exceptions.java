@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.BeforeClass;

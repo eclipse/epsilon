@@ -14,7 +14,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.builtins;
 import java.io.File;
 
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emc.emf.EmfUtil;

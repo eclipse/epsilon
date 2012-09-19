@@ -18,7 +18,7 @@ import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
 import org.eclipse.epsilon.concordance.model.Model;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.profiling.Profiler;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;

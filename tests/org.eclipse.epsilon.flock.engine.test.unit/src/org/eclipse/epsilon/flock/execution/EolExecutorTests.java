@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.execution;
 
 import static org.mockito.Mockito.*;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;

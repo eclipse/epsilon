@@ -14,7 +14,7 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;

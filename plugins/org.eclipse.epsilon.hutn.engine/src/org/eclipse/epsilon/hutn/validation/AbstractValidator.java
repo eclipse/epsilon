@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;

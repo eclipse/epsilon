@@ -13,8 +13,8 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;

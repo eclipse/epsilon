@@ -18,8 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.antlr.runtime.CommonToken;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;

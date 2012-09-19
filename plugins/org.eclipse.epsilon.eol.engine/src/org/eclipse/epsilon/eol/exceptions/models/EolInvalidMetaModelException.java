@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.models;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 

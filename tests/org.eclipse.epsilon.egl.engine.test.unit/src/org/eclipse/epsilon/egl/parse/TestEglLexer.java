@@ -23,7 +23,7 @@ import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglRecognitionException;
 import org.eclipse.epsilon.egl.parse.EglToken;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

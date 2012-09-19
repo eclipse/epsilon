@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
 

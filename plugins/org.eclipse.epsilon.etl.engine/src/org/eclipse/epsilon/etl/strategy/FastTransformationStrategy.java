@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolFormalParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;

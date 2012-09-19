@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 public class Publication {
 

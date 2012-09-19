@@ -18,7 +18,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.junit.Before;

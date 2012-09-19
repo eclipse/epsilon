@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.etl.TransformRule;
 
 public class Transformations extends ArrayList<Transformation>{

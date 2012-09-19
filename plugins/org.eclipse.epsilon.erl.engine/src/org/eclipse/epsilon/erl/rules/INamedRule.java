@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.rules;
 
-import org.eclipse.epsilon.commons.module.ModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
 
 public interface INamedRule extends ModuleElement {
 	

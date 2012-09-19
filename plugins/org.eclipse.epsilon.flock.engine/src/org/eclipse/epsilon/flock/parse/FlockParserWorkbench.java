@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.parse;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.eclipse.epsilon.commons.parse.Antlr3TreeViewer;
+import org.eclipse.epsilon.common.parse.Antlr3TreeViewer;
 
 public class FlockParserWorkbench {
 	

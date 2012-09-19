@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.MergeRule;
 import org.eclipse.epsilon.eml.MergeRules;

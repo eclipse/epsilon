@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;

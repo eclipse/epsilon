@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.eclipse.epsilon.commons.util.CollectionUtil;
-import org.eclipse.epsilon.commons.util.StringUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;

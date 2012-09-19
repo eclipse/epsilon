@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.tools;
 
 import java.io.File;
 
-import org.eclipse.epsilon.commons.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public class FileSystemTool {
 	

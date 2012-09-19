@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.junit.Before;
 import org.junit.Test;

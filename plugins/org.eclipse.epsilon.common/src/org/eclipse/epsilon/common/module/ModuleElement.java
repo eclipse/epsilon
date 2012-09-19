@@ -8,34 +8,15 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.module;
+package org.eclipse.epsilon.common.module;
 
-import java.io.File;
-import java.net.URI;
+import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.AST;
+import org.eclipse.epsilon.common.parse.AST;
 
 
-public abstract class AbstractModuleElement implements ModuleElement{
+public interface ModuleElement {
+	AST getAst();
 	
-	protected AST ast;
-	protected File sourceFile;
-	protected URI sourceUri;
-	
-	public AST getAst() {
-		return ast;
-	}
-	
-	public void setAst(AST ast) {
-		this.ast = ast;
-	} 
-	
-	public File getSourceFile() {
-		return sourceFile;
-	}
-	
-	public URI getSourceUri() {
-		return sourceUri;
-	}
-
+	List<?> getChildren();
 }

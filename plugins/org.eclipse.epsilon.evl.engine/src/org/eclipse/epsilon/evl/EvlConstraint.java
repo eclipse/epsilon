@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.commons.module.AbstractModuleElement;
-import org.eclipse.epsilon.commons.parse.AST;
-import org.eclipse.epsilon.commons.util.AstUtil;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;

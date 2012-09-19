@@ -8,12 +8,12 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.commons.parse;
+package org.eclipse.epsilon.common.parse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public class EpsilonParseProblemManager {
 	

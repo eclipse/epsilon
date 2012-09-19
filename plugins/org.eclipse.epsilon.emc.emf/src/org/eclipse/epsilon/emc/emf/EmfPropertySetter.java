@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.epsilon.commons.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
