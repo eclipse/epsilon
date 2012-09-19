@@ -101,7 +101,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.emf.util"/>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.jdom_1.0"/>
       <import plugin="org.eclipse.ui.ide"/>
@@ -198,5 +197,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.9.1.qualifier"
          unpack="false"/>
+
+  <plugin
+         id="org.eclipse.epsilon.emf.util"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"/>
 
 </feature>
