@@ -38,6 +38,9 @@ bin/
 /plugins/org.eclipse.epsilon.workflow/lib/*.jar
 /plugins/org.eclipse.epsilon.workflow/lib/*.tmp
 
+# /plugins/org.eclipse.epsilon.workflow.emf/lib/
+/plugins/org.eclipse.epsilon.workflow.emf/lib/*.jar
+
 # /plugins/org.eclipse.epsilon.workflow.eugenia/
 /plugins/org.eclipse.epsilon.workflow.eugenia/lib
 
