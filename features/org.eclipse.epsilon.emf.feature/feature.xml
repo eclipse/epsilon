@@ -96,11 +96,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <requires>
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.epsilon.common.dt"/>
    </requires>
 
    <plugin

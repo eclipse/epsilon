@@ -227,10 +227,10 @@ litigation.
       <import plugin="org.eclipse.epsilon.etl.engine"/>
       <import plugin="org.eclipse.epsilon.egl.engine"/>
       <import plugin="org.eclipse.epsilon.evl.engine"/>
-      <import plugin="org.eclipse.epsilon.commons"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.epsilon.dependencies"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.epsilon.common"/>
    </requires>
 
    <plugin
