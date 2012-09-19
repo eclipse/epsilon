@@ -4,7 +4,7 @@
     <plugins name="org.h2_1.1.117"/>
     <plugins name="org.hamcrest.matchers_1.2"/>
   </features>
-  <features name="org.eclipse.epsilon.concordance.feature" depends="//@features.6 //@features.0 //@features.3 //@features.13 //@features.12" includes="//@features.0" pluginDependencies="//@features.3/@plugins.0 //@features.6/@plugins.9 //@plugins.1 //@features.0/@plugins.0 //@plugins.2 //@features.13/@plugins.8 //@features.12/@plugins.2 //@plugins.0">
+  <features name="org.eclipse.epsilon.concordance.feature" depends="//@features.12 //@features.3 //@features.6 //@features.13 //@features.0" includes="//@features.0" pluginDependencies="//@features.12/@plugins.2 //@features.13/@plugins.8 //@plugins.2 //@features.6/@plugins.10 //@features.0/@plugins.0 //@features.3/@plugins.0 //@plugins.1 //@plugins.0">
     <plugins name="org.eclipse.epsilon.concordance.clients"/>
     <plugins name="org.eclipse.epsilon.concordance.core"/>
     <plugins name="org.eclipse.epsilon.concordance.core.hashing"/>
@@ -14,7 +14,7 @@
     <plugins name="org.antlr.runtime_3.1.b1"/>
     <plugins name="org.eclipse.epsilon.dependencies"/>
   </features>
-  <features name="org.eclipse.epsilon.core.dt.feature" depends="//@features.4 //@features.7" pluginDependencies="//@plugins.24 //@plugins.17 //@features.7/@plugins.0 //@plugins.16 //@plugins.22 //@features.4/@plugins.2 //@features.4/@plugins.14 //@features.4/@plugins.12 //@plugins.29 //@plugins.28 //@features.4/@plugins.9 //@features.4/@plugins.7 //@features.4/@plugins.4 //@features.4/@plugins.6 //@features.4/@plugins.1 //@plugins.25 //@features.4/@plugins.18 //@plugins.19 //@plugins.26 //@plugins.20 //@features.4/@plugins.8 //@features.4/@plugins.17 //@features.4/@plugins.16 //@features.4/@plugins.13 //@plugins.15 //@plugins.27 //@plugins.21 //@plugins.23 //@plugins.18 //@features.4/@plugins.11 //@features.4/@plugins.15 //@features.4/@plugins.5">
+  <features name="org.eclipse.epsilon.core.dt.feature" depends="//@features.4" pluginDependencies="//@features.4/@plugins.14 //@features.4/@plugins.11 //@plugins.11 //@features.4/@plugins.16 //@features.4/@plugins.17 //@plugins.19 //@plugins.15 //@plugins.22 //@features.4/@plugins.6 //@features.4/@plugins.9 //@plugins.23 //@plugins.14 //@plugins.20 //@plugins.24 //@plugins.16 //@features.4/@plugins.2 //@features.4/@plugins.8 //@features.4/@plugins.13 //@features.4/@plugins.4 //@plugins.18 //@features.4/@plugins.12 //@plugins.13 //@plugins.21 //@plugins.12 //@features.4/@plugins.15 //@features.4/@plugins.7 //@plugins.10 //@plugins.17 //@features.4/@plugins.5 //@features.4/@plugins.18 //@features.4/@plugins.1">
     <plugins name="org.eclipse.epsilon.common.dt"/>
     <plugins name="org.eclipse.epsilon.ecl.dt"/>
     <plugins name="org.eclipse.epsilon.ecl.dt.tools"/>
@@ -62,43 +62,44 @@
   <features name="org.eclipse.epsilon.emf.dt.dependencies.feature" includes="//@features.2">
     <plugins name="org.jdom_1.0"/>
   </features>
-  <features name="org.eclipse.epsilon.emf.dt.feature" depends="//@features.4 //@features.5 //@features.3 //@features.7" includes="//@features.2" pluginDependencies="//@plugins.7 //@plugins.4 //@plugins.9 //@plugins.14 //@features.4/@plugins.17 //@features.4/@plugins.3 //@plugins.8 //@features.3/@plugins.12 //@features.7/@plugins.0 //@features.7/@plugins.3 //@features.4/@plugins.16 //@plugins.13 //@features.3/@plugins.8 //@plugins.6 //@plugins.3 //@features.3/@plugins.0 //@plugins.10 //@features.4/@plugins.14 //@plugins.11 //@plugins.5 //@features.5/@plugins.0 //@plugins.12 //@features.3/@plugins.3 //@features.4/@plugins.9">
+  <features name="org.eclipse.epsilon.emf.dt.feature" depends="//@features.7 //@features.3 //@features.5 //@features.4" includes="//@features.2" pluginDependencies="//@features.4/@plugins.14 //@plugins.39 //@features.3/@plugins.3 //@features.4/@plugins.16 //@features.4/@plugins.17 //@features.3/@plugins.21 //@features.3/@plugins.8 //@features.3/@plugins.12 //@plugins.27 //@features.4/@plugins.9 //@plugins.25 //@plugins.37 //@plugins.31 //@features.5/@plugins.0 //@features.4/@plugins.3 //@plugins.28 //@plugins.35 //@plugins.33 //@plugins.26 //@plugins.29 //@plugins.36 //@plugins.32 //@plugins.38 //@plugins.30 //@plugins.34 //@features.3/@plugins.0 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.dt.epackageregistryexplorer"/>
     <plugins name="org.eclipse.epsilon.dt.exeed"/>
     <plugins name="org.eclipse.epsilon.egl.dt.traceability.editor"/>
     <plugins name="org.eclipse.epsilon.egl.dt.traceability.fine.emf"/>
     <plugins name="org.eclipse.epsilon.emc.emf.decorator.dt"/>
     <plugins name="org.eclipse.epsilon.emc.emf.dt"/>
+    <plugins name="org.eclipse.epsilon.emf.util"/>
     <plugins name="org.eclipse.epsilon.eunit.dt.cmp.emf"/>
     <plugins name="org.eclipse.epsilon.eunit.dt.diff.emf"/>
     <plugins name="org.eclipse.epsilon.ewl.emf"/>
     <plugins name="org.eclipse.epsilon.flock.dt.emf"/>
+    <plugins name="org.eclipse.epsilon.workflow.emf"/>
   </features>
-  <features name="org.eclipse.epsilon.emf.feature" depends="//@features.4" includes="//@features.2" pluginDependencies="//@plugins.33 //@plugins.32 //@plugins.31 //@plugins.30 //@features.4/@plugins.9">
+  <features name="org.eclipse.epsilon.emf.feature" depends="//@features.4" includes="//@features.2" pluginDependencies="//@plugins.8 //@plugins.6 //@plugins.9 //@plugins.7 //@features.4/@plugins.9">
     <plugins name="org.eclipse.epsilon.emc.emf"/>
     <plugins name="org.eclipse.epsilon.emc.emf.decorator"/>
     <plugins name="org.eclipse.epsilon.emc.emf.virtual"/>
-    <plugins name="org.eclipse.epsilon.emf.util"/>
   </features>
-  <features name="org.eclipse.epsilon.eugenia.feature" depends="//@features.4 //@features.7 //@features.3" pluginDependencies="//@plugins.45 //@plugins.42 //@features.3/@plugins.21 //@plugins.44 //@plugins.47 //@features.7/@plugins.0 //@features.4/@plugins.13 //@features.3/@plugins.8 //@features.3/@plugins.0 //@plugins.43 //@plugins.41 //@plugins.46 //@features.4/@plugins.9">
+  <features name="org.eclipse.epsilon.eugenia.feature" depends="//@features.7 //@features.3 //@features.4" pluginDependencies="//@plugins.47 //@plugins.44 //@plugins.46 //@features.3/@plugins.21 //@features.3/@plugins.8 //@plugins.42 //@features.4/@plugins.9 //@plugins.43 //@plugins.48 //@plugins.45 //@features.4/@plugins.13 //@features.3/@plugins.0 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.eugenia"/>
     <plugins name="org.eclipse.epsilon.workflow.eugenia"/>
   </features>
-  <features name="org.eclipse.epsilon.evl.emf.validation.feature" depends="//@features.4 //@features.3 //@features.7" pluginDependencies="//@plugins.58 //@plugins.50 //@plugins.49 //@plugins.54 //@plugins.55 //@plugins.56 //@features.7/@plugins.0 //@features.3/@plugins.8 //@plugins.53 //@features.3/@plugins.0 //@plugins.48 //@plugins.57 //@features.4/@plugins.15 //@plugins.51 //@plugins.52">
+  <features name="org.eclipse.epsilon.evl.emf.validation.feature" depends="//@features.7 //@features.3 //@features.4" pluginDependencies="//@plugins.49 //@features.3/@plugins.8 //@features.3/@plugins.0 //@features.4/@plugins.15 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.evl.emf.validation"/>
   </features>
-  <features name="org.eclipse.epsilon.gmf.feature" depends="//@features.6 //@features.3 //@features.7" pluginDependencies="//@features.3/@plugins.0 //@plugins.59 //@features.6/@plugins.8 //@features.7/@plugins.0">
+  <features name="org.eclipse.epsilon.gmf.feature" depends="//@features.7 //@features.3 //@features.6" pluginDependencies="//@plugins.50 //@features.6/@plugins.9 //@features.3/@plugins.0 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.ewl.gmf"/>
   </features>
   <features name="org.eclipse.epsilon.hutn.dependencies.feature">
     <plugins name="org.hamcrest.matchers_1.2"/>
   </features>
-  <features name="org.eclipse.epsilon.hutn.dt.feature" depends="//@features.4 //@features.0 //@features.11 //@features.7 //@features.3 //@features.13" includes="//@features.11" pluginDependencies="//@features.3/@plugins.0 //@features.0/@plugins.1 //@plugins.40 //@plugins.39 //@features.13/@plugins.2 //@features.13/@plugins.8 //@features.4/@plugins.5 //@features.7/@plugins.0 //@features.13/@plugins.3 //@plugins.38 //@plugins.37">
+  <features name="org.eclipse.epsilon.hutn.dt.feature" depends="//@features.7 //@features.3 //@features.6 //@features.11 //@features.4 //@features.13 //@features.0" includes="//@features.11" pluginDependencies="//@features.13/@plugins.2 //@features.0/@plugins.1 //@features.6/@plugins.6 //@features.13/@plugins.3 //@features.13/@plugins.8 //@features.4/@plugins.5 //@plugins.5 //@plugins.3 //@plugins.4 //@features.3/@plugins.0 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.emc.hutn.dt"/>
     <plugins name="org.eclipse.epsilon.hutn.dt"/>
     <plugins name="org.eclipse.epsilon.hutn.xmi.dt"/>
   </features>
-  <features name="org.eclipse.epsilon.hutn.feature" depends="//@features.4 //@features.2 //@features.7" includes="//@features.11" pluginDependencies="//@features.4/@plugins.2 //@plugins.36 //@plugins.35 //@features.4/@plugins.15 //@features.2/@plugins.1 //@features.7/@plugins.0 //@features.4/@plugins.13 //@features.4/@plugins.9 //@plugins.34">
+  <features name="org.eclipse.epsilon.hutn.feature" depends="//@features.2 //@features.7 //@features.4" includes="//@features.11" pluginDependencies="//@plugins.41 //@features.4/@plugins.0 //@features.2/@plugins.1 //@features.4/@plugins.2 //@features.4/@plugins.13 //@plugins.40 //@features.4/@plugins.15 //@features.4/@plugins.9 //@features.7/@plugins.0">
     <plugins name="org.eclipse.epsilon.antlr.postprocessor"/>
     <plugins name="org.eclipse.epsilon.antlr.postprocessor.model"/>
     <plugins name="org.eclipse.epsilon.emc.hutn"/>
@@ -112,18 +113,13 @@
   <plugins name="org.eclipse.emf.ecore"/>
   <plugins name="org.eclipse.emf.ecore.xmi"/>
   <plugins name="org.eclipse.core.resources"/>
-  <plugins name="org.eclipse.core.runtime"/>
-  <plugins name="org.eclipse.emf.edit.ui"/>
-  <plugins name="org.eclipse.emf.ecore.editor"/>
-  <plugins name="org.eclipse.ui.ide"/>
-  <plugins name="org.eclipse.core.resources"/>
-  <plugins name="org.eclipse.ui.workbench.texteditor"/>
   <plugins name="org.eclipse.jface.text"/>
-  <plugins name="org.eclipse.emf.compare.diff"/>
-  <plugins name="org.eclipse.emf.compare.match"/>
-  <plugins name="org.eclipse.compare"/>
-  <plugins name="org.eclipse.emf.compare.ui"/>
+  <plugins name="org.eclipse.ui.workbench.texteditor"/>
+  <plugins name="org.eclipse.emf.ecore.editor"/>
+  <plugins name="org.eclipse.emf"/>
   <plugins name="org.eclipse.emf.ecore"/>
+  <plugins name="org.eclipse.emf.ecore.xmi"/>
+  <plugins name="org.eclipse.emf.ecore.change"/>
   <plugins name="org.eclipse.jface.text"/>
   <plugins name="org.eclipse.ui"/>
   <plugins name="org.eclipse.core.runtime"/>
@@ -139,17 +135,23 @@
   <plugins name="org.apache.ant"/>
   <plugins name="org.eclipse.compare"/>
   <plugins name="org.junit"/>
-  <plugins name="org.eclipse.emf"/>
-  <plugins name="org.eclipse.emf.ecore"/>
-  <plugins name="org.eclipse.emf.ecore.xmi"/>
-  <plugins name="org.eclipse.emf.ecore.change"/>
-  <plugins name="org.eclipse.epsilon.commons"/>
-  <plugins name="org.eclipse.emf.ecore"/>
-  <plugins name="org.eclipse.emf.ecore.xmi"/>
-  <plugins name="org.eclipse.jface.text"/>
-  <plugins name="org.eclipse.ui.workbench.texteditor"/>
+  <plugins name="org.eclipse.core.runtime"/>
+  <plugins name="org.eclipse.emf.edit.ui"/>
   <plugins name="org.eclipse.emf.ecore.editor"/>
-  <plugins name="org.eclipse.epsilon.util.emf"/>
+  <plugins name="org.eclipse.ui.ide"/>
+  <plugins name="org.eclipse.core.resources"/>
+  <plugins name="org.eclipse.ui.workbench.texteditor"/>
+  <plugins name="org.eclipse.jface.text"/>
+  <plugins name="org.eclipse.emf.compare.diff"/>
+  <plugins name="org.eclipse.emf.compare.match"/>
+  <plugins name="org.eclipse.compare"/>
+  <plugins name="org.eclipse.emf.compare.ui"/>
+  <plugins name="org.eclipse.emf.ecore"/>
+  <plugins name="org.apache.ant"/>
+  <plugins name="org.eclipse.ant.core"/>
+  <plugins name="org.eclipse.ui"/>
+  <plugins name="org.eclipse.emf.ecore"/>
+  <plugins name="org.eclipse.emf.ecore.xmi"/>
   <plugins name="org.eclipse.gmf.map"/>
   <plugins name="org.eclipse.gmf.codegen"/>
   <plugins name="org.eclipse.gmf.bridge.ui"/>
@@ -157,16 +159,6 @@
   <plugins name="org.eclipse.core.resources"/>
   <plugins name="org.eclipse.core.runtime"/>
   <plugins name="org.eclipse.ui"/>
-  <plugins name="org.eclipse.core.runtime"/>
-  <plugins name="org.eclipse.ui"/>
-  <plugins name="org.eclipse.emf.validation"/>
-  <plugins name="org.eclipse.emf.validation.ui"/>
-  <plugins name="org.eclipse.emf.validation.ui.ide"/>
-  <plugins name="org.eclipse.debug.core"/>
-  <plugins name="org.eclipse.ui.ide"/>
-  <plugins name="org.eclipse.emf.ecore.edit"/>
   <plugins name="org.eclipse.emf.ecore.editor"/>
-  <plugins name="org.eclipse.emf.edit"/>
-  <plugins name="org.eclipse.emf.edit.ui"/>
   <plugins name="org.eclipse.gmf.runtime.diagram.ui"/>
 </Configuration>

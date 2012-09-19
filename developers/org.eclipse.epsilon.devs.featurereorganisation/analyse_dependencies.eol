@@ -7,10 +7,6 @@ for (feature in Feature.all) {
 		plugins.add(plugin);
 	}
 }
-plugins.sortBy(p|p.name);
-for (plugin in plugins) {
-plugin.name.println();
-}
 
 operation emf_dependents() {
 	var features = Feature.all.select(f|f.depends_on_plugin_whose_name_contains("emc.emf") or f.depends_on_plugin_whose_name_contains("eclipse.emf"));
