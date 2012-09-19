@@ -39,7 +39,7 @@ import org.eclipse.epsilon.workflow.tasks.EglTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
 import org.eclipse.epsilon.workflow.tasks.EvlTask;
 import org.eclipse.epsilon.workflow.tasks.StoreModelTask;
-import org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModel;
+import org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask;
 import org.eclipse.epsilon.workflow.tasks.emf.RegisterTask;
 import org.eclipse.epsilon.workflow.test.WorkflowTestCase;
 import org.junit.After;
@@ -73,7 +73,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 	
 		// Epsilon tasks
 		project.addTaskDefinition("epsilon.egl", EglTask.class);
-		project.addTaskDefinition("epsilon.emf.loadModel", LoadEmfModel.class);
+		project.addTaskDefinition("epsilon.emf.loadModel", LoadEmfModelTask.class);
 		project.addTaskDefinition("epsilon.emf.register", RegisterTask.class);
 		project.addTaskDefinition("epsilon.etl", EtlTask.class);
 		project.addTaskDefinition("epsilon.eunit", EUnitTask.class);
