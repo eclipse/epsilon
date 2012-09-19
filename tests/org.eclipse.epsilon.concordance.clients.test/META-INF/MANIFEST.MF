@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.concordance.clients,
  org.eclipse.epsilon.hutn.xmi.dt,
  org.eclipse.epsilon.common.dt.test,
- org.eclipse.epsilon.emf.util
+ org.eclipse.epsilon.emf.util,
+ org.eclipse.epsilon.flock.dt.concordance
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.concordance.clients.migration,
  org.eclipse.epsilon.concordance.clients.test
