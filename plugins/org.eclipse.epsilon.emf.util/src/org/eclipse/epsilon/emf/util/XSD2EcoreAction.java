@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.util.emf;
+package org.eclipse.epsilon.emf.util;
 
 import java.io.IOException;
 import java.io.ObjectInputStream.GetField;

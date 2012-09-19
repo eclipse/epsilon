@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.ewl.emf;
 
 import org.eclipse.epsilon.common.dt.util.ResourceFieldEditor;
-import org.eclipse.epsilon.util.emf.BrowseEPackagesListener;
+import org.eclipse.epsilon.emf.util.BrowseEPackagesListener;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;

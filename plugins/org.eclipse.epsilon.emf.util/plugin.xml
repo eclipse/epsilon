@@ -5,15 +5,15 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="org.eclipse.epsilon.dt"
-            class="org.eclipse.epsilon.util.emf.NewEmfModelWizard"
+            class="org.eclipse.epsilon.emf.util.NewEmfModelWizard"
             icon="icons/emfmodel.gif"
-            id="org.eclipse.epsilon.util.emf.NewEmfModelWizard"
+            id="org.eclipse.epsilon.emf.util.NewEmfModelWizard"
             name="EMF Model"/>
       <wizard
             category="org.eclipse.epsilon.dt"
-            class="org.eclipse.epsilon.util.emf.NewRegisteredEPackageWizard"
+            class="org.eclipse.epsilon.emf.util.NewRegisteredEPackageWizard"
             icon="icons/register.gif"
-            id="org.eclipse.epsilon.util.emf.NewRegisteredEPackageWizard"
+            id="org.eclipse.epsilon.emf.util.NewRegisteredEPackageWizard"
             name="Registered EPackage">
       </wizard>
    </extension>
@@ -25,9 +25,9 @@
             nameFilter="*.ecore"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="org.eclipse.epsilon.util.emf.RegisterMetamodelAction"
+               class="org.eclipse.epsilon.emf.util.RegisterMetamodelAction"
                icon="icons/register.gif"
-               id="org.eclipse.epsilon.util.emf.RegisterMetamodelAction"
+               id="org.eclipse.epsilon.emf.util.RegisterMetamodelAction"
                label="Register EPackages"/>
       </objectContribution>
       <objectContribution
@@ -36,22 +36,18 @@
             nameFilter="*.xsd"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="org.eclipse.epsilon.util.emf.XSD2EcoreAction"
+               class="org.eclipse.epsilon.emf.util.XSD2EcoreAction"
                icon="icons/xsd2ecore.png"
-               id="org.eclipse.epsilon.util.emf.XSD2EcoreAction"
+               id="org.eclipse.epsilon.emf.util.XSD2EcoreAction"
                label="Generate Ecore model">
          </action>
       </objectContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup />
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="Epsilon"
-            class="org.eclipse.epsilon.util.emf.EmfRegistryPreferencePage"
+            class="org.eclipse.epsilon.emf.util.EmfRegistryPreferencePage"
             id="EmfRegistryPreferencePage"
             name="EMF Registry"/>
    </extension>

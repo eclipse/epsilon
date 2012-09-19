@@ -12,7 +12,7 @@ package org.eclipse.epsilon.hutn.dt.editor;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.epsilon.util.emf.EmfRegistryManager;
+import org.eclipse.epsilon.emf.util.EmfRegistryManager;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;

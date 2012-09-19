@@ -29,9 +29,9 @@ import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
 import org.eclipse.epsilon.concordance.model.Model;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
+import org.eclipse.epsilon.emf.util.EmfRegistryManager;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
-import org.eclipse.epsilon.util.emf.EmfRegistryManager;
 import org.junit.After;
 import org.junit.Before;
 
