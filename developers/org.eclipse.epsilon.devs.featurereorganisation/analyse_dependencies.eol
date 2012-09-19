@@ -1,5 +1,5 @@
-("The following plugins depend on EMF: " + emf_dependents()).println();
-("The following plugins depend on GMF: " + gmf_dependents()).println();
+("The following features depend on EMF: " + emf_dependents()).println();
+("The following features depend on GMF: " + gmf_dependents()).println();
 
 var plugins = Set{};
 for (feature in Feature.all) {

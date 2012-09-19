@@ -16,8 +16,8 @@ rule Feature2Feature
 	
 	t.includes = s.includes().equivalent();
 	
-	t.pluginDependencies = s.plugin_dependencies();
-	t.depends = s.dependencies().equivalent();
+	t.pluginDependencies = s.plugin_dependencies().sortBy(p|p.name);
+	t.depends = s.dependencies().equivalent().sortBy(d|d.name);
 }
 
 rule Plugin2Plugin
