@@ -1,7 +1,7 @@
 <project name="populate" default="analyse">
 
 	<property name="features_dir" location="/Users/louis/Code/Work/epsilon/juno/epsilon-workspace/epsilon-repository/features"/>
-	<property name="output_dir" location="./rev1979"/>
+	<property name="output_dir" location="./current"/>
 	
 	<target name="mergexml">
 	  <!-- concat all of the feature.xml files, ensuring that:
