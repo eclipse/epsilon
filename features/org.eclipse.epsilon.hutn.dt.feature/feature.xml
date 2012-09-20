@@ -232,7 +232,7 @@ litigation.
       <import plugin="org.eclipse.epsilon.emc.composite"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi"/>
       <import plugin="org.eclipse.epsilon.emc.hutn"/>
-      <import plugin="org.eclipse.epsilon.emf.util"/>
+      <import plugin="org.eclipse.epsilon.emf.dt"/>
    </requires>
 
    <plugin

@@ -218,7 +218,7 @@ litigation.
       <import plugin="org.eclipse.epsilon.ewl.engine"/>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
-      <import plugin="org.eclipse.epsilon.emf.util"/>
+      <import plugin="org.eclipse.epsilon.emf.dt"/>
    </requires>
 
    <plugin
