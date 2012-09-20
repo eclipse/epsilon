@@ -7,13 +7,13 @@
             category="org.eclipse.epsilon.dt"
             class="org.eclipse.epsilon.emf.dt.NewEmfModelWizard"
             icon="icons/emfmodel.gif"
-            id="org.eclipse.epsilon.emf.util.NewEmfModelWizard"
+            id="org.eclipse.epsilon.emf.dt.NewEmfModelWizard"
             name="EMF Model"/>
       <wizard
             category="org.eclipse.epsilon.dt"
             class="org.eclipse.epsilon.emf.dt.NewRegisteredEPackageWizard"
             icon="icons/register.gif"
-            id="org.eclipse.epsilon.emf.util.NewRegisteredEPackageWizard"
+            id="org.eclipse.epsilon.emf.dt.NewRegisteredEPackageWizard"
             name="Registered EPackage">
       </wizard>
    </extension>
@@ -27,7 +27,7 @@
          <action
                class="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
                icon="icons/register.gif"
-               id="org.eclipse.epsilon.emf.util.RegisterMetamodelAction"
+               id="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
                label="Register EPackages"/>
       </objectContribution>
       <objectContribution
@@ -38,7 +38,7 @@
          <action
                class="org.eclipse.epsilon.emf.dt.XSD2EcoreAction"
                icon="icons/xsd2ecore.png"
-               id="org.eclipse.epsilon.emf.util.XSD2EcoreAction"
+               id="org.eclipse.epsilon.emf.dt.XSD2EcoreAction"
                label="Generate Ecore model">
          </action>
       </objectContribution>

@@ -9,7 +9,6 @@ Export-Package: org.eclipse.epsilon.emf.dt
 Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt
-Bundle-ClassPath: org.eclipse.epsilon.emf.util.jar
 Bundle-Activator: org.eclipse.epsilon.emf.dt.EmfUtilPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
