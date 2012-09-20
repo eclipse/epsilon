@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon EMF Utilities (Incubation)
-Bundle-SymbolicName: org.eclipse.epsilon.emf.util;singleton:=true
+Bundle-SymbolicName: org.eclipse.epsilon.emf.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: org.eclipse.epsilon.emf.util
+Export-Package: org.eclipse.epsilon.emf.dt
 Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt
 Bundle-ClassPath: org.eclipse.epsilon.emf.util.jar
-Bundle-Activator: org.eclipse.epsilon.emf.util.EmfUtilPlugin
+Bundle-Activator: org.eclipse.epsilon.emf.dt.EmfUtilPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -11,7 +11,7 @@ Require-Bundle: org.apache.ant,
  org.eclipse.core.runtime,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.emf.util,
+ org.eclipse.epsilon.emf.dt,
  org.eclipse.ant.core,
  org.eclipse.epsilon.workflow,
  org.eclipse.ui

@@ -29,7 +29,7 @@ import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfig
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
-import org.eclipse.epsilon.emf.util.BrowseEPackagesListener;
+import org.eclipse.epsilon.emf.dt.BrowseEPackagesListener;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;

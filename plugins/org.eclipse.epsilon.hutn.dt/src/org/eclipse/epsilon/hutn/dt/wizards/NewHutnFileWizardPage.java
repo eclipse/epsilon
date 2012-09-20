@@ -12,7 +12,7 @@ package org.eclipse.epsilon.hutn.dt.wizards;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.wizards.NewFileWizardPage;
-import org.eclipse.epsilon.emf.util.BrowseEPackagesListener;
+import org.eclipse.epsilon.emf.dt.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;

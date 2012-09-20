@@ -6,7 +6,7 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.emf.util,
+ org.eclipse.epsilon.emf.dt,
  org.eclipse.ui.ide
 Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar
 Bundle-Vendor: Eclipse.org

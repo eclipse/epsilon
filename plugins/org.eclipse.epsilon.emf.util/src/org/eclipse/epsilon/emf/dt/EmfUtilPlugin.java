@@ -8,7 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.emf.util;
+package org.eclipse.epsilon.emf.dt;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IStartup;
@@ -62,7 +62,7 @@ public class EmfUtilPlugin extends AbstractUIPlugin implements IStartup {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emf.util", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emf.dt", path);
 	}
 
 	public void earlyStartup() {
