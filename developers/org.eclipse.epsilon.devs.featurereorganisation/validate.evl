@@ -1,0 +1,57 @@
+context Target!Feature {
+	
+	constraint FeatureExists {
+		check : Current!Feature.all.exists(f|f.name = self.name)
+		message: "Feature " + self.name + " does not exist."
+	}
+	
+}
+
+context Target!Plugin {
+	
+	constraint PluginExists {
+		check {
+			var p = Current!Plugin.all.selectOne(p|p.name = self.name);
+			if (self.name = "org.eclipse.epsilon.commons" and p.isDefined()) { p.eContainer().println(); }	
+			return p.isDefined();
+		}
+		message: "Plugin " + self.name + " does not exist."
+	}
+	
+}
+
+context Current!Feature {
+	constraint FeatureInConfiguration {	
+		guard : self.name.indexOf("epsilon") > -1	
+		
+		check : Target!Feature.all.exists(f|f.name = self.name)
+		
+		message : "Feature " + self.name + " is not in the configuration"
+	}
+}
+
+context Current!Plugin {
+	
+	constraint PluginInConfiguration {
+		guard : self.name.indexOf("epsilon") > -1
+		
+		check : Target!Plugin.all.exists(p|p.name = self.name)
+		
+		message : "Plugin " + self.name + " is not in the configuration"
+	}
+	
+	constraint InTheSameFeature {
+		guard : self.satisfies("PluginInConfiguration")
+		
+		check {
+			var targetFeatureName = Target!Plugin.all.selectOne(p|p.name = self.name).eContainer().name;
+			var currentFeatureName = self.eContainer().name;
+			return targetFeatureName == currentFeatureName;
+		}
+		
+		message : "Plugin " + self.name + " should be under feature " + targetFeatureName + " while it is under " +
+			"feature " + currentFeatureName
+		
+	}
+	
+}

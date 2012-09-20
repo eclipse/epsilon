@@ -1,9 +1,11 @@
-<project name="populate" default="analyse">
+<project name="populate" default="validate">
 
-	<property name="features_dir" location="/Users/louis/Code/Work/epsilon/juno/epsilon-workspace/epsilon-repository/features"/>
+	<property name="features_dir" location="/Users/dimitrioskolovos/Projects/Eclipse/4.2/workspace"/>
 	<property name="output_dir" location="./current"/>
 	
 	<target name="mergexml">
+	<!--epsilon.eol.ext/-->
+		
 	  <!-- concat all of the feature.xml files, ensuring that:
 	        * only a single XML preamble appears at the top of the file
 	        * there is a new root element ("product") that contains all of the feature elements
@@ -25,14 +27,22 @@
 	<target name="loadmodels" depends="mergexml">
 		<epsilon.xml.loadModel name="XML" file="composite.feature.xml" read="true" store="false" />
 		<mkdir dir="${output_dir}"/>
-		<epsilon.emf.loadModel name="FED" modelfile="${output_dir}/current.fed" metamodeluri="fed" read="false" store="true" />
+		<epsilon.emf.loadModel name="Current" modelfile="${output_dir}/current.fed" metamodeluri="fed" read="false" store="true" />
+		<epsilon.emf.loadModel name="Target" modelfile="./onepointo/default.fed" metamodeluri="fed" read="true" store="false" />
 	</target>
 	
 	<target name="populate" depends="loadmodels">
 		<epsilon.etl src="populate.etl">
 			<model ref="XML" />
-			<model ref="FED" />
+			<model ref="Current" as="FED" />
 	    </epsilon.etl>	
+	</target>
+	
+	<target name="validate" depends="populate">
+		<epsilon.evl src="validate.evl">
+			<model ref="Current"/>
+			<model ref="Target"/>
+		</epsilon.evl>
 	</target>
 	
 	<target name="analyse" depends="populate">
