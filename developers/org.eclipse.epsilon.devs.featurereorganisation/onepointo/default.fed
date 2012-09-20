@@ -97,7 +97,7 @@
     <plugins name="org.eclipse.epsilon.egl.dt.traceability.editor"/>
     <plugins name="org.eclipse.epsilon.egl.dt.traceability.fine.emf"/>
     <plugins name="org.eclipse.epsilon.workflow.emf"/>
-    <plugins name="org.eclipse.epsilon.emf.util"/>
+    <plugins name="org.eclipse.epsilon.emf.dt"/>
   </features>
   <features name="org.eclipse.epsilon.emf.dt.dependencies.feature">
     <plugins name="org.jdom_1.0"/>

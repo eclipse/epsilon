@@ -1672,11 +1672,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.9.1.qualifier"
          unpack="false"/>
 
-  <plugin
-         id="org.eclipse.epsilon.emf.util"
+   <plugin
+         id="org.eclipse.epsilon.emf.dt"
          download-size="0"
          install-size="0"
-         version="0.9.1.qualifier"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
 <feature
@@ -2506,7 +2507,7 @@ litigation.
       <import plugin="org.eclipse.epsilon.ewl.engine"/>
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.eclipse.emf.ecore.editor"/>
-      <import plugin="org.eclipse.epsilon.emf.util"/>
+      <import plugin="org.eclipse.epsilon.emf.dt"/>
    </requires>
 
    <plugin
@@ -3201,7 +3202,7 @@ litigation.
       <import plugin="org.eclipse.epsilon.emc.composite"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi"/>
       <import plugin="org.eclipse.epsilon.emc.hutn"/>
-      <import plugin="org.eclipse.epsilon.emf.util"/>
+      <import plugin="org.eclipse.epsilon.emf.dt"/>
    </requires>
 
    <plugin

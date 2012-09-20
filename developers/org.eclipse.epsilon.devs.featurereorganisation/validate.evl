@@ -45,7 +45,10 @@ context Current!Plugin {
 		
 		check {
 			var targetFeatureName = Target!Plugin.all.selectOne(p|p.name = self.name).eContainer().name;
-			var currentFeatureName = self.eContainer().name;
+			var currentFeatureName = "configuration";
+			if (self.eContainer().isTypeOf(Current!Feature)) {
+				currentFeatureName = self.eContainer().name;
+			}
 			return targetFeatureName == currentFeatureName;
 		}
 		
