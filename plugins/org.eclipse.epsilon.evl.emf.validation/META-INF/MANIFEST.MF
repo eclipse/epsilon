@@ -9,9 +9,9 @@ Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.emf.ecore.editor,
  org.eclipse.gmf.runtime.diagram.ui;resolution:=optional,
- org.eclipse.ocl.ecore;resolution:=optional
+ org.eclipse.ocl.ecore;resolution:=optional,
+ org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.emf.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

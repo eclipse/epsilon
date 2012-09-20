@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.hutn.feature"
-      label="Human Usable Textual Notation Core (Incubation)"
+      label="Human Usable Textual Notation Core"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 

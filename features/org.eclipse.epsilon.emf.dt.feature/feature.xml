@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.emf.dt.feature"
-      label="Epsilon Development Tools for EMF (Incubation)"
+      label="Epsilon Development Tools for EMF"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
@@ -104,7 +104,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.epsilon.eol.dt"/>
       <import plugin="org.jdom_1.0"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.epsilon.ewl.engine"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
@@ -147,12 +146,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.epsilon.emc.emf.dt"
-         download-size="0"
-         install-size="0"
-         version="0.9.1.qualifier"/>
-
-   <plugin
-         id="org.eclipse.epsilon.ewl.emf"
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>

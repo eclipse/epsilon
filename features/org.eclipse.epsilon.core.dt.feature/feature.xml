@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.core.dt.feature"
-      label="Epsilon Core Development Tools (Incubation)"
+      label="Epsilon Core Development Tools"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 

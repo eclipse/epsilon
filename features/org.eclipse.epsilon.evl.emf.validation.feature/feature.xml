@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.evl.emf.validation.feature"
-      label="Epsilon EMF/GMF Live Validation (Incubation)"
+      label="Epsilon Validation Language EMF Integration"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
