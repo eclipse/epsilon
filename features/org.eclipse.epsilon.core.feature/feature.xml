@@ -7,6 +7,8 @@
 
    <description url="http://www.eclipse.org/epsilon">
       Epsilon Core Platform Feature
+
+This feature provides the execution engines for every Epsilon language, some profiling tools and several Epsilon Model Connectivity (EMC) drivers for non-EMF models, such as CSV files, BibTeX files or plain XML files.
    </description>
 
    <copyright>

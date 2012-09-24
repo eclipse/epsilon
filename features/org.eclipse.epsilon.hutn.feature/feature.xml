@@ -6,7 +6,9 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon-based HUTN tooling
+      Epsilon HUTN EMC Driver Feature
+
+This feature provides an Epsilon Model Connectivity driver for models written in the standard OMG HUTN textual notation. This is required in order to load and save HUTN models in Epsilon.
    </description>
 
    <copyright>

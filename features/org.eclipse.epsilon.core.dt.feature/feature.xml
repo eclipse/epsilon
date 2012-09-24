@@ -7,6 +7,8 @@
 
    <description url="http://www.eclipse.org/epsilon">
       Epsilon Core Development Tools Feature
+
+This feature provides editors for the Epsilon languages and a set of Apache Ant tasks that can automate model-driven workflows. It also provides the Epsilon perspective and on-line help, and a set of UIs for the EMC drivers in the core feature.
    </description>
 
    <copyright url="http://www.eclipse.org/epsilon">
