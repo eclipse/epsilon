@@ -6,15 +6,11 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon EMF Development Tools Feature
-This feature provides the Epsilon development tools needed to work
-with EMF models. These include:
+      This feature provides the Epsilon development tools needed to work with EMF models. These include:
 - The EPackage Registry view for querying all registered EPackages.
-- The reflective Exeed editor and the ModeLink model weaving
-editor.
+- The reflective Exeed editor and the ModeLink model weaving editor.
 - Apache Ant tasks for working with EMF models in Epsilon.
-- EUnit extensions for comparing EMF models and showing their
-differences from the EUnit view.
+- EUnit extensions for comparing EMF models and showing their differences from the EUnit view.
    </description>
 
    <copyright>

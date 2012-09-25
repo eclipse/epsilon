@@ -6,9 +6,7 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      EWL EMF Integration
-
-Installing this feature enables the &quot;Wizards&quot; popup menu in the EMF-generated tree-based editors. From this &quot;Wizards&quot; menu, users will be able to run the registered EWL scripts that are applicable to the selected element.
+      Installing this feature enables the &quot;Wizards&quot; popup menu in the EMF-based tree-based editors. From this &quot;Wizards&quot; menu, users will be able to run the registered EWL scripts that are applicable to the selected element.
    </description>
 
    <copyright>

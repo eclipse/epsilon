@@ -6,9 +6,7 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon EWL/GMF Feature
-
-This feature integrates EVL as a validation provider for the GMF-generated graphical editors, so the standard &quot;Validate&quot; menu entry will also run any applicable EVL scripts.
+      Installing this feature enables the &quot;Wizards&quot; popup menu in the GMF-based editors. From this &quot;Wizards&quot; menu, users will be able to run the registered EWL scripts that are applicable to the selected element.
    </description>
 
    <copyright>

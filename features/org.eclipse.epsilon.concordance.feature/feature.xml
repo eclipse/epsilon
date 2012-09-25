@@ -6,9 +6,7 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon Concordance Feature
-
-This feature provides Concordance, a project nature which will enable automatic checks for dangling inter-model cross references. If a model refers to an element in another model that is no longer reachable, Concordance will notify the user through the standard Problems view.
+      This feature provides Concordance, a tool which monitors EMF models in the workspace for non-conformance and dangling inter-model cross references, and notifies the user through the standard Problems view. Concordance also reconciles inter-model cross references when models are moved across the workspace.
    </description>
 
    <copyright>

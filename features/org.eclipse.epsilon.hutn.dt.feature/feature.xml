@@ -6,9 +6,7 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon HUTN Development Tools Feature
-
-This feature provides an editor for models written in the OMG HUTN textual notation for models. These models may be then loaded by a HUTN EMC driver.
+      This feature provides an editor and supporting tools for models specified in the OMG HUTN textual notation. These models can be accessed by Epsilon programs through the a HUTN EMC driver.
    </description>
 
    <copyright>

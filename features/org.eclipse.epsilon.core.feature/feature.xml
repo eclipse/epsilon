@@ -6,9 +6,7 @@
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon Core Platform Feature
-
-This feature provides the execution engines for every Epsilon language, some profiling tools and several Epsilon Model Connectivity (EMC) drivers for non-EMF models, such as CSV files, BibTeX files or plain XML files.
+      This feature provides execution engines for all Epsilon languages, profiling tools and several Epsilon Model Connectivity (EMC) drivers for non-EMF models, such as CSV files, BibTeX files and plain XML files.
    </description>
 
    <copyright>

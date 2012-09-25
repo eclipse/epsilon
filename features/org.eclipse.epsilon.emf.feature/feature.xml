@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.emf.feature"
-      label="Epsilon EMF Integration (Incubation)"
+      label="Epsilon EMF Integration"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      Epsilon EMF Feature
-This feature provides the Epsilon Model Connectivity driver for
-EMF models. This driver is required in order to work with EMF
-models in Epsilon.
+      This feature provides the Epsilon Model Connectivity driver for EMF models. This driver is required in order to work with EMF models in Epsilon.
    </description>
 
    <copyright>
