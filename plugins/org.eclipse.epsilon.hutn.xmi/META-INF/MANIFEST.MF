@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Human Usable Textual Notation XMI Bridge (Incubation)
+Bundle-Name: Human Usable Textual Notation XMI Bridge
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.xmi
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

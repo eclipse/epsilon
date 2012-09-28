@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JUnit bridge for Epsilon EUnit (Incubation)
+Bundle-Name: JUnit bridge for Epsilon EUnit
 Bundle-SymbolicName: org.eclipse.epsilon.eunit.junit
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

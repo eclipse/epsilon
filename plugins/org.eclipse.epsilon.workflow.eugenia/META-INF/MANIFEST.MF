@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Eugenia ANT Workflow Task (Incubation)
+Bundle-Name: Epsilon Eugenia ANT Workflow Task
 Bundle-SymbolicName: org.eclipse.epsilon.workflow.eugenia;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

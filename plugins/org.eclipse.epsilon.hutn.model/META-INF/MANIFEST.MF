@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Human Usable Textual Notation Ecore Model (Incubation)
+Bundle-Name: Human Usable Textual Notation Ecore Model
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.model;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-ClassPath: .

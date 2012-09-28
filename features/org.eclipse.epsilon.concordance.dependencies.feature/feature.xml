@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.concordance.dependencies.feature"
-      label="Epsilon Concordance Dependencies (Incubation)"
+      label="Epsilon Concordance Dependencies"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 

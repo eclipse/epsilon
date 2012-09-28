@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon EMF Utilities (Incubation)
+Bundle-Name: Epsilon EMF Utilities
 Bundle-SymbolicName: org.eclipse.epsilon.emf.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

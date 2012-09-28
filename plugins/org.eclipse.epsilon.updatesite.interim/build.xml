@@ -1,5 +1,6 @@
 <project default="main">
-	<target name="main"> 
+	<target name="main">
+		
 		<taskdef name="epsilon.eol"
 		        classname="org.eclipse.epsilon.workflow.tasks.EolTask"
 		        classpath="build"/>
@@ -15,5 +16,6 @@
 		<epsilon.egl src="site2index.egl" target="index.html"> 
 			<model ref="Site"/>
 		</epsilon.egl>
-	</target>   
+	</target>
+	
 </project> 

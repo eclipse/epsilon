@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Rule Language Engine (Incubation)
+Bundle-Name: Epsilon Rule Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.erl.engine;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Antlr AST Postprocessor (Incubation)
+Bundle-Name: Epsilon Antlr AST Postprocessor
 Bundle-SymbolicName: org.eclipse.epsilon.antlr.postprocessor
 Bundle-Version: 0.9.1.qualifier
 Require-Bundle: org.eclipse.epsilon.antlr.postprocessor.model;visibility:=reexport,

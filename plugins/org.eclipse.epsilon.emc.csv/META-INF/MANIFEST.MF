@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon CSV Model Support (Incubation)
+Bundle-Name: Epsilon CSV Model Support
 Bundle-SymbolicName: org.eclipse.epsilon.emc.csv
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Human Usable Textual Notation Engine (Incubation)
+Bundle-Name: Human Usable Textual Notation Engine
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.engine
 Bundle-Version: 0.9.1.qualifier
 Export-Package: org.eclipse.epsilon.hutn,

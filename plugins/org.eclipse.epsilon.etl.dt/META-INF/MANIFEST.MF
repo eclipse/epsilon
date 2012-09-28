@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Transformation Language Development Tools (Incubation)
+Bundle-Name: Epsilon Transformation Language Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.etl.dt;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.etl.dt.EtlPlugin

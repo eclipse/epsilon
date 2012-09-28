@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Comparison Language Engine (Incubation)
+Bundle-Name: Epsilon Comparison Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.ecl.engine
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

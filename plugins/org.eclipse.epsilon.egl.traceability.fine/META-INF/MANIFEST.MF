@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Generation Language Engine: Fine-Grained Traceability (Incubation)
+Bundle-Name: Epsilon Generation Language Engine: Fine-Grained Traceability
 Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-ClassPath: .

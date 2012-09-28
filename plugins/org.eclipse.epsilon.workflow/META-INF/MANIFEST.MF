@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon ANT Workflow (Incubation)
+Bundle-Name: Epsilon ANT Workflow
 Bundle-SymbolicName: org.eclipse.epsilon.workflow;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

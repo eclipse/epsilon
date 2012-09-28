@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Wizard Language GMF Support (Incubation)
+Bundle-Name: Epsilon Wizard Language GMF Support
 Bundle-SymbolicName: org.eclipse.epsilon.ewl.gmf;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

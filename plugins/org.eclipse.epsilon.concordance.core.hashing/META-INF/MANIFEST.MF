@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Human Usable Textual Notation XMI Bridge EPackage Hashing (Incubation)
+Bundle-Name: Human Usable Textual Notation XMI Bridge EPackage Hashing
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.core.hashing
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

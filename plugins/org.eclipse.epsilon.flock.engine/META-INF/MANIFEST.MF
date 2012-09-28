@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Flock Engine (Incubation)
+Bundle-Name: Epsilon Flock Engine
 Bundle-SymbolicName: org.eclipse.epsilon.flock.engine
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

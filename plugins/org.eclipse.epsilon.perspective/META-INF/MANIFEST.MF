@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Perspective (Incubation)
+Bundle-Name: Epsilon Perspective
 Bundle-SymbolicName: org.eclipse.epsilon.perspective;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Activator: org.eclipse.epsilon.perspective.EpsilonPerspectivePlugin

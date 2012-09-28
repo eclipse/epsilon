@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.emf.dt.dependencies.feature"
-      label="Epsilon Development Tools for EMF (Incubation)"
+      label="Epsilon Development Tools for EMF Dependencies"
       version="0.9.1.qualifier"
       provider-name="Eclipse.org">
 
@@ -90,10 +90,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
-
-   <includes
-         id="org.eclipse.epsilon.core.dependencies.feature"
-         version="0.0.0"/>
 
    <plugin
          id="org.jdom_1.0"

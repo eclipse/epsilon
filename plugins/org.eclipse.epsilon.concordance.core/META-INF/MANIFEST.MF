@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Concordance (Incubation)
+Bundle-Name: Epsilon Concordance
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.core;singleton:=true
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

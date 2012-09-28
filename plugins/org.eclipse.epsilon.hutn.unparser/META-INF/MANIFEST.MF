@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Human Usable Textual Notation Unparser (Incubation)
+Bundle-Name: Human Usable Textual Notation Unparser
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.unparser
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org

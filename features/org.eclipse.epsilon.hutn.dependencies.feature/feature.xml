@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.hutn.dependencies.feature"
-      label="Human Usable Textual Notation Dependencies (Incubation)"
+      label="Human Usable Textual Notation Dependencies"
       version="0.9.1.qualifier">
 
    <description url="http://www.eclipse.org/epsilon">
