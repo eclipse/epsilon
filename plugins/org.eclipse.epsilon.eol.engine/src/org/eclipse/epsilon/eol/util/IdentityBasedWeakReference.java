@@ -10,12 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.util;
 
+import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
 public class IdentityBasedWeakReference extends WeakReference<Object> {
+	
+	int hashCode = -1;
+	
+	public IdentityBasedWeakReference(Object referent, ReferenceQueue<Object> referenceQueue) {
+		super(referent, referenceQueue);
+		hashCode = System.identityHashCode(referent);
 
-	public IdentityBasedWeakReference(Object referent) {
-		super(referent);
 	}
 	
 	@Override
@@ -26,12 +31,9 @@ public class IdentityBasedWeakReference extends WeakReference<Object> {
 	
 	@Override
 	public int hashCode() {
-		if (this.get() != null) {
-			return System.identityHashCode(this.get());
-		}
-		else {
-			return super.hashCode();
-		}
+		return hashCode;
 	}
+	
+	
 	
 }

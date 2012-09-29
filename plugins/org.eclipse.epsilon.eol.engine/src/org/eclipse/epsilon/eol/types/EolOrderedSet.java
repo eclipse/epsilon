@@ -20,6 +20,6 @@ public class EolOrderedSet<T> extends LinkedHashSet<T> {
 
 	public EolOrderedSet() {
 		super();
-		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.OrderedSet);
+		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.OrderedSet);
 	}
 }

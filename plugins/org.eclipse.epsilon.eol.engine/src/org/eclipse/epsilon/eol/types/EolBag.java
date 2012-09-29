@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType
 public class EolBag<T> implements Collection<T> {
 
 	public EolBag() {
-		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
+		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
 	}
 	
 	protected List<T> wrapped = new ArrayList<T>();

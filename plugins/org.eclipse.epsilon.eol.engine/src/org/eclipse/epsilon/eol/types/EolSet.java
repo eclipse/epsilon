@@ -20,6 +20,6 @@ public class EolSet<T> extends HashSet<T> {
 
 	public EolSet() {
 		super();
-		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Set);
+		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Set);
 	}
 }

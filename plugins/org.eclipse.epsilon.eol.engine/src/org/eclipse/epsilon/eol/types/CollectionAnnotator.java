@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.types;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.epsilon.eol.util.IdentityBasedWeakHashMap;
+import org.eclipse.epsilon.eol.util.Cache;
 
 public class CollectionAnnotator {
 	
@@ -36,8 +36,8 @@ public class CollectionAnnotator {
 		return cache.size();
 	}
 	
-	protected IdentityBasedWeakHashMap<Object, AnnotatedCollectionType> cache = 
-		new IdentityBasedWeakHashMap<Object, AnnotatedCollectionType>();
+	protected Cache<Object, AnnotatedCollectionType> cache = 
+		new Cache<Object, AnnotatedCollectionType>();
 	protected static CollectionAnnotator instance = new CollectionAnnotator();
 	
 	public void annotate(Collection c, AnnotatedCollectionType ct) {
@@ -57,6 +57,10 @@ public class CollectionAnnotator {
 		Sequence,
 		Set,
 		OrderedSet
+	}
+	
+	public void dispose() {
+		cache.dispose();
 	}
 	
 }

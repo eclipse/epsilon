@@ -19,7 +19,7 @@ public class EolSequence<T> extends ArrayList<T> {
 
 	public EolSequence() {
 		super();
-		CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Sequence);
+		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Sequence);
 	}
 	
 }
