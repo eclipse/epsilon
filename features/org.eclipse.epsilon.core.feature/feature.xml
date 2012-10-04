@@ -3,7 +3,8 @@
       id="org.eclipse.epsilon.core.feature"
       label="Epsilon Core"
       version="0.9.1.qualifier"
-      provider-name="Eclipse.org">
+      provider-name="Eclipse.org"
+      plugin="org.eclipse.epsilon.branding">
 
    <description url="http://www.eclipse.org/epsilon">
       This feature provides execution engines for all Epsilon languages, profiling tools and several Epsilon Model Connectivity (EMC) drivers for non-EMF models, such as CSV files, BibTeX files and plain XML files.
@@ -222,5 +223,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
          download-size="0"
          install-size="0"
          version="0.9.1.qualifier"/>
+
+   <plugin
+         id="org.eclipse.epsilon.branding"
+         download-size="0"
+         install-size="0"
+         version="0.9.1.qualifier"
+         unpack="false"/>
 
 </feature>
