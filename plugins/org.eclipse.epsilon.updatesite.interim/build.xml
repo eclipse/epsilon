@@ -1,5 +1,25 @@
 <project default="main">
-	<target name="main">
+	
+	<target name="main" depends="categorise,compress,generate_site,refresh"/>
+	
+	<target name="categorise">
+		<echo>Adding category information to repository</echo>
+		<eclipse.publish.featuresAndBundles
+			compress="true"
+			site="file:${basedir}/site.xml"
+			repository="file:${basedir}"/>
+	</target>
+	
+	<target name="compress">
+		<echo>Pack200ing JARS</echo>
+		<p2.process.artifacts
+			pack="true"
+			normalize="true"
+			repositorypath="file:${basedir}"/>
+	</target>
+	
+	<target name="generate_site">
+		<echo>Generating index.html</echo>
 		
 		<taskdef name="epsilon.eol"
 		        classname="org.eclipse.epsilon.workflow.tasks.EolTask"
@@ -16,6 +36,25 @@
 		<epsilon.egl src="site2index.egl" target="index.html"> 
 			<model ref="Site"/>
 		</epsilon.egl>
+	</target>
+	
+	
+	
+	<target name="clean" depends="delete,refresh" />
+	
+	<target name="delete">
+		<delete file="content.jar"/>
+		<delete file="content.jar.pack.gz"/>
+		
+		<delete file="artifacts.jar"/>
+		<delete file="artifacts.jar.pack.gz"/>
+		
+		<delete dir="plugins"/>
+		<delete dir="features"/>
+	</target>
+	
+	<target name="refresh">
+		<eclipse.refreshLocal resource="org.eclipse.epsilon.updatesite.interim" depth="infinite" />
 	</target>
 	
 </project> 
