@@ -20,4 +20,25 @@ context EClass {
 		}
 		
 	}
+	
+	critique NameStartsWithCapital {
+		
+		guard : self.satisfies('Unamed')
+		
+		check {
+			var nameToUpperCase = self.name.firstToUpperCase();
+			return nameToUpperCase = self.name;
+		}
+		
+		message : 'Class ' + self.name + 
+			' should start with an upper-case letter'
+			
+		fix {
+			title : 'Rename to ' + 
+				self.name.firstToUpperCase()
+			do {
+				self.name := self.name.firstToUpperCase();
+			}
+		}
+	}
 }
