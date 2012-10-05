@@ -66,8 +66,8 @@ public class Engine {
 		
 		final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
 		
-		assertEquals(1,                                problems.size());
-		assertEquals("File NonExistent.egl not found", problems.iterator().next().getReason());
+		assertEquals(1, problems.size());
+		assertEquals("File NonExistent.egl contains errors", problems.iterator().next().getReason());
 	}
 	
 	@Test (expected=EglRuntimeException.class)
