@@ -29,8 +29,13 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 
-	private String currentOutputPath;
+	private File target;
+	private String targetName;
 	private OutputFile currentOutputFile;
+	private String existingContents;
+	private String newContents;
+	private String positiveMessage;
+	private boolean shouldMerge;
 
 	// For tests
 	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws Exception {
@@ -42,46 +47,56 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
-		currentOutputPath = target.getAbsolutePath();
-
+		this.target = target;
+		this.targetName = targetName;
+		
 		try {
-			if (protectRegions && target.exists()) {
-				final String merged = merge(FileUtil.read(target));
-
-				write(target, targetName, merged, "Protected regions of " + targetName + " were preserved.");
-
-				for (ProtectedRegion pr : module.getContext().getPartitioner().partition(merged).getProtectedRegions()) {
-					currentOutputFile.addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
-				}
-
-			} else {
-				write(target, targetName, getContents(), "Successfully wrote to " + targetName);
-			}
+			existingContents = FileUtil.readIfExists(target);
+			shouldMerge = protectRegions && target.exists();
+			
+			prepareNewContents();
+			writeNewContentsIfDifferentFromExistingContents();
+			
+		} catch (URISyntaxException e) {
+			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
 		} catch (IOException ex) {
 			throw new EglRuntimeException("Could not generate to " + targetName, ex, module.getAst());
 		}
-
 	}
 	
-	private void write(File target, String targetName, String contents, String message) throws EglRuntimeException {
-		try {
-			new Writer(target, contents).write();
+	private void prepareNewContents() throws EglRuntimeException {
+		if (shouldMerge) {
+			newContents = merge(existingContents);
+			positiveMessage = "Protected regions preserved in ";
+		} else {
+			newContents = getContents();
+			positiveMessage = "Successfully wrote to ";
+		}
+	}
+	
+	private void writeNewContentsIfDifferentFromExistingContents() throws URISyntaxException, IOException {
+		if (newContents.equals(existingContents)) {
+			addMessage("Content unchanged for " + targetName);
+		} else {
+			write();
+			addMessage(positiveMessage + targetName);
+		}
+	}
 
-			addMessage(message);
-
-			currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
-
-		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not write to " + target, ex, module.getAst());
-
-		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
+	private void write() throws IOException, URISyntaxException {
+		new Writer(target, newContents).write();
+		
+		currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
+		
+		if (shouldMerge) {
+			for (ProtectedRegion pr : module.getContext().getPartitioner().partition(newContents).getProtectedRegions()) {
+				currentOutputFile.addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
+			}
 		}
 	}
 
 	@Override
 	protected void addProtectedRegionWarning(ProtectedRegionWarning warning) {
-		super.addProtectedRegionWarning(new ProtectedRegionWarning(warning.getId(), currentOutputPath));
+		super.addProtectedRegionWarning(new ProtectedRegionWarning(warning.getId(), target.getAbsolutePath()));
 	}
-
 }

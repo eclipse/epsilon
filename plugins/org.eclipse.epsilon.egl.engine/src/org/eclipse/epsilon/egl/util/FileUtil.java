@@ -54,6 +54,12 @@ public abstract class FileUtil {
 		return file.getAbsolutePath();
 	}
 	
+	/**
+	 * @return null if the file doesn't exist
+	 */
+	public static String readIfExists(File file) throws IOException {
+		return file.exists() ? read(file) : null;
+	}
 	
 	public static String read(File file) throws IOException {
 		BufferedReader reader = null;

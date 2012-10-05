@@ -29,10 +29,7 @@ import org.junit.Test;
 public class TestEglFileGeneratingTemplate {
 	
 	private static File PROGRAM;
-	private static File OUTPUT1;
-	private static File OUTPUT2;
-	private static File OUTPUT3;
-	private static File OUTPUT4;
+	private static File OUTPUT1, OUTPUT2, OUTPUT3, OUTPUT4, OUTPUT5, OUTPUT6;
 	private static File EXISTING;
 	private static File GENERATED;
 	
@@ -46,6 +43,8 @@ public class TestEglFileGeneratingTemplate {
 		OUTPUT2   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output2.txt",   TestEglFileGeneratingTemplate.class);
 		OUTPUT3   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output3.txt",   TestEglFileGeneratingTemplate.class);
 		OUTPUT4   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output4.txt",   TestEglFileGeneratingTemplate.class);
+		OUTPUT5   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output5.txt",   TestEglFileGeneratingTemplate.class);
+		OUTPUT6   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output6.txt",   TestEglFileGeneratingTemplate.class);
 		EXISTING  = org.eclipse.epsilon.common.util.FileUtil.getFile("Existing.txt",  TestEglFileGeneratingTemplate.class);
 		GENERATED = org.eclipse.epsilon.common.util.FileUtil.getFile("Generated.txt", TestEglFileGeneratingTemplate.class);
 		
@@ -59,6 +58,8 @@ public class TestEglFileGeneratingTemplate {
 		if (OUTPUT2.exists())   OUTPUT2.delete();
 		if (OUTPUT3.exists())   OUTPUT3.delete();
 		if (OUTPUT4.exists())   OUTPUT4.delete();
+		if (OUTPUT5.exists())   OUTPUT5.delete();
+		if (OUTPUT6.exists())   OUTPUT6.delete();
 		if (EXISTING.exists())  EXISTING.delete();
 		if (GENERATED.exists()) GENERATED.delete();
 	}
@@ -202,6 +203,40 @@ public class TestEglFileGeneratingTemplate {
 		template.generate(OUTPUT4.getName());
 		
 		assertEquals(expected, FileUtil.read(OUTPUT4));
+	}
+	
+	@Test
+	public void testDoesNotOverwriteWhenMergedContentsAreUnchanged() throws Exception {
+		final String existing = "This text will appear before the protected region" + NEWLINE +
+		                        "// protected region test on begin"                 + NEWLINE +
+		                        "// This region will be preserved"                  + NEWLINE + 
+		                        "// protected region test end"                      + NEWLINE +
+		                        "This text will appear after the protected region";
+		
+		FileUtil.write(OUTPUT5, existing);
+		FileUtil.write(PROGRAM, existing);
+		
+		final MockContext context = new MockContext();
+		
+		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), context, UriUtil.fileToUri(PROGRAM.getParentFile()));
+		template.generate(OUTPUT5.getName());
+		
+		assertEquals(1, context.getStatusMessages().size());
+		assertEquals("Content unchanged for " + OUTPUT5.getAbsolutePath(), context.getStatusMessages().get(0).getMessage());
+	}
+	
+	@Test
+	public void testDoesNotOverwriteWhenUnprotectedContentsAreUnchanged() throws Exception {
+		FileUtil.write(OUTPUT6, "Existing text");
+		FileUtil.write(PROGRAM, "Existing text");
+		
+		final MockContext context = new MockContext();
+		
+		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), context, UriUtil.fileToUri(PROGRAM.getParentFile()));
+		template.generate(OUTPUT6.getName(), true, false);
+		
+		assertEquals(1, context.getStatusMessages().size());
+		assertEquals("Content unchanged for " + OUTPUT6.getAbsolutePath(), context.getStatusMessages().get(0).getMessage());
 	}
 }
 
