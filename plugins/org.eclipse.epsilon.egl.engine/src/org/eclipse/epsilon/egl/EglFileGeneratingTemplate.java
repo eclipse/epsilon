@@ -47,12 +47,11 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
-		this.target = target;
-		this.targetName = targetName;
-		
 		try {
-			existingContents = FileUtil.readIfExists(target);
-			shouldMerge = protectRegions && target.exists();
+			this.target = target;
+			this.targetName = targetName;			
+			this.existingContents = FileUtil.readIfExists(target);
+			this.shouldMerge = protectRegions && target.exists();
 			
 			prepareNewContents();
 			writeNewContentsIfDifferentFromExistingContents();
