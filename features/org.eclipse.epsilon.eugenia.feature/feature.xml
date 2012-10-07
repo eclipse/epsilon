@@ -231,6 +231,7 @@ litigation.
       <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.epsilon.workflow"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.epsilon.erl.engine"/>
    </requires>
 
    <plugin
