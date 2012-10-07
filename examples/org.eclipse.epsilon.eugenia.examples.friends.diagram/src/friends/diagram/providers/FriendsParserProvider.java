@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.providers;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -18,6 +11,7 @@ import org.eclipse.gmf.runtime.common.core.service.IOperation;
 import org.eclipse.gmf.runtime.common.ui.services.parser.GetParserOperation;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserProvider;
+import org.eclipse.gmf.runtime.common.ui.services.parser.ParserService;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
@@ -36,26 +30,19 @@ public class FriendsParserProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	private IParser personName_4001Parser;
+	private IParser personName_5001Parser;
 
 	/**
 	 * @generated
 	 */
-	private IParser getPersonName_4001Parser() {
-		if (personName_4001Parser == null) {
-			personName_4001Parser = createPersonName_4001Parser();
+	private IParser getPersonName_5001Parser() {
+		if (personName_5001Parser == null) {
+			EAttribute[] features = new EAttribute[] { FriendsPackage.eINSTANCE
+					.getPerson_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			personName_5001Parser = parser;
 		}
-		return personName_4001Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IParser createPersonName_4001Parser() {
-		EAttribute[] features = new EAttribute[] { FriendsPackage.eINSTANCE
-				.getPerson_Name(), };
-		MessageFormatParser parser = new MessageFormatParser(features);
-		return parser;
+		return personName_5001Parser;
 	}
 
 	/**
@@ -64,9 +51,19 @@ public class FriendsParserProvider extends AbstractProvider implements
 	protected IParser getParser(int visualID) {
 		switch (visualID) {
 		case PersonNameEditPart.VISUAL_ID:
-			return getPersonName_4001Parser();
+			return getPersonName_5001Parser();
 		}
 		return null;
+	}
+
+	/**
+	 * Utility method that consults ParserService
+	 * @generated
+	 */
+	public static IParser getParser(IElementType type, EObject object,
+			String parserHint) {
+		return ParserService.getInstance().getParser(
+				new HintAdapter(type, object, parserHint));
 	}
 
 	/**
@@ -101,7 +98,7 @@ public class FriendsParserProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public static class HintAdapter extends ParserHintAdapter {
+	private static class HintAdapter extends ParserHintAdapter {
 
 		/**
 		 * @generated

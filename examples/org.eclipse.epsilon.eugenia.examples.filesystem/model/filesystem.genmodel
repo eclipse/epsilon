@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.epsilon.eugenia.examples.filesystem/src"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="" modelDirectory="/org.eclipse.epsilon.eugenia.examples.filesystem/src"
     modelPluginID="org.eclipse.epsilon.eugenia.examples.filesystem" modelName="Filesystem"
-    rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
-    reflectiveDelegation="true" importerID="org.eclipse.emf.importer.cdo" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false">
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false">
   <foreignModel>filesystem.ecore</foreignModel>
-  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Filesystem" disposableProviderFactory="true" ecorePackage="filesystem.ecore#/">
     <genClasses ecoreClass="filesystem.ecore#//Filesystem">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference filesystem.ecore#//Filesystem/drives"/>

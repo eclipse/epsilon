@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -22,14 +18,16 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- end-user-doc -->
  * @generated
  */
-public class FlowchartFactoryImpl extends EFactoryImpl implements FlowchartFactory {
-	/**
+public class FlowchartFactoryImpl extends EFactoryImpl implements FlowchartFactory
+{
+  /**
    * Creates the default factory implementation.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public static FlowchartFactory init() {
+  public static FlowchartFactory init()
+  {
     try
     {
       FlowchartFactory theFlowchartFactory = (FlowchartFactory)EPackage.Registry.INSTANCE.getEFactory("flowchart"); 
@@ -45,23 +43,25 @@ public class FlowchartFactoryImpl extends EFactoryImpl implements FlowchartFacto
     return new FlowchartFactoryImpl();
   }
 
-	/**
+  /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public FlowchartFactoryImpl() {
+  public FlowchartFactoryImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public EObject create(EClass eClass) {
+  @Override
+  public EObject create(EClass eClass)
+  {
     switch (eClass.getClassifierID())
     {
       case FlowchartPackage.FLOWCHART: return createFlowchart();
@@ -74,73 +74,80 @@ public class FlowchartFactoryImpl extends EFactoryImpl implements FlowchartFacto
     }
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Flowchart createFlowchart() {
+  public Flowchart createFlowchart()
+  {
     FlowchartImpl flowchart = new FlowchartImpl();
     return flowchart;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Transition createTransition() {
+  public Transition createTransition()
+  {
     TransitionImpl transition = new TransitionImpl();
     return transition;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Subflow createSubflow() {
+  public Subflow createSubflow()
+  {
     SubflowImpl subflow = new SubflowImpl();
     return subflow;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Action createAction() {
+  public Action createAction()
+  {
     ActionImpl action = new ActionImpl();
     return action;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Decision createDecision() {
+  public Decision createDecision()
+  {
     DecisionImpl decision = new DecisionImpl();
     return decision;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public FlowchartPackage getFlowchartPackage() {
+  public FlowchartPackage getFlowchartPackage()
+  {
     return (FlowchartPackage)getEPackage();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @deprecated
    * @generated
    */
-	@Deprecated
-	public static FlowchartPackage getPackage() {
+  @Deprecated
+  public static FlowchartPackage getPackage()
+  {
     return FlowchartPackage.eINSTANCE;
   }
 

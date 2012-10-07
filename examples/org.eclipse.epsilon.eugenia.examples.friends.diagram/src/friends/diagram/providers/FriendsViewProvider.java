@@ -1,202 +1,446 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.providers;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.diagram.core.providers.AbstractViewProvider;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
+import org.eclipse.gmf.runtime.common.core.service.IOperation;
+import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
+import org.eclipse.gmf.runtime.diagram.core.providers.IViewProvider;
+import org.eclipse.gmf.runtime.diagram.core.services.view.CreateDiagramViewOperation;
+import org.eclipse.gmf.runtime.diagram.core.services.view.CreateEdgeViewOperation;
+import org.eclipse.gmf.runtime.diagram.core.services.view.CreateNodeViewOperation;
+import org.eclipse.gmf.runtime.diagram.core.services.view.CreateViewForKindOperation;
+import org.eclipse.gmf.runtime.diagram.core.services.view.CreateViewOperation;
+import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
+import org.eclipse.gmf.runtime.diagram.ui.preferences.IPreferenceConstants;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
+import org.eclipse.gmf.runtime.emf.core.util.EMFCoreUtil;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
+import org.eclipse.gmf.runtime.notation.DecorationNode;
+import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.Location;
+import org.eclipse.gmf.runtime.notation.MeasurementUnit;
+import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.gmf.runtime.notation.NotationFactory;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
+import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
+import org.eclipse.gmf.runtime.notation.Routing;
+import org.eclipse.gmf.runtime.notation.Shape;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.FontData;
 
 import friends.diagram.edit.parts.PersonEditPart;
 import friends.diagram.edit.parts.PersonEnemyOfEditPart;
-import friends.diagram.edit.parts.PersonEnemyOfExternalLabelEditPart;
 import friends.diagram.edit.parts.PersonFriendOfEditPart;
-import friends.diagram.edit.parts.PersonFriendOfExternalLabelEditPart;
 import friends.diagram.edit.parts.PersonNameEditPart;
 import friends.diagram.edit.parts.WorldEditPart;
+import friends.diagram.edit.parts.WrappingLabel2EditPart;
+import friends.diagram.edit.parts.WrappingLabelEditPart;
 import friends.diagram.part.FriendsVisualIDRegistry;
-import friends.diagram.view.factories.PersonEnemyOfExternalLabelViewFactory;
-import friends.diagram.view.factories.PersonEnemyOfViewFactory;
-import friends.diagram.view.factories.PersonFriendOfExternalLabelViewFactory;
-import friends.diagram.view.factories.PersonFriendOfViewFactory;
-import friends.diagram.view.factories.PersonNameViewFactory;
-import friends.diagram.view.factories.PersonViewFactory;
-import friends.diagram.view.factories.WorldViewFactory;
 
 /**
  * @generated
  */
-public class FriendsViewProvider extends AbstractViewProvider {
+public class FriendsViewProvider extends AbstractProvider implements
+		IViewProvider {
 
 	/**
 	 * @generated
 	 */
-	protected Class getDiagramViewClass(IAdaptable semanticAdapter,
-			String diagramKind) {
-		EObject semanticElement = getSemanticElement(semanticAdapter);
-		if (WorldEditPart.MODEL_ID.equals(diagramKind)
-				&& FriendsVisualIDRegistry.getDiagramVisualID(semanticElement) != -1) {
-			return WorldViewFactory.class;
+	public final boolean provides(IOperation operation) {
+		if (operation instanceof CreateViewForKindOperation) {
+			return provides((CreateViewForKindOperation) operation);
 		}
-		return null;
+		assert operation instanceof CreateViewOperation;
+		if (operation instanceof CreateDiagramViewOperation) {
+			return provides((CreateDiagramViewOperation) operation);
+		} else if (operation instanceof CreateEdgeViewOperation) {
+			return provides((CreateEdgeViewOperation) operation);
+		} else if (operation instanceof CreateNodeViewOperation) {
+			return provides((CreateNodeViewOperation) operation);
+		}
+		return false;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected Class getNodeViewClass(IAdaptable semanticAdapter,
-			View containerView, String semanticHint) {
-		if (containerView == null) {
-			return null;
+	protected boolean provides(CreateViewForKindOperation op) {
+		/*
+		 if (op.getViewKind() == Node.class)
+		 return getNodeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
+		 if (op.getViewKind() == Edge.class)
+		 return getEdgeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
+		 */
+		return true;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean provides(CreateDiagramViewOperation op) {
+		return WorldEditPart.MODEL_ID.equals(op.getSemanticHint())
+				&& FriendsVisualIDRegistry
+						.getDiagramVisualID(getSemanticElement(op
+								.getSemanticAdapter())) != -1;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean provides(CreateNodeViewOperation op) {
+		if (op.getContainerView() == null) {
+			return false;
 		}
-		IElementType elementType = getSemanticElementType(semanticAdapter);
-		EObject domainElement = getSemanticElement(semanticAdapter);
+		IElementType elementType = getSemanticElementType(op
+				.getSemanticAdapter());
+		EObject domainElement = getSemanticElement(op.getSemanticAdapter());
 		int visualID;
-		if (semanticHint == null) {
+		if (op.getSemanticHint() == null) {
 			// Semantic hint is not specified. Can be a result of call from CanonicalEditPolicy.
 			// In this situation there should be NO elementType, visualID will be determined
 			// by VisualIDRegistry.getNodeVisualID() for domainElement.
 			if (elementType != null || domainElement == null) {
-				return null;
+				return false;
 			}
-			visualID = FriendsVisualIDRegistry.getNodeVisualID(containerView,
-					domainElement);
+			visualID = FriendsVisualIDRegistry.getNodeVisualID(
+					op.getContainerView(), domainElement);
 		} else {
-			visualID = FriendsVisualIDRegistry.getVisualID(semanticHint);
+			visualID = FriendsVisualIDRegistry
+					.getVisualID(op.getSemanticHint());
 			if (elementType != null) {
-				// Semantic hint is specified together with element type.
-				// Both parameters should describe exactly the same diagram element.
-				// In addition we check that visualID returned by VisualIDRegistry.getNodeVisualID() for
-				// domainElement (if specified) is the same as in element type.
 				if (!FriendsElementTypes.isKnownElementType(elementType)
 						|| (!(elementType instanceof IHintedType))) {
-					return null; // foreign element type
+					return false; // foreign element type
 				}
 				String elementTypeHint = ((IHintedType) elementType)
 						.getSemanticHint();
-				if (!semanticHint.equals(elementTypeHint)) {
-					return null; // if semantic hint is specified it should be the same as in element type
+				if (!op.getSemanticHint().equals(elementTypeHint)) {
+					return false; // if semantic hint is specified it should be the same as in element type
 				}
 				if (domainElement != null
 						&& visualID != FriendsVisualIDRegistry.getNodeVisualID(
-								containerView, domainElement)) {
-					return null; // visual id for node EClass should match visual id from element type
+								op.getContainerView(), domainElement)) {
+					return false; // visual id for node EClass should match visual id from element type
 				}
 			} else {
-				// Element type is not specified. Domain element should be present (except pure design elements).
-				// This method is called with EObjectAdapter as parameter from:
-				//   - ViewService.createNode(View container, EObject eObject, String type, PreferencesHint preferencesHint) 
-				//   - generated ViewFactory.decorateView() for parent element
 				if (!WorldEditPart.MODEL_ID.equals(FriendsVisualIDRegistry
-						.getModelID(containerView))) {
-					return null; // foreign diagram
+						.getModelID(op.getContainerView()))) {
+					return false; // foreign diagram
 				}
 				switch (visualID) {
 				case PersonEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != FriendsVisualIDRegistry
-									.getNodeVisualID(containerView,
+									.getNodeVisualID(op.getContainerView(),
 											domainElement)) {
-						return null; // visual id in semantic hint should match visual id for domain element
-					}
-					break;
-				case PersonNameEditPart.VISUAL_ID:
-					if (PersonEditPart.VISUAL_ID != FriendsVisualIDRegistry
-							.getVisualID(containerView)
-							|| containerView.getElement() != domainElement) {
-						return null; // wrong container
-					}
-					break;
-				case PersonFriendOfExternalLabelEditPart.VISUAL_ID:
-					if (PersonFriendOfEditPart.VISUAL_ID != FriendsVisualIDRegistry
-							.getVisualID(containerView)
-							|| containerView.getElement() != domainElement) {
-						return null; // wrong container
-					}
-					break;
-				case PersonEnemyOfExternalLabelEditPart.VISUAL_ID:
-					if (PersonEnemyOfEditPart.VISUAL_ID != FriendsVisualIDRegistry
-							.getVisualID(containerView)
-							|| containerView.getElement() != domainElement) {
-						return null; // wrong container
+						return false; // visual id in semantic hint should match visual id for domain element
 					}
 					break;
 				default:
-					return null;
+					return false;
 				}
 			}
 		}
-		return getNodeViewClass(containerView, visualID);
+		return PersonEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected Class getNodeViewClass(View containerView, int visualID) {
-		if (containerView == null
-				|| !FriendsVisualIDRegistry.canCreateNode(containerView,
-						visualID)) {
-			return null;
+	protected boolean provides(CreateEdgeViewOperation op) {
+		IElementType elementType = getSemanticElementType(op
+				.getSemanticAdapter());
+		if (!FriendsElementTypes.isKnownElementType(elementType)
+				|| (!(elementType instanceof IHintedType))) {
+			return false; // foreign element type
+		}
+		String elementTypeHint = ((IHintedType) elementType).getSemanticHint();
+		if (elementTypeHint == null
+				|| (op.getSemanticHint() != null && !elementTypeHint.equals(op
+						.getSemanticHint()))) {
+			return false; // our hint is visual id and must be specified, and it should be the same as in element type
+		}
+		int visualID = FriendsVisualIDRegistry.getVisualID(elementTypeHint);
+		EObject domainElement = getSemanticElement(op.getSemanticAdapter());
+		if (domainElement != null
+				&& visualID != FriendsVisualIDRegistry
+						.getLinkWithClassVisualID(domainElement)) {
+			return false; // visual id for link EClass should match visual id from element type
+		}
+		return true;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Diagram createDiagram(IAdaptable semanticAdapter,
+			String diagramKind, PreferencesHint preferencesHint) {
+		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
+		diagram.getStyles().add(NotationFactory.eINSTANCE.createDiagramStyle());
+		diagram.setType(WorldEditPart.MODEL_ID);
+		diagram.setElement(getSemanticElement(semanticAdapter));
+		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
+		return diagram;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createNode(IAdaptable semanticAdapter, View containerView,
+			String semanticHint, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		final EObject domainElement = getSemanticElement(semanticAdapter);
+		final int visualID;
+		if (semanticHint == null) {
+			visualID = FriendsVisualIDRegistry.getNodeVisualID(containerView,
+					domainElement);
+		} else {
+			visualID = FriendsVisualIDRegistry.getVisualID(semanticHint);
 		}
 		switch (visualID) {
 		case PersonEditPart.VISUAL_ID:
-			return PersonViewFactory.class;
-		case PersonNameEditPart.VISUAL_ID:
-			return PersonNameViewFactory.class;
-		case PersonFriendOfExternalLabelEditPart.VISUAL_ID:
-			return PersonFriendOfExternalLabelViewFactory.class;
-		case PersonEnemyOfExternalLabelEditPart.VISUAL_ID:
-			return PersonEnemyOfExternalLabelViewFactory.class;
+			return createPerson_2001(domainElement, containerView, index,
+					persisted, preferencesHint);
 		}
+		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected Class getEdgeViewClass(IAdaptable semanticAdapter,
-			View containerView, String semanticHint) {
+	public Edge createEdge(IAdaptable semanticAdapter, View containerView,
+			String semanticHint, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
 		IElementType elementType = getSemanticElementType(semanticAdapter);
-		if (!FriendsElementTypes.isKnownElementType(elementType)
-				|| (!(elementType instanceof IHintedType))) {
-			return null; // foreign element type
-		}
 		String elementTypeHint = ((IHintedType) elementType).getSemanticHint();
-		if (elementTypeHint == null) {
-			return null; // our hint is visual id and must be specified
+		switch (FriendsVisualIDRegistry.getVisualID(elementTypeHint)) {
+		case PersonFriendOfEditPart.VISUAL_ID:
+			return createPersonFriendOf_4001(containerView, index, persisted,
+					preferencesHint);
+		case PersonEnemyOfEditPart.VISUAL_ID:
+			return createPersonEnemyOf_4002(containerView, index, persisted,
+					preferencesHint);
 		}
-		if (semanticHint != null && !semanticHint.equals(elementTypeHint)) {
-			return null; // if semantic hint is specified it should be the same as in element type
-		}
-		int visualID = FriendsVisualIDRegistry.getVisualID(elementTypeHint);
-		EObject domainElement = getSemanticElement(semanticAdapter);
-		if (domainElement != null
-				&& visualID != FriendsVisualIDRegistry
-						.getLinkWithClassVisualID(domainElement)) {
-			return null; // visual id for link EClass should match visual id from element type
-		}
-		return getEdgeViewClass(visualID);
+		// can never happen, provided #provides(CreateEdgeViewOperation) is correct
+		return null;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected Class getEdgeViewClass(int visualID) {
-		switch (visualID) {
-		case PersonFriendOfEditPart.VISUAL_ID:
-			return PersonFriendOfViewFactory.class;
-		case PersonEnemyOfEditPart.VISUAL_ID:
-			return PersonEnemyOfViewFactory.class;
+	public Node createPerson_2001(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(FriendsVisualIDRegistry.getType(PersonEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+
+		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
+		FontStyle nodeFontStyle = (FontStyle) node
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5001 = createLabel(node,
+				FriendsVisualIDRegistry.getType(PersonNameEditPart.VISUAL_ID));
+		label5001.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location5001 = (Location) label5001.getLayoutConstraint();
+		location5001.setX(0);
+		location5001.setY(5);
+		return node;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Edge createPersonFriendOf_4001(View containerView, int index,
+			boolean persisted, PreferencesHint preferencesHint) {
+		Edge edge = NotationFactory.eINSTANCE.createEdge();
+		edge.getStyles().add(NotationFactory.eINSTANCE.createRoutingStyle());
+		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE
+				.createRelativeBendpoints();
+		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(
+				2);
+		points.add(new RelativeBendpoint());
+		points.add(new RelativeBendpoint());
+		bendpoints.setPoints(points);
+		edge.setBendpoints(bendpoints);
+		ViewUtil.insertChildView(containerView, edge, index, persisted);
+		edge.setType(FriendsVisualIDRegistry
+				.getType(PersonFriendOfEditPart.VISUAL_ID));
+		edge.setElement(null);
+		// initializePreferences
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+		FontStyle edgeFontStyle = (FontStyle) edge
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (edgeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			edgeFontStyle.setFontName(fontData.getName());
+			edgeFontStyle.setFontHeight(fontData.getHeight());
+			edgeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			edgeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			edgeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		Routing routing = Routing.get(prefStore
+				.getInt(IPreferenceConstants.PREF_LINE_STYLE));
+		if (routing != null) {
+			ViewUtil.setStructuralFeatureValue(edge,
+					NotationPackage.eINSTANCE.getRoutingStyle_Routing(),
+					routing);
+		}
+		Node label6001 = createLabel(edge,
+				FriendsVisualIDRegistry
+						.getType(WrappingLabelEditPart.VISUAL_ID));
+		label6001.getStyles().add(
+				NotationFactory.eINSTANCE.createDescriptionStyle());
+		label6001.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location6001 = (Location) label6001.getLayoutConstraint();
+		location6001.setX(0);
+		location6001.setY(40);
+		return edge;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Edge createPersonEnemyOf_4002(View containerView, int index,
+			boolean persisted, PreferencesHint preferencesHint) {
+		Edge edge = NotationFactory.eINSTANCE.createEdge();
+		edge.getStyles().add(NotationFactory.eINSTANCE.createRoutingStyle());
+		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE
+				.createRelativeBendpoints();
+		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(
+				2);
+		points.add(new RelativeBendpoint());
+		points.add(new RelativeBendpoint());
+		bendpoints.setPoints(points);
+		edge.setBendpoints(bendpoints);
+		ViewUtil.insertChildView(containerView, edge, index, persisted);
+		edge.setType(FriendsVisualIDRegistry
+				.getType(PersonEnemyOfEditPart.VISUAL_ID));
+		edge.setElement(null);
+		// initializePreferences
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+		FontStyle edgeFontStyle = (FontStyle) edge
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (edgeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			edgeFontStyle.setFontName(fontData.getName());
+			edgeFontStyle.setFontHeight(fontData.getHeight());
+			edgeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			edgeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			edgeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		Routing routing = Routing.get(prefStore
+				.getInt(IPreferenceConstants.PREF_LINE_STYLE));
+		if (routing != null) {
+			ViewUtil.setStructuralFeatureValue(edge,
+					NotationPackage.eINSTANCE.getRoutingStyle_Routing(),
+					routing);
+		}
+		Node label6002 = createLabel(edge,
+				FriendsVisualIDRegistry
+						.getType(WrappingLabel2EditPart.VISUAL_ID));
+		label6002.getStyles().add(
+				NotationFactory.eINSTANCE.createDescriptionStyle());
+		label6002.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location6002 = (Location) label6002.getLayoutConstraint();
+		location6002.setX(0);
+		location6002.setY(40);
+		return edge;
+	}
+
+	/**
+	 * @generated
+	 */
+	private void stampShortcut(View containerView, Node target) {
+		if (!WorldEditPart.MODEL_ID.equals(FriendsVisualIDRegistry
+				.getModelID(containerView))) {
+			EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE
+					.createEAnnotation();
+			shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
+			shortcutAnnotation.getDetails().put(
+					"modelID", WorldEditPart.MODEL_ID); //$NON-NLS-1$
+			target.getEAnnotations().add(shortcutAnnotation);
+		}
+	}
+
+	/**
+	 * @generated
+	 */
+	private Node createLabel(View owner, String hint) {
+		DecorationNode rv = NotationFactory.eINSTANCE.createDecorationNode();
+		rv.setType(hint);
+		ViewUtil.insertChildView(owner, rv, ViewUtil.APPEND, true);
+		return rv;
+	}
+
+	/**
+	 * @generated
+	 */
+	private EObject getSemanticElement(IAdaptable semanticAdapter) {
+		if (semanticAdapter == null) {
+			return null;
+		}
+		EObject eObject = (EObject) semanticAdapter.getAdapter(EObject.class);
+		if (eObject != null) {
+			return EMFCoreUtil.resolve(
+					TransactionUtil.getEditingDomain(eObject), eObject);
 		}
 		return null;
 	}

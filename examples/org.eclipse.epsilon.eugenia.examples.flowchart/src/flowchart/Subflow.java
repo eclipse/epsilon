@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart;
 
@@ -17,5 +13,6 @@ package flowchart;
  * @model
  * @generated
  */
-public interface Subflow extends Flowchart, Node {
+public interface Subflow extends Flowchart, Node
+{
 } // Subflow

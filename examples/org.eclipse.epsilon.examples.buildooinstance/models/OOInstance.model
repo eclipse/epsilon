@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="ASCII"?>
-<OO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OO="OO" xmi:id="_dgZisAt2Ed6tCvOilyvb-g" name="m">
-  <contents xsi:type="OO:Package" xmi:id="_dgZisQt2Ed6tCvOilyvb-g" name="p1">
-    <contents xsi:type="OO:Class" xmi:id="_dgZisgt2Ed6tCvOilyvb-g" name="c11" extends="_dgZiuwt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZiswt2Ed6tCvOilyvb-g" name="c12" extends="_dgZixAt2Ed6tCvOilyvb-g" extendedBy="_dgZitgt2Ed6tCvOilyvb-g _dgZivgt2Ed6tCvOilyvb-g _dgZiwwt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZitAt2Ed6tCvOilyvb-g" name="c13" extends="_dgZiuAt2Ed6tCvOilyvb-g" extendedBy="_dgZiuAt2Ed6tCvOilyvb-g _dgZixAt2Ed6tCvOilyvb-g" isAbstract="false"/>
+<OO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OO="OO" name="m">
+  <contents xsi:type="OO:Package" name="p1">
+    <contents xsi:type="OO:Class" name="c11" extends="//@contents.3/@contents.0" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c12" extends="//@contents.0/@contents.2" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c13" extends="//@contents.1/@contents.2" extendedBy="//@contents.0/@contents.1" isAbstract="false"/>
   </contents>
-  <contents xsi:type="OO:Package" xmi:id="_dgZitQt2Ed6tCvOilyvb-g" name="p2">
-    <contents xsi:type="OO:Class" xmi:id="_dgZitgt2Ed6tCvOilyvb-g" name="c21" extends="_dgZiswt2Ed6tCvOilyvb-g" extendedBy="_dgZivAt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZitwt2Ed6tCvOilyvb-g" name="c22" extends="_dgZiugt2Ed6tCvOilyvb-g" extendedBy="_dgZiugt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZiuAt2Ed6tCvOilyvb-g" name="c23" extends="_dgZitAt2Ed6tCvOilyvb-g" extendedBy="_dgZitAt2Ed6tCvOilyvb-g" isAbstract="false"/>
+  <contents xsi:type="OO:Package" name="p2">
+    <contents xsi:type="OO:Class" name="c21" extends="//@contents.1/@contents.1" extendedBy="//@contents.3/@contents.1" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c22" extends="//@contents.1/@contents.1" extendedBy="//@contents.1/@contents.0 //@contents.1/@contents.1 //@contents.3/@contents.0 //@contents.4/@contents.0 //@contents.4/@contents.1" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c23" extends="//@contents.3/@contents.0" extendedBy="//@contents.0/@contents.2" isAbstract="false"/>
   </contents>
-  <contents xsi:type="OO:Package" xmi:id="_dgZiuQt2Ed6tCvOilyvb-g" name="p3">
-    <contents xsi:type="OO:Class" xmi:id="_dgZiugt2Ed6tCvOilyvb-g" name="c31" extends="_dgZitwt2Ed6tCvOilyvb-g" extendedBy="_dgZitwt2Ed6tCvOilyvb-g _dgZivwt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZiuwt2Ed6tCvOilyvb-g" name="c32" extends="_dgZiuwt2Ed6tCvOilyvb-g" extendedBy="_dgZisgt2Ed6tCvOilyvb-g _dgZiuwt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZivAt2Ed6tCvOilyvb-g" name="c33" extends="_dgZitgt2Ed6tCvOilyvb-g" isAbstract="false"/>
+  <contents xsi:type="OO:Package" name="p3">
+    <contents xsi:type="OO:Class" name="c31" extends="//@contents.4/@contents.1" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c32" extends="//@contents.4/@contents.2" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c33" extends="//@contents.4/@contents.0" extendedBy="//@contents.3/@contents.2" isAbstract="false"/>
   </contents>
-  <contents xsi:type="OO:Package" xmi:id="_dgZivQt2Ed6tCvOilyvb-g" name="p4">
-    <contents xsi:type="OO:Class" xmi:id="_dgZivgt2Ed6tCvOilyvb-g" name="c41" extends="_dgZiswt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZivwt2Ed6tCvOilyvb-g" name="c42" extends="_dgZiugt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZiwAt2Ed6tCvOilyvb-g" name="c43" extends="_dgZiwgt2Ed6tCvOilyvb-g" extendedBy="_dgZiwgt2Ed6tCvOilyvb-g" isAbstract="false"/>
+  <contents xsi:type="OO:Package" name="p4">
+    <contents xsi:type="OO:Class" name="c41" extends="//@contents.1/@contents.1" extendedBy="//@contents.0/@contents.0 //@contents.1/@contents.2" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c42" extends="//@contents.1/@contents.0" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c43" extends="//@contents.2/@contents.2" isAbstract="false"/>
   </contents>
-  <contents xsi:type="OO:Package" xmi:id="_dgZiwQt2Ed6tCvOilyvb-g" name="p5">
-    <contents xsi:type="OO:Class" xmi:id="_dgZiwgt2Ed6tCvOilyvb-g" name="c51" extends="_dgZiwAt2Ed6tCvOilyvb-g" extendedBy="_dgZiwAt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZiwwt2Ed6tCvOilyvb-g" name="c52" extends="_dgZiswt2Ed6tCvOilyvb-g" isAbstract="false"/>
-    <contents xsi:type="OO:Class" xmi:id="_dgZixAt2Ed6tCvOilyvb-g" name="c53" extends="_dgZitAt2Ed6tCvOilyvb-g" extendedBy="_dgZiswt2Ed6tCvOilyvb-g" isAbstract="false"/>
+  <contents xsi:type="OO:Package" name="p5">
+    <contents xsi:type="OO:Class" name="c51" extends="//@contents.1/@contents.1" extendedBy="//@contents.2/@contents.2 //@contents.4/@contents.2" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c52" extends="//@contents.1/@contents.1" extendedBy="//@contents.2/@contents.0" isAbstract="false"/>
+    <contents xsi:type="OO:Class" name="c53" extends="//@contents.4/@contents.0" extendedBy="//@contents.2/@contents.1" isAbstract="false"/>
   </contents>
 </OO:Model>

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -28,50 +24,51 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPackage {
-	/**
+public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPackage
+{
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass flowchartEClass = null;
+  private EClass flowchartEClass = null;
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass nodeEClass = null;
+  private EClass nodeEClass = null;
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass transitionEClass = null;
+  private EClass transitionEClass = null;
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass subflowEClass = null;
+  private EClass subflowEClass = null;
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass actionEClass = null;
+  private EClass actionEClass = null;
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass decisionEClass = null;
+  private EClass decisionEClass = null;
 
-	/**
+  /**
    * Creates an instance of the model <b>Package</b>, registered with
    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
    * package URI value.
@@ -80,36 +77,38 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
    * initialization of the package, or returns the registered package,
    * if one already exists.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see org.eclipse.emf.ecore.EPackage.Registry
    * @see flowchart.FlowchartPackage#eNS_URI
    * @see #init()
    * @generated
    */
-	private FlowchartPackageImpl() {
+  private FlowchartPackageImpl()
+  {
     super(eNS_URI, FlowchartFactory.eINSTANCE);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private static boolean isInited = false;
+  private static boolean isInited = false;
 
-	/**
+  /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
    * 
    * <p>This method is used to initialize {@link FlowchartPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #eNS_URI
    * @see #createPackageContents()
    * @see #initializePackageContents()
    * @generated
    */
-	public static FlowchartPackage init() {
+  public static FlowchartPackage init()
+  {
     if (isInited) return (FlowchartPackage)EPackage.Registry.INSTANCE.getEPackage(FlowchartPackage.eNS_URI);
 
     // Obtain or create and register package
@@ -132,156 +131,172 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
     return theFlowchartPackage;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getFlowchart() {
+  public EClass getFlowchart()
+  {
     return flowchartEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getFlowchart_Nodes() {
+  public EReference getFlowchart_Nodes()
+  {
     return (EReference)flowchartEClass.getEStructuralFeatures().get(0);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getFlowchart_Transitions() {
+  public EReference getFlowchart_Transitions()
+  {
     return (EReference)flowchartEClass.getEStructuralFeatures().get(1);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getNode() {
+  public EClass getNode()
+  {
     return nodeEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getNode_Name() {
+  public EAttribute getNode_Name()
+  {
     return (EAttribute)nodeEClass.getEStructuralFeatures().get(0);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getNode_Outgoing() {
+  public EReference getNode_Outgoing()
+  {
     return (EReference)nodeEClass.getEStructuralFeatures().get(1);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getNode_Incoming() {
+  public EReference getNode_Incoming()
+  {
     return (EReference)nodeEClass.getEStructuralFeatures().get(2);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getTransition() {
+  public EClass getTransition()
+  {
     return transitionEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTransition_Name() {
+  public EAttribute getTransition_Name()
+  {
     return (EAttribute)transitionEClass.getEStructuralFeatures().get(0);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getTransition_Source() {
+  public EReference getTransition_Source()
+  {
     return (EReference)transitionEClass.getEStructuralFeatures().get(1);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getTransition_Target() {
+  public EReference getTransition_Target()
+  {
     return (EReference)transitionEClass.getEStructuralFeatures().get(2);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getSubflow() {
+  public EClass getSubflow()
+  {
     return subflowEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getAction() {
+  public EClass getAction()
+  {
     return actionEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getDecision() {
+  public EClass getDecision()
+  {
     return decisionEClass;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public FlowchartFactory getFlowchartFactory() {
+  public FlowchartFactory getFlowchartFactory()
+  {
     return (FlowchartFactory)getEFactoryInstance();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private boolean isCreated = false;
+  private boolean isCreated = false;
 
-	/**
+  /**
    * Creates the meta-model objects for the package.  This method is
    * guarded to have no affect on any invocation but its first.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void createPackageContents() {
+  public void createPackageContents()
+  {
     if (isCreated) return;
     isCreated = true;
 
@@ -307,21 +322,22 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
     decisionEClass = createEClass(DECISION);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private boolean isInitialized = false;
+  private boolean isInitialized = false;
 
-	/**
+  /**
    * Complete the initialization of the package and its meta-model.  This
    * method is guarded to have no affect on any invocation but its first.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void initializePackageContents() {
+  public void initializePackageContents()
+  {
     if (isInitialized) return;
     isInitialized = true;
 
@@ -373,13 +389,14 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
     createGmf_2Annotations();
   }
 
-	/**
+  /**
    * Initializes the annotations for <b>gmf.diagram</b>.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected void createGmfAnnotations() {
+  protected void createGmfAnnotations()
+  {
     String source = "gmf.diagram";		
     addAnnotation
       (flowchartEClass, 
@@ -390,13 +407,14 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
        });				
   }
 
-	/**
+  /**
    * Initializes the annotations for <b>gmf.node</b>.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected void createGmf_1Annotations() {
+  protected void createGmf_1Annotations()
+  {
     String source = "gmf.node";			
     addAnnotation
       (nodeEClass, 
@@ -422,13 +440,14 @@ public class FlowchartPackageImpl extends EPackageImpl implements FlowchartPacka
        });
   }
 
-	/**
+  /**
    * Initializes the annotations for <b>gmf.link</b>.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected void createGmf_2Annotations() {
+  protected void createGmf_2Annotations()
+  {
     String source = "gmf.link";				
     addAnnotation
       (transitionEClass, 

@@ -14,8 +14,10 @@ import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import filesystem.diagram.edit.policies.DriveDriveContentsCompartmentCanonicalEditPolicy;
 import filesystem.diagram.edit.policies.DriveDriveContentsCompartmentItemSemanticEditPolicy;
+import filesystem.diagram.part.FilesystemVisualIDRegistry;
 import filesystem.diagram.part.Messages;
 
 /**
@@ -63,7 +65,8 @@ public class DriveDriveContentsCompartmentEditPart extends
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new DriveDriveContentsCompartmentItemSemanticEditPolicy());
 		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
-				new CreationEditPolicy());
+				new CreationEditPolicyWithCustomReparent(
+						FilesystemVisualIDRegistry.TYPED_INSTANCE));
 		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
 				new DragDropEditPolicy());
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,

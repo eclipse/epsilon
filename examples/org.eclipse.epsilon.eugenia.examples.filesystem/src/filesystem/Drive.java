@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package filesystem;
 
@@ -17,5 +13,6 @@ package filesystem;
  * @model
  * @generated
  */
-public interface Drive extends Folder {
+public interface Drive extends Folder
+{
 } // Drive

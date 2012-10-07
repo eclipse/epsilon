@@ -104,18 +104,18 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 		case ActionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Action", FlowchartElementTypes.Action_2004); //$NON-NLS-1$
+		case FlowchartEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Diagram?flowchart?Flowchart", FlowchartElementTypes.Flowchart_1000); //$NON-NLS-1$
+		case TransitionEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Link?flowchart?Transition", FlowchartElementTypes.Transition_4001); //$NON-NLS-1$
 		case SubflowEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Subflow", FlowchartElementTypes.Subflow_2001); //$NON-NLS-1$
 		case DecisionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?flowchart?Decision", FlowchartElementTypes.Decision_2003); //$NON-NLS-1$
-		case TransitionEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Link?flowchart?Transition", FlowchartElementTypes.Transition_4001); //$NON-NLS-1$
-		case FlowchartEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Diagram?flowchart?Flowchart", FlowchartElementTypes.Flowchart_1000); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -178,14 +178,14 @@ public class FlowchartNavigatorLabelProvider extends LabelProvider implements
 		switch (FlowchartVisualIDRegistry.getVisualID(view)) {
 		case ActionEditPart.VISUAL_ID:
 			return getAction_2004Text(view);
+		case FlowchartEditPart.VISUAL_ID:
+			return getFlowchart_1000Text(view);
+		case TransitionEditPart.VISUAL_ID:
+			return getTransition_4001Text(view);
 		case SubflowEditPart.VISUAL_ID:
 			return getSubflow_2001Text(view);
 		case DecisionEditPart.VISUAL_ID:
 			return getDecision_2003Text(view);
-		case TransitionEditPart.VISUAL_ID:
-			return getTransition_4001Text(view);
-		case FlowchartEditPart.VISUAL_ID:
-			return getFlowchart_1000Text(view);
 		}
 		return getUnknownElementText(view);
 	}

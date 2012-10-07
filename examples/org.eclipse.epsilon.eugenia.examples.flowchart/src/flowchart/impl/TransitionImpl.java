@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -12,12 +8,12 @@ import flowchart.Transition;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,8 +30,9 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *
  * @generated
  */
-public class TransitionImpl extends EObjectImpl implements Transition {
-	/**
+public class TransitionImpl extends EObjectImpl implements Transition
+{
+  /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -44,6 +41,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
    * @ordered
    */
   protected static final String NAME_EDEFAULT = null;
+
   /**
    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -53,6 +51,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
    * <!-- begin-user-doc -->
@@ -62,6 +61,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
    * @ordered
    */
   protected Node source;
+
   /**
    * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
    * <!-- begin-user-doc -->
@@ -74,50 +74,55 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected TransitionImpl() {
+  protected TransitionImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	protected EClass eStaticClass() {
+  @Override
+  protected EClass eStaticClass()
+  {
     return FlowchartPackage.Literals.TRANSITION;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public String getName() {
+  public String getName()
+  {
     return name;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setName(String newName) {
+  public void setName(String newName)
+  {
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, FlowchartPackage.TRANSITION__NAME, oldName, name));
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Node getSource() {
+  public Node getSource()
+  {
     if (source != null && source.eIsProxy())
     {
       InternalEObject oldSource = (InternalEObject)source;
@@ -131,7 +136,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
     return source;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -160,10 +165,11 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setSource(Node newSource) {
+  public void setSource(Node newSource)
+  {
     if (newSource != source)
     {
       NotificationChain msgs = null;
@@ -178,12 +184,13 @@ public class TransitionImpl extends EObjectImpl implements Transition {
       eNotify(new ENotificationImpl(this, Notification.SET, FlowchartPackage.TRANSITION__SOURCE, newSource, newSource));
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Node getTarget() {
+  public Node getTarget()
+  {
     if (target != null && target.eIsProxy())
     {
       InternalEObject oldTarget = (InternalEObject)target;
@@ -197,7 +204,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
     return target;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -226,10 +233,11 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setTarget(Node newTarget) {
+  public void setTarget(Node newTarget)
+  {
     if (newTarget != target)
     {
       NotificationChain msgs = null;

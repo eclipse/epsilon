@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import org.eclipse.core.runtime.Platform;
@@ -15,16 +8,17 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.structure.DiagramStructure;
 
 import friends.FriendsPackage;
 import friends.World;
 import friends.diagram.edit.parts.PersonEditPart;
 import friends.diagram.edit.parts.PersonEnemyOfEditPart;
-import friends.diagram.edit.parts.PersonEnemyOfExternalLabelEditPart;
 import friends.diagram.edit.parts.PersonFriendOfEditPart;
-import friends.diagram.edit.parts.PersonFriendOfExternalLabelEditPart;
 import friends.diagram.edit.parts.PersonNameEditPart;
 import friends.diagram.edit.parts.WorldEditPart;
+import friends.diagram.edit.parts.WrappingLabel2EditPart;
+import friends.diagram.edit.parts.WrappingLabelEditPart;
 
 /**
  * This registry is used to determine which type of visual object should be
@@ -91,7 +85,7 @@ public class FriendsVisualIDRegistry {
 	 * @generated
 	 */
 	public static String getType(int visualID) {
-		return String.valueOf(visualID);
+		return Integer.toString(visualID);
 	}
 
 	/**
@@ -166,23 +160,23 @@ public class FriendsVisualIDRegistry {
 			}
 		}
 		switch (containerVisualID) {
-		case PersonEditPart.VISUAL_ID:
-			if (PersonNameEditPart.VISUAL_ID == nodeVisualID) {
-				return true;
-			}
-			break;
 		case WorldEditPart.VISUAL_ID:
 			if (PersonEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
+		case PersonEditPart.VISUAL_ID:
+			if (PersonNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
 		case PersonFriendOfEditPart.VISUAL_ID:
-			if (PersonFriendOfExternalLabelEditPart.VISUAL_ID == nodeVisualID) {
+			if (WrappingLabelEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
 		case PersonEnemyOfEditPart.VISUAL_ID:
-			if (PersonEnemyOfExternalLabelEditPart.VISUAL_ID == nodeVisualID) {
+			if (WrappingLabel2EditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
@@ -209,5 +203,100 @@ public class FriendsVisualIDRegistry {
 	private static boolean isDiagram(World element) {
 		return true;
 	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean checkNodeVisualID(View containerView,
+			EObject domainElement, int candidate) {
+		if (candidate == -1) {
+			//unrecognized id is always bad
+			return false;
+		}
+		int basic = getNodeVisualID(containerView, domainElement);
+		return basic == candidate;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isCompartmentVisualID(int visualID) {
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isSemanticLeafVisualID(int visualID) {
+		switch (visualID) {
+		case WorldEditPart.VISUAL_ID:
+			return false;
+		case PersonEditPart.VISUAL_ID:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramStructure TYPED_INSTANCE = new DiagramStructure() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getVisualID(View view) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.getVisualID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public String getModelID(View view) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.getModelID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getNodeVisualID(View containerView, EObject domainElement) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.getNodeVisualID(containerView, domainElement);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean checkNodeVisualID(View containerView,
+				EObject domainElement, int candidate) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.checkNodeVisualID(containerView, domainElement, candidate);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isCompartmentVisualID(int visualID) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.isCompartmentVisualID(visualID);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isSemanticLeafVisualID(int visualID) {
+			return friends.diagram.part.FriendsVisualIDRegistry
+					.isSemanticLeafVisualID(visualID);
+		}
+	};
 
 }

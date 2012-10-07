@@ -35,227 +35,233 @@ import org.eclipse.epsilon.eugenia.examples.fed.util.FedAdapterFactory;
 public class FedItemProviderAdapterFactory extends FedAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
-	 * This keeps track of the root adapter factory that delegates to this adapter factory.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the root adapter factory that delegates to this adapter factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected ComposedAdapterFactory parentAdapterFactory;
 
   /**
-	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-	 * <!-- begin-user-doc -->
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
   /**
-	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-	 * <!-- begin-user-doc -->
+   * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
-	 * This constructs an instance.
-	 * <!-- begin-user-doc -->
+   * This constructs an instance.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public FedItemProviderAdapterFactory()
   {
-		supportedTypes.add(IEditingDomainItemProvider.class);
-		supportedTypes.add(IStructuredItemContentProvider.class);
-		supportedTypes.add(ITreeItemContentProvider.class);
-		supportedTypes.add(IItemLabelProvider.class);
-		supportedTypes.add(IItemPropertySource.class);
-	}
+    supportedTypes.add(IEditingDomainItemProvider.class);
+    supportedTypes.add(IStructuredItemContentProvider.class);
+    supportedTypes.add(ITreeItemContentProvider.class);
+    supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);
+  }
 
   /**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Configuration} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Configuration} instances.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected ConfigurationItemProvider configurationItemProvider;
 
   /**
-	 * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Configuration}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Configuration}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Adapter createConfigurationAdapter()
   {
-		if (configurationItemProvider == null) {
-			configurationItemProvider = new ConfigurationItemProvider(this);
-		}
+    if (configurationItemProvider == null)
+    {
+      configurationItemProvider = new ConfigurationItemProvider(this);
+    }
 
-		return configurationItemProvider;
-	}
+    return configurationItemProvider;
+  }
 
   /**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Feature} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Feature} instances.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected FeatureItemProvider featureItemProvider;
 
   /**
-	 * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Feature}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Feature}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Adapter createFeatureAdapter()
   {
-		if (featureItemProvider == null) {
-			featureItemProvider = new FeatureItemProvider(this);
-		}
+    if (featureItemProvider == null)
+    {
+      featureItemProvider = new FeatureItemProvider(this);
+    }
 
-		return featureItemProvider;
-	}
+    return featureItemProvider;
+  }
 
   /**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Plugin} instances.
-	 * <!-- begin-user-doc -->
+   * This keeps track of the one adapter used for all {@link org.eclipse.epsilon.eugenia.examples.fed.Plugin} instances.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected PluginItemProvider pluginItemProvider;
 
   /**
-	 * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Plugin}.
-	 * <!-- begin-user-doc -->
+   * This creates an adapter for a {@link org.eclipse.epsilon.eugenia.examples.fed.Plugin}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Adapter createPluginAdapter()
   {
-		if (pluginItemProvider == null) {
-			pluginItemProvider = new PluginItemProvider(this);
-		}
+    if (pluginItemProvider == null)
+    {
+      pluginItemProvider = new PluginItemProvider(this);
+    }
 
-		return pluginItemProvider;
-	}
+    return pluginItemProvider;
+  }
 
   /**
-	 * This returns the root adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+   * This returns the root adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public ComposeableAdapterFactory getRootAdapterFactory()
   {
-		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-	}
+    return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+  }
 
   /**
-	 * This sets the composed adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+   * This sets the composed adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory)
   {
-		this.parentAdapterFactory = parentAdapterFactory;
-	}
+    this.parentAdapterFactory = parentAdapterFactory;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public boolean isFactoryForType(Object type)
   {
-		return supportedTypes.contains(type) || super.isFactoryForType(type);
-	}
+    return supportedTypes.contains(type) || super.isFactoryForType(type);
+  }
 
   /**
-	 * This implementation substitutes the factory itself as the key for the adapter.
-	 * <!-- begin-user-doc -->
+   * This implementation substitutes the factory itself as the key for the adapter.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
-		return super.adapt(notifier, this);
-	}
+    return super.adapt(notifier, this);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Object adapt(Object object, Object type)
   {
-		if (isFactoryForType(type)) {
-			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
-				return adapter;
-			}
-		}
+    if (isFactoryForType(type))
+    {
+      Object adapter = super.adapt(object, type);
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
+      {
+        return adapter;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
   /**
-	 * This adds a listener.
-	 * <!-- begin-user-doc -->
+   * This adds a listener.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public void addListener(INotifyChangedListener notifyChangedListener)
   {
-		changeNotifier.addListener(notifyChangedListener);
-	}
+    changeNotifier.addListener(notifyChangedListener);
+  }
 
   /**
-	 * This removes a listener.
-	 * <!-- begin-user-doc -->
+   * This removes a listener.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public void removeListener(INotifyChangedListener notifyChangedListener)
   {
-		changeNotifier.removeListener(notifyChangedListener);
-	}
+    changeNotifier.removeListener(notifyChangedListener);
+  }
 
   /**
-	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-	 * <!-- begin-user-doc -->
+   * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public void fireNotifyChanged(Notification notification)
   {
-		changeNotifier.fireNotifyChanged(notification);
+    changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
-			parentAdapterFactory.fireNotifyChanged(notification);
-		}
-	}
+    if (parentAdapterFactory != null)
+    {
+      parentAdapterFactory.fireNotifyChanged(notification);
+    }
+  }
 
   /**
-	 * This disposes all of the item providers created by this factory. 
-	 * <!-- begin-user-doc -->
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public void dispose()
   {
-		if (configurationItemProvider != null) configurationItemProvider.dispose();
-		if (featureItemProvider != null) featureItemProvider.dispose();
-		if (pluginItemProvider != null) pluginItemProvider.dispose();
-	}
+    if (configurationItemProvider != null) configurationItemProvider.dispose();
+    if (featureItemProvider != null) featureItemProvider.dispose();
+    if (pluginItemProvider != null) pluginItemProvider.dispose();
+  }
 
 }

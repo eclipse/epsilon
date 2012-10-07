@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -20,23 +16,26 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class ActionImpl extends NodeImpl implements Action {
-	/**
+public class ActionImpl extends NodeImpl implements Action
+{
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected ActionImpl() {
+  protected ActionImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	protected EClass eStaticClass() {
+  @Override
+  protected EClass eStaticClass()
+  {
     return FlowchartPackage.Literals.ACTION;
   }
 

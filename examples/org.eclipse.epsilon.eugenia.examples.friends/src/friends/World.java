@@ -33,24 +33,24 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see friends.FriendsPackage#getWorld()
- * @model
+ * @model annotation="gmf.diagram foo='bar'"
  * @generated
  */
 public interface World extends EObject {
 	/**
-	 * Returns the value of the '<em><b>People</b></em>' containment reference list.
-	 * The list contents are of type {@link friends.Person}.
-	 * <!-- begin-user-doc -->
+   * Returns the value of the '<em><b>People</b></em>' containment reference list.
+   * The list contents are of type {@link friends.Person}.
+   * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>People</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>People</em>' containment reference list.
-	 * @see friends.FriendsPackage#getWorld_People()
-	 * @model containment="true"
-	 * @generated
-	 */
+   * @return the value of the '<em>People</em>' containment reference list.
+   * @see friends.FriendsPackage#getWorld_People()
+   * @model containment="true"
+   * @generated
+   */
 	EList<Person> getPeople();
 
 } // World

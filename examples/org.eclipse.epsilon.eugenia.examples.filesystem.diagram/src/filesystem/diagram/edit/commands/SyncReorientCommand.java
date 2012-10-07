@@ -74,8 +74,9 @@ public class SyncReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Filesystem container = (Filesystem) getLink().eContainer();
-		return FilesystemBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistSync_4001(container, getNewSource(), target);
+		return FilesystemBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistSync_4001(container, getLink(), getNewSource(), target);
 	}
 
 	/**
@@ -90,8 +91,9 @@ public class SyncReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Filesystem container = (Filesystem) getLink().eContainer();
-		return FilesystemBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistSync_4001(container, source, getNewTarget());
+		return FilesystemBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistSync_4001(container, getLink(), source, getNewTarget());
 	}
 
 	/**

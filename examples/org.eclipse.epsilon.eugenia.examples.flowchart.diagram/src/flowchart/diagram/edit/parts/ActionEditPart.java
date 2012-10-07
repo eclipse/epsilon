@@ -349,7 +349,6 @@ public class ActionEditPart extends ShapeNodeEditPart {
 		 * @generated
 		 */
 		public ActionFigure() {
-
 			createContents();
 		}
 
@@ -359,6 +358,7 @@ public class ActionEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fFigureActionLabelFigure = new WrappingLabel();
+
 			fFigureActionLabelFigure.setText("Action");
 
 			fFigureActionLabelFigure.setFont(FFIGUREACTIONLABELFIGURE_FONT);

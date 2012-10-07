@@ -48,8 +48,13 @@ public class FilesystemModelingAssistantProvider extends
 	public List getTypesForPopupBar(IAdaptable host) {
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
+		if (editPart instanceof FilesystemEditPart) {
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			types.add(FilesystemElementTypes.Drive_2001);
+			return types;
+		}
 		if (editPart instanceof DriveDriveContentsCompartmentEditPart) {
-			ArrayList types = new ArrayList(4);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(4);
 			types.add(FilesystemElementTypes.Drive_3001);
 			types.add(FilesystemElementTypes.Folder_3002);
 			types.add(FilesystemElementTypes.Shortcut_3003);
@@ -57,7 +62,7 @@ public class FilesystemModelingAssistantProvider extends
 			return types;
 		}
 		if (editPart instanceof DriveDriveContentsCompartment2EditPart) {
-			ArrayList types = new ArrayList(4);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(4);
 			types.add(FilesystemElementTypes.Drive_3001);
 			types.add(FilesystemElementTypes.Folder_3002);
 			types.add(FilesystemElementTypes.Shortcut_3003);
@@ -65,16 +70,11 @@ public class FilesystemModelingAssistantProvider extends
 			return types;
 		}
 		if (editPart instanceof FolderFolderContentsCompartmentEditPart) {
-			ArrayList types = new ArrayList(4);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(4);
 			types.add(FilesystemElementTypes.Drive_3001);
 			types.add(FilesystemElementTypes.Folder_3002);
 			types.add(FilesystemElementTypes.Shortcut_3003);
 			types.add(FilesystemElementTypes.File_3004);
-			return types;
-		}
-		if (editPart instanceof FilesystemEditPart) {
-			ArrayList types = new ArrayList(1);
-			types.add(FilesystemElementTypes.Drive_2001);
 			return types;
 		}
 		return Collections.EMPTY_LIST;
@@ -225,8 +225,8 @@ public class FilesystemModelingAssistantProvider extends
 	 */
 	public EObject selectExistingElementForSource(IAdaptable target,
 			IElementType relationshipType) {
-		return selectExistingElement(target, getTypesForSource(target,
-				relationshipType));
+		return selectExistingElement(target,
+				getTypesForSource(target, relationshipType));
 	}
 
 	/**
@@ -234,8 +234,8 @@ public class FilesystemModelingAssistantProvider extends
 	 */
 	public EObject selectExistingElementForTarget(IAdaptable source,
 			IElementType relationshipType) {
-		return selectExistingElement(source, getTypesForTarget(source,
-				relationshipType));
+		return selectExistingElement(source,
+				getTypesForTarget(source, relationshipType));
 	}
 
 	/**
@@ -251,9 +251,10 @@ public class FilesystemModelingAssistantProvider extends
 			return null;
 		}
 		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		Collection elements = new HashSet();
-		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = (EObject) it.next();
+		HashSet<EObject> elements = new HashSet<EObject>();
+		for (Iterator<EObject> it = diagram.getElement().eAllContents(); it
+				.hasNext();) {
+			EObject element = it.next();
 			if (isApplicableElement(element, types)) {
 				elements.add(element);
 			}

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -11,18 +7,20 @@ import flowchart.Node;
 import flowchart.Transition;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,8 +37,9 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *
  * @generated
  */
-public abstract class NodeImpl extends EObjectImpl implements Node {
-	/**
+public abstract class NodeImpl extends EObjectImpl implements Node
+{
+  /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -49,6 +48,7 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
    * @ordered
    */
   protected static final String NAME_EDEFAULT = null;
+
   /**
    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -58,6 +58,7 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -67,6 +68,7 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
    * @ordered
    */
   protected EList<Transition> outgoing;
+
   /**
    * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -79,51 +81,55 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected NodeImpl() {
+  protected NodeImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	protected EClass eStaticClass() {
+  @Override
+  protected EClass eStaticClass()
+  {
     return FlowchartPackage.Literals.NODE;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public String getName() {
+  public String getName()
+  {
     return name;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setName(String newName) {
+  public void setName(String newName)
+  {
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, FlowchartPackage.NODE__NAME, oldName, name));
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Transition> getOutgoing() {
+  public EList<Transition> getOutgoing()
+  {
     if (outgoing == null)
     {
       outgoing = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, FlowchartPackage.NODE__OUTGOING, FlowchartPackage.TRANSITION__SOURCE);
@@ -131,13 +137,13 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
     return outgoing;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Transition> getIncoming() {
+  public EList<Transition> getIncoming()
+  {
     if (incoming == null)
     {
       incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, FlowchartPackage.NODE__INCOMING, FlowchartPackage.TRANSITION__TARGET);

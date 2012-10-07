@@ -76,7 +76,7 @@ public class ShortcutTargetReorientCommand extends EditElementCommand {
 		if (!(oldEnd instanceof File && newEnd instanceof Shortcut)) {
 			return false;
 		}
-		return FilesystemBaseItemSemanticEditPolicy.LinkConstraints
+		return FilesystemBaseItemSemanticEditPolicy.getLinkConstraints()
 				.canExistShortcutTarget_4002(getNewSource(), getOldTarget());
 	}
 
@@ -87,7 +87,7 @@ public class ShortcutTargetReorientCommand extends EditElementCommand {
 		if (!(oldEnd instanceof File && newEnd instanceof File)) {
 			return false;
 		}
-		return FilesystemBaseItemSemanticEditPolicy.LinkConstraints
+		return FilesystemBaseItemSemanticEditPolicy.getLinkConstraints()
 				.canExistShortcutTarget_4002(getOldSource(), getNewTarget());
 	}
 

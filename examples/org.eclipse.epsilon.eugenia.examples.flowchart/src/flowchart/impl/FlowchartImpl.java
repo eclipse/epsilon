@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -12,16 +8,18 @@ import flowchart.Node;
 import flowchart.Transition;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,8 +35,9 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *
  * @generated
  */
-public class FlowchartImpl extends EObjectImpl implements Flowchart {
-	/**
+public class FlowchartImpl extends EObjectImpl implements Flowchart
+{
+  /**
    * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -47,6 +46,7 @@ public class FlowchartImpl extends EObjectImpl implements Flowchart {
    * @ordered
    */
   protected EList<Node> nodes;
+
   /**
    * The cached value of the '{@link #getTransitions() <em>Transitions</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -59,30 +59,32 @@ public class FlowchartImpl extends EObjectImpl implements Flowchart {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected FlowchartImpl() {
+  protected FlowchartImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	protected EClass eStaticClass() {
+  @Override
+  protected EClass eStaticClass()
+  {
     return FlowchartPackage.Literals.FLOWCHART;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Node> getNodes() {
+  public EList<Node> getNodes()
+  {
     if (nodes == null)
     {
       nodes = new EObjectContainmentEList<Node>(Node.class, this, FlowchartPackage.FLOWCHART__NODES);
@@ -90,13 +92,13 @@ public class FlowchartImpl extends EObjectImpl implements Flowchart {
     return nodes;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Transition> getTransitions() {
+  public EList<Transition> getTransitions()
+  {
     if (transitions == null)
     {
       transitions = new EObjectContainmentEList<Transition>(Transition.class, this, FlowchartPackage.FLOWCHART__TRANSITIONS);

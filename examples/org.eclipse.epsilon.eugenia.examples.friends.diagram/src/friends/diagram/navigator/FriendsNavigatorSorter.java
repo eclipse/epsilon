@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.navigator;
 
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -22,12 +15,12 @@ public class FriendsNavigatorSorter extends ViewerSorter {
 	/**
 	 * @generated
 	 */
-	private static final int GROUP_CATEGORY = 3004;
+	private static final int GROUP_CATEGORY = 4004;
 
 	/**
 	 * @generated
 	 */
-	private static final int SHORTCUTS_CATEGORY = 3003;
+	private static final int SHORTCUTS_CATEGORY = 4003;
 
 	/**
 	 * @generated

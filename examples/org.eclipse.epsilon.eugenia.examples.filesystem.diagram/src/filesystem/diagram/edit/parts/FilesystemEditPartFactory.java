@@ -13,6 +13,7 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.directedit.locator.CellEditorLocatorAccess;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
@@ -104,98 +105,7 @@ public class FilesystemEditPartFactory implements EditPartFactory {
 	 */
 	public static CellEditorLocator getTextCellEditorLocator(
 			ITextAwareEditPart source) {
-		if (source.getFigure() instanceof WrappingLabel)
-			return new TextCellEditorLocator((WrappingLabel) source.getFigure());
-		else {
-			return new LabelCellEditorLocator((Label) source.getFigure());
-		}
-	}
-
-	/**
-	 * @generated
-	 */
-	static private class TextCellEditorLocator implements CellEditorLocator {
-
-		/**
-		 * @generated
-		 */
-		private WrappingLabel wrapLabel;
-
-		/**
-		 * @generated
-		 */
-		public TextCellEditorLocator(WrappingLabel wrapLabel) {
-			this.wrapLabel = wrapLabel;
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getWrapLabel() {
-			return wrapLabel;
-		}
-
-		/**
-		 * @generated
-		 */
-		public void relocate(CellEditor celleditor) {
-			Text text = (Text) celleditor.getControl();
-			Rectangle rect = getWrapLabel().getTextBounds().getCopy();
-			getWrapLabel().translateToAbsolute(rect);
-			if (getWrapLabel().isTextWrapOn()
-					&& getWrapLabel().getText().length() > 0) {
-				rect.setSize(new Dimension(text.computeSize(rect.width,
-						SWT.DEFAULT)));
-			} else {
-				int avr = FigureUtilities.getFontMetrics(text.getFont())
-						.getAverageCharWidth();
-				rect.setSize(new Dimension(text.computeSize(SWT.DEFAULT,
-						SWT.DEFAULT)).expand(avr * 2, 0));
-			}
-			if (!rect.equals(new Rectangle(text.getBounds()))) {
-				text.setBounds(rect.x, rect.y, rect.width, rect.height);
-			}
-		}
-	}
-
-	/**
-	 * @generated
-	 */
-	private static class LabelCellEditorLocator implements CellEditorLocator {
-
-		/**
-		 * @generated
-		 */
-		private Label label;
-
-		/**
-		 * @generated
-		 */
-		public LabelCellEditorLocator(Label label) {
-			this.label = label;
-		}
-
-		/**
-		 * @generated
-		 */
-		public Label getLabel() {
-			return label;
-		}
-
-		/**
-		 * @generated
-		 */
-		public void relocate(CellEditor celleditor) {
-			Text text = (Text) celleditor.getControl();
-			Rectangle rect = getLabel().getTextBounds().getCopy();
-			getLabel().translateToAbsolute(rect);
-			int avr = FigureUtilities.getFontMetrics(text.getFont())
-					.getAverageCharWidth();
-			rect.setSize(new Dimension(text.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT)).expand(avr * 2, 0));
-			if (!rect.equals(new Rectangle(text.getBounds()))) {
-				text.setBounds(rect.x, rect.y, rect.width, rect.height);
-			}
-		}
+		return CellEditorLocatorAccess.INSTANCE
+				.getTextCellEditorLocator(source);
 	}
 }

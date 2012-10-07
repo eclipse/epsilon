@@ -39,5 +39,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gmf.runtime.draw2d.ui;visibility:=reexport,
  org.eclipse.gef;visibility:=reexport,
  org.eclipse.epsilon.eugenia.examples.friends.figures;bundle-version="1.0.0",
- org.eclipse.draw2d;visibility:=reexport
+ org.eclipse.draw2d;visibility:=reexport,
+ org.eclipse.gmf.tooling.runtime;visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

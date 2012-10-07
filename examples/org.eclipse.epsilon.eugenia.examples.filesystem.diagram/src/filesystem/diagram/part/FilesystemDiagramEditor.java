@@ -23,6 +23,7 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
@@ -120,6 +121,7 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class type) {
 		if (type == IShowInTargetList.class) {
 			return new IShowInTargetList() {
@@ -197,8 +199,7 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 		IEditorInput input = getEditorInput();
 		SaveAsDialog dialog = new SaveAsDialog(shell);
 		IFile original = input instanceof IFileEditorInput ? ((IFileEditorInput) input)
-				.getFile()
-				: null;
+				.getFile() : null;
 		if (original != null) {
 			dialog.setOriginalFile(original);
 		}
@@ -257,8 +258,8 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 			if (status == null || status.getSeverity() != IStatus.CANCEL) {
 				ErrorDialog.openError(shell,
 						Messages.FilesystemDiagramEditor_SaveErrorTitle,
-						Messages.FilesystemDiagramEditor_SaveErrorMessage, x
-								.getStatus());
+						Messages.FilesystemDiagramEditor_SaveErrorMessage,
+						x.getStatus());
 			}
 		} finally {
 			provider.changed(newInput);
@@ -287,6 +288,9 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 			return StructuredSelection.EMPTY;
 		}
 		Diagram diagram = document.getDiagram();
+		if (diagram == null || diagram.eResource() == null) {
+			return StructuredSelection.EMPTY;
+		}
 		IFile file = WorkspaceSynchronizer.getFile(diagram.eResource());
 		if (file != null) {
 			FilesystemNavigatorItem item = new FilesystemNavigatorItem(diagram,
@@ -351,12 +355,12 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 		 */
 		protected List getObjectsBeingDropped() {
 			TransferData data = getCurrentEvent().currentDataType;
-			Collection uris = new HashSet();
+			HashSet<URI> uris = new HashSet<URI>();
 
 			Object transferedObject = getJavaObject(data);
 			if (transferedObject instanceof IStructuredSelection) {
 				IStructuredSelection selection = (IStructuredSelection) transferedObject;
-				for (Iterator it = selection.iterator(); it.hasNext();) {
+				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
 					Object nextSelectedObject = it.next();
 					if (nextSelectedObject instanceof FilesystemNavigatorItem) {
 						View view = ((FilesystemNavigatorItem) nextSelectedObject)
@@ -370,18 +374,13 @@ public class FilesystemDiagramEditor extends DiagramDocumentEditor implements
 
 					if (nextSelectedObject instanceof EObject) {
 						EObject modelElement = (EObject) nextSelectedObject;
-						Resource modelElementResource = modelElement
-								.eResource();
-						uris.add(modelElementResource.getURI().appendFragment(
-								modelElementResource
-										.getURIFragment(modelElement)));
+						uris.add(EcoreUtil.getURI(modelElement));
 					}
 				}
 			}
 
-			List result = new ArrayList();
-			for (Iterator it = uris.iterator(); it.hasNext();) {
-				URI nextURI = (URI) it.next();
+			ArrayList<EObject> result = new ArrayList<EObject>(uris.size());
+			for (URI nextURI : uris) {
 				EObject modelObject = getEditingDomain().getResourceSet()
 						.getEObject(nextURI, true);
 				result.add(modelObject);

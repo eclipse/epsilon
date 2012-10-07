@@ -25,9 +25,11 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import flowchart.diagram.edit.commands.FlowchartCreateShortcutDecorationsCommand;
 import flowchart.diagram.edit.policies.FlowchartCanonicalEditPolicy;
 import flowchart.diagram.edit.policies.FlowchartItemSemanticEditPolicy;
+import flowchart.diagram.part.FlowchartVisualIDRegistry;
 
 /**
  * @generated
@@ -60,6 +62,9 @@ public class FlowchartEditPart extends DiagramEditPart {
 				new FlowchartItemSemanticEditPolicy());
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
 				new FlowchartCanonicalEditPolicy());
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+				new CreationEditPolicyWithCustomReparent(
+						FlowchartVisualIDRegistry.TYPED_INSTANCE));
 		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
 				new DiagramDragDropEditPolicy() {
 					public Command getDropObjectsCommand(

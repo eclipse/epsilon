@@ -199,9 +199,6 @@ public class FlowchartNavigatorContentProvider implements
 					topViews.add((View) o);
 				}
 			}
-			result.addAll(createNavigatorItems(
-					selectViewsByType(topViews, FlowchartEditPart.MODEL_ID),
-					file, false));
 			return result.toArray();
 		}
 
@@ -268,6 +265,85 @@ public class FlowchartNavigatorContentProvider implements
 			return result.toArray();
 		}
 
+		case FlowchartEditPart.VISUAL_ID: {
+			LinkedList<FlowchartAbstractNavigatorItem> result = new LinkedList<FlowchartAbstractNavigatorItem>();
+			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
+			Diagram sv = (Diagram) view;
+			FlowchartNavigatorGroup links = new FlowchartNavigatorGroup(
+					Messages.NavigatorGroupName_Flowchart_1000_links,
+					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(SubflowEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(TransitionEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			if (!links.isEmpty()) {
+				result.add(links);
+			}
+			return result.toArray();
+		}
+
+		case TransitionEditPart.VISUAL_ID: {
+			LinkedList<FlowchartAbstractNavigatorItem> result = new LinkedList<FlowchartAbstractNavigatorItem>();
+			Edge sv = (Edge) view;
+			FlowchartNavigatorGroup target = new FlowchartNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_target,
+					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			FlowchartNavigatorGroup source = new FlowchartNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_source,
+					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(SubflowEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(SubflowEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					FlowchartVisualIDRegistry
+							.getType(DecisionEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			if (!target.isEmpty()) {
+				result.add(target);
+			}
+			if (!source.isEmpty()) {
+				result.add(source);
+			}
+			return result.toArray();
+		}
+
 		case SubflowEditPart.VISUAL_ID: {
 			LinkedList<FlowchartAbstractNavigatorItem> result = new LinkedList<FlowchartAbstractNavigatorItem>();
 			Node sv = (Node) view;
@@ -322,85 +398,6 @@ public class FlowchartNavigatorContentProvider implements
 			}
 			if (!outgoinglinks.isEmpty()) {
 				result.add(outgoinglinks);
-			}
-			return result.toArray();
-		}
-
-		case TransitionEditPart.VISUAL_ID: {
-			LinkedList<FlowchartAbstractNavigatorItem> result = new LinkedList<FlowchartAbstractNavigatorItem>();
-			Edge sv = (Edge) view;
-			FlowchartNavigatorGroup target = new FlowchartNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_target,
-					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			FlowchartNavigatorGroup source = new FlowchartNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_source,
-					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection<View> connectedViews;
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(SubflowEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(DecisionEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(SubflowEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(DecisionEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			if (!target.isEmpty()) {
-				result.add(target);
-			}
-			if (!source.isEmpty()) {
-				result.add(source);
-			}
-			return result.toArray();
-		}
-
-		case FlowchartEditPart.VISUAL_ID: {
-			LinkedList<FlowchartAbstractNavigatorItem> result = new LinkedList<FlowchartAbstractNavigatorItem>();
-			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
-			Diagram sv = (Diagram) view;
-			FlowchartNavigatorGroup links = new FlowchartNavigatorGroup(
-					Messages.NavigatorGroupName_Flowchart_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(SubflowEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry.getType(ActionEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(DecisionEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
-					FlowchartVisualIDRegistry
-							.getType(TransitionEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			if (!links.isEmpty()) {
-				result.add(links);
 			}
 			return result.toArray();
 		}

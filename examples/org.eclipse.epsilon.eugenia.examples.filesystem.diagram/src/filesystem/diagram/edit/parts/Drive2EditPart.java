@@ -4,6 +4,7 @@
 package filesystem.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -80,7 +81,7 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected LayoutEditPolicy createLayoutEditPolicy() {
-		LayoutEditPolicy lep = new LayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
 				EditPolicy result = child
@@ -106,8 +107,7 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		DriveFigure figure = new DriveFigure();
-		return primaryShape = figure;
+		return primaryShape = new DriveFigure();
 	}
 
 	/**
@@ -147,10 +147,8 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 		if (childEditPart instanceof DriveDriveContentsCompartment2EditPart) {
 			IFigure pane = getPrimaryShape()
 					.getDriveContentsCompartmentFigure();
-			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
-			pane
-					.remove(((DriveDriveContentsCompartment2EditPart) childEditPart)
-							.getFigure());
+			pane.remove(((DriveDriveContentsCompartment2EditPart) childEditPart)
+					.getFigure());
 			return true;
 		}
 		return false;
@@ -283,8 +281,8 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSource() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnSource() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(FilesystemElementTypes.Sync_4001);
 		return types;
 	}
@@ -292,9 +290,9 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSourceAndTarget(
+	public List<IElementType> getMARelTypesOnSourceAndTarget(
 			IGraphicalEditPart targetEditPart) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (targetEditPart instanceof DriveEditPart) {
 			types.add(FilesystemElementTypes.Sync_4001);
 		}
@@ -316,22 +314,13 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForTarget(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForTarget(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Drive_2001);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Drive_3001);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Folder_3002);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Shortcut_3003);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.File_3004);
 		}
 		return types;
@@ -340,8 +329,8 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnTarget() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnTarget() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(2);
 		types.add(FilesystemElementTypes.Sync_4001);
 		types.add(FilesystemElementTypes.ShortcutTarget_4002);
 		return types;
@@ -350,25 +339,15 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForSource(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForSource(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Drive_2001);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Drive_3001);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Folder_3002);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.Shortcut_3003);
-		}
-		if (relationshipType == FilesystemElementTypes.Sync_4001) {
 			types.add(FilesystemElementTypes.File_3004);
-		}
-		if (relationshipType == FilesystemElementTypes.ShortcutTarget_4002) {
+		} else if (relationshipType == FilesystemElementTypes.ShortcutTarget_4002) {
 			types.add(FilesystemElementTypes.Shortcut_3003);
 		}
 		return types;
@@ -406,6 +385,7 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fFigureDriveLabelFigure = new WrappingLabel();
+
 			fFigureDriveLabelFigure.setText("Drive");
 			fFigureDriveLabelFigure.setMaximumSize(new Dimension(getMapMode()
 					.DPtoLP(10000), getMapMode().DPtoLP(50)));
@@ -413,29 +393,11 @@ public class Drive2EditPart extends ShapeNodeEditPart {
 			this.add(fFigureDriveLabelFigure);
 
 			fDriveContentsCompartmentFigure = new RectangleFigure();
+
 			fDriveContentsCompartmentFigure.setOutline(false);
 
 			this.add(fDriveContentsCompartmentFigure);
 
-		}
-
-		/**
-		 * @generated
-		 */
-		private boolean myUseLocalCoordinates = false;
-
-		/**
-		 * @generated
-		 */
-		protected boolean useLocalCoordinates() {
-			return myUseLocalCoordinates;
-		}
-
-		/**
-		 * @generated
-		 */
-		protected void setUseLocalCoordinates(boolean useLocalCoordinates) {
-			myUseLocalCoordinates = useLocalCoordinates;
 		}
 
 		/**

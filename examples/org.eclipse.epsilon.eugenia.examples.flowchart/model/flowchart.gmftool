@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
-<gmftool:ToolRegistry xmi:version="2.0"
+<gmftool:ToolRegistry
+    xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">

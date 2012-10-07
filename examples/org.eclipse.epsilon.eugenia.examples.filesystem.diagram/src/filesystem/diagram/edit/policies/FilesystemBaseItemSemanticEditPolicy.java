@@ -43,10 +43,13 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.tooling.runtime.edit.helpers.GeneratedEditHelperBase;
 import filesystem.File;
 import filesystem.Filesystem;
 import filesystem.Shortcut;
+import filesystem.Sync;
 import filesystem.diagram.edit.helpers.FilesystemBaseEditHelper;
+import filesystem.diagram.part.FilesystemDiagramEditorPlugin;
 import filesystem.diagram.part.FilesystemVisualIDRegistry;
 import filesystem.diagram.providers.FilesystemElementTypes;
 
@@ -88,8 +91,8 @@ public class FilesystemBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Object view = ((ReconnectRequest) request).getConnectionEditPart()
 					.getModel();
 			if (view instanceof View) {
-				Integer id = new Integer(FilesystemVisualIDRegistry
-						.getVisualID((View) view));
+				Integer id = new Integer(
+						FilesystemVisualIDRegistry.getVisualID((View) view));
 				request.getExtendedData().put(VISUAL_ID_KEY, id);
 			}
 		}
@@ -140,20 +143,16 @@ public class FilesystemBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Command editPolicyCommand) {
 		if (editPolicyCommand != null) {
 			ICommand command = editPolicyCommand instanceof ICommandProxy ? ((ICommandProxy) editPolicyCommand)
-					.getICommand()
-					: new CommandProxy(editPolicyCommand);
-			request.setParameter(FilesystemBaseEditHelper.EDIT_POLICY_COMMAND,
+					.getICommand() : new CommandProxy(editPolicyCommand);
+			request.setParameter(GeneratedEditHelperBase.EDIT_POLICY_COMMAND,
 					command);
 		}
 		IElementType requestContextElementType = getContextElementType(request);
-		request.setParameter(FilesystemBaseEditHelper.CONTEXT_ELEMENT_TYPE,
+		request.setParameter(GeneratedEditHelperBase.CONTEXT_ELEMENT_TYPE,
 				requestContextElementType);
 		ICommand command = requestContextElementType.getEditCommand(request);
-		request
-				.setParameter(FilesystemBaseEditHelper.EDIT_POLICY_COMMAND,
-						null);
-		request.setParameter(FilesystemBaseEditHelper.CONTEXT_ELEMENT_TYPE,
-				null);
+		request.setParameter(GeneratedEditHelperBase.EDIT_POLICY_COMMAND, null);
+		request.setParameter(GeneratedEditHelperBase.CONTEXT_ELEMENT_TYPE, null);
 		if (command != null) {
 			if (!(command instanceof CompositeTransactionalCommand)) {
 				command = new CompositeTransactionalCommand(getEditingDomain(),
@@ -318,21 +317,40 @@ public class FilesystemBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	/**
 	 * @generated
 	 */
+	public static LinkConstraints getLinkConstraints() {
+		LinkConstraints cached = FilesystemDiagramEditorPlugin.getInstance()
+				.getLinkConstraints();
+		if (cached == null) {
+			FilesystemDiagramEditorPlugin.getInstance().setLinkConstraints(
+					cached = new LinkConstraints());
+		}
+		return cached;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static class LinkConstraints {
 
 		/**
 		 * @generated
 		 */
-		public static boolean canCreateSync_4001(Filesystem container,
-				File source, File target) {
-			return canExistSync_4001(container, source, target);
+		LinkConstraints() {
+			// use static method #getLinkConstraints() to access instance
 		}
 
 		/**
 		 * @generated
 		 */
-		public static boolean canCreateShortcutTarget_4002(Shortcut source,
+		public boolean canCreateSync_4001(Filesystem container, File source,
 				File target) {
+			return canExistSync_4001(container, null, source, target);
+		}
+
+		/**
+		 * @generated
+		 */
+		public boolean canCreateShortcutTarget_4002(Shortcut source, File target) {
 			if (source != null) {
 				if (source.getTarget() != null) {
 					return false;
@@ -345,16 +363,15 @@ public class FilesystemBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		/**
 		 * @generated
 		 */
-		public static boolean canExistSync_4001(Filesystem container,
-				File source, File target) {
+		public boolean canExistSync_4001(Filesystem container,
+				Sync linkInstance, File source, File target) {
 			return true;
 		}
 
 		/**
 		 * @generated
 		 */
-		public static boolean canExistShortcutTarget_4002(Shortcut source,
-				File target) {
+		public boolean canExistShortcutTarget_4002(Shortcut source, File target) {
 			return true;
 		}
 	}

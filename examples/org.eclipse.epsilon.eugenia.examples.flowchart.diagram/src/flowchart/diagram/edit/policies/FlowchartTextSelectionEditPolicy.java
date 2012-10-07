@@ -13,11 +13,13 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
+import org.eclipse.gmf.tooling.runtime.edit.policies.labels.IRefreshableFeedbackEditPolicy;
 
 /**
  * @generated
  */
-public class FlowchartTextSelectionEditPolicy extends SelectionEditPolicy {
+public class FlowchartTextSelectionEditPolicy extends SelectionEditPolicy
+		implements IRefreshableFeedbackEditPolicy {
 
 	/**
 	 * @generated
@@ -191,6 +193,7 @@ public class FlowchartTextSelectionEditPolicy extends SelectionEditPolicy {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void refreshFeedback() {
 		refreshSelectionFeedback();
 		refreshFocusFeedback();

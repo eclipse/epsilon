@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.tooling.runtime.update.DiagramUpdater;
 import flowchart.Action;
 import flowchart.Decision;
 import flowchart.Flowchart;
@@ -368,5 +369,42 @@ public class FlowchartDiagramUpdater {
 		}
 		return result;
 	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramUpdater TYPED_INSTANCE = new DiagramUpdater() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FlowchartNodeDescriptor> getSemanticChildren(View view) {
+			return FlowchartDiagramUpdater.getSemanticChildren(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FlowchartLinkDescriptor> getContainedLinks(View view) {
+			return FlowchartDiagramUpdater.getContainedLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FlowchartLinkDescriptor> getIncomingLinks(View view) {
+			return FlowchartDiagramUpdater.getIncomingLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FlowchartLinkDescriptor> getOutgoingLinks(View view) {
+			return FlowchartDiagramUpdater.getOutgoingLinks(view);
+		}
+	};
 
 }

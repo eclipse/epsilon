@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.util;
 
@@ -23,38 +19,41 @@ import org.eclipse.emf.ecore.EObject;
  * @see flowchart.FlowchartPackage
  * @generated
  */
-public class FlowchartAdapterFactory extends AdapterFactoryImpl {
-	/**
+public class FlowchartAdapterFactory extends AdapterFactoryImpl
+{
+  /**
    * The cached model package.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected static FlowchartPackage modelPackage;
+  protected static FlowchartPackage modelPackage;
 
-	/**
+  /**
    * Creates an instance of the adapter factory.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public FlowchartAdapterFactory() {
+  public FlowchartAdapterFactory()
+  {
     if (modelPackage == null)
     {
       modelPackage = FlowchartPackage.eINSTANCE;
     }
   }
 
-	/**
+  /**
    * Returns whether this factory is applicable for the type of the object.
    * <!-- begin-user-doc -->
-	 * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
-	 * <!-- end-user-doc -->
+   * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
+   * <!-- end-user-doc -->
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
-	@Override
-	public boolean isFactoryForType(Object object) {
+  @Override
+  public boolean isFactoryForType(Object object)
+  {
     if (object == modelPackage)
     {
       return true;
@@ -66,14 +65,14 @@ public class FlowchartAdapterFactory extends AdapterFactoryImpl {
     return false;
   }
 
-	/**
+  /**
    * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected FlowchartSwitch<Adapter> modelSwitch =
-		new FlowchartSwitch<Adapter>()
+  protected FlowchartSwitch<Adapter> modelSwitch =
+    new FlowchartSwitch<Adapter>()
     {
       @Override
       public Adapter caseFlowchart(Flowchart object)
@@ -112,113 +111,121 @@ public class FlowchartAdapterFactory extends AdapterFactoryImpl {
       }
     };
 
-	/**
+  /**
    * Creates an adapter for the <code>target</code>.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param target the object to adapt.
    * @return the adapter for the <code>target</code>.
    * @generated
    */
-	@Override
-	public Adapter createAdapter(Notifier target) {
+  @Override
+  public Adapter createAdapter(Notifier target)
+  {
     return modelSwitch.doSwitch((EObject)target);
   }
 
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Flowchart <em>Flowchart</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Flowchart
    * @generated
    */
-	public Adapter createFlowchartAdapter() {
+  public Adapter createFlowchartAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Node <em>Node</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Node
    * @generated
    */
-	public Adapter createNodeAdapter() {
+  public Adapter createNodeAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Transition <em>Transition</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Transition
    * @generated
    */
-	public Adapter createTransitionAdapter() {
+  public Adapter createTransitionAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Subflow <em>Subflow</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Subflow
    * @generated
    */
-	public Adapter createSubflowAdapter() {
+  public Adapter createSubflowAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Action <em>Action</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Action
    * @generated
    */
-	public Adapter createActionAdapter() {
+  public Adapter createActionAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for an object of class '{@link flowchart.Decision <em>Decision</em>}'.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @see flowchart.Decision
    * @generated
    */
-	public Adapter createDecisionAdapter() {
+  public Adapter createDecisionAdapter()
+  {
     return null;
   }
 
-	/**
+  /**
    * Creates a new adapter for the default case.
    * <!-- begin-user-doc -->
-	 * This default implementation returns null.
-	 * <!-- end-user-doc -->
+   * This default implementation returns null.
+   * <!-- end-user-doc -->
    * @return the new adapter.
    * @generated
    */
-	public Adapter createEObjectAdapter() {
+  public Adapter createEObjectAdapter()
+  {
     return null;
   }
 

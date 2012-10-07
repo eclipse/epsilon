@@ -33,7 +33,7 @@ import filesystem.diagram.part.FilesystemDiagramEditorPlugin;
 /**
  * @generated
  */
-public class FilesystemElementTypes extends ElementInitializers {
+public class FilesystemElementTypes {
 
 	/**
 	 * @generated
@@ -44,7 +44,7 @@ public class FilesystemElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Map elements;
+	private static Map<IElementType, ENamedElement> elements;
 
 	/**
 	 * @generated
@@ -54,7 +54,7 @@ public class FilesystemElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Set KNOWN_ELEMENT_TYPES;
+	private static Set<IElementType> KNOWN_ELEMENT_TYPES;
 
 	/**
 	 * @generated
@@ -198,10 +198,10 @@ public class FilesystemElementTypes extends ElementInitializers {
 	public static ENamedElement getElement(IAdaptable hint) {
 		Object type = hint.getAdapter(IElementType.class);
 		if (elements == null) {
-			elements = new IdentityHashMap();
+			elements = new IdentityHashMap<IElementType, ENamedElement>();
 
-			elements.put(Filesystem_1000, FilesystemPackage.eINSTANCE
-					.getFilesystem());
+			elements.put(Filesystem_1000,
+					FilesystemPackage.eINSTANCE.getFilesystem());
 
 			elements.put(Drive_2001, FilesystemPackage.eINSTANCE.getDrive());
 
@@ -209,15 +209,15 @@ public class FilesystemElementTypes extends ElementInitializers {
 
 			elements.put(Folder_3002, FilesystemPackage.eINSTANCE.getFolder());
 
-			elements.put(Shortcut_3003, FilesystemPackage.eINSTANCE
-					.getShortcut());
+			elements.put(Shortcut_3003,
+					FilesystemPackage.eINSTANCE.getShortcut());
 
 			elements.put(File_3004, FilesystemPackage.eINSTANCE.getFile());
 
 			elements.put(Sync_4001, FilesystemPackage.eINSTANCE.getSync());
 
-			elements.put(ShortcutTarget_4002, FilesystemPackage.eINSTANCE
-					.getShortcut_Target());
+			elements.put(ShortcutTarget_4002,
+					FilesystemPackage.eINSTANCE.getShortcut_Target());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -234,7 +234,7 @@ public class FilesystemElementTypes extends ElementInitializers {
 	 */
 	public static boolean isKnownElementType(IElementType elementType) {
 		if (KNOWN_ELEMENT_TYPES == null) {
-			KNOWN_ELEMENT_TYPES = new HashSet();
+			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
 			KNOWN_ELEMENT_TYPES.add(Filesystem_1000);
 			KNOWN_ELEMENT_TYPES.add(Drive_2001);
 			KNOWN_ELEMENT_TYPES.add(Drive_3001);

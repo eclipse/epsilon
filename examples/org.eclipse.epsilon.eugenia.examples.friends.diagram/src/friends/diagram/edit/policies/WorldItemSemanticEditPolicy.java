@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.edit.policies;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -17,7 +10,6 @@ import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsComma
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 
-import friends.FriendsPackage;
 import friends.diagram.edit.commands.PersonCreateCommand;
 import friends.diagram.providers.FriendsElementTypes;
 
@@ -30,12 +22,15 @@ public class WorldItemSemanticEditPolicy extends
 	/**
 	 * @generated
 	 */
+	public WorldItemSemanticEditPolicy() {
+		super(FriendsElementTypes.World_1000);
+	}
+
+	/**
+	 * @generated
+	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
-		if (FriendsElementTypes.Person_1001 == req.getElementType()) {
-			if (req.getContainmentFeature() == null) {
-				req.setContainmentFeature(FriendsPackage.eINSTANCE
-						.getWorld_People());
-			}
+		if (FriendsElementTypes.Person_2001 == req.getElementType()) {
 			return getGEFWrapper(new PersonCreateCommand(req));
 		}
 		return super.getCreateCommand(req);

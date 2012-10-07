@@ -1,18 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
@@ -79,7 +71,8 @@ public class FriendsNewDiagramFileWizard extends Wizard {
 				Messages.FriendsNewDiagramFileWizard_CreationPageDescription,
 				WorldEditPart.MODEL_ID));
 		IPath filePath;
-		String fileName = domainModelURI.trimFileExtension().lastSegment();
+		String fileName = URI.decode(domainModelURI.trimFileExtension()
+				.lastSegment());
 		if (domainModelURI.isPlatformResource()) {
 			filePath = new Path(domainModelURI.trimSegments(1)
 					.toPlatformString(true));
@@ -117,7 +110,7 @@ public class FriendsNewDiagramFileWizard extends Wizard {
 	 * @generated
 	 */
 	public boolean performFinish() {
-		List affectedFiles = new LinkedList();
+		LinkedList<IFile> affectedFiles = new LinkedList<IFile>();
 		IFile diagramFile = myFileCreationPage.createNewFile();
 		FriendsDiagramEditorUtil.setCharset(diagramFile);
 		affectedFiles.add(diagramFile);

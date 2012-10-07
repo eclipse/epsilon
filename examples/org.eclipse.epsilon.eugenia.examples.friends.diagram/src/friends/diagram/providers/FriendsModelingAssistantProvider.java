@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.providers;
 
 import java.util.ArrayList;
@@ -48,8 +41,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart instanceof WorldEditPart) {
-			List types = new ArrayList();
-			types.add(FriendsElementTypes.Person_1001);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			types.add(FriendsElementTypes.Person_2001);
 			return types;
 		}
 		return Collections.EMPTY_LIST;
@@ -62,10 +55,7 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
 		if (sourceEditPart instanceof PersonEditPart) {
-			List types = new ArrayList();
-			types.add(FriendsElementTypes.PersonFriendOf_3001);
-			types.add(FriendsElementTypes.PersonEnemyOf_3002);
-			return types;
+			return ((PersonEditPart) sourceEditPart).getMARelTypesOnSource();
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -77,10 +67,7 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
 		if (targetEditPart instanceof PersonEditPart) {
-			List types = new ArrayList();
-			types.add(FriendsElementTypes.PersonFriendOf_3001);
-			types.add(FriendsElementTypes.PersonEnemyOf_3002);
-			return types;
+			return ((PersonEditPart) targetEditPart).getMARelTypesOnTarget();
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -95,14 +82,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
 		if (sourceEditPart instanceof PersonEditPart) {
-			List types = new ArrayList();
-			if (targetEditPart instanceof PersonEditPart) {
-				types.add(FriendsElementTypes.PersonFriendOf_3001);
-			}
-			if (targetEditPart instanceof PersonEditPart) {
-				types.add(FriendsElementTypes.PersonEnemyOf_3002);
-			}
-			return types;
+			return ((PersonEditPart) sourceEditPart)
+					.getMARelTypesOnSourceAndTarget(targetEditPart);
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -115,14 +96,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
 		if (targetEditPart instanceof PersonEditPart) {
-			List types = new ArrayList();
-			if (relationshipType == FriendsElementTypes.PersonFriendOf_3001) {
-				types.add(FriendsElementTypes.Person_1001);
-			}
-			if (relationshipType == FriendsElementTypes.PersonEnemyOf_3002) {
-				types.add(FriendsElementTypes.Person_1001);
-			}
-			return types;
+			return ((PersonEditPart) targetEditPart)
+					.getMATypesForSource(relationshipType);
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -135,14 +110,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
 		if (sourceEditPart instanceof PersonEditPart) {
-			List types = new ArrayList();
-			if (relationshipType == FriendsElementTypes.PersonFriendOf_3001) {
-				types.add(FriendsElementTypes.Person_1001);
-			}
-			if (relationshipType == FriendsElementTypes.PersonEnemyOf_3002) {
-				types.add(FriendsElementTypes.Person_1001);
-			}
-			return types;
+			return ((PersonEditPart) sourceEditPart)
+					.getMATypesForTarget(relationshipType);
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -152,8 +121,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 	 */
 	public EObject selectExistingElementForSource(IAdaptable target,
 			IElementType relationshipType) {
-		return selectExistingElement(target, getTypesForSource(target,
-				relationshipType));
+		return selectExistingElement(target,
+				getTypesForSource(target, relationshipType));
 	}
 
 	/**
@@ -161,8 +130,8 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 	 */
 	public EObject selectExistingElementForTarget(IAdaptable source,
 			IElementType relationshipType) {
-		return selectExistingElement(source, getTypesForTarget(source,
-				relationshipType));
+		return selectExistingElement(source,
+				getTypesForTarget(source, relationshipType));
 	}
 
 	/**
@@ -178,9 +147,10 @@ public class FriendsModelingAssistantProvider extends ModelingAssistantProvider 
 			return null;
 		}
 		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		Collection elements = new HashSet();
-		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = (EObject) it.next();
+		HashSet<EObject> elements = new HashSet<EObject>();
+		for (Iterator<EObject> it = diagram.getElement().eAllContents(); it
+				.hasNext();) {
+			EObject element = it.next();
 			if (isApplicableElement(element, types)) {
 				elements.add(element);
 			}

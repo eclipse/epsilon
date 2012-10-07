@@ -49,118 +49,124 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class WorldImpl extends EObjectImpl implements World {
 	/**
-	 * The cached value of the '{@link #getPeople() <em>People</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getPeople() <em>People</em>}' containment reference list.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPeople()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getPeople()
+   * @generated
+   * @ordered
+   */
 	protected EList<Person> people;
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected WorldImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	protected EClass eStaticClass() {
-		return FriendsPackage.Literals.WORLD;
-	}
+    return FriendsPackage.Literals.WORLD;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public EList<Person> getPeople() {
-		if (people == null) {
-			people = new EObjectContainmentEList<Person>(Person.class, this, FriendsPackage.WORLD__PEOPLE);
-		}
-		return people;
-	}
+    if (people == null)
+    {
+      people = new EObjectContainmentEList<Person>(Person.class, this, FriendsPackage.WORLD__PEOPLE);
+    }
+    return people;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case FriendsPackage.WORLD__PEOPLE:
-				return ((InternalEList<?>)getPeople()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.WORLD__PEOPLE:
+        return ((InternalEList<?>)getPeople()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case FriendsPackage.WORLD__PEOPLE:
-				return getPeople();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.WORLD__PEOPLE:
+        return getPeople();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case FriendsPackage.WORLD__PEOPLE:
-				getPeople().clear();
-				getPeople().addAll((Collection<? extends Person>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.WORLD__PEOPLE:
+        getPeople().clear();
+        getPeople().addAll((Collection<? extends Person>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case FriendsPackage.WORLD__PEOPLE:
-				getPeople().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.WORLD__PEOPLE:
+        getPeople().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case FriendsPackage.WORLD__PEOPLE:
-				return people != null && !people.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.WORLD__PEOPLE:
+        return people != null && !people.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
 } //WorldImpl

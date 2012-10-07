@@ -99,10 +99,9 @@ public class FilesystemDomainNavigatorItem extends PlatformObject {
 		if (obj instanceof filesystem.diagram.navigator.FilesystemDomainNavigatorItem) {
 			return EcoreUtil
 					.getURI(getEObject())
-					.equals(
-							EcoreUtil
-									.getURI(((filesystem.diagram.navigator.FilesystemDomainNavigatorItem) obj)
-											.getEObject()));
+					.equals(EcoreUtil
+							.getURI(((filesystem.diagram.navigator.FilesystemDomainNavigatorItem) obj)
+									.getEObject()));
 		}
 		return super.equals(obj);
 	}

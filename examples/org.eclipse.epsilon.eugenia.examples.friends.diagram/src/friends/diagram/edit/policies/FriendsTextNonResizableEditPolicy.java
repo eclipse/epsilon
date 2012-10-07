@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.edit.policies;
 
 import java.util.Collections;
@@ -15,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -25,11 +19,13 @@ import org.eclipse.gef.handles.MoveHandle;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.NonResizableEditPolicyEx;
 import org.eclipse.gmf.runtime.diagram.ui.tools.DragEditPartsTrackerEx;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
+import org.eclipse.gmf.tooling.runtime.edit.policies.labels.IRefreshableFeedbackEditPolicy;
 
 /**
  * @generated
  */
-public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx {
+public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx
+		implements IRefreshableFeedbackEditPolicy {
 
 	/**
 	 * @generated
@@ -40,6 +36,11 @@ public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx 
 	 * @generated
 	 */
 	private IFigure focusFeedbackFigure;
+
+	/**
+	 * @generated
+	 */
+	private FigureListener hostPositionListener;
 
 	/**
 	 * @generated
@@ -64,6 +65,7 @@ public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx 
 		} else {
 			hideSelection();
 			addFeedback(selectionFeedbackFigure = createSelectionFeedbackFigure());
+			getHostFigure().addFigureListener(getHostPositionListener());
 			refreshSelectionFeedback();
 			hideFocus();
 		}
@@ -79,6 +81,7 @@ public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx 
 		} else {
 			if (selectionFeedbackFigure != null) {
 				removeFeedback(selectionFeedbackFigure);
+				getHostFigure().removeFigureListener(getHostPositionListener());
 				selectionFeedbackFigure = null;
 			}
 			hideFocus();
@@ -196,9 +199,24 @@ public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx 
 	/**
 	 * @generated
 	 */
+	@Override
 	public void refreshFeedback() {
 		refreshSelectionFeedback();
 		refreshFocusFeedback();
+	}
+
+	/**
+	 * @generated
+	 */
+	private FigureListener getHostPositionListener() {
+		if (hostPositionListener == null) {
+			hostPositionListener = new FigureListener() {
+				public void figureMoved(IFigure source) {
+					refreshFeedback();
+				}
+			};
+		}
+		return hostPositionListener;
 	}
 
 	/**
@@ -210,4 +228,5 @@ public class FriendsTextNonResizableEditPolicy extends NonResizableEditPolicyEx 
 		moveHandle.setDragTracker(new DragEditPartsTrackerEx(getHost()));
 		return Collections.singletonList(moveHandle);
 	}
+
 }

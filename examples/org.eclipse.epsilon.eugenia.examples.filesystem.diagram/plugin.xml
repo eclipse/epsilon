@@ -81,6 +81,10 @@
             <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
                <GlobalActionId actionId="save"/>
             </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="save">
+               </GlobalActionId>
+            </ElementType>        
          </ViewId>
       </GlobalActionHandlerProvider>
       <GlobalActionHandlerProvider
@@ -178,12 +182,6 @@
             name="%prefpage.org.eclipse.epsilon.eugenia.examples.filesystem.diagram.rulersAndGrid"
             category="org.eclipse.epsilon.eugenia.examples.filesystem.diagram.general"
             class="filesystem.diagram.preferences.DiagramRulersAndGridPreferencePage">
-      </page>
-      <page
-            id="org.eclipse.epsilon.eugenia.examples.filesystem.diagram.pathmaps"
-            name="%prefpage.org.eclipse.epsilon.eugenia.examples.filesystem.diagram.pathmaps"
-            category="org.eclipse.epsilon.eugenia.examples.filesystem.diagram.general"
-            class="org.eclipse.gmf.runtime.emf.ui.preferences.PathmapsPreferencePage">
       </page>
    </extension>
 
@@ -293,7 +291,11 @@
          <Priority name="Lowest"/>
          <object class="filesystem.diagram.edit.parts.FilesystemEditPart" id="Filesystem_1000"/>
          <object class="filesystem.diagram.edit.parts.DriveEditPart" id="Drive_2001"/>
-         <context elements="Filesystem_1000,Drive_2001"/>
+         <object class="filesystem.diagram.edit.parts.Drive2EditPart" id="Drive_3001"/>
+         <object class="filesystem.diagram.edit.parts.FolderEditPart" id="Folder_3002"/>
+         <object class="filesystem.diagram.edit.parts.ShortcutEditPart" id="Shortcut_3003"/>
+         <object class="filesystem.diagram.edit.parts.FileEditPart" id="File_3004"/>
+         <context elements="Filesystem_1000,Drive_2001,Drive_3001,Folder_3002,Shortcut_3003,File_3004"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -594,16 +596,6 @@
                </and>
             </visibleWhen>
          </command>
-         <command commandId="org.eclipse.epsilon.eugenia.examples.filesystem.diagram.CreateShortcutAction">
-            <visibleWhen>
-               <and>
-                  <with variable="activePartId"><equals value="filesystem.diagram.part.FilesystemDiagramEditorID"/></with>
-                  <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="filesystem.diagram.edit.parts.FilesystemEditPart"/>
-                  </iterate></with>
-               </and>
-            </visibleWhen>
-         </command>
       </menuContribution>
    </extension>
 
@@ -614,10 +606,6 @@
          name="Load Resource"
          categoryId="filesystem.diagram.part.FilesystemDiagramEditorID"
          defaultHandler="filesystem.diagram.part.LoadResourceAction"/>
-      <command id="org.eclipse.epsilon.eugenia.examples.filesystem.diagram.CreateShortcutAction"
-         name="Create Shortcut..."
-         categoryId="filesystem.diagram.part.FilesystemDiagramEditorID"
-         defaultHandler="filesystem.diagram.part.CreateShortcutAction"/>
    </extension>
 
 <extension point="org.eclipse.ui.handlers" id="menu-handlers">

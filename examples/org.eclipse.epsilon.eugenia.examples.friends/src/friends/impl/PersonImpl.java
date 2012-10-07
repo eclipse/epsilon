@@ -53,204 +53,210 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  */
 public class PersonImpl extends EObjectImpl implements Person {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
 	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getFriendOf() <em>Friend Of</em>}' reference list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getFriendOf() <em>Friend Of</em>}' reference list.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFriendOf()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getFriendOf()
+   * @generated
+   * @ordered
+   */
 	protected EList<Person> friendOf;
 
 	/**
-	 * The cached value of the '{@link #getEnemyOf() <em>Enemy Of</em>}' reference list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getEnemyOf() <em>Enemy Of</em>}' reference list.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEnemyOf()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getEnemyOf()
+   * @generated
+   * @ordered
+   */
 	protected EList<Person> enemyOf;
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected PersonImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	protected EClass eStaticClass() {
-		return FriendsPackage.Literals.PERSON;
-	}
+    return FriendsPackage.Literals.PERSON;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String getName() {
-		return name;
-	}
+    return name;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, FriendsPackage.PERSON__NAME, oldName, name));
-	}
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, FriendsPackage.PERSON__NAME, oldName, name));
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public EList<Person> getFriendOf() {
-		if (friendOf == null) {
-			friendOf = new EObjectResolvingEList<Person>(Person.class, this, FriendsPackage.PERSON__FRIEND_OF);
-		}
-		return friendOf;
-	}
+    if (friendOf == null)
+    {
+      friendOf = new EObjectResolvingEList<Person>(Person.class, this, FriendsPackage.PERSON__FRIEND_OF);
+    }
+    return friendOf;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public EList<Person> getEnemyOf() {
-		if (enemyOf == null) {
-			enemyOf = new EObjectResolvingEList<Person>(Person.class, this, FriendsPackage.PERSON__ENEMY_OF);
-		}
-		return enemyOf;
-	}
+    if (enemyOf == null)
+    {
+      enemyOf = new EObjectResolvingEList<Person>(Person.class, this, FriendsPackage.PERSON__ENEMY_OF);
+    }
+    return enemyOf;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case FriendsPackage.PERSON__NAME:
-				return getName();
-			case FriendsPackage.PERSON__FRIEND_OF:
-				return getFriendOf();
-			case FriendsPackage.PERSON__ENEMY_OF:
-				return getEnemyOf();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.PERSON__NAME:
+        return getName();
+      case FriendsPackage.PERSON__FRIEND_OF:
+        return getFriendOf();
+      case FriendsPackage.PERSON__ENEMY_OF:
+        return getEnemyOf();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case FriendsPackage.PERSON__NAME:
-				setName((String)newValue);
-				return;
-			case FriendsPackage.PERSON__FRIEND_OF:
-				getFriendOf().clear();
-				getFriendOf().addAll((Collection<? extends Person>)newValue);
-				return;
-			case FriendsPackage.PERSON__ENEMY_OF:
-				getEnemyOf().clear();
-				getEnemyOf().addAll((Collection<? extends Person>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.PERSON__NAME:
+        setName((String)newValue);
+        return;
+      case FriendsPackage.PERSON__FRIEND_OF:
+        getFriendOf().clear();
+        getFriendOf().addAll((Collection<? extends Person>)newValue);
+        return;
+      case FriendsPackage.PERSON__ENEMY_OF:
+        getEnemyOf().clear();
+        getEnemyOf().addAll((Collection<? extends Person>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case FriendsPackage.PERSON__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case FriendsPackage.PERSON__FRIEND_OF:
-				getFriendOf().clear();
-				return;
-			case FriendsPackage.PERSON__ENEMY_OF:
-				getEnemyOf().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.PERSON__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case FriendsPackage.PERSON__FRIEND_OF:
+        getFriendOf().clear();
+        return;
+      case FriendsPackage.PERSON__ENEMY_OF:
+        getEnemyOf().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case FriendsPackage.PERSON__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case FriendsPackage.PERSON__FRIEND_OF:
-				return friendOf != null && !friendOf.isEmpty();
-			case FriendsPackage.PERSON__ENEMY_OF:
-				return enemyOf != null && !enemyOf.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+    switch (featureID)
+    {
+      case FriendsPackage.PERSON__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case FriendsPackage.PERSON__FRIEND_OF:
+        return friendOf != null && !friendOf.isEmpty();
+      case FriendsPackage.PERSON__ENEMY_OF:
+        return enemyOf != null && !enemyOf.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+    if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
-	}
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(')');
+    return result.toString();
+  }
 
 } //PersonImpl

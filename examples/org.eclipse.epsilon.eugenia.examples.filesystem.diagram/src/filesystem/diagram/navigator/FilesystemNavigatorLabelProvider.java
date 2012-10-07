@@ -54,13 +54,11 @@ public class FilesystemNavigatorLabelProvider extends LabelProvider implements
 		FilesystemDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 		FilesystemDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 	}
 
 	/**
@@ -110,30 +108,30 @@ public class FilesystemNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
-		case FilesystemEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Diagram?filesystem?Filesystem", FilesystemElementTypes.Filesystem_1000); //$NON-NLS-1$
-		case DriveEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?filesystem?Drive", FilesystemElementTypes.Drive_2001); //$NON-NLS-1$
-		case Drive2EditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?filesystem?Drive", FilesystemElementTypes.Drive_3001); //$NON-NLS-1$
-		case FolderEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?filesystem?Folder", FilesystemElementTypes.Folder_3002); //$NON-NLS-1$
-		case ShortcutEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?filesystem?Shortcut", FilesystemElementTypes.Shortcut_3003); //$NON-NLS-1$
-		case FileEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?filesystem?File", FilesystemElementTypes.File_3004); //$NON-NLS-1$
 		case SyncEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?filesystem?Sync", FilesystemElementTypes.Sync_4001); //$NON-NLS-1$
+		case FileEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?filesystem?File", FilesystemElementTypes.File_3004); //$NON-NLS-1$
+		case FolderEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?filesystem?Folder", FilesystemElementTypes.Folder_3002); //$NON-NLS-1$
+		case Drive2EditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?filesystem?Drive", FilesystemElementTypes.Drive_3001); //$NON-NLS-1$
+		case ShortcutEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?filesystem?Shortcut", FilesystemElementTypes.Shortcut_3003); //$NON-NLS-1$
+		case DriveEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?filesystem?Drive", FilesystemElementTypes.Drive_2001); //$NON-NLS-1$
 		case ShortcutTargetEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?filesystem?Shortcut?target", FilesystemElementTypes.ShortcutTarget_4002); //$NON-NLS-1$
+		case FilesystemEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Diagram?filesystem?Filesystem", FilesystemElementTypes.Filesystem_1000); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -194,22 +192,22 @@ public class FilesystemNavigatorLabelProvider extends LabelProvider implements
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
-		case FilesystemEditPart.VISUAL_ID:
-			return getFilesystem_1000Text(view);
-		case DriveEditPart.VISUAL_ID:
-			return getDrive_2001Text(view);
-		case Drive2EditPart.VISUAL_ID:
-			return getDrive_3001Text(view);
-		case FolderEditPart.VISUAL_ID:
-			return getFolder_3002Text(view);
-		case ShortcutEditPart.VISUAL_ID:
-			return getShortcut_3003Text(view);
-		case FileEditPart.VISUAL_ID:
-			return getFile_3004Text(view);
 		case SyncEditPart.VISUAL_ID:
 			return getSync_4001Text(view);
+		case FileEditPart.VISUAL_ID:
+			return getFile_3004Text(view);
+		case FolderEditPart.VISUAL_ID:
+			return getFolder_3002Text(view);
+		case Drive2EditPart.VISUAL_ID:
+			return getDrive_3001Text(view);
+		case ShortcutEditPart.VISUAL_ID:
+			return getShortcut_3003Text(view);
+		case DriveEditPart.VISUAL_ID:
+			return getDrive_2001Text(view);
 		case ShortcutTargetEditPart.VISUAL_ID:
 			return getShortcutTarget_4002Text(view);
+		case FilesystemEditPart.VISUAL_ID:
+			return getFilesystem_1000Text(view);
 		}
 		return getUnknownElementText(view);
 	}

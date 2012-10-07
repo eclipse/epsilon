@@ -38,162 +38,169 @@ import org.eclipse.epsilon.eugenia.examples.fed.Plugin;
 public class ConfigurationImpl extends EObjectImpl implements Configuration
 {
   /**
-	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @see #getFeatures()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getFeatures()
+   * @generated
+   * @ordered
+   */
   protected EList<Feature> features;
 
   /**
-	 * The cached value of the '{@link #getPlugins() <em>Plugins</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getPlugins() <em>Plugins</em>}' containment reference list.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @see #getPlugins()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getPlugins()
+   * @generated
+   * @ordered
+   */
   protected EList<Plugin> plugins;
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected ConfigurationImpl()
   {
-		super();
-	}
+    super();
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected EClass eStaticClass()
   {
-		return FedPackage.Literals.CONFIGURATION;
-	}
+    return FedPackage.Literals.CONFIGURATION;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public EList<Feature> getFeatures()
   {
-		if (features == null) {
-			features = new EObjectContainmentEList<Feature>(Feature.class, this, FedPackage.CONFIGURATION__FEATURES);
-		}
-		return features;
-	}
+    if (features == null)
+    {
+      features = new EObjectContainmentEList<Feature>(Feature.class, this, FedPackage.CONFIGURATION__FEATURES);
+    }
+    return features;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public EList<Plugin> getPlugins()
   {
-		if (plugins == null) {
-			plugins = new EObjectContainmentEList<Plugin>(Plugin.class, this, FedPackage.CONFIGURATION__PLUGINS);
-		}
-		return plugins;
-	}
+    if (plugins == null)
+    {
+      plugins = new EObjectContainmentEList<Plugin>(Plugin.class, this, FedPackage.CONFIGURATION__PLUGINS);
+    }
+    return plugins;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-		switch (featureID) {
-			case FedPackage.CONFIGURATION__FEATURES:
-				return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
-			case FedPackage.CONFIGURATION__PLUGINS:
-				return ((InternalEList<?>)getPlugins()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+    switch (featureID)
+    {
+      case FedPackage.CONFIGURATION__FEATURES:
+        return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+      case FedPackage.CONFIGURATION__PLUGINS:
+        return ((InternalEList<?>)getPlugins()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-		switch (featureID) {
-			case FedPackage.CONFIGURATION__FEATURES:
-				return getFeatures();
-			case FedPackage.CONFIGURATION__PLUGINS:
-				return getPlugins();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    switch (featureID)
+    {
+      case FedPackage.CONFIGURATION__FEATURES:
+        return getFeatures();
+      case FedPackage.CONFIGURATION__PLUGINS:
+        return getPlugins();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-		switch (featureID) {
-			case FedPackage.CONFIGURATION__FEATURES:
-				getFeatures().clear();
-				getFeatures().addAll((Collection<? extends Feature>)newValue);
-				return;
-			case FedPackage.CONFIGURATION__PLUGINS:
-				getPlugins().clear();
-				getPlugins().addAll((Collection<? extends Plugin>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    switch (featureID)
+    {
+      case FedPackage.CONFIGURATION__FEATURES:
+        getFeatures().clear();
+        getFeatures().addAll((Collection<? extends Feature>)newValue);
+        return;
+      case FedPackage.CONFIGURATION__PLUGINS:
+        getPlugins().clear();
+        getPlugins().addAll((Collection<? extends Plugin>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public void eUnset(int featureID)
   {
-		switch (featureID) {
-			case FedPackage.CONFIGURATION__FEATURES:
-				getFeatures().clear();
-				return;
-			case FedPackage.CONFIGURATION__PLUGINS:
-				getPlugins().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+    switch (featureID)
+    {
+      case FedPackage.CONFIGURATION__FEATURES:
+        getFeatures().clear();
+        return;
+      case FedPackage.CONFIGURATION__PLUGINS:
+        getPlugins().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public boolean eIsSet(int featureID)
   {
-		switch (featureID) {
-			case FedPackage.CONFIGURATION__FEATURES:
-				return features != null && !features.isEmpty();
-			case FedPackage.CONFIGURATION__PLUGINS:
-				return plugins != null && !plugins.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+    switch (featureID)
+    {
+      case FedPackage.CONFIGURATION__FEATURES:
+        return features != null && !features.isEmpty();
+      case FedPackage.CONFIGURATION__PLUGINS:
+        return plugins != null && !plugins.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
 } //ConfigurationImpl

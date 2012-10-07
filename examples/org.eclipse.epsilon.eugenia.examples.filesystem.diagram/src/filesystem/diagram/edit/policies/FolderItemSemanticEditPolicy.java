@@ -57,7 +57,7 @@ public class FolderItemSemanticEditPolicy extends
 		CompositeTransactionalCommand cmd = new CompositeTransactionalCommand(
 				getEditingDomain(), null);
 		cmd.setTransactionNestingEnabled(false);
-		for (Iterator it = view.getTargetEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getTargetEdges().iterator(); it.hasNext();) {
 			Edge incomingLink = (Edge) it.next();
 			if (FilesystemVisualIDRegistry.getVisualID(incomingLink) == SyncEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -75,7 +75,7 @@ public class FolderItemSemanticEditPolicy extends
 				continue;
 			}
 		}
-		for (Iterator it = view.getSourceEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getSourceEdges().iterator(); it.hasNext();) {
 			Edge outgoingLink = (Edge) it.next();
 			if (FilesystemVisualIDRegistry.getVisualID(outgoingLink) == SyncEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -103,16 +103,16 @@ public class FolderItemSemanticEditPolicy extends
 	 */
 	private void addDestroyChildNodesCommand(ICompositeCommand cmd) {
 		View view = (View) getHost().getModel();
-		for (Iterator nit = view.getChildren().iterator(); nit.hasNext();) {
+		for (Iterator<?> nit = view.getChildren().iterator(); nit.hasNext();) {
 			Node node = (Node) nit.next();
 			switch (FilesystemVisualIDRegistry.getVisualID(node)) {
 			case FolderFolderContentsCompartmentEditPart.VISUAL_ID:
-				for (Iterator cit = node.getChildren().iterator(); cit
+				for (Iterator<?> cit = node.getChildren().iterator(); cit
 						.hasNext();) {
 					Node cnode = (Node) cit.next();
 					switch (FilesystemVisualIDRegistry.getVisualID(cnode)) {
 					case Drive2EditPart.VISUAL_ID:
-						for (Iterator it = cnode.getTargetEdges().iterator(); it
+						for (Iterator<?> it = cnode.getTargetEdges().iterator(); it
 								.hasNext();) {
 							Edge incomingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -136,7 +136,7 @@ public class FolderItemSemanticEditPolicy extends
 								continue;
 							}
 						}
-						for (Iterator it = cnode.getSourceEdges().iterator(); it
+						for (Iterator<?> it = cnode.getSourceEdges().iterator(); it
 								.hasNext();) {
 							Edge outgoingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -156,7 +156,7 @@ public class FolderItemSemanticEditPolicy extends
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
 					case FolderEditPart.VISUAL_ID:
-						for (Iterator it = cnode.getTargetEdges().iterator(); it
+						for (Iterator<?> it = cnode.getTargetEdges().iterator(); it
 								.hasNext();) {
 							Edge incomingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -180,7 +180,7 @@ public class FolderItemSemanticEditPolicy extends
 								continue;
 							}
 						}
-						for (Iterator it = cnode.getSourceEdges().iterator(); it
+						for (Iterator<?> it = cnode.getSourceEdges().iterator(); it
 								.hasNext();) {
 							Edge outgoingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -200,7 +200,7 @@ public class FolderItemSemanticEditPolicy extends
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
 					case ShortcutEditPart.VISUAL_ID:
-						for (Iterator it = cnode.getTargetEdges().iterator(); it
+						for (Iterator<?> it = cnode.getTargetEdges().iterator(); it
 								.hasNext();) {
 							Edge incomingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -224,7 +224,7 @@ public class FolderItemSemanticEditPolicy extends
 								continue;
 							}
 						}
-						for (Iterator it = cnode.getSourceEdges().iterator(); it
+						for (Iterator<?> it = cnode.getSourceEdges().iterator(); it
 								.hasNext();) {
 							Edge outgoingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -255,7 +255,7 @@ public class FolderItemSemanticEditPolicy extends
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
 					case FileEditPart.VISUAL_ID:
-						for (Iterator it = cnode.getTargetEdges().iterator(); it
+						for (Iterator<?> it = cnode.getTargetEdges().iterator(); it
 								.hasNext();) {
 							Edge incomingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -279,7 +279,7 @@ public class FolderItemSemanticEditPolicy extends
 								continue;
 							}
 						}
-						for (Iterator it = cnode.getSourceEdges().iterator(); it
+						for (Iterator<?> it = cnode.getSourceEdges().iterator(); it
 								.hasNext();) {
 							Edge outgoingLink = (Edge) it.next();
 							if (FilesystemVisualIDRegistry
@@ -340,8 +340,8 @@ public class FolderItemSemanticEditPolicy extends
 					req.getTarget()));
 		}
 		if (FilesystemElementTypes.ShortcutTarget_4002 == req.getElementType()) {
-			return getGEFWrapper(new ShortcutTargetCreateCommand(req, req
-					.getSource(), req.getTarget()));
+			return getGEFWrapper(new ShortcutTargetCreateCommand(req,
+					req.getSource(), req.getTarget()));
 		}
 		return null;
 	}

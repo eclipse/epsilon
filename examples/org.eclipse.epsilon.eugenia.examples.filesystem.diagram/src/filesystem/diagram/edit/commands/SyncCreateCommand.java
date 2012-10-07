@@ -75,7 +75,7 @@ public class SyncCreateCommand extends EditElementCommand {
 		if (getContainer() == null) {
 			return false;
 		}
-		return FilesystemBaseItemSemanticEditPolicy.LinkConstraints
+		return FilesystemBaseItemSemanticEditPolicy.getLinkConstraints()
 				.canCreateSync_4001(getContainer(), getSource(), getTarget());
 	}
 

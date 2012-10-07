@@ -101,24 +101,24 @@ public class FedNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (FedVisualIDRegistry.getVisualID(view)) {
-		case FeatureDependsEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Link?fed?Feature?depends", FedElementTypes.FeatureDepends_4001); //$NON-NLS-1$
-		case Plugin2EditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?fed?Plugin", FedElementTypes.Plugin_3001); //$NON-NLS-1$
-		case FeatureEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?fed?Feature", FedElementTypes.Feature_2001); //$NON-NLS-1$
 		case ConfigurationEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Diagram?fed?Configuration", FedElementTypes.Configuration_1000); //$NON-NLS-1$
+		case FeatureDependsEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Link?fed?Feature?depends", FedElementTypes.FeatureDepends_4001); //$NON-NLS-1$
 		case FeatureIncludesEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?fed?Feature?includes", FedElementTypes.FeatureIncludes_4002); //$NON-NLS-1$
 		case PluginEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?fed?Plugin", FedElementTypes.Plugin_2002); //$NON-NLS-1$
+		case FeatureEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?fed?Feature", FedElementTypes.Feature_2001); //$NON-NLS-1$
+		case Plugin2EditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?fed?Plugin", FedElementTypes.Plugin_3001); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -179,18 +179,18 @@ public class FedNavigatorLabelProvider extends LabelProvider implements
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch (FedVisualIDRegistry.getVisualID(view)) {
-		case FeatureDependsEditPart.VISUAL_ID:
-			return getFeatureDepends_4001Text(view);
-		case Plugin2EditPart.VISUAL_ID:
-			return getPlugin_3001Text(view);
-		case FeatureEditPart.VISUAL_ID:
-			return getFeature_2001Text(view);
 		case ConfigurationEditPart.VISUAL_ID:
 			return getConfiguration_1000Text(view);
+		case FeatureDependsEditPart.VISUAL_ID:
+			return getFeatureDepends_4001Text(view);
 		case FeatureIncludesEditPart.VISUAL_ID:
 			return getFeatureIncludes_4002Text(view);
 		case PluginEditPart.VISUAL_ID:
 			return getPlugin_2002Text(view);
+		case FeatureEditPart.VISUAL_ID:
+			return getFeature_2001Text(view);
+		case Plugin2EditPart.VISUAL_ID:
+			return getPlugin_3001Text(view);
 		}
 		return getUnknownElementText(view);
 	}

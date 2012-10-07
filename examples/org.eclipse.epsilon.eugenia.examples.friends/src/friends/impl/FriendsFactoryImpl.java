@@ -34,87 +34,91 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  */
 public class FriendsFactoryImpl extends EFactoryImpl implements FriendsFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public static FriendsFactory init() {
-		try {
-			FriendsFactory theFriendsFactory = (FriendsFactory)EPackage.Registry.INSTANCE.getEFactory("friends"); 
-			if (theFriendsFactory != null) {
-				return theFriendsFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new FriendsFactoryImpl();
-	}
+    try
+    {
+      FriendsFactory theFriendsFactory = (FriendsFactory)EPackage.Registry.INSTANCE.getEFactory("friends"); 
+      if (theFriendsFactory != null)
+      {
+        return theFriendsFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new FriendsFactoryImpl();
+  }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+   * Creates an instance of the factory.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public FriendsFactoryImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case FriendsPackage.WORLD: return createWorld();
-			case FriendsPackage.PERSON: return createPerson();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+    switch (eClass.getClassifierID())
+    {
+      case FriendsPackage.WORLD: return createWorld();
+      case FriendsPackage.PERSON: return createPerson();
+      default:
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+    }
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public World createWorld() {
-		WorldImpl world = new WorldImpl();
-		return world;
-	}
+    WorldImpl world = new WorldImpl();
+    return world;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public Person createPerson() {
-		PersonImpl person = new PersonImpl();
-		return person;
-	}
+    PersonImpl person = new PersonImpl();
+    return person;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public FriendsPackage getFriendsPackage() {
-		return (FriendsPackage)getEPackage();
-	}
+    return (FriendsPackage)getEPackage();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+   * @deprecated
+   * @generated
+   */
 	@Deprecated
 	public static FriendsPackage getPackage() {
-		return FriendsPackage.eINSTANCE;
-	}
+    return FriendsPackage.eINSTANCE;
+  }
 
 } //FriendsFactoryImpl

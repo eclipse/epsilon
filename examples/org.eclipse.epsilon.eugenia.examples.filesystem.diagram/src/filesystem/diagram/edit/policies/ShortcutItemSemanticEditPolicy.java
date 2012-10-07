@@ -49,7 +49,7 @@ public class ShortcutItemSemanticEditPolicy extends
 		CompositeTransactionalCommand cmd = new CompositeTransactionalCommand(
 				getEditingDomain(), null);
 		cmd.setTransactionNestingEnabled(false);
-		for (Iterator it = view.getTargetEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getTargetEdges().iterator(); it.hasNext();) {
 			Edge incomingLink = (Edge) it.next();
 			if (FilesystemVisualIDRegistry.getVisualID(incomingLink) == SyncEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -67,7 +67,7 @@ public class ShortcutItemSemanticEditPolicy extends
 				continue;
 			}
 		}
-		for (Iterator it = view.getSourceEdges().iterator(); it.hasNext();) {
+		for (Iterator<?> it = view.getSourceEdges().iterator(); it.hasNext();) {
 			Edge outgoingLink = (Edge) it.next();
 			if (FilesystemVisualIDRegistry.getVisualID(outgoingLink) == SyncEditPart.VISUAL_ID) {
 				DestroyElementRequest r = new DestroyElementRequest(
@@ -117,8 +117,8 @@ public class ShortcutItemSemanticEditPolicy extends
 					req.getTarget()));
 		}
 		if (FilesystemElementTypes.ShortcutTarget_4002 == req.getElementType()) {
-			return getGEFWrapper(new ShortcutTargetCreateCommand(req, req
-					.getSource(), req.getTarget()));
+			return getGEFWrapper(new ShortcutTargetCreateCommand(req,
+					req.getSource(), req.getTarget()));
 		}
 		return null;
 	}
@@ -133,8 +133,8 @@ public class ShortcutItemSemanticEditPolicy extends
 					req.getTarget()));
 		}
 		if (FilesystemElementTypes.ShortcutTarget_4002 == req.getElementType()) {
-			return getGEFWrapper(new ShortcutTargetCreateCommand(req, req
-					.getSource(), req.getTarget()));
+			return getGEFWrapper(new ShortcutTargetCreateCommand(req,
+					req.getSource(), req.getTarget()));
 		}
 		return null;
 	}

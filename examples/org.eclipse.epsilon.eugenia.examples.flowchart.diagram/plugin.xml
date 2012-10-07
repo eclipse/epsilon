@@ -84,6 +84,10 @@
             <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
                <GlobalActionId actionId="save"/>
             </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="save">
+               </GlobalActionId>
+            </ElementType>        
          </ViewId>
       </GlobalActionHandlerProvider>
       <GlobalActionHandlerProvider
@@ -292,7 +296,7 @@
          <object class="flowchart.diagram.edit.parts.SubflowEditPart" id="Subflow_2001"/>
          <object class="flowchart.diagram.edit.parts.ActionEditPart" id="Action_2004"/>
          <object class="flowchart.diagram.edit.parts.DecisionEditPart" id="Decision_2003"/>
-         <context elements="Flowchart_1000,Subflow_2001,Action_2004,Decision_2003"/>
+         <context elements="Flowchart_1000,Subflow_2001,Action_2004,Decision_2003,"/>
       </modelingAssistantProvider>
    </extension>
 

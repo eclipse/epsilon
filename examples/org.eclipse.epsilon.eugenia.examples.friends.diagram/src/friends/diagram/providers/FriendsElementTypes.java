@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.providers;
 
 import java.util.HashSet;
@@ -27,12 +20,16 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
 import friends.FriendsPackage;
+import friends.diagram.edit.parts.PersonEditPart;
+import friends.diagram.edit.parts.PersonEnemyOfEditPart;
+import friends.diagram.edit.parts.PersonFriendOfEditPart;
+import friends.diagram.edit.parts.WorldEditPart;
 import friends.diagram.part.FriendsDiagramEditorPlugin;
 
 /**
  * @generated
  */
-public class FriendsElementTypes extends ElementInitializers {
+public class FriendsElementTypes {
 
 	/**
 	 * @generated
@@ -43,7 +40,7 @@ public class FriendsElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Map elements;
+	private static Map<IElementType, ENamedElement> elements;
 
 	/**
 	 * @generated
@@ -53,26 +50,24 @@ public class FriendsElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Set KNOWN_ELEMENT_TYPES;
+	private static Set<IElementType> KNOWN_ELEMENT_TYPES;
 
 	/**
 	 * @generated
 	 */
-	public static final IElementType World_79 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.World_79"); //$NON-NLS-1$
+	public static final IElementType World_1000 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.World_1000"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType Person_1001 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.Person_1001"); //$NON-NLS-1$
-
+	public static final IElementType Person_2001 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.Person_2001"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType PersonFriendOf_3001 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.PersonFriendOf_3001"); //$NON-NLS-1$
-
+	public static final IElementType PersonFriendOf_4001 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.PersonFriendOf_4001"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType PersonEnemyOf_3002 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.PersonEnemyOf_3002"); //$NON-NLS-1$
+	public static final IElementType PersonEnemyOf_4002 = getElementType("org.eclipse.epsilon.eugenia.examples.friends.diagram.PersonEnemyOf_4002"); //$NON-NLS-1$
 
 	/**
 	 * @generated
@@ -183,17 +178,17 @@ public class FriendsElementTypes extends ElementInitializers {
 	public static ENamedElement getElement(IAdaptable hint) {
 		Object type = hint.getAdapter(IElementType.class);
 		if (elements == null) {
-			elements = new IdentityHashMap();
+			elements = new IdentityHashMap<IElementType, ENamedElement>();
 
-			elements.put(World_79, FriendsPackage.eINSTANCE.getWorld());
+			elements.put(World_1000, FriendsPackage.eINSTANCE.getWorld());
 
-			elements.put(Person_1001, FriendsPackage.eINSTANCE.getPerson());
+			elements.put(Person_2001, FriendsPackage.eINSTANCE.getPerson());
 
-			elements.put(PersonFriendOf_3001, FriendsPackage.eINSTANCE
-					.getPerson_FriendOf());
+			elements.put(PersonFriendOf_4001,
+					FriendsPackage.eINSTANCE.getPerson_FriendOf());
 
-			elements.put(PersonEnemyOf_3002, FriendsPackage.eINSTANCE
-					.getPerson_EnemyOf());
+			elements.put(PersonEnemyOf_4002,
+					FriendsPackage.eINSTANCE.getPerson_EnemyOf());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -210,13 +205,30 @@ public class FriendsElementTypes extends ElementInitializers {
 	 */
 	public static boolean isKnownElementType(IElementType elementType) {
 		if (KNOWN_ELEMENT_TYPES == null) {
-			KNOWN_ELEMENT_TYPES = new HashSet();
-			KNOWN_ELEMENT_TYPES.add(World_79);
-			KNOWN_ELEMENT_TYPES.add(Person_1001);
-			KNOWN_ELEMENT_TYPES.add(PersonFriendOf_3001);
-			KNOWN_ELEMENT_TYPES.add(PersonEnemyOf_3002);
+			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
+			KNOWN_ELEMENT_TYPES.add(World_1000);
+			KNOWN_ELEMENT_TYPES.add(Person_2001);
+			KNOWN_ELEMENT_TYPES.add(PersonFriendOf_4001);
+			KNOWN_ELEMENT_TYPES.add(PersonEnemyOf_4002);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
+	}
+
+	/**
+	 * @generated
+	 */
+	public static IElementType getElementType(int visualID) {
+		switch (visualID) {
+		case WorldEditPart.VISUAL_ID:
+			return World_1000;
+		case PersonEditPart.VISUAL_ID:
+			return Person_2001;
+		case PersonFriendOfEditPart.VISUAL_ID:
+			return PersonFriendOf_4001;
+		case PersonEnemyOfEditPart.VISUAL_ID:
+			return PersonEnemyOf_4002;
+		}
+		return null;
 	}
 
 }

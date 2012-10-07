@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package filesystem;
 
@@ -23,31 +19,32 @@ package filesystem;
  * @model
  * @generated
  */
-public interface Shortcut extends File {
-	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(File)
-	 * @see filesystem.FilesystemPackage#getShortcut_Target()
-	 * @model annotation="gmf.link target.decoration='arrow' style='dash'"
-	 * @generated
-	 */
-	File getTarget();
+public interface Shortcut extends File
+{
+  /**
+   * Returns the value of the '<em><b>Target</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Target</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Target</em>' reference.
+   * @see #setTarget(File)
+   * @see filesystem.FilesystemPackage#getShortcut_Target()
+   * @model annotation="gmf.link target.decoration='arrow' style='dash'"
+   * @generated
+   */
+  File getTarget();
 
-	/**
-	 * Sets the value of the '{@link filesystem.Shortcut#getTarget <em>Target</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
-	 * @see #getTarget()
-	 * @generated
-	 */
-	void setTarget(File value);
+  /**
+   * Sets the value of the '{@link filesystem.Shortcut#getTarget <em>Target</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Target</em>' reference.
+   * @see #getTarget()
+   * @generated
+   */
+  void setTarget(File value);
 
 } // Shortcut

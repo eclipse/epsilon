@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import org.eclipse.core.resources.IFile;
@@ -92,20 +85,15 @@ public class FriendsInitDiagramFileAction implements IObjectActionDelegate {
 					"Unable to load resource: " + domainModelURI, ex); //$NON-NLS-1$
 		}
 		if (diagramRoot == null) {
-			MessageDialog
-					.openError(
-							getShell(),
-							Messages.FriendsInitDiagramFileAction_InitDiagramFileResourceErrorDialogTitle,
-							Messages.FriendsInitDiagramFileAction_InitDiagramFileResourceErrorDialogMessage);
+			MessageDialog.openError(getShell(),
+					Messages.InitDiagramFile_ResourceErrorDialogTitle,
+					Messages.InitDiagramFile_ResourceErrorDialogMessage);
 			return;
 		}
 		Wizard wizard = new FriendsNewDiagramFileWizard(domainModelURI,
 				diagramRoot, editingDomain);
-		wizard
-				.setWindowTitle(NLS
-						.bind(
-								Messages.FriendsInitDiagramFileAction_InitDiagramFileWizardTitle,
-								WorldEditPart.MODEL_ID));
+		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle,
+				WorldEditPart.MODEL_ID));
 		FriendsDiagramEditorUtil.runWizard(getShell(), wizard,
 				"InitDiagramFile"); //$NON-NLS-1$
 	}

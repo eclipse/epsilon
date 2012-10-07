@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package filesystem;
 
-import org.eclipse.emf.cdo.CDOObject;
-
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,40 +21,40 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see filesystem.FilesystemPackage#getFilesystem()
  * @model
- * @extends CDOObject
  * @generated
  */
-public interface Filesystem extends CDOObject {
-	/**
-	 * Returns the value of the '<em><b>Drives</b></em>' containment reference list.
-	 * The list contents are of type {@link filesystem.Drive}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Drives</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Drives</em>' containment reference list.
-	 * @see filesystem.FilesystemPackage#getFilesystem_Drives()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Drive> getDrives();
+public interface Filesystem extends EObject
+{
+  /**
+   * Returns the value of the '<em><b>Drives</b></em>' containment reference list.
+   * The list contents are of type {@link filesystem.Drive}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Drives</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Drives</em>' containment reference list.
+   * @see filesystem.FilesystemPackage#getFilesystem_Drives()
+   * @model containment="true"
+   * @generated
+   */
+  EList<Drive> getDrives();
 
-	/**
-	 * Returns the value of the '<em><b>Syncs</b></em>' containment reference list.
-	 * The list contents are of type {@link filesystem.Sync}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Syncs</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Syncs</em>' containment reference list.
-	 * @see filesystem.FilesystemPackage#getFilesystem_Syncs()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Sync> getSyncs();
+  /**
+   * Returns the value of the '<em><b>Syncs</b></em>' containment reference list.
+   * The list contents are of type {@link filesystem.Sync}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Syncs</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Syncs</em>' containment reference list.
+   * @see filesystem.FilesystemPackage#getFilesystem_Syncs()
+   * @model containment="true"
+   * @generated
+   */
+  EList<Sync> getSyncs();
 
 } // Filesystem

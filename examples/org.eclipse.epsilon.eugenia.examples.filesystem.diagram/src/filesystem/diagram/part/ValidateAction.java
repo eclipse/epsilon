@@ -74,8 +74,8 @@ public class ValidateAction extends Action {
 							public void run(IProgressMonitor monitor)
 									throws InterruptedException,
 									InvocationTargetException {
-								runValidation(part.getDiagramEditPart(), part
-										.getDiagram());
+								runValidation(part.getDiagramEditPart(),
+										part.getDiagram());
 							}
 						}).run(new NullProgressMonitor());
 			} catch (Exception e) {
@@ -95,8 +95,10 @@ public class ValidateAction extends Action {
 						.getActiveWorkbenchWindow().getActivePage()
 						.getActiveEditor();
 				if (editorPart instanceof IDiagramWorkbenchPart) {
-					runValidation(((IDiagramWorkbenchPart) editorPart)
-							.getDiagramEditPart(), view);
+					runValidation(
+							((IDiagramWorkbenchPart) editorPart)
+									.getDiagramEditPart(),
+							view);
 				} else {
 					runNonUIValidation(view);
 				}
@@ -180,7 +182,7 @@ public class ValidateAction extends Action {
 		List allStatuses = new ArrayList();
 		FilesystemDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new FilesystemDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(), collectTargetElements(
-						rootStatus, new HashSet(), allStatuses));
+						rootStatus, new HashSet<EObject>(), allStatuses));
 		for (Iterator it = allStatuses.iterator(); it.hasNext();) {
 			IConstraintStatus nextStatus = (IConstraintStatus) it.next();
 			View view = FilesystemDiagramEditorUtil.findView(diagramEditPart,
@@ -204,7 +206,7 @@ public class ValidateAction extends Action {
 		List allDiagnostics = new ArrayList();
 		FilesystemDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new FilesystemDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(), collectTargetElements(
-						rootStatus, new HashSet(), allDiagnostics));
+						rootStatus, new HashSet<EObject>(), allDiagnostics));
 		for (Iterator it = emfValidationStatus.getChildren().iterator(); it
 				.hasNext();) {
 			Diagnostic nextDiagnostic = (Diagnostic) it.next();
@@ -258,8 +260,8 @@ public class ValidateAction extends Action {
 	/**
 	 * @generated
 	 */
-	private static Set collectTargetElements(IStatus status,
-			Set targetElementCollector, List allConstraintStatuses) {
+	private static Set<EObject> collectTargetElements(IStatus status,
+			Set<EObject> targetElementCollector, List allConstraintStatuses) {
 		if (status instanceof IConstraintStatus) {
 			targetElementCollector
 					.add(((IConstraintStatus) status).getTarget());
@@ -278,8 +280,8 @@ public class ValidateAction extends Action {
 	/**
 	 * @generated
 	 */
-	private static Set collectTargetElements(Diagnostic diagnostic,
-			Set targetElementCollector, List allDiagnostics) {
+	private static Set<EObject> collectTargetElements(Diagnostic diagnostic,
+			Set<EObject> targetElementCollector, List allDiagnostics) {
 		List data = diagnostic.getData();
 		EObject target = null;
 		if (data != null && !data.isEmpty() && data.get(0) instanceof EObject) {

@@ -15,47 +15,47 @@ import org.eclipse.emf.ecore.EFactory;
 public interface FedFactory extends EFactory
 {
   /**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
+   * The singleton instance of the factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   FedFactory eINSTANCE = org.eclipse.epsilon.eugenia.examples.fed.impl.FedFactoryImpl.init();
 
   /**
-	 * Returns a new object of class '<em>Configuration</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns a new object of class '<em>Configuration</em>'.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Configuration</em>'.
-	 * @generated
-	 */
+   * @return a new object of class '<em>Configuration</em>'.
+   * @generated
+   */
   Configuration createConfiguration();
 
   /**
-	 * Returns a new object of class '<em>Feature</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns a new object of class '<em>Feature</em>'.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Feature</em>'.
-	 * @generated
-	 */
+   * @return a new object of class '<em>Feature</em>'.
+   * @generated
+   */
   Feature createFeature();
 
   /**
-	 * Returns a new object of class '<em>Plugin</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns a new object of class '<em>Plugin</em>'.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Plugin</em>'.
-	 * @generated
-	 */
+   * @return a new object of class '<em>Plugin</em>'.
+   * @generated
+   */
   Plugin createPlugin();
 
   /**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+   * Returns the package supported by this factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
+   * @return the package supported by this factory.
+   * @generated
+   */
   FedPackage getFedPackage();
 
 } //FedFactory

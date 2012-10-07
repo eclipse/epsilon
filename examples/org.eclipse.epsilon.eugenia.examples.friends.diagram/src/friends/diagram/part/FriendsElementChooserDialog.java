@@ -1,17 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -154,9 +146,8 @@ public class FriendsElementChooserDialog extends Dialog {
 	 */
 	public int open() {
 		int result = super.open();
-		for (Iterator it = myEditingDomain.getResourceSet().getResources()
-				.iterator(); it.hasNext();) {
-			Resource resource = (Resource) it.next();
+		for (Resource resource : myEditingDomain.getResourceSet()
+				.getResources()) {
 			resource.unload();
 		}
 		myEditingDomain.dispose();
@@ -195,9 +186,9 @@ public class FriendsElementChooserDialog extends Dialog {
 				IPath resourcePath = modelFile.getFullPath();
 				ResourceSet resourceSet = myEditingDomain.getResourceSet();
 				try {
-					Resource modelResource = resourceSet.getResource(URI
-							.createPlatformResourceURI(resourcePath.toString(),
-									true), true);
+					Resource modelResource = resourceSet.getResource(
+							URI.createPlatformResourceURI(
+									resourcePath.toString(), true), true);
 					return myAdapterFctoryContentProvier
 							.getChildren(modelResource);
 				} catch (WrappedException e) {

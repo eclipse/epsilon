@@ -70,8 +70,7 @@ public class FilesystemNewDiagramFileWizard extends Wizard {
 				.setTitle(Messages.FilesystemNewDiagramFileWizard_CreationPageTitle);
 		myFileCreationPage
 				.setDescription(NLS
-						.bind(
-								Messages.FilesystemNewDiagramFileWizard_CreationPageDescription,
+						.bind(Messages.FilesystemNewDiagramFileWizard_CreationPageDescription,
 								FilesystemEditPart.MODEL_ID));
 		IPath filePath;
 		String fileName = URI.decode(domainModelURI.trimFileExtension()
@@ -113,7 +112,7 @@ public class FilesystemNewDiagramFileWizard extends Wizard {
 	 * @generated
 	 */
 	public boolean performFinish() {
-		List affectedFiles = new LinkedList();
+		LinkedList<IFile> affectedFiles = new LinkedList<IFile>();
 		IFile diagramFile = myFileCreationPage.createNewFile();
 		FilesystemDiagramEditorUtil.setCharset(diagramFile);
 		affectedFiles.add(diagramFile);

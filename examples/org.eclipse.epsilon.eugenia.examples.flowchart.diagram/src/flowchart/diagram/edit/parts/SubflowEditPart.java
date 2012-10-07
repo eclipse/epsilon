@@ -365,6 +365,7 @@ public class SubflowEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fFigureSubflowLabelFigure = new WrappingLabel();
+
 			fFigureSubflowLabelFigure.setText("Subflow");
 
 			this.add(fFigureSubflowLabelFigure);

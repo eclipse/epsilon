@@ -1,12 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package filesystem;
 
-import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,86 +20,86 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see filesystem.FilesystemPackage#getSync()
  * @model annotation="gmf.link label='lastSync' source='source' target='target' style='dot' width='2'"
- * @extends CDOObject
  * @generated
  */
-public interface Sync extends CDOObject {
-	/**
-	 * Returns the value of the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source</em>' reference.
-	 * @see #setSource(File)
-	 * @see filesystem.FilesystemPackage#getSync_Source()
-	 * @model
-	 * @generated
-	 */
-	File getSource();
+public interface Sync extends EObject
+{
+  /**
+   * Returns the value of the '<em><b>Source</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Source</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Source</em>' reference.
+   * @see #setSource(File)
+   * @see filesystem.FilesystemPackage#getSync_Source()
+   * @model
+   * @generated
+   */
+  File getSource();
 
-	/**
-	 * Sets the value of the '{@link filesystem.Sync#getSource <em>Source</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Source</em>' reference.
-	 * @see #getSource()
-	 * @generated
-	 */
-	void setSource(File value);
+  /**
+   * Sets the value of the '{@link filesystem.Sync#getSource <em>Source</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Source</em>' reference.
+   * @see #getSource()
+   * @generated
+   */
+  void setSource(File value);
 
-	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(File)
-	 * @see filesystem.FilesystemPackage#getSync_Target()
-	 * @model
-	 * @generated
-	 */
-	File getTarget();
+  /**
+   * Returns the value of the '<em><b>Target</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Target</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Target</em>' reference.
+   * @see #setTarget(File)
+   * @see filesystem.FilesystemPackage#getSync_Target()
+   * @model
+   * @generated
+   */
+  File getTarget();
 
-	/**
-	 * Sets the value of the '{@link filesystem.Sync#getTarget <em>Target</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
-	 * @see #getTarget()
-	 * @generated
-	 */
-	void setTarget(File value);
+  /**
+   * Sets the value of the '{@link filesystem.Sync#getTarget <em>Target</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Target</em>' reference.
+   * @see #getTarget()
+   * @generated
+   */
+  void setTarget(File value);
 
-	/**
-	 * Returns the value of the '<em><b>Last Sync</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Last Sync</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Last Sync</em>' attribute.
-	 * @see #setLastSync(String)
-	 * @see filesystem.FilesystemPackage#getSync_LastSync()
-	 * @model
-	 * @generated
-	 */
-	String getLastSync();
+  /**
+   * Returns the value of the '<em><b>Last Sync</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Last Sync</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Last Sync</em>' attribute.
+   * @see #setLastSync(String)
+   * @see filesystem.FilesystemPackage#getSync_LastSync()
+   * @model
+   * @generated
+   */
+  String getLastSync();
 
-	/**
-	 * Sets the value of the '{@link filesystem.Sync#getLastSync <em>Last Sync</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Last Sync</em>' attribute.
-	 * @see #getLastSync()
-	 * @generated
-	 */
-	void setLastSync(String value);
+  /**
+   * Sets the value of the '{@link filesystem.Sync#getLastSync <em>Last Sync</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Last Sync</em>' attribute.
+   * @see #getLastSync()
+   * @generated
+   */
+  void setLastSync(String value);
 
 } // Sync

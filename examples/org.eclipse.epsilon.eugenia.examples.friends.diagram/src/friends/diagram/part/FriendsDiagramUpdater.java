@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import java.util.Collection;
@@ -15,11 +8,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.update.DiagramUpdater;
 
 import friends.FriendsPackage;
 import friends.Person;
@@ -46,24 +41,25 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getSemanticChildren(View view) {
+	public static List<FriendsNodeDescriptor> getSemanticChildren(View view) {
 		switch (FriendsVisualIDRegistry.getVisualID(view)) {
 		case WorldEditPart.VISUAL_ID:
-			return getWorld_79SemanticChildren(view);
+			return getWorld_1000SemanticChildren(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getWorld_79SemanticChildren(View view) {
+	public static List<FriendsNodeDescriptor> getWorld_1000SemanticChildren(
+			View view) {
 		if (!view.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		World modelElement = (World) view.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getPeople().iterator(); it.hasNext();) {
+		LinkedList<FriendsNodeDescriptor> result = new LinkedList<FriendsNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getPeople().iterator(); it.hasNext();) {
 			Person childElement = (Person) it.next();
 			int visualID = FriendsVisualIDRegistry.getNodeVisualID(view,
 					childElement);
@@ -78,69 +74,70 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getContainedLinks(View view) {
+	public static List<FriendsLinkDescriptor> getContainedLinks(View view) {
 		switch (FriendsVisualIDRegistry.getVisualID(view)) {
 		case WorldEditPart.VISUAL_ID:
-			return getWorld_79ContainedLinks(view);
+			return getWorld_1000ContainedLinks(view);
 		case PersonEditPart.VISUAL_ID:
-			return getPerson_1001ContainedLinks(view);
+			return getPerson_2001ContainedLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getIncomingLinks(View view) {
+	public static List<FriendsLinkDescriptor> getIncomingLinks(View view) {
 		switch (FriendsVisualIDRegistry.getVisualID(view)) {
 		case PersonEditPart.VISUAL_ID:
-			return getPerson_1001IncomingLinks(view);
+			return getPerson_2001IncomingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getOutgoingLinks(View view) {
+	public static List<FriendsLinkDescriptor> getOutgoingLinks(View view) {
 		switch (FriendsVisualIDRegistry.getVisualID(view)) {
 		case PersonEditPart.VISUAL_ID:
-			return getPerson_1001OutgoingLinks(view);
+			return getPerson_2001OutgoingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getWorld_79ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FriendsLinkDescriptor> getWorld_1000ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getPerson_1001ContainedLinks(View view) {
+	public static List<FriendsLinkDescriptor> getPerson_2001ContainedLinks(
+			View view) {
 		Person modelElement = (Person) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Person_FriendOf_3001(modelElement));
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Person_EnemyOf_3002(modelElement));
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		result.addAll(getOutgoingFeatureModelFacetLinks_Person_FriendOf_4001(modelElement));
+		result.addAll(getOutgoingFeatureModelFacetLinks_Person_EnemyOf_4002(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getPerson_1001IncomingLinks(View view) {
+	public static List<FriendsLinkDescriptor> getPerson_2001IncomingLinks(
+			View view) {
 		Person modelElement = (Person) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
-		result.addAll(getIncomingFeatureModelFacetLinks_Person_FriendOf_3001(
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		result.addAll(getIncomingFeatureModelFacetLinks_Person_FriendOf_4001(
 				modelElement, crossReferences));
-		result.addAll(getIncomingFeatureModelFacetLinks_Person_EnemyOf_3002(
+		result.addAll(getIncomingFeatureModelFacetLinks_Person_EnemyOf_4002(
 				modelElement, crossReferences));
 		return result;
 	}
@@ -148,30 +145,29 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getPerson_1001OutgoingLinks(View view) {
+	public static List<FriendsLinkDescriptor> getPerson_2001OutgoingLinks(
+			View view) {
 		Person modelElement = (Person) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Person_FriendOf_3001(modelElement));
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Person_EnemyOf_3002(modelElement));
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		result.addAll(getOutgoingFeatureModelFacetLinks_Person_FriendOf_4001(modelElement));
+		result.addAll(getOutgoingFeatureModelFacetLinks_Person_EnemyOf_4002(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	private static Collection getIncomingFeatureModelFacetLinks_Person_FriendOf_3001(
-			Person target, Map crossReferences) {
-		Collection result = new LinkedList();
-		Collection settings = (Collection) crossReferences.get(target);
-		for (Iterator it = settings.iterator(); it.hasNext();) {
-			EStructuralFeature.Setting setting = (EStructuralFeature.Setting) it
-					.next();
+	private static Collection<FriendsLinkDescriptor> getIncomingFeatureModelFacetLinks_Person_FriendOf_4001(
+			Person target,
+			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		Collection<EStructuralFeature.Setting> settings = crossReferences
+				.get(target);
+		for (EStructuralFeature.Setting setting : settings) {
 			if (setting.getEStructuralFeature() == FriendsPackage.eINSTANCE
 					.getPerson_FriendOf()) {
 				result.add(new FriendsLinkDescriptor(setting.getEObject(),
-						target, FriendsElementTypes.PersonFriendOf_3001,
+						target, FriendsElementTypes.PersonFriendOf_4001,
 						PersonFriendOfEditPart.VISUAL_ID));
 			}
 		}
@@ -181,17 +177,17 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getIncomingFeatureModelFacetLinks_Person_EnemyOf_3002(
-			Person target, Map crossReferences) {
-		Collection result = new LinkedList();
-		Collection settings = (Collection) crossReferences.get(target);
-		for (Iterator it = settings.iterator(); it.hasNext();) {
-			EStructuralFeature.Setting setting = (EStructuralFeature.Setting) it
-					.next();
+	private static Collection<FriendsLinkDescriptor> getIncomingFeatureModelFacetLinks_Person_EnemyOf_4002(
+			Person target,
+			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		Collection<EStructuralFeature.Setting> settings = crossReferences
+				.get(target);
+		for (EStructuralFeature.Setting setting : settings) {
 			if (setting.getEStructuralFeature() == FriendsPackage.eINSTANCE
 					.getPerson_EnemyOf()) {
 				result.add(new FriendsLinkDescriptor(setting.getEObject(),
-						target, FriendsElementTypes.PersonEnemyOf_3002,
+						target, FriendsElementTypes.PersonEnemyOf_4002,
 						PersonEnemyOfEditPart.VISUAL_ID));
 			}
 		}
@@ -201,14 +197,14 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getOutgoingFeatureModelFacetLinks_Person_FriendOf_3001(
+	private static Collection<FriendsLinkDescriptor> getOutgoingFeatureModelFacetLinks_Person_FriendOf_4001(
 			Person source) {
-		Collection result = new LinkedList();
-		for (Iterator destinations = source.getFriendOf().iterator(); destinations
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		for (Iterator<?> destinations = source.getFriendOf().iterator(); destinations
 				.hasNext();) {
 			Person destination = (Person) destinations.next();
 			result.add(new FriendsLinkDescriptor(source, destination,
-					FriendsElementTypes.PersonFriendOf_3001,
+					FriendsElementTypes.PersonFriendOf_4001,
 					PersonFriendOfEditPart.VISUAL_ID));
 		}
 		return result;
@@ -217,17 +213,54 @@ public class FriendsDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getOutgoingFeatureModelFacetLinks_Person_EnemyOf_3002(
+	private static Collection<FriendsLinkDescriptor> getOutgoingFeatureModelFacetLinks_Person_EnemyOf_4002(
 			Person source) {
-		Collection result = new LinkedList();
-		for (Iterator destinations = source.getEnemyOf().iterator(); destinations
+		LinkedList<FriendsLinkDescriptor> result = new LinkedList<FriendsLinkDescriptor>();
+		for (Iterator<?> destinations = source.getEnemyOf().iterator(); destinations
 				.hasNext();) {
 			Person destination = (Person) destinations.next();
 			result.add(new FriendsLinkDescriptor(source, destination,
-					FriendsElementTypes.PersonEnemyOf_3002,
+					FriendsElementTypes.PersonEnemyOf_4002,
 					PersonEnemyOfEditPart.VISUAL_ID));
 		}
 		return result;
 	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramUpdater TYPED_INSTANCE = new DiagramUpdater() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FriendsNodeDescriptor> getSemanticChildren(View view) {
+			return FriendsDiagramUpdater.getSemanticChildren(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FriendsLinkDescriptor> getContainedLinks(View view) {
+			return FriendsDiagramUpdater.getContainedLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FriendsLinkDescriptor> getIncomingLinks(View view) {
+			return FriendsDiagramUpdater.getIncomingLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FriendsLinkDescriptor> getOutgoingLinks(View view) {
+			return FriendsDiagramUpdater.getOutgoingLinks(view);
+		}
+	};
 
 }

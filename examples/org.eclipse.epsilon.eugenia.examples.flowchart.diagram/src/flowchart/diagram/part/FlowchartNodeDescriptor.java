@@ -4,42 +4,18 @@
 package flowchart.diagram.part;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.tooling.runtime.update.UpdaterNodeDescriptor;
 
 /**
  * @generated
  */
-public class FlowchartNodeDescriptor {
-
-	/**
-	 * @generated
-	 */
-	private final EObject myModelElement;
-
-	/**
-	 * @generated
-	 */
-	private final int myVisualID;
+public class FlowchartNodeDescriptor extends UpdaterNodeDescriptor {
 
 	/**
 	 * @generated
 	 */
 	public FlowchartNodeDescriptor(EObject modelElement, int visualID) {
-		myModelElement = modelElement;
-		myVisualID = visualID;
-	}
-
-	/**
-	 * @generated
-	 */
-	public EObject getModelElement() {
-		return myModelElement;
-	}
-
-	/**
-	 * @generated
-	 */
-	public int getVisualID() {
-		return myVisualID;
+		super(modelElement, visualID);
 	}
 
 }

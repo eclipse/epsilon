@@ -1,17 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.part;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +21,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
@@ -127,6 +119,7 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class type) {
 		if (type == IShowInTargetList.class) {
 			return new IShowInTargetList() {
@@ -204,8 +197,7 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 		IEditorInput input = getEditorInput();
 		SaveAsDialog dialog = new SaveAsDialog(shell);
 		IFile original = input instanceof IFileEditorInput ? ((IFileEditorInput) input)
-				.getFile()
-				: null;
+				.getFile() : null;
 		if (original != null) {
 			dialog.setOriginalFile(original);
 		}
@@ -217,8 +209,8 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 		}
 		if (provider.isDeleted(input) && original != null) {
 			String message = NLS.bind(
-					Messages.FriendsDiagramEditor_SavingDeletedFile, original
-							.getName());
+					Messages.FriendsDiagramEditor_SavingDeletedFile,
+					original.getName());
 			dialog.setErrorMessage(null);
 			dialog.setMessage(message, IMessageProvider.WARNING);
 		}
@@ -264,8 +256,8 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 			if (status == null || status.getSeverity() != IStatus.CANCEL) {
 				ErrorDialog.openError(shell,
 						Messages.FriendsDiagramEditor_SaveErrorTitle,
-						Messages.FriendsDiagramEditor_SaveErrorMessage, x
-								.getStatus());
+						Messages.FriendsDiagramEditor_SaveErrorMessage,
+						x.getStatus());
 			}
 		} finally {
 			provider.changed(newInput);
@@ -294,6 +286,9 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 			return StructuredSelection.EMPTY;
 		}
 		Diagram diagram = document.getDiagram();
+		if (diagram == null || diagram.eResource() == null) {
+			return StructuredSelection.EMPTY;
+		}
 		IFile file = WorkspaceSynchronizer.getFile(diagram.eResource());
 		if (file != null) {
 			FriendsNavigatorItem item = new FriendsNavigatorItem(diagram, file,
@@ -358,12 +353,12 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 		 */
 		protected List getObjectsBeingDropped() {
 			TransferData data = getCurrentEvent().currentDataType;
-			Collection uris = new HashSet();
+			HashSet<URI> uris = new HashSet<URI>();
 
 			Object transferedObject = getJavaObject(data);
 			if (transferedObject instanceof IStructuredSelection) {
 				IStructuredSelection selection = (IStructuredSelection) transferedObject;
-				for (Iterator it = selection.iterator(); it.hasNext();) {
+				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
 					Object nextSelectedObject = it.next();
 					if (nextSelectedObject instanceof FriendsNavigatorItem) {
 						View view = ((FriendsNavigatorItem) nextSelectedObject)
@@ -377,18 +372,13 @@ public class FriendsDiagramEditor extends DiagramDocumentEditor implements
 
 					if (nextSelectedObject instanceof EObject) {
 						EObject modelElement = (EObject) nextSelectedObject;
-						Resource modelElementResource = modelElement
-								.eResource();
-						uris.add(modelElementResource.getURI().appendFragment(
-								modelElementResource
-										.getURIFragment(modelElement)));
+						uris.add(EcoreUtil.getURI(modelElement));
 					}
 				}
 			}
 
-			List result = new ArrayList();
-			for (Iterator it = uris.iterator(); it.hasNext();) {
-				URI nextURI = (URI) it.next();
+			ArrayList<EObject> result = new ArrayList<EObject>(uris.size());
+			for (URI nextURI : uris) {
 				EObject modelObject = getEditingDomain().getResourceSet()
 						.getEObject(nextURI, true);
 				result.add(modelObject);

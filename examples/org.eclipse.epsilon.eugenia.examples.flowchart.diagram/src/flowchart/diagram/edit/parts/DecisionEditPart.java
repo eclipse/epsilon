@@ -349,7 +349,6 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 		 * @generated
 		 */
 		public DecisionFigure() {
-
 			createContents();
 		}
 
@@ -359,6 +358,7 @@ public class DecisionEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fFigureDecisionLabelFigure = new WrappingLabel();
+
 			fFigureDecisionLabelFigure.setText("Decision");
 
 			fFigureDecisionLabelFigure.setFont(FFIGUREDECISIONLABELFIGURE_FONT);

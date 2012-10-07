@@ -4,42 +4,18 @@
 package filesystem.diagram.part;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.tooling.runtime.update.UpdaterNodeDescriptor;
 
 /**
  * @generated
  */
-public class FilesystemNodeDescriptor {
-
-	/**
-	 * @generated
-	 */
-	private final EObject myModelElement;
-
-	/**
-	 * @generated
-	 */
-	private final int myVisualID;
+public class FilesystemNodeDescriptor extends UpdaterNodeDescriptor {
 
 	/**
 	 * @generated
 	 */
 	public FilesystemNodeDescriptor(EObject modelElement, int visualID) {
-		myModelElement = modelElement;
-		myVisualID = visualID;
-	}
-
-	/**
-	 * @generated
-	 */
-	public EObject getModelElement() {
-		return myModelElement;
-	}
-
-	/**
-	 * @generated
-	 */
-	public int getVisualID() {
-		return myVisualID;
+		super(modelElement, visualID);
 	}
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<trace:TraceModel xmi:version="2.0"
+<trace:TraceModel
+    xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:trace="http://www.eclipse.org/gmf/2006/Trace">
   <nodeTraces

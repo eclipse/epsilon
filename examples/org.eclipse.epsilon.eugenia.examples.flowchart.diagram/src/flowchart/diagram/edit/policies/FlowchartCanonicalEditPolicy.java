@@ -54,6 +54,18 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
+	protected void refreshOnActivate() {
+		// Need to activate editpart children before invoking the canonical refresh for EditParts to add event listeners
+		List<?> c = getHost().getChildren();
+		for (int i = 0; i < c.size(); i++) {
+			((EditPart) c.get(i)).activate();
+		}
+		super.refreshOnActivate();
+	}
+
+	/**
+	 * @generated
+	 */
 	protected EStructuralFeature getFeatureToSynchronize() {
 		return FlowchartPackage.eINSTANCE.getFlowchart_Nodes();
 	}
@@ -78,7 +90,7 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 	 */
 	protected boolean isOrphaned(Collection<EObject> semanticChildren,
 			final View view) {
-		if (view.getEAnnotation("Shortcut") != null) { //$NON-NLS-1$
+		if (isShortcut(view)) {
 			return FlowchartDiagramUpdater.isShortcutOrphaned(view);
 		}
 		return isMyDiagramElement(view)
@@ -98,6 +110,13 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
+	private boolean isShortcut(View view) {
+		return view.getEAnnotation("Shortcut") != null; //$NON-NLS-1$
+	}
+
+	/**
+	 * @generated
+	 */
 	protected void refreshSemantic() {
 		if (resolveSemanticElement() == null) {
 			return;
@@ -106,14 +125,17 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 		List<FlowchartNodeDescriptor> childDescriptors = FlowchartDiagramUpdater
 				.getFlowchart_1000SemanticChildren((View) getHost().getModel());
 		LinkedList<View> orphaned = new LinkedList<View>();
-		// we care to check only views we recognize as ours
+		// we care to check only views we recognize as ours and not shortcuts
 		LinkedList<View> knownViewChildren = new LinkedList<View>();
 		for (View v : getViewChildren()) {
+			if (isShortcut(v)) {
+				if (FlowchartDiagramUpdater.isShortcutOrphaned(v)) {
+					orphaned.add(v);
+				}
+				continue;
+			}
 			if (isMyDiagramElement(v)) {
 				knownViewChildren.add(v);
-			}
-			if (v.getEAnnotation("Shortcut") != null && FlowchartDiagramUpdater.isShortcutOrphaned(v)) { //$NON-NLS-1$
-				orphaned.add(v);
 			}
 		}
 		// alternative to #cleanCanonicalSemanticChildren(getViewChildren(), semanticChildren)

@@ -76,10 +76,9 @@ public class FilesystemNavigatorItem extends FilesystemAbstractNavigatorItem {
 		if (obj instanceof filesystem.diagram.navigator.FilesystemNavigatorItem) {
 			return EcoreUtil
 					.getURI(getView())
-					.equals(
-							EcoreUtil
-									.getURI(((filesystem.diagram.navigator.FilesystemNavigatorItem) obj)
-											.getView()));
+					.equals(EcoreUtil
+							.getURI(((filesystem.diagram.navigator.FilesystemNavigatorItem) obj)
+									.getView()));
 		}
 		return super.equals(obj);
 	}

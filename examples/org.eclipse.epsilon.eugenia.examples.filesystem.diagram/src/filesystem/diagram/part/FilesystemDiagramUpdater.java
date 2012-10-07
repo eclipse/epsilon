@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.tooling.runtime.update.DiagramUpdater;
 import filesystem.Drive;
 import filesystem.File;
 import filesystem.Filesystem;
@@ -51,60 +52,53 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getSemanticChildren(View view) {
+	public static List<FilesystemNodeDescriptor> getSemanticChildren(View view) {
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
+		case FilesystemEditPart.VISUAL_ID:
+			return getFilesystem_1000SemanticChildren(view);
 		case DriveDriveContentsCompartmentEditPart.VISUAL_ID:
 			return getDriveDriveContentsCompartment_7001SemanticChildren(view);
 		case DriveDriveContentsCompartment2EditPart.VISUAL_ID:
 			return getDriveDriveContentsCompartment_7002SemanticChildren(view);
 		case FolderFolderContentsCompartmentEditPart.VISUAL_ID:
 			return getFolderFolderContentsCompartment_7003SemanticChildren(view);
-		case FilesystemEditPart.VISUAL_ID:
-			return getFilesystem_1000SemanticChildren(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getDriveDriveContentsCompartment_7001SemanticChildren(
+	public static List<FilesystemNodeDescriptor> getDriveDriveContentsCompartment_7001SemanticChildren(
 			View view) {
 		if (false == view.eContainer() instanceof View) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		View containerView = (View) view.eContainer();
 		if (!containerView.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		Drive modelElement = (Drive) containerView.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getContents().iterator(); it.hasNext();) {
+		LinkedList<FilesystemNodeDescriptor> result = new LinkedList<FilesystemNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getContents().iterator(); it
+				.hasNext();) {
 			File childElement = (File) it.next();
 			int visualID = FilesystemVisualIDRegistry.getNodeVisualID(view,
 					childElement);
 			if (visualID == Drive2EditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FolderEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == ShortcutEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FileEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 		}
@@ -114,43 +108,36 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getDriveDriveContentsCompartment_7002SemanticChildren(
+	public static List<FilesystemNodeDescriptor> getDriveDriveContentsCompartment_7002SemanticChildren(
 			View view) {
 		if (false == view.eContainer() instanceof View) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		View containerView = (View) view.eContainer();
 		if (!containerView.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		Drive modelElement = (Drive) containerView.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getContents().iterator(); it.hasNext();) {
+		LinkedList<FilesystemNodeDescriptor> result = new LinkedList<FilesystemNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getContents().iterator(); it
+				.hasNext();) {
 			File childElement = (File) it.next();
 			int visualID = FilesystemVisualIDRegistry.getNodeVisualID(view,
 					childElement);
 			if (visualID == Drive2EditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FolderEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == ShortcutEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FileEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 		}
@@ -160,43 +147,36 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getFolderFolderContentsCompartment_7003SemanticChildren(
+	public static List<FilesystemNodeDescriptor> getFolderFolderContentsCompartment_7003SemanticChildren(
 			View view) {
 		if (false == view.eContainer() instanceof View) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		View containerView = (View) view.eContainer();
 		if (!containerView.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		Folder modelElement = (Folder) containerView.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getContents().iterator(); it.hasNext();) {
+		LinkedList<FilesystemNodeDescriptor> result = new LinkedList<FilesystemNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getContents().iterator(); it
+				.hasNext();) {
 			File childElement = (File) it.next();
 			int visualID = FilesystemVisualIDRegistry.getNodeVisualID(view,
 					childElement);
 			if (visualID == Drive2EditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FolderEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == ShortcutEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 			if (visualID == FileEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 		}
@@ -206,20 +186,19 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getFilesystem_1000SemanticChildren(View view) {
+	public static List<FilesystemNodeDescriptor> getFilesystem_1000SemanticChildren(
+			View view) {
 		if (!view.isSetElement()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		Filesystem modelElement = (Filesystem) view.getElement();
-		List result = new LinkedList();
-		for (Iterator it = modelElement.getDrives().iterator(); it.hasNext();) {
+		LinkedList<FilesystemNodeDescriptor> result = new LinkedList<FilesystemNodeDescriptor>();
+		for (Iterator<?> it = modelElement.getDrives().iterator(); it.hasNext();) {
 			Drive childElement = (Drive) it.next();
 			int visualID = FilesystemVisualIDRegistry.getNodeVisualID(view,
 					childElement);
 			if (visualID == DriveEditPart.VISUAL_ID) {
-				result
-						.add(new FilesystemNodeDescriptor(childElement,
-								visualID));
+				result.add(new FilesystemNodeDescriptor(childElement, visualID));
 				continue;
 			}
 		}
@@ -229,7 +208,7 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getContainedLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getContainedLinks(View view) {
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
 		case FilesystemEditPart.VISUAL_ID:
 			return getFilesystem_1000ContainedLinks(view);
@@ -246,13 +225,13 @@ public class FilesystemDiagramUpdater {
 		case SyncEditPart.VISUAL_ID:
 			return getSync_4001ContainedLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getIncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getIncomingLinks(View view) {
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
 		case DriveEditPart.VISUAL_ID:
 			return getDrive_2001IncomingLinks(view);
@@ -267,13 +246,13 @@ public class FilesystemDiagramUpdater {
 		case SyncEditPart.VISUAL_ID:
 			return getSync_4001IncomingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getOutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getOutgoingLinks(View view) {
 		switch (FilesystemVisualIDRegistry.getVisualID(view)) {
 		case DriveEditPart.VISUAL_ID:
 			return getDrive_2001OutgoingLinks(view);
@@ -288,15 +267,16 @@ public class FilesystemDiagramUpdater {
 		case SyncEditPart.VISUAL_ID:
 			return getSync_4001OutgoingLinks(view);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFilesystem_1000ContainedLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getFilesystem_1000ContainedLinks(
+			View view) {
 		Filesystem modelElement = (Filesystem) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getContainedTypeModelFacetLinks_Sync_4001(modelElement));
 		return result;
 	}
@@ -304,57 +284,63 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getDrive_2001ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getDrive_2001ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getDrive_3001ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getDrive_3001ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFolder_3002ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getFolder_3002ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getShortcut_3003ContainedLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getShortcut_3003ContainedLinks(
+			View view) {
 		Shortcut modelElement = (Shortcut) view.getElement();
-		List result = new LinkedList();
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(modelElement));
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
+		result.addAll(getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFile_3004ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getFile_3004ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getSync_4001ContainedLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getSync_4001ContainedLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getDrive_2001IncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getDrive_2001IncomingLinks(
+			View view) {
 		Drive modelElement = (Drive) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Sync_4001(modelElement,
 				crossReferences));
 		result.addAll(getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
@@ -365,11 +351,12 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getDrive_3001IncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getDrive_3001IncomingLinks(
+			View view) {
 		Drive modelElement = (Drive) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Sync_4001(modelElement,
 				crossReferences));
 		result.addAll(getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
@@ -380,11 +367,12 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getFolder_3002IncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getFolder_3002IncomingLinks(
+			View view) {
 		Folder modelElement = (Folder) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Sync_4001(modelElement,
 				crossReferences));
 		result.addAll(getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
@@ -395,11 +383,12 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getShortcut_3003IncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getShortcut_3003IncomingLinks(
+			View view) {
 		Shortcut modelElement = (Shortcut) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Sync_4001(modelElement,
 				crossReferences));
 		result.addAll(getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
@@ -410,11 +399,12 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getFile_3004IncomingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getFile_3004IncomingLinks(
+			View view) {
 		File modelElement = (File) view.getElement();
-		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
-				.getResourceSet().getResources());
-		List result = new LinkedList();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Sync_4001(modelElement,
 				crossReferences));
 		result.addAll(getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
@@ -425,16 +415,18 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getSync_4001IncomingLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getSync_4001IncomingLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getDrive_2001OutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getDrive_2001OutgoingLinks(
+			View view) {
 		Drive modelElement = (Drive) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Sync_4001(modelElement));
 		return result;
 	}
@@ -442,9 +434,10 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getDrive_3001OutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getDrive_3001OutgoingLinks(
+			View view) {
 		Drive modelElement = (Drive) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Sync_4001(modelElement));
 		return result;
 	}
@@ -452,9 +445,10 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getFolder_3002OutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getFolder_3002OutgoingLinks(
+			View view) {
 		Folder modelElement = (Folder) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Sync_4001(modelElement));
 		return result;
 	}
@@ -462,21 +456,22 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getShortcut_3003OutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getShortcut_3003OutgoingLinks(
+			View view) {
 		Shortcut modelElement = (Shortcut) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Sync_4001(modelElement));
-		result
-				.addAll(getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(modelElement));
+		result.addAll(getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(modelElement));
 		return result;
 	}
 
 	/**
 	 * @generated
 	 */
-	public static List getFile_3004OutgoingLinks(View view) {
+	public static List<FilesystemLinkDescriptor> getFile_3004OutgoingLinks(
+			View view) {
 		File modelElement = (File) view.getElement();
-		List result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Sync_4001(modelElement));
 		return result;
 	}
@@ -484,17 +479,19 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List getSync_4001OutgoingLinks(View view) {
-		return Collections.EMPTY_LIST;
+	public static List<FilesystemLinkDescriptor> getSync_4001OutgoingLinks(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * @generated
 	 */
-	private static Collection getContainedTypeModelFacetLinks_Sync_4001(
+	private static Collection<FilesystemLinkDescriptor> getContainedTypeModelFacetLinks_Sync_4001(
 			Filesystem container) {
-		Collection result = new LinkedList();
-		for (Iterator links = container.getSyncs().iterator(); links.hasNext();) {
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
+		for (Iterator<?> links = container.getSyncs().iterator(); links
+				.hasNext();) {
 			EObject linkObject = (EObject) links.next();
 			if (false == linkObject instanceof Sync) {
 				continue;
@@ -515,13 +512,13 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getIncomingTypeModelFacetLinks_Sync_4001(
-			File target, Map crossReferences) {
-		Collection result = new LinkedList();
-		Collection settings = (Collection) crossReferences.get(target);
-		for (Iterator it = settings.iterator(); it.hasNext();) {
-			EStructuralFeature.Setting setting = (EStructuralFeature.Setting) it
-					.next();
+	private static Collection<FilesystemLinkDescriptor> getIncomingTypeModelFacetLinks_Sync_4001(
+			File target,
+			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
+		Collection<EStructuralFeature.Setting> settings = crossReferences
+				.get(target);
+		for (EStructuralFeature.Setting setting : settings) {
 			if (setting.getEStructuralFeature() != FilesystemPackage.eINSTANCE
 					.getSync_Target()
 					|| false == setting.getEObject() instanceof Sync) {
@@ -542,13 +539,13 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
-			File target, Map crossReferences) {
-		Collection result = new LinkedList();
-		Collection settings = (Collection) crossReferences.get(target);
-		for (Iterator it = settings.iterator(); it.hasNext();) {
-			EStructuralFeature.Setting setting = (EStructuralFeature.Setting) it
-					.next();
+	private static Collection<FilesystemLinkDescriptor> getIncomingFeatureModelFacetLinks_Shortcut_Target_4002(
+			File target,
+			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
+		Collection<EStructuralFeature.Setting> settings = crossReferences
+				.get(target);
+		for (EStructuralFeature.Setting setting : settings) {
 			if (setting.getEStructuralFeature() == FilesystemPackage.eINSTANCE
 					.getShortcut_Target()) {
 				result.add(new FilesystemLinkDescriptor(setting.getEObject(),
@@ -562,7 +559,7 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getOutgoingTypeModelFacetLinks_Sync_4001(
+	private static Collection<FilesystemLinkDescriptor> getOutgoingTypeModelFacetLinks_Sync_4001(
 			File source) {
 		Filesystem container = null;
 		// Find container element for the link.
@@ -575,10 +572,11 @@ public class FilesystemDiagramUpdater {
 			}
 		}
 		if (container == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
-		Collection result = new LinkedList();
-		for (Iterator links = container.getSyncs().iterator(); links.hasNext();) {
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
+		for (Iterator<?> links = container.getSyncs().iterator(); links
+				.hasNext();) {
 			EObject linkObject = (EObject) links.next();
 			if (false == linkObject instanceof Sync) {
 				continue;
@@ -602,9 +600,9 @@ public class FilesystemDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	private static Collection getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(
+	private static Collection<FilesystemLinkDescriptor> getOutgoingFeatureModelFacetLinks_Shortcut_Target_4002(
 			Shortcut source) {
-		Collection result = new LinkedList();
+		LinkedList<FilesystemLinkDescriptor> result = new LinkedList<FilesystemLinkDescriptor>();
 		File destination = source.getTarget();
 		if (destination == null) {
 			return result;
@@ -614,5 +612,42 @@ public class FilesystemDiagramUpdater {
 				ShortcutTargetEditPart.VISUAL_ID));
 		return result;
 	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramUpdater TYPED_INSTANCE = new DiagramUpdater() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FilesystemNodeDescriptor> getSemanticChildren(View view) {
+			return FilesystemDiagramUpdater.getSemanticChildren(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FilesystemLinkDescriptor> getContainedLinks(View view) {
+			return FilesystemDiagramUpdater.getContainedLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FilesystemLinkDescriptor> getIncomingLinks(View view) {
+			return FilesystemDiagramUpdater.getIncomingLinks(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public List<FilesystemLinkDescriptor> getOutgoingLinks(View view) {
+			return FilesystemDiagramUpdater.getOutgoingLinks(view);
+		}
+	};
 
 }

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package flowchart.impl;
 
@@ -12,13 +8,17 @@ import flowchart.Subflow;
 import flowchart.Transition;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -37,8 +37,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class SubflowImpl extends FlowchartImpl implements Subflow {
-	/**
+public class SubflowImpl extends FlowchartImpl implements Subflow
+{
+  /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -47,6 +48,7 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
    * @ordered
    */
   protected static final String NAME_EDEFAULT = null;
+
   /**
    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -56,6 +58,7 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -65,6 +68,7 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
    * @ordered
    */
   protected EList<Transition> outgoing;
+
   /**
    * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -77,51 +81,55 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected SubflowImpl() {
+  protected SubflowImpl()
+  {
     super();
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	protected EClass eStaticClass() {
+  @Override
+  protected EClass eStaticClass()
+  {
     return FlowchartPackage.Literals.SUBFLOW;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public String getName() {
+  public String getName()
+  {
     return name;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setName(String newName) {
+  public void setName(String newName)
+  {
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, FlowchartPackage.SUBFLOW__NAME, oldName, name));
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Transition> getOutgoing() {
+  public EList<Transition> getOutgoing()
+  {
     if (outgoing == null)
     {
       outgoing = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, FlowchartPackage.SUBFLOW__OUTGOING, FlowchartPackage.TRANSITION__SOURCE);
@@ -129,13 +137,13 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
     return outgoing;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@SuppressWarnings("unchecked")
-	public EList<Transition> getIncoming() {
+  public EList<Transition> getIncoming()
+  {
     if (incoming == null)
     {
       incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, FlowchartPackage.SUBFLOW__INCOMING, FlowchartPackage.TRANSITION__TARGET);
@@ -143,7 +151,7 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
     return incoming;
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -271,11 +279,12 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+  @Override
+  public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
+  {
     if (baseClass == Node.class)
     {
       switch (derivedFeatureID)
@@ -289,13 +298,14 @@ public class SubflowImpl extends FlowchartImpl implements Subflow {
     return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
   }
 
-	/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+  @Override
+  public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
+  {
     if (baseClass == Node.class)
     {
       switch (baseFeatureID)

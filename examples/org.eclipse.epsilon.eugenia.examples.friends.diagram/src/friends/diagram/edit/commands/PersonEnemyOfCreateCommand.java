@@ -1,13 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2009 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
  * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
+ */
 package friends.diagram.edit.commands;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -63,8 +56,8 @@ public class PersonEnemyOfCreateCommand extends EditElementCommand {
 			return true; // link creation is in progress; source is not defined yet
 		}
 		// target may be null here but it's possible to check constraint
-		return FriendsBaseItemSemanticEditPolicy.LinkConstraints
-				.canCreatePersonEnemyOf_3002(getSource(), getTarget());
+		return FriendsBaseItemSemanticEditPolicy.getLinkConstraints()
+				.canCreatePersonEnemyOf_4002(getSource(), getTarget());
 	}
 
 	/**
@@ -76,10 +69,19 @@ public class PersonEnemyOfCreateCommand extends EditElementCommand {
 			throw new ExecutionException(
 					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
+
 		if (getSource() != null && getTarget() != null) {
 			getSource().getEnemyOf().add(getTarget());
 		}
 		return CommandResult.newOKCommandResult();
+
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void setElementToEdit(EObject element) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
