@@ -6,3 +6,4 @@ Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.epsilon.eol.tools
