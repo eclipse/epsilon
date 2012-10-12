@@ -37,7 +37,7 @@
  ******************************************************************************/
 grammar Hutn;
 
-options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.commons.parse.EpsilonParser';}
+options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
 tokens {
      TRUE  = 'true';

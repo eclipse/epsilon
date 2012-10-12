@@ -37,7 +37,7 @@
  ******************************************************************************/
 grammar Ewl;
 
-options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.commons.parse.EpsilonParser';}
+options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
 import EolLexerRules, EolParserRules, ErlParserRules, EwlParserRules;
 

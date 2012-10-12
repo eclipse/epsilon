@@ -37,7 +37,7 @@
  ******************************************************************************/
 grammar HutnSpec;
 
-options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.commons.parse.EpsilonParser';}
+options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
 @header {
 package org.eclipse.epsilon.hutn.parse.spec;
