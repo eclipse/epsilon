@@ -36,22 +36,35 @@ public class PatternMatcher {
 		
 		IEolContext context = module.getContext();
 		PatternMatchModel model = new PatternMatchModel();
-		model.setPatterns(module.getPatterns());
-		for (Pattern pattern : module.getPatterns()) {
-			for (PatternMatch match : match(pattern, context)) {
-				model.addMatch(match);
-			}
+		
+		if (module.getMaximumLevel() > 0) {
+			model.setName(module.getPatternMatchModelName());
+			context.getModelRepository().addModel(model);
 		}
 		
-		for (PatternMatch match : model.getMatches()) {
-			AST doAst = match.getPattern().getDoAst();
-			if (doAst != null) {
-				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, doAst);
-				for (String componentName : match.getRoleBindings().keySet()) {
-					context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
+		model.setPatterns(module.getPatterns());
+		
+		for (int level=0;level<=module.getMaximumLevel();level++) {
+			for (Pattern pattern : module.getPatterns()) {
+				if (pattern.getLevel() == level) {
+					for (PatternMatch match : match(pattern, context)) {
+						model.addMatch(match);
+					}
 				}
-				context.getExecutorFactory().executeAST(doAst, context);
-				context.getFrameStack().leaveLocal(doAst);
+			}
+			
+			for (PatternMatch match : model.getMatches()) {
+				if (match.getPattern().getLevel() == level) {
+					AST doAst = match.getPattern().getDoAst();
+					if (doAst != null) {
+						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, doAst);
+						for (String componentName : match.getRoleBindings().keySet()) {
+							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
+						}
+						context.getExecutorFactory().executeAST(doAst, context);
+						context.getFrameStack().leaveLocal(doAst);
+					}
+				}
 			}
 		}
 		

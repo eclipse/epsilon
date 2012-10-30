@@ -1,5 +1,14 @@
+@level2
+pattern Foo
+	b1: L!t_book {
+	
+	match: true
+	
+}
+
+@level1
 pattern Book
-	no b1, b2 : L!t_book as books {
+	b1: L!t_book {
 	
 	match: true
 	

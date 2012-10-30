@@ -1,12 +1,34 @@
 pattern P1
-	n1, n2 : t_node as nodes in: t_node.all guard: n1.a_name = n2.a_name {
+	n : t_node,
+	t : t_transition {
 	
-	match { var i = 5; return true; }
+	match: n.a_name = t.a_from
 	
 	do {
-		(n1.a_name + ' - ' + n2.a_name + ' -> ' + i + nodes.size() /*+ ' - ' + n3.a_name*/).println();
+		n.println();
 	}
+}
+
+@level 1
+pattern L2P1
+	p1 : P!P1 {
 	
-	// merge : self.nodes.intersects(other.nodes)
+	match : true
 	
+	do {
+		p1.n.println();
+	}
+		
+}
+
+@level 2
+pattern L3P1
+	p1 : P!L2P1 {
+	
+	match : true
+	
+	do {
+		p1.p1.n.println();
+	}
+		
 }

@@ -7,5 +7,4 @@
 	<node name="a"/>
 	<transition from="a" to="b"/>
 	<transition from="b" to="c"/>
-	
 </graph>

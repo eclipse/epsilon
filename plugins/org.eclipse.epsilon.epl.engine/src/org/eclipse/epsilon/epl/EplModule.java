@@ -38,6 +38,7 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	protected EolContext context;
 	protected boolean repeatWhileMatchesFound = false;
 	protected int maxLoops = INFINITE;
+	protected String patternMatchModelName = "P";
 	
 	public static final int INFINITE = -1;
 	
@@ -185,4 +186,19 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 		return EplParser.POST;
 	}
 	
+	public int getMaximumLevel() {
+		int maximumLevel = 0;
+		for (Pattern pattern : getPatterns()) {
+			maximumLevel = Math.max(maximumLevel, pattern.getLevel());
+		}
+		return maximumLevel;
+	}
+	
+	public String getPatternMatchModelName() {
+		return patternMatchModelName;
+	}
+	
+	public void setPatternMatchModelName(String patternMatchModelName) {
+		this.patternMatchModelName = patternMatchModelName;
+	}
 }

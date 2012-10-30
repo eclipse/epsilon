@@ -13,6 +13,7 @@ package org.eclipse.epsilon.epl.workbench;
 import java.io.File;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+//import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.PatternMatchModel;
@@ -23,7 +24,7 @@ public class EplWorkbench {
 	public static void main(String[] args) throws Exception {
 		/*
 		EplModule module = new EplModule();
-		module.parse(new File("/Users/dimitrioskolovos/Projects/Eclipse/3.7.1/workspace-new/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/workbench/library.epl"));
+		module.parse(EplWorkbench.class.getResource("library.epl").toURI());
 		
 		if (module.getParseProblems().size() > 0) {
 			for (ParseProblem p : module.getParseProblems()) {
@@ -31,16 +32,18 @@ public class EplWorkbench {
 			}
 			System.exit(0);
 		}
+		
+		PlainXmlModel model = new PlainXmlModel();
+		model.setName("L");
+		model.setFile(new File(EplWorkbench.class.getResource("library.xml").toURI()));
+		model.load();
+		
+		module.getContext().getModelRepository().addModel(model);
+		module.getContext().setModule(module);
+		PatternMatchModel pmm = (PatternMatchModel) module.execute();
 		*/
-//		PlainXmlModel model = new PlainXmlModel();
-//		model.setName("L");
-//		model.setFile(new File("/Users/dimitrioskolovos/Projects/Eclipse/3.7.1/workspace-new/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/workbench/library.xml"));
-//		model.load();
-//		
-//		//module.getContext().getModelRepository().addModel(model);
-//		//module.getContext().setModule(module);
-//		//PatternMatchModel pmm = new PatternMatcher().match(module);
-//		//pmm.setName("EPL");
+		//PatternMatchModel pmm = new PatternMatcher().match(module);
+		//pmm.setName("EPL");
 //		
 //		EolModule eolModule = new EolModule();
 //		eolModule.parse(new File("/Users/dimitrioskolovos/Projects/Eclipse/3.7.1/workspace-new/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/workbench/calllibraryepl.eol"));

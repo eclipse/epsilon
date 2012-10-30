@@ -17,6 +17,9 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
+import org.eclipse.epsilon.eol.annotations.EolSimpleAnnotation;
+import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
 import org.eclipse.epsilon.epl.parse.EplParser;
 
 public class Pattern extends AbstractModuleElement {
@@ -27,10 +30,17 @@ public class Pattern extends AbstractModuleElement {
 	protected AST matchAst = null;
 	protected AST noMatchAst = null;
 	protected AST onMatchAst = null;
+	protected int level = 0;
 	
 	public Pattern(AST ast) {
 		this.ast = ast;
 		name = ast.getText();
+		IEolAnnotation levelAnnotation = EolAnnotationsUtil.getAnnotation(ast, "level");
+		if (levelAnnotation != null && levelAnnotation instanceof EolSimpleAnnotation) {
+			EolSimpleAnnotation simpleLevelAnnotation = (EolSimpleAnnotation) levelAnnotation;
+			level = Integer.parseInt(simpleLevelAnnotation.getValue(null));
+		}
+		
 		doAst = AstUtil.getChild(ast, EplParser.DO); if (doAst != null) doAst = doAst.getFirstChild();
 		matchAst = AstUtil.getChild(ast, EplParser.MATCH); if (matchAst != null) matchAst = matchAst.getFirstChild();
 		noMatchAst = AstUtil.getChild(ast, EplParser.NOMATCH); if (noMatchAst != null) noMatchAst = noMatchAst.getFirstChild();
@@ -68,5 +78,9 @@ public class Pattern extends AbstractModuleElement {
 	
 	public AST getOnMatchAst() {
 		return onMatchAst;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 }
