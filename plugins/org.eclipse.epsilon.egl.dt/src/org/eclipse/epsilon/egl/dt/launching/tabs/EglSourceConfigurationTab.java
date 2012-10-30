@@ -85,7 +85,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	}
 
 	private void createSourceGroup(Composite control) {
-		final Group sourceGroup = createGroup(control, "Source", 2);
+		final Group sourceGroup = createGroup(control, "Main template:", 2);
 		
 		GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
 		filePath = new Text(sourceGroup, SWT.BORDER);
@@ -96,14 +96,14 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	}
 
 	private void createTargetGroup(Composite control) {
-		final Group targetGroup = createGroup(control, "Target:", 1);
+		final Group targetGroup = createGroup(control, "Text generated from the main template should be printed to:", 1);
 		
 		generateToConsole = new Button(targetGroup, SWT.RADIO);
-		generateToConsole.setText("Generate text to console");
+		generateToConsole.setText("The console");
 		generateToConsole.addSelectionListener(this);
 		
 		generateToFile = new Button(targetGroup, SWT.RADIO);
-		generateToFile.setText("Generate text to a file:");
+		generateToFile.setText("The following file:");
 		generateToFile.addSelectionListener(new SelectionListener() {
 			
 			public void widgetDefaultSelected(SelectionEvent e) {
