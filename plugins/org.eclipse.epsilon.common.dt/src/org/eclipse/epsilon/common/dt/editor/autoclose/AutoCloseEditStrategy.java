@@ -43,7 +43,7 @@ public class AutoCloseEditStrategy implements IAutoEditStrategy {
 			command.length = 2;
 			command.shiftsCaret = false;
 		}
-		else if (autoCloseCandidate.isSingleChar() && !Character.isJavaIdentifierPart(autoCloseCandidate.getNextChar())) {
+		else if (autoCloseCandidate.isSingleChar() && Character.isWhitespace(autoCloseCandidate.getNextChar()) /*!Character.isJavaIdentifierPart(autoCloseCandidate.getNextChar())*/) {
 		
 			char ch = autoCloseCandidate.getChar();
 			
