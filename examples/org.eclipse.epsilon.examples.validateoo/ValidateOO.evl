@@ -18,7 +18,8 @@ context OO!Feature {
 		
 		guard : self.satisfies("HasName")
 		
-		check : self.name.substring(0,1) = self.name.substring(0,1).toLowerCase()
+		check : self.name.substring(0,1) = 
+			self.name.substring(0,1).toLowerCase()
 		
 	}
 }
