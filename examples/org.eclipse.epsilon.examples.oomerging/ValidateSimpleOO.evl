@@ -2,8 +2,8 @@ context SimpleOO!Class {
 	constraint BothAbstractOrNot {		
 		guard : self.getMatching().isDefined()		
 		check : self.getMatching().isAbstract = self.isAbstract	
-		message : 'Inconsistent value in feature "abstract" ' 
-			+ 'of class ' + self.name
+		message : "Inconsistent value in feature 'abstract' " 
+			+ "of class " + self.name
 	}
 }
 
