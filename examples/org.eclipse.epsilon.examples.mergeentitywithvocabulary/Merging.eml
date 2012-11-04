@@ -3,8 +3,8 @@ rule MergeEntityWithTerm
 	with t : Vocabulary!Term
 	into m : Target!Entity {
 	
-	m.name := t.name;
-	m.inDomain := true;
+	m.name = t.name;
+	m.inDomain = true;
 	
 }
 
@@ -13,13 +13,13 @@ rule MergeSystemWithVocabulary
 	with v : Vocabulary!Vocabulary
 	into t : Target!System {
 	
-	t.entity := s.entity.equivalent();
+	t.entity = s.entity.equivalent();
 }
 
 rule TransformEntity
 	transform s : Source!Entity
 	to t : Target!Entity {
 	
-	t.name := s.name;
-	t.inDomain := false;
+	t.name = s.name;
+	t.inDomain = false;
 }
