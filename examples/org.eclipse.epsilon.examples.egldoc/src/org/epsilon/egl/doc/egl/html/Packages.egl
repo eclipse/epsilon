@@ -9,6 +9,6 @@
 
 [% 
 	operation EPackage filename() : String {
-		return self.name + '-package-index.html';
+		return self.name + "-package-index.html";
 	}
 %]

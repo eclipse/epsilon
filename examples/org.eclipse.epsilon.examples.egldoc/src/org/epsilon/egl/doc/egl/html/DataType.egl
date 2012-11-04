@@ -1,30 +1,34 @@
 [%
-	out.setContentType('HTML');
+	out.setContentType("HTML");
 	
-	var package : String := dataType.getEPackage().name;
+	var package : String = dataType.getEPackage().name;
 %]
 <h1>Package: [%=package%]</h1>
 <h2>DataType [%=dataType.name%]</h2>
 				
-[% if (dataType.getEAnnotation('doc').isDefined()) { %]
+[% if (dataType.getEAnnotation("doc").isDefined()) { %]
 
-	[% for (entry in dataType.getEAnnotation('doc').getDetails().select(e|e.key='description')) { %]
+	[% for (entry in dataType.getEAnnotation("doc").getDetails().
+		select(e|e.key="description")) { %]
 		<hr />
 		<p id="description">
 			[%=entry.value%]
 		</p>
 	[% } %]
 	
-	[% for (entry in dataType.getEAnnotation('doc').getDetails()) { %]
-		[% if (entry.key = 'version') { %]
+	[% for (entry in dataType.getEAnnotation("doc").getDetails()) { %]
+		[% if (entry.key = "version") { %]
 			<h3>Version:</h3>
 			<p id="version">[%=entry.value%]</p>
 		[% } %]
-		[% if (entry.key = 'see') { %]
+		[% if (entry.key = "see") { %]
 			<h3>See also: </h3>
 			<ul>
-				[% for (see in entry.value.split(',')) { %]
-					<li><a href="[%=see.trim().asClassifierFileName(package)%]">[%=see.trim()%]</a></li>
+				[% for (see in entry.value.split(",")) { %]
+					<li>
+					<a href="[%=see.trim().asClassifierFileName(package)%]">
+					[%=see.trim()%]</a>
+					</li>
 				[% } %]
 			</ul>
 		[% } %]
@@ -33,7 +37,7 @@
 
 [% 
 if (dataType.isKindOf(EEnum)) {
-	var enumeration : EEnum := dataType;	
+	var enumeration : EEnum = dataType;	
 	
 	if (enumeration.eLiterals.size() > 0) { %]
 		<hr />
@@ -50,9 +54,10 @@ if (dataType.isKindOf(EEnum)) {
 					<td>[%=literal.name%]</td>
 					<td>[%=literal.value%]</td>
 			
-				[% if (literal.getEAnnotation('doc').isDefined()) { %]
-					[% for (entry in literal.getEAnnotation('doc').getDetails()) { %]
-						[% if (entry.key = 'description') { %]
+				[% if (literal.getEAnnotation("doc").isDefined()) { %]
+					[% for (entry in literal.getEAnnotation("doc").
+						getDetails()) { %]
+						[% if (entry.key = "description") { %]
 							<td>[%=enrry.value%]</td>
 						[% } %]
 					[% } %]
@@ -66,7 +71,7 @@ if (dataType.isKindOf(EEnum)) {
 [% }
 
 	operation String asClassifierFileName(package : String) : String {
-		return package + '-' + self + '.html';
+		return package + "-" + self + ".html";
 	}
 %]
 

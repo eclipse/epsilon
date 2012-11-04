@@ -1,28 +1,32 @@
 [%	
-	var headerTemplate : Template := TemplateFactory.load('html/Header.egl');
-	var footerTemplate : Template := TemplateFactory.load('html/Footer.egl');
+	var headerTemplate : Template = TemplateFactory.load("html/Header.egl");
+	var footerTemplate : Template = TemplateFactory.load("html/Footer.egl");
 
-	var packagesTemplate    : Template := TemplateFactory.load('html/Packages.egl');	
-	var classifiersTemplate : Template := TemplateFactory.load('html/Classifiers.egl');
-	var classTemplate       : Template := TemplateFactory.load('html/Class.egl');
-	var dataTypeTemplate    : Template := TemplateFactory.load('html/DataType.egl');
+	var packagesTemplate    : Template = 
+		TemplateFactory.load("html/Packages.egl");	
+	var classifiersTemplate : Template = 
+		TemplateFactory.load("html/Classifiers.egl");
+	var classTemplate       : Template = 
+		TemplateFactory.load("html/Class.egl");
+	var dataTypeTemplate    : Template = 
+		TemplateFactory.load("html/DataType.egl");
 	
-	var title : String := metaModelName + ' Meta-Model';
+	var title : String = metaModelName + " Meta-Model";
 	
 	if (classifier.isDefined()) {
-		title := package.name + '.' + classifier.name + ' - ' + title;	
+		title = package.name + "." + classifier.name + " - " + title;	
 	
 	} else {
 		if (package.isDefined()) {
-			title := package.name + ' Package - ' + title;
+			title = package.name + " Package - " + title;
 		}
 	}
 	
-	headerTemplate.populate('title', title);
+	headerTemplate.populate("title", title);
 	
-	classifiersTemplate.populate('package', package);
+	classifiersTemplate.populate("package", package);
 	
-	classTemplate.populate('class', classifier);
+	classTemplate.populate("class", classifier);
 %]
 [%=headerTemplate.process()%]
 <div id="container">
@@ -37,8 +41,12 @@
 					<h1>Controls</h1>
 					<form action="noAction()">
 						<fieldset>
-							<input type="checkbox" id="inherited" name="inherited" onclick="saveShowInherited();" />
-							<label for="inherited">Show inherited features</label>
+							<input type="checkbox" id="inherited" 
+								name="inherited" 
+								onclick="saveShowInherited();" />
+							<label for="inherited">
+								Show inherited features
+							</label>
 						</fieldset>
 					</form>
 				</div>
@@ -58,19 +66,19 @@
 		<div id="content">
 			[% if (classifier.isDefined()) {
 				if (classifier.isKindOf(EDataType)) {
-					var dataType : EDataType := classifier;
-					dataTypeTemplate.populate('dataType', dataType);
+					var dataType : EDataType = classifier;
+					dataTypeTemplate.populate("dataType", dataType);
 					out.print(dataTypeTemplate.process());
 				
 				} else {
-					var class : EClass := classifier;
-					classTemplate.populate('class', class);
+					var class : EClass = classifier;
+					classTemplate.populate("class", class);
 					out.print(classTemplate.process());
 				}
 			 } else {
 				if (not package.isDefined()) { %]
-					<img src='../img/[%=metaModelName%].png'
-					     alt='Overview of the [%=metaModelName%] metamodel'/>
+					<img src="../img/[%=metaModelName%].png"
+					   alt="Overview of the [%=metaModelName%] metamodel"/>
 [%
 				}
 			}

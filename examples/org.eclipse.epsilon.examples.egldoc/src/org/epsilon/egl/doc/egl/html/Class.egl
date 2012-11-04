@@ -1,19 +1,19 @@
 [%
-	out.setContentType('HTML');
+	out.setContentType("HTML");
 	
-	var type : String := '';
+	var type : String = "";
 		
 	if (class.isAbstract()) {	
-		type := 'Abstract Class';
+		type = "Abstract Class";
 	} else {
 		if (class.isInterface()) {
-			type := 'Interface';
+			type = "Interface";
 		} else {
-			type := 'Class';
+			type = "Class";
 		}
 	}
 	
-	var package : String := class.getEPackage().name;
+	var package : String = class.getEPackage().name;
 %]
 <h1>Package: [%=package%]</h1>
 <h2>[%=type%] [%=class.name%]</h2>
@@ -36,24 +36,24 @@
 	</ul>
 [% } %]
 			
-[% if (class.getEAnnotation('doc').isDefined()) { %]
+[% if (class.getEAnnotation("doc").isDefined()) { %]
 
-	[% for (entry in class.getEAnnotation('doc').getDetails().select(e|e.key='description')) { %]
+	[% for (entry in class.getEAnnotation("doc").getDetails().select(e|e.key="description")) { %]
 		<hr />
 		<p id="description">
 			[%=entry.value%]
 		</p>
 	[% } %]
 	
-	[% for (entry in class.getEAnnotation('doc').getDetails()) { %]
-		[% if (entry.key = 'version') { %]
+	[% for (entry in class.getEAnnotation("doc").getDetails()) { %]
+		[% if (entry.key = "version") { %]
 			<h3>Version:</h3>
 			<p id="version">[%=entry.value%]</p>
 		[% } %]
-		[% if (entry.key = 'see') { %]
+		[% if (entry.key = "see") { %]
 			<h3>See also: </h3>
 			<ul>
-				[% for (see in entry.value.split(',')) { %]
+				[% for (see in entry.value.split(",")) { %]
 					<li><a href="[%=see.trim().asClassifierFileName(package)%]">[%=see.trim()%]</a></li>
 				[% } %]
 			</ul>
@@ -107,9 +107,9 @@
 				<td>false</td>
 			[% } %]
 			
-			[% if (attribute.getEAnnotation('doc').isDefined()) { %]
-				[% for (entry in attribute.getEAnnotation('doc').getDetails()) { %]
-					[% if (entry.key = 'description') { %]
+			[% if (attribute.getEAnnotation("doc").isDefined()) { %]
+				[% for (entry in attribute.getEAnnotation("doc").getDetails()) { %]
+					[% if (entry.key = "description") { %]
 						<td>[%=entry.value%]</td>
 					[% } %]
 				[% } %]
@@ -155,9 +155,9 @@
 						<td>&nbsp;</td>
 			[% } %]
 			
-			[% if (op.getEAnnotation('doc').isDefined()) { %]
-				[% for (entry in op.getEAnnotation('doc').getDetails()) { %]
-					[% if (entry.key = 'description') { %]
+			[% if (op.getEAnnotation("doc").isDefined()) { %]
+				[% for (entry in op.getEAnnotation("doc").getDetails()) { %]
+					[% if (entry.key = "description") { %]
 						<td>[%=entry.value%]</td>
 					[% } %]
 				[% } %]
@@ -235,9 +235,9 @@
 			
 			<td>[%=ref.cardinality()%]</td>
 			
-			[% if (ref.getEAnnotation('doc').isDefined()) { %]
-				[% for (entry in ref.getEAnnotation('doc').getDetails()) { %]
-					[% if (entry.key = 'description') { %]
+			[% if (ref.getEAnnotation("doc").isDefined()) { %]
+				[% for (entry in ref.getEAnnotation("doc").getDetails()) { %]
+					[% if (entry.key = "description") { %]
 						<td>[%=entry.value%]</td>
 					[% } %]
 				[% } %]
@@ -252,13 +252,13 @@
 
 [%
 	operation ETypedElement cardinality() : String {
-		var upperBound : String := self.getUpperBound().toString();
+		var upperBound : String = self.getUpperBound().toString();
 		
-		if (upperBound = '-1') {
-			upperBound := '*';
+		if (upperBound = "-1") {
+			upperBound = "*";
 		}
 		
-		return self.getLowerBound() + '..' + upperBound;
+		return self.getLowerBound() + ".." + upperBound;
 	}
 	
 	operation EClass subtypes() : Sequence {
@@ -276,47 +276,47 @@
 	}
 
 	operation EOperation signature() : String {
-		var params : String := '';
+		var params : String = "";
 	
 		for (param in self.eParameters) {
 			if (param.eType.isDefined()) {
-				params := params + param.eType.name + ' ';
+				params = params + param.eType.name + " ";
 			}
 			
-			params := params + param.name;
+			params = params + param.name;
 			
 			if (hasMore) {
-				params := params + ', ';
+				params = params + ", ";
 			}
 		}
 		
-		var exceptions : String := '';
+		var exceptions : String = "";
 	
 		if (self.eExceptions.size() > 0) {
 	
-			exceptions := ' throws ';
+			exceptions = " throws ";
 	
 			for (ex in self.eExceptions) {
-				exceptions := exceptions + ex.name;
+				exceptions = exceptions + ex.name;
 				
 				if (hasMore) {
-					exceptions := exceptions + ', ';
+					exceptions = exceptions + ", ";
 				}
 			}
 		}
 		
-		return self.name + '(' + params + ')' + exceptions;
+		return self.name + "(" + params + ")" + exceptions;
 	}
 	
 	operation EPackage filename() : String {
-		return self.name + '-package-index.html';
+		return self.name + "-package-index.html";
 	}
 
 	operation EClassifier filename() : String {
-		return self.ePackage.name + '-' + self.name + '.html';
+		return self.ePackage.name + "-" + self.name + ".html";
 	}
 
 	operation Any asClassifierFileName(package : String) : String {
-		return package + '-' + self + '.html';
+		return package + "-" + self + ".html";
 	}
 %]
