@@ -1,6 +1,6 @@
 [%
-  var sb := new Native('java.lang.StringBuilder');
-  process(sb, '', Tree.allInstances.select(s|s.parent.isUndefined()).first());
+  var sb := new Native("java.lang.StringBuilder");
+  process(sb, "", Tree.allInstances.select(s|s.parent.isUndefined()).first());
 
 %][%=sb.toString()%][%
 

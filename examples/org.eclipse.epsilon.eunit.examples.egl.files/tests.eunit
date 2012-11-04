@@ -1,7 +1,7 @@
-var EXPECTED_PATH  := basedir + "/expected.txt";
-var GENERATED_PATH := basedir + "/tree.txt";
+var EXPECTED_PATH  = basedir + "/expected.txt";
+var GENERATED_PATH = basedir + "/tree.txt";
 
-var EXPECTED_MODEL := '
+var EXPECTED_MODEL = '
 @Spec {
 	Metamodel "TreeMetamodel" {
 		nsUri: "Tree"

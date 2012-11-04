@@ -1,4 +1,4 @@
-import 'loops.eol';
+import "loops.eol";
 
 $with Map {"" = "LoopingA"}
 $with Map {"" = "LoopingB"}
