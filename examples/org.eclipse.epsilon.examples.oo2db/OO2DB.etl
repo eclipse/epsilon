@@ -73,7 +73,8 @@ rule SingleValuedAttribute2Column
 // and a foreign key 
 rule MultiValuedAttribute2Table
 	transform a : OO!Attribute
-	to t : DB!Table, pkCol : DB!Column, valueCol : DB!Column, fkCol : DB!Column, fk : DB!ForeignKey {
+	to t : DB!Table, pkCol : DB!Column, valueCol : DB!Column, 
+	   fkCol : DB!Column, fk : DB!ForeignKey {
 	
 	guard : a.isMany
 	
@@ -128,9 +129,11 @@ operation OO!Attribute valuesTableName() : String {
 
 operation Any toDbType() : String {
 	var mapping : OO2DB!TypeMapping;
-	mapping = OO2DB!TypeMapping.allInstances().select(tm|tm.source = self).first;
+	mapping = OO2DB!TypeMapping.allInstances().
+		select(tm|tm.source = self).first;
 	if (not mapping.isDefined()){
-		("Cannot find DB type for OO type " + self + ". Setting the default.").println();
+		("Cannot find DB type for OO type " + self + 
+			". Setting the default.").println();
 		return OO2DB!TypeMap.allInstances().first().`default`.target;
 	}
 	else {
