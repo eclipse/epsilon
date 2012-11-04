@@ -38,7 +38,8 @@ public class EolStandaloneExample extends EpsilonStandaloneExample {
 	@Override
 	public List<IModel> getModels() throws Exception {
 		List<IModel> models = new ArrayList<IModel>();
-		models.add(createEmfModel("Model", "models/Tree.xmi", "models/Tree.ecore", true, true));
+		models.add(createEmfModel("Model", "models/Tree.xmi", 
+				"models/Tree.ecore", true, true));
 		return models;
 	}
 
