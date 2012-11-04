@@ -1,34 +1,35 @@
-var association = ECore!EClass.all.selectOne(c|c.name = 'Association');
-association.createLinkEndLabel('sourceLabel', true);
-association.createLinkEndLabel('targetLabel', false);
+var association = ECore!EClass.all.selectOne(c|c.name = "Association");
+association.createLinkEndLabel("sourceLabel", true);
+association.createLinkEndLabel("targetLabel", false);
 
-operation ECore!EClass createLinkEndLabel(attribute:String, source:Boolean) {
+operation ECore!EClass createLinkEndLabel(attribute:String, source:Boolean){
 	
 	var endName;
 	if (source) {
-		endName = 'Source';
+		endName = "Source";
 	}
 	else {
-		endName = 'Target';
+		endName = "Target";
 	}
 	
-	var labelName = self.name + endName + 'Label';
+	var labelName = self.name + endName + "Label";
 	
-	-- Create the figure descriptor and the label
-	var labelFigureDescriptor = createFigureDescriptor(labelName + 'Figure');
+	// Create the figure descriptor and the label
+	var labelFigureDescriptor = 
+		createFigureDescriptor(labelName + "Figure");
 	var label = new GmfGraph!Label;
 	label.name = labelName;
 	label.text = endName;
 	labelFigureDescriptor.actualFigure = label;
 	
-	-- Create the diagram label
+	// Create the diagram label
 	var diagramLabel = new GmfGraph!DiagramLabel;
 	diagramLabel.figure = labelFigureDescriptor;
 	diagramLabel.name = labelName;
 	diagramLabel.elementIcon = false;
 	GmfGraph!Canvas.all.first().labels.add(diagramLabel);
 	
-	-- Specify if the label will be placed at the beginning/end of the link
+	// Specify if the label will be placed at the beginning/end of the link
 	var alignmentFacet = new GmfGraph!AlignmentFacet;
 	if (source){
 		alignmentFacet.alignment = GmfGraph!Alignment#END;
@@ -38,19 +39,23 @@ operation ECore!EClass createLinkEndLabel(attribute:String, source:Boolean) {
 	}
 	diagramLabel.facets.add(alignmentFacet);
 	
-	-- Specify how far the label should be from the line
+	// Specify how far the label should be from the line
 	var labelOffsetFacet = new GmfGraph!LabelOffsetFacet;
 	labelOffsetFacet.x = 5;
 	labelOffsetFacet.y = 5;
 	diagramLabel.facets.add(labelOffsetFacet);
 	
-	-- Create the label/attribute mapping in the .gmfmap model
+	// Create the label/attribute mapping in the .gmfmap model
 	var featureLabelMapping = new GmfMap!FeatureLabelMapping;
 	featureLabelMapping.diagramLabel = diagramLabel;
 	
-	featureLabelMapping.features.add(self.eAllStructuralFeatures.selectOne(sf|sf.name = attribute));
+	featureLabelMapping.features.add(self.eAllStructuralFeatures.
+		selectOne(sf|sf.name = attribute));
+		
 	featureLabelMapping.readOnly = false;
-	var linkMapping = GmfMap!LinkMapping.all.selectOne(lm|lm.domainMetaElement = self);
+	var linkMapping = GmfMap!LinkMapping.all.
+		selectOne(lm|lm.domainMetaElement = self);
+		
 	linkMapping.labelMappings.add(featureLabelMapping);
 
 }
