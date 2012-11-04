@@ -4,7 +4,7 @@ context Report!Report {
 		
 		check : trace.matches.exists(m|m.matching and m.right = self)
 		
-		message : 'Report ' + self.name + ' refers to an undefined text'
+		message : "Report " + self.name + " refers to an undefined text"
 		
 	}
 	

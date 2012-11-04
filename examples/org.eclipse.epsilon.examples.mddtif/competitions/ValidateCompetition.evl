@@ -4,7 +4,7 @@ context Competition!NamedElement {
 		
 		check : self.name.isDefined() and self.name.trim().length > 0
 		
-		message : self.eClass().name + ' must provide a name'
+		message : self.eClass().name + " must provide a name"
 		
 	}
 	
@@ -14,11 +14,11 @@ context Competition!Group {
 	
 	constraint NotEmpty {
 		
-		guard : self.satisfies('NameSpecified')
+		guard : self.satisfies("NameSpecified")
 		
 		check : self.competitors.size() > 0
 		
-		message : 'Group ' + self.name + ' contains no competitors'
+		message : "Group " + self.name + " contains no competitors"
 		
 	}
 	
@@ -28,12 +28,13 @@ context Competition!Competitor {
 	
 	constraint InUniqueGroup {
 		
-		guard : self.satisfies('NameSpecified')
+		guard : self.satisfies("NameSpecified")
 		
 		check : Competition!Group.allInstances.
 			select(g|g.competitors.includes(self)).size() <= 1
 		
-		message : 'Competitor ' + self.name + ' exists in more than one groups.'
+		message : "Competitor " + self.name + 
+			" exists in more than one groups."
 	}
 	
 }
