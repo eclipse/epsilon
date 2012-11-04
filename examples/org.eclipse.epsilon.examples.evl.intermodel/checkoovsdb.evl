@@ -14,7 +14,7 @@ context OO!Class {
 		// to fix this inconsistency
 		fix {
 		
-			title : 'Add missing table'
+			title : "Add missing table"
 			
 			do {
 				var table = new DB!Table;
