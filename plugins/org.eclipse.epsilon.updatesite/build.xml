@@ -21,7 +21,21 @@
 	<target name="generate_site">
 		<echo>Generating index.html</echo>
 		
-		<xslt in="site.xml" out="index.html" style="index.xsl"/>
+		<taskdef name="epsilon.eol"
+		        classname="org.eclipse.epsilon.workflow.tasks.EolTask"
+		        classpath="build"/>
+		<taskdef name="epsilon.egl"
+		        classname="org.eclipse.epsilon.workflow.tasks.EglTask"
+		        classpath="build"/>
+		<taskdef name="epsilon.xml.loadmodel"
+		        classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"
+		        classpath="build"/>  
+		 
+		<epsilon.xml.loadmodel name="Site" file="site.xml"/>
+		
+		<epsilon.egl src="site2index.egl" target="index.html"> 
+			<model ref="Site"/>
+		</epsilon.egl>
 	</target>
 	
 	

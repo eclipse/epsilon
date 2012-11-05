@@ -19,50 +19,12 @@
       <th align="left">Feature</th>
       <th align="left">Version</th>
     </tr>
+    [%for(feature in t_feature.all){%]
     <tr>
-      <td>org.eclipse.epsilon.core.feature</td>
-      <td>0.9.1.201210062141</td>
+      <td>[%=feature.a_id%]</td>
+      <td>[%=feature.a_version%]</td>
     </tr>
-    <tr>
-      <td>org.eclipse.epsilon.core.dt.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.eugenia.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.ewl.gmf.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.emf.dt.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.emf.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.evl.emf.validation.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.ewl.emf.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.hutn.dt.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.hutn.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
-    <tr>
-      <td>org.eclipse.epsilon.concordance.feature</td>
-      <td>0.9.1.201210062141</td>
-    </tr>
+    [%}%]
     </table>
     <br/>
     <b>Note:</b> The last part of the version number (qualifier) is the date/time when the release
