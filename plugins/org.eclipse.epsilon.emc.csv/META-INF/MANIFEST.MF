@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon CSV Model Support
 Bundle-SymbolicName: org.eclipse.epsilon.emc.csv
-Bundle-Version: 0.9.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.eol.engine

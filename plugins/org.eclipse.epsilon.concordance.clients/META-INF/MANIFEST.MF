@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Concordance Clients
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.clients;singleton:=true
-Bundle-Version: 0.9.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.concordance.core;visibility:=reexport,
  org.eclipse.epsilon.common.dt,

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emf.feature"
       label="Epsilon EMF Integration"
-      version="0.9.1.qualifier"
+      version="1.0.0.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -103,20 +103,20 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.emc.emf"
          download-size="0"
          install-size="0"
-         version="0.9.1.qualifier"/>
+         version="1.0.0.qualifier"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.emf.virtual"
          download-size="0"
          install-size="0"
-         version="0.9.1.qualifier"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.emf.decorator"
          download-size="0"
          install-size="0"
-         version="0.9.1.qualifier"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
 </feature>
