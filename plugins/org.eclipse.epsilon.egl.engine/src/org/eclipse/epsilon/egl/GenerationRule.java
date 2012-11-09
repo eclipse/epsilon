@@ -35,6 +35,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 	
 	protected EolFormalParameter sourceParameter = null;
 	protected AST targetAst = null;
+	protected AST guardAst = null;
 	protected AST templateAst = null;
 	protected AST parametersAst = null;
 	protected AST preAst = null;
@@ -52,6 +53,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 		name = ast.getFirstChild().getText();
 		sourceParameter = new EolFormalParameter(ast.getFirstChild().getNextSibling());
 		templateAst = AstUtil.getChild(ast, EgxParser.TEMPLATE);
+		guardAst = AstUtil.getChild(ast, EgxParser.GUARD);
 		targetAst = AstUtil.getChild(ast, EgxParser.TARGET);
 		parametersAst = AstUtil.getChild(ast, EgxParser.PARAMETERS);
 		preAst = AstUtil.getChild(ast, EgxParser.PRE);
@@ -87,6 +89,18 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 				context.getFrameStack().enterLocal(FrameType.PROTECTED, getAst(), Variable.createReadOnlyVariable(sourceParameter.getName(), o));
 				
 				if (preAst != null) context.getExecutorFactory().executeAST(preAst.getFirstChild(), context);
+				
+				boolean guard = true;
+				if (guardAst != null) {
+					Return r = (Return) context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
+					Object value = r.getValue();
+					if (!(value instanceof Boolean)) {
+						throw new EolIllegalReturnException("Boolean", value, guardAst, context);
+					}
+					guard = (Boolean) value;
+				}
+				
+				if (!guard) continue;
 				
 				boolean overwrite = true;
 				if (overwriteAst != null) {
