@@ -1,0 +1,24 @@
+rule Book2Page 
+	transform book : t_book {
+	
+	guard : book.b_public
+	
+	parameters {
+		var params: new Map;
+		params.put("index", t_book.all.indexOf(book) + 1);
+		return params;
+	}
+	
+	template: "book2page.egl"
+	
+	target : "gen/" + book.e_id.text + ".html"
+	
+}
+
+rule Library2Page 
+	transform library : t_library {
+	
+	template : "library2page.egl"
+	
+	target : "gen/index.html"
+}

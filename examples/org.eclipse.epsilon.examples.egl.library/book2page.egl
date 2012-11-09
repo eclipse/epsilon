@@ -1,0 +1,8 @@
+<h1>Book [%=index%]: [%=book.a_title%]</h1>
+
+<h2>Authors</h2>
+<ul>
+[%for (author in book.c_author) { %]
+	<li>[%=author.text%]
+[%}%]
+</ul>
