@@ -8,5 +8,11 @@
             class="org.eclipse.epsilon.evl.emf.validation.EValidatorPopulator">
       </startup>
    </extension>
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="org.eclipse.epsilon.evl.emf.validation.EvlMarkerResolutionGenerator">
+      </markerResolutionGenerator>
+   </extension>
 
 </plugin>
