@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="OO"
-    nsURI="OO">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="OO" nsURI="OO">
   <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//Package">
     <eAnnotations source="exeed">
       <details key="classIcon" value="model"/>
@@ -26,16 +24,16 @@
       <details key="classIcon" value="annotation"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" ordered="false" unique="false"
-        lowerBound="1" eType="#//String"/>
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
-        unique="false" lowerBound="1" eType="#//String"/>
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//AnnotatedElement">
     <eAnnotations source="exeed">
       <details key="label" value="return self.name;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
-        lowerBound="1" eType="#//String"/>
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//PackageableElement">
     <eAnnotations source="exeed">
@@ -60,7 +58,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="features" ordered="false"
         upperBound="-1" eType="#//Feature" containment="true" eOpposite="#//Feature/owner"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAbstract" ordered="false"
-        unique="false" lowerBound="1" eType="#//Boolean"/>
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Datatype" eSuperTypes="#//Classifier">
     <eAnnotations source="exeed">
@@ -81,7 +79,7 @@
       <details key="icon" value="if (self.visibility = VisibilityEnum#private) {&#xD;&#xA;&#x9;return 'private';&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return 'public';&#xD;&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMany" ordered="false"
-        unique="false" lowerBound="1" eType="#//Boolean"/>
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//Feature">
     <eAnnotations source="exeed">
@@ -107,7 +105,4 @@
     <eLiterals name="public" value="1"/>
     <eLiterals name="private" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="String"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="Integer"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="Boolean"/>
 </ecore:EPackage>
