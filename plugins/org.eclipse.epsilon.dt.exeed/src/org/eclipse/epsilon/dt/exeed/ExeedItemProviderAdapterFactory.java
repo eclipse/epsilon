@@ -13,14 +13,14 @@ package org.eclipse.epsilon.dt.exeed;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 
 public class ExeedItemProviderAdapterFactory extends ReflectiveItemProviderAdapterFactory {
-	protected ImageTextProvider imageTextProvider = null;
+	protected ExeedImageTextProvider imageTextProvider = null;
 
 	public ExeedItemProviderAdapterFactory(ExeedPlugin plugin) {
 		super();
 		reflectiveItemProviderAdapter = new ExeedItemProvider(this, plugin);
 	}
 
-	public void setImageTextProvider(ImageTextProvider imageTextProvider) {
+	public void setImageTextProvider(ExeedImageTextProvider imageTextProvider) {
 		this.imageTextProvider = imageTextProvider;
 		((ExeedItemProvider) reflectiveItemProviderAdapter)
 				.setImageTextProvider(imageTextProvider);

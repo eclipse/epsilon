@@ -31,7 +31,7 @@ import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ExeedItemProvider extends ReflectiveItemProvider {
-	protected ImageTextProvider imageTextProvider;
+	protected ExeedImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
 
 	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin) {
@@ -86,7 +86,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		return itemPropertyDescriptors;
 	}
 
-	public void setImageTextProvider(ImageTextProvider imageTextProvider) {
+	public void setImageTextProvider(ExeedImageTextProvider imageTextProvider) {
 		this.imageTextProvider = imageTextProvider;
 	}
 

@@ -18,10 +18,10 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 public class ExeedItemPropertyDescriptor extends ItemPropertyDescriptor {
 
-	protected ImageTextProvider imageTextProvider;
+	protected ExeedImageTextProvider imageTextProvider;
 
 	public ExeedItemPropertyDescriptor(ComposeableAdapterFactory rootAdapterFactory, String featureText, String string, EStructuralFeature feature, boolean b, Object imageForEType,
-			ImageTextProvider imageTextProvider) {
+			ExeedImageTextProvider imageTextProvider) {
 		super(rootAdapterFactory, featureText, string, feature, b, imageForEType);
 		this.imageTextProvider = imageTextProvider;
 		fixMultiLine(feature);

@@ -35,7 +35,7 @@ import org.eclipse.ui.dialogs.ListSelectionDialog;
 
 public class ExeedActionBarContributor extends EcoreActionBarContributor {
 
-	protected ImageTextProvider provider;
+	protected ExeedImageTextProvider provider;
 	//protected boolean showReferenceNamesInCreateActions = !getPlugin().getPreferenceStore().getBoolean(ExeedPreferencePage.HIDE_REFERENCE_NAMES);
 	
 	ExeedEditor editor;
@@ -100,7 +100,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		@Override
 		public void run() {
 			ExeedEditor editor = (ExeedEditor) ExeedActionBarContributor.this.getActiveEditor();
-			ImageTextProvider imageTextProvider = editor.getImageTextProvider();
+			ExeedImageTextProvider imageTextProvider = editor.getImageTextProvider();
 			imageTextProvider.setShowStructuralInfo(!imageTextProvider.isShowStructuralInfo());
 			//this.setChecked(!this.isChecked());
 			editor.refresh();
@@ -293,11 +293,11 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		return list;
 	}
 
-	public ImageTextProvider getProvider() {
+	public ExeedImageTextProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider(ImageTextProvider provider) {
+	public void setProvider(ExeedImageTextProvider provider) {
 		this.provider = provider;
 	}
 

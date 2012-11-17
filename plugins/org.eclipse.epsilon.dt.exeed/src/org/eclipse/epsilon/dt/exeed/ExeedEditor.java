@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez
+ * Copyright (c) 2008-2012 The University of York, Antonio Garc��a-Dom��nguez
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - cleaning up
+ *     Antonio Garc��a-Dom��nguez - cleaning up
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
@@ -146,7 +146,7 @@ public class ExeedEditor extends EcoreEditor {
 	}
 
 	private ExeedItemProviderAdapterFactory exeedItemProviderAdapterFactory = null;
-	private ImageTextProvider imageTextProvider = null;
+	private ExeedImageTextProvider imageTextProvider = null;
 
 	private boolean showAllResources
 		= getPlugin().getPreferenceStore().getBoolean(ExeedPreferencePage.SHOW_ALL_RESOURCES);
@@ -262,12 +262,12 @@ public class ExeedEditor extends EcoreEditor {
 		InMemoryEmfModel model = new InMemoryEmfModel(mainResource);
 		model.setCachingEnabled(false);
 
-		imageTextProvider = new ImageTextProvider(model, getPlugin(), this);
+		imageTextProvider = new ExeedImageTextProvider(model, getPlugin(), this);
 		exeedItemProviderAdapterFactory.setImageTextProvider(imageTextProvider);
 		((ExeedActionBarContributor) this.getActionBarContributor()).setProvider(imageTextProvider);
 	}
 
-	public ImageTextProvider getImageTextProvider() {
+	public ExeedImageTextProvider getImageTextProvider() {
 		return imageTextProvider;
 	}
 

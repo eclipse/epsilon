@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez
+ * Copyright (c) 2008-2012 The University of York, Antonio Garc??a-Dom??nguez
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,10 +7,11 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - clean up and improve error reporting
+ *     Antonio Garc??a-Dom??nguez - clean up and improve error reporting
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
+import java.io.PrintStream;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -20,8 +21,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -33,19 +32,19 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
-import org.eclipse.jface.resource.ImageDescriptor;
 
-class ImageTextProvider {
+public abstract class EObjectImageTextProvider {
 
-	private boolean showStructuralInfo = false;
-	private EolModule module;
-	private ExeedPlugin plugin = null;
-	private ExeedEditor editor = null;
-
-	public ImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
-		this.plugin = plugin;
-		this.editor = editor;
-		this.showStructuralInfo = plugin.getPreferenceStore().getBoolean(ExeedPreferencePage.SHOW_STRUCTURAL_INFO);
+	public boolean showStructuralInfo = false;
+	public EolModule module;
+	protected PrintStream outputStream;
+	protected PrintStream errorStream;
+	
+	public EObjectImageTextProvider(InMemoryEmfModel model, PrintStream outputStream, PrintStream errorStream, boolean showStructuralInfo) {
+		this.showStructuralInfo = showStructuralInfo;
+		this.outputStream = outputStream;
+		this.errorStream = errorStream;
+		
 		module = new EolModule();
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setOperationFactory(new OperationFactory() {
@@ -76,10 +75,10 @@ class ImageTextProvider {
 			
 		});
 		
-		module.getContext().getIntrospectionManager().setDefaultPropertyGetter(new JavaEmfPropertyGetter());
-		module.getContext().getIntrospectionManager().setDefaultPropertySetter(new JavaEmfPropertySetter());
-		module.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-		module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+		//module.getContext().getIntrospectionManager().setDefaultPropertyGetter(new JavaEmfPropertyGetter());
+		//module.getContext().getIntrospectionManager().setDefaultPropertySetter(new JavaEmfPropertySetter());
+		module.getContext().setOutputStream(outputStream);
+		module.getContext().setErrorStream(errorStream);
 	}
 
 	public String getEStructuralFeatureLabel(EStructuralFeature feature, String def) {
@@ -99,8 +98,8 @@ class ImageTextProvider {
 
 		try {
 			EObject eObject = (EObject) object;
-			module.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-			module.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+			module.getContext().setErrorStream(errorStream);
+			module.getContext().setOutputStream(outputStream);
 			labelCode = getEClassAnnotationDetail(eObject, "exeed", "label");
 			if (labelCode != null) {
 				parse(labelCode);
@@ -112,7 +111,7 @@ class ImageTextProvider {
 				return addStructuralInfo(object,label,forReference);
 			}
 		} catch (Exception e) {
-			LogUtil.log(e);
+			logException(e);
 		}
 		return addStructuralInfo(object, def, forReference);
 	}
@@ -137,55 +136,48 @@ class ImageTextProvider {
 				return label;
 			}
 		} catch (Exception e) {
-			LogUtil.log(e);
+			logException(e);
 		}
 
 		return getEObjectLabel(object, def, true);
 	}	
 	
-	public ImageDescriptor getEObjectImageDescriptor(Object object, ImageDescriptor def) {
+	public String getEObjectImage(Object object, String def) {
 		if (!(object instanceof EObject)) return def;
 
 		String icon = "";
 		try {
 			EObject eObject = (EObject) object;
-			ImageDescriptor imageDescriptor = null;
 			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
 			String labelCode = getEClassAnnotationDetail(eObject, "exeed", "icon");
 			if (labelCode != null) {
 				parse(labelCode);
 				icon = StringUtil.toString(module.execute());
-				imageDescriptor = getImageDescriptor(icon);
 			}
 			else {
-				imageDescriptor = getEClassImageDescriptor(eObject.eClass() ,null);
+				icon = getEClassImage(eObject.eClass() ,null);
 			}
 
-			if (imageDescriptor != null) {
-				return imageDescriptor;
+			if (icon != null) {
+				return icon;
 			}
 		} catch (Exception e) {
-			LogUtil.log(e);
+			logException(e);
 		}
 
 		return def;
 	}
 
-	public ImageDescriptor getEClassImageDescriptor(EClass eClass, ImageDescriptor def) {
+	public String getEClassImage(EClass eClass, String def) {
 		String icon = "";
 		try {
 			icon = getEClassAnnotationDetail(eClass, "exeed", "classIcon");
-			ImageDescriptor imageDescriptor = getImageDescriptor(icon);
 
-			if (imageDescriptor == null) {
-				imageDescriptor = getImageDescriptor(eClass.getName());
-			}
-
-			if (imageDescriptor != null) {
-				return imageDescriptor;
+			if (icon != null) {
+				return icon;
 			}
 		} catch (Exception e) {
-			LogUtil.log(e);
+			logException(e);
 		}
 
 		return def;
@@ -199,7 +191,7 @@ class ImageTextProvider {
 		this.showStructuralInfo = showStructuralInfo;
 	}
 
-	private String addStructuralInfo(Object object, String label, boolean forReference) {
+	public String addStructuralInfo(Object object, String label, boolean forReference) {
 		if (object instanceof EObject && !forReference && showStructuralInfo) {
 			EObject eObject = (EObject) object;
 			String suffix = " (" + eObject.eClass().getName();
@@ -213,7 +205,7 @@ class ImageTextProvider {
 		return label;
 	}
 
-	private String getEEnumLiteralLabel(EEnumLiteral literal) {
+	public String getEEnumLiteralLabel(EEnumLiteral literal) {
 		EAnnotation annotation = literal.getEAnnotation("exeed");
 		if (annotation != null) {
 			Object detail = annotation.getDetails().get("label");
@@ -224,22 +216,11 @@ class ImageTextProvider {
 		return literal.getLiteral();
 	}
 
-	private ImageDescriptor getImageDescriptor(String icon) {
-		ImageDescriptor imageDescriptor = null;
-		
-		imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".gif");
-		if (imageDescriptor == null) {
-			imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".png");
-		}
-		
-		return imageDescriptor;
-	}
-
-	private String getEClassAnnotationDetail(EObject eObject, String annotation, String detail) {
+	public String getEClassAnnotationDetail(EObject eObject, String annotation, String detail) {
 		return getEClassAnnotationDetail(eObject.eClass(), annotation, detail);
 	}
 
-	private String getEClassAnnotationDetail(EClass eClass, String annotation, String detail) {
+	public String getEClassAnnotationDetail(EClass eClass, String annotation, String detail) {
 		EAnnotation eAnnotation = eClass.getEAnnotation(annotation);
 		if (eAnnotation != null) {
 			Object detailValue = eAnnotation.getDetails().get(detail);
@@ -263,7 +244,7 @@ class ImageTextProvider {
 		
 	}
 
-	private void parse(String code) throws Exception {
+	public void parse(String code) throws Exception {
 		if (!module.parse(code)) {
 			final StringBuilder sb = new StringBuilder("The EOL label generation snippet produced several parsing errors: ");
 			for (ParseProblem pp : module.getParseProblems()) {
@@ -273,4 +254,6 @@ class ImageTextProvider {
 			throw new EolRuntimeException(sb.toString());
 		}
 	}
+	
+	protected abstract void logException(Exception ex);
 }
