@@ -59,8 +59,11 @@ public class Cache<K, V> {
 			if (!map.containsKey(reference)) {
 				map.put(reference, value);
 				if (map.size() == 1) {
+					try {
 					cleanUpThread = createCleanUpThread();
 					cleanUpThread.start();
+					}
+					catch (Exception ex) {}
 				}
 			}
 			return value;
