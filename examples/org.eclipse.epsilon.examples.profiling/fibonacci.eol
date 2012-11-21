@@ -45,13 +45,14 @@ profiler.start('Program');
 profiler.stop();
 
 /*
- * With caching, the fib operation is executed 1973 times, but when Epsilon is 
- * instructed to cache the return value for each combination of object and input 
- * parameters, it is only executed 16 times. 
+ * With caching, the fib operation is executed 1973 times, but when 
+ * Epsilon is instructed to cache the return value for each combination 
+ * of object and input parameters, it is only executed 16 times. 
  * 
  **/
  
-// Uncomment the annotation @cached to stop Epsilon from recalculating known values 
+// Uncomment the annotation @cached to stop Epsilon 
+// from recalculating known values 
 // @cached  
 operation Integer fib() : Integer {
 	// Start profiling for target "fib" with this integer as context
@@ -62,7 +63,8 @@ operation Integer fib() : Integer {
 	if (self = 1 or self = 0) {
 		fib = 1;
 	} else {
-		// Recursively calculate the fibonacci number (i.e. f(n) = f(n-1) + f(n-2) )  
+		// Recursively calculate the fibonacci number 
+		// (i.e. f(n) = f(n-1) + f(n-2) )  
 		fib = (self-1).fib() + (self-2).fib();
 	}
 	// Stop profiling for the current target
