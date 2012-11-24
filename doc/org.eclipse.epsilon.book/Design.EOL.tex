@@ -7,26 +7,40 @@ The primary aim of EOL is to provide a reusable set of common model management f
 
 \section{Module Organization}
 \label{sec:Design.EOL.Syntax}
-In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements, and access their operations.
-
 \label{sec:Design.EOL.ModuleStucture}
-\begin{landscape}
-\begin{figure}
-	\centering
-		\includegraphics{images/EOLModule.png}
-	\caption{EOL Module Structure}
-	\label{fig:EOL.Module}
-\end{figure}
-\end{landscape}
+
+In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements and access their operations, as shown in Listing~\ref{lst:ExampleImports}.
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/EOLModule.png}
+  \caption{EOL Module Structure}
+  \label{fig:EOL.Module}
+\end{sidewaysfigure}
+
+\begin{lstlisting}[float, caption={Example of two related EOL modules}, label=lst:ExampleImports, language=EOL]
+// file imported.eol
+operation hello() {
+  'Hello world!'.println();
+}
+
+// file importer.eol
+// We can use relative/absolute paths or platform:/ URIs
+import "imported.eol";
+
+hello(); // main body
+
+// ... more operations could be placed here ...
+\end{lstlisting}
 
 \section{User-Defined Operations}
 \label{sec:Design.EOL.Operations}
 
 In typical object oriented languages such as Java and C++, operations are defined inside classes and can be invoked on instances of those classes. EOL on the other hand is not object-oriented in the sense that it does not define classes itself, but nevertheless needs to manage objects of types defined externally to it (e.g. in metamodels). By defining the context-type of an operation explicitly, the operation can be called on instances of the type as if it was natively defined by the type. Alternatively, context-less operations could be defined; however the adopted technique significantly improves readability of the concrete syntax.
 
-For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, in line 1 they can be invoked using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
+For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, they can be invoked in line 1 using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
 
-\begin{lstlisting}[float=tbp, caption=Exemplar context-defining EOL operations, label=lst:OperationsContext, language=EOL]
+\begin{lstlisting}[float=tbp, caption={Context-defining EOL operations}, label=lst:OperationsContext, language=EOL]
 1.add1().add2().println();
 
 operation Integer add1() : Integer {
@@ -38,7 +52,7 @@ operation Integer add2() : Integer {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Exemplar EOL context-less EOL operations, label=lst:OperationsNoContext, language=EOL]
+\begin{lstlisting}[float=tbp, caption={Context-less EOL operations}, label=lst:OperationsNoContext, language=EOL]
 add2(add1(1)).println();
 
 operation add1(base : Integer) : Integer {
