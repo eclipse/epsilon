@@ -54,11 +54,13 @@ public class EvlTask extends ExportableModuleTask {
 		int errors = 0;
 		int warnings = 0;
 		for (EvlUnsatisfiedConstraint unsatisfiedConstraint : evlModule.getContext().getUnsatisfiedConstraints()){
-			if (!unsatisfiedConstraint.getConstraint().isCritique()) {
-				errors ++;
+			if (unsatisfiedConstraint.getConstraint().isCritique()) {
+				if (!unsatisfiedConstraint.getConstraint().isInfo()) {
+					warnings ++;
+				}
 			}
 			else {
-				warnings ++;
+				errors ++;
 			}
 		}
 		log("Errors : " + errors);
