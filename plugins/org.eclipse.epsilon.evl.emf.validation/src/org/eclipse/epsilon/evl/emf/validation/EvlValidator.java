@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlFixInstance;
@@ -100,8 +101,15 @@ public class EvlValidator implements EValidator {
 	protected Diagnostic createDiagnostic(String msgPrefix, EvlUnsatisfiedConstraint unsatisfied) {
 		int severity = 0;
 
-		if (unsatisfied.getConstraint().isCritique()) severity = 2;
-		else severity = 4;
+		if (unsatisfied.getConstraint().isCritique()) {
+			if (EolAnnotationsUtil.getAnnotation(unsatisfied.getConstraint().getAst(), "info") != null) {
+				severity = Diagnostic.INFO;
+			}
+			else {
+				severity = Diagnostic.WARNING;
+			}
+		}
+		else severity = Diagnostic.ERROR;
 		String message = unsatisfied.getMessage();
 		int code = 0;
 
