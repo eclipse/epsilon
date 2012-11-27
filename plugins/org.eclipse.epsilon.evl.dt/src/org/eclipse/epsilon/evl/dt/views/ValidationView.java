@@ -60,6 +60,9 @@ public class ValidationView extends ViewPart {
 			if (unsatisfiedConstraint.isFixed()) {
 				return EvlPlugin.getImageDescriptor("icons/fix.gif").createImage();
 			}
+			else if (unsatisfiedConstraint.getConstraint().isInfo()) {
+				return EvlPlugin.getImageDescriptor("icons/info.gif").createImage();
+			}
 			else if (unsatisfiedConstraint.getConstraint().isCritique()) {
 				return EvlPlugin.getImageDescriptor("icons/critique.gif").createImage();
 			}

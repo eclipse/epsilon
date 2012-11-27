@@ -35,9 +35,9 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class EvlConstraint extends AbstractModuleElement{
 	
-	public static final int HIGH = 2;
-	public static final int MEDIUM = 1;
-	public static final int LOW = 0;
+	//public static final int HIGH = 2;
+	//public static final int MEDIUM = 1;
+	//public static final int LOW = 0;
 	
 	protected String name;
 	protected boolean isCritique = false;
@@ -46,7 +46,7 @@ public class EvlConstraint extends AbstractModuleElement{
 	protected EvlGuard guard;
 	protected EolLabeledBlock body;
 	protected EolLabeledBlock message;
-	protected int level = EvlConstraint.MEDIUM;
+	//protected int level = EvlConstraint.MEDIUM;
 	
 	public EvlConstraint() {
 		super();
@@ -68,6 +68,10 @@ public class EvlConstraint extends AbstractModuleElement{
 			fix.parse((AST) it.next());
 			fixes.add(fix);
 		}
+	}
+	
+	public boolean isInfo() {
+		return isCritique() && (EolAnnotationsUtil.getAnnotation(ast, "info") != null);
 	}
 	
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
@@ -180,9 +184,9 @@ public class EvlConstraint extends AbstractModuleElement{
 		return name;
 	}
 
-	public int getLevel() {
-		return level;
-	}
+	//public int getLevel() {
+	//	return level;
+	//}
 
 	public boolean isCritique() {
 		return isCritique;

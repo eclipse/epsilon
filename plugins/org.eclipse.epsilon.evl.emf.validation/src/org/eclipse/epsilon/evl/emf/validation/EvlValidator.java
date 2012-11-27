@@ -102,7 +102,7 @@ public class EvlValidator implements EValidator {
 		int severity = 0;
 
 		if (unsatisfied.getConstraint().isCritique()) {
-			if (EolAnnotationsUtil.getAnnotation(unsatisfied.getConstraint().getAst(), "info") != null) {
+			if (unsatisfied.getConstraint().isInfo()) {
 				severity = Diagnostic.INFO;
 			}
 			else {
