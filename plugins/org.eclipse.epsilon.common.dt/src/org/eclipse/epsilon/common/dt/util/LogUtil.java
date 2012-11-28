@@ -43,10 +43,16 @@ public class LogUtil {
 		log(IStatus.ERROR, 0, message, ex);
 	}
 	
-	public static void log(String message, Exception ex, boolean openErrorDialog) {
-		log(message, ex);
-		if (openErrorDialog) 
-			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message + "\r\nPlease check the error log for further information");
+	public static void log(final String message, final Exception ex, final boolean openErrorDialog) {
+		Display.getDefault().asyncExec(new Runnable() {	
+			@Override
+			public void run() {
+				log(message, ex);
+				if (openErrorDialog) {
+					MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message + "\r\nPlease check the error log for further information");
+				}
+			}
+		});
 	}
 	
 	public static void log(Exception ex) {
