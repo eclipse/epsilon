@@ -61,7 +61,7 @@ Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Fl
 
 Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have either a list of ignored features, a body, or both.
 
-\begin{lstlisting}[float=tbp, caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock]
+\begin{lstlisting}[caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock]
 (@strict)?
 retype <originalType> to <evolvedType>
 (when (:<eolExpression>)|({<eolStatement>+}))?
@@ -121,7 +121,7 @@ Finally, we should consider the order in which Flock schedules language construc
 	\label{fig:po_migration_strategy}
 \end{figure}
 
-\begin{lstlisting}[float=tbp, caption=Flock migration strategy for the process-oriented metamodel evolution in Figure~\ref{fig:po_mms}, label=lst:flock, language=Flock]
+\begin{lstlisting}[caption=Flock migration strategy for the process-oriented metamodel evolution in Figure~\ref{fig:po_mms}, label=lst:flock, language=Flock]
 delete Port when: not (original.isInput() xor original.isOutput())
 
 retype Port to InputPort  when: original.isInput()

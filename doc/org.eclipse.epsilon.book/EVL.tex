@@ -10,7 +10,7 @@ Although many approaches have been proposed to enable automated model validation
 
 In OCL, structural constraints are captured in the form of \textit{invariants}. Each invariant is defined in the context of a meta-class of the metamodel and specifies a name and a body. The body is an OCL expression that must evaluate to a \emph{Boolean} result, indicating whether an instance of the meta-class satisfies the invariant or not. Execution-wise, the body of each invariant is evaluated for each instance of the meta-class and the results are stored in a set of $<$Element, Invariant, Boolean$>$ triplets. Each triplet captures the \emph{Boolean} result of the evaluation of an \emph{Invariant} on a qualified \emph{Element}. An exemplar OCL invariant for UML 1.4, requiring that abstract operations only belong to abstract classes, is shown in Listing \ref{lst:AbstractOperations}.
 
-\begin{lstlisting}[float=tbp, caption=OCL constraint on UML operations, label=lst:AbstractOperations, language=OCL]
+\begin{lstlisting}[caption=OCL constraint on UML operations, label=lst:AbstractOperations, language=OCL]
 context Operation
   inv AbstractOperationInAbstractClassOnly :
     self.isAbstract implies self.owner.isAbstract
@@ -32,7 +32,7 @@ Nevertheless, in OCL there is no such distinction between errors and warnings an
 \label{sec:Issue3}
 Each OCL invariant is a self-contained unit that does not depend on other invariants. There are cases where this design decision is particularly restrictive. For instance consider the invariants \emph{I1} and \emph{I2} displayed in Listing \ref{lst:RelatedConstraints}. Both I1 and I2 are applicable on UML classes with \emph{I1} requiring that: \textit{the name of a class must not be empty} and \emph{I2} requiring that: \textit{the name of a class must start with a capital letter}. In the case of those two invariants, if \emph{I1} is not satisfied for a particular UML class, evaluating \emph{I2} on that class would be meaningless. In fact it would be worse than meaningless since it would consume time to evaluate and would also produce an extraneous error message to the user. In practice, to avoid the extraneous message, \emph{I2} needs to replicate the body of \emph{I1} using an \textit{if} expression (lines 2 and 5).
 
-\begin{lstlisting}[float=tbp, caption=Conceptually related OCL constraints, label=lst:RelatedConstraints, language=OCL]
+\begin{lstlisting}[caption=Conceptually related OCL constraints, label=lst:RelatedConstraints, language=OCL]
 context Class
 	inv I1 : self.name.size() > 0
     	
@@ -49,7 +49,7 @@ context Class
 \label{sec:Issue4}
 As already discussed, in OCL invariants are defined in the context of meta-classes. While this achieves a reasonable partitioning of the model element space, there are cases where more fine-grained partitioning is required. For instance, consider the following scenario. Let $IA_{1..N}$, $IB_{1..M}$ be invariants applying to classes that are stereotyped as \verb|<<A>>| and \verb|<<B>>| respectively. Since OCL only supports partitioning the model element space using meta-classes, all $IA_{1..N}$, $IB_{1..M}$ must appear under the same context (i.e. \textit{Class}). Moreover, each invariant must explicitly define that it addresses the one or the other conceptual sub-partition. Therefore, each of $IA_{1..N}$ must limit its scope initially (using the $self.isA$ expression) and then express the real body. In our example the simplest way to achieve this would be by combining a scope-limiting expression with the real invariant body using the \textit{implies} clause as demonstrated in Listing \ref{lst:OCLDuplication}.
 
-\begin{lstlisting}[float=tbp, caption=Demonstration of OCL constraints with duplication, label=lst:OCLDuplication, language=OCL2]
+\begin{lstlisting}[float=t, caption=Demonstration of OCL constraints with duplication, label=lst:OCLDuplication, language=OCL2]
 context Class
 	inv I1 : self.isA implies <real-invariant-body>
 	inv I2 : self.isA implies <real-invariant-body>
@@ -110,8 +110,7 @@ An EVL module can define a number of named \emph{pre} and a \emph{post} blocks t
 
 Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and \ref{lst:FixConcreteSyntax} demonstrate the concrete sytnax of the \emph{context}, \emph{invariant} and \emph{fix} abstract syntax constructs discussed above.
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, escapechar=!]
-
+\begin{lstlisting}[caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, escapechar=!]
 context !\textit{name}! !\textbf{\{}!
 
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
@@ -121,8 +120,7 @@ context !\textit{name}! !\textbf{\{}!
 !\textbf{\}}!
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, escapechar=!]
-
+\begin{lstlisting}[caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, escapechar=!]
 (@lazy)?
 (constraint|critique) !\textit{name}! !\textbf{\{}!
 	
@@ -137,9 +135,8 @@ context !\textit{name}! !\textbf{\{}!
 !\textbf{\}}
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, escapechar=!]
+\begin{lstlisting}[float=t, caption=Concrete Syntax of an EVL fix, label=lst:FixConcreteSyntax, language=EVL, escapechar=!]
 fix !\textbf{\{}!
-	
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
 	(title (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
@@ -153,7 +150,7 @@ fix !\textbf{\{}!
 
 \emph{Pre} and \emph{post} blocks have a simple syntax that, as presented in Listing \ref{lst:EvlPrePostConcreteSyntax}, consists of the identifier (\emph{pre} or \emph{post}), an optional name and the set of statements to be executed enclosed in curly braces.
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of Pre and Post blocks, label=lst:EvlPrePostConcreteSyntax, language=EVL]
+\begin{lstlisting}[float=t, caption=Concrete Syntax of Pre and Post blocks, label=lst:EvlPrePostConcreteSyntax, language=EVL]
 (pre|post) <name> {
 	statement+
 }
@@ -239,27 +236,27 @@ This case study has demonstrated that the additional constructs provided by EVL 
 \section{Inter-Model Consistency Checking Example}
 \label{sec:EvlInterModelExample}
 
-In the previous example, EVL was used to check the internal consistency of a single UML model. By contrast, this example demonstrates using EVL to detect and repair occurrences of incompleteness and contradiction between two different models. In this example the simplified \emph{ProcessLang} metamodel, which captures information about hierarchical processes, is used. To add performance information in a separate aspect \emph{ProcessPerformanceLang} metamodel is also defined. The metamodels are displayed in Figures \ref{fig:Process} and \ref{fig:ProcessPerformance} respectively.
-
-There are two constraints that need to be defined and evaluated in this example: that each \emph{Process} in a process model (\emph{PM}) has a corresponding \emph{ProcessPerformance} in the process performance model (\emph{PPM}), and that the \emph{maxAcceptableTime} of a process does not exceed the sum of the \emph{maxAcceptableTimes} of its children. This is achieves with the \emph{PerformanceIsDefined} and the \emph{PerformanceIsValid} EVL constraints displayed in Listing \ref{lst:InterModelCaseStudy}.
-
-\begin{figure}
+\begin{figure}[b]
 	\centering
 		\includegraphics{images/Process.png}
 	\caption{The ProcessLang Metamodel}
 	\label{fig:Process}
 \end{figure}
 
-\begin{figure}
+In the previous example, EVL was used to check the internal consistency of a single UML model. By contrast, this example demonstrates using EVL to detect and repair occurrences of incompleteness and contradiction between two different models. In this example the simplified \emph{ProcessLang} metamodel, which captures information about hierarchical processes, is used. To add performance information in a separate aspect \emph{ProcessPerformanceLang} metamodel is also defined. The metamodels are displayed in Figures \ref{fig:Process} and \ref{fig:ProcessPerformance} respectively.
+
+\begin{figure}[b]
 	\centering
-		\includegraphics{images/ProcessPerformance.png}
+		\includegraphics[width=0.2\textwidth]{images/ProcessPerformance.png}
 	\caption{The ProcessPerformanceLang Metamodel}
 	\label{fig:ProcessPerformance}
 \end{figure}
 
-\begin{lstlisting}[float=tbp, caption=Exemplar EVL module containing a cross-model constraint, label=lst:InterModelCaseStudy, language=EVL]
-context PM!Process {
-	
+There are two constraints that need to be defined and evaluated in this example: that each \emph{Process} in a process model (\emph{PM}) has a corresponding \emph{ProcessPerformance} in the process performance model (\emph{PPM}), and that the \emph{maxAcceptableTime} of a process does not exceed the sum of the \emph{maxAcceptableTimes} of its children. This is achieves with the \emph{PerformanceIsDefined} and the \emph{PerformanceIsValid} EVL constraints displayed in Listing \ref{lst:InterModelCaseStudy}.
+
+
+\begin{lstlisting}[caption=Exemplar EVL module containing a cross-model constraint, label=lst:InterModelCaseStudy, language=EVL]
+context PM!Process {	
 	constraint PerformanceIsDefined { /*@\label{CaseStudy:PerformanceIsDefined}@*/
 		
 		check { /*@\label{CaseStudy:PerformanceIsDefined:Check}@*/

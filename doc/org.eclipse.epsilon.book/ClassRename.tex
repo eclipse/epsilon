@@ -3,7 +3,7 @@
 
 The most widely used convention for naming attributes and association ends of a given class is to use a lower-case version of the name of the class as the name of the attribute or the association end. For instance, the two ends of a one-to-many association that links classes \texttt{Book} and \texttt{Chapter} are most likely to be named \texttt{book} and \texttt{chapters} respectively. When renaming a class (e.g. from \texttt{Chapter} to \texttt{Section}) the user must then manually traverse the model to find all attributes and association ends of this type and update their names (i.e. from \texttt{chapter} or \texttt{bookChapter} to \texttt{section} and \texttt{bookSection} respectively). This can be a daunting process especially in the context of large models. Wizard \texttt{RenameClass} presented in Listing \ref{lst:RenameClass} automates this process.
 
-\begin{lstlisting}[float=tbp, 
+\begin{lstlisting}[ 
 	basicstyle=\ttfamily\footnotesize, 
 	flexiblecolumns=true, 
 	numbers=none, 

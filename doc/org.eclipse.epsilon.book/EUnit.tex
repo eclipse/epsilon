@@ -144,7 +144,7 @@ EUnit uses standard Ant buildfiles: running EUnit is as simple as using its Ant 
 
 An example invocation of the EUnit Ant task using the most common features is shown in Listing~\ref{lst:example-eunit-ant}. Users will normally only use some of these features at a time, though. Optional attributes have been listed between brackets. Some nested elements can be repeated 0+ times (\verb!*!) or 0-1 times (\verb!?!). Valid alternatives for an attribute are separated with \verb!|!.
 
-\begin{lstlisting}[float=tbp, language=XML,columns=fixed,caption=Format of an invocation of the EUnit Ant task,label=lst:example-eunit-ant]
+\begin{lstlisting}[language=XML,columns=fixed,caption=Format of an invocation of the EUnit Ant task,label=lst:example-eunit-ant]
 <epsilon.eunit src="..."
     [failOnErrors="..."]
     [package=".."]
@@ -181,7 +181,7 @@ The Epsilon Object Language script is the second half of the EUnit test suite. E
 
 Data bindings repeat all test cases with different values in some variables. To define a data binding, users must define an operation which returns a sequence of elements and is marked with \eolannotation{@data variable}. All test cases will be repeated once for each element of the returned sequence, setting the specified variable to the corresponding element. Listing~\ref{lst:eunit-databind} shows two nested data bindings and a test case which will be run four times: with \variable{x=1} and \variable{y=5}, \variable{x=1} and \variable{y=6}, \variable{x=2} and \variable{y=5} and finally \variable{x=2} and \variable{y=6}. The example shows how \variable{x} and \variable{y} could be used by the setup section to generate an input model for the test. This can be useful if the intent of the test is ensuring that a certain property holds in a class of models, rather than a single model.
 
-\begin{lstlisting}[float=tbp, language=EOL,caption=Example of a 2-level data binding,label=lst:eunit-databind,columns=fixed]
+\begin{lstlisting}[language=EOL,caption=Example of a 2-level data binding,label=lst:eunit-databind,columns=fixed]
 @data x
 operation firstLevel()  { return 1.to(2); }
 
@@ -197,7 +197,7 @@ operation mytest() { -* test with the generated model *- }
 
 Alternatively, if both \variable{x} and \variable{y} were to use the same sets of values, we could add two \eolannotation{@data} annotations to the same operation. For instance, Listing~\ref{lst:eunit-databind-reused} shows how we could test with 4 cases: \variable{x=1} and \variable{y=1}, \variable{x=1} and \variable{y=2}, \variable{x=2} and \variable{y=1} and \variable{x=2} and \variable{y=2}.
 
-\begin{lstlisting}[float=tbp, language=EOL,caption=Example of reusing the same operation for several data bindings,label=lst:eunit-databind-reused,columns=fixed]
+\begin{lstlisting}[language=EOL,caption=Example of reusing the same operation for several data bindings,label=lst:eunit-databind-reused,columns=fixed]
 @data x
 @data y
 operation levels()  { return 1.to(2); }
@@ -318,7 +318,7 @@ After describing the basic syntax, we will show how to use EUnit to test an ETL 
 
 The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two targets: \anttarget{run-tests} (lines 2--16) invokes the EUnit suite, and \anttarget{tree2graph} (lines 17--22) is a helper target which transforms model \modelname{Tree} into model \modelname{Graph} using ETL. The \xmlelement{modelTasks} nested element is used to load the input, expected output and output EMF models. \modelname{Graph} is loaded with \xmlattribute{read} set to \eol{false}: the model will be initially empty, and will be populated by the ETL transformation.
 
-\begin{lstlisting}[float=tbp, language=XML, caption=Ant buildfile for EUnit with \xmlelement{modelTasks} and a helper target, label=lst:eunit-ex1-ant]
+\begin{lstlisting}[language=XML, caption=Ant buildfile for EUnit with \xmlelement{modelTasks} and a helper target, label=lst:eunit-ex1-ant]
 <project>
   <target name="run-tests">
     <epsilon.eunit src="test-external.eunit">
@@ -349,7 +349,7 @@ The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two target
 
 The EOL script is shown in Listing~\ref{lst:eunit-ex1-eol}: it invokes the helper task (line 3) and checks that the obtained model is equal to the expected model (line 4). Internally, EMC will perform the comparison using EMF Compare.
 
-\begin{lstlisting}[float=tbp, language=EOL, caption=EOL script using \eol{runTarget} to run ETL, label=lst:eunit-ex1-eol]
+\begin{lstlisting}[language=EOL, caption=EOL script using \eol{runTarget} to run ETL, label=lst:eunit-ex1-eol]
 @test
 operation transformationWorksAsExpected() {
   runTarget("tree2graph");
@@ -364,7 +364,7 @@ In the previous section, the EOL file is kept very concise because the model set
 
 The Ant buildfile is shown in Listing~\ref{lst:ex2-ant}. It is now very simple: all it needs to do is run the EOL script. However, since we will parse HUTN in the EOL script, we must make sure the \class{EPackage}s of the metamodels are registered.
 
-\begin{lstlisting}[float=tbp, language=XML,caption=Ant buildfile which only runs the EOL script,label=lst:ex2-ant]
+\begin{lstlisting}[language=XML,caption=Ant buildfile which only runs the EOL script,label=lst:ex2-ant]
 <project>
   <target name="run-tests">
     <epsilon.emf.register file="tree.ecore"/>
@@ -376,7 +376,7 @@ The Ant buildfile is shown in Listing~\ref{lst:ex2-ant}. It is now very simple: 
 
 The EOL script used is shown in Listing~\ref{lst:ex2-eol}. Instead of loading models through the Ant tasks, the \eol{loadHutn} operation has been used to load the models. The test itself is almost the same, but instead of running a helper target, it invokes an operation which creates and runs the ETL Ant task through the \eol{antProject} variable provided by EUnit, taking advantage of the support in EOL for invoking Java code through reflection.
 
-\begin{lstlisting}[float=tbp, language=EOL,caption=EOL script with inlined models and tasks,label=lst:ex2-eol]
+\begin{lstlisting}[language=EOL,caption=EOL script with inlined models and tasks,label=lst:ex2-eol]
 @model
 operation loadModels() {
   loadHutn("Tree", '@Spec {Metamodel {nsUri: "Tree" }}
@@ -439,7 +439,7 @@ EUnit uses Ant as a workflow language: all model management tasks must be expose
 
 Listing~\ref{lst:eunit-atl} shows the Ant buildfile which would be required for running these steps, showing that while EUnit can use the existing ATL tasks as-is, the required helper task is quite longer than the one in Listing~\ref{lst:eunit-ex1-ant}. Ideally, Ant tasks should be adapted or wrapped to use models directly from the EMC model repository.
 
-\begin{lstlisting}[float=tbp, language=XML,caption=Testing an ATL model transformation with EUnit,label=lst:eunit-atl]
+\begin{lstlisting}[language=XML,caption=Testing an ATL model transformation with EUnit,label=lst:eunit-atl]
 <project>
   <!-- ... omitted ... -->
   <target name="atl">
@@ -481,7 +481,7 @@ Listing~\ref{lst:eunit-atl} shows the Ant buildfile which would be required for 
 
 Another advantage in making model management tasks EMC-aware is that they can easily ``export'' their results as models, making them easier to test. For instance, the EVL Ant task allows for exporting its results as a model by setting the attribute \xmlattribute{exportAsModel} to \eol{true}, as mentioned in Section~\ref{sec:EvlTask}. This way, EOL can query the results as any regular model (see Listing~\ref{lst:eunit-evl}). This is simpler than transforming the validated model to a problem metamodel, as suggested in~\cite{Jouault2005}. The example in Listing~\ref{lst:eunit-evl} checks that a single warning was produced due to the expected rule (\eol{LabelsStartWithT}) and the expected model element.
 
-\begin{lstlisting}[float=tbp, language=EOL,caption=Testing an EVL model validation with EUnit,label=lst:eunit-evl]
+\begin{lstlisting}[language=EOL,caption=Testing an EVL model validation with EUnit,label=lst:eunit-evl]
 @test
 operation valid() {
   var tree := new Tree!Tree;

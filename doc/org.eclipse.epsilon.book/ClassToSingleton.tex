@@ -3,7 +3,7 @@
 
 The singleton pattern \cite{Larman} is applied when there is a class for which only one instance can exist at a time. In terms of UML, a singleton is a class stereotyped with the $<<singleton>>$ stereotype, and it defines a static attribute named \emph{instance} which holds the value of the unique instance. It also defines a static \emph{getInstance()} operation that returns that unique instance. Wizard \emph{ClassToSingleton}, presented in Listing \ref{lst:ClassToSingleton}, simplifies the process of converting a class into a singleton by adding the proper stereotype, attribute and operation to it automatically.
 
-\begin{lstlisting}[float=tbp, 
+\begin{lstlisting}[ 
 	basicstyle=\ttfamily\footnotesize, 
 	flexiblecolumns=true,
 	numbers=none,

@@ -1,7 +1,6 @@
 %%This is a very basic article template.
 %%There is just one section and two subsections.
-\documentclass[12pt,openright]{memoir}
-
+\documentclass[12pt]{memoir}
 \usepackage{charter}
 \usepackage{courier}
 %\usepackage[scaled]{helvet}
@@ -22,6 +21,19 @@
 \usepackage{rotating}
 \usepackage{subscript}
 \usepackage{tikz}
+
+%\usepackage{showframe}
+
+
+% Page formating
+\setstocksize{11in}{8.5in}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+\settrims{0in}{0in}
+\setlrmarginsandblock{1.2in}{0.8in}{*}
+\setulmarginsandblock{1in}{1in}{*}
+\setheadfoot{0.4in}{0.4in}
+\setheaderspaces{*}{0in}{*}
+\checkandfixthelayout 
 
 \newcommand\BackgroundPic{
 \put(-4,0){
@@ -88,8 +100,12 @@ Last update: \today{}.
 %\maketitle
 
 \tableofcontents
+\pagebreak
 \listoffigures
+\pagebreak
 \listoftables
+\pagebreak
+\lstlistoflistings
 
 \input{Introduction}
 

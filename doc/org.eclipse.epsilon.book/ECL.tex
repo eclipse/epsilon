@@ -39,7 +39,7 @@ A match rule has three parts. The \emph{guard} part is an EOL expression or stat
 
 The concrete syntax of a match-rule is displayed in Listing \ref{lst:MatchRuleConcreteSyntax}.
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of a MatchRule, label=lst:MatchRuleConcreteSyntax, language=ECL]
+\begin{lstlisting}[caption=Concrete Syntax of a MatchRule, label=lst:MatchRuleConcreteSyntax, language=ECL]
 
 (@lazy)?
 (@greedy)?
@@ -60,7 +60,7 @@ rule <name>
 
 \emph{Pre} and \emph{post} blocks have a simple syntax that, as presented in Listing \ref{lst:EclPrePostConcreteSyntax}, consists of the identifier (\emph{pre} or \emph{post}), an optional name and the set of statements to be executed enclosed in curly braces.
 
-\begin{lstlisting}[float=tbp, caption=Concrete Syntax of Pre and Post blocks, label=lst:EclPrePostConcreteSyntax, language=ECL]
+\begin{lstlisting}[caption=Concrete Syntax of Pre and Post blocks, label=lst:EclPrePostConcreteSyntax, language=ECL]
 (pre|post) <name> {
 	statement+
 }
@@ -110,7 +110,7 @@ On the other hand, it is possible - and quite common indeed - for two rules to i
 	\label{fig:Tree}
 \end{figure}
 
-\begin{lstlisting}[float=tbp, caption=The Tree2Tree rule, label=lst:Tree2Tree, language=ECL]
+\begin{lstlisting}[caption=The Tree2Tree rule, label=lst:Tree2Tree, language=ECL]
 rule Tree2Tree 
 	match l : T1!Tree
 	with r : T2!Tree {
@@ -132,7 +132,7 @@ In the example of Listing \ref{lst:Tree2Tree}, the rule specifies that to match,
 
 As several such tools and algorithms have been implemented in various programming languages, it is a sensible approach to reuse them instead of re-implementing them. For example, in Listing \ref{lst:FuzzyTree2Tree} a wrapper for the Simmetrics \cite{Simmetrics} fuzzy string comparison tool is used to compare the labels of the trees using the Levenshtein \cite{Levenshtein} algorithm. To achieve this, line 11 invokes the \emph{fuzzyMatch()} operation defined in lines 16-18 which uses the simmterics native tool (instantiated in lines 2-4) to match the two labels using their Levenshtein distance with a threshold of 0.5.
 
-\begin{lstlisting}[float=tbp, caption=The FuzzyTree2Tree rule, label=lst:FuzzyTree2Tree, language=ECL]
+\begin{lstlisting}[caption=The FuzzyTree2Tree rule, label=lst:FuzzyTree2Tree, language=ECL]
 pre {
 	var simmetrics = 
 		new Native("org.epsilon.ecl.tools.
@@ -157,7 +157,7 @@ operation String fuzzyMatch(other : String) : Boolean {
 
 Using the user interaction features discussed in Section \ref{sec:Design.EOL.UserInput} the comparison can become interactive by replacing the \emph{fuzzyMatch} operation of listing \ref{lst:FuzzyTree2Tree} with the one specified in Listing \ref{lst:InteractiveTree2TreeComparison}. The fuzzyMatch operation of Listing \ref{lst:InteractiveTree2TreeComparison}, performs the fuzzy string comparison and -- as the previous version -- if the result is greater than 0.5 it returns true. However, in this updated version if the result is lower than 0.5 but greater than 0.3, it prompts the user to confirm if the two strings match, and if it is lower than 0.3 it returns false.
 
-\begin{lstlisting}[float=tbp, caption=An interactive version of the fuzzyMatch operation of Listing \ref{lst:FuzzyTree2Tree}, label=lst:InteractiveTree2TreeComparison, language=ECL]
+\begin{lstlisting}[caption=An interactive version of the fuzzyMatch operation of Listing \ref{lst:FuzzyTree2Tree}, label=lst:InteractiveTree2TreeComparison, language=ECL]
 operation String fuzzyMatch(other : String) : Boolean {
 	var similarity : Real;
 	similarity = simmetrics.similarity(self,other,"Levenshtein");
