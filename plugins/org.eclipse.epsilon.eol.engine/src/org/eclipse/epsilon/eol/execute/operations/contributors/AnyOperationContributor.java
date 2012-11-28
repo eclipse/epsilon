@@ -16,6 +16,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
@@ -23,7 +24,7 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	@Override
 	public boolean contributesTo(Object target) {
-		return true;
+		return !(target instanceof EolNoTypeInstance);
 	}
 	
 	public Object type() {
