@@ -81,6 +81,11 @@ public class Profiler {
 	}
 	
 	public void stop(String target) {
+		
+		if (activeTarget == root) {
+			throw new IllegalStateException("There is no profiling target to stop. Too many calls to the stop method?");
+		}
+		
 		stopwatch.pause();
 		activeTarget.stop();
 		
@@ -91,7 +96,6 @@ public class Profiler {
 					" while the active one is " 
 					+ activeTarget.getName());
 		}
-		
 		
 		//activeTarget.setEndTime(stopwatch.getElapsed());
 		activeTarget = activeTarget.getParent();
