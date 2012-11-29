@@ -37,6 +37,9 @@
    <feature url="features/org.eclipse.epsilon.concordance.feature_0.9.1.201210062141.jar" id="org.eclipse.epsilon.concordance.feature" version="0.9.1.201210062141">
       <category name="Model Monitoring"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.juno.feature_1.0.0.201211291245.jar" id="org.eclipse.epsilon.eunit.dt.emf.juno.feature" version="1.0.0.201211291245">
+      <category name="Epsilon EMF Integration"/>
+   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers and execution engines for languages of the Epsilon platform.

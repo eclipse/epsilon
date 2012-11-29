@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EUnit EMF Compare Integration
+Bundle-Name: EUnit EMF Compare Integration (EMF Compare 1.x)
 Bundle-SymbolicName: org.eclipse.epsilon.eunit.dt.diff.emf;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse.org
