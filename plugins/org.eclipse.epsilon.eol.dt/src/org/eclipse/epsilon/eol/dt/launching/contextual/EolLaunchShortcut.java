@@ -111,7 +111,6 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 	}
 	
 	public ILaunchConfiguration[] getLaunchConfigurations(IEditorPart editorpart) {
-		//System.err.println("Get launch configurations for ");
 		if (editorpart.getEditorInput() instanceof IFileEditorInput) {
 			return getLaunchConfigurations(((IFileEditorInput)editorpart.getEditorInput()).getFile());
 		}

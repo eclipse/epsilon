@@ -60,16 +60,6 @@ public class EolModelElementType extends EolType{
 		model = context.getModelRepository().getModelByName(modelName);
 
 		if (model==null || !model.hasType(typeName)){
-			
-			//try {
-			//	ReflectionUtil.invokeMethod(model, "diagnostics", Collections.EMPTY_LIST);
-			//} catch (Exception e) {
-				// TODO Auto-generated catch block
-			//	e.printStackTrace();
-			//}
-			
-			//System.err.println(model.getAllOfKind(typeName).size());
-			//System.err.println("THROWING EXCEPTION:" + typeName);
 			throw new EolModelElementTypeNotFoundException(modelName,typeName);
 		}
 	}

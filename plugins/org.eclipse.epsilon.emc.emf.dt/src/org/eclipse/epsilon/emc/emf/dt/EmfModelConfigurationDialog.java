@@ -351,23 +351,18 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
 			r.load(null);
 			if (expandButton.getSelection()) {
-				System.err.println("Starting to resolve");
 				EcoreUtil.resolveAll(r);
-				System.err.println("Finished resolving");
 			}
-			System.err.println("Starting to iterate over resources");
 			for (Resource res : rs.getResources()) {
 				Iterator<EObject> it = res.getAllContents();
 				while (it.hasNext()) {
 					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
 				}
 			}
-			System.err.println("Finished iterating over resources");
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		System.err.println(ePackages.size());
 		return ePackages;
 	}
 	

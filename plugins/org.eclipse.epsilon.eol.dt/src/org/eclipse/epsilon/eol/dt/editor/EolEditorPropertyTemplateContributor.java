@@ -42,8 +42,6 @@ public class EolEditorPropertyTemplateContributor implements IAbstractModuleEdit
 		for (String property : properties) {
 			templates.add(new TemplateWithImage(property, "property", "", property, false, propertyImage));
 		}
-		
-		System.err.println(templates.size());
 	}
 	
 	protected void findProperties(AST root) {
