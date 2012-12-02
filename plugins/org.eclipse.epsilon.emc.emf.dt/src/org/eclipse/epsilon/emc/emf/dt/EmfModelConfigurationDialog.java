@@ -277,7 +277,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		metamodelButtonsLayout.horizontalAlignment = SWT.FILL;
 		metamodelButtons.setLayoutData(metamodelButtonsLayout);
 		metamodelButtons.setLayout(new FillLayout(SWT.VERTICAL));
-		final Button addFileMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		final Button addFileMetamodelButton = new Button(metamodelButtons, SWT.NONE);
 		addFileMetamodelButton.setText("Add file...");
 		addFileMetamodelButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -293,7 +293,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		});
 
-		final Button addURIMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		final Button addURIMetamodelButton = new Button(metamodelButtons, SWT.NONE);
 		addURIMetamodelButton.setText("Add URI...");
 		addURIMetamodelButton.addListener(SWT.Selection, new BrowseEPackagesListener() {
 			@Override
@@ -306,7 +306,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		});
 
-		final Button removeMetamodelButton = new Button(metamodelButtons, SWT.BORDER);
+		final Button removeMetamodelButton = new Button(metamodelButtons, SWT.NONE);
 		removeMetamodelButton.setText("Remove");
 		removeMetamodelButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -321,7 +321,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		});
 
-		final Button clearAllMetamodelsButton = new Button(metamodelButtons, SWT.BORDER);
+		final Button clearAllMetamodelsButton = new Button(metamodelButtons, SWT.NONE);
 		clearAllMetamodelsButton.setText("Clear");
 		clearAllMetamodelsButton.addSelectionListener(new SelectionAdapter() {
 			@Override
