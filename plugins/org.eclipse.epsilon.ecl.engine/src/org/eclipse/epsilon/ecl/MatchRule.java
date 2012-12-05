@@ -98,11 +98,14 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		boolean guardSatisfied = true;
 		
 		if (!isAbstract() && appliesToTypes && guardAst != null){
+			
+			context.getFrameStack().enterLocal(FrameType.PROTECTED, guardAst);
 			context.getFrameStack().put(Variable.createReadOnlyVariable(leftParameter.getName(), left));
 			context.getFrameStack().put(Variable.createReadOnlyVariable(rightParameter.getName(), right));
 			context.getFrameStack().put(Variable.createReadOnlyVariable("self", this));
 			
 			Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(), context);
+			context.getFrameStack().leaveLocal(guardAst);
 			
 			if (result instanceof Return) {
 				Object value = ((Return) result).getValue();
