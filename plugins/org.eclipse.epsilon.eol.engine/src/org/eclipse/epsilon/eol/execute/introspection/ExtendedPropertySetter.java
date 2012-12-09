@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -27,20 +23,15 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 	
 	public void invoke(Object value) throws EolRuntimeException {
 		
+		context.getExtendedProperties().setPropertyValue(object, property.substring(1), value);
+		
+		/*
 		Map<String, Object> extendedProperties = context.getExtendedProperties().get(object);
 		if (extendedProperties == null) {
 			extendedProperties = new HashMap<String, Object>();
 			context.getExtendedProperties().put(object, extendedProperties);
 		}
-		extendedProperties.put(this.property.substring(1), value);
-	}
-
-	public Object coerce(Object value) throws EolIllegalPropertyException {
-		return value;
-	}
-
-	public boolean conforms(Object value) throws EolIllegalPropertyException {
-		return true;
+		extendedProperties.put(this.property.substring(1), value);*/
 	}
 
 }

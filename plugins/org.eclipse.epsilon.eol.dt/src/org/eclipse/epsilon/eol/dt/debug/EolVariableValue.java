@@ -25,6 +25,7 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class EolVariableValue extends EolDebugElement implements IValue {
@@ -111,11 +112,9 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 
 				// Extended properties
 				final EolDebugTarget dt = (EolDebugTarget)getDebugTarget();
-				final Map<Object, Map<String, Object>> allExtProps = dt.getModule().getContext().getExtendedProperties();
-				if (allExtProps.containsKey(value)) {
-					for (Map.Entry<String, Object> eP : allExtProps.get(value).entrySet()) {
-						subvars.add(new EolVariable(getDebugTarget(), "~" + eP.getKey(), eP.getValue()));
-					}
+				final ExtendedProperties allExtProps = dt.getModule().getContext().getExtendedProperties();
+				for (Map.Entry<String, Object> eP : allExtProps.getPropertyValues(value).entrySet()) {
+					subvars.add(new EolVariable(getDebugTarget(), "~" + eP.getKey(), eP.getValue()));
 				}
 
 				// Sort fields by name

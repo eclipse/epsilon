@@ -22,6 +22,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceability
 import org.eclipse.epsilon.egl.output.OutputBufferOperationContributor;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
+import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
@@ -141,7 +142,7 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 	}
 
 	@Override
-	public Map<Object, Map<String, Object>> getExtendedProperties() {
+	public ExtendedProperties getExtendedProperties() {
 		return delegate.getExtendedProperties();
 	}
 
@@ -234,7 +235,7 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 
 	@Override
 	public void setExtendedProperties(
-			Map<Object, Map<String, Object>> extendedProperties) {
+			ExtendedProperties extendedProperties) {
 		delegate.setExtendedProperties(extendedProperties);
 	}
 }

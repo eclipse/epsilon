@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import java.util.Map;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -26,12 +24,7 @@ public class ExtendedPropertyGetter extends AbstractPropertyGetter {
 	public Object invoke(Object object, String property)
 			throws EolRuntimeException {
 		
-		Map<String, Object> extendedProperties = context.getExtendedProperties().get(object);
-		if (extendedProperties == null) return null;
-		
-		property = property.substring(1);
-		return extendedProperties.get(property);
-		
+		return context.getExtendedProperties().getPropertyValue(object, property.substring(1));
 	}
 
 }

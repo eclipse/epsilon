@@ -83,9 +83,9 @@ public interface IEolContext {
 	
 	public void setAssertionsEnabled(boolean assertionsEnabled);
 	
-	public Map<Object, Map<String, Object>> getExtendedProperties();
+	public ExtendedProperties getExtendedProperties();
 	
-	public void setExtendedProperties(Map<Object, Map<String, Object>> properties);
+	public void setExtendedProperties(ExtendedProperties properties);
 	
 	public void dispose();
 	

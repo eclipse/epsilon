@@ -61,6 +61,7 @@ public class Cache<K, V> {
 				if (map.size() == 1) {
 					try {
 					cleanUpThread = createCleanUpThread();
+					cleanUpThread.setDaemon(true);
 					cleanUpThread.start();
 					}
 					catch (Exception ex) {}

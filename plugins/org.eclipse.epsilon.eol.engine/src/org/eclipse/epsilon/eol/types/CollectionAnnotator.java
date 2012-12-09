@@ -24,7 +24,7 @@ public class CollectionAnnotator {
 			CollectionAnnotator.getInstance().annotate(new ArrayList(), AnnotatedCollectionType.Sequence);
 		}
 		
-		System.gc();
+		//System.gc();
 		
 		Thread.sleep(1000);
 		

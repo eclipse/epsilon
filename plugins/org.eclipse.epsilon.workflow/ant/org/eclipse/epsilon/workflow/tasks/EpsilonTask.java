@@ -19,6 +19,7 @@ import java.util.Map;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.SingleFrame;
@@ -66,13 +67,13 @@ public abstract class EpsilonTask extends Task {
 		}		
 	}
 	
-	protected Map<Object, Map<String, Object>> getExtendedProperties() {
+	protected ExtendedProperties getExtendedProperties() {
 		
-		Map<Object, Map<String, Object>> extendedProperties = 
-			(Map<Object, Map<String, Object>>) getProject().getReference(EpsilonTask.EPSILON_EXTENDEDPROPERTIES);
+		ExtendedProperties extendedProperties = 
+			(ExtendedProperties) getProject().getReference(EpsilonTask.EPSILON_EXTENDEDPROPERTIES);
 		
 		if (extendedProperties == null) {
-			extendedProperties = new HashMap<Object, Map<String, Object>>();
+			extendedProperties = new ExtendedProperties();
 			getProject().addReference(EpsilonTask.EPSILON_EXTENDEDPROPERTIES, extendedProperties);
 		}
 		

@@ -48,7 +48,7 @@ public class EolContext implements IEolContext{
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
-	protected Map<Object, Map<String, Object>> extendedProperties = new IdentityHashMap<Object, Map<String,Object>>();
+	protected ExtendedProperties extendedProperties = new ExtendedProperties();
 	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
@@ -186,12 +186,12 @@ public class EolContext implements IEolContext{
 		this.profilingEnabled = profilingEnabled;
 	}
 
-	public Map<Object, Map<String, Object>> getExtendedProperties() {
+	public ExtendedProperties getExtendedProperties() {
 		return extendedProperties;
 	}
 
 	public void setExtendedProperties(
-			Map<Object, Map<String, Object>> extendedProperties) {
+			ExtendedProperties extendedProperties) {
 		this.extendedProperties = extendedProperties;
 	}
 	
