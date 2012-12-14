@@ -46,7 +46,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 
 /**
- * Model comparator for EMF models, using EMF Compare.
+ * Model comparator for EMF models, using EMF Compare 1.x.
  */
 public class EMFModelComparator implements IModelComparator {
 
