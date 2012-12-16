@@ -199,4 +199,61 @@ public class AnyOperationContributor extends OperationContributor {
 	public String format(String formatString) {
 		return String.format(formatString, target);
 	}
+	
+	public int asInteger() {
+		String value = target.toString();
+		return Integer.parseInt(value);
+	}
+	
+	public boolean isInteger() {
+		String value = target.toString();
+		try {
+			Integer.parseInt(value);
+			return true;
+		}
+		catch (Exception ex) {
+			return false;
+		}
+	}
+	
+	public boolean isReal() {
+		String value = target.toString();
+		try {
+			Double.parseDouble(value);
+			return true;
+		}
+		catch (Exception ex) {
+			return false;
+		}
+	}
+	
+	public float asReal() {
+		String value = target.toString();
+		return Float.parseFloat(value);
+	}
+	
+	public double asDouble() {
+		String value = target.toString();
+		return Double.parseDouble(value);
+	}
+	
+	public float asFloat() {
+		String value = target.toString();
+		return Float.parseFloat(value);
+	}
+	
+	public long asLong() {
+		String value = target.toString();
+		return Long.parseLong(value);
+	}
+	
+	public boolean asBoolean() {
+		String value = target.toString();
+		return Boolean.parseBoolean(value);
+	}
+	
+	public String asUnicode() {
+		String value = target.toString();
+		return "" + (char) Integer.parseInt(value, 16);
+	}
 }

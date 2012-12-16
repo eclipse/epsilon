@@ -76,63 +76,6 @@ public class StringOperationContributor extends OperationContributor {
 		return charSeq;
 	}
 	
-	public boolean isInteger() {
-		String value = (String) target;
-		try {
-			Integer.parseInt(value);
-			return true;
-		}
-		catch (Exception ex) {
-			return false;
-		}
-	}
-	
-	public boolean isReal() {
-		String value = (String) target;
-		try {
-			Double.parseDouble(value);
-			return true;
-		}
-		catch (Exception ex) {
-			return false;
-		}
-	}
-	
-	public float asReal() {
-		String value = (String) target;
-		return Float.parseFloat(value);
-	}
-	
-	public double asDouble() {
-		String value = (String) target;
-		return Double.parseDouble(value);
-	}
-	
-	public float asFloat() {
-		String value = (String) target;
-		return Float.parseFloat(value);
-	}
-	
-	public int asInteger() {
-		String value = (String) target;
-		return Integer.parseInt(value);
-	}
-	
-	public long asLong() {
-		String value = (String) target;
-		return Long.parseLong(value);
-	}
-	
-	public boolean asBoolean() {
-		String value = (String) target;
-		return Boolean.parseBoolean(value);
-	}
-	
-	public String asUnicode() {
-		String value = (String) target;
-		return "" + (char) Integer.parseInt(value, 16);
-	}
-	
 	public String pad(int width, String padding, boolean right) {
 		String result = (String) target;
 		int pad = width - result.length();

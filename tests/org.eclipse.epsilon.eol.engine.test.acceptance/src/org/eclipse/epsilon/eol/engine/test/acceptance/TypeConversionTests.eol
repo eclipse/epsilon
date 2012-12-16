@@ -1,3 +1,8 @@
+@setup
+operation setup() {
+	modelManager.unloadAllModels();
+}
+
 @test
 operation createIntegerVar() {
 	var i : Integer := 5;
@@ -90,4 +95,49 @@ operation testIntegerAsReal() {
 
 operation Integer plus(x : Real) {
 	return self + x;
+}
+
+@test
+operation testAnyToInteger() {
+	var any : Any = createNonPrimitiveWhoseTypeShouldBeConvertable(2);
+	assertEquals(2, any.asInteger());
+}
+
+@test
+operation testAnyToReal() {
+	var any : Any = createNonPrimitiveWhoseTypeShouldBeConvertable(2.3);
+	assertEquals(2.3, any.asReal());
+}
+
+@test
+operation testAnyToBoolean() {
+	var any : Any = createNonPrimitiveWhoseTypeShouldBeConvertable(true);
+	assertEquals(true, any.asBoolean());
+}
+
+@test
+operation testAnyIsInteger() {
+	var i : Any = createNonPrimitiveWhoseTypeShouldBeConvertable(2);
+	var s : Any = createNonPrimitiveWhoseTypeShouldBeConvertable("foo");
+	
+	assertTrue(i.isInteger());
+	assertFalse(s.isInteger());
+}
+
+@test
+operation testAnyIsReal() {
+	var r : Any = createNonPrimitiveWhoseTypeShouldBeConvertable(2.3);
+	var s : Any = createNonPrimitiveWhoseTypeShouldBeConvertable("foo");
+	
+	assertTrue(r.isReal());
+	assertFalse(s.isReal());
+}
+
+operation createNonPrimitiveWhoseTypeShouldBeConvertable(value : Any) {
+	modelManager.createInMemoryEmfModel("First", "http://www.eclipse.org/emf/2002/Ecore");
+	
+	// EEnumLiteral's string representation is the same as its literal attribute
+	var el = new EEnumLiteral;
+	el.literal = value.asString();
+	return el;
 }
