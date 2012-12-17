@@ -237,8 +237,10 @@ operation mytest2() {
 
 EUnit provides several variables and operations which are useful for testing. These are listed in Table~\ref{tab:eunit-operations}.
 
-\begin{table}
-  \begin{tabular}{|p{6cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6cm}|X|}
+  \caption{Extra operations and variables in EUnit}
+  \label{tab:eunit-operations}\\
+ 
     \hline \textbf{Signature} & \textbf{Description}  \\\hline
 
     runTarget(name : String)      & Runs the specified target of the Ant buildfile which invoked EUnit. \\\hline
@@ -250,10 +252,8 @@ EUnit provides several variables and operations which are useful for testing. Th
     loadHutn(name : String, hutn : String) & Loads an EMF model with the specified name, by parsing the second argument as an HUTN~\cite{HUTN} fragment. \\\hline
 
     antProject : org.apache.tools.ant.Project & Global variable which refers to the Ant project being executed. This can be used to create and run Ant tasks from inside the EOL code. \\\hline
-  \end{tabular}
-  \caption{Extra operations and variables in EUnit}
-  \label{tab:eunit-operations}
-\end{table}
+  \end{longtabu}
+
 
 \subsubsection{Assertions}
 
@@ -266,7 +266,7 @@ Model, file and directory comparisons take a snapshot of their operands before c
 Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user interface. On the left, an Eclipse view shows the results of several EUnit test suites. We can see that the \eol{load-models-with-hutn} suite failed. The Compare button to the right of ``Failure Trace'' can be pressed to show the differences between the expected and obtained models, as shown on the right side. EUnit implements a pluggable architecture where \emph{difference viewers} are automatically selected based on the types of the operands. There are difference viewers for EMF models, file trees and a fallback viewer which converts both operands to strings.
 
 \newcommand{\parameter}[1]{\newline{}\phantom{- }#1}
-\begin{longtable}{|p{6cm}|p{6.5cm}|}
+\begin{longtabu}{|p{6.5cm}|X|}
   \caption{Assertions in EUnit}
   \label{tab:eunit-assertions} \\\hline
 
@@ -299,7 +299,7 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
   assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
 
   assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
-\end{longtable}
+\end{longtabu}
 
 \begin{sidewaysfigure}
   \centering

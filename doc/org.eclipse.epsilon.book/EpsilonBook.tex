@@ -21,6 +21,9 @@
 \usepackage{rotating}
 \usepackage{subscript}
 \usepackage{tikz}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tabu}
 
 %\usepackage{showframe}
 
@@ -86,6 +89,7 @@ Antonio Garc\'{\i}a-Dom\'{\i}nguez,\\\\University of C\'adiz (Spain)
 \newcommand*{\modelname}[1]{``#1''}
 \newcommand*{\file}[1]{\texttt{#1}}
 \newcommand*{\javaannotation}[1]{\texttt{@#1}}
+\tabulinesep = 0.2cm
 
 \begin{document}
 \pagestyle{empty}
@@ -100,12 +104,17 @@ Last update: \today{}.
 %\maketitle
 
 \tableofcontents
-\pagebreak
+\clearpage
 \listoffigures
-\pagebreak
+\clearpage
 \listoftables
-\pagebreak
-\lstlistoflistings
+\clearpage
+
+\input{Acknowledgements}
+
+%\pagebreak
+%\lstlistoflistings
+
 
 \input{Introduction}
 

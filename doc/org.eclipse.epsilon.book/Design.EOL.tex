@@ -142,9 +142,16 @@ operation Integer fibonacci() : Integer {
 
 As is the case for most programming languages, EOL defines a built-in system of types, illustrated in Figure \ref{fig:EOLTypes}. The \emph{Any} type, inspired by the \emph{OclAny} type of OCL, is the basis of all types in EOL including Collection types. The operations supported by instances of the Any type are outlined in Table \ref{tab:AnyOperations}\footnote{Parameters within square braces [ ] are optional}.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics{images/EOLTypes.png}
+  \caption{Overview of the type system of EOL}
+  \label{fig:EOLTypes}
+\end{figure}
+
 \clearpage
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type Any}
 			\label{tab:AnyOperations}\\
@@ -195,20 +202,13 @@ As is the case for most programming languages, EOL defines a built-in system of 
 			
 			format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
 
-\end{longtable}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics{images/EOLTypes.png}
-  \caption{Overview of the type system of EOL}
-  \label{fig:EOLTypes}
-\end{figure}
+\end{longtabu}
 
 \subsection{Primitive Types} 
 
 EOL provides four primitive types: String, Integer, Real and Boolean. The String type represents finite sequences of characters and supports the following operations which can be invoked on its instances.
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type String}
 			\label{tab:StringOperations}\\
@@ -257,11 +257,11 @@ EOL provides four primitive types: String, Integer, Real and Boolean. The String
 			
 			trim() : String & Returns a trimmed copy of the string \\\hline			
 			
-\end{longtable}
+\end{longtabu}
 
 The Real type represents real numbers and provides the following operations.
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type Real}
 			\label{tab:RealOperations}\\
@@ -288,11 +288,11 @@ The Real type represents real numbers and provides the following operations.
 			
 			min(other : Real) : Real & Returns the minimum of the two reals \\\hline
 			
-\end{longtable}
+\end{longtabu}
 
 The Integer type represents natural numbers and negatives and extends the Real primitive type. It also defines the following operations:
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type Integer}
 			\label{tab:IntegerOperations}\\
@@ -305,7 +305,7 @@ The Integer type represents natural numbers and negatives and extends the Real p
 			
 			iota(end : Integer, step : Integer) : Sequence(Integer) & Returns a sequence of integers up to \emph{end} using the specified step (e.g. 1.iota(10,2) returns Sequence\{1,3,5,7,9\})\\\hline
 			
-\end{longtable}
+\end{longtabu}
 
 Finally, the Boolean type represents true/false states and provides no additional operations to those provided by the base Any type.
 
@@ -316,7 +316,7 @@ EOL provides four types of collections and a Map type. The Bag type represents n
 
 All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports first-order logic operations on collections. The following operations apply to all types of collections:
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type Collection}
 			\label{tab:Collection Operations}\\
@@ -366,11 +366,11 @@ All collection types inherit from the abstract Collection type. Apart from simpl
 			concat() : String & Returns the string created by converting each element of the collection to a string \\\hline
 			
 			concat(separator : String) : String & Returns the string created by converting each element of the collection to a string, using the given argument as a separator \\\hline
-\end{longtable}
+\end{longtabu}
 
 The following operations apply to ordered collection types (i.e. Sequence and OrderedSet):
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of types Sequence and OrderedSet}
 			\label{tab:SortedOperations}\\
@@ -391,11 +391,11 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
 
 			invert() : Collection & Returns an inverted copy of the collection\\\hline
 						
-\end{longtable}
+\end{longtabu}
 
 Also, EOL collections support the following first-order operations:
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{First-order logic operations on Collections}
 			\label{tab:FirstOrderOperations}\\
@@ -426,11 +426,11 @@ Also, EOL collections support the following first-order operations:
 			
 			sortBy(iterator: Type $|$ expression) : Collection & Returns a copy of the collection sorted by the results of evaluating the expression on each item of the collection that conforms to the iterator type \\\hline
 
-\end{longtable}
+\end{longtabu}
 
 The Map type represents an array of key-value pairs in which the keys are unique. The type provides the following operations.
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of type Map}
 			\label{tab:MapOperations}\\
@@ -451,7 +451,7 @@ The Map type represents an array of key-value pairs in which the keys are unique
 			
 			clear() & Clears the map\\\hline
 			
-\end{longtable}
+\end{longtabu}
 
 \subsection{Native Types}
 
@@ -479,7 +479,7 @@ In case of multiple models, as well as the name of the type, the name of the mod
 
 In terms of concrete syntax, inspired by ATL, the ! character is used to separate the name of the type from the name of the model it is defined in. For instance $Ma!A$ represents the type $A$ of model $Ma$. Also, to support modelling technologies that provide hierarchical grouping of types (e.g. using packages) the :: notation is used to separate between packages and classes.  A model element type supports the following operations:
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of Model Element Types}
 			\label{tab:ModelElementTypesOperations}\\
@@ -500,7 +500,7 @@ In terms of concrete syntax, inspired by ATL, the ! character is used to separat
 			
 			createInstance() : Any & Creates an instance of the type in the model \\\hline
 			
-\end{longtable}
+\end{longtabu}
 
 As an example of the concrete syntax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
 
@@ -605,7 +605,7 @@ EOL provides common operators for performing arithmetical computations and compa
 %	\label{fig:EOLComparisonOperators}
 %\end{figure}
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{3.5cm}|X|}
 			
 			\caption{Arithmetical operators}
 			\label{tab:ArithmeticalOperators}\\
@@ -624,10 +624,11 @@ EOL provides common operators for performing arithmetical computations and compa
 				
 				$/$ & Divides reals/integers \\\hline
 				
-\end{longtable}
+\end{longtabu}
 
+\clearpage
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{3.5cm}|X|}
 			
 			\caption{Comparison operators}
 			\label{tab:ComparisonOperators}\\
@@ -648,7 +649,7 @@ EOL provides common operators for performing arithmetical computations and compa
 			
 			$<=$ & For reals/integers returns true if the left hand side is less or equal to then right hand side number \\\hline
 		
-\end{longtable}
+\end{longtabu}
 
 \subsection{Logical Operators}
 
@@ -661,7 +662,7 @@ EOL provides common operators for performing logical computations illustrated in
 %	\label{fig:EOLLogicalOperators}
 %\end{figure}
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{3.5cm}|X|}
 			
 			\caption{Logical Operators}
 			\label{tab:LogicalOperators}\\
@@ -680,7 +681,7 @@ EOL provides common operators for performing logical computations illustrated in
 			
 			xor & returns true if only one of the involved expressions evaluates to true  and false otherwise \\\hline
 	
-\end{longtable}
+\end{longtabu}
 	
 \begin{longtable} {|l|l|l|} 
 	
@@ -808,7 +809,7 @@ rule Attribute2Column
 
 As in most programming languages, an if statement consists of a condition, a block of statements that is executed if the condition is satisfied and (optionally) a block of statements that is executed otherwise. As an example, in Listing \ref{lst:IfStatement}, if variable a holds a value that is greater than 0 the statement of line 3 is executed, otherwise the statement of line 5 is executed.
 
-\begin{lstlisting}[float=tbp, caption=Example illustrating an if statement, label=lst:IfStatement, language=EOL]
+\begin{lstlisting}[float=h, caption=Example illustrating an if statement, label=lst:IfStatement, language=EOL]
 if (a > 0) {
 	"A is greater than 0".println();
 }
@@ -819,7 +820,7 @@ else { "A is less equal than 0".println(); }
 
 A switch statement consists of an expression and a set of cases, and can be used to implement multi-brancing. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
 
-\begin{lstlisting}[float=tbp, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, language=EOL]
+\begin{lstlisting}[float=h, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, language=EOL]
 var i = "2";
 
 switch (i) {
@@ -830,7 +831,7 @@ switch (i) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Example illustrating falling through cases in a switch statement, label=lst:SwitchStatement2, language=EOL]
+\begin{lstlisting}[float=h, caption=Example illustrating falling through cases in a switch statement, label=lst:SwitchStatement2, language=EOL]
 var i = "2";
 
 switch (i) {
@@ -846,7 +847,7 @@ switch (i) {
 
 A while statement consists of a condition and a block of statements which are executed as long as the condition is satisfied. For example, in Listing \ref{lst:WhileStatement} the body of the while statement is executed 5 times printing the numbers 0 to 4 to the output console. Inside the body of a \emph{while} statement, the built-in read-only \emph{loopCount} integer variable holds the number of times the innermost loop has been executed so far (including the current iteration). Right after entering the loop for the first time and before running the first statement in its body, \emph{loopCount} is set to 1, and it is incremented after each following iteration.
 
-\begin{lstlisting}[float=tbp, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL]
+\begin{lstlisting}[float=h, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL]
 var i : Integer = 0;
 while (i < 5) {
   -- both lines print the same thing
@@ -859,11 +860,9 @@ while (i < 5) {
 
 \subsection{For Statement}
 
-In EOL, for statements are used to iterate the contents of collections. A for statement defines a typed iterator and an iterated collection as well as a block of statements that is executed for every item in the collection that has a kind-of relationship with the type defined by the iterator. As with the majority of programming languages, modifying a collection while iterating it raises a runtime error. To avoid this situation, users can use the clone() built-in operation of the Collection type discussed in \ref{sec:Design.EOL.Collections}.
+In EOL, for statements are used to iterate the contents of collections. A for statement defines a typed iterator and an iterated collection as well as a block of statements that is executed for every item in the collection that has a kind-of relationship with the type defined by the iterator. As with the majority of programming languages, modifying a collection while iterating it raises a runtime error. To avoid this situation, users can use the clone() built-in operation of the Collection type discussed in \ref{sec:Design.EOL.Collections}. 
 
-Inside the body of a \emph{for} statement two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
-
-\begin{lstlisting}[float=tbp, caption=Example of a for statement, label=lst:ForStatement, language=EOL]
+\begin{lstlisting}[float=h, caption=Example of a for statement, label=lst:ForStatement, language=EOL]
 var col : Sequence = Sequence{"a", 1, 2, 2.5, "b"};
 for (r : Real in col) {
 	r.print();
@@ -871,40 +870,9 @@ for (r : Real in col) {
 }
 \end{lstlisting}
 
-\subsection{Break, BreakAll and Continue Statements}
+Inside the body of a \emph{for} statement two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
-To exit from for and while loops on demand, EOL provides the break and breakAll statements. The break statement exits the innermost loop while the breakAll statement exits all outer loops as well. On the other hand, to skip a particular loop and proceed with the next one, EOL provides the continue statement. For example, the excerpt of Listing \ref{lst:BreakStatement}, prints \textit{2,1 3,1} to the standard output stream.
-
-\begin{lstlisting}[float=tbp, caption=Example of the break\, breakAll and continue statements, label=lst:BreakStatement, language=EOL]
-for (i in Sequence{1..3}) {
-	if (i = 1) {continue;}
-	for (j in Sequence{1..4}) {
-		if (j = 2) {break;}
-		if (j = 3) {breakAll;}
-		(i + "," + j).println();
-	}
-}
-\end{lstlisting}
-
-\subsection{Throw Statement}
-\label{sec:eol-throw}
-
-EOL provides the throw statement for throwing a value as an \class{EolUserException} Java exception. This is especially useful when invoking EOL scripts from Java code: by catching and processing the exception, the Java code may be able to automatically handle the problem without requiring user input. Any value can be thrown, as shown in Listing~\ref{lst:ThrowStatement}, where we throw a number and a string.
-
-\begin{lstlisting}[float=tbp, caption=Example of the throw statement, label=lst:ThrowStatement, language=EOL]
-throw 42;
-throw "Error!";
-\end{lstlisting}
-
-\subsection{Transaction Statement}
-
-As discussed in Section \ref{sec:EMC.ModelTransactionSupport}, the underlying EMC layer provides support for transactions in models. To utilize this feature EOL provides the transaction statement. A transaction statement (optionally) defines the models that participate in the transaction. If no models are defined, it is assumed that all the models that are accessible from the enclosing program participate. When the statement is executed, a transaction is started on each participating model. If no errors are raised during the execution of the contained statements, any changes made to model elements are committed. On the other hand, if an error is raised the transaction is rolled back and any changes made to the models in the context of the transaction are undone. The user can also use the abort statement to explicitly exit a transaction and roll-back any changes done in its context. In Listing \ref{lst:TransactionStatement}, an example of using this feature in a simulation problem is illustrated.
-
-In this problem, a system consists of a number of processors. A processor manages some tasks and can fail at any time. The EOL program in Listing \ref{lst:TransactionStatement} performs 100 simulation steps, in every one of which 10 random processors from the model (lines 7-11) are marked as failed by setting their \emph{failed} property to true (line 14). Then, the tasks that the failed processors manage are moved to other processors (line 15). Finally the availability of the system in this state is evaluated.
-
-After a simulation step, the state of the model has been drastically changed since processors have failed and tasks have been relocated. To be able to restore the model to its original state after every simulation step, each step is executed in the context of a transaction which is explicitly aborted (line \ref{line:Abort}) after evaluating the availability of the system. Therefore after each simulation step the model is restored to its original state for the next step to be executed.
-
-\begin{lstlisting}[float=tbp, caption=Example of a for statement, label=lst:TransactionStatement, language=EOL]
+\begin{lstlisting}[float=h, caption=Example of a for statement, label=lst:TransactionStatement, language=EOL]
 var system : System.allInstances.first();
 
 for (i in Sequence {1..100}) {
@@ -930,13 +898,7 @@ for (i in Sequence {1..100}) {
 }
 \end{lstlisting}
 
-\section{Extended Properties}
-\label{sec:ExtendedProperties}
-
-Quite often, during a model management operation it is necessary to associate model elements with information that is not supported by the metamodel they conform to. For instance, the EOL program in listing \ref{lst:NoExtendedProperties} calculates the depth of each Tree element in a model that conforms to the Tree metamodel displayed in Figure \ref{fig:Tree1}.
-
-
-\begin{lstlisting}[float=tbp, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, language=EOL]
+\begin{lstlisting}[float=h, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, language=EOL]
 var depths = new Map; /*@\label{line:DeclareMap}@*/
 
 for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
@@ -954,6 +916,46 @@ operation Tree setDepth(depth : Integer) {
 	}
 }
 \end{lstlisting}
+
+\subsection{Break, BreakAll and Continue Statements}
+
+To exit from for and while loops on demand, EOL provides the break and breakAll statements. The break statement exits the innermost loop while the breakAll statement exits all outer loops as well. On the other hand, to skip a particular loop and proceed with the next one, EOL provides the continue statement. For example, the excerpt of Listing \ref{lst:BreakStatement}, prints \textit{2,1 3,1} to the standard output stream.
+
+\begin{lstlisting}[float=h, caption=Example of the break\, breakAll and continue statements, label=lst:BreakStatement, language=EOL]
+for (i in Sequence{1..3}) {
+	if (i = 1) {continue;}
+	for (j in Sequence{1..4}) {
+		if (j = 2) {break;}
+		if (j = 3) {breakAll;}
+		(i + "," + j).println();
+	}
+}
+\end{lstlisting}
+
+\subsection{Throw Statement}
+\label{sec:eol-throw}
+
+EOL provides the throw statement for throwing a value as an \class{EolUserException} Java exception. This is especially useful when invoking EOL scripts from Java code: by catching and processing the exception, the Java code may be able to automatically handle the problem without requiring user input. Any value can be thrown, as shown in Listing~\ref{lst:ThrowStatement}, where we throw a number and a string.
+
+\begin{lstlisting}[float=h, caption=Example of the throw statement, label=lst:ThrowStatement, language=EOL]
+throw 42;
+throw "Error!";
+\end{lstlisting}
+
+\subsection{Transaction Statement}
+
+As discussed in Section \ref{sec:EMC.ModelTransactionSupport}, the underlying EMC layer provides support for transactions in models. To utilize this feature EOL provides the transaction statement. A transaction statement (optionally) defines the models that participate in the transaction. If no models are defined, it is assumed that all the models that are accessible from the enclosing program participate. When the statement is executed, a transaction is started on each participating model. If no errors are raised during the execution of the contained statements, any changes made to model elements are committed. On the other hand, if an error is raised the transaction is rolled back and any changes made to the models in the context of the transaction are undone. The user can also use the abort statement to explicitly exit a transaction and roll-back any changes done in its context. In Listing \ref{lst:TransactionStatement}, an example of using this feature in a simulation problem is illustrated.
+
+In this problem, a system consists of a number of processors. A processor manages some tasks and can fail at any time. The EOL program in Listing \ref{lst:TransactionStatement} performs 100 simulation steps, in every one of which 10 random processors from the model (lines 7-11) are marked as failed by setting their \emph{failed} property to true (line 14). Then, the tasks that the failed processors manage are moved to other processors (line 15). Finally the availability of the system in this state is evaluated.
+
+After a simulation step, the state of the model has been drastically changed since processors have failed and tasks have been relocated. To be able to restore the model to its original state after every simulation step, each step is executed in the context of a transaction which is explicitly aborted (line \ref{line:Abort}) after evaluating the availability of the system. Therefore after each simulation step the model is restored to its original state for the next step to be executed.
+
+
+
+\section{Extended Properties}
+\label{sec:ExtendedProperties}
+
+Quite often, during a model management operation it is necessary to associate model elements with information that is not supported by the metamodel they conform to. For instance, the EOL program in listing \ref{lst:NoExtendedProperties} calculates the depth of each Tree element in a model that conforms to the Tree metamodel displayed in Figure \ref{fig:Tree1}.
 
 \begin{figure}[t!]
 	\centering
@@ -993,7 +995,7 @@ A common assumption in model management languages is that model management tasks
 
 Model management operations can be executed in a number of runtime environments in each of which a different user-input method is more appropriate. For instance when executed in the context of an IDE (such as Eclipse) visual dialogs are preferable, while when executed in the context of a server or from within an ANT workflow, a command-line user input interface is deemed more suitable. To abstract away from the different runtime environments and enable the user to specify user interaction statements uniformly and regardless of the runtime context, EOL provides the \emph{IUserInput} interface that can be realized in different ways according to the execution environment and attached to the runtime context via the \emph{IEolContext.setUserInput(IUserInput userInput)} method. The \emph{IUserInput} specifies the methods presented in Table \ref{tab:IUserInputOperations}.
 
-\begin{longtable} {|p{5.5cm}|p{6.5cm}|}
+\begin{longtabu} {|p{6.5cm}|X|}
 			
 			\caption{Operations of IUserInput}
 			\label{tab:IUserInputOperations}\\
@@ -1016,7 +1018,7 @@ Model management operations can be executed in a number of runtime environments 
 			
 			chooseMany(message : String options : Sequence, [default : Sequence]) : Sequence & Prompts the user to select one or more of the options \\\hline
 			
-\end{longtable}
+\end{longtabu}
 
 As displayed above, all the methods of the \emph{IUserInput} interface accept a \emph{default} parameter. The purpose of this parameter is dual. First, it enables the designer of the model management program to prompt the user with the most likely value as a default choice and secondly it enables a concrete implementation of the interface (\emph{UnattendedExecutionUserInput}) which returns the default values without prompting the user at all and thus, can be used for unattended execution of interactive Epsilon programs. Figures \ref{fig:EclipseUserInput} and \ref{fig:ConsoleUserInput} demontrate the interfaces through which input is required by the user when the exemplar \emph{System.user.promptInteger('Please enter a number', 1);} statement is executed using  an Eclipse-based and a command-line-based \emph{IUserInput} implementation respectively.
 
