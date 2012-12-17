@@ -25,9 +25,6 @@
 \usepackage{tabularx}
 \usepackage{tabu}
 
-%\usepackage{showframe}
-
-
 % Page formating
 \setstocksize{11in}{8.5in}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
@@ -38,28 +35,8 @@
 \setheaderspaces{*}{0in}{*}
 \checkandfixthelayout 
 
-\newcommand\BackgroundPic{
-\put(-4,0){
-\parbox[b][\paperheight]{\paperwidth}{%
-\vfill
-\centering
-\includegraphics[width=\paperwidth,height=\paperheight,
-keepaspectratio]{background.png}%
-\vfill
-}}}
-
 \input{listings/all}
-
 \newsubfloat{figure}
-
-\title{\fontfamily{put}\selectfont{\huge{\bfseries{Epsilon}}}}
-\author{
-Dimitrios S. Kolovos, Richard F. Paige, \\Louis M. Rose and Fiona A.C. Polack\\\\ 
-Department of Computer Science,\\\\The University of York\\\\\\
-Antonio Garc\'{\i}a-Dom\'{\i}nguez,\\\\University of C\'adiz (Spain)
-}
-\date{\today}
-
 % number up to subsections
 \setsecnumdepth{subsection}
 
@@ -91,17 +68,23 @@ Antonio Garc\'{\i}a-Dom\'{\i}nguez,\\\\University of C\'adiz (Spain)
 \newcommand*{\javaannotation}[1]{\texttt{@#1}}
 \tabulinesep = 0.2cm
 
-\begin{document}
+\begin{document} 
+
 \pagestyle{empty}
-\AddToShipoutPicture*{\BackgroundPic}
-\phantom{invisible}
+
+\begin{center}
+\includegraphics{backgroundsmall.png} 
+\vspace{13cm}
+\\
+\large{Dimitris Kolovos, Louis Rose, Antonio Garc\'{\i}a-Dom\'{\i}nguez, Richard Paige}
+\end{center}
+
 \clearpage 
 Last update: \today{}.
 \cleardoublepage
-\pagestyle{plain}
-\mbox{}
+
 \OnehalfSpacing
-%\maketitle
+
 
 \tableofcontents
 \clearpage
@@ -109,23 +92,14 @@ Last update: \today{}.
 \clearpage
 \listoftables
 \clearpage
-
-\input{Acknowledgements}
-
-%\pagebreak
+%\clearpage
 %\lstlistoflistings
 
-
+\input{Acknowledgements}
 \input{Introduction}
-
-%\input{InstallingEpsilon}
-
 \input{Design} %change to infrastructure
-
 \input{TaskSpecificLanguages}
-
 \input{Workflow}
-
 \input{EUnit}
 
 \bibliographystyle{unsrt}
