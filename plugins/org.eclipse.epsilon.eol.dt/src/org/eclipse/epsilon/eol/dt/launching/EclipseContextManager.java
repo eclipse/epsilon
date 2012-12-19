@@ -35,6 +35,7 @@ import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.ui.PlatformUI;
@@ -64,6 +65,7 @@ public class EclipseContextManager {
 	
 	public static void setup(IEolContext context) {
 		loadPrettyPrinters(context);
+		loadOperationContributors(context);
 		loadIo(context);
 		context.getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());		
 	}
@@ -106,6 +108,22 @@ public class EclipseContextManager {
 			try {
 				prettyPrinter = (PrettyPrinter) configurationElement.createExecutableExtension("class");
 				context.getPrettyPrinterManager().addPrettyPrinter(prettyPrinter);
+			} catch (CoreException e) {
+				//PDE.log(e);
+			}
+		}
+	}
+	
+	private static void loadOperationContributors(IEolContext context) {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.operationContributor");
+		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
+		for (int i=0;i<configurationElements.length; i++){
+			IConfigurationElement configurationElement = configurationElements[i];
+			OperationContributor operationContributor;
+			try {
+				operationContributor = (OperationContributor) configurationElement.createExecutableExtension("class");
+				context.getOperationContributorRegistry().add(operationContributor);
 			} catch (CoreException e) {
 				//PDE.log(e);
 			}
