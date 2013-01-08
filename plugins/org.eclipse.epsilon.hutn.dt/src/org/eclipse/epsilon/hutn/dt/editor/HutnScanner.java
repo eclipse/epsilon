@@ -30,8 +30,10 @@ public class HutnScanner extends RuleBasedScanner {
 
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
 	public static final Color STRING  = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+	public static final Color BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
 	public static final Color BOOLEAN = new Color(Display.getCurrent(), new RGB(0, 192, 0));
 	public static final Color KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
+
 	
 	private final List<IRule> basicRules = new LinkedList<IRule>();
 	
@@ -39,11 +41,16 @@ public class HutnScanner extends RuleBasedScanner {
 		basicRules.add(new EndOfLineRule("//", new Token(new TextAttribute(COMMENT))));
 		
 		basicRules.add(new SingleLineRule("\"", "\"", new Token(new TextAttribute(STRING)), '\\'));
+		basicRules.add(new SingleLineRule("'", "'", new Token(new TextAttribute(STRING)), '\\'));
 		
 		final WordRule booleanRule = new WordRule(new HutnWordDetector());
 		booleanRule.addWord("true",  new Token(new TextAttribute(BOOLEAN)));
 		booleanRule.addWord("false", new Token(new TextAttribute(BOOLEAN)));
 		basicRules.add(booleanRule);
+		
+		final WordRule nullRule = new WordRule(new HutnWordDetector());
+		nullRule.addWord("null",  new Token(new TextAttribute(BUILTIN, null, SWT.ITALIC)));
+		basicRules.add(nullRule);
 		
 		setRules(basicRules);
 	}
