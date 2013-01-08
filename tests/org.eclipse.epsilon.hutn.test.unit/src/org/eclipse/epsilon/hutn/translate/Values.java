@@ -37,12 +37,13 @@ public class Values extends HutnTranslatorTest {
 		final ModelWithEolAssertions model = translatorTest(ast);
 		model.setVariable("package", "spec.objects.first()");
 		model.setVariable("class",   "package.classObjects.first()");
-		model.setVariable("slot" ,   "class.slots.at(0)");
 				
 		if (expectedValue == null)
-			model.assertTrue("slot.values.isEmpty()");
-		else
+			model.assertTrue("class.slots.isEmpty()");
+		else {
+			model.setVariable("slot" ,   "class.slots.at(0)");
 			model.assertEquals(expectedValue, "slot.values.first()");
+		}
 	}
 	
 	@Test

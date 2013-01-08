@@ -37,6 +37,7 @@ import org.eclipse.epsilon.hutn.test.acceptance.valid.ExternalObjectReferenceRel
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InferEmptyInstanceForRequiredReference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Inference;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.InfixAssociation;
+import org.eclipse.epsilon.hutn.test.acceptance.valid.NullValues;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.ObjectShorthands;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.Simple;
 import org.eclipse.epsilon.hutn.test.acceptance.valid.SpecOnly;
@@ -56,7 +57,8 @@ import org.junit.runners.Suite.SuiteClasses;
                ClassifierLevelAttributes.class, ClassifierLevelAttributePrecedence.class, 
                AssociationBlock.class, InfixAssociation.class,
                ExternalObjectReference.class, ExternalObjectReferenceRelative.class, TwoMetamodels.class,
-               ContainmentRepeatedFeatureName.class, InferEmptyInstanceForRequiredReference.class})
+               ContainmentRepeatedFeatureName.class, InferEmptyInstanceForRequiredReference.class,
+               NullValues.class})
 public class ValidHutnAcceptanceTestSuite {
 
 	public static Test suite() {

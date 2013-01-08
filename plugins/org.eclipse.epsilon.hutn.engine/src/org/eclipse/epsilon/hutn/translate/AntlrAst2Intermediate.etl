@@ -262,26 +262,33 @@ operation AntlrAst!AdjectiveNode getValue() : Boolean {
 operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 	var slot := self.findSlot(n.text);
 	
-	if (slot.isUndefined() or slot.isDifferentTypeTo(n.children.first().toSlot())) {
-		slot := n.children.first().toSlot();
-		slot.feature := n.text;
-	}
-	
-	if (Intermediate!ReferenceSlot.isType(slot)) {
-		for (valueNode in n.children) {
-			slot.values.add(valueNode.getValue());
-		}
-				
+	// Don't create (or remove the existing) slot if the value is null
+	if (AntlrAst!NullNode.isType(n.children.first())) {
+		delete slot; // "Overwrite" any existing slot with null
+
+	// Otherwise, go ahead and create or re-use a slot			
 	} else {
-		for (valueNode in n.children) {
-			if (valueNode.text.isDefined()) {
+		if (slot.isUndefined() or slot.isDifferentTypeTo(n.children.first().toSlot())) {
+			slot := n.children.first().toSlot();
+			slot.feature := n.text;
+		}
+		
+		if (Intermediate!ReferenceSlot.isType(slot)) {
+			for (valueNode in n.children) {
 				slot.values.add(valueNode.getValue());
 			}
+				
+		} else {
+			for (valueNode in n.children) {
+				if (valueNode.text.isDefined()) {
+					slot.values.add(valueNode.getValue());
+				}
+			}
 		}
+		
+		slot.addTraceabilityInfo(n);
+		self.slots.add(slot);
 	}
-	
-	slot.addTraceabilityInfo(n);
-	self.slots.add(slot);
 }
 
 post {
@@ -290,11 +297,6 @@ post {
 
 operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
 	return self.eClass.name <> other.eClass.name;
-}
-
--- Nulls --
-operation AntlrAst!NullNode toSlot() : Intermediate!Slot {
-	return new Intermediate!AttributeSlot;
 }
 
 -- Booleans --
