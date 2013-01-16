@@ -256,11 +256,22 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	}
 	
 	public void storeIntermediateModelTransformation(File destination) throws HutnGenerationException {
+		storeIntermediateModelTransformation(destination, false);
+	}
+	
+	public void storeIntermediateModelTransformationForAllInputModels(File destination) throws HutnGenerationException {
+		storeIntermediateModelTransformation(destination, true);
+	}
+
+	private void storeIntermediateModelTransformation(File destination, boolean generateCompleteTransformation) throws HutnGenerationException {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
 		try {
+			final ModelGenerator modelGenerator = new ModelGenerator(spec);
+			if (generateCompleteTransformation) { modelGenerator.forceGenerationOfTransformationForWholeMetamodel(); }
+			
 			final FileWriter writer = new FileWriter(destination);
-			writer.write(new ModelGenerator(spec).generateTransformation());
+			writer.write(modelGenerator.generateTransformation());
 			writer.close();
 		} catch (IOException e) {
 			throw new HutnGenerationException(e);

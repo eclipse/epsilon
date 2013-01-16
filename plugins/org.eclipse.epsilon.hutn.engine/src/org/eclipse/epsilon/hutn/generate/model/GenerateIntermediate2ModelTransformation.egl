@@ -1,9 +1,14 @@
+[*
+	This M2T transformation must be executed with the following parameter:
+		classes : Collection(EClass) - the types for which transformation rules
+		(of the form ClassObject2Type) will be generated.
+*]
 pre {
 	var EmfTool := new Native('org.eclipse.epsilon.emc.emf.tools.EmfTool');
 }
 
 [% if (not PackageObject.all.isEmpty()) { %]
-	[% for (class in getAllEClassesUsed()) { %]
+	[% for (class in classes) { %][* Note classes is a parameter to the script, as discussed above. *]
 	rule Object2[%=class.name%]
 	  transform o : Intermediate!ClassObject
 	  to t : Model!`[%=class.name%]` {
@@ -59,20 +64,3 @@ operation String getEObject(slot : ReferenceSlot) : Any {
 		return slot.getClassObjects().selectOne(c|c.identifier = self).equivalent();
 	}
 }
-
-
-[%
-  operation getAllEClassesUsed() : Sequence {
-	var types := new Set;
-	var classes := new Sequence;
-
-	for (classObject in ClassObject.all) {
-		if (types.excludes(classObject.type)) {
-			types.add(classObject.type);
-			classes.add(classObject.getEClass());
-		}
-	}
-	
-	return classes;
-  }
-%]

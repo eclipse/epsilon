@@ -42,6 +42,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 	private String debugDirName;
 	private String intermediateModelName;
 	private String transformationName;
+	private String reusableTransformationName;
 	private String launchConfigName;
 	private String targetModelName;
 	
@@ -65,6 +66,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 					// Store intermediate model and transformation
 					hutnModule.storeIntermediateModel(createFileInDebugDir(intermediateModelName));
 					hutnModule.storeIntermediateModelTransformation(createFileInDebugDir(transformationName));
+					hutnModule.storeIntermediateModelTransformationForAllInputModels(createFileInDebugDir(reusableTransformationName));
 					
 					storeLaunchConfiguration();
 					
@@ -85,11 +87,12 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 	private void determineNames(IFile file) {
 		final String sourceFileName = file.getLocation().removeFileExtension().lastSegment();
 		
-		debugDirName          = sourceFileName+"-hutn-debug";
-		intermediateModelName = sourceFileName + "-Intermediate.model";
-		transformationName    = "Intermediate2" + sourceFileName + ".etl";
-		targetModelName       = "Debug-" + sourceFileName + ".model";
-		launchConfigName      = "Intermediate2" + sourceFileName;
+		debugDirName               = sourceFileName+"-hutn-debug";
+		intermediateModelName      = sourceFileName + "-Intermediate.model";
+		transformationName         = "Intermediate2" + sourceFileName + ".etl";
+		reusableTransformationName = "Intermediate2" + sourceFileName + "Complete.etl";
+		targetModelName            = "Debug-" + sourceFileName + ".model";
+		launchConfigName           = "Intermediate2" + sourceFileName;
 	}
 	
 	private void emptyOrCreateDebugDir(IFolder location) throws CoreException {

@@ -11,11 +11,14 @@
 package org.eclipse.epsilon.hutn.generate.model;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.egl.EglTemplate;
@@ -24,13 +27,17 @@ import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.generate.AbstractGenerator;
+import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
+import org.eclipse.epsilon.hutn.model.hutn.NsUri;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.util.EmcUtil;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
@@ -38,38 +45,42 @@ import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 public class ModelGenerator extends AbstractGenerator {
 
 	private final IModel source;
-	private final IModel metaModel;
+	private final Collection<IModel> metaModels = new LinkedList<IModel>();	
+	private final List<String> metaModelUris = new LinkedList<String>();
 	
-	private boolean metaModelIsFileBased;
-	private File metaModelFile;
-	private String metaModelUri;
+	private boolean generateTransformationForWholeMetamodel = false;
 	
 	public ModelGenerator(Spec spec) throws HutnGenerationException {
 		if (spec.getNsUris().isEmpty())
 			throw new IllegalArgumentException("Spec does not contain any nsUris: " + spec);
 		
 		try {
-			this.metaModelIsFileBased = false;
-			this.metaModelUri = spec.getNsUris().get(0).getValue();
-						
 			source = new InMemoryEmfModel("Intermediate", spec.eResource(), HutnPackage.eINSTANCE);
-			metaModel = new EmfMetaModel("MetaModel", this.metaModelUri);
-			metaModel.load();
+			
+			for (NsUri nsUri : spec.getNsUris()) {
+				this.metaModelUris.add(nsUri.getValue());
+				
+				final IModel metaModel = new EmfMetaModel("MetaModel", nsUri.getValue());
+				metaModel.load();
+				metaModels.add(metaModel);
+			}
 		
 		} catch (EolModelLoadingException e) {
 			throw new HutnGenerationException(e);
 		}
 	}
 	
-	public ModelGenerator(Spec spec, File metaModelFile) throws HutnGenerationException {
-		try {
-			this.metaModelIsFileBased = true;
-			this.metaModelFile = metaModelFile;
-			
-			EmfUtil.register(URI.createFileURI(metaModelFile.getAbsolutePath()), EPackage.Registry.INSTANCE);
+	public ModelGenerator(Spec spec, File... metaModelFiles) throws HutnGenerationException {
+		try {			
 			
 			source = new InMemoryEmfModel("Intermediate", spec.eResource(), HutnPackage.eINSTANCE);
-			metaModel = EmcUtil.loadMetaModel("MetaModel", metaModelFile);
+			
+			for (File metaModelFile : metaModelFiles) {
+				this.metaModelUris.add(URI.createFileURI(metaModelFile.getAbsolutePath()).toString());
+				
+				EmfUtil.register(URI.createFileURI(metaModelFile.getAbsolutePath()), EPackage.Registry.INSTANCE);				
+				metaModels.add(EmcUtil.loadMetaModel("MetaModel", metaModelFile));
+			}
 		
 		} catch (Exception e) {
 			throw new HutnGenerationException(e);
@@ -79,9 +90,11 @@ public class ModelGenerator extends AbstractGenerator {
 	protected String[] getNsUrisForTargetModel() throws EolModelElementTypeNotFoundException {
 		final List<String> nsUris = new LinkedList<String>();
 		
-		for (Object o : metaModel.getAllOfType("EPackage")) {
-			if (o instanceof EPackage) {
-				nsUris.add(((EPackage)o).getNsURI());
+		for (IModel metaModel : metaModels) {
+			for (Object o : metaModel.getAllOfType("EPackage")) {
+				if (o instanceof EPackage) {
+					nsUris.add(((EPackage)o).getNsURI());
+				}
 			}
 		}
 		
@@ -91,15 +104,9 @@ public class ModelGenerator extends AbstractGenerator {
 	protected EmfModel generate(Resource resource) throws HutnGenerationException {
 		try {
 			final EmfModel target = new InMemoryEmfModel("Model", resource, getNsUrisForTargetModel());
-			final IEtlModule transformer = EpsilonUtil.initialiseEtlModule(source, target, metaModel);
-							
-			target.setMetamodelFileBased(metaModelIsFileBased);
+			final IEtlModule transformer = EpsilonUtil.initialiseEtlModule(source, target);
 			
-			if (metaModelIsFileBased) {
-				target.setMetamodelFile(metaModelFile.getAbsolutePath());
-			} else {
-				target.setMetamodelUri(metaModelUri);
-			}
+			target.setMetamodelUris(metaModelUris);
 			
 			/*  modelFile needs to be set for load() to work
 			 *  but as we set readOnLoad to false, the value of
@@ -126,13 +133,26 @@ public class ModelGenerator extends AbstractGenerator {
 		}
 	}
 	
+	public void forceGenerationOfTransformationForWholeMetamodel() {
+		generateTransformationForWholeMetamodel = true;
+	}
+	
 	public String generateTransformation() throws HutnGenerationException {
 		try {
 			final EglTemplateFactory generator = new EglTemplateFactory();
-//			generator.getContext().getModelRepository().addModel(metaModel);
 			generator.getContext().getModelRepository().addModel(source);
 			
 			final EglTemplate template = generator.load(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
+			
+			final Collection<EClass> classes;
+			
+			if (generateTransformationForWholeMetamodel) {
+				classes = getAllClassesFromMetamodel();
+			} else {
+				classes = getOnlyClassesThatAreUsedInSource();
+			}
+			
+			generator.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("classes", classes));
 			
 			final String transformation = template.process();
 //			System.err.println(transformation);
@@ -141,5 +161,27 @@ public class ModelGenerator extends AbstractGenerator {
 		} catch (Exception e) {
 			throw new HutnGenerationException(e);
 		}
+	}
+
+	private Collection<EClass> getOnlyClassesThatAreUsedInSource() throws EolRuntimeException {
+		final Set<EClass> classes = new HashSet<EClass>();
+	
+		for (Object o : source.getAllOfKind("ClassObject")) {
+			classes.add(((ClassObject)o).getEClass());
+		}
+		
+		return classes;
+	}
+
+	private Collection<EClass> getAllClassesFromMetamodel() throws EolRuntimeException {
+		final Set<EClass> classes = new HashSet<EClass>();
+		
+		for (IModel metaModel : metaModels) {
+			for (Object clazz : metaModel.getAllOfKind("EClass")) {
+				classes.add((EClass) clazz);
+			}
+		}
+		
+		return classes;
 	}
 }

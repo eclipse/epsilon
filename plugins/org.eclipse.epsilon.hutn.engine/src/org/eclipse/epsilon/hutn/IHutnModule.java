@@ -63,6 +63,8 @@ public interface IHutnModule extends IEolLibraryModule {
 	public void storeIntermediateModel(File destination);
 	
 	public void storeIntermediateModelTransformation(File destination) throws HutnGenerationException;
+	
+	public void storeIntermediateModelTransformationForAllInputModels(File destination) throws HutnGenerationException;
 
 	/**
 	 * Returns false only if the HUTN source passed to parse is not valid HUTN.
