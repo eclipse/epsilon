@@ -20,9 +20,6 @@ pre {
 			[% if (attribute.isMany()) { %]
 				for (value in o.findSlot('[%=attribute.name%]').values) {
 					t.`[%=attribute.name%]`.add(value);
-
-						t.`[%=attribute.name%]`.add(value);
-
 				}
 			[% } else { %]
 
