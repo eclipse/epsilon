@@ -204,7 +204,7 @@ By default, EGL provides a \emph{TemplateFactory} that exposes operations for lo
 			
 			prepare(code : String) : Template & Returns an instance of \emph{Template} that can be used to execute the specified EGL code.  \\\hline
 			
-			setRoot(path : String) & Changes the default path that is used to resolve relative paths when generating files to disk. Subsequent calls to load and prepare will create templates that use the new path. \\\hline
+			setOutputRoot(path : String) & Changes the default path that is used to resolve relative paths when generating files to disk. Subsequent calls to load and prepare will create templates that use the new path. \\\hline
 			
 			setTemplateRoot(path : String) & Changes the default path that is used to resolve relative paths when loading templates with the load operation. Subsequent calls to load will use the new path. \\\hline
 			
@@ -221,7 +221,7 @@ The operations provided by the \emph{TemplateFactory} object and \emph{Template}
 \begin{lstlisting}[float=tbp, caption=Using the various operations provided by the Template type and TemplateFactory object., label=lst:co-ordination_complete, language=EGL]
 [%
   TemplateFactory.setTemplateRoot("/usr/franz/templates");
-	TemplateFactory.setRoot("/tmp/output");
+	TemplateFactory.setOutputRoot("/tmp/output");
 
   var interface      : Template =
     TemplateFactory.prepare("public interface [%=root.name] {}");
