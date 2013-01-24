@@ -16,9 +16,9 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class AnyOperationContributor extends OperationContributor {
 	
@@ -144,11 +144,11 @@ public class AnyOperationContributor extends OperationContributor {
 		return println("", "");
 	}
 	
-	public Object println(String prefix) {
+	public Object println(Object prefix) {
 		return println(prefix, "");
 	}
 	
-	public Object println(String prefix, String suffix) {
+	public Object println(Object prefix, Object suffix) {
 		context.getOutputStream().
 			println(prefix + context.getPrettyPrinterManager().print(target) + suffix);
 		return target;
@@ -158,11 +158,11 @@ public class AnyOperationContributor extends OperationContributor {
 		return print("", "");
 	}
 	
-	public Object print(String prefix) {
+	public Object print(Object prefix) {
 		return print(prefix, "");
 	}
 	
-	public Object print(String prefix, String suffix) {
+	public Object print(Object prefix, Object suffix) {
 		context.getOutputStream().
 			print(prefix + context.getPrettyPrinterManager().print(target) + suffix);
 		return target;
@@ -172,11 +172,11 @@ public class AnyOperationContributor extends OperationContributor {
 		return err("", "");
 	}
 	
-	public Object err(String prefix) {
+	public Object err(Object prefix) {
 		return err(prefix, "");
 	}
 	
-	public Object err(String prefix, String suffix) {
+	public Object err(Object prefix, Object suffix) {
 		context.getErrorStream().
 			print(prefix + context.getPrettyPrinterManager().print(target) + suffix);
 		return target;
@@ -186,11 +186,11 @@ public class AnyOperationContributor extends OperationContributor {
 		return errln("", "");
 	}
 	
-	public Object errln(String prefix) {
+	public Object errln(Object prefix) {
 		return errln(prefix, "");
 	}
 	
-	public Object errln(String prefix, String suffix) {
+	public Object errln(Object prefix, Object suffix) {
 		context.getErrorStream().
 			println(prefix + context.getPrettyPrinterManager().print(target) + suffix);
 		return target;
