@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.AsOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ClosureOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FindOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.OneOperation;
@@ -58,6 +59,8 @@ public class OperationFactory {
 		operationCache.put("sortBy", new SortByOperation());
 		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
+		operationCache.put("find", new FindOperation());
+		
 	}
 
 	
