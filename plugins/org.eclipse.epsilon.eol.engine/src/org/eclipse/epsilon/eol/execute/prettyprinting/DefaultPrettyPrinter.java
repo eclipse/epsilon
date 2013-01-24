@@ -15,10 +15,9 @@ import java.util.Iterator;
 
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
-import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.collectionType_return;
-import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMap;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class DefaultPrettyPrinter implements PrettyPrinter{
 	
@@ -68,7 +67,7 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			
 			return result;
 		}
-		else if (o instanceof IUndefined) {
+		else if (o instanceof IUndefined || o instanceof EolNoTypeInstance) {
 			return "";
 		}
 		
