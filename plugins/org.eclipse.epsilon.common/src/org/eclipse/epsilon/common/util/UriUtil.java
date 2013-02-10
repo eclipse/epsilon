@@ -32,13 +32,24 @@ public abstract class UriUtil {
 			for (URI parent : relativeTo) {
 				if (parent!=null) {
 					
-					final URI resolved = parent.resolve(path);
+					boolean parentIsJar = false;
 					
-					if (resolved.isAbsolute() && resolved.getScheme() != null)
+					if (parent.toString().startsWith("jar:file:/")) {
+						parentIsJar = true;
+						parent = new URI(parent.toString().replace("jar:file:/", "jar:/"));
+					}
+					
+					URI resolved = parent.resolve(path);
+					
+					if (resolved.isAbsolute() && resolved.getScheme() != null) {
+						if (parentIsJar) {
+							resolved = new URI(resolved.toString().replace("jar:/", "jar:file:/"));
+						}
 						return resolved;
-					
-					else	
+					}
+					else {
 						return new URI(parent.toString() + path);
+					}
 				}
 			}
 		}
