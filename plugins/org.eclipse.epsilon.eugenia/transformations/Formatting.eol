@@ -1,8 +1,14 @@
 operation ECore!EClass createFigure() {
 	
-	var shapeName := self.getFormatOption('figure');
+	var shapeName  := self.getFormatOption('figure');
+	var marginSize := self.getFormatOption('margin');
+	if (marginSize.isUndefined()) {
+	  marginSize := 5;
+	} else {
+	  marginSize := marginSize.asInteger();
+	}
+
 	var shape;
-	
 	if (shapeName = 'rectangle') {
 		shape := new GmfGraph!Rectangle;
 	}
@@ -32,12 +38,14 @@ operation ECore!EClass createFigure() {
 	else {
 		shape := new GmfGraph!CustomFigure;
 		shape.qualifiedClassName := shapeName;
+		marginSize := 0;
 	}
-	
-	if (not shape.isTypeOf(GmfGraph!CustomFigure)) {
+
+    
+	if (marginSize > 0) {
 		var marginBorder := new GmfGraph!MarginBorder;
 		var insets := new GmfGraph!Insets;
-		var border := 5;
+		var border := marginSize;
 		insets.top := border;
 		insets.bottom := border;
 		insets.left := border;

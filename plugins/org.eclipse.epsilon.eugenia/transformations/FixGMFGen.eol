@@ -91,6 +91,22 @@ if (GmfGraph!SVGFigure.all.size > 0) {
 	genPlugin.requiredPlugins.add('org.eclipse.gmf.runtime.lite.svg');
 }
 
+-- Make not resizable upon request
+for (node in getNodes()) {
+	if (node.getAnnotationValue('gmf.node', 'resizable') == 'false') {
+		var figureClass = node.name + 'Figure';
+		var figure_viewmaps = GmfGen!InnerClassViewmap.all.select(r|r.className = figureClass);
+
+		for (figure_viewmap in figure_viewmaps) {
+    		-- Resize constraint which forbids resizing
+    		-- NORTH (1), SOUTH (4), EAST (8) and WEST (16): all handles are not resizable
+    		var resizeconstraint_not_resizable = new GmfGen!ResizeConstraints;
+    		resizeconstraint_not_resizable.nonResizeHandles := 31;
+    		figure_viewmap.attributes.add(resizeconstraint_not_resizable);
+		}
+	}
+}
+
 operation setIncoming(name : String, value : Boolean) {
 	var genEditPart := GmfGen!GenLink.all.selectOne(l|l.editPartClassName = name + 'EditPart');
 		
