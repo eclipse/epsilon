@@ -374,6 +374,20 @@ for (class in getLinks()) {
 		linkMapping.sourceMetaFeature := class.getLinkSourceFeature();
 		linkMapping.linkMetaFeature := class.getLinkTargetFeature();
 		linkMappings.add(linkMapping);
+
+		var sourceEndConstraint := class.getSourceConstraint();
+		var targetEndConstraint := class.getTargetConstraint();
+		if (sourceEndConstraint.isDefined() or targetEndConstraint.isDefined()) {
+			linkMapping.creationConstraints := new GmfMap!LinkConstraints;
+			if (sourceEndConstraint.isDefined()) {
+				linkMapping.creationConstraints.sourceEnd := new GmfMap!Constraint;
+				linkMapping.creationConstraints.sourceEnd.body := sourceEndConstraint;				
+			}
+			if (targetEndConstraint.isDefined()) {
+				linkMapping.creationConstraints.targetEnd := new GmfMap!Constraint;
+				linkMapping.creationConstraints.targetEnd.body := targetEndConstraint;
+			}
+		}
 	}
 	
 	-- Create connection label

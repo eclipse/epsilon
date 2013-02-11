@@ -155,6 +155,16 @@ operation ECore!EClass getLinkTargetFeature() {
 }
 
 @cached
+operation ECore!EClass getSourceConstraint() {
+	return self.getAnnotationValue('gmf.link', 'source.constraint');
+}
+
+@cached
+operation ECore!EClass getTargetConstraint() {
+	return self.getAnnotationValue('gmf.link', 'target.constraint');
+}
+
+@cached
 operation ECore!EReference isLink() : Boolean {
 	return self.isAnnotatedAs('gmf.link');
 }
