@@ -218,7 +218,9 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		FixGmfGenDelegate fixGmfGenDelegate = new FixGmfGenDelegate();
 		fixGmfGenDelegate.setClearConsole(false);
 		fixGmfGenDelegate.setSelectedFile(selectedFile);
+		fixGmfGenDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmfgen));
 		fixGmfGenDelegate.runImpl(action);
+		fixGmfGenDelegate.refresh();
 	}
 
 	private void generateEMFCode(final IAction action) throws Exception {

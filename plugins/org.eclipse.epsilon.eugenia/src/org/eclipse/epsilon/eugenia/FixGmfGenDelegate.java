@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eugenia;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -37,8 +38,14 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	public List<IModel> getModels() throws Exception {
 		List<IModel> models = new ArrayList<IModel>();
 
-		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, false, true));
+		// Antonio: GmfGen needs to be disposed before all the others: otherwise, all its contents
+		// disappear during disposal and we end up saving an empty model. It only happens when we
+		// refer to something in the .genmodel from the .gmfgen model, as we do for the new
+		// 'label.parser' annotation.
 		models.add(loadModel("GmfGen", gmfFileSet.getGmfGenPath(), GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
+
+		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, false, true));
+		models.add(loadModel("GenModel", gmfFileSet.getGenModelPath(), GenModelPackage.eINSTANCE.getNsURI(), true, false, false));
 		models.add(loadModel("GmfGraph", gmfFileSet.getGmfGraphPath(), GMFGraphPackage.eINSTANCE.getNsURI(), true, false, false));
 		models.add(loadModel("GmfTool", gmfFileSet.getGmfToolPath(), GMFToolPackage.eINSTANCE.getNsURI(), true, false, false));
 		models.add(loadModel("GmfMap", gmfFileSet.getGmfMapPath(), GMFMapPackage.eINSTANCE.getNsURI(), true, false, false));
