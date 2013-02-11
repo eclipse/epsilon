@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.egl.test.acceptance.engine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
@@ -59,17 +60,16 @@ public class Engine {
 	public void testImportEgl() throws Exception {
 		AcceptanceTestUtil.test(OO2JavaImportEglProgram, OO2JavaExpected, Model.OOInstance);
 	}
-	
+
 	@Test
 	public void testBadImport() throws Exception {
 		AcceptanceTestUtil.run(NonExistentImport);
-		
+
 		final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
-		
 		assertEquals(1, problems.size());
-		assertEquals("File NonExistent.egl contains errors", problems.iterator().next().getReason());
+		assertTrue(problems.iterator().next().getReason().contains("NonExistent.egl"));
 	}
-	
+
 	@Test (expected=EglRuntimeException.class)
 	public void testRuntimeException() throws Exception {
 		try {

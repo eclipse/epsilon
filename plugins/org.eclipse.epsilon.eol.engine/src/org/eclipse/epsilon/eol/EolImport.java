@@ -65,6 +65,9 @@ public class EolImport extends AbstractModuleElement{
 						uri = new URI(sNewURI);
 						importedModule.parse(uri);
 					}
+					else {
+						throw e;
+					}
 				}
 			}
 			

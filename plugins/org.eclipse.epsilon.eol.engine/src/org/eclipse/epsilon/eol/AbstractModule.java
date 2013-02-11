@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,13 +7,12 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - refactor parse(...) methods
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -53,6 +52,11 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public abstract void reset();
 
+	@Override
+	public AST getAst() {
+		return ast;
+	}
+
 	public abstract List<ModuleElement> getChildren();
 	
 	public List<ParseProblem> getParseProblems() {
@@ -65,62 +69,26 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public boolean parse(String code, File file) throws Exception {
 		this.sourceFile = file;
-		if (file != null) {
-			this.sourceUri = file.toURI();
-		}
-		
-		Lexer lexer = createLexer(new ByteArrayInputStream(code.getBytes()));
-		CommonTokenStream stream = new CommonTokenStream(lexer);
-		EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(file);
-		parser = createParser(stream);
-		parser.setDeepTreeAdaptor(adaptor);
-		return invokeMainRule();
+		this.sourceUri = (file != null) ? file.toURI() : null;
+		return parse(sourceUri, new ByteArrayInputStream(code.getBytes()));
 	}
-	
-	public boolean parse(URI uri) throws Exception {
-		this.sourceUri = uri;
-		
-		final String uriScheme = uri.getScheme();
-		if ("file".equals(uriScheme)) {
-			this.sourceFile = new File(uri);
-		}
-		
-		Lexer lexer = null;
-		BufferedReader fr = null;
-		try {
-			lexer = createLexer(uri.toURL().openStream());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 
-		EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri);
-		
-		CommonTokenStream stream = new CommonTokenStream(lexer);
-		parser = createParser(stream);
-		parser.setDeepTreeAdaptor(adaptor);
-		
-		boolean mainRuleResult = invokeMainRule();
-		
-		try {
-			if (fr != null) {
-				fr.close();
-			}
-		}
-		catch (Throwable t) {
-			// Ignore exception
-		}
-		
-		return mainRuleResult;
-	}
-	
 	public boolean parse(File file) throws Exception {
 		return parse(file.toURI());
 	}
 
+	public boolean parse(URI uri) throws Exception {
+		this.sourceUri = uri;
+
+		final String uriScheme = uri.getScheme();
+		if ("file".equals(uriScheme)) {
+			this.sourceFile = new File(uri);
+		}
+
+		return parse(uri, uri.toURL().openStream());
+	}
+
 	protected boolean invokeMainRule() throws Exception {
-		
-		parseProblems.clear();
-		
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
 		try {
@@ -157,9 +125,25 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		}
 	}
 
-	@Override
-	public AST getAst() {
-		return ast;
+	private boolean parse(URI uri, final InputStream iStream) throws Exception {
+		parseProblems.clear();
+		try {
+			final Lexer lexer = createLexer(iStream);
+			final CommonTokenStream stream = new CommonTokenStream(lexer);
+			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri);
+
+			parser = createParser(stream);
+			parser.setDeepTreeAdaptor(adaptor);
+
+			return invokeMainRule();
+		}
+		catch (Exception ex) {
+			parseProblems.add(new ParseProblem("Exception during parsing: " + ex.getLocalizedMessage(), ParseProblem.ERROR));
+			throw ex;
+		}
+		finally {
+			iStream.close();
+		}
 	}
-	
+
 }
