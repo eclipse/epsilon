@@ -202,7 +202,6 @@ operation ECore!EClass isNode() : Boolean {
 
 @cached
 operation ECore!EClass getLabelName() : String {
-	--return self.name + self.getLabelAttribute().name.firstToUpperCase();
 	return self.name + 'Label';
 }
 

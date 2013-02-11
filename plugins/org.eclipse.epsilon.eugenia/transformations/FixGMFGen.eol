@@ -114,19 +114,3 @@ operation setIncoming(name : String, value : Boolean) {
 		genEditPart.incomingCreationAllowed := value;
 	}
 }
-
--*
-for (node in getNodes()) {
-	
-	if (node.getLabelClass().isDefined()) {
-	
-		var parentAssignedViewMap := GmfGen!ParentAssignedViewmap.all.selectOne(viewMap|viewMap.getterName = 'getFigure' + node.name + 'LabelFigure');
-		
-		parentAssignedViewMap.println('->' + node.name).figureQualifiedClassName := node.getLabelClass();
-		
-		var innerClassViewmap := GmfGen!InnerClassViewmap.all.selectOne(viewMap|viewMap.className = node.name + 'Figure');
-		innerClassViewmap.classBody := innerClassViewmap.classBody.replace('org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel',node.getLabelClass());
-		
-	}
-}
-*-

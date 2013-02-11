@@ -102,24 +102,10 @@ operation GmfGraph!Figure formatNode(e : ECore!EModelElement) {
 }
 
 operation GmfGraph!PolylineConnection formatConnection(e) {
-	
 	self.sourceDecoration := createPolylineDecoration(self.name + 'SourceDecoration', e.getFormatOption('source.decoration'));
 	self.targetDecoration := createPolylineDecoration(self.name + 'TargetDecoration', e.getFormatOption('target.decoration'));
 
 	self.formatLine(e.getFormatOption('color'),e.getFormatOption('width'),e.getFormatOption('style'));
-	
-	-*
-	var color := e.getFormatOption('color');
-	if (color.isDefined()) {
-		self.foregroundColor := createColor(color);
-		self.backgroundColor := createColor(color);
-	}
-	
-	var width := e.getFormatOption('width');
-	if (width.isDefined()) {
-		self.lineWidth := width.asInteger();
-	}
-	*-
 }
 
 operation createPolylineDecoration(name : String, type : String) {

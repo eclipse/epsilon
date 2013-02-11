@@ -67,8 +67,6 @@ for (class in getNodes()) {
 	-- Create GmfGraph label
 	var label := class.createLabel(); --new GmfGraph!Label;
 	label.name := class.getLabelName() + 'Figure';
-	--label.text := class.name;
-	--label.formatNode(class);
 	
 	-- If the label belongs to a compartment owning node
 	-- limit its vertical size
@@ -77,20 +75,6 @@ for (class in getNodes()) {
 		maxDimension.dx := 10000;
 		maxDimension.dy := 50;
 		label.maximumSize := maxDimension;
-		
-		-*
-		for (ref in class.getCompartmentReferences()) {
-			
-			var compartmentRectangle := new GmfGraph!Rectangle;
-			figure.children.add(compartmentRectangle);
-			compartmentRectangle.name := class.name + ref.name + 'CompartmentFigure';
-			
-			var compartmentChildAccess := new GmfGraph!ChildAccess;
-			figureDescriptor.accessors.add(compartmentChildAccess);
-			compartmentChildAccess.figure := compartmentRectangle;
-			compartmentChildAccess.accessor := 'get' + compartmentRectangle.name;
-		}
-		*-
 	}
 		
 	-- Create GmfGraph node
@@ -110,7 +94,6 @@ for (class in getNodes()) {
 
 	-- Create GmfMap node mapping
 	var nodeMapping : new GmfMap!NodeMapping;
-	--topNodeReference.ownedChild := nodeMapping;
 	nodeMapping.diagramNode := node;
 	nodeMapping.domainMetaElement := class;
 	nodeMapping.tool := creationTool;
@@ -211,7 +194,6 @@ for (phantom in getPhantomNodes()) {
 	if (phantom.~topNodeReference.isUndefined()) {
 		var topNodeReference := new GmfMap!TopNodeReference;
 		mapping.nodes.add(topNodeReference);
-		--phantom.~nodeMapping.~nested := true;
 		topNodeReference.ownedChild := phantom.~nodeMapping;
 		phantom.~topNodeReference := topNodeReference;
 	}
@@ -324,21 +306,6 @@ for (class in getLinks()) {
 	
 	if (getAllSuitableContainmentReferences(class).size() == 0) continue;
 	
-	-*
-	var containmentFeature := getDiagramContainmentReference(class);
-	if (containmentFeature.isUndefined()){
-	
-		var opposite := class.getLinkSourceFeature().eOpposite;
-		
-		if (opposite.isDefined() and opposite.containment) {
-			containmentFeature := opposite;
-		}
-		else {
-			continue;
-		}
-	}
-	*-
-	
 	-- Create GmfTool creation tool
 	var creationTool := createCreationTool(class);
 	linksToolGroup.tools.add(creationTool);
@@ -397,7 +364,7 @@ for (class in getLinks()) {
 	if (hasLabel) {
 	
 		var labelFigureDescriptor := createFigureDescriptor(class.getLabelName() + 'Figure');
-		var label := class.createLabel(); --new GmfGraph!Label;
+		var label := class.createLabel();
 		label.name := class.getLabelName() + 'Label';
 		labelFigureDescriptor.actualFigure := label;
 		
@@ -457,12 +424,6 @@ for (reference in getReferenceLinks()) {
 	
 	polylineConnection.formatConnection(reference);
 	
-	-- Create GmfGraph polyline decoration
-	--var polylineDecoration : new GmfGraph!PolylineDecoration;
-	--polylineDecoration.name := referenceName + 'TargetDecoration';
-	--figureGallery.figures.add(polylineDecoration);
-	--polylineConnection.targetDecoration := polylineDecoration;
-	
 	-- Create GmfMap link mapping
 	var linkMapping : new GmfMap!LinkMapping;
 	mapping.links.add(linkMapping);
@@ -502,12 +463,6 @@ if (linksToolGroup.isDefined()) {
 -- Delete empty tool groups
 if (nodesToolGroup.tools.size() = 0) delete nodesToolGroup;
 if (linksToolGroup.tools.size() = 0) delete linksToolGroup;
-
--- Store models
-
---GmfTool.store(ECore.modelFile.replace('.ecore', '.gmftool'));
---GmfGraph.store(ECore.modelFile.replace('.ecore', '.gmfgraph'));
---GmfMap.store(ECore.modelFile.replace('.ecore', '.gmfmap'));
 
 operation ECore!EClass createLabel() {
 	
