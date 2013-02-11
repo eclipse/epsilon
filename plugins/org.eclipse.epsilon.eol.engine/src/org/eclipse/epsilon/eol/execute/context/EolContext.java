@@ -12,9 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;

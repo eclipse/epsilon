@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.extensions;
 
+import java.util.Map;
+
 import org.eclipse.epsilon.eol.models.IModel;
 
 /**
@@ -48,4 +50,11 @@ public interface IModelComparator {
 	 */
 	Object compare(IModel expectedModel, IModel obtainedModel) throws Exception;
 
+	/**
+	 * Configures the model comparator with the specified options.
+	 * 
+	 * @throws IllegalArgumentException
+	 *             One of the options has an invalid value is or not available.
+	 */
+	void configure(Map<String, Object> options);
 }

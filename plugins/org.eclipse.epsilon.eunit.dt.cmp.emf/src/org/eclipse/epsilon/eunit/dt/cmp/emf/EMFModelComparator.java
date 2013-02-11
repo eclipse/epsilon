@@ -22,8 +22,12 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
+import org.eclipse.emf.compare.diff.metamodel.ConflictingDiffElement;
+import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
+import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
 import org.eclipse.emf.compare.diff.service.DiffService;
@@ -35,6 +39,7 @@ import org.eclipse.emf.compare.match.metamodel.MatchResourceSet;
 import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -49,6 +54,9 @@ import org.eclipse.epsilon.eunit.extensions.IModelComparator;
  * Model comparator for EMF models, using EMF Compare 1.x.
  */
 public class EMFModelComparator implements IModelComparator {
+
+	// If true, changes in whitespace in a text field are ignored
+	private boolean ignoreWhitespace = false;
 
 	@Override
 	public boolean canCompare(IModel m1, IModel m2) {
@@ -77,6 +85,10 @@ public class EMFModelComparator implements IModelComparator {
 		DiffResourceSet diff = DiffService.doDiff(match);
 		boolean bAnyDifferences = false;
 		for (DiffModel diffModel : diff.getDiffModels()) {
+			if (ignoreWhitespace) {
+				removeDifferencesDueToWhitespace(diffModel);
+			}
+
 			if (!diffModel.getDifferences().isEmpty()) {
 				bAnyDifferences = true;
 			}
@@ -92,10 +104,58 @@ public class EMFModelComparator implements IModelComparator {
 		return snap;
 	}
 
+	@Override
+	public void configure(Map<String, Object> options) {
+		for (Map.Entry<String, Object> entry : options.entrySet()) {
+			String name = entry.getKey();
+			if ("whitespace".equals(name)) {
+				ignoreWhitespace = "ignore".equals(entry.getValue());
+			}
+			else {
+				throw new IllegalArgumentException("Unknown option '" + name + "'");
+			}
+		}
+	}
+
+	private void removeDifferencesDueToWhitespace(DiffModel diffModel) {
+		for (final Iterator<DiffElement> itElem = diffModel.getOwnedElements().iterator(); itElem.hasNext(); ) {
+			final DiffElement elem = itElem.next();
+			if (removeDifferencesDueToWhitespace(elem)) {
+				itElem.remove();
+			}
+		}
+	}
+
+	private boolean removeDifferencesDueToWhitespace(DiffElement elem) {
+		for (final Iterator<DiffElement> itSubElem = elem.getSubDiffElements().iterator(); itSubElem.hasNext(); ) {
+			final DiffElement subElem = itSubElem.next();
+			if (subElem instanceof DiffGroup || subElem instanceof ConflictingDiffElement) {
+				if (removeDifferencesDueToWhitespace(subElem)) {
+					itSubElem.remove();
+				}
+			}
+			else if (subElem instanceof AttributeChange) {
+				final AttributeChange change = (AttributeChange)subElem;
+				final EAttribute attr = change.getAttribute();
+				final Object lValue = change.getLeftElement().eGet(attr);
+				final Object rValue = change.getRightElement().eGet(attr);
+				if (lValue instanceof String && rValue instanceof String) {
+					final String lValueNoWS = ((String)lValue).replaceAll("\\s+", "");
+					final String rValueNoWS = ((String)rValue).replaceAll("\\s+", "");
+					if (lValueNoWS.equals(rValueNoWS)) {
+						itSubElem.remove();
+					}
+				}
+			}
+		}
+
+		return elem.getSubDiffElements().isEmpty();
+	}
+
 	private MatchResourceSet doResourceSetMatch(
 			final ResourceSet leftResourceSet,
 			final ResourceSet rightResourceSet,
-			final HashMap<String, Object> options) throws InterruptedException
+			final HashMap<String, Object> options) throws Exception
 	{
 		EcoreUtil.resolveAll(leftResourceSet);
 		EcoreUtil.resolveAll(rightResourceSet);
@@ -149,8 +209,11 @@ public class EMFModelComparator implements IModelComparator {
 
 	private void addMatchModel(Resource leftResource, Resource rightResource,
 			final HashMap<String, Object> options, MatchResourceSet matchSet)
-			throws InterruptedException {
+			throws Exception {
 		MatchModel match = MatchService.doResourceMatch(leftResource, rightResource, options);
+		if (match == null) {
+			throw new Exception("Could not match " + leftResource.getURI() + " with " + rightResource.getURI());
+		}
 		matchSet.getMatchModels().add(match);
 	}
 

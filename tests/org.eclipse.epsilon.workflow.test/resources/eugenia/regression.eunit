@@ -20,7 +20,7 @@ operation loadModels() {
 @test
 operation testForRegressions() {
   var modelSuffix := elems.get(2);
-  assertEqualModels('Expected' + modelSuffix, 'Obtained' + modelSuffix);
+  assertEqualModels('Expected' + modelSuffix, 'Obtained' + modelSuffix, Map {'whitespace' = 'ignore'});
 }
 
 operation loadModel(modelName, directory) {
