@@ -105,6 +105,58 @@ for (node in getNodes()) {
 	}
 }
 
+-- Add parsers
+var genParsers = GmfGen!GenParsers.all.first;
+for (genNode in GmfGen!GenNode.all) {
+	var canBeNodeLabel = true;
+	for (genLabel in genNode.labels.select(l|l.isKindOf(GmfGen!FeatureLabelModelFacet))) {
+		var featureLabelMF = genLabel.modelFacet;
+		var feature = featureLabelMF.metaFeatures.first.ecoreFeature;
+		var class = feature.eContainingClass;
+
+		if (canBeNodeLabel and class.isNode() and class.getLabelPlacement() <> 'none') {
+			addParserIfDefined(class.getLabelParser(), genParsers, featureLabelMF);
+		}
+		else if (feature.isLabelled()) {
+			addParserIfDefined(feature.getLabelParser(), genParsers, featureLabelMF);
+		}
+
+		-- Only the first GenNodeLabel may be the label for the entire node,
+		-- according to ECore2GMF.eol.
+		canBeNodeLabel = false;
+	}
+}
+for (genLink in GmfGen!GenLink.all) {
+	-- We assume that there can be only one label (the middle one).
+	-- If EuGENia added support for labels in the source or target ends,
+	-- we'd need to revise this.
+	var genLabel = genLink.labels.first;
+	if (genLabel.isUndefined()) {
+		continue;
+	}
+
+	var featureLabelMF = genLabel.modelFacet;
+	if (featureLabelMF.isKindOf(GmfGen!FeatureLabelModelFacet)) {
+		var class = featureLabelMF.metaFeatures.first.ecoreFeature.eContainingClass;
+
+		if (class.isLink() and not class.getLabelAttributes().isEmpty()) {
+			addParserIfDefined(class.getLabelParser(), genParsers, featureLabelMF);
+		}
+	}
+}
+
+operation addParserIfDefined(parserName : String, genParsers : GmfGen!GenParsers, featureLabelMF : GmfGen!FeatureLabelModelFacet) {
+	if (parserName.isDefined()) {
+		var parser = genParsers.implementations.selectOne(p | p.isKindOf(GmfGen!PredefinedParser) and p.className == parserName);
+		if (parser.isUndefined()) {
+			parser = new GmfGen!PredefinedParser;
+			parser.className = parserName;
+			genParsers.implementations.add(parser);
+		}
+		featureLabelMF.parser = parser;
+	}
+}
+
 operation setIncoming(name : String, value : Boolean) {
 	var genEditPart := GmfGen!GenLink.all.selectOne(l|l.editPartClassName = name + 'EditPart');
 		

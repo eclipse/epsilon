@@ -368,6 +368,9 @@ for (class in getLinks()) {
 
 		var featureLabelMapping := new GmfMap!FeatureLabelMapping;
 		featureLabelMapping.diagramLabel := diagramLabel;
+		featureLabelMapping.editPattern := class.getLabelEditPattern();
+		featureLabelMapping.editorPattern := class.getLabelEditPattern();
+		featureLabelMapping.viewPattern := class.getLabelViewPattern();
 		featureLabelMapping.features.addAll(class.getLabelAttributes());
 		featureLabelMapping.readOnly := class.getLabelReadOnly();
 		for (linkMapping in linkMappings) {

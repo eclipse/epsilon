@@ -247,6 +247,14 @@ operation ECore!EClass getLabelEditPattern() {
 }
 
 @cached
+operation ECore!EClass getLabelParser() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	return self.getLabelParser(ann);
+}
+
+@cached
 operation ECore!EClass isPhantom() {
 	if (self.isNode()) {
 		return self.getAnnotationValue('gmf.node', 'phantom') = 'true';
@@ -308,6 +316,11 @@ operation ECore!EAttribute getLabelEditPattern() {
 }
 
 @cached
+operation ECore!EAttribute getLabelParser() {
+	return self.getLabelParser('gmf.label');
+}
+
+@cached
 operation ECore!EAttribute getLabelAttributes() {
 	return self.getLabelAttributes('gmf.label');
 }
@@ -317,6 +330,10 @@ operation ECore!EAnnotation getDetail(key : String) : String {
 	var detail := self.details.selectOne(d|d.key = key);
 	if (detail.isDefined()) {return detail.value;}
 	else {return null;}
+}
+
+operation ECore!EModelElement getLabelParser(ann: String) {
+	return self.getAnnotationValue(ann, 'label.parser');
 }
 
 operation ECore!EModelElement getLabelEditPattern(ann: String) {
