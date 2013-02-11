@@ -202,7 +202,7 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 					reason = "File " + importAst.getFirstChild().getText() + " not found";
 				}
 				else {
-					reason = "File " + importAst.getFirstChild().getText() + " contains errors";
+					reason = "File " + importAst.getFirstChild().getText() + " contains errors: " + import_.getModule().getParseProblems();
 				}
 				problem.setReason(reason);
 				getParseProblems().add(problem);

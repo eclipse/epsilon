@@ -125,11 +125,11 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		IEolExecutableModule builtin = createBuiltinModule();
 		IEolExecutableModule customization = createCustomizationModule();
 
-		if (getBuiltinTransformation() == null) {
-			new Exception().printStackTrace();
-		}
 		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
 		builtin.parse(uri);
+		if (!builtin.getParseProblems().isEmpty()) {
+			throw new Exception("Syntax error(s) in the built-in transformation " + uri + ": " + builtin.getParseProblems());
+		}
 		
 		for (Variable variable : getExtraVariables()) {
 			builtin.getContext().getFrameStack().put(variable);
@@ -168,7 +168,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 					customization.execute();
 				}
 				else {
-					LogUtil.log("Syntax error(s) in " + customizationPath, null);
+					throw new Exception("Syntax error(s) in the custom transformation " + customizationPath + ": " + customization.getParseProblems());
 				}
 			}
 		}

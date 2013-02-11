@@ -39,6 +39,6 @@ public class EUnitParseException extends EolRuntimeException {
 
 	@Override
 	public String getMessage() {
-		return "Found " + parseProblems.size() + " parse problems";
+		return "Found " + parseProblems.size() + " parse problems: " + parseProblems;
 	}
 }
