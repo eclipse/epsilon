@@ -109,7 +109,6 @@ operation GmfGraph!PolylineConnection formatConnection(e) {
 }
 
 operation createPolylineDecoration(name : String, type : String) {
-	
 	var polylineDecoration;
 	
 	if (type = 'none' or type.isUndefined()) {
@@ -237,7 +236,6 @@ operation createDimension(size : String) : GmfGraph!Dimension {
 }
 
 operation ECore!EModelElement getFormatOption(option : String) : String {
-	
 	var value := self.getAnnotationValue('gmf.node', option);
 	if (value.isUndefined()) value := self.getAnnotationValue('gmf.link', option);
 	

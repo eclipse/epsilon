@@ -201,11 +201,8 @@ for (phantom in getPhantomNodes()) {
 
 -- Do affixed references
 for (class in getNodes()) {
-
 	for (affixed in class.getAffixedReferences()) {
-		
 		for (child in getNodes().select(s|not s.abstract and (s = affixed.eType or s.eAllSuperTypes.includes(affixed.eType)))) {
-		
 			-- Create GmfMap child reference
 			
 			var childReference := new GmfMap!ChildReference;
@@ -221,12 +218,9 @@ for (class in getNodes()) {
 			}
 			
 			-- Update affixed property
-			
 			child.~diagramNode.affixedParentSide := GmfGraph!Direction#NORTH;
-			
 		}
 	}
-
 }
 
 -- Do compartment references
@@ -300,7 +294,6 @@ for (nodeMapping in GmfMap!NodeMapping.all.clone()) {
 -- Process Link EClasses
 
 for (class in getLinks()) {
-	
 	-- Do not create links for classes that cannot be contained
 	-- in the diagram or in the opposite of their sourceFeature
 	
@@ -362,18 +355,17 @@ for (class in getLinks()) {
 	var hasLabel := not labelAttributes.isEmpty();
 	
 	if (hasLabel) {
-	
 		var labelFigureDescriptor := createFigureDescriptor(class.getLabelName() + 'Figure');
 		var label := class.createLabel();
 		label.name := class.getLabelName() + 'Label';
 		labelFigureDescriptor.actualFigure := label;
-		
+
 		var diagramLabel := new GmfGraph!DiagramLabel;
 		diagramLabel.figure := labelFigureDescriptor;
 		diagramLabel.name := class.getLabelName();
 		diagramLabel.elementIcon := class.labelHasIcon(false);
 		canvas.labels.add(diagramLabel);
-		
+
 		var featureLabelMapping := new GmfMap!FeatureLabelMapping;
 		featureLabelMapping.diagramLabel := diagramLabel;
 		featureLabelMapping.features.addAll(class.getLabelAttributes());

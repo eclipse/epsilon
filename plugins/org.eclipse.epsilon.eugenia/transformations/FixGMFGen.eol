@@ -1,4 +1,3 @@
-
 import 'ECoreUtil.eol';
 
 var ePackage := ECore!EPackage.all.first();
@@ -6,16 +5,16 @@ var ePackage := ECore!EPackage.all.first();
 var genDiagram := GmfGen!GenDiagram.all.first();
 var genEditorGenerator := GmfGen!GenEditorGenerator.all.first();
 
---Set copyright
+-- Set copyright
 genEditorGenerator.copyrightText := copyright;
 
---Set same file for model and diagram
+-- Set same file for model and diagram
 var onefile := getDiagramClass().getAnnotationValue('gmf.diagram','onefile');
 if (onefile.isDefined()) {
 	genEditorGenerator.sameFileForDiagramAndModel := onefile.asBoolean();
 }
 
---Set the model and diagram file extensions
+-- Set the model and diagram file extensions
 var modelExtension := getDiagramClass().getAnnotationValue('gmf.diagram','model.extension');
 var diagramExtension := getDiagramClass().getAnnotationValue('gmf.diagram','diagram.extension');
 
@@ -67,7 +66,6 @@ for (class in getNodes()) {
 }
 
 -- Adjust open diagram behaviour
-
 for (class in getDiagramClass().getAllConcreteSubTypes() + Sequence{getDiagramClass()}) {
 	var genTopLevelNodes := GmfGen!GenTopLevelNode.all.select(n|n.createCommandClassName = class.name + 'CreateCommand');
 	for (genTopLevelNode in genTopLevelNodes) {
