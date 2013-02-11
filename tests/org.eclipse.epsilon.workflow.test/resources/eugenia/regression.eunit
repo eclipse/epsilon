@@ -1,24 +1,26 @@
 @data elems
 operation data() {
   return Sequence {
-    Sequence { 'http://www.eclipse.org/emf/2002/Ecore', 'ecore' },
-    Sequence { 'http://www.eclipse.org/emf/2002/GenModel', 'genmodel' },
-    Sequence { 'http://www.eclipse.org/gmf/2006/GraphicalDefinition', 'gmfgraph' },
-    Sequence { 'http://www.eclipse.org/gmf/2005/ToolDefinition', 'gmftool' },
-    Sequence { 'http://www.eclipse.org/gmf/2008/mappings', 'gmfmap' },
-    Sequence { 'http://www.eclipse.org/gmf/2009/GenModel', 'gmfgen' }
+    Sequence { 'http://www.eclipse.org/emf/2002/Ecore', 'ecore', 'ECore' },
+    Sequence { 'http://www.eclipse.org/emf/2002/GenModel', 'genmodel', 'GenModel' },
+    Sequence { 'http://www.eclipse.org/gmf/2006/GraphicalDefinition', 'gmfgraph', 'GmfGraph' },
+    Sequence { 'http://www.eclipse.org/gmf/2005/ToolDefinition', 'gmftool', 'GmfTool'},
+    Sequence { 'http://www.eclipse.org/gmf/2008/mappings', 'gmfmap', 'GmfMap' },
+    Sequence { 'http://www.eclipse.org/gmf/2009/GenModel', 'gmfgen', 'GmfGen' }
   };
 }
 
 @model
 operation loadModels() {
-  loadModel('Expected', direxpected);
-  loadModel('Obtained', dirtemp);
+  var modelSuffix := elems.get(2);
+  loadModel('Expected' + modelSuffix, direxpected);
+  loadModel('Obtained' + modelSuffix, dirtemp);
 }
 
 @test
 operation testForRegressions() {
-  assertEqualModels('Expected', 'Obtained');
+  var modelSuffix := elems.get(2);
+  assertEqualModels('Expected' + modelSuffix, 'Obtained' + modelSuffix);
 }
 
 operation loadModel(modelName, directory) {
