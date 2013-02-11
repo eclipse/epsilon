@@ -147,9 +147,9 @@ for (class in getNodes()) {
 		var featureLabelMapping : new GmfMap!FeatureLabelMapping;
 		nodeMapping.labelMappings.add(featureLabelMapping);
 		featureLabelMapping.diagramLabel := diagramLabel;
-		featureLabelMapping.editPattern := class.getLabelPattern();
-		featureLabelMapping.editorPattern := class.getLabelPattern();
-		featureLabelMapping.viewPattern := class.getLabelPattern();
+		featureLabelMapping.editPattern := class.getLabelEditPattern();
+		featureLabelMapping.editorPattern := class.getLabelEditPattern();
+		featureLabelMapping.viewPattern := class.getLabelViewPattern();
 		featureLabelMapping.features.addAll(class.getLabelAttributes());
 		featureLabelMapping.readOnly := class.getLabelReadOnly();
 	}
@@ -182,6 +182,10 @@ for (class in getNodes()) {
 		nodeMapping.labelMappings.add(featureLabelMapping);
 		featureLabelMapping.diagramLabel := diagramLabel;
 		featureLabelMapping.features.add(attribute);
+		featureLabelMapping.editPattern := attribute.getLabelEditPattern();
+		featureLabelMapping.editorPattern := attribute.getLabelEditPattern();
+		featureLabelMapping.viewPattern := attribute.getLabelViewPattern();
+		featureLabelMapping.features.addAll(attribute.getLabelAttributes());
 		featureLabelMapping.readOnly := attribute.getReadOnly();
 	}
 }

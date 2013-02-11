@@ -23,7 +23,7 @@ operation getReferenceLinks() {
 	var diagramClass := getDiagramClass();
 	if (diagramClass.getAnnotationValue('gmf.diagram', 'refsarelinks') = 'true') {
 		return ECore!EReference.all.select(r|r.containment = false);
-	} 
+	}
 	else {
 		return ECore!EReference.all.select(r|r.isLink());
 	}
@@ -31,12 +31,9 @@ operation getReferenceLinks() {
 
 @cached
 operation ECore!EClass getAllConcreteSubTypes() { 
-	
 	return ECore!EClass.all.select(c|not c.abstract and c.eAllSuperTypes.includes(self));
-	
 }
 
-@cached
 operation getDiagramClass() : ECore!EClass {
 	return ECore!EClass.all.selectOne(c|c.isAnnotatedAs('gmf.diagram'));
 }
@@ -225,13 +222,19 @@ operation ECore!EClass labelHasIcon(defaultValue : Boolean) : Boolean {
 }
 
 @cached
-operation ECore!EClass getLabelPattern() {
+operation ECore!EClass getLabelViewPattern() {
 	var ann : String;
 	if (self.isNode()) ann := 'gmf.node';
 	else ann := 'gmf.link';
-	
-	return self.getAnnotationValue(ann, 'label.pattern');
-	
+	return self.getLabelViewPattern(ann);
+}
+
+@cached
+operation ECore!EClass getLabelEditPattern() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+	return self.getLabelEditPattern(ann);
 }
 
 @cached
@@ -257,16 +260,8 @@ operation ECore!EClass getLabelAttributes() {
 	var ann : String;
 	if (self.isNode()) ann := 'gmf.node';
 	else ann := 'gmf.link';
-	
-	var labelAnnotationValue := self.getAnnotationValue(ann, 'label');
-	
-	if (labelAnnotationValue.isDefined()) {
-		var labels := labelAnnotationValue.split(',').collect(s|s.trim());
-		return self.eAllStructuralFeatures.select(f|labels.exists(s|s = f.name));
-	}
-	else {
-		return Sequence{};
-	}
+
+	return self.getLabelAttributes(ann);
 }
 
 @cached
@@ -293,6 +288,20 @@ operation ECore!EAttribute getReadOnly() : Boolean {
 	return self.getAnnotationValue('gmf.label', 'readOnly') = 'true';
 }
 
+@cached
+operation ECore!EAttribute getLabelViewPattern() {
+	return self.getLabelViewPattern('gmf.label');
+}
+
+@cached
+operation ECore!EAttribute getLabelEditPattern() {
+	return self.getLabelEditPattern('gmf.label');
+}
+
+@cached
+operation ECore!EAttribute getLabelAttributes() {
+	return self.getLabelAttributes('gmf.label');
+}
 
 @cached
 operation ECore!EAnnotation getDetail(key : String) : String {
@@ -301,16 +310,43 @@ operation ECore!EAnnotation getDetail(key : String) : String {
 	else {return null;}
 }
 
+operation ECore!EModelElement getLabelEditPattern(ann: String) {
+	return self.getLabelPattern(ann, 'label.edit.pattern', 'label.pattern');
+}
+
+operation ECore!EModelElement getLabelViewPattern(ann: String) {
+	return self.getLabelPattern(ann, 'label.view.pattern', 'label.pattern');
+}
+
+operation ECore!EModelElement getLabelPattern(ann: String, subtype: String, fallback: String) {
+	var pattern = self.getAnnotationValue(ann, subtype);
+	if (pattern.isDefined()) {
+		return pattern;
+	} else {
+		return self.getAnnotationValue(ann, fallback);
+	}
+}
+
+operation ECore!EModelElement getLabelAttributes(ann: String) {
+	var labelAnnotationValue := self.getAnnotationValue(ann, 'label');
+	
+	if (labelAnnotationValue.isDefined()) {
+		var labels := labelAnnotationValue.split(',').collect(s|s.trim());
+		return self.eAllStructuralFeatures.select(f|labels.exists(s|s = f.name));
+	}
+	else {
+		return Sequence {};
+	}
+}
+
 operation ECore!EModelElement getAnnotationValue(name : String, detail : String) : Any {
-	
 	var ann := self.eAnnotations.selectOne(a|a.source = name);
-	
 	var det;
-	
+
 	if (ann.isDefined()) {
 		det := ann.details.selectOne(d|d.key = detail);
 	}
-	
+
 	if (det.isDefined()) {
 		return det.value;
 	}
