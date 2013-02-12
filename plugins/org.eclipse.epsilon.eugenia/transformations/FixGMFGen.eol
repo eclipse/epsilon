@@ -109,8 +109,7 @@ for (node in getNodes()) {
 var genParsers = GmfGen!GenParsers.all.first;
 for (genNode in GmfGen!GenNode.all) {
 	var canBeNodeLabel = true;
-	for (genLabel in genNode.labels.select(l|l.isKindOf(GmfGen!FeatureLabelModelFacet))) {
-		var featureLabelMF = genLabel.modelFacet;
+	for (featureLabelMF in genNode.labels.collect(l|l.modelFacet).select(f|f.isKindOf(GmfGen!FeatureLabelModelFacet))) {
 		var feature = featureLabelMF.metaFeatures.first.ecoreFeature;
 		var class = feature.eContainingClass;
 
