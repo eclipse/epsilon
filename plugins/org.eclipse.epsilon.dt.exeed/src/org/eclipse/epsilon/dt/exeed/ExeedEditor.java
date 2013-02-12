@@ -155,6 +155,9 @@ public class ExeedEditor extends EcoreEditor {
 	private boolean sortProperties
 		= !getPlugin().getPreferenceStore().getBoolean(ExeedPreferencePage.KEEP_PROPERTY_DECLARATION_ORDER);
 
+	// This extra field is necessary, as propertySheetPage does not exist anymore since Kepler (4.2)
+	private ExeedPropertySheetPage exeedPropertySheetPage;
+
 	@Override
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
 		return Diagnostic.OK_INSTANCE;
@@ -216,11 +219,11 @@ public class ExeedEditor extends EcoreEditor {
 
 	@Override
 	public ExeedPropertySheetPage getPropertySheetPage() {
-		if (propertySheetPage == null) {
-			propertySheetPage = new ExeedPropertySheetPage(editingDomain, ExeedEditor.this, getPlugin());
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+		if (exeedPropertySheetPage == null) {
+			exeedPropertySheetPage = new ExeedPropertySheetPage(editingDomain, ExeedEditor.this, getPlugin());
+			exeedPropertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 		}
-		return (ExeedPropertySheetPage) propertySheetPage;
+		return (ExeedPropertySheetPage) exeedPropertySheetPage;
 	}
 
 	@Override
