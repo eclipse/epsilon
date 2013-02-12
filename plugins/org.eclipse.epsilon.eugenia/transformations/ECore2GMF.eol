@@ -60,12 +60,8 @@ for (class in getNodes()) {
 	figureDescriptor.actualFigure := figure;
 	figure.name := figureDescriptor.name;
 	
-	
-	
-	var labelAttributes := class.getLabelAttributes();
-	
 	-- Create GmfGraph label
-	var label := class.createLabel(); --new GmfGraph!Label;
+	var label := class.createLabel();
 	label.name := class.getLabelName() + 'Figure';
 	
 	-- If the label belongs to a compartment owning node
@@ -142,6 +138,7 @@ for (class in getNodes()) {
 		-- Create GmfGraph label
 		var label := new GmfGraph!Label;
 		label.name := attribute.getLabelName() + 'Figure';
+		label.text := attribute.getAnnotationValue('gmf.label', 'label.text');
 		
 		-- Create GmfGraph diagram label
 		var diagramLabel := new GmfGraph!DiagramLabel;
@@ -312,9 +309,8 @@ for (class in getLinks()) {
 	var polylineConnection := new GmfGraph!PolylineConnection;
 	figureDescriptor.actualFigure := polylineConnection;
 	polylineConnection.name := figureDescriptor.name;
-	
 	polylineConnection.formatConnection(class);
-	
+
 	-- Create GmfGraph connection
 	var connection := new GmfGraph!Connection;
 	connection.name := class.name;
@@ -351,8 +347,7 @@ for (class in getLinks()) {
 	}
 	
 	-- Create connection label
-	var labelAttributes := class.getLabelAttributes();
-	var hasLabel := not labelAttributes.isEmpty();
+	var hasLabel := not class.getLabelAttributes().isEmpty();
 	
 	if (hasLabel) {
 		var labelFigureDescriptor := createFigureDescriptor(class.getLabelName() + 'Figure');
@@ -460,19 +455,18 @@ if (nodesToolGroup.tools.size() = 0) delete nodesToolGroup;
 if (linksToolGroup.tools.size() = 0) delete linksToolGroup;
 
 operation ECore!EClass createLabel() {
-	
 	var labelClass := self.getLabelClass();
 	var figure;
-	
+
 	if (labelClass.isDefined()) {
 		figure := new GmfGraph!CustomFigure;
 		figure.qualifiedClassName := labelClass;
 	}
 	else {
 		figure := new GmfGraph!Label;
-		figure.text := self.name;
+		figure.text := self.getLabelText();
 	}
-	
+
 	return figure;
 }
 
@@ -489,7 +483,6 @@ operation createFigureDescriptor(name : String) {
 }
 
 operation createCreationTool(element : Any) {
-
 	var annotation : String;
 	if (element.isKindOf(ECore!EClass) and element.isNode()) {
 		annotation := 'gmf.node';

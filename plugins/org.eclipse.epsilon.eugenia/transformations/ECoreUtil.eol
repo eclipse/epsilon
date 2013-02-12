@@ -91,6 +91,11 @@ operation ECore!EReference isCollapsible() : Boolean {
 
 @cached
 operation ECore!EReference getLinkLabel() : String {
+	var customText := self.getAnnotationValue('gmf.link', 'label.text');
+	if (customText.isDefined()) {
+		return customText;
+	}
+
 	return self.getAnnotationValue('gmf.link', 'label');
 }
 
@@ -255,6 +260,21 @@ operation ECore!EClass getLabelParser() {
 }
 
 @cached
+operation ECore!EClass getLabelText() {
+	var ann : String;
+	if (self.isNode()) ann := 'gmf.node';
+	else ann := 'gmf.link';
+
+	var customText := self.getAnnotationValue(ann, 'label.text');
+	if (customText.isDefined()) {
+		return customText;
+	}
+	else {
+		return self.name;
+	}
+}
+
+@cached
 operation ECore!EClass isPhantom() {
 	if (self.isNode()) {
 		return self.getAnnotationValue('gmf.node', 'phantom') = 'true';
@@ -270,7 +290,6 @@ operation ECore!EClass getLabelClass() {
 	else ann := 'gmf.link';
 	
 	return self.getAnnotationValue(ann, 'label.impl');
-	
 }
 
 operation ECore!EClass getLabelAttributes() {
