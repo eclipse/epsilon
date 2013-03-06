@@ -622,14 +622,9 @@ public class EUnitModule extends EolModule {
 	 * It is the basename of the .eunit file, without the extension.
 	 */
 	public String getClassName() {
-		final String filename = getAst().getFile().getName();
+		final String filename = getAst().getBasename();
 		final int lastDot = filename.lastIndexOf('.');
-		if (lastDot != -1) {
-			return filename.substring(0, lastDot);
-		}
-		else {
-			return filename;
-		}
+		return lastDot == -1 ? filename : filename.substring(0, lastDot);
 	}
 
 	/**

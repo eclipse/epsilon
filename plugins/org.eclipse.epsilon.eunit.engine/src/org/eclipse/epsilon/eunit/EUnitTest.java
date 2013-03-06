@@ -351,16 +351,15 @@ public class EUnitTest {
 			// The root node in a test tree has no operation
 			return packageName + ".(root)";
 		}
-		final File eolFile = getOperation().getAst().getFile();
 
 		// Remove the file extension
-		String filename = eolFile.getName();
+		String filename = getOperation().getAst().getBasename();
 		final int lastDot = filename.lastIndexOf('.');
 		if (lastDot != -1) {
 			filename = filename.substring(0, lastDot);
 		}
 
-		return packageName + "." + eolFile.getName();
+		return packageName + "." + filename;
 	}
 
 	public String toString() {

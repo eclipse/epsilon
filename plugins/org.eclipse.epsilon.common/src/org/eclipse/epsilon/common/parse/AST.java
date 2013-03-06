@@ -53,7 +53,20 @@ public class AST extends CommonTree {
 	public AST getAnnotationsAst() {
 		return annotations;
 	}
-	
+
+	/**
+	 * Returns the basename of the URI of this AST, which is the last segment of
+	 * its URI. {@link #getFile()} returns <code>null</code> for non-
+	 * <code>file:///</code> URIs, which is correct in its own regard, but may
+	 * produce NPEs in our case.
+	 */
+	public String getBasename() {
+		final String uriPath = getUri().getPath();
+		final int lastSlash = uriPath.lastIndexOf("/");
+		final String filename = lastSlash == -1 ? uriPath : uriPath.substring(lastSlash + 1);
+		return filename;
+	}
+
 	public File getFile() {
 		if (uri != null && "file".equals(uri.getScheme())) {
 			return new File(uri);

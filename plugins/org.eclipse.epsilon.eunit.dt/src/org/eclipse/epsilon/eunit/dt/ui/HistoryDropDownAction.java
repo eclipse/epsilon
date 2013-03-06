@@ -69,7 +69,7 @@ class HistoryDropDownAction extends Action implements IMenuCreator, IMenuListene
 
 			sbuf.append(result.toString());
 			sbuf.append(": ");
-			sbuf.append(firstModule.getAst().getFile().getName());
+			sbuf.append(firstModule.getAst().getBasename());
 			sbuf.append(' ');
 			sbuf.append(dateFormat.format(testStartTime));
 
