@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eunit.junit;
 import java.net.URI;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
 
 /**
@@ -20,6 +21,18 @@ import org.eclipse.epsilon.eol.models.IModel;
  * {@link EUnitTestRunner}.
  */
 public interface IEUnitSuite {
+
+	/**
+	 * Returns an operation contributor which can provide additional
+	 * global functions through its methods. This operation is optional:
+	 * if desired, users may simply return <code>null</code> if they do
+	 * not need this functionality.
+	 *
+	 * A custom operation contributor can be useful if we need to run
+	 * tasks in another model-handling language, as the Ant tasks are
+	 * not easy to use from a JUnit Plug-in Test.
+	 */
+	OperationContributor getOperationContributor();
 
 	/**
 	 * Returns the URI of the main .eunit script to be run.

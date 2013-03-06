@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
@@ -49,15 +50,21 @@ import org.junit.runners.model.InitializationError;
  * this runner supports every feature in EUnit except for those specific to Ant,
  * such as runTarget, useVariable, exportVariable and loadHutn.
  * </p>
- * 
+ *
+ * <p>
+ * Users can provide additional built-in operations for their tests by implementing
+ * the {@link IEUnitSuite#getOperationContributor()} method appropriately. This can
+ * be useful when invoking EVL code, for instance, as we can't access the Ant tasks
+ * from a JUnit plugin test.
+ * </p>
+ *
  * TODO: integrate the EOL debugger somehow.
- * 
- * TODO: add support for running utility methods in the test suite from the
- * EUnit script, to have an equivalent for the runTarget operation.
  * 
  * TODO: add support for running Ant targets from a previously specified Ant
  * script, in order to reuse the workflow tasks. We could get back most of the
- * missing functionality this way.
+ * missing functionality this way. The main problem is that this would probably
+ * require copying over the original project to the runtime workspace, and that
+ * could complicate things quite a bit.
  */
 public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 
@@ -115,6 +122,11 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			module = new EUnitModule();
 			module.parse(suiteInstance.getModuleURI());
 
+			final OperationContributor contrib = suiteInstance.getOperationContributor();
+			if (contrib != null) {
+				module.getContext().getOperationContributorRegistry().add(contrib);
+			}
+
 			if (Platform.getExtensionRegistry() != null) {
 				EclipseContextManager.setup(module.getContext());
 
@@ -146,11 +158,9 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 
 		Description desc;
 		if (child.isRootTest()) {
-			desc = Description.createSuiteDescription(this.getTestClass()
-					.getJavaClass());
+			desc = Description.createSuiteDescription(this.getTestClass().getJavaClass());
 		} else {
-			desc = Description.createTestDescription(this.getTestClass()
-					.getJavaClass(), child.getCaseName());
+			desc = Description.createTestDescription(this.getTestClass().getJavaClass(), child.getCaseName());
 		}
 		for (EUnitTest c : child.getChildren()) {
 			desc.addChild(describeChild(c));
@@ -167,8 +177,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		// care of the rest
 		if (child.isRootTest()) {
 			try {
-				final JUnitEUnitTestListener listener = new JUnitEUnitTestListener(
-						notifier);
+				final JUnitEUnitTestListener listener = new JUnitEUnitTestListener(notifier);
 				module.addTestListener(listener);
 				module.execute();
 				module.removeTestListener(listener);
