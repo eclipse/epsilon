@@ -261,7 +261,7 @@ public class OperatorExecutor extends AbstractExecutor{
 		Object o1 = context.getExecutorFactory().executeAST(operand1Ast,context);
 		Object o2 = context.getExecutorFactory().executeAST(operand2Ast,context);
 		if (o1 instanceof Boolean && o2 instanceof Boolean){
-			return ((Boolean) o1) != ((Boolean) o2);
+			return ((Boolean) o1) ^ ((Boolean) o2);
 		} else {
 			throw new EolRuntimeException("Operator 'xor' applies only to Booleans", ast);
 		}
