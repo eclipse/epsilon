@@ -65,10 +65,12 @@ public class EolModelElementType extends EolType{
 	}
 
 	private void checkAmbiguityOfType(IEolContext context) {
-		final AmbiguityCheckResult result = context.getModelRepository().checkAmbiguity(typeName);
-	
-		if (modelName.isEmpty() && result.isAmbiguous) {
-			issueAmbiguousTypeWarning(context, result);
+		if (modelName.isEmpty()) {
+			final AmbiguityCheckResult result = context.getModelRepository().checkAmbiguity(typeName);
+
+			if (result.isAmbiguous) {
+				issueAmbiguousTypeWarning(context, result);
+			}
 		}
 	}
 
