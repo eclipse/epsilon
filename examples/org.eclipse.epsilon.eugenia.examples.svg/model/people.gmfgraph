@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gmfgraph:Canvas
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+    name="people">
+  <figures
+      name="Default">
+    <descriptors
+        name="PersonFigure">
+      <actualFigure
+          xsi:type="gmfgraph:SVGFigure"
+          name="PersonFigure"
+          documentURI="platform:/plugin/org.eclipse.epsilon.eugenia.examples.svg/svg/person.svg">
+        <border
+            xsi:type="gmfgraph:MarginBorder">
+          <insets
+              top="5"
+              left="5"
+              bottom="5"
+              right="5"/>
+        </border>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="PersonLabelFigure"
+            text="Person"/>
+      </actualFigure>
+      <accessors
+          accessor="getFigurePersonLabelFigure"
+          figure="//@figures.0/@descriptors.0/@actualFigure/@children.0"/>
+    </descriptors>
+  </figures>
+  <nodes
+      name="Person"
+      figure="PersonFigure"/>
+  <labels
+      name="PersonLabel"
+      figure="PersonFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.0/@accessors.0"/>
+</gmfgraph:Canvas>
