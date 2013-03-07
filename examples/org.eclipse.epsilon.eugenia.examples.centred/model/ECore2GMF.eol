@@ -1,0 +1,11 @@
+findShape('WidgetFigure').layout = createCentredLayout();
+
+operation findShape(name : String) {
+  return GmfGraph!Shape.all.selectOne(s|s.name = name);
+}
+
+operation createCentredLayout() : GmfGraph!CustomLayout {
+  var layout = new GmfGraph!CustomLayout;
+  layout.qualifiedClassName = 'widgets.custom.layouts.CentredLayout';
+  return layout;
+}
