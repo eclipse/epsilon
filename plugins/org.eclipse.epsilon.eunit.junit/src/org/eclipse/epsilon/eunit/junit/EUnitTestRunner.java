@@ -103,9 +103,10 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		@Override
 		public void afterCase(EUnitModule module, EUnitTest test) {
 			final Description desc = describeChild(test);
-			if (test.getResult().equals(EUnitTestResultType.FAILURE)
-					|| test.getResult().equals(EUnitTestResultType.ERROR)) {
-				notifier.fireTestFailure(new Failure(desc, test.getException()));
+			if (test.isLeafTest()) {
+				EUnitTestResultType res = test.getResult();
+				if (res.equals(EUnitTestResultType.FAILURE) || res.equals(EUnitTestResultType.ERROR))
+					notifier.fireTestFailure(new Failure(desc, test.getException()));
 			}
 			notifier.fireTestFinished(desc);
 		}
