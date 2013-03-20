@@ -12,6 +12,7 @@
 package org.eclipse.epsilon.dt.exeed;
 
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -115,7 +116,19 @@ public abstract class EObjectImageTextProvider {
 		}
 		return addStructuralInfo(object, def, forReference);
 	}
-
+	
+	public Collection<?> getChoiceOfValues(Object object, String filter, Collection<?> def) {
+		try {
+			parse(filter);
+			module.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("self", object));
+			return (Collection<?>) module.execute();
+		}
+		catch (Exception ex) {
+			logException(ex);
+		}
+		return def;
+	}
+	
 	public String getEObjectReferenceLabel(Object object, String def) {
 		if (!(object instanceof EObject)) return def;
 

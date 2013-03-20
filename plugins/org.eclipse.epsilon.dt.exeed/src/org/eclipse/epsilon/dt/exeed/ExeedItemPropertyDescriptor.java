@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2013 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,11 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.epsilon.eol.EolModule;
 
 public class ExeedItemPropertyDescriptor extends ItemPropertyDescriptor {
 
@@ -27,7 +30,18 @@ public class ExeedItemPropertyDescriptor extends ItemPropertyDescriptor {
 		fixMultiLine(feature);
 		this.sortChoices = true;
 	}
-
+	
+	@Override
+	public Collection<?> getChoiceOfValues(Object object) {
+		String filter = getEStructuralFeatureAnnotationDetail(feature, "exeed", "filter");
+		if (filter != null) {
+			return imageTextProvider.getChoiceOfValues(object, filter, super.getChoiceOfValues(object));
+		}
+		else {
+			return super.getChoiceOfValues(object);
+		}
+	}
+	
 	@Override
 	public IItemLabelProvider getLabelProvider(Object thisObject) {
 		return new ExeedItemLabelProvider(super.getLabelProvider(thisObject));

@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -42,6 +44,10 @@ public class ExeedImageTextProvider {
 		
 	}
 
+	public Collection<?> getChoiceOfValues(Object object, String filter, Collection<?> def) {
+		return imageTextProvider.getChoiceOfValues(object, filter, def);
+	}
+	
 	public String getEStructuralFeatureLabel(EStructuralFeature feature, String def) {
 		return imageTextProvider.getEStructuralFeatureLabel(feature, def);
 	}
