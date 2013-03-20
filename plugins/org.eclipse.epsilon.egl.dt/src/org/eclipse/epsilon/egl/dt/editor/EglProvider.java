@@ -28,6 +28,7 @@ public class EglProvider extends FileDocumentProvider implements IDocumentProvid
 	public static final String EGL_EOL         = "org.eclipse.epsilon.egl.dt.editor.EOL";
 	public static final String EGL_EOLSHORTCUT = "org.eclipse.epsilon.egl.dt.editor.EOLSHORTCUT";
 	public static final String EGL_COMMENT     = "org.eclipse.epsilon.egl.dt.editor.COMMENT";
+	public static final String EGL_MARKER     = "org.eclipse.epsilon.egl.dt.editor.MARKER";
 	
 	
 	@Override
@@ -37,7 +38,8 @@ public class EglProvider extends FileDocumentProvider implements IDocumentProvid
 			IDocumentPartitioner partitioner = new FastPartitioner(createScanner(), new String[] {
 				EGL_EOL,
 				EGL_EOLSHORTCUT,
-				EGL_COMMENT});
+				EGL_COMMENT,
+				EGL_MARKER});
 		
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
@@ -49,11 +51,13 @@ public class EglProvider extends FileDocumentProvider implements IDocumentProvid
 		IToken eolshort = new Token(EGL_EOLSHORTCUT);
 		IToken eol      = new Token(EGL_EOL);
 		IToken comment  = new Token(EGL_COMMENT);
+		IToken marker  = new Token(EGL_MARKER);
 		
-		IPredicateRule[] rules = new IPredicateRule[3];
-		rules[0] = new MultiLineRule("[*", "*]",  comment,  (char)0, true);
-		rules[1] = new MultiLineRule("[%=", "%]", eolshort, (char)0, true);
-		rules[2] = new MultiLineRule("[%", "%]",  eol,      (char)0, true);
+		IPredicateRule[] rules = new IPredicateRule[4];
+		rules[0] = new MultiLineRule("[*-", "*]",  marker,  (char)0, true);
+		rules[1] = new MultiLineRule("[*", "*]",  comment,  (char)0, true);
+		rules[2] = new MultiLineRule("[%=", "%]", eolshort, (char)0, true);
+		rules[3] = new MultiLineRule("[%", "%]",  eol,      (char)0, true);
 		
 		RuleBasedPartitionScanner scanner = new RuleBasedPartitionScanner();
 		scanner.setPredicateRules(rules);

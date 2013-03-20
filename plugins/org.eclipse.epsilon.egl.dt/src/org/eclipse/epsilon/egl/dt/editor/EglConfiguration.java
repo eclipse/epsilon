@@ -74,6 +74,11 @@ public class EglConfiguration extends SourceViewerConfiguration {
 		eglReconciler.setRepairer(commentRepairer, EglProvider.EGL_COMMENT);
 		eglReconciler.setDamager(commentRepairer, EglProvider.EGL_COMMENT);
 		
+		// Highlight marker partitions
+		final DefaultDamagerRepairer2 markerRepairer = new DefaultDamagerRepairer2(getMarkerScanner());
+		
+		eglReconciler.setRepairer(markerRepairer, EglProvider.EGL_MARKER);
+		eglReconciler.setDamager(markerRepairer, EglProvider.EGL_MARKER);
 		
 		return eglReconciler;
 	}
@@ -86,7 +91,16 @@ public class EglConfiguration extends SourceViewerConfiguration {
 		
 		return scanner;
 	}
-
+	
+	private ITokenScanner getMarkerScanner() {
+		final RuleBasedScanner scanner       = new RuleBasedScanner();
+		final TextAttribute    textAttribute = new TextAttribute(AbstractModuleEditor.MARKER);
+		
+		scanner.setDefaultReturnToken(new Token(textAttribute));
+		
+		return scanner;
+	}
+	
 	@Override
 	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
 		return configuration.getAnnotationHover(sourceViewer);
@@ -111,6 +125,7 @@ public class EglConfiguration extends SourceViewerConfiguration {
 		
 		// Add EGL's content types
 		configuredContentTypes.add(EglProvider.EGL_COMMENT);
+		configuredContentTypes.add(EglProvider.EGL_MARKER);
 		configuredContentTypes.add(EglProvider.EGL_EOL);
 		configuredContentTypes.add(EglProvider.EGL_EOLSHORTCUT);
 		

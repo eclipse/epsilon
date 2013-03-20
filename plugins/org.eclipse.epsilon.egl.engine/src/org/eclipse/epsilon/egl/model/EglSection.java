@@ -31,6 +31,13 @@ public abstract class EglSection implements ModuleElement {
 		
 		case PLAIN_TEXT:
 			return new EglStaticSection(ast);
+			
+		case START_COMMENT_TAG: {
+			if (ast.getFirstChild() != null && ast.getFirstChild().getText().startsWith("-")) {
+				return new EglMarkerSection(ast);
+			}
+		}
+		
 		}
 		
 		return null;

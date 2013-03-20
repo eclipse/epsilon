@@ -31,6 +31,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
@@ -139,7 +140,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		for (AST child : ast.getChildren()) {
 			final EglSection section = EglSection.createFrom(child);
 			
-			if (section != null) {
+			if (section != null && section instanceof EglMarkerSection) {
 				sections.add(section);
 			}
 		}
