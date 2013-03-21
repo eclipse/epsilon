@@ -156,6 +156,7 @@ public class TestEglParser {
 		
 		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
 		                         new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "", 1, 3),
 		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 3));
 		
 		assertEquals(0, parser.getParseProblems().size());
@@ -191,6 +192,38 @@ public class TestEglParser {
 		                         new EglToken(TokenType.START_COMMENT_TAG, "[*", 1, 1),
 		                         new EglToken(TokenType.PLAIN_TEXT, " [% for (i in Sequence{1..5}) { %] i is [%=i%] [% } %] ", 1, 3),
 		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 58));
+		
+		assertEquals(0, parser.getParseProblems().size());
+	}
+	
+	@Test
+	public void testEmptyMarker() {
+		final EglLexer   lexer = new EglLexer("[*-*]");
+		final EglParser parser = new EglParser(lexer, astFactory);
+		
+		assertTrue(parser.parse());
+		
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_MARKER_TAG, "[*-", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, "", 1, 4),
+		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 4));
+		
+		assertEquals(0, parser.getParseProblems().size());
+	}
+	
+	@Test
+	public void testMarker() {
+		//                                     0          
+		//                                     123456789
+		final EglLexer   lexer = new EglLexer("[*- foo *]");
+		final EglParser parser = new EglParser(lexer, astFactory);
+		
+		assertTrue(parser.parse());
+		
+		walkAst(parser.getAST(), new EglToken(TokenType.PROGRAM, "", 1, 1),
+		                         new EglToken(TokenType.START_MARKER_TAG, "[*-", 1, 1),
+		                         new EglToken(TokenType.PLAIN_TEXT, " foo ", 1, 4),
+		                         new EglToken(TokenType.END_COMMENT_TAG, "*]", 1, 9));
 		
 		assertEquals(0, parser.getParseProblems().size());
 	}

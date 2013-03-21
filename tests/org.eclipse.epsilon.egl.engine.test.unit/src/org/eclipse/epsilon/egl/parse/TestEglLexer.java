@@ -92,6 +92,16 @@ public class TestEglLexer {
 	}
 	
 	@Test
+	public void testStartMarkerTag() throws EglRecognitionException {
+		final EglLexer l = new EglLexer("[*-");
+		
+		EglToken expected = new EglToken(TokenType.START_MARKER_TAG, "[*-", 1, 1);
+		EglToken actual = l.nextToken();
+		
+		assertTrue(expected.equals(actual));
+	}
+	
+	@Test
 	public void testEndCommentTag() throws EglRecognitionException {
 		final EglLexer l = new EglLexer("*]");
 		

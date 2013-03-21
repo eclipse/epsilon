@@ -58,6 +58,9 @@ Any EOL statement can be contained in the dynamic sections of an EGL template. F
 [% } %]
 \end{lstlisting}
 
+\subsection{Comments and Markers}
+Inside an EGL dynamic section, EOL's comment syntax can be used. Additionally, EGL adds syntax for comment blocks \texttt{[* this is a comment *]} and marker blocks \texttt{[*- this is a marker *]}. Marker blocks are highlighted by the EGL editor and EGL outline view in Eclipse.
+
 \subsection{User-Defined Operations}
 
 Like EOL, EGL permits users to define re-usable units of code via operations (Section~\ref{sec:Design.EOL.Operations}). EGL operations support the predefined annotations for regular EOL operations, such as optional pre-/post-conditions (Section~\ref{sec:prep-cond-user}) or

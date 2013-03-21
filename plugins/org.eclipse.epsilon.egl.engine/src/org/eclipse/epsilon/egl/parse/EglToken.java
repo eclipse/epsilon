@@ -25,6 +25,7 @@ public class EglToken extends CommonToken {
 		START_OUTPUT_TAG,
 		END_TAG,
 		START_COMMENT_TAG,
+		START_MARKER_TAG,
 		END_COMMENT_TAG,
 		EOF;
 		

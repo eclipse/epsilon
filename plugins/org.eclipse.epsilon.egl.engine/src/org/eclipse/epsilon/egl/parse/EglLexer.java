@@ -67,6 +67,9 @@ public class EglLexer {
 		} else if (program.startsWith("\n")) {
 			return tokenise(TokenType.NEW_LINE, "\n");
 			
+		} else if (program.startsWith("[*-")) {
+			return tokenise(TokenType.START_MARKER_TAG, "[*-");
+			
 		} else if (program.startsWith("[*")) {
 			return tokenise(TokenType.START_COMMENT_TAG, "[*");
 		

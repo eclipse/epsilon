@@ -174,7 +174,8 @@ public class EglParser {
 	private AST parseCommented() throws EglRecognitionException {
 		final EglToken startCommentTagToken = current; 
 		
-		if (current.getTokenType() != TokenType.START_COMMENT_TAG)
+		if (current.getTokenType() != TokenType.START_COMMENT_TAG &&
+			current.getTokenType() != TokenType.START_MARKER_TAG)
 			return null;
 		
 		nextToken();
@@ -191,6 +192,7 @@ public class EglParser {
 		
 		// Ensure end comment tag is present
 		if (current.getTokenType() == TokenType.END_COMMENT_TAG) {
+			final AST endCommentTag = createAST(current);
 			final AST commentedAst = createAST(startCommentTagToken);
 			
 			commentedAst.addChild(createAST(TokenType.PLAIN_TEXT,
@@ -198,6 +200,8 @@ public class EglParser {
 			                                startCommentTagToken.getLine(),
 			                                startCommentTagToken.getColumn() + startCommentTagToken.getText().length()));
 		
+			commentedAst.addChild(endCommentTag);
+			
 			nextToken();
 			
 			return commentedAst;

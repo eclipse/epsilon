@@ -22,25 +22,15 @@ public abstract class EglSection implements ModuleElement {
 	private final AST ast;
 	
 	public static EglSection createFrom(AST ast) {
-		switch (TokenType.typeOf(ast.getType())) {
-		case START_TAG:
-			return new EglDynamicSection(ast);
-			
-		case START_OUTPUT_TAG:
-			return new EglShortcutSection(ast);
-		
-		case PLAIN_TEXT:
-			return new EglStaticSection(ast);
-			
-		case START_COMMENT_TAG: {
-			if (ast.getFirstChild() != null && ast.getFirstChild().getText().startsWith("-")) {
-				return new EglMarkerSection(ast);
-			}
-		}
-		
+		if (isMarker(ast)) {
+			return new EglMarkerSection(ast);
 		}
 		
 		return null;
+	}
+
+	private static boolean isMarker(AST ast) {
+		return TokenType.typeOf(ast.getType()) == TokenType.START_MARKER_TAG;
 	}
 	
 	protected EglSection(AST ast) {

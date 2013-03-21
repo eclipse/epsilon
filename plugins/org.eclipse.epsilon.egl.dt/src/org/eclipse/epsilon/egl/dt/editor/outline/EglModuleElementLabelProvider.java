@@ -12,10 +12,7 @@ package org.eclipse.epsilon.egl.dt.editor.outline;
 
 import org.eclipse.epsilon.egl.dt.EglPlugin;
 import org.eclipse.epsilon.egl.execute.operations.EglTemplateOperation;
-import org.eclipse.epsilon.egl.model.EglDynamicSection;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
-import org.eclipse.epsilon.egl.model.EglShortcutSection;
-import org.eclipse.epsilon.egl.model.EglStaticSection;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
@@ -24,13 +21,7 @@ public class EglModuleElementLabelProvider extends EolModuleElementLabelProvider
 	@Override
 	public Image getImage(Object element) {
 		
-		if (element instanceof EglStaticSection) {
-			return EglPlugin.getDefault().createImage("icons/static.png");
-		} else if (element instanceof EglDynamicSection) {
-			return EglPlugin.getDefault().createImage("icons/dynamic.png");
-		} else if (element instanceof EglShortcutSection) {
-			return EglPlugin.getDefault().createImage("icons/shortcut.png");
-		} else if (element instanceof EglMarkerSection) {
+		if (element instanceof EglMarkerSection) {
 			return EglPlugin.getDefault().createImage("icons/marker.png");
 		} else if (element instanceof EglTemplateOperation) {
 			return EglPlugin.getDefault().createImage("icons/template_operation.png");
