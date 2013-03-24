@@ -14,7 +14,7 @@
     <package 
        uri = "http://www.eclipse.org/gmt/epsilon/hutnConfig" 
        class = "org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigPackage"
-       genModel = "model/org/epsilon/hutn/model/config/HUTNConfig.genmodel" /> 
+       genModel = "model/org/eclipse/epsilon/hutn/model/config/HUTNConfig.genmodel" /> 
   </extension>
 
 </plugin>

@@ -14,7 +14,7 @@
     <package 
        uri = "http://www.eclipse.org/gmt/epsilon/antlrAst" 
        class = "org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.AntlrAstPackage"
-       genModel = "model/org/epsilon/antlr/postprocessor/model/AntlrAst.genmodel" /> 
+       genModel = "model/org/eclipse/epsilon/antlr/postprocessor/model/AntlrAst.genmodel" /> 
   </extension>
 
 </plugin>

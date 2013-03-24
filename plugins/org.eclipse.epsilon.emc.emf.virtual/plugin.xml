@@ -18,7 +18,7 @@
     <package 
        uri = "virtualEmf" 
        class = "org.eclipse.epsilon.emc.emf.virtual.VirtualPackage"
-       genModel = "model/org/epsilon/eol/models/emf/virtual/VirtualEMF.genmodel" /> 
+       genModel = "model/org/eclipse/epsilon/eol/emc/emf/virtual/VirtualEMF.genmodel" /> 
   </extension>
 
 </plugin>

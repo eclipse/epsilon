@@ -14,7 +14,7 @@
     <package 
        uri = "http://www.example.org/hutn" 
        class = "org.eclipse.epsilon.hutn.model.hutn.HutnPackage"
-       genModel = "model/org/epsilon/hutn/model/HUTN.genmodel" /> 
+       genModel = "model/org/eclipse/epsilon/hutn/model/HUTN.genmodel" /> 
   </extension>
 
 </plugin>
