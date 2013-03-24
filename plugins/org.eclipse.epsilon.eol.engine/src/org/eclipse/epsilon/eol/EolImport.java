@@ -76,7 +76,8 @@ public class EolImport extends AbstractModuleElement{
 				loaded = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Ignore the exception. The import's loaded flag is still false
+			// and it's up to the importing module to do something about it.
 		}
 	}
 	
