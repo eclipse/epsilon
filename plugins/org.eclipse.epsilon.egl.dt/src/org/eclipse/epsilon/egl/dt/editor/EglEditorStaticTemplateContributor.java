@@ -26,6 +26,7 @@ public class EglEditorStaticTemplateContributor implements IAbstractModuleEditor
 			templates.add(new Template("[% %]","dynamic block","","[%${cursor}%]",false));
 			templates.add(new Template("[%= %]","output block","","[%=${cursor}%]",false));
 			templates.add(new Template("[* *]","multiline comment","","[*${cursor}*]",false));
+			templates.add(new Template("[*- *]","outline view marker","","[*-${cursor}*]",false));
 			templates.add(new Template("for", "iterate over collection", "", "[%for (${iterator} in ${collection}) { %]\r\n\t${cursor}\r\n[%}%]",false));
 			String generateTemplate = "var ${templateName} : Template;\r\n" + 
 									"-- Pass parameters to the template\r\n" + 
