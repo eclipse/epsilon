@@ -81,16 +81,14 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 		
 		int loopCount = 0;
 		for (Template template : templates) {
-			indentTemplate(template);
-			indented[loopCount] = template;
+			indented[loopCount] = indentTemplate(template);
 			loopCount++;
 		}
 		return indented;
 	}
 	
-	protected void indentTemplate(Template original) {
-		original.setPattern(addIndent(original.getPattern(),getIndent()));
-		//return new Template(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable());
+	protected Template indentTemplate(Template original) {
+		return new Template(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable());
 	}
 	
 	protected String addIndent(String text, int indent) {
