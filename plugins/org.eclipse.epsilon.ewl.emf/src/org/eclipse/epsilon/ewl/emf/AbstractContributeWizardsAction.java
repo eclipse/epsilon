@@ -28,7 +28,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -139,36 +138,6 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 	}
 
-	protected List<URI> getEwlURIsForEObjects(Collection<EObject> eObjects) {
-		Set<String> eObjectURIs = new TreeSet<String>(); 
-		for (EObject eObject : eObjects) {
-			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
-			eObjectURIs.add(eObjectNsURI);
-		}
-	
-		List<URI> wizardURIs = new ArrayList<URI>();
-		for (IConfigurationElement configurationElement : getConfigurationElements()) {
-			String namespaceURI = configurationElement.getAttribute("namespaceURI");
-			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
-				String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-				try {
-					String path = configurationElement.getAttribute("file");
-					wizardURIs.add(FileLocator.find(Platform.getBundle(pluginId), new Path(path), null).toURI());
-				} catch (Exception e) {
-					LogUtil.log(e);
-				}
-			}
-		}
-		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
-			String namespaceURI = preference.getNamespaceURI();
-			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
-				wizardURIs.add(new File(EclipseUtil.getWorkspaceFileAbsolutePath(preference.getWizards())).toURI());
-			}
-		}
-		
-		return wizardURIs;
-	}
-
 	private void populateWizardsMenu(Menu wizardsMenu) {
 		// Clean the menu
 		for (MenuItem item : wizardsMenu.getItems()) {
@@ -191,15 +160,16 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				}
 			}
 
-			final List<URI> uris = getEwlURIsForEObjects(eObjects);
-			final Resource resource = eObjects.get(0).eResource();
-			final List<EPackage> ePackages = loadExtraPackages(resource);
+			final Set<String> eObjectURIs = getEObjectURIsFor(eObjects);
+			final List<IConfigurationElement> availableConfigElems = getConfigurationElementsFor(eObjectURIs);
+			final List<EPackage> ePackages = getExtraPackages(availableConfigElems);
 			if (!eObjects.isEmpty()) {
 				ePackages.add(EmfUtil.getTopEPackage(eObjects.get(0)));
 			}
+			final Resource resource = eObjects.get(0).eResource();
 			model = new InMemoryEmfModel("Model", resource, ePackages);
 
-			for (URI uri : uris) {
+			for (URI uri : getEwlURIsFor(eObjectURIs, availableConfigElems)) {
 				EwlModule module = new EwlModule();
 				
 				try {
@@ -246,11 +216,10 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			}
 			wizardItem.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {
-				
+					// do nothing
 				}
 
 				public void widgetSelected(SelectionEvent e) {
-						
 						WorkbenchPartRefresher refresher = getWorkbenchPartRefresher();
 						refresher.setPart(targetPart);
 						
@@ -263,12 +232,57 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 	}
 
-	private List<EPackage> loadExtraPackages(Resource resource) {
+	private IConfigurationElement[] getAllConfigurationElements() {
+		return Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.epsilon.ewl.emf.wizards");
+	}
+
+	private List<IConfigurationElement> getConfigurationElementsFor(final Set<String> eObjectURIs) {
+		final List<IConfigurationElement> availableConfigElems = new ArrayList<IConfigurationElement>();
+		for (IConfigurationElement configurationElement : getAllConfigurationElements()) {
+			String namespaceURI = configurationElement.getAttribute("namespaceURI");
+			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
+				availableConfigElems.add(configurationElement);
+			}
+		}
+		return availableConfigElems;
+	}
+
+	private Set<String> getEObjectURIsFor(Collection<EObject> eObjects) {
+		final Set<String> eObjectURIs = new TreeSet<String>(); 
+		for (EObject eObject : eObjects) {
+			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
+			eObjectURIs.add(eObjectNsURI);
+		}
+		return eObjectURIs;
+	}
+
+	private List<URI> getEwlURIsFor(Set<String> eObjectURIs, Collection<IConfigurationElement> availableConfigElems) {
+		final List<URI> wizardURIs = new ArrayList<URI>();
+		for (IConfigurationElement configurationElement : availableConfigElems) {
+			String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
+			try {
+				String path = configurationElement.getAttribute("file");
+				wizardURIs.add(FileLocator.find(Platform.getBundle(pluginId), new Path(path), null).toURI());
+			} catch (Exception e) {
+				LogUtil.log(e);
+			}
+		}
+		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
+			String namespaceURI = preference.getNamespaceURI();
+			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
+				wizardURIs.add(new File(EclipseUtil.getWorkspaceFileAbsolutePath(preference.getWizards())).toURI());
+			}
+		}
+		
+		return wizardURIs;
+	}
+
+	private List<EPackage> getExtraPackages(Collection<IConfigurationElement> availableConfigElems) {
 		final List<EPackage> ePackages = new ArrayList<EPackage>();
-		for (IConfigurationElement elem : this.getConfigurationElements()) {
+		for (IConfigurationElement elem : availableConfigElems) {
 			final String extraPackages = elem.getAttribute("extraPackages");
 			if (extraPackages == null) continue;
-
+	
 			for (String packageURI : extraPackages.split(",")) {
 				final EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(packageURI);
 				if (ePackage != null) {
@@ -277,9 +291,5 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			}
 		}
 		return ePackages;
-	}
-	
-	private IConfigurationElement[] getConfigurationElements() {
-		return Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.epsilon.ewl.emf.wizards");
 	}
 }
