@@ -69,7 +69,9 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public boolean parse(String code, File file) throws Exception {
 		this.sourceFile = file;
-		this.sourceUri = (file != null) ? file.toURI() : null;
+		if (file != null) {
+			this.sourceUri = file.toURI();
+		}
 		return parse(sourceUri, new ByteArrayInputStream(code.getBytes()));
 	}
 
