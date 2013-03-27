@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eugenia;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -211,8 +212,11 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
-		IStructuredSelection selection1 = (IStructuredSelection) selection;
-		setSelectedFile((IFile) selection1.iterator().next());
+		Iterator<?> it = ((IStructuredSelection) selection).iterator();
+		
+		if (it.hasNext()){
+			setSelectedFile((IFile) it.next());
+		}
 	}
 
 	public List<IModel> getExtraModels() {
