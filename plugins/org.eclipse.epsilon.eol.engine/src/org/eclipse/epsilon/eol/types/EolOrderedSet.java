@@ -13,8 +13,6 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.LinkedHashSet;
 
-import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
-
 public class EolOrderedSet<T> extends LinkedHashSet<T> {
 	private static final long serialVersionUID = -1878923551432043443L;
 

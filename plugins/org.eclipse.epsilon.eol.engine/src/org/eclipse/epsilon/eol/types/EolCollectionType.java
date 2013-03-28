@@ -12,15 +12,24 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
 
 public class EolCollectionType extends EolType {
-
+	
+	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers = null;
+	
+	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
+		if (collectionTypeResolvers == null) {
+			collectionTypeResolvers = new HashSet<IEolCollectionTypeResolver>();
+		}
+		return collectionTypeResolvers;
+	}
+	
 	private String name;
 		
 	public static EolCollectionType Collection = new EolCollectionType("Collection");
@@ -34,12 +43,11 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
-		AnnotatedCollectionType annotatedCollectionType = CollectionAnnotator.getInstance().getType(c);
-		if (annotatedCollectionType != null) {
-			if (annotatedCollectionType == AnnotatedCollectionType.Bag) return Bag;
-			if (annotatedCollectionType == AnnotatedCollectionType.Sequence) return Sequence;
-			if (annotatedCollectionType == AnnotatedCollectionType.Set) return Set;
-			if (annotatedCollectionType == AnnotatedCollectionType.OrderedSet) return OrderedSet;
+		
+		for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
+			if (collectionTypeResolver.canResolveType(c)) {
+				return collectionTypeResolver.resolveType(c);
+			}
 		}
 		
 		if (c instanceof EolSequence || (c instanceof List && !(c instanceof Set))) return Sequence;
@@ -60,11 +68,13 @@ public class EolCollectionType extends EolType {
 	public boolean isKind(Object o) {
 		if (!(o instanceof Collection)) return false;
 		
+		EolCollectionType collectionType = getTypeOf((Collection<?>) o);
+		
 		if (this == Collection) return true;
-		else if (this == Bag) return Bag.isType(o) || Sequence.isType(o);
-		else if (this == Sequence) return Sequence.isType(o);
-		else if (this == OrderedSet) return OrderedSet.isType(o);
-		else if (this == Set) return Set.isType(o) || OrderedSet.isType(o); 
+		else if (this == Bag) return collectionType == Bag || collectionType == Sequence;
+		else if (this == Sequence) return collectionType == Sequence;
+		else if (this == OrderedSet) return collectionType == OrderedSet;
+		else if (this == Set) return collectionType == Set || collectionType == OrderedSet; 
 		
 		return false;
 	}

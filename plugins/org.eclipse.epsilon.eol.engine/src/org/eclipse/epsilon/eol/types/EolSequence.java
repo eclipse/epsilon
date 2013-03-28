@@ -12,8 +12,6 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.ArrayList;
 
-import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
-
 public class EolSequence<T> extends ArrayList<T> {
 	private static final long serialVersionUID = -2401272219693014633L;
 

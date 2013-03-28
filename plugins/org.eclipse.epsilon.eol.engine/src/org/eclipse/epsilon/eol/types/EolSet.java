@@ -13,13 +13,10 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.HashSet;
 
-import org.eclipse.epsilon.eol.types.CollectionAnnotator.AnnotatedCollectionType;
-
 public class EolSet<T> extends HashSet<T> {
 	private static final long serialVersionUID = -5092429015394416636L;
 
 	public EolSet() {
 		super();
-		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Set);
 	}
 }
