@@ -39,12 +39,6 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 
 public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	
-	
-	public static void main(String[] args) {
-		EPackage p = EcorePackage.eINSTANCE;
-		System.err.println(p.getEClassifiers().getClass().getSuperclass().getSuperclass());
-	}
-	
 	/**
 	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
 	 * 
