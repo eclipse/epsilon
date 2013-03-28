@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.userinput;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -22,7 +23,7 @@ public abstract class AbstractUserInput implements IUserInput {
 	}
 	
 	public Object chooseMany(String question, Collection choices) {
-		return chooseMany(question, choices, Collections.EMPTY_LIST);
+		return chooseMany(question, choices, new ArrayList<Object>());
 	}
 	
 	public boolean confirm(String question)
