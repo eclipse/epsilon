@@ -1,10 +1,8 @@
 import 'ECoreUtil.eol';
 
 context EPackage {
-	
+
 	constraint DiagramIsDefined {
-		
-		guard : self.getTopEPackage().isAnnotatedAs('gmf')
 		
 		check : getDiagramClass().isDefined()
 		
@@ -46,11 +44,33 @@ context EPackage {
 
 context EClass {
 	
-	guard : self.isNode() and self.getTopEPackage().satisfies('DiagramIsDefined')
+	guard : self.isNode()
+	
+	constraint IsValidSvgNode {
+		
+		check : (self.getAnnotationValue('gmf.node', 'figure') = "svg") implies
+			(self.getAnnotationValue('gmf.node', 'svg.uri').isDefined())
+			
+		message : "No svg.uri provided for SVG figure " + self.name
+		
+	}
+	
+	constraint IsValidPolygonNode {
+		
+		check : (self.getAnnotationValue('gmf.node', 'figure') = "polygon") implies
+			(
+				self.getAnnotationValue('gmf.node', 'polygon.x').isDefined() and 
+				self.getAnnotationValue('gmf.node', 'polygon.y').isDefined()
+			)
+			
+		message : "No polygon x/y coordinates provided for polygon figure " + self.name
+		
+	}
 	
 	constraint NodeLabelIsDefined { 
 		
-		check : self.getAnnotationValue('gmf.node', 'label').isDefined()  
+		check : self.getAnnotationValue('gmf.node', 'label').isDefined() or 
+				self.getAnnotationValue('gmf.node', 'label.placement' = "none")
 		
 		message : 'No label defined for class ' + self.name 
 		
@@ -71,43 +91,129 @@ context EClass {
 		}
 		
 		message : 'Label attribute(s) ' + missing.concat(', ')  
-			+ ' does not exist in class ' + self.name 
+			+ ' do(es) not exist in class ' + self.name 
 		
 	}
 	
 }
-
+/*
+ * Validation rules for annoations details
+ */
 context EStringToStringMapEntry {
 	
-	guard : self.getTopEPackage().satisfies('DiagramIsDefined') and 
-		EAnnotation.all.exists(a|a.source.isDefined() and 
-		a.source.startsWith('gmf.') and a.details.includes(self))
-	
-	critique LabelIcon {
+	critique IsValidLinkDecoration {
 		
-		guard : self.key = 'label.icon'
+		guard : self.is('gmf.link', 'source.decoration') or 
+				self.is('gmf.link', 'target.decoration')
+		
+		check {
+			var values := Sequence{'none', 'arrow', 'rhomb', 'filledrhomb',
+				'square', 'filledsquare', 'closedarrow', 'filledclosedarrow'};
+				
+			return self.value.isWithinValuesOrLooksLikeJavaClassName(values);
+			
+		}
+		
+		message : 'The value of ' + self.toEmfatic() + ' must be one of: ' + values.concat(', ') +
+				  " or a fully-qualified Java class name"
+	}
+	
+	critique IsValidNodeFigure {
+		
+		guard : self.is('gmf.node', 'figure')
+		
+		check {
+			var values := Sequence{'rectangle', 'ellipse', 'rounded', 'svg',
+				'polygon'};
+			
+			return self.value.isWithinValuesOrLooksLikeJavaClassName(values);
+			
+		}
+		
+		message : 'The value of ' + self.toEmfatic() + ' must be one of: ' + values.concat(', ') +
+				  " or a fully-qualified Java class name"
+	}
+	
+	constraint IsValidLabelPlacement {
+		
+		guard : self.is('gmf.node', 'label.placement')
+		
+		check {
+			var values := Sequence{'internal', 'external', 'none'};
+			return values.includes(self.value);
+		}
+		
+		message : 'The value of ' + self.toEmfatic() + ' must be one of: ' + values.concat(', ')
+	}
+	
+	constraint IsValidInteger {
+		guard : self.is('gmf.node', 'border.width') or
+				self.is('gmf.node', 'margin')
+		
+		check : self.value.isInteger()
+		
+		message : 'The value of ' + self.key + " is not a valid integer"
+	}
+	
+	constraint IsValidListOfIntegers {
+		guard : self.is('gmf.node', 'polygon.x') or 
+				self.is('gmf.node', 'polygon.y') 
+		
+		check : self.value.matches("(\\s*\\d+)+")
+		
+		message : 'The value of ' + self.toEmfatic() + " is not a valid list of integers"	
+	}
+	
+	constraint IsValidDimension {
+		guard : self.is('gmf.node', 'size')
+		
+		check : self.value.matches("\\s*\\d+,\\s*\\d+\\s*")
+		
+		message : 'The value of ' + self.toEmfatic() + " is not a valid dimension"	
+	}
+	
+	constraint IsValidRGB {
+		guard : self.is('gmf.node', 'border.color') or 
+				self.is('gmf.node', 'color') or 
+				self.is('gmf.link', 'color')
+		
+		check : self.value.matches("\\s*\\d{3},\\s*\\d{3},\\s*\\d{3}\\s*")
+		
+		message : 'The value of ' + self.toEmfatic() + " is not a valid RGB color"	
+	}
+	
+	constraint IsValidBoolean {
+		
+		guard : self.is('gmf.diagram', 'rcp') or
+				self.is('gmf.node', 'label.icon') or 
+				self.is('gmf.node', 'label.readOnly') or 
+				self.is('gmf.node', 'phantom') or 
+				self.is('gmf.node', 'resizable') or 
+				self.is('gmf.compartment', 'collapsible') or 
+				self.is('gmf.label', 'label.readOnly')
 		
 		check {
 			var values := Sequence{'true', 'false'};
 			return values.includes(self.value);
 		}
 		
-		message : 'The value of label.icon must be one of: ' + values.concat(',')
+		message : 'The value of ' + self.toEmfatic() + ' must be one of: ' + values.concat(', ')
 	}
 	
-	critique LineStyle {
+	constraint IsValidLineStyle {
 		
-		guard : self.key = 'style'
+		guard : self.is('gmf.node', 'border.style') or 
+				self.is('gmf.link', 'style')
 		
 		check {
 			var values := Sequence{'dot', 'dash', 'solid'};
 			return values.includes(self.value);
 		}
 		
-		message : 'The value of style must be one of: ' + values.concat(',')
+		message : "The value of " +  self.toEmfatic() + " must be one of: " + values.concat(', ')
 	}
 
-	critique CompartmentLayout {
+	constraint IsValidCompartmentLayout {
 		
 		guard : self.key = 'layout'
 		
@@ -116,13 +222,14 @@ context EStringToStringMapEntry {
 			return values.includes(self.value);
 		}
 		
-		message : 'The value of style must be one of: ' + values.concat(',')
-	}	
+		message : 'The layout of the ' + self.eContainer().eContainer().name + 
+				  ' compartment must be one of: ' + values.concat(', ')
+	}
 }
 
 context EClass {
 	
-	guard : self.isLink() and self.getTopEPackage().satisfies('DiagramIsDefined')
+	guard : self.isLink()
 	
 	constraint LinkLabelExists {
 		
@@ -187,10 +294,18 @@ context EClass {
 		check : getDiagramContainmentReference(self).isDefined()
 		
 		message : 'Cannot generate link for class ' + self.name + 
-			' because it cannot be contained in any containment refence ' +
+			' because it cannot be contained in any containment reference' +
 			' of diagram root ' + getDiagramClass().name
-		
 	}
+	
+}
+
+operation String isWithinValuesOrLooksLikeJavaClassName(values : Sequence) {
+	return values.includes(self) or self.indexOf('.') > -1;
+}
+
+operation EStringToStringMapEntry is(annotation : String, key : String) {
+	return self.eContainer().source = annotation and self.key = key;
 }
 
 operation ECore!EClass getAttribute(name : String) {
@@ -199,6 +314,18 @@ operation ECore!EClass getAttribute(name : String) {
 
 operation ECore!EClass getReference(name : String) {
 	return self.eAllStructuralFeatures.selectOne(sf:ECore!EReference|sf.name = name);
+}
+
+operation EStringToStringMapEntry toEmfatic() {
+	var s = "@" + self.eContainer.source + "(" + self.key + ")";
+	if (self.eContainer().isKindOf(EStructuralFeature)) {
+		s = s + " of " + self.eContainer().eContainer().eContainer().name + "." +
+			self.eContainer().eContainer().name;
+	}
+	else {
+		s = s + " of " + self.eContainer().eContainer().name;
+	}
+	return s;
 }
 
 operation Any getTopEPackage() {
