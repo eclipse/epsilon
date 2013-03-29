@@ -108,6 +108,8 @@ public class EugeniaTask extends EpsilonTask {
 
 		// We will use exactly the same code that is run from the Eclipse GUI
 		final GenerateAllDelegate genAll = new GenerateAllDelegate();
+		genAll.setShowErrorDialog(false);
+		
 		if (firstStep != null) {
 			genAll.setFirstStep(firstStep);
 		}
@@ -155,6 +157,11 @@ public class EugeniaTask extends EpsilonTask {
 				genAll.addExtraModel(extraModel.getStep(), ref);
 			}
 			genAll.runImpl(action);
+			
+			if (!genAll.isSuccessful()) {
+				throw new BuildException(GenerateAllDelegate.ERROR_MESSAGE);
+			}
+			
 		} catch (Exception e) {
 			throw new BuildException(e);
 		}

@@ -140,8 +140,6 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			builtin.getContext().getModelRepository().addModel(model);
 		}
 
-		String customizationPath = getSelectedFile().getParent().getFile(new Path(getCustomizationTransformation())).getLocation().toOSString();
-		File customizationFile = new File(customizationPath);
 		
 		builtin.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 		builtin.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
@@ -150,26 +148,30 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		
 		try {
 			builtin.execute();
-			if (customizationFile.exists()) {
-				customization.parse(customizationFile);
-				if (customization.getParseProblems().size() == 0) {
-					customization.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
-					customization.getContext().setModelRepository(builtin.getContext().getModelRepository());
-					customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-					customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-					customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
-					for (Variable variable : getExtraVariables()) {
-						customization.getContext().getFrameStack().put(variable);
-					}
-					if (getExtraModels() != null) {
-						for (IModel model : getExtraModels()) {
-							customization.getContext().getModelRepository().addModel(model);
+			if (getCustomizationTransformation() != null) {
+				String customizationPath = getSelectedFile().getParent().getFile(new Path(getCustomizationTransformation())).getLocation().toOSString();
+				File customizationFile = new File(customizationPath);
+				if (customizationFile.exists()) {
+					customization.parse(customizationFile);
+					if (customization.getParseProblems().size() == 0) {
+						customization.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
+						customization.getContext().setModelRepository(builtin.getContext().getModelRepository());
+						customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+						customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+						customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
+						for (Variable variable : getExtraVariables()) {
+							customization.getContext().getFrameStack().put(variable);
 						}
+						if (getExtraModels() != null) {
+							for (IModel model : getExtraModels()) {
+								customization.getContext().getModelRepository().addModel(model);
+							}
+						}
+						customization.execute();
 					}
-					customization.execute();
-				}
-				else {
-					throw new Exception("Syntax error(s) in the custom transformation " + customizationPath + ": " + customization.getParseProblems());
+					else {
+						throw new Exception("Syntax error(s) in the custom transformation " + customizationPath + ": " + customization.getParseProblems());
+					}
 				}
 			}
 		}

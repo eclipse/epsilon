@@ -42,11 +42,17 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 	private GmfFileSet gmfFileSet;
 	private Shell shell;
 	private IWorkbenchPart targetPart;
-
+	protected boolean successful = true;
+	protected boolean showErrorDialog = true;
+	
 	private GenerateAllStep firstStep = GenerateAllStep.clean;
 	private GenerateAllStep lastStep = GenerateAllStep.gmfcode;
 	private Map<GenerateAllStep, List<IModel>> extraModels = new HashMap<GenerateAllStep, List<IModel>>();
 
+	public static final String ERROR_MESSAGE = "Generating the GMF .gmftool/.gmfgraph/.gmfmap models was " + 
+		"unsucessful due to problems in the Ecore model. Please consult the Problems view for a " + 
+		"detailed account of the problems encountered.";
+	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.shell = targetPart.getSite().getShell();
 		this.targetPart = targetPart;
@@ -100,14 +106,21 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		}
 		if (isBeforeOrEqual(lastStep, GenerateAllStep.ecore)) return;
 
+		
 		// Do Ecore to GenModel transformation
 		if (isBeforeOrEqual(firstStep, GenerateAllStep.genmodel)) {
-			generateGenmodel(action);
+			if (!generateGenmodel(action)) {
+				fail();
+				return;
+			}
 		}
 		if (isBeforeOrEqual(lastStep, GenerateAllStep.genmodel)) return;
 
 		if (isBeforeOrEqual(firstStep, GenerateAllStep.gmf)) {
-			generateGMFBasicModels(action);
+			if (!generateGMFBasicModels(action)) {
+				fail();
+				return;
+			}
 		}
 		if (isBeforeOrEqual(lastStep, GenerateAllStep.gmf)) return;
 
@@ -126,6 +139,27 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		generateGMFCode(action);
 	}
 
+	public boolean isSuccessful() {
+		return successful;
+	}
+	
+	public void fail() {
+		successful = false;
+		if (showErrorDialog) {
+			Display.getDefault().asyncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					System.err.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+					if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+						MessageDialog.openError(
+								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Eugenia", ERROR_MESSAGE);
+					}
+				}
+			});
+		}
+	}
+	
 	public IFile getSelectedFile() {
 		return selectedFile;
 	}
@@ -178,13 +212,14 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 			emfatic2EcoreDelegate.refresh();
 		}
 	}
-
-	private void generateGenmodel(final IAction action) throws Exception {
-		EugeniaActionDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
+	
+	private boolean generateGenmodel(final IAction action) throws Exception {
+		Ecore2GenModelDelegate ecore2GenModelDelegate = new Ecore2GenModelDelegate();
 		ecore2GenModelDelegate.setClearConsole(false);
 		ecore2GenModelDelegate.setSelectedFile(selectedFile);
 		ecore2GenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
 		ecore2GenModelDelegate.runImpl(action);
+		if (!ecore2GenModelDelegate.isValid()) return false;
 		ecore2GenModelDelegate.refresh();
 
 		FixGenModelDelegate fixEcoreGenModelDelegate = new FixGenModelDelegate();
@@ -193,9 +228,11 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		fixEcoreGenModelDelegate.setExtraModels(extraModels.get(GenerateAllStep.genmodel));
 		fixEcoreGenModelDelegate.runImpl(action);
 		fixEcoreGenModelDelegate.refresh();
+		
+		return true;
 	}
 
-	private void generateGMFBasicModels(final IAction action) throws Exception {
+	private boolean generateGMFBasicModels(final IAction action) throws Exception {
 		// Do Ecore  to GmfTool, GmfGraph and GmfMap
 		GenerateToolGraphMapDelegate generateToolGraphMapDelegate = new GenerateToolGraphMapDelegate();
 		generateToolGraphMapDelegate.setClearConsole(false);
@@ -203,6 +240,7 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 		generateToolGraphMapDelegate.setExtraModels(extraModels.get(GenerateAllStep.gmf));
 		generateToolGraphMapDelegate.runImpl(action);
 		generateToolGraphMapDelegate.refresh();
+		return generateToolGraphMapDelegate.isValid();
 	}
 
 	private void generateGMFGenModel(final IAction action) throws Exception {
@@ -244,5 +282,13 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 			}
 		});
 	}
-
+	
+	public boolean isShowErrorDialog() {
+		return showErrorDialog;
+	}
+	
+	public void setShowErrorDialog(boolean showErrorDialog) {
+		this.showErrorDialog = showErrorDialog;
+	}
+	
 }

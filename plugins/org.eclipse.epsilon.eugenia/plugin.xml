@@ -113,5 +113,21 @@
          </action>
       </objectContribution>
    </extension>
+   <extension
+         id="org.eclipse.epsilon.eugenia.validation.problem.gmf"
+         name="Eugenia GMF Validation Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.emf.ecore.diagnostic">
+      </super>
+   </extension>
+   <extension
+         id="org.eclipse.epsilon.eugenia.validation.problem.emf"
+         name="Eugenia EMF Validation Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.emf.ecore.diagnostic">
+      </super>
+   </extension>
 
 </plugin>

@@ -21,6 +21,7 @@ package org.eclipse.epsilon.eugenia;
 public enum GenerateAllStep {
 	clean,
 	ecore,
+	validate,
 	genmodel,
 	gmf,
 	gmfgen,

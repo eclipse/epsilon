@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelReference;
 import org.eclipse.epsilon.etl.EtlModule;
 
-public class Ecore2GenModelDelegate extends EugeniaActionDelegate {
+public class Ecore2GenModelDelegate extends GuardedEcoreModelGenerationDelegate {
 	
 	@Override
 	public IEolExecutableModule createBuiltinModule() {
@@ -68,6 +68,11 @@ public class Ecore2GenModelDelegate extends EugeniaActionDelegate {
 	@Override
 	public String getTitle() {
 		return "Generating .genmodel";
+	}
+
+	@Override
+	public AbstractEcoreModelValidationDelegate createEcoreModelValidationDelegate() {
+		return new GenModelEcoreValidationDelegate();
 	}
 
 }

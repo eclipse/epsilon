@@ -70,7 +70,7 @@ context EClass {
 	constraint NodeLabelIsDefined { 
 		
 		check : self.getAnnotationValue('gmf.node', 'label').isDefined() or 
-				self.getAnnotationValue('gmf.node', 'label.placement' = "none")
+				self.getAnnotationValue('gmf.node', 'label.placement') = "none"
 		
 		message : 'No label defined for class ' + self.name 
 		
