@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.context;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
@@ -21,7 +21,7 @@ public interface IEvlContext extends IEolContext {
 	
 	public IEvlModule getModule();
 	public ConstraintTrace getConstraintTrace();
-	public ArrayList<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints();
+	public List<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints();
 	public boolean hasFixes();
 	
 }
