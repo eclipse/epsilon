@@ -47,7 +47,8 @@ public class NewRegisteredEPackageWizardPage extends WizardPage {
 	protected Text containerText;
 	protected Text fileText;
 	protected ISelection selection;
-	protected Combo metamodelUriCombo;
+	protected Text metamodelUriText;
+	protected Button browseMetamodelUriButton;
 	
 	protected String metamodelUri;
 	protected String modelType;
@@ -114,15 +115,21 @@ public class NewRegisteredEPackageWizardPage extends WizardPage {
 		Label namespaceLabel = new Label(container, SWT.NULL);
 		namespaceLabel.setText("&Metamodel URI");
 		
-		metamodelUriCombo = new Combo(container,SWT.BORDER|SWT.SINGLE|SWT.READ_ONLY);
+		metamodelUriText = new Text(container,SWT.BORDER|SWT.SINGLE);
+		
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		metamodelUriCombo.setLayoutData(gd);
+		metamodelUriText.setLayoutData(gd);
 		
-		Iterator it = EPackage.Registry.INSTANCE.keySet().iterator();
-		
-		while (it.hasNext()){
-			metamodelUriCombo.add(it.next().toString());
-		}
+		browseMetamodelUriButton = new Button(container, SWT.PUSH);
+		browseMetamodelUriButton.setText("Browse...");
+		browseMetamodelUriButton.addListener(SWT.Selection, new BrowseEPackagesListener() {
+
+			@Override
+			public void selectionChanged(String ePackageUri) {
+				metamodelUriText.setText(ePackageUri);
+			}
+			
+		});
 		
 		new Label(container, SWT.NONE);
 		
@@ -235,7 +242,7 @@ public class NewRegisteredEPackageWizardPage extends WizardPage {
 	}
 	
 	public String getMetaModelUri(){
-		return metamodelUriCombo.getText();
+		return metamodelUriText.getText();
 	}
 	
 }
