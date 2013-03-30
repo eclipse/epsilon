@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.decorator.dt;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.emf.decorator.dt.Activator
 Require-Bundle: org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.emc.emf.dt
+ org.eclipse.epsilon.emc.emf.dt,
+ org.eclipse.epsilon.emc.emf.decorator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.emc.emf.decorator.dt
