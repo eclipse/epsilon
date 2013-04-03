@@ -146,11 +146,10 @@ public class GenerateAllDelegate implements IObjectActionDelegate {
 	public void fail() {
 		successful = false;
 		if (showErrorDialog) {
-			Display.getDefault().asyncExec(new Runnable() {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				
 				@Override
 				public void run() {
-					System.err.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 					if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
 						MessageDialog.openError(
 								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Eugenia", ERROR_MESSAGE);

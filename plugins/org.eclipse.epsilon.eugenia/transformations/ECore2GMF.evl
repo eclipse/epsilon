@@ -96,6 +96,21 @@ context EClass {
 	}
 	
 }
+
+context EAnnotation {
+
+	constraint IsValidCompartment {
+	
+		guard : self.source = "gmf.compartment"
+		
+		check : self.eContainer().isTypeOf(EReference) and self.eContainer().containment = true
+		
+		message : "EReference " + self.eContainer().name + " is not a containment reference"
+	
+	}
+	
+}
+
 /*
  * Validation rules for annoations details
  */
