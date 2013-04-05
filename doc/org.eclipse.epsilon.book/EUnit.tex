@@ -272,33 +272,35 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
 
   \textbf{Signature} & \textbf{Description}  \\\hline
 
-  assertTrue([msg : String,]\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{false}.\\\hline
+  assertEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the directory in \variable{obtainedFile} differ from those of the directory in \variable{expectedPath}. Directory comparisons are performed on recursive snapshots of both directories.\\\hline
+
+  assertEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the file in \variable{obtainedPath} differ from those of the file in \variable{expectedPath}. File comparisons are performed on snapshots of both files.\\\hline
+
+  assertEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}\parameter{[options : Map]}) & Fails the test with the optional message \variable{msg} if the model named \variable{obtainedModel} is not equal to the model named \variable{expectedModel}. Model comparisons are performed on snapshots of the resource sets of both models. During EMF comparisons, XMI identifiers are ignored. Additional comparator-specific options can be specified through \variable{options}.\\\hline
 
   assertEquals([msg : String,]\parameter{expected : Any},\parameter{obtained : Any}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} are not equal. \\\hline
 
   assertEquals([msg : String,]\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} differ in more than \variable{ulps} units of least precision. See \href{http://download.oracle.com/javase/6/docs/api/java/lang/Math.html\#ulp(double)}{this site} for details.\\\hline
 
-  assertEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}\parameter{[options : Map]}) & Fails the test with the optional message \variable{msg} if the model named \variable{obtainedModel} is not equal to the model named \variable{expectedModel}. Model comparisons are performed on snapshots of the resource sets of both models. During EMF comparisons, XMI identifiers are ignored. Additional comparator-specific options can be specified through \variable{options}.\\\hline
-
-  assertEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the file in \variable{obtainedPath} differ from those of the file in \variable{expectedPath}. File comparisons are performed on snapshots of both files.\\\hline
-
-  assertEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the directory in \variable{obtainedFile} differ from those of the directory in \variable{expectedPath}. Directory comparisons are performed on recursive snapshots of both directories.\\\hline
-
   assertError(expr : Any) & Fails the test if no exception is thrown during the evaluation of \variable{expr}.\\\hline
 
-  fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
-
   assertFalse([msg : String,]\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{true}. It is a negated version of assertTrue. \\\hline
+
+  assertMatchingLine(\parameter{[msg: String,]\parameter{path: String},\parameter{regexp: String}}) & Fails the test with the optional message it none of the lines of the file in \variable{path} match the regular expression \variable{regexp}\footnote{See \class{java.util.regex.Pattern} for details about the accepted syntax for regular expressions.}. \\\hline
+
+  assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
+
+  assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
+
+  assertNotEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Negated version of assertNotEqualModels.\\\hline
 
   assertNotEquals([msg : String,]\parameter{expected : Any},\parameter{obtained : Any}) & Negated version of assertEquals([msg : String,] expected : Any, obtained : Any). \\\hline
 
   assertNotEquals([msg : String,]\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Negated version of assertEquals([msg : String,] expected : Real, obtained : Real, ulps : Integer). \\\hline
 
-  assertNotEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Negated version of assertNotEqualModels.\\\hline
+  assertTrue([msg : String,]\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{false}.\\\hline
 
-  assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
-
-  assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
+  fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
 \end{longtabu}
 
 \begin{longtabu}{|p{3cm}|p{3cm}|X|}
@@ -353,7 +355,7 @@ The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two target
     </epsilon.etl>
   </target>
 </project>
-\end{lstlisting}
+\end{lstlisting}%$
 
 The EOL script is shown in Listing~\ref{lst:eunit-ex1-eol}: it invokes the helper task (line 3) and checks that the obtained model is equal to the expected model (line 4). Internally, EMC will perform the comparison using EMF Compare.
 
