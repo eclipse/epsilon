@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Flock__.g 2011-07-10 21:23:50
+// $ANTLR 3.1b1 Flock__.g 2013-03-28 19:40:55
 
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
@@ -540,11 +540,10 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:60:7: ( '::' )
-            // Flock__.g:60:9: '::'
+            // Flock__.g:60:7: ( '#' )
+            // Flock__.g:60:9: '#'
             {
-            match("::"); 
-
+            match('#'); 
 
             }
 
@@ -561,10 +560,11 @@ public class FlockLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Flock__.g:61:7: ( '#' )
-            // Flock__.g:61:9: '#'
+            // Flock__.g:61:7: ( '::' )
+            // Flock__.g:61:9: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -2211,9 +2211,9 @@ public class FlockLexer extends Lexer {
         "\1\uffff";
     static final String DFA1_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\7\1\10\3\uffff\1\14\1\15\1\uffff"+
-        "\1\17\1\20\1\22\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
+        "\1\17\1\20\1\21\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
         "\1\uffff\1\106\3\uffff\1\53\1\3\5\uffff\1\61\1\11\32\uffff\1\64"+
-        "\1\62\1\65\1\66\1\63\1\70\1\72\5\uffff\1\54\1\21\7\uffff\1\55\3"+
+        "\1\62\1\65\1\66\1\63\1\70\1\72\5\uffff\1\54\1\22\7\uffff\1\55\3"+
         "\uffff\1\34\1\35\22\uffff\1\102\11\uffff\1\56\5\uffff\1\33\6\uffff"+
         "\1\30\1\uffff\1\27\1\uffff\1\32\13\uffff\1\57\1\73\1\77\1\100\17"+
         "\uffff\1\26\2\uffff\1\37\1\uffff\1\41\1\uffff\1\105\5\uffff\1\1"+

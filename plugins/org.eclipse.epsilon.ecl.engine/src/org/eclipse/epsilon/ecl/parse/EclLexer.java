@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Ecl__.g 2011-07-10 21:42:51
+// $ANTLR 3.1b1 Ecl__.g 2013-03-28 19:40:48
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -547,11 +547,10 @@ public class EclLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Ecl__.g:60:8: ( '::' )
-            // Ecl__.g:60:10: '::'
+            // Ecl__.g:60:8: ( '#' )
+            // Ecl__.g:60:10: '#'
             {
-            match("::"); 
-
+            match('#'); 
 
             }
 
@@ -568,10 +567,11 @@ public class EclLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Ecl__.g:61:8: ( '#' )
-            // Ecl__.g:61:10: '#'
+            // Ecl__.g:61:8: ( '::' )
+            // Ecl__.g:61:10: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -2333,9 +2333,9 @@ public class EclLexer extends Lexer {
         "\1\uffff";
     static final String DFA1_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\7\1\10\3\uffff\1\14\1\15\1\uffff"+
-        "\1\17\1\20\1\22\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
+        "\1\17\1\20\1\21\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
         "\3\uffff\1\112\3\uffff\1\53\1\3\6\uffff\1\61\1\11\33\uffff\1\64"+
-        "\1\62\1\65\1\66\1\63\1\70\1\72\10\uffff\1\54\1\21\6\uffff\1\111"+
+        "\1\62\1\65\1\66\1\63\1\70\1\72\10\uffff\1\54\1\22\6\uffff\1\111"+
         "\1\uffff\1\55\3\uffff\1\34\1\35\40\uffff\1\56\5\uffff\1\33\5\uffff"+
         "\1\30\1\uffff\1\27\1\uffff\1\32\15\uffff\1\57\1\73\1\77\1\100\1"+
         "\101\20\uffff\1\26\2\uffff\1\37\2\uffff\1\41\2\uffff\1\107\1\uffff"+

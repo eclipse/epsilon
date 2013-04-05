@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Etl__.g 2011-07-10 21:42:44
+// $ANTLR 3.1b1 Etl__.g 2013-03-28 19:40:46
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -543,11 +543,10 @@ public class EtlLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Etl__.g:60:7: ( '::' )
-            // Etl__.g:60:9: '::'
+            // Etl__.g:60:7: ( '#' )
+            // Etl__.g:60:9: '#'
             {
-            match("::"); 
-
+            match('#'); 
 
             }
 
@@ -564,10 +563,11 @@ public class EtlLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Etl__.g:61:7: ( '#' )
-            // Etl__.g:61:9: '#'
+            // Etl__.g:61:7: ( '::' )
+            // Etl__.g:61:9: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -2272,9 +2272,9 @@ public class EtlLexer extends Lexer {
         "\1\156\3\uffff\1\ufaff\1\uffff";
     static final String DFA1_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\7\1\10\3\uffff\1\14\1\15\1\uffff"+
-        "\1\17\1\20\1\22\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
+        "\1\17\1\20\1\21\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
         "\3\uffff\1\110\2\uffff\1\53\1\3\5\uffff\1\61\1\11\33\uffff\1\64"+
-        "\1\62\1\65\1\66\1\63\1\70\1\72\7\uffff\1\54\1\21\7\uffff\1\55\3"+
+        "\1\62\1\65\1\66\1\63\1\70\1\72\7\uffff\1\54\1\22\7\uffff\1\55\3"+
         "\uffff\1\34\1\35\22\uffff\1\107\13\uffff\1\56\5\uffff\1\33\5\uffff"+
         "\1\30\1\uffff\1\27\1\uffff\1\32\13\uffff\1\57\1\73\1\77\1\100\1"+
         "\101\17\uffff\1\26\2\uffff\1\37\1\uffff\1\41\3\uffff\1\105\3\uffff"+
