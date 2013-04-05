@@ -90,6 +90,14 @@ package org.eclipse.epsilon.flock.parse;
 package org.eclipse.epsilon.flock.parse;
 }
 
+@parser::members {
+	@Override
+	public void prepareForGUnit() {
+		super.prepareForGUnit();
+		gEolParserRules.prepareForGUnit();
+	}
+}
+
 flockModule
 	:	importStatement* (flockModuleContent)* EOF
 	-> ^(FLOCKMODULE importStatement* flockModuleContent*)
