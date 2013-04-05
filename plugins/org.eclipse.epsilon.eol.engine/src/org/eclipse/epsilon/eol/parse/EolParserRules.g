@@ -213,11 +213,6 @@ nativeType
 	
 	;
 
-modelElementType
-	:	NAME '!' NAME
-	-> ^(ModelElementType NAME+)
-	;
-
 collectionType
 	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map')^
 		('('! tn=typeName {setTokenType(tn,TYPE);}')'!)?
