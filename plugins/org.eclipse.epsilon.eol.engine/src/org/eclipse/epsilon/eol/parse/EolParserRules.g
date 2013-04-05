@@ -185,26 +185,25 @@ typeName
 	;
 
 pathName
-	:	(metamodel=NAME! '!'!)? head=NAME
-		('::'! field=NAME! {
-			head.setText(head.getText()
-					+ "::"
-					+ field.getText()
-					); 
-		})*
+	:	(metamodel=NAME! '!'!)?
+		head=packagedType
 		('#'! label=NAME!)?
 	
 		{
 			if ($metamodel != null) {
-				$head.setText(metamodel.getText() + "!" + head.getText());
+				$head.tree.token.setText(metamodel.getText() + "!" + $head.tree.token.getText());
 				//System.err.println("Metamodel is not null");
 			}
 				
 			if (label != null) {
-				$head.setText($head.getText() + "#" + label.getText());
-				$head.setType(ENUMERATION_VALUE);
+				$head.tree.token.setText($head.tree.token.getText() + "#" + label.getText());
+				$head.tree.token.setType(ENUMERATION_VALUE);
 			}	
 		}
+	;
+
+packagedType
+	: head=NAME ('::'! field=NAME! { $head.setText($head.getText() + "::" + $field.getText()); })*
 	;
 
 nativeType

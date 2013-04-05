@@ -108,12 +108,12 @@ flockModuleContent
 	;
 
 retyping
-  : 'retype' originalType=NAME 'to' migratedType=NAME guard?
+  : 'retype' originalType=packagedType 'to' migratedType=packagedType guard?
     -> 
     ^(RETYPE $originalType $migratedType? guard?);
     
 deletion
-  : 'delete' type=NAME guard?
+  : 'delete' type=packagedType guard?
  	->
     ^(DELETE $type guard?);
 
@@ -121,12 +121,12 @@ migrateRule
   : fullRule | ignoringRule;
   
 fullRule
-  : 'migrate' originalType=NAME ignoring? guard? '{' body=block '}' 
+  : 'migrate' originalType=packagedType ignoring? guard? '{' body=block '}' 
     -> 
     ^(MIGRATE $originalType ignoring? guard? $body);
     
 ignoringRule
-  : 'migrate' originalType=NAME ignoring guard? 
+  : 'migrate' originalType=packagedType ignoring guard? 
     -> 
     ^(MIGRATE $originalType ignoring guard?);
 
