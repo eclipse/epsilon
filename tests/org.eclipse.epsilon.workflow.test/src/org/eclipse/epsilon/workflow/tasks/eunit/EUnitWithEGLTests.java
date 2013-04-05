@@ -38,15 +38,24 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 					"differentModelGeneratesDifferentFile",
 					"differentModelGeneratesDifferentFileFailing",
 					"missingExpectedPathFailsTest",
-					"missingActualPathFailsTest"
+					"missingActualPathFailsTest",
+					"matchingSubstring",
+					"matchingRegexp1",
+					"matchingRegexp2",
+					"regexpWithInvalidSyntax",
+					"nonMatchingSubstring",
+					"nonMatchingRegexp"
 				},
 				new HashSet<String>(Arrays.asList(
 					"expectedModelGeneratesExpectedFileFailing",
-					"differentModelGeneratesDifferentFileFailing"
+					"differentModelGeneratesDifferentFileFailing",
+					"nonMatchingSubstring",
+					"nonMatchingRegexp"
 				)),
 				new HashSet<String>(Arrays.asList(
 					"missingExpectedPathFailsTest",
-					"missingActualPathFailsTest"
+					"missingActualPathFailsTest",
+					"regexpWithInvalidSyntax"
 				)));
 	}
 

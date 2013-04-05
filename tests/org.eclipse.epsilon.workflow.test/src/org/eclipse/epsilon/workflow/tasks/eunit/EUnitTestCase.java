@@ -134,6 +134,12 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 						Element e = (Element)n;
 						final String tagName = e.getTagName();
 						if (tagName.equals("testcase")) {
+							if (nTestCases >= expectedTestCases.length) {
+								fail(String.format(
+									"There are more test cases (%d or more) than expected (%d)",
+									nTestCases + 1, expectedTestCases.length));
+							}
+							
 							final String testCaseName = e.getAttribute("name");
 							assertEquals(
 								String.format("The %d-th test case in the report should be %s",

@@ -111,3 +111,45 @@ operation missingActualPathFailsTest() {
   -- this test must fail
   assertNotEqualFiles(EXPECTED_PATH, "idonotexist");
 }
+
+@test
+operation matchingSubstring() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine(EXPECTED_PATH, "- A");
+}
+
+@test
+operation matchingRegexp1() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine(EXPECTED_PATH, "- [A-Z]");
+}
+
+@test
+operation matchingRegexp2() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine(EXPECTED_PATH, "^  +- +[A-Z]$");
+}
+
+@test
+operation regexpWithInvalidSyntax() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine("withMessage", EXPECTED_PATH, "(");
+}
+
+@test
+operation nonMatchingSubstring() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine(EXPECTED_PATH, "foo");
+}
+
+@test
+operation nonMatchingRegexp() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+  assertMatchingLine("withMessage", EXPECTED_PATH, "[0-3]");
+}

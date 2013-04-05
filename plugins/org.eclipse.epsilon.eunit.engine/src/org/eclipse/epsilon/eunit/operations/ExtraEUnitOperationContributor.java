@@ -10,10 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.operations;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
@@ -85,6 +89,42 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 
 	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
 		compareModels(message, expectedModelName, obtainedModelName, false, options);
+	}
+
+	public void assertMatchingLine(String pathExpected, String regexp) throws EolInternalException {
+		assertMatchingLine(null, pathExpected, regexp);
+	}
+
+	public void assertMatchingLine(String message, String pathExpected, String regexp) throws EolInternalException {
+		BufferedReader reader = null;
+		try {
+			final Pattern regex = Pattern.compile(regexp);
+			
+			reader = new BufferedReader(new FileReader(new File(pathExpected)));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (regex.matcher(line).matches()) {
+					return;
+				}
+			}
+
+			final AST ast = context.getFrameStack().getCurrentStatement();
+			throw new EolAssertionException(
+					message != null ? message : String.format("No lines matched '%s'", regexp),
+					ast, null, null, null);
+		}
+		catch (Exception ex) {
+			throw new EolInternalException(ex);
+		}
+		finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new EolInternalException(e);
+				}
+			}
+		}
 	}
 
 	private void compareTrees(final String pathExpected, final String pathActual, boolean mustBeEqual) throws EolAssertionException, EolInternalException {
