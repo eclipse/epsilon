@@ -58,16 +58,16 @@ public class ValidationView extends ViewPart {
 		public Image getColumnImage(Object obj, int index) {
 			EvlUnsatisfiedConstraint unsatisfiedConstraint = (EvlUnsatisfiedConstraint) obj;
 			if (unsatisfiedConstraint.isFixed()) {
-				return EvlPlugin.getImageDescriptor("icons/fix.gif").createImage();
+				return EvlPlugin.getDefault().createImage("icons/fix.gif");
 			}
 			else if (unsatisfiedConstraint.getConstraint().isInfo()) {
-				return EvlPlugin.getImageDescriptor("icons/info.gif").createImage();
+				return EvlPlugin.getDefault().createImage("icons/info.gif");
 			}
 			else if (unsatisfiedConstraint.getConstraint().isCritique()) {
-				return EvlPlugin.getImageDescriptor("icons/critique.gif").createImage();
+				return EvlPlugin.getDefault().createImage("icons/critique.gif");
 			}
 			else {
-				return EvlPlugin.getImageDescriptor("icons/error.gif").createImage();
+				return EvlPlugin.getDefault().createImage("icons/error.gif");
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class ValidationView extends ViewPart {
 		public PerformFixAction(EvlUnsatisfiedConstraint unsatisfiedConstraint, EvlFixInstance fixInstance) {
 			this.unsatisfiedConstraint = unsatisfiedConstraint;
 			this.fixInstance = fixInstance;
-			this.setImageDescriptor(EvlPlugin.getImageDescriptor("icons/fix.gif"));
+			this.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/fix.gif"));
 			try {
 				this.setText(fixInstance.getTitle());
 			} catch (EolRuntimeException e) {
@@ -202,7 +202,7 @@ public class ValidationView extends ViewPart {
 		};
 		resumeAction.setText("Resume");
 		resumeAction.setToolTipText("Finish with performing fixes and resume to the post section of the EVL specification");
-		resumeAction.setImageDescriptor(EvlPlugin.getImageDescriptor("icons/resume.gif"));
+		resumeAction.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/resume.gif"));
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import java.util.Comparator;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 
 /**
@@ -25,7 +26,7 @@ final class IVariableNameComparator implements Comparator<IVariable> {
 		try {
 			return o1.getName().compareTo(o2.getName());
 		} catch (DebugException e) {
-			EolPlugin.getDefault().logException(e);
+			LogUtil.log(e);
 			return 0;
 		}
 	}

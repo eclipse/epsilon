@@ -34,7 +34,7 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 	private Image imgLoopVariable;
 
 	public DebugModelPresentation() {
-		imgLoopVariable = EolPlugin.getImageDescriptor("/icons/variable_loop.gif").createImage();
+		imgLoopVariable = EolPlugin.getDefault().createImage("/icons/variable_loop.gif");
 	}
 
 	@Override

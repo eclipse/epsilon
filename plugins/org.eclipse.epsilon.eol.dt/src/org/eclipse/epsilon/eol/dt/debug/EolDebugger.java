@@ -26,6 +26,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
@@ -206,7 +207,7 @@ public class EolDebugger implements ExecutionController {
 				try {
 					return breakpoint.isEnabled();
 				} catch (CoreException e) {
-					EolPlugin.getDefault().logException(e);
+					LogUtil.log(e);
 					return false;
 				}
 			}

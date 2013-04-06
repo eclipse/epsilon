@@ -10,77 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.dt;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.eclipse.epsilon.common.dt.AbstractEpsilonUIPlugin;
 
-import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
-
-/**
- * The main plugin class to be used in the desktop.
- */
-public class EclPlugin extends AbstractUIPlugin implements EpsilonPlugin{
-
-	//The shared instance.
-	private static EclPlugin plugin;
+public class EclPlugin extends AbstractEpsilonUIPlugin {
 	
-	/**
-	 * The constructor.
-	 */
-	public EclPlugin() {
-		plugin = this;
-	}
-
-	/**
-	 * This method is called upon plug-in activation
-	 */
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/**
-	 * This method is called when the plug-in is stopped
-	 */
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-		plugin = null;
-	}
-
-	/**
-	 * Returns the shared instance.
-	 */
 	public static EclPlugin getDefault() {
-		return plugin;
-	}
-
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path.
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.ecl.dt", path);
+		return (EclPlugin) plugins.get(EclPlugin.class);
 	}
 	
-	/**
-	 * This method returns an image from the path
-	 * @param path
-	 * @return
-	 */
-	public Image createImage(String path) {
-		try {
-			URL BASE_URL = EclPlugin.getDefault().getBundle().getEntry("/");
-			URL url = new URL(BASE_URL, path);
-			return ImageDescriptor.createFromURL(url).createImage();
-		}
-		catch(MalformedURLException e) {}
-		return null;
-	}
 }

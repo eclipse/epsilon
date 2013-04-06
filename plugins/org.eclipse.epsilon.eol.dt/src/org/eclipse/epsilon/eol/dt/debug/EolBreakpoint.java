@@ -21,6 +21,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.LineBreakpoint;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 
 public class EolBreakpoint extends LineBreakpoint {
@@ -81,7 +82,7 @@ public class EolBreakpoint extends LineBreakpoint {
 				try {
 					((EolBreakpoint) breakpoint).setAttribute(IMarker.MESSAGE, getMessage(breakpoint.getMarker().getResource(), ((EolBreakpoint) breakpoint).getLineNumber()));
 				} catch (CoreException e) {
-					EolPlugin.getDefault().logException(e);
+					LogUtil.log(e);
 				}
 			}
 		}

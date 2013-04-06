@@ -24,6 +24,7 @@ import org.eclipse.debug.ui.ISourcePresentation;
 import org.eclipse.debug.ui.sourcelookup.ISourceDisplay;
 import org.eclipse.debug.ui.sourcelookup.ISourceLookupResult;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.execute.context.Frame;
@@ -227,7 +228,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 						return doc.getLineOffset(ast.getLine() - 1);
 				}
 			} catch (BadLocationException e) {
-				EolPlugin.getDefault().logException(e);
+				LogUtil.log(e);
 			}
 		}
 		return -1;
@@ -241,7 +242,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 					return doc.getLineOffset(ast.getLine());
 				}
 			} catch (BadLocationException e) {
-				EolPlugin.getDefault().logException(e);
+				LogUtil.log(e);
 			}
 		}
 		return -1;
@@ -257,7 +258,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 				}
 			}
 		} catch (PartInitException e) {
-			EolPlugin.getDefault().logException(e);
+			LogUtil.log(e);
 		}
 
 		return null;
