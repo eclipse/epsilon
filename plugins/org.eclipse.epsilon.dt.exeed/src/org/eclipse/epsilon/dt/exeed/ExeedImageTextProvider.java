@@ -28,7 +28,6 @@ public class ExeedImageTextProvider {
 	protected ExeedEditor editor = null;
 	
 	public ExeedImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
-		
 		this.plugin = plugin;
 		this.editor = editor;
 		
