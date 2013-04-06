@@ -18,10 +18,12 @@ import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.util.Cache;
 
 public class EolCollectionType extends EolType {
 	
 	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers = null;
+	protected static Cache<Collection<?>, EolCollectionType> cachedCollectionTypes = new Cache<Collection<?>, EolCollectionType>();
 	
 	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
 		if (collectionTypeResolvers == null) {
@@ -44,16 +46,28 @@ public class EolCollectionType extends EolType {
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
 		
-		for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
-			if (collectionTypeResolver.canResolveType(c)) {
-				return collectionTypeResolver.resolveType(c);
+		EolCollectionType collectionType = cachedCollectionTypes.get(c);
+		
+		if (collectionType == null) {
+			for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
+				if (collectionTypeResolver.canResolveType(c)) {
+					collectionType = collectionTypeResolver.resolveType(c);
+					break;
+				}
 			}
+			
+			if (collectionType == null) {
+				if (c instanceof EolSequence || (c instanceof List && !(c instanceof Set))) collectionType = Sequence;
+				else if (c instanceof EolOrderedSet || (c instanceof List && c instanceof Set)) collectionType = OrderedSet;
+				else if (c instanceof EolSet || (c instanceof Set && !(c instanceof List))) collectionType = Set;
+				else collectionType = Bag;
+			}
+			
+			cachedCollectionTypes.put(c, collectionType);
+			
 		}
 		
-		if (c instanceof EolSequence || (c instanceof List && !(c instanceof Set))) return Sequence;
-		if (c instanceof EolOrderedSet || (c instanceof List && c instanceof Set)) return OrderedSet;
-		if (c instanceof EolSet || (c instanceof Set && !(c instanceof List))) return Set;
-		else return Bag;
+		return collectionType;
 	}
 	
 	@Override
