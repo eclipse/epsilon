@@ -2,11 +2,16 @@ package org.eclipse.epsilon.common.dt;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -27,12 +32,11 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 	}
 	
 	public ImageDescriptor getImageDescriptor(String path) {
-		try {
-			URL BASE_URL = getBundle().getEntry("/");
-			URL url = new URL(BASE_URL, path);
+		URL url = FileLocator.find(getBundle(), new Path(path), Collections.emptyMap());
+		if (url != null) {
 			return ImageDescriptor.createFromURL(url);
 		}
-		catch (MalformedURLException e) {
+		else {
 			return null;
 		}
 	}
