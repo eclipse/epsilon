@@ -192,7 +192,7 @@ context EStringToStringMapEntry {
 				self.is('gmf.node', 'color') or 
 				self.is('gmf.link', 'color')
 		
-		check : self.value.matches("\\s*\\d{3},\\s*\\d{3},\\s*\\d{3}\\s*")
+		check : self.value.matches("\\s*\\d+,\\s*\\d+,\\s*\\d+\\s*")
 		
 		message : 'The value of ' + self.toEmfatic() + " is not a valid RGB color"	
 	}
