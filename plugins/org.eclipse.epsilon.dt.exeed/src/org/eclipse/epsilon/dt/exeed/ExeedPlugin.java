@@ -10,91 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
+import org.eclipse.epsilon.common.dt.AbstractEpsilonUIPlugin;
 
-/**
- * The activator class controls the plug-in life cycle
- */
-public class ExeedPlugin extends AbstractUIPlugin {
+public class ExeedPlugin extends AbstractEpsilonUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.epsilon.dt.exeed";
 
-	// The shared instance
-	private static ExeedPlugin plugin;
-	
-	/**
-	 * The constructor
-	 */
-	public ExeedPlugin() {
-		plugin = this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
 	public static ExeedPlugin getDefault() {
-		return plugin;
+		return (ExeedPlugin) plugins.get(ExeedPlugin.class);
 	}
-
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	
-	ImageRegistry imageRegistry = null; //new ImageRegistry();
 
 	public static final String EXEED_EDITOR_ID = "org.eclipse.epsilon.dt.exeed.ExeedEditor";
 
 	public static final String MODELINK_EDITOR_ID = "org.eclipse.epsilon.dt.exeed.modelink.ModeLinkEditor";
 	
-	public ImageDescriptor getImageDescriptor(String pluginId, String path) {
-		if (imageRegistry == null) imageRegistry = new ImageRegistry();
-		
-		ImageDescriptor descriptor = null;
-		if (imageRegistry.getDescriptor(path) != null) {
-			descriptor = imageRegistry.getDescriptor(path);
-		}
-		else {
-			descriptor = imageDescriptorFromPlugin(pluginId, path);
-			imageRegistry.put(path, descriptor);
-		}
-		return descriptor;
-	}
-	
-	public ImageDescriptor getImageDescriptor(String path) {
-		return getImageDescriptor(getPluginId(), path);
-	}
 
-	protected String getPluginId() {
-		return PLUGIN_ID;
-	}
 
 }

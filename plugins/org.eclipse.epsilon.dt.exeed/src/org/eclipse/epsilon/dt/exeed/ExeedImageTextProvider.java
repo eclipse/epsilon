@@ -28,6 +28,7 @@ public class ExeedImageTextProvider {
 	protected ExeedEditor editor = null;
 	
 	public ExeedImageTextProvider(InMemoryEmfModel model, ExeedPlugin plugin, ExeedEditor editor) {
+		
 		this.plugin = plugin;
 		this.editor = editor;
 		
@@ -91,9 +92,9 @@ public class ExeedImageTextProvider {
 	private ImageDescriptor getImageDescriptor(String icon) {
 		ImageDescriptor imageDescriptor = null;
 		
-		imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".gif");
+		imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".gif");
 		if (imageDescriptor == null) {
-			imageDescriptor = plugin.getImageDescriptor(editor.getPluginId(), "icons/" + icon + ".png");
+			imageDescriptor = plugin.getImageDescriptor("icons/" + icon + ".png");
 		}
 		
 		return imageDescriptor;
