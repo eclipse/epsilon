@@ -32,13 +32,18 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 	}
 	
 	public ImageDescriptor getImageDescriptor(String path) {
-		URL url = FileLocator.find(getBundle(), new Path(path), Collections.emptyMap());
-		if (url != null) {
-			return ImageDescriptor.createFromURL(url);
+		
+		ImageDescriptor imageDescriptor = getImageRegistry().getDescriptor(path);
+		
+		if (imageDescriptor == null) {
+			URL url = FileLocator.find(getBundle(), new Path(path), Collections.emptyMap());
+			if (url != null) {
+				imageDescriptor = ImageDescriptor.createFromURL(url);
+				if (imageDescriptor != null) getImageRegistry().put(path, imageDescriptor);
+			}
 		}
-		else {
-			return null;
-		}
+		
+		return imageDescriptor;
 	}
 	
 	public Image createImage(String path) {
@@ -47,9 +52,11 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 		
 		if (image == null) {
 			try {
-				image = getImageDescriptor(path).createImage();
-				if (image != null) { getImageRegistry().put(path, image); }
-				
+				ImageDescriptor imageDescriptor = getImageDescriptor(path);
+				if (imageDescriptor != null) {
+					image = getImageDescriptor(path).createImage();
+					if (image != null) { getImageRegistry().put(path, image); }
+				}
 			}
 			catch(Exception e) { LogUtil.log(e); }
 		}
