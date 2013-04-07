@@ -337,7 +337,7 @@ logicalExpression
 	;
 
 relationalExpression
-	:	additiveExpression (('=='^ relationalExpression? | '='^ relationalExpression? |
+	:	additiveExpression (('=='^ relationalExpression | '='^ relationalExpression |
 	                      ('>'|'<'|'>='|'<='|'<>')^ additiveExpression)
 		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
 	;

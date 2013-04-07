@@ -28,7 +28,7 @@ public class EolParserWorkbench {
 		new EolParserWorkbench().work();
 	}
 	
-	static String basePath = "/Users/dimitrioskolovos/Projects/Eclipse/3.7.1/workspace-new/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/test.eol";
+	static String basePath = "/Users/dimitrioskolovos/Projects/Eclipse/4.2/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/test.eol";
 	
 	
 	public void workPathName() throws Exception {

@@ -1,3 +1,4 @@
-function boo() {
-
+operation equality(name : String) : Boolean{
+	return name.toLowerCase()="abc" or
+	       name.toLowerCase()=;
 }
