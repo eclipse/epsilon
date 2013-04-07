@@ -181,7 +181,7 @@ public class ExeedEditor extends EcoreEditor {
 		// Clear the adapter factory produced by the superclass and refill it
 		// with our own selection of adapter factories
 		exeedItemProviderAdapterFactory = new ExeedItemProviderAdapterFactory(getPlugin());
-	    adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	    adapterFactory = new ComposedAdapterFactory(/*ComposedAdapterFactory.Descriptor.Registry.INSTANCE*/);
 	    adapterFactory.addAdapterFactory(new SwitchableResourceSetItemProvider());
 		adapterFactory.addAdapterFactory(exeedItemProviderAdapterFactory);
 
