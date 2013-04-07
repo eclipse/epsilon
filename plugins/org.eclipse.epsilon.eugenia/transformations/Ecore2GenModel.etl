@@ -15,11 +15,13 @@ rule EPackage2GenPackage
 	transform s : Ecore!EPackage
 	to t : GenModel!GenPackage {
 	
-	//TODO: See nested packages
-	genModel.genPackages.add(t);
+	if (not s.eSuperPackage.isDefined()) {
+		genModel.genPackages.add(t);
+	}
 	t.ecorePackage = s;
 	t.disposableProviderFactory = s.getBooleanAnnotation("disposableProviderFactory", true);
 	t.prefix = s.getAnnotation("prefix", s.name.firstToUpperCase());
+	t.nestedGenPackages ::= s.eSubpackages;
 	copyAnnotations(s, t);
 }
 
