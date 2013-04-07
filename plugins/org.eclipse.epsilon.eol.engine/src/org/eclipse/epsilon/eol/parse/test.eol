@@ -1,4 +1,7 @@
-operation equality(name : String) : Boolean{
-	return name.toLowerCase()="abc" or
-	       name.toLowerCase()=;
-}
+      var a = true;
+      a = false and a;
+      a.println();
+      
+      var b = true;
+      b = (b and false);
+      b.println();
