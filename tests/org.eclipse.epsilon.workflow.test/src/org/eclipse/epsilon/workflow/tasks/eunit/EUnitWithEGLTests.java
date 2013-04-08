@@ -44,18 +44,27 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 					"matchingRegexp2",
 					"regexpWithInvalidSyntax",
 					"nonMatchingSubstring",
-					"nonMatchingRegexp"
+					"nonMatchingRegexp",
+					"assertMatchingLineMatchesEntireLine",
+					"fullMatchWorksForFullLine",
+					"partialMatchWorksForFullLine",
+					"partialMatchWorksForSubstring",
+					"nonMatchingPartialMatch",
+					"partialMatchWithInvalidSyntax"
 				},
 				new HashSet<String>(Arrays.asList(
 					"expectedModelGeneratesExpectedFileFailing",
 					"differentModelGeneratesDifferentFileFailing",
 					"nonMatchingSubstring",
-					"nonMatchingRegexp"
+					"nonMatchingRegexp",
+					"assertMatchingLineMatchesEntireLine",
+					"nonMatchingPartialMatch"
 				)),
 				new HashSet<String>(Arrays.asList(
 					"missingExpectedPathFailsTest",
 					"missingActualPathFailsTest",
-					"regexpWithInvalidSyntax"
+					"regexpWithInvalidSyntax",
+					"partialMatchWithInvalidSyntax"
 				)));
 	}
 

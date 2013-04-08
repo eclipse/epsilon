@@ -1,6 +1,7 @@
 var EXPECTED_PATH  := basedir + "/egl/expected.txt";
 var GENERATED_PATH := basedir + "/../../generated/tree.txt";
 var GENERATED_DIR_FILE := new Native('java.io.File')(GENERATED_PATH).parentFile;
+var PCLASS_PATH := basedir + '/egl/partial-class.txt';
 
 var EXPECTED_MODEL := '
 @Spec {
@@ -152,4 +153,38 @@ operation nonMatchingRegexp() {
   loadHutn("Tree", EXPECTED_MODEL);
   runTarget("tree2text");
   assertMatchingLine("withMessage", EXPECTED_PATH, "[0-3]");
+}
+
+@test
+operation assertMatchingLineMatchesEntireLine() {
+  loadHutn("Tree", EXPECTED_MODEL);
+  runTarget("tree2text");
+
+  -- this should fail, as it won't match the *entire* line
+  assertMatchingLine(EXPECTED_PATH, "[A-Z]");
+}
+
+@test
+operation fullMatchWorksForFullLine() {
+ assertMatchingLine(PCLASS_PATH, "\\s*partial class Edge\\s*\\{");
+}
+
+@test
+operation partialMatchWorksForFullLine() {
+  assertLineWithMatch("I have a message", PCLASS_PATH, "^\\s*partial class Edge\\s*\\{$");
+}
+
+@test
+operation partialMatchWorksForSubstring() {
+  assertLineWithMatch(PCLASS_PATH, "partial class Edge");
+}
+
+@test
+operation nonMatchingPartialMatch() {
+  assertLineWithMatch("I have a message", PCLASS_PATH, "I do not exist");
+}
+
+@test
+operation partialMatchWithInvalidSyntax() {
+  assertLineWithMatch(PCLASS_PATH, "(");
 }

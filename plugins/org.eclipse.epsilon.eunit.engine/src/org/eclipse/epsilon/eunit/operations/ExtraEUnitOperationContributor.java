@@ -38,6 +38,11 @@ import org.eclipse.epsilon.eunit.extensions.IModelComparator;
  */
 public class ExtraEUnitOperationContributor extends OperationContributor {
 
+	// Lambda lookalike for reusing code in the line matching methods
+	private interface Predicate2<T, U> {
+		public boolean evaluate(T t, U u);
+	}
+
 	@Override
 	public boolean contributesTo(Object target) {
 		return true;
@@ -96,21 +101,49 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 	}
 
 	public void assertMatchingLine(String message, String pathExpected, String regexp) throws EolInternalException {
+		if (message == null) {
+			message = String.format("No lines matched '%s' from start to finish", regexp);
+		}
+		assertLineMatchingPredicate(message, pathExpected, regexp, new Predicate2<Pattern, String>() {
+			@Override
+			public boolean evaluate(Pattern regexp, String line) {
+				return regexp.matcher(line).matches();
+			}
+		});
+	}
+
+	public void assertLineWithMatch(String pathExpected, String regexp) throws EolInternalException {
+		assertLineWithMatch(null, pathExpected, regexp);
+	}
+
+	public void assertLineWithMatch(String message, String pathExpected, String regexp) throws EolInternalException {
+		if (message == null) {
+			message = String.format("No lines contained a match for '%s'", regexp);
+		}
+		assertLineMatchingPredicate(message, pathExpected, regexp, new Predicate2<Pattern, String>() {
+			@Override
+			public boolean evaluate(Pattern regexp, String line) {
+				return regexp.matcher(line).find();
+			}
+		});
+	}
+
+	private void assertLineMatchingPredicate(String message, String pathExpected, String regexp, Predicate2<Pattern, String> predicate) throws EolInternalException {
 		BufferedReader reader = null;
 		try {
 			final Pattern regex = Pattern.compile(regexp);
-			
+
 			reader = new BufferedReader(new FileReader(new File(pathExpected)));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if (regex.matcher(line).matches()) {
+				if (predicate.evaluate(regex, line)) {
 					return;
 				}
 			}
 
 			final AST ast = context.getFrameStack().getCurrentStatement();
 			throw new EolAssertionException(
-					message != null ? message : String.format("No lines matched '%s'", regexp),
+					message != null ? message : String.format("No lines matched '%s' from start to finish", regexp),
 					ast, null, null, null);
 		}
 		catch (Exception ex) {
