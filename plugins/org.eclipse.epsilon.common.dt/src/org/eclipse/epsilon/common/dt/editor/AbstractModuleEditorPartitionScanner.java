@@ -24,8 +24,8 @@ public class AbstractModuleEditorPartitionScanner extends RuleBasedPartitionScan
 		final IToken comment = new Token(COMMENT);
 
 		IPredicateRule[] rules = new IPredicateRule[] {
-				new MultiLineRule("-*", "*-", comment, (char) 0, false),
-				new MultiLineRule("/*", "*/", comment, (char) 0, false),
+				new MultiLineRule("-*", "*-", comment, (char) 0, true),
+				new MultiLineRule("/*", "*/", comment, (char) 0, true),
 		};
 
 		setPredicateRules(rules);

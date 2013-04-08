@@ -51,11 +51,11 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		final PresentationReconciler reconciler = new PresentationReconciler();
 		
-		final DefaultDamagerRepairer dr = new DefaultDamagerRepairer(scanner);
+		final MultilineDamagerRepairer dr = new MultilineDamagerRepairer(scanner);
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		
-		final DefaultDamagerRepairer commentDR = new DefaultDamagerRepairer(commentScanner);
+		final MultilineDamagerRepairer commentDR = new MultilineDamagerRepairer(commentScanner);
 		reconciler.setDamager(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
 		reconciler.setRepairer(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
 
