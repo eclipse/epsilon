@@ -16,7 +16,7 @@ context Operation
     self.isAbstract implies self.owner.isAbstract
 \end{lstlisting}
 
-While in its current version OCL enables users to capture particularly complex invariants, it also demonstrates a number of shortcomings, as follows.
+While OCL enables users to capture particularly complex invariants, it also demonstrates a number of shortcomings, as follows.
 
 \subsection{Limited user feedback}
 \label{sec:Issue1}
@@ -252,7 +252,7 @@ In the previous example, EVL was used to check the internal consistency of a sin
 	\label{fig:ProcessPerformance}
 \end{figure}
 
-There are two constraints that need to be defined and evaluated in this example: that each \emph{Process} in a process model (\emph{PM}) has a corresponding \emph{ProcessPerformance} in the process performance model (\emph{PPM}), and that the \emph{maxAcceptableTime} of a process does not exceed the sum of the \emph{maxAcceptableTimes} of its children. This is achieves with the \emph{PerformanceIsDefined} and the \emph{PerformanceIsValid} EVL constraints displayed in Listing \ref{lst:InterModelCaseStudy}.
+There are two constraints that need to be defined and evaluated in this example: that each \emph{Process} in a process model (\emph{PM}) has a corresponding \emph{ProcessPerformance} in the process performance model (\emph{PPM}), and that the \emph{maxAcceptableTime} of a process does not exceed the sum of the \emph{maxAcceptableTimes} of its children. This is achieved with the \emph{PerformanceIsDefined} and the \emph{PerformanceIsValid} EVL constraints displayed in Listing \ref{lst:InterModelCaseStudy}.
 
 
 \begin{lstlisting}[caption=Exemplar EVL module containing a cross-model constraint, label=lst:InterModelCaseStudy, language=EVL]
