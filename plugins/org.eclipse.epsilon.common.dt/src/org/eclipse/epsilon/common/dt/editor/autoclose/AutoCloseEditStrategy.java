@@ -27,7 +27,7 @@ public class AutoCloseEditStrategy implements IAutoEditStrategy {
 		autoClosePairs.add(new AutoClosePair('\'', '\''));
 		autoClosePairs.add(new AutoClosePair('(', ')'));
 		autoClosePairs.add(new AutoClosePair('{', '}'));
-		autoClosePairs.add(new AutoClosePair('[', ']'));
+		//autoClosePairs.add(new AutoClosePair('[', ']'));
 	}
 	
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
