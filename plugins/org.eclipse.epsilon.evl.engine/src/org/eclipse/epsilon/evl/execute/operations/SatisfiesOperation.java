@@ -18,12 +18,13 @@ import org.eclipse.epsilon.evl.EvlConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
-
-//TODO Add satisfiesAll and satisfiesOne operations
 public class SatisfiesOperation extends AbstractOperation{
-
-	public SatisfiesOperation() {
+	
+	protected boolean all = true;
+	
+	public SatisfiesOperation(boolean all) {
 		super();
+		this.all = all;
 	}
 	
 	@Override
@@ -43,10 +44,26 @@ public class SatisfiesOperation extends AbstractOperation{
 				throw new EvlConstraintNotFoundException(constraintName,ast);
 			}
 			
-			if (constraint.check(obj,context) == false) return false;
+			boolean valid = constraint.check(obj,context);
+			
+			if (all) {
+				if (!valid) return false;
+			}
+			else {
+				if (valid) return true;
+			}
 		}
 		
 		return true;
 		
 	}
+	
+	public boolean isAll() {
+		return all;
+	}
+	
+	public void setAll(boolean all) {
+		this.all = all;
+	}
+	
 }

@@ -17,7 +17,8 @@ public class EvlOperationFactory extends OperationFactory{
 	
 	public EvlOperationFactory() {
 		super();
-		operationCache.put("satisfies", new SatisfiesOperation());
+		operationCache.put("satisfies", new SatisfiesOperation(true));
+		operationCache.put("satisfiesOne", new SatisfiesOperation(false));
 	}
 	
 	/*
