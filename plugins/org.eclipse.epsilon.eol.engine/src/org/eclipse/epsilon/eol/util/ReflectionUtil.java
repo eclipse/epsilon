@@ -31,7 +31,7 @@ public class ReflectionUtil {
 		if (obj == null) return false;
 		
 		for (Method method : obj.getClass().getMethods()) {
-			if (method.getName().equals(methodName)) {
+			if (getMethodName(method).equals(methodName)) {
 				return true;
 			}
 		}
@@ -53,11 +53,17 @@ public class ReflectionUtil {
 			methods = obj.getClass().getDeclaredMethods();
 		}
 		
-		for (int i=0;i<methods.length;i++) { 
-			methodNames.add(methods[i].getName());
+		for (int i=0;i<methods.length;i++) {
+			methodNames.add(getMethodName(methods[i]));
 		}
 		
 		return methodNames;
+	}
+	
+	protected static String getMethodName(Method method) {
+		String methodName = method.getName();
+		if (methodName.startsWith("_")) methodName = methodName.substring(1);
+		return methodName;
 	}
 	
 	/**
@@ -124,7 +130,7 @@ public class ReflectionUtil {
 		for (int stage=0; stage < 2; ++stage) {
 			for (int i=0;i<methods.length;i++){
 				boolean namesMatch = false;
-				namesMatch = methods[i].getName().equalsIgnoreCase(methodName);
+				namesMatch = getMethodName(methods[i]).equalsIgnoreCase(methodName);
 			
 				if (namesMatch){
 					Method method = methods[i];
@@ -186,7 +192,7 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static String methodToString(Method method){
-		String str = method.getName();
+		String str = getMethodName(method);
 		str += "(";
 		for (int i=0;i<method.getParameterTypes().length;i++){
 			Class<?> parameterType = method.getParameterTypes()[i];
