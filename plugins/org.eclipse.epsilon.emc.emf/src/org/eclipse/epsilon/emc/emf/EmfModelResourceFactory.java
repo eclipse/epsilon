@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -40,11 +42,14 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	@Override
 	public Resource createResource(URI uri) {
 		
+		System.err.println("Creating resource for " + uri);
+		
 		if (resourceMap.containsKey(uri)) {
+			System.err.println("  Returning cached resource");
 			return resourceMap.get(uri);
 		}
 		else {
-			
+			System.err.println("  Returning new resource");
 			Factory resourceFactory = Resource.Factory.Registry.INSTANCE.getFactory(uri);
 			
 			Resource resource = null;
@@ -87,7 +92,7 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 	}
 	
 	public void removeCachedResource(URI uri) {
-		
+		System.err.println("Removing cached resource " + uri);
 		Resource toRemove = resourceMap.get(uri);
 		
 		if (toRemove != null) {
@@ -132,6 +137,16 @@ public class EmfModelResourceFactory extends XMIResourceFactoryImpl {
 			buffer.append("+ " + key + "->" + resourceMap.get(key) + "\r\n");
 		}
 		return buffer.toString();
+	}
+	
+	public void clearCache() {
+		for (Resource resource : resourceMap.values()) {
+			try {
+				resource.unload();
+			}
+			catch (Exception ex) {}
+		}
+		resourceMap.clear();
 	}
 	
 }
