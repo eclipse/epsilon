@@ -124,7 +124,7 @@ public class EPackageRegistryCache {
 			
 			return pkg;
 		
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			if (!erroringNsUris.contains(nsUri)) {
 				erroringNsUris.add(nsUri);
 				LogUtil.log("Exception encountered whilst trying to retrieve EPackage for nsUri: " + nsUri, e);

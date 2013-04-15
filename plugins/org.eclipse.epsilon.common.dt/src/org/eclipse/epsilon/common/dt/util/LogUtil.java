@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class LogUtil {
 	
-	public static void log(int severity, int code, String message, Exception ex) {
+	public static void log(int severity, int code, String message, Throwable ex) {
 		EpsilonCommonsPlugin.getDefault().getLog().log(new Status(severity, "org.eclipse.epsilon.common.dt", code, message, ex));
 	}
 	
@@ -39,11 +39,11 @@ public class LogUtil {
 		});
 	}
 	
-	public static void log(String message, Exception ex) {
+	public static void log(String message, Throwable ex) {
 		log(IStatus.ERROR, 0, message, ex);
 	}
 	
-	public static void log(final String message, final Exception ex, final boolean openErrorDialog) {
+	public static void log(final String message, final Throwable ex, final boolean openErrorDialog) {
 		Display.getDefault().asyncExec(new Runnable() {	
 			@Override
 			public void run() {
@@ -55,7 +55,7 @@ public class LogUtil {
 		});
 	}
 	
-	public static void log(Exception ex) {
+	public static void log(Throwable ex) {
 		log(ex.getMessage(), ex);
 	}
 }

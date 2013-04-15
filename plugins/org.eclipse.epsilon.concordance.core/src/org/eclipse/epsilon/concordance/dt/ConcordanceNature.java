@@ -26,4 +26,10 @@ public class ConcordanceNature extends BuilderConfiguringNature {
 	public static boolean hasConcordanceNature(IProject project) throws CoreException {
 		return project.isOpen() && project.hasNature(ConcordanceNature.ID);
 	}
+
+	@Override
+	public void configure() throws CoreException {
+		super.configure();
+		ConcordancePlugin.getDefault().getMetamodelChangeReporterScheduler().schedule();
+	}
 }

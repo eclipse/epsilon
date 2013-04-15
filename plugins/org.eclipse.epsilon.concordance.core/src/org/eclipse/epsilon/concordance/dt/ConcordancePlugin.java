@@ -14,6 +14,7 @@ import org.eclipse.epsilon.common.dt.AbstractEpsilonUIPlugin;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
 import org.eclipse.epsilon.concordance.index.H2ConcordanceIndexFactory;
+import org.eclipse.epsilon.concordance.reporter.metamodel.MetamodelChangeReporter;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 import org.osgi.framework.BundleContext;
 
@@ -24,6 +25,8 @@ public class ConcordancePlugin extends AbstractEpsilonUIPlugin {
 
 	private final ConcordanceHistory history = new ConcordanceHistory();
 	
+	private final MetamodelChangeReporter metamodelChangeReporter = new MetamodelChangeReporter();
+	private final MetamodelChangeReporterScheduler metamodelChangeReporterScheduler = new MetamodelChangeReporterScheduler(metamodelChangeReporter);
 	private final ModelChangeReporter modelChangeReporter = new ModelChangeReporter();
 	private ConcordanceIndex index;	
 	
@@ -51,6 +54,14 @@ public class ConcordancePlugin extends AbstractEpsilonUIPlugin {
 
 	public ConcordanceIndex getIndex() {
 		return index;
+	}
+	
+	public MetamodelChangeReporter getMetamodelChangeReporter() {
+		return metamodelChangeReporter;
+	}
+	
+	public MetamodelChangeReporterScheduler getMetamodelChangeReporterScheduler() {
+		return metamodelChangeReporterScheduler;
 	}
 	
 	public ModelChangeReporter getModelChangeReporter() {
