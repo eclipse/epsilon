@@ -13,8 +13,6 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor;
 
-import static org.hamcrest.CoreMatchers.any;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -29,10 +27,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 
 public class EmfMetamodelDirectory {
@@ -102,20 +96,11 @@ public class EmfMetamodelDirectory {
 	}
 	
 	public Collection<String> concreteClassNames() {
-		return namesOfTypedElements("EClass", new ConcreteClassMatcher());
-	}
-	
-	
-	private Collection<String> namesOfTypedElements(String type) {
-		return namesOfTypedElements(type, any(EObject.class));
-	}
-	
-	private Collection<String> namesOfTypedElements(String type, Matcher<?> filter) {
 		try {
 			final Collection<String> names = new LinkedList<String>();
 
-			for (Object element : metamodels.getAllOfKind(type)) {
-				if (filter.matches(element)) {
+			for (Object element : metamodels.getAllOfKind("EClass")) {
+				if (element instanceof EClass && !((EClass)element).isAbstract()) {
 					names.add(((ENamedElement)element).getName());
 				}
 			}
@@ -128,20 +113,20 @@ public class EmfMetamodelDirectory {
 	}
 	
 	
-	private static class ConcreteClassMatcher extends TypeSafeMatcher<EObject> {
+	private Collection<String> namesOfTypedElements(String type) {
+		try {
+			final Collection<String> names = new LinkedList<String>();
 
-		@Override
-		protected boolean matchesSafely(EObject item) {
-			return item instanceof EClass && isConcrete((EClass)item);
+			for (Object element : metamodels.getAllOfKind(type)) {
+				if (element instanceof EObject) {
+					names.add(((ENamedElement)element).getName());
+				}
+			}
+			
+			return names;
+			
+		} catch (EolModelElementTypeNotFoundException e) {
+			return Collections.emptyList();
 		}
-		
-		private boolean isConcrete(EClass cls) {
-			return !cls.isAbstract();
-		}
-
-		public void describeTo(Description description) {
-			description.appendText("concrete class");
-		}
-		
 	}
 }
