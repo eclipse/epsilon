@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Eol__.g 2013-04-07 23:25:31
+// $ANTLR 3.1b1 Eol__.g 2013-04-17 12:37:47
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -60,9 +60,9 @@ public class EolLexer extends Lexer {
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
+    public static final int NAME=19;
     public static final int IMPORT=65;
     public static final int T__92=92;
-    public static final int NAME=19;
     public static final int T__90=90;
     public static final int RETURN=37;
     public static final int NewExpression=47;

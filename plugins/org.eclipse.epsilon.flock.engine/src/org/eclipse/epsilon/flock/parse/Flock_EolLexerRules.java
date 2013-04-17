@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2013-04-07 23:26:51
+// $ANTLR 3.1b1 EolLexerRules.g 2013-04-17 12:38:27
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -48,8 +48,8 @@ import java.util.HashMap;
 public class Flock_EolLexerRules extends Lexer {
     public static final int RETYPE=77;
     public static final int EXPONENT=6;
-    public static final int StatementBlock=29;
     public static final int WHILE=33;
+    public static final int StatementBlock=29;
     public static final int FLOCKMODULE=76;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;

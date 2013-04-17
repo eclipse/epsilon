@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Flock__.g 2013-04-07 23:26:44
+// $ANTLR 3.1b1 Flock__.g 2013-04-17 12:38:26
 
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
@@ -48,8 +48,8 @@ import java.util.ArrayList;
 public class FlockLexer extends Lexer {
     public static final int RETYPE=77;
     public static final int EXPONENT=6;
-    public static final int StatementBlock=29;
     public static final int WHILE=33;
+    public static final int StatementBlock=29;
     public static final int FLOCKMODULE=76;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;

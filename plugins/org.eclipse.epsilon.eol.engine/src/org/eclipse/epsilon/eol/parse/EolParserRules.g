@@ -166,8 +166,8 @@ formalParameterList
 	;
 
 executableAnnotation
-	: '$' NAME logicalExpression
-	-> ^(EXECUTABLEANNOTATION NAME logicalExpression)
+	: '$' x=. logicalExpression
+	-> ^(EXECUTABLEANNOTATION $x logicalExpression)
 	;
 
 annotation

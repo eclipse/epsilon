@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2013-04-07 23:26:22
+// $ANTLR 3.1b1 EolLexerRules.g 2013-04-17 12:38:15
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -60,9 +60,9 @@ public class Eml_EolLexerRules extends Lexer {
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
+    public static final int T__92=92;
     public static final int IMPORT=65;
     public static final int NAME=19;
-    public static final int T__92=92;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__90=90;
@@ -132,9 +132,9 @@ public class Eml_EolLexerRules extends Lexer {
     public static final int GUARD=79;
     public static final int Annotation=23;
     public static final int T__130=130;
+    public static final int Letter=16;
     public static final int T__131=131;
     public static final int EscapeSequence=13;
-    public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
     public static final int T__133=133;

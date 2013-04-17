@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Ecl__.g 2013-04-07 23:26:05
+// $ANTLR 3.1b1 Ecl__.g 2013-04-17 12:38:06
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -62,8 +62,8 @@ public class EclLexer extends Lexer {
     public static final int T__94=94;
     public static final int T__91=91;
     public static final int T__92=92;
-    public static final int IMPORT=65;
     public static final int NAME=19;
+    public static final int IMPORT=65;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__90=90;
@@ -84,9 +84,9 @@ public class EclLexer extends Lexer {
     public static final int ITEMSELECTOR=72;
     public static final int T__151=151;
     public static final int T__97=97;
-    public static final int T__152=152;
     public static final int T__96=96;
     public static final int MultiplicativeExpression=57;
+    public static final int T__152=152;
     public static final int T__95=95;
     public static final int T__153=153;
     public static final int FLOAT_TYPE_SUFFIX=7;
