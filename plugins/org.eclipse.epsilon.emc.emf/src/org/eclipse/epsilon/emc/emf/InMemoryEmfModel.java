@@ -48,11 +48,13 @@ public class InMemoryEmfModel extends EmfModel {
 		init(name, modelImpl, ePackages);
 	}
 	
+	public boolean getExpand() { return true; }
+	
 	protected void init(String name, Resource modelImpl, Collection<EPackage> ePackages) {
 		
 		setName(name);
 		this.modelImpl = modelImpl;
-		this.expand = true;
+		this.expand = getExpand();
 		
 		modelImpl.getResourceSet().setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
 		
