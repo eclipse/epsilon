@@ -141,6 +141,15 @@ rule EDataType2GenDataType
 
 operation copyAnnotations(source : Any, target : Any) {
 	
+	if (source.isDefined() and not target.isTypeOf(GenModel!GenModel)) {
+		for (eAnnotation in source.eAnnotations.select(a|a.source="emf.gen.annotation")) {
+			var genAnnotation : new GenModel!GenAnnotation;
+			genAnnotation.source = eAnnotation.getDetail("source");
+			genAnnotation.details.put(eAnnotation.getDetail("key"), eAnnotation.getDetail("value"));
+			target.genAnnotations.add(genAnnotation);
+		}
+	}
+	
 	for (stringFeature in target.eClass().eAllStructuralFeatures.select(sf|sf.eType.name = "String" or sf.eType.name = "EString")) {
 		if (source.hasAnnotation(stringFeature.name)) {
 			var annotationValue = source.getAnnotation(stringFeature.name, "");
@@ -171,6 +180,16 @@ operation Ecore!EModelElement hasAnnotation(label : String) : Boolean {
 		return ann.details.exists(d|d.key = label);
 	}
 	return false;
+}
+
+operation Ecore!EAnnotation getDetail(key : String) {
+	var detail = self.details.selectOne(d|d.key=key);
+	if (detail.isDefined()) {
+		return detail.value;
+	}
+	else {
+		return "";
+	}
 }
 
 operation Ecore!EModelElement getAnnotation(label : String, defaultValue : Any) : Any {
