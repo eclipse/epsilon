@@ -1,6 +1,6 @@
 pre {
 	var genModel = new GenModel!GenModel;
-	var topEPackage = Ecore!EPackage.all.selectOne(p|p.eContainer().isUndefined());
+	var topEPackage = Ecore!EPackage.all.first();
 	genModel.complianceLevel = topEPackage.getEnumerationAnnotation("complianceLevel", genModel, GenModel!GenJDKLevel#JDK60);
 	genModel.copyrightFields = topEPackage.getBooleanAnnotation("copyrightFields", false);
 	genModel.modelPluginId = topEPackage.getAnnotation("modelPluginID", pluginName);
@@ -9,6 +9,9 @@ pre {
 	genModel.importerID = topEPackage.getAnnotation("importerID", "org.eclipse.emf.importer.ecore");
 	genModel.foreignModel.add(foreignModel);
 	copyAnnotations(topEPackage, genModel);
+	for (usedGenPackage in usedGenPackages.values()) {
+		genModel.usedGenPackages.add(usedGenPackage);
+	}
 }
 
 rule EPackage2GenPackage
