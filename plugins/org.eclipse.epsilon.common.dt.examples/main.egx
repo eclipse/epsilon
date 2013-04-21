@@ -1,0 +1,24 @@
+pre {
+	for (example in t_example.all) {
+		example.~index = loopCount;
+	}
+}
+
+rule Examples2PluginXml
+	transform examples : t_examples {
+	
+	template : "examples2PluginXml.egl"
+	
+	target : "plugin.xml"
+		
+}
+
+rule Example2Wizard
+	transform example : t_example {
+	
+	template : "example2ProjectWizard.egl"
+	
+	target : "src-gen/org/eclipse/epsilon/common/dt/examples/" + 
+		"ExampleProjectWizard" + example.~index + ".java"
+		
+}

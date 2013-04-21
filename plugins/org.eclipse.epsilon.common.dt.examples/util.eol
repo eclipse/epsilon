@@ -1,0 +1,5 @@
+operation t_example getShortDescription() {
+	var shortDescription = self.e_description.text.replace("\n", "");
+	shortDescription = shortDescription.replaceAll('<a(.*?)>', "").replaceAll("</a>","").trim();
+	return shortDescription;
+}
