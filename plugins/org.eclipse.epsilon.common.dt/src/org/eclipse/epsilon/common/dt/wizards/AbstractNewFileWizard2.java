@@ -14,12 +14,14 @@ package org.eclipse.epsilon.common.dt.wizards;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizard {
 
@@ -59,7 +61,10 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
 				IWorkbenchPage page =
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
-					IDE.openEditor(page, file, true);
+					//IDE.openEditor(page, file, true);
+					IEditorDescriptor desc = PlatformUI.getWorkbench().
+					        getEditorRegistry().getDefaultEditor(file.getName());
+					page.openEditor(new FileEditorInput(file), desc.getId());
 				} catch (PartInitException e) {
 				}
 			}
