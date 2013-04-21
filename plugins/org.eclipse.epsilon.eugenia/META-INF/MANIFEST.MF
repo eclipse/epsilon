@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.evl.engine
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.epsilon.eugenia
+Export-Package: org.eclipse.epsilon.eugenia,
+ org.eclipse.epsilon.eugenia.operationcontributors
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
