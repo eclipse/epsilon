@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelReference;
 import org.eclipse.epsilon.eugenia.GenerateAllDelegate;
-import org.eclipse.epsilon.eugenia.GenerateAllStep;
+import org.eclipse.epsilon.eugenia.EugeniaActionDelegateStep;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchPart;
@@ -35,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
 public class EugeniaTask extends EpsilonTask {
 
 	private File sourceFile;
-	private GenerateAllStep firstStep, lastStep;
+	private EugeniaActionDelegateStep firstStep, lastStep;
 	private List<EugeniaExtraModel> extraModels = new ArrayList<EugeniaExtraModel>();
 
 	/**
@@ -60,34 +60,34 @@ public class EugeniaTask extends EpsilonTask {
 
 	/**
 	 * Changes the step at which we will start in the Eugenia workflow. Valid steps are
-	 * listed in {@link GenerateAllStep}. By default, we will start by cleaning the
+	 * listed in {@link EugeniaActionDelegateStep}. By default, we will start by cleaning the
 	 * models produced from the .emf or .ecore source. To unset this option, call this
 	 * method with <code>null</code>.
 	 */
-	public void setFirstStep(GenerateAllStep firstStep) {
+	public void setFirstStep(EugeniaActionDelegateStep firstStep) {
 		this.firstStep = firstStep;
 	}
 
 	/**
 	 * Returns the step at which we will start, if set. If unset, returns <code>null</code>.
 	 */
-	public GenerateAllStep getFirstStep() {
+	public EugeniaActionDelegateStep getFirstStep() {
 		return firstStep;
 	}
 
 	/**
 	 * Changes the step at which we will stop in the Eugenia workflow. Valid steps are
-	 * listed in {@link GenerateAllStep}. By default, we will run all steps. To unset
+	 * listed in {@link EugeniaActionDelegateStep}. By default, we will run all steps. To unset
 	 * this option, call this method with <code>null</code>.
 	 */
-	public void setLastStep(GenerateAllStep lastStep) {
+	public void setLastStep(EugeniaActionDelegateStep lastStep) {
 		this.lastStep = lastStep;
 	}
 
 	/**
 	 * Returns the step at which we will stop, if set. If unset, returns <code>null</code>.
 	 */
-	public GenerateAllStep getLastStep() {
+	public EugeniaActionDelegateStep getLastStep() {
 		return lastStep;
 	}
 
@@ -159,7 +159,7 @@ public class EugeniaTask extends EpsilonTask {
 			genAll.runImpl(action);
 			
 			if (!genAll.isSuccessful()) {
-				throw new BuildException(GenerateAllDelegate.ERROR_MESSAGE);
+				throw new BuildException(genAll.getErrorMessage());
 			}
 			
 		} catch (Exception e) {

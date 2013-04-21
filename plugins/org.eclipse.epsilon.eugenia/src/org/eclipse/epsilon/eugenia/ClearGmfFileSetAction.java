@@ -21,14 +21,28 @@ import org.eclipse.jface.action.IAction;
 
 public class ClearGmfFileSetAction extends EugeniaActionDelegate {
 	
+	protected boolean clearGmfFiles = true;
+	
 	@Override
 	public void runImpl(IAction action) throws Exception {
 		delete(gmfFileSet.getGenModelPath());
-		delete(gmfFileSet.getGmfGraphPath());
-		delete(gmfFileSet.getGmfToolPath());
-		delete(gmfFileSet.getGmfMapPath());
-		delete(gmfFileSet.getGmfGenPath());
+		if (clearGmfFiles) {
+			delete(gmfFileSet.getGmfGraphPath());
+			delete(gmfFileSet.getGmfToolPath());
+			delete(gmfFileSet.getGmfMapPath());
+			delete(gmfFileSet.getGmfGenPath());
+		}
 		refresh();
+	}
+	
+	public ClearGmfFileSetAction setClearGmfFiles(boolean clearGmfFiles) {
+		this.clearGmfFiles = clearGmfFiles;
+		return this;
+	}
+	
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.clean;
 	}
 	
 	public void delete(String path) {
@@ -40,7 +54,6 @@ public class ClearGmfFileSetAction extends EugeniaActionDelegate {
 		} catch (Exception ex) {
 			// Ignore
 		}
-		
 	}
 	
 	@Override

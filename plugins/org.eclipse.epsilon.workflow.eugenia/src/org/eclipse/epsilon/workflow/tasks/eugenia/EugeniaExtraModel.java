@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eugenia;
 
-import org.eclipse.epsilon.eugenia.GenerateAllStep;
+import org.eclipse.epsilon.eugenia.EugeniaActionDelegateStep;
 
 /**
  * Nested element for the Eugenia Ant task which represents an extra model
@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eugenia.GenerateAllStep;
 public class EugeniaExtraModel {
 
 	private String sRef, sAs;
-	private GenerateAllStep step;
+	private EugeniaActionDelegateStep step;
 
 	/**
 	 * Changes the name of the model in the project repository to be used. This
@@ -57,14 +57,14 @@ public class EugeniaExtraModel {
 	/**
 	 * Changes the step at which this model will be added, if applicable.
 	 */
-	public void setStep(GenerateAllStep step) {
+	public void setStep(EugeniaActionDelegateStep step) {
 		this.step = step;
 	}
 
 	/**
 	 * Returns the step at which this model will be added, if applicable.
 	 */
-	public GenerateAllStep getStep() {
+	public EugeniaActionDelegateStep getStep() {
 		return step;
 	}
 

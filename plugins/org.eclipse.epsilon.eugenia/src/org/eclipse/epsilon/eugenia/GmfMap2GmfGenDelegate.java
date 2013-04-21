@@ -75,6 +75,11 @@ public class GmfMap2GmfGenDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.gmfgen;
+	}
+	
+	@Override
 	public String getBuiltinTransformation() {
 		return null;
 	}

@@ -39,6 +39,11 @@ public class GenerateToolGraphMapDelegate extends GuardedEcoreModelGenerationDel
 	}
 	
 	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.gmf;
+	}
+	
+	@Override
 	public List<IModel> getModels() throws Exception {
 		List<IModel> models = new ArrayList<IModel>();
 		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, true, true));
@@ -58,5 +63,5 @@ public class GenerateToolGraphMapDelegate extends GuardedEcoreModelGenerationDel
 	public AbstractEcoreModelValidationDelegate createEcoreModelValidationDelegate() {
 		 return new ToolGraphMapEcoreValidationDelegate();
 	}
-
+	
 }

@@ -11,5 +11,10 @@ public class ToolGraphMapEcoreValidationDelegate extends AbstractEcoreModelValid
 	public String getBuiltinTransformation() {
 		return "transformations/ECore2GMF.evl";
 	}
-
+	
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.validateforgmf;
+	}
+	
 }

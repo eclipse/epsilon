@@ -12,16 +12,18 @@ package org.eclipse.epsilon.eugenia;
 
 /**
  * Names of the different steps in the Eugenia workflow. Useful in
- * {@link GenerateAllDelegate#setLastStep(GenerateAllStep)}.
+ * {@link GenerateAllDelegate#setLastStep(EugeniaActionDelegateStep)}.
  * 
  * Please note that these enum values must be kept in the same order
  * as the steps in Eugenia. We use lowercase names instead of the
  * usual uppercase names so the Ant tasks look nicer.
  */
-public enum GenerateAllStep {
+public enum EugeniaActionDelegateStep {
 	clean,
 	ecore,
-	validate,
+	annotate,
+	validateforgenmodel,
+	validateforgmf,
 	genmodel,
 	gmf,
 	gmfgen,

@@ -26,6 +26,16 @@ public class Emfatic2EcoreDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
+	public boolean isApplicable() {
+		return getSelectedFile().getLocationURI().toString().equals(gmfFileSet.getEmfaticPath());
+	}
+	
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.ecore;
+	}
+	
+	@Override
 	public String getBuiltinTransformation() {
 		// TODO Auto-generated method stub
 		return null;

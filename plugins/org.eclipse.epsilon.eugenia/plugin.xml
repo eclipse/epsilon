@@ -14,28 +14,28 @@
                icon="icons/gmfmaptool.png"
                id="org.eclipse.epsilon.eugenia.GenerateToolGraphMapDelegate"
                label="Generate GMF tool, graph and map models"
-               menubarPath="org.eclipse.epsilon.eugenia.ecore/actions">
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/gmf">
          </action>
          <action
-               class="org.eclipse.epsilon.eugenia.Ecore2GenModelDelegate"
+               class="org.eclipse.epsilon.eugenia.GenerateGenModelDelegate"
                enablesFor="1"
                icon="icons/genmodel.png"
                id="org.eclipse.epsilon.eugenia.Ecore2GenModelDelegate"
                label="Generate EMF GenModel"
-               menubarPath="org.eclipse.epsilon.eugenia.ecore/actions">
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/emf">
          </action>
          <menu
                id="org.eclipse.epsilon.eugenia.ecore"
                label="Eugenia"
                path="additions">
             <separator
-                  name="actions">
+                  name="gmf">
             </separator>
             <separator
-                  name="org.eclipse.epsilon.eugenia.separator1">
+                  name="org.eclipse.epsilon.eugenia.separator3">
             </separator>
             <groupMarker
-                  name="experimental">
+                  name="emf">
             </groupMarker>
          </menu>
          <action
@@ -44,12 +44,20 @@
                icon="icons/generateall.png"
                id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
                label="Generate GMF editor"
-               menubarPath="org.eclipse.epsilon.eugenia.ecore/experimental">
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/gmf">
+         </action>
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateEmfEditorDelegate"
+               enablesFor="1"
+               icon="icons/genmodel.png"
+               id="org.eclipse.epsilon.eugenia.GenerateEmfEditorDelegate"
+               label="Generate EMF editor"
+               menubarPath="org.eclipse.epsilon.eugenia.ecore/emf">
          </action>
       </objectContribution>
       <objectContribution
             adaptable="false"
-            id="org.eclipse.epsilon.easygmf.gmfgen"
+            id="org.eclipse.epsilon.eugenia.gmfgen"
             nameFilter="*.gmfgen"
             objectClass="org.eclipse.core.resources.IFile">
          <action
@@ -71,12 +79,13 @@
       </objectContribution>
       <objectContribution
             adaptable="false"
-            id="org.eclipse.epsilon.easygmf.gmfgen"
+            id="org.eclipse.epsilon.eugenia.genmodel"
             nameFilter="*.genmodel"
             objectClass="org.eclipse.core.resources.IFile">
          <action
                class="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
                enablesFor="1"
+               icon="icons/genmodel.png"
                id="org.eclipse.epsilon.eugenia.FixGenModelDelegate"
                label="Synchronize EMF GenModel"
                menubarPath="org.eclipse.epsilon.eugenia.gmfgen/actions">
@@ -100,7 +109,13 @@
                label="Eugenia"
                path="additions">
             <groupMarker
-                  name="actions">
+                  name="gmf">
+            </groupMarker>
+            <separator
+                  name="org.eclipse.epsilon.eugenia.separator2">
+            </separator>
+            <groupMarker
+                  name="emf">
             </groupMarker>
          </menu>
          <action
@@ -109,7 +124,23 @@
                icon="icons/generateall.png"
                id="org.eclipse.epsilon.eugenia.GenerateAllDelegate"
                label="Generate GMF editor"
-               menubarPath="org.eclipse.epsilon.eugenia.emfatic/actions">
+               menubarPath="org.eclipse.epsilon.eugenia.emfatic/gmf">
+         </action>
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateEmfEditorDelegate"
+               enablesFor="1"
+               icon="icons/genmodel.png"
+               id="org.eclipse.epsilon.eugenia.GenerateEmfEditorDelegate"
+               label="Generate EMF editor"
+               menubarPath="org.eclipse.epsilon.eugenia.emfatic/emf">
+         </action>
+         <action
+               class="org.eclipse.epsilon.eugenia.GenerateEcoreDelegate"
+               enablesFor="1"
+               icon="icons/ecore.png"
+               id="org.eclipse.epsilon.eugenia.GenerateEmfEditorDelegate"
+               label="Generate Ecore model"
+               menubarPath="org.eclipse.epsilon.eugenia.emfatic/emf">
          </action>
       </objectContribution>
    </extension>

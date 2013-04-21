@@ -306,6 +306,8 @@ context EClass {
 	
 	critique CanBeVisualized {
 		
+		guard : getDiagramClass().isDefined()
+		
 		check : getDiagramContainmentReference(self).isDefined()
 		
 		message : 'Cannot generate link for class ' + self.name + 

@@ -13,20 +13,13 @@ package org.eclipse.epsilon.eugenia;
 import java.util.Arrays;
 import java.util.List;
 
-public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
+public class GenerateEcoreDelegate extends EugeniaWorkflowDelegate {
 
 	protected List<EugeniaActionDelegate> getDelegates() {
 		return Arrays.asList(
-				new ClearGmfFileSetAction(),
+				new ClearGmfFileSetAction().setClearGmfFiles(false),
 				new Emfatic2EcoreDelegate(),
-				new AnnotateEcoreDelegate(),
-				new Ecore2GenModelDelegate().setClearConsole(false),
-				new FixGenModelDelegate().setClearConsole(false),
-				new GenerateToolGraphMapDelegate().setClearConsole(false),
-				new GmfMap2GmfGenDelegate().setClearConsole(false),
-				new FixGmfGenDelegate().setClearConsole(false),
-				new GenerateEmfCodeDelegate(),
-				new GenerateDiagramCodeDelegate().setTargetPart(targetPart));
+				new AnnotateEcoreDelegate().setSaveEcore(true));
 	}
 
 }

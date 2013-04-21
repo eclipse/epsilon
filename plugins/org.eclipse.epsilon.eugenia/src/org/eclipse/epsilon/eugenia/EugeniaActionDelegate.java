@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -31,6 +32,7 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eugenia.operationcontributors.EModelElementOperationContributor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -53,8 +55,9 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		return clearConsole;
 	}
 	
-	public void setClearConsole(boolean clearConsole) {
+	public EugeniaActionDelegate setClearConsole(boolean clearConsole) {
 		this.clearConsole = clearConsole;
+		return this;
 	}
 	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
@@ -66,6 +69,12 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	}
 
 	public abstract String getTitle();
+	
+	public abstract EugeniaActionDelegateStep getStep();
+	
+	public boolean requiresUIThread() {
+		return false;
+	}
 	
 	public void run(final IAction action) {
 		Job job = new Job(getTitle()) {
@@ -121,6 +130,10 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		return new ArrayList<Variable>();
 	}
 	
+	public boolean isApplicable() {
+		return true;
+	}
+	
 	public void runImpl(IAction action) throws Exception {
 					  
 		IEolExecutableModule builtin = createBuiltinModule();
@@ -167,6 +180,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 								customization.getContext().getModelRepository().addModel(model);
 							}
 						}
+						preExecuteCustomisation(customization);
 						customization.execute();
 					}
 					else {
@@ -179,16 +193,22 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			throw ex;
 		}
 		finally {
-			builtin.getContext().getModelRepository().dispose();
+			for (IModel model : builtin.getContext().getModelRepository().getModels()) {
+				disposeModel(model);
+			}
 			builtin.getContext().dispose();
 			customization.getContext().dispose();
 			refresh();
 		}
 	}
 	
+	protected void disposeModel(IModel model) {
+		if (!(model.getName().equals("Ecore") || model.getName().equals("ECore"))) { model.dispose(); }
+	}
+	
 	public void refresh() {
 		try {
-			getSelectedFile().getParent().refreshLocal(1, null);
+			getSelectedFile().getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 		}
 		catch (Exception ex) {
 			// Ignore
@@ -228,4 +248,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public void setExtraModels(List<IModel> extraModels) {
 		this.extraModels = extraModels;
 	}
+	
+	protected void preExecuteCustomisation(IEolExecutableModule module) {}
+	
 }

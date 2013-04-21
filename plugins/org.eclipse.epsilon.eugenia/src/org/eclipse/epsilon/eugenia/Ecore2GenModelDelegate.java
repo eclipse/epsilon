@@ -40,6 +40,11 @@ public class Ecore2GenModelDelegate extends GuardedEcoreModelGenerationDelegate 
 	}
 	
 	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.genmodel;
+	}
+	
+	@Override
 	public String getBuiltinTransformation() {
 		return "transformations/Ecore2GenModel.etl";
 	}

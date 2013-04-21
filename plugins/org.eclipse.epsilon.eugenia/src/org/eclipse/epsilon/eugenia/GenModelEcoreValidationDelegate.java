@@ -11,5 +11,10 @@ public class GenModelEcoreValidationDelegate extends AbstractEcoreModelValidatio
 	public String getBuiltinTransformation() {
 		return "transformations/Ecore2GenModel.evl";
 	}
-
+	
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.validateforgenmodel;
+	}
+	
 }

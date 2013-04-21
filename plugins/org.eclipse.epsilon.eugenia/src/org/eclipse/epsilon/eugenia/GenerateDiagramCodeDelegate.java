@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.gmf.codegen.gmfgen.DiagramColors;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -37,8 +38,19 @@ public class GenerateDiagramCodeDelegate extends EugeniaActionDelegate {
 		}
 	}
 	
-	public void setTargetPart(IWorkbenchPart targetPart) {
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.gmfcode;
+	}
+	
+	@Override
+	public boolean requiresUIThread() {
+		return true;
+	}
+	
+	public GenerateDiagramCodeDelegate setTargetPart(IWorkbenchPart targetPart) {
 		this.targetPart = targetPart;
+		return this;
 	}
 	
 	private IObjectActionDelegate getExecuteTemplateAction()

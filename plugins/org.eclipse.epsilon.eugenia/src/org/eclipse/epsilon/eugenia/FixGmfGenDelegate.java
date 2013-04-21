@@ -35,6 +35,11 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.gmfgen;
+	}
+	
+	@Override
 	public List<IModel> getModels() throws Exception {
 		List<IModel> models = new ArrayList<IModel>();
 

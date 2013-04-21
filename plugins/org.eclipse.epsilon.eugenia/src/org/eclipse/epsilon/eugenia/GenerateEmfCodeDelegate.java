@@ -53,7 +53,12 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 				GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE,
 				new BasicMonitor.Printing(System.err));
 	}
-
+	
+	@Override
+	public EugeniaActionDelegateStep getStep() {
+		return EugeniaActionDelegateStep.emfcode;
+	}
+	
 	@Override
 	public String getBuiltinTransformation() {
 		return null;
