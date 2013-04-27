@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2011-12-04 02:44:00
+// $ANTLR 3.1b1 ErlParserRules.g 2013-04-27 16:08:48
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -140,9 +140,9 @@ public class Egx_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int GUARD=79;
     public static final int Annotation=23;
     public static final int T__130=130;
+    public static final int Letter=16;
     public static final int T__131=131;
     public static final int EscapeSequence=13;
-    public static final int Letter=16;
     public static final int THROW=53;
     public static final int T__132=132;
     public static final int T__133=133;

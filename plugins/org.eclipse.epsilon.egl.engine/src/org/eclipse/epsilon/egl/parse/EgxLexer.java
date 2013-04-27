@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Egx__.g 2011-12-04 02:44:01
+// $ANTLR 3.1b1 Egx__.g 2013-04-27 16:08:49
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -84,9 +84,9 @@ public class EgxLexer extends Lexer {
     public static final int T__156=156;
     public static final int T__157=157;
     public static final int T__99=99;
-    public static final int T__150=150;
     public static final int T__98=98;
     public static final int ITEMSELECTOR=72;
+    public static final int T__150=150;
     public static final int T__97=97;
     public static final int T__151=151;
     public static final int MultiplicativeExpression=57;
@@ -137,9 +137,9 @@ public class EgxLexer extends Lexer {
     public static final int GUARD=79;
     public static final int Annotation=23;
     public static final int T__130=130;
-    public static final int Letter=16;
     public static final int EscapeSequence=13;
     public static final int T__131=131;
+    public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
     public static final int T__133=133;
@@ -551,11 +551,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:60:8: ( '::' )
-            // Egx__.g:60:10: '::'
+            // Egx__.g:60:8: ( '#' )
+            // Egx__.g:60:10: '#'
             {
-            match("::"); 
-
+            match('#'); 
 
             }
 
@@ -572,10 +571,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:61:8: ( '#' )
-            // Egx__.g:61:10: '#'
+            // Egx__.g:61:8: ( '::' )
+            // Egx__.g:61:10: '::'
             {
-            match('#'); 
+            match("::"); 
+
 
             }
 
@@ -2400,9 +2400,9 @@ public class EgxLexer extends Lexer {
         "\2\uffff\1\156\1\163\1\ufaff\1\uffff";
     static final String DFA1_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\7\1\10\3\uffff\1\14\1\15\1\uffff"+
-        "\1\17\1\20\1\22\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
+        "\1\17\1\20\1\21\21\uffff\1\67\1\uffff\1\71\2\uffff\1\74\1\75\1\76"+
         "\3\uffff\1\114\2\uffff\1\53\1\3\5\uffff\1\61\1\11\35\uffff\1\64"+
-        "\1\62\1\65\1\66\1\63\1\70\1\72\10\uffff\1\54\1\21\7\uffff\1\55\4"+
+        "\1\62\1\65\1\66\1\63\1\70\1\72\10\uffff\1\54\1\22\7\uffff\1\55\4"+
         "\uffff\1\34\1\35\41\uffff\1\56\6\uffff\1\33\5\uffff\1\30\1\uffff"+
         "\1\27\1\uffff\1\32\15\uffff\1\57\1\73\1\77\1\100\1\101\22\uffff"+
         "\1\26\2\uffff\1\37\1\uffff\1\41\3\uffff\1\105\6\uffff\1\102\2\uffff"+

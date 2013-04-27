@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2011-12-04 02:44:05
+// $ANTLR 3.1b1 EolLexerRules.g 2013-04-27 16:08:51
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -84,9 +84,9 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__156=156;
     public static final int T__157=157;
     public static final int T__99=99;
-    public static final int T__150=150;
     public static final int T__98=98;
     public static final int ITEMSELECTOR=72;
+    public static final int T__150=150;
     public static final int T__97=97;
     public static final int T__151=151;
     public static final int MultiplicativeExpression=57;
@@ -137,9 +137,9 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int GUARD=79;
     public static final int Annotation=23;
     public static final int T__130=130;
-    public static final int Letter=16;
     public static final int EscapeSequence=13;
     public static final int T__131=131;
+    public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
     public static final int T__133=133;

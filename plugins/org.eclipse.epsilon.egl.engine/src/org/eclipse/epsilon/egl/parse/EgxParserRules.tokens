@@ -88,9 +88,9 @@ PROTECTREGIONS=84
 GUARD=79
 Annotation=23
 T__130=130
+Letter=16
 T__131=131
 EscapeSequence=13
-Letter=16
 THROW=53
 T__132=132
 T__133=133
@@ -156,7 +156,7 @@ ASSIGNMENT=26
 EXTENDS=78
 STRING=14
 '>='=137
-'#'=103
+'#'=102
 'post'=151
 '/'=143
 '=='=134
@@ -211,7 +211,7 @@ STRING=14
 '='=94
 'template'=157
 'Bag'=108
-'::'=102
+'::'=103
 'throw'=121
 ')'=98
 'xor'=132
