@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008-2012 The University of York, Antonio Garc??a-Dom??nguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - fix DND in Eclipse Juno
+ *     Antonio Garc??a-Dom??nguez - fix DND in Eclipse Juno
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -43,12 +44,32 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 		setReferenceValueImage = plugin.getImageDescriptor("icons/set.gif").createImage();
 	}
 
-
 	@Override
-	public void drop(final DropTargetEvent event) {
+	public void dragOver(DropTargetEvent event) {
+		super.dragOver(event);
+		if (event.detail == DND.DROP_NONE && event.getSource() !=null && !listQualifiedReferences(event).isEmpty()) {
+			event.detail = DND.DROP_LINK;
+			event.feedback = getAutoFeedback();
+		}
+	}
+	
+	// Works on Windows - see bug 288616
+	@Override
+	public void dropAccept(DropTargetEvent event) {
+		super.dropAccept(event);
+		handleDrop(event);
+	}
+	
+	// Works on Mac/Linux - see bug 288616
+	@Override
+	public void drop(DropTargetEvent event) {
 		super.drop(event);
-
+		handleDrop(event);
+	}
+	
+	public void handleDrop(final DropTargetEvent event) {
 		source = getDragSource(event);
+		if (source == null) return;
 		final List<EReference> qualifiedReferences = listQualifiedReferences(event);
 		if (!qualifiedReferences.isEmpty()) {
 			Menu m = new Menu(viewer.getControl());
