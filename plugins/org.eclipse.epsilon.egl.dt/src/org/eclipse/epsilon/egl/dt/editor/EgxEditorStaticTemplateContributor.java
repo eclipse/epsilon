@@ -22,7 +22,11 @@ public class EgxEditorStaticTemplateContributor implements IAbstractModuleEditor
 	public List<Template> getTemplates() {
 		if (templates == null) {
 			templates = new ArrayList<Template>();
-			templates.add(new Template("transform", "transform rule", "", "rule ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype} {\r\n\t${cursor}\r\n}",false));
+			templates.add(new Template("transform", "transform rule", "", "rule ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype} {\r\n" +
+					"\r\n\ttemplate : \"${cursor}\"\r\n" +
+					"\r\n\tparameters : Map{}\r\n" +
+					"\r\n\ttarget : \"\"\r\n" +
+					"}",false));
 			templates.add(new Template("pre", "block executed before the rules", "", "pre ${name} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("post", "block executed after the rules", "", "post ${name} {\r\n\t${cursor}\r\n}",false));
 		}

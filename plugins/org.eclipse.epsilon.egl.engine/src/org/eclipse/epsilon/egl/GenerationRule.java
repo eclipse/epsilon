@@ -193,7 +193,6 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 	@Override
 	public String toString() {
 		String label = this.name;
-		System.err.println(sourceParameter);
 		if (sourceParameter != null) {
 			label += " (" + sourceParameter.getTypeName() + ")";
 		}
