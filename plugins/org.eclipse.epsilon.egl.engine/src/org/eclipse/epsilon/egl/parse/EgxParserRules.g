@@ -48,7 +48,7 @@ tokens {
 }
 
 generationRule
-	:	r='rule'^ rule=NAME 'transform'! formalParameter
+	:	r='rule'^ rule=NAME ('transform'! formalParameter)?
 	'{'! (guard | target | template | parameters | pre | post | overwrite | protectRegions)* '}'!
 	{$r.setType(GENERATE);}
 	;

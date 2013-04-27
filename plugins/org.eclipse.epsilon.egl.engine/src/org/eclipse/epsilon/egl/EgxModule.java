@@ -54,7 +54,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		module.parse("rule C2J transform c : EClass { target: 1+2+'c' pre {'pre'.println();'pre1'.println();}  post{'post'.println();} }");
 		System.err.println(module.getParseProblems());
 		module.execute();
-		
 	}
 
 	public EgxModule() {
