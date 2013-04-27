@@ -49,7 +49,7 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 		super.dragOver(event);
 		if (event.detail == DND.DROP_NONE && event.getSource() !=null && !listQualifiedReferences(event).isEmpty()) {
 			event.detail = DND.DROP_LINK;
-			event.feedback = getAutoFeedback();
+			event.feedback = getAutoFeedback() | DND.FEEDBACK_SELECT;
 		}
 	}
 	
