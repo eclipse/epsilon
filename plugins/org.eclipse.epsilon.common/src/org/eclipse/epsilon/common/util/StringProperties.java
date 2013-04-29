@@ -50,6 +50,15 @@ public class StringProperties extends Properties{
 		else return zuper;
 	}
 	
+	public int getIntegerProperty(String key, int default_) {
+		if (containsKey(key)) {
+			return Integer.parseInt(getProperty(key));
+		}
+		else {
+			return default_;
+		}
+	}
+	
 	@Override
 	public synchronized Object put(Object key, Object value) {
 		return super.put(key, StringUtil.toString(value));
