@@ -10,19 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
-import java.util.List;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 // TODO: Is it worth making collections strongly typed?
-public class VarStatementExecutor extends AbstractExecutor{
+public class VarStatementExecutor extends TypeInitialiserExecutor {
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
@@ -36,7 +32,6 @@ public class VarStatementExecutor extends AbstractExecutor{
 		//Variable resultVariable = null;
 		
 		String variableName = variableNameAst.getText();
-		Object newInstance = null;
 		
 		EolType variableType = null;
 		if (variableTypeAst == null){ // No type defined
@@ -46,28 +41,13 @@ public class VarStatementExecutor extends AbstractExecutor{
 			variableType = (EolType) context.getExecutorFactory().executeAST(variableTypeAst, context);
 		}
 		
-		//TODO : Add try-catch and support for EolInstanciationExceptions
-		if (variableType instanceof EolPrimitiveType || variableType instanceof EolCollectionType){
-			newInstance = variableType.createInstance();
-		}
-		else if (ast.getText().equalsIgnoreCase("new")) {
-			
-			if (parametersAst != null) {
-				List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
-				newInstance = variableType.createInstance(parameters);
-			}
-			else {
-				newInstance = variableType.createInstance();
-			}
-		}
-		//if (ast.getText().compareTo("new") == 0 && variableType instanceof EolModelElementType){
-		//	newInstance = ((EolModelElementType) variableType).createInstance();
-		//}
+		//TODO : Add try-catch and support for EolInstantiationExceptions
+		Object newInstance = initialiseType(variableType, parametersAst, context, ast.getText().equalsIgnoreCase("new"));
 		
 		Variable variable = new Variable(variableName, newInstance, variableType);
 		context.getFrameStack().put(variable);
 		return variable;
 		
 	}
-
+	
 }

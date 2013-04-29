@@ -194,4 +194,7 @@ public class EolModelElementType extends EolType{
 		return name + typeName; 
 	}
 	
+	public IModel getModel() {
+		return model;
+	}
 }

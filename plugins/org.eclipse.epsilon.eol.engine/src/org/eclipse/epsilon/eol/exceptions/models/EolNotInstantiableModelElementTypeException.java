@@ -11,20 +11,26 @@
 package org.eclipse.epsilon.eol.exceptions.models;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
 
 public class EolNotInstantiableModelElementTypeException extends EolRuntimeException {
 	
 	protected String model;
-	protected String metaClass;
+	protected String typeName;
 	
-	public EolNotInstantiableModelElementTypeException(String model, String metaClass){
+	public EolNotInstantiableModelElementTypeException(String model, String typeName){
 		this.model = model;
-		this.metaClass = metaClass;
+		this.typeName = typeName;
+	}
+	
+	public EolNotInstantiableModelElementTypeException(EolModelElementType type) {
+		this.model = type.getModel().getName();
+		this.typeName = type.getTypeName();
 	}
 	
 	@Override
 	public String getReason(){
-		return "Meta-class '" + metaClass + "' of model '" + model + "' is abstract and cannot be instantiated";
+		return "Type '" + typeName + "' of model '" + model + "' cannot be instantiated";
 	}
 	
 }

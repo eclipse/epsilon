@@ -10,14 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
-import java.util.List;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class NewExecutor extends AbstractExecutor {
+public class NewExecutor extends TypeInitialiserExecutor {
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
@@ -28,14 +26,7 @@ public class NewExecutor extends AbstractExecutor {
 		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeAst);
 		
 		AST parametersAst = typeAst.getNextSibling();
-		
-		if (parametersAst == null) {
-			return ((EolType) result).createInstance();
-		}
-		else {
-			List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
-			return ((EolType) result).createInstance(parameters);
-		}
+		return initialiseType((EolType) result, parametersAst, context, true);
 		
 	}
 

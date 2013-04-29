@@ -136,6 +136,16 @@ public abstract class Model implements IModel{
 	}
 	*/
 	
+	@Override
+	public boolean isModelElement(Object instance) {
+		return owns(instance);
+	}
+	
+	@Override
+	public Object getTypeOf(Object instance) {
+		return null;
+	}
+	
 	public boolean isReadOnLoad() {
 		return readOnLoad;
 	}

@@ -103,7 +103,7 @@ public class ModelGroup extends Model {
 			throw new EolNotInstantiableModelElementTypeException(this.name, metaClass) {
 				@Override
 				public String getReason(){
-					return "Cannot create an instance of " + metaClass + " because model group " + name + " has more than one models";
+					return "Cannot create an instance of " + typeName + " because model group " + name + " has more than one models";
 				}
 			};
 		}
