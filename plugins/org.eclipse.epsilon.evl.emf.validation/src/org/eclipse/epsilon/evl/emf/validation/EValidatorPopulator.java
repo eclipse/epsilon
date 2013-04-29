@@ -46,6 +46,13 @@ public class EValidatorPopulator implements IStartup {
 				
 				URL url = Platform.getBundle(bundleId).getResource(configurationElement.getAttribute("constraints"));
 				
+				if (url == null) {
+					LogUtil.log("Constraints file " + 
+						configurationElement.getAttribute("constraints") + 
+						" not found in bundle " + bundleId, 
+						new Exception());
+					continue;
+				}
 				
 				EValidator evlValidator = null;
 				if (url.toString().endsWith("evl")) {
