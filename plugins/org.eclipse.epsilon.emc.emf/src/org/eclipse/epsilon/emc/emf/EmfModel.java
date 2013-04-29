@@ -224,9 +224,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 	}
 	
-	public void loadModelFromUri() throws EolModelLoadingException {
-		ResourceSet resourceSet = new EmfModelResourceSet(); //new ResourceSetImpl();
+	protected ResourceSet createResourceSet() {
+		ResourceSet resourceSet = new EmfModelResourceSet();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", EmfModelResourceFactory.getInstance());
+		return resourceSet;
+	}
+	
+	public void loadModelFromUri() throws EolModelLoadingException {
+		ResourceSet resourceSet = createResourceSet();
 		
 		if (EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) == null) {
 			EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
