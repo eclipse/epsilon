@@ -6,5 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml;bundle-version="4.0.0"
 Export-Package: org.eclipse.epsilon.emc.uml
