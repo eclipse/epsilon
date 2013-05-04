@@ -185,6 +185,7 @@ public class EglTemplateFactory {
 	 */
 	protected EglTemplate load(EglTemplateSpecification spec) throws EglRuntimeException {
 		try {
+			initialiseRoot(spec.getURI());
 			return createTemplate(spec);
 			
 		} catch (Exception e) {

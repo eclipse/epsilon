@@ -59,7 +59,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
 		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not generate to " + targetName, ex, module.getAst());
+			throw new EglRuntimeException("Could not generate to: " + target, ex, module.getAst());
 		}
 	}
 	

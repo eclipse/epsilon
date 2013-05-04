@@ -36,5 +36,9 @@ class DirtyResourceBackedTemplateSpecification extends EglTemplateSpecification 
 	
 	public void parseInto(IEglModule module) throws Exception {
 		module.parse(latestCode, new File(resource));
+	}
+
+	public URI getURI() {
+		return resource;
 	}	
 }

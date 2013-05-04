@@ -11,6 +11,8 @@
 package org.eclipse.epsilon.egl.spec;
 
 
+import java.net.URI;
+
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -35,4 +37,5 @@ public abstract class EglTemplateSpecification {
 
 	public abstract Template createTemplate();
 	public abstract void parseInto(IEglModule module) throws Exception;
+	public abstract URI getURI();
 }

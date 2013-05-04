@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.spec;
 
+import java.net.URI;
+
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -31,5 +33,9 @@ class CodeBackedTemplateSpecification extends EglTemplateSpecification {
 	
 	public void parseInto(IEglModule module) throws Exception {
 		module.parse(code);
+	}
+
+	public URI getURI() {
+		return null;
 	}	
 }

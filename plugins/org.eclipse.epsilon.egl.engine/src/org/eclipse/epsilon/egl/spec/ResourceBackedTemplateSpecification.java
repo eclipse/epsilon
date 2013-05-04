@@ -33,5 +33,9 @@ class ResourceBackedTemplateSpecification extends EglTemplateSpecification {
 	
 	public void parseInto(IEglModule module) throws Exception {
 		module.parse(resource);
-	}	
+	}
+	
+	public URI getURI() {
+		return resource;
+	}
 }
