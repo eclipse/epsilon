@@ -111,7 +111,9 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	
 	public void setSelectedFile(IFile file) {
 		this.selectedFile = file;
-		this.gmfFileSet   = new GmfFileSet(selectedFile.getLocationURI().toString());
+		// The following doesn't work with Jazz - see bug #407183
+		//this.gmfFileSet   = new GmfFileSet(selectedFile.getLocationURI().toString());
+		this.gmfFileSet= new GmfFileSet(selectedFile.getLocation().toFile().toURI().toString());		
 	}
 
 	public IEolExecutableModule createBuiltinModule() {
