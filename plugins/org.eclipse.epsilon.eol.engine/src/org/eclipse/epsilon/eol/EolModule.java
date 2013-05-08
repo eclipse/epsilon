@@ -63,13 +63,17 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		children.addAll(getDeclaredOperations());
 		return children;
 	}
-
+	
+	public IEolContext createContext() {
+		return new EolContext();
+	}
+	
 	//TODO: Clear context as well
 	@Override
 	public void reset() {
 		super.reset();
 		main = null;
-		context = new EolContext();
+		context = createContext();
 	}
 
 	/**
