@@ -15,8 +15,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ExtendedPropertySetter extends AbstractPropertySetter {
 	
-	IEolContext context = null;
-	
 	public ExtendedPropertySetter(IEolContext context) {
 		this.context = context;
 	}

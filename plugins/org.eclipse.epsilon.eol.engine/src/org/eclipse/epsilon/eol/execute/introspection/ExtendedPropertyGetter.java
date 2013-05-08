@@ -15,8 +15,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ExtendedPropertyGetter extends AbstractPropertyGetter {
 	
-	protected IEolContext context;
-	
 	public ExtendedPropertyGetter(IEolContext context) {
 		this.context = context;
 	}

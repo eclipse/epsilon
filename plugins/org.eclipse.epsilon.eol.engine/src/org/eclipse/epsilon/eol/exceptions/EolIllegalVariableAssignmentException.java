@@ -19,7 +19,6 @@ public class EolIllegalVariableAssignmentException extends EolRuntimeException{
 	protected Variable variable;
 	protected EolType expected;
 	protected Object value;
-	protected IEolContext context;
 	
 	public EolIllegalVariableAssignmentException(Variable variable, EolType expected, Object value, IEolContext context) {
 		super();
