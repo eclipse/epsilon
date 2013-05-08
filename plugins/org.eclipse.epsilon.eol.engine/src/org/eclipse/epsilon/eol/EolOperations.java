@@ -46,10 +46,22 @@ public class EolOperations extends ArrayList<EolOperation>{
 	}
 	
 	public EolOperation getOperation(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
-		ListIterator li = listIterator();
+		List<EolOperation> operations = getOperations(object, name, parameters, ofTypeOnly, context, true);
+		if (operations.isEmpty()) return null;
+		else return operations.get(0);
+	}
+	
+	public List<EolOperation> getOperations(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
+		return getOperations(object, name, parameters, ofTypeOnly, context, false);
+	}
+	
+	public List<EolOperation> getOperations(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context, boolean returnOne) throws EolRuntimeException{
+		List<EolOperation> operations = new ArrayList<EolOperation>();
+		
+		ListIterator<EolOperation> li = listIterator();
 		
 		while (li.hasNext()){
-			EolOperation operation = (EolOperation) li.next();
+			EolOperation operation = li.next();
 			if (operation.getName().compareTo(name) == 0 
 					&& operation.getFormalParameters().size() == parameters.size()) {
 				
@@ -79,51 +91,14 @@ public class EolOperations extends ArrayList<EolOperation>{
 					}
 					
 					if (correctParameters) {
-						return operation;
+						operations.add(operation);
+						if (returnOne) return operations;
 					}
 				}
-				
-				//if (EolTypeChecker.isOfType(object, helper.getContextType(), context)){
-				//	return helper;
-				//}
-				
-				/*
-				// If the object is of a built-in type
-				if (object instanceof EolAny){
-					
-					try {
-						Class clazz = Class.forName("org.eol.types.Eol" + helper.getContext());
-						if (clazz.isInstance(object)){
-							return helper;
-						}
-					}
-					catch (Exception ex){
-						
-					}
-
-				}
-				else { 
-					// If the object is a model element
-					
-					Collection allInstances;
-					
-					if (ofClassOnly) {
-						allInstances = context.getModelRepository().allOfClass(helper.getContext());
-					}
-					else {
-						allInstances = context.getModelRepository().allOfType(helper.getContext());
-					}
-					
-					if (allInstances != null 
-							&& allInstances.contains(object)) {
-						return helper;
-					}
-				}
-				*/
 			}
 		}
 		
-		return null;
+		return operations;
 	}
 	
 	public EolOperation getOperation(Object source, AST operationAst, List parameters, IEolContext context) throws EolRuntimeException{
