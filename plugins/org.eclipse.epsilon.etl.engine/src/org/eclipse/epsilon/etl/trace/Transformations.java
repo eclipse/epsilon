@@ -27,7 +27,7 @@ public class Transformations extends ArrayList<Transformation>{
 		ListIterator li = listIterator();
 		Collection targets = CollectionUtil.createDefaultList();
 		for (Transformation transformation : this) {
-			if (rule == null || rule == transformation.getRule().getName()) {
+			if (rule == null || rule.equals(transformation.getRule().getName())) {
 				targets.addAll(transformation.getTargets());
 			}
 		}
