@@ -31,7 +31,7 @@ public class TypedConstructCheckerTests {
 		when(context.isTypeInOriginalMetamodel("UnknownType"))
 			.thenReturn(false);
 		
-		new TypedConstructChecker("UnknownType", context).check();
+		new ClassifierTypedConstructChecker("UnknownType", context).check();
 		
 		verify(context).addWarning("Rule defined for migrating instances of UnknownType, " +
 		                           "but no type UnknownType was found in the original metamodel.");
@@ -43,7 +43,7 @@ public class TypedConstructCheckerTests {
 		when(context.isTypeInOriginalMetamodel("KnownType"))
 			.thenReturn(true);
 	
-		new TypedConstructChecker("KnownType", context).check();
+		new ClassifierTypedConstructChecker("KnownType", context).check();
 	
 		verify(context, never()).addWarning(anyString());
 	}

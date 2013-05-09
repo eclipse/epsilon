@@ -17,7 +17,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.eclipse.epsilon.flock.model.domain.rules.Body;
 
 public class MigrateRuleContext {
@@ -25,7 +25,7 @@ public class MigrateRuleContext {
 	private final Equivalence equivalence;
 	private final EolExecutor executor;
 	private final FlockExecution execution;
-	private final Map<TypedAndGuardedConstruct, Boolean> applicabilityCache = new HashMap<TypedAndGuardedConstruct, Boolean>();
+	private final Map<ClassifierTypedConstruct, Boolean> applicabilityCache = new HashMap<ClassifierTypedConstruct, Boolean>();
 
 	public MigrateRuleContext(Equivalence equivalence, EolExecutor executor, FlockExecution execution) {
 		this.equivalence = equivalence;
@@ -33,7 +33,7 @@ public class MigrateRuleContext {
 		this.execution = execution;
 	}
 
-	public boolean isEligibleFor(TypedAndGuardedConstruct guardedConstruct) throws FlockRuntimeException {
+	public boolean isEligibleFor(ClassifierTypedConstruct guardedConstruct) throws FlockRuntimeException {
 		final boolean applicability;
 		
 		if (applicabilityCache.containsKey(guardedConstruct)) {

@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.domain;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
@@ -33,7 +33,10 @@ public class MigrationStrategyTests {
 	public void constructorAddsConstructs() {
 		final MigrationStrategy strategy = new MigrationStrategy(retyping, rule, deletion);
 		
-		assertThat(strategy.getTypeMappingsAndRules(), containsInAnyOrder(retyping, rule, deletion));
+		assertThat(strategy.getTypeMappingsAndRules(),
+		           containsInAnyOrder((ModuleElement)retyping,
+		                              (ModuleElement)rule,
+		                              (ModuleElement)deletion));
 	}
 	
 	@Test
@@ -43,9 +46,9 @@ public class MigrationStrategyTests {
 		strategy.addRule(rule);
 		
 		
-		final Collection<TypedAndGuardedConstruct> contents = strategy.getTypeMappingsAndRules();
+		final Collection<ModuleElement> contents = strategy.getTypeMappingsAndRules();
 		
-		assertThat(contents, containsInAnyOrder((TypedAndGuardedConstruct)rule));
+		assertThat(contents, containsInAnyOrder((ModuleElement)rule));
 	}
 	
 	@Test
@@ -56,9 +59,9 @@ public class MigrationStrategyTests {
 		strategy.addTypeMappingConstruct(deletion);
 		
 		
-		final Collection<TypedAndGuardedConstruct> contents = strategy.getTypeMappingsAndRules();
+		final Collection<ModuleElement> contents = strategy.getTypeMappingsAndRules();
 		
-		assertThat(contents, containsInAnyOrder((TypedAndGuardedConstruct)retyping,
-		                                        (TypedAndGuardedConstruct)deletion));
+		assertThat(contents, containsInAnyOrder((ModuleElement)retyping,
+		                                        (ModuleElement)deletion));
 	}
 }

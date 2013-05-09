@@ -10,15 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import java.util.Collection;
-
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
+import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public abstract class TypeMappingConstruct extends TypedAndGuardedConstruct implements EquivalenceFactory {
+public interface TypeMappingConstruct extends EquivalenceFactory, ModuleElement {
 
-	protected TypeMappingConstruct(AST ast, Collection<String> annotations, String originalType, AST guard) {
-		super(ast, annotations, guard, originalType);
-	}
+	public boolean appliesIn(GuardedConstructContext original) throws FlockRuntimeException;
+
+	public void check(MigrationStrategyCheckingContext context);
 }

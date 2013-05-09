@@ -12,20 +12,20 @@ package org.eclipse.epsilon.flock.model.checker;
 
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 
-public class TypedConstructChecker {
+public class PackageTypedConstructChecker {
 
-	private final String originalType;
+	private final String originalPackage;
 	private final MigrationStrategyCheckingContext context;
 	
-	public TypedConstructChecker(String originalType, MigrationStrategyCheckingContext context) {
-		this.originalType = originalType;
+	public PackageTypedConstructChecker(String originalPackage, MigrationStrategyCheckingContext context) {
+		this.originalPackage = originalPackage;
 		this.context      = context;
 	}
 
 	public void check() {
-		if (!context.isTypeInOriginalMetamodel(originalType)) {
-			context.addWarning("Rule defined for migrating instances of " + originalType + ", " +
-			                   "but no type " + originalType + " was found in the original metamodel.");
+		if (!context.isPackageInOriginalMetamodel(originalPackage)) {
+			context.addWarning("Rule defined for migrating members of " + originalPackage + ", " +
+			                   "but no package " + originalPackage + " was found in the original metamodel.");
 		}
 	}
 }

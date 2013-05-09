@@ -17,12 +17,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRules;
@@ -31,13 +32,13 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstructs
 
 public class MigrationStrategy {
 	
-	private final List<TypedAndGuardedConstruct> children = new LinkedList<TypedAndGuardedConstruct>();
+	private final List<ModuleElement> children = new LinkedList<ModuleElement>();
 	private final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs();
 	private final MigrateRules          migrateRules          = new MigrateRules();
 	
 	
-	public MigrationStrategy(TypedAndGuardedConstruct... constructs) {
-		for (TypedAndGuardedConstruct construct : constructs) {
+	public MigrationStrategy(ClassifierTypedConstruct... constructs) {
+		for (ClassifierTypedConstruct construct : constructs) {
 			if (construct instanceof TypeMappingConstruct) {
 				addTypeMappingConstruct((TypeMappingConstruct)construct);
 				
@@ -50,7 +51,7 @@ public class MigrationStrategy {
 		}
 	}
 	
-	public Collection<TypedAndGuardedConstruct> getTypeMappingsAndRules() {
+	public Collection<ModuleElement> getTypeMappingsAndRules() {
 		return children;
 	}
 	

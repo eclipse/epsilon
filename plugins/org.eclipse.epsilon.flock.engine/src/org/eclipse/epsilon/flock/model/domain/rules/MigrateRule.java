@@ -19,9 +19,9 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
+import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
-public class MigrateRule extends TypedAndGuardedConstruct {
+public class MigrateRule extends ClassifierTypedConstruct {
 
 	private final Body body;
 	private final IgnoredProperties ignoredProperties;

@@ -19,13 +19,13 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.checker.TypedConstructChecker;
+import org.eclipse.epsilon.flock.model.checker.ClassifierTypedConstructChecker;
 
-public abstract class TypedAndGuardedConstruct extends GuardedConstruct {
+public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 
 	private final String originalType;
 	
-	public TypedAndGuardedConstruct(AST ast, Collection<String> annotations, AST guard, String originalType) {
+	public ClassifierTypedConstruct(AST ast, Collection<String> annotations, AST guard, String originalType) {
 		super(ast, annotations, guard);
 		
 		if (originalType == null)
@@ -48,15 +48,15 @@ public abstract class TypedAndGuardedConstruct extends GuardedConstruct {
 	}
 	
 	public void check(MigrationStrategyCheckingContext context) {
-		new TypedConstructChecker(originalType, context).check();
+		new ClassifierTypedConstructChecker(originalType, context).check();
 	}
 	
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof TypedAndGuardedConstruct))
+		if (!(object instanceof ClassifierTypedConstruct))
 			return false;
 		
-		final TypedAndGuardedConstruct other = (TypedAndGuardedConstruct)object;
+		final ClassifierTypedConstruct other = (ClassifierTypedConstruct)object;
 		
 		return super.equals(other) &&
 			   originalType.equals(other.originalType);

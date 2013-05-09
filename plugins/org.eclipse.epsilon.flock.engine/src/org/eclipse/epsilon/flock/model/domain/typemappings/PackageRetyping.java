@@ -13,62 +13,64 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import java.util.Collection;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
+import org.eclipse.epsilon.flock.model.domain.common.PackageTypedConstruct;
 
-public class Retyping extends ClassifierTypedConstruct implements TypeMappingConstruct {
+public class PackageRetyping extends PackageTypedConstruct implements TypeMappingConstruct {
 
-	private final String evolvedType;
+	private final String evolvedPackage;
 	
-	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType, AST guard) {
-		super(ast, annotations, guard, originalType);
+	public PackageRetyping(AST ast, String originalPackage, String evolvedPackage, AST guard) {
+		super(ast, guard, originalPackage);
 		
-		if (evolvedType == null)
-			throw new IllegalArgumentException("evolvedType cannot be null");
+		if (evolvedPackage == null)
+			throw new IllegalArgumentException("evolvedPackage cannot be null");
 		
-		this.evolvedType = evolvedType;
+		this.evolvedPackage = evolvedPackage;
 	}
 	
-	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType) {
-		this(ast, annotations, originalType, evolvedType, null);
-	}
-	
-	public String getEvolvedType() {
-		return evolvedType;
+	public String getEvolvedPackage() {
+		return evolvedPackage;
 	}
 
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
-		final ModelElement equivalent = factory.createModelElementInMigratedModel(evolvedType);
-		return new TypeBasedEquivalence(executor, execution, original, equivalent);
+		final String equivalentType = evolvedPackage + "::" + original.getUnqualifiedTypeName();
+
+		if (factory.typeConformsToEvolvedMetamodel(equivalentType)) {
+			final ModelElement equivalent = factory.createModelElementInMigratedModel(equivalentType);
+			return new TypeBasedEquivalence(executor, execution, original, equivalent);
+		
+		} else {
+			return new NoEquivalence(executor, execution, original);
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return "retype " + getOriginalType() + " to " + evolvedType + " when " + getGuard();
+		return "retype package " + getOriginalPackage() + " to " + evolvedPackage + " when " + getGuard();
 	}
 	
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof Retyping))
+		if (!(object instanceof PackageRetyping))
 			return false;
 		
-		final Retyping other = (Retyping)object;
+		final PackageRetyping other = (PackageRetyping)object;
 		
 		return super.equals(object) &&
-		       this.evolvedType.equals(other.evolvedType);
+		       this.evolvedPackage.equals(other.evolvedPackage);
 	}
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode() + evolvedType.hashCode();
+		return super.hashCode() + evolvedPackage.hashCode();
 	}
 }
