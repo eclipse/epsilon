@@ -16,12 +16,14 @@ import junit.framework.Test;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.Delete;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteAppliesToSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteCanExcludeSomeSubtypes;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteFullyQualifiedType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.StrictDeleteDoesNotApplyToSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.Retype;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeAppliesToSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeCanExcludeSomeSubtypes;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeFullyQualifiedTypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.StrictRetypeDoesNotApplyToSubtypes;
@@ -37,12 +39,14 @@ import org.junit.runners.Suite.SuiteClasses;
                DeleteCanExcludeSomeSubtypes.class,
                DeleteWithInvalidSyntax.class,
                StrictDeleteDoesNotApplyToSubtypes.class,
+               DeleteFullyQualifiedType.class,
                Retype.class,
                RetypeWithGuard.class,
                RetypeAppliesToSubtypes.class,
                RetypeCanExcludeSomeSubtypes.class,
                RetypeWithInvalidSyntax.class,
                StrictRetypeDoesNotApplyToSubtypes.class,
+               RetypeFullyQualifiedTypes.class,
                OnlyTheFirstApplicableTypeMappingIsAppliedPerModelElement.class})
 public class TypeMappingsSuite {
 	public static Test suite() {

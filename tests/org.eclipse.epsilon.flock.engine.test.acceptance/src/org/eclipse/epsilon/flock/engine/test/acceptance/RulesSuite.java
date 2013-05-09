@@ -20,6 +20,7 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.rules.Rule;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleAppliesToSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleCanExcludeSomeSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleForDeletedType;
+import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleFullyQualifiedType;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.RuleWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.rules.SeveralRulesCanBeAppliedPerModelElement;
@@ -38,7 +39,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	           RuleForDeletedType.class,
                SeveralRulesCanBeAppliedPerModelElement.class,
                SeveralRulesRunInTheOrderThatTheyAppear.class,
-               StrictRuleDoesNotApplyToSubtypes.class})
+               StrictRuleDoesNotApplyToSubtypes.class,
+               RuleFullyQualifiedType.class})
 public class RulesSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(RulesSuite.class);
