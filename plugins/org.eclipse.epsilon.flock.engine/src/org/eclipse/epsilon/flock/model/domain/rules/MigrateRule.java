@@ -28,7 +28,7 @@ public class MigrateRule extends TypedAndGuardedConstruct {
 	
 	
 	MigrateRule(AST ast, Collection<String> annotations, String originalType, Collection<String> ignoredProperties, AST guard, AST body) {
-		super(ast, annotations, originalType, guard);
+		super(ast, annotations, guard, originalType);
 		
 		this.body = new Body(body);
 		this.ignoredProperties = new IgnoredProperties(ignoredProperties);

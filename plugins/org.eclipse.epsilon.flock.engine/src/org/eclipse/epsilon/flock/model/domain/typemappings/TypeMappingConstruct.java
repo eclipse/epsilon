@@ -19,6 +19,6 @@ import org.eclipse.epsilon.flock.model.domain.common.TypedAndGuardedConstruct;
 public abstract class TypeMappingConstruct extends TypedAndGuardedConstruct implements EquivalenceFactory {
 
 	protected TypeMappingConstruct(AST ast, Collection<String> annotations, String originalType, AST guard) {
-		super(ast, annotations, originalType, guard);
+		super(ast, annotations, guard, originalType);
 	}
 }

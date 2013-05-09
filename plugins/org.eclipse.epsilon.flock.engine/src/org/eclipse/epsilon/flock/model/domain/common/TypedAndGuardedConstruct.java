@@ -21,27 +21,21 @@ import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.checker.TypedConstructChecker;
 
-public abstract class TypedAndGuardedConstruct extends FlockConstruct {
+public abstract class TypedAndGuardedConstruct extends GuardedConstruct {
 
 	private final String originalType;
-	private final Guard guard;
 	
-	public TypedAndGuardedConstruct(AST ast, Collection<String> annotations, String originalType, AST guard) {
-		super(ast, annotations);
+	public TypedAndGuardedConstruct(AST ast, Collection<String> annotations, AST guard, String originalType) {
+		super(ast, annotations, guard);
 		
 		if (originalType == null)
 			throw new IllegalArgumentException("originalType cannot be null");
 		
 		this.originalType = originalType;
-		this.guard = new Guard(guard);
 	}
 	
 	public String getOriginalType() {
 		return originalType;
-	}
-	
-	protected Guard getGuard() {
-		return guard;
 	}
 	
 	protected boolean isStrict() {
@@ -50,7 +44,7 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 	
 	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
 		return context.originalConformsTo(originalType, isStrict()) && 
-			   context.satisfies(guard);
+			   super.appliesIn(context);
 	}
 	
 	public void check(MigrationStrategyCheckingContext context) {
@@ -65,12 +59,11 @@ public abstract class TypedAndGuardedConstruct extends FlockConstruct {
 		final TypedAndGuardedConstruct other = (TypedAndGuardedConstruct)object;
 		
 		return super.equals(other) &&
-			   originalType.equals(other.originalType) &&
-		       guard.equals(other.guard);
+			   originalType.equals(other.originalType);
 	}
 	
 	@Override
 	public int hashCode() {
-		return originalType.hashCode() + guard.hashCode();
+		return super.hashCode() + originalType.hashCode();
 	}
 }
