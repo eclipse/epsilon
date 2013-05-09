@@ -19,49 +19,27 @@ package org.eclipse.epsilon.test.util.builders.emf;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
 
 
 public class MetamodelBuilder {
 	
-	public static MetamodelBuilder aMetamodel() {
+	public static MetamodelBuilder aMetamodelWithSeveralPackages() {
 		return new MetamodelBuilder();
 	}
 
-	private final List<EClassifier> eClassifiers = new LinkedList<EClassifier>();
-	private String nsURI, name;
+	private final List<EPackage> ePackages = new LinkedList<EPackage>();
 	
-	public MetamodelBuilder withNsURI(String nsURI) {
-		this.nsURI = nsURI;
+	public MetamodelBuilder with(EPackageBuilder ePackageBuilder) {
+		return with(ePackageBuilder.build());
+	}
+	
+	public MetamodelBuilder with(EPackage ePackage) {
+		ePackages.add(ePackage);
 		return this;
 	}
 	
-	public MetamodelBuilder with(EClassifierBuilder eClassifierBuilder) {
-		return with(eClassifierBuilder.build());
-	}
-	
-	public MetamodelBuilder with(EClassifier eClassifier) {
-		eClassifiers.add(eClassifier);
-		return this;
-	}
-	
-	public MetamodelBuilder named(String name) {
-		this.name = name;
-		return this;
-	}
-	
-	public EPackage build() {
-		final EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		
-		ePackage.setName(name);
-		ePackage.setNsURI(nsURI);
-		
-		for (EClassifier eClassifier : eClassifiers) {
-			ePackage.getEClassifiers().add(eClassifier);
-		}
-		
-		return ePackage;
+	public EPackage[] build() {
+		return ePackages.toArray(new EPackage[]{});
 	}
 }

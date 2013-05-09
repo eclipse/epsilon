@@ -3,7 +3,7 @@ package org.eclipse.epsilon.hutn.model;
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EcorePackage;

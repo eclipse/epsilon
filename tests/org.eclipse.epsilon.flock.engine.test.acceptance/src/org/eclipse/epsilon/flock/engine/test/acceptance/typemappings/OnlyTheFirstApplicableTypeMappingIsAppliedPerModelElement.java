@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.typemappings;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -41,7 +41,7 @@ public class OnlyTheFirstApplicableTypeMappingIsAppliedPerModelElement extends F
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
+		migrateFamilies(strategy, originalModel, evolvedMetamodel);
 	}
 	
 	@Test

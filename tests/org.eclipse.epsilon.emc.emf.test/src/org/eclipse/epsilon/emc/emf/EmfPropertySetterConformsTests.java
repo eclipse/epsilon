@@ -17,7 +17,7 @@ import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.MANY;
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.EReferenceBuilder.anEReference;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -31,13 +31,13 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder;
 import org.eclipse.epsilon.test.util.builders.emf.EClassBuilder;
-import org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder;
+import org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 public class EmfPropertySetterConformsTests {
 	
-	private static MetamodelBuilder metamodelBuilder;
+	private static EPackageBuilder metamodelBuilder;
 	
 	@Before
 	public void setup() {

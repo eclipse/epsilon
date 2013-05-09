@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.equivalences;
 
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 import static org.junit.Assert.assertFalse;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -36,7 +36,7 @@ public class IgnoreInstancesWithUnknownMigratedClass extends FlockAcceptanceTest
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
+		migrateFamilies(strategy, originalModel, evolvedMetamodel);
 	}
 	
 	@Test

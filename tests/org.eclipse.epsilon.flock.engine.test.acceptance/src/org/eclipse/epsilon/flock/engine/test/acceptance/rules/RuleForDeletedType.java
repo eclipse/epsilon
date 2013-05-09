@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
 
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
@@ -37,7 +37,7 @@ public class RuleForDeletedType extends FlockAcceptanceTest {
 	@BeforeClass
 	public static void setup() throws Exception {
 		final EPackage empty = aMetamodel().build();
-		migrateFamiliesTo(empty, strategy, originalModel);
+		migrateFamilies(strategy, originalModel, empty);
 	}
 	
 	@Test

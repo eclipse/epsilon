@@ -16,7 +16,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.copying;
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.EEnumBuilder.anEEnum;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.ecore.EClass;
@@ -58,7 +58,7 @@ public class DoNotCopyEnumerationLiteralsThatDoNotExistInTheTargetMetamodel exte
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
+		migrateFamilies(strategy, originalModel, evolvedMetamodel);
 		
 		migrated.setVariable("dog", "Dog.all.first");
 	}

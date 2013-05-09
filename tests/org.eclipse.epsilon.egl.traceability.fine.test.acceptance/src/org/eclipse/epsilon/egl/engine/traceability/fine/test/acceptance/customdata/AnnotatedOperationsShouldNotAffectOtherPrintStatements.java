@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.customd
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;

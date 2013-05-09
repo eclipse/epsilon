@@ -43,7 +43,7 @@ public abstract class FlockAcceptanceTest extends HutnTestWithFamiliesMetaModel 
 		migrate(strategy, hutnToFamily(hutnForOriginalModel), migratedModel);
 	}
 	
-	protected static void migrateFamiliesTo(EPackage evolvedMetamodel, String strategy, String hutnForOriginalModel) throws Exception {
+	protected static void migrateFamilies(String strategy, String hutnForOriginalModel, EPackage... evolvedMetamodel) throws Exception {
 		final InMemoryEmfModel migratedModel = new InMemoryEmfModel("Migrated", EmfUtil.createResource(), evolvedMetamodel);
 		migrate(strategy, hutnToFamily(hutnForOriginalModel), migratedModel);
 	}

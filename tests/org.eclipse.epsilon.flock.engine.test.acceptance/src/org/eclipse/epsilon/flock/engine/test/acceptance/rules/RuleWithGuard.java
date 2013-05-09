@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder.anEAttribute;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -50,7 +50,7 @@ public class RuleWithGuard extends FlockAcceptanceTest {
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrateFamiliesTo(evolvedMetamodel, strategy, originalModel);
+		migrateFamilies(strategy, originalModel, evolvedMetamodel);
 		
 		migrated.setVariable("named",     "Person.all.at(0)");
 		migrated.setVariable("anonymous", "Person.all.at(1)");

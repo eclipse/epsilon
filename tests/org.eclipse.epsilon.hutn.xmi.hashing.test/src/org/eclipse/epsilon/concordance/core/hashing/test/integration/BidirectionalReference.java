@@ -16,7 +16,7 @@ package org.eclipse.epsilon.concordance.core.hashing.test.integration;
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.EReferenceBuilder.MANY;
 import static org.eclipse.epsilon.test.util.builders.emf.EReferenceBuilder.anEReference;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 

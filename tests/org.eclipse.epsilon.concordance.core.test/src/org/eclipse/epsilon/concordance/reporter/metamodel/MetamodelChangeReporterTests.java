@@ -14,7 +14,7 @@
 package org.eclipse.epsilon.concordance.reporter.metamodel;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
-import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodel;
+import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
 
 import org.easymock.EasyMock;
 import org.eclipse.emf.ecore.EPackage;
