@@ -42,7 +42,7 @@ options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.ec
 import EolLexerRules, EolParserRules;
 
 tokens {
-  FLOCKMODULE; RETYPE; MIGRATE; DELETE; GUARD; IGNORING;
+  FLOCKMODULE; RETYPE; RETYPEPACKAGE; DELETE; DELETEPACKAGE; MIGRATE; GUARD; IGNORING;
 }
 
 @header {
@@ -108,14 +108,31 @@ flockModuleContent
 	;
 
 retyping
-  : 'retype' originalType=packagedType 'to' migratedType=packagedType guard?
+	:	retyping_package | retyping_classifier;
+
+retyping_package
+	: 'retype' 'package' originalPackage=NAME 'to' migratedPackage=NAME guard?
     -> 
-    ^(RETYPE $originalType $migratedType? guard?);
-    
+    ^(RETYPEPACKAGE $originalPackage $migratedPackage guard?);
+ 
+retyping_classifier
+	: 'retype' originalType=packagedType 'to' migratedType=packagedType guard?
+    -> 
+    ^(RETYPE $originalType $migratedType guard?);
+
 deletion
+	:	deletion_package | deletion_classifier;
+
+deletion_package
+  : 'delete' 'package' pkg=NAME guard?
+ 	->
+    ^(DELETEPACKAGE $pkg guard?);
+
+deletion_classifier
   : 'delete' type=packagedType guard?
  	->
     ^(DELETE $type guard?);
+
 
 migrateRule
   : fullRule | ignoringRule;

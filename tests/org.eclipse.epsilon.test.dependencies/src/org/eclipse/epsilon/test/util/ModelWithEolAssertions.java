@@ -88,9 +88,14 @@ public class ModelWithEolAssertions {
 	}
 	
 	public void assertEmpty() {
-		boolean modelIsEmpty = ((Boolean)evaluator.evaluate(model.getName() + ".allInstances.isEmpty()")).booleanValue();
+		assertNumberOfModelElementsIs(0);
+	}
+	
+
+	public void assertNumberOfModelElementsIs(int expected) {
+		int actual = ((Integer)evaluator.evaluate(model.getName() + ".allInstances.size()")).intValue();
 		
-		org.junit.Assert.assertTrue(modelIsEmpty);
+		org.junit.Assert.assertEquals(expected, actual);
 	}
 	
 	public void assertEquals(Object expected, String actual) {

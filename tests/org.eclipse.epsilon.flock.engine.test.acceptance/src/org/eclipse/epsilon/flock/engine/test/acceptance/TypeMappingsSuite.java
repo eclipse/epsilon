@@ -20,6 +20,9 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.Dele
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.StrictDeleteDoesNotApplyToSubtypes;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackage;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackageWithGuard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackageWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.Retype;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeAppliesToSubtypes;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeCanExcludeSomeSubtypes;
@@ -27,6 +30,9 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.Rety
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.RetypeWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retype.StrictRetypeDoesNotApplyToSubtypes;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retypepackage.RetypePackage;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retypepackage.RetypePackageWithGuard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.retypepackage.RetypePackageWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.OnlyTheFirstApplicableTypeMappingIsAppliedPerModelElement;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -40,6 +46,9 @@ import org.junit.runners.Suite.SuiteClasses;
                DeleteWithInvalidSyntax.class,
                StrictDeleteDoesNotApplyToSubtypes.class,
                DeleteFullyQualifiedType.class,
+               DeletePackage.class,
+               DeletePackageWithGuard.class,
+               DeletePackageWithInvalidSyntax.class,
                Retype.class,
                RetypeWithGuard.class,
                RetypeAppliesToSubtypes.class,
@@ -47,6 +56,9 @@ import org.junit.runners.Suite.SuiteClasses;
                RetypeWithInvalidSyntax.class,
                StrictRetypeDoesNotApplyToSubtypes.class,
                RetypeFullyQualifiedTypes.class,
+               RetypePackage.class,
+               RetypePackageWithGuard.class,
+               RetypePackageWithInvalidSyntax.class,
                OnlyTheFirstApplicableTypeMappingIsAppliedPerModelElement.class})
 public class TypeMappingsSuite {
 	public static Test suite() {

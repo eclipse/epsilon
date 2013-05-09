@@ -109,6 +109,51 @@ public class TestFlock extends TestCase {
 		assertEquals("testing rule "+"retyping", expecting, actual);
 	}
 
+	public void testRetyping6() throws Exception {
+		// test input: "retype package families to families2"
+		Object retval = execParser("retyping", "retype package families to families2", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(RETYPEPACKAGE families families2)";
+
+		assertEquals("testing rule "+"retyping", expecting, actual);
+	}
+
+	public void testRetyping7() throws Exception {
+		// test input: "retype package families to families2 when: original.name.isDefined()"
+		Object retval = execParser("retyping", "retype package families to families2 when: original.name.isDefined()", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(RETYPEPACKAGE families families2 (GUARD (. (. original name) (isDefined PARAMETERS))))";
+
+		assertEquals("testing rule "+"retyping", expecting, actual);
+	}
+
+	public void testRetyping8() throws Exception {
+		// test input: "retype package families families2"
+		Object retval = execParser("retyping", "retype package families families2", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"retyping", expecting, actual);
+	}
+
+	public void testRetyping9() throws Exception {
+		// test input: "retype package to families2"
+		Object retval = execParser("retyping", "retype package to families2", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"retyping", expecting, actual);
+	}
+
+	public void testRetyping10() throws Exception {
+		// test input: "retype package families to"
+		Object retval = execParser("retyping", "retype package families to", false);
+		Object actual = examineParserExecResult(28, retval);
+		Object expecting = "FAIL";
+
+		assertEquals("testing rule "+"retyping", expecting, actual);
+	}
+
 	public void testDeletion1() throws Exception {
 		// test input: "delete Person"
 		Object retval = execParser("deletion", "delete Person", false);
@@ -123,6 +168,24 @@ public class TestFlock extends TestCase {
 		Object retval = execParser("deletion", "delete Person when: original.name.isUndefined()", false);
 		Object actual = examineParserExecResult(8, retval);
 		Object expecting = "(DELETE Person (GUARD (. (. original name) (isUndefined PARAMETERS))))";
+
+		assertEquals("testing rule "+"deletion", expecting, actual);
+	}
+
+	public void testDeletion3() throws Exception {
+		// test input: "delete package families"
+		Object retval = execParser("deletion", "delete package families", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(DELETEPACKAGE families)";
+
+		assertEquals("testing rule "+"deletion", expecting, actual);
+	}
+
+	public void testDeletion4() throws Exception {
+		// test input: "delete package families when: original.name.isUndefined()"
+		Object retval = execParser("deletion", "delete package families when: original.name.isUndefined()", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(DELETEPACKAGE families (GUARD (. (. original name) (isUndefined PARAMETERS))))";
 
 		assertEquals("testing rule "+"deletion", expecting, actual);
 	}

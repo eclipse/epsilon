@@ -24,12 +24,24 @@ retyping:
 	"retype to Employee" FAIL
 	"retype Person to" FAIL
 	
+	// Packages
+	"retype package families to families2" -> "(RETYPEPACKAGE families families2)"
+	"retype package families to families2 when: original.name.isDefined()" -> "(RETYPEPACKAGE families families2 (GUARD (. (. original name) (isDefined PARAMETERS))))"
+	"retype package families families2" FAIL
+	"retype package to families2" FAIL
+	"retype package families to" FAIL
+	
 deletion:
  	// Typical
  	"delete Person"	-> (DELETE Person)
  	
  	// with guard
  	"delete Person when: original.name.isUndefined()" -> "(DELETE Person (GUARD (. (. original name) (isUndefined PARAMETERS))))"
+
+	// Packages
+	"delete package families" -> "(DELETEPACKAGE families)"
+	"delete package families when: original.name.isUndefined()" -> "(DELETEPACKAGE families (GUARD (. (. original name) (isUndefined PARAMETERS))))"
+	
 
 migrateRule:
 	// Empty

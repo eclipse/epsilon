@@ -43,9 +43,17 @@ public class MigrationStrategyLoader {
 				case FlockParser.RETYPE:
 					strategy.addTypeMappingConstruct(new RetypingLoader(childAst).run());
 					break;
-				
+					
+				case FlockParser.RETYPEPACKAGE:
+					strategy.addTypeMappingConstruct(new PackageRetypingLoader(childAst).run());
+					break;
+					
 				case FlockParser.DELETE:
 					strategy.addTypeMappingConstruct(new DeletionLoader(childAst).run());
+					break;
+				
+				case FlockParser.DELETEPACKAGE:
+					strategy.addTypeMappingConstruct(new PackageDeletionLoader(childAst).run());
 					break;
 			}
 		}

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2013-04-27 16:09:00
+// $ANTLR 3.1b1 EolLexerRules.g 2013-05-09 11:20:11
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -48,8 +48,8 @@ import java.util.HashMap;
 public class Flock_EolLexerRules extends Lexer {
     public static final int RETYPE=77;
     public static final int EXPONENT=6;
-    public static final int WHILE=33;
     public static final int StatementBlock=29;
+    public static final int WHILE=33;
     public static final int FLOCKMODULE=76;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
@@ -77,9 +77,12 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int ABORT=43;
     public static final int NativeType=56;
     public static final int T__99=99;
+    public static final int T__150=150;
     public static final int T__98=98;
     public static final int ITEMSELECTOR=72;
+    public static final int T__151=151;
     public static final int T__97=97;
+    public static final int T__152=152;
     public static final int T__96=96;
     public static final int MultiplicativeExpression=57;
     public static final int FLOAT_TYPE_SUFFIX=7;
@@ -88,8 +91,6 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__138=138;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int T__81=81;
-    public static final int T__82=82;
     public static final int T__83=83;
     public static final int LINE_COMMENT=22;
     public static final int BREAKALL=39;
@@ -125,10 +126,10 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int WS=20;
     public static final int T__129=129;
     public static final int ALIAS=68;
-    public static final int MIGRATE=78;
+    public static final int MIGRATE=80;
     public static final int JavaIDDigit=18;
-    public static final int GUARD=79;
-    public static final int IGNORING=80;
+    public static final int GUARD=81;
+    public static final int IGNORING=82;
     public static final int Annotation=23;
     public static final int T__130=130;
     public static final int T__131=131;
@@ -183,7 +184,8 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=150;
+    public static final int Tokens=153;
+    public static final int RETYPEPACKAGE=78;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=70;
@@ -192,6 +194,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int MAP=73;
     public static final int FORMAL=24;
     public static final int ARROW=11;
+    public static final int DELETEPACKAGE=79;
     public static final int ASSIGNMENT=26;
     public static final int STRING=14;
 
