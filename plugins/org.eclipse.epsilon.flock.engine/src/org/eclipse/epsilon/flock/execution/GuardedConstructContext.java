@@ -31,6 +31,10 @@ public class GuardedConstructContext {
 			return element.isKindOf(originalType);
 	}
 	
+	public boolean originalBelongsTo(String originalPackage) {
+		return element.belongsTo(originalPackage);
+	}
+	
 	public boolean satisfies(Guard guard) throws FlockRuntimeException {
 		return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
 	}

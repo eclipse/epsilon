@@ -14,6 +14,7 @@
 package org.eclipse.epsilon.flock.emc.wrappers;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -50,12 +51,22 @@ public class ModelElement extends BackedModelValue<Object> {
 		return type.getName();
 	}
 	
+	public String getUnqualifiedTypeName() {
+		return type.getUnqualifiedName();
+	}
+	
 	public boolean isTypeOf(String type) {
 		return model.isTypeOf(underlyingModelObject, type);
 	}
 	
 	public boolean isKindOf(String type) {
 		return model.isKindOf(underlyingModelObject, type);
+	}
+	
+	public boolean belongsTo(String originalPackage) {
+		// FIXME how about nested packages?
+		final List<String> packages = model.getPackageNamesOf(underlyingModelObject);
+		return !packages.isEmpty() && packages.get(0).equals(originalPackage);
 	}
 	
 	public void copyIdentityFrom(ModelElement original) {

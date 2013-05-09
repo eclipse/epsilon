@@ -70,4 +70,17 @@ public interface IReflectiveModel extends IModel {
 	 * @throws EolNotAnEnumerationValueException when literal is not an enumeration value
 	 */
 	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException;
+
+	/**
+	 * Returns true iff this model contains a package with the given name.
+	 * In general, a "package" is a group of types (and potentially other
+	 * packages) and a namespace for the grouped elements. The precise
+	 * semantics of "package" is specific to the implementation. For
+	 * example, an Ecore implementation might use EPackage. An XML 
+	 * implementation might use XML namespaces. A CSV implementation might 
+	 * not support any notion of packages (and hence always return false).
+	 * 
+	 * @param packageName 
+	 */
+	public boolean hasPackage(String packageName);
 }

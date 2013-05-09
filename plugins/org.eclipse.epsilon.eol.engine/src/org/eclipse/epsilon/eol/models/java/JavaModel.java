@@ -182,6 +182,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public boolean hasType(String type) {
 		return classForName(type) != null;
 	}
+	
+	public boolean hasPackage(String packageName) {
+		return false;
+	}
 
 	
 	public boolean isInstantiable(String type) {

@@ -13,8 +13,11 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -67,6 +70,10 @@ public class Model {
 		return underlyingModel.hasProperty(type, property);
 	}
 	
+	public boolean hasPackage(String originalPackage) {
+		return underlyingModel.hasPackage(originalPackage);
+	}
+	
 	/**
 	 * Returns all of the model elements that are directly contained in this model.
 	 * This <em>excludes</em> model elements that are referenced from this model,
@@ -110,6 +117,21 @@ public class Model {
 
 	String getTypeNameOf(Object underlyingModelElement) {
 		return underlyingModel.getFullyQualifiedTypeNameOf(underlyingModelElement);
+	}
+	
+	String getUnqualifiedTypeNameOf(Object underlyingModelElement) {
+		return underlyingModel.getTypeNameOf(underlyingModelElement);
+	}
+	
+	List<String> getPackageNamesOf(Object underlyingModelElement) {
+		final List<String> parts = Arrays.asList(getTypeNameOf(underlyingModelElement).split("::"));
+		if (parts.size() > 1) {
+			// List#subList returns a "view" of the original list, which appears to be garbage collected
+			// when this method returns. Hence, we construct a new list to return to clients.
+			return new LinkedList<String>(parts.subList(0, parts.size() - 1));
+		} else {
+			return Collections.emptyList();
+		}
 	}
 	
 

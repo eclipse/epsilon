@@ -22,19 +22,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
-import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
-import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
-import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelValueWrapper;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
 import org.junit.Test;
 
 public class ModelTests {
@@ -116,14 +109,14 @@ public class ModelTests {
 			.andReturn("foo");
 		
 		expect(mockWrapper.wrapModelElement("foo"))
-			.andReturn(new ModelElement(model, new ModelType(model, "DummyType"), "foo"));
+			.andReturn(new ModelElement(model, new ModelType(model, "DummyType", "DummyUnqualifiedType"), "foo"));
 		
 		replay(mockUnderlyingModel, mockWrapper);
 		
 		
 		// Verification
 		
-		assertEquals(new ModelElement(model, new ModelType(model, "DummyType"), "foo"), model.createInstance("DummyType"));
+		assertEquals(new ModelElement(model, new ModelType(model, "DummyType", "DummyUnqualifiedType"), "foo"), model.createInstance("DummyType"));
 		
 		verify(mockUnderlyingModel, mockWrapper);
 	}
@@ -136,7 +129,7 @@ public class ModelTests {
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
-		final ModelType dummyType = new ModelType(model, "DummyType");
+		final ModelType dummyType = new ModelType(model, "DummyType", "DummyUnqualifiedType");
 		
 		// Expectations
 		

@@ -413,6 +413,21 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			EmfUtil.collectDependencies(ePackage, packages);
 		}
 	}
+	
+	public boolean hasPackage(String packageName) {
+		return packageForName(packageName) != null;
+	}
+	
+	private EPackage packageForName(String name) {	
+		for (Object pkg : getPackageRegistry().values()) {
+			if (pkg instanceof EPackage) {
+				if (name.equals(((EPackage) pkg).getName())) {
+					return (EPackage) pkg;
+				}
+			}
+		}
+		return null;
+	}
 
 	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
 		return classForName(type).getEAllStructuralFeatures();

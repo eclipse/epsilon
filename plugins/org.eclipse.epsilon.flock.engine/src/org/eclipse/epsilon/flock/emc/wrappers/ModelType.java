@@ -21,15 +21,20 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 class ModelType {
 
 	private final Model model;
-	private final String name;
+	private final String name, unqualifiedName;
 	
-	ModelType(Model model, String name) {
+	ModelType(Model model, String name, String unqualifiedName) {
 		this.model = model;
 		this.name  = name;
+		this.unqualifiedName = unqualifiedName;
 	}
 	
 	String getName() {
 		return name;
+	}
+	
+	String getUnqualifiedName() {
+		return unqualifiedName;
 	}
 	
 	Collection<String> getProperties() throws EolModelElementTypeNotFoundException {

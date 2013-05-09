@@ -29,7 +29,7 @@ import org.junit.Test;
 public class ModelTypeTests {
 
 	private static final Model     mockModel = createMock(Model.class);
-	private static final ModelType type      = new ModelType(mockModel, "dummy");	
+	private static final ModelType type      = new ModelType(mockModel, "dummy", "dummy");	
 	@Before
 	public void resetDummyModel() {
 		reset(mockModel);

@@ -38,6 +38,10 @@ public class MigrationStrategyCheckingContext {
 		}
 	}
 	
+	public boolean isPackageInOriginalMetamodel(String originalPackage) {
+		return originalModel.hasPackage(originalPackage);
+	}
+	
 	public void addWarning(String warning) {
 		execution.addWarning(warning);
 	}

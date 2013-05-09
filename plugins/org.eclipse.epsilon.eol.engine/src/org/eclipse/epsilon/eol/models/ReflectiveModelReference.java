@@ -44,6 +44,11 @@ public class ReflectiveModelReference extends ModelReference implements IReflect
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return getTypeSafeTarget().hasProperty(type, property);
 	}
+	
+	@Override
+	public boolean hasPackage(String packageName) {
+		return getTypeSafeTarget().hasPackage(packageName);
+	}
 
 	@Override
 	public boolean isEnumerationValue(Object object) {
