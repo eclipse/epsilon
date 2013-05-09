@@ -53,21 +53,27 @@ Model migration can be achieved with a general-purpose model-to-model transforma
 
 \section{Abstract Syntax}
 
-As illustrated by Figure~\ref{fig:flock_abstract_syntax}, Flock migration strategies are organised into individual modules (\texttt{Flo\-ckMo\-du\-le}). Flock modules inherit from EOL language constructs for specifying user-defined operations and for importing other (EOL and Flock) modules. Flock modules comprise any number of type mappings (\texttt{Ty\-peMa\-pp\-i\-ng}) and rules (\texttt{Ru\-le}). Type mappings are used for retyping and deleting model elements, and have an original metamodel type (\texttt{or\-ig\-in\-alTy\-pe}). \texttt{Rety\-pi\-ng}s also specify an evolved metamodel type (\texttt{ev\-ol\-vedTy\-pe}). Each rule has an original metamodel type (\texttt{or\-ig\-in\-alTy\-pe}), a \texttt{bo\-dy} comprising a block of EOL statements, and zero or more \texttt{ig\-no\-r\-edFe\-at\-ur\-es}. Both rules and type mappings can be marked as \texttt{str\-ict} and can optionally specify a \texttt{gu\-ard}, which is either an EOL statement or a block of EOL statements.
+As illustrated by Figure~\ref{fig:flock_abstract_syntax}, Flock migration strategies are organised into individual modules (\texttt{Flo\-ckMo\-du\-le}). Flock modules inherit from EOL language constructs for specifying user-defined operations and for importing other (EOL and Flock) modules. Flock modules comprise any number of type mappings (\texttt{Ty\-peMa\-pp\-i\-ng}) and rules (\texttt{Ru\-le}). Type mappings operate on metamodel types (\texttt{Rety\-pi\-ng} and \texttt{De\-le\-ti\-on}) or on metamodel packages (\texttt{Pa\-ck\-a\-geRety\-pi\-ng} and \texttt{Pa\-ck\-a\-geDe\-le\-ti\-on}. Type mappings are applied to a type in the original metamodel (\texttt{or\-ig\-in\-alTy\-pe}) or to a package in the original metamodel (\texttt{or\-ig\-in\-alPa\-ck\-a\-ge}) . Additionally, \texttt{Rety\-pi\-ng}s apply to an evolved metamodel type (\texttt{ev\-ol\-vedTy\-pe}) or package (\texttt{ev\-ol\-vedPa\-ck\-a\-ge}). Each rule has an original metamodel type (\texttt{or\-ig\-in\-alTy\-pe}), a \texttt{bo\-dy} comprising a block of EOL statements, and zero or more \texttt{ig\-no\-r\-edFe\-at\-ur\-es}. Type mappings and rules can optionally specify a \texttt{gu\-ard}, which is either an EOL statement or a block of EOL statements. Type mappings that operate on metamodel types and rules can be marked as \texttt{str\-ict}.
 
 \section{Concrete Syntax}
 
-Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Flock language constructs. All of the constructs begin with a keyword (\texttt{retype}, \texttt{delete} or \texttt{migrate}), followed by the original metamodel type. Additionally, all of the constructs can be annotated with the \texttt{strict} modifier. Guards are specified using the \texttt{when} keyword.
+Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Flock language constructs. All of the constructs begin with keyword(s) (\texttt{retype}, \texttt{retype package} \texttt{delete}, \texttt{delete package} or \texttt{migrate}), followed by the original metamodel type or package. Additionally, type mappings that operate on metamodel types and rules can be annotated with the \texttt{strict} modifier. All constructs can have guards, which are specified using the \texttt{when} keyword.
 
-Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have either a list of ignored features, a body, or both.
+Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have a list of ignored features, or a body, or both.
 
 \begin{lstlisting}[caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock]
 (@strict)?
 retype <originalType> to <evolvedType>
 (when (:<eolExpression>)|({<eolStatement>+}))?
 
+retype package <originalPackage> to <evolvedPackage>
+(when (:<eolExpression>)|({<eolStatement>+}))?
+
 (@strict)?
 delete <originalType>
+(when (:<eolExpression>)|({<eolStatement>+}))?
+
+delete package <originalPackage>
 (when (:<eolExpression>)|({<eolStatement>+}))?
 
 (@strict)?
@@ -85,7 +91,7 @@ The execution semantics of a Flock module are now described. Note that the Epsil
 
 Execution of a Flock module occurs in four phases. Firstly, type mapping constructs (retypings and deletions) are processed to identify the way in which original and evolved metamodel types are to be related. Secondly, migrate rules are inspected to build sets of ignored properties. Thirdly, the information determined in steps 1 and 2 is used as input a copying algorithm, which creates an (equivalent) element in the migrated model for each element of the original model, and copies values from original to equivalent model elements. Finally, migrate rules are executed on each pair of original and (equivalent) migrated model elements. In all phases, language constructs are executed only when they are \emph{applicable}.
 
-The \emph{applicability} of the Flock language constructs (retyping, deletion or migrate rule) is determined from their type and guard. For a language construct $c$ to be applicable to an original model element $o$, $o$ must instantiate either the original type of $c$ or one of the subtypes of the original type of $c$; and $o$ must satisfy the guard of $c$. For language constructs that have been annotated as strict, type-checking is more restrictive: $o$ must instantiate the original type of $c$ (and not one its subtypes). In other words, the applicability of strict constructs is determined with EOL's \texttt{isTypeOf} operation and the applicability of non-strict constructs is determined with EOL's \texttt{isKindOf} operation (Table~\ref{tab:AnyOperations}).
+The \emph{applicability} of the Flock language constructs (retyping, deletion or migrate rule) is determined from their type and guard. For a language construct $c$ to be applicable to an original model element $o$, $o$ must instantiate either the original type of $c$ or one of the subtypes of the original type of $c$; and $o$ must satisfy the guard of $c$. For language constructs that have been annotated as strict, type-checking is more restrictive: $o$ must instantiate the original type of $c$ (and not one its subtypes). In other words, the applicability of strict constructs is determined with EOL's \texttt{isTypeOf} operation and the applicability of non-strict constructs is determined with EOL's \texttt{isKindOf} operation (Table~\ref{tab:AnyOperations}). For language constructs that operate on packages (i.e. package retyping and package deletions), type-checking is less restrictive: $o$ must be contained in a package with the same name as the original package of $c$.
 
 The first three phases of execution implement a copying algorithm which has been termed conservative copy and is discussed thoroughly elsewhere \cite{rose12flock}. Essentially, conservative copy will do the following for each element of the original model, $o$:
 
