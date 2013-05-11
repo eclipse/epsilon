@@ -14,6 +14,8 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -44,6 +46,13 @@ public final class EmfModelFactory {
 			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri(((EPackage)metamodel).getNsURI());
 		
+		} else if (metamodel instanceof EPackage[]) {
+			final List<String> nsUris = new LinkedList<String>();
+			for (EPackage p : (EPackage[])metamodel)
+				nsUris.add(p.getNsURI());
+			
+			emfModel.setMetamodelUris(nsUris);
+			
 		} else if (metamodel instanceof File) {
 			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFile(((File)metamodel).getAbsolutePath());
@@ -51,7 +60,7 @@ public final class EmfModelFactory {
 		} else if (metamodel instanceof URI) {
 			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFileUri((URI)metamodel);
-		
+			
 		} else {
 			throw new IllegalArgumentException("Not a recognised metamodel type: " + metamodel.getClass().getCanonicalName());
 		}

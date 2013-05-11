@@ -418,16 +418,41 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return packageForName(packageName) != null;
 	}
 	
-	private EPackage packageForName(String name) {	
+	private EPackage packageForName(String name) {
+		final String[] parts = name.split("::");
+		
+		int partIndex = 0;
+		EPackage current = null;
+		Collection<EPackage> next = getTopLevelPackages();
+		
+		do {
+			current = packageForName(parts[partIndex++], next);
+			if (current != null) next = current.getESubpackages();
+		
+		} while(current!=null && partIndex < parts.length);
+		
+		return current;
+	}
+
+	private Collection<EPackage> getTopLevelPackages() {
+		final Collection<EPackage> packages = new LinkedList<EPackage>();
 		for (Object pkg : getPackageRegistry().values()) {
 			if (pkg instanceof EPackage) {
-				if (name.equals(((EPackage) pkg).getName())) {
-					return (EPackage) pkg;
-				}
+				packages.add((EPackage)pkg);
+			}
+		}
+		return packages;
+	}
+	
+	private EPackage packageForName(String name, Collection<EPackage> packages) {
+		for (EPackage p : packages) {
+			if (name.equals(p.getName())) {
+				return p;
 			}
 		}
 		return null;
 	}
+	
 
 	private EList<EStructuralFeature> featuresForType(String type) throws EolModelElementTypeNotFoundException {
 		return classForName(type).getEAllStructuralFeatures();

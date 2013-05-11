@@ -34,11 +34,21 @@ public class EPackageBuilder {
 		return new EPackageBuilder();
 	}
 
+	private final List<EPackage> subpackages = new LinkedList<EPackage>();
 	private final List<EClassifier> eClassifiers = new LinkedList<EClassifier>();
 	private String nsURI, name;
 	
 	public EPackageBuilder withNsURI(String nsURI) {
 		this.nsURI = nsURI;
+		return this;
+	}
+
+	public EPackageBuilder with(EPackageBuilder ePackageBuilder) {
+		return with(ePackageBuilder.build());
+	}
+	
+	public EPackageBuilder with(EPackage ePackage) {
+		subpackages.add(ePackage);
 		return this;
 	}
 	
@@ -62,9 +72,8 @@ public class EPackageBuilder {
 		ePackage.setName(name);
 		ePackage.setNsURI(nsURI);
 		
-		for (EClassifier eClassifier : eClassifiers) {
-			ePackage.getEClassifiers().add(eClassifier);
-		}
+		ePackage.getESubpackages().addAll(subpackages);
+		ePackage.getEClassifiers().addAll(eClassifiers);
 		
 		return ePackage;
 	}
