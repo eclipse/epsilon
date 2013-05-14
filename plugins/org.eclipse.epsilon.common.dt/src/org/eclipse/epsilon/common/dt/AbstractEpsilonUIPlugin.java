@@ -22,25 +22,31 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugins.put(this.getClass(), this);
-		imageDescriptorRegistry = createImageRegistry();
 	}
 	
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugins.remove(this.getClass());
-		imageDescriptorRegistry.dispose();
+		getImageDescriptorRegistry().dispose();
+	}
+	
+	protected ImageRegistry getImageDescriptorRegistry() {
+		if (imageDescriptorRegistry == null) {
+			imageDescriptorRegistry = createImageRegistry();
+		}
+		return imageDescriptorRegistry;
 	}
 	
 	public ImageDescriptor getImageDescriptor(String path) {
 		
-		ImageDescriptor imageDescriptor = imageDescriptorRegistry.getDescriptor(path);
+		ImageDescriptor imageDescriptor = getImageDescriptorRegistry().getDescriptor(path);
 		
 		if (imageDescriptor == null) {
 			URL url = FileLocator.find(getBundle(), new Path(path), Collections.emptyMap());
 			if (url != null) {
 				imageDescriptor = ImageDescriptor.createFromURL(url);
-				if (imageDescriptor != null) imageDescriptorRegistry.put(path, imageDescriptor);
+				if (imageDescriptor != null) getImageDescriptorRegistry().put(path, imageDescriptor);
 			}
 		}
 		
