@@ -23,6 +23,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManag
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
@@ -83,6 +84,8 @@ public class EglContext extends EolContext implements IEglContext {
 		context.setNativeTypeDelegates(getNativeTypeDelegates());
 		context.setExtendedProperties(getExtendedProperties());
 		context.setPrettyPrinterManager(getPrettyPrinterManager());
+		if (context instanceof EglPreprocessorContext)
+			((EglPreprocessorContext) context).setEglContext(this);
 	}
 	
 	public void copyInto(IEolContext context) {

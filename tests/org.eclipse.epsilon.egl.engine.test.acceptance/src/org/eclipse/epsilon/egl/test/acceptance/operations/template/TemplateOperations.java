@@ -55,4 +55,20 @@ public class TemplateOperations {
 		
 		AcceptanceTestUtil.test(template, expected);
 	}
+	
+	@Test
+	public void testTemplateOperationWithProtectedRegion() throws Exception {
+		final String template = "[%=main() %]"                                      + 
+		                        "[% @template"                                       + NEWLINE +
+		                        "operation main() {%]"                               + NEWLINE +
+		                        "[%=out.startPreserve('//', '', 'myRegion', true)%]" + NEWLINE +
+		                        "[%=out.stopPreserve()%]" + NEWLINE +
+		                        "[%}%]";
+		
+		final String expected = "// protected region myRegion on begin" + NEWLINE +
+		                        "// protected region myRegion end";
+		       
+		
+		AcceptanceTestUtil.test(template, expected);
+	}
 }

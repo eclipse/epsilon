@@ -12,6 +12,8 @@
 package org.eclipse.epsilon.egl.execute.operations;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -26,7 +28,8 @@ public class EglTemplateOperation extends EglOperation {
 	
 	@Override
 	protected Object executeBody(IEolContext context) throws EolRuntimeException {
-		OutputBuffer out = new OutputBuffer();
+		final IEglContext parentContext = ((EglPreprocessorContext)context).getEglContext();
+		final OutputBuffer out = new OutputBuffer(parentContext);
 		context.getFrameStack().put(Variable.createReadOnlyVariable("out", out));
 		super.executeBody(context);
 		return new Return(out.toString());

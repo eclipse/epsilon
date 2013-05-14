@@ -13,12 +13,12 @@ package org.eclipse.epsilon.egl.internal;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContext;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
 import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.output.OutputBufferOperationContributor;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
@@ -39,9 +39,18 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 
 	private final IEolContext delegate;
 	private IEglTraceabilityContext traceabilityContext = new EglTraceabilityContext(this);
+	private IEglContext parent;
 	
 	public EglPreprocessorContext(IEolContext delegate) {
 		this.delegate = delegate;
+	}
+	
+	public IEglContext getEglContext() {
+		return parent;
+	}
+	
+	public void setEglContext(IEglContext parent) {
+		this.parent = parent;
 	}
 	
 	public void setTraceabilityContext(IEglTraceabilityContext traceabilityContext) {
