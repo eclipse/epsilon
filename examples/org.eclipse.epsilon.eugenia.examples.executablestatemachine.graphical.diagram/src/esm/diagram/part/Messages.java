@@ -256,12 +256,22 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
-	public static String State1CreationTool_title;
+	public static String EndState1CreationTool_title;
 
 	/**
 	 * @generated
 	 */
-	public static String State1CreationTool_desc;
+	public static String EndState1CreationTool_desc;
+
+	/**
+	 * @generated
+	 */
+	public static String State2CreationTool_title;
+
+	/**
+	 * @generated
+	 */
+	public static String State2CreationTool_desc;
 
 	/**
 	 * @generated
@@ -277,6 +287,16 @@ public class Messages extends NLS {
 	 * @generated
 	 */
 	public static String CommandName_OpenDiagram;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_EndState_2002_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_EndState_2002_outgoinglinks;
 
 	/**
 	 * @generated
@@ -322,6 +342,11 @@ public class Messages extends NLS {
 	 * @generated
 	 */
 	public static String AbstractParser_UnknownLiteral;
+
+	/**
+	 * @generated
+	 */
+	public static String MessageFormatParser_InvalidInputError;
 
 	/**
 	 * @generated

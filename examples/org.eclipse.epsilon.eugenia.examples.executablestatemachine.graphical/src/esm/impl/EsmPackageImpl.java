@@ -2,6 +2,7 @@
  */
 package esm.impl;
 
+import esm.EndState;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -35,6 +36,13 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
    * @generated
    */
   private EClass stateEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass endStateEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -151,9 +159,19 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getState_Name()
+  {
+    return (EAttribute)stateEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getState_Incoming()
   {
-    return (EReference)stateEClass.getEStructuralFeatures().get(0);
+    return (EReference)stateEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -163,7 +181,17 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
    */
   public EReference getState_Outgoing()
   {
-    return (EReference)stateEClass.getEStructuralFeatures().get(1);
+    return (EReference)stateEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getEndState()
+  {
+    return endStateEClass;
   }
 
   /**
@@ -251,8 +279,11 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
     createEReference(machineEClass, MACHINE__TRANSITIONS);
 
     stateEClass = createEClass(STATE);
+    createEAttribute(stateEClass, STATE__NAME);
     createEReference(stateEClass, STATE__INCOMING);
     createEReference(stateEClass, STATE__OUTGOING);
+
+    endStateEClass = createEClass(END_STATE);
 
     transitionEClass = createEClass(TRANSITION);
     createEAttribute(transitionEClass, TRANSITION__ACTION);
@@ -290,6 +321,7 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
     // Set bounds for type parameters
 
     // Add supertypes to classes
+    endStateEClass.getESuperTypes().add(this.getState());
 
     // Initialize classes and features; add operations and parameters
     initEClass(machineEClass, Machine.class, "Machine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -297,8 +329,11 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
     initEReference(getMachine_Transitions(), this.getTransition(), null, "transitions", null, 0, -1, Machine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 1, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getState_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(endStateEClass, EndState.class, "EndState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTransition_Action(), ecorePackage.getEString(), "action", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -335,7 +370,7 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        new String[] 
        {
        "foo", "bar"
-       });			
+       });				
   }
 
   /**
@@ -353,7 +388,7 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        new String[] 
        {
        "foo", "bar"
-       });		
+       });			
   }
 
   /**
@@ -371,7 +406,16 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        new String[] 
        {
        "figure", "ellipse",
-       "label.placement", "none"
+       "label", "name",
+       "label.placement", "external"
+       });		
+    addAnnotation
+      (endStateEClass, 
+       source, 
+       new String[] 
+       {
+       "color", "0,0,0",
+       "size", "15,15"
        });	
   }
 
@@ -383,7 +427,7 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
    */
   protected void createGmf_3Annotations()
   {
-    String source = "gmf.link";					
+    String source = "gmf.link";						
     addAnnotation
       (transitionEClass, 
        source, 

@@ -86,6 +86,14 @@ public class EsmSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case EsmPackage.END_STATE:
+      {
+        EndState endState = (EndState)theEObject;
+        T result = caseEndState(endState);
+        if (result == null) result = caseState(endState);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case EsmPackage.TRANSITION:
       {
         Transition transition = (Transition)theEObject;
@@ -125,6 +133,22 @@ public class EsmSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseState(State object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>End State</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>End State</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseEndState(EndState object)
   {
     return null;
   }

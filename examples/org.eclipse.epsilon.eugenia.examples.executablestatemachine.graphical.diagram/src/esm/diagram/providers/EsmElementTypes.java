@@ -20,6 +20,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
 import esm.EsmPackage;
+import esm.diagram.edit.parts.EndStateEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
@@ -55,6 +56,11 @@ public class EsmElementTypes {
 	 * @generated
 	 */
 	public static final IElementType Machine_1000 = getElementType("org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.Machine_1000"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType EndState_2002 = getElementType("org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.EndState_2002"); //$NON-NLS-1$
+
 	/**
 	 * @generated
 	 */
@@ -177,6 +183,8 @@ public class EsmElementTypes {
 
 			elements.put(Machine_1000, EsmPackage.eINSTANCE.getMachine());
 
+			elements.put(EndState_2002, EsmPackage.eINSTANCE.getEndState());
+
 			elements.put(State_2001, EsmPackage.eINSTANCE.getState());
 
 			elements.put(Transition_4001, EsmPackage.eINSTANCE.getTransition());
@@ -198,6 +206,7 @@ public class EsmElementTypes {
 		if (KNOWN_ELEMENT_TYPES == null) {
 			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
 			KNOWN_ELEMENT_TYPES.add(Machine_1000);
+			KNOWN_ELEMENT_TYPES.add(EndState_2002);
 			KNOWN_ELEMENT_TYPES.add(State_2001);
 			KNOWN_ELEMENT_TYPES.add(Transition_4001);
 		}
@@ -211,6 +220,8 @@ public class EsmElementTypes {
 		switch (visualID) {
 		case MachineEditPart.VISUAL_ID:
 			return Machine_1000;
+		case EndStateEditPart.VISUAL_ID:
+			return EndState_2002;
 		case StateEditPart.VISUAL_ID:
 			return State_2001;
 		case TransitionEditPart.VISUAL_ID:

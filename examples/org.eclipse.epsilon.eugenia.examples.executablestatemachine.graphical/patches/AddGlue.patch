@@ -1,30 +1,25 @@
-diff --git org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java a/examples/org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
-index 950bccd..760a561 100644
+diff --git org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
+index 950bccd..34869f9 100644
 --- org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
 +++ org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
-@@ -26,6 +26,16 @@ import esm.diagram.part.EsmDiagramEditorPlugin;
- public class ActionXtext2GmfParser extends AbstractParser {
- 
+@@ -28,6 +28,16 @@
  	/**
-+	 * @generated NOT
-+	 */
+ 	 * @generated
+ 	 */
 +	private ActionParser parser = ActionParser.create();
 +
 +	/**
-+	 * @generated NOT
++	 * @generated
 +	 */
 +	private ActionGlue glue = new ActionGlue();
 +
 +	/**
- 	 * @generated
- 	 */
++	 * @generated
++	 */
  	public ActionXtext2GmfParser(EAttribute[] features) {
-@@ -62,21 +72,34 @@ public class ActionXtext2GmfParser extends AbstractParser {
- 	}
- 
- 	/**
--	 * @generated
-+	 * @generated NOT
+ 		super(features);
+ 		if (features.length != 1) {
+@@ -66,7 +76,14 @@
  	 */
  	public IParserEditStatus isValidEditString(IAdaptable adapter,
  			String editString) {
@@ -40,10 +35,7 @@ index 950bccd..760a561 100644
  	}
  
  	/**
--	 * @generated
-+	 * @generated NOT
- 	 */
- 	public ICommand getParseCommand(IAdaptable adapter, String newString,
+@@ -76,7 +93,13 @@
  			int flags) {
  		Object value = EcoreUtil.createFromString(
  				editableFeatures[0].getEAttributeType(), newString);

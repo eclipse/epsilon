@@ -10,6 +10,7 @@ import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsComma
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 
+import esm.diagram.edit.commands.EndStateCreateCommand;
 import esm.diagram.edit.commands.StateCreateCommand;
 import esm.diagram.providers.EsmElementTypes;
 
@@ -30,6 +31,9 @@ public class MachineItemSemanticEditPolicy extends
 	 * @generated
 	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
+		if (EsmElementTypes.EndState_2002 == req.getElementType()) {
+			return getGEFWrapper(new EndStateCreateCommand(req));
+		}
 		if (EsmElementTypes.State_2001 == req.getElementType()) {
 			return getGEFWrapper(new StateCreateCommand(req));
 		}

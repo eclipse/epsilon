@@ -12,8 +12,11 @@ import org.eclipse.gmf.tooling.runtime.structure.DiagramStructure;
 
 import esm.EsmPackage;
 import esm.Machine;
+import esm.diagram.edit.parts.EndStateEditPart;
+import esm.diagram.edit.parts.EndStateNameEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
+import esm.diagram.edit.parts.StateNameEditPart;
 import esm.diagram.edit.parts.TransitionActionEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
 
@@ -125,6 +128,10 @@ public class EsmVisualIDRegistry {
 		}
 		switch (containerVisualID) {
 		case MachineEditPart.VISUAL_ID:
+			if (EsmPackage.eINSTANCE.getEndState().isSuperTypeOf(
+					domainElement.eClass())) {
+				return EndStateEditPart.VISUAL_ID;
+			}
 			if (EsmPackage.eINSTANCE.getState().isSuperTypeOf(
 					domainElement.eClass())) {
 				return StateEditPart.VISUAL_ID;
@@ -157,7 +164,20 @@ public class EsmVisualIDRegistry {
 		}
 		switch (containerVisualID) {
 		case MachineEditPart.VISUAL_ID:
+			if (EndStateEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
 			if (StateEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case EndStateEditPart.VISUAL_ID:
+			if (EndStateNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case StateEditPart.VISUAL_ID:
+			if (StateNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
@@ -222,6 +242,7 @@ public class EsmVisualIDRegistry {
 		case MachineEditPart.VISUAL_ID:
 			return false;
 		case StateEditPart.VISUAL_ID:
+		case EndStateEditPart.VISUAL_ID:
 			return true;
 		default:
 			break;

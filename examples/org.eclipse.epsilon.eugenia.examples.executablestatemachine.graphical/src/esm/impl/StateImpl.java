@@ -8,6 +8,7 @@ import esm.Transition;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -15,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -27,6 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link esm.impl.StateImpl#getName <em>Name</em>}</li>
  *   <li>{@link esm.impl.StateImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link esm.impl.StateImpl#getOutgoing <em>Outgoing</em>}</li>
  * </ul>
@@ -36,6 +39,26 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class StateImpl extends EObjectImpl implements State
 {
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -75,6 +98,29 @@ public class StateImpl extends EObjectImpl implements State
   protected EClass eStaticClass()
   {
     return EsmPackage.Literals.STATE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EsmPackage.STATE__NAME, oldName, name));
   }
 
   /**
@@ -152,6 +198,8 @@ public class StateImpl extends EObjectImpl implements State
   {
     switch (featureID)
     {
+      case EsmPackage.STATE__NAME:
+        return getName();
       case EsmPackage.STATE__INCOMING:
         return getIncoming();
       case EsmPackage.STATE__OUTGOING:
@@ -171,6 +219,9 @@ public class StateImpl extends EObjectImpl implements State
   {
     switch (featureID)
     {
+      case EsmPackage.STATE__NAME:
+        setName((String)newValue);
+        return;
       case EsmPackage.STATE__INCOMING:
         getIncoming().clear();
         getIncoming().addAll((Collection<? extends Transition>)newValue);
@@ -193,6 +244,9 @@ public class StateImpl extends EObjectImpl implements State
   {
     switch (featureID)
     {
+      case EsmPackage.STATE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
       case EsmPackage.STATE__INCOMING:
         getIncoming().clear();
         return;
@@ -213,12 +267,31 @@ public class StateImpl extends EObjectImpl implements State
   {
     switch (featureID)
     {
+      case EsmPackage.STATE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EsmPackage.STATE__INCOMING:
         return incoming != null && !incoming.isEmpty();
       case EsmPackage.STATE__OUTGOING:
         return outgoing != null && !outgoing.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(')');
+    return result.toString();
   }
 
 } //StateImpl

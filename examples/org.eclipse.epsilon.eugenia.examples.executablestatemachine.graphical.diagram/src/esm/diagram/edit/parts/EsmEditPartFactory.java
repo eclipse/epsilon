@@ -28,8 +28,17 @@ public class EsmEditPartFactory implements EditPartFactory {
 			case MachineEditPart.VISUAL_ID:
 				return new MachineEditPart(view);
 
+			case EndStateEditPart.VISUAL_ID:
+				return new EndStateEditPart(view);
+
+			case EndStateNameEditPart.VISUAL_ID:
+				return new EndStateNameEditPart(view);
+
 			case StateEditPart.VISUAL_ID:
 				return new StateEditPart(view);
+
+			case StateNameEditPart.VISUAL_ID:
+				return new StateNameEditPart(view);
 
 			case TransitionEditPart.VISUAL_ID:
 				return new TransitionEditPart(view);

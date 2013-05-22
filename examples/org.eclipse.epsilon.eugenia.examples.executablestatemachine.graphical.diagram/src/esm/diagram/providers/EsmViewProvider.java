@@ -45,8 +45,11 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 
+import esm.diagram.edit.parts.EndStateEditPart;
+import esm.diagram.edit.parts.EndStateNameEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
+import esm.diagram.edit.parts.StateNameEditPart;
 import esm.diagram.edit.parts.TransitionActionEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
 import esm.diagram.part.EsmVisualIDRegistry;
@@ -139,6 +142,7 @@ public class EsmViewProvider extends AbstractProvider implements IViewProvider {
 					return false; // foreign diagram
 				}
 				switch (visualID) {
+				case EndStateEditPart.VISUAL_ID:
 				case StateEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != EsmVisualIDRegistry.getNodeVisualID(
@@ -151,7 +155,8 @@ public class EsmViewProvider extends AbstractProvider implements IViewProvider {
 				}
 			}
 		}
-		return StateEditPart.VISUAL_ID == visualID;
+		return EndStateEditPart.VISUAL_ID == visualID
+				|| StateEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
@@ -208,6 +213,9 @@ public class EsmViewProvider extends AbstractProvider implements IViewProvider {
 			visualID = EsmVisualIDRegistry.getVisualID(semanticHint);
 		}
 		switch (visualID) {
+		case EndStateEditPart.VISUAL_ID:
+			return createEndState_2002(domainElement, containerView, index,
+					persisted, preferencesHint);
 		case StateEditPart.VISUAL_ID:
 			return createState_2001(domainElement, containerView, index,
 					persisted, preferencesHint);
@@ -231,6 +239,54 @@ public class EsmViewProvider extends AbstractProvider implements IViewProvider {
 		}
 		// can never happen, provided #provides(CreateEdgeViewOperation) is correct
 		return null;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createEndState_2002(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
+		Node node = NotationFactory.eINSTANCE.createNode();
+		node.getStyles()
+				.add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createLineStyle());
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+
+		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.RGBToInteger(lineRGB));
+		FontStyle nodeFontStyle = (FontStyle) node
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		Node label5002 = createLabel(node,
+				EsmVisualIDRegistry.getType(EndStateNameEditPart.VISUAL_ID));
+		label5002.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location5002 = (Location) label5002.getLayoutConstraint();
+		location5002.setX(0);
+		location5002.setY(5);
+		return node;
 	}
 
 	/**
@@ -272,6 +328,13 @@ public class EsmViewProvider extends AbstractProvider implements IViewProvider {
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
 				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5001 = createLabel(node,
+				EsmVisualIDRegistry.getType(StateNameEditPart.VISUAL_ID));
+		label5001.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location5001 = (Location) label5001.getLayoutConstraint();
+		location5001.setX(0);
+		location5001.setY(5);
 		return node;
 	}
 

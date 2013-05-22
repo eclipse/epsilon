@@ -258,7 +258,7 @@
          </object>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" containerViews="referencing-diagrams"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Esm"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2002,2001"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
@@ -271,13 +271,13 @@
             <method name="getType()" value="Esm"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001"/>
+            <method name="getType()" value="2002,2001"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value=""/>
+            <method name="getType()" value="5002,5001"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
             <method name="getType()" value=""/>
@@ -291,8 +291,9 @@
       <modelingAssistantProvider class="esm.diagram.providers.EsmModelingAssistantProvider">
          <Priority name="Lowest"/>
          <object class="esm.diagram.edit.parts.MachineEditPart" id="Machine_1000"/>
+         <object class="esm.diagram.edit.parts.EndStateEditPart" id="EndState_2002"/>
          <object class="esm.diagram.edit.parts.StateEditPart" id="State_2001"/>
-         <context elements="Machine_1000,State_2001,"/>
+         <context elements="Machine_1000,EndState_2002,State_2001,"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -315,7 +316,7 @@
       <decoratorProvider class="esm.diagram.providers.EsmShortcutsDecoratorProvider">
          <Priority name="Lowest"/>
          <object class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)" id="generated-top-nodes">
-            <method name="getType()" value="2001"/>
+            <method name="getType()" value="2002,2001"/>
          </object>
          <context decoratorTargets="generated-top-nodes"/>
       </decoratorProvider>
@@ -331,6 +332,16 @@
                eclass="Machine"
                edithelper="esm.diagram.edit.helpers.MachineEditHelper">
             <param name="semanticHint" value="1000"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="esm">
+         <metamodelType
+               id="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.EndState_2002"
+               name="%metatype.name.EndState_2002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="EndState"
+               edithelper="esm.diagram.edit.helpers.EndStateEditHelper">
+            <param name="semanticHint" value="2002"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="esm">
@@ -366,6 +377,7 @@
       </clientContext> 
       <binding context="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.TypeContext">
          <elementType ref="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.Machine_1000"/>
+         <elementType ref="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.EndState_2002"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.State_2001"/>
          <elementType ref="org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram.Transition_4001"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>

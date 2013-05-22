@@ -38,7 +38,8 @@ public class EsmPaletteFactory {
 		PaletteDrawer paletteContainer = new PaletteDrawer(
 				Messages.Objects1Group_title);
 		paletteContainer.setId("createObjects1Group"); //$NON-NLS-1$
-		paletteContainer.add(createState1CreationTool());
+		paletteContainer.add(createEndState1CreationTool());
+		paletteContainer.add(createState2CreationTool());
 		return paletteContainer;
 	}
 
@@ -57,12 +58,27 @@ public class EsmPaletteFactory {
 	/**
 	 * @generated
 	 */
-	private ToolEntry createState1CreationTool() {
+	private ToolEntry createEndState1CreationTool() {
 		NodeToolEntry entry = new NodeToolEntry(
-				Messages.State1CreationTool_title,
-				Messages.State1CreationTool_desc,
+				Messages.EndState1CreationTool_title,
+				Messages.EndState1CreationTool_desc,
+				Collections.singletonList(EsmElementTypes.EndState_2002));
+		entry.setId("createEndState1CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(EsmElementTypes
+				.getImageDescriptor(EsmElementTypes.EndState_2002));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+
+	/**
+	 * @generated
+	 */
+	private ToolEntry createState2CreationTool() {
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.State2CreationTool_title,
+				Messages.State2CreationTool_desc,
 				Collections.singletonList(EsmElementTypes.State_2001));
-		entry.setId("createState1CreationTool"); //$NON-NLS-1$
+		entry.setId("createState2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(EsmElementTypes
 				.getImageDescriptor(EsmElementTypes.State_2001));
 		entry.setLargeIcon(entry.getSmallIcon());

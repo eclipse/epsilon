@@ -17,8 +17,11 @@ import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
 
 import esm.EsmPackage;
+import esm.diagram.edit.parts.EndStateNameEditPart;
+import esm.diagram.edit.parts.StateNameEditPart;
 import esm.diagram.edit.parts.TransitionActionEditPart;
 import esm.diagram.parsers.ActionXtext2GmfParser;
+import esm.diagram.parsers.MessageFormatParser;
 import esm.diagram.part.EsmVisualIDRegistry;
 
 /**
@@ -26,6 +29,42 @@ import esm.diagram.part.EsmVisualIDRegistry;
  */
 public class EsmParserProvider extends AbstractProvider implements
 		IParserProvider {
+
+	/**
+	 * @generated
+	 */
+	private IParser endStateName_5002Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getEndStateName_5002Parser() {
+		if (endStateName_5002Parser == null) {
+			EAttribute[] features = new EAttribute[] { EsmPackage.eINSTANCE
+					.getState_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			endStateName_5002Parser = parser;
+		}
+		return endStateName_5002Parser;
+	}
+
+	/**
+	 * @generated
+	 */
+	private IParser stateName_5001Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getStateName_5001Parser() {
+		if (stateName_5001Parser == null) {
+			EAttribute[] features = new EAttribute[] { EsmPackage.eINSTANCE
+					.getState_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			stateName_5001Parser = parser;
+		}
+		return stateName_5001Parser;
+	}
 
 	/**
 	 * @generated
@@ -50,6 +89,10 @@ public class EsmParserProvider extends AbstractProvider implements
 	 */
 	protected IParser getParser(int visualID) {
 		switch (visualID) {
+		case EndStateNameEditPart.VISUAL_ID:
+			return getEndStateName_5002Parser();
+		case StateNameEditPart.VISUAL_ID:
+			return getStateName_5001Parser();
 		case TransitionActionEditPart.VISUAL_ID:
 			return getTransitionAction_6001Parser();
 		}

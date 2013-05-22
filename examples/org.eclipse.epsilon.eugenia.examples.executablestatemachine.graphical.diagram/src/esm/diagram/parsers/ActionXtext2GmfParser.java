@@ -26,12 +26,12 @@ import esm.diagram.part.EsmDiagramEditorPlugin;
 public class ActionXtext2GmfParser extends AbstractParser {
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	private ActionParser parser = ActionParser.create();
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	private ActionGlue glue = new ActionGlue();
 
@@ -72,7 +72,7 @@ public class ActionXtext2GmfParser extends AbstractParser {
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	public IParserEditStatus isValidEditString(IAdaptable adapter,
 			String editString) {
@@ -87,7 +87,7 @@ public class ActionXtext2GmfParser extends AbstractParser {
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	public ICommand getParseCommand(IAdaptable adapter, String newString,
 			int flags) {

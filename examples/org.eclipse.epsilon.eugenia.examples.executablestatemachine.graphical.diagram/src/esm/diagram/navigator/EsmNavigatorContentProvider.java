@@ -28,6 +28,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 
+import esm.diagram.edit.parts.EndStateEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
@@ -247,8 +248,16 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
 			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
 					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
 			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
 					true));
 			connectedViews = getLinksSourceByType(Collections.singleton(sv),
 					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
@@ -259,6 +268,31 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 			}
 			if (!source.isEmpty()) {
 				result.add(source);
+			}
+			return result.toArray();
+		}
+
+		case MachineEditPart.VISUAL_ID: {
+			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
+			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
+			Diagram sv = (Diagram) view;
+			EsmNavigatorGroup links = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Machine_1000_links,
+					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(TransitionEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			if (!links.isEmpty()) {
+				result.add(links);
 			}
 			return result.toArray();
 		}
@@ -290,23 +324,29 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case MachineEditPart.VISUAL_ID: {
+		case EndStateEditPart.VISUAL_ID: {
 			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
-			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
-			Diagram sv = (Diagram) view;
-			EsmNavigatorGroup links = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Machine_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Node sv = (Node) view;
+			EsmNavigatorGroup incominglinks = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_EndState_2002_incominglinks,
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			EsmNavigatorGroup outgoinglinks = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_EndState_2002_outgoinglinks,
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					EsmVisualIDRegistry.getType(TransitionEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			if (!links.isEmpty()) {
-				result.add(links);
+			incominglinks.addChildren(createNavigatorItems(connectedViews,
+					incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(TransitionEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
+					outgoinglinks, true));
+			if (!incominglinks.isEmpty()) {
+				result.add(incominglinks);
+			}
+			if (!outgoinglinks.isEmpty()) {
+				result.add(outgoinglinks);
 			}
 			return result.toArray();
 		}

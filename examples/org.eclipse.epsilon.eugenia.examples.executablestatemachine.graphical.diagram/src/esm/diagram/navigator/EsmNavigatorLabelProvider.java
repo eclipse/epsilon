@@ -20,8 +20,11 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 
+import esm.diagram.edit.parts.EndStateEditPart;
+import esm.diagram.edit.parts.EndStateNameEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
+import esm.diagram.edit.parts.StateNameEditPart;
 import esm.diagram.edit.parts.TransitionActionEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
 import esm.diagram.part.EsmDiagramEditorPlugin;
@@ -99,12 +102,15 @@ public class EsmNavigatorLabelProvider extends LabelProvider implements
 		case TransitionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?esm?Transition", EsmElementTypes.Transition_4001); //$NON-NLS-1$
-		case StateEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?esm?State", EsmElementTypes.State_2001); //$NON-NLS-1$
 		case MachineEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Diagram?esm?Machine", EsmElementTypes.Machine_1000); //$NON-NLS-1$
+		case StateEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?esm?State", EsmElementTypes.State_2001); //$NON-NLS-1$
+		case EndStateEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?esm?EndState", EsmElementTypes.EndState_2002); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -167,12 +173,33 @@ public class EsmNavigatorLabelProvider extends LabelProvider implements
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001Text(view);
-		case StateEditPart.VISUAL_ID:
-			return getState_2001Text(view);
 		case MachineEditPart.VISUAL_ID:
 			return getMachine_1000Text(view);
+		case StateEditPart.VISUAL_ID:
+			return getState_2001Text(view);
+		case EndStateEditPart.VISUAL_ID:
+			return getEndState_2002Text(view);
 		}
 		return getUnknownElementText(view);
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getEndState_2002Text(View view) {
+		IParser parser = EsmParserProvider.getParser(
+				EsmElementTypes.EndState_2002,
+				view.getElement() != null ? view.getElement() : view,
+				EsmVisualIDRegistry.getType(EndStateNameEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			EsmDiagramEditorPlugin.getInstance().logError(
+					"Parser was not found for label " + 5002); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -199,7 +226,19 @@ public class EsmNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getState_2001Text(View view) {
-		return ""; //$NON-NLS-1$
+		IParser parser = EsmParserProvider.getParser(
+				EsmElementTypes.State_2001,
+				view.getElement() != null ? view.getElement() : view,
+				EsmVisualIDRegistry.getType(StateNameEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			EsmDiagramEditorPlugin.getInstance().logError(
+					"Parser was not found for label " + 5001); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 
 	/**

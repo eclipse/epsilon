@@ -16,10 +16,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.tooling.runtime.update.DiagramUpdater;
 
+import esm.EndState;
 import esm.EsmPackage;
 import esm.Machine;
 import esm.State;
 import esm.Transition;
+import esm.diagram.edit.parts.EndStateEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
@@ -63,6 +65,10 @@ public class EsmDiagramUpdater {
 			State childElement = (State) it.next();
 			int visualID = EsmVisualIDRegistry.getNodeVisualID(view,
 					childElement);
+			if (visualID == EndStateEditPart.VISUAL_ID) {
+				result.add(new EsmNodeDescriptor(childElement, visualID));
+				continue;
+			}
 			if (visualID == StateEditPart.VISUAL_ID) {
 				result.add(new EsmNodeDescriptor(childElement, visualID));
 				continue;
@@ -78,6 +84,8 @@ public class EsmDiagramUpdater {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
 		case MachineEditPart.VISUAL_ID:
 			return getMachine_1000ContainedLinks(view);
+		case EndStateEditPart.VISUAL_ID:
+			return getEndState_2002ContainedLinks(view);
 		case StateEditPart.VISUAL_ID:
 			return getState_2001ContainedLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -91,6 +99,8 @@ public class EsmDiagramUpdater {
 	 */
 	public static List<EsmLinkDescriptor> getIncomingLinks(View view) {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
+		case EndStateEditPart.VISUAL_ID:
+			return getEndState_2002IncomingLinks(view);
 		case StateEditPart.VISUAL_ID:
 			return getState_2001IncomingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -104,6 +114,8 @@ public class EsmDiagramUpdater {
 	 */
 	public static List<EsmLinkDescriptor> getOutgoingLinks(View view) {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
+		case EndStateEditPart.VISUAL_ID:
+			return getEndState_2002OutgoingLinks(view);
 		case StateEditPart.VISUAL_ID:
 			return getState_2001OutgoingLinks(view);
 		case TransitionEditPart.VISUAL_ID:
@@ -126,6 +138,14 @@ public class EsmDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List<EsmLinkDescriptor> getEndState_2002ContainedLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List<EsmLinkDescriptor> getState_2001ContainedLinks(View view) {
 		return Collections.emptyList();
 	}
@@ -136,6 +156,20 @@ public class EsmDiagramUpdater {
 	public static List<EsmLinkDescriptor> getTransition_4001ContainedLinks(
 			View view) {
 		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<EsmLinkDescriptor> getEndState_2002IncomingLinks(
+			View view) {
+		EndState modelElement = (EndState) view.getElement();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<EsmLinkDescriptor> result = new LinkedList<EsmLinkDescriptor>();
+		result.addAll(getIncomingTypeModelFacetLinks_Transition_4001(
+				modelElement, crossReferences));
+		return result;
 	}
 
 	/**
@@ -157,6 +191,17 @@ public class EsmDiagramUpdater {
 	public static List<EsmLinkDescriptor> getTransition_4001IncomingLinks(
 			View view) {
 		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<EsmLinkDescriptor> getEndState_2002OutgoingLinks(
+			View view) {
+		EndState modelElement = (EndState) view.getElement();
+		LinkedList<EsmLinkDescriptor> result = new LinkedList<EsmLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Transition_4001(modelElement));
+		return result;
 	}
 
 	/**

@@ -41,6 +41,15 @@ public interface EsmFactory extends EFactory
   State createState();
 
   /**
+   * Returns a new object of class '<em>End State</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>End State</em>'.
+   * @generated
+   */
+  EndState createEndState();
+
+  /**
    * Returns a new object of class '<em>Transition</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

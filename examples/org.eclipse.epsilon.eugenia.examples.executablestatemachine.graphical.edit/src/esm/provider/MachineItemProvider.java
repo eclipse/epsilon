@@ -168,6 +168,11 @@ public class MachineItemProvider
 
     newChildDescriptors.add
       (createChildParameter
+        (EsmPackage.Literals.MACHINE__STATES,
+         EsmFactory.eINSTANCE.createEndState()));
+
+    newChildDescriptors.add
+      (createChildParameter
         (EsmPackage.Literals.MACHINE__TRANSITIONS,
          EsmFactory.eINSTANCE.createTransition()));
   }

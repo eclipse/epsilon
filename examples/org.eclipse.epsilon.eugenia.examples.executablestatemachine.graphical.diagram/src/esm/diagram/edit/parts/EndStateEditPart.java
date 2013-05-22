@@ -29,7 +29,6 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.AbstractBorderedShapeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IBorderItemEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.BorderItemSelectionEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemLocator;
@@ -39,19 +38,19 @@ import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
 
-import esm.diagram.edit.policies.StateItemSemanticEditPolicy;
+import esm.diagram.edit.policies.EndStateItemSemanticEditPolicy;
 import esm.diagram.part.EsmVisualIDRegistry;
 import esm.diagram.providers.EsmElementTypes;
 
 /**
  * @generated
  */
-public class StateEditPart extends AbstractBorderedShapeEditPart {
+public class EndStateEditPart extends AbstractBorderedShapeEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 2001;
+	public static final int VISUAL_ID = 2002;
 
 	/**
 	 * @generated
@@ -66,7 +65,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	/**
 	 * @generated
 	 */
-	public StateEditPart(View view) {
+	public EndStateEditPart(View view) {
 		super(view);
 	}
 
@@ -76,7 +75,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new StateItemSemanticEditPolicy());
+				new EndStateItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -91,7 +90,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 			protected EditPolicy createChildEditPolicy(EditPart child) {
 				View childView = (View) child.getModel();
 				switch (EsmVisualIDRegistry.getVisualID(childView)) {
-				case StateNameEditPart.VISUAL_ID:
+				case EndStateNameEditPart.VISUAL_ID:
 					return new BorderItemSelectionEditPolicy() {
 
 						protected List createSelectionHandles() {
@@ -125,14 +124,14 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		return primaryShape = new StateFigure();
+		return primaryShape = new EndStateFigure();
 	}
 
 	/**
 	 * @generated
 	 */
-	public StateFigure getPrimaryShape() {
-		return (StateFigure) primaryShape;
+	public EndStateFigure getPrimaryShape() {
+		return (EndStateFigure) primaryShape;
 	}
 
 	/**
@@ -140,7 +139,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	 */
 	protected void addBorderItem(IFigure borderItemContainer,
 			IBorderItemEditPart borderItemEditPart) {
-		if (borderItemEditPart instanceof StateNameEditPart) {
+		if (borderItemEditPart instanceof EndStateNameEditPart) {
 			BorderItemLocator locator = new BorderItemLocator(getMainFigure(),
 					PositionConstants.SOUTH);
 			locator.setBorderItemOffset(new Dimension(-5, -5));
@@ -154,7 +153,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	 * @generated
 	 */
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(15, 15);
 		return result;
 	}
 
@@ -236,7 +235,7 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	 */
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(EsmVisualIDRegistry
-				.getType(StateNameEditPart.VISUAL_ID));
+				.getType(EndStateNameEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -254,10 +253,10 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	public List<IElementType> getMARelTypesOnSourceAndTarget(
 			IGraphicalEditPart targetEditPart) {
 		LinkedList<IElementType> types = new LinkedList<IElementType>();
-		if (targetEditPart instanceof EndStateEditPart) {
+		if (targetEditPart instanceof esm.diagram.edit.parts.EndStateEditPart) {
 			types.add(EsmElementTypes.Transition_4001);
 		}
-		if (targetEditPart instanceof esm.diagram.edit.parts.StateEditPart) {
+		if (targetEditPart instanceof StateEditPart) {
 			types.add(EsmElementTypes.Transition_4001);
 		}
 		return types;
@@ -312,17 +311,25 @@ public class StateEditPart extends AbstractBorderedShapeEditPart {
 	/**
 	 * @generated
 	 */
-	public class StateFigure extends Ellipse {
+	public class EndStateFigure extends Ellipse {
 
 		/**
 		 * @generated
 		 */
-		public StateFigure() {
+		public EndStateFigure() {
+			this.setBackgroundColor(THIS_BACK);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(15),
+					getMapMode().DPtoLP(15)));
 			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5),
 					getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
 					getMapMode().DPtoLP(5)));
 		}
 
 	}
+
+	/**
+	 * @generated
+	 */
+	static final Color THIS_BACK = new Color(null, 0, 0, 0);
 
 }

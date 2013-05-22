@@ -124,6 +124,31 @@ public class EsmItemProviderAdapterFactory extends EsmAdapterFactory implements 
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link esm.EndState} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EndStateItemProvider endStateItemProvider;
+
+  /**
+   * This creates an adapter for a {@link esm.EndState}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Adapter createEndStateAdapter()
+  {
+    if (endStateItemProvider == null)
+    {
+      endStateItemProvider = new EndStateItemProvider(this);
+    }
+
+    return endStateItemProvider;
+  }
+
+  /**
    * This keeps track of the one adapter used for all {@link esm.Transition} instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -261,6 +286,7 @@ public class EsmItemProviderAdapterFactory extends EsmAdapterFactory implements 
   {
     if (machineItemProvider != null) machineItemProvider.dispose();
     if (stateItemProvider != null) stateItemProvider.dispose();
+    if (endStateItemProvider != null) endStateItemProvider.dispose();
     if (transitionItemProvider != null) transitionItemProvider.dispose();
   }
 

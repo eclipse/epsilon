@@ -34,6 +34,7 @@ import org.eclipse.gmf.runtime.notation.View;
 
 import org.eclipse.gmf.tooling.runtime.update.UpdaterLinkDescriptor;
 import esm.EsmPackage;
+import esm.diagram.edit.parts.EndStateEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
 import esm.diagram.edit.parts.TransitionEditPart;
@@ -97,7 +98,9 @@ public class MachineCanonicalEditPolicy extends CanonicalEditPolicy {
 	 * @generated
 	 */
 	private boolean isMyDiagramElement(View view) {
-		return StateEditPart.VISUAL_ID == EsmVisualIDRegistry.getVisualID(view);
+		int visualID = EsmVisualIDRegistry.getVisualID(view);
+		return visualID == EndStateEditPart.VISUAL_ID
+				|| visualID == StateEditPart.VISUAL_ID;
 	}
 
 	/**
@@ -262,6 +265,14 @@ public class MachineCanonicalEditPolicy extends CanonicalEditPolicy {
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(EsmDiagramUpdater
 						.getMachine_1000ContainedLinks(view));
+			}
+			domain2NotationMap.putView(view.getElement(), view);
+			break;
+		}
+		case EndStateEditPart.VISUAL_ID: {
+			if (!domain2NotationMap.containsKey(view.getElement())) {
+				result.addAll(EsmDiagramUpdater
+						.getEndState_2002ContainedLinks(view));
 			}
 			domain2NotationMap.putView(view.getElement(), view);
 			break;

@@ -85,6 +85,11 @@ public class EsmAdapterFactory extends AdapterFactoryImpl
         return createStateAdapter();
       }
       @Override
+      public Adapter caseEndState(EndState object)
+      {
+        return createEndStateAdapter();
+      }
+      @Override
       public Adapter caseTransition(Transition object)
       {
         return createTransitionAdapter();
@@ -137,6 +142,21 @@ public class EsmAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createStateAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link esm.EndState <em>End State</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see esm.EndState
+   * @generated
+   */
+  public Adapter createEndStateAdapter()
   {
     return null;
   }

@@ -252,6 +252,11 @@ public class TransitionItemProvider
     newChildDescriptors.add
       (createChildParameter
         (EsmPackage.Literals.TRANSITION__ACTION_IMPL,
+         EsmFactory.eINSTANCE.createEndState()));
+
+    newChildDescriptors.add
+      (createChildParameter
+        (EsmPackage.Literals.TRANSITION__ACTION_IMPL,
          EsmFactory.eINSTANCE.createTransition()));
   }
 

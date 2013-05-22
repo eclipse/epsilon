@@ -66,6 +66,7 @@ public class EsmFactoryImpl extends EFactoryImpl implements EsmFactory
     {
       case EsmPackage.MACHINE: return createMachine();
       case EsmPackage.STATE: return createState();
+      case EsmPackage.END_STATE: return createEndState();
       case EsmPackage.TRANSITION: return createTransition();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -92,6 +93,17 @@ public class EsmFactoryImpl extends EFactoryImpl implements EsmFactory
   {
     StateImpl state = new StateImpl();
     return state;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EndState createEndState()
+  {
+    EndStateImpl endState = new EndStateImpl();
+    return endState;
   }
 
   /**

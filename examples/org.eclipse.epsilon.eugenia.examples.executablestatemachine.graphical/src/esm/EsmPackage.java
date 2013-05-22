@@ -105,13 +105,22 @@ public interface EsmPackage extends EPackage
   int STATE = 1;
 
   /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATE__NAME = 0;
+
+  /**
    * The feature id for the '<em><b>Incoming</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int STATE__INCOMING = 0;
+  int STATE__INCOMING = 1;
 
   /**
    * The feature id for the '<em><b>Outgoing</b></em>' reference list.
@@ -120,7 +129,7 @@ public interface EsmPackage extends EPackage
    * @generated
    * @ordered
    */
-  int STATE__OUTGOING = 1;
+  int STATE__OUTGOING = 2;
 
   /**
    * The number of structural features of the '<em>State</em>' class.
@@ -129,7 +138,53 @@ public interface EsmPackage extends EPackage
    * @generated
    * @ordered
    */
-  int STATE_FEATURE_COUNT = 2;
+  int STATE_FEATURE_COUNT = 3;
+
+  /**
+   * The meta object id for the '{@link esm.impl.EndStateImpl <em>End State</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see esm.impl.EndStateImpl
+   * @see esm.impl.EsmPackageImpl#getEndState()
+   * @generated
+   */
+  int END_STATE = 2;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int END_STATE__NAME = STATE__NAME;
+
+  /**
+   * The feature id for the '<em><b>Incoming</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int END_STATE__INCOMING = STATE__INCOMING;
+
+  /**
+   * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int END_STATE__OUTGOING = STATE__OUTGOING;
+
+  /**
+   * The number of structural features of the '<em>End State</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int END_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link esm.impl.TransitionImpl <em>Transition</em>}' class.
@@ -139,7 +194,7 @@ public interface EsmPackage extends EPackage
    * @see esm.impl.EsmPackageImpl#getTransition()
    * @generated
    */
-  int TRANSITION = 2;
+  int TRANSITION = 3;
 
   /**
    * The feature id for the '<em><b>Action</b></em>' attribute.
@@ -230,6 +285,17 @@ public interface EsmPackage extends EPackage
   EClass getState();
 
   /**
+   * Returns the meta object for the attribute '{@link esm.State#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see esm.State#getName()
+   * @see #getState()
+   * @generated
+   */
+  EAttribute getState_Name();
+
+  /**
    * Returns the meta object for the reference list '{@link esm.State#getIncoming <em>Incoming</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -250,6 +316,16 @@ public interface EsmPackage extends EPackage
    * @generated
    */
   EReference getState_Outgoing();
+
+  /**
+   * Returns the meta object for class '{@link esm.EndState <em>End State</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>End State</em>'.
+   * @see esm.EndState
+   * @generated
+   */
+  EClass getEndState();
 
   /**
    * Returns the meta object for class '{@link esm.Transition <em>Transition</em>}'.
@@ -365,6 +441,14 @@ public interface EsmPackage extends EPackage
     EClass STATE = eINSTANCE.getState();
 
     /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute STATE__NAME = eINSTANCE.getState_Name();
+
+    /**
      * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -379,6 +463,16 @@ public interface EsmPackage extends EPackage
      * @generated
      */
     EReference STATE__OUTGOING = eINSTANCE.getState_Outgoing();
+
+    /**
+     * The meta object literal for the '{@link esm.impl.EndStateImpl <em>End State</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see esm.impl.EndStateImpl
+     * @see esm.impl.EsmPackageImpl#getEndState()
+     * @generated
+     */
+    EClass END_STATE = eINSTANCE.getEndState();
 
     /**
      * The meta object literal for the '{@link esm.impl.TransitionImpl <em>Transition</em>}' class.

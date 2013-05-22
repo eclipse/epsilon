@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import esm.diagram.edit.parts.EndStateEditPart;
 import esm.diagram.edit.parts.MachineEditPart;
 import esm.diagram.edit.parts.StateEditPart;
 import esm.diagram.part.EsmDiagramEditorPlugin;
@@ -41,7 +42,8 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart instanceof MachineEditPart) {
-			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
+			types.add(EsmElementTypes.EndState_2002);
 			types.add(EsmElementTypes.State_2001);
 			return types;
 		}
@@ -54,6 +56,9 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 	public List getRelTypesOnSource(IAdaptable source) {
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof EndStateEditPart) {
+			return ((EndStateEditPart) sourceEditPart).getMARelTypesOnSource();
+		}
 		if (sourceEditPart instanceof StateEditPart) {
 			return ((StateEditPart) sourceEditPart).getMARelTypesOnSource();
 		}
@@ -66,6 +71,9 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 	public List getRelTypesOnTarget(IAdaptable target) {
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (targetEditPart instanceof EndStateEditPart) {
+			return ((EndStateEditPart) targetEditPart).getMARelTypesOnTarget();
+		}
 		if (targetEditPart instanceof StateEditPart) {
 			return ((StateEditPart) targetEditPart).getMARelTypesOnTarget();
 		}
@@ -81,6 +89,10 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 				.getAdapter(IGraphicalEditPart.class);
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof EndStateEditPart) {
+			return ((EndStateEditPart) sourceEditPart)
+					.getMARelTypesOnSourceAndTarget(targetEditPart);
+		}
 		if (sourceEditPart instanceof StateEditPart) {
 			return ((StateEditPart) sourceEditPart)
 					.getMARelTypesOnSourceAndTarget(targetEditPart);
@@ -95,6 +107,10 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 			IElementType relationshipType) {
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target
 				.getAdapter(IGraphicalEditPart.class);
+		if (targetEditPart instanceof EndStateEditPart) {
+			return ((EndStateEditPart) targetEditPart)
+					.getMATypesForSource(relationshipType);
+		}
 		if (targetEditPart instanceof StateEditPart) {
 			return ((StateEditPart) targetEditPart)
 					.getMATypesForSource(relationshipType);
@@ -109,6 +125,10 @@ public class EsmModelingAssistantProvider extends ModelingAssistantProvider {
 			IElementType relationshipType) {
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source
 				.getAdapter(IGraphicalEditPart.class);
+		if (sourceEditPart instanceof EndStateEditPart) {
+			return ((EndStateEditPart) sourceEditPart)
+					.getMATypesForTarget(relationshipType);
+		}
 		if (sourceEditPart instanceof StateEditPart) {
 			return ((StateEditPart) sourceEditPart)
 					.getMATypesForTarget(relationshipType);
