@@ -96,15 +96,15 @@ public class EsmNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
-		case MachineEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Diagram?esm?Machine", EsmElementTypes.Machine_1000); //$NON-NLS-1$
-		case StateEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?esm?State", EsmElementTypes.State_2001); //$NON-NLS-1$
 		case TransitionEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?esm?Transition", EsmElementTypes.Transition_4001); //$NON-NLS-1$
+		case StateEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?esm?State", EsmElementTypes.State_2001); //$NON-NLS-1$
+		case MachineEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Diagram?esm?Machine", EsmElementTypes.Machine_1000); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -165,12 +165,12 @@ public class EsmNavigatorLabelProvider extends LabelProvider implements
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
-		case MachineEditPart.VISUAL_ID:
-			return getMachine_1000Text(view);
-		case StateEditPart.VISUAL_ID:
-			return getState_2001Text(view);
 		case TransitionEditPart.VISUAL_ID:
 			return getTransition_4001Text(view);
+		case StateEditPart.VISUAL_ID:
+			return getState_2001Text(view);
+		case MachineEditPart.VISUAL_ID:
+			return getMachine_1000Text(view);
 		}
 		return getUnknownElementText(view);
 	}

@@ -2,11 +2,6 @@
 var genPlugin = GmfGen!GenPlugin.all.first;
 genPlugin.requiredPlugins.add("org.eclipse.epsilon.eugenia.examples.executablestatemachine.glue");
 
-// Ensure that we use the customised template for generating label parsers
-var genEditorGenerator = GmfGen!GenEditorGenerator.all.first;
-genEditorGenerator.dynamicTemplates = true;
-genEditorGenerator.templateDirectory = genEditorGenerator.domainGenModel.modelDirectory.replace('/src', '/templates');
-
 // Add a customised label parser for Transition#actions
 var transitionLink = GmfGen!GenLink.all.selectOne(l|l.editPartClassName == "TransitionEditPart");
 var modelFacet = transitionLink.labels.first.modelFacet;

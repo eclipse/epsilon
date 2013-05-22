@@ -196,6 +196,9 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 					topViews.add((View) o);
 				}
 			}
+			result.addAll(createNavigatorItems(
+					selectViewsByType(topViews, MachineEditPart.MODEL_ID),
+					file, false));
 			return result.toArray();
 		}
 
@@ -233,23 +236,29 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 	private Object[] getViewChildren(View view, Object parentElement) {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
 
-		case MachineEditPart.VISUAL_ID: {
+		case TransitionEditPart.VISUAL_ID: {
 			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
-			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
-			Diagram sv = (Diagram) view;
-			EsmNavigatorGroup links = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Machine_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Edge sv = (Edge) view;
+			EsmNavigatorGroup target = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_target,
+					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			EsmNavigatorGroup source = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_source,
+					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
 					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(TransitionEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			if (!links.isEmpty()) {
-				result.add(links);
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			if (!target.isEmpty()) {
+				result.add(target);
+			}
+			if (!source.isEmpty()) {
+				result.add(source);
 			}
 			return result.toArray();
 		}
@@ -281,29 +290,23 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case TransitionEditPart.VISUAL_ID: {
+		case MachineEditPart.VISUAL_ID: {
 			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
-			Edge sv = (Edge) view;
-			EsmNavigatorGroup target = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_target,
-					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			EsmNavigatorGroup source = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_source,
-					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
+			Diagram sv = (Diagram) view;
+			EsmNavigatorGroup links = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Machine_1000_links,
+					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+			connectedViews = getChildrenByType(Collections.singleton(sv),
 					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			if (!target.isEmpty()) {
-				result.add(target);
-			}
-			if (!source.isEmpty()) {
-				result.add(source);
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(TransitionEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			if (!links.isEmpty()) {
+				result.add(links);
 			}
 			return result.toArray();
 		}

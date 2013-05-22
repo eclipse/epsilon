@@ -1,17 +1,60 @@
-diff --git org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java b/examples/org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
-index 8bb754f..d13e864 100644
---- org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
-+++ org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
-@@ -27,10 +27,11 @@
- public class DeleteElementAction extends AbstractDeleteFromAction {
+diff --git org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java a/examples/org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
+index 950bccd..760a561 100644
+--- org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
++++ org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/parsers/ActionXtext2GmfParser.java
+@@ -26,6 +26,16 @@ import esm.diagram.part.EsmDiagramEditorPlugin;
+ public class ActionXtext2GmfParser extends AbstractParser {
+ 
+ 	/**
++	 * @generated NOT
++	 */
++	private ActionParser parser = ActionParser.create();
++
++	/**
++	 * @generated NOT
++	 */
++	private ActionGlue glue = new ActionGlue();
++
++	/**
+ 	 * @generated
+ 	 */
+ 	public ActionXtext2GmfParser(EAttribute[] features) {
+@@ -62,21 +72,34 @@ public class ActionXtext2GmfParser extends AbstractParser {
+ 	}
  
  	/**
 -	 * @generated
 +	 * @generated NOT
  	 */
- 	public DeleteElementAction(IWorkbenchPart part) {
- 		super(part);
-+		System.out.println("Testing patch");
+ 	public IParserEditStatus isValidEditString(IAdaptable adapter,
+ 			String editString) {
+-		return ParserEditStatus.EDITABLE_STATUS;
++		final Collection<?> issues = parser.validate(editString);
++
++		if (issues.isEmpty()) {
++			return ParserEditStatus.EDITABLE_STATUS;
++		} else {
++			return new ParserEditStatus(EsmDiagramEditorPlugin.ID,
++					IParserEditStatus.UNEDITABLE, issues.toString());
++		}
+ 	}
+ 
+ 	/**
+-	 * @generated
++	 * @generated NOT
+ 	 */
+ 	public ICommand getParseCommand(IAdaptable adapter, String newString,
+ 			int flags) {
+ 		Object value = EcoreUtil.createFromString(
+ 				editableFeatures[0].getEAttributeType(), newString);
+-		return getParseCommand(adapter, new Object[] { value }, flags);
++		ICommand textCommand = getParseCommand(adapter, new Object[] { value },
++				flags);
++		EObject modelElement = (EObject) adapter.getAdapter(EObject.class);
++		SetRequest request = new SetRequest(modelElement,
++				glue.targetFor(features), parser.parse(newString));
++		SetValueCommand setValueCommand = new SetValueCommand(request);
++		return textCommand.compose(setValueCommand);
  	}
  
  	/**
