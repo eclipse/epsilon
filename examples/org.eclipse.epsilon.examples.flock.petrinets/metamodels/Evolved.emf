@@ -1,5 +1,5 @@
 @namespace(uri="petrinets2", prefix="petrinets2")
-package petrinets2;
+package petrinets;
 
 class Net {
    val Place[*]#net places;

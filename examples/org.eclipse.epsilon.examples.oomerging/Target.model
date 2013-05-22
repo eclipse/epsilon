@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<SimpleOO:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:SimpleOO="SimpleOO" name="m1 and m2">
-  <contents name="c1" isAbstract="true"/>
-  <contents name="c2" isAbstract="true"/>
-  <contents name="c4" isAbstract="false"/>
-  <contents name="c3" isAbstract="false"/>
-</SimpleOO:Model>
