@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Glue
+Bundle-SymbolicName: org.eclipse.epsilon.eugenia.examples.executablestatemachine.glue
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.epsilon.eugenia.examples.executablestatemachine.textual;bundle-version="1.0.0";visibility:=reexport
+Export-Package: org.eclipse.epsilon.eugenia.examples.executablestatemachine.glue

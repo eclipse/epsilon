@@ -1,0 +1,24 @@
+@gmf(foo="bar")
+@namespace(uri="esm", prefix="esm")
+package esm;
+
+@gmf.diagram(foo="bar")
+class Machine {
+  val State[*] states;
+  val Transition[*] transitions;
+}
+
+@gmf.node(figure="ellipse", label.placement="none")
+class State {
+  ref Transition[*]#target incoming;
+  ref Transition[*]#source outgoing;
+}
+
+@gmf.link(source="source", target="target", target.decoration="arrow", label="action")
+class Transition {
+  attr String action;
+  val EObject actionImpl;
+  ref State[1]#outgoing source;
+  ref State[1]#incoming target;
+}
+
