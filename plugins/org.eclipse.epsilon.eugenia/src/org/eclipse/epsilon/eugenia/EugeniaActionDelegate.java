@@ -32,7 +32,6 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eugenia.operationcontributors.EModelElementOperationContributor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -45,7 +44,7 @@ import org.eclipse.ui.PlatformUI;
 public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 
 	private Shell shell;
-	private IFile selectedFile;
+	private IResource selection;
 	private List<IModel> extraModels = null;
 
 	protected GmfFileSet gmfFileSet;
@@ -106,14 +105,18 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public abstract List<IModel> getModels() throws Exception;
 	
 	public IFile getSelectedFile() {
-		return selectedFile;
+		return (selection instanceof IFile) ? (IFile)selection : null;
 	}
 	
-	public void setSelectedFile(IFile file) {
-		this.selectedFile = file;
+	public IResource getSelection() {
+		return selection;
+	}
+	
+	public void setSelection(IResource selection) {
+		this.selection = selection;
 		// The following doesn't work with Jazz - see bug #407183
 		//this.gmfFileSet   = new GmfFileSet(selectedFile.getLocationURI().toString());
-		this.gmfFileSet= new GmfFileSet(selectedFile.getLocation().toFile().toURI().toString());		
+		this.gmfFileSet= new GmfFileSet(selection.getLocation().toFile().toURI().toString());		
 	}
 
 	public IEolExecutableModule createBuiltinModule() {
@@ -239,7 +242,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		Iterator<?> it = ((IStructuredSelection) selection).iterator();
 		
 		if (it.hasNext()){
-			setSelectedFile((IFile) it.next());
+			setSelection((IResource) it.next());
 		}
 	}
 

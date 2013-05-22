@@ -28,5 +28,7 @@ public enum EugeniaActionDelegateStep {
 	gmf,
 	gmfgen,
 	emfcode,
-	gmfcode
+	gmfcode,
+	applypatches,
+	unapplypatches
 }

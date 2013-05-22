@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.gmf.bridge.ui,
  org.eclipse.emf.emfatic.core;resolution:=optional,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.epsilon.evl.engine
+ org.eclipse.epsilon.evl.engine,
+ org.eclipse.compare.core
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia,
  org.eclipse.epsilon.eugenia.operationcontributors

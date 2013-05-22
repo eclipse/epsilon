@@ -1,0 +1,13 @@
+diff --git org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java b/examples/org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
+index d13e864..781979b 100644
+--- org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
++++ org.eclipse.epsilon.eugenia.examples.executablestatemachine.graphical.diagram/src/esm/diagram/part/DeleteElementAction.java
+@@ -31,7 +31,7 @@
+ 	 */
+ 	public DeleteElementAction(IWorkbenchPart part) {
+ 		super(part);
+-		System.out.println("Testing patch");
++		System.out.println("Testing patch of a patch");
+ 	}
+ 
+ 	/**

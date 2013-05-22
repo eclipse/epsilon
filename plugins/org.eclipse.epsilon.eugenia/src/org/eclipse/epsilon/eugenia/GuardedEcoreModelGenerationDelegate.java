@@ -11,7 +11,7 @@ public abstract class GuardedEcoreModelGenerationDelegate extends EugeniaActionD
 		
 		AbstractEcoreModelValidationDelegate validateEcoreModelDelegate = createEcoreModelValidationDelegate();
 		validateEcoreModelDelegate.setClearConsole(false);
-		validateEcoreModelDelegate.setSelectedFile(getSelectedFile());
+		validateEcoreModelDelegate.setSelection(getSelectedFile());
 		validateEcoreModelDelegate.runImpl(action);
 		valid = validateEcoreModelDelegate.isValid();
 		

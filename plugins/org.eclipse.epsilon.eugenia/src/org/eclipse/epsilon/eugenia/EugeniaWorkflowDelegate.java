@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.eugenia;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -180,7 +179,7 @@ public abstract class EugeniaWorkflowDelegate implements IObjectActionDelegate {
 
 	private boolean run(final EugeniaActionDelegate delegate,
 			final IAction action) throws Exception {
-		delegate.setSelectedFile(selectedFile);
+		delegate.setSelection(selectedFile);
 		if (!delegate.isApplicable())
 			return true;
 

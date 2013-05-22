@@ -13,6 +13,8 @@ package org.eclipse.epsilon.eugenia;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.epsilon.eugenia.patches.ApplyPatchesDelegate;
+
 public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
 
 	protected List<EugeniaActionDelegate> getDelegates() {
@@ -26,7 +28,8 @@ public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
 				new GmfMap2GmfGenDelegate().setClearConsole(false),
 				new FixGmfGenDelegate().setClearConsole(false),
 				new GenerateEmfCodeDelegate(),
-				new GenerateDiagramCodeDelegate().setTargetPart(targetPart));
+				new GenerateDiagramCodeDelegate().setTargetPart(targetPart),
+				new ApplyPatchesDelegate());
 	}
 
 }

@@ -18,7 +18,6 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.gmf.gmfgraph.GMFGraphPackage;
 import org.eclipse.gmf.mappings.GMFMapPackage;
 import org.eclipse.gmf.tooldef.GMFToolPackage;
-import org.eclipse.jface.action.IAction;
 
 public class GenerateToolGraphMapDelegate extends GuardedEcoreModelGenerationDelegate {
 	
