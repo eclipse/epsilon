@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see esm.EsmPackage#getState()
- * @model annotation="gmf.node figure='ellipse' label='name' label.placement='external'"
+ * @model annotation="gmf.node figure='ellipse' label='name' label.placement='external' label.icon='false'"
  * @generated
  */
 public interface State extends EObject

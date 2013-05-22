@@ -8,7 +8,7 @@ class Machine {
   val Transition[*] transitions;
 }
 
-@gmf.node(figure="ellipse", label="name", label.placement="external")
+@gmf.node(figure="ellipse", label="name", label.placement="external", label.icon="false")
 class State {
   attr String[1] name;
   ref Transition[*]#target incoming;

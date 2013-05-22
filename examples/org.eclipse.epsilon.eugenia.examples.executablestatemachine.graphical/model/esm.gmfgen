@@ -63,8 +63,7 @@
           xsi:type="gmfgen:GenExternalNodeLabel"
           visualID="5002"
           editPartClassName="EndStateNameEditPart"
-          itemSemanticEditPolicyClassName="EndStateNameItemSemanticEditPolicy"
-          elementIcon="true">
+          itemSemanticEditPolicyClassName="EndStateNameItemSemanticEditPolicy">
         <diagramRunTimeClass
             href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap
@@ -107,8 +106,7 @@
           xsi:type="gmfgen:GenExternalNodeLabel"
           visualID="5001"
           editPartClassName="StateNameEditPart"
-          itemSemanticEditPolicyClassName="StateNameItemSemanticEditPolicy"
-          elementIcon="true">
+          itemSemanticEditPolicyClassName="StateNameItemSemanticEditPolicy">
         <diagramRunTimeClass
             href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap

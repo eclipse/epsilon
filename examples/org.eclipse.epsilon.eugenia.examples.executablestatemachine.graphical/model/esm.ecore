@@ -18,6 +18,7 @@
       <details key="figure" value="ellipse"/>
       <details key="label" value="name"/>
       <details key="label.placement" value="external"/>
+      <details key="label.icon" value="false"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"

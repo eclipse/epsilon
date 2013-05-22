@@ -407,7 +407,8 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        {
        "figure", "ellipse",
        "label", "name",
-       "label.placement", "external"
+       "label.placement", "external",
+       "label.icon", "false"
        });		
     addAnnotation
       (endStateEClass, 

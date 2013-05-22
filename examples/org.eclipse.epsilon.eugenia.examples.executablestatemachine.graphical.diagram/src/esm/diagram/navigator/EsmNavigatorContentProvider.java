@@ -237,41 +237,6 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 	private Object[] getViewChildren(View view, Object parentElement) {
 		switch (EsmVisualIDRegistry.getVisualID(view)) {
 
-		case TransitionEditPart.VISUAL_ID: {
-			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
-			Edge sv = (Edge) view;
-			EsmNavigatorGroup target = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_target,
-					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			EsmNavigatorGroup source = new EsmNavigatorGroup(
-					Messages.NavigatorGroupName_Transition_4001_source,
-					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection<View> connectedViews;
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksTargetByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			target.addChildren(createNavigatorItems(connectedViews, target,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			connectedViews = getLinksSourceByType(Collections.singleton(sv),
-					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
-			source.addChildren(createNavigatorItems(connectedViews, source,
-					true));
-			if (!target.isEmpty()) {
-				result.add(target);
-			}
-			if (!source.isEmpty()) {
-				result.add(source);
-			}
-			return result.toArray();
-		}
-
 		case MachineEditPart.VISUAL_ID: {
 			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
 			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
@@ -347,6 +312,41 @@ public class EsmNavigatorContentProvider implements ICommonContentProvider {
 			}
 			if (!outgoinglinks.isEmpty()) {
 				result.add(outgoinglinks);
+			}
+			return result.toArray();
+		}
+
+		case TransitionEditPart.VISUAL_ID: {
+			LinkedList<EsmAbstractNavigatorItem> result = new LinkedList<EsmAbstractNavigatorItem>();
+			Edge sv = (Edge) view;
+			EsmNavigatorGroup target = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_target,
+					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			EsmNavigatorGroup source = new EsmNavigatorGroup(
+					Messages.NavigatorGroupName_Transition_4001_source,
+					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(EndStateEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					EsmVisualIDRegistry.getType(StateEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
+			if (!target.isEmpty()) {
+				result.add(target);
+			}
+			if (!source.isEmpty()) {
+				result.add(source);
 			}
 			return result.toArray();
 		}

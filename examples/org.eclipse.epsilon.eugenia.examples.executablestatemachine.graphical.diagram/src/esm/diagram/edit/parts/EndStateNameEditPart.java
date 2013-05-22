@@ -239,11 +239,7 @@ public class EndStateNameEditPart extends LabelEditPart implements
 	 * @generated
 	 */
 	protected Image getLabelIcon() {
-		EObject parserElement = getParserElement();
-		if (parserElement == null) {
-			return null;
-		}
-		return EsmElementTypes.getImage(parserElement.eClass());
+		return null;
 	}
 
 	/**

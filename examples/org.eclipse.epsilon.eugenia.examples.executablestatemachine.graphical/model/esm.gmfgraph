@@ -92,10 +92,12 @@
       figure="TransitionFigure"/>
   <labels
       name="StateLabel"
-      figure="StateLabelFigure"/>
+      figure="StateLabelFigure"
+      elementIcon="false"/>
   <labels
       name="EndStateLabel"
-      figure="EndStateLabelFigure"/>
+      figure="EndStateLabelFigure"
+      elementIcon="false"/>
   <labels
       name="TransitionLabel"
       figure="TransitionLabelFigure"
