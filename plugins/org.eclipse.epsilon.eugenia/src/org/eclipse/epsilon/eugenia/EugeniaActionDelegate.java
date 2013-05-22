@@ -30,6 +30,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
@@ -116,14 +117,18 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		this.selection = selection;
 		// The following doesn't work with Jazz - see bug #407183
 		//this.gmfFileSet   = new GmfFileSet(selectedFile.getLocationURI().toString());
-		this.gmfFileSet= new GmfFileSet(selection.getLocation().toFile().toURI().toString());		
+		this.gmfFileSet = createGmfFileSetFromSelection(selection);		
 	}
 
-	public IEolExecutableModule createBuiltinModule() {
+	protected GmfFileSet createGmfFileSetFromSelection(IResource selection) {
+		return new GmfFileSet(selection.getLocation().toFile().toURI().toString());
+	}
+
+	public IEolExecutableModule createBuiltinModule() throws EolRuntimeException {
 		return new EolModule();
 	}
 	
-	public IEolExecutableModule createCustomizationModule() {
+	public IEolExecutableModule createCustomizationModule() throws EolRuntimeException {
 		return new EolModule();
 	}
 	

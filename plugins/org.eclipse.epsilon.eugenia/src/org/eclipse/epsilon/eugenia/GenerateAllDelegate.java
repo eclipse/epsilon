@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.epsilon.eugenia.patches.ApplyPatchesDelegate;
+import org.eclipse.epsilon.eugenia.patches.GeneratePatchesDelegate;
 
 public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
 
@@ -29,6 +30,7 @@ public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
 				new FixGmfGenDelegate().setClearConsole(false),
 				new GenerateEmfCodeDelegate(),
 				new GenerateDiagramCodeDelegate().setTargetPart(targetPart),
+				new GeneratePatchesDelegate(),
 				new ApplyPatchesDelegate());
 	}
 

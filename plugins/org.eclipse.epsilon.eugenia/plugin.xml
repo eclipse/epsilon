@@ -173,6 +173,28 @@
                menubarPath="org.eclipse.epsilon.eugenia.patches/actions">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.eugenia.genpatches"
+            nameFilter="GeneratePatches.egx"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.eclipse.epsilon.eugenia.genpatches"
+               label="Eugenia"
+               path="additions">
+            <separator
+                  name="actions">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.epsilon.eugenia.patches.GeneratePatchesDelegate"
+               enablesFor="1"
+               icon="icons/genpatch.png"
+               id="org.eclipse.epsilon.eugenia.GeneratePatchesDelegate"
+               label="Generate patches"
+               menubarPath="org.eclipse.epsilon.eugenia.genpatches/actions">
+         </action>
+      </objectContribution>
    </extension>
    <extension
          id="org.eclipse.epsilon.eugenia.validation.problem.gmf"

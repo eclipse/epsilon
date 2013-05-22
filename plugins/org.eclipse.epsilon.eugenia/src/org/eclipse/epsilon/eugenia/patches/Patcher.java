@@ -39,18 +39,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 
-/*
- * TODO
- *   - Check that patches can rename files
- *   - Write documentation
- *   
- *   Parametric patches
- *   -- Invoke an EGX file (e.g. GeneratePatches.egx) before this delegate
- *   -- This EGX file will create patch files into the patches directory.
- *   -- The EGX file will need to be able to access the source metamodel, and probably the GMF models too.
- *   -- Essentially, the EGX file is another polishing transformation...
- */
-
 public class Patcher {
 	
 	private final IProject project;
@@ -70,7 +58,6 @@ public class Patcher {
 	
 	private void run(boolean reversed) {
 		errors = new Errors();
-		
 		
 		try {			
 			final IResource patchDir = project.findMember("patches");
@@ -158,7 +145,7 @@ public class Patcher {
 	private String seraliseResult(IFilePatchResult result) {
 		final StringBuilder builder = new StringBuilder();
 		
-		for (IHunk reject : result.getRejects()) {
+		for (IHunk reject : result.getRejects()) {			
 			builder.append(reject.getLabel());
 			
 			for (String line : reject.getUnifiedLines()) {
