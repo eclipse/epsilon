@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="org.eclipse.epsilon.evl.emf.validation" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="org.eclipse.epsilon.evl.emf.validation" id="org.eclipse.epsilon.evl.emf.validation" name="EVL Constraints"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter description of this extension point.]
       </documentation>
@@ -12,9 +12,9 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <sequence>
@@ -39,9 +39,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -49,9 +49,9 @@
 
    <element name="constraintsBinding">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element labelAttribute="ePackageUri"/>
-         </appinfo>
+         </appInfo>
          <documentation>
             Binding of an ePackage URI with a set of EVL constraints defined in a file.
          </documentation>
@@ -69,9 +69,9 @@
                <documentation>
                   The file that contains the EVL constraints.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="modelName" type="string">
@@ -88,40 +88,47 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="compose" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  When set to true, the EVL constraints gracefully blend with other constraints contributed through the EMF Validation framework. When set to false, only the EVL constraints are executed.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appinfo>
-         <meta.section type="since"/>
-      </appinfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appinfo>
-         <meta.section type="examples"/>
-      </appinfo>
-      <documentation>
-         [Enter extension point usage example here.]
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="apiInfo"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
          <meta.section type="implementation"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>

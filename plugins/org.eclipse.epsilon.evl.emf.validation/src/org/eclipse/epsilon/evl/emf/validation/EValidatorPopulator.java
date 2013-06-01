@@ -67,19 +67,27 @@ public class EValidatorPopulator implements IStartup {
 				EValidator newValidator = null;
 				EValidator existingValidator = EValidator.Registry.INSTANCE.getEValidator(ePackage);
 				
-				if (existingValidator == null) {
-					existingValidator = EObjectValidator.INSTANCE;
-				}
+				String composeAttributeValue = configurationElement.getAttribute("compose");
+				boolean compose = composeAttributeValue == null || Boolean.valueOf(composeAttributeValue).booleanValue();
 				
-				if (existingValidator instanceof CompositeEValidator) {
-					((CompositeEValidator) existingValidator).getDelegates().add(evlValidator);
-					newValidator = existingValidator;
+				if (compose) {
+					if (existingValidator == null) {
+						existingValidator = EObjectValidator.INSTANCE;
+					}
+					
+					if (existingValidator instanceof CompositeEValidator) {
+						((CompositeEValidator) existingValidator).getDelegates().add(evlValidator);
+						newValidator = existingValidator;
+					}
+					else {
+						//newValidator = existingValidator;
+						newValidator = new CompositeEValidator();
+						((CompositeEValidator) newValidator).getDelegates().add(evlValidator);
+						((CompositeEValidator) newValidator).getDelegates().add(existingValidator);
+					}
 				}
 				else {
-					//newValidator = existingValidator;
-					newValidator = new CompositeEValidator();
-					((CompositeEValidator) newValidator).getDelegates().add(evlValidator);
-					((CompositeEValidator) newValidator).getDelegates().add(existingValidator);
+					newValidator = evlValidator;
 				}
 				
 				if (newValidator != existingValidator) {
