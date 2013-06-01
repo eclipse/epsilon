@@ -28,6 +28,7 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
+import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -90,6 +91,9 @@ public class MigrationStrategyExecutor {
 			createIUserInputFor(migrator.getContext());
 			
 			if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {
+				
+				migrator.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
+				
 				final FlockResult result = migrator.execute(original, migrated);
 				
 				result.printWarnings(EpsilonConsole.getInstance().getWarningStream());
