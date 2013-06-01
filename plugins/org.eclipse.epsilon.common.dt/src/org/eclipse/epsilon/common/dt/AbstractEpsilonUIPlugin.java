@@ -28,7 +28,7 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugins.remove(this.getClass());
-		getImageDescriptorRegistry().dispose();
+		if (imageDescriptorRegistry != null) imageDescriptorRegistry.dispose();
 	}
 	
 	protected ImageRegistry getImageDescriptorRegistry() {
