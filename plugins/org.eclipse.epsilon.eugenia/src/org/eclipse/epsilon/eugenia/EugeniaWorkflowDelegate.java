@@ -191,7 +191,7 @@ public abstract class EugeniaWorkflowDelegate implements IObjectActionDelegate {
 					try {
 						delegate.runImpl(action);
 					} catch (Exception e) {
-						e.printStackTrace();
+						LogUtil.log(e);
 					}
 				}
 			});
