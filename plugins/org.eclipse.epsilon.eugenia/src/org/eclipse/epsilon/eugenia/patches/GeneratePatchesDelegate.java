@@ -37,6 +37,12 @@ import org.eclipse.gmf.tooldef.GMFToolPackage;
 public class GeneratePatchesDelegate extends EugeniaActionDelegate {
 	
 	@Override
+	public boolean isApplicable() {
+		IFolder patchesFolder = getPatchesFolder();
+		return patchesFolder != null && patchesFolder.exists();
+	}
+	
+	@Override
 	public String getTitle() {
 		return "Generating patches";
 	}
@@ -96,8 +102,8 @@ public class GeneratePatchesDelegate extends EugeniaActionDelegate {
 
 	private EglTemplateFactory createFactory() throws EglRuntimeException {
 		final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
-		factory.setTemplateRoot(getSelection().getParent().getRawLocation().toOSString());
-		factory.setOutputRoot(getPatchesFolder().getRawLocation().toOSString());
+		factory.setTemplateRoot(getSelection().getParent().getLocation().toOSString());
+		factory.setOutputRoot(getPatchesFolder().getLocation().toOSString());
 		return factory;
 	}
 
