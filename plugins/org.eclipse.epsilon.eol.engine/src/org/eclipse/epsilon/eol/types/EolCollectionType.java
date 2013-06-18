@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,8 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García Domínguez - add generics, clean up dead code.
+ *     Antonio García Domínguez - add generics, clean up dead code,
+ *                                remove type cache (bug #410403).
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
@@ -18,12 +19,10 @@ import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.util.Cache;
 
 public class EolCollectionType extends EolType {
 	
 	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers = null;
-	protected static Cache<Collection<?>, EolCollectionType> cachedCollectionTypes = new Cache<Collection<?>, EolCollectionType>();
 	
 	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
 		if (collectionTypeResolvers == null) {
@@ -45,29 +44,20 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
-		
-		EolCollectionType collectionType = cachedCollectionTypes.get(c);
-		
-		if (collectionType == null) {
-			for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
-				if (collectionTypeResolver.canResolveType(c)) {
-					collectionType = collectionTypeResolver.resolveType(c);
-					break;
-				}
+		if (c instanceof EolSequence) return Sequence;
+		else if (c instanceof EolOrderedSet) return OrderedSet;
+		else if (c instanceof EolSet) return Set;
+		else if (c instanceof EolBag) return Bag;
+
+		for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
+			if (collectionTypeResolver.canResolveType(c)) {
+				return collectionTypeResolver.resolveType(c);
 			}
-			
-			if (collectionType == null) {
-				if (c instanceof EolSequence || (c instanceof List && !(c instanceof Set))) collectionType = Sequence;
-				else if (c instanceof EolOrderedSet || (c instanceof List && c instanceof Set)) collectionType = OrderedSet;
-				else if (c instanceof EolSet || (c instanceof Set && !(c instanceof List))) collectionType = Set;
-				else collectionType = Bag;
-			}
-			
-			cachedCollectionTypes.put(c, collectionType);
-			
 		}
-		
-		return collectionType;
+
+		if (c instanceof List) return (c instanceof Set) ? OrderedSet : Sequence;
+		else if (c instanceof Set) return Set;
+		else return Bag;
 	}
 	
 	@Override
