@@ -297,7 +297,7 @@ public class EolOperation extends AbstractModuleElement{
 				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeAst, context);
 			}
 			if (!returnType.isKind(result)) {
-				throw new EolRuntimeException(name + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass());
+				throw new EolRuntimeException(name + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass().getCanonicalName());
 			}
 		}
 	}
