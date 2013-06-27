@@ -16,11 +16,11 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public interface ISearchableModel {
 	
 	public Collection<?> find(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException;
 	
+	public Object findOne(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException;
+
 }
