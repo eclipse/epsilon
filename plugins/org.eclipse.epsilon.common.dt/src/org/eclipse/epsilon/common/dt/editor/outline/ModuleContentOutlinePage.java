@@ -21,6 +21,8 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -35,25 +37,22 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 	protected IDocumentProvider documentProvider;
 	protected IModule module;
 	protected ITextEditor editor;
-	protected ModuleElementLabelProvider labelProvider;
-	protected ModuleContentOutlinePage thiz;
+	protected ILabelProvider labelProvider;
 	protected Action linkWithEditorAction;
 	
 	public ModuleContentOutlinePage(IDocumentProvider documentProvider,
-			ITextEditor editor, ModuleElementLabelProvider labelProvider) {
+			ITextEditor editor, ILabelProvider labelProvider) {
 		super();
 		this.documentProvider = documentProvider;
 		this.editor = editor;
 		this.labelProvider = labelProvider;
 		addSelectionChangedListener(this);
-		thiz = this;
 	}
 
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-		//editor.addPropertyListener(new PropertyListener());
-		getTreeViewer().setContentProvider(new ModuleContentProvider());
+		getTreeViewer().setContentProvider(createContentProvider());
 		getTreeViewer().setLabelProvider(labelProvider);
 		
 		IToolBarManager toolbarManager = getSite().getActionBars().getToolBarManager();
@@ -63,7 +62,11 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
     	
 		//update();
 	}
-		
+	
+	protected IContentProvider createContentProvider() {
+		return new ModuleContentProvider();
+	}
+	
 	public boolean isReady() {
 		return notDisplayed() || getTreeViewer()!=null;
 	}
@@ -71,62 +74,6 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 	private boolean notDisplayed() {
 		return getControl() == null || !getControl().isVisible();
 	}
-	
-	/*
-	public void update() {
-		
-		// Parse the module
-		//IDocument document = documentProvider.getDocument(editor
-		//		.getEditorInput());
-		
-		FileEditorInput fileInputEditor = (FileEditorInput) editor.getEditorInput();
-		IFile file = fileInputEditor.getFile();
-		
-		try {
-			module.reset();
-			//module.parse(document.get());
-			module.parse(new File(file.getLocation().toOSString()));
-		} catch (Exception e) {
-			// Ignore exception
-		}
-		
-		// Update the outline
-		getTreeViewer().setInput(module);
-		
-		// Update problem markers
-		// Delete all the old markers and add new
-		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-			for (ParseProblem problem : module.getParseProblems()) {
-				Map attr = new HashMap();
-				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
-				attr.put(IMarker.MESSAGE, problem.getReason());				
-				int markerSeverity;
-				if (problem.getSeverity() == ParseProblem.ERROR) {
-					markerSeverity = IMarker.SEVERITY_ERROR;
-				}
-				else {
-					markerSeverity = IMarker.SEVERITY_WARNING;
-				}
-				attr.put(IMarker.SEVERITY, markerSeverity);
-				MarkerUtilities.createMarker(file, attr, IMarker.PROBLEM);
-			}
-		} catch (CoreException e1) {
-			
-		}
-
-	}*/
-	/*
-	class PropertyListener implements IPropertyListener {
-
-		public void propertyChanged(Object source, int propId) {
-			if (propId == 257 && source == editor) {
-				if (editor.isDirty() == false) {
-					update();
-				}
-			}
-		}
-	}*/
 
 	public AST toAst(Object o) {
 		return (AST) o;
@@ -137,32 +84,29 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		
 		if (!linkWithEditorAction.isChecked()) return;
 		
-		ModuleElement element = (ModuleElement) (((IStructuredSelection) event
-				.getSelection()).getFirstElement());
-		
-		if (element == null || element.getAst() == null)
-			return;
-
-		AST firstConcreteChild = AstUtil
-				.getFirstConcreteChild(element.getAst());
-		
 		try {
-			EclipseUtil.openEditorAt(firstConcreteChild.getFile(), firstConcreteChild.getLine(), firstConcreteChild.getColumn(), true);
+			EditorSelection editorSelection = getEditorSelection(((IStructuredSelection) event
+					.getSelection()).getFirstElement());
+			
+			EclipseUtil.openEditorAt(editorSelection.getFile(), editorSelection.getLine(), 
+					editorSelection.getColumn(), true);
 		}
 		catch (Exception ex) {
 			//ex.printStackTrace();
 		}
-		/*
-		try {
-			int offset = (editor.getDocumentProvider().getDocument(
-					editor.getEditorInput()).getLineOffset(
-					firstConcreteChild.getLine() - 1) + firstConcreteChild
-					.getColumn()) - 1;
-			editor.setHighlightRange(offset, 0, true);
-		} catch (Throwable t) {
-			// Ignore
-		}*/
+	}
+	
+	protected EditorSelection getEditorSelection(Object selection) {
+		
+		ModuleElement element = (ModuleElement) (selection);
+		
+		if (element == null || element.getAst() == null)
+			return null;
 
+		AST firstConcreteChild = AstUtil
+				.getFirstConcreteChild(element.getAst());
+		
+		return new EditorSelection(firstConcreteChild.getFile(), firstConcreteChild.getLine(), firstConcreteChild.getColumn());
 	}
 
 	public IModule getModule() {
@@ -183,7 +127,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 			this.setImageDescriptor(EpsilonCommonsPlugin.getImageDescriptor("icons/alphabeticalSorter.gif"));
 			this.setDescription("Sorts the contents of the view alphabetically");
 			alphabeticalSorter = new AlphabeticalSorter();
-			treeViewer = (TreeViewer) ReflectionUtil.getFieldValue(thiz,"treeViewer");
+			treeViewer = (TreeViewer) ReflectionUtil.getFieldValue(ModuleContentOutlinePage.this ,"treeViewer");
 		}
 		
 		@Override
@@ -212,10 +156,12 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 				
 				public void run() {
 					if (getTreeViewer() != null)
-						getTreeViewer().setInput(module);				
+						getTreeViewer().setInput(transform(module));				
 				}
 			});
 		}
 	}
+	
+	public Object transform(IModule module) { return module; }
 	
 }
