@@ -12,6 +12,7 @@ package org.eclipse.epsilon.common.dt.editor;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,6 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.common.util.ListBuilder;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -157,12 +157,11 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	public List<String> getAssertions(){
-		return new ListBuilder<String>().build(
-				"assert", "assertError");
+		return Arrays.asList("assert", "assertError");
 	}
 	
 	public List<String> getTypes(){
-		return new ListBuilder<String>().build(
+		return Arrays.asList(
 			"String", "Boolean", "Integer", "Real",
 			"Any", "Map", "Collection", "Bag", "Sequence",
 			"Set", "OrderedSet", "Native", "List");

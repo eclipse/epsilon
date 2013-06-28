@@ -44,8 +44,7 @@ public class EolEditor extends AbstractModuleEditor {
 		ArrayList<String> keywords = new ArrayList<String>();
 
 		keywords.add("import");
-		//keywords.add("input");
-		//keywords.add("output");
+		keywords.add("driver");
 		keywords.add("if");
 		keywords.add("switch");
 		keywords.add("case");

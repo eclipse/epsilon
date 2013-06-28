@@ -18,17 +18,6 @@ import java.util.List;
 
 public class ArrayUtil<E> {
 	
-	public static void main(String[] args) {
-		String[] result = new ArrayUtil<String>().toArray(
-			new ListBuilder<String>().build("foo"), String.class);
-		System.err.println(result);
-		
-		ArrayUtil<String> ac = new ArrayUtil<String>();
-		
-		System.err.println(ac.toList(null));
-		
-	}
-	
 	public E[] toArray(Collection<E> c, Class<?> arrayType) {
 		if (c == null) return null;
 		

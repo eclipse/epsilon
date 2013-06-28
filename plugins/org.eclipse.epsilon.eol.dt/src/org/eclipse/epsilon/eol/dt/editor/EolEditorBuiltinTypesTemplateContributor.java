@@ -18,7 +18,6 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.util.ListBuilder;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Image;
@@ -32,7 +31,7 @@ public class EolEditorBuiltinTypesTemplateContributor implements IAbstractModule
 	
 	public List<Template> getTemplates() {
 		
-		if (editor == null) return new ListBuilder<Template>().build();
+		if (editor == null) return new ArrayList<Template>();
 		
 		if (templates == null) {
 			templates = new ArrayList<Template>();
