@@ -54,6 +54,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		super.createControl(parent);
 		getTreeViewer().setContentProvider(createContentProvider());
 		getTreeViewer().setLabelProvider(labelProvider);
+		getSite().setSelectionProvider(getTreeViewer());
 		
 		IToolBarManager toolbarManager = getSite().getActionBars().getToolBarManager();
     	toolbarManager.add(new AlphabeticallySortAction());
@@ -156,12 +157,12 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 				
 				public void run() {
 					if (getTreeViewer() != null)
-						getTreeViewer().setInput(transform(module));				
+						getTreeViewer().setInput(getOutlineRoot(module));				
 				}
 			});
 		}
 	}
 	
-	public Object transform(IModule module) { return module; }
+	public Object getOutlineRoot(IModule module) { return module; }
 	
 }

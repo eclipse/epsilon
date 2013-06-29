@@ -71,6 +71,12 @@ public class EclipseUtil {
 		}
 	}
 
+	public static void openEditorAt(File file, int line, int column, int length, boolean highlightLine) {
+		if (file == null) return;
+		IFile iFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
+		openEditorAt(iFile, line, column, length, highlightLine);
+	}
+	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
 		if (file == null) return;
 		IFile iFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
@@ -78,6 +84,10 @@ public class EclipseUtil {
 	}
 	
 	public static void openEditorAt(final IFile file, final int line, final int column, final boolean highlightLine) {
+		openEditorAt(file, line, column, 0, highlightLine);
+	}
+	
+	public static void openEditorAt(final IFile file, final int line, final int column, final int length, final boolean highlightLine) {
 		if (file == null) return;
 		
 		final FileEditorInput fileinput=new FileEditorInput(file);
@@ -96,7 +106,7 @@ public class EclipseUtil {
 						editor.selectAndReveal(doc.getLineOffset(realLine - 1),doc.getLineLength(realLine - 1) - 1);
 					}
 					else {
-						editor.selectAndReveal(doc.getLineOffset(realLine - 1) + column - 1,0);
+						editor.selectAndReveal(doc.getLineOffset(realLine - 1) + column, length);
 					}
 				}
 				catch (Exception ex) {
