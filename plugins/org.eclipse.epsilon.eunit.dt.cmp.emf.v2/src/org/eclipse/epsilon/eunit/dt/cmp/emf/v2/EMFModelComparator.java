@@ -21,9 +21,9 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.ide.EMFCompareIDE;
-import org.eclipse.emf.compare.ide.EMFCompareIDE.Builder;
-import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.IMatchEngine;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -58,8 +58,11 @@ public class EMFModelComparator implements IModelComparator {
 		final ResourceSet myResourceSet = cloneToTmpFiles(emfM1.getResource().getResourceSet());
 		final ResourceSet otherResourceSet = cloneToTmpFiles(emfM2.getResource().getResourceSet());
 		
-		final Builder emfCompareBuilder = EMFCompareIDE.builder();
-		emfCompareBuilder.setMatchEngine(DefaultMatchEngine.create(UseIdentifiers.NEVER));
+		final EMFCompare.Builder emfCompareBuilder = EMFCompare.builder();
+		final IMatchEngine.Factory.Registry registry = new MatchEngineFactoryRegistryImpl();
+		registry.add(new MatchEngineFactoryImpl(UseIdentifiers.NEVER));
+		emfCompareBuilder.setMatchEngineFactoryRegistry(registry);
+
 		final EMFCompare emfCompare = emfCompareBuilder.build();
 		final IComparisonScope scope = EMFCompare.createDefaultScope(myResourceSet, otherResourceSet);
 		final Comparison cmp = emfCompare.compare(scope);
@@ -140,5 +143,13 @@ public class EMFModelComparator implements IModelComparator {
 		}
 
 		return newResourceSet;
+	}
+
+	@Override
+	public void configure(Map<String, Object> options) {
+		// no options for now
+		if (options != null && !options.isEmpty()) {
+			throw new IllegalArgumentException("No options are available for now");
+		}
 	}	
 }
