@@ -220,15 +220,17 @@ litigation.
    </url>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eunit.engine"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.emf.compare.diff"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
+      <import plugin="org.eclipse.epsilon.emc.emf"/>
+      <import plugin="org.eclipse.epsilon.eunit.engine"/>
       <import plugin="org.eclipse.epsilon.eunit.dt"/>
       <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.emf.compare.ui"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.compare.match"/>
+      <import plugin="org.eclipse.emf.compare"/>
+      <import plugin="org.eclipse.emf.compare.ide"/>
+      <import plugin="org.eclipse.emf.compare" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.edit" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ide.ui" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui"/>
    </requires>
 
    <plugin
