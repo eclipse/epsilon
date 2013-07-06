@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.eunit.dt.emf.feature"
-      label="EMF Model Comparison for EUnit (EMF Compare 1.x / Juno and before)"
+      label="EMF Model Comparison for EUnit (EMF Compare 3.x / Kepler and after)"
       version="1.0.0.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
-      This feature adds the modules required by EUnit to compare EMF-based models using EMF Compare 1.x. It is compatible with Eclipse Juno and any other previous releases with EMF Compare 1.x.
+      This feature adds the modules required by EUnit to compare EMF-based
+models using EMF Compare 3.x. It is compatible with Eclipse Kepler
+and any other subsequent releases with EMF Compare 3.x.
    </description>
 
    <copyright>
