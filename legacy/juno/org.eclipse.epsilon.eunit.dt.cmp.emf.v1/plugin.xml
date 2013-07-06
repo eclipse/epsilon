@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.epsilon.eunit.engine.comparator">
       <modelComparator
-            class="org.eclipse.epsilon.eunit.dt.cmp.emf.v2.EMFModelComparator">
+            class="org.eclipse.epsilon.eunit.dt.cmp.emf.EMFModelComparator">
       </modelComparator>
    </extension>
 

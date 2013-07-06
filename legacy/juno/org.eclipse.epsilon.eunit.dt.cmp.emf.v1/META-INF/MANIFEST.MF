@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EUnit EMF Model Comparator (EMF Compare 1.x)
+Bundle-SymbolicName: org.eclipse.epsilon.eunit.dt.cmp.emf.v1;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.epsilon.eunit.engine,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.emf.compare.diff,
+ org.eclipse.emf.compare.match,
+ org.eclipse.epsilon.common.dt
+Export-Package: org.eclipse.epsilon.eunit.dt.cmp.emf
