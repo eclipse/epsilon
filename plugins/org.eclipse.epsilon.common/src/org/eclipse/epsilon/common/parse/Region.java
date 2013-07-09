@@ -5,6 +5,13 @@ public class Region {
 	protected Position start;
 	protected Position end;
 	
+	public Region() {}
+	
+	public Region(int startLine, int startColumn, int endLine, int endColumn) {
+		this.start = new Position(startLine, startColumn);
+		this.end = new Position(endLine, endColumn);
+	}
+	
 	public Position getStart() {
 		return start;
 	}
