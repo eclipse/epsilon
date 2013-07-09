@@ -37,7 +37,7 @@
  ******************************************************************************/
 grammar Flock;
 
-options {backtrack=true; output=AST; ASTLabelType=CommonTree; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
+options {backtrack=true; output=AST; ASTLabelType='org.eclipse.epsilon.common.parse.AST'; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
 import EolLexerRules, EolParserRules;
 
@@ -111,46 +111,50 @@ retyping
 	:	retyping_package | retyping_classifier;
 
 retyping_package
-	: 'retype' 'package' originalPackage=NAME 'to' migratedPackage=NAME guard?
-    -> 
-    ^(RETYPEPACKAGE $originalPackage $migratedPackage guard?);
+	: rt='retype'^ 'package'! originalPackage=NAME 'to'! migratedPackage=NAME guard?
+    {$rt.setType(RETYPEPACKAGE);}
+    ;
  
 retyping_classifier
-	: 'retype' originalType=packagedType 'to' migratedType=packagedType guard?
-    -> 
-    ^(RETYPE $originalType $migratedType guard?);
+	: rt='retype'^ originalType=packagedType 'to'! migratedType=packagedType guard?
+    {$rt.setType(RETYPE);}
+    ;
 
 deletion
 	:	deletion_package | deletion_classifier;
 
 deletion_package
-  : 'delete' 'package' pkg=NAME guard?
- 	->
-    ^(DELETEPACKAGE $pkg guard?);
+  : del='delete'^ 'package'! pkg=NAME guard?
+  	{$del.setType(DELETEPACKAGE);}
+    ;
 
 deletion_classifier
-  : 'delete' type=packagedType guard?
- 	->
-    ^(DELETE $type guard?);
+  : del='delete'^ type=packagedType guard?
+  	{$del.setType(DELETE);}
+    ;
 
 
 migrateRule
   : fullRule | ignoringRule;
   
 fullRule
-  : 'migrate' originalType=packagedType ignoring? guard? '{' body=block '}' 
-    -> 
-    ^(MIGRATE $originalType ignoring? guard? $body);
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
+  : mig='migrate'^ originalType=packagedType ignoring? guard? ob='{' body=block cb='}'
+    {$mig.setType(MIGRATE);}
+    ;
     
 ignoringRule
-  : 'migrate' originalType=packagedType ignoring guard? 
-    -> 
-    ^(MIGRATE $originalType ignoring guard?);
+  : mig='migrate'^ originalType=packagedType ignoring guard?
+    {$mig.setType(MIGRATE);}
+    ;
 
 ignoring
-  : 'ignoring' propertyList
-  ->
-  ^(IGNORING propertyList);
+  : ign='ignoring'^ propertyList
+  	{$ign.setType(IGNORING);}
+  ;
   
 propertyList
   : NAME (',' NAME)*
@@ -158,6 +162,6 @@ propertyList
   NAME*;
 
 guard
-  : 'when' expressionOrStatementBlock
-    ->
-    ^(GUARD expressionOrStatementBlock);
+  : w='when'^ expressionOrStatementBlock
+    {$w.setType(GUARD);}
+    ;

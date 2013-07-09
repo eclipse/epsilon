@@ -43,9 +43,13 @@ tokens {
 }
 
 mergeRule
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	:	r='rule'^ rule=NAME 'merge'! formalParameter 'with'! formalParameter
 	'into'! formalParameterList
-	extendz? '{'! guard? block '}'!
+	extendz? ob='{'! guard? block cb='}'!
 	{$r.setType(MERGE);}
 	;
 

@@ -49,9 +49,13 @@ tokens {
 	MESSAGE;
 }
 
-context 
+context
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	: 
-	c='context'^ typeName '{'! guard? contextContent* '}'!
+	c='context'^ typeName ob='{'! guard? contextContent* cb='}'!
 	{$c.setType(CONTEXT);}
 	;
 	
@@ -60,14 +64,24 @@ contextContent
 	;
 
 constraint
+	@after {
+		$tree.getExtraTokens().add($ct);
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	: 
-	'constraint'! c=NAME^ '{'! guard? check message? (fix)* '}'!
+	ct='constraint'! c=NAME^ ob='{'! guard? check message? (fix)* cb='}'!
 	{$c.setType(CONSTRAINT);}
 	;
 
 critique
+	@after {
+		$tree.getExtraTokens().add($cr);
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	: 
-	'critique'! c=NAME^ '{'! guard? check message? (fix)* '}'!
+	cr='critique'! c=NAME^ ob='{'! guard? check message? (fix)* cb='}'!
 	{$c.setType(CRITIQUE);}
 	;
 	
@@ -82,7 +96,11 @@ message
 	;
 
 fix 
-	:	f='fix'^ '{'! guard? title fixBody '}'!
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
+	:	f='fix'^ ob='{'! guard? title fixBody cb='}'!
 	{$f.setType(FIX);}
 	;
 

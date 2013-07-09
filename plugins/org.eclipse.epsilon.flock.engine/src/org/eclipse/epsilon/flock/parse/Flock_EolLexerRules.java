@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2013-05-09 11:20:11
+// $ANTLR 3.1b1 EolLexerRules.g 2013-07-09 11:28:23
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -48,8 +48,8 @@ import java.util.HashMap;
 public class Flock_EolLexerRules extends Lexer {
     public static final int RETYPE=77;
     public static final int EXPONENT=6;
-    public static final int StatementBlock=29;
     public static final int WHILE=33;
+    public static final int StatementBlock=29;
     public static final int FLOCKMODULE=76;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
@@ -85,8 +85,8 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int T__152=152;
     public static final int T__96=96;
     public static final int MultiplicativeExpression=57;
-    public static final int FLOAT_TYPE_SUFFIX=7;
     public static final int T__95=95;
+    public static final int FLOAT_TYPE_SUFFIX=7;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__137=137;
@@ -132,9 +132,9 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int IGNORING=82;
     public static final int Annotation=23;
     public static final int T__130=130;
+    public static final int Letter=16;
     public static final int T__131=131;
     public static final int EscapeSequence=13;
-    public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
     public static final int T__133=133;

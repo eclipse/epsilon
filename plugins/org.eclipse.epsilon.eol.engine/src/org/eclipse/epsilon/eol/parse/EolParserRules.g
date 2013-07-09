@@ -106,68 +106,81 @@ operationDeclarationOrAnnotationBlock
 	;
 
 modelDeclaration
-	:	'model' NAME modelAlias? modelDriver? modelDeclarationParameters? ';'
-	-> ^(MODELDECLARATION NAME (modelAlias)? (modelDriver)? (modelDeclarationParameters)?)
-	;
-	
-modelNamespace
-	:   ':' NAME (',' NAME)*
-	-> ^(NAMESPACE NAME*)
+	:	m='model'^ NAME modelAlias? modelDriver? modelDeclarationParameters? ';'!
+	{$m.setType(MODELDECLARATION);}
 	;
 
 modelAlias
-	:  'alias' NAME (',' NAME)*
-	-> ^(ALIAS NAME*)
+	:  a='alias'^ NAME (','! NAME)*
+	{$a.setType(ALIAS);}
 	;
 
 modelDriver
-	:  'driver' NAME
-	-> ^(DRIVER NAME)
+	:  d='driver'^ NAME
+	{$d.setType(DRIVER);}
 	;
 
 modelDeclarationParameters
-	: '{' modelDeclarationParameter? (',' modelDeclarationParameter)* '}'
-	-> ^(MODELDECLARATIONPARAMETERS (modelDeclarationParameter)*)
+	: s='{'^ modelDeclarationParameter? (','! modelDeclarationParameter)* '}'!
+	{$s.setType(MODELDECLARATIONPARAMETERS);}
 	;
 	
 modelDeclarationParameter
-	: NAME '=' STRING
-	-> ^(MODELDECLARATIONPARAMETER NAME STRING)
+	: NAME e='='^ STRING
+	{$e.setType(MODELDECLARATIONPARAMETER);}
 	;
 	
 operationDeclaration
-	//:	'operation' (ctx=typeName {$ctx.setType(TYPE);})? operationName=NAME '(' formalParameterList ')' (':' returnType=typeName {$returnType.setType(TYPE);})? statementBlock
-	:	('operation'|'function') (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME '(' formalParameterList? ')' (':' returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
-		-> ^(HELPERMETHOD $ctx? $operationName formalParameterList? $returnType? statementBlock)
+	@after {
+		$tree.getExtraTokens().add($cp);
+		$tree.getToken().setType(HELPERMETHOD);
+	}
+	:	('operation'|'function')^ (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME op='('! formalParameterList? cp=')'! (':'! returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
 	;
-
+	
 importStatement
-	:	i='import'^ STRING ';'!
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	i='import'^ STRING sem=';'!
 	{$i.setType(IMPORT);}
 	;
 
 block
+	@after{
+		$tree.setImaginary(true);
+	}
 	:	statement*
 	-> ^(BLOCK statement*)
 	;
 
 statementBlock
-	:	'{'! block '}'!
+	@after{
+		$tree.getExtraTokens().add($s); 
+		$tree.getExtraTokens().add($e);
+	}
+	:	s='{'! block e='}'!
 	;
 
 formalParameter
-	:	NAME (':' pt=typeName {setTokenType(pt,TYPE);})? 
+	@after {
+		$tree.setImaginary(true);
+	}
+	:	NAME (':' pt=typeName {setTokenType(pt,TYPE);})?
 		-> ^(FORMAL NAME typeName?)
 	;
 
 formalParameterList
+	@after {
+		$tree.setImaginary(true);
+	}
 	:	formalParameter (',' formalParameter)*
 	-> ^(PARAMLIST formalParameter*)
 	;
 
 executableAnnotation
-	: '$' x=. logicalExpression
-	-> ^(EXECUTABLEANNOTATION $x logicalExpression)
+	: d='$'^ x=. logicalExpression
+	{$d.setType(EXECUTABLEANNOTATION);}
 	;
 
 annotation
@@ -175,26 +188,30 @@ annotation
 	;
 
 annotationBlock
+	@after {
+		$tree.setImaginary(true);
+	}
 	: annotation+
 	-> ^(ANNOTATIONBLOCK annotation+)
 	;
 	
 typeName
+	@after {
+		$tree.getToken().setType(TYPE);
+	}
 	: pathName | nativeType | collectionType
-	{if (root_0.getToken() != null) root_0.getToken().setType(TYPE);}
 	;
 
 pathName
-	:	(metamodel=NAME! '!'!)?
-		head=packagedType
-		('#'! label=NAME!)?
+	:	(metamodel=NAME '!'!)?
+		head=packagedType^
+		('#'! label=NAME)?
 	
 		{
 			if ($metamodel != null) {
-				$head.tree.token.setText(metamodel.getText() + "!" + $head.tree.token.getText());
-				//System.err.println("Metamodel is not null");
+				$head.tree.token.setText(metamodel.getText() + "!" + $head.tree.token.getText());		
 			}
-				
+			
 			if (label != null) {
 				$head.tree.token.setText($head.tree.token.getText() + "#" + label.getText());
 				$head.tree.token.setType(ENUMERATION_VALUE);
@@ -203,21 +220,27 @@ pathName
 	;
 
 packagedType
-	: head=NAME ('::'! field=NAME! { $head.setText($head.getText() + "::" + $field.getText()); })*
+	: head=NAME ('::'! field=NAME! 
+			{ 
+				$head.setText($head.getText() + "::" + $field.getText()); 
+				((CommonToken) head).setStopIndex(((CommonToken)field).getStopIndex());
+			}
+		)*
 	;
 
 nativeType
-	:	'Native'^ '('! STRING ')'!
-	{if (root_0.getToken() != null) root_0.getToken().setType(TYPE);}
-	
+	:	n='Native'^ '('! STRING ')'!
+	{$n.setType(TYPE);}
 	;
 
 collectionType
+	@after{
+		$tree.getExtraTokens().add($op); 
+		$tree.getExtraTokens().add($cp);
+		$tree.getToken().setType(TYPE);
+	}
 	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map')^
-		('('! tn=typeName {setTokenType(tn,TYPE);}')'!)?
-		{if (root_0.getToken() != null) root_0.getToken().setType(TYPE);}
-	
-	//->	^(CollectionType typeName?)
+		(op='('! tn=typeName {setTokenType(tn,TYPE);} cp=')'!)?
 	;
 
 statement 
@@ -225,7 +248,7 @@ statement
 	;
 
 statementA
-	:assignmentStatement | expressionStatement | forStatement
+	: assignmentStatement | expressionStatement | forStatement
 		| ifStatement | whileStatement | switchStatement | returnStatement | breakStatement
 	;
 	
@@ -243,135 +266,152 @@ expressionOrStatementBlock
 	;
 
 forStatement
-	:	'for' '(' formalParameter 'in' logicalExpression ')' statementOrStatementBlock
-	-> ^(FOR formalParameter logicalExpression statementOrStatementBlock)
+	:	f='for'^ '('! formalParameter 'in'! logicalExpression ')'! statementOrStatementBlock
+	{$f.setType(FOR);}
 	;
 
 ifStatement
-	:	'if' '(' logicalExpression ')' statementOrStatementBlock elseStatement?
-	-> ^(IF logicalExpression statementOrStatementBlock elseStatement?)
+	:	i='if'^ '('! logicalExpression ')'! statementOrStatementBlock elseStatement?
+	{$i.setType(IF);}	
 	;
 	
 switchStatement
-	:	'switch' '(' logicalExpression ')' '{' caseStatement* defaultStatement? '}'
-	-> ^(SWITCH logicalExpression caseStatement* defaultStatement?)
+	:	s='switch'^ '('! logicalExpression ')'! '{'! caseStatement* defaultStatement? '}'!
+	{$s.setType(SWITCH);}	
 	;
 	
 caseStatement
-	:	'case' logicalExpression ':' block
-	-> ^(CASE logicalExpression block)
+	:	c='case'^ logicalExpression ':'! block
+	{$c.setType(CASE);}	
 	;
 	
 defaultStatement
-	:	'default' ':' block
-	-> ^(DEFAULT block)
+	:	d='default'^ ':'! block
+	{$d.setType(DEFAULT);}	
 	;
 	
 elseStatement
-	:	'else'! statementOrStatementBlock
-	//-> ^(ELSE statementOrStatementBlock)
+	@after {
+		$tree.getExtraTokens().add($e);
+	}
+	:	e='else'! statementOrStatementBlock
 	;
 
 whileStatement
-	:	'while' '(' logicalExpression ')' statementOrStatementBlock
-	-> ^(WHILE logicalExpression statementOrStatementBlock)
+	:	w='while'^ '('! logicalExpression ')'! statementOrStatementBlock
+	{$w.setType(WHILE);}
 	;
 
 returnStatement
-	:	'return' logicalExpression? ';'
-	-> ^(RETURN logicalExpression?)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	r='return'^ logicalExpression? sem=';'!
+	{$r.setType(RETURN);}
 	;
 
 throwStatement
-	:	'throw' logicalExpression? ';'
-	-> ^(THROW logicalExpression?)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	t='throw'^ logicalExpression? sem=';'!
+	{$t.setType(THROW);}
 	;
 
 deleteStatement
-	:	'delete' logicalExpression? ';'
-	-> ^(DELETE logicalExpression?)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	d='delete'^ logicalExpression? sem=';'!
+	{$d.setType(DELETE);}
 	;
 			
 breakStatement
-	:	'break' ';'
-	-> ^(BREAK)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	b='break'^ sem=';'!
+	{$b.setType(BREAK);}
 	;
 
 breakAllStatement
-	:	'breakAll' ';'
-	-> ^(BREAKALL)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	b='breakAll'^ sem=';'!
+	{$b.setType(BREAKALL);}
 	;
 
 continueStatement
-	:	'continue' ';'
-	-> ^(CONTINUE)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	c='continue'^ sem=';'!
+	{$c.setType(CONTINUE);}
 	;
 
 abortStatement
-	:	'abort' ';'
-	-> ^(ABORT)
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	a='abort'^ sem=';'!
+	{$a.setType(ABORT);}
 	;
 
 transactionStatement
-	:	'transaction' (NAME (',' NAME)*)? statementOrStatementBlock
-	-> ^(TRANSACTION NAME* statementOrStatementBlock)
+	:	t='transaction'^ (NAME (',' NAME)*)? statementOrStatementBlock
+	{$t.setType(TRANSACTION);}
 	;
 
-
 assignmentStatement
-	@after{
-		
+	@after {
+		$tree.getExtraTokens().add($sem);
 	}
-	:	logicalExpression (normal=':='^ {normal.setType(ASSIGNMENT);}|special='::='^ {special.setType(SPECIAL_ASSIGNMENT);}) logicalExpression ';'!
+	:	logicalExpression (normal=':='^ {normal.setType(ASSIGNMENT);}|special='::='^ {special.setType(SPECIAL_ASSIGNMENT);}) logicalExpression sem=';'!
 		
 	;
 
 expressionStatement
-	:	(postfixExpression '='^ logicalExpression {if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);} | logicalExpression) ';'!
+	@after {
+		$tree.getExtraTokens().add($sem);
+	}
+	:	(postfixExpression op='='^ logicalExpression {$op.setType(OPERATOR);} | logicalExpression) sem=';'!
 	;
 
-
 logicalExpression
-	:	relationalExpression (('or'|'and'|'xor'|'implies')^ relationalExpression
-		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
+	:	relationalExpression ((op='or'^|op='and'^|op='xor'^|op='implies'^) relationalExpression
+		{$op.setType(OPERATOR);})*
 	;
 
 relationalExpression
-	:	additiveExpression (('=='^ relationalExpression | '='^ relationalExpression |
-	                      ('>'|'<'|'>='|'<='|'<>')^ additiveExpression)
-		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
+	:	additiveExpression ((op='=='^ relationalExpression | op='='^ relationalExpression |
+	                      (op='>'^|op='<'^|op='>='^|op='<='^|op='<>'^) additiveExpression)
+		{$op.setType(OPERATOR);})*
 	;
 
 additiveExpression
-	:	multiplicativeExpression (('+'|'-')^ multiplicativeExpression
-		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
-		//{$c.setType(Operator);})*
+	:	multiplicativeExpression ((op='+'^|op='-'^) multiplicativeExpression
+		{$op.setType(OPERATOR);})*
 	;
 	
 multiplicativeExpression
-	:	unaryExpression (('*'|'/')^ unaryExpression
-		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);})*
+	:	unaryExpression ((op='*'^|op='/'^) unaryExpression
+		{$op.setType(OPERATOR);})*
 	;
 
 unaryExpression
-	:	(('not'|'-')^)? postfixExpression
-		{if (root_0.getToken() != null) root_0.getToken().setType(OPERATOR);}
+	:	((op='not'^|op='-'^) {$op.setType(OPERATOR);})? postfixExpression
 	;
 	
 postfixExpression
 	:	itemSelectorExpression ((POINT|ARROW)^ fc=featureCall
-		{setTokenType(fc,FEATURECALL);} ('['^ logicalExpression ']'! {if (root_0.getToken() != null) root_0.getToken().setType(ITEMSELECTOR);})*
-		//{
-		//	if (root_0.getToken() != null) {
-		//		root_0.getToken().setType(POINT);
-		//	}
-		//}
+		{setTokenType(fc,FEATURECALL);} (is='['^ logicalExpression ']'! {$is.setType(ITEMSELECTOR);})*
 		)*
 	;
 
 itemSelectorExpression 
-	: primitiveExpression ('['^ primitiveExpression ']'!
-		{if (root_0.getToken() != null) root_0.getToken().setType(ITEMSELECTOR);})*
+	: primitiveExpression (is='['^ primitiveExpression ']'!
+		{$is.setType(ITEMSELECTOR);})*
 	;
 	
 featureCall
@@ -379,82 +419,106 @@ featureCall
 	;
 
 simpleFeatureCall
-	: 	NAME^ parameterList?
-	{if (root_0.getToken() != null) root_0.getToken().setType(FEATURECALL);}
+	: 	n=NAME^ parameterList?
+	{$n.setType(FEATURECALL);}
 	;
 
 parameterList
-	:	'(' (logicalExpression (',' logicalExpression)*)? ')'
+	@after {
+		$tree.setImaginary(true);
+		$tree.getExtraTokens().add($op);
+		$tree.getExtraTokens().add($cp);
+	}
+	:	op='(' (logicalExpression (',' logicalExpression)*)? cp=')'
 		-> ^(PARAMETERS logicalExpression*)
 	;
 
 declarativeFeatureCall
-	:	NAME^ '('! formalParameterList '|'! logicalExpression (','! logicalExpression)* ')'!
+	@after {
+		$tree.getExtraTokens().add($op);
+		$tree.getExtraTokens().add($cp);
+	}
+	:	NAME^ op='('! formalParameterList '|'! logicalExpression (','! logicalExpression)* cp=')'!
 	;
 
 newExpression
-	:	'new'^ tn=typeName {setTokenType(tn,TYPE);} parameterList?
-	{if (root_0.getToken() != null) root_0.getToken().setType(NEW);}
-	
+	:	n='new'^ tn=typeName {setTokenType(tn,TYPE);} parameterList?
+	{$n.setType(NEW);}
 	;
-
 
 variableDeclarationExpression
 	@after{
 		String txt;
 		if (n != null) {txt = "new";}
 		else { txt = "var";}
-		retval.tree.getToken().setText(txt);
+		$tree.getToken().setText(txt);
+		$tree.getToken().setType(VAR);
 	}
-	//:	'var' NAME (':' 'new'? t=typeName {setTokenType(t, TYPE);})?
-	:	'var' NAME (':' n='new'? t=typeName {setTokenType(t, TYPE);} parameterList?)? 
-	->	^(VAR NAME typeName? parameterList?)
+	:	v='var'^ NAME (':'! n='new'!? t=typeName {setTokenType(t, TYPE);} parameterList?)? 
 	;
 
 literalSequentialCollection
-	:	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet')^ '{'!  expressionListOrRange? '}'!
-	{if (root_0.getToken() != null) root_0.getToken().setType(COLLECTION);}
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	}
+	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|l='Set'^|l='OrderedSet'^) ob='{'!  expressionListOrRange? cb='}'!
+	{$l.setType(COLLECTION);}
 	;
 
 expressionRange
-	: logicalExpression '..' logicalExpression
-	-> ^(EXPRRANGE logicalExpression+)
+	: logicalExpression exp='..'^ logicalExpression
+	{$exp.setType(EXPRRANGE);}
 	; 
 
 expressionList
+	@after {
+		$tree.setImaginary(true);
+	}
 	: logicalExpression (',' logicalExpression)*
 	-> ^(EXPRLIST logicalExpression+)
 	; 
 
 expressionListOrRange
 	:	expressionRange | expressionList
-	//: logicalExpression
-	//'..' logicalExpression {if (root_0.getToken() != null) root_0.getToken().setType(EXPRRANGE);}
-	//|
-	//(','! logicalExpression)+ {if (root_0.getToken() != null) root_0.getToken().setType(EXPRLIST);}
 	;
 
 literalMapCollection
-	:	'Map'^ '{'! keyvalExpressionList? '}'!
-	{if (root_0.getToken() != null) root_0.getToken().setType(MAP);}
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	}
+	:	m='Map'^ ob='{'! keyvalExpressionList? cb='}'!
+	{$m.setType(MAP);}
 	;
 
 keyvalExpressionList
+	@after {
+		$tree.setImaginary(true);
+	}
 	:	keyvalExpression (',' keyvalExpression)*
 	-> ^(KEYVALLIST keyvalExpression+)
 	;
 
 keyvalExpression
 	// The first child is an additive expression, to avoid ambiguity in things like "1 = 2 = 3"
-	:	additiveExpression '=' logicalExpression
-	-> ^(KEYVAL additiveExpression logicalExpression)
+	:	additiveExpression eq='='^ logicalExpression
+	{$eq.setType(KEYVAL);}
 	;
 primitiveExpression 
 	:	literalSequentialCollection | literalMapCollection | literal | featureCall | pathName | nativeType
-		| collectionType  | '('! logicalExpression ')'! 
+		| collectionType  | logicalExpressionInBrackets
 		| newExpression | variableDeclarationExpression
 	;
 
+logicalExpressionInBrackets
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	}
+	:	ob='('! logicalExpression cb=')'!
+	;
+	
 literal
 	:	STRING | INT | FLOAT | BOOLEAN
 	;

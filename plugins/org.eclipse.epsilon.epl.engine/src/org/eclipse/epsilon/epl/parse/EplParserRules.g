@@ -62,8 +62,13 @@ public void setTokenType(ParserRuleReturnScope tree, int type) {
 }
 
 pattern
+	@after {
+		$tree.getExtraTokens().add($pt);
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	: 
-	'pattern'! c=NAME^ role (','! role)* ('{'! (match | do_ | nomatch | onmatch)* '}'!)?
+	pt='pattern'! c=NAME^ role (','! role)* (ob='{'! (match | do_ | nomatch | onmatch)* cb='}'!)?
 	{$c.setType(PATTERN);}
 	;
 
@@ -75,7 +80,10 @@ role
 no : n='no' {$n.setType(NO);};
 
 cardinality
-	: c='['^ bound ('..'! bound)? ']'!
+	@after {
+		$tree.getExtraTokens().add($cb);
+	} 
+	: c='['^ bound ('..'! bound)? cb=']'!
 	{$c.setType(CARDINALITY);}
 	;
 

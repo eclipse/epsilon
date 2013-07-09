@@ -48,8 +48,12 @@ tokens {
 }
 
 generationRule
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	}
 	:	r='rule'^ rule=NAME ('transform'! formalParameter)?
-	'{'! (guard | target | template | parameters | pre | post | overwrite | protectRegions)* '}'!
+	ob='{'! (guard | target | template | parameters | pre | post | overwrite | protectRegions)* cb='}'!
 	{$r.setType(GENERATE);}
 	;
 

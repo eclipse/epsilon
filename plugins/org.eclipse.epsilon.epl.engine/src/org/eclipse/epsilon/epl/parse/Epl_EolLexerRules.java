@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.epl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2012-03-28 12:17:55
+// $ANTLR 3.1b1 EolLexerRules.g 2013-07-09 11:28:09
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -48,8 +48,8 @@ import java.util.HashMap;
 public class Epl_EolLexerRules extends Lexer {
     public static final int EXPONENT=6;
     public static final int T__159=159;
-    public static final int StatementBlock=29;
     public static final int WHILE=33;
+    public static final int StatementBlock=29;
     public static final int T__158=158;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
@@ -61,8 +61,8 @@ public class Epl_EolLexerRules extends Lexer {
     public static final int EOF=-1;
     public static final int T__168=168;
     public static final int T__165=165;
-    public static final int BREAK=38;
     public static final int T__166=166;
+    public static final int BREAK=38;
     public static final int T__163=163;
     public static final int T__164=164;
     public static final int T__161=161;

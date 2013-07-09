@@ -26,6 +26,7 @@ import javax.swing.tree.TreePath;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
 import org.eclipse.epsilon.common.util.StringUtil;
 
@@ -110,19 +111,23 @@ public class AstExplorer extends JFrame {
 				boolean arg6) {
 			JLabel label = (JLabel) super.getTreeCellRendererComponent(arg0, arg1, selected, expanded, leaf, row, arg6);
 
-			CommonTree ast = (CommonTree) arg1;
+			AST ast = (AST) arg1;
 			
 			label.setIcon(new ImageIcon(AstTreeCellRenderer.class
 					.getResource("node.gif")));
 
 			label.setText("<html>" + getText(ast) + " ("
 					+ resolver.getField(ast.getType()) + "-" + ast.getType()
-					+ ")" + "<font color='#C0C0C0'>" + " (Line:"
-					+ ast.getLine() + ",Col:" + ast.getCharPositionInLine() // +
-																			// ", Props: "
+					+ ")" + "<font color='#C0C0C0'>"
+					+ " (Line:" + ast.getLine() + ", Col:" + ast.getCharPositionInLine() // +
+					// ", Props: "
 					// + toString(((EolAst) ast).getProperties())
 					// + (ast instanceof FileAst ? ((FileAst)
 					// ast).getFile().getAbsolutePath() : "")
+					+ ", Region:" + ast.getRegion().getStart() + "->" + ast.getRegion().getEnd()
+					+ ", Imaginary:" + ast.isImaginary() 
+					+ ", Extra tokens:" + ast.getExtraTokens().toString()
+					+ ", Token type:" + ast.getToken().getClass().getSimpleName()
 					+ ")"
 					// + StringUtil.toString(ast.getNextSibling())
 					+ "</font>" + "</html>");

@@ -43,8 +43,12 @@ tokens {
 }
 	
 transformationRule
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	:	r='rule'^ rule=NAME 'transform'! formalParameter 'to'! formalParameterList
-	extendz? '{'! guard? block '}'!
+	extendz? ob='{'! guard? block cb='}'!
 	{$r.setType(TRANSFORM);}
 	;
 

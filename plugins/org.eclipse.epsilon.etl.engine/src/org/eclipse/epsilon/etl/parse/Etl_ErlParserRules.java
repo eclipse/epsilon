@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2013-04-27 16:08:11
+// $ANTLR 3.1b1 ErlParserRules.g 2013-07-09 11:27:35
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -227,7 +227,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
     public static class pre_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
@@ -237,26 +237,26 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Etl_ErlParserRules.pre_return retval = new Etl_ErlParserRules.pre_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token p=null;
         Token NAME1=null;
         Etl_EolParserRules.statementBlock_return statementBlock2 = null;
 
 
-        CommonTree p_tree=null;
-        CommonTree NAME1_tree=null;
+        org.eclipse.epsilon.common.parse.AST p_tree=null;
+        org.eclipse.epsilon.common.parse.AST NAME1_tree=null;
 
         try {
             // ErlParserRules.g:49:2: (p= 'pre' ( NAME )? statementBlock )
             // ErlParserRules.g:49:4: p= 'pre' ( NAME )? statementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             p=(Token)match(input,146,FOLLOW_146_in_pre50); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            p_tree = (CommonTree)adaptor.create(p);
-            root_0 = (CommonTree)adaptor.becomeRoot(p_tree, root_0);
+            p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
             }
             // ErlParserRules.g:49:13: ( NAME )?
             int alt1=2;
@@ -271,7 +271,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                     {
                     NAME1=(Token)match(input,NAME,FOLLOW_NAME_in_pre53); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    NAME1_tree = (CommonTree)adaptor.create(NAME1);
+                    NAME1_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME1);
                     adaptor.addChild(root_0, NAME1_tree);
                     }
 
@@ -296,14 +296,14 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -313,7 +313,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     // $ANTLR end pre
 
     public static class post_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
@@ -323,26 +323,26 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Etl_ErlParserRules.post_return retval = new Etl_ErlParserRules.post_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token p=null;
         Token NAME3=null;
         Etl_EolParserRules.statementBlock_return statementBlock4 = null;
 
 
-        CommonTree p_tree=null;
-        CommonTree NAME3_tree=null;
+        org.eclipse.epsilon.common.parse.AST p_tree=null;
+        org.eclipse.epsilon.common.parse.AST NAME3_tree=null;
 
         try {
             // ErlParserRules.g:54:2: (p= 'post' ( NAME )? statementBlock )
             // ErlParserRules.g:54:4: p= 'post' ( NAME )? statementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             p=(Token)match(input,147,FOLLOW_147_in_post72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            p_tree = (CommonTree)adaptor.create(p);
-            root_0 = (CommonTree)adaptor.becomeRoot(p_tree, root_0);
+            p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
             }
             // ErlParserRules.g:54:14: ( NAME )?
             int alt2=2;
@@ -357,7 +357,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                     {
                     NAME3=(Token)match(input,NAME,FOLLOW_NAME_in_post75); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    NAME3_tree = (CommonTree)adaptor.create(NAME3);
+                    NAME3_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME3);
                     adaptor.addChild(root_0, NAME3_tree);
                     }
 
@@ -382,14 +382,14 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -399,7 +399,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     // $ANTLR end post
 
     public static class guard_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
@@ -409,24 +409,24 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Etl_ErlParserRules.guard_return retval = new Etl_ErlParserRules.guard_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
         Etl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock5 = null;
 
 
-        CommonTree g_tree=null;
+        org.eclipse.epsilon.common.parse.AST g_tree=null;
 
         try {
             // ErlParserRules.g:59:2: (g= 'guard' expressionOrStatementBlock )
             // ErlParserRules.g:59:4: g= 'guard' expressionOrStatementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             g=(Token)match(input,148,FOLLOW_148_in_guard94); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            g_tree = (CommonTree)adaptor.create(g);
-            root_0 = (CommonTree)adaptor.becomeRoot(g_tree, root_0);
+            g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
             }
             pushFollow(FOLLOW_expressionOrStatementBlock_in_guard97);
             expressionOrStatementBlock5=gEtl.expressionOrStatementBlock();
@@ -444,14 +444,14 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -461,7 +461,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     // $ANTLR end guard
 
     public static class extendz_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
@@ -471,32 +471,32 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Etl_ErlParserRules.extendz_return retval = new Etl_ErlParserRules.extendz_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token e=null;
         Token NAME6=null;
         Token char_literal7=null;
         Token NAME8=null;
 
-        CommonTree e_tree=null;
-        CommonTree NAME6_tree=null;
-        CommonTree char_literal7_tree=null;
-        CommonTree NAME8_tree=null;
+        org.eclipse.epsilon.common.parse.AST e_tree=null;
+        org.eclipse.epsilon.common.parse.AST NAME6_tree=null;
+        org.eclipse.epsilon.common.parse.AST char_literal7_tree=null;
+        org.eclipse.epsilon.common.parse.AST NAME8_tree=null;
 
         try {
             // ErlParserRules.g:64:2: (e= 'extends' NAME ( ',' NAME )* )
             // ErlParserRules.g:64:4: e= 'extends' NAME ( ',' NAME )*
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             e=(Token)match(input,149,FOLLOW_149_in_extendz113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            e_tree = (CommonTree)adaptor.create(e);
-            root_0 = (CommonTree)adaptor.becomeRoot(e_tree, root_0);
+            e_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(e);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(e_tree, root_0);
             }
             NAME6=(Token)match(input,NAME,FOLLOW_NAME_in_extendz116); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            NAME6_tree = (CommonTree)adaptor.create(NAME6);
+            NAME6_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME6);
             adaptor.addChild(root_0, NAME6_tree);
             }
             // ErlParserRules.g:64:22: ( ',' NAME )*
@@ -517,7 +517,7 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	    char_literal7=(Token)match(input,85,FOLLOW_85_in_extendz119); if (state.failed) return retval;
             	    NAME8=(Token)match(input,NAME,FOLLOW_NAME_in_extendz122); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
-            	    NAME8_tree = (CommonTree)adaptor.create(NAME8);
+            	    NAME8_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME8);
             	    adaptor.addChild(root_0, NAME8_tree);
             	    }
 
@@ -539,14 +539,14 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -560,13 +560,13 @@ public class Etl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_146_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000001000000L});
-    public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000080000L,0x0000000001000000L});
+    public static final BitSet FOLLOW_146_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000080000L,0x0000000000800000L});
     public static final BitSet FOLLOW_statementBlock_in_pre56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_147_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000001000000L});
-    public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000080000L,0x0000000001000000L});
+    public static final BitSet FOLLOW_147_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000080000L,0x0000000000800000L});
     public static final BitSet FOLLOW_statementBlock_in_post78 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_148_in_guard94 = new BitSet(new long[]{0x0000000000080000L,0x0000000001100000L});
+    public static final BitSet FOLLOW_148_in_guard94 = new BitSet(new long[]{0x0000000000080000L,0x0000000040800000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_guard97 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_149_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000000200000L});

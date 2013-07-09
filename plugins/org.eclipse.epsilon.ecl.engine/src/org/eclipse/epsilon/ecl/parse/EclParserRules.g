@@ -45,8 +45,12 @@ tokens {
 }
 
 matchRule
+	@after {
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
 	:	r='rule'^ rule=NAME 'match'! formalParameter 'with'! formalParameter
-	extendz? '{'! guard? compareBlock? doBlock? '}'!
+	extendz? ob='{'! guard? compareBlock? doBlock? cb='}'!
 	{$r.setType(MATCH);}
 	;
 

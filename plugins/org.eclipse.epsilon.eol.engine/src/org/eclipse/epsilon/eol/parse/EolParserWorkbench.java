@@ -67,6 +67,7 @@ public class EolParserWorkbench {
 	
 	public void work() throws Exception {
 		
+		/*
 		ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(basePath));
 		EolLexer lexer = new EolLexer(input);
 		CommonTokenStream stream = new CommonTokenStream(lexer);
@@ -77,9 +78,19 @@ public class EolParserWorkbench {
 		Tree tree = parser.eolModule().tree;
 		for (ParseProblem problem : EpsilonParseProblemManager.INSTANCE.getParseProblems()) {
 			System.err.println(problem);
+		}*/
+		
+		EolModule module = new EolModule();
+		module.parse(new File(basePath));
+		
+		if (module.getParseProblems().size() > 0) {
+			for (ParseProblem pp : module.getParseProblems()) {
+				System.err.println(pp);
+			}
+			//return;
 		}
 		
-		new AstExplorer(tree, EolParser.class);
+		new AstExplorer(module.getAst(), EolParser.class);
 	}
 	
 	public void print(Tree tree, int indent) {

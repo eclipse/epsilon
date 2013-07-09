@@ -45,7 +45,12 @@ tokens {
 }
 
 wizard
-	:	'wizard'! w=NAME^ '{'! guard? titleBlock? doBlock? '}'!
+	@after {
+		$tree.getExtraTokens().add($wiz);
+		$tree.getExtraTokens().add($ob);
+		$tree.getExtraTokens().add($cb);
+	} 
+	:	wiz='wizard'! w=NAME^ ob='{'! guard? titleBlock? doBlock? cb='}'!
 	{$w.setType(WIZARD);}
 	;
 

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EwlParserRules.g 2013-04-27 16:08:39
+// $ANTLR 3.1b1 EwlParserRules.g 2013-07-09 11:28:01
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -229,48 +229,48 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
     public static class wizard_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start wizard
-    // EwlParserRules.g:47:1: wizard : 'wizard' w= NAME '{' ( guard )? ( titleBlock )? ( doBlock )? '}' ;
+    // EwlParserRules.g:47:1: wizard : wiz= 'wizard' w= NAME ob= '{' ( guard )? ( titleBlock )? ( doBlock )? cb= '}' ;
     public final Ewl_EwlParserRules.wizard_return wizard() throws RecognitionException {
         Ewl_EwlParserRules.wizard_return retval = new Ewl_EwlParserRules.wizard_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
+        Token wiz=null;
         Token w=null;
-        Token string_literal1=null;
-        Token char_literal2=null;
-        Token char_literal6=null;
-        Ewl_ErlParserRules.guard_return guard3 = null;
+        Token ob=null;
+        Token cb=null;
+        Ewl_ErlParserRules.guard_return guard1 = null;
 
-        Ewl_EwlParserRules.titleBlock_return titleBlock4 = null;
+        Ewl_EwlParserRules.titleBlock_return titleBlock2 = null;
 
-        Ewl_EwlParserRules.doBlock_return doBlock5 = null;
+        Ewl_EwlParserRules.doBlock_return doBlock3 = null;
 
 
-        CommonTree w_tree=null;
-        CommonTree string_literal1_tree=null;
-        CommonTree char_literal2_tree=null;
-        CommonTree char_literal6_tree=null;
+        org.eclipse.epsilon.common.parse.AST wiz_tree=null;
+        org.eclipse.epsilon.common.parse.AST w_tree=null;
+        org.eclipse.epsilon.common.parse.AST ob_tree=null;
+        org.eclipse.epsilon.common.parse.AST cb_tree=null;
 
         try {
-            // EwlParserRules.g:48:2: ( 'wizard' w= NAME '{' ( guard )? ( titleBlock )? ( doBlock )? '}' )
-            // EwlParserRules.g:48:4: 'wizard' w= NAME '{' ( guard )? ( titleBlock )? ( doBlock )? '}'
+            // EwlParserRules.g:53:2: (wiz= 'wizard' w= NAME ob= '{' ( guard )? ( titleBlock )? ( doBlock )? cb= '}' )
+            // EwlParserRules.g:53:4: wiz= 'wizard' w= NAME ob= '{' ( guard )? ( titleBlock )? ( doBlock )? cb= '}'
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            string_literal1=(Token)match(input,152,FOLLOW_152_in_wizard44); if (state.failed) return retval;
-            w=(Token)match(input,NAME,FOLLOW_NAME_in_wizard49); if (state.failed) return retval;
+            wiz=(Token)match(input,152,FOLLOW_152_in_wizard53); if (state.failed) return retval;
+            w=(Token)match(input,NAME,FOLLOW_NAME_in_wizard58); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            w_tree = (CommonTree)adaptor.create(w);
-            root_0 = (CommonTree)adaptor.becomeRoot(w_tree, root_0);
+            w_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(w);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(w_tree, root_0);
             }
-            char_literal2=(Token)match(input,90,FOLLOW_90_in_wizard52); if (state.failed) return retval;
-            // EwlParserRules.g:48:27: ( guard )?
+            ob=(Token)match(input,89,FOLLOW_89_in_wizard63); if (state.failed) return retval;
+            // EwlParserRules.g:53:34: ( guard )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -281,19 +281,19 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 case 1 :
                     // EwlParserRules.g:0:0: guard
                     {
-                    pushFollow(FOLLOW_guard_in_wizard55);
-                    guard3=gEwl.guard();
+                    pushFollow(FOLLOW_guard_in_wizard66);
+                    guard1=gEwl.guard();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard3.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard1.getTree());
 
                     }
                     break;
 
             }
 
-            // EwlParserRules.g:48:34: ( titleBlock )?
+            // EwlParserRules.g:53:41: ( titleBlock )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -304,19 +304,19 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 case 1 :
                     // EwlParserRules.g:0:0: titleBlock
                     {
-                    pushFollow(FOLLOW_titleBlock_in_wizard58);
-                    titleBlock4=titleBlock();
+                    pushFollow(FOLLOW_titleBlock_in_wizard69);
+                    titleBlock2=titleBlock();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, titleBlock4.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, titleBlock2.getTree());
 
                     }
                     break;
 
             }
 
-            // EwlParserRules.g:48:46: ( doBlock )?
+            // EwlParserRules.g:53:53: ( doBlock )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -327,19 +327,19 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 case 1 :
                     // EwlParserRules.g:0:0: doBlock
                     {
-                    pushFollow(FOLLOW_doBlock_in_wizard61);
-                    doBlock5=doBlock();
+                    pushFollow(FOLLOW_doBlock_in_wizard72);
+                    doBlock3=doBlock();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, doBlock5.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, doBlock3.getTree());
 
                     }
                     break;
 
             }
 
-            char_literal6=(Token)match(input,91,FOLLOW_91_in_wizard64); if (state.failed) return retval;
+            cb=(Token)match(input,90,FOLLOW_90_in_wizard77); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               w.setType(WIZARD);
             }
@@ -350,14 +350,21 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+            if ( state.backtracking==0 ) {
+              
+              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(wiz);
+              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
+              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              	
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -367,41 +374,41 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     // $ANTLR end wizard
 
     public static class titleBlock_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start titleBlock
-    // EwlParserRules.g:52:1: titleBlock : c= 'title' expressionOrStatementBlock ;
+    // EwlParserRules.g:57:1: titleBlock : c= 'title' expressionOrStatementBlock ;
     public final Ewl_EwlParserRules.titleBlock_return titleBlock() throws RecognitionException {
         Ewl_EwlParserRules.titleBlock_return retval = new Ewl_EwlParserRules.titleBlock_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token c=null;
-        Ewl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock7 = null;
+        Ewl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock4 = null;
 
 
-        CommonTree c_tree=null;
+        org.eclipse.epsilon.common.parse.AST c_tree=null;
 
         try {
-            // EwlParserRules.g:53:2: (c= 'title' expressionOrStatementBlock )
-            // EwlParserRules.g:53:4: c= 'title' expressionOrStatementBlock
+            // EwlParserRules.g:58:2: (c= 'title' expressionOrStatementBlock )
+            // EwlParserRules.g:58:4: c= 'title' expressionOrStatementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,153,FOLLOW_153_in_titleBlock81); if (state.failed) return retval;
+            c=(Token)match(input,153,FOLLOW_153_in_titleBlock94); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            c_tree = (CommonTree)adaptor.create(c);
-            root_0 = (CommonTree)adaptor.becomeRoot(c_tree, root_0);
+            c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_titleBlock84);
-            expressionOrStatementBlock7=gEwl.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_titleBlock97);
+            expressionOrStatementBlock4=gEwl.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock7.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock4.getTree());
             if ( state.backtracking==0 ) {
               c.setType(TITLE);
             }
@@ -412,14 +419,14 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -429,41 +436,41 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     // $ANTLR end titleBlock
 
     public static class doBlock_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start doBlock
-    // EwlParserRules.g:57:1: doBlock : d= 'do' statementBlock ;
+    // EwlParserRules.g:62:1: doBlock : d= 'do' statementBlock ;
     public final Ewl_EwlParserRules.doBlock_return doBlock() throws RecognitionException {
         Ewl_EwlParserRules.doBlock_return retval = new Ewl_EwlParserRules.doBlock_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token d=null;
-        Ewl_EolParserRules.statementBlock_return statementBlock8 = null;
+        Ewl_EolParserRules.statementBlock_return statementBlock5 = null;
 
 
-        CommonTree d_tree=null;
+        org.eclipse.epsilon.common.parse.AST d_tree=null;
 
         try {
-            // EwlParserRules.g:58:2: (d= 'do' statementBlock )
-            // EwlParserRules.g:58:4: d= 'do' statementBlock
+            // EwlParserRules.g:63:2: (d= 'do' statementBlock )
+            // EwlParserRules.g:63:4: d= 'do' statementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            d=(Token)match(input,154,FOLLOW_154_in_doBlock100); if (state.failed) return retval;
+            d=(Token)match(input,154,FOLLOW_154_in_doBlock113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            d_tree = (CommonTree)adaptor.create(d);
-            root_0 = (CommonTree)adaptor.becomeRoot(d_tree, root_0);
+            d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
             }
-            pushFollow(FOLLOW_statementBlock_in_doBlock103);
-            statementBlock8=gEwl.statementBlock();
+            pushFollow(FOLLOW_statementBlock_in_doBlock116);
+            statementBlock5=gEwl.statementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, statementBlock8.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, statementBlock5.getTree());
             if ( state.backtracking==0 ) {
               d.setType(DO);
             }
@@ -474,14 +481,14 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             if ( state.backtracking==0 ) {
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -495,16 +502,16 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_152_in_wizard44 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_wizard49 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L});
-    public static final BitSet FOLLOW_90_in_wizard52 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000006400000L});
-    public static final BitSet FOLLOW_guard_in_wizard55 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000006000000L});
-    public static final BitSet FOLLOW_titleBlock_in_wizard58 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000004000000L});
-    public static final BitSet FOLLOW_doBlock_in_wizard61 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L});
-    public static final BitSet FOLLOW_91_in_wizard64 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_153_in_titleBlock81 = new BitSet(new long[]{0x0000000000000000L,0x0000000004400000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_titleBlock84 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_154_in_doBlock100 = new BitSet(new long[]{0x0000000000000000L,0x0000000004400000L});
-    public static final BitSet FOLLOW_statementBlock_in_doBlock103 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_152_in_wizard53 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_wizard58 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_89_in_wizard63 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000006400000L});
+    public static final BitSet FOLLOW_guard_in_wizard66 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000006000000L});
+    public static final BitSet FOLLOW_titleBlock_in_wizard69 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000004000000L});
+    public static final BitSet FOLLOW_doBlock_in_wizard72 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L});
+    public static final BitSet FOLLOW_90_in_wizard77 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_153_in_titleBlock94 = new BitSet(new long[]{0x0000000000000000L,0x0000000102000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_titleBlock97 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_154_in_doBlock113 = new BitSet(new long[]{0x0000000000000000L,0x0000000102000000L});
+    public static final BitSet FOLLOW_statementBlock_in_doBlock116 = new BitSet(new long[]{0x0000000000000002L});
 
 }
