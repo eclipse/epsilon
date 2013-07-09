@@ -34,7 +34,7 @@ public class NameExecutor extends AbstractExecutor{
 		Variable variable = null;
 		FrameStack scope = context.getFrameStack();
 		
-		if (ast.getFirstChild() != null) {
+		if (ast.getFirstChild() != null && ast.getFirstChild().getType() == EolParser.PARAMETERS) {
 			return new ContextlessOperationExecutor().execute(ast, context);
 		}
 
