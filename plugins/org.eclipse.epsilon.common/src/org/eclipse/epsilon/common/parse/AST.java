@@ -30,6 +30,7 @@ public class AST extends CommonTree {
 	protected AST annotations;
 	protected boolean imaginary;
 	protected List<Token> extraTokens = new ArrayList<Token>();
+	protected List<AST> descendants = null;
 	
 	public AST() {
 		super();
@@ -234,6 +235,21 @@ public class AST extends CommonTree {
 		
 		
 		return region;
+	}
+	
+	public List<AST> getDescendants() {
+		if (descendants == null) {
+			descendants = new ArrayList<AST>();
+			collectDescendants(this, descendants, false);
+		}
+		return descendants;
+	}
+	
+	protected void collectDescendants(AST ast, List<AST> descendants, boolean addAst) {
+		if (addAst) descendants.add(ast);
+		for (AST child : ast.getChildren()) {
+			collectDescendants(child, descendants, true);
+		}
 	}
 	
 	public void setRegion(Region region) {
