@@ -12,9 +12,11 @@ package org.eclipse.epsilon.common.parse;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
@@ -24,9 +26,11 @@ public class AST extends CommonTree {
 	protected URI uri;
 	protected Integer line = null;
 	protected Integer column = null;
-	
+	protected Region region;
 	protected AST annotations;
-
+	protected boolean imaginary;
+	protected List<Token> extraTokens = new ArrayList<Token>();
+	
 	public AST() {
 		super();
 	}
@@ -170,4 +174,78 @@ public class AST extends CommonTree {
 			freshenParentAndChildIndexes();
 		}
 	}
+	
+	public Region getRegion() {
+		if (region == null) {
+			region = new Region();
+			
+			Position startPosition = new Position();
+			if (!isImaginary()) {
+				startPosition.setLine(this.getLine());
+				startPosition.setColumn(this.getColumn());
+			}
+			else {
+				startPosition.setLine(100000);
+				startPosition.setColumn(0);
+			}
+			region.setStart(startPosition);
+			
+			Position endPosition = new Position();
+			if (!isImaginary()) {
+				endPosition.setLine(this.getLine());
+				endPosition.setColumn(this.getColumn() + ((CommonToken)getToken()).getStopIndex() - ((CommonToken)getToken()).getStartIndex() + 1);
+			}
+			else {
+				endPosition.setLine(-1);
+				endPosition.setColumn(0);
+			}
+			region.setEnd(endPosition);
+			
+			for (AST child : getChildren()) {
+				Region childRegion = child.getRegion();
+				if (childRegion.getStart().isBefore(region.getStart())) {
+					region.setStart(childRegion.getStart());
+				}
+				if (childRegion.getEnd().isAfter(region.getEnd())) {
+					region.setEnd(childRegion.getEnd());
+				}
+			}
+			
+			for (Token token : getExtraTokens()) {
+				if (token == null) continue;
+				Position tokenStartPosition = new Position();
+				tokenStartPosition.setLine(token.getLine());
+				tokenStartPosition.setColumn(token.getCharPositionInLine());
+				
+				Position tokenEndPosition = new Position();
+				tokenEndPosition.setLine(token.getLine());
+				tokenEndPosition.setColumn(token.getCharPositionInLine() + token.getText().length());
+				
+				if (tokenStartPosition.isBefore(region.getStart())) {
+					region.setStart(tokenStartPosition);
+				}
+				if (tokenEndPosition.isAfter(region.getEnd())) {
+					region.setEnd(tokenEndPosition);
+				}
+				
+			}
+			
+		}
+		
+		
+		return region;
+	}
+	
+	public void setImaginary(boolean imaginary) {
+		this.imaginary = imaginary;
+	}
+	
+	public boolean isImaginary() {
+		return imaginary;
+	}
+	
+	public List<Token> getExtraTokens() {
+		return extraTokens;
+	}
+	
 }
