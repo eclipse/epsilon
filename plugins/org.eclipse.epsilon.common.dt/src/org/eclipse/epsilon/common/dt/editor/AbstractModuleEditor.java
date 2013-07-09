@@ -184,15 +184,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 
 	public ModuleContentOutlinePage createOutlinePage() {
 		
-		/*
 		ModuleContentOutlinePage outline = 
 			new ModuleContentOutlinePage(
 					this.getDocumentProvider(), 
 					this, 
 					createModuleElementLabelProvider());
-		*/
 		
+		/*
 		ModuleContentOutlinePage outline = new AstOutlinePage(this.getDocumentProvider(), this, new AstModuleElementLabelProvider());
+		*/
 		
 		addModuleParsedListener(outline);
 		
