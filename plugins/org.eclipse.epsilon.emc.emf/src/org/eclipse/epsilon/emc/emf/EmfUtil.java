@@ -189,9 +189,18 @@ public class EmfUtil {
 				}
 				
 				if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
-				registry.put(p.getNsURI(), p);
-				metamodel.setURI(URI.createURI(p.getNsURI()));
-				ePackages.add(p);
+
+				// The EPackage may have been registered before (such as
+				// when using several epsilon.emf.loadTask tasks with the
+				// metamodelFile attribute): make sure they all use the same
+				// EPackage instance.
+				EPackage registeredPackage = (EPackage)registry.get(p.getNsURI());
+				if (registeredPackage == null) {
+					registry.put(p.getNsURI(), p);
+					registeredPackage = p;
+				}
+				metamodel.setURI(URI.createURI(registeredPackage.getNsURI()));
+				ePackages.add(registeredPackage);
 			}
 		}
 		

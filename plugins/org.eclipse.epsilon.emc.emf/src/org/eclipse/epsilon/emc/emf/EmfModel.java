@@ -394,7 +394,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		for (URI metamodelFileUri : this.metamodelFileUris) {
 			List<EPackage> metamodelPackages;
 			try {
-				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+				metamodelPackages = EmfUtil.register(metamodelFileUri, EPackage.Registry.INSTANCE);
 			} catch (Exception e) {
 				throw new EolModelLoadingException(e,this);
 			}
