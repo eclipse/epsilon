@@ -22,8 +22,12 @@ import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
+// Force mergeAbsent to run before mergeAbsentNested
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class Merge {
 	private static File StoreProgram;
 	private static File GenerateProgram;
