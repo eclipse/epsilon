@@ -16,6 +16,7 @@
 		<runParserBuildFile lang="ecl"/>
 		<runParserBuildFile lang="eml"/>
 		<runParserBuildFile lang="ewl"/>
+		<runParserBuildFile lang="epl"/>
 		<runParserBuildFile lang="egl" parser="egx"/>
 		<runParserBuildFile lang="flock"/>
 	</target>
