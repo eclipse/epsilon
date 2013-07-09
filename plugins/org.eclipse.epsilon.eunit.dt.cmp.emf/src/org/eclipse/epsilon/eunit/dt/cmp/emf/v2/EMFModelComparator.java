@@ -13,24 +13,29 @@ package org.eclipse.epsilon.eunit.dt.cmp.emf.v2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.DifferenceKind;
+import org.eclipse.emf.compare.DifferenceSource;
 import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.match.DefaultComparisonFactory;
-import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
-import org.eclipse.emf.compare.match.DefaultMatchEngine;
-import org.eclipse.emf.compare.match.IComparisonFactory;
+import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+import org.eclipse.emf.compare.diff.DiffBuilder;
 import org.eclipse.emf.compare.match.IMatchEngine;
-import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -44,6 +49,55 @@ import org.eclipse.epsilon.eunit.extensions.IModelComparator;
  * Model comparator for EMF models, using EMF Compare 2.x.
  */
 public class EMFModelComparator implements IModelComparator {
+
+	private final class OptionBasedDiffBuilder extends DiffBuilder {
+		@Override
+		public void attributeChange(Match match,
+				EAttribute attribute, Object value,
+				DifferenceKind kind, DifferenceSource source)
+		{
+			if ((ignoreWhitespace || !ignoreAttributes.isEmpty())
+					&& kind == DifferenceKind.CHANGE
+					&& source == DifferenceSource.LEFT)
+			{
+				final Object o1 = match.getLeft().eGet(attribute);
+				final Object o2 = match.getRight().eGet(attribute);
+				if (o1 instanceof String && o2 instanceof String) {
+					// attribute is set on both sides
+
+					// should it be ignored as long as it is set on both sides?
+					if (!ignoreAttributes.isEmpty()) {
+						final String attrQualifiedName = getQualifiedName(attribute);
+						if (ignoreAttributes.contains(attrQualifiedName)) {
+							return;
+						}
+					}
+
+					// same after stripping whitespace?
+					final String s1 = ((String)o1).replaceAll("\\s+", "");
+					final String s2 = ((String)o2).replaceAll("\\s+", "");
+					if (ignoreWhitespace && s1.equals(s2)) {
+						return;
+					}
+
+				}
+			}
+
+			super.attributeChange(match, attribute, value, kind, source);
+		}
+
+		private String getQualifiedName(ENamedElement elem) {
+			if (elem.eContainer() instanceof ENamedElement) {
+				return getQualifiedName((ENamedElement)elem.eContainer()) + "." + elem.getName();
+			}
+			else {
+				return elem.getName();
+			}
+		}
+	}
+
+	private boolean ignoreWhitespace = false;
+	private Set<String> ignoreAttributes = Collections.emptySet();
 
 	@Override
 	public boolean canCompare(IModel m1, IModel m2) {
@@ -67,7 +121,10 @@ public class EMFModelComparator implements IModelComparator {
 		final IMatchEngine.Factory matchEngineFactory = new MatchEngineFactoryImpl(UseIdentifiers.NEVER);
         final IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
         matchEngineRegistry.add(matchEngineFactory);
-		final EMFCompare emfCompare = EMFCompare.builder().setMatchEngineFactoryRegistry(matchEngineRegistry).build();
+		final EMFCompare emfCompare = EMFCompare.builder()
+				.setMatchEngineFactoryRegistry(matchEngineRegistry)
+				.setDiffEngine(new DefaultDiffEngine(new OptionBasedDiffBuilder()))
+				.build();
 
 		final IComparisonScope scope = EMFCompare.createDefaultScope(myResourceSet, otherResourceSet);
 		final Comparison cmp = emfCompare.compare(scope);
@@ -150,11 +207,35 @@ public class EMFModelComparator implements IModelComparator {
 		return newResourceSet;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void configure(Map<String, Object> options) {
-		// no options for now
-		if (options != null && !options.isEmpty()) {
-			throw new IllegalArgumentException("No options are available for now");
+		if (options != null) {
+			for (Map.Entry<String, Object> entry : options.entrySet()) {
+				String name = entry.getKey();
+				if ("whitespace".equals(name)) {
+					ignoreWhitespace = "ignore".equals(entry.getValue());
+				}
+				else if ("ignoreAttributeValueChanges".equals(name)) {
+					if (entry.getValue() instanceof Collection) {
+						final Collection<?> col = (Collection<?>)entry.getValue();
+						for (Object o : col) {
+							if (!(o instanceof String)) {
+								throw new IllegalArgumentException(String.format(
+									"Invalid value for '%s': the collection must only have strings", name));
+							}
+						}
+						ignoreAttributes = new HashSet<String>((Collection<String>)col);
+					}
+					else {
+						throw new IllegalArgumentException(String.format(
+							"Invalid value for '%s': expected a collection of strings", name));
+					}
+				}
+				else {
+					throw new IllegalArgumentException("Unknown option '" + name + "'");
+				}
+			}
 		}
 	}	
 }

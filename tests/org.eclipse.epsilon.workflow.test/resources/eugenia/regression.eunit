@@ -20,7 +20,12 @@ operation loadModels() {
 @test
 operation testForRegressions() {
   var modelSuffix := elems.get(2);
-  assertEqualModels('Expected' + modelSuffix, 'Obtained' + modelSuffix, Map {'whitespace' = 'ignore'});
+  assertEqualModels('Expected' + modelSuffix,
+                    'Obtained' + modelSuffix,
+                    Map {
+                      'whitespace' = 'ignore',
+                      'ignoreAttributeValueChanges' = Sequence { 'genmodel.GenModel.pluginKey' }
+                    });
 }
 
 operation loadModel(modelName, directory) {
