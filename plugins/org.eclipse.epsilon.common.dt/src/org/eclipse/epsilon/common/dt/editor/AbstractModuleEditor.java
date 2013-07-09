@@ -32,7 +32,12 @@ import org.eclipse.epsilon.common.dt.editor.outline.AstModuleElementLabelProvide
 import org.eclipse.epsilon.common.dt.editor.outline.AstOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.IModuleValidator;
+import org.eclipse.epsilon.common.module.ModuleMarker;
+import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -93,6 +98,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
+	    
 		//addSmartTyping();
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
 	}
@@ -178,13 +184,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 
 	public ModuleContentOutlinePage createOutlinePage() {
 		
+		/*
 		ModuleContentOutlinePage outline = 
 			new ModuleContentOutlinePage(
 					this.getDocumentProvider(), 
 					this, 
 					createModuleElementLabelProvider());
+		*/
 		
-		//ModuleContentOutlinePage outline = new AstOutlinePage(this.getDocumentProvider(), this, new AstModuleElementLabelProvider());
+		ModuleContentOutlinePage outline = new AstOutlinePage(this.getDocumentProvider(), this, new AstModuleElementLabelProvider());
 		
 		addModuleParsedListener(outline);
 		
@@ -368,10 +376,12 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		}
 		
 		// Update problem markers
-		// Delete all the old markers and add new
+		// TODO: Update problem markers in all referenced files
 		try {
+			// Delete all the old markers and add new
 			file.deleteMarkers(AbstractModuleEditor.PROBLEMMARKER, true, IResource.DEPTH_INFINITE);
-			//file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			
+			// Create markers for parse problems
 			for (ParseProblem problem : module.getParseProblems()) {
 				Map<String, Object> attr = new HashMap<String, Object>();
 				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
@@ -385,8 +395,40 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 				}
 				attr.put(IMarker.SEVERITY, markerSeverity);
 				MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEMMARKER);
-//				MarkerUtilities.createMarker(file, attr, IMarker.PROBLEM);
 			}
+			
+			// If the module has no parse problems, pass it on to the validators
+			// Use try/catch to protect against unexpected exceptions in the validators
+			if (module.getParseProblems().isEmpty()) {
+				
+				try {
+					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
+						for (ModuleMarker moduleMarker : validator.validate(module)) {
+							Map<String, Object> attr = new HashMap<String, Object>();
+							Region region = moduleMarker.getRegion();
+							int startOffset = doc.getLineOffset(region.getStart().getLine()-1) + region.getStart().getColumn();
+							int endOffset = doc.getLineOffset(region.getEnd().getLine()-1) + region.getEnd().getColumn();
+							attr.put(IMarker.CHAR_START, startOffset);
+							attr.put(IMarker.CHAR_END, endOffset);
+							attr.put(IMarker.MESSAGE, moduleMarker.getMessage());
+							if (moduleMarker.getSeverity() == Severity.Error) {
+								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+							}
+							else if (moduleMarker.getSeverity() == Severity.Warning) {
+								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+							}
+							else {
+								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+							}
+							
+							MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEMMARKER);
+						}
+					}
+				}
+				catch (Exception ex) { LogUtil.log(ex); }
+				
+			}
+			
 		} catch (CoreException e1) {}
 		
 		if (module != null && module.getParseProblems().size() == 0) {

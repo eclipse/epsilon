@@ -5,6 +5,7 @@
    <extension-point id="prettyPrinter" name="PrettyPrinter" schema="schema/prettyPrinter.exsd"/>
    <extension-point id="operationContributor" name="OperationContributor" schema="schema/operationContributor.exsd"/>
    <extension-point id="tool" name="Tool" schema="schema/tool.exsd"/>
+   <extension-point id="moduleValidator" name="ModuleValidator" schema="schema/moduleValidator.exsd"/>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
