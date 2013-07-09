@@ -45,9 +45,11 @@ public class ConcordanceHistory {
 	}
 
 	private List<Event> recent(int numberOfEvents) {
-		return events.size() < numberOfEvents ? 
-	             events :
-	             events.subList(0, numberOfEvents);
+		List<Event> sublist = events.size() < numberOfEvents ? 
+	                          events :
+	                          events.subList(0, numberOfEvents);
+		
+		return new LinkedList<Event>(sublist);
 	}
 	
 	
