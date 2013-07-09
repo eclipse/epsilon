@@ -305,12 +305,17 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
   fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
 \end{longtabu}
 
-\begin{longtabu}{|p{3cm}|p{3cm}|X|}
+\begin{longtabu}{|p{7cm}|X|}
   \caption{Available options by model comparator}
   \label{tab:eunit-comparator-options} \\\hline
 
-  \textbf{Comparator} & \textbf{Key} & \textbf{Usage}  \\\hline
-  EMF & ``whitespace'' & When set to ``ignore'', differences in attribute values due to whitespace will be ignored. \\\hline
+  \textbf{Comparator and key} & \textbf{Usage}  \\\hline
+  EMF, ``whitespace'' & When set to ``ignore'', differences in attribute values due to whitespace will be ignored. \\\hline
+  EMF, ``ignore\-Attribute\-Value\-Changes'' & Can contain a \eol{Sequence} of
+  strings of the form ``package.class.attribute''. Differences in the
+  values for these attributes will be ignored. However, if the
+  attribute is set on one side and not on the other, the difference
+  will be reported as normal. \\\hline
 \end{longtabu}
 
 \begin{sidewaysfigure}
