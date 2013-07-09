@@ -236,6 +236,10 @@ public class AST extends CommonTree {
 		return region;
 	}
 	
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+	
 	public void setImaginary(boolean imaginary) {
 		this.imaginary = imaginary;
 	}
