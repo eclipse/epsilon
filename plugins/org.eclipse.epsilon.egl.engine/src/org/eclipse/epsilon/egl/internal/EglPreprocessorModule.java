@@ -18,6 +18,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -69,6 +70,11 @@ public class EglPreprocessorModule extends EolModule {
 	protected void updateASTLocations(AST ast) {
 		ast.setColumn(preprocessor.getTrace().getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
 		ast.setLine(preprocessor.getTrace().getEglLineNumberFor(ast.getLine()));
+		for (Token token : ast.getExtraTokens()) {
+			token.setCharPositionInLine(preprocessor.getTrace().getEglColumnNumberFor(token.getLine(), token.getCharPositionInLine()));
+			token.setLine(preprocessor.getTrace().getEglLineNumberFor(token.getLine()));
+		}
+		
 		for (AST child : ast.getChildren()) {
 			updateASTLocations(child);
 		}
