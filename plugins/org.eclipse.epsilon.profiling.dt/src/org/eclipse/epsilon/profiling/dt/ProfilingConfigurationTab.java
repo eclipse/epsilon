@@ -98,7 +98,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	@Override
 	public Image getImage() {
-		return EpsilonCommonsPlugin.createImage("icons/profiling.png");
+		return EpsilonCommonsPlugin.getDefault().createImage("icons/profiling.png");
 	}
 	
 	@Override

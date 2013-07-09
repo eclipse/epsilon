@@ -76,7 +76,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		this.setTitle("Select type of model");
 		this.setMessage("Select the type of model to add");
 		this.getShell().setText("Select type of model");
-		this.getShell().setImage(EpsilonCommonsPlugin.createImage("icons/model.gif"));
+		this.getShell().setImage(EpsilonCommonsPlugin.getDefault().createImage("icons/model.gif"));
 		
 		//GridLayout controlLayout = new GridLayout(1, false);
 		//control.setLayout(controlLayout);

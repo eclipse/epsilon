@@ -155,7 +155,7 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	@Override
 	public Image getImage() {
-		return EpsilonCommonsPlugin.createImage("icons/model.gif");
+		return EpsilonCommonsPlugin.getDefault().createImage("icons/model.gif");
 	}
 	
 	@Override

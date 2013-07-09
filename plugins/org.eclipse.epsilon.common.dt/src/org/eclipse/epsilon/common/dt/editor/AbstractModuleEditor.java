@@ -28,6 +28,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
+import org.eclipse.epsilon.common.dt.editor.outline.AstModuleElementLabelProvider;
+import org.eclipse.epsilon.common.dt.editor.outline.AstOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
@@ -175,11 +177,14 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	public abstract List<String> getBuiltinVariables();
 
 	public ModuleContentOutlinePage createOutlinePage() {
+		
 		ModuleContentOutlinePage outline = 
 			new ModuleContentOutlinePage(
 					this.getDocumentProvider(), 
 					this, 
 					createModuleElementLabelProvider());
+		
+		//ModuleContentOutlinePage outline = new AstOutlinePage(this.getDocumentProvider(), this, new AstModuleElementLabelProvider());
 		
 		addModuleParsedListener(outline);
 		

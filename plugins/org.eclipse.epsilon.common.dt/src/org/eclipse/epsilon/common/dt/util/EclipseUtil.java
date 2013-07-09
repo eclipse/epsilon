@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorDescriptor;
@@ -49,7 +48,7 @@ public class EclipseUtil {
 					return files[0];
 				}
 			} catch (Exception ex) {
-				EpsilonCommonsPlugin.getDefault().logException(ex);
+				LogUtil.log(ex);
 			}
 		}
 

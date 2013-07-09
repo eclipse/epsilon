@@ -64,7 +64,7 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 		return indent;
 	}
 	
-	Image templateImage = EpsilonCommonsPlugin.createImage("icons/template.gif");
+	Image templateImage = EpsilonCommonsPlugin.getDefault().createImage("icons/template.gif");
 	@Override
 	protected Image getImage(Template template) {
 		if (template instanceof TemplateWithImage) {

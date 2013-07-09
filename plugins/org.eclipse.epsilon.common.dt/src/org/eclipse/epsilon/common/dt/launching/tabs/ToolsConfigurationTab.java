@@ -108,7 +108,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	@Override
 	public Image getImage() {
-		return EpsilonCommonsPlugin.createImage("icons/tool.gif");
+		return EpsilonCommonsPlugin.getDefault().createImage("icons/tool.gif");
 	}
 	
 	@Override
@@ -206,7 +206,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	class ModelLabelProvider implements ILabelProvider{
 
 		public Image getImage(Object element) {
-			return EpsilonCommonsPlugin.createImage("icons/tool.gif");
+			return EpsilonCommonsPlugin.getDefault().createImage("icons/tool.gif");
 		}
 
 		public String getText(Object element) {

@@ -125,7 +125,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		
 		public AlphabeticallySortAction(){
 			super(null,AS_CHECK_BOX);
-			this.setImageDescriptor(EpsilonCommonsPlugin.getImageDescriptor("icons/alphabeticalSorter.gif"));
+			this.setImageDescriptor(EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/alphabeticalSorter.gif"));
 			this.setDescription("Sorts the contents of the view alphabetically");
 			alphabeticalSorter = new AlphabeticalSorter();
 			treeViewer = (TreeViewer) ReflectionUtil.getFieldValue(ModuleContentOutlinePage.this ,"treeViewer");
@@ -146,7 +146,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		public LinkWithEditorAction(){
 			super("Link with editor",AS_CHECK_BOX);
 			this.setDescription("Links the outline view with the editor");
-			this.setImageDescriptor(EpsilonCommonsPlugin.getImageDescriptor("icons/linkwitheditor.gif"));
+			this.setImageDescriptor(EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/linkwitheditor.gif"));
 			this.setChecked(true);
 		}
 	}

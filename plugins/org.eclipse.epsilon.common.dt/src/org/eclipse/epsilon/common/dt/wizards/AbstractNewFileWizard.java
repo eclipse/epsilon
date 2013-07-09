@@ -184,7 +184,7 @@ public abstract class AbstractNewFileWizard extends Wizard implements INewWizard
 	public abstract String getDescription();
 	
 	public ImageDescriptor getImageDescriptor() {
-		return EpsilonCommonsPlugin.getImageDescriptor("icons/file.big.gif");
+		return EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/file.big.gif");
 	}
 	
 }

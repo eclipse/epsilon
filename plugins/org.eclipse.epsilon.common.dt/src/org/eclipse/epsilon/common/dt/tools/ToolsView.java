@@ -121,8 +121,8 @@ public class ToolsView extends ViewPart {
 	
 	class ViewLabelProvider extends LabelProvider {
 
-		Image classImage = EpsilonCommonsPlugin.getImageDescriptor("icons/class.png").createImage();	
-		Image methodImage = EpsilonCommonsPlugin.getImageDescriptor("icons/method.gif").createImage();
+		Image classImage = EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/class.png").createImage();	
+		Image methodImage = EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/method.gif").createImage();
 		
 		@Override
 		public String getText(Object obj) {
@@ -188,7 +188,7 @@ public class ToolsView extends ViewPart {
 		
 		public InsertToolVariableDeclarationAction() {
 			setText("Insert tool variable declaration");
-			setImageDescriptor(EpsilonCommonsPlugin.getImageDescriptor("icons/insert.png"));
+			setImageDescriptor(EpsilonCommonsPlugin.getDefault().getImageDescriptor("icons/insert.png"));
 		}
 		
 		@Override
