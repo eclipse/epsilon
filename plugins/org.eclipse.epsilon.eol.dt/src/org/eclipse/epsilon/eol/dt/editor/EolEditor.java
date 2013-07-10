@@ -45,6 +45,7 @@ public class EolEditor extends AbstractModuleEditor {
 
 		keywords.add("import");
 		keywords.add("driver");
+		keywords.add("alias");
 		keywords.add("if");
 		keywords.add("switch");
 		keywords.add("case");
