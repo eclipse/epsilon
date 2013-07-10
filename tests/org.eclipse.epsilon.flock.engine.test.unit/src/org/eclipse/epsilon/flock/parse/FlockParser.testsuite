@@ -11,7 +11,7 @@ flockModule:
 	"migrate Person { name := nom; } retype Person to Employee" -> "(FLOCKMODULE (MIGRATE Person (BLOCK (:= name nom))) (RETYPE Person Employee))"
 
 	// Operations
-	"operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))"
+	"operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (operation Integer inc (BLOCK (:= self (+ self 1)))))"
 	"@cached operation Integer inc() { self := self + 1; }" -> "(FLOCKMODULE (ANNOTATIONBLOCK @cached operation Integer inc() { self := self + 1; }))"
 
 retyping:
@@ -76,7 +76,7 @@ ignoring:
 
 guard:
 	"when: original.name.isDefined()" -> "(GUARD (. (. original name) (isDefined PARAMETERS)))"
-	"when { var n := original.name; return n.isDefined(); }" -> "(GUARD (BLOCK (:= (var n) (. original name)) (RETURN (. n (isDefined PARAMETERS)))))"
+	"when { var n := original.name; return n.isDefined(); }" -> "(GUARD (BLOCK (:= (var n) (. original name)) (return (. n (isDefined PARAMETERS)))))"
 		
 	// Guard with no when
 	"original.name.isDefined()" FAIL

@@ -47,6 +47,10 @@ tokens {
 
 @header {
 package org.eclipse.epsilon.flock.parse;
+
+import java.net.URI;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.AST;
 }
 
 @lexer::header {
@@ -94,6 +98,14 @@ package org.eclipse.epsilon.flock.parse;
 	@Override
 	public void prepareForGUnit() {
 		super.prepareForGUnit();
+		this.setDeepTreeAdaptor(new EpsilonTreeAdaptor((URI) null) {
+			@Override
+		    public Object errorNode(TokenStream arg0, Token token, Token arg2,
+		    		RecognitionException arg3) {
+		    	AST ast = new AST(arg2, uri);
+		    	return ast;
+		    }
+		});
 		gEolParserRules.prepareForGUnit();
 	}
 }
@@ -112,12 +124,12 @@ retyping
 
 retyping_package
 	: rt='retype'^ 'package'! originalPackage=NAME 'to'! migratedPackage=NAME guard?
-    {$rt.setType(RETYPEPACKAGE);}
+    {$rt.setType(RETYPEPACKAGE); $rt.setText("RETYPEPACKAGE");}
     ;
  
 retyping_classifier
 	: rt='retype'^ originalType=packagedType 'to'! migratedType=packagedType guard?
-    {$rt.setType(RETYPE);}
+    {$rt.setType(RETYPE); $rt.setText("RETYPE");}
     ;
 
 deletion
@@ -125,12 +137,12 @@ deletion
 
 deletion_package
   : del='delete'^ 'package'! pkg=NAME guard?
-  	{$del.setType(DELETEPACKAGE);}
+  	{$del.setType(DELETEPACKAGE); $del.setText("DELETEPACKAGE");}
     ;
 
 deletion_classifier
   : del='delete'^ type=packagedType guard?
-  	{$del.setType(DELETE);}
+  	{$del.setType(DELETE); $del.setText("DELETE");}
     ;
 
 
@@ -142,18 +154,18 @@ fullRule
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	} 
-  : mig='migrate'^ originalType=packagedType ignoring? guard? ob='{' body=block cb='}'
-    {$mig.setType(MIGRATE);}
+  : mig='migrate'^ originalType=packagedType ignoring? guard? ob='{'! body=block cb='}'!
+    {$mig.setType(MIGRATE); $mig.setText("MIGRATE");}
     ;
     
 ignoringRule
   : mig='migrate'^ originalType=packagedType ignoring guard?
-    {$mig.setType(MIGRATE);}
+    {$mig.setType(MIGRATE); $mig.setText("MIGRATE");}
     ;
 
 ignoring
   : ign='ignoring'^ propertyList
-  	{$ign.setType(IGNORING);}
+  	{$ign.setType(IGNORING); $ign.setText("IGNORING");}
   ;
   
 propertyList
@@ -163,5 +175,5 @@ propertyList
 
 guard
   : w='when'^ expressionOrStatementBlock
-    {$w.setType(GUARD);}
+    {$w.setType(GUARD);  $w.setText("GUARD");}
     ;

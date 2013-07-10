@@ -50,7 +50,7 @@ public class TestFlock extends TestCase {
 		// test input: "operation Integer inc() { self := self + 1; }"
 		Object retval = execParser("flockModule", "operation Integer inc() { self := self + 1; }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(FLOCKMODULE (HELPERMETHOD Integer inc (BLOCK (:= self (+ self 1)))))";
+		Object expecting = "(FLOCKMODULE (operation Integer inc (BLOCK (:= self (+ self 1)))))";
 
 		assertEquals("testing rule "+"flockModule", expecting, actual);
 	}
@@ -302,7 +302,7 @@ public class TestFlock extends TestCase {
 		// test input: "when { var n := original.name; return n.isDefined(); }"
 		Object retval = execParser("guard", "when { var n := original.name; return n.isDefined(); }", false);
 		Object actual = examineParserExecResult(8, retval);
-		Object expecting = "(GUARD (BLOCK (:= (var n) (. original name)) (RETURN (. n (isDefined PARAMETERS)))))";
+		Object expecting = "(GUARD (BLOCK (:= (var n) (. original name)) (return (. n (isDefined PARAMETERS)))))";
 
 		assertEquals("testing rule "+"guard", expecting, actual);
 	}
