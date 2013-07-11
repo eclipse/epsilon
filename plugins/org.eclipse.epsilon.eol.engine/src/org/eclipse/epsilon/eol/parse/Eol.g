@@ -97,5 +97,5 @@ eolModule
 	block
 	(operationDeclarationOrAnnotationBlock (statement | operationDeclarationOrAnnotationBlock)*)?
 	EOF
-	-> ^(EOLMODULE importStatement* modelDeclaration* block (operationDeclarationOrAnnotationBlock)*)
+	-> ^(EOLMODULE importStatement* modelDeclaration* block operationDeclarationOrAnnotationBlock* statement*)
 	;

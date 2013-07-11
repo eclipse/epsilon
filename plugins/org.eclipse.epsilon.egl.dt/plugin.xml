@@ -106,5 +106,11 @@
             name="File-Generating Template Factory">
       </templateFactoryType>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleValidator">
+      <moduleValidator
+            class="org.eclipse.epsilon.egl.dt.editor.EglModuleValidator">
+      </moduleValidator>
+   </extension>
 
 </plugin>
