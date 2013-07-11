@@ -100,4 +100,10 @@
             id="eol.debugModel">
       </debugModelPresentation>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleValidator">
+      <moduleValidator
+            class="org.eclipse.epsilon.eol.dt.editor.EolModuleValidator">
+      </moduleValidator>
+   </extension>
 </plugin>
