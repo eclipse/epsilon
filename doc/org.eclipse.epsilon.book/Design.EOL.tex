@@ -9,7 +9,7 @@ The primary aim of EOL is to provide a reusable set of common model management f
 \label{sec:Design.EOL.Syntax}
 \label{sec:Design.EOL.ModuleStucture}
 
-In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements and access their operations, as shown in Listing~\ref{lst:ExampleImports}.
+In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed\footnote{Although the EOL parser permits loose statements (e.g. not contained in operations) between/after operations, these are ignored at runtime.}. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements and access their operations, as shown in Listing~\ref{lst:ExampleImports}.
 
 \begin{sidewaysfigure}
   \centering
