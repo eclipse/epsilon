@@ -71,6 +71,7 @@ public class EglPreprocessorModule extends EolModule {
 		ast.setColumn(preprocessor.getTrace().getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
 		ast.setLine(preprocessor.getTrace().getEglLineNumberFor(ast.getLine()));
 		for (Token token : ast.getExtraTokens()) {
+			if (token == null) continue;
 			token.setCharPositionInLine(preprocessor.getTrace().getEglColumnNumberFor(token.getLine(), token.getCharPositionInLine()));
 			token.setLine(preprocessor.getTrace().getEglLineNumberFor(token.getLine()));
 		}

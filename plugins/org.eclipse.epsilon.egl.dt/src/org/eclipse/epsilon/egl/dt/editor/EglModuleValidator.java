@@ -28,7 +28,7 @@ public class EglModuleValidator implements IModuleValidator {
 		AST firstHelper = null;
 		
 		for (AST ast : module.getAst().getChildren()) {
-			if (ast.getType() != EolParser.HELPERMETHOD && ast.getType() != EolParser.BLOCK) {
+			if (ast.getType() != EolParser.HELPERMETHOD && ast.getType() != EolParser.BLOCK && ast.getType() != EolParser.ANNOTATIONBLOCK) {
 				if (firstHelper != null && !isEmptyPrintStatement(ast)) {
 					markers.add(new ModuleMarker(null, firstHelper.getRegion(), "All loose statements and textual content after the first operation will be ignored at runtime.", Severity.Warning));
 				}
