@@ -59,14 +59,16 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.STRING, new StringExecutor());
 		executorCache.put(EolParser.ASSIGNMENT, new DefaultAssignExecutor());
 		executorCache.put(EolParser.SPECIAL_ASSIGNMENT, new DefaultAssignExecutor());
-		executorCache.put(EolParser.POINT, new PointExecutor());
+		//executorCache.put(EolParser.POINT, new PointExecutor());
+		executorCache.put(EolParser.POINT, new OptimisedPointExecutor(false));
 		executorCache.put(EolParser.NAME, new NameExecutor());
 		executorCache.put(EolParser.FEATURECALL, new NameExecutor());
 		executorCache.put(EolParser.BLOCK, new StatementBlockExecutor());
 		executorCache.put(EolParser.IF, new IfStatementExecutor());
 		executorCache.put(EolParser.SWITCH, new SwitchStatementExecutor());
 		executorCache.put(EolParser.BOOLEAN, new BooleanExecutor());
-		executorCache.put(EolParser.ARROW, new ArrowExecutor());
+		//executorCache.put(EolParser.ARROW, new ArrowExecutor());
+		executorCache.put(EolParser.ARROW, new OptimisedPointExecutor(true));
 		executorCache.put(EolParser.VAR, new VarStatementExecutor());
 		executorCache.put(EolParser.COLLECTION, new CollectionExecutor());
 		executorCache.put(EolParser.MAP, new MapExecutor());
