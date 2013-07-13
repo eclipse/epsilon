@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({AssignmentTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class, IsDefinedTests.class, IterableTests.class, IWrapperTests.class,
+@SuiteClasses({AssignmentTests.class, CollectionPropertyTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class, IsDefinedTests.class, IterableTests.class, IWrapperTests.class,
 	           EqualityBecomesAssignmentInStatements.class, ReturnTypeTests.class, BuiltInVariablesTests.class, ModelElementTypeResolutionTests.class, BooleanTests.class})
 public class EolAcceptanceTestSuite {
 

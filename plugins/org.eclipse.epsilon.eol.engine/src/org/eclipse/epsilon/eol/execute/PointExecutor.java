@@ -32,6 +32,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolSet;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 
@@ -51,10 +52,6 @@ public class PointExecutor extends AbstractExecutor{
 		AST parametersAst = featureCallAst.getFirstChild();
 		if (parametersAst == null) {
 			
-			//TODO : Add support for collection properties (un-settable?)
-			//Class.all().name := Sequence{1..10};
-			//FIXED : If source == null let the user know the name of the feature call that fails
-			
 			if (source == null) throw new EolRuntimeException("Called feature " + featureCallAst.getText() + " on undefined object", featureCallAst);
 			
 			if (returnSetter){
@@ -63,8 +60,18 @@ public class PointExecutor extends AbstractExecutor{
 				return setter;
 			} else{
 				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, featureCallAst.getText(), context);
-				getter.setAst(featureCallAst);
 				
+				// Added support for properties on collections
+				if (source instanceof Collection<?> && !getter.hasProperty(source, featureCallAst.getText())) {
+					Collection<Object> result = new EolSequence<Object>();
+					
+					for (Object o : (Collection<?>) source) {
+						result.add(execute(o, featureCallAst, context, false));
+					}
+					return result;
+				}
+				
+				getter.setAst(featureCallAst);
 				recordPropertyAccess(source, featureCallAst, context);
 				
 				return wrap(getter.invoke(source, featureCallAst.getText()));
