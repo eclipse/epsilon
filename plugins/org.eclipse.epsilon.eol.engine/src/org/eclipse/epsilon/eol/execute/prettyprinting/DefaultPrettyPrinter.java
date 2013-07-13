@@ -21,7 +21,8 @@ import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class DefaultPrettyPrinter implements PrettyPrinter{
 	
-	PrettyPrinterManager manager = null;
+	protected PrettyPrinterManager manager = null;
+	protected int maximumCollectionSize = 100;
 	
 	public DefaultPrettyPrinter(PrettyPrinterManager manager){
 		this.manager = manager;
@@ -37,13 +38,19 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			
 			Collection c = (Collection) o;
 			String result = EolCollectionType.getTypeName(c) + " {";
-			Iterator li = c.iterator();
 			
-			while (li.hasNext()){
-				Object next = li.next();
-				result = result + manager.print(next);
-				if (li.hasNext()){
-					result = result + ", ";
+			if (c.size() > maximumCollectionSize) {
+				result += " ... large collection with more than " + maximumCollectionSize + " elements ... ";
+			}
+			else {
+				Iterator li = c.iterator();
+				
+				while (li.hasNext()){
+					Object next = li.next();
+					result = result + manager.print(next);
+					if (li.hasNext()){
+						result = result + ", ";
+					}
 				}
 			}
 			result = result + "}";
@@ -74,4 +81,12 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 		return StringUtil.toString(o);
 	}
 
+	public int getMaximumCollectionSize() {
+		return maximumCollectionSize;
+	}
+	
+	public void setMaximumCollectionSize(int maximumCollectionSize) {
+		this.maximumCollectionSize = maximumCollectionSize;
+	}
+	
 }
