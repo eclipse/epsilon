@@ -16,7 +16,12 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
-public class JavaPropertyGetter extends AbstractPropertyGetter{
+public class JavaPropertyGetter extends AbstractPropertyGetter {
+	
+	@Override
+	public boolean hasProperty(Object object, String property) {
+		return getMethodFor(object, property).getMethod() != null;
+	}
 	
 	protected ObjectMethod getMethodFor(Object object, String property) {
 		ObjectMethod objectMethod = new ObjectMethod();
@@ -28,19 +33,17 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 		if (om != null) return om;
 
 		// Look for an X() method
-		om = context.getOperationContributorRegistry().
-			findContributedMethodForEvaluatedParameters(object, property, new Object[]{}, context);
+		om = registry.findContributedMethodForEvaluatedParameters(object, property, new Object[]{}, context);
 		if (om != null) return om;
 	
 		// Look for an isX() method
-		om = context.getOperationContributorRegistry().
-		findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
+		om = registry.findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
 		if (om != null) return om;
 		
 		return objectMethod;
 	}
 	
-	public Object invoke(Object object, String property) throws EolRuntimeException{
+	public Object invoke(Object object, String property) throws EolRuntimeException {
 		
 		ObjectMethod objectMethod = getMethodFor(object, property);
 		
@@ -48,11 +51,8 @@ public class JavaPropertyGetter extends AbstractPropertyGetter{
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
-		Object result = null; 
-		
 		try {
-			result = objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{});
-			return result;
+			return objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{});
 		}
 		catch (Exception ex){
 			throw new EolInternalException(ex);
