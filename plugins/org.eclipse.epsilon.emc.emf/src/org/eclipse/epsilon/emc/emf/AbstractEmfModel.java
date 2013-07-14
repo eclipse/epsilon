@@ -314,11 +314,15 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		if (instance instanceof EObject) {
 			EObject eObject = (EObject) instance;
+			Resource eObjectResource = eObject.eResource();
+			
+			if (eObjectResource == null) return false;
+			
 			if (expand) {
-				return EcoreUtil.isAncestor(modelImpl.getResourceSet(), eObject);
+				return modelImpl.getResourceSet() == eObjectResource.getResourceSet();
 			}
 			else {
-				return EcoreUtil.isAncestor(modelImpl, eObject);
+				return modelImpl == eObjectResource;
 			}
 		}
 		
