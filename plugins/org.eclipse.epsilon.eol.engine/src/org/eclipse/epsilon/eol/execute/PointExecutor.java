@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -176,6 +177,8 @@ public class PointExecutor extends AbstractExecutor{
 	}
 	
 	public Object wrap(Object o) {
+		/*
+		// Removed this wrap as it can be very inefficient for large iterators
 		if (o instanceof Iterator) {
 			List list = new EolSequence();
 			Iterator it = (Iterator) o;
@@ -184,12 +187,10 @@ public class PointExecutor extends AbstractExecutor{
 			}
 			return list;
 		}
-		else if (o instanceof Object[]) {
-			List list = new EolSequence();
-			for (Object item : (Object[]) o) {
-				list.add(item);
-			}
-			return list;
+		else*/ 
+		
+		if (o instanceof Object[]) {
+			return new ArrayList<Object>(Arrays.asList((Object[]) o));
 		}
 		else 
 			return o;
