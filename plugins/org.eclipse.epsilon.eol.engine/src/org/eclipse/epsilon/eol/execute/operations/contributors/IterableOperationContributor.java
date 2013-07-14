@@ -170,6 +170,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isEmpty() {
+		if (target instanceof Collection<?>) return ((Collection<?>) target).isEmpty();
 		return !getIterable().iterator().hasNext();
 	}
 
