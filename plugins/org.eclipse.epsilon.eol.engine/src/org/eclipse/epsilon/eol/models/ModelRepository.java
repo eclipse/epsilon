@@ -131,6 +131,9 @@ public class ModelRepository {
 	}
 	
 	public IModel getOwningModel(Object instance){
+		
+		if (instance instanceof IModelElement) { return ((IModelElement) instance).getOwningModel(); }
+		
 		for (IModel model : models) {
 			if (model.owns(instance)){
 				return model;
