@@ -72,7 +72,11 @@ public class OptimisedPointExecutor extends PointExecutor {
 			AST targetTargetAst = targetAst.getChild(0);
 			AST targetFeatureCallAst = targetAst.getChild(1);
 			
-			if (allOperations.contains(targetFeatureCallAst.getText()) && targetTargetAst.getChildren().isEmpty()) {
+			boolean targetTargetLooksLikeTypeName = 
+					(targetTargetAst.getType() == EolParser.NAME) || // e.g. X!Y
+					(targetTargetAst.getType() == EolParser.FEATURECALL && targetTargetAst.getChildren().isEmpty()); // simple names
+			
+			if (allOperations.contains(targetFeatureCallAst.getText()) && targetTargetLooksLikeTypeName) {
 				
 				try {
 					EolModelElementType type = EolModelElementType.forName(targetTargetAst.getText(), context);
