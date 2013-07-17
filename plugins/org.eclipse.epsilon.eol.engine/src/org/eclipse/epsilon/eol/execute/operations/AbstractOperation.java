@@ -21,10 +21,6 @@ public abstract class AbstractOperation {
 	
 	public abstract Object execute(Object source, AST operationAst, IEolContext context) throws EolRuntimeException;
 	
-	public boolean appliesTo(Object source, AST operationAst, IEolContext context) throws EolRuntimeException{
-		return true;
-	}
-	
 	public boolean isOverridable() {
 		return true;
 	}

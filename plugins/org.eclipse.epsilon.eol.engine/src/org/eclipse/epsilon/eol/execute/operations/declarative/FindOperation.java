@@ -29,10 +29,5 @@ public class FindOperation extends AbstractOperation {
 			return new SelectOperation().execute(source, operationAst, context);
 		}
 	}
-
-	@Override
-	public boolean appliesTo(Object source, AST operationAst, IEolContext context) throws EolRuntimeException {
-		return source instanceof ISearchableModel;
-	}
 	
 }
