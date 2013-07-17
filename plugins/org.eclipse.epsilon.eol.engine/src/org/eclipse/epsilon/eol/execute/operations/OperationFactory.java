@@ -52,7 +52,7 @@ public class OperationFactory {
 		operationCache.put("one", new OneOperation());
 		operationCache.put("forAll", new ForAllOperation());
 		operationCache.put("reject", new RejectOperation());
-		operationCache.put("select", new SelectOperation());
+		//operationCache.put("select", new SelectOperation());
 		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("closure", new ClosureOperation());
@@ -100,13 +100,17 @@ public class OperationFactory {
 	*/
 	
 	public AbstractOperation getOperationFor(String name) {
-		return operationCache.get(name);
+		// Select operations are reused by other operations (e.g. exists(), reject() etc.)
+		// and they are stateful so it's important that every time we return a new one.
+		if ("select".equals(name)) return new SelectOperation();
+		else return operationCache.get(name);
 	}
 	
 	public AbstractOperation getOperationFor(AST operationAst, IEolContext context){
 		return getOperationFor(operationAst.getText());
 	}
 	
+	/*
 	public Object executeOperation(Object source, AST operationAst, IEolContext context) throws EolRuntimeException{
 		AbstractOperation operation = getOperationFor(operationAst.getText());
 		if (operation == null) {
@@ -114,5 +118,5 @@ public class OperationFactory {
 		} else {
 			return operation.execute(source, operationAst, context);
 		}
-	}
+	}*/
 }

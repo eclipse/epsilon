@@ -16,13 +16,15 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class SelectOneOperation extends SelectOperation {
+public class SelectOneOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
-		setReturnOnFirstMatch(true);
-		Collection<?> result = (Collection<?>) super.execute(obj, ast, context);
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
+		selectOperation.setReturnOnFirstMatch(true);
+		Collection<?> result = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
 		return CollectionUtil.getFirst(result);
 	}
 	

@@ -29,6 +29,10 @@ import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IntegerOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -53,17 +57,18 @@ public class PointExecutor extends AbstractExecutor{
 		AST parametersAst = featureCallAst.getFirstChild();
 		if (parametersAst == null) {
 			
-			if (source == null) throw new EolRuntimeException("Called feature " + featureCallAst.getText() + " on undefined object", featureCallAst);
+			String propertyName = featureCallAst.getText();
+			if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", featureCallAst);
 			
 			if (returnSetter){
-				IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, featureCallAst.getText(), context);
+				IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);
 				setter.setAst(featureCallAst);
 				return setter;
 			} else{
-				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, featureCallAst.getText(), context);
+				IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
 				
 				// Added support for properties on collections
-				if (source instanceof Collection<?> && !getter.hasProperty(source, featureCallAst.getText())) {
+				if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName)) {
 					Collection<Object> result = new EolSequence<Object>();
 					
 					for (Object o : (Collection<?>) source) {
@@ -75,7 +80,7 @@ public class PointExecutor extends AbstractExecutor{
 				getter.setAst(featureCallAst);
 				recordPropertyAccess(source, featureCallAst, context);
 				
-				return wrap(getter.invoke(source, featureCallAst.getText()));
+				return wrap(getter.invoke(source, propertyName));
 			}
 		
 		} else {
@@ -99,23 +104,29 @@ public class PointExecutor extends AbstractExecutor{
 		
 	}
 	
-	public Object executeOperation(IEolContext context, Object source, AST featureCallAst) throws EolRuntimeException {
+	public Object executeOperation(IEolContext context, Object target, AST featureCallAst) throws EolRuntimeException {
 		
 		AST parametersAst = featureCallAst.getFirstChild();
+		String operationName = featureCallAst.getText();
+		IModel owningModel = context.getModelRepository().getOwningModel(target);
 		
-		// Handles calls to first-order operations (select(), collect() etc)
+		// Handles calls to higher-order operations (select(), collect() etc)
 		if (parametersAst.getType() == EolParser.PARAMLIST) {
-			return context.getOperationFactory().executeOperation(source, featureCallAst, context);
+			AbstractOperation operation = getAbstractOperation(target, operationName, featureCallAst, owningModel, context);
+			if (operation instanceof SelectBasedOperation) {
+				((SelectBasedOperation) operation).setSelectOperation(
+					(SelectOperation) getAbstractOperation(target, "select", featureCallAst, owningModel, context));
+			}
+			return operation.execute(target, featureCallAst, context);
 		}
 		
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
 		if (operation != null && (!operation.isOverridable())){
-			return operation.execute(source, featureCallAst, context);
+			return operation.execute(target, featureCallAst, context);
 		}
 		
 		// Operation contributor for model elements
-		IModel owningModel = context.getModelRepository().getOwningModel(source);
 		OperationContributor modelOperationContributor = null;
 		if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
 			modelOperationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
@@ -125,10 +136,10 @@ public class PointExecutor extends AbstractExecutor{
 		ObjectMethod objectMethodAst = null;
 		
 		if (modelOperationContributor != null) {
-			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
+			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(target, operationName, context);
 		}
 		if (objectMethodAst == null) {
-			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(source, featureCallAst.getText(), context);
+			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(target, operationName, context);
 		}
 		
 		if (objectMethodAst != null) {
@@ -140,9 +151,9 @@ public class PointExecutor extends AbstractExecutor{
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
-			EolOperation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(source, featureCallAst , parameters, context);
+			EolOperation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(target, featureCallAst , parameters, context);
 			if (helper != null){
-				return ((IEolLibraryModule) context.getModule()).getOperations().execute(source, helper, featureCallAst, parameters, context);
+				return ((IEolLibraryModule) context.getModule()).getOperations().execute(target, helper, featureCallAst, parameters, context);
 			}
 		}
 		
@@ -151,11 +162,11 @@ public class PointExecutor extends AbstractExecutor{
 		// Method contributors that use the evaluated parameters
 		ObjectMethod objectMethod = null;
 		if (modelOperationContributor != null) {
-			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
+			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(target, operationName, parameters.toArray(), context);
 		}
 		
 		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(source, featureCallAst.getText(), parameters.toArray(), context);
+			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(target, operationName, parameters.toArray(), context);
 		}
 		
 		if (objectMethod != null) {
@@ -165,15 +176,40 @@ public class PointExecutor extends AbstractExecutor{
 		// Execute user-defined operation (if isArrow() == true)
 		if (operation != null){
 			if (operation instanceof AbstractSimpleOperation) {
-				return ((AbstractSimpleOperation) operation).execute(source, parameters, context, featureCallAst);
+				return ((AbstractSimpleOperation) operation).execute(target, parameters, context, featureCallAst);
 			}
 			else {
-				return operation.execute(source, featureCallAst, context);
+				return operation.execute(target, featureCallAst, context);
 			}
 		}
 
-		throw new EolIllegalOperationException(source, featureCallAst.getText(), featureCallAst, context.getPrettyPrinterManager());
+		throw new EolIllegalOperationException(target, operationName, featureCallAst, context.getPrettyPrinterManager());
 		
+	}
+	
+	protected AbstractOperation getAbstractOperation(Object target, String name, AST featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
+		
+		// Objects implementing the IAbstractOperationContributor interface
+		// can override the default higher-order operation implementations
+		if (target instanceof IAbstractOperationContributor) {
+			AbstractOperation operation = ((IAbstractOperationContributor) target).getAbstractOperation(name);
+			if (operation != null) return operation;
+		}
+		
+		// Since we don't control the interface of all model elements, models
+		// can also provide IAbstractOperationContributors for their model elements
+		if (owningModel!=null && owningModel instanceof IAbstractOperationContributorProvider) {
+			IAbstractOperationContributor contributor = ((IAbstractOperationContributorProvider) owningModel).getAbstractOperationContributor(target);
+			if (contributor != null) {
+				AbstractOperation operation = contributor.getAbstractOperation(name);
+				if (operation != null) return operation;					
+			}
+		}
+		
+		AbstractOperation operation = context.getOperationFactory().getOperationFor(name);
+		if (operation != null) return operation;
+		else throw new EolIllegalOperationException(target, name, featureCallAst, context.getPrettyPrinterManager());				
+
 	}
 	
 	public Object wrap(Object o) {
