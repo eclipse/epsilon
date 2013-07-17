@@ -19,7 +19,7 @@ public abstract class AbstractOperation {
 	
 	//TODO: Make operations aware of their names e.g. add a name attribute that the OperationFactory will populate
 	
-	public abstract Object execute(Object source, AST operationAst, IEolContext context) throws EolRuntimeException;
+	public abstract Object execute(Object target, AST operationAst, IEolContext context) throws EolRuntimeException;
 	
 	public boolean isOverridable() {
 		return true;

@@ -19,39 +19,9 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class ClosureOperation extends AbstractOperation {
-	
-	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
-		
-		AST declarationsAst = ast.getFirstChild();
-		AST bodyAst = declarationsAst.getNextSibling();
-		
-		AST declarationAst = declarationsAst.getFirstChild();
-		AST iteratorNameAst = declarationAst.getFirstChild();
-		AST iteratorTypeAst = iteratorNameAst.getNextSibling();
-		
-		String iteratorName = iteratorNameAst.getText();
-		EolType iteratorType = null;
-		
-		if (iteratorTypeAst != null){
-			iteratorType = (EolType) context.getExecutorFactory().executeAST(iteratorTypeAst,context);
-		}
-		else {
-			iteratorType = EolAnyType.Instance;
-		}
-		
-		Collection<?>      source = CollectionUtil.asCollection(obj);
-		Collection<Object> result = CollectionUtil.createDefaultList();
-		
-		closure(source,iteratorName,iteratorType,bodyAst,context,result);
-		
-		return result;
-	}
+public class ClosureOperation extends IteratorOperation {
 	
 	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
@@ -73,6 +43,18 @@ public class ClosureOperation extends AbstractOperation {
 				scope.leaveLocal(expressionAST);
 			}
 		}
+	}
+
+	@Override
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
+
+		Collection<?>      source = CollectionUtil.asCollection(target);
+		Collection<Object> result = CollectionUtil.createDefaultList();
+		
+		closure(source,iterator.getName(),iterator.getType(),expressionAst,context,result);
+		
+		return result;
 	}
 	
 }

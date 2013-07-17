@@ -15,19 +15,19 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 
-
-public class ExistsOperation extends AbstractOperation {
+public class ExistsOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context)  throws EolRuntimeException{
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
 
-		SelectOperation selectOperation = new SelectOperation();
 		selectOperation.setReturnOnFirstMatch(true);
-		Collection selected = (Collection) selectOperation.execute(obj, ast, context);
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
 		
 		return selected.size() > 0;
+
 	}
 
 }

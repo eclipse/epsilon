@@ -16,22 +16,19 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 
-
-public class RejectOperation extends AbstractOperation{
+public class RejectOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
 		
-		SelectOperation selectOperation = new SelectOperation();
-		
-		Collection selected = (Collection) selectOperation.execute(obj, ast, context);		
-		Collection source = CollectionUtil.asCollection(obj);
+		Collection<Object> selected = (Collection<Object>) selectOperation.execute(target, iterator, expressionAst, context);		
+		Collection<?> source = CollectionUtil.asCollection(target);
 		
 		return new IterableOperationContributor(source).excludingAll(selected);
-		
 	}
 
 }

@@ -16,16 +16,16 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class ForAllOperation extends AbstractOperation {
+public class ForAllOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
-
-		SelectOperation selectOperation = new SelectOperation();
-		Collection selected = (Collection) selectOperation.execute(obj, ast, context);
-		Collection source = CollectionUtil.asCollection(obj);
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
+		
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
+		Collection<?> source = CollectionUtil.asCollection(target);
 		
 		return source.size() == selected.size();
 	}

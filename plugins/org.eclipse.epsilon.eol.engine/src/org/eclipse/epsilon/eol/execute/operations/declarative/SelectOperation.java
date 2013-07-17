@@ -19,13 +19,9 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolType;
 
-
-public class SelectOperation extends AbstractOperation {
+public class SelectOperation extends IteratorOperation {
 	
 	protected boolean returnOnFirstMatch = false;
 	
@@ -33,51 +29,33 @@ public class SelectOperation extends AbstractOperation {
 		return returnOnFirstMatch;
 	}
 
-
 	public void setReturnOnFirstMatch(boolean returnOnFirstMatch) {
 		this.returnOnFirstMatch = returnOnFirstMatch;
 	}
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
 		
-		//AST parametersAst = ast.getFirstChild();
-		AST declarationsAst = ast.getFirstChild();
-		AST bodyAst = declarationsAst.getNextSibling();
-		
-		AST declarationAst = declarationsAst.getFirstChild();
-		AST iteratorNameAst = declarationAst.getFirstChild();
-		AST iteratorTypeAst = iteratorNameAst.getNextSibling();
-		
-		String iteratorName = iteratorNameAst.getText();
-		EolType iteratorType = null;
-		
-		if (iteratorTypeAst != null){
-			iteratorType = (EolType) context.getExecutorFactory().executeAST(iteratorTypeAst,context);
-		}
-		else {
-			iteratorType = EolAnyType.Instance;
-		}
-		
-		Collection source = CollectionUtil.asCollection(obj);
+		Collection source = CollectionUtil.asCollection(target);
 		Collection result = EolCollectionType.createSameType(source);
 		
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {	
-			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enterLocal(FrameType.UNPROTECTED, ast);
+			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
+				scope.enterLocal(FrameType.UNPROTECTED, expressionAst);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
+				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
+				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
 				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
 					result.add(listItem);
 					if (isReturnOnFirstMatch()) {
-						scope.leaveLocal(ast);
+						scope.leaveLocal(expressionAst);
 						return result;
 					}
 				}
-				scope.leaveLocal(ast);
+				scope.leaveLocal(expressionAst);
 			}
 		}
 		

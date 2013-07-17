@@ -19,41 +19,20 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
-
-public class CollectOperation extends AbstractOperation{
+public class CollectOperation extends IteratorOperation {
 
 	public CollectOperation() {
 		super();
 	}
 
 	@Override
-	public Object execute(Object obj, AST operationAst, IEolContext context) throws EolRuntimeException {
-		
-		AST declarationsAst = operationAst.getFirstChild();
-		AST bodyAst = declarationsAst.getNextSibling();
-		
-		AST declarationAst = declarationsAst.getFirstChild();
-		AST iteratorNameAst = declarationAst.getFirstChild();
-		AST iteratorTypeAst = iteratorNameAst.getNextSibling();
-		
-		String iteratorName = iteratorNameAst.getText();
-		EolType iteratorType = null;
-		
-		if (iteratorTypeAst != null){
-			iteratorType = (EolType) context.getExecutorFactory().executeAST(iteratorTypeAst,context);
-		}
-		else {
-			iteratorType = EolAnyType.Instance;
-		}
-		
-		Collection<?>      source = CollectionUtil.asCollection(obj);
+	public Object execute(Object target, Variable iterator, AST expressionAst, IEolContext context) throws EolRuntimeException {
+
+		Collection<?>      source = CollectionUtil.asCollection(target);
 		Collection<Object> result = null;
 		
 		if (EolCollectionType.isOrdered(source)) {
@@ -66,12 +45,12 @@ public class CollectOperation extends AbstractOperation{
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
-			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enterLocal(FrameType.UNPROTECTED, operationAst);
-				scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				Object bodyResult = context.getExecutorFactory().executeAST(bodyAst, context);
+			if (iterator.getType() ==null || iterator.getType().isKind(listItem)){
+				scope.enterLocal(FrameType.UNPROTECTED, expressionAst);
+				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
+				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
 				result.add(bodyResult);
-				scope.leaveLocal(operationAst);
+				scope.leaveLocal(expressionAst);
 			}
 		}
 		

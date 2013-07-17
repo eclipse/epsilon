@@ -22,7 +22,7 @@ public class SelectOneOperation extends SelectOperation {
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException {
 		setReturnOnFirstMatch(true);
-		Collection result = (Collection) super.execute(obj, ast, context);
+		Collection<?> result = (Collection<?>) super.execute(obj, ast, context);
 		return CollectionUtil.getFirst(result);
 	}
 	
