@@ -66,7 +66,9 @@ rule NameNode2PackageObject
 	}
 	
 	-- Transform association blocks and infix associations
-	n.children.forAll(a : AntlrAst!AssociationInstanceNode | a.createReferences(p));
+	for (a : AntlrAst!AssociationInstanceNode in n.children) {
+		a.createReferences(p);
+	}
 }
 
 rule NameNode2ClassObject
@@ -195,7 +197,9 @@ operation createSlotFor(defaultValues : Collection, attribute : String) : Interm
 
 	slot.feature := attribute;
 
-	defaultValues.forAll(value | slot.values.add(value.inferType()));
+	for (value in defaultValues) {
+		slot.values.add(value.inferType());
+	}
 	
 	return slot;
 }
@@ -292,7 +296,9 @@ operation Intermediate!ClassObject addAttribute(n : AntlrAst!NameNode) {
 }
 
 post {
-	Intermediate!AttributeSlot.all.forAll(s|s.coerceValues());
+	for (s in Intermediate!AttributeSlot.all) {
+		s.coerceValues();
+	}
 }
 
 operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
@@ -407,8 +413,16 @@ operation createClassObject(c : Intermediate!ClassObject, n : AntlrAst!Node) {
 	c.type := n.text;
 	c.addTraceabilityInfo(n);
 	
-	n.children.forAll(a : AntlrAst!AdjectiveNode | c.addAdjective(a));
-	n.children.forAll(n : AntlrAst!NameNode      | c.addAttribute(n));
+	for (a : AntlrAst!AdjectiveNode in n.children) {
+		c.addAdjective(a);
+	}
+
+	for (n : AntlrAst!NameNode in n.children) {
+		c.addAttribute(n);
+	}
+	
+	//n.children.forAll(a : AntlrAst!AdjectiveNode | c.addAdjective(a));
+	//n.children.forAll(n : AntlrAst!NameNode      | c.addAttribute(n));
 	
 	c.addIdentifier(n);
 	c.inferAttributeValueFromIdentifier();

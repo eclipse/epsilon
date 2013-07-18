@@ -12,11 +12,12 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 
+import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ForAllOperation extends SelectBasedOperation {
 
@@ -24,10 +25,11 @@ public class ForAllOperation extends SelectBasedOperation {
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
 		
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
-		Collection<?> source = CollectionUtil.asCollection(target);
+		AST negatedExpressionAst = new AST(new CommonToken(EolParser.OPERATOR, "not"), null);
+		negatedExpressionAst.addChild(expressionAst);
 		
-		return source.size() == selected.size();
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, negatedExpressionAst, context, true);
+		return selected.size() == 0;
 	}
 
 }

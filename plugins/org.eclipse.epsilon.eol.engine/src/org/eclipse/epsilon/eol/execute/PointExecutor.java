@@ -13,31 +13,30 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
+import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
-import org.eclipse.epsilon.eol.execute.operations.contributors.IntegerOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.declarative.IteratorOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolSet;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 
@@ -69,12 +68,14 @@ public class PointExecutor extends AbstractExecutor{
 				
 				// Added support for properties on collections
 				if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName)) {
-					Collection<Object> result = new EolSequence<Object>();
 					
-					for (Object o : (Collection<?>) source) {
-						result.add(execute(o, featureCallAst, context, false));
-					}
-					return result;
+					// Transform x.y to x.collect(_iterator | _iterator.y)
+					IteratorOperation collectOperation = (IteratorOperation) getAbstractOperation(source, "collect", featureCallAst, context.getModelRepository().getOwningModel(source), context);
+					AST expressionAst = new AST(new CommonToken(EolParser.POINT, "."), null);
+					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, "_iterator"), null));
+					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, propertyName), null));
+					
+					return collectOperation.execute(source, new Variable("_iterator", null, EolAnyType.Instance), expressionAst, context);
 				}
 				
 				getter.setAst(featureCallAst);
@@ -121,7 +122,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		// Non-overridable operations
-		AbstractOperation operation = context.getOperationFactory().getOperationFor(featureCallAst, context);
+		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
 		if (operation != null && (!operation.isOverridable())){
 			return operation.execute(target, featureCallAst, context);
 		}
@@ -147,7 +148,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		
-		ArrayList parameters = (ArrayList) context.getExecutorFactory().executeAST(parametersAst, context);
+		ArrayList<Object> parameters = (ArrayList<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){

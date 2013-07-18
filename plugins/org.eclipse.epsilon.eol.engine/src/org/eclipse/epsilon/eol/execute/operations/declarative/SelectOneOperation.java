@@ -23,8 +23,8 @@ public class SelectOneOperation extends SelectBasedOperation {
 	@Override
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
-		selectOperation.setReturnOnFirstMatch(true);
-		Collection<?> result = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
+
+		Collection<?> result = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context, true);
 		return CollectionUtil.getFirst(result);
 	}
 	

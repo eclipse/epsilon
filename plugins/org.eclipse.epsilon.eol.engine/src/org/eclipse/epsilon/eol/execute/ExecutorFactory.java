@@ -59,16 +59,16 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.STRING, new StringExecutor());
 		executorCache.put(EolParser.ASSIGNMENT, new DefaultAssignExecutor());
 		executorCache.put(EolParser.SPECIAL_ASSIGNMENT, new DefaultAssignExecutor());
-		//executorCache.put(EolParser.POINT, new PointExecutor());
-		executorCache.put(EolParser.POINT, new OptimisedPointExecutor(false));
+		executorCache.put(EolParser.POINT, new PointExecutor());
+		//executorCache.put(EolParser.POINT, new OptimisedPointExecutor(false));
 		executorCache.put(EolParser.NAME, new NameExecutor());
 		executorCache.put(EolParser.FEATURECALL, new NameExecutor());
 		executorCache.put(EolParser.BLOCK, new StatementBlockExecutor());
 		executorCache.put(EolParser.IF, new IfStatementExecutor());
 		executorCache.put(EolParser.SWITCH, new SwitchStatementExecutor());
 		executorCache.put(EolParser.BOOLEAN, new BooleanExecutor());
-		//executorCache.put(EolParser.ARROW, new ArrowExecutor());
-		executorCache.put(EolParser.ARROW, new OptimisedPointExecutor(true));
+		executorCache.put(EolParser.ARROW, new ArrowExecutor());
+		//executorCache.put(EolParser.ARROW, new OptimisedPointExecutor(true));
 		executorCache.put(EolParser.VAR, new VarStatementExecutor());
 		executorCache.put(EolParser.COLLECTION, new CollectionExecutor());
 		executorCache.put(EolParser.MAP, new MapExecutor());
@@ -97,44 +97,6 @@ public class ExecutorFactory {
 	public AbstractExecutor getExecutorFor(int type){
 		return (AbstractExecutor) executorCache.get(type);
 	}	
-	
-	/*
-	protected AbstractExecutor getExecutorFor(int type){
-		switch (type){
-			case EolParserTokenTypes.OPERATOR: return new OperatorExecutor();
-			case EolParserTokenTypes.INT: return new IntegerExecutor();
-			case EolParserTokenTypes.STRING: return new StringExecutor();
-			case EolParserTokenTypes.ASSIGN_STATEMENT: return new DefaultAssignExecutor();
-			case EolParserTokenTypes.ASSIGNMENT: return new DefaultAssignExecutor();
-			case EolParserTokenTypes.SPECIAL_ASSIGN_STATEMENT: return new DefaultAssignExecutor();
-			case EolParserTokenTypes.POINT: return new PointExecutor();
-			case EolParserTokenTypes.NAME: return new NameExecutor();
-			case EolParserTokenTypes.BLOCK: return new StatementBlockExecutor();
-			case EolParserTokenTypes.IF: return new IfStatementExecutor();
-			case EolParserTokenTypes.BOOLEAN: return new BooleanExecutor();
-			case EolParserTokenTypes.ARROW: return new ArrowExecutor();
-			case EolParserTokenTypes.VAR: return new VarStatementExecutor();
-			case EolParserTokenTypes.COLLECTION: return new CollectionExecutor();
-			case EolParserTokenTypes.FLOAT: return new RealExecutor();
-			case EolParserTokenTypes.FOR: return new ForStatementExecutor();
-			case EolParserTokenTypes.PARAMLIST: return new FormalParameterListExecutor();
-			case EolParserTokenTypes.EOLPROGRAM: return new EolProgramExecutor();
-			case EolParserTokenTypes.PARAMETERS: return new ParametersExecutor();
-			case EolParserTokenTypes.TYPE: return new TypeExecutor();
-			case EolParserTokenTypes.TYPEINIT: return new TypeExecutor();
-			case EolParserTokenTypes.RETURN: return new ReturnStatementExecutor();
-			case EolParserTokenTypes.BREAK: return new BreakStatementExecutor();
-			case EolParserTokenTypes.ENUMERATION_VALUE: return new EnumerationValueExecutor();
-			case EolParserTokenTypes.IO : return new InputOutputExecutor();
-			case EolParserTokenTypes.IMPORT : return new ImportExecutor();
-			case EolParserTokenTypes.CONTINUE: return new ContinueExecutor();
-			case EolParserTokenTypes.WHILE: return new WhileStatementExecutor();
-			case EolParserTokenTypes.THROW: return new ThrowStatementExecutor();
-		}
-		
-		return null;
-	}
-	*/
 	
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Class<?> returnType, Object default_) throws EolRuntimeException {
 		if (ast == null) return default_;

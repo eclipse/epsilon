@@ -23,20 +23,13 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 
 public class SelectOperation extends IteratorOperation {
 	
-	protected boolean returnOnFirstMatch = false;
-	
 	public boolean isReturnOnFirstMatch() {
-		return returnOnFirstMatch;
+		return false;
 	}
-
-	public void setReturnOnFirstMatch(boolean returnOnFirstMatch) {
-		this.returnOnFirstMatch = returnOnFirstMatch;
-	}
-
-	@Override
+	
 	public Object execute(Object target, Variable iterator, AST expressionAst,
-			IEolContext context) throws EolRuntimeException {
-		
+			IEolContext context, boolean returnOnFirstMatch) throws EolRuntimeException {
+
 		Collection source = CollectionUtil.asCollection(target);
 		Collection result = EolCollectionType.createSameType(source);
 		
@@ -50,7 +43,7 @@ public class SelectOperation extends IteratorOperation {
 				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
 				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
 					result.add(listItem);
-					if (isReturnOnFirstMatch()) {
+					if (returnOnFirstMatch) {
 						scope.leaveLocal(expressionAst);
 						return result;
 					}
@@ -60,6 +53,14 @@ public class SelectOperation extends IteratorOperation {
 		}
 		
 		return result;
+
+	}
+	
+	@Override
+	public Object execute(Object target, Variable iterator, AST expressionAst,
+			IEolContext context) throws EolRuntimeException {
+		
+		return execute(target, iterator, expressionAst, context, isReturnOnFirstMatch());
 	}
 
 }

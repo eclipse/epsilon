@@ -52,7 +52,7 @@ public class OperationFactory {
 		operationCache.put("one", new OneOperation());
 		operationCache.put("forAll", new ForAllOperation());
 		operationCache.put("reject", new RejectOperation());
-		//operationCache.put("select", new SelectOperation());
+		operationCache.put("select", new SelectOperation());
 		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("closure", new ClosureOperation());
@@ -63,60 +63,8 @@ public class OperationFactory {
 		
 	}
 
-	
-	/**
-	 * Create an instance of the specified operation.
-	 * Implementations of operations exist under the
-	 * lookupPackage package collection. The implementation of 
-	 * the requested operation must have the following 
-	 * class name: 
-	 * <code>toCamel(name) + "Operation"</code>
-	 * so for <code>o-&gt;print()</code> the method will try to instantiate
-	 * and return <code>org.xol.execute.operations.simple.PrintOperation</code>
-	 * @param name
-	 * @return AbstractOperation
-	 */
-	/*
-	protected AbstractOperation getOperationFor(String name){
-		
-		AbstractOperation operation = null;
-		
-		ListIterator li = lookupPackages.listIterator();
-		
-		while (li.hasNext()){
-			String className = li.next().toString() + "." + StringUtil.firstToUpper(name) + "Operation";
-			try {
-				operation = (AbstractOperation) Class.forName(className).newInstance();
-				if (operation != null){
-					return operation;
-				}
-			}
-			catch (Exception ex){
-				// Safely ignore the exception
-			}
-		}
-		return null;
-	}
-	*/
-	
 	public AbstractOperation getOperationFor(String name) {
-		// Select operations are reused by other operations (e.g. exists(), reject() etc.)
-		// and they are stateful so it's important that every time we return a new one.
-		if ("select".equals(name)) return new SelectOperation();
-		else return operationCache.get(name);
+		return operationCache.get(name);
 	}
 	
-	public AbstractOperation getOperationFor(AST operationAst, IEolContext context){
-		return getOperationFor(operationAst.getText());
-	}
-	
-	/*
-	public Object executeOperation(Object source, AST operationAst, IEolContext context) throws EolRuntimeException{
-		AbstractOperation operation = getOperationFor(operationAst.getText());
-		if (operation == null) {
-			throw new EolIllegalOperationException(source, operationAst.getText(), operationAst, context.getPrettyPrinterManager());
-		} else {
-			return operation.execute(source, operationAst, context);
-		}
-	}*/
 }

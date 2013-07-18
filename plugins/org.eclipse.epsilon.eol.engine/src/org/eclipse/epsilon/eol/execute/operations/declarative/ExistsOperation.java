@@ -23,8 +23,7 @@ public class ExistsOperation extends SelectBasedOperation {
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
 
-		selectOperation.setReturnOnFirstMatch(true);
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context, true);
 		
 		return selected.size() > 0;
 
