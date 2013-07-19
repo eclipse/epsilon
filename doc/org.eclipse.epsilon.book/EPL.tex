@@ -1,0 +1,239 @@
+\chapter{The Epsilon Pattern Language (EPL)}
+\label{sec:EPL}
+
+\section{Background and Motivation}
+Several solutions have been proposed for the problem of pattern matching in models conforming to metamodels specified using standardised metamodelling languages. The majority of these solutions take the form of tailored graphical or textual languages, through which patterns can be specified at a certain level of abstraction, and accompanying interpreters/compilers which can then match these pattern specifications against concrete models. Examples of graphical pattern matching languages include AGG~\cite{AGG} and EMF Tiger~\cite{EMFTiger}, while examples of textual languages include GrGen.NET~\cite{GrGen}, VIATRA2~\cite{VIATRA2} and EMF-IncQuery~\cite{EMFIncQuery}. In \cite{QVTRPatterns}, QVTr has also been used to express and detect patterns in EMF models.
+
+Pattern matching is often only one step in a chain of model management operations. As such, languages for pattern matching should ideally integrate seamlessly with languages that support other model management tasks such as model validation, comparison, transformation etc. In our review of previous work, we have identified that existing languages for pattern matching are typically bundled together with in-place and/or model-to-model transformation capabilities, and can only be integrated with languages that support other MDE tasks such as model validation and model-to-text transformation either through serialising detected patterns in a commonly supported format or through developing bespoke inter-tool adapters. Even in cases where interoperability with other model management languages is feasible, developing pattern specifications and other model management programs in different and inconsistent syntaxes can introduce code duplication and, consequently, hinder development and maintenance \cite{ICCECS09}. Another limitation of existing pattern matching languages is that they typically target a specific modelling technology (e.g. EMF) and/or model representation format, which renders specifying and detecting patterns that involve elements of heterogeneous models (e.g. an EMF model and an XML document) particularly challenging, if possible at all.
+
+The above limitations have motivated us to design and implement a new pattern matching language, the Epsilon Pattern Language (EPL), which enables seamless runtime interoperability and code reuse with languages supporting a range of model management tasks, and also provides support for specifying patterns that involve elements of models conforming to different modelling technologies.
+
+\newcommand {\omnigraffle}[1] {
+\includegraphics[scale=0.55]{#1}
+}
+
+This chapter discusses the abstract and concrete syntax of EPL as well as its execution semantics. To aid understanding, the discussion of the syntax and the semantics of the language revolves around an exemplar pattern which is developed incrementally throughout the chapter. The exemplar pattern is matched against models extracted from Java source code using tooling provided by the MoDisco\footnote{http://www.eclipse.org/MoDisco/} project. MoDisco is an Eclipse project that provides a fine-grained Ecore-based metamodel of the Java language as well as tooling for extracting models that conform to this Java metamodel from Java source code. A simplified view of the relevant part of the MoDisco Java metamodel used in this running example is presented in Figure~\ref{fig:JavaMetamodel}.
+
+The aim of the pattern developed in this chapter (which we will call \emph{PublicField}) is to identify quartets of $<$ClassDeclaration, FieldDeclaration, MethodDeclaration, MethodDeclaration$>$, each representing a field of a Java class for which appropriately named accessor/getter (getX/isX) and mutator/setter (setX) methods are defined by the class.
+
+\begin{figure}[htbp]
+\centering
+\omnigraffle{images/Java.pdf}
+\caption{Simplified view of the MoDisco Java metamodel}
+\label{fig:JavaMetamodel}
+\end{figure}
+
+\section{Syntax}
+
+The syntax of EPL is an extension of the syntax of the EOL language, which -- as discussed earlier -- is the core language of Epsilon. As such, any references to \emph{expression} and \emph{statement block} in this chapter, refer to EOL expressions and blocks of EOL statements respectively. It is also worth noting that EOL expressions and statements can produce side-effects on models, and therefore, it is the responsibility of the developer to decide which expressions used in the context of EPL patterns should be side-effect free and which not.
+
+As illustrated in Figure \ref{fig:EPLAbstractSyntax}, EPL patterns are organised in \emph{modules}. Each module contains a number of named \emph{patterns} and optionally, \emph{pre} and \emph{post} statement blocks that are executed before and after the pattern matching process, and helper EOL operations. EPL modules can import other EPL and EOL modules to facilitate reuse and modularity.
+
+\begin{figure}[htbp]
+\centering
+\omnigraffle{images/EPL.pdf}
+\caption{Abstract Syntax of EPL}
+\label{fig:EPLAbstractSyntax}
+\end{figure}
+
+In its simplest form a \emph{pattern} consists of a number of named and typed \emph{roles} and a \emph{match} condition. For example, in lines \ref{components-start}-\ref{components-end}, the \emph{PublicField} pattern of Listing \ref{lst:Example}, defines four roles (\emph{class}, \emph{field}, \emph{setter} and \emph{getter}). The \emph{match} condition of the pattern specifies that for a quartet to be a valid match, the field, setter and getter must all belong to the class (lines \ref{belongs-start}-\ref{belongs-end}), and that the setter and getter methods must be appropriately named\footnote{To maintain the running example simple and concise, the pattern does not check aspects such as matching/compatible parameter/return types in the field, setter and getter but the reader should easily be able to envision how this would be supported through additional clauses in the match condition.}.
+\clearpage
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=First version of the PublicField pattern, label=lst:Example, breaklines=true, language=EPL, escapeinside={@*}{*@}]
+pattern PublicField
+	class : ClassDeclaration, field : FieldDeclaration, @*\label{components-start}*@
+	setter : MethodDeclaration, getter : MethodDeclaration { @*\label{components-end}*@
+	
+	match : class.bodyDeclarations.includes(field) and @*\label{belongs-start}*@ @*\label{match-start}*@
+		class.bodyDeclarations.includes(setter) and
+		class.bodyDeclarations.includes(getter) and @*\label{belongs-end}*@
+		setter.name = "set" + field.getName() and
+		(getter.name = "get" + field.getName() or
+		getter.name = "is" + field.getName()) @*\label{match-end}*@
+}
+
+@cached
+operation FieldDeclaration getName() {
+	return self.fragments.at(0).name.firstToUpperCase();
+}
+\end{lstlisting}
+
+The implementation of the PublicField pattern provided in Listing \ref{lst:Example} is fully functional but not particularly efficient as the \emph{match} condition needs to be evaluated $\#ClassDefinition * \#FieldDeclaration * \#MethodDeclaration^{2}$ times. To enable pattern developers to reduce the search space, each \emph{role} in an EPL pattern can specify a \emph{domain} which is an EOL expression that returns a collection of model elements from which the role will draw values.
+
+There are two types of domains in EPL: static domains which are computed once for all applications of the pattern, and which \textbf{are not} dependent on the bindings of other roles of the pattern (denoted using the \emph{in} keyword in terms of the concrete syntax), and dynamic domains which are recomputed every time the candidate values of the role are iterated, and which \textbf{are} dependent on the bindings of other roles (denoted using the \emph{from} keyword). Beyond a domain, each role can also specify a \emph{guard} expression that further prunes unnecessary evaluations of the match condition. Using dynamic domains and guards, the \emph{PublicField} pattern can be expressed in a more efficient way, as illustrated in Listing \ref{lst:Example2}. To further illustrate the difference between dynamic and static domains, changing \emph{from} to \emph{in} in line \ref{dynamicdomain} would trigger a runtime exception as the domain would become static and therefore not able to access bindings of other roles (i.e. \emph{class}).
+\clearpage
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=Second version of the PublicField pattern using domains and guards, label=lst:Example2, breaklines=true, language=EPL, escapeinside={@*}{*@}]
+pattern PublicField
+	class : ClassDeclaration,
+	field : FieldDeclaration
+		from: class.bodyDeclarations, @*\label{dynamicdomain}*@
+	setter : MethodDeclaration
+		from: class.bodyDeclarations
+		guard: setter.name = "set" + field.getName(),
+	getter : MethodDeclaration
+		from: class.bodyDeclarations 
+		guard : (getter.name = "get" + field.getName() or
+		         getter.name = "is" + field.getName()) { }
+\end{lstlisting}
+
+The implementation of Listing \ref{lst:Example2} is significantly more efficient than the previous implementation but can still be improved by further reducing the number of name comparisons of candidate \emph{setter} and \emph{getter} methods. To achieve this we can employ memoisation: we create a hash map of method names and methods once before pattern matching (line \ref{example3-pre}), and use it to identify candidate setters and getters (lines \ref{example3-setter-from} and \ref{example3-getter-from}-\ref{example3-getter-from2}).
+
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=Third version of the PublicField pattern, label=lst:Example3, breaklines=true, language=EPL, escapeinside={@*}{*@}]
+pre {
+	var methodMap = MethodDeclaration.all.mapBy(m|m.name); @*\label{example3-pre}*@
+}
+pattern PublicField
+	class : ClassDeclaration,
+	field : FieldDeclaration
+		from: class.bodyDeclarations,
+	setter : MethodDeclaration @*\label{example3-setter}*@
+		from: getMethods("set" + field.getName()) @*\label{example3-setter-from}*@
+		guard: setter.abstractTypeDeclaration = class,
+	getter : MethodDeclaration
+		from: getMethods("get" + field.getName()) @*\label{example3-getter-from}*@
+				.includingAll(getMethods("is" + field.getName())),  @*\label{example3-getter-from2}*@
+		guard: getter.abstractTypeDeclaration = class {
+}
+
+operation getMethods(name : String) : Sequence(MethodDeclaration) {
+	var methods = methodMap.get(name);
+	if (methods.isDefined()) return methods;
+	else return new Sequence;
+}
+\end{lstlisting}
+
+The sections below discuss the remainder of the syntax of EPL.
+
+\subsection{Negative Roles}
+Pattern roles can be negated using the \emph{no} keyword. For instance, by adding the \emph{no} keyword before the setter role in line \ref{example3-setter} of Listing \ref{lst:Example3}, the pattern will match fields that have getters but no setters (i.e. read-only fields).
+
+\subsection{Optional and Active Roles}
+Pattern roles can be designated as optional using the \emph{optional} EOL expression. For example, adding \texttt{optional: true} to the setter role would also match all fields that only have a getter. By adding \texttt{optional: true} to the setter role and \texttt{optional: setter.isDefined()} to the getter role, the pattern would match fields that have at least a setter or a getter. Roles can be completely deactivated depending on the bindings of other roles through the \emph{active} construct. For example, if the pattern developer prefers to specify separate roles for \emph{getX} and \emph{isX} getters, with a preference over getX getters, the pattern can be formulated as illustrated in Listing \ref{lst:Example4} so that if a \emph{getX} getter is found, no attempt is even made to match an \emph{isX} getter.
+
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=PublicField Pattern Version 4, label=lst:Example4, breaklines=true, language=EPL, escapeinside={@*}{*@}]
+pattern PublicField
+	class : ClassDeclaration,
+	field : FieldDeclaration ...,
+	setter : MethodDeclaration ...,
+	getGetter : MethodDeclaration ...,
+	isGetter: MethodDeclaration
+		...
+		active: getGetter.isUndefined() {
+}
+\end{lstlisting}
+
+\subsection{Role Cardinality}
+The cardinality of a role (lower and upper bound) can be defined in square brackets following the type of the role. Roles that have a cardinality with an upper bound $>$ 1 are bound to the subset of elements from the domain of the role which also satisfy the guard, if the size of that subset is within the bounds of the role's cardinality. Listing \ref{lst:Cardinality} demonstrates the \emph{ClassAndPrivateFields} pattern that detects instances of classes and all their private fields. If the cardinality of the field role in line \ref{field-cardinality} was [1..3] instead of [*], the pattern would only detect classes that own 1 to 3 private fields.
+
+\clearpage
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=Demonstration of Role Cardinality, label=lst:Cardinality, breaklines=true, language=EPL, escapeinside={@*}{*@}]
+pattern ClassAndPrivateFields
+	class : ClassDeclaration,
+	field : FieldDeclaration[*]  @*\label{field-cardinality}*@
+		from: class.bodyDeclarations
+		guard: field.getVisibility() = VisibilityKind#private {
+	
+	onmatch { @*\label{onmatch-start}*@
+	 	var message : String;
+	 	message = class.name + " matches";
+	 	message.println();
+	} @*\label{onmatch-end}*@
+	
+	do { @*\label{do}*@
+		// More actions here
+	}
+	
+	nomatch : (class.name + " does not match").println() @*\label{nomatch}*@
+}
+operation FieldDeclaration getVisibility() {
+	if (self.modifier.isDefined()) {
+		return self.modifier.visibility; }
+	else { return null; }
+}
+\end{lstlisting}
+
+\section{Execution Semantics}
+When an EPL module is executed, all of its \emph{pre} statement blocks are first executed in order to define and initialise any global variables needed (e.g. the \emph{methodMap} variable in Listing \ref{lst:Example3}) or to print diagnostic messages to the user. Subsequently, patterns are executed in the order in which they appear. For each pattern, all combinations that conform to the type and constraints of the roles of the pattern are iterated, and the validity of each combination is evaluated in the \emph{match} statement block of the pattern. In the absence of a \emph{match} block, every combination that satisfies the constraints of the roles of the pattern is accepted as a valid instance of the pattern.
+
+Immediately after every successful match, the optional \emph{onmatch} statement block of the pattern is invoked (see lines \ref{onmatch-start}-\ref{onmatch-end} of Listing \ref{lst:Cardinality}) and after every unsuccessful matching attempt, for combinations which however satisfy the constraints specified by the roles of the pattern, the optional \emph{nomatch} statement block of the pattern (line \ref{nomatch}) is executed . When matching of all patterns is complete, the \emph{do} part (line \ref{do}) of each successful match is executed. In the \emph{do} part, developers can modify the involved models (e.g to perform in-place transformation), without the risk of concurrent list modification errors (which can occur if elements are created/deleted during pattern matching). After pattern matching has been completed, the \emph{post} statement blocks of the module are executed in order to perform any necessary finalisation actions.
+
+An EPL module can be executed in a one-off or iterative mode. In the one-off mode, patterns are only evaluated once, while in the iterative mode, the process is repeated until no more matches have been found or until the maximum number of iterations (specified by the developer) has been reached. The iterative mode is particularly suitable for patterns that perform reduction of the models they are evaluated against.
+
+\section{Pattern Matching Output}
+
+The output of the execution of an EPL module on a set of models is a collection of matches encapsulated in a \emph{PatternMatchModel}, as illustrated in Figure \ref{fig:PatternMatchModel}. As \emph{PatternMatchModel} implements the \emph{IModel} interface discussed in Chapter \ref{sec:Design.EMC}, its instances can be accessed from other programs expressed in languages of the Epsilon family.
+
+\begin{figure}[htbp]
+\begin{center}
+\omnigraffle{images/PatternMatchModel.pdf}
+\caption{Pattern Matching Output}
+\label{fig:PatternMatchModel}
+\end{center}
+\end{figure}
+
+A \emph{PatternMatchModel} introduces one model element type for each pattern and one type for each field of each pattern (the name of these types are derived by concatenating the name of the pattern with a camel-case version of the name of the field). Instances of the prior are the matches of the pattern while instances of the latter are elements that have been matched in this particular role. For example, after executing the EPL module of Listing \ref{lst:Example3}, the produced \emph{PatternMatchModel} contains 5 types: \emph{PublicField}, instances of which are all the identified matches of the \emph{PublicField} pattern, \emph{PublicFieldClass}, instances of which are all the classes in the input model which have been matched to the \emph{class} role in instances of the \emph{PublicField} pattern, and similarly \emph{PublicFieldField}, \emph{PublicFieldSetter} and \emph{PublicFieldGetter}. 
+
+\section{Interoperability with Other Model Management Tasks}
+
+As a \emph{PatternMatchModel} is an instance of \emph{IModel}, after its computation it can be manipulated by other Epsilon programs. For example, Listing \ref{lst:ANT} demonstrates running the EPL module of Listing \ref{lst:Example3} and passing its output to the EVL constraints module of Listing \ref{lst:EVL} and, if validation is successful, to an ETL transformation where it is used to guide the generation of a UML model.
+
+In lines \ref{ant-loadmodel-start}-\ref{ant-loadmodel-end} of Listing \ref{lst:ANT} (see Chapter \ref{chp:Workflow} for a detailed discussion on the Epsilon ANT tasks), the Java model is loaded and is assigned the name \emph{Java}. Then, in line \ref{ant-epl-start}, the \emph{Java} model is passed on to \emph{publicfield.epl} for pattern matching. The result of pattern matching, which is an instance of the \emph{PatternMatchModel} class (and therefore also an instance of \emph{IModel}) is exported to the global context under the name \emph{Patterns}. Then, in lines \ref{ant-evl-start}, both the \emph{Patterns} and the \emph{Java} are passed on to the EVL model validation task which performs validation of the identified pattern matches.
+
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=ANT workflow calculating and passing a pattern match model to an EVL validation module, label=lst:ANT, breaklines=true, language=XML, escapeinside={@*}{*@}]
+<project default="main">
+	<target name="main">
+	
+		<epsilon.emf.loadModel name="Java" @*\label{ant-loadmodel-start}*@
+			modelfile="org.eclipse.epsilon.eol.engine_java.xmi" 
+			metamodeluri="...MoDisco/Java/0.2.incubation/java"
+			read="true" store="false"/> @*\label{ant-loadmodel-end}*@
+		
+		<epsilon.epl src="publicfield.epl" exportAs="Patterns"> @*\label{ant-epl-start}*@
+			<model ref="Java"/>
+		</epsilon.epl> @*\label{ant-epl-end}*@
+		
+		<epsilon.evl src="constraints.evl"> @*\label{ant-evl-start}*@
+			<model ref="Patterns"/>
+			<model ref="Java"/>
+		</epsilon.evl> @*\label{ant-evl-end}*@
+
+		<epsilon.etl src="java2uml.etl"> @*\label{ant-etl-start}*@
+			<model ref="Patterns"/>
+			<model ref="Java"/>
+		</epsilon.etl> @*\label{ant-etl-end}*@
+	</target>
+</project>
+\end{lstlisting}
+
+Line \ref{ant-evl-context} of Listing \ref{lst:EVL} defines a set of constraints that will be applied to instances of the \emph{PublicField} type from the \emph{Patterns} model. As discussed above, these are all matched instances of the \emph{PublicField} pattern. Line \ref{ant-evl-check}, specifies the condition that needs to be satisfied by instances of the pattern. Notice the \emph{self.getter} and \emph{self.field} expressions which return the \emph{MethodDeclaration} and \emph{FieldDeclaration} bound to the instance of the pattern. Then, line \ref{ant-evl-message} defines the message that should be produced for instances of \emph{PublicField} that do not satisfy this constraint.
+ 
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=Fragment of the constraints.evl EVL constraints module, label=lst:EVL, breaklines=true, language=EVL, escapeinside={@*}{*@}]
+context Patterns!PublicField { @*\label{ant-evl-context}*@
+	guard: self.field.type.isDefined()
+	constraint GetterAndFieldSameType { 
+		check : self.getter.returnType.type = self.field.type.type @*\label{ant-evl-check}*@
+		message : "The getter of " + self.class.name + "." @*\label{ant-evl-message}*@
+			+ self.field.fragments.at(0).name +
+			" does not have the same type as the field itself"
+	}
+}
+\end{lstlisting}
+
+If validation is successful, both the \emph{Java} and the \emph{Patterns} model are passed on to an ETL transformation that transforms the \emph{Java} model to a UML model, a fragment of which is presented in Listing \ref{lst:ETL}. The transformation encodes $<field, setter, getter>$ triplets in the \emph{Java} model as public properties in the UML model. As such, in line \ref{etl-instanceof} of the transformation, the \emph{Patterns} model is used to check whether field \emph{s} has been matched under the \emph{PublicField} pattern, and if so, the next line ignores the field's declared visibility and sets the visibility of the respective UML property to \emph{public}.
+
+\begin{lstlisting}[flexiblecolumns=true, nolol=false, caption=Fragment of the java2uml.etl Java to UML ETL transformation, label=lst:ETL, breaklines=true, language=ETL, escapeinside={@*}{*@}]
+rule FieldDeclaration2Property
+	transform s: Java!FieldDeclaration
+	to t: Uml!Property {
+	
+	t.name = s.getName();
+	if (s.instanceOf(Patterns!PublicFieldField)) { @*\label{etl-instanceof}*@
+		t.visibility = Uml!VisibilityKind#public;
+	}
+	else {
+		t.visibility = s.toUmlVisibility();
+	}
+	...
+}
+\end{lstlisting}
+
+As Epsilon provides ANT tasks for all its languages, the same technique can be used to pass the result of pattern matching on to model-to-text transformations, as well as model comparison and model merging programs.

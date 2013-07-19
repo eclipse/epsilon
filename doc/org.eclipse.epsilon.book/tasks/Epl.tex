@@ -1,0 +1,9 @@
+\subsection{Pattern Matching Task}
+
+The \emph{epsilon.epl} task executes an EPL module, defined using the \emph{src} attribute to perform pattern matching on the models that are specified using the \emph{model} nested elements. In addition to the attributes defined by the ExecutableModuleTask, this task also provides the following attributes.
+
+\begin{itemize}
+  \item \emph{repeatWhileMatches}: A boolean specifying whether the pattern matching process should continue to execute for as long as matches are found.
+  \item \emph{maxLoops}: An integer specifying the maximum number of pattern matching iterations.
+  \item \emph{exportAs}: The name under which the computed pattern match model should be made available to other Epsilon tasks of the workflow.
+\end{itemize}
