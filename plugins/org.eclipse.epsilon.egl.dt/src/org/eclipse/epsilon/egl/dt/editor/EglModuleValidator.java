@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -12,11 +13,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class EglModuleValidator implements IModuleValidator {
-	
-	protected boolean appliesTo(IModule module) {
-		return module instanceof EglTemplateFactoryModuleAdapter;
-	}
+public class EglModuleValidator extends AbstractModuleValidator implements IModuleValidator {
 	
 	@Override
 	public List<ModuleMarker> validate(IModule module) {
@@ -40,6 +37,10 @@ public class EglModuleValidator implements IModuleValidator {
 		
 		return markers;
 		
+	}
+	
+	protected boolean appliesTo(IModule module) {
+		return module instanceof EglTemplateFactoryModuleAdapter;
 	}
 	
 	protected boolean isEmptyPrintStatement(AST ast) {

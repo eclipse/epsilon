@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -12,11 +13,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class EolModuleValidator implements IModuleValidator {
-	
-	protected boolean appliesTo(IModule module) {
-		return module.getClass() == EolModule.class;
-	}
+public class EolModuleValidator extends AbstractModuleValidator implements IModuleValidator {
 	
 	@Override
 	public List<ModuleMarker> validate(IModule module) {
@@ -39,7 +36,9 @@ public class EolModuleValidator implements IModuleValidator {
 		}
 		
 		return markers;
-		
 	}
 	
+	protected boolean appliesTo(IModule module) {
+		return module.getClass() == EolModule.class;
+	}
 }

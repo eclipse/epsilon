@@ -13,11 +13,14 @@ package org.eclipse.epsilon.common.dt.editor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -378,8 +381,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		// Update problem markers
 		// TODO: Update problem markers in all referenced files
 		try {
-			// Delete all the old markers and add new
-			file.deleteMarkers(AbstractModuleEditor.PROBLEMMARKER, true, IResource.DEPTH_INFINITE);
+			// Delete all the old markers
+			for (String markerType : getMarkerTypes()) {
+				file.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
+			}
 			
 			// Create markers for parse problems
 			for (ParseProblem problem : module.getParseProblems()) {
@@ -421,7 +426,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 							}
 							
-							MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEMMARKER);
+							String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());
+							
+							MarkerUtilities.createMarker(file, attr, markerType);
 						}
 					}
 				}
@@ -435,6 +442,16 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			notifyModuleParsedListeners(module);
 		}
 		
+	}
+
+	private Collection<String> getMarkerTypes() {
+		final Set<String> markerTypes = new HashSet<String>();
+		markerTypes.add(AbstractModuleEditor.PROBLEMMARKER);
+		
+		for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
+			markerTypes.add(validator.getMarkerType());
+		}
+		return markerTypes;
 	}
 	
 	@Override
