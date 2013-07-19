@@ -39,21 +39,24 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.Color;
 
 @SuppressWarnings("deprecation")
 public class EglConfiguration extends SourceViewerConfiguration {
 
 	private final SourceViewerConfiguration configuration;
+	private final Color staticTextColour;
 	
-	public EglConfiguration(SourceViewerConfiguration configuration) {
+	public EglConfiguration(SourceViewerConfiguration configuration, Color staticTextColour) {
 		this.configuration = configuration;
+		this.staticTextColour = staticTextColour;
 	}
 	
 	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		final PresentationReconciler eglReconciler = new PresentationReconciler();
 
-		final DefaultDamagerRepairer2 defaultRepairer = new DefaultDamagerRepairer2(new RuleBasedScanner());
+		final DefaultDamagerRepairer2 defaultRepairer = new DefaultDamagerRepairer2(getStaticTextScanner());
 		eglReconciler.setRepairer(defaultRepairer, IDocument.DEFAULT_CONTENT_TYPE);
 		eglReconciler.setDamager(defaultRepairer, IDocument.DEFAULT_CONTENT_TYPE);
 		
@@ -81,6 +84,15 @@ public class EglConfiguration extends SourceViewerConfiguration {
 		eglReconciler.setDamager(markerRepairer, EglProvider.EGL_MARKER);
 		
 		return eglReconciler;
+	}
+	
+	private ITokenScanner getStaticTextScanner() {
+		final RuleBasedScanner scanner       = new RuleBasedScanner();
+		final TextAttribute    textAttribute = new TextAttribute(staticTextColour);
+		
+		scanner.setDefaultReturnToken(new Token(textAttribute));
+		
+		return scanner;
 	}
 	
 	private ITokenScanner getCommentScanner() {

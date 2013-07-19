@@ -17,9 +17,12 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.dt.EglPlugin;
+import org.eclipse.epsilon.egl.dt.EglPreferencePage;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -29,20 +32,27 @@ public class EglEditor extends AbstractModuleEditor {
 	
 	public static final String ID = "org.eclipse.epsilon.egl.dt.editor.EglEditor";
 
+	private static final Color STATIC_TEXT = new Color(Display.getCurrent(), new RGB(175, 175, 175));
+	private static final Color LEGACY_STATIC_TEXT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
+
+	private static final Color DYNAMIC_BACKGROUND = new Color(Display.getCurrent(), new RGB(255, 255, 255));
+	private static final Color LEGACY_DYNAMIC_BACKGROUND = new Color(Display.getCurrent(), new RGB(251, 242, 184));
+	
 	private final EolEditor eolEditor = new EolEditor();
+	private final boolean useLegacyColours = EglPlugin.getDefault().getPreferenceStore().getBoolean(EglPreferencePage.USE_LEGACY_COLOUR_SCHEME);
 	
 	public EglEditor() {
-		setBackgroundColor(new Color(Display.getCurrent(), 251, 242, 184));
 		setDocumentProvider(new EglProvider());
 		addTemplateContributor(new EglEditorStaticTemplateContributor());
+		setBackgroundColor(getBackgroundColour());
 	}
-		
+
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
 		super.init(site, input);
 		
 		// Syntax highlight according to partitioning
-		setSourceViewerConfiguration(new EglConfiguration(super.getSourceViewerConfiguration()));
+		setSourceViewerConfiguration(new EglConfiguration(super.getSourceViewerConfiguration(), getStaticTextColour()));
 	}
 
 	@Override
@@ -91,5 +101,13 @@ public class EglEditor extends AbstractModuleEditor {
 	@Override
 	protected boolean supportsDirtyTextParsing() {
 		return true;
+	}
+	
+	private Color getBackgroundColour() {
+		return useLegacyColours ? EglEditor.LEGACY_DYNAMIC_BACKGROUND : EglEditor.DYNAMIC_BACKGROUND;
+	}
+	
+	private Color getStaticTextColour() {
+		return useLegacyColours ? EglEditor.LEGACY_STATIC_TEXT : EglEditor.STATIC_TEXT;
 	}
 }
