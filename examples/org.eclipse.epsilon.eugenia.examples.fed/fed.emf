@@ -2,7 +2,7 @@
 @emf.gen(basePackage="org.eclipse.epsilon.eugenia.examples")
 package fed;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class Configuration {
    val Feature[*] features;
    val Plugin[*] plugins;

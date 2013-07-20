@@ -1,7 +1,7 @@
 @namespace(uri="filesystem", prefix="filesystem")
 package filesystem;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class Filesystem {
     val Drive[*] drives;
     val Sync[*] syncs;
@@ -12,7 +12,7 @@ class Drive extends Folder {
 }
 
 class Folder extends File {
-	@gmf.compartment(foo="bar")
+	@gmf.compartment
     val File[*] contents;
 }
 

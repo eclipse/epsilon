@@ -1,7 +1,7 @@
 @namespace(uri="flowchart", prefix="flowchart")
 package flowchart;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class Flowchart {
    val Node[*] nodes;
    val Transition[*] transitions;

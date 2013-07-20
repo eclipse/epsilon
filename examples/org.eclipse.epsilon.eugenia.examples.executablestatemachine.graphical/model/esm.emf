@@ -1,8 +1,8 @@
-@gmf(foo="bar")
+@gmf
 @namespace(uri="esm", prefix="esm")
 package esm;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class Machine {
   val State[*] states;
   val Transition[*] transitions;

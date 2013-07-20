@@ -1,7 +1,7 @@
 @namespace(uri="endlabels", prefix="endlabels")
 package endlabels;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class Model {
    val Class[*] clases;
    val Association[*] asociations;

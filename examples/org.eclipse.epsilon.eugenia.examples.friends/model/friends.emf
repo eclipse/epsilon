@@ -1,7 +1,7 @@
 @namespace(uri="friends", prefix="")
 package friends;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class World {
 	val Person[*] people;
 }

@@ -1,7 +1,7 @@
 @namespace(uri="www.eclipse.org/epsilon/examples/widgets", prefix="w")
 package widgets;
 
-@gmf.diagram(foo="bar")
+@gmf.diagram
 class System {
    val Widget[*] widgets;
 }
