@@ -39,14 +39,17 @@ public class H2Table {
 	}
 	
 	public void insertRow(H2Value... values) throws H2DatabaseAccessException {
-		try {								
-			String valuesSql = "", columnsSql = "";
+		try {
+			final Object[] parameters = new Object[values.length];
+	 		String valuesSql = "", columnsSql = "";
+			int index = 0;
 			
-			for (Iterator<H2Value> iterator = Arrays.asList(values).iterator(); iterator.hasNext();) {
+			for (Iterator<H2Value> iterator = Arrays.asList(values).iterator(); iterator.hasNext(); index++) {
 				final H2Value value = (H2Value) iterator.next();
 				
+				parameters[index] = value.value;
 				columnsSql += value.columnName;
-				valuesSql  += "'" + value.value + "'";
+				valuesSql  += "?";
 				
 				if (iterator.hasNext()) {
 					columnsSql += ",";
@@ -54,7 +57,7 @@ public class H2Table {
 				}
 			}
 			
-			querier.execute("INSERT INTO " + name + "(" + columnsSql + ") VALUES(" + valuesSql + ");");
+			querier.execute("INSERT INTO " + name + "(" + columnsSql + ") VALUES(" + valuesSql + ");", parameters);
 					
 		} catch (SQLException e) {
 			throw new H2DatabaseAccessException("Could not insert values into '" + name + "' in H2 database at: " + querier, e);
@@ -73,7 +76,7 @@ public class H2Table {
 	
 	public void deleteBy(H2Value key) throws H2DatabaseAccessException {
 		try {
-			querier.execute("DELETE FROM " + name + " WHERE " + key.columnName + "='" + key.value + "';");
+			querier.execute("DELETE FROM " + name + " WHERE " + key.columnName + "=?;", key.value);
 					
 		} catch (SQLException e) {
 			throw new H2DatabaseAccessException("Could not delete values from '" + name + "' in H2 database at: " + querier, e);
@@ -85,19 +88,23 @@ public class H2Table {
 			throw new IllegalArgumentException("At least one updatedValue must be specified.");
 		
 		try {
-			String updatesSql = "";
+			final Object[] parameters = new Object[updatedValues.length+1];
+ 			String updatesSql = "";
+ 			int index = 0;
 			
-			for (Iterator<H2Value> iterator = Arrays.asList(updatedValues).iterator(); iterator.hasNext();) {
+ 			for (Iterator<H2Value> iterator = Arrays.asList(updatedValues).iterator(); iterator.hasNext(); index++) {
 				final H2Value value = (H2Value) iterator.next();
 				
-				updatesSql += value.columnName + "=" + "'" + value.value + "'";
+				parameters[index] = value.value;
+				updatesSql += value.columnName + "=?";
 				
 				if (iterator.hasNext()) {
 					updatesSql  += ", ";
 				}
 			}
-			
-			querier.execute("UPDATE " + name + " SET " + updatesSql + " WHERE " + key.columnName + "='" + key.value + "';");
+ 			
+ 			parameters[parameters.length-1] = key.value;
+ 			querier.execute("UPDATE " + name + " SET " + updatesSql + " WHERE " + key.columnName + "=?;", parameters);
 							
 		} catch (SQLException e) {
 			throw new H2DatabaseAccessException("Could not delete values from '" + name + "' in H2 database at: " + querier, e);
@@ -106,7 +113,7 @@ public class H2Table {
 	
 	public Collection<H2Row> findBy(H2Value key) throws H2DatabaseAccessException {
 		try {
-			return querier.execute("SELECT * FROM " + name + " WHERE " + key.columnName + "='" + key.value + "';");
+			return querier.execute("SELECT * FROM " + name + " WHERE " + key.columnName + "=?;", key.value.toString());
 
 		} catch (SQLException e) {
 			throw new H2DatabaseAccessException("Could not find values by " + key + " from '" + name + "' in H2 database at: " + querier, e);
@@ -117,7 +124,7 @@ public class H2Table {
 		try {
 			final Collection<Object> results = new LinkedList<Object>();
 			
-			for (H2Row row : querier.execute("SELECT " + columnName.toUpperCase() + " FROM " + name + " WHERE " + key.columnName + "='" + key.value + "';")) {
+			for (H2Row row : querier.execute("SELECT " + columnName.toUpperCase() + " FROM " + name + " WHERE " + key.columnName + "=?;", key.value.toString())) {
 				results.add(row.getValue(columnName.toUpperCase()));
 			}
 			

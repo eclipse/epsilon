@@ -42,12 +42,10 @@ class H2DatabaseQuerier {
 	
 	private Connection conn = null;
 	
-	public Collection<H2Row> execute(String sql) throws SQLException {
+	public Collection<H2Row> execute(String sql, Object... parameters) throws SQLException {
 		openConnection();
 				
-		final PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setQueryTimeout(15);
-		
+		final PreparedStatement statement = prepareStatement(sql, parameters);
 		final Collection<H2Row> results = new LinkedList<H2Row>();
 		
 		if (statement.execute() && !statement.isClosed()) {
@@ -71,6 +69,17 @@ class H2DatabaseQuerier {
 //			System.err.println("RETURNED: " + results);
 		
 		return results;
+	}
+
+	private PreparedStatement prepareStatement(String sql, Object... parameters) throws SQLException {
+		final PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setQueryTimeout(15);
+		
+		for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+			statement.setObject(parameterIndex+1, parameters[parameterIndex]);
+		}
+		
+		return statement;
 	}
 	
 	public boolean hasTableNamed(String tableName) throws SQLException {

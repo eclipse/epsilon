@@ -63,8 +63,8 @@ public class H2DatabaseQuerierTests {
 	public void shouldReturnARowForEachResult() throws SQLException {
 		querier.execute("CREATE TABLE FAMILIES (NAME VARCHAR(255) PRIMARY KEY);");
 		
-		querier.execute("INSERT INTO FAMILIES (NAME) VALUES ('John Doe');");
-		querier.execute("INSERT INTO FAMILIES (NAME) VALUES ('Joe Bloggs');");
+		querier.execute("INSERT INTO FAMILIES (NAME) VALUES (?);", "John Doe");
+		querier.execute("INSERT INTO FAMILIES (NAME) VALUES (?);", "Joe Bloggs");
 		
 		assertEquals(Arrays.asList(new H2Row(new H2Value("NAME", "John Doe")),
 		                           new H2Row(new H2Value("NAME", "Joe Bloggs"))),
@@ -72,10 +72,22 @@ public class H2DatabaseQuerierTests {
 	}
 	
 	@Test
+	public void shouldProtectAgainstInjectionAttack() throws SQLException {
+		querier.execute("CREATE TABLE FAMILIES (NAME VARCHAR(255) PRIMARY KEY);");
+		
+		// See: http://xkcd.com/327/
+		final String littleBobbyTables = "Robert'); DROP TABLE FAMILIES;--";
+		querier.execute("INSERT INTO FAMILIES (NAME) VALUES (?);", littleBobbyTables);
+		
+		assertEquals(Arrays.asList(new H2Row(new H2Value("NAME", littleBobbyTables))),
+		             querier.execute("SELECT * FROM FAMILIES"));
+	}
+	
+	@Test
 	public void shouldReturnAValueForEachSelectedColumn() throws SQLException {
 		querier.execute("CREATE TABLE FAMILIES (NAME VARCHAR(255) PRIMARY KEY, AGE INT);");
 		
-		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES ('John Doe', 42);");
+		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES (?, ?);", "John Doe", 42);
 		
 		assertEquals(Arrays.asList(new H2Row(new H2Value("NAME", "John Doe"),
 		                                     new H2Value("AGE",  42))),
@@ -86,11 +98,11 @@ public class H2DatabaseQuerierTests {
 	public void shouldExecuteDeleteQuery() throws SQLException {
 		querier.execute("CREATE TABLE FAMILIES (NAME VARCHAR(255) PRIMARY KEY, AGE INT);");
 		
-		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES ('John Doe', 42);");
-		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES ('Jane Doe', 15);");
-		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES ('Joe Bloggs', 15);");
+		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES (?, ?);", "John Doe", 42);
+		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES (?, ?);", "Jane Doe", 15);
+		querier.execute("INSERT INTO FAMILIES (NAME, AGE) VALUES (?, ?);", "Joe BLoggs", 15);
 		
-		querier.execute("DELETE FROM FAMILIES WHERE AGE=15;");
+		querier.execute("DELETE FROM FAMILIES WHERE AGE=?;", 15);
 		
 		assertEquals(Arrays.asList(new H2Row(new H2Value("NAME", "John Doe"),
 		                                     new H2Value("AGE",  42))),

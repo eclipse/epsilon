@@ -33,7 +33,7 @@ public class H2TableTests {
 	
 	@Test
 	public void insertRowShouldExecuteInsertIntoStatement() throws H2DatabaseAccessException, SQLException {
-		expect(mockDb.execute("INSERT INTO FAMILIES(ID,NAME) VALUES('123','Joe Bloggs');")).andReturn(null);
+		expect(mockDb.execute("INSERT INTO FAMILIES(ID,NAME) VALUES(?,?);", 123, "Joe Bloggs")).andReturn(null);
 						
 		replay(mockDb);
 		
@@ -57,7 +57,7 @@ public class H2TableTests {
 
 	@Test
 	public void deleteByShouldExecuteConditionalDeleteFromStatement() throws H2DatabaseAccessException, SQLException {
-		expect(mockDb.execute("DELETE FROM FAMILIES WHERE ID='123';")).andReturn(null);
+		expect(mockDb.execute("DELETE FROM FAMILIES WHERE ID=?;", 123)).andReturn(null);
 						
 		replay(mockDb);
 		
@@ -69,7 +69,7 @@ public class H2TableTests {
 	
 	@Test
 	public void updateByShouldExecuteConditionalUpdateStatement() throws H2DatabaseAccessException, SQLException {
-		expect(mockDb.execute("UPDATE FAMILIES SET ID='456', NAME='John Doe' WHERE ID='123';")).andReturn(null);
+		expect(mockDb.execute("UPDATE FAMILIES SET ID=?, NAME=? WHERE ID=?;", 456, "John Doe", 123)).andReturn(null);
 						
 		replay(mockDb);
 		
@@ -81,7 +81,7 @@ public class H2TableTests {
 	
 	@Test
 	public void findByShouldExecuteConditionalSelectStatement() throws H2DatabaseAccessException, SQLException {
-		expect(mockDb.execute("SELECT * FROM FAMILIES WHERE ID='123';")).andReturn(null);
+		expect(mockDb.execute("SELECT * FROM FAMILIES WHERE ID=?;", "123")).andReturn(null);
 						
 		replay(mockDb);
 		
@@ -93,7 +93,7 @@ public class H2TableTests {
 	
 	@Test
 	public void findByWithColumnNameShouldExecuteConditionalSelectStatementAndProcessResults() throws H2DatabaseAccessException, SQLException {
-		expect(mockDb.execute("SELECT NAME FROM FAMILIES WHERE ID='123';"));
+		expect(mockDb.execute("SELECT NAME FROM FAMILIES WHERE ID=?;", "123"));
 		expectLastCall().andReturn(Arrays.asList(new H2Row(new H2Value("name", "John Doe")),
 		                                         new H2Row(new H2Value("name", "Joe Bloggs"))));
 						
