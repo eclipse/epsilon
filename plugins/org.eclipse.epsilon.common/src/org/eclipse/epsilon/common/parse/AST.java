@@ -97,7 +97,7 @@ public class AST extends CommonTree {
 	}
 	
 	@Override
-	public List<? extends AST> getChildren() {
+	public List<AST> getChildren() {
 		List<AST> children = super.getChildren();
 		if (children == null) return Collections.EMPTY_LIST;
 		else return children;

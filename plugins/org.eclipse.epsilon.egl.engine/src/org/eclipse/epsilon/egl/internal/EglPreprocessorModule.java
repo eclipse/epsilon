@@ -15,11 +15,13 @@ package org.eclipse.epsilon.egl.internal;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
@@ -29,6 +31,7 @@ import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EglPreprocessorModule extends EolModule {
 
@@ -70,10 +73,57 @@ public class EglPreprocessorModule extends EolModule {
 	protected void updateASTLocations(AST ast) {
 		ast.setColumn(preprocessor.getTrace().getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
 		ast.setLine(preprocessor.getTrace().getEglLineNumberFor(ast.getLine()));
+		
 		for (Token token : ast.getExtraTokens()) {
 			if (token == null) continue;
 			token.setCharPositionInLine(preprocessor.getTrace().getEglColumnNumberFor(token.getLine(), token.getCharPositionInLine()));
 			token.setLine(preprocessor.getTrace().getEglLineNumberFor(token.getLine()));
+		}
+		
+		// Turn out.print("something") / out.printdyn(x) to imaginary and fix the region of the parameter
+		if (ast.getType() == EolParser.POINT && ast.getNumberOfChildren() == 2) {
+			AST outAst = ast.getFirstChild();
+			AST printAst = ast.getChild(1);
+			
+			if ("out".equals(outAst.getText()) && ("print".equals(printAst.getText()) || "printdyn".equals(printAst.getText()))) {
+				AST parametersAst = printAst.getFirstChild();
+				if (parametersAst != null) {
+					AST firstParameterAst = parametersAst.getFirstChild();
+					if (firstParameterAst != null) {
+						ast.setImaginary(true);
+						outAst.setImaginary(true);
+						printAst.setImaginary(true);
+						parametersAst.setImaginary(true);
+						
+						updateASTLocations(firstParameterAst);
+						Region region = firstParameterAst.getRegion();
+						
+						Region adjustedRegion = null;
+						
+						// For out.print("something") we need to lose the double quotes
+						if ("print".equals(printAst.getText()) && firstParameterAst.getType() == EolParser.STRING) {
+							adjustedRegion = new Region(region.getStart().getLine(), region.getStart().getColumn()+1,
+								region.getEnd().getLine(), region.getEnd().getColumn() - 1);
+							firstParameterAst.setRegion(adjustedRegion);
+						}
+						else {
+							adjustedRegion = region;
+						}
+						
+						// Turn out.print("\n") and out.print("\r\n") to imaginary
+						if ("\\n".equals(firstParameterAst.getText()) || "\\r\\n".equals(firstParameterAst.getText())) firstParameterAst.setImaginary(true);
+						
+						// Make all involved ASTs imaginary and assign them the region of the first parameter
+						for (AST imaginary : Arrays.asList(ast, outAst, printAst, parametersAst)) {
+							imaginary.setColumn(preprocessor.getTrace().getEglColumnNumberFor(imaginary.getLine(), imaginary.getColumn()));
+							imaginary.setLine(preprocessor.getTrace().getEglLineNumberFor(imaginary.getLine()));
+							imaginary.setImaginary(true);
+							imaginary.setRegion(adjustedRegion);
+						}
+						return;
+					}
+				}
+			}
 		}
 		
 		for (AST child : ast.getChildren()) {
