@@ -35,7 +35,7 @@ public class EglEditor extends AbstractModuleEditor {
 	private static final Color STATIC_TEXT = new Color(Display.getCurrent(), new RGB(175, 175, 175));
 	private static final Color LEGACY_STATIC_TEXT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
 
-	private static final Color DYNAMIC_BACKGROUND = new Color(Display.getCurrent(), new RGB(255, 255, 255));
+	private static final Color DYNAMIC_BACKGROUND = null;
 	private static final Color LEGACY_DYNAMIC_BACKGROUND = new Color(Display.getCurrent(), new RGB(251, 242, 184));
 	
 	private final EolEditor eolEditor = new EolEditor();
