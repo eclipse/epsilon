@@ -113,8 +113,7 @@ public class Preprocessor {
 					
 				case NEW_LINE:
 				case PLAIN_TEXT:
-					addToOffset(child.getLine(), child.getText().length());
-					
+									
 					boolean isWhitespacePrecedingTagged = TokenType.typeOf(child.getType()) != TokenType.NEW_LINE &&
 					                                      isWhitespace(child.getText())  &&
 					                                      child.getNextSibling() != null &&
@@ -124,7 +123,15 @@ public class Preprocessor {
 					// Gobble whitespace before [% %] and [* *] pairs
 					if (!isWhitespacePrecedingTagged) {
 						appendToEolOnANewLine("out.print('" + escape(child.getText()) + "');", child.getLine());
+						
+						if (TokenType.typeOf(child.getType()) == TokenType.PLAIN_TEXT) {
+							String printCall = "out.print('";
+							// Update trace to account for length of printCall
+							trace.incrementColumnCorrectionNumber(getOffset(child.getLine()) + -printCall.length());
+						}
 					}
+					
+					addToOffset(child.getLine(), child.getText().length());
 					
 					break;
 					
@@ -177,6 +184,10 @@ public class Preprocessor {
 						eol.append(printCall + child.getFirstChild().getText() + ");");
 					}
 					
+					break;
+					
+				default:
+					// ignore
 					break;
 			}
 			

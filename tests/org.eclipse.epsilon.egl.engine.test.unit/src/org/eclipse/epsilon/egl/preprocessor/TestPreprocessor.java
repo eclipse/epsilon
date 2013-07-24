@@ -163,7 +163,41 @@ public class TestPreprocessor {
 	}
 	
 	
-	/// Traceability tests \\\	
+	/// Traceability tests \\\
+	@Test
+	public void testTraceabilityStatic() {
+		final String program = "Only static";
+		//                      12345678901
+		
+		
+		// out.print("Only static");
+		// 123456789012
+		
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglColumnNumberFor(1, 12));
+	}
+	
+	
+	@Test
+	public void testTraceabilityStaticInTheMiddleOfALine() {
+		final String program = "[%var x = 1;%]this is static[%=foo.bar()%]";
+		//                      12345678901234567890123456789012
+				
+		preprocess(program);
+//		System.err.println(preprocess(program));
+//		System.err.println(preprocessor.getTrace());
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(2));
+		assertEquals(15, preprocessor.getTrace().getEglColumnNumberFor(2, 12));
+		
+		assertEquals(1, preprocessor.getTrace().getEglLineNumberFor(3));
+		assertEquals(32, preprocessor.getTrace().getEglColumnNumberFor(3, 14));
+	}
+	
+	
 	@Test
 	public void testTraceabilityOneLine() {
 		final String program = "[%for (i in Sequence{1..10}) {%][%out.print(i);%][%}%]";
@@ -359,7 +393,7 @@ public class TestPreprocessor {
 		                       "[%}%]";
 		//                      1234567890123456789012345678901
 		//                      0        1         2         3
-
+		
 		preprocess(program);
 //		System.err.println(preprocess(program));
 //		System.err.println(preprocessor.getTrace());
@@ -372,8 +406,8 @@ public class TestPreprocessor {
 		assertEquals(4, preprocessor.getTrace().getEglLineNumberFor(6));
 		
 		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(1, 1));
-		assertEquals(5,  preprocessor.getTrace().getEglColumnNumberFor(2, 1));
-		assertEquals(1,  preprocessor.getTrace().getEglColumnNumberFor(3, 1));
+		assertEquals(6,  preprocessor.getTrace().getEglColumnNumberFor(2, 2));
+		assertEquals(1,  preprocessor.getTrace().getEglColumnNumberFor(3, 12));
 		assertEquals(6,  preprocessor.getTrace().getEglColumnNumberFor(4, "out.printdyn('".length()));
 		assertEquals(11, preprocessor.getTrace().getEglColumnNumberFor(5, "out.print('".length()));
 		assertEquals(3,  preprocessor.getTrace().getEglColumnNumberFor(6, 1));
