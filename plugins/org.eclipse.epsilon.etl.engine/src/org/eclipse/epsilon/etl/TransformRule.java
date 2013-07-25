@@ -30,6 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -101,6 +102,16 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		}
 	}
 	
+	protected EolModelElementType sourceType = null;
+	
+	public EolModelElementType getSourceType(IEolContext context) throws EolRuntimeException {
+		if (sourceType == null) {
+			sourceType = (EolModelElementType) sourceParameter.getType(context);
+		}
+		return sourceType;
+	}
+	
+	/*
 	public Collection getAllOfSourceKind(IEtlContext context) throws EolRuntimeException{		
 		try {
 			EolModelElementType sourceType = (EolModelElementType) sourceParameter.getType(context);
@@ -110,7 +121,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			ex.setAst(sourceParameter.getTypeAst());
 			throw ex;
 		}
-	}
+	}*/
 	
 	protected Collection rejected = new ArrayList<Object>();
 	
@@ -130,10 +141,10 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 			appliesToTypes = true;
 		}
 		else if (isGreedy() || asSuperRule) {
-			appliesToTypes = getAllOfSourceKind(context).contains(source);
+			appliesToTypes = getSourceType(context).isKind(source);
 		}
 		else {
-			appliesToTypes = getAllOfSourceType(context).contains(source);
+			appliesToTypes = getSourceType(context).isType(source);
 		}
 		
 		boolean guardSatisfied = true;
@@ -186,13 +197,17 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	
 	public void transformAll(IEtlContext context, List<Object> excluded) throws EolRuntimeException{
-		Iterator it = getAllOfSourceKind(context).iterator();
-		while (it.hasNext()){
-			Object instance = it.next();
+		
+		Collection<?> all = null;
+		if (isGreedy()) all = getSourceType(context).getAllOfKind();
+		else all = getSourceType(context).getAllOfType();
+		
+		for (Object instance : all) {
 			if (!excluded.contains(instance) && appliesTo(instance, context, false)){
 				transform(instance, context);
 			}
 		}
+		
 	}
 	
 	public Collection transform(Object source, Collection targets, IEtlContext context) throws EolRuntimeException {

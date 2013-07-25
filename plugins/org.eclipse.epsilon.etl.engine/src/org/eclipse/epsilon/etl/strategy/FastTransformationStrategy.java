@@ -103,13 +103,13 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		for (INamedRule rule : context.getModule().getTransformRules()) {			
 			TransformRule transformRule = ((TransformRule)rule);
 			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
-				Collection<Object> sources;
+				Collection<?> sources;
 				
 				if (transformRule.isGreedy()) {
-					sources = transformRule.getAllOfSourceKind(context);
+					sources = transformRule.getSourceType(context).getAllOfKind();
 				}
 				else {
-					sources = transformRule.getAllOfSourceType(context);
+					sources = transformRule.getSourceType(context).getAllOfType();
 				}
 				
 				for (Object instance : sources) {
