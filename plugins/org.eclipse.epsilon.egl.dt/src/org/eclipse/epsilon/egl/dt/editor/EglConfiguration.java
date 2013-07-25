@@ -39,6 +39,7 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 @SuppressWarnings("deprecation")
@@ -106,7 +107,7 @@ public class EglConfiguration extends SourceViewerConfiguration {
 	
 	private ITokenScanner getMarkerScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		final TextAttribute    textAttribute = new TextAttribute(AbstractModuleEditor.MARKER);
+		final TextAttribute    textAttribute = new TextAttribute(AbstractModuleEditor.MARKER, null, SWT.BOLD);
 		
 		scanner.setDefaultReturnToken(new Token(textAttribute));
 		
