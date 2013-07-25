@@ -106,8 +106,11 @@ operationDeclarationOrAnnotationBlock
 	;
 
 modelDeclaration
-	:	m='model'^ NAME modelAlias? modelDriver? modelDeclarationParameters? ';'!
-	{$m.setType(MODELDECLARATION);}
+	@after {
+		$tree.getExtraTokens().add($sem);
+		$tree.getToken().setType(MODELDECLARATION);
+	}
+	:	m='model'^ NAME modelAlias? modelDriver? modelDeclarationParameters? sem=';'!
 	;
 
 modelAlias
@@ -121,8 +124,11 @@ modelDriver
 	;
 
 modelDeclarationParameters
-	: s='{'^ modelDeclarationParameter? (','! modelDeclarationParameter)* '}'!
-	{$s.setType(MODELDECLARATIONPARAMETERS);}
+	@after {
+		$tree.getExtraTokens().add($cb);
+		$tree.getToken().setType(MODELDECLARATIONPARAMETERS);
+	}
+	: s='{'^ modelDeclarationParameter? (','! modelDeclarationParameter)* cb='}'!
 	;
 	
 modelDeclarationParameter
