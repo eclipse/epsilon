@@ -80,6 +80,39 @@ public class EglPreprocessorModule extends EolModule {
 			token.setLine(preprocessor.getTrace().getEglLineNumberFor(token.getLine()));
 		}
 		
+		boolean done = updateRegionsOfStaticTextASTs(ast);
+			
+		if (!done) {
+			for (AST child : ast.getChildren()) {
+				updateASTLocations(child);
+			}
+		}
+	}
+
+	/**
+	 * Updates the EOL ASTs produced by the preprocessor from EGL static sections.
+	 * 
+	 * In the generated EOL, static sections appear as statements of the form:
+	 * out.print("the static text")
+	 *           12345678901234567
+	 *           0        1
+	 * 
+	 * In the EGL AST outline view, we display (a filtered version of) the preprocessed
+	 * EOL's AST, which contains a STRING node. For the above statement, this would be:
+	 * 
+	 * STRING, 1:1 to 1:17
+	 * 
+	 * Note that the start (end) column includes the opening (closing) double quote. This 
+	 * method corrects this issue by finding all AST nodes that correspond to text
+	 * generated for static sections and adjusting the regions of the nested STRING nodes.
+	 * 
+	 * This method also "hides" (makes imaginary) any AST nodes that need not be displayed
+	 * in the AST outline view.
+	 * 
+	 * @return true if and only iff this method has processed all nested AST nodes and
+	 *         this part of the AST should not be processed any further.
+	 */
+	private boolean updateRegionsOfStaticTextASTs(AST ast) {
 		// Turn out.print("something") / out.printdyn(x) to imaginary and fix the region of the parameter
 		if (ast.getType() == EolParser.POINT && ast.getNumberOfChildren() == 2) {
 			AST outAst = ast.getFirstChild();
@@ -120,15 +153,12 @@ public class EglPreprocessorModule extends EolModule {
 							imaginary.setImaginary(true);
 							imaginary.setRegion(adjustedRegion);
 						}
-						return;
+						return true;
 					}
 				}
 			}
 		}
-		
-		for (AST child : ast.getChildren()) {
-			updateASTLocations(child);
-		}
+		return false;
 	}
 	
 	@Override
