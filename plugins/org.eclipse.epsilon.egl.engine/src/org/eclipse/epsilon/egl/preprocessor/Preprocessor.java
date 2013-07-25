@@ -122,10 +122,10 @@ public class Preprocessor {
 					
 					// Gobble whitespace before [% %] and [* *] pairs
 					if (!isWhitespacePrecedingTagged) {
-						appendToEolOnANewLine("out.print('" + escape(child.getText()) + "');", child.getLine());
+						appendToEolOnANewLine("out.prinx('" + escape(child.getText()) + "');", child.getLine());
 						
 						if (TokenType.typeOf(child.getType()) == TokenType.PLAIN_TEXT) {
-							String printCall = "out.print('";
+							String printCall = "out.prinx('";
 							// Update trace to account for length of printCall
 							trace.incrementColumnCorrectionNumber(getOffset(child.getLine()) + -printCall.length());
 						}

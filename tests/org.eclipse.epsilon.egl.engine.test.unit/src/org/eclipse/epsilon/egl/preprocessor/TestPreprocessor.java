@@ -47,7 +47,7 @@ public class TestPreprocessor {
 	@Test
 	public void testText() {
 		final String egl = "Hello World!";
-		final String eol = "out.print('Hello World!');";
+		final String eol = "out.prinx('Hello World!');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -56,9 +56,9 @@ public class TestPreprocessor {
 	public void testTextMultiline() {
 		final String egl = "Hello World!" + NEWLINE +
 		                   "foo";
-		final String eol = "out.print('Hello World!');" + NEWLINE +
-		                   "out.print('" + ESCAPED_NEWLINE + "');" + NEWLINE +
-		                   "out.print('foo');";
+		final String eol = "out.prinx('Hello World!');" + NEWLINE +
+		                   "out.prinx('" + ESCAPED_NEWLINE + "');" + NEWLINE +
+		                   "out.prinx('foo');";
 		
 		assertEquals(eol, preprocess(egl));
 	}
@@ -66,7 +66,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeQuote() {
 		final String egl = "'";
-		final String eol = "out.print('\\'');";
+		final String eol = "out.prinx('\\'');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -74,7 +74,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeDoubleQuote() {
 		final String egl = "\"";
-		final String eol = "out.print('\\\"');";
+		final String eol = "out.prinx('\\\"');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -82,7 +82,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeBackslash() {
 		final String egl = "\\";
-		final String eol = "out.print('\\\\');";
+		final String eol = "out.prinx('\\\\');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -90,7 +90,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeTab() {
 		final String egl = "\t";
-		final String eol = "out.print('\\t');";
+		final String eol = "out.prinx('\\t');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -98,7 +98,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeLineFeed() {
 		final String egl = "\r";
-		final String eol = "out.print('\\r');";
+		final String eol = "out.prinx('\\r');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -106,7 +106,7 @@ public class TestPreprocessor {
 	@Test
 	public void testEscapeNewLine() {
 		final String egl = "\n";
-		final String eol = "out.print('\\n');";
+		final String eol = "out.prinx('\\n');";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -114,7 +114,7 @@ public class TestPreprocessor {
 	@Test
 	public void testOutput() {
 		final String egl = "[%=foo%]";
-		final String eol = "out.printdyn(foo);";
+		final String eol = "out.prindyn(foo);";
 
 		assertEquals(eol, preprocess(egl));
 	}
@@ -130,11 +130,11 @@ public class TestPreprocessor {
 	@Test
 	public void testMultipleLines() {
 		final String egl = "[%for (i in Sequence{1..10}) {" + NEWLINE + 
-		                   "out.print(i);" + NEWLINE + 
+		                   "out.prinx(i);" + NEWLINE + 
 		                   "}%]";
 		
 		final String eol = "for (i in Sequence{1..10}) {" + NEWLINE +
-		                   "out.print(i);" + NEWLINE +
+		                   "out.prinx(i);" + NEWLINE +
 		                   "}";
 		
 		assertEquals(eol, preprocess(egl));

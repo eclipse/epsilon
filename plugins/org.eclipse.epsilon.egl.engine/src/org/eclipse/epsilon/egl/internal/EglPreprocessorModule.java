@@ -93,7 +93,7 @@ public class EglPreprocessorModule extends EolModule {
 	 * Updates the EOL ASTs produced by the preprocessor from EGL static sections.
 	 * 
 	 * In the generated EOL, static sections appear as statements of the form:
-	 * out.print("the static text")
+	 * out.prinx("the static text")
 	 *           12345678901234567
 	 *           0        1
 	 * 
@@ -113,12 +113,12 @@ public class EglPreprocessorModule extends EolModule {
 	 *         this part of the AST should not be processed any further.
 	 */
 	private boolean updateRegionsOfStaticTextASTs(AST ast) {
-		// Turn out.print("something") / out.printdyn(x) to imaginary and fix the region of the parameter
+		// Turn out.prinx("something") / out.printdyn(x) to imaginary and fix the region of the parameter
 		if (ast.getType() == EolParser.POINT && ast.getNumberOfChildren() == 2) {
 			AST outAst = ast.getFirstChild();
 			AST printAst = ast.getChild(1);
 			
-			if ("out".equals(outAst.getText()) && ("print".equals(printAst.getText()) || "printdyn".equals(printAst.getText()))) {
+			if ("out".equals(outAst.getText()) && ("prinx".equals(printAst.getText()) || "printdyn".equals(printAst.getText()))) {
 				AST parametersAst = printAst.getFirstChild();
 				if (parametersAst != null) {
 					AST firstParameterAst = parametersAst.getFirstChild();
@@ -133,8 +133,8 @@ public class EglPreprocessorModule extends EolModule {
 						
 						Region adjustedRegion = null;
 						
-						// For out.print("something") we need to lose the double quotes
-						if ("print".equals(printAst.getText()) && firstParameterAst.getType() == EolParser.STRING) {
+						// For out.prinx("something") we need to lose the double quotes
+						if ("prinx".equals(printAst.getText()) && firstParameterAst.getType() == EolParser.STRING) {
 							adjustedRegion = new Region(region.getStart().getLine(), region.getStart().getColumn()+1,
 								region.getEnd().getLine(), region.getEnd().getColumn() - 1);
 							firstParameterAst.setRegion(adjustedRegion);
