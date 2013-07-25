@@ -3,7 +3,7 @@
 	<target name="main" depends="generate_site, refresh"/>
 	
 	<target name="generate_site">
-		<echo>Generating index.html</echo>
+		<echo>Generating examples</echo>
 		
 		<taskdef name="epsilon.egl"
 		        classname="org.eclipse.epsilon.workflow.tasks.EglTask"/>
