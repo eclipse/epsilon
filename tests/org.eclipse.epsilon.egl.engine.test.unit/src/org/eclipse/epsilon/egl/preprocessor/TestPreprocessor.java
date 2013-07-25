@@ -114,7 +114,7 @@ public class TestPreprocessor {
 	@Test
 	public void testOutput() {
 		final String egl = "[%=foo%]";
-		final String eol = "out.prindyn(foo);";
+		final String eol = "out.printdyn(foo);";
 
 		assertEquals(eol, preprocess(egl));
 	}
