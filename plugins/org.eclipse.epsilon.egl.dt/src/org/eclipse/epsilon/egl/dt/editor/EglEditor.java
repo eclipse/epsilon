@@ -32,7 +32,7 @@ public class EglEditor extends AbstractModuleEditor {
 	
 	public static final String ID = "org.eclipse.epsilon.egl.dt.editor.EglEditor";
 
-	private static final Color STATIC_TEXT = new Color(Display.getCurrent(), new RGB(6, 98, 238));
+	private static final Color STATIC_TEXT = new Color(Display.getCurrent(), new RGB(113, 161, 235));
 	private static final Color LEGACY_STATIC_TEXT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
 
 	private static final Color DYNAMIC_BACKGROUND = null;
