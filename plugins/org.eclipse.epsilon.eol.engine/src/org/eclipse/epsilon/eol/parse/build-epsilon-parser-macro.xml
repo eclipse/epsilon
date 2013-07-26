@@ -5,9 +5,15 @@
 		<attribute name="extends" default="eol"/>
 	    
         <sequential>
+        	<!--
+        	 Note that workspace_loc is not the same as plugins_loc when using git-svn.
+        	 As some of us use git-svn, it's handy to maintain separate variables even 
+        	 though the variables have the same value for an svn setup.
+        	-->
         	<property name="project_loc" location="../../../../../.."/>
-    	    <property name="workspace_loc" location="../../../../../../.."/>
-			
+        	<property name="workspace_loc" location="../../../../../../.."/>
+    	    <property name="plugins_loc" location="../../../../../../.."/>
+        	
         	<echo message="Generating @{langUpperCase} parser..."></echo>
         	<java classname="org.eclipse.epsilon.antlr.dev.Tool">
     			
@@ -21,7 +27,7 @@
     			<arg value="-package"/>
     			<arg value="org.eclipse.epsilon.@{lang}.parse"/>
     			<arg value="-lib"/>
-        		<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/;${workspace_loc}/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/;${workspace_loc}/org.eclipse.epsilon.@{extends}.engine/src/org/eclipse/epsilon/@{extends}/parse/"/>
+        		<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/;${plugins_loc}/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/;${plugins_loc}/org.eclipse.epsilon.@{extends}.engine/src/org/eclipse/epsilon/@{extends}/parse/"/>
         		<arg value="-o"/>
     			<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
     			<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/@{langUpperCase}.g"/>
