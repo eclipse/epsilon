@@ -3,7 +3,7 @@ context EClass {
 	-- Dummy constraint to demonstrate the capabilities of EVL
 	constraint Unamed {
 	
-		check : self.name <> ''
+		check : self.name.isDefined()
 		
 		message : 'Unnamed class'
 		
