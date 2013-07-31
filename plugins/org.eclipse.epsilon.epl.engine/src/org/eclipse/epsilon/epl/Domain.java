@@ -60,7 +60,7 @@ public class Domain extends AbstractModuleElement {
 				ArrayList<Object> filtered = new ArrayList<Object>();
 				for (Object o : (Collection<?>) result) {
 					IModel owningModel = context.getModelRepository().getOwningModel(o);
-					if (owningModel!=null && owningModel.isOfType(o, type)) {
+					if (owningModel!=null && owningModel.isOfKind(o, type)) {
 						filtered.add(o);
 					}
 				}
