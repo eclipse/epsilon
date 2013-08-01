@@ -83,7 +83,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
 
 	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
-	public static final Color MARKER = new Color(Display.getCurrent(), new RGB(205, 33, 28));
+	public static final Color MARKER = new Color(Display.getCurrent(), new RGB(63, 127, 95));
 	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
 	public static final Color EXECUTABLEANNOTATION = ANNOTATION;
 	public static final Color STRING = new Color(Display.getCurrent(), new RGB(42, 0, 255));
