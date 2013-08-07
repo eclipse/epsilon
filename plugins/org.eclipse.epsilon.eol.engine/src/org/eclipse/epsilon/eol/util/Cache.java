@@ -30,11 +30,10 @@ public class Cache<K, V> {
 	protected Thread createCleanUpThread() {
 		
 		return new Thread(){
-			
 			@Override
 			public void run() {
 				try {
-					while (map.size() > 0) {
+					while (map.size() > 0 && !Thread.currentThread().isInterrupted()) {
 						IdentityBasedWeakReference reference = (IdentityBasedWeakReference) referenceQueue.remove();
 						synchronized(map) {
 							if (reference != null && map.containsKey(reference)) {
@@ -77,7 +76,7 @@ public class Cache<K, V> {
 	
 	public void dispose() {
 		if (cleanUpThread != null) {
-			cleanUpThread.stop();
+			cleanUpThread.interrupt();
 			cleanUpThread = null;
 		}
 		map.clear();

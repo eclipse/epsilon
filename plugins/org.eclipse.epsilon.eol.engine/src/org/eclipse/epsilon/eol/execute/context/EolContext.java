@@ -201,6 +201,7 @@ public class EolContext implements IEolContext{
 		if (executorFactory.getExecutionController() != null) {
 			executorFactory.getExecutionController().dispose();
 		}
+		extendedProperties.clear();
 	}
 
 	public List<AsyncStatement> getAsyncStatementsQueque() {
