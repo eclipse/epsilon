@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Widget;
 
-public abstract class LabeledControl extends Composite {
+public abstract class LabeledControl<T extends Control> extends Composite {
 	
 	protected Label label;
-	protected Control labeled;
+	protected T labeled;
 	
 	public LabeledControl(Composite parent, int style, String labelText) {
 		super(parent, style);
@@ -37,9 +37,16 @@ public abstract class LabeledControl extends Composite {
 		
 	}
 
-	protected abstract Control createLabeled(Composite parent);
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		label.setEnabled(enabled);
+		labeled.setEnabled(enabled);
+	}
+	
+	protected abstract T createLabeled(Composite parent);
 
-	public Control getLabeled() {
+	public T getLabeled() {
 		return labeled;
 	}
 	
