@@ -31,6 +31,18 @@ public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	@Override
+	public void aboutToExecute(ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor progressMonitor,
+			IEolExecutableModule module) throws Exception {
+		super.aboutToExecute(configuration, mode, launch, progressMonitor, module);
+		EplModule eplModule = (EplModule) module;
+		
+		eplModule.setMaxLoops(configuration.getAttribute(EplLaunchConfigurationAttributes.MAX_LOOPS, EplModule.INFINITE));
+		eplModule.setRepeatWhileMatches(configuration.getAttribute(EplLaunchConfigurationAttributes.REPEAT_WHILE_MATCHES_FOUND, false));
+		
+	}
+	
+	@Override
 	public void executed(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolExecutableModule module, Object result) throws Exception {

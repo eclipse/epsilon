@@ -10,13 +10,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.launching.tabs;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.LabeledControl;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dt.EplPlugin;
+import org.eclipse.epsilon.epl.dt.launching.EplLaunchConfigurationAttributes;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +30,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 public class EplSourceConfigurationTab extends AbstractSourceConfigurationTab{
+	
+	protected Button repeatWhileMatchesFoundButton;
+	protected LabeledControl<Text> maxLoopsControl = null;
+	protected Text maxLoopsText = null;
 	
 	@Override
 	public EpsilonPlugin getPlugin() {
@@ -54,35 +64,67 @@ public class EplSourceConfigurationTab extends AbstractSourceConfigurationTab{
 		return "SOURCE.EPL";
 	}
 	
-	Button repeatWhileMatchesFoundButton;
-	
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-//		extras.setLayout(new GridLayout(1, true));
-//		
-//		repeatWhileMatchesFoundButton = new Button(extras, SWT.CHECK);
-//		repeatWhileMatchesFoundButton.setSelection(false);
-//		repeatWhileMatchesFoundButton.setText("Repeat while matches are found");
-//		
-//		LabeledControl maxLoopsControl = new LabeledControl(parent, SWT.NONE, "Maximum number of iterations") {
-//			
-//			@Override
-//			protected Control createLabeled(Composite parent) {
-//				return new Text(parent, SWT.NONE);
-//			}
-//		};
+		extras.setLayout(new GridLayout(1, true));
 		
+		repeatWhileMatchesFoundButton = new Button(extras, SWT.CHECK);
+		repeatWhileMatchesFoundButton.setSelection(false);
+		repeatWhileMatchesFoundButton.setText("Repeat while matches are found");
+		repeatWhileMatchesFoundButton.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				maxLoopsControl.setEnabled(repeatWhileMatchesFoundButton.getSelection());
+				setDirty(true);
+				updateLaunchConfigurationDialog();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
+		
+		maxLoopsControl = new LabeledControl<Text>(extras, SWT.NONE, "Maximum number of iterations (-1 for infinite)") {
+			
+			@Override
+			protected Text createLabeled(Composite parent) {
+				return new Text(parent, SWT.BORDER);
+			}
+		};
+		maxLoopsText = maxLoopsControl.getLabeled();
+		
+		maxLoopsText.addModifyListener(this);
 	}
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		super.performApply(configuration);
+		configuration.setAttribute(EplLaunchConfigurationAttributes.REPEAT_WHILE_MATCHES_FOUND, repeatWhileMatchesFoundButton.getSelection());
+		configuration.setAttribute(EplLaunchConfigurationAttributes.MAX_LOOPS, Integer.parseInt(maxLoopsText.getText()));
 	}
 	
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
+		
 		super.initializeFrom(configuration);
+		try {
+			repeatWhileMatchesFoundButton.setSelection(configuration.getAttribute(EplLaunchConfigurationAttributes.REPEAT_WHILE_MATCHES_FOUND, false));;
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+		}
+		try {
+			maxLoopsText.setText("" + configuration.getAttribute(EplLaunchConfigurationAttributes.MAX_LOOPS, EplModule.INFINITE));
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+			maxLoopsText.setText(EplModule.INFINITE + "");
+		}
+		
+		maxLoopsControl.setEnabled(repeatWhileMatchesFoundButton.getSelection());
 	}
 
 }
