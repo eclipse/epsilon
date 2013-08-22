@@ -65,6 +65,7 @@ public class EmfUtilPlugin extends AbstractUIPlugin implements IStartup {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emf.dt", path);
 	}
 
+	@Override
 	public void earlyStartup() {
 		EmfRegistryManager.getInstance();
 	}

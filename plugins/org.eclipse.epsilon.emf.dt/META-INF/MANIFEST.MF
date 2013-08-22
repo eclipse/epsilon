@@ -4,7 +4,6 @@ Bundle-Name: Epsilon EMF Utilities
 Bundle-SymbolicName: org.eclipse.epsilon.emf.dt;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Export-Package: org.eclipse.epsilon.emf.dt
 Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,
