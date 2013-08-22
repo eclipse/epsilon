@@ -216,11 +216,4 @@ litigation.
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
 
-   <plugin
-         id="org.hamcrest.matchers_1.2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>
