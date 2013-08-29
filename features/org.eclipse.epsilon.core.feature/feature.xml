@@ -103,25 +103,29 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.ecl.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eml.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.tools"
@@ -140,19 +144,22 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.etl.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.evl.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ewl.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.composite"
@@ -221,6 +228,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.common"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
 </feature>

@@ -17,5 +17,4 @@ Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.transactions,
  org.eclipse.epsilon.emc.emf.util,
  org.eclipse.epsilon.emc.emf.xml
-Bundle-ClassPath: org.eclipse.epsilon.emc.emf.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

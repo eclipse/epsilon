@@ -16,5 +16,4 @@ Export-Package: org.eclipse.epsilon.eml,
  org.eclipse.epsilon.eml.parse,
  org.eclipse.epsilon.eml.strategy,
  org.eclipse.epsilon.eml.trace
-Bundle-ClassPath: org.eclipse.epsilon.eml.engine.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

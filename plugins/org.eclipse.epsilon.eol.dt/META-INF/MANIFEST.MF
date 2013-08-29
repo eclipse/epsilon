@@ -21,5 +21,4 @@ Export-Package: org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.eol.dt.launching.tabs,
  org.eclipse.epsilon.eol.dt.userinput,
  org.eclipse.epsilon.eol.dt.wizards
-Bundle-ClassPath: org.eclipse.epsilon.eol.dt.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

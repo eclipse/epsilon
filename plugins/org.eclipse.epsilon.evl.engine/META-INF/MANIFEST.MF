@@ -8,7 +8,6 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Eclipse-AutoStart: true
-Bundle-ClassPath: org.eclipse.epsilon.evl.engine.jar
 Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.execute,
  org.eclipse.epsilon.evl.execute.context,

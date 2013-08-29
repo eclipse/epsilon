@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.emc.bibtex,
  org.eclipse.epsilon.common.dt
+Export-Package: org.eclipse.epsilon.emc.bibtex.dt

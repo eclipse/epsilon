@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.epsilon.eol.dt,
  org.eclipse.jface.text,
  org.eclipse.epsilon.common.dt
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: org.eclipse.epsilon.evl.dt.jar
 Export-Package: org.eclipse.epsilon.evl.dt,
  org.eclipse.epsilon.evl.dt.editor,
  org.eclipse.epsilon.evl.dt.editor.outline,

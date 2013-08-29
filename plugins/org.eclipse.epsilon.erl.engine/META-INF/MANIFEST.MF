@@ -6,7 +6,6 @@ Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine
-Bundle-ClassPath: org.eclipse.epsilon.erl.engine.jar
 Export-Package: org.eclipse.epsilon.erl,
  org.eclipse.epsilon.erl.exceptions,
  org.eclipse.epsilon.erl.rules,

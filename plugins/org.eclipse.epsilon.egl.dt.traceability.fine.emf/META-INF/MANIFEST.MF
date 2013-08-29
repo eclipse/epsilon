@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EGL Development Tools: EMF Traceability Model
 Bundle-SymbolicName: org.eclipse.epsilon.egl.dt.traceability.fine.emf;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

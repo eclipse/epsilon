@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon EMF Virtual Model Support
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.virtual;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.epsilon.emc.emf.virtual,

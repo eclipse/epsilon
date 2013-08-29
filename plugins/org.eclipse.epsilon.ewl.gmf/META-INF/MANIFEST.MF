@@ -11,5 +11,4 @@ Require-Bundle: org.eclipse.epsilon.emc.emf,
 Export-Package: org.eclipse.epsilon.ewl.gmf
 Bundle-Activator: org.eclipse.epsilon.ewl.gmf.EwlEmfGmfPlugin
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: org.eclipse.epsilon.ewl.gmf.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

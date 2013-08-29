@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emf.dt,
  org.eclipse.ui.ide
-Bundle-ClassPath: org.eclipse.epsilon.emc.emf.dt.jar
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.emc.emf.dt
 Bundle-Activator: org.eclipse.epsilon.emc.emf.dt.Activator

@@ -13,5 +13,4 @@ Export-Package: org.eclipse.epsilon.ecl,
  org.eclipse.epsilon.ecl.execute.operations,
  org.eclipse.epsilon.ecl.parse,
  org.eclipse.epsilon.ecl.trace
-Bundle-ClassPath: org.eclipse.epsilon.ecl.engine.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

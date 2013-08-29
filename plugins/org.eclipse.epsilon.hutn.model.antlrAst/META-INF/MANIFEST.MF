@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation AST Model
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.model.antlrAst;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,

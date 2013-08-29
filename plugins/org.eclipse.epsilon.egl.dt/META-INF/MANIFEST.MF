@@ -25,5 +25,4 @@ Export-Package: org.eclipse.epsilon.egl.dt,
  org.eclipse.epsilon.egl.dt.views,
  org.eclipse.epsilon.egl.dt.widgets;x-friends:="org.eclipse.epsilon.egl.dt.test",
  org.eclipse.epsilon.egl.dt.wizards
-Bundle-ClassPath: org.eclipse.epsilon.egl.dt.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

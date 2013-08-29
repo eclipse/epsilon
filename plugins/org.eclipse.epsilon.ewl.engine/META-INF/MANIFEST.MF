@@ -9,5 +9,4 @@ Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.ewl,
  org.eclipse.epsilon.ewl.execute.context,
  org.eclipse.epsilon.ewl.parse
-Bundle-ClassPath: org.eclipse.epsilon.ewl.engine.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -136,13 +136,15 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.common.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eml.dt"
@@ -155,7 +157,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.eol.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.dt.tools"
@@ -175,7 +178,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.evl.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ecl.dt.tools"
@@ -188,13 +192,15 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.ewl.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.profiling.dt"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.help"
@@ -263,7 +269,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.eunit.dt.diff.files"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="1.1.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eunit.junit"
