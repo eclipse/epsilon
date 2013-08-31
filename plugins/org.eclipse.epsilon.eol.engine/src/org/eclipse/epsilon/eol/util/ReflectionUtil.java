@@ -169,6 +169,9 @@ public class ReflectionUtil {
 	public static Object executeMethod(Object obj, String methodName, Object[] parameters) throws Throwable {
 		Method method = getMethodFor(obj, methodName, parameters, true, true);
 		try {
+			if (!method.isAccessible()) {
+				method.setAccessible(true);
+			}
 			return method.invoke(obj, parameters);
 		} 
 		catch (InvocationTargetException e) {
@@ -178,6 +181,9 @@ public class ReflectionUtil {
 	
 	public static Object executeMethod(Method method, Object obj, Object[] parameters) throws Throwable {
 		try {
+			if (!method.isAccessible()) {
+				method.setAccessible(true);
+			}
 			return method.invoke(obj, parameters);
 		}
 		catch (InvocationTargetException iex) {

@@ -40,6 +40,9 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		}
 		
 		try {
+			if (!objectMethod.getMethod().isAccessible()) {
+				objectMethod.getMethod().setAccessible(true);
+			}
 			objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{value});
 		}
 		catch (Exception ex){
