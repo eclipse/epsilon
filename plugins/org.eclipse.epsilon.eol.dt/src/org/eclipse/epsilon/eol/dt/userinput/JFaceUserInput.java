@@ -61,7 +61,8 @@ public class JFaceUserInput extends AbstractUserInput {
 				dialog.setMessage(question);
 				dialog.setTitle(question);
 				dialog.setElements(values.toArray());
-				
+				dialog.setInitialElementSelections(Arrays.asList(default_));
+
 				if (dialog.open() == Window.OK) {
 					if (dialog.getResult().length > 0) return dialog.getResult()[0];
 					else return null;
@@ -108,14 +109,14 @@ public class JFaceUserInput extends AbstractUserInput {
 				dialog.setTitle(question);
 				dialog.setMultipleSelection(true);
 				dialog.setElements(values.toArray());
-				
+				dialog.setInitialElementSelections(new ArrayList(default_));
+
 				if (dialog.open() == Window.OK) {
 					return Arrays.asList(dialog.getResult());
 				}
 				else {
 					return default_;
 				}
-				
 			}
 			
 		};
