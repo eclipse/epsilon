@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -48,6 +49,12 @@ public class EvlValidator implements EValidator {
 	protected String bundleId;
 	
 	public static final String DEFAULT_MODEL_NAME = "_Model";
+
+	/**
+	 * Key for the validation context, that (when provided) holds a
+	 * IProgressMonitor object
+	 */
+	public static final String VALIDATION_MONITOR = "Epsilon EVL Validation Monitor";
 	
 	public EvlValidator(URI source, String modelName, String ePackageUri, String bundleId) {
 		this.source = source;
@@ -73,7 +80,7 @@ public class EvlValidator implements EValidator {
 		
 		// If it is the root that is validated validate the whole resource and cache the results
 		if (eObject.eContainer() == null) {
-			validate(eObject.eResource());
+			validate(eObject.eResource(), context);
 
 			// Add problem markers for violations in objects in externally referenced models
 			for (Map.Entry<Object, Collection<EvlUnsatisfiedConstraint>> entry : results.entrySet()) {
@@ -118,7 +125,7 @@ public class EvlValidator implements EValidator {
 		return diagnostic;
 	}
 	
-	private void validate(Resource resource) {
+	private void validate(Resource resource, Map<Object, Object> context) {
 		results.clear();
 
 		module = new EvlModule();
@@ -135,8 +142,17 @@ public class EvlValidator implements EValidator {
 		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackageUri);
 		//model.setName(modelName);
 		module.getContext().getModelRepository().addModel(model);
-
-		EclipseContextManager.setup(module.getContext()); 
+		
+		Object monitor = null;
+		if (context != null) {
+			monitor = context.get(VALIDATION_MONITOR);
+		}
+		
+		if (monitor instanceof IProgressMonitor) {
+			EclipseContextManager.setup(module.getContext(), (IProgressMonitor) monitor);
+		} else {
+			EclipseContextManager.setup(module.getContext());
+		}
 
 		try {
 			module.execute();
