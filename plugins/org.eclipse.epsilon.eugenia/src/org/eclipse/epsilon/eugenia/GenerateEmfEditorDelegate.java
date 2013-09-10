@@ -10,7 +10,7 @@ public class GenerateEmfEditorDelegate extends EugeniaWorkflowDelegate {
 		return Arrays.asList(
 				new ClearGmfFileSetAction().setClearGmfFiles(false),
 				new Emfatic2EcoreDelegate(),
-				new AnnotateEcoreDelegate(),
+				/*new AnnotateEcoreDelegate(),*/
 				new Ecore2GenModelDelegate().setClearConsole(false),
 				new GenerateEmfCodeDelegate());
 	}

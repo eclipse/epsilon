@@ -9,7 +9,7 @@ public class GenerateGenModelDelegate extends EugeniaWorkflowDelegate {
 	protected List<EugeniaActionDelegate> getDelegates() {
 		return Arrays.asList(new ClearGmfFileSetAction().setClearGmfFiles(false),
 				new Emfatic2EcoreDelegate(),
-				new AnnotateEcoreDelegate(),
+				/*new AnnotateEcoreDelegate(),*/
 				new Ecore2GenModelDelegate().setClearConsole(false),
 				new FixGenModelDelegate().setClearConsole(false));
 	}

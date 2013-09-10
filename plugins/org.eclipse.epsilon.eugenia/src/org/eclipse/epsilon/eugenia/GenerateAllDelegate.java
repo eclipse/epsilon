@@ -22,7 +22,7 @@ public class GenerateAllDelegate extends EugeniaWorkflowDelegate {
 		return Arrays.asList(
 				new ClearGmfFileSetAction(),
 				new Emfatic2EcoreDelegate(),
-				new AnnotateEcoreDelegate(),
+				//new AnnotateEcoreDelegate(),
 				new Ecore2GenModelDelegate().setClearConsole(false),
 				new FixGenModelDelegate().setClearConsole(false),
 				new GenerateToolGraphMapDelegate().setClearConsole(false),

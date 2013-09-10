@@ -213,7 +213,8 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	}
 	
 	protected void disposeModel(IModel model) {
-		if (!(model.getName().equals("Ecore") || model.getName().equals("ECore"))) { model.dispose(); }
+		model.dispose();
+		//if (!(model.getName().equals("Ecore") || model.getName().equals("ECore"))) { model.dispose(); }
 	}
 	
 	public void refresh() {

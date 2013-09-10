@@ -18,8 +18,8 @@ public class GenerateEcoreDelegate extends EugeniaWorkflowDelegate {
 	protected List<EugeniaActionDelegate> getDelegates() {
 		return Arrays.asList(
 				new ClearGmfFileSetAction().setClearGmfFiles(false),
-				new Emfatic2EcoreDelegate(),
-				new AnnotateEcoreDelegate().setSaveEcore(true));
+				new Emfatic2EcoreDelegate()/*,
+				new AnnotateEcoreDelegate().setSaveEcore(true)*/);
 	}
 
 }
