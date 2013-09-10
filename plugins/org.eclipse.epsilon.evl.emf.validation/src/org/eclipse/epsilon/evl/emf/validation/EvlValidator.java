@@ -13,7 +13,9 @@ package org.eclipse.epsilon.evl.emf.validation;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -24,12 +26,14 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.evl.EvlFixInstance;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
@@ -38,6 +42,7 @@ import org.eclipse.epsilon.evl.IEvlModule;
 
 public class EvlValidator implements EValidator {
 
+	protected Set<String> diagnosticVariables = null;
 	protected EvlModule module = null;
 	protected URI source;
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
@@ -61,6 +66,27 @@ public class EvlValidator implements EValidator {
 		this.modelName = modelName;
 		this.ePackageUri = ePackageUri;
 		this.bundleId = bundleId;
+	}
+
+	/**
+	 * <p>Indicates that the value of the entry of the {@link Diagnostician}
+	 * context {@link java.util.Map} with the specified <code>name</code> should
+	 * be published as a global variable in the EVL script. If the context map
+	 * does not contain an entry with the specified <code>name</code>, the variable
+	 * will be set to <code>null</code>.
+	 *
+	 * <p>Note: this map is received through the <code>validate</code> methods in this
+	 * class.</p>
+	 *
+	 * @see #validate(EObject, DiagnosticChain, Map)
+	 * @see #validate(EClass, EObject, DiagnosticChain, Map)
+	 * @see #validate(EDataType, Object, DiagnosticChain, Map)
+	 */
+	public void addDiagnosticianVariable(String name) {
+		if(diagnosticVariables == null) {
+			diagnosticVariables = new HashSet<String>();
+		}
+		diagnosticVariables.add(name);
 	}
 	
 	public boolean validate(EObject object, DiagnosticChain diagnostics,
@@ -152,6 +178,16 @@ public class EvlValidator implements EValidator {
 			EclipseContextManager.setup(module.getContext(), (IProgressMonitor) monitor);
 		} else {
 			EclipseContextManager.setup(module.getContext());
+		}
+
+		// Add variables to the EvlModule to make the available to the EVL rules
+		if (diagnosticVariables != null) {
+			for (String diagnosticVariable : diagnosticVariables) {
+				final Variable variable = new Variable(diagnosticVariable,
+						context.get(diagnosticVariable),
+						EolAnyType.Instance);
+				module.getContext().getFrameStack().put(variable);
+			}
 		}
 
 		try {

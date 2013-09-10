@@ -57,6 +57,9 @@
          </documentation>
       </annotation>
       <complexType>
+         <sequence>
+            <element ref="diagnosticVariable" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="namespaceURI" type="string" use="required">
             <annotation>
                <documentation>
@@ -92,6 +95,25 @@
             <annotation>
                <documentation>
                   When set to true, the EVL constraints gracefully blend with other constraints contributed through the EMF Validation framework. When set to false, only the EVL constraints are executed.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="diagnosticVariable">
+      <annotation>
+         <documentation>
+            Adds a new global variable with the specified name to the EVL script.
+
+The value of the variable is taken from the entry with the same name in the context map of the EMF Diagnostician.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the variable, which is used as the key of the Diagnostican context.
                </documentation>
             </annotation>
          </attribute>

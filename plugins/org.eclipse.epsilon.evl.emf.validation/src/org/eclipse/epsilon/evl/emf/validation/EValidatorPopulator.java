@@ -59,6 +59,12 @@ public class EValidatorPopulator implements IStartup {
 					String modelName = configurationElement.getAttribute("modelName");
 					if (modelName == null || modelName.trim().length() == 0) modelName = EvlValidator.DEFAULT_MODEL_NAME;
 					evlValidator = new EvlValidator(url.toURI(), modelName, ePackageUri, bundleId);
+
+					// Add variables for propagating EMF Diagnostician context entries
+					IConfigurationElement[] diagnosticVariables = configurationElement.getChildren("diagnosticVariable");
+					for (IConfigurationElement diagnosticVariable : diagnosticVariables) {
+						((EvlValidator) evlValidator).addDiagnosticianVariable(diagnosticVariable.getAttribute("name"));
+					}
 				}
 				else {
 					evlValidator = new OclValidator(url.toURI());
