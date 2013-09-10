@@ -39,10 +39,10 @@ grammar Flock;
 
 options {backtrack=true; output=AST; ASTLabelType='org.eclipse.epsilon.common.parse.AST'; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
-import EolLexerRules, EolParserRules;
+import EolLexerRules, EolParserRules, ErlParserRules;
 
 tokens {
-  FLOCKMODULE; RETYPE; RETYPEPACKAGE; DELETE; DELETEPACKAGE; MIGRATE; GUARD; IGNORING; PRE; POST;
+  FLOCKMODULE; RETYPE; RETYPEPACKAGE; DELETE; DELETEPACKAGE; MIGRATE; GUARD; IGNORING;
 }
 
 @header {
@@ -114,16 +114,6 @@ package org.eclipse.epsilon.flock.parse;
 flockModule
 	:	importStatement* (flockModuleContent)* EOF
 	-> ^(FLOCKMODULE importStatement* flockModuleContent*)
-	;
-
-pre
-	:	p='pre'^ NAME? statementBlock
-	{$p.setType(PRE);}
-	;
-
-post
-	:	p='post'^ NAME? statementBlock
-	{$p.setType(POST);}
 	;
 
 flockModuleContent
