@@ -17,6 +17,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.builtins.FlockCanAccessBuiltinsTests;
+import org.eclipse.epsilon.flock.engine.test.acceptance.preandpost.PreAndPostBlocks;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -30,7 +31,8 @@ import org.junit.runners.Suite.SuiteClasses;
                CopyingSuite.class,
                IgnoringSuite.class,
                EquivalencesSuite.class,
-               WarningsSuite.class})
+               WarningsSuite.class,
+               PreAndPostBlocks.class})
 public class EpsilonFlockEngineAcceptanceTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonFlockEngineAcceptanceTestSuite.class);

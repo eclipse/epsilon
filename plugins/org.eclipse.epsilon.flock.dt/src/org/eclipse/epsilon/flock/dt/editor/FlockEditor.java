@@ -36,6 +36,8 @@ public class FlockEditor extends EolEditor {
 		keywords.add("when");
 		keywords.add("ignoring");
 		keywords.add("package");
+		keywords.add("pre");
+		keywords.add("post");
 		
 		return keywords;
 	}

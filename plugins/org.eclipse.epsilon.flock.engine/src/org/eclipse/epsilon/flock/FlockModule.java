@@ -23,15 +23,15 @@ import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
-import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
-public class FlockModule extends EolLibraryModule implements IFlockModule {
+public class FlockModule extends ErlModule implements IFlockModule {
 	
 	private MigrationStrategy strategy;
 	protected IFlockContext context = new FlockContext();
@@ -64,16 +64,23 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		strategy = new MigrationStrategyLoader(ast).run();
 	}
 
-	public FlockResult execute(IModel original, IModel migrated) throws FlockRuntimeException {
+	public FlockResult execute(IModel original, IModel migrated) throws EolRuntimeException {
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
 			
 		return execute();
 	}
 
-	public FlockResult execute() throws FlockRuntimeException {
+	public FlockResult execute() throws EolRuntimeException {
+		FlockResult result = null;
+		
 		prepareContext(context);
-		return context.execute(strategy);
+		
+		execute(getPre(), context);
+		result = context.execute(strategy);
+		execute(getPost(), context);
+		
+		return result;
 	}
 	
 	@Override
@@ -81,8 +88,10 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		
 		children.addAll(getImports());
+		children.addAll(getDeclaredPre());
 		children.addAll(strategy.getTypeMappingsAndRules());
 		children.addAll(getDeclaredOperations());
+		children.addAll(getDeclaredPost());
 		
 		return children;
 	}
@@ -90,6 +99,14 @@ public class FlockModule extends EolLibraryModule implements IFlockModule {
 	public IFlockContext getContext() {
 		return context;
 	}
-	
-}
 
+	@Override
+	protected int getPreBlockTokenType() {
+		return FlockParser.PRE;
+	}
+
+	@Override
+	protected int getPostBlockTokenType() {
+		return FlockParser.POST;
+	}
+}

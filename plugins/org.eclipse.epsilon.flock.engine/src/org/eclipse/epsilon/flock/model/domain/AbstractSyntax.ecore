@@ -6,6 +6,8 @@
         eType="#//TypeMappingConstruct" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="#//MigrateRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pre" upperBound="-1" eType="#//NamedBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="post" upperBound="-1" eType="#//NamedBlock"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassifierTypedConstruct" abstract="true"
       eSuperTypes="#//GuardedConstruct">
@@ -55,5 +57,9 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="evolvedPackage" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedBlock">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//StatementBlock"/>
   </eClassifiers>
 </ecore:EPackage>

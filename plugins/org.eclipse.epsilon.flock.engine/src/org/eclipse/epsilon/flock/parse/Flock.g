@@ -42,7 +42,7 @@ options {backtrack=true; output=AST; ASTLabelType='org.eclipse.epsilon.common.pa
 import EolLexerRules, EolParserRules;
 
 tokens {
-  FLOCKMODULE; RETYPE; RETYPEPACKAGE; DELETE; DELETEPACKAGE; MIGRATE; GUARD; IGNORING;
+  FLOCKMODULE; RETYPE; RETYPEPACKAGE; DELETE; DELETEPACKAGE; MIGRATE; GUARD; IGNORING; PRE; POST;
 }
 
 @header {
@@ -110,13 +110,24 @@ package org.eclipse.epsilon.flock.parse;
 	}
 }
 
+
 flockModule
 	:	importStatement* (flockModuleContent)* EOF
 	-> ^(FLOCKMODULE importStatement* flockModuleContent*)
 	;
 
+pre
+	:	p='pre'^ NAME? statementBlock
+	{$p.setType(PRE);}
+	;
+
+post
+	:	p='post'^ NAME? statementBlock
+	{$p.setType(POST);}
+	;
+
 flockModuleContent
-	:	retyping | deletion | migrateRule | operationDeclarationOrAnnotationBlock
+	:	pre | retyping | deletion | migrateRule | operationDeclarationOrAnnotationBlock | post
 	;
 
 retyping

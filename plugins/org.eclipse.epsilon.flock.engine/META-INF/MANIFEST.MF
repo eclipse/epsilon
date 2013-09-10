@@ -4,7 +4,8 @@ Bundle-Name: Epsilon Flock Engine
 Bundle-SymbolicName: org.eclipse.epsilon.flock.engine
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine
 Export-Package: org.eclipse.epsilon.flock,
  org.eclipse.epsilon.flock.context,
  org.eclipse.epsilon.flock.emc.wrappers,
