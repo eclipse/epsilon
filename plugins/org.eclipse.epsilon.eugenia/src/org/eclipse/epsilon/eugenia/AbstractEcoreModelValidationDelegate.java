@@ -85,12 +85,14 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 							}
 							marker.setAttribute(IMarker.MESSAGE, unsatisfiedConstraint.getMessage());
 							marker.setAttribute(SECONDARY_MARKER_TYPE, getMarkerType());
-							if (unsatisfiedConstraint.getInstance() instanceof EObject) {
-								EObject eObject = (EObject) unsatisfiedConstraint.getInstance();
-								IFile f = WorkspaceUtil.getFile(eObject.eResource().getURI().toString());
-								String uri = URI.createPlatformResourceURI(f.getFullPath().toString() + "#" + eObject.eResource().getURIFragment(eObject), false).toString();
-								marker.setAttribute(EValidator.URI_ATTRIBUTE, uri);
-							}
+							//if (unsatisfiedConstraint.getInstance() instanceof EObject) {
+								//EObject eObject = (EObject) unsatisfiedConstraint.getInstance();
+								//IFile f = WorkspaceUtil.getFile(eObject.eResource().getURI().toString());
+								//System.err.println("--" + eObject + " -> " + EcoreUtil.getURI(eObject).toPlatformString(true));
+								//String uri = URI.createPlatformResourceURI(f.getFullPath().toString() + "" + eObject.eResource().getURIFragment(eObject), false).toString();
+								//String uri = EcoreUtil.getURI(eObject).toPlatformString(true);
+								//marker.setAttribute(EValidator.URI_ATTRIBUTE, uri);
+							//}
 						}
 						
 					}
