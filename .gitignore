@@ -4,6 +4,9 @@ bin/
 # Ignore sym-link to project stored in EpsilonLabs
 /plugins/org.eclipse.epsilon.antlr.dev
 
+# Ignore Mac OS index files
+.DS_Store
+
 # /doc/org.eclipse.epsilon.book/
 /doc/org.eclipse.epsilon.book/*.aux
 /doc/org.eclipse.epsilon.book/*.bbl
