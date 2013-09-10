@@ -44,8 +44,8 @@ public class OutputBufferOperationContributor extends OperationContributor {
 		new PrintsAndTraces(printer, getTraceabilityContext()).forAst(firstParameterAst);
 	}
 	
-	private OutputBuffer getOutputBuffer() {
-		return (OutputBuffer)target;
+	private IOutputBuffer getOutputBuffer() {
+		return (IOutputBuffer)target;
 	}
 	
 	private IEglTraceabilityContext getTraceabilityContext() {

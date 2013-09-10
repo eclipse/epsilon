@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;

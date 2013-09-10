@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
-import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.traceability.Variable;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -18,9 +18,9 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 public class ExecutableTemplateSpecification {
 	
 	public Template template;
-	public OutputBuffer outputBuffer;
+	public IOutputBuffer outputBuffer;
 
-	public ExecutableTemplateSpecification(Template template, OutputBuffer outputBuffer) {
+	public ExecutableTemplateSpecification(Template template, IOutputBuffer outputBuffer) {
 		this.template = template;
 		this.outputBuffer = outputBuffer;
 	}

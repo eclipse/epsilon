@@ -26,6 +26,8 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBufferFactory;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -40,10 +42,15 @@ public class EglContext extends EolContext implements IEglContext {
 	private final List<StatusMessage> statusMessages = new LinkedList<StatusMessage>();
 	private final EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
 	
+	private IOutputBufferFactory outputBufferFactory = new IOutputBufferFactory() {
+		public IOutputBuffer create() {
+			return new OutputBuffer(EglContext.this);
+		}
+	};
+	
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 	private TraceManager traceManager;
-	
 	private IEglContext parentContext;
 	
 	public EglContext(EglTemplateFactory templateFactory) {
@@ -60,8 +67,19 @@ public class EglContext extends EolContext implements IEglContext {
 		return (IEglModule)module;
 	}
 
+	@Override
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
+	}
+	
+	@Override
+	public IOutputBufferFactory getOutputBufferFactory() {
+		return outputBufferFactory;
+	}
+	
+	@Override
+	public void setOutputBufferFactory(IOutputBufferFactory outputBufferFactory) {
+		this.outputBufferFactory = outputBufferFactory;
 	}
 
 	private void populateScope() {
@@ -141,14 +159,14 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 		
 	public void enter(Template template) {
-		executionManager.prepareFor(new ExecutableTemplateSpecification(template, new OutputBuffer(this)));
+		executionManager.prepareFor(new ExecutableTemplateSpecification(template, outputBufferFactory.create()));
 	}
 	
 	public void exit() {
 		executionManager.restore();
 	}
 
-	public OutputBuffer getOutputBuffer() {
+	public IOutputBuffer getOutputBuffer() {
 		return executionManager.getCurrent().outputBuffer;
 	}
 	

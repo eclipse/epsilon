@@ -39,7 +39,6 @@ import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFac
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
@@ -143,10 +142,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			storeTraceModel((IEglContext) module.getContext());
 		}
 		
-		for (StatusMessage message : ((EglContext) module.getContext()).getStatusMessages())
+		for (StatusMessage message : ((IEglContext) module.getContext()).getStatusMessages())
 			EpsilonConsole.getInstance().getInfoStream().println(message);
 		
-		CurrentTemplate.getInstance().setTemplate(((EglContext) module.getContext()).getBaseTemplate());
+		CurrentTemplate.getInstance().setTemplate(((IEglContext) module.getContext()).getBaseTemplate());
 		
 	}
 

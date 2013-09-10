@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.execute.context;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -27,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({EglFrameStackManagerTests.PrepareTests.class, EglFrameStackManagerTests.RestoreTests.class})
 public class EglFrameStackManagerTests {
 	
-	private static final OutputBuffer outputBuffer = new OutputBuffer();
+	private static final IOutputBuffer outputBuffer = new OutputBuffer();
 
 	private static final Variable outVariable         = Variable.createReadOnlyVariable("out", outputBuffer);
 	private static final Variable firstLocalVariable  = Variable.createReadOnlyVariable("foo", "bar");

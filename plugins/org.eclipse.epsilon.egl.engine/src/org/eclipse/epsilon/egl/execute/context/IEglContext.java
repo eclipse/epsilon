@@ -17,7 +17,8 @@ import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManager;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBufferFactory;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -54,11 +55,15 @@ public interface IEglContext extends IEolContext {
 
 	public void exit();
 
-	public OutputBuffer getOutputBuffer();
+	public IOutputBuffer getOutputBuffer();
 	
 	public Template getBaseTemplate();
 
 	public void formatWith(Formatter formatter);
 
 	public TraceManager getFineGrainedTraceManager();
+	
+	public IOutputBufferFactory getOutputBufferFactory();
+	
+	public void setOutputBufferFactory(IOutputBufferFactory outputBufferFactory);
 }

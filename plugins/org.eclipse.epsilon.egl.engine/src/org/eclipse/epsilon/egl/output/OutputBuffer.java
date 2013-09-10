@@ -24,7 +24,7 @@ import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.status.Warning;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
-public class OutputBuffer {
+public class OutputBuffer implements IOutputBuffer {
 	
 	private final StringBuilder buffer = new StringBuilder();
 	private final IEglContext context;
@@ -50,6 +50,7 @@ public class OutputBuffer {
 		if (contents != null) buffer.append(contents);
 	}
 	
+	@Override
 	public void chop(int chars){
 		int limit = Math.min(chars, buffer.length());
 		for (int i=0;i<limit;i++){
@@ -57,10 +58,12 @@ public class OutputBuffer {
 		}
 	}
 	
+	@Override
 	public void print(Object o) {
 		buffer.append(o == null ? "null" : o.toString());
 	}
 	
+	@Override
 	public void printdyn(Object o) {
 		final String indentation = calculateIndentationToMatch(getLastLineInBuffer());
 		final String[] lines = StringUtil.toString(o).split(FileUtil.NEWLINE);
@@ -86,6 +89,7 @@ public class OutputBuffer {
 	 * 
 	 * @see EglPreprocessorModule#updateRegionsOfStaticTextASTs
 	 */
+	@Override
 	public void prinx(Object o) {
 		print(o);
 	}
@@ -117,6 +121,7 @@ public class OutputBuffer {
 	}
 	
 	
+	@Override
 	public String getSpaces(int howMany) {
 		String str = "";
 		for (int i=0;i<howMany;i++) {
@@ -125,15 +130,18 @@ public class OutputBuffer {
 		return str;
 	}
 	
+	@Override
 	public void println(){
 		buffer.append(FileUtil.NEWLINE);
 	}
 	
+	@Override
 	public void println(Object o) {
 		print(o);
 		println();
 	}
 	
+	@Override
 	public String preserve(String id,
 	                       boolean enabled,
 	                       String contents) throws EglRuntimeException {
@@ -143,6 +151,7 @@ public class OutputBuffer {
 		       stopPreserve();
 	}
 	
+	@Override
 	public String preserve(String startComment,
 	                       String endComment,
 	                       String id,
@@ -154,6 +163,7 @@ public class OutputBuffer {
 		       stopPreserve();
 	}
 	
+	@Override
 	public void setContentType(String name) throws EglRuntimeException {
 		if (contentTypeSet) {
 			context.addStatusMessage(new Warning("Cannot set content type to '" + name + "' - content type already specified."));
@@ -170,6 +180,7 @@ public class OutputBuffer {
 		}
 	}
 	
+	@Override
 	public String startPreserve(String id, boolean enabled) throws EglRuntimeException {
 	
 		if (lastLine != null)
@@ -184,6 +195,7 @@ public class OutputBuffer {
 	}
 	
 	
+	@Override
 	public String startPreserve(String startComment,
 	                            String endComment,
 	                            String id,
@@ -201,6 +213,7 @@ public class OutputBuffer {
 		return customPartitioner.getFirstLine(id, enabled);	
 	}
 	
+	@Override
 	public String stopPreserve() throws EglRuntimeException {
 		if (lastLine == null)
 			throw new EglRuntimeException("There is no current region to stop preserving.", context.getModule().getAst());
@@ -211,22 +224,27 @@ public class OutputBuffer {
 		return result;
 	}
 	
+	@Override
 	public void stop() throws EglStoppedException {
 		throw new EglStoppedException(context.getModule().getAst());
 	}
 	
+	@Override
 	public int getCurrentLineNumber() {
 		return lineCounter.getCurrentLineNumberFor(this.buffer.toString());
 	}
 	
+	@Override
 	public int getCurrentColumnNumber() {
 		return columnCounter.getCurrentColumnNumberFrom(this.buffer.toString());
 	}
 
+	@Override
 	public int getOffset() {
 		return buffer.toString().length();
 	}
 	
+	@Override
 	public void formatWith(Formatter formatter) {
 		replaceContentsWith(formatter.format(buffer.toString()));
 	}

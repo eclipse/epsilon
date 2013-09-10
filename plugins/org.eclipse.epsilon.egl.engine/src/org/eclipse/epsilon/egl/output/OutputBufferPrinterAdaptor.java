@@ -16,9 +16,9 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.RegionBuil
 
 public abstract class OutputBufferPrinterAdaptor extends Printer {
 
-	protected final OutputBuffer adaptee;
+	protected final IOutputBuffer adaptee;
 	
-	public OutputBufferPrinterAdaptor(OutputBuffer adaptee) {
+	public OutputBufferPrinterAdaptor(IOutputBuffer adaptee) {
 		this.adaptee = adaptee;
 	}
 
@@ -42,7 +42,7 @@ public abstract class OutputBufferPrinterAdaptor extends Printer {
 	}
 	
 	static class NormalPrinter extends OutputBufferPrinterAdaptor {
-		public NormalPrinter(OutputBuffer adaptee) {
+		public NormalPrinter(IOutputBuffer adaptee) {
 			super(adaptee);
 		}
 
@@ -52,7 +52,7 @@ public abstract class OutputBufferPrinterAdaptor extends Printer {
 	}
 	
 	static class DynamicPrinter extends OutputBufferPrinterAdaptor {
-		public DynamicPrinter(OutputBuffer adaptee) {
+		public DynamicPrinter(IOutputBuffer adaptee) {
 			super(adaptee);
 		}
 
@@ -62,7 +62,7 @@ public abstract class OutputBufferPrinterAdaptor extends Printer {
 	}
 	
 	static class LinePrinter extends OutputBufferPrinterAdaptor {
-		public LinePrinter(OutputBuffer adaptee) {
+		public LinePrinter(IOutputBuffer adaptee) {
 			super(adaptee);
 		}
 

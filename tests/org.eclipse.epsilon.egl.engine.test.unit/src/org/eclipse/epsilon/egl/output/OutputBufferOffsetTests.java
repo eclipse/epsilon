@@ -19,14 +19,14 @@ public class OutputBufferOffsetTests {
 
 	@Test
 	public void zeroWhenEmpty() {
-		final OutputBuffer buffer = new OutputBuffer();
+		final IOutputBuffer buffer = new OutputBuffer();
 		
 		assertEquals(0, buffer.getOffset());
 	}
 
 	@Test
 	public void offsetIsLengthOfContents() throws Exception {
-		final OutputBuffer buffer = new OutputBuffer();
+		final IOutputBuffer buffer = new OutputBuffer();
 		buffer.print("foo");
 		
 		assertEquals("foo".length(), buffer.getOffset());
@@ -34,7 +34,7 @@ public class OutputBufferOffsetTests {
 	
 	@Test
 	public void offsetRespectsLineBreaks() throws Exception {
-		final OutputBuffer buffer = new OutputBuffer();
+		final IOutputBuffer buffer = new OutputBuffer();
 		buffer.println("foo");
 		buffer.print("bar");
 		

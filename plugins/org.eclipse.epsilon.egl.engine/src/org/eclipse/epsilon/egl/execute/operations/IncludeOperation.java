@@ -15,7 +15,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -33,7 +33,7 @@ public class IncludeOperation extends AbstractSimpleOperation {
 		
 		Variable outVariable = context.getFrameStack().get("out");
 		
-		OutputBuffer out = (OutputBuffer)outVariable.getValue();
+		IOutputBuffer out = (IOutputBuffer)outVariable.getValue();
 		
 		String templatePath = (String) parameters.get(0);
 		EglTemplate template = templateFactory.load(templatePath);

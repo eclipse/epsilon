@@ -31,7 +31,7 @@ public class TestOutputBuffer {
 	private final CommentBlockPartitioner partitioner       = new CommentBlockPartitioner("<!--", "-->");
 	private final CompositePartitioner expectedPartitioners = new CompositePartitioner(partitioner);
 	
-	private OutputBuffer buffer;
+	private IOutputBuffer buffer;
 	private IEglContext   context;
 	
 	@Before
@@ -76,7 +76,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChop() {
-		final OutputBuffer buffer = new OutputBuffer(context, "hello");
+		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "he";
 		buffer.chop(3);
@@ -86,7 +86,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChopAll() {
-		final OutputBuffer buffer = new OutputBuffer(context, "hello");
+		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
 		buffer.chop(5);
@@ -96,7 +96,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChopTooMany() {
-		final OutputBuffer buffer = new OutputBuffer(context, "hello");
+		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
 		buffer.chop(6);
