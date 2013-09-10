@@ -17,7 +17,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 public class ValidationViewFixer implements IEvlFixer {
-
+	
+	protected boolean done = false;
+	
 	public ValidationViewFixer() {
 		super();
 	}
@@ -33,7 +35,7 @@ public class ValidationViewFixer implements IEvlFixer {
 	protected void fixImpl(IEvlModule module) throws Exception {
 		ValidationView validationView = getValidationView();
 		validationView.fix(module, this);
-		while (!validationView.isDone()){Thread.sleep(100);}
+		while (!isDone()){Thread.sleep(100);}
 	}
 	
 	protected ValidationView getValidationView() {
@@ -47,12 +49,19 @@ public class ValidationViewFixer implements IEvlFixer {
 				}
 			}
 		});
-		//while(validationViewWrapper.validationView == null){}
 		return validationViewWrapper.validationView;
 	}
 	
 	class ValidationViewWrapper {
 		public ValidationView validationView;
+	}
+	
+	public boolean isDone() {
+		return done;
+	}
+	
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 	
 }

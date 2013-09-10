@@ -18,7 +18,6 @@ import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlFixInstance;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
-import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.jface.action.Action;
@@ -44,11 +43,11 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ValidationView extends ViewPart {
 	
-	protected boolean done = false;
 	protected IEvlModule module = null;
-	private TableViewer viewer;
-	private Action resumeAction;
-	private IEvlFixer fixer;
+	protected TableViewer viewer;
+	protected Action stopAction;
+	protected Action clearAction;
+	protected ValidationViewFixer fixer;
 	//private Action cancelAction;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -82,20 +81,29 @@ public class ValidationView extends ViewPart {
 	
 	}
 	
-	public void fix(final IEvlModule module, IEvlFixer fixer) {
-		this.setDone(false);
+	protected boolean existUnsatisfiedConstraintsToFix() {
+		for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
+			if (constraint.getFixes().size() > 0 && !constraint.isFixed()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void fix(final IEvlModule module, ValidationViewFixer fixer) {
+		
+		if (this.fixer != null) {
+			setDone(true);
+		}
+		
 		this.fixer = fixer;
 		this.module = module;
-		if (module.getContext().getUnsatisfiedConstraints().size() > 0) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					viewer.setInput(module.getContext().getUnsatisfiedConstraints());
-				}
-			});
-		}
-		else {
-			this.setDone(true);
-		}
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				viewer.setInput(module.getContext().getUnsatisfiedConstraints());
+				setDone(!existUnsatisfiedConstraintsToFix());
+			}
+		});
 	}
 	
 	/**
@@ -133,7 +141,8 @@ public class ValidationView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(resumeAction);
+		manager.add(stopAction);
+		manager.add(clearAction);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
@@ -141,9 +150,7 @@ public class ValidationView extends ViewPart {
 		EvlUnsatisfiedConstraint unsatisfiedConstraint = (EvlUnsatisfiedConstraint)((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (unsatisfiedConstraint == null) return;
 		
-		ListIterator li = unsatisfiedConstraint.getFixes().listIterator();
-		while (li.hasNext()){
-			EvlFixInstance fixInstance = (EvlFixInstance) li.next();
+		for (EvlFixInstance fixInstance : unsatisfiedConstraint.getFixes()) {
 			manager.add(new PerformFixAction(unsatisfiedConstraint, fixInstance));
 		}
 		
@@ -177,6 +184,7 @@ public class ValidationView extends ViewPart {
 					try {
 						fixInstance.perform();
 						unsatisfiedConstraint.setFixed(true);
+						setDone(!existUnsatisfiedConstraintsToFix());
 						viewer.refresh();
 					} catch (Exception e) {
 						module.getContext().getErrorStream().println(e.toString());
@@ -190,19 +198,40 @@ public class ValidationView extends ViewPart {
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(resumeAction);
+		manager.add(stopAction);
+		manager.add(clearAction);
 	}
 
 	private void makeActions() {
-		resumeAction = new Action() {
+		stopAction = new Action() {
 			@Override
 			public void run() {
 				setDone(true);
 			}
 		};
-		resumeAction.setText("Resume");
-		resumeAction.setToolTipText("Finish with performing fixes and resume to the post section of the EVL specification");
-		resumeAction.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/resume.gif"));
+		stopAction.setText("Stop");
+		stopAction.setToolTipText("Finish with performing fixes and resume to the post section of the EVL specification");
+		stopAction.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/stop.gif"));
+		
+		clearAction = new Action() {
+			@Override
+			public void run() {
+				Display.getDefault().asyncExec(new Runnable() {
+
+					public void run() {
+						setDone(true);
+						viewer.setInput(Collections.EMPTY_LIST);
+					}
+					
+				});
+			}
+		};
+		
+		clearAction.setText("Clear");
+		clearAction.setToolTipText("Clear the validation view");
+		clearAction.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/clear.gif"));
+		
+		stopAction.setEnabled(false);
 	}
 
 	@Override
@@ -211,20 +240,12 @@ public class ValidationView extends ViewPart {
 	}
 	
 	public boolean isDone() {
-		return done;
+		if (fixer == null) return true;
+		return fixer.isDone();
 	}
 	
 	protected void setDone(boolean done) {
-		this.done = done;
-		if (this.done) {
-			Display.getDefault().asyncExec(new Runnable() {
-
-				public void run() {
-					viewer.setInput(Collections.EMPTY_LIST);
-				}
-				
-			});
-			
-		}
+		stopAction.setEnabled(!done);
+		if (fixer != null) fixer.setDone(done);;
 	}
 }

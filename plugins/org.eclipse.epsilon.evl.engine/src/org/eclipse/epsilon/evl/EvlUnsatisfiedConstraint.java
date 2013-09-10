@@ -17,7 +17,7 @@ public class EvlUnsatisfiedConstraint {
 	protected EvlConstraint constraint;
 	protected String message;
 	protected Object instance;
-	protected ArrayList<Object> fixes = new ArrayList<Object>();
+	protected ArrayList<EvlFixInstance> fixes = new ArrayList<EvlFixInstance>();
 	protected boolean fixed = false;
 	
 	public boolean isFixed() {
@@ -56,7 +56,7 @@ public class EvlUnsatisfiedConstraint {
 		this.instance = result;
 	}
 	
-	public ArrayList<Object> getFixes() {
+	public ArrayList<EvlFixInstance> getFixes() {
 		return fixes;
 	}
 	
