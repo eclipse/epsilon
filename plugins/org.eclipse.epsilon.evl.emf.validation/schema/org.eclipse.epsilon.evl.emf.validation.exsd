@@ -98,6 +98,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="validator" type="string">
+            <annotation>
+               <documentation>
+                  Optional extension for providing a specialised EvlValidator-based class to perform the validation of the EVL constraints.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.epsilon.evl.emf.validation.EvlValidator:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

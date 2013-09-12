@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -44,7 +46,7 @@ public class EvlValidator implements EValidator {
 
 	protected Set<String> diagnosticVariables = null;
 	protected EvlModule module = null;
-	protected URI source;
+	protected URI source = null;
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
 	protected Resource currentResource = null;
 	protected ValidationResults results = new ValidationResults();;
@@ -60,12 +62,31 @@ public class EvlValidator implements EValidator {
 	 * IProgressMonitor object
 	 */
 	public static final String VALIDATION_MONITOR = "Epsilon EVL Validation Monitor";
-	
+
+	/**
+	 * Note when using this constructor, make sure to call
+	 * {@link #initialise(URI, String, String, String)} afterwards
+	 */
+	public EvlValidator()
+	{
+	}
+
 	public EvlValidator(URI source, String modelName, String ePackageUri, String bundleId) {
-		this.source = source;
-		this.modelName = modelName;
-		this.ePackageUri = ePackageUri;
-		this.bundleId = bundleId;
+		initialise(source, modelName, ePackageUri, bundleId);
+	}
+
+	public void initialise(URI source, String modelName, String ePackageUri, String bundleId) {
+		// Emulate old 4-arg constructor by only allowing initialisation once
+		if (this.source == null) {
+			this.source = source;
+			this.modelName = modelName;
+			this.ePackageUri = ePackageUri;
+			this.bundleId = bundleId;
+		} else {
+			Activator.getDefault().getLog().log(new Status(
+				IStatus.WARNING, Activator.PLUGIN_ID,
+				"Ignored duplicate initialisation of validator (" + source.toString() + ")."));
+		}
 	}
 
 	/**
@@ -151,7 +172,7 @@ public class EvlValidator implements EValidator {
 		return diagnostic;
 	}
 	
-	private void validate(Resource resource, Map<Object, Object> context) {
+	protected void validate(Resource resource, Map<Object, Object> context) {
 		results.clear();
 
 		module = new EvlModule();
@@ -214,7 +235,7 @@ public class EvlValidator implements EValidator {
 		module.getContext().getModelRepository().dispose();
 	}
 
-	private void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
+	protected void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
 		if(diagnostics == null) {
 			// user is not interested in markers...
 			return;
