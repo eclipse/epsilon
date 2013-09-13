@@ -1,76 +1,58 @@
 <project default="main">
 	<target name="main">
+		
+		<property name="version" value="1.1_SR1"></property>
+		
+		<fileset id="core" dir="..">
+			<include name="org.eclipse.epsilon.eol.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.egl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.egl.traceability.fine/bin/**"/>
+			<include name="org.eclipse.epsilon.ecl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.eml.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.etl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.evl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.epl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.erl.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.flock.engine/bin/**"/>
+			<include name="org.eclipse.epsilon.antlr.postprocessor/bin/**"/>
+			<include name="org.eclipse.epsilon.antlr.postprocessor.model/bin/**"/>
+			<include name="org.eclipse.epsilon.common/bin/**"/>
+			<include name="org.eclipse.epsilon.emc.composite/bin/**"/>
+			<include name="org.eclipse.epsilon.emc.plainxml/bin/**"/>	
+			<include name="org.antlr.runtime_3.1.b1/**"/>
+		</fileset>
+		
+		<fileset id="workflow" dir="..">
+			<include name="org.eclipse.epsilon.workflow/bin/**"/>
+		</fileset>
+		
+		<fileset id="emf" dir="..">
+			<include name="org.eclipse.epsilon.emc.emf/bin/**"/>
+		</fileset>
+		
 		<echo>Building Standalone ANT jar</echo>
-		<jar destfile="epsilon-ant-standalone.jar">
-			<fileset dir="../org.eclipse.epsilon.eol.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.eml.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.evl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
-			<fileset dir="../org.eclipse.epsilon.common/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.composite/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin"/>
-			<fileset dir="../org.eclipse.epsilon.workflow/bin"/>
-			<fileset dir="../org.antlr.runtime_3.1.b1"/>
+		<jar destfile="epsilon-${version}-ant-standalone.jar">
+			<fileset refid="core" />
+			<fileset refid="workflow" />
 		</jar>
 		
 		<echo>Building Standalone jar</echo>
-		<jar destfile="epsilon-standalone.jar">
-			<fileset dir="../org.eclipse.epsilon.eol.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.eml.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.evl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
-			<fileset dir="../org.eclipse.epsilon.common/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.composite/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin"/>
-			<fileset dir="../org.antlr.runtime_3.1.b1"/>
+		<jar destfile="epsilon-${version}-standalone.jar">
+			<fileset refid="core"/>
 		</jar>
 		
-				<echo>Building Standalone ANT + EMF jar</echo>
-		<jar destfile="epsilon-ant-emf-standalone.jar">
-			<fileset dir="../org.eclipse.epsilon.eol.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.eml.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.evl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
-			<fileset dir="../org.eclipse.epsilon.common/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.composite/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin"/>
-			<fileset dir="../org.eclipse.epsilon.workflow/bin"/>
-			<fileset dir="../org.antlr.runtime_3.1.b1"/>
-			<fileset dir="../org.eclipse.epsilon.emc.emf/bin"/>
-			
+		<echo>Building Standalone ANT + EMF jar</echo>
+		<jar destfile="epsilon-${version}-ant-emf-standalone.jar">
+			<fileset refid="core" />
+			<fileset refid="workflow" />
+			<fileset refid="emf" />
 		</jar>
 		
 		<echo>Building Standalone + EMF jar</echo>
-		<jar destfile="epsilon-emf-standalone.jar">
-			<fileset dir="../org.eclipse.epsilon.eol.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.eml.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.evl.engine/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
-			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
-			<fileset dir="../org.eclipse.epsilon.common/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.composite/bin"/>
-			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin"/>
-			<fileset dir="../org.antlr.runtime_3.1.b1"/>
-			<fileset dir="../org.eclipse.epsilon.emc.emf/bin"/>
+		<jar destfile="epsilon-${version}-emf-standalone.jar">
+			<fileset refid="core" />
+			<fileset refid="emf" />
 		</jar>
+
 	</target>
 </project>
