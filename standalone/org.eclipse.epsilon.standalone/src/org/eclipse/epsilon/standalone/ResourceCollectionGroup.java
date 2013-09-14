@@ -8,18 +8,18 @@ import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.ResourceCollection;
 
-public class FileSetGroup extends DataType implements ResourceCollection {
+public class ResourceCollectionGroup extends DataType implements ResourceCollection {
 	
-	protected List<FileSet> fileSets = new ArrayList<FileSet>();
+	protected List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
 	
 	public Iterator<?> iterator() {
 		if (isReference()) {
-			return ((FileSetGroup) getCheckedRef(getProject())).iterator();
+			return ((ResourceCollectionGroup) getCheckedRef(getProject())).iterator();
 		}
 		
 		ArrayList<Object> resources = new ArrayList<Object>();
-		for (FileSet fileSet : fileSets) {
-			Iterator<?> iterator = fileSet.iterator();
+		for (ResourceCollection resourceCollection : resourceCollections) {
+			Iterator<?> iterator = resourceCollection.iterator();
 			while (iterator.hasNext()) {
 				resources.add(iterator.next());
 			}
@@ -30,8 +30,14 @@ public class FileSetGroup extends DataType implements ResourceCollection {
 
 	public FileSet createFileSet() {
 		FileSet fileSet = new FileSet();
-		fileSets.add(fileSet);
+		resourceCollections.add(fileSet);
 		return fileSet;
+	}
+	
+	public ResourceCollectionGroup createGroup() {
+		ResourceCollectionGroup group = new ResourceCollectionGroup();
+		resourceCollections.add(group);
+		return group;
 	}
 	
 	@Override
