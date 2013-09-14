@@ -1,0 +1,68 @@
+<project default="main">
+	
+	<typedef
+	    name="group"
+	    classname="org.eclipse.epsilon.standalone.FileSetGroup"
+	    classpath="bin"/>
+	
+	<target name="main">
+		
+		<property name="version" value="1.1_SR1"></property>
+		
+		<!-- Filesets -->
+		
+		<group id="core">
+			<fileset dir="../org.eclipse.epsilon.eol.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.egl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.egl.traceability.fine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.ecl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.eml.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.etl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.evl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.epl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.erl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.flock.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.common/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.emc.composite/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin/"/>	
+			<fileset dir="../org.antlr.runtime_3.1.b1/"/>
+		</group>
+		
+		<group id="workflow">
+			<fileset dir="../org.eclipse.epsilon.workflow/bin/"/>
+		</group>
+		
+		<group id="emf">
+			<fileset dir="../org.eclipse.epsilon.emc.emf/bin/"/>
+		</group>
+		
+		<!-- JARs -->
+		
+		<echo>Building Standalone ANT jar</echo>
+		<jar destfile="epsilon-${version}-ant-standalone.jar">
+			<group refid="core" />
+			<group refid="workflow" />
+		</jar>
+		
+		<echo>Building Standalone jar</echo>
+		<jar destfile="epsilon-${version}-standalone.jar">
+			<group refid="core"/>
+		</jar>
+		
+		<echo>Building Standalone ANT + EMF jar</echo>
+		<jar destfile="epsilon-${version}-ant-emf-standalone.jar">
+			<group refid="core" />
+			<group refid="workflow" />
+			<group refid="emf" />
+		</jar>
+		
+		<echo>Building Standalone + EMF jar</echo>
+		<jar destfile="epsilon-${version}-emf-standalone.jar">
+			<group refid="core" />
+			<group refid="emf" />
+		</jar>
+		
+	</target>
+</project>
