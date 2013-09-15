@@ -4,46 +4,46 @@
    <description name="Epsilon Interim Update Site" url="http://download.eclipse.org/modeling/gmt/epsilon/interim/site.xml">
       Epsilon is a platform of task-specific languages and tools for model management. Epsilon provides languages for tasks such as model transformation, validation, comparison, merging and code generation. It also includes Eclipse-based development tools for the languages and ANT tasks for executing them in the context of complex workflows. Additional features include support live validation, repairing, and scripting of models in EMF and GMF-based editors.
    </description>
-   <feature url="features/org.eclipse.epsilon.core.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.core.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.core.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.core.feature" version="1.1.0.201309151228">
       <category name="Epsilon Core"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.core.dt.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.core.dt.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.core.dt.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.core.dt.feature" version="1.1.0.201309151228">
       <category name="Epsilon Core Development Tools"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.1.0.201309151228">
       <category name="Epsilon GMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.eugenia.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.eugenia.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.eugenia.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.eugenia.feature" version="1.1.0.201309151228">
       <category name="Epsilon GMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.evl.emf.validation.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.evl.emf.validation.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.evl.emf.validation.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.evl.emf.validation.feature" version="1.1.0.201309151228">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emf.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.emf.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.emf.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.emf.feature" version="1.1.0.201309151228">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.juno.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.eunit.dt.emf.juno.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.juno.feature_1.1.0.qualifier.jar" id="org.eclipse.epsilon.eunit.dt.emf.juno.feature" version="1.1.0.qualifier">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.ewl.emf.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.ewl.emf.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.ewl.emf.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.ewl.emf.feature" version="1.1.0.201309151228">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emf.dt.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.emf.dt.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.emf.dt.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.emf.dt.feature" version="1.1.0.201309151228">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.hutn.dt.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.hutn.dt.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.hutn.dt.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.hutn.dt.feature" version="1.1.0.201309151228">
       <category name="Human Usable Textual Notation (HUTN)"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.hutn.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.hutn.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.hutn.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.hutn.feature" version="1.1.0.201309151228">
       <category name="Human Usable Textual Notation (HUTN)"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.concordance.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.concordance.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.concordance.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.concordance.feature" version="1.1.0.201309151228">
       <category name="Model Monitoring"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.uml.dt.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.uml.dt.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.uml.dt.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.uml.dt.feature" version="1.1.0.201309151228">
       <category name="Epsilon UML Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.uml.feature_1.0.0.201304291259.jar" id="org.eclipse.epsilon.uml.feature" version="1.0.0.201304291259">
+   <feature url="features/org.eclipse.epsilon.uml.feature_1.1.0.201309151228.jar" id="org.eclipse.epsilon.uml.feature" version="1.1.0.201309151228">
       <category name="Epsilon UML Integration"/>
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
