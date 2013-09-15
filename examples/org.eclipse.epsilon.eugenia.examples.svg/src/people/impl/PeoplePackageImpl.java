@@ -257,7 +257,8 @@ public class PeoplePackageImpl extends EPackageImpl implements PeoplePackage
        "figure", "svg",
        "svg.uri", "platform:/plugin/org.eclipse.epsilon.eugenia.examples.svg/svg/person.svg",
        "label", "name",
-       "label.icon", "false"
+       "label.icon", "false",
+       "label.placement", "external"
        });
   }
 

@@ -30,7 +30,7 @@ public class PeopleFactoryImpl extends EFactoryImpl implements PeopleFactory
   {
     try
     {
-      PeopleFactory thePeopleFactory = (PeopleFactory)EPackage.Registry.INSTANCE.getEFactory("www.eclipse.org/epsilon/examples/svg"); 
+      PeopleFactory thePeopleFactory = (PeopleFactory)EPackage.Registry.INSTANCE.getEFactory(PeoplePackage.eNS_URI);
       if (thePeopleFactory != null)
       {
         return thePeopleFactory;

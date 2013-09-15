@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see people.PeoplePackage#getPerson()
- * @model annotation="gmf.node figure='svg' svg.uri='platform:/plugin/org.eclipse.epsilon.eugenia.examples.svg/svg/person.svg' label='name' label.icon='false'"
+ * @model annotation="gmf.node figure='svg' svg.uri='platform:/plugin/org.eclipse.epsilon.eugenia.examples.svg/svg/person.svg' label='name' label.icon='false' label.placement='external'"
  * @generated
  */
 public interface Person extends EObject

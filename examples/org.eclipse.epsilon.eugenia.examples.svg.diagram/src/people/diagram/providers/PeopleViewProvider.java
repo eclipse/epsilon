@@ -267,6 +267,11 @@ public class PeopleViewProvider extends AbstractProvider implements
 				FigureUtilities.RGBToInteger(fillRGB));
 		Node label5001 = createLabel(node,
 				PeopleVisualIDRegistry.getType(PersonNameEditPart.VISUAL_ID));
+		label5001.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location5001 = (Location) label5001.getLayoutConstraint();
+		location5001.setX(0);
+		location5001.setY(5);
 		return node;
 	}
 

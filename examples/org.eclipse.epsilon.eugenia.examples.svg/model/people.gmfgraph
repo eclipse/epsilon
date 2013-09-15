@@ -21,14 +21,14 @@
               bottom="5"
               right="5"/>
         </border>
-        <children
-            xsi:type="gmfgraph:Label"
-            name="PersonLabelFigure"
-            text="Person"/>
       </actualFigure>
-      <accessors
-          accessor="getFigurePersonLabelFigure"
-          figure="//@figures.0/@descriptors.0/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
+        name="PersonLabelFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Label"
+          name="PersonLabelFigure"
+          text="Person"/>
     </descriptors>
   </figures>
   <nodes
@@ -36,7 +36,6 @@
       figure="PersonFigure"/>
   <labels
       name="PersonLabel"
-      figure="PersonFigure"
-      elementIcon="false"
-      accessor="//@figures.0/@descriptors.0/@accessors.0"/>
+      figure="PersonLabelFigure"
+      elementIcon="false"/>
 </gmfgraph:Canvas>

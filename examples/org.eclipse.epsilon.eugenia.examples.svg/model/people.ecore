@@ -12,6 +12,7 @@
       <details key="svg.uri" value="platform:/plugin/org.eclipse.epsilon.eugenia.examples.svg/svg/person.svg"/>
       <details key="label" value="name"/>
       <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
