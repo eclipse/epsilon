@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
@@ -54,6 +56,9 @@ public class EvlValidator implements EValidator {
 	protected String modelName;
 	protected String ePackageUri;
 	protected String bundleId;
+	protected boolean showErrorDialog = true;
+	protected boolean logErrors = true;
+	protected List<ValidationProblemListener> problemListeners = new ArrayList<ValidationProblemListener>();
 	
 	public static final String DEFAULT_MODEL_NAME = "_Model";
 
@@ -179,15 +184,27 @@ public class EvlValidator implements EValidator {
 		try {
 			module.parse(source);
 		} catch (Exception e) {
-			LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, true);
+			if (isLogErrors()) {
+				LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, isShowErrorDialog());
+			}
+			
+			for (ValidationProblemListener listener : problemListeners) {
+				listener.onParseException(module, e);
+			}
+			return;
 		}
 
 		if (module.getParseProblems().size() > 0) {
-			LogUtil.log(source + " has one or more syntax errors : " + module.getParseProblems().get(0).toString(), null, true);			
+			if (isLogErrors()) {
+				LogUtil.log(source + " has one or more syntax errors : " + module.getParseProblems().get(0).toString(), null, isShowErrorDialog());
+			}
+			for (ValidationProblemListener listener : problemListeners) {
+				listener.onParseProblems(module, module.getParseProblems());
+			}
+			return;
 		}
 
 		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackageUri);
-		//model.setName(modelName);
 		module.getContext().getModelRepository().addModel(model);
 		
 		Object monitor = null;
@@ -213,26 +230,31 @@ public class EvlValidator implements EValidator {
 
 		try {
 			module.execute();
+			module.setUnsatisfiedConstraintFixer(new IEvlFixer() {
+				public void fix(IEvlModule module) throws EolRuntimeException {
+					// Do nothing
+				}
+			});
+
+			for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
+				Object key = unsatisfied.getInstance();
+				if (!results.containsKey(key)) {
+					results.put(key, new ArrayList<EvlUnsatisfiedConstraint>());
+				}
+				results.get(key).add(unsatisfied);
+			}
 		} catch (EolRuntimeException e) {
-			LogUtil.log("A runtime error was raised during the evaluation of " + source + " : " + e.getMessage(), e, true);
-		}
-
-		module.setUnsatisfiedConstraintFixer(new IEvlFixer() {
-			public void fix(IEvlModule module) throws EolRuntimeException {
-				// Do nothing
+			if (isLogErrors()) {
+				LogUtil.log("A runtime error was raised during the evaluation of " + source + " : " + e.getMessage(), e, isShowErrorDialog());
 			}
-		});
-
-		for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
-			Object key = unsatisfied.getInstance();
-			if (!results.containsKey(key)) {
-				results.put(key, new ArrayList<EvlUnsatisfiedConstraint>());
+			for (ValidationProblemListener listener : problemListeners) {
+				listener.onRuntimeException(module, e);
 			}
-			results.get(key).add(unsatisfied);
 		}
-
-		module.getContext().dispose();
-		module.getContext().getModelRepository().dispose();
+		finally {
+			module.getContext().dispose();
+			module.getContext().getModelRepository().dispose();
+		}
 	}
 
 	protected void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
@@ -251,5 +273,39 @@ public class EvlValidator implements EValidator {
 			}
 		}
 	}
-
+	
+	public boolean isShowErrorDialog() {
+		return showErrorDialog;
+	}
+	
+	public void setShowErrorDialog(boolean showErrorDialog) {
+		this.showErrorDialog = showErrorDialog;
+	}
+	
+	public boolean isLogErrors() {
+		return logErrors;
+	}
+	
+	public void setLogErrors(boolean logErrors) {
+		this.logErrors = logErrors;
+	}
+	
+	public void addValidationProblemListener(ValidationProblemListener listener) {
+		problemListeners.add(listener);
+	}
+	
+	public boolean removeValidationProblemListener(ValidationProblemListener listener) {
+		return problemListeners.remove(listener);
+	}
+	
+	public interface ValidationProblemListener {
+		
+		public void onParseProblems(EvlModule module, List<ParseProblem> parseProblems);
+		
+		public void onRuntimeException(EvlModule module, EolRuntimeException ex);
+	
+		public void onParseException(EvlModule module, Exception ex);
+		
+	}
+	
 }
