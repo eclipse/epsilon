@@ -102,7 +102,7 @@ public class GeneratePatchesDelegate extends EugeniaActionDelegate {
 
 	private EglTemplateFactory createFactory() throws EglRuntimeException {
 		final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
-		factory.setTemplateRoot(getSelection().getParent().getLocation().toOSString());
+		//factory.setTemplateRoot(getSelection().getParent().getLocation().toOSString()); Commented out to fix bug #417462
 		factory.setOutputRoot(getPatchesFolder().getLocation().toOSString());
 		return factory;
 	}
