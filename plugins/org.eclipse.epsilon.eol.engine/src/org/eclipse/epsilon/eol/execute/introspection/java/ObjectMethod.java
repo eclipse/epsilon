@@ -12,6 +12,10 @@ package org.eclipse.epsilon.eol.execute.introspection.java;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.util.ReflectionUtil;
+
 public class ObjectMethod {
 	
 	protected Object object;
@@ -28,16 +32,21 @@ public class ObjectMethod {
 	public Object getObject() {
 		return object;
 	}
+	
 	public void setObject(Object object) {
 		this.object = object;
 	}
+	
 	public Method getMethod() {
 		return method;
 	}
+	
 	public void setMethod(Method method) {
 		this.method = method;
 	}
 	
-	
+	public Object execute(Object[] parameters, AST ast) throws EolRuntimeException {
+		return ReflectionUtil.executeMethod(object, method, parameters, ast);
+	}
 	
 }

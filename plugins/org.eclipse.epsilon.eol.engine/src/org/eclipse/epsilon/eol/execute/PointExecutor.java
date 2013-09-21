@@ -144,9 +144,8 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		if (objectMethodAst != null) {
-			return wrap(ReflectionUtil.executeMethod(objectMethodAst.getObject(), objectMethodAst.getMethod(), new Object[]{featureCallAst}, featureCallAst));
+			return wrap(objectMethodAst.execute(new Object[]{featureCallAst}, featureCallAst));
 		}
-		
 		
 		ArrayList<Object> parameters = (ArrayList<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
 		
@@ -171,7 +170,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		if (objectMethod != null) {
-			return wrap(ReflectionUtil.executeMethod(objectMethod.getObject(), objectMethod.getMethod(), parameters.toArray(), featureCallAst));
+			return wrap(objectMethod.execute(parameters.toArray(), featureCallAst));
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
