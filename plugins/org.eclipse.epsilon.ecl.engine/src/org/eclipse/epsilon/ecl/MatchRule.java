@@ -372,13 +372,6 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			}
 		}
 		
-		// Execute the do part of the rule
-		
-		if (doAst != null && match.isMatching()){
-			context.getExecutorFactory().executeBlockOrExpressionAst(doAst.getFirstChild(), context);
-		}
-		
-		
 		if (!asSuperRule){
 			// Before exiting remove the temp match
 			// we created from the temp match trace
@@ -394,6 +387,11 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 			if (forcedMatch || tempMatchTrace.getMatches().size() == 0){
 				matchTrace.getMatches().add(match);
 			}
+		}
+		
+		// Execute the do part of the rule
+		if (doAst != null && match.isMatching()){
+			context.getExecutorFactory().executeBlockOrExpressionAst(doAst.getFirstChild(), context);
 		}
 		
 		scope.leaveLocal(ast);
