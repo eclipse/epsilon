@@ -7,11 +7,12 @@ rule Rss2Atom
 		
 }
 
+@lazy
 rule Item2Entry
 	transform i : RSS!t_item
 	to e : Atom!t_entry {
 	
-	e.appendEquivalentChildrenOf(i);
+	e.appendEquivalentsOfChildrenOf(i);
 }
 
 @lazy
@@ -78,7 +79,7 @@ operation Any appendChildren(c : Collection) {
 	}
 }
 
-operation Any appendEquivalentChildrenOf(source : Any) {
+operation Any appendEquivalentsOfChildrenOf(source : Any) {
 	for (child in source.children) {
 		var e = child.equivalent();
 		if (e.isDefined()) {
