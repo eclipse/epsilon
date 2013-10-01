@@ -3,8 +3,7 @@ rule Rss2Atom
 	to f : Atom!t_feed {
 	
 	Atom.root = f;
-	f.appendChildren(r.e_channel.c_item.equivalent());
-		
+	f.appendChildren(r.e_channel.c_item.equivalent());	
 }
 
 @lazy
@@ -56,7 +55,7 @@ rule Description2Summary
 	s.text = d.text;	
 }
 
-@rule
+@lazy
 rule ContentEncoded2Content 
 	transform s : RSS!`t_content:encoded`
 	to t : Atom!t_content {
@@ -64,7 +63,7 @@ rule ContentEncoded2Content
 	t.text = s.text;
 }
 
-@rule
+@lazy
 rule PubDate2Published 
 	transform s : RSS!t_pubDate
 	to t : Atom!t_published {
