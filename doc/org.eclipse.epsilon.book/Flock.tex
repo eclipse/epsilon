@@ -57,7 +57,7 @@ As illustrated by Figure~\ref{fig:flock_abstract_syntax}, Flock migration strate
 
 \section{Concrete Syntax}
 
-Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Flock language constructs. All of the constructs begin with keyword(s) (\texttt{retype}, \texttt{retype package} \texttt{delete}, \texttt{delete package} or \texttt{migrate}), followed by the original metamodel type or package. Additionally, type mappings that operate on metamodel types and rules can be annotated with the \texttt{strict} modifier. All constructs can have guards, which are specified using the \texttt{when} keyword.
+Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Flock language constructs. All of the constructs begin with keyword(s) (\texttt{retype}, \texttt{retype package} \texttt{delete}, \texttt{delete package} or \texttt{migrate}), followed by the original metamodel type or package. Additionally, type mappings that operate on metamodel types and rules can be annotated with the \texttt{strict} modifier. The \texttt{delete} construct can be annotated with a \texttt{cascade} modifier. All constructs can have guards, which are specified using the \texttt{when} keyword.
 
 Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have a list of ignored features, or a body, or both.
 
@@ -70,6 +70,7 @@ retype package <originalPackage> to <evolvedPackage>
 (when (:<eolExpression>)|({<eolStatement>+}))?
 
 (@strict)?
+(@cascade)?
 delete <originalType>
 (when (:<eolExpression>)|({<eolStatement>+}))?
 
@@ -105,7 +106,7 @@ Execution of a Flock module occurs in six phases:
   \item Any post blocks are executed.
 \end{enumerate}
 
-In phases 2-5, language constructs are executed only when they are \emph{applicable}. The \emph{applicability} of the Flock language constructs (retyping, deletion or migrate rule) is determined from their type and guard. For a language construct $c$ to be applicable to an original model element $o$, $o$ must instantiate either the original type of $c$ or one of the subtypes of the original type of $c$; and $o$ must satisfy the guard of $c$. For language constructs that have been annotated as strict, type-checking is more restrictive: $o$ must instantiate the original type of $c$ (and not one its subtypes). In other words, the applicability of strict constructs is determined with EOL's \texttt{isTypeOf} operation and the applicability of non-strict constructs is determined with EOL's \texttt{isKindOf} operation (Table~\ref{tab:AnyOperations}). For language constructs that operate on packages (i.e. package retyping and package deletions), type-checking is less restrictive: $o$ must be contained in a package with the same name as the original package of $c$.
+In phases 2-5, language constructs are executed only when they are \emph{applicable}. The \emph{applicability} of the Flock language constructs (retyping, deletion or migrate rule) is determined from their type and guard. For a language construct $c$ to be applicable to an original model element $o$, $o$ must instantiate either the original type of $c$ or one of the subtypes of the original type of $c$; and $o$ must satisfy the guard of $c$. For language constructs that have been annotated as strict, type-checking is more restrictive: $o$ must instantiate the original type of $c$ (and not one its subtypes). In other words, the applicability of strict constructs is determined with EOL's \texttt{isTypeOf} operation and the applicability of non-strict constructs is determined with EOL's \texttt{isKindOf} operation (Table~\ref{tab:AnyOperations}). For language constructs that have been annotated with cascade, type-checking is less restrictive: $o$ must be contained in another model element (either directly or indirectly) to which the construct is applicable. Similarly, for language constructs that operate on packages (i.e. package retyping and package deletions), type-checking is less restrictive: $o$ must be contained in a package with the same name as the original package of $c$.
 
 Phases 2-4 of execution implement a copying algorithm which has been termed conservative copy and is discussed thoroughly elsewhere \cite{rose12flock}. Essentially, conservative copy will do the following for each element of the original model, $o$:
 

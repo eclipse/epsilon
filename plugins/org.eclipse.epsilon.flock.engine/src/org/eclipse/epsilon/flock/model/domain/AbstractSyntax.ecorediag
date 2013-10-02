@@ -45,6 +45,10 @@
         <element xmi:type="ecore:EAttribute" href="AbstractSyntax.ecore#//Deletion/strict"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_x84CUbiOEeKQOMKikc62-A"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_94MFICtKEeOfYpg9ymOxAQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="AbstractSyntax.ecore#//Deletion/cascade"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_94MFIStKEeOfYpg9ymOxAQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_ffRjER8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_ffRjEh8UEeCFiZZmku8mAQ"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_ffRjEx8UEeCFiZZmku8mAQ"/>

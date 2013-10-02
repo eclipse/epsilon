@@ -10,12 +10,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="post" upperBound="-1" eType="#//NamedBlock"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassifierTypedConstruct" abstract="true"
-      eSuperTypes="#//GuardedConstruct">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalType" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strict" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-  </eClassifiers>
+      eSuperTypes="#//GuardedConstruct"/>
   <eClassifiers xsi:type="ecore:EClass" name="MigrateRule" eSuperTypes="#//ClassifierTypedConstruct #//GuardedConstruct">
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//StatementBlock"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoredFeatures" upperBound="-1"
@@ -29,6 +24,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalType" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strict" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cascade" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Retyping" eSuperTypes="#//TypeMappingConstruct #//ClassifierTypedConstruct">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="evolvedType" lowerBound="1"
