@@ -43,7 +43,8 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                              completionProposal("Family"),
 		                              completionProposal("Model"),
 		                              completionProposal("Person"),
-		                              completionProposal("Pet")
+		                              completionProposal("Pet"),
+		                              completionProposal("Suburb")
 		                              )));
 	}
 	

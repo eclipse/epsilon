@@ -539,6 +539,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 		return false;
 	}
+	
+	public Object getContainerOf(Object object) {
+		if (object instanceof EObject) {
+			return ((EObject) object).eContainer();
+		}
+		
+		return null;
+	}
 
 	public void setExpand(boolean expand) {
 		this.expand = expand;

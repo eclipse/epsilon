@@ -20,6 +20,11 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.Dele
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.DeleteWithInvalidSyntax;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.delete.StrictDeleteDoesNotApplyToSubtypes;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletecascade.DeleteCascade;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletecascade.DeleteCascadeToChildrenThatHaveSameTypeAsParentButDoNotSatisfyGuard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletecascade.DeleteCascadeToGrandchildren;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletecascade.DeleteCascadeWithGuard;
+import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletecascade.StrictDeleteCascade;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackage;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackageWithGuard;
 import org.eclipse.epsilon.flock.engine.test.acceptance.typemappings.deletepackage.DeletePackageWithInvalidSyntax;
@@ -46,6 +51,11 @@ import org.junit.runners.Suite.SuiteClasses;
                DeleteWithInvalidSyntax.class,
                StrictDeleteDoesNotApplyToSubtypes.class,
                DeleteFullyQualifiedType.class,
+               DeleteCascade.class,
+               DeleteCascadeWithGuard.class,
+               DeleteCascadeToChildrenThatHaveSameTypeAsParentButDoNotSatisfyGuard.class,
+               DeleteCascadeToGrandchildren.class,
+               StrictDeleteCascade.class,
                DeletePackage.class,
                DeletePackageWithGuard.class,
                DeletePackageWithInvalidSyntax.class,

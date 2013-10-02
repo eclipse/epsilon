@@ -134,6 +134,9 @@ public class Model {
 		}
 	}
 	
+	public Object getContainerOf(Object underlyingModelObject) {
+		return underlyingModel.getContainerOf(underlyingModelObject);
+	}
 
 	public boolean isTypeOf(Object underlyingModelElement, String type) {
 		try {

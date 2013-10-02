@@ -38,4 +38,17 @@ public class GuardedConstructContext {
 	public boolean satisfies(Guard guard) throws FlockRuntimeException {
 		return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
 	}
+
+	/**
+	 * Returns true if and only if it's possible to create a context for the parent of
+	 * the model element in this context. Returns false otherwise, such as when the 
+	 * model element in this context has no parent model element.
+	 */
+	public boolean isContextForParentElement() {
+		return element.getContainer() != null;
+	}
+	
+	public GuardedConstructContext getContextForParentElement() {
+		return new GuardedConstructContext(element.getContainer(), executor);
+	}
 }

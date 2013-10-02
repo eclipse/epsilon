@@ -33,7 +33,7 @@ import org.junit.runners.Suite;
 public class ModelElementTests {
 
 	private static final Object       underlyingElement = "foo";
-	private static final Model        migratedModel         = mock(Model.class, "mockModel");
+	private static final Model        migratedModel     = mock(Model.class, "mockModel");
 	private static final ModelType    mockModelType     = mock(ModelType.class);
 	private static final ModelElement element           = new ModelElement(migratedModel, mockModelType, underlyingElement);
 	

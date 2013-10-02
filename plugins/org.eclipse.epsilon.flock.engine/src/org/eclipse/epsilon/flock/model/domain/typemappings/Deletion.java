@@ -22,6 +22,7 @@ import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
+import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
@@ -33,6 +34,35 @@ public class Deletion extends ClassifierTypedConstruct implements TypeMappingCon
 	
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		return new NoEquivalence(executor, execution, original);
+	}
+	
+	@Override
+	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
+		if (this.typedFor(context) && super.appliesIn(context)) {
+			return true;
+		
+		} else if (this.isCascading()) {
+			return this.appliesInAncestorOf(context);
+		}
+
+		return false;
+	}
+	
+	private boolean appliesInAncestorOf(GuardedConstructContext context) throws FlockRuntimeException {
+		// Attempt to find an ancestor context to which this deletion construct applies
+		// by navigating through the parents 
+		while (context.isContextForParentElement()) {
+			if (super.appliesIn(context.getContextForParentElement())) {
+				return true;
+			}
+			context = context.getContextForParentElement();
+		}
+		
+		return false;
+	}
+
+	protected boolean isCascading() {
+		return isAnnotatedWith("cascade");
 	}
 	
 	@Override

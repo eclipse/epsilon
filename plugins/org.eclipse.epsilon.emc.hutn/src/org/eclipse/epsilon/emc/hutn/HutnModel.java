@@ -229,6 +229,10 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 	public boolean hasPackage(String packageName) {
 		return model.hasPackage(packageName);
 	}
+	
+	public Object getContainerOf(Object object) {
+		return model.getContainerOf(object);
+	}
 
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		return model.getPropertiesOf(type);

@@ -65,8 +65,14 @@ public class ReflectiveModelReference extends ModelReference implements IReflect
 		return getTypeSafeTarget().getEnumerationLabelOf(literal);
 	}
 
+	@Override
+	public Object getContainerOf(Object object) {
+		return getTypeSafeTarget().getContainerOf(object);
+	}
+	
 
 	private IReflectiveModel getTypeSafeTarget() {
 		return (IReflectiveModel)target;
 	}
+
 }

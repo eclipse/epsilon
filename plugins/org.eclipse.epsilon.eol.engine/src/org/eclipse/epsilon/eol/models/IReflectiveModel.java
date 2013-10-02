@@ -35,6 +35,16 @@ public interface IReflectiveModel extends IModel {
 	public boolean preventLoadingOfExternalModelElements();
 	
 	/**
+	 * Returns the model element that contains the given model element, or
+	 * null if the given model element is top-level.
+	 * 
+	 * @param object The model element whose container is to be found.
+	 * @return the model element that contains object, or null if object 
+	 * is not contained in any other model element.
+	 */
+	public Object getContainerOf(Object object);
+	
+	/**
 	 * Returns a collection containing all of the properties that instances
 	 * of type know about.
 	 * 

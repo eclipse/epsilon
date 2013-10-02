@@ -186,6 +186,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public boolean hasPackage(String packageName) {
 		return false;
 	}
+	
+	public Object getContainerOf(Object object) {
+		return null;
+	}
 
 	
 	public boolean isInstantiable(String type) {

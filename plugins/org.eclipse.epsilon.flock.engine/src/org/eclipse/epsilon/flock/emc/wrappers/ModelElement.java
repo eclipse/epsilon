@@ -24,6 +24,14 @@ public class ModelElement extends BackedModelValue<Object> {
 	
 	private final ModelType type;
 	
+	static ModelElement create(Model model, Object object) {
+		if (!model.isModelElement(object)) 
+			throw new IllegalArgumentException("Object is not an element of this model: " + object);
+			
+		final ModelType type = new ModelType(model, model.getTypeNameOf(object), model.getUnqualifiedTypeNameOf(object));
+		return new ModelElement(model, type, object);
+	}
+	
 	ModelElement(Model model, ModelType type, Object underlyingModelElement) {
 		super(model, underlyingModelElement);
 		this.type = type;
@@ -67,6 +75,11 @@ public class ModelElement extends BackedModelValue<Object> {
 		// FIXME how about nested packages?
 		final List<String> packages = model.getPackageNamesOf(underlyingModelObject);
 		return !packages.isEmpty() && packages.get(0).equals(originalPackage);
+	}
+	
+	public ModelElement getContainer() {
+		final Object container = model.getContainerOf(underlyingModelObject);
+		return container == null ? null : ModelElement.create(model, container);
 	}
 	
 	public void copyIdentityFrom(ModelElement original) {

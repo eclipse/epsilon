@@ -43,11 +43,7 @@ class ModelValueWrapper {
 	}
 	
 	ModelElement wrapModelElement(Object object) {
-		if (!model.isModelElement(object)) 
-			throw new IllegalArgumentException("Object is not an element of this model: " + object);
-		
-		final ModelType type = new ModelType(model, model.getTypeNameOf(object), model.getUnqualifiedTypeNameOf(object));
-		return new ModelElement(model, type, object);
+		return ModelElement.create(model, object);
 	}
 	
 	private Collection<ModelValue<?>> wrapValues(Collection underlyingModelObjects) {
