@@ -369,7 +369,6 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        source, 
        new String[] 
        {
-       "foo", "bar"
        });				
   }
 
@@ -387,7 +386,6 @@ public class EsmPackageImpl extends EPackageImpl implements EsmPackage
        source, 
        new String[] 
        {
-       "foo", "bar"
        });			
   }
 

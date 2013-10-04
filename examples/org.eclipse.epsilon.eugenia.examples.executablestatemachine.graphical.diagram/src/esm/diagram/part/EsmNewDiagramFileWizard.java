@@ -184,13 +184,13 @@ public class EsmNewDiagramFileWizard extends Wizard {
 		 * @generated
 		 */
 		protected boolean validatePage() {
-			if (selectedModelElement == null) {
+			if (getModelElement() == null) {
 				setErrorMessage(Messages.EsmNewDiagramFileWizard_RootSelectionPageNoSelectionMessage);
 				return false;
 			}
 			boolean result = ViewService.getInstance().provides(
 					new CreateDiagramViewOperation(new EObjectAdapter(
-							selectedModelElement), MachineEditPart.MODEL_ID,
+							getModelElement()), MachineEditPart.MODEL_ID,
 							EsmDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
 			setErrorMessage(result ? null
 					: Messages.EsmNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);

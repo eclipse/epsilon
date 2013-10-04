@@ -12,4 +12,11 @@
             class="esm_graphical.Esm_graphicalPackage"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated esm -->
+      <package
+            uri="esm"
+            class="esm.EsmPackage"/>
+   </extension>
+
 </plugin>

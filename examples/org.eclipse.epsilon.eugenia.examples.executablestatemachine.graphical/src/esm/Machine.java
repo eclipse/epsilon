@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see esm.EsmPackage#getMachine()
- * @model annotation="gmf.diagram foo='bar'"
+ * @model
  * @generated
  */
 public interface Machine extends EObject

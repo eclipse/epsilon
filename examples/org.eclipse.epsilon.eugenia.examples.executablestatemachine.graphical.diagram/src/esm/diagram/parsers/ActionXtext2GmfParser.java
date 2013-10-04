@@ -18,12 +18,13 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.type.core.commands.SetValueCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 import esm.diagram.part.EsmDiagramEditorPlugin;
 
 /**
  * @generated
  */
-public class ActionXtext2GmfParser extends AbstractParser {
+public class ActionXtext2GmfParser extends AbstractAttributeParser {
 
 	/**
 	 * @generated

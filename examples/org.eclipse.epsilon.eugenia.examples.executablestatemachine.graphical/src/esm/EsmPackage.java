@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see esm.EsmFactory
  * @model kind="package"
- *        annotation="gmf foo='bar'"
  * @generated
  */
 public interface EsmPackage extends EPackage

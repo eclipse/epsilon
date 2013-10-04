@@ -104,21 +104,4 @@ public class MachineEditPart extends DiagramEditPart {
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 
-	/**
-	 * @generated
-	 */
-	/*package-local*/static class LinkLabelDragPolicy extends
-			NonResizableLabelEditPolicy {
-
-		/**
-		 * @generated
-		 */
-		@SuppressWarnings("rawtypes")
-		protected List createSelectionHandles() {
-			MoveHandle mh = new MoveHandle((GraphicalEditPart) getHost());
-			mh.setBorder(null);
-			return Collections.singletonList(mh);
-		}
-	}
-
 }

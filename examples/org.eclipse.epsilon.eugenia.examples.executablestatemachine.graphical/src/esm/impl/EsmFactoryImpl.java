@@ -30,7 +30,7 @@ public class EsmFactoryImpl extends EFactoryImpl implements EsmFactory
   {
     try
     {
-      EsmFactory theEsmFactory = (EsmFactory)EPackage.Registry.INSTANCE.getEFactory("esm"); 
+      EsmFactory theEsmFactory = (EsmFactory)EPackage.Registry.INSTANCE.getEFactory(EsmPackage.eNS_URI);
       if (theEsmFactory != null)
       {
         return theEsmFactory;
