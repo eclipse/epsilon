@@ -116,6 +116,9 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 			}
 			signature = signature + ")";
 			signature = signature + " : " + getTypeName(eOperation.getEType());
+			if (eOperation.isMany()) {
+				signature = signature + " [*]";
+			}
 			return signature;
 		}
 		else if (element instanceof DecoratorHookDescriptor) {
