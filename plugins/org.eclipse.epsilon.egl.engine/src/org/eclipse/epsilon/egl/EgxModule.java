@@ -96,15 +96,23 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	
 	@Override
 	public void buildModel() throws Exception {
-		
 		super.buildModel();
 		
 		// Parse the transform rules
 		for (AST generationRuleAst : AstUtil.getChildren(ast, EgxParser.GENERATE)) {
-			declaredGenerationRules.add(new GenerationRule(generationRuleAst));
+			declaredGenerationRules.add(createGenerationRule(generationRuleAst));
 		}
 		
 		getParseProblems().addAll(declaredGenerationRules.calculateSuperRules(getGenerationRules()));
+	}
+
+	/**
+	 * Subclasses may override this method to change the implementation of
+	 * {@link GenerationRule} that is instantiated after parsing an EGX
+	 * program.
+	 */
+	protected GenerationRule createGenerationRule(AST generationRuleAst) {
+		return new GenerationRule(generationRuleAst);
 	}
 	
 	public NamedRules getDeclaredTransformRules() {
