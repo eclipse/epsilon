@@ -13,6 +13,7 @@ package org.eclipse.epsilon.ewl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -82,10 +83,22 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 				applicableWizards.add(new EwlWizardInstance(wizard, self, context));
 			}
 		}
-	
+
+		// Run the same wizard over a collection of applicable objects
+		if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {
+			@SuppressWarnings("unchecked")
+			final Collection<Object> collection = (Collection<Object>)self;
+
+			for (EwlWizard wizard : templates) {
+				if (allApply(wizard, collection)) {
+					applicableWizards.add(new EwlWizardLoopInstance(wizard, collection, context));
+				}
+			}
+		}
+
 		return applicableWizards;
 	}
-	
+
 	@Override
 	public IEwlContext getContext(){
 		return context;
@@ -105,6 +118,15 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 		super.reset();
 		templates = new ArrayList<EwlWizard>();
 		context = new EwlContext();
+	}
+
+	private boolean allApply(EwlWizard wizard, Collection<Object> self) throws EolRuntimeException {
+		for (Object o : self) {
+			if (!wizard.appliesTo(o, context)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
