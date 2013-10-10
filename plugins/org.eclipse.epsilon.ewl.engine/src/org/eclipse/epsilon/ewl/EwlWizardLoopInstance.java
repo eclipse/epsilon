@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 
 /**
- * Applies the same EWL wizard to a collection of applicable objects. In this case, 
+ * Applies the same EWL wizard to a collection of applicable objects. 
  */
 public class EwlWizardLoopInstance extends EwlWizardInstance {
 
