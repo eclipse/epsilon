@@ -82,14 +82,11 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 			if (wizard.appliesTo(self,context)){
 				applicableWizards.add(new EwlWizardInstance(wizard, self, context));
 			}
-		}
+			else if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {
+				// Run the same wizard over a collection of applicable objects
 
-		// Run the same wizard over a collection of applicable objects
-		if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {
-			@SuppressWarnings("unchecked")
-			final Collection<Object> collection = (Collection<Object>)self;
-
-			for (EwlWizard wizard : templates) {
+				@SuppressWarnings("unchecked")
+				final Collection<Object> collection = (Collection<Object>)self;
 				if (allApply(wizard, collection)) {
 					applicableWizards.add(new EwlWizardLoopInstance(wizard, collection, context));
 				}
