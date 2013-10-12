@@ -281,8 +281,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		Integer usedCount = usedCounts.get(modelName);
 		if (usedCount != null) {
 			usedCount = usedCount + 1;
-			modelName = modelName + usedCount;
 			usedCounts.put(modelName, usedCount);
+			modelName = modelName + usedCount;
 		}
 		else {
 			usedCounts.put(modelName, 1);
