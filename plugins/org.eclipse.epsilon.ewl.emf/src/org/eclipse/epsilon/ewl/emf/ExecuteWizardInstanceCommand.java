@@ -12,6 +12,7 @@ package org.eclipse.epsilon.ewl.emf;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.change.ChangeDescription;
@@ -24,19 +25,20 @@ import org.eclipse.epsilon.ewl.EwlWizardInstance;
 public class ExecuteWizardInstanceCommand implements Command{
 	
 	protected EwlWizardInstance wizardInstance = null;
-	protected InMemoryEmfModel model = null;
+	protected List<InMemoryEmfModel> models = null;
 	protected ChangeDescription changeDescription;
 	protected WorkbenchPartRefresher refresher;
 	
-	public ExecuteWizardInstanceCommand(EwlWizardInstance wizardInstance, InMemoryEmfModel model, WorkbenchPartRefresher refresher) {
+	public ExecuteWizardInstanceCommand(EwlWizardInstance wizardInstance, List<InMemoryEmfModel> models, WorkbenchPartRefresher refresher) {
 		super();
 		this.wizardInstance = wizardInstance;
-		this.model = model;
+		this.models = models;
 		this.refresher = refresher;
 	}
 
 	public void execute() {
-		ChangeRecorder recorder = new ChangeRecorder(model.getModelImpl().getResourceSet());
+		// Record changes only for the domain model (the first one): the others are assumed to be extra models (e.g. diagram models)
+		ChangeRecorder recorder = new ChangeRecorder(models.get(0).getModelImpl().getResourceSet());
 		try {
 			//recorder.beginRecording(model.allInstances());
 			wizardInstance.process();
@@ -68,7 +70,9 @@ public class ExecuteWizardInstanceCommand implements Command{
 	}
 
 	public void dispose() {
-		model.dispose();
+		for (InMemoryEmfModel model : models) {
+			model.dispose();
+		}
 		changeDescription = null;
 		wizardInstance = null;
 	}

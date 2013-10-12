@@ -16,8 +16,10 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,6 +31,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
@@ -62,7 +65,8 @@ import org.eclipse.ui.IWorkbenchPart;
 public abstract class AbstractContributeWizardsAction implements IObjectActionDelegate, IMenuCreator, MenuListener {
 	protected ISelection selection;
 	protected IWorkbenchPart targetPart;
-	protected InMemoryEmfModel model;
+
+	private List<InMemoryEmfModel> models;
 	
 	/**
 	 * Constructor for ContributeWizardsAction.
@@ -95,8 +99,10 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 
 	@Override
 	public void dispose() {
-		if (model != null) {
-			model.dispose();
+		if (models != null) {
+			for (InMemoryEmfModel model : models) {
+				model.dispose();
+			}
 		}
 	}
 
@@ -166,8 +172,25 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			if (!eObjects.isEmpty()) {
 				ePackages.add(EmfUtil.getTopEPackage(eObjects.get(0)));
 			}
-			final Resource resource = eObjects.get(0).eResource();
-			model = new InMemoryEmfModel("Model", resource, ePackages);
+
+			final Resource mainResource = eObjects.get(0).eResource();
+			models = new ArrayList<InMemoryEmfModel>();
+			models.add(new InMemoryEmfModel("Model", mainResource, ePackages));
+			if (getEditingDomain() instanceof AdapterFactoryEditingDomain) {
+				// AFED is the common superclass of many useful editing domains, such as the GMF DiagramEditingDomain,
+				// and it gives us access to the other models besides the domain model (such as the .diagram notation
+				// model).
+				final AdapterFactoryEditingDomain adapterEDomain = (AdapterFactoryEditingDomain)getEditingDomain();
+
+				// Try to give the extra models better names (without collisions)
+				final Map<String, Integer> usedCounts = new HashMap<String,Integer>();
+				for (Resource res : adapterEDomain.getResourceSet().getResources()) {
+					if (res != mainResource) {
+						final String modelName = extractModelNameFromExtension(res, usedCounts);
+						models.add(new InMemoryEmfModel(modelName, res));
+					}
+				}
+			}
 
 			for (URI uri : getEwlURIsFor(eObjectURIs, availableConfigElems)) {
 				EwlModule module = new EwlModule();
@@ -187,8 +210,10 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 					LogUtil.log(e);
 					continue;
 				}
-				
-				module.getContext().getModelRepository().addModel(model);
+
+				for (InMemoryEmfModel model : models) {
+					module.getContext().getModelRepository().addModel(model);
+				}
 				
 				Object self = null;
 				if (eObjects.size() > 1) {
@@ -224,12 +249,45 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 						refresher.setPart(targetPart);
 						
 						ExecuteWizardInstanceCommand command = 
-							new ExecuteWizardInstanceCommand(wizard, model, refresher);
+							new ExecuteWizardInstanceCommand(wizard, models, refresher);
 						
 						execute(command);
 				}
 			});
 		}
+	}
+
+	/**
+	 * Extracts the name of the extra model from the extension of the resource URI, while
+	 * avoiding name collisions using a map that counts how many times each name has been
+	 * used.
+	 */
+	private String extractModelNameFromExtension(Resource res, final Map<String, Integer> usedCounts) {
+		String modelName = "Extra";
+
+		if (res.getURI() != null && res.getURI().path() != null) {
+			// Try to use the resource extension for the model name
+			final String resourcePath = res.getURI().path().trim();
+			final int dotPosition = resourcePath.lastIndexOf('.');
+			if (dotPosition != -1) {
+				final String extension = resourcePath.substring(dotPosition + 1);
+				if (extension.length() > 0) {
+					modelName = extension.substring(0, 1).toUpperCase() + extension.substring(1);
+				}
+			}
+		}
+
+		// Avoid collisions by appending '2', '3' and so on after the first use
+		Integer usedCount = usedCounts.get(modelName);
+		if (usedCount != null) {
+			usedCount = usedCount + 1;
+			modelName = modelName + usedCount;
+			usedCounts.put(modelName, usedCount);
+		}
+		else {
+			usedCounts.put(modelName, 1);
+		}
+		return modelName;
 	}
 
 	private IConfigurationElement[] getAllConfigurationElements() {
