@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="HTML" nsURI="HTML" nsPrefix="HTML">
+    <eClassifiers xsi:type="ecore:EClass" name="HTML">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="head" ordered="false"
+          lowerBound="1" eType="#/0/HEAD" containment="true" eOpposite="#/0/HEAD/html"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#/0/BODY" containment="true" eOpposite="#/0/BODY/html"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HTMLElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+          upperBound="-1" eType="#/0/HTMLElement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HEAD" eSuperTypes="#/0/HTMLElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="headElements" ordered="false"
+          upperBound="-1" eType="#/0/HEADElement" containment="true" eOpposite="#/0/HEADElement/head"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="html" ordered="false"
+          lowerBound="1" eType="#/0/HTML" eOpposite="#/0/HTML/head"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HEADElement" abstract="true" eSuperTypes="#/0/HTMLElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="head" ordered="false"
+          lowerBound="1" eType="#/0/HEAD" eOpposite="#/0/HEAD/headElements"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LINK" eSuperTypes="#/0/HEADElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rel" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ahref" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TITLE" eSuperTypes="#/0/HEADElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BODY" eSuperTypes="#/0/HTMLElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bgcolor" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="link" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="alink" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vlink" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bodyElements" ordered="false"
+          upperBound="-1" eType="#/0/BODYElement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="html" ordered="false"
+          lowerBound="1" eType="#/0/HTML" eOpposite="#/0/HTML/body"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BODYElement" abstract="true" eSuperTypes="#/0/HTMLElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="H1" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="H2" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="H3" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="H4" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EM" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="STRONG" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="B" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="I" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TT" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PRE" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BIG" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SMALL" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SUB" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SUP" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="STRIKE" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FONT" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="face" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IMG" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="alt" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vspace" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="hspace" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ismap" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="usemap" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="border" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BR" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="clear" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MAP" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AREA" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="coords" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ahref" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="STYLE" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EMBED" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vspace" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="hspace" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="border" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NOEMBED" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SPAN" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="A" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ahref" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+          lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DIV" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="P" eSuperTypes="#/0/BODYElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TABLEElement" abstract="true" eSuperTypes="#/0/BODYElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bgcolor" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TABLE" eSuperTypes="#/0/TABLEElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="border" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cellspacing" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cellpadding" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trs" ordered="false"
+          upperBound="-1" eType="#/0/TR" containment="true" eOpposite="#/0/TR/table"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TR" eSuperTypes="#/0/TABLEElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valign" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="table" ordered="false"
+          lowerBound="1" eType="#/0/TABLE" eOpposite="#/0/TABLE/trs"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tds" ordered="false"
+          upperBound="-1" eType="#/0/TD" containment="true" eOpposite="#/0/TD/tr"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TD" eSuperTypes="#/0/TABLEElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="colspan" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rowspan" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valign" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tr" ordered="false" lowerBound="1"
+          eType="#/0/TR" eOpposite="#/0/TR/tds"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TH" eSuperTypes="#/0/TD"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FORM">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="INPUT">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxlength" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="checked" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="inputValue" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TEXTAREA">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cols" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SELECT">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiple" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OPTION">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="selected" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optionValue" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ListElement" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OL" eSuperTypes="#/0/ListElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UL" eSuperTypes="#/0/ListElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LI" eSuperTypes="#/0/ListElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="liValue" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DL"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DT"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DD"/>
+    <eClassifiers xsi:type="ecore:EClass" name="APPLET">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="applet" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="class" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PARAM">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="paramValue" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OBJECT">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="classid" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+          lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="standby" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FRAMESET">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cols" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="framespacing" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="frameborder" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="border" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FRAME">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="marginwidth" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="marginheight" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="scrolling" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="noresize" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NOFRAME"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IFRAME" eSuperTypes="#/0/FRAME"/>
+  </ecore:EPackage>
+  <ecore:EPackage name="PrimitiveTypes" nsURI="PrimitiveTypes" nsPrefix="PrimitiveTypes">
+    <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceTypeName="Boolean"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="String" instanceTypeName="String"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceTypeName="Integer"/>
+  </ecore:EPackage>
+</xmi:XMI>
