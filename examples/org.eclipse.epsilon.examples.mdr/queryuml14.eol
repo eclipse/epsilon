@@ -1,6 +1,7 @@
+// Queries the UML 1.4 metamodel itself
 for (c in Class.all) {
-	("class " + c.name).println();
-	for (f in c.feature) {
-		("  " + f.name + " : " + f.type.name).println();
+	c.name.println();
+	for (f in c.contents) {
+		f.name.println(" -", " : " + f.getType().name);
 	}
 }
