@@ -1,4 +1,6 @@
 [% import "util.eol"; %]
+<html>
+<body>
 <h1>[%=flowchart.name%]</h1>
 
 <h2>Nodes</h2>
@@ -7,3 +9,5 @@
 	<li><a href="[%=node.name.clean()%].html">[%=node.name%]</a></li>
 [% } %]
 </ul>
+</body>
+</html>
