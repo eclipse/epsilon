@@ -1,15 +1,15 @@
-@namespace(uri="top", prefix="top")
-package top;
+// Based on https://github.com/SATToSE/SoTeSoLa2012/blob/master/hackathon/modisco-eclipse/org.eclipse.gmt.modisco.tool.metricsvisualizationbuilder/Metamodels/HTML.ecore
 
 @namespace(uri="HTML", prefix="HTML")
-package HTML {
+package HTML;
+  
   class HTML {
     !ordered val HEAD[1]#html head;
     !ordered val BODY[1]#html body;
   }
 
   class HTMLElement {
-    !unique !ordered attr PrimitiveTypes.String[1] value;
+    !unique !ordered attr EString[1] value;
     !ordered val HTMLElement[*] children;
   }
 
@@ -23,22 +23,22 @@ package HTML {
   }
 
   class LINK extends HEADElement {
-    !unique !ordered attr PrimitiveTypes.String[1] rel;
-    !unique !ordered attr PrimitiveTypes.String[1] title;
-    !unique !ordered attr PrimitiveTypes.String[1] ahref;
-    !unique !ordered attr PrimitiveTypes.String[1] type;
+    !unique !ordered attr EString[1] rel;
+    !unique !ordered attr EString[1] title;
+    !unique !ordered attr EString[1] ahref;
+    !unique !ordered attr EString[1] type;
   }
 
   class TITLE extends HEADElement {
   }
 
   class BODY extends HTMLElement {
-    !unique !ordered attr PrimitiveTypes.String[1] background;
-    !unique !ordered attr PrimitiveTypes.String[1] bgcolor;
-    !unique !ordered attr PrimitiveTypes.String[1] text;
-    !unique !ordered attr PrimitiveTypes.String[1] link;
-    !unique !ordered attr PrimitiveTypes.String[1] alink;
-    !unique !ordered attr PrimitiveTypes.String[1] vlink;
+    !unique !ordered attr EString[1] background;
+    !unique !ordered attr EString[1] bgcolor;
+    !unique !ordered attr EString[1] text;
+    !unique !ordered attr EString[1] link;
+    !unique !ordered attr EString[1] alink;
+    !unique !ordered attr EString[1] vlink;
     !ordered val BODYElement[*] bodyElements;
     !ordered ref HTML[1]#body html;
   }
@@ -92,96 +92,96 @@ package HTML {
   }
 
   class FONT extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] color;
-    !unique !ordered attr PrimitiveTypes.String[1] face;
-    !unique !ordered attr PrimitiveTypes.String[1] size;
+    !unique !ordered attr EString[1] color;
+    !unique !ordered attr EString[1] face;
+    !unique !ordered attr EString[1] size;
   }
 
   class IMG extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] src;
-    !unique !ordered attr PrimitiveTypes.String[1] width;
-    !unique !ordered attr PrimitiveTypes.String[1] height;
-    !unique !ordered attr PrimitiveTypes.String[1] alt;
-    !unique !ordered attr PrimitiveTypes.String[1] align;
-    !unique !ordered attr PrimitiveTypes.String[1] vspace;
-    !unique !ordered attr PrimitiveTypes.String[1] hspace;
-    !unique !ordered attr PrimitiveTypes.String[1] ismap;
-    !unique !ordered attr PrimitiveTypes.String[1] usemap;
-    !unique !ordered attr PrimitiveTypes.String[1] border;
+    !unique !ordered attr EString[1] src;
+    !unique !ordered attr EString[1] width;
+    !unique !ordered attr EString[1] height;
+    !unique !ordered attr EString[1] alt;
+    !unique !ordered attr EString[1] align;
+    !unique !ordered attr EString[1] vspace;
+    !unique !ordered attr EString[1] hspace;
+    !unique !ordered attr EString[1] ismap;
+    !unique !ordered attr EString[1] usemap;
+    !unique !ordered attr EString[1] border;
   }
 
   class BR extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] clear;
+    !unique !ordered attr EString[1] clear;
   }
 
   class MAP extends BODYElement {
   }
 
   class AREA extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] shape;
-    !unique !ordered attr PrimitiveTypes.String[1] coords;
-    !unique !ordered attr PrimitiveTypes.String[1] ahref;
+    !unique !ordered attr EString[1] shape;
+    !unique !ordered attr EString[1] coords;
+    !unique !ordered attr EString[1] ahref;
   }
 
   class STYLE extends BODYElement {
   }
 
   class EMBED extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] src;
-    !unique !ordered attr PrimitiveTypes.String[1] width;
-    !unique !ordered attr PrimitiveTypes.String[1] height;
-    !unique !ordered attr PrimitiveTypes.String[1] align;
-    !unique !ordered attr PrimitiveTypes.String[1] vspace;
-    !unique !ordered attr PrimitiveTypes.String[1] hspace;
-    !unique !ordered attr PrimitiveTypes.String[1] border;
+    !unique !ordered attr EString[1] src;
+    !unique !ordered attr EString[1] width;
+    !unique !ordered attr EString[1] height;
+    !unique !ordered attr EString[1] align;
+    !unique !ordered attr EString[1] vspace;
+    !unique !ordered attr EString[1] hspace;
+    !unique !ordered attr EString[1] border;
   }
 
   class NOEMBED extends BODYElement {
   }
 
   class SPAN extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] style;
+    !unique !ordered attr EString[1] style;
   }
 
   class A extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] ahref;
-    !unique !ordered attr PrimitiveTypes.String[1] name;
-    !unique !ordered attr PrimitiveTypes.String[1] ~id;
+    !unique !ordered attr EString[1] ahref;
+    !unique !ordered attr EString[1] name;
+    !unique !ordered attr EString[1] ~id;
   }
 
   class DIV extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] align;
+    !unique !ordered attr EString[1] align;
   }
 
   class P extends BODYElement {
   }
 
   abstract class TABLEElement extends BODYElement {
-    !unique !ordered attr PrimitiveTypes.String[1] bgcolor;
-    !unique !ordered attr PrimitiveTypes.String[1] background;
+    !unique !ordered attr EString[1] bgcolor;
+    !unique !ordered attr EString[1] background;
   }
 
   class TABLE extends TABLEElement {
-    !unique !ordered attr PrimitiveTypes.String[1] border;
-    !unique !ordered attr PrimitiveTypes.String[1] width;
-    !unique !ordered attr PrimitiveTypes.String[1] cellspacing;
-    !unique !ordered attr PrimitiveTypes.String[1] cellpadding;
+    !unique !ordered attr EString[1] border;
+    !unique !ordered attr EString[1] width;
+    !unique !ordered attr EString[1] cellspacing;
+    !unique !ordered attr EString[1] cellpadding;
     !ordered val TR[*]#table trs;
   }
 
   class TR extends TABLEElement {
-    !unique !ordered attr PrimitiveTypes.String[1] valign;
-    !unique !ordered attr PrimitiveTypes.String[1] align;
+    !unique !ordered attr EString[1] valign;
+    !unique !ordered attr EString[1] align;
     !ordered ref TABLE[1]#trs table;
     !ordered val TD[*]#tr tds;
   }
 
   class TD extends TABLEElement {
-    !unique !ordered attr PrimitiveTypes.String[1] colspan;
-    !unique !ordered attr PrimitiveTypes.String[1] rowspan;
-    !unique !ordered attr PrimitiveTypes.String[1] valign;
-    !unique !ordered attr PrimitiveTypes.String[1] align;
-    !unique !ordered attr PrimitiveTypes.String[1] width;
+    !unique !ordered attr EString[1] colspan;
+    !unique !ordered attr EString[1] rowspan;
+    !unique !ordered attr EString[1] valign;
+    !unique !ordered attr EString[1] align;
+    !unique !ordered attr EString[1] width;
     !ordered ref TR[1]#tds tr;
   }
 
@@ -189,51 +189,51 @@ package HTML {
   }
 
   class FORM {
-    !unique !ordered attr PrimitiveTypes.String[1] action;
-    !unique !ordered attr PrimitiveTypes.String[1] method;
+    !unique !ordered attr EString[1] action;
+    !unique !ordered attr EString[1] method;
   }
 
   class INPUT {
-    !unique !ordered attr PrimitiveTypes.String[1] align;
-    !unique !ordered attr PrimitiveTypes.String[1] maxlength;
-    !unique !ordered attr PrimitiveTypes.String[1] size;
-    !unique !ordered attr PrimitiveTypes.String[1] checked;
-    !unique !ordered attr PrimitiveTypes.String[1] src;
-    !unique !ordered attr PrimitiveTypes.String[1] inputValue;
-    !unique !ordered attr PrimitiveTypes.String[1] name;
-    !unique !ordered attr PrimitiveTypes.String[1] type;
+    !unique !ordered attr EString[1] align;
+    !unique !ordered attr EString[1] maxlength;
+    !unique !ordered attr EString[1] size;
+    !unique !ordered attr EString[1] checked;
+    !unique !ordered attr EString[1] src;
+    !unique !ordered attr EString[1] inputValue;
+    !unique !ordered attr EString[1] name;
+    !unique !ordered attr EString[1] type;
   }
 
   class TEXTAREA {
-    !unique !ordered attr PrimitiveTypes.String[1] name;
-    !unique !ordered attr PrimitiveTypes.String[1] rows;
-    !unique !ordered attr PrimitiveTypes.String[1] cols;
+    !unique !ordered attr EString[1] name;
+    !unique !ordered attr EString[1] rows;
+    !unique !ordered attr EString[1] cols;
   }
 
   class SELECT {
-    !unique !ordered attr PrimitiveTypes.String[1] multiple;
-    !unique !ordered attr PrimitiveTypes.String[1] size;
-    !unique !ordered attr PrimitiveTypes.String[1] name;
+    !unique !ordered attr EString[1] multiple;
+    !unique !ordered attr EString[1] size;
+    !unique !ordered attr EString[1] name;
   }
 
   class OPTION {
-    !unique !ordered attr PrimitiveTypes.String[1] selected;
-    !unique !ordered attr PrimitiveTypes.String[1] optionValue;
+    !unique !ordered attr EString[1] selected;
+    !unique !ordered attr EString[1] optionValue;
   }
 
   abstract class ListElement {
-    !unique !ordered attr PrimitiveTypes.String[1] type;
+    !unique !ordered attr EString[1] type;
   }
 
   class OL extends ListElement {
-    !unique !ordered attr PrimitiveTypes.String[1] start;
+    !unique !ordered attr EString[1] start;
   }
 
   class UL extends ListElement {
   }
 
   class LI extends ListElement {
-    !unique !ordered attr PrimitiveTypes.String[1] liValue;
+    !unique !ordered attr EString[1] liValue;
   }
 
   class DL {
@@ -246,42 +246,42 @@ package HTML {
   }
 
   class APPLET {
-    !unique !ordered attr PrimitiveTypes.String[1] applet;
-    !unique !ordered attr PrimitiveTypes.String[1] ~class;
-    !unique !ordered attr PrimitiveTypes.String[1] src;
-    !unique !ordered attr PrimitiveTypes.String[1] align;
-    !unique !ordered attr PrimitiveTypes.String[1] width;
-    !unique !ordered attr PrimitiveTypes.String[1] height;
+    !unique !ordered attr EString[1] applet;
+    !unique !ordered attr EString[1] ~class;
+    !unique !ordered attr EString[1] src;
+    !unique !ordered attr EString[1] align;
+    !unique !ordered attr EString[1] width;
+    !unique !ordered attr EString[1] height;
   }
 
   class PARAM {
-    !unique !ordered attr PrimitiveTypes.String[1] name;
-    !unique !ordered attr PrimitiveTypes.String[1] paramValue;
+    !unique !ordered attr EString[1] name;
+    !unique !ordered attr EString[1] paramValue;
   }
 
   class OBJECT {
-    !unique !ordered attr PrimitiveTypes.String[1] classid;
-    !unique !ordered attr PrimitiveTypes.String[1] ~id;
-    !unique !ordered attr PrimitiveTypes.String[1] data;
-    !unique !ordered attr PrimitiveTypes.String[1] type;
-    !unique !ordered attr PrimitiveTypes.String[1] standby;
+    !unique !ordered attr EString[1] classid;
+    !unique !ordered attr EString[1] ~id;
+    !unique !ordered attr EString[1] data;
+    !unique !ordered attr EString[1] type;
+    !unique !ordered attr EString[1] standby;
   }
 
   class FRAMESET {
-    !unique !ordered attr PrimitiveTypes.String[1] rows;
-    !unique !ordered attr PrimitiveTypes.String[1] cols;
-    !unique !ordered attr PrimitiveTypes.String[1] framespacing;
-    !unique !ordered attr PrimitiveTypes.String[1] frameborder;
-    !unique !ordered attr PrimitiveTypes.String[1] border;
+    !unique !ordered attr EString[1] rows;
+    !unique !ordered attr EString[1] cols;
+    !unique !ordered attr EString[1] framespacing;
+    !unique !ordered attr EString[1] frameborder;
+    !unique !ordered attr EString[1] border;
   }
 
   class FRAME {
-    !unique !ordered attr PrimitiveTypes.String[1] src;
-    !unique !ordered attr PrimitiveTypes.String[1] name;
-    !unique !ordered attr PrimitiveTypes.String[1] marginwidth;
-    !unique !ordered attr PrimitiveTypes.String[1] marginheight;
-    !unique !ordered attr PrimitiveTypes.String[1] scrolling;
-    !unique !ordered attr PrimitiveTypes.String[1] noresize;
+    !unique !ordered attr EString[1] src;
+    !unique !ordered attr EString[1] name;
+    !unique !ordered attr EString[1] marginwidth;
+    !unique !ordered attr EString[1] marginheight;
+    !unique !ordered attr EString[1] scrolling;
+    !unique !ordered attr EString[1] noresize;
   }
 
   class NOFRAME {
@@ -289,16 +289,4 @@ package HTML {
 
   class IFRAME extends FRAME {
   }
-
-}
-
-@namespace(uri="PrimitiveTypes", prefix="PrimitiveTypes")
-package PrimitiveTypes {
-  datatype Boolean : java.lang.Object;
-
-  datatype String : java.lang.Object;
-
-  datatype Integer : java.lang.Object;
-
-}
 
