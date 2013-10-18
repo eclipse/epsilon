@@ -42,7 +42,7 @@ public class XmlModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	
 	@Override
 	protected void createGroups(Composite control) {
-		createNameAliasGroup(control);
+		super.createGroups(control);
 		createFilesGroup(control);
 		createLoadStoreOptionsGroup(control);
 	}
