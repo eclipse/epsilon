@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -23,8 +24,8 @@ class DirtyResourceBackedTemplateSpecification extends EglTemplateSpecification 
 	private final String latestCode;
 	private final URI resource;
 	
-	protected DirtyResourceBackedTemplateSpecification(String name, String latestCode, URI resource, Formatter defaultFormatter) {
-		super(name, defaultFormatter);
+	protected DirtyResourceBackedTemplateSpecification(String name, String latestCode, URI resource, Formatter defaultFormatter, IncrementalitySettings incrementalitySettings) {
+		super(name, defaultFormatter, incrementalitySettings);
 		
 		this.latestCode = latestCode;
 		this.resource = resource;

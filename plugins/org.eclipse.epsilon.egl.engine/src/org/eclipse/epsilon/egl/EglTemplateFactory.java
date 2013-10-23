@@ -24,6 +24,7 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -38,6 +39,7 @@ public class EglTemplateFactory {
 	private String templateRootPath;
 	
 	private Formatter defaultFormatter = new NullFormatter();
+	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	
 	
 	public EglTemplateFactory() {
@@ -46,6 +48,10 @@ public class EglTemplateFactory {
 	
 	public EglTemplateFactory(IEglContext context) {
 		this.context = context;
+	}
+	
+	public IncrementalitySettings getDefaultIncrementalitySettings() {
+		return this.defaultIncrementalitySettings;
 	}
 	
 	public void setDefaultFormatter(Formatter defaultFormatter) {
@@ -227,7 +233,7 @@ public class EglTemplateFactory {
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
-		return new EglTemplateSpecificationFactory(defaultFormatter);
+		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings);
 	}
 		
 	@Override

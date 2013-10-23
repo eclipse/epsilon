@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.spec;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -21,8 +22,8 @@ class CodeBackedTemplateSpecification extends EglTemplateSpecification {
 
 	private final String code;
 	
-	protected CodeBackedTemplateSpecification(String code, Formatter defaultFormatter) {
-		super("Anonymous", defaultFormatter);
+	protected CodeBackedTemplateSpecification(String code, Formatter defaultFormatter, IncrementalitySettings incrementalitySettings) {
+		super("Anonymous", defaultFormatter, incrementalitySettings);
 		
 		this.code = code;
 	}

@@ -19,6 +19,7 @@ import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
 import org.eclipse.epsilon.egl.output.Writer;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -39,7 +40,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 
 	// For tests
 	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws Exception {
-		this(new EglTemplateSpecificationFactory(new NullFormatter()).fromResource(path.toString(), path), context, outputRoot, outputRoot.getPath());
+		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context, outputRoot, outputRoot.getPath());
 	}
 
 	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
@@ -74,12 +75,16 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 	
 	private void writeNewContentsIfDifferentFromExistingContents() throws URISyntaxException, IOException {
-		if (newContents.equals(existingContents)) {
-			addMessage("Content unchanged for " + targetName);
-		} else {
+		if (isOverwriteUnchangedFiles() || !newContents.equals(existingContents)) {
 			write();
 			addMessage(positiveMessage + targetName);
+		} else {
+			addMessage("Content unchanged for " + targetName);			
 		}
+	}
+	
+	private boolean isOverwriteUnchangedFiles() {
+		return getIncrementalitySettings().isOverwriteUnchangedFiles();
 	}
 
 	private void write() throws IOException, URISyntaxException {

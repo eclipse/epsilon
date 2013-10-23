@@ -14,6 +14,7 @@ package org.eclipse.epsilon.egl.spec;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -21,10 +22,12 @@ public abstract class EglTemplateSpecification {
 
 	private final String name;
 	private final Formatter defaultFormatter;
+	private final IncrementalitySettings incrementalitySettings;
 	
-	protected EglTemplateSpecification(String name, Formatter defaultFormatter) {
+	protected EglTemplateSpecification(String name, Formatter defaultFormatter, IncrementalitySettings incrementalitySettings) {
 		this.name = name;
 		this.defaultFormatter = defaultFormatter;
+		this.incrementalitySettings = incrementalitySettings;
 	}
 	
 	public String getName() {
@@ -33,6 +36,11 @@ public abstract class EglTemplateSpecification {
 	
 	public Formatter getDefaultFormatter() {
 		return defaultFormatter;
+	}
+	
+	public IncrementalitySettings getIncrementalitySettings() {
+		// Return a defensive copy, which can be safely modified for only this template
+		return new IncrementalitySettings(incrementalitySettings);
 	}
 
 	public abstract Template createTemplate();

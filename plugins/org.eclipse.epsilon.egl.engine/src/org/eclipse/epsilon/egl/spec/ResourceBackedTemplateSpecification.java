@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.spec;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
 
@@ -21,8 +22,8 @@ class ResourceBackedTemplateSpecification extends EglTemplateSpecification {
 
 	private final URI resource;
 	
-	protected ResourceBackedTemplateSpecification(String name, URI resource, Formatter defaultFormatter) {
-		super(name, defaultFormatter);
+	protected ResourceBackedTemplateSpecification(String name, URI resource, Formatter defaultFormatter, IncrementalitySettings incrementalitySettings) {
+		super(name, defaultFormatter, incrementalitySettings);
 		
 		this.resource = resource;
 	}

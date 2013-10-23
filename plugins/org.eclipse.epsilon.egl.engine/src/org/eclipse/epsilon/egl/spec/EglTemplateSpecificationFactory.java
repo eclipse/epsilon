@@ -13,24 +13,27 @@ package org.eclipse.epsilon.egl.spec;
 import java.net.URI;
 
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 
 public class EglTemplateSpecificationFactory {
 
 	private final Formatter defaultFormatter;
+	private final IncrementalitySettings incrementalitySettings;
 	
-	public EglTemplateSpecificationFactory(Formatter defaultFormatter) {
+	public EglTemplateSpecificationFactory(Formatter defaultFormatter, IncrementalitySettings incrementalitySettings) {
 		this.defaultFormatter = defaultFormatter;
+		this.incrementalitySettings = incrementalitySettings;
 	}
 	
 	public EglTemplateSpecification fromCode(String code) {
-		return new CodeBackedTemplateSpecification(code, defaultFormatter);
+		return new CodeBackedTemplateSpecification(code, defaultFormatter, incrementalitySettings);
 	}
 
 	public EglTemplateSpecification fromResource(String name, URI resource) {
-		return new ResourceBackedTemplateSpecification(name, resource, defaultFormatter);
+		return new ResourceBackedTemplateSpecification(name, resource, defaultFormatter, incrementalitySettings);
 	}
 
 	public EglTemplateSpecification fromDirtyResource(String name, String latestCode, URI resource) {
-		return new DirtyResourceBackedTemplateSpecification(name, latestCode, resource, defaultFormatter);
+		return new DirtyResourceBackedTemplateSpecification(name, latestCode, resource, defaultFormatter, incrementalitySettings);
 	}
 }

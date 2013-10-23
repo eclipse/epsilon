@@ -19,6 +19,7 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
+import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.internal.EglResult;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
@@ -33,27 +34,29 @@ public class EglTemplate extends AbstractEglTemplate {
 	protected final String name;
 	protected final Template template;
 	
+	private IncrementalitySettings incrementalitySettings;
 	private Formatter formatter;
 	private String contents = "";
 	private boolean processed = false;
 	
 	// For tests
 	protected EglTemplate(URI path, IEglContext context) throws Exception {
-		this(new EglTemplateSpecificationFactory(new NullFormatter()).fromResource(path.toString(), path), context);
+		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context);
 	}
 
 	public EglTemplate(EglTemplateSpecification spec, IEglContext context) throws Exception {
-		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter());
+		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter(), spec.getIncrementalitySettings());
 		
 		spec.parseInto(module);
 	}
 	
-	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter) {
+	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter, IncrementalitySettings incrementalitySettings) {
 		super(new EglModule(context));
 		
 		this.name     = name;
 		this.template = template;
 		this.formatter = formatter;
+		this.incrementalitySettings = incrementalitySettings;
 	}
 	
 	public String getName() {
@@ -107,6 +110,14 @@ public class EglTemplate extends AbstractEglTemplate {
 	
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
+	}
+	
+	public IncrementalitySettings getIncrementalitySettings() {
+		return incrementalitySettings;
+	}
+	
+	public void setIncrementalitySettings(IncrementalitySettings incrementalitySettings) {
+		this.incrementalitySettings = incrementalitySettings;
 	}
 	
 	public void setFormatters(Formatter... formatters) {
