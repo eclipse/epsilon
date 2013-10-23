@@ -10,34 +10,39 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.output.newlines;
 
+import static org.junit.Assert.assertEquals;
+
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
+import org.eclipse.epsilon.egl.util.FileUtil;
 import org.junit.Test;
 
 public class OutputNewlines {
 	
-	// When processed, a template should produce the same kind of newlines as entered in that template
+	// When processed, a template should produce newlines that are compatible with the current operating system
+	
+	private String normalisedOutput = "Foo" + FileUtil.NEWLINE + "Bar";
 	
 	@Test
-	public void windowsNewlinesArePreserved() throws Exception {
-		final String programAndOutput = "Foo\r\n" +
-		                                "Bar";
+	public void windowsNewlinesAreNormalised() throws Exception {
+		final String program = "Foo\r\n" +
+		                       "Bar";
 		
-		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
+		assertEquals(normalisedOutput, AcceptanceTestUtil.run(program));
 	}
 	
 	@Test
-	public void unixNewlinesArePreserved() throws Exception {
-		final String programAndOutput = "Foo\n" +
-		                                "Bar";
+	public void unixNewlinesAreNormalised() throws Exception {
+		final String program = "Foo\n" +
+		                       "Bar";
 		
-		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
+		assertEquals(normalisedOutput, AcceptanceTestUtil.run(program));
 	}
 	
 	@Test
-	public void oldMacNewlinesArePreserved() throws Exception {
-		final String programAndOutput = "Foo\r" +
-		                                "Bar";
+	public void oldMacNewlinesAreNormalised() throws Exception {
+		final String program = "Foo\r" +
+		                       "Bar";
 		
-		AcceptanceTestUtil.testWithoutNormalizingNewlines(programAndOutput, programAndOutput);
+		assertEquals(normalisedOutput, AcceptanceTestUtil.run(program));
 	}
 }

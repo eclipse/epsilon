@@ -96,14 +96,6 @@ public class TestPreprocessor {
 	}
 	
 	@Test
-	public void testEscapeLineFeed() {
-		final String egl = "\r";
-		final String eol = "out.prinx('\\r');";
-
-		assertEquals(eol, preprocess(egl));
-	}
-	
-	@Test
 	public void testEscapeNewLine() {
 		final String egl = "\n";
 		final String eol = "out.prinx('\\n');";

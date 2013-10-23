@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
+import org.eclipse.epsilon.egl.util.FileUtil;
 
 
 
@@ -120,9 +121,11 @@ public class Preprocessor {
 					                                      (TokenType.typeOf(child.getNextSibling().getType()) == TokenType.START_TAG ||
 					                                       TokenType.typeOf(child.getNextSibling().getType()) == TokenType.START_COMMENT_TAG);
 					
+					final String text = normaliseNewLines(child.getText()); 
+					
 					// Gobble whitespace before [% %] and [* *] pairs
 					if (!isWhitespacePrecedingTagged) {
-						appendToEolOnANewLine("out.prinx('" + escape(child.getText()) + "');", child.getLine());
+						appendToEolOnANewLine("out.prinx('" + escape(text) + "');", child.getLine());
 						
 						if (TokenType.typeOf(child.getType()) == TokenType.PLAIN_TEXT) {
 							String printCall = "out.prinx('";
@@ -131,7 +134,7 @@ public class Preprocessor {
 						}
 					}
 					
-					addToOffset(child.getLine(), child.getText().length());
+					addToOffset(child.getLine(), text.length());
 					
 					break;
 					
@@ -197,6 +200,22 @@ public class Preprocessor {
 		return eol.toString();
 	}
 	
+	/**
+	 * Converts any newline characters to the correct newline character for the
+	 * environment in which the template is executing, as the template 
+	 * might contain newline characters that are not appropriate for the
+	 * environment in which it is currently executing.
+	 */
+	private String normaliseNewLines(String text) {
+		// First normalise newlines to \n
+		text = text.replaceAll("\\r\\n", "\n");
+		text = text.replaceAll("\\r", "\n");
+		
+		// Now replace with current newline
+		return text.replaceAll("\\n", FileUtil.NEWLINE);
+	}
+
+
 	private void gobbleNextIfNewLine() {
 		boolean nextNodeIsNewLine = child.getNextSibling() != null &&
 		                            TokenType.typeOf(child.getNextSibling().getType()) == TokenType.NEW_LINE;

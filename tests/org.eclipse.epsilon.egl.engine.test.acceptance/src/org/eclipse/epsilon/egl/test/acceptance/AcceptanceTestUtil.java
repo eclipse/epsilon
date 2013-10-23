@@ -54,12 +54,6 @@ public class AcceptanceTestUtil {
 	}
 	
 	
-	public static void testWithoutNormalizingNewlines(String program, String expected, Model... models) throws Exception {
-		final String actual = run(program, models);
-		
-		assertEquals(expected, actual);
-	}
-
 	public static String run(Object program, Model... models) throws Exception {
 		return run(new EglFileGeneratingTemplateFactory(), program, models);
 	}
