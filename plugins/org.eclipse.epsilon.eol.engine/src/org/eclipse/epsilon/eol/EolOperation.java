@@ -313,7 +313,10 @@ public class EolOperation extends AbstractModuleElement{
 					if (!((Boolean) satisfied).booleanValue()) {
 						// We can simply use the frame stack here, as we created a frame for the post-condition
 						// in order to isolate the _result variable.
-						throw new EolRuntimeException("Post-condition not satisfied", frameStack);
+						throw new EolRuntimeException(
+							"Post-condition not satisfied: _result was "
+									+ context.getPrettyPrinterManager().print(result),
+							frameStack);
 					}
 				}
 				else {
