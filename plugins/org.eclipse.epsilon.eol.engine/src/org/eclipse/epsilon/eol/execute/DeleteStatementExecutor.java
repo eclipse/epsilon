@@ -25,6 +25,7 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 		Object target = null;
@@ -32,18 +33,13 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 			target = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
 		
-		Collection col = CollectionUtil.asCollection(target);
-		
+		Collection<Object> col = (Collection<Object>) CollectionUtil.asCollection(target);
 		for (Object instance : EolCollectionType.clone(col)) {
-			//if (context.getModelRepository().isModelElement(instance)) {
 			IModel model = context.getModelRepository().getOwningModel(instance);
 				
 			if (model != null) {
 				model.deleteElement(instance);
 			}	
-			//else {
-			//	throw new EolNotAModelElementException(ast.getFirstChild(), instance, context);
-			//}
 		}
 		return null;
 	}

@@ -60,8 +60,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 					copyCollectionValues(((Collection)value), sourceValues);
 				}
 				else {
-					throw new EolIllegalPropertyAssignmentException(
-							this.getProperty(), this.getAst());
+					throw new EolIllegalPropertyAssignmentException(getProperty(), this.getAst(), context.getFrameStack());
 				}
 			}
 		}

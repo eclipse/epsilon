@@ -37,7 +37,7 @@ public class AsOperation extends AbstractOperation {
 			return obj;
 		}
 		else {
-			throw new EolIllegalOperationParametersException("as", ast);
+			throw new EolIllegalOperationParametersException("as", ast, context.getFrameStack());
 		}
 	}
 

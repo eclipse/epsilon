@@ -20,7 +20,7 @@ public class BreakAllStatementExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		throw new EolBreakException(ast,true);
+		throw new EolBreakException(context.getFrameStack(), true);
 	}
 
 }

@@ -79,14 +79,14 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 	}
 
 	public void fail(String message) throws EolAssertionException {
-		throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), null, null, null);
+		throw new EolAssertionException(message, context.getFrameStack(), null, null, null);
 	}
 
 	private void compareBoolean(String message, boolean condition, final boolean expected) throws EolAssertionException {
 		if (condition != expected) {
 			throw new EolAssertionException(
 					context.getPrettyPrinterManager().toString(message),
-					context.getFrameStack().getCurrentStatement(),
+					context.getFrameStack(),
 					expected, condition, null);
 		}
 	}
@@ -95,7 +95,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 			throws EolAssertionException {
 		if (EolObjectComparator.equals(expected, obtained) != mustBeEqual) {
 			throw new EolAssertionException(
-					message, context.getFrameStack().getCurrentStatement(), expected, obtained, null);
+					message, context.getFrameStack(), expected, obtained, null);
 		}
 	}
 
@@ -126,7 +126,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 				message = "Expected " + obtained + (mustBeEqual ? "" : " not")
 					+ " to be in [" + lowerBound + ", " + upperBound + "]";
 			}
-			throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), expected, obtained != null ? obtained : "null", null);
+			throw new EolAssertionException(message, context.getFrameStack(), expected, obtained != null ? obtained : "null", null);
 		}
 	}
 }

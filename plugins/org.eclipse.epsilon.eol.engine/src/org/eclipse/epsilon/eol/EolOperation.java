@@ -277,14 +277,14 @@ public class EolOperation extends AbstractModuleElement{
 	}
 	
 	protected void evaluatePreConditions(IEolContext context) throws EolRuntimeException {
+		final FrameStack frameStack = context.getFrameStack();
 		for (IEolAnnotation annotation : EolAnnotationsUtil.getAnnotations(ast, "pre")) {
 			Object satisfied = annotation.getValue(context);
 			if (satisfied instanceof Boolean) {
 				if (!((Boolean) satisfied).booleanValue()) {
-					throw new EolRuntimeException("Pre-condition not satisfied", annotation.getAst());
+					throw new EolRuntimeException("Pre-condition not satisfied", annotation.getAst(), frameStack);
 				}
-			}
-			else {
+			} else {
 				throw new EolIllegalReturnException("Boolean", satisfied, annotation.getAst(), context);
 			}
 		}
@@ -303,16 +303,24 @@ public class EolOperation extends AbstractModuleElement{
 	}
 
 	protected void evaluatePostConditions(IEolContext context, Object result) throws EolRuntimeException {
-		context.getFrameStack().put(Variable.createReadOnlyVariable("_result", result));
+		final FrameStack frameStack = context.getFrameStack();
 		for (IEolAnnotation annotation : EolAnnotationsUtil.getAnnotations(ast, "post")) {
-			Object satisfied = annotation.getValue(context);
-			if (satisfied instanceof Boolean) {
-				if (!((Boolean) satisfied).booleanValue()) {
-					throw new EolRuntimeException("Post-condition not satisfied", annotation.getAst());
+			frameStack.enterLocal(FrameType.UNPROTECTED, annotation.getAst());
+			frameStack.put(Variable.createReadOnlyVariable("_result", result));
+			try {
+				Object satisfied = annotation.getValue(context);
+				if (satisfied instanceof Boolean) {
+					if (!((Boolean) satisfied).booleanValue()) {
+						// We can simply use the frame stack here, as we created a frame for the post-condition
+						// in order to isolate the _result variable.
+						throw new EolRuntimeException("Post-condition not satisfied", frameStack);
+					}
 				}
-			}
-			else {
-				throw new EolIllegalReturnException("Boolean", satisfied, annotation.getAst(), context);
+				else {
+					throw new EolIllegalReturnException("Boolean", satisfied, context);
+				}
+			} finally {
+				frameStack.leaveLocal(annotation.getAst());
 			}
 		}
 	}

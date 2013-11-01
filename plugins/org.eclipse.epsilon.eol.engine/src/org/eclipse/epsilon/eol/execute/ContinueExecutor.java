@@ -20,7 +20,7 @@ public class ContinueExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		throw new EolContinueException(ast, context);
+		throw new EolContinueException(context.getFrameStack());
 	}
 
 }

@@ -13,11 +13,9 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.Collection;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
@@ -151,7 +149,7 @@ public class OperatorExecutor extends AbstractExecutor{
 		if (o1 instanceof Number && o2 instanceof Number){
 			return NumberUtil.divide((Number) o1, (Number) o2);
 		}
-		throw new EolRuntimeException("Cannot divide " + context.getPrettyPrinterManager().toString(o1) + " by " + context.getPrettyPrinterManager().toString(o2));
+		throw new EolRuntimeException("Cannot divide " + context.getPrettyPrinterManager().toString(o1) + " by " + context.getPrettyPrinterManager().toString(o2), ast, context.getFrameStack());
 	}
 	
 	public boolean greaterThan(Object o1, Object o2){
@@ -197,12 +195,12 @@ public class OperatorExecutor extends AbstractExecutor{
 					return (Boolean) o2;
 				}
 				else {
-					throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", ast);
+					throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", ast, context.getFrameStack());
 				}
 			}
 		}
 		else {
-			throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", ast);
+			throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", ast, context.getFrameStack());
 		}
 		
 	}
@@ -222,12 +220,12 @@ public class OperatorExecutor extends AbstractExecutor{
 					return (Boolean) o2;
 				}
 				else {
-					throw new EolRuntimeException("Operator 'or' applies only to operands of type Boolean", ast);
+					throw new EolRuntimeException("Operator 'or' applies only to operands of type Boolean", ast, context.getFrameStack());
 				}
 			}
 		}
 		else {
-			throw new EolRuntimeException("Operator 'or' applies only to operands of type Boolean", ast);
+			throw new EolRuntimeException("Operator 'or' applies only to operands of type Boolean", ast, context.getFrameStack());
 		}
 		
 	}
@@ -247,12 +245,12 @@ public class OperatorExecutor extends AbstractExecutor{
 					return ((Boolean) o2) && ((Boolean) o1);
 				}
 				else {
-					throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", ast);
+					throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", ast, context.getFrameStack());
 				}
 			}
 		}
 		else {
-			throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", ast);
+			throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", ast, context.getFrameStack());
 		}
 		
 	}
@@ -263,7 +261,7 @@ public class OperatorExecutor extends AbstractExecutor{
 		if (o1 instanceof Boolean && o2 instanceof Boolean){
 			return ((Boolean) o1) ^ ((Boolean) o2);
 		} else {
-			throw new EolRuntimeException("Operator 'xor' applies only to Booleans", ast);
+			throw new EolRuntimeException("Operator 'xor' applies only to Booleans", ast, context.getFrameStack());
 		}
 	}
 	
@@ -272,7 +270,7 @@ public class OperatorExecutor extends AbstractExecutor{
 		if (o1 instanceof Boolean){
 			return !((Boolean) o1);
 		} else {
-			throw new EolRuntimeException("Operator 'not' applies only to Booleans", ast);
+			throw new EolRuntimeException("Operator 'not' applies only to Booleans", ast, context.getFrameStack());
 		}
 	}
 	

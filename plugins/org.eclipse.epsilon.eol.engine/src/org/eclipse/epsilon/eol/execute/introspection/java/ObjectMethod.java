@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class ObjectMethod {
@@ -45,8 +46,8 @@ public class ObjectMethod {
 		this.method = method;
 	}
 	
-	public Object execute(Object[] parameters, AST ast) throws EolRuntimeException {
-		return ReflectionUtil.executeMethod(object, method, parameters, ast);
+	public Object execute(Object[] parameters, AST ast, FrameStack stack) throws EolRuntimeException {
+		return ReflectionUtil.executeMethod(object, method, parameters, ast, stack);
 	}
 	
 }

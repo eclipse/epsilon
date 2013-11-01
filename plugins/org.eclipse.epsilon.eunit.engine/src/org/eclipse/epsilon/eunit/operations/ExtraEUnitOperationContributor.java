@@ -141,10 +141,9 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 				}
 			}
 
-			final AST ast = context.getFrameStack().getCurrentStatement();
 			throw new EolAssertionException(
 					message != null ? message : String.format("No lines matched '%s' from start to finish", regexp),
-					ast, null, null, null);
+					context.getFrameStack(), null, null, null);
 		}
 		catch (Exception ex) {
 			throw new EolInternalException(ex);
@@ -194,9 +193,8 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		// Since the assertion has failed, !mustBeEqual shows whether the
 		// trees were equal or not. If they are equal, there is no point
 		// in showing differences in the UI.
-		final AST ast = context.getFrameStack().getCurrentStatement();
 		throw new EolAssertionException(
-			message, ast, fileExpected, fileActual, null);
+			message, context.getFrameStack(), fileExpected, fileActual, null);
 	}
 
 	private IModel getModel(String name) throws EolModelNotFoundException
@@ -252,10 +250,10 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		}
 
 		if (mustBeEqual) {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
+			throw new EolAssertionException(message.toString(), context.getFrameStack(), expectedCModel, actualCModel, delta);
 		}
 		else {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), null, null, null);
+			throw new EolAssertionException(message.toString(), context.getFrameStack(), null, null, null);
 		}
 	}
 

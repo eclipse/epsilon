@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,31 +7,21 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - switch to frame stack
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
 public class EolIllegalOperationParametersException extends EolRuntimeException {
-	
-	private String method = "";
+	private static final long serialVersionUID = 1304130213870921841L;
 	
 	public EolIllegalOperationParametersException(String method) {
-		this.method = method;
+		this(method, null, null);
 	}
 	
-	public EolIllegalOperationParametersException(String method, AST ast) {
-		this.ast = ast;
-		this.method = method;
-	}
-	
-	@Override
-	public String getReason(){
-		return "Invalid number (or types) of arguements for operation '" + method + "'";
-	}
-	
-	@Override
-	public void setReason(String reason){
-		this.method = reason;
+	public EolIllegalOperationParametersException(String method, AST ast, FrameStack stack) {
+		super("Invalid number (or types) of arguements for operation '" + method + "'", ast, stack);
 	}
 }

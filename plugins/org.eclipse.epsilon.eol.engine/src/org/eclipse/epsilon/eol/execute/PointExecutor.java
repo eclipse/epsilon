@@ -37,7 +37,6 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 
 public class PointExecutor extends AbstractExecutor{
@@ -57,7 +56,7 @@ public class PointExecutor extends AbstractExecutor{
 		if (parametersAst == null) {
 			
 			String propertyName = featureCallAst.getText();
-			if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", featureCallAst);
+			if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", featureCallAst, context.getFrameStack());
 			
 			if (returnSetter){
 				IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);
@@ -144,7 +143,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		if (objectMethodAst != null) {
-			return wrap(objectMethodAst.execute(new Object[]{featureCallAst}, featureCallAst));
+			return wrap(objectMethodAst.execute(new Object[]{featureCallAst}, featureCallAst, context.getFrameStack()));
 		}
 		
 		ArrayList<Object> parameters = (ArrayList<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
@@ -170,7 +169,7 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		if (objectMethod != null) {
-			return wrap(objectMethod.execute(parameters.toArray(), featureCallAst));
+			return wrap(objectMethod.execute(parameters.toArray(), featureCallAst, context.getFrameStack()));
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
@@ -183,8 +182,7 @@ public class PointExecutor extends AbstractExecutor{
 			}
 		}
 
-		throw new EolIllegalOperationException(target, operationName, featureCallAst, context.getPrettyPrinterManager());
-		
+		throw new EolIllegalOperationException(target, operationName, featureCallAst, context.getFrameStack(), context.getPrettyPrinterManager());
 	}
 	
 	protected AbstractOperation getAbstractOperation(Object target, String name, AST featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
@@ -207,9 +205,12 @@ public class PointExecutor extends AbstractExecutor{
 		}
 		
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(name);
-		if (operation != null) return operation;
-		else throw new EolIllegalOperationException(target, name, featureCallAst, context.getPrettyPrinterManager());				
-
+		if (operation != null) {
+			return operation;
+		}
+		else {
+			throw new EolIllegalOperationException(target, name, featureCallAst, context.getFrameStack(), context.getPrettyPrinterManager());
+		}
 	}
 	
 	public Object wrap(Object o) {
