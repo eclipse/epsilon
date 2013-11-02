@@ -308,7 +308,11 @@ public class EolOperation extends AbstractModuleElement{
 			Object satisfied = annotation.getValue(context);
 			if (satisfied instanceof Boolean) {
 				if (!((Boolean) satisfied).booleanValue()) {
-					throw new EolRuntimeException("Post-condition not satisfied", annotation.getAst());
+						// We can simply use the frame stack here, as we created a frame for the post-condition
+						// in order to isolate the _result variable.
+						throw new EolRuntimeException(
+							"Post-condition not satisfied: _result was "
+									+ context.getPrettyPrinterManager().print(result));
 				}
 			}
 			else {
@@ -345,3 +349,4 @@ public class EolOperation extends AbstractModuleElement{
 		return contextType;
 	}
 }
+
