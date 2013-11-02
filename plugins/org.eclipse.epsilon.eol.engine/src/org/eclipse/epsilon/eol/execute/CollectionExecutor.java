@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -80,10 +82,10 @@ public class CollectionExecutor extends AbstractExecutor{
 				}
 				else {
 					if (!(rangeStart instanceof Integer)){
-						throw new EolRuntimeException("The start of a range should be of type Integer", rangeStartAst, context.getFrameStack());
+						throw new EolRuntimeException("The start of a range should be of type Integer", rangeStartAst);
 					}
 					if (!(rangeEnd instanceof Integer)){
-						throw new EolRuntimeException("The end of a range should be of type Integer", rangeEndAst, context.getFrameStack());
+						throw new EolRuntimeException("The end of a range should be of type Integer", rangeEndAst);
 					}
 					
 				}

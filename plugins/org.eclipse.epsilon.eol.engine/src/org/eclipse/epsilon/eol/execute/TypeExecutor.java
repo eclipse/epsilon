@@ -93,7 +93,7 @@ public class TypeExecutor extends AbstractExecutor{
 		
 		//return new EolNativeType(ast, context);
 		
-		throw new EolTypeNotFoundException(typeName, ast, context.getFrameStack());
+		throw new EolTypeNotFoundException(typeName, ast);
 		//return null;
 	}
 

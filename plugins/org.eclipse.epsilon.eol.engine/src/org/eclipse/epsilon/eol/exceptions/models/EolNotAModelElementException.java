@@ -8,22 +8,27 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.exceptions;
+package org.eclipse.epsilon.eol.exceptions.models;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class EolTypeNotFoundException extends EolRuntimeException{
+
+public class EolNotAModelElementException extends EolRuntimeException{
 	
-	protected String typeName = "";
+	protected Object instance;
 	
-	public EolTypeNotFoundException(String typeName, AST ast) {
+	public EolNotAModelElementException(AST ast, Object instance, IEolContext context) {
 		super();
-		this.typeName = typeName;
 		this.ast = ast;
+		this.instance = instance;
+		this.context = context;
 	}
 	
 	@Override
-	public String getReason(){
-		return "Type '" + typeName + "' not found";
+	public String getReason() {
+		return context.getPrettyPrinterManager().toString(instance) + " is not a model element";
 	}
+
 }

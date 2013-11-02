@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNoType;
 
@@ -24,8 +23,9 @@ public class EolIllegalOperationException extends EolRuntimeException {
 	protected Object object = null;
 	protected PrettyPrinterManager prettyPrintManager;
 	
-	public EolIllegalOperationException(Object object, String methodName, AST ast, FrameStack stack, PrettyPrinterManager prettyPrintManger) {
-		super(null, ast, stack);
+	public EolIllegalOperationException(Object object, String methodName, AST ast, PrettyPrinterManager prettyPrintManger) {
+		super();
+		this.ast = ast;
 		this.methodName = methodName;
 		this.object = object;
 		this.prettyPrintManager = prettyPrintManger;

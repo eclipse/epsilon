@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
@@ -80,7 +81,7 @@ public class NameExecutor extends AbstractExecutor{
 			catch (EolTypeNotFoundException ex) {}
 		}
 		
-		if (variable == null) throw new EolUndefinedVariableException(name, ast, context.getFrameStack());
+		if (variable == null) throw new EolUndefinedVariableException(name, ast);
 
 		if (returnVariable){
 			return variable;

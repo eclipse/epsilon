@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.extensions;
 
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
@@ -25,6 +26,10 @@ public class IllegalExtensionException extends EolRuntimeException {
 
 	public IllegalExtensionException(String message) {
 		super(message);
+	}
+
+	public IllegalExtensionException(String message, AST ast) {
+		super(message, ast);
 	}
 
 	public IllegalExtensionException(Throwable cause) {

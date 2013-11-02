@@ -23,7 +23,7 @@ public class NewExecutor extends TypeInitialiserExecutor {
 		
 		Object result = context.getExecutorFactory().executeAST(typeAst, context);
 		
-		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeAst, context.getFrameStack());
+		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeAst);
 		
 		AST parametersAst = typeAst.getNextSibling();
 		return initialiseType((EolType) result, parametersAst, context, true);

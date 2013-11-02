@@ -8,22 +8,21 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.exceptions;
+package org.eclipse.epsilon.eml.exceptions;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class EolTypeNotFoundException extends EolRuntimeException{
+
+public class EmlConformanceException extends EolRuntimeException{
 	
-	protected String typeName = "";
-	
-	public EolTypeNotFoundException(String typeName, AST ast) {
-		super();
-		this.typeName = typeName;
+	public EmlConformanceException(AST ast){
 		this.ast = ast;
 	}
 	
 	@Override
 	public String getReason(){
-		return "Type '" + typeName + "' not found";
+		return "Conform block returned 'false'";
 	}
+	
 }

@@ -24,7 +24,7 @@ public class ThrowStatementExecutor extends AbstractExecutor{
 		if (ast.getFirstChild() != null){
 			thrown = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
-		throw new EolUserException(thrown, ast, context.getFrameStack());
+		throw new EolUserException(thrown, ast);
 	}
 
 }

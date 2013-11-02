@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,11 +7,8 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
- *     Antonio García-Domínguez - avoid deprecated constructors
  ******************************************************************************/
 package org.eclipse.epsilon.egl.exceptions;
-
-import java.util.Arrays;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -27,24 +24,27 @@ public class EglRuntimeException extends EolRuntimeException {
 	private final int line;
 	private final int column;
 	
-	public EglRuntimeException (EolRuntimeException ex) {
-		super(ex.getReason(), ex.getAstStack());
+	
+	public EglRuntimeException (EolRuntimeException ex){
+		super(ex.getReason(), ex.getAst());
 		
 		reason = ex.getReason();
 		cause  = ex;
-		line   = ex.getLine();
+		line   = ex.getAst().getLine();
 		column = ex.getColumn();
+		ast    = ex.getAst();
 	}
 	
-	public EglRuntimeException (EolInternalException ex) {
-		super(ex.getReason(), ex.getAstStack());
+	public EglRuntimeException (EolInternalException ex){
+		super(ex.getReason(), ex.getAst());
 		
 		final EglRuntimeException internal = (EglRuntimeException)ex.getInternal();
 		
 		reason = internal.getReason();
 		cause  = internal.getCause();
-		line   = ex.getLine();
+		line   = ex.getAst().getLine();
 		column = ex.getColumn();
+		ast    = ex.getAst();
 	}
 	
 	public EglRuntimeException(String reason, AST ast) {
@@ -54,18 +54,19 @@ public class EglRuntimeException extends EolRuntimeException {
 	public EglRuntimeException(String reason, Throwable cause) {
 		this(reason, cause, 1, 1, null);
 	}
-
+	
 	public EglRuntimeException(String reason, Throwable cause, AST ast) {
 		this(reason, cause, ast.getLine(), ast.getColumn(), ast);
 	}
 	
 	private EglRuntimeException(String reason, Throwable cause, int line, int column, AST ast) {
-		super(reason, Arrays.asList(ast));
 		this.reason = reason;		
 		this.cause  = cause;
 		this.line   = line;
 		this.column = column;
+		this.ast    = ast;
 	}
+
 
 	@Override
 	public Throwable getCause() {

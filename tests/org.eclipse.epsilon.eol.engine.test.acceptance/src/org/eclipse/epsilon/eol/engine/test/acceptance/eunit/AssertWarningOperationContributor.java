@@ -71,9 +71,10 @@ public class AssertWarningOperationContributor extends OperationContributor {
 	private void fail(String reason, String expected, String actual) throws EolAssertionException {
 		throw new EolAssertionException(
 				context.getPrettyPrinterManager().toString(reason),
-				context.getFrameStack(),
+				context.getFrameStack().getCurrentStatement(),
 				expected, actual, null);
 	}
+	
 	
 	public static class BookmarkedStream {
 		private final ByteArrayOutputStream observableWarningStream = new ByteArrayOutputStream();

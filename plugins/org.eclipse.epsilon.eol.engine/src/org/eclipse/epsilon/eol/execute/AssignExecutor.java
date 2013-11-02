@@ -71,7 +71,7 @@ public abstract class AssignExecutor extends AbstractExecutor{
 				throw ex;
 			}
 		} else {
-			throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + varAstResult + "instead", ast, context.getFrameStack());
+			throw new EolRuntimeException("Internall error. Expected either a SetterMethod or a Variable and got an " + varAstResult + "instead", ast);
 		}
 		
 		return null;

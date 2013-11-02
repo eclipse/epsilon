@@ -19,9 +19,9 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
-import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 
@@ -167,7 +167,7 @@ public class ExecutorFactory {
 		activeAst = ast;
 		
 		if (executionController != null){
-			if (executionController.isTerminated()) throw new EolTerminationException(context.getFrameStack());
+			if (executionController.isTerminated()) throw new EolTerminationException(ast);
 			try {
 				executionController.control(ast, context);
 			}
@@ -177,7 +177,7 @@ public class ExecutorFactory {
 		AbstractExecutor executor = getExecutorFor(ast.getType());
 		
 		if (executor == null){
-			throw new EolRuntimeException("No executor found for type #" + ast.getType(), ast, context.getFrameStack());
+			throw new EolRuntimeException("No executor found for type #" + ast.getType(), ast);
 		}
 		
 		for (IExecutionListener listener : executionListeners) {
@@ -193,14 +193,13 @@ public class ExecutorFactory {
 		catch (Exception ex){
 			if (ex instanceof EolRuntimeException){
 				EolRuntimeException eolEx = (EolRuntimeException) ex;
-				if (eolEx.getAstStack().isEmpty()) {
-					eolEx.generateAstStackFrom(context.getFrameStack());
-					eolEx.getAstStack().add(0, ast);
+				if (eolEx.getAst() == null){
+					eolEx.setAst(ast);
 				}
 				throw eolEx;
 			}
 			else {
-				throw new EolInternalException(ex, ast, context.getFrameStack());
+				throw new EolInternalException(ex, ast);
 			}
 		}
 		finally {

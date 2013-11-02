@@ -11,19 +11,26 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.types.EolType;
 
-public class EolTypeNotFoundException extends EolRuntimeException{
+
+public class EolNotApplicableOperationException extends EolRuntimeException {
+
+	protected EolType expected;
+	protected String operation;
 	
-	protected String typeName = "";
-	
-	public EolTypeNotFoundException(String typeName, AST ast) {
+	public EolNotApplicableOperationException(String operation, EolType expected, AST ast) {
 		super();
-		this.typeName = typeName;
+		this.expected = expected;
 		this.ast = ast;
+		this.operation = operation;
 	}
 	
 	@Override
 	public String getReason(){
-		return "Type '" + typeName + "' not found";
+		return "Operation '" + operation + "'.applies only to instances of type " + expected.getName();
 	}
+	
+	
+	
 }

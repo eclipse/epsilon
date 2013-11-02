@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,6 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - switch to frame stack
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
@@ -15,19 +14,15 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
-public class EolIllegalPropertyException extends EolRuntimeException {
-	private static final long serialVersionUID = -2770110184378723634L;
-
+public class EolIllegalPropertyException extends EolRuntimeException{
+	
 	protected String property;
 	protected Object object;
 	
-	public EolIllegalPropertyException(Object object, String property, IEolContext context) {
-		this(object, property, null, context);
-	}
-
-	public EolIllegalPropertyException(Object object, String property, AST extraAST, IEolContext context) {
-		super(null, extraAST, context != null ? context.getFrameStack() : null);
-
+	
+	public EolIllegalPropertyException(Object object, String property, AST ast, IEolContext context) {
+		super();
+		this.ast = ast;
 		this.object = object;
 		this.property = property;
 		this.context = context;
@@ -51,6 +46,7 @@ public class EolIllegalPropertyException extends EolRuntimeException {
 	
 	@Override
 	public String getReason(){
+		//return "Object " + object + " does not support this property: " + property;
 		return "Property '" + property + "' not found in object " + (context == null ? object : context.getPrettyPrinterManager().toString(object));
 	}
 	

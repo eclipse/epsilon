@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,22 +7,25 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - switch to frame stack
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class EolNoReturnException extends EolRuntimeException {
-	private static final long serialVersionUID = 1777127646978346547L;
 
+public class EolNoReturnException extends EolRuntimeException{
+	
 	protected String expectedType = "";
 	
 	public EolNoReturnException(String expectedType, AST ast, IEolContext context){
-		super("Expected to return '" + expectedType + "'", ast, context.getFrameStack());
-		
+		this.ast = ast;
 		this.context = context;
 		this.expectedType = expectedType;
+	}
+	
+	@Override
+	public String getReason(){
+		return "Expected to return '" + expectedType + "'";
 	}
 }

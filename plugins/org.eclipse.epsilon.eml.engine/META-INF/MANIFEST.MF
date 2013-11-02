@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.etl.engine
 Export-Package: org.eclipse.epsilon.eml,
+ org.eclipse.epsilon.eml.exceptions,
  org.eclipse.epsilon.eml.execute,
  org.eclipse.epsilon.eml.execute.context,
  org.eclipse.epsilon.eml.execute.operations,

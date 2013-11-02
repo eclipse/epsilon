@@ -77,6 +77,6 @@ public class TreeEqualityAssertionOperation extends AbstractSimpleOperation {
 		// trees were equal or not. If they are equal, there is no point
 		// in showing differences in the UI.
 		throw new EolAssertionException(
-			message, context.getFrameStack(), fileExpected, fileActual, null);
+			message, ast, fileExpected, fileActual, null);
 	}
 }

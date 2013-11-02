@@ -8,30 +8,29 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.exceptions.flowcontrol;
+package org.eclipse.epsilon.eol.exceptions.models;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
-public class EolBreakException extends EolRuntimeException{
+public class EolInvalidMetaModelException extends EolRuntimeException {
 	
-	protected boolean breaksAll;
+	protected String modelName;
+	protected String metaModelName;
+	protected String actualMetaModelName;
 	
-	public EolBreakException(AST ast, boolean breaksAll){
+	public EolInvalidMetaModelException(String modelName, String metaModelName, String actualMetaModelName, AST ast) {
+		this.modelName = modelName;
+		this.metaModelName = metaModelName;
+		this.actualMetaModelName = actualMetaModelName;
 		this.ast = ast;
-		this.reason = "Break only allowed inside a loop";
-		this.breaksAll = breaksAll;
-	}
-
-	public boolean isBreaksAll() {
-		return breaksAll;
-	}
-
-	public void setBreaksAll(boolean breaksAll) {
-		this.breaksAll = breaksAll;
 	}
 	
-	
+	@Override
+	public String getReason(){
+		return "Model " + modelName + " is declared to be an instance of meta-model " 
+		+ metaModelName + " while it is an instance of meta-model " + actualMetaModelName;
+	}
 	
 }

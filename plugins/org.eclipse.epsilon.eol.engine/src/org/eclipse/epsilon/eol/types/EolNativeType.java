@@ -34,7 +34,7 @@ public class EolNativeType extends EolAnyType {
 				return;
 			}
 		}
-		throw new EolTypeNotFoundException(classAst.getText(), classAst, context.getFrameStack());
+		throw new EolTypeNotFoundException(classAst.getText(), classAst);
 	}
 
 	@Override

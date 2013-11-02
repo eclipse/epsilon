@@ -22,7 +22,6 @@ import java.util.Set;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class ReflectionUtil {
@@ -159,11 +158,11 @@ public class ReflectionUtil {
 		return null;
 	}
 
-	public static Object executeMethod(Object obj, Method method, Object[] parameters, AST ast, FrameStack stack) throws EolRuntimeException{
+	public static Object executeMethod(Object obj, Method method, Object[] parameters, AST ast) throws EolRuntimeException{
 		try {
 			return executeMethod(method, obj, parameters);
 		} catch (Throwable t) {
-			throw new EolInternalException(t, ast, stack);
+			throw new EolInternalException(t, ast);
 		}
 	}
 	

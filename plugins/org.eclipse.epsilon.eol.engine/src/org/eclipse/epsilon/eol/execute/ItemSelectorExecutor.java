@@ -33,14 +33,15 @@ public class ItemSelectorExecutor extends AbstractExecutor {
 		
 		if ((expression instanceof Collection)) {
 			if (!(index instanceof Integer)) 
-				throw new EolRuntimeException("Collection index must be an integer but " + index + " was provided instead.", indexAst, context.getFrameStack());
+				throw new EolRuntimeException("Collection index must be an integer but " + index + " was provided instead.", indexAst);
 			else return CollectionUtil.asList(expression).get((Integer)index);
 		}
 		else if (expression instanceof EolMap){
 			return ((EolMap) expression).get(index);
 		}
 		
-		throw new EolRuntimeException(expression + " is not a collection or a map.", expressionAst, context.getFrameStack());
+		throw new EolRuntimeException(expression + " is not a collection or a map.", expressionAst);
+		
 	}
 	
 	public static void main(String[] args) throws Exception {

@@ -11,7 +11,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.common.parse.AST;
 
 /**
  * Exception which is thrown when the expectations in a test case are not met.
@@ -56,8 +56,8 @@ public class EolAssertionException extends EolRuntimeException {
 	 *            Precomputed delta between the values, if available. Otherwise,
 	 *            <code>null</code>.
 	 */
-	public EolAssertionException(String reason, FrameStack frameStack, Object expected, Object actual, Object delta) {
-		super(reason, frameStack);
+	public EolAssertionException(String reason, AST ast, Object expected, Object actual, Object delta) {
+		super(reason, ast);
 		this.expected = expected;
 		this.actual = actual;
 		this.delta = delta;
