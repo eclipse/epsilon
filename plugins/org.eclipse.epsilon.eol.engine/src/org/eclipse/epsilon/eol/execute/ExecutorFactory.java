@@ -31,9 +31,11 @@ public class ExecutorFactory {
 	protected HashMap<Integer, AbstractExecutor> executorCache = new HashMap<Integer, AbstractExecutor>();
 	protected AST activeAst = null;
 	protected ArrayList<IExecutionListener> executionListeners = new ArrayList<IExecutionListener>();
+	protected StackTraceManager stackTraceManager = null;
 	
 	public ExecutorFactory(){
 		executionController = new DefaultExecutionController();
+		setStackTraceManager(new StackTraceManager());
 		cacheExecutors();
 	}
 	
@@ -51,6 +53,19 @@ public class ExecutorFactory {
 
 	public void setExecutionController(ExecutionController executionController) {
 		this.executionController = executionController;
+	}
+	
+	public StackTraceManager getStackTraceManager() {
+		return stackTraceManager;
+	}
+	
+	public void setStackTraceManager(StackTraceManager stackTraceManager) {
+		if (this.stackTraceManager != null) {
+			removeExecutionListener(this.stackTraceManager);
+		}
+		
+		this.stackTraceManager = stackTraceManager;
+		addExecutionListener(stackTraceManager);
 	}
 	
 	protected void cacheExecutors() {
@@ -188,6 +203,9 @@ public class ExecutorFactory {
 		
 		try {
 			result = executor.execute(ast, context);
+			for (IExecutionListener listener : executionListeners) {
+				listener.finishedExecuting(ast, result, context);
+			}
 			return result;
 		}
 		catch (Exception ex){
@@ -203,9 +221,6 @@ public class ExecutorFactory {
 			}
 		}
 		finally {
-			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(ast, result, context);
-			}
 			if (executionController != null) {
 				executionController.done(ast, context);
 			}
