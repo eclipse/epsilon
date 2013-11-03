@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008-2013 The University of York, Antonio Garcia-Dominguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - refactor parse(...) methods
+ *     Antonio Garcia-Dominguez - refactor parse(...) methods
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
 
@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.Lexer;
@@ -51,7 +52,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public abstract EpsilonParser createParser(TokenStream tokenStream);
 	
 	public abstract void reset();
-
+	
 	@Override
 	public AST getAst() {
 		return ast;
@@ -126,11 +127,17 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			return false;
 		}
 	}
-
+	
 	private boolean parse(URI uri, final InputStream iStream) throws Exception {
 		parseProblems.clear();
 		try {
-			final Lexer lexer = createLexer(iStream);
+			
+			// Replace tabs with spaces to get consistent column numbers in ASTs
+			Scanner s = new java.util.Scanner(iStream).useDelimiter("\\A");
+		    String contents = s.hasNext() ? s.next() : "";
+		    ByteArrayInputStream noTabsStream = new ByteArrayInputStream(contents.replaceAll("\t", " ").getBytes());
+		    
+			final Lexer lexer = createLexer(noTabsStream);
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
 			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri);
 
@@ -147,5 +154,5 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			iStream.close();
 		}
 	}
-
+	
 }
