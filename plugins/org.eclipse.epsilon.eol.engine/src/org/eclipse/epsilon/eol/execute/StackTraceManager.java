@@ -53,7 +53,16 @@ public class StackTraceManager implements IExecutionListener {
 	}
 	
 	protected String toString(AST ast) {
-		return "\tat (" + ast.getFile().toString() 
+		
+		String location = null;
+		if (ast.getFile() != null) {
+			location = ast.getFile().getAbsolutePath();
+		}
+		else {
+			location = ast.getUri().toString();
+		}
+		
+		return "\tat (" + location 
 				+ "@" + ast.getRegion().getStart().getLine() + ":" 
 				+ ast.getRegion().getStart().getColumn() + "-" + 
 				ast.getRegion().getEnd().getLine() + ":" +
