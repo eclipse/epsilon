@@ -25,6 +25,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.rules.INamedRule;
@@ -206,6 +207,13 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	@Override
 	protected int getPreBlockTokenType() {
 		return EtlParser.PRE;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof IEtlContext) {
+			this.context = (IEtlContext) context;
+		}
 	}
 		
 }

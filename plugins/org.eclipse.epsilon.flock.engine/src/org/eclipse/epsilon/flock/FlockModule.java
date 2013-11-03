@@ -24,6 +24,7 @@ import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
@@ -99,7 +100,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	public IFlockContext getContext() {
 		return context;
 	}
-
+	
 	@Override
 	protected int getPreBlockTokenType() {
 		return FlockParser.PRE;
@@ -108,5 +109,12 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	@Override
 	protected int getPostBlockTokenType() {
 		return FlockParser.POST;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof IFlockContext) {
+			this.context = (IFlockContext) context;
+		}
 	}
 }

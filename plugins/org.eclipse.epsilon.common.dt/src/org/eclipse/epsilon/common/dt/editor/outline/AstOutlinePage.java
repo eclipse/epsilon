@@ -44,6 +44,9 @@ public class AstOutlinePage extends ModuleContentOutlinePage {
 					.getSelection()).getFirstElement();
 			
 			
+			EclipseUtil.openEditorAt(selected);
+			
+			/*
 			IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 			Region region = selected.getRegion();
 			
@@ -53,7 +56,8 @@ public class AstOutlinePage extends ModuleContentOutlinePage {
 			//EditorSelection editorSelection = getEditorSelection(selected);
 			
 			EclipseUtil.openEditorAt(selected.getFile(), region.getStart().getLine(), 
-					region.getStart().getColumn(), endOffset - startOffset, false);
+					region.getStart().getColumn(), endOffset - startOffset, false);*/
+			
 		}
 		catch (Exception ex) {
 			

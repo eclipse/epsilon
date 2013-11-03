@@ -79,7 +79,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Preservation of the current region must be stopped before preservation of another region may begin.", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(8, e.getColumn());
+			assertEquals(5, e.getColumn());
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("Preservation of the current region must be stopped before preservation of another region may begin.", e.getReason());
 			assertEquals(5, e.getLine());
-			assertEquals(8, e.getColumn());
+			assertEquals(5, e.getColumn());
 		}
 	}
 	
@@ -173,7 +173,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("There is no current region to stop preserving.", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(3, e.getColumn());
 		}
 	}
 	
@@ -186,7 +186,7 @@ public class Exceptions {
 		} catch (EglRuntimeException e) {
 			assertEquals("There is no current region to stop preserving.", e.getReason());
 			assertEquals(3, e.getLine());
-			assertEquals(6, e.getColumn());
+			assertEquals(3, e.getColumn());
 		}
 	}
 }

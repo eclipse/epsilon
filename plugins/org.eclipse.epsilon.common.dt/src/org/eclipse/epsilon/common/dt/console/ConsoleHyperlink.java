@@ -13,18 +13,18 @@ package org.eclipse.epsilon.common.dt.console;
 import java.io.File;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.ui.console.IHyperlink;
 
 public class ConsoleHyperlink implements IHyperlink {
 	
-	String file;
-	int line;
-	int column;
+	protected String file;
+	protected Region region;
 	
-	public ConsoleHyperlink(String file, int line, int column){
+	public ConsoleHyperlink(String file, Region region){
 		this.file = file;
-		this.line = line;
-		this.column = column;
+		this.region = region;
 	}
 	
 	public void linkEntered() {
@@ -39,7 +39,7 @@ public class ConsoleHyperlink implements IHyperlink {
 
 	public void linkActivated() {
 		
-		EclipseUtil.openEditorAt(new File(file), line, column, false);
+		EclipseUtil.openEditorAt(file, region);
 		
 		/*
 		try {

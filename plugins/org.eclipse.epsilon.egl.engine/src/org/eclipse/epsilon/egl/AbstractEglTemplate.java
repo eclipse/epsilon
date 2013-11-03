@@ -20,6 +20,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.IEglModule;
+import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
@@ -61,7 +62,7 @@ public abstract class AbstractEglTemplate {
 		return module.getDeclaredOperations();
 	}
 
-	public List<?> getImports() {
+	public List<EolImport> getImports() {
 		return module.getImports();
 	}
 

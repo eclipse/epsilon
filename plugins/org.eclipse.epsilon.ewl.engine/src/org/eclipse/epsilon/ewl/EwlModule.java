@@ -25,6 +25,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.ewl.execute.context.EwlContext;
 import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 import org.eclipse.epsilon.ewl.parse.EwlLexer;
@@ -124,6 +125,13 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof IEwlContext) {
+			this.context = (IEwlContext) context;
+		}
 	}
 
 }

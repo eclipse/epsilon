@@ -20,6 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.PlatformUI;
@@ -63,18 +64,79 @@ public class EclipseUtil {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getLocation().toOSString();
 	}
 
+	/*
 	public static void openEditorAt(AST astNode) {
 		final IFile file = findIFile(astNode);
 		if (file != null) {
 			openEditorAt(file, astNode.getLine(), astNode.getColumn(), true);
 		}
+	}*/
+	
+	public static void openEditorAt(AST ast) {
+		if (ast.getFile() != null) {
+			openEditorAt(ast.getFile().getAbsolutePath(), ast.getRegion());
+		}
+		else {
+			openEditorAt(ast.getUri().toString(), ast.getRegion());
+		}
 	}
+	
+	public static void openEditorAt(String location, final Region region) {
+		IFile iFile = null;
+		
+		// Get IFile from location path / URI
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		File file = new File(location);
+		if (file.exists()) {
+			final Path path = new Path(file.getAbsolutePath());
+			iFile = workspaceRoot.getFileForLocation(path);
+		}
+		else {
+			try {
+				final URI fileURI = FileLocator.toFileURL(new URI(location).toURL()).toURI();
+				final IFile[] files = workspaceRoot.findFilesForLocationURI(fileURI);
+				if (files.length > 0) {
+					iFile = files[0];
+				}
+			} catch (Exception ex) {
+				LogUtil.log(ex);
+			}
+		}
+		
+		if (iFile == null) return;
+		final IFile iFile2 = iFile;
+		
+		// Open the editor
+		final FileEditorInput fileinput=new FileEditorInput(iFile);
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(iFile.getName());
+		
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				try {
+					
+					AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId(), false);		
+					IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
+					
+					int startOffset = doc.getLineOffset(region.getStart().getLine()-1) + region.getStart().getColumn();
+					int endOffset = doc.getLineOffset(region.getEnd().getLine()-1) + region.getEnd().getColumn();
+					
+					EclipseUtil.openEditorAt(iFile2, region.getStart().getLine(), 
+							region.getStart().getColumn(), endOffset - startOffset, false);
 
+				}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}				
+			}
+		});
+	}
+	
+	/*
 	public static void openEditorAt(File file, int line, int column, int length, boolean highlightLine) {
 		if (file == null) return;
 		IFile iFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
 		openEditorAt(iFile, line, column, length, highlightLine);
-	}
+	}*/
 	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
 		if (file == null) return;

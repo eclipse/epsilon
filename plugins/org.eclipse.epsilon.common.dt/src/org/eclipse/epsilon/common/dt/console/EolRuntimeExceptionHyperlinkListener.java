@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.console;
 
+import org.eclipse.epsilon.common.parse.Position;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IPatternMatchListener;
 import org.eclipse.ui.console.PatternMatchEvent;
@@ -24,7 +26,7 @@ public class EolRuntimeExceptionHyperlinkListener implements IPatternMatchListen
 	}
 	
 	public String getPattern() {
-		return "\\(.*@(\\d)+:(\\d)+\\)";
+		return "\\(.*?@(\\d+):(\\d+)-(\\d+):(\\d+)\\)";
 	}
 
 	public int getCompilerFlags() {
@@ -62,10 +64,21 @@ public class EolRuntimeExceptionHyperlinkListener implements IPatternMatchListen
 	private void matchFoundImpl(PatternMatchEvent event) throws Exception {
 		String matched = ioConsole.getDocument().get(event.getOffset(), event.getLength());
 		matched = matched.substring(1,matched.length() -1);
-		String file = matched.split("@")[0];
-		int line = Integer.parseInt(matched.split("@")[1].split(":")[0]);
-		int column = Integer.parseInt(matched.split("@")[1].split(":")[1]);
-		ioConsole.addHyperlink(new ConsoleHyperlink(file,line,column), event.getOffset()+1, event.getLength()-2);
+		String[] parts = matched.split("@");
+		String file = parts[0];
+		
+		String[] regionParts = parts[1].split("-");
+		
+		Region region = new Region();
+		region.setStart(parsePosition(regionParts[0]));
+		region.setEnd(parsePosition(regionParts[1]));
+		
+		ioConsole.addHyperlink(new ConsoleHyperlink(file, region), event.getOffset()+1, event.getLength()-2);
+	}
+	
+	protected Position parsePosition(String s) {
+		String[] parts = s.split(":");
+		return new Position(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
 	}
 	
 }

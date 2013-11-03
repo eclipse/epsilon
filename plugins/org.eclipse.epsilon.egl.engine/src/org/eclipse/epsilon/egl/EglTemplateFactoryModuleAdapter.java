@@ -25,6 +25,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.EolModelDefinition;
 import org.eclipse.epsilon.eol.EolModelGroupDefinition;
 import org.eclipse.epsilon.eol.EolOperationFactory;
@@ -32,6 +33,7 @@ import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
@@ -101,7 +103,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return current.getDeclaredOperations();
 	}
 
-	public List<?> getImports() {
+	public List<EolImport> getImports() {
 		return current.getImports();
 	}
 
@@ -143,5 +145,12 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	@Override
 	public URI getSourceUri() {
 		return null;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof IEglContext) {
+			factory.setContext((IEglContext) context);
+		}
 	}
 }

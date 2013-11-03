@@ -35,7 +35,7 @@ import org.eclipse.epsilon.erl.ErlModule;
 public class EplModule extends ErlModule implements IEolExecutableModule{
 	
 	protected List<Pattern> declaredPatterns = new ArrayList<Pattern>();
-	protected EolContext context;
+	protected IEolContext context;
 	protected boolean repeatWhileMatchesFound = false;
 	protected int maxLoops = INFINITE;
 	protected String patternMatchModelName = "P";
@@ -200,5 +200,10 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	
 	public void setPatternMatchModelName(String patternMatchModelName) {
 		this.patternMatchModelName = patternMatchModelName;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		this.context = context;
 	}
 }

@@ -54,6 +54,11 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	}
 
 	@Override
+	public void setContext(IEolContext context) {
+		this.context = context;
+	}
+	
+	@Override
 	public List<ModuleElement> getChildren() {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());

@@ -40,6 +40,12 @@ public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 		this.uri = uri;
 	}
 	
+	public EpsilonTreeAdaptor(URI uri, IModule module) {
+		this.uri = uri;
+		this.module = module;
+	}
+	
+	
     public AST create(Token token) {
         return new AST(token, uri, module);
     }

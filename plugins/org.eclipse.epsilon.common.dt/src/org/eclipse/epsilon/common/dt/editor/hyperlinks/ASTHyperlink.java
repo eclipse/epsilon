@@ -40,7 +40,7 @@ public class ASTHyperlink implements IHyperlink {
 	}
 
 	public void open() {
-		EclipseUtil.openEditorAt(targetAST.getFile(), targetAST.getLine(), targetAST.getColumn(), false);
+		EclipseUtil.openEditorAt(targetAST);
 	}
 	
 

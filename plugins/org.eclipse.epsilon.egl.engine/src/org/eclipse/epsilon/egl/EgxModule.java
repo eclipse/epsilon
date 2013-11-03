@@ -37,6 +37,7 @@ import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.rules.NamedRules;
@@ -253,6 +254,13 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 			throws EglRuntimeException {
 		System.err.println("EgxModule.execute() invoked");
 		return null;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof EgxContext) {
+			this.context = (EgxContext) context;
+		}
 	}
 	
 }

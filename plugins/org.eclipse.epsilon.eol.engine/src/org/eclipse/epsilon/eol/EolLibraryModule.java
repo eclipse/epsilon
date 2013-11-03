@@ -34,7 +34,7 @@ import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 
-public class EolLibraryModule extends AbstractModule implements IEolLibraryModule{
+public abstract class EolLibraryModule extends AbstractModule implements IEolLibraryModule{
 	
 	protected EolOperations declaredOperations = new EolOperations();
 	protected List<EolImport> imports = new ArrayList<EolImport>();
@@ -44,7 +44,6 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	protected Set<EolModelDefinition> modelDefinitions = null;
 	protected Set<EolModelGroupDefinition> modelGroupDefinitions = null;
 	protected EolOperationFactory operationFactory = new EolOperationFactory();
-
 	private IEolLibraryModule parent;
 
 	@Override
@@ -71,14 +70,10 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public EolOperations getDeclaredOperations() {
 		return declaredOperations;
 	}
-
-	public IEolContext getContext() {
-		return null;
-	}
 	
 	public HashMap<String, Class<?>> getImportConfiguration() {
 		final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
-		importConfiguration.put("eol", EolLibraryModule.class);
+		importConfiguration.put("eol", EolModule.class);
 		return importConfiguration;
 	}
 	
@@ -101,6 +96,11 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 		system.setContext(context);
 
 		context.setModule(this);
+		
+		for (EolImport import_ : getImports()) {
+			import_.setContext(context);
+		}
+		
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("null", null));
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("System",system));
 	}
@@ -270,4 +270,5 @@ public class EolLibraryModule extends AbstractModule implements IEolLibraryModul
 	public void setParent(IEolLibraryModule parent) {
 		this.parent = parent;
 	}
+
 }

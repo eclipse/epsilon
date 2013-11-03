@@ -203,7 +203,7 @@ public class EglPreprocessorModule extends EolModule {
 	
 	private static final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
 	static {
-		importConfiguration.put("eol", EolLibraryModule.class);
+		importConfiguration.put("eol", EolModule.class);
 		importConfiguration.put("egl", EglModule.class);
 	}
 	

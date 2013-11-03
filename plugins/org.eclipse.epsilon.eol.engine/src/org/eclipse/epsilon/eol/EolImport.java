@@ -19,6 +19,7 @@ import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.UriUtil;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class EolImport extends AbstractModuleElement{
@@ -107,6 +108,16 @@ public class EolImport extends AbstractModuleElement{
 	
 	public String getPath() {
 		return ast.getFirstChild().getText();
+	}
+	
+	public void setContext(IEolContext context) {
+		if (importedModule instanceof IEolLibraryModule) {
+			IEolLibraryModule module = (IEolLibraryModule) importedModule;
+			module.setContext(context);
+			for (EolImport import_ : module.getImports()) {
+				import_.setContext(context);
+			}
+		}
 	}
 	
 }

@@ -36,9 +36,11 @@ public interface IEolLibraryModule extends IModule{
 	
 	public void setParent(IEolLibraryModule parent);
 	
-	public List getImports();
+	public List<EolImport> getImports();
 	
 	public IEolContext getContext();
+	
+	public void setContext(IEolContext context);
 	
 	public List<ParseProblem> getParseProblems();
 	

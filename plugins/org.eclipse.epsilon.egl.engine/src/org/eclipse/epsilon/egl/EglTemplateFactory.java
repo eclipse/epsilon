@@ -31,7 +31,7 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class EglTemplateFactory {
 
-	protected final IEglContext context;
+	protected IEglContext context;
 	
 	protected URI root;
 	
@@ -68,6 +68,10 @@ public class EglTemplateFactory {
 	
 	public IEglContext getContext() {
 		return context;
+	}
+	
+	public void setContext(IEglContext context) {
+		this.context = context;
 	}
 	
 	/**

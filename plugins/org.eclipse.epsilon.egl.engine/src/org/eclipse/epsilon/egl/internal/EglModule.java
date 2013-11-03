@@ -37,6 +37,7 @@ import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolOperations;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 /**
@@ -116,7 +117,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	
 	private boolean parseAndPreprocess(EglLexer lexer, File file) throws Exception {
 		this.lexer = lexer;
-		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file);
+		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file, this);
 		parser = new EglParser(lexer, astFactory);
 		parser.parse();
 		ast = parser.getAST();
@@ -215,5 +216,12 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		children.addAll(preprocessorModule.getDeclaredOperations());
 		
 		return children;
+	}
+
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof IEglContext) {
+			this.context = (IEglContext) context;
+		}
 	}
 }
