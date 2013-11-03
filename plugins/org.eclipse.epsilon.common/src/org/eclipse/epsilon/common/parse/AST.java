@@ -20,6 +20,7 @@ import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
+import org.eclipse.epsilon.common.module.IModule;
 
 public class AST extends CommonTree {
 
@@ -31,6 +32,7 @@ public class AST extends CommonTree {
 	protected boolean imaginary;
 	protected List<Token> extraTokens = new ArrayList<Token>();
 	protected List<AST> descendants = null;
+	protected IModule module;
 	
 	public AST() {
 		super();
@@ -50,9 +52,25 @@ public class AST extends CommonTree {
 		super(token);
 		this.uri = uri;
 	}
-
-	public void setAnnotationsAst(AST annotations) {
+	
+	public AST(Token token, URI uri, IModule module) {
+		super(token);
+		this.uri = uri;
+		this.module = module;
+	}
+	
+	public IModule getModule() {
+		return module;
+	}
+	
+	public AST setModule(IModule module) {
+		this.module = module;
+		return this;
+	}
+	
+	public AST setAnnotationsAst(AST annotations) {
 		this.annotations = annotations;
+		return this;
 	}
 
 	public AST getAnnotationsAst() {
@@ -107,8 +125,9 @@ public class AST extends CommonTree {
 		return (AST) parent;
 	}
 	
-	public void setLine(int line) {
+	public AST setLine(int line) {
 		this.line = line;
+		return this;
 	}
 	
 	public int getLine() {
@@ -120,8 +139,9 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	public void setColumn(int column) {
+	public AST setColumn(int column) {
 		this.column = column;
+		return this;
 	}
 	
 	public int getColumn() {
@@ -144,10 +164,11 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	public void setNextSibling(AST sibling) {
+	public AST setNextSibling(AST sibling) {
 		if (parent != null && sibling != null) {
 			parent.getChildren().add(this.childIndex, sibling);
 		}
+		return this;
 	}
 	
 	public AST getChild(int i) {
@@ -166,7 +187,7 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	public void setFirstChild(AST child) {
+	public AST setFirstChild(AST child) {
 		if (getChildCount() == 0) {
 			addChild(child);
 			
@@ -174,6 +195,7 @@ public class AST extends CommonTree {
 			super.children.add(0, child);
 			freshenParentAndChildIndexes();
 		}
+		return this;
 	}
 	
 	public Region getRegion() {
@@ -256,8 +278,9 @@ public class AST extends CommonTree {
 		this.region = region;
 	}
 	
-	public void setImaginary(boolean imaginary) {
+	public AST setImaginary(boolean imaginary) {
 		this.imaginary = imaginary;
+		return this;
 	}
 	
 	public boolean isImaginary() {

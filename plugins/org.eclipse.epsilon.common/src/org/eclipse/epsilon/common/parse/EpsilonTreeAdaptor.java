@@ -15,24 +15,33 @@ import java.net.URI;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.eclipse.epsilon.common.module.IModule;
 
 
 public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 	
 	protected URI uri = null;
-
+	protected IModule module = null;
+	
 	public EpsilonTreeAdaptor(File file) {
 		if (file != null) {
 			this.uri = file.toURI();
 		}
+	}
+	
+	public EpsilonTreeAdaptor(File file, IModule module) {
+		if (file != null) {
+			this.uri = file.toURI();
+		}
+		this.module = module;
 	}
 
 	public EpsilonTreeAdaptor(URI uri) {
 		this.uri = uri;
 	}
 	
-    public AST create(Token token)
-    {
-        return new AST(token, uri);
+    public AST create(Token token) {
+        return new AST(token, uri, module);
     }
+    
 }
