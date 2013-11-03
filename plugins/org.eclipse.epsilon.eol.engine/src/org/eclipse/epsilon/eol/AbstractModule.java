@@ -139,7 +139,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		    
 			final Lexer lexer = createLexer(noTabsStream);
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
-			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri);
+			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri, this);
 
 			parser = createParser(stream);
 			parser.setDeepTreeAdaptor(adaptor);
