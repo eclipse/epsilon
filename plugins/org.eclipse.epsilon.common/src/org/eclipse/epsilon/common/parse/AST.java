@@ -47,7 +47,14 @@ public class AST extends CommonTree {
 			}
 		}
 	}
-
+	
+	public AST(Token token, AST real) {
+		super(token);
+		this.region = real.getRegion();
+		this.uri = real.getUri();
+		this.module = real.getModule();
+	}
+	
 	public AST(Token token, URI uri) {
 		super(token);
 		this.uri = uri;

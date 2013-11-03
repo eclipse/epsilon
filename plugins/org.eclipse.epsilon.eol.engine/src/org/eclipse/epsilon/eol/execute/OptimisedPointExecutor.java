@@ -93,7 +93,7 @@ public class OptimisedPointExecutor extends PointExecutor {
 						if (operationName.equals("forAll")) {
 							CommonToken notToken = new CommonToken(EolParser.OPERATOR);
 							notToken.setText("not");
-							AST notAst = new AST(notToken, null);
+							AST notAst = new AST(notToken, parametersAst);
 							notAst.addChild(parametersAst);
 							parametersAst = notAst;
 						}

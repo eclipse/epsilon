@@ -71,9 +71,9 @@ public class PointExecutor extends AbstractExecutor{
 					
 					// Transform x.y to x.collect(_iterator | _iterator.y)
 					IteratorOperation collectOperation = (IteratorOperation) getAbstractOperation(source, "collect", featureCallAst, context.getModelRepository().getOwningModel(source), context);
-					AST expressionAst = new AST(new CommonToken(EolParser.POINT, "."), null);
-					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, "_iterator"), null));
-					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, propertyName), null));
+					AST expressionAst = new AST(new CommonToken(EolParser.POINT, "."), featureCallAst);
+					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, "_iterator"), featureCallAst));
+					expressionAst.addChild(new AST(new CommonToken(EolParser.NAME, propertyName), featureCallAst));
 					
 					return collectOperation.execute(source, new Variable("_iterator", null, EolAnyType.Instance), expressionAst, context);
 				}

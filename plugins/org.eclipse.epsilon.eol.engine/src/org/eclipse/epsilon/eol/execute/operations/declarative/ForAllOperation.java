@@ -25,7 +25,7 @@ public class ForAllOperation extends SelectBasedOperation {
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
 		
-		AST negatedExpressionAst = new AST(new CommonToken(EolParser.OPERATOR, "not"), null);
+		AST negatedExpressionAst = new AST(new CommonToken(EolParser.OPERATOR, "not"), expressionAst);
 		negatedExpressionAst.addChild(expressionAst);
 		
 		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, negatedExpressionAst, context, true);
