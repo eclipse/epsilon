@@ -17,34 +17,6 @@ import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
 public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	/*
-	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
-		
-		EpsilonConsole.getInstance().clear();
-		
-		IEclModule module = new EclModule();
-		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return ;
-		
-		// Start executing
-		try { 
-			String subTask = "Comparing...";
-			progressMonitor.subTask(subTask);
-			progressMonitor.beginTask(subTask, 100);
-			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-			module.execute();
-			progressMonitor.done();
-			
-		} catch (EolRuntimeException e) {
-			module.getContext().getErrorStream().println(e.toString());
-			progressMonitor.setCanceled(true);
-		}
-		finally{
-			EclipseContextManager.teardown(module.getContext());
-			//module.getContext().getModelRepository().dispose();
-		}
-		
-	}*/
-	
 	@Override
 	public IEolExecutableModule createModule() {
 		return new EclModule();
