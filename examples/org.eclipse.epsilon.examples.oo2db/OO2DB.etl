@@ -124,7 +124,7 @@ operation DB!Table primaryKeyName() : String {
 }
 
 operation OO!Attribute valuesTableName() : String {
-	return self.owner.name + "_" + self.name.firstToUpperCase() + "Values";
+	return self.owner.name1 + "_" + self.name.firstToUpperCase() + "Values";
 }
 
 operation Any toDbType() : String {
