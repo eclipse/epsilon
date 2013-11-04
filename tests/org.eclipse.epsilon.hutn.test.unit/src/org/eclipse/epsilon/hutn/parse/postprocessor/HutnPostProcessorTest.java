@@ -14,6 +14,7 @@
  */
 package org.eclipse.epsilon.hutn.parse.postprocessor;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,6 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
 public abstract class HutnPostProcessorTest {
@@ -46,7 +46,7 @@ public abstract class HutnPostProcessorTest {
 	}
 	
 	protected static AST buildAst(int type, String text) {
-		final AST ast = new AST(new CommonToken(type, text), null);
+		final AST ast = new AST(new CommonToken(type, text), (URI)null);
 		
 //		ast.token.setType(type);
 //		if (text != null) ast.token.setText(text);

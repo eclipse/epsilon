@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.flock.model.loader;
 
+import java.net.URI;
 import java.util.Arrays;
 
 import org.antlr.runtime.CommonToken;
@@ -139,6 +140,6 @@ public abstract class LoaderTestHelper {
 	}
 	
 	static AST createAST(int token, String text) {
-		return new AST(new CommonToken(token, text), null);
+		return new AST(new CommonToken(token, text), (URI)null);
 	}
 }
