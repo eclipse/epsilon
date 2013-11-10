@@ -1,0 +1,11 @@
+<project default="main">
+	<taskdef resource="epsilontasks.xml"/>
+	<target name="main">
+		<epsilon.emf.register file="library.ecore"/>
+		<epsilon.emf.loadModel name="library" modelfile="library.model" metamodelUri="library" />
+		<epsilon.eol>
+			Book.all.first().title.println();
+			<model ref="library"/>
+		</epsilon.eol>
+	</target>
+</project>
