@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.emf.xml;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,15 +23,19 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
-public class XmlModel extends AbstractEmfModel {
+public class XmlModel extends AbstractEmfModel implements IOperationContributorProvider {
 	
 	public static String PROPERTY_MODEL_FILE = "modelFile";
 	public static String PROPERTY_XSD_FILE = "xsdFile";
@@ -127,6 +132,32 @@ public class XmlModel extends AbstractEmfModel {
 	@Override
 	public IPropertySetter getPropertySetter() {
 		return new XmlPropertySetter();
+	}
+
+	@Override
+	public OperationContributor getOperationContributor() {
+		return new OperationContributor() {
+			
+			@Override
+			public boolean contributesTo(Object target) {
+				return target instanceof EObject && 
+						((EObject) target).eClass().getEStructuralFeature("mixed") != null;
+			}
+			
+			public void addText(String text) {
+				EObject eObject = (EObject) target;
+				FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
+				FeatureMapUtil.addText(mixed, text);
+			}
+			
+			public void addText(String text, int index) {
+				EObject eObject = (EObject) target;
+				FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
+				FeatureMapUtil.addText(mixed, index, text);
+				
+			}
+			
+		};
 	}
 	
 	
