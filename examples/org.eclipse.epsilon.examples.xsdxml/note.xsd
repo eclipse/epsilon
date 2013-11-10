@@ -2,7 +2,7 @@
 <xs:schema xmlns="xsdxml" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="xsdxml">
 
 <xs:element name="note">
-  <xs:complexType>
+  <xs:complexType mixed="true">
     <xs:sequence>
       <xs:element name="to" type="xs:string"/>
       <xs:element name="from" type="xs:string"/>
