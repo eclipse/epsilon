@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<note
-    xmlns="http://www.w3schools.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<note xmlns="xsdxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <to>John</to>
   <from>Nick</from>
   <heading>Reminder</heading>

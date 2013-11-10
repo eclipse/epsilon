@@ -2,10 +2,10 @@
 <launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
 <booleanAttribute key="fine_grained_profiling" value="false"/>
 <listAttribute key="models">
-<listEntry value="#&#10;#Sun Nov 10 21:03:04 GMT 2013&#10;aliases=&#10;modelFile=/org.eclipse.epsilon.examples.xsdxml/note.xml&#10;xsdFile=/org.eclipse.epsilon.examples.xsdxml/note.xsd&#10;name=M&#10;cached=true&#10;type=XML&#10;storeOnDisposal=false&#10;readOnLoad=true&#10;"/>
+<listEntry value="#&#10;#Sun Nov 10 20:21:42 GMT 2013&#10;aliases=&#10;modelFile=/org.eclipse.epsilon.examples.xsdxml/newnote.xml&#10;xsdFile=/org.eclipse.epsilon.examples.xsdxml/note.xsd&#10;name=X&#10;cached=true&#10;type=XML&#10;storeOnDisposal=true&#10;readOnLoad=false&#10;"/>
 </listAttribute>
 <booleanAttribute key="profile_model_loading" value="false"/>
 <booleanAttribute key="profiling_enabled" value="false"/>
 <booleanAttribute key="reset_profiler" value="false"/>
-<stringAttribute key="source" value="/org.eclipse.epsilon.examples.xsdxml/note.eol"/>
+<stringAttribute key="source" value="/org.eclipse.epsilon.examples.xsdxml/createnote.eol"/>
 </launchConfiguration>

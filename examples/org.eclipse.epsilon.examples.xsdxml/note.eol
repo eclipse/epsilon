@@ -4,3 +4,7 @@ var note = NoteType.all.first();
 ("To: " + note.to).println();
 ("Heading: " + note.heading).println();
 ("Body: " + note.body).println();
+
+var root = DocumentRoot.all.first();
+root.xSISchemaLocation.println();
+root.xMLNSPrefixMap.println();
