@@ -109,14 +109,4 @@
         classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"
       />
 
-     <taskdef
-     	name="epsilon.emf.loadModel"
-        classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask"
-      />
-      
-     <taskdef
-     	name="epsilon.emf.register"
-        classname="org.eclipse.epsilon.workflow.tasks.emf.RegisterTask"
-      />
-      
 </antlib>

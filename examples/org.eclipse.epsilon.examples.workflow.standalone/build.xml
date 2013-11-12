@@ -1,5 +1,6 @@
 <project default="main">
-	<taskdef resource="epsilontasks.xml"/>
+	<taskdef resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
+	<taskdef resource="org/eclipse/epsilon/workflow/tasks/emf/tasks.xml"/>
 	<target name="main">
 		<epsilon.emf.register file="library.ecore"/>
 		<epsilon.emf.loadModel name="library" modelfile="library.model" metamodelUri="library" />
