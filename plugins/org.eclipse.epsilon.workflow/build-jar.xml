@@ -1,5 +1,8 @@
 <project default="default">
 	<target name="default">
+		
+		<xslt style="pluginxml2tasksxml.xslt" in="plugin.xml" out="ant/org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
+		
 		<echo>Building ANT jar</echo>
 		<mkdir dir="lib"/>
 		<jar destfile="lib/org.eclipse.epsilon.workflow.jar" basedir="bin"></jar>
