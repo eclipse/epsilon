@@ -23,6 +23,7 @@
 			<fileset dir="../org.eclipse.epsilon.etl.engine/bin/"/>
 			<fileset dir="../org.eclipse.epsilon.evl.engine/bin/"/>
 			<fileset dir="../org.eclipse.epsilon.epl.engine/bin/"/>
+			<fileset dir="../org.eclipse.epsilon.eunit.engine/bin/"/>						
 			<fileset dir="../org.eclipse.epsilon.erl.engine/bin/"/>
 			<fileset dir="../org.eclipse.epsilon.ewl.engine/bin/"/>
 			<fileset dir="../org.eclipse.epsilon.flock.engine/bin/"/>
@@ -64,24 +65,24 @@
 		<!-- JARs -->
 		
 		<echo>Building Standalone jar</echo>
-		<jar destfile="epsilon-${version}-standalone.jar">
+		<jar destfile="epsilon-${version}-core.jar">
 			<group refid="core"/>
 		</jar>
 		
 		<echo>Building Standalone + EMF jar</echo>
-		<jar destfile="epsilon-${version}-emf-standalone.jar">
+		<jar destfile="epsilon-${version}-emf.jar">
 			<group refid="core" />
 			<group refid="emf" />
 		</jar>
 		
 		<echo>Building Standalone ANT jar</echo>
-		<jar destfile="epsilon-${version}-ant-standalone.jar">
+		<jar destfile="epsilon-${version}-ant.jar">
 			<group refid="core" />
 			<group refid="workflow" />
 		</jar>
 		
 		<echo>Building Standalone ANT + EMF jar</echo>
-		<jar destfile="epsilon-${version}-ant-emf-standalone.jar">
+		<jar destfile="epsilon-${version}-ant-emf.jar">
 			<group refid="core" />
 			<group refid="workflow-emf" />
 		</jar>
