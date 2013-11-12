@@ -39,6 +39,7 @@ public class XmlModel extends AbstractEmfModel implements IOperationContributorP
 	
 	public static String PROPERTY_MODEL_FILE = "modelFile";
 	public static String PROPERTY_XSD_FILE = "xsdFile";
+	protected MixedElementOperationContributor mixedElementOperationContributor = new MixedElementOperationContributor();
 	
 	protected String modelFile = "";
 	protected String xsdFile = "";
@@ -136,30 +137,7 @@ public class XmlModel extends AbstractEmfModel implements IOperationContributorP
 
 	@Override
 	public OperationContributor getOperationContributor() {
-		return new OperationContributor() {
-			
-			@Override
-			public boolean contributesTo(Object target) {
-				return target instanceof EObject && 
-						((EObject) target).eClass().getEStructuralFeature("mixed") != null;
-			}
-			
-			public void addText(String text) {
-				EObject eObject = (EObject) target;
-				FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
-				FeatureMapUtil.addText(mixed, text);
-			}
-			
-			public void addText(String text, int index) {
-				EObject eObject = (EObject) target;
-				FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
-				FeatureMapUtil.addText(mixed, index, text);
-				
-			}
-			
-		};
+		return mixedElementOperationContributor;
 	}
-	
-	
 	
 }
