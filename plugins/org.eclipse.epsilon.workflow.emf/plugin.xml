@@ -24,5 +24,10 @@
             library="lib/org.eclipse.epsilon.workflow.emf.jar"
             name="epsilon.emf.loadRegisteredMetamodel">
       </antTask>
+      <antTask
+            class="org.eclipse.epsilon.workflow.tasks.emf.LoadXmlModelTask"
+            library="lib/org.eclipse.epsilon.workflow.emf.jar"
+            name="epsilon.emf.loadXmlModel">
+      </antTask>
    </extension>
 </plugin>

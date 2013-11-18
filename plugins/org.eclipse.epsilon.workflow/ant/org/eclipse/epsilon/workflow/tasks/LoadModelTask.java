@@ -23,6 +23,7 @@ public class LoadModelTask extends EpsilonTask{
 
 	protected String name;
 	protected String type;
+	protected String impl;
 	protected String config;
 	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
 	
@@ -31,9 +32,27 @@ public class LoadModelTask extends EpsilonTask{
 		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
 		
 		if (profile) Profiler.INSTANCE.start("Load model : " + name);
+		
 		IModel model = createModel(type);
+		
+		if (model == null) {
+			if (impl != null) {
+				try {
+					model = (IModel) Class.forName(impl).newInstance();
+				}
+				catch (Exception ex) {
+					throw new BuildException(ex);
+				}
+			}
+			else {
+				throw new BuildException("Could not instantiate a model of type " + type + ". " + 
+						"This is either due to a typo or because you're running ANT outside Eclipse. " +
+						"Try setting the impl property of the task to the fully-qualified name of the " +
+						"class that implements the IModel interface.");
+			}
+		}
+		
 		try {
-			//model.load(getStringProperties(), getBaseDir().getAbsolutePath());
 			model.load(getStringProperties(), null);
 			model.setName(name);
 			getProjectRepository().addModel(model);
@@ -44,6 +63,14 @@ public class LoadModelTask extends EpsilonTask{
 		finally {
 			if (profile) Profiler.INSTANCE.stop("Load model : " + name);
 		}
+	}
+	
+	public String getImpl() {
+		return impl;
+	}
+	
+	public void setImpl(String impl) {
+		this.impl = impl;
 	}
 	
 	protected StringProperties getStringProperties() {

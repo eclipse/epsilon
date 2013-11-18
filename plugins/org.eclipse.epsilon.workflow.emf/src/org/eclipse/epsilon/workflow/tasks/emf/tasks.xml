@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><antlib><taskdef name="epsilon.emf.loadModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask"/><taskdef name="epsilon.emf.register" classname="org.eclipse.epsilon.workflow.tasks.emf.RegisterTask"/><taskdef name="epsilon.emf.loadRegisteredMetamodel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModelTask"/></antlib>
+<?xml version="1.0" encoding="UTF-8"?>
+<antlib>
+	<taskdef name="epsilon.emf.loadModel"
+		classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask" />
+	<taskdef name="epsilon.emf.register"
+		classname="org.eclipse.epsilon.workflow.tasks.emf.RegisterTask" />
+	<taskdef name="epsilon.emf.loadRegisteredMetamodel"
+		classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModelTask" />
+	<taskdef name="epsilon.emf.loadXmlModel"
+		classname="org.eclipse.epsilon.workflow.tasks.emf.LoadXmlModelTask" />
+</antlib>
