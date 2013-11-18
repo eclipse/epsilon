@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 Antonio García-Domínguez.
+ * Copyright (c) 2012 Antonio Garc��a-Dom��nguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     Antonio García-Domínguez - initial API and implementation
+ *     Antonio Garc��a-Dom��nguez - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
@@ -25,11 +25,11 @@ import org.w3c.dom.NodeList;
 /**
  * Checks that the &lt;antlib&gt; document for the workflow tasks is valid.
  *
- * @author Antonio García-Domínguez
+ * @author Antonio Garc��a-Dom��nguez
  */
 public class AntLibTests {
 
-	private static final String ANTLIB_PATH = "/org/eclipse/epsilon/workflow/tasks/epsilontasks.xml";
+	private static final String ANTLIB_PATH = "/org/eclipse/epsilon/workflow/tasks/tasks.xml";
 
 	@Test
 	public void antlibIsValid() throws Exception {
