@@ -34,6 +34,7 @@ import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 
 public class EglContext extends EolContext implements IEglContext {
 
@@ -54,6 +55,8 @@ public class EglContext extends EolContext implements IEglContext {
 	private IEglContext parentContext;
 	
 	public EglContext(EglTemplateFactory templateFactory) {
+		super(new EolClasspathNativeTypeDelegate(EglContext.class.getClassLoader()));
+		
 		this.templateFactory = templateFactory;
 		this.traceManager = new TraceManager(new PositionInParentReporter());
 		

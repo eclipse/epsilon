@@ -42,8 +42,6 @@ public class EolContext implements IEolContext{
 	protected PrintStream outputStream = System.out;
 	protected PrintStream errorStream = System.err;
 	protected IModule module = null;
-	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate();
-	protected List<IToolNativeTypeDelegate> nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
 	protected ExtendedProperties extendedProperties = new ExtendedProperties();
@@ -51,7 +49,19 @@ public class EolContext implements IEolContext{
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
 	protected IPropertyAccessRecorder propertyAccessRecorder = new NullPropertyAccessRecorder();
+	// The following members are initialised in the constructor
+	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
+	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
 	
+	public EolContext() {
+		this(new EolClasspathNativeTypeDelegate());
+	}
+	
+	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
+		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
+		this.nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
+	}
+
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return methodContributorRegistry;
 	}
@@ -102,9 +112,6 @@ public class EolContext implements IEolContext{
 
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
 		this.executorFactory = executorFactory;
-	}
-
-	public EolContext(){
 	}
 	
 	public ModelRepository getModelRepository() {
