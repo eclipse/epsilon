@@ -41,13 +41,24 @@
                                        read="false" store="true"/>
  	</target>
  	
-	<target name="main" depends="loadModels">		
-		<epsilon.etl src="OO2DB.etl">
+	<target name="main" depends="loadModels">
+		<epsilon.etl src="OO2DB.etl" exporttransformationtrace="OO2DBTrace">
 			<model ref="OO"/>
 			<model ref="OO2DB"/>
 			<model ref="DB"/>
 			<model ref="Trace"/>
 		</epsilon.etl>
+		
+		<epsilon.eol>
+			<uses ref="OO2DBTrace"/>
+			<model ref="OO"/>
+			<model ref="DB"/>
+			for (t in OO2DBTrace.transformations) {
+				("Class " + t.source.name + " was transformed to " +
+				"table " + t.targets.first().name).println();
+			}
+		</epsilon.eol>
+		
 	</target>
 </project>
 
