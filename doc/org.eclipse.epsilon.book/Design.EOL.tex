@@ -771,7 +771,7 @@ b.println();
 
 \paragraph{Native Object Property Assignment}
 
-When the left hand side of the assignment is a property of a native object, deciding on the legality and providing the semantics of the assignment is delegated to the execution engine. For example, in a Java-based execution engine, given that x is a native object, the statement \emph{x.y = a} may be interpreted as \emph{x.setY(a)} or if x is an instance of a map \emph{x.put(''x'',a)}. By contrast, in a C\# implementation, it can be interpreted as \emph{x.y = a} since
+When the left hand side of the assignment is a property of a native object, deciding on the legality and providing the semantics of the assignment is delegated to the execution engine. For example, in a Java-based execution engine, given that x is a native object, the statement \emph{x.y = a} may be interpreted as \emph{x.setY(a)} or if x is an instance of a map \emph{x.put(''y'',a)}. By contrast, in a C\# implementation, it can be interpreted as \emph{x.y = a} since
 the language natively supports properties in classes.
 
 \paragraph{Model Element Property Assignment}
@@ -809,7 +809,7 @@ rule Attribute2Column
   to c : DB!Column {
   
   c.name = a.name;
-  --c.owningTable = c.owningClass;
+  //c.owningTable = c.owningClass;
   c.owningTable ::= c.owningClass;
 }
 
@@ -860,10 +860,10 @@ A while statement consists of a condition and a block of statements which are ex
 \begin{lstlisting}[float=h, caption=Example of a while statement, label=lst:WhileStatement, numbers=left, language=EOL]
 var i : Integer = 0;
 while (i < 5) {
-  -- both lines print the same thing
+  // both lines print the same thing
   i.println();
   (loopCount - 1).println();
-  -- increment the counter
+  // increment the counter
   i = i+1;
 }
 \end{lstlisting}
@@ -976,7 +976,7 @@ Quite often, during a model management operation it is necessary to associate mo
 
 As the Tree metamodel doesn't support a \emph{depth} property in the Tree metaclass, each Tree has to be associated with its calculated depth (line \ref{line:PutDepthInMap}) using the \emph{depths} map defined in line \ref{line:DeclareMap}. Another approach would be to extend the Tree metamodel to support the desired \emph{depth} property; however, applying this technique every time an additional property is needed for some model management operation would quickly pollute the metamodel with properties of secondary importance.
 
-To simplify the code required in such cases, EOL provides the concept of \emph{extended properties}. In terms of concrete syntax, an extended property is a normal property, the name of which starts with the tilde character (\verb|~|). With regards to its execution semantics, the first time the value of an extended property of an object is assigned, the property is created and associated with the object. Then, the property can be accessed as a normal property. Listing \ref{lst:ExtendedProperties} demonstrates using a $~$\emph{depth} extended property to eliminate the need for using the \emph{depths} map in Listing \ref{lst:NoExtendedProperties}.
+To simplify the code required in such cases, EOL provides the concept of \emph{extended properties}. In terms of concrete syntax, an extended property is a normal property, the name of which starts with the tilde character (\verb|~|). With regards to its execution semantics, the first time the value of an extended property of an object is assigned, the property is created and associated with the object. Then, the property can be accessed as a normal property. If an extended property is accessed before it is assigned, it returns \emph{null}. Listing \ref{lst:ExtendedProperties} demonstrates using a $~$\emph{depth} extended property to eliminate the need for using the \emph{depths} map in Listing \ref{lst:NoExtendedProperties}.
 
 \begin{lstlisting}[float=tbp, caption=A simplified version of Listing \ref{lst:NoExtendedProperties} using extended properties, label=lst:ExtendedProperties, language=EOL]
 for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
@@ -1026,7 +1026,7 @@ Model management operations can be executed in a number of runtime environments 
 			
 	 		choose(message : String, options : Sequence, [default : Any]) : Any & Prompts the user to select one of the options \\\hline
 			
-			chooseMany(message : String options : Sequence, [default : Sequence]) : Sequence & Prompts the user to select one or more of the options \\\hline
+			chooseMany(message : String, options : Sequence, [default : Sequence]) : Sequence & Prompts the user to select one or more of the options \\\hline
 			
 \end{longtabu}
 
