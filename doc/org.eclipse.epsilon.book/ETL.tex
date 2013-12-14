@@ -68,7 +68,7 @@ Similarly to ECL, an ETL module can import a number of other ETL modules. In thi
 
 When an ETL module is executed, the \emph{pre} blocks of the module are executed first in the order in which they have been specified. 
 
-Following that, each \emph{non-abstract} and \emph{non-lazy} rule is executed for all the elements on which it is applicable. To be applicable on a particular element, the element must have a kind-of relationship with the type defined in the rule's \emph{sourceParameter} and must also satisfy the \emph{guard} of the rule (and all the rules it extends). When a rule is executed on an applicable element, the target elements are initially created by instantiating the \emph{targetParameters} of the rules, and then their contents are populated using the EOL statements of the \emph{body} of the rule.
+Following that, each \emph{non-abstract} and \emph{non-lazy} rule is executed for all the elements on which it is applicable. To be applicable on a particular element, the element must have a type-of relationship with the type defined in the rule's \emph{sourceParameter} (or a kind-of relationship if the rule is annotated as \emph{@greedy}) and must also satisfy the \emph{guard} of the rule (and all the rules it extends). When a rule is executed on an applicable element, the target elements are initially created by instantiating the \emph{targetParameters} of the rules, and then their contents are populated using the EOL statements of the \emph{body} of the rule.
 
 Finally, when all rules have been executed, the \emph{post} blocks of the module are executed in the order in which they have been declared.
 
