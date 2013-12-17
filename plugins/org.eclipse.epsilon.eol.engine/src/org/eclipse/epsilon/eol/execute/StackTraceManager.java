@@ -54,11 +54,11 @@ public class StackTraceManager implements IExecutionListener {
 	
 	protected String toString(AST ast) {
 		
-		String location = null;
+		String location = "unknown";
 		if (ast.getFile() != null) {
 			location = ast.getFile().getAbsolutePath();
 		}
-		else {
+		else if (ast.getUri() != null) {
 			location = ast.getUri().toString();
 		}
 		
