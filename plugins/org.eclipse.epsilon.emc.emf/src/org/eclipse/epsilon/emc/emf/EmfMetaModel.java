@@ -59,6 +59,7 @@ public class EmfMetaModel extends AbstractEmfModel {
 		load();
 	}
 	
+	/*
 	Registry registry = null;
 	@Override
 	protected Registry getPackageRegistry() {
@@ -67,7 +68,7 @@ public class EmfMetaModel extends AbstractEmfModel {
 			registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		}
 		return registry;
-	}
+	}*/
 
 	public boolean store() {
 		return false;

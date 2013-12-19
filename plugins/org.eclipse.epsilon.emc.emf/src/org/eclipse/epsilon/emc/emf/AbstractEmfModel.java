@@ -30,7 +30,9 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -99,11 +101,24 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	public void addMetamodelUri(String nsUri) {
-		modelImpl.getResourceSet().getPackageRegistry().put(nsUri, EPackage.Registry.INSTANCE.get(nsUri));
+		getPackageRegistry().put(nsUri, EPackage.Registry.INSTANCE.get(nsUri));
 	}
 	
+	protected Registry registry = null;
+	
 	protected Registry getPackageRegistry() {
-		return modelImpl.getResourceSet().getPackageRegistry();
+		
+		if (registry == null) {
+			if (modelImpl.getResourceSet() == null) {
+				registry = new EPackageRegistryImpl();
+				registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
+			}
+			else {
+				registry = modelImpl.getResourceSet().getPackageRegistry();
+			}
+		}
+		
+		return registry;
 	}
 	
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
@@ -231,6 +246,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected Collection<EObject> allContentsFromModel(){
 		final List<EObject> allInstances = new ArrayList<EObject>();
 		
+		for (Resource resource : getResources()) {
+			Iterator<EObject> it = resource.getAllContents();
+			while (it.hasNext()){
+				allInstances.add(it.next());
+			}
+		}
+		
+		/*
 		if (!expand) {
 			Iterator<EObject> it = modelImpl.getAllContents();
 			while (it.hasNext()){
@@ -247,13 +270,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 				resources = modelImpl.getResourceSet().getResources();
 			}
 				
-			for (Resource resource : resources) {
-				Iterator<EObject> it = resource.getAllContents();
-				while (it.hasNext()){
-					allInstances.add(it.next());
-				}
-			}
-		}
+			
+		}*/
 			
 		return allInstances;
 	}
@@ -360,7 +378,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public void disposeModel() {
 		//modelImpl.unload();
 		//resourceMap.remove("platform:/resource" + relativeModelFile);
-
+		registry = null;
 		if (modelImpl != null) {
 			//modelImpl.unload();
 			EmfModelResourceFactory.getInstance().removeCachedResource(modelImpl.getURI());
@@ -389,9 +407,19 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		this.modelImpl = modelImpl;
 	}
 
-	//FIXME : If resource set = null look only in modelImpl
+	protected List<Resource> getResources() {
+		List<Resource> resources = new ArrayList<Resource>();
+		if (expand && modelImpl.getResourceSet() != null) {
+			resources.addAll(modelImpl.getResourceSet().getResources());
+		}
+		else {
+			resources.add(modelImpl);
+		}
+		return resources;
+	}
+	
 	public Object getElementById(String id) {
-		for (Resource resource : modelImpl.getResourceSet().getResources()) {
+		for (Resource resource : getResources()) {
 			Object instance = resource.getEObject(id);
 			if (instance != null) return instance;
 		}
