@@ -110,8 +110,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		if (registry == null) {
 			if (modelImpl.getResourceSet() == null) {
-				registry = new EPackageRegistryImpl();
-				registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
+				registry = EPackage.Registry.INSTANCE; 
+				//new EPackageRegistryImpl();
+				//registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 			}
 			else {
 				registry = modelImpl.getResourceSet().getPackageRegistry();
