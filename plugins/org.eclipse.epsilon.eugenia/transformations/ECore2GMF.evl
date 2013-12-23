@@ -302,6 +302,16 @@ context EClass {
 			+ ' exists in link class ' + self.name
 		
 	}
+
+	constraint LinkTargetAndSourceMustBeDifferent {
+
+		guard : self.satisfies('LinkSourceExists') and self.satisfies('LinkTargetExists')
+
+		check : self.getAnnotationValue('gmf.link', 'source') <> self.getAnnotationValue('gmf.link', 'target')
+
+		message : 'Source and target attributes must be different in link class ' + self.name
+
+	}
 	
 	critique CanBeVisualized {
 		
