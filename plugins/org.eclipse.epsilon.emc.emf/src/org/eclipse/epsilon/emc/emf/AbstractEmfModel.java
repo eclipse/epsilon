@@ -14,6 +14,7 @@ package org.eclipse.epsilon.emc.emf;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -372,6 +373,18 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 
 		return true;
+	}
+	
+	public boolean store(OutputStream os) {
+		if (modelImpl == null) return false;
+		
+		try {
+			modelImpl.save(os, null);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	//TODO : See if we can unload the model to save memory
