@@ -425,3 +425,8 @@ operation ECore!EModelElement getAnnotation(name : String) : ECore!EAnnotation {
 operation ECore!EModelElement isAnnotatedAs(name : String) : Boolean {
 	return self.getAnnotation(name).isDefined();
 }
+
+@cached
+operation ECore!EReference isLabelled() : Boolean {
+	return false;
+}
