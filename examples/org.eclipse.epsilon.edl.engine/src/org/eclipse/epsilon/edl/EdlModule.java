@@ -38,8 +38,7 @@ public class EdlModule extends ErlModule {
 	
 	protected List<ProcessRule> declaredProcessRules = null;
 	protected IEolContext context = null;
-	
-	
+
 	public static void main(String[] args) throws Exception {
 		EdlModule module = new EdlModule();
 		module.parse(new File("resources/test.edl"));
@@ -123,7 +122,12 @@ public class EdlModule extends ErlModule {
 	public IEolContext getContext(){
 		return context;
 	}
-	
+
+	@Override
+	public void setContext(IEolContext context) {
+		this.context = context;
+	}
+
 	@Override
 	public List<ModuleElement> getChildren(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
@@ -155,5 +159,4 @@ public class EdlModule extends ErlModule {
 	public List<ProcessRule> getDeclaredProcessRules() {
 		return declaredProcessRules;
 	}
-	
 }
