@@ -21,8 +21,6 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class ContactsModel extends Model implements ISearchableModel {
 	
 	public static void main(String[] args) throws Exception {
-		
-		
 		ContactsModel model = new ContactsModel();
 		model.setName("M");
 		model.addContact(new Contact("John", "York"));
@@ -33,7 +31,6 @@ public class ContactsModel extends Model implements ISearchableModel {
 		module.parse("M.find(c:Contact|c.area = 'York').size().println();");
 		module.getContext().getModelRepository().addModel(model);
 		module.execute();
-		
 	}
 	
 	protected List<Contact> contacts = new ArrayList<Contact>();
@@ -83,6 +80,13 @@ public class ContactsModel extends Model implements ISearchableModel {
 		throw new EolRuntimeException("Only queries of the form find(c:Contact | c.area = <value>) are supported in this driver.");
 	}
 	
+	@Override
+	public Object findOne(Variable iterator, AST ast, IEolContext context)
+			throws EolRuntimeException {
+		List<?> results = (List<?>) find( iterator,  ast,  context).iterator().next();
+		return results.size() == 0 ? null : results.get(0);
+	}
+
 	@Override
 	public void load() throws EolModelLoadingException {
 		
@@ -164,7 +168,4 @@ public class ContactsModel extends Model implements ISearchableModel {
 	public boolean store() {
 		return false;
 	}
-
-
-
 }
