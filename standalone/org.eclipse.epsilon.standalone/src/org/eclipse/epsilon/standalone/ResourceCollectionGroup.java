@@ -6,20 +6,21 @@ import java.util.List;
 
 import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.ResourceCollection;
 
 public class ResourceCollectionGroup extends DataType implements ResourceCollection {
 	
 	protected List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
 	
-	public Iterator<?> iterator() {
+	public Iterator<Resource> iterator() {
 		if (isReference()) {
 			return ((ResourceCollectionGroup) getCheckedRef(getProject())).iterator();
 		}
 		
-		ArrayList<Object> resources = new ArrayList<Object>();
+		ArrayList<Resource> resources = new ArrayList<Resource>();
 		for (ResourceCollection resourceCollection : resourceCollections) {
-			Iterator<?> iterator = resourceCollection.iterator();
+			Iterator<Resource> iterator = resourceCollection.iterator();
 			while (iterator.hasNext()) {
 				resources.add(iterator.next());
 			}
