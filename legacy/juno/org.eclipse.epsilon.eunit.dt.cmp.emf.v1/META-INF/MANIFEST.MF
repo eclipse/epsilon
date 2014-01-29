@@ -7,7 +7,7 @@ Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.eunit.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.emf.compare.diff,
- org.eclipse.emf.compare.match,
+ org.eclipse.emf.compare.diff;bundle-version="[1.1.1,2.0.0)",
+ org.eclipse.emf.compare.match;bundle-version="[1.1.1,2.0.0)",
  org.eclipse.epsilon.common.dt
 Export-Package: org.eclipse.epsilon.eunit.dt.cmp.emf
