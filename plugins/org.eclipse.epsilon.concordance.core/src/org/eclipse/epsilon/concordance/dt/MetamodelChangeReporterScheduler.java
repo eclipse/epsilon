@@ -60,10 +60,10 @@ public class MetamodelChangeReporterScheduler {
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
-			schedule(1000);
-			
 			schedulee.pollRegistry();
-					
+
+			schedule(1000);
+
 			return Status.OK_STATUS;
 		}
 	}
