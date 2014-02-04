@@ -71,7 +71,7 @@ In EGL, user-defined operations are defined in dynamic sections, but may mix sta
 \begin{lstlisting}[float=tbp, caption=Using an operation to specify the text generated for a declaration of a Java class., label=lst:egl_operation, language=EGL]
 [% c.declaration(); %]
 [% operation Class declaration() { %]
-[%=self.visibility] class [%=self.name%] {}
+[%=self.visibility%] class [%=self.name%] {}
 [% } %]
 \end{lstlisting}
 
@@ -81,7 +81,7 @@ When a user-defined operation is invoked, any static or dynamic sections contain
 [%=c.declaration()%]
 [% @template
    operation Class declaration() { %]
-[%=self.visibility] class [%=self.name%] {}
+[%=self.visibility%] class [%=self.name%] {}
 [% } %]
 \end{lstlisting}
 
