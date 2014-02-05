@@ -233,12 +233,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public void loadModelFromUri() throws EolModelLoadingException {
 		ResourceSet resourceSet = createResourceSet();
 		
+        // Check if global package registry contains the EcorePackage
 		if (EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI) == null) {
 			EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		}
 		
 		determinePackagesFrom(resourceSet);
 		
+		// Note that AbstractEmfModel#getPackageRegistry() is not usable yet, as modelImpl is not set
 		for (EPackage ep : packages) {
 			String nsUri = ep.getNsURI();
 			if (nsUri == null || nsUri.trim().length() == 0) {

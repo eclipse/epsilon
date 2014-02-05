@@ -31,9 +31,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -106,16 +104,23 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected Registry registry = null;
-	
+
+	/**
+	 * Get the (cached) package registry belonging to the model implementation,
+	 * if no registry is available the global one is provided
+	 * 
+	 * @return the (global) package registry
+	 */
 	protected Registry getPackageRegistry() {
 		
 		if (registry == null) {
 			if (modelImpl.getResourceSet() == null) {
-				registry = EPackage.Registry.INSTANCE; 
+				registry = EPackage.Registry.INSTANCE;
 				//new EPackageRegistryImpl();
 				//registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 			}
 			else {
+				// By default getPackageRegistry() returns/creates a registry backed by the global registry
 				registry = modelImpl.getResourceSet().getPackageRegistry();
 			}
 		}

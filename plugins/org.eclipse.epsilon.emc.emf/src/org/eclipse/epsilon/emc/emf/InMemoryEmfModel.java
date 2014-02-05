@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class InMemoryEmfModel extends EmfModel {
@@ -59,21 +58,21 @@ public class InMemoryEmfModel extends EmfModel {
 		modelImpl.getResourceSet().setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
 		
 		if (ePackages == null || ePackages.isEmpty()) {
+			// No additional packages are provided, so just use the global registry,
+			// instead of the delegate registry that ResourceSetImpl would create
 			modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
 		}
 		else {
-			modelImpl.getResourceSet().setPackageRegistry(new EPackageRegistryImpl(EPackage.Registry.INSTANCE));
 			for (EPackage ePackage : ePackages) {
-				modelImpl.getResourceSet().getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+				getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 				
 				//Added : Collect dependencies
 				
 				List<EPackage> dependencies =  new ArrayList<EPackage>();
 				EmfUtil.collectDependencies(ePackage, dependencies);
 				for (EPackage dependency : dependencies) {
-					modelImpl.getResourceSet().getPackageRegistry().put(dependency.getNsURI(), dependency);	
+					getPackageRegistry().put(dependency.getNsURI(), dependency);	
 				}
-				
 			}
 		}
 		
