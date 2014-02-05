@@ -388,7 +388,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return "EmfModel [name=" + getName() + "]";
 	}
 
-	private void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
+	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
 		packages = new ArrayList<EPackage>();
 
 		for (URI metamodelFileUri : this.metamodelFileUris) {
