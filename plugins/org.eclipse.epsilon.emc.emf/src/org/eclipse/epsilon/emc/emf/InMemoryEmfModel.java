@@ -54,13 +54,21 @@ public class InMemoryEmfModel extends EmfModel {
 		setName(name);
 		this.modelImpl = modelImpl;
 		this.expand = getExpand();
-		
-		modelImpl.getResourceSet().setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
-		
+
+		// If there is no ResourceSet we cannot register or call the resource creation factory
+		if(modelImpl.getResourceSet() != null) {
+			modelImpl.getResourceSet().setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
+		}
+
 		if (ePackages == null || ePackages.isEmpty()) {
 			// No additional packages are provided, so just use the global registry,
 			// instead of the delegate registry that ResourceSetImpl would create
-			modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
+			
+			// If there is no ResourceSet available, AbstractEmfModel#getPackageRegistry()
+			// already returns the global registry, so no need to worry about this
+			if(modelImpl.getResourceSet() != null) {
+				modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
+			}
 		}
 		else {
 			for (EPackage ePackage : ePackages) {
