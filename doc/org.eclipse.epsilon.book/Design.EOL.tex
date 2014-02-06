@@ -123,6 +123,8 @@ In line \ref{line:PreCondition} the \emph{add} operation defines a pre-condition
 
 EOL supports caching the results of parameter-less operations using the \emph{@cached} simple annotation. In the following example, the Fibonacci number of a given Integer is calculated using the \emph{fibonacci} recursive operation displayed in Listing \ref{lst:Fibonacci}. Since the \emph{fibonacci} operation is declared as \emph{cached}, it is only executed once for each distinct Integer and subsequent calls on the same target return the cached result. Therefore, when invoked in line \ref{line:FibonnaciCall}, the body of the operation is called 16 times. By contrast, if no \emph{@cached} annotation was specified, the body of the operation would be called recursively 1973 times. This feature is particularly useful for performing queries on large models and caching their results without needing to introduce explicit variables that store the cached results.
 
+Note that the cached result is not copied before it is returned, this has some implecations for returned lists of objects. For example, if a returned Set is modified, next time this modfied Set is returned instead of the original Set. If the Set needs to be modfied, first copy its contents into a new local Set.
+
 \begin{lstlisting}[float=tbp, caption=Calculating the Fibonacci number using a cached operation, label=lst:Fibonacci, language=EOL]
 15.fibonacci().println(); /*@\label{line:FibonnaciCall}@*/
 

@@ -39,21 +39,20 @@ A match rule has three parts. The \emph{guard} part is an EOL expression or stat
 
 The concrete syntax of a match-rule is displayed in Listing \ref{lst:MatchRuleConcreteSyntax}.
 
-\begin{lstlisting}[caption=Concrete Syntax of a MatchRule, label=lst:MatchRuleConcreteSyntax, language=ECL]
-
+\begin{lstlisting}[caption=Concrete Syntax of a MatchRule, label=lst:MatchRuleConcreteSyntax, language=ECL, escapechar=!]
 (@lazy)?
 (@greedy)?
 (@abstract)? 
-rule <name> 
-	match <leftParameterName>:<leftParameterType>
-	with <rightParameterName>:<rightParameterType>
-	(extends (<ruleName>,)*<ruleName>)? {
+rule !\textit{<name>}!
+	match !\textit{<leftParameterName>}\textbf{:}\textit{<leftParameterType>}!
+	with !\textit{<rightParameterName>}\textbf{:}\textit{<rightParameterType>}!
+	(extends !\textit{<ruleName>}!(!\textbf{,} \textit{<ruleName>}!)*)? {
 	
-	(guard (:expression)|({statementBlock}))?
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	compare (:expression)|({statementBlock})
+	compare (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!)
 	
-	(do {statementBlock})?
+	(do !\textbf{\{}\textit{statementBlock}\textbf{\}}!)?
 	
 }
 \end{lstlisting}

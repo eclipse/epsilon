@@ -61,27 +61,27 @@ Listing \ref{lst:FlockConcreteSyntax} demonstrates the concrete syntax of the Fl
 
 Migrate rules can specify a list of features that conservative copy will ignore (\texttt{ignoring}), and a \texttt{body} containing a sequence of at least one EOL statement. Note that a migrate rule must have a list of ignored features, or a body, or both.
 
-\begin{lstlisting}[caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock]
+\begin{lstlisting}[caption={Concrete syntax of Flock retypings, deletions and migrate rules}, label=lst:FlockConcreteSyntax, language=Flock, escapechar=!]
 (@strict)?
-retype <originalType> to <evolvedType>
-(when (:<eolExpression>)|({<eolStatement>+}))?
+retype !\textit{<originalType>}! to !\textit{<evolvedType>}!
+(when (!\textbf{:}\textit{<eolExpression>}!)|(!\textbf{\{}\textit{<eolStatement>+}\textbf{\}}!))?
 
-retype package <originalPackage> to <evolvedPackage>
-(when (:<eolExpression>)|({<eolStatement>+}))?
+retype package !\textit{<originalPackage>}! to !\textit{<evolvedPackage>}!
+(when (!\textbf{:}\textit{<eolExpression>}!)|(!\textbf{\{}\textit{<eolStatement>+}\textbf{\}}!))?
 
 (@strict)?
 (@cascade)?
-delete <originalType>
-(when (:<eolExpression>)|({<eolStatement>+}))?
+delete !\textit{<originalType>}!
+(when (!\textbf{:}\textit{<eolExpression>}!)|(!\textbf{\{}\textit{<eolStatement>+}\textbf{\}}!))?
 
-delete package <originalPackage>
-(when (:<eolExpression>)|({<eolStatement>+}))?
+delete package !\textit{<originalPackage>}!
+(when (!\textbf{:}\textit{<eolExpression>}!)|(!\textbf{\{}\textit{<eolStatement>+}\textbf{\}}!))?
 
 (@strict)?
-migrate <originalType>
-(ignoring <featureList>)?
-(when (:<eolExpression>)|({<eolStatement>+}))? {
-	<eolStatement>+
+migrate !\textit{<originalType>}!
+(ignoring !\textit{<featureList>}!)?
+(when (!\textbf{:}\textit{<eolExpression>}!)|(!\textbf{\{}\textit{<eolStatement>+}\textbf{\}}!))? {
+	!\textit{<eolStatement>}!+
 }
 \end{lstlisting}
 

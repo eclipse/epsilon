@@ -52,19 +52,19 @@ Each merge rule defines a name, a left, a right, and one or more target paramete
 
 Listing \ref{lst:EmlConcreteSyntax} demonstrates the concrete syntax of EML merge-rules.
 
-\begin{lstlisting}[caption=Concrete syntax of an EML merge-rule, label=lst:EmlConcreteSyntax, language=EML]
+\begin{lstlisting}[caption=Concrete syntax of an EML merge-rule, label=lst:EmlConcreteSyntax, language=EML, escapechar=!]
 (@abstract)?
 (@lazy)?
 (@primary)?
 (@greedy)?
-rule <name>
-	merge <leftParameter>
-	with <rightParameter>
-	into (<targetParameter>(, <targetParameter>)*)?
-	(extends <ruleName>(, <ruleName>)*)? {
+rule !\textit{<name>}!
+	merge !\textit{<leftParameter>}!
+	with !\textit{<rightParameter>}!
+	into (!\textit{<targetParameter>}!(!\textbf{,} \textit{<targetParameter>}!)*)?
+	(extends !\textit{<ruleName>}!(!\textbf{,} \textit{<ruleName>}!)*)? {
 
-	statementBlock
-	
+	!\textit{statementBlock}!
+
 }
 \end{lstlisting}
 

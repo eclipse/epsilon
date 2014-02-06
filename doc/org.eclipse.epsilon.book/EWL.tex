@@ -93,10 +93,10 @@ The basic concept of the EWL abstract syntax is a \emph{Wizard}. A wizard define
 
 Listing \ref{lst:EwlConcreteSyntax} presents the concrete syntax of EWL wizards.
 
-\begin{lstlisting}[caption=Concrete syntax of EWL wizards, label=lst:EwlConcreteSyntax, language=EWL]
-wizard <name> {
-	(guard (:expression)|({statementBlock}))?
-	(title (:expression)|({statementBlock}))?
+\begin{lstlisting}[caption=Concrete syntax of EWL wizards, label=lst:EwlConcreteSyntax, language=EWL, escapechar=!]
+wizard !\textit{<name>}! {
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
+	(title (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	do {
 		statementBlock
 	}

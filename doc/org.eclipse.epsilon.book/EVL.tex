@@ -111,7 +111,7 @@ An EVL module can define a number of named \emph{pre} and a \emph{post} blocks t
 Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and \ref{lst:FixConcreteSyntax} demonstrate the concrete sytnax of the \emph{context}, \emph{invariant} and \emph{fix} abstract syntax constructs discussed above.
 
 \begin{lstlisting}[caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, escapechar=!]
-context !\textit{name}! !\textbf{\{}!
+context !\textit{<name>}! !\textbf{\{}!
 
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
@@ -122,7 +122,7 @@ context !\textit{name}! !\textbf{\{}!
 
 \begin{lstlisting}[caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, escapechar=!]
 (@lazy)?
-(constraint|critique) !\textit{name}! !\textbf{\{}!
+(constraint|critique) !\textit{<name>}! !\textbf{\{}!
 	
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	

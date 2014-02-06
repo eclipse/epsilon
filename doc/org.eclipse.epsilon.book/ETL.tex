@@ -34,19 +34,19 @@ Besides transformation rules, an ETL module can also optionally contain a number
 
 The concrete syntax of a transformation rule is displayed in Listing \ref{lst:TransformationRuleConcreteSyntax}. The optional \emph{abstract}, \emph{lazy} and \emph{primary} attributes of the rule are specified using respective annotations. The name of the rule follows the \emph{rule} keyword and the \emph{source} and \emph{target} parameters are defined after the \emph{transform} and \emph{to} keywords. Also, the rule can define an optional comma-separated list of rules it extends after the \emph{extends} keyword. Inside the curly braces (\{\}), the rule can optionally specify its \emph{guard} either as an EOL expression following a colon (:) (for simple guards) or as a block of statements in curly braces (for more complex guards). Finally, the \emph{body} of the rule is specified as a sequence of EOL statements.
 
-\begin{lstlisting}[caption=Concrete Syntax of a TransformationRule, label=lst:TransformationRuleConcreteSyntax, language=ETL]
+\begin{lstlisting}[caption=Concrete Syntax of a TransformationRule, label=lst:TransformationRuleConcreteSyntax, language=ETL, escapechar=!]
 (@abstract)?
 (@lazy)?
 (@primary)?
-rule <name> 
-	transform <sourceParameterName>:<sourceParameterType>
-	to (<rightParameterName>:<rightParameterType>
-	(, <rightParameterName>:<rightParameterType>)*
-	(extends (<ruleName>,)*<ruleName>)? {
+rule !\textit{<name>}!
+	transform !\textit{<sourceParameterName>}\textbf{:}\textit{<sourceParameterType>}!
+	to !\textit{<rightParameterName>}\textbf{:}\textit{<rightParameterType>}!
+	    (!\textbf{,} \textit{<rightParameterName>}\textbf{:}\textit{<rightParameterType>}!)*
+	(extends !\textit{<ruleName>}!(!\textbf{,} \textit{<ruleName>}!)*)? {
 	
-	(guard (:expression)|({statement+}))?
+	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
 	
-	statement+
+	!\textit{statement}!+
 }
 \end{lstlisting}
 
