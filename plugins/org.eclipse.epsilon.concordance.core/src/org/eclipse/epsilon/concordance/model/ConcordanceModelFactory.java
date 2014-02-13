@@ -25,7 +25,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
  * <code>org.eclipse.epsilon.concordance.modelfactory</code> extension point
  */
 public class ConcordanceModelFactory {
-	public static final String MODEL_FACTORY_EXT_ID = "org.eclipse.epsilon.concordance.core.ModelFactory";
+	public static final String MODEL_FACTORY_EXT_ID = "org.eclipse.epsilon.concordance.core.ConcordanceModelFactory";
 
 	private static IConcordanceModelFactory factory = null;
 
