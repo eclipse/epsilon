@@ -26,7 +26,8 @@ import org.eclipse.epsilon.concordance.db.common.H2Table;
 import org.eclipse.epsilon.concordance.db.common.H2Value;
 import org.eclipse.epsilon.concordance.db.common.H2Column.Type;
 import org.eclipse.epsilon.concordance.model.CrossReference;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
+import org.eclipse.epsilon.concordance.model.ConcordanceModelFactory;
 
 public class ConcordanceH2Database {
 
@@ -94,7 +95,7 @@ public class ConcordanceH2Database {
 	}
 	
 	
-	public void addModel(Model model) throws H2DatabaseAccessException {
+	public void addModel(IConcordanceModel model) throws H2DatabaseAccessException {
 		models.insertRow(new H2Value("URI", model.getUri().toString()), new H2Value("nsUri", model.getNsUri()));
 
 		for (CrossReference crossReference : model.getAllCrossReferences()) {
@@ -108,28 +109,28 @@ public class ConcordanceH2Database {
 		}
 	}
 
-	public void deleteModel(Model model) throws H2DatabaseAccessException {
+	public void deleteModel(IConcordanceModel model) throws H2DatabaseAccessException {
 		models.deleteBy(new H2Value("URI", model.getUri().toString()));
 		crossReferences.deleteBy(new H2Value("sourceModel", model.getUri().toString()));
 	}
 
-	public void moveModel(Model original, Model moved) throws H2DatabaseAccessException {
+	public void moveModel(IConcordanceModel original, IConcordanceModel moved) throws H2DatabaseAccessException {
 		models.updateBy(new H2Value("URI", original.getUri().toString()), new H2Value("URI", moved.getUri().toString()));
 		crossReferences.updateBy(new H2Value("sourceModel", original.getUri().toString()), new H2Value("sourceModel", moved.getUri().toString()));
 		crossReferences.updateBy(new H2Value("targetModel", original.getUri().toString()), new H2Value("targetModel", moved.getUri().toString()));
 	}
 
-	public Collection<Model> findAllInstancesOf(String nsUri) throws H2DatabaseAccessException {
-		final Collection<Model> instances = new LinkedList<Model>();
+	public Collection<IConcordanceModel> findAllInstancesOf(String nsUri) throws H2DatabaseAccessException {
+		final Collection<IConcordanceModel> instances = new LinkedList<IConcordanceModel>();
 		
 		for (Object uri : models.findBy(new H2Value("nsUri", nsUri), "URI")) {
-			instances.add(new Model(URI.createURI(uri.toString())));
+			instances.add(ConcordanceModelFactory.createModel(URI.createURI(uri.toString())));
 		}
 		
 		return instances;
 	}
 	
-	public Collection<CrossReference> findAllCrossReferencesTo(Model target) throws H2DatabaseAccessException {
+	public Collection<CrossReference> findAllCrossReferencesTo(IConcordanceModel target) throws H2DatabaseAccessException {
 		final Collection<CrossReference> instances = new LinkedList<CrossReference>();
 		
 		for (H2Row xref : crossReferences.findBy(new H2Value("targetModel", target.getUri()))) {
@@ -146,11 +147,11 @@ public class ConcordanceH2Database {
 		return instances;
 	}
 
-	public Collection<Model> findAllModelsWithCrossReferencesTo(Model target) throws H2DatabaseAccessException {
-		final Collection<Model> instances = new LinkedList<Model>();
+	public Collection<IConcordanceModel> findAllModelsWithCrossReferencesTo(IConcordanceModel target) throws H2DatabaseAccessException {
+		final Collection<IConcordanceModel> instances = new LinkedList<IConcordanceModel>();
 		
 		for (Object uri : crossReferences.findBy(new H2Value("targetModel", target.getUri()), "sourceModel")) {
-			instances.add(new Model(URI.createURI(uri.toString())));
+			instances.add(ConcordanceModelFactory.createModel(URI.createURI(uri.toString())));
 		}
 		
 		return instances;

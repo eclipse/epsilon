@@ -28,10 +28,10 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 
 public class CrossReferenceAnalyser {
 
-	private final Model sourceModel;
+	private final IConcordanceModel sourceModel;
 	private final Set<CrossReference> xrefs = new HashSet<CrossReference>();
 	
-	public CrossReferenceAnalyser(Model source) {
+	public CrossReferenceAnalyser(IConcordanceModel source) {
 		this.sourceModel = source;
 	}
 	

@@ -32,19 +32,23 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.concordance.model.nsuri.EObjectContainer;
 import org.eclipse.epsilon.concordance.model.nsuri.ModelWalkingNsUriAnalyser;
 
-public class Model implements EObjectContainer {
+/**
+ * Default implementation of {@link IConcordanceModel} that uses the actual
+ * model file for its operations
+ */
+public class ConcordanceModel implements IConcordanceModel, EObjectContainer {
 
 	private final URI uri;
 	
-	public Model(IResource resource) {
+	public ConcordanceModel(IResource resource) {
 		this(resource.getFullPath());
 	}
 	
-	public Model(IPath path) {
+	public ConcordanceModel(IPath path) {
 		this(URI.createPlatformResourceURI(path.toOSString(), true));
 	}
 	
-	public Model(URI uri) {
+	public ConcordanceModel(URI uri) {
 		this.uri = uri;
 	}
 
@@ -55,14 +59,14 @@ public class Model implements EObjectContainer {
 	public Collection<EObject> getAllContents(boolean resolve) throws IOException {
 		final Collection<EObject> contents = new LinkedList<EObject>();
 		
-		for (Iterator<EObject> iterator = loadEmfResource(resolve).getAllContents(); iterator.hasNext();) {
+		for (Iterator<EObject> iterator = getEmfResource(resolve).getAllContents(); iterator.hasNext();) {
 			contents.add(iterator.next());
 		}
 		
 		return contents;
 	}
 	
-	public Resource loadEmfResource(boolean resolve) throws IOException {
+	public Resource getEmfResource(boolean resolve) throws IOException {
 		final Resource resource = new ResourceSetImpl().createResource(uri);
 		
 		resource.load(null);
@@ -96,8 +100,8 @@ public class Model implements EObjectContainer {
 		return new CrossReferenceAnalyser(this).determineCrossReferences();
 	}
 	
-	public Set<Model> getAllReferencedModels() {
-		final Set<Model> referencedModels = new HashSet<Model>();
+	public Set<IConcordanceModel> getAllReferencedModels() {
+		final Set<IConcordanceModel> referencedModels = new HashSet<IConcordanceModel>();
 		
 		for (CrossReference xref : getAllCrossReferences()) {
 			referencedModels.add(xref.target.model);
@@ -106,20 +110,20 @@ public class Model implements EObjectContainer {
 		return referencedModels;
 	}
 	
-	public void reconcileCrossReferences(Model original, Model moved) {
+	public void reconcileCrossReferences(IConcordanceModel original, IConcordanceModel moved) {
 		new CrossReferenceReconciler(this).reconcile(original, moved);
 	}
 	
-	boolean contains(String modelElementFragment) {
+	public boolean contains(String modelElementFragment) {
 		return new ContentAnalyser(this).contains(modelElementFragment);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Model))
+		if (!(obj instanceof ConcordanceModel))
 			return false;
 		
-		return ((Model)obj).uri.equals(this.uri);
+		return ((ConcordanceModel)obj).uri.equals(this.uri);
 	}
 	
 	@Override

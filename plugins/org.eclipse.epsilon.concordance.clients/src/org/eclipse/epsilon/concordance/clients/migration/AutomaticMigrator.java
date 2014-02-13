@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 import org.eclipse.epsilon.concordance.reporter.metamodel.DefaultMetamodelChangeListener;
 
@@ -61,7 +61,7 @@ public class AutomaticMigrator extends DefaultMetamodelChangeListener {
 			this.migrator = migrator;
 		}
 
-		public void visit(Model model) {
+		public void visit(IConcordanceModel model) {
 			if (model.getResource() != null)
 				migrator.migrate(model.getResource());
 		}

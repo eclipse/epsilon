@@ -16,7 +16,7 @@ package org.eclipse.epsilon.concordance.clients.xref;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
 import org.eclipse.epsilon.concordance.model.CrossReference;
 import org.eclipse.epsilon.concordance.model.CrossReferenceVisitor;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 public class DanglingCrossReferenceMarker {
 
@@ -27,7 +27,7 @@ public class DanglingCrossReferenceMarker {
 		this.index = index;
 	}
 	
-	public void markDanglingCrossReferencesTo(Model model) {
+	public void markDanglingCrossReferencesTo(IConcordanceModel model) {
 		index.visitAllCrossReferencesWithTarget(model, visitor);
 	}
 	

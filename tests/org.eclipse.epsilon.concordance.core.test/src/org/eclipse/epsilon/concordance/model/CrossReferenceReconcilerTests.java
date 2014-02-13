@@ -57,8 +57,8 @@ public class CrossReferenceReconcilerTests extends TestThatUsesAProject  {
 		modelWithEolAssertionsFor(movedSource).assertEquals("targeted", "Element.all.first.single.name");
 	}
 	
-	private static Model modelFor(IResource resource) {
-		return new Model(resource);
+	private static ConcordanceModel modelFor(IResource resource) {
+		return new ConcordanceModel(resource);
 	}
 	
 	private ModelWithEolAssertions modelWithEolAssertionsFor(IResource model) throws EolModelLoadingException {

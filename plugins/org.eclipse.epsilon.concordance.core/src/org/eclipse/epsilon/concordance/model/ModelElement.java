@@ -18,7 +18,7 @@ import org.eclipse.emf.common.util.URI;
 
 public class ModelElement {
 
-	public final Model model;
+	public final IConcordanceModel model;
 	public final String uriFragment;
 	public final String label;
 	
@@ -27,10 +27,10 @@ public class ModelElement {
 	}
 	
 	public ModelElement(URI uri, String label) {
-		this(new Model(uri.trimFragment()), uri.fragment(), label);
+		this(ConcordanceModelFactory.createModel(uri.trimFragment()), uri.fragment(), label);
 	}
 	
-	public ModelElement(Model model, String uriFragment, String label) {
+	public ModelElement(IConcordanceModel model, String uriFragment, String label) {
 		this.model       = model;
 		this.uriFragment = uriFragment == null ? "" : uriFragment;
 		this.label       = label;

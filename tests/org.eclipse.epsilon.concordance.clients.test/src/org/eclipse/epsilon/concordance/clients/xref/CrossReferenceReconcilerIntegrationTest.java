@@ -23,7 +23,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.concordance.clients.test.ConcordanceClientIntegrationTest;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.Before;
@@ -91,7 +91,7 @@ public abstract class CrossReferenceReconcilerIntegrationTest extends Concordanc
 	}
 	
 	protected String uriForArtist(IFile model, int artistIndex) {
-		return new Model(model).getUri() + "#//@artists." + artistIndex;
+		return new ConcordanceModel(model).getUri() + "#//@artists." + artistIndex;
 	}
 	
 	protected static void hasDanglingMarker(IResource resource, String sourceLabel, String targetUri) throws CoreException {

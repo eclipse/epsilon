@@ -24,7 +24,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.eclipse.epsilon.hutn.xmi.dt.XmiConformanceChecker;
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class ConformanceCheckerTests {
 		final XmiConformanceChecker mockXmiConformanceChecker = createMock("mockXmiConformanceChecker", XmiConformanceChecker.class);
 		final ConformanceChecker.ConformanceCheckingVisitor visitor = new ConformanceChecker.ConformanceCheckingVisitor(mockXmiConformanceChecker);
 		
-		final Model     modelStub     = createMock("modelStub",     Model.class);
+		final ConcordanceModel     modelStub     = createMock("modelStub",     ConcordanceModel.class);
 		final IResource dummyResource = createMock("dummyResource", IResource.class);
 		
 		expect(modelStub.getResource()).andReturn(dummyResource).anyTimes();

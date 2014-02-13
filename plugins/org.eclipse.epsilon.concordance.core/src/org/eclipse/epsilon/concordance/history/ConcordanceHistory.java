@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 public class ConcordanceHistory {
 	
@@ -55,9 +55,9 @@ public class ConcordanceHistory {
 	
 	public static class Event {
 		public final EventType type;
-		public final Model model;
+		public final IConcordanceModel model;
 		
-		public Event(EventType type, Model model) {
+		public Event(EventType type, IConcordanceModel model) {
 			this.type  = type;
 			this.model = model;
 		}

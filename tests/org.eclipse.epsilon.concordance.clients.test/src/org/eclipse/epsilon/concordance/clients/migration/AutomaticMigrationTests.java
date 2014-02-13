@@ -27,7 +27,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.junit.Test;
 
 public class AutomaticMigrationTests {
@@ -101,7 +101,7 @@ public class AutomaticMigrationTests {
 		final Migrator mockMigrator = createMock("mockMigrator", Migrator.class);
 		final AutomaticMigrator.MigratingVisitor visitor = new AutomaticMigrator.MigratingVisitor(mockMigrator);
 		
-		final Model     modelStub     = createMock("modelStub",     Model.class);
+		final ConcordanceModel     modelStub     = createMock("modelStub",     ConcordanceModel.class);
 		final IResource dummyResource = createMock("dummyResource", IResource.class);
 		
 		expect(modelStub.getResource()).andReturn(dummyResource).anyTimes();

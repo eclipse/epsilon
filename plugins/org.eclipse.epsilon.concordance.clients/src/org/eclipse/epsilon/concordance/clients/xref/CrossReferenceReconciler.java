@@ -15,7 +15,7 @@ package org.eclipse.epsilon.concordance.clients.xref;
 
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.reporter.model.DefaultModelChangeListener;
 
 public class CrossReferenceReconciler extends DefaultModelChangeListener {
@@ -34,7 +34,7 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	
 	
 	@Override
-	public void modelAdded(Model model) {
+	public void modelAdded(IConcordanceModel model) {
 //		System.out.println("model added: " + model);
 		
 		//Profiler.INSTANCE.start("Add");
@@ -46,7 +46,7 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	}
 	
 	@Override
-	public void modelRemoved(Model model) {
+	public void modelRemoved(IConcordanceModel model) {
 //		System.out.println("model removed: " + model);
 		//Profiler.INSTANCE.start("Delete");
 		marker.markDanglingCrossReferencesTo(model);
@@ -56,7 +56,7 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	}
 	
 	@Override
-	public void modelChanged(Model model) {
+	public void modelChanged(IConcordanceModel model) {
 //		System.out.println("model changed: " + model);
 		
 		//Profiler.INSTANCE.start("Change");
@@ -68,7 +68,7 @@ public class CrossReferenceReconciler extends DefaultModelChangeListener {
 	}
 	
 	@Override
-	public void modelMoved(Model original, Model moved) {
+	public void modelMoved(IConcordanceModel original, IConcordanceModel moved) {
 //		System.out.println("model moved: " + original + " to " + moved);
 		//Profiler.INSTANCE.start("Move");
 		reconciler.reconcileCrossReferences(original, moved);

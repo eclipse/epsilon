@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="MetamodelChangeListener" name="org.eclipse.epsilon.concordance.listener.metamodel" schema="schema/MetamodelChangeListener.exsd"/>
    <extension-point id="ModelChangeListener" name="org.eclipse.epsilon.concordance.listener.model" schema="schema/ModelChangeListener.exsd"/>
+   <extension-point id="ConcordanceModelFactory" name="org.eclipse.epsilon.concordance.model.factory" schema="schema/ConcordanceModelFactory.exsd"/>
    <extension
          id="org.eclipse.epsilon.concordance.builder.ConcordanceBuilder"
          name="Concordance Indexing Builder"

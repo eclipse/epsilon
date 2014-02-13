@@ -32,7 +32,7 @@ import org.eclipse.epsilon.concordance.db.common.H2Row;
 import org.eclipse.epsilon.concordance.db.common.H2Table;
 import org.eclipse.epsilon.concordance.db.common.H2Value;
 import org.eclipse.epsilon.concordance.model.CrossReference;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI    uri   = URI.createPlatformResourceURI("/project/container/sample.model", true);
 		final String nsUri = "families";
 		
-		final Model modelStub = stub(uri, nsUri);
+		final ConcordanceModel modelStub = stub(uri, nsUri);
 		
 		mockModelsTable.insertRow(new H2Value("URI", uri.toString()), new H2Value("nsUri", nsUri));
 		
@@ -72,7 +72,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI sourceModel = uri;
 		final URI targetModel = URI.createPlatformResourceURI("/project/container/target.model", true);
 		
-		final Model modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "source_label", targetModel, "target_label", "a_label"));
+		final ConcordanceModel modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "source_label", targetModel, "target_label", "a_label"));
 		
 		mockModelsTable.insertRow(new H2Value("uri", uri.toString()), new H2Value("nsUri", nsUri));
 		mockCrossReferencesTable.insertRow(new H2Value("sourceModel", sourceModel.toString()),
@@ -101,7 +101,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI target2Uri = URI.createPlatformResourceURI("/project/container/target2.model", true);
 		final URI target3Uri = URI.createPlatformResourceURI("/project/container/target3.model", true);
 		
-		final Model modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
+		final ConcordanceModel modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
 		                                         new CrossReference(sourceModel, "second_source_label", target2Uri, "second_target_label", "second_label"),
 		                                         new CrossReference(sourceModel, "third_source_label",  target3Uri, "third_target_label",  "third_label"));
 		
@@ -145,7 +145,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI    uri   = URI.createPlatformResourceURI("/project/container/sample.model", true);
 		final String nsUri = "families";
 		
-		final Model modelStub = stub(uri, nsUri);
+		final ConcordanceModel modelStub = stub(uri, nsUri);
 		
 		mockModelsTable.deleteBy(new H2Value("uri", uri.toString()));
 		mockCrossReferencesTable.deleteBy(new H2Value("sourceModel", uri.toString()));
@@ -166,7 +166,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI sourceModel = uri;
 		final URI targetModel = URI.createPlatformResourceURI("/project/container/target.model", true);
 		
-		final Model modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  targetModel, "first_target_label",  "first_label"));
+		final ConcordanceModel modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  targetModel, "first_target_label",  "first_label"));
 		
 		
 		mockModelsTable.deleteBy(new H2Value("uri", uri.toString()));
@@ -190,7 +190,7 @@ public class ConcordanceH2DatabaseTests {
 		final URI target2Uri = URI.createPlatformResourceURI("/project/container/target2.model", true);
 		final URI target3Uri = URI.createPlatformResourceURI("/project/container/target3.model", true);
 		
-		final Model modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
+		final ConcordanceModel modelStub = stub(uri, nsUri, new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
 		                                         new CrossReference(sourceModel, "second_source_label", target2Uri, "second_target_label", "second_label"),
 		                                         new CrossReference(sourceModel, "third_source_label",  target3Uri, "third_target_label",  "third_label"));
 		
@@ -217,11 +217,11 @@ public class ConcordanceH2DatabaseTests {
 		final URI target2Uri = URI.createPlatformResourceURI("/project/container/target2.model", true);
 		final URI target3Uri = URI.createPlatformResourceURI("/project/container/target3.model", true);
 		
-		final Model oldModelStub = stub(oldUri, "families", new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
+		final ConcordanceModel oldModelStub = stub(oldUri, "families", new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
 		                                                    new CrossReference(sourceModel, "second_source_label", target2Uri, "second_target_label", "second_label"),
 		                                                    new CrossReference(sourceModel, "third_source_label",  target3Uri, "third_target_label",  "third_label"));
 		
-		final Model newModelStub = stub(oldUri, "families", new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
+		final ConcordanceModel newModelStub = stub(oldUri, "families", new CrossReference(sourceModel, "first_source_label",  target1Uri, "first_target_label",  "first_label"),
 		                                                    new CrossReference(sourceModel, "second_source_label", target2Uri, "second_target_label", "second_label"),
 		                                                    new CrossReference(sourceModel, "third_source_label",  target3Uri, "third_target_label",  "third_label"));
 		
@@ -247,8 +247,8 @@ public class ConcordanceH2DatabaseTests {
 
 		replay(mockModelsTable, mockCrossReferencesTable);
 		
-		assertEquals(Arrays.asList(new Model(URI.createURI("first.model")),
-		                           new Model(URI.createURI("second.model"))),
+		assertEquals(Arrays.asList(new ConcordanceModel(URI.createURI("first.model")),
+		                           new ConcordanceModel(URI.createURI("second.model"))),
 		             database.findAllInstancesOf("families"));
 		
 		verify(mockModelsTable, mockCrossReferencesTable);
@@ -283,7 +283,7 @@ public class ConcordanceH2DatabaseTests {
 		                           URI.createURI("target.model").appendFragment("//@pets.0"),
 		                           "first",
 		                           "root_to_first")),
-		            database.findAllCrossReferencesTo(new Model(targetUri)));
+		            database.findAllCrossReferencesTo(new ConcordanceModel(targetUri)));
 		
 		verify(mockModelsTable, mockCrossReferencesTable);
 	}
@@ -314,9 +314,9 @@ public class ConcordanceH2DatabaseTests {
 		replay(mockModelsTable, mockCrossReferencesTable);
 		
 		
-		assertEquals(Arrays.asList(new Model(URI.createURI("first.model")),
-		                           new Model(URI.createURI("second.model"))),
-		             database.findAllModelsWithCrossReferencesTo(new Model(targetUri)));
+		assertEquals(Arrays.asList(new ConcordanceModel(URI.createURI("first.model")),
+		                           new ConcordanceModel(URI.createURI("second.model"))),
+		             database.findAllModelsWithCrossReferencesTo(new ConcordanceModel(targetUri)));
 		
 		verify(mockModelsTable, mockCrossReferencesTable);
 	}
@@ -325,8 +325,8 @@ public class ConcordanceH2DatabaseTests {
 	
 	private static int STUB_COUNT = 1;
 	
-	private static Model stub(URI uri, String nsUri, CrossReference... xrefs) {
-		final Model stub = createMock("StubModel" + STUB_COUNT++, Model.class);
+	private static ConcordanceModel stub(URI uri, String nsUri, CrossReference... xrefs) {
+		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 		
 		expect(stub.getUri()).andReturn(uri).anyTimes();
 		expect(stub.getNsUri()).andReturn(nsUri).anyTimes();

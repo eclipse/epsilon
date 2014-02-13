@@ -19,15 +19,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 public class ContentAnalyser {
 
-	private final Model model;
+	private final IConcordanceModel model;
 	
-	public ContentAnalyser(Model model) {
+	public ContentAnalyser(IConcordanceModel model) {
 		this.model = model;
 	}
 
 	public boolean contains(String modelElementFragment) {
 		try {
-			final Resource resource = model.loadEmfResource(false);
+			final Resource resource = model.getEmfResource(false);
 			
 			if (modelElementFragment.isEmpty()) {
 				return true;

@@ -14,14 +14,14 @@
 package org.eclipse.epsilon.concordance.index;
 
 import org.eclipse.epsilon.concordance.model.CrossReferenceVisitor;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 
 public class NullConcordanceIndex implements ConcordanceIndex {
 
-	public void visitAllCrossReferencesWithTarget(Model target, CrossReferenceVisitor visitor) {}
+	public void visitAllCrossReferencesWithTarget(IConcordanceModel target, CrossReferenceVisitor visitor) {}
 	
 	public void visitAllInstancesOf(String nsUri, ModelVisitor visitor) {}
 	
-	public void visitAllModelsWithCrossReferencesTo(Model target, ModelVisitor visitor) {}
+	public void visitAllModelsWithCrossReferencesTo(IConcordanceModel target, ModelVisitor visitor) {}
 }

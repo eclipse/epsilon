@@ -20,15 +20,15 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ConcordanceHistoryTests {
 
-	private static final Event ADD_EVENT    = new Event(EventType.ADD,    new Model(URI.createFileURI("foo")));
-	private static final Event MOVE_EVENT   = new Event(EventType.MOVE, new Model(URI.createFileURI("foo")));
-	private static final Event DELETE_EVENT = new Event(EventType.DELETE, new Model(URI.createFileURI("foo")));
+	private static final Event ADD_EVENT    = new Event(EventType.ADD,    new ConcordanceModel(URI.createFileURI("foo")));
+	private static final Event MOVE_EVENT   = new Event(EventType.MOVE, new ConcordanceModel(URI.createFileURI("foo")));
+	private static final Event DELETE_EVENT = new Event(EventType.DELETE, new ConcordanceModel(URI.createFileURI("foo")));
 
 	
 	private ConcordanceHistory history;

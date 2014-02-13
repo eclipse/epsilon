@@ -16,7 +16,7 @@ package org.eclipse.epsilon.concordance.reporter.model;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 
 public class ModelChangeReporter {
@@ -28,27 +28,27 @@ public class ModelChangeReporter {
 		this.listeners.add(listener);
 	}
 	
-	public void reportAddition(Model model) {
+	public void reportAddition(IConcordanceModel model) {
 		notifyListeners(NotificationType.ADDED, model);
 	}
 
-	public void reportRemoval(Model model) {
+	public void reportRemoval(IConcordanceModel model) {
 		notifyListeners(NotificationType.REMOVED, model);
 	}
 	
-	public void reportChange(Model model) {
+	public void reportChange(IConcordanceModel model) {
 		notifyListeners(NotificationType.CHANGED, model);
 	}
 
-	public void reportMove(Model oldModel, Model newModel) {
+	public void reportMove(IConcordanceModel oldModel, IConcordanceModel newModel) {
 		notifyListeners(NotificationType.MOVED, oldModel, newModel);
 	}
 	
-	private void notifyListeners(NotificationType type, Model model) {
+	private void notifyListeners(NotificationType type, IConcordanceModel model) {
 		notifyListeners(type, model, null);
 	}
 	
-	private void notifyListeners(NotificationType type, Model originalModel, Model newModel) {
+	private void notifyListeners(NotificationType type, IConcordanceModel originalModel, IConcordanceModel newModel) {
 		for (ModelChangeListener listener : listeners) {
 			switch (type) {
 				case ADDED:

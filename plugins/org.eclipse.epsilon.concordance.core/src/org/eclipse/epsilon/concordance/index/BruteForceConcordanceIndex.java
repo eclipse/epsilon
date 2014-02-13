@@ -26,26 +26,27 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.concordance.model.CrossReference;
 import org.eclipse.epsilon.concordance.model.CrossReferenceVisitor;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
+import org.eclipse.epsilon.concordance.model.ConcordanceModelFactory;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 
 public class BruteForceConcordanceIndex implements ConcordanceIndex {
 	
 	public void visitAllInstancesOf(String nsUri, ModelVisitor visitor) {
-		for (Model model : findAllModels()) {
+		for (IConcordanceModel model : findAllModels()) {
 			if (model.isInstance(nsUri)) {
 				visitor.visit(model);
 			}
 		}
 	}
 
-	private Collection<Model> findAllModels() {
+	private Collection<IConcordanceModel> findAllModels() {
 		try {
-			final Collection<Model> models = new LinkedList<Model>();
+			final Collection<IConcordanceModel> models = new LinkedList<IConcordanceModel>();
 			
 			for (IFile modelFile : new FileLocator("model").findAllMatchingFiles(workspaceRoot())) {
 				if (hasConcordanceNature(modelFile.getProject())) {
-					models.add(new Model(modelFile));
+					models.add(ConcordanceModelFactory.createModel(modelFile));
 				}
 			}
 			
@@ -64,8 +65,8 @@ public class BruteForceConcordanceIndex implements ConcordanceIndex {
 
 	
 	
-	public void visitAllCrossReferencesWithTarget(Model target, CrossReferenceVisitor visitor) {
-		for (Model model : findAllModels()) {
+	public void visitAllCrossReferencesWithTarget(IConcordanceModel target, CrossReferenceVisitor visitor) {
+		for (IConcordanceModel model : findAllModels()) {
 			for (CrossReference xref : model.getAllCrossReferences()) {
 				if (xref.target.model.equals(target)) {
 					visitor.visit(xref);
@@ -74,8 +75,8 @@ public class BruteForceConcordanceIndex implements ConcordanceIndex {
 		}
 	}
 
-	public void visitAllModelsWithCrossReferencesTo(Model target, ModelVisitor visitor) {
-		for (Model model : findAllModels()) {
+	public void visitAllModelsWithCrossReferencesTo(IConcordanceModel target, ModelVisitor visitor) {
+		for (IConcordanceModel model : findAllModels()) {
 			for (CrossReference xref : model.getAllCrossReferences()) {
 				if (xref.target.model.equals(target)) {
 					visitor.visit(xref.source.model);

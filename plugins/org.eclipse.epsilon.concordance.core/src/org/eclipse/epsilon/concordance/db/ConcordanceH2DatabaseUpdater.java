@@ -15,7 +15,7 @@ package org.eclipse.epsilon.concordance.db;
 
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.concordance.db.common.H2DatabaseAccessException;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeListener;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 
@@ -29,7 +29,7 @@ public class ConcordanceH2DatabaseUpdater implements ModelChangeListener {
 		reporter.addListener(this);
 	}
 
-	public void modelAdded(Model model) {
+	public void modelAdded(IConcordanceModel model) {
 		try {
 			database.addModel(model);
 		
@@ -38,7 +38,7 @@ public class ConcordanceH2DatabaseUpdater implements ModelChangeListener {
 		}
 	}
 
-	public void modelRemoved(Model model) {
+	public void modelRemoved(IConcordanceModel model) {
 		try {
 			database.deleteModel(model);
 		
@@ -47,12 +47,12 @@ public class ConcordanceH2DatabaseUpdater implements ModelChangeListener {
 		}
 	}
 
-	public void modelChanged(Model model) {
+	public void modelChanged(IConcordanceModel model) {
 		modelRemoved(model);
 		modelAdded(model);
 	}
 
-	public void modelMoved(Model original, Model moved) {
+	public void modelMoved(IConcordanceModel original, IConcordanceModel moved) {
 		try {
 			database.moveModel(original, moved);
 

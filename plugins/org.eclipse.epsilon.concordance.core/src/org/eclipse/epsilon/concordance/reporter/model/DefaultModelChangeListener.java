@@ -16,7 +16,7 @@ package org.eclipse.epsilon.concordance.reporter.model;
 import org.eclipse.epsilon.concordance.dt.ConcordancePlugin;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory;
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 public abstract class DefaultModelChangeListener implements ModelChangeListener {
 
@@ -32,11 +32,11 @@ public abstract class DefaultModelChangeListener implements ModelChangeListener 
 		this.history = history;
 	}
 	
-	public void modelAdded(Model model) {}
+	public void modelAdded(IConcordanceModel model) {}
 
-	public void modelRemoved(Model model) {}
+	public void modelRemoved(IConcordanceModel model) {}
 
-	public void modelChanged(Model model) {}
+	public void modelChanged(IConcordanceModel model) {}
 	
-	public void modelMoved(Model original, Model moved) {}
+	public void modelMoved(IConcordanceModel original, IConcordanceModel moved) {}
 }

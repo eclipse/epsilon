@@ -27,7 +27,7 @@ import org.eclipse.epsilon.concordance.dt.ConcordanceNature;
 import org.eclipse.epsilon.concordance.dt.ConcordancePlugin;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emf.dt.EmfRegistryManager;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -84,7 +84,7 @@ public abstract class ConcordanceClientIntegrationTest extends TestThatUsesAProj
 	}
 
 	protected static Event event(EventType type, IResource model) {
-		return new Event(type, new Model(model));
+		return new Event(type, new ConcordanceModel(model));
 	}
 	
 	protected Collection<Event> eventsForNewFiles(IResource... files) {

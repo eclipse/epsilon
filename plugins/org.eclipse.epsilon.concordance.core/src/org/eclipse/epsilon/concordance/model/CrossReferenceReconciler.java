@@ -13,27 +13,23 @@
  */
 package org.eclipse.epsilon.concordance.model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 
 public class CrossReferenceReconciler {
 
-	private final Model reconcilee;
+	private final IConcordanceModel reconcilee;
 	
-	public CrossReferenceReconciler(Model reconcilee) {
+	public CrossReferenceReconciler(IConcordanceModel reconcilee) {
 		this.reconcilee = reconcilee;
 	}
 
-	public void reconcile(Model original, Model moved) {
+	public void reconcile(IConcordanceModel original, IConcordanceModel moved) {
 		try {
 			reconcile(new Renaming(original, moved));
-		
 		} catch (IOException e) {
 			LogUtil.log("Error encountered whilst trying to reconcile " + reconcilee + " by changing " + original + " to " + moved, e);
 		}
@@ -41,51 +37,39 @@ public class CrossReferenceReconciler {
 	
 	private void reconcile(Renaming renaming) throws IOException {
 		final Resource res;
-		
+
 		if (renaming.isRenamed(reconcilee)) {
-			res = renaming.loadResource();
-			
+			res = renaming.renamed.getEmfResource(false);
+
 			EcoreUtil.resolveAll(res);
-			
+
 			res.setURI(renaming.renamed.getUri());
-			
+
 		} else {
-			res = reconcilee.loadEmfResource(false);
-			
-			final Resource renamed = renaming.loadResource();
-			
+			res = reconcilee.getEmfResource(false);
+
+			final Resource renamed = renaming.renamed.getEmfResource(false);
+
 			res.getResourceSet().getResources().add(renamed);
 			EcoreUtil.resolveAll(res);
-			
+
 			renamed.setURI(renaming.renamed.getUri());
 		}
-		
+
 		res.save(null);
 	}
-	
-	
+
 	private static class Renaming {
 		
-		public final Model original, renamed;
+		public final IConcordanceModel original, renamed;
 		
-		public Renaming(Model original, Model renamed) {
+		public Renaming(IConcordanceModel original, IConcordanceModel renamed) {
 			this.original = original;
 			this.renamed  = renamed;
 		}
 		
-		private boolean isRenamed(Model model) {
+		private boolean isRenamed(IConcordanceModel model) {
 			return renamed.equals(model);
 		}
-		
-		public Resource loadResource() throws FileNotFoundException, IOException {
-			final Resource resource = new ResourceSetImpl().createResource(original.getUri());
-			
-			final FileInputStream inputStream = new FileInputStream(renamed.getResource().getRawLocation().toOSString());
-			resource.load(inputStream, null);
-			inputStream.close();
-			
-			return resource;
-		}
-		
 	}
 }

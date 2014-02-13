@@ -13,18 +13,18 @@
  */
 package org.eclipse.epsilon.concordance.reporter.model;
 
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 /**
  * Clients must implement a no-argument constructor, which will be instantiated by Concordance.
  */
 public interface ModelChangeListener {
 
-	public void modelAdded(Model model);
+	public void modelAdded(IConcordanceModel model);
 
-	public void modelRemoved(Model model);
+	public void modelRemoved(IConcordanceModel model);
 
-	public void modelChanged(Model model);
+	public void modelChanged(IConcordanceModel model);
 	
-	public void modelMoved(Model original, Model moved);
+	public void modelMoved(IConcordanceModel original, IConcordanceModel moved);
 }

@@ -54,7 +54,7 @@ public class CrossReferenceAnalyserTests {
 	}
 
 	private static Set<CrossReference> crossReferencesOf(String model) throws IOException {
-		return new CrossReferenceAnalyser(new Model(uriOf(model))).determineCrossReferences();
+		return new CrossReferenceAnalyser(new ConcordanceModel(uriOf(model))).determineCrossReferences();
 	}
 
 	private static CrossReference crossReferenceBetween(String sourceModel, String sourceModelElement, String targetModel, String targetModelElement) {

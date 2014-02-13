@@ -20,9 +20,9 @@ import org.eclipse.core.runtime.CoreException;
 public abstract class ModelVisitor implements IResourceVisitor {
 
 	public final boolean visit(IResource resource) throws CoreException {
-		visit(new Model(resource));
+		visit(ConcordanceModelFactory.createModel(resource));
 		return false;
 	}
 
-	public abstract void visit(Model model);
+	public abstract void visit(IConcordanceModel model);
 }

@@ -22,7 +22,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
+import org.eclipse.epsilon.concordance.model.ConcordanceModel;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitModelAfterAddition() {
-		final Model modelStub = stub("families");
+		final ConcordanceModel modelStub = stub("families");
 		
 		mockVisitor.visit(modelStub);
 		
@@ -52,8 +53,8 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitReferencingModelAfterAddition() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
-		final Model modelStub = stub(dummyTarget);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
+		final ConcordanceModel modelStub = stub(dummyTarget);
 		
 		mockVisitor.visit(modelStub);
 		
@@ -68,8 +69,8 @@ public class InMemoryConcordanceIndexTests {
 
 	@Test
 	public void shouldVisitSeveralModelsAfterAddition() {
-		final Model firstModelStub  = stub("families");
-		final Model secondModelStub = stub("families");
+		final ConcordanceModel firstModelStub  = stub("families");
+		final ConcordanceModel secondModelStub = stub("families");
 
 		mockVisitor.visit(firstModelStub);
 		mockVisitor.visit(secondModelStub);
@@ -86,10 +87,10 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitAllReferencingModelsAfterAddition() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
 		
-		final Model firstModelStub  = stub(dummyTarget);
-		final Model secondModelStub = stub(dummyTarget);
+		final ConcordanceModel firstModelStub  = stub(dummyTarget);
+		final ConcordanceModel secondModelStub = stub(dummyTarget);
 		
 		mockVisitor.visit(firstModelStub);
 		mockVisitor.visit(secondModelStub);
@@ -107,8 +108,8 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitOnlyModelsWithMatchingNsUri() {
-		final Model familiesModelStub = stub("families");
-		final Model petsModelStub     = stub("pets");
+		final ConcordanceModel familiesModelStub = stub("families");
+		final ConcordanceModel petsModelStub     = stub("pets");
 		
 		mockVisitor.visit(familiesModelStub);
 		
@@ -124,11 +125,11 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitOnlyModelsWithMatchingTarget() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
-		final Model dummyOtherTarget = createMock("dummyOtherTarget", Model.class);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
+		final ConcordanceModel dummyOtherTarget = createMock("dummyOtherTarget", ConcordanceModel.class);
 		
-		final Model targetModelStub      = stub(dummyTarget);
-		final Model otherTargetModelStub = stub(dummyOtherTarget);
+		final ConcordanceModel targetModelStub      = stub(dummyTarget);
+		final ConcordanceModel otherTargetModelStub = stub(dummyOtherTarget);
 		
 		mockVisitor.visit(targetModelStub);
 		
@@ -154,7 +155,7 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldNotVisitAnyModelForUnknownTarget() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
 				
 		replay(mockVisitor);
 		
@@ -165,7 +166,7 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldNotVisitDeletedModelViaNsUri() {
-		final Model modelStub = stub("families");
+		final ConcordanceModel modelStub = stub("families");
 				
 		replay(mockVisitor);
 		
@@ -180,10 +181,10 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldNotVisitAnyTargetOfDeletedModel() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
-		final Model dummyOtherTarget = createMock("dummyOtherTarget", Model.class);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
+		final ConcordanceModel dummyOtherTarget = createMock("dummyOtherTarget", ConcordanceModel.class);
 		
-		final Model modelStub = stub(dummyTarget, dummyOtherTarget);
+		final ConcordanceModel modelStub = stub(dummyTarget, dummyOtherTarget);
 				
 		replay(mockVisitor);
 		
@@ -201,7 +202,7 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitNewNsUriWhenModelChanges() {
-		final Model modelStub = stub("families", "pets");
+		final ConcordanceModel modelStub = stub("families", "pets");
 		
 		mockVisitor.visit(modelStub);
 
@@ -218,11 +219,11 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitNewTargetsWhenModelChanges() {
-		final Model oldTarget1 = createMock("oldTarget1", Model.class);
-		final Model oldTarget2 = createMock("oldTarget2", Model.class);
-		final Model newTarget  = createMock("newTarget",  Model.class);
+		final IConcordanceModel oldTarget1 = createMock("oldTarget1", ConcordanceModel.class);
+		final IConcordanceModel oldTarget2 = createMock("oldTarget2", ConcordanceModel.class);
+		final IConcordanceModel newTarget  = createMock("newTarget",  ConcordanceModel.class);
 		
-		final Model modelStub = stub(Arrays.asList(oldTarget1, oldTarget2),
+		final IConcordanceModel modelStub = stub(Arrays.asList(oldTarget1, oldTarget2),
 		                             Arrays.asList(newTarget));
 		
 		mockVisitor.visit(modelStub);
@@ -241,7 +242,7 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldNotVisitOldNsUriWhenModelChanges() {
-		final Model modelStub = stub("families", "pets");
+		final ConcordanceModel modelStub = stub("families", "pets");
 
 		replay(mockVisitor);
 		
@@ -256,11 +257,11 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldNotVisitOldTargetsWhenModelChanges() {
-		final Model oldTarget1 = createMock("oldTarget1", Model.class);
-		final Model oldTarget2 = createMock("oldTarget2", Model.class);
-		final Model newTarget  = createMock("newTarget",  Model.class);
+		final IConcordanceModel oldTarget1 = createMock("oldTarget1", ConcordanceModel.class);
+		final IConcordanceModel oldTarget2 = createMock("oldTarget2", ConcordanceModel.class);
+		final IConcordanceModel newTarget  = createMock("newTarget",  ConcordanceModel.class);
 		
-		final Model modelStub = stub(Arrays.asList(oldTarget1, oldTarget2),
+		final IConcordanceModel modelStub = stub(Arrays.asList(oldTarget1, oldTarget2),
 		                             Arrays.asList(newTarget));
 		
 		replay(mockVisitor);
@@ -279,8 +280,8 @@ public class InMemoryConcordanceIndexTests {
 
 	@Test
 	public void shouldVisitViaNsUriNewLocationOfModelAfterMove() {
-		final Model originalModelStub = stub("families");
-		final Model movedModelStub    = stub("families");
+		final ConcordanceModel originalModelStub = stub("families");
+		final ConcordanceModel movedModelStub    = stub("families");
 		
 		mockVisitor.visit(movedModelStub);
 
@@ -297,10 +298,10 @@ public class InMemoryConcordanceIndexTests {
 	
 	@Test
 	public void shouldVisitViaReferenceModelsNewLocationOfModelAfterMove() {
-		final Model dummyTarget = createMock("dummyTarget", Model.class);
+		final ConcordanceModel dummyTarget = createMock("dummyTarget", ConcordanceModel.class);
 		
-		final Model originalModelStub = stub(dummyTarget);
-		final Model movedModelStub    = stub(dummyTarget);
+		final ConcordanceModel originalModelStub = stub(dummyTarget);
+		final ConcordanceModel movedModelStub    = stub(dummyTarget);
 		
 		mockVisitor.visit(movedModelStub);
 
@@ -319,32 +320,32 @@ public class InMemoryConcordanceIndexTests {
 	
 	private static int STUB_COUNT = 1;
 	
-	private static Model stub(String nsUri) {
-		final Model stub = createMock("StubModel" + STUB_COUNT++, Model.class);
+	private static ConcordanceModel stub(String nsUri) {
+		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 		
 		expect(stub.getNsUri()).andReturn(nsUri).anyTimes();
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<Model>()).anyTimes();
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>()).anyTimes();
 		replay(stub);
 		
 		return stub;
 	}
 	
-	private static Model stub(String firstNsUri, String secondNsUri) {
-		final Model stub = createMock("StubModel" + STUB_COUNT++, Model.class);
+	private static ConcordanceModel stub(String firstNsUri, String secondNsUri) {
+		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 		
 		expect(stub.getNsUri()).andReturn(firstNsUri).times(1);
 		expect(stub.getNsUri()).andReturn(secondNsUri).anyTimes();
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<Model>()).anyTimes();
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>()).anyTimes();
 		replay(stub);
 		
 		return stub;
 	}
 	
 	
-	private static Model stub(Model... targets) {
-		final Model stub = createMock("StubModel" + STUB_COUNT++, Model.class);
+	private static ConcordanceModel stub(ConcordanceModel... targets) {
+		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<Model>(Arrays.asList(targets))).anyTimes();
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>(Arrays.asList(targets))).anyTimes();
 		
 		expect(stub.getNsUri()).andReturn("families").anyTimes();
 		replay(stub);
@@ -352,11 +353,11 @@ public class InMemoryConcordanceIndexTests {
 		return stub;
 	}
 	
-	private Model stub(Collection<Model> firstTargets, Collection<Model> secondTargets) {
-		final Model stub = createMock("StubModel" + STUB_COUNT++, Model.class);
+	private ConcordanceModel stub(Collection<IConcordanceModel> firstTargets, Collection<IConcordanceModel> secondTargets) {
+		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<Model>(firstTargets)).times(1);
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<Model>(secondTargets)).anyTimes();
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>(firstTargets)).times(1);
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>(secondTargets)).anyTimes();
 		
 		expect(stub.getNsUri()).andReturn("families").anyTimes();
 		replay(stub);

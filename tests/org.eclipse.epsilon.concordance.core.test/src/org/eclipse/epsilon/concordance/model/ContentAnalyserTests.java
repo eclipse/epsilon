@@ -55,7 +55,7 @@ public class ContentAnalyserTests {
 	
 
 	private boolean modelContains(String model, String modelElementFragment) {
-		return new ContentAnalyser(new Model(uriOf(model))).contains(modelElementFragment);
+		return new ContentAnalyser(new ConcordanceModel(uriOf(model))).contains(modelElementFragment);
 	}
 
 	private static URI uriOf(String model) {

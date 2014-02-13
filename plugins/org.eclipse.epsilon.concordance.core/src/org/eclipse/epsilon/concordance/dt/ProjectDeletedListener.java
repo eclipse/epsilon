@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.ConcordanceModelFactory;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 
 public class ProjectDeletedListener implements IResourceChangeListener {
@@ -59,7 +59,7 @@ public class ProjectDeletedListener implements IResourceChangeListener {
 					
 					@Override
 					public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
-						reporter.reportRemoval(new Model(resource));
+						reporter.reportRemoval(ConcordanceModelFactory.createModel(resource));
 						return Status.OK_STATUS;
 					}
 				};

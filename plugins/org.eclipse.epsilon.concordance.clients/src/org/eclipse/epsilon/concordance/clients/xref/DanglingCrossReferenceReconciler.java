@@ -14,7 +14,7 @@
 package org.eclipse.epsilon.concordance.clients.xref;
 
 import org.eclipse.epsilon.concordance.index.ConcordanceIndex;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 
 public class DanglingCrossReferenceReconciler {
@@ -25,7 +25,7 @@ public class DanglingCrossReferenceReconciler {
 		this.index = index;
 	}
 	
-	public void reconcileCrossReferences(Model original, Model moved) {
+	public void reconcileCrossReferences(IConcordanceModel original, IConcordanceModel moved) {
 		moved.reconcileCrossReferences(original, moved);
 		
 		final CrossReferenceTargetReconcilingVisitor reconciler = new CrossReferenceTargetReconcilingVisitor(original, moved);
@@ -36,15 +36,15 @@ public class DanglingCrossReferenceReconciler {
 	
 	static class CrossReferenceTargetReconcilingVisitor extends ModelVisitor {
 
-		private final Model original, moved;
+		private final IConcordanceModel original, moved;
 		
-		public CrossReferenceTargetReconcilingVisitor(Model original, Model moved) {
+		public CrossReferenceTargetReconcilingVisitor(IConcordanceModel original, IConcordanceModel moved) {
 			this.original = original;
 			this.moved    = moved;
 		}
 
 		@Override
-		public void visit(Model model) {
+		public void visit(IConcordanceModel model) {
 			model.reconcileCrossReferences(original, moved);
 		}
 	}

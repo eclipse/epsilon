@@ -21,7 +21,8 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
+import org.eclipse.epsilon.concordance.model.ConcordanceModelFactory;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 import org.eclipse.ui.PlatformUI;
 
@@ -69,7 +70,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 				public boolean visit(IResource resource) throws CoreException {
 					
 					if (categoriser.isModel(resource)) {
-						final Model model = new Model(resource);
+						final IConcordanceModel model = ConcordanceModelFactory.createModel(resource);
 
 						reporter.reportRemoval(model);
 						reporter.reportAddition(model);
@@ -94,7 +95,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 				public boolean visit(IResourceDelta delta) {					
 					if (categoriser.isModel(delta.getResource())) {
 					
-						final Model model = new Model(delta.getResource());
+						final IConcordanceModel model = ConcordanceModelFactory.createModel(delta.getResource());
 						
 						if (delta.getKind() == IResourceDelta.ADDED && delta.getMovedFromPath() == null) {
 							reporter.reportAddition(model);
@@ -107,7 +108,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 							reporter.reportRemoval(model);
 						
 						} else if (delta.getKind() == IResourceDelta.ADDED && delta.getMovedFromPath() != null) {
-							reporter.reportMove(new Model(delta.getMovedFromPath()), model);
+							reporter.reportMove(ConcordanceModelFactory.createModel(delta.getMovedFromPath()), model);
 						}
 						
 					}

@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.concordance.model.CrossReferenceVisitor;
-import org.eclipse.epsilon.concordance.model.Model;
+import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 import org.eclipse.epsilon.concordance.model.ModelVisitor;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeListener;
 import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
@@ -29,11 +29,11 @@ import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
  */
 public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeListener {
 
-	final Map<Model, String>       modelToNsUri = new HashMap<Model, String>();
-	final Map<Model, Set<Model>>   modelToReferencedModels = new HashMap<Model, Set<Model>>();
+	final Map<IConcordanceModel, String>      modelToNsUri = new HashMap<IConcordanceModel, String>();
+	final Map<IConcordanceModel, Set<IConcordanceModel>> modelToReferencedModels = new HashMap<IConcordanceModel, Set<IConcordanceModel>>();
 	
-	final Map<String, Set<Model>> modelsByNsUri           = new HashMap<String, Set<Model>>();
-	final Map<Model, Set<Model>>  modelsByReferencedModel = new HashMap<Model, Set<Model>>();
+	final Map<String, Set<IConcordanceModel>> modelsByNsUri           = new HashMap<String, Set<IConcordanceModel>>();
+	final Map<IConcordanceModel, Set<IConcordanceModel>> modelsByReferencedModel = new HashMap<IConcordanceModel, Set<IConcordanceModel>>();
 	
 	/**
 	 * @deprecated WARNING: This is a partial implementation of an in-memory index. It may not work as expected. 
@@ -45,30 +45,30 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 	public void visitAllInstancesOf(String nsUri, ModelVisitor visitor) {
 		if (!modelsByNsUri.containsKey(nsUri)) return;
 		
-		for (Model model : modelsByNsUri.get(nsUri)) {
+		for (IConcordanceModel model : modelsByNsUri.get(nsUri)) {
 			visitor.visit(model);
 		}
 	}
 	
-	public void visitAllModelsWithCrossReferencesTo(Model target, ModelVisitor visitor) {
+	public void visitAllModelsWithCrossReferencesTo(IConcordanceModel target, ModelVisitor visitor) {
 		if (!modelsByReferencedModel.containsKey(target)) return;
 		
-		for (Model model : modelsByReferencedModel.get(target)) {
+		for (IConcordanceModel model : modelsByReferencedModel.get(target)) {
 			visitor.visit(model);
 		}
 	}
 	
-	public void visitAllCrossReferencesWithTarget(Model target, CrossReferenceVisitor visitor) {
+	public void visitAllCrossReferencesWithTarget(IConcordanceModel target, CrossReferenceVisitor visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void modelAdded(Model model) {
+	public void modelAdded(IConcordanceModel model) {
 		addNsUriOfModel(model, model.getNsUri());
 		addReferencedModelsOfModel(model, model.getAllReferencedModels());
 	}
 
-	public void modelChanged(Model model) {
+	public void modelChanged(IConcordanceModel model) {
 		final String oldNsUri = modelToNsUri.get(model);
 		final String newNsUri = model.getNsUri();
 		
@@ -77,11 +77,11 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 			addNsUriOfModel(model, newNsUri);
 		}
 		
-		final Set<Model> oldReferencedModels = modelToReferencedModels.get(model);
-		final Set<Model> newReferencedModels = model.getAllReferencedModels();
+		final Set<IConcordanceModel> oldReferencedModels = modelToReferencedModels.get(model);
+		final Set<IConcordanceModel> newReferencedModels = model.getAllReferencedModels();
 				
 		if (!oldReferencedModels.equals(newReferencedModels)) {
-			for (Model oldReferencedModel : oldReferencedModels) {
+			for (IConcordanceModel oldReferencedModel : oldReferencedModels) {
 				modelsByReferencedModel.get(oldReferencedModel).remove(model);
 			}
 			
@@ -89,30 +89,30 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 		}
 	}
 	
-	private void addNsUriOfModel(Model model, String nsUri) {
+	private void addNsUriOfModel(IConcordanceModel model, String nsUri) {
 		modelToNsUri.put(model, nsUri);
 		
 		if (!modelsByNsUri.containsKey(nsUri)) {
-			modelsByNsUri.put(nsUri, new HashSet<Model>());
+			modelsByNsUri.put(nsUri, new HashSet<IConcordanceModel>());
 		}
 		
 		modelsByNsUri.get(nsUri).add(model);
 	
 	}
 	
-	private void addReferencedModelsOfModel(Model model, Set<Model> referencedModels) {
+	private void addReferencedModelsOfModel(IConcordanceModel model, Set<IConcordanceModel> referencedModels) {
 		modelToReferencedModels.put(model, referencedModels);
 		
-		for (Model referencedModel : referencedModels) {
+		for (IConcordanceModel referencedModel : referencedModels) {
 			if (!modelsByReferencedModel.containsKey(referencedModel)) {
-				modelsByReferencedModel.put(referencedModel, new HashSet<Model>());
+				modelsByReferencedModel.put(referencedModel, new HashSet<IConcordanceModel>());
 			}
 			
 			modelsByReferencedModel.get(referencedModel).add(model);
 		}
 	}	
 
-	public void modelMoved(Model original, Model moved) {
+	public void modelMoved(IConcordanceModel original, IConcordanceModel moved) {
 		final String nsUri = modelToNsUri.remove(original);
 		
 		modelToNsUri.put(moved, nsUri);
@@ -120,17 +120,17 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 		modelsByNsUri.get(nsUri).add(moved);
 		
 		
-		final Set<Model> referencedModels = modelToReferencedModels.remove(original);
+		final Set<IConcordanceModel> referencedModels = modelToReferencedModels.remove(original);
 		
 		modelToReferencedModels.put(moved, referencedModels);
 		
-		for (Model referencedModel : referencedModels) {
+		for (IConcordanceModel referencedModel : referencedModels) {
 			modelsByReferencedModel.get(referencedModel).remove(original);
 			modelsByReferencedModel.get(referencedModel).add(moved);
 		}
 	}
 
-	public void modelRemoved(Model model) {
+	public void modelRemoved(IConcordanceModel model) {
 		modelToNsUri.remove(model);
 		
 		final String nsUri = model.getNsUri();
@@ -139,7 +139,7 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 			modelsByNsUri.get(nsUri).remove(model);
 		}
 		
-		for (Model referencedModel : model.getAllReferencedModels()) {
+		for (IConcordanceModel referencedModel : model.getAllReferencedModels()) {
 			if (modelsByReferencedModel.containsKey(referencedModel)) {
 				modelsByReferencedModel.get(referencedModel).remove(model);
 			}
