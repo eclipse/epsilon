@@ -34,7 +34,7 @@ public class EvlEditorStaticTemplateContributor implements IAbstractModuleEditor
 						"}",false));
 			
 			templates.add(new Template("fix", "fix", "", 
-					"fix \r\n" + 
+					"fix {\r\n" + 
 					"\ttitle : ${cursor}\r\n" + 
 					"\tdo {\r\n" +
 					"\t\t\r\n" +
