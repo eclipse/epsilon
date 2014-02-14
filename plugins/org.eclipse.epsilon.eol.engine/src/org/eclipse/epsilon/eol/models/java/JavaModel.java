@@ -34,6 +34,11 @@ public class JavaModel extends Model implements IReflectiveModel {
 	protected Collection<Object> objects;
 	protected Collection<Class<?>> classes;
 	
+	public JavaModel(String name, Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
+		this(objects, classes);
+		this.name = name;
+	}
+	
 	public JavaModel(Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
 		this.objects = new LinkedList<Object>(objects);
 		this.classes = new LinkedList<Class<?>>(classes);
