@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2014 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,49 +8,41 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
+package org.eclipse.epsilon.eol.execute.introspection.recording;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-public class ModelLocation {
-
-	public final Object modelElement;
-	public final String propertyName;
+public class PropertyAccess implements IPropertyAccess {
 	
-	public ModelLocation(Object modelElement, String propertyName) {
+	protected final Object modelElement;
+	protected final String propertyName;
+	
+	public PropertyAccess(Object modelElement, String propertyName) {
 		this.modelElement = modelElement;
 		this.propertyName = propertyName;
 	}
-	
-	
-	// Getters for compatibility with JavaModel, which are used in acceptance tests
 
+	@Override
 	public Object getModelElement() {
-		return modelElement;
-	}
-	
-	public String getPropertyName() {
-		return propertyName;
+		return this.modelElement;
 	}
 
-	public Collection<? extends Object> getAllContents() {
-		return Arrays.asList(this, modelElement);
+	@Override
+	public String getPropertyName() {
+		return this.propertyName;
 	}
 
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof ModelLocation))
+		if (!(object instanceof PropertyAccess))
 			return false;
 		
-		final ModelLocation other = (ModelLocation)object;
+		final PropertyAccess other = (PropertyAccess)object;
 		
 		return modelElement.equals(other.modelElement) &&
 		       propertyName.equals(other.propertyName);
 	}
-
+	
 	@Override
-	public int hashCode() {
-		return modelElement.hashCode() + propertyName.hashCode();
+	public String toString() {
+		return "PropertyAccess of '" + propertyName + "' on model element: '" + modelElement;
 	}
 }

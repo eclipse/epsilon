@@ -44,4 +44,20 @@ public class TextLocation {
 		allContents.add(region);
 		return allContents;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof TextLocation))
+			return false;
+		
+		final TextLocation other = (TextLocation)object;
+		
+		return (resource == null ? other.resource == null : resource.equals(other.resource)) &&
+		       region.equals(other.region);
+	}
+
+	@Override
+	public int hashCode() {
+		return (resource == null ? 0 : resource.hashCode()) + region.hashCode();
+	}
 }

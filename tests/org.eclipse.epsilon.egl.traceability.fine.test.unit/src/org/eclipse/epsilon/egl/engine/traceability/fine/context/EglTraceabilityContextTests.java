@@ -31,7 +31,7 @@ public class EglTraceabilityContextTests {
 
 	private final AST argument = mock(AST.class);
 	private final IEolContext parent = mock(IEolContext.class);
-	private final SelectivePropertyAccessRecorder recorder = mock(SelectivePropertyAccessRecorder.class);
+	private final EglPropertyAccessRecorder recorder = mock(EglPropertyAccessRecorder.class);
 	private final ExecutorFactory executor = mock(ExecutorFactory.class);	
 	private final IEglTraceabilityContext context = new EglTraceabilityContext(parent, recorder);
 	

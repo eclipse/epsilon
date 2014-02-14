@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2014 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,12 +8,11 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eol.execute.introspection;
+package org.eclipse.epsilon.eol.execute.introspection.recording;
 
-public class NullPropertyAccessRecorder implements IPropertyAccessRecorder {
+public interface IPropertyAccesses {
 
-	@Override
-	public final void record(Object modelElement, String propertyName) {
-		// Do nothing
-	}
+	public Iterable<? extends IPropertyAccess> all();
+
+	public boolean isEmpty();
 }

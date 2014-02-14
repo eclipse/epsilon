@@ -49,4 +49,21 @@ public class TraceLink {
 		allContents.addAll(destination.getAllContents());
 		return allContents;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof TraceLink))
+			return false;
+		
+		final TraceLink other = (TraceLink)object;
+		
+		return source.equals(other.source) &&
+		       destination.equals(other.destination) &&
+		       customData.equals(other.customData);
+	}
+
+	@Override
+	public int hashCode() {
+		return source.hashCode() + destination.hashCode() + customData.hashCode();
+	}
 }

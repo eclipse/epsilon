@@ -30,4 +30,20 @@ public class Region {
 	public int getLength() {
 		return length;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Region))
+			return false;
+		
+		final Region other = (Region)object;
+		
+		return offset == other.offset &&
+		       length == other.length;
+	}
+
+	@Override
+	public int hashCode() {
+		return offset + length;
+	}
 }

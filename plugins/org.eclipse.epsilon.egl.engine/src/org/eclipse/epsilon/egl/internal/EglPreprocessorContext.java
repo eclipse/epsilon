@@ -11,6 +11,8 @@
 package org.eclipse.epsilon.egl.internal;
 
 import java.io.PrintStream;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,8 +27,8 @@ import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
 import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
+import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
@@ -43,6 +45,7 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 	
 	public EglPreprocessorContext(IEolContext delegate) {
 		this.delegate = delegate;
+		this.delegate.getPropertyAccessRecorders().add(this.traceabilityContext.getPropertyAccessRecorder());
 	}
 	
 	public IEglContext getEglContext() {
@@ -54,7 +57,9 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 	}
 	
 	public void setTraceabilityContext(IEglTraceabilityContext traceabilityContext) {
+		this.delegate.getPropertyAccessRecorders().remove(this.traceabilityContext.getPropertyAccessRecorder());
 		this.traceabilityContext = traceabilityContext;
+		this.delegate.getPropertyAccessRecorders().add(this.traceabilityContext.getPropertyAccessRecorder());
 	}
 	
 	@Override
@@ -77,13 +82,12 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 		};
 	}
 	
-	@Override
-	public IPropertyAccessRecorder getPropertyAccessRecorder() {
-		return getTraceabilityContext().getPropertyAccessRecorder();
-	}
-	
-	
 	// The following methods delegate to the EolContext member	
+
+	@Override
+	public Collection<IPropertyAccessRecorder> getPropertyAccessRecorders() {
+		return delegate.getPropertyAccessRecorders();
+	}
 
 	@Override
 	public PrintStream getWarningStream() {

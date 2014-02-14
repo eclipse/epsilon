@@ -11,19 +11,21 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class Trace {
 
 	public final List<TextLocation> locations = new LinkedList<TextLocation>();
-	public final List<TraceLink> traceLinks = new LinkedList<TraceLink>();
+	public final Set<TraceLink> traceLinks = new LinkedHashSet<TraceLink>();
 	public String destination;
 	
 	
 	// Getters for compatibility with JavaModel, which are used in acceptance tests 
 	
-	public List<TraceLink> getTraceLinks() {
+	public Set<TraceLink> getTraceLinks() {
 		return traceLinks;
 	}
 	

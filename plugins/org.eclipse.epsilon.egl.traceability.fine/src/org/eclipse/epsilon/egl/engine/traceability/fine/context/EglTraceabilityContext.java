@@ -19,20 +19,20 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceBuilder;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyAccessRecorder;
+import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 
 
 public class EglTraceabilityContext implements IEglTraceabilityContext {
 
 	private final TraceBuilder traceBuilder = new TraceBuilder();
-	private final SelectivePropertyAccessRecorder recorder;
+	private final EglPropertyAccessRecorder recorder;
 	private final IEolContext parent;
 	
 	public EglTraceabilityContext(IEolContext parent) {
-		this(parent, new SelectivePropertyAccessRecorder());
+		this(parent, new EglPropertyAccessRecorder());
 	}
 	
-	public EglTraceabilityContext(IEolContext parent, SelectivePropertyAccessRecorder recorder) {
+	public EglTraceabilityContext(IEolContext parent, EglPropertyAccessRecorder recorder) {
 		this.parent   = parent;
 		this.recorder = recorder;
 	}

@@ -1,0 +1,103 @@
+/*******************************************************************************
+ * Copyright (c) 2014 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Louis Rose - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.epsilon.eol.engine.test.acceptance.recording;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+
+import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
+import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccesses;
+import org.eclipse.epsilon.eol.execute.introspection.recording.PropertyAccess;
+import org.eclipse.epsilon.eol.execute.introspection.recording.PropertyAccessRecorder;
+import org.eclipse.epsilon.eol.execute.introspection.recording.PropertyAccesses;
+import org.eclipse.epsilon.eol.models.java.JavaModel;
+import org.junit.Before;
+import org.junit.Test;
+
+@SuppressWarnings("unchecked")
+public class PropertyAccessRecording {
+
+	private final IEolModule module = new EolModule();
+	private final IPropertyAccessRecorder recorder = new PropertyAccessRecorder();
+	private final Person person = new Person("Joe Bloggs", 42);
+	private final JavaModel model = new JavaModel("People", Arrays.asList(person), Arrays.asList(Person.class));
+	
+	@Before
+	public void setup() {
+		module.getContext().getModelRepository().addModel(model);
+		module.getContext().getPropertyAccessRecorders().add(recorder);
+	}
+	
+	@Test
+	public void doesNotRecordAccessesByDefault() throws Exception {
+		module.parse("var c = Person.all.first; var name = c.name;");
+		module.execute();
+		
+		assertEquals(new PropertyAccesses(), recorder.getPropertyAccesses());
+	}
+	
+	
+	@Test
+	public void recordsAccessesBetweenStartAndStop() throws Exception {
+		module.parse("var c = Person.all.first; var name = c.name;");
+		
+		recorder.startRecording();
+		module.execute();
+		recorder.stopRecording();
+		
+		final IPropertyAccesses expectedPropertyAccesses = new PropertyAccesses(
+			new PropertyAccess(person, "name")
+		);
+		
+		assertEquals(expectedPropertyAccesses, recorder.getPropertyAccesses());
+	}
+
+	@Test
+	public void recordsAllAccessesBetweenStartAndStop() throws Exception {
+		module.parse("var c = Person.all.first; var name = c.name; var age = c.age;");
+		
+		recorder.startRecording();
+		module.execute();
+		module.execute();
+		recorder.stopRecording();
+		
+		final IPropertyAccesses expectedPropertyAccesses = new PropertyAccesses(
+			new PropertyAccess(person, "name"),
+			new PropertyAccess(person, "age"),
+			new PropertyAccess(person, "name"),
+			new PropertyAccess(person, "age")
+		);
+		
+		assertEquals(expectedPropertyAccesses, recorder.getPropertyAccesses());
+	}
+	
+	@SuppressWarnings("unused")
+	private static class Person {
+		private final String name;
+		private final int age;
+		
+		public Person(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public int getAge() {
+			return age;
+		}
+	}
+}
