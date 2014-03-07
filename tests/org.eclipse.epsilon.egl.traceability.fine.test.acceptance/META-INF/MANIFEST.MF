@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine.test.acceptance
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
- org.eclipse.epsilon.egl.engine.test.acceptance
+ org.eclipse.epsilon.egl.engine.test.acceptance,
+ org.eclipse.epsilon.egl.traceability.fine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance

@@ -16,12 +16,13 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EglTemplateOperation extends EglOperation {
+public class EglTemplateOperation extends EolOperation {
 
 	public EglTemplateOperation(AST ast) {
 		super(ast);

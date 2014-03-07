@@ -84,14 +84,6 @@ public class TextlinkAdapterFactory extends AdapterFactoryImpl {
 				return createTraceLinkAdapter();
 			}
 			@Override
-			public Adapter caseTraceLinkData(TraceLinkData object) {
-				return createTraceLinkDataAdapter();
-			}
-			@Override
-			public Adapter caseTraceLinkDataItem(TraceLinkDataItem object) {
-				return createTraceLinkDataItemAdapter();
-			}
-			@Override
 			public Adapter caseTraceLinkEnd(TraceLinkEnd object) {
 				return createTraceLinkEndAdapter();
 			}
@@ -156,34 +148,6 @@ public class TextlinkAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTraceLinkAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData <em>Trace Link Data</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData
-	 * @generated
-	 */
-	public Adapter createTraceLinkDataAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem <em>Trace Link Data Item</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem
-	 * @generated
-	 */
-	public Adapter createTraceLinkDataItemAdapter() {
 		return null;
 	}
 

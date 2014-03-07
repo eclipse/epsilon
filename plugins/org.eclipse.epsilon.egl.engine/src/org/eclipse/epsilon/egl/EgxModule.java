@@ -146,7 +146,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		
 		context.setModule(this);
 		context.copyInto(templateFactory.getContext(), true);
-		templateFactory.getContext().setTraceManager(context.getTraceManager());
 		
 		execute(getPre(), context);
 		

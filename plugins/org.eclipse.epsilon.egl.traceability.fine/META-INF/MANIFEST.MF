@@ -6,8 +6,9 @@ Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.context,
- org.eclipse.epsilon.egl.engine.traceability.fine.operations.print,
+Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine,
+ org.eclipse.epsilon.egl.engine.traceability.fine.internal;x-friends:="org.eclipse.epsilon.egl.traceability.fine.test.unit",
  org.eclipse.epsilon.egl.engine.traceability.fine.trace,
  org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder
-Require-Bundle: org.eclipse.epsilon.eol.engine
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.egl.engine

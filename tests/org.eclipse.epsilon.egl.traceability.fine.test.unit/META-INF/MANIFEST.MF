@@ -4,6 +4,7 @@ Bundle-Name: EGL Fine-Grained Traceability Unit Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine.test.unit
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies
+Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
+ org.eclipse.epsilon.egl.traceability.fine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.test.unit

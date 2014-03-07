@@ -23,8 +23,6 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkEnd;
 
 /**
@@ -47,20 +45,6 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * @generated
 	 */
 	private EClass traceLinkEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass traceLinkDataEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass traceLinkDataItemEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -208,60 +192,6 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTraceLink_CustomData() {
-		return (EReference)traceLinkEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getTraceLinkData() {
-		return traceLinkDataEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTraceLinkData_Items() {
-		return (EReference)traceLinkDataEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getTraceLinkDataItem() {
-		return traceLinkDataItemEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getTraceLinkDataItem_Key() {
-		return (EAttribute)traceLinkDataItemEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getTraceLinkDataItem_Value() {
-		return (EAttribute)traceLinkDataItemEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTraceLinkEnd() {
 		return traceLinkEndEClass;
 	}
@@ -390,14 +320,6 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		traceLinkEClass = createEClass(TRACE_LINK);
 		createEReference(traceLinkEClass, TRACE_LINK__SOURCE);
 		createEReference(traceLinkEClass, TRACE_LINK__DESTINATION);
-		createEReference(traceLinkEClass, TRACE_LINK__CUSTOM_DATA);
-
-		traceLinkDataEClass = createEClass(TRACE_LINK_DATA);
-		createEReference(traceLinkDataEClass, TRACE_LINK_DATA__ITEMS);
-
-		traceLinkDataItemEClass = createEClass(TRACE_LINK_DATA_ITEM);
-		createEAttribute(traceLinkDataItemEClass, TRACE_LINK_DATA_ITEM__KEY);
-		createEAttribute(traceLinkDataItemEClass, TRACE_LINK_DATA_ITEM__VALUE);
 
 		traceLinkEndEClass = createEClass(TRACE_LINK_END);
 
@@ -455,14 +377,6 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		initEClass(traceLinkEClass, TraceLink.class, "TraceLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTraceLink_Source(), this.getModelLocation(), null, "source", null, 1, 1, TraceLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTraceLink_Destination(), this.getTextLocation(), null, "destination", null, 1, 1, TraceLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTraceLink_CustomData(), this.getTraceLinkData(), null, "customData", null, 1, 1, TraceLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(traceLinkDataEClass, TraceLinkData.class, "TraceLinkData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTraceLinkData_Items(), this.getTraceLinkDataItem(), null, "items", null, 0, -1, TraceLinkData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(traceLinkDataItemEClass, TraceLinkDataItem.class, "TraceLinkDataItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTraceLinkDataItem_Key(), ecorePackage.getEString(), "key", null, 1, 1, TraceLinkDataItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTraceLinkDataItem_Value(), ecorePackage.getEString(), "value", null, 1, 1, TraceLinkDataItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(traceLinkEndEClass, TraceLinkEnd.class, "TraceLinkEnd", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

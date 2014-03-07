@@ -12,8 +12,6 @@ package org.eclipse.epsilon.egl.dt.traceability.fine.emf;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.IFineGrainedTracePostprocessor;
@@ -25,8 +23,6 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkData;
-import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkDataItem;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 
@@ -55,24 +51,8 @@ public class Pojo2Emf implements IFineGrainedTracePostprocessor {
 	
 	private TraceLink transform(org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink original) {
 		final TraceLink transformed = TextlinkFactory.eINSTANCE.createTraceLink();
-		transformed.setCustomData(transform(original.customData));
 		transformed.setSource(transform(original.source));
 		transformed.setDestination(transform(original.destination));
-		return transformed;
-	}
-
-	private TraceLinkData transform(Map<String, String> customData) {
-		final TraceLinkData transformed = TextlinkFactory.eINSTANCE.createTraceLinkData();
-		for (Map.Entry<String, String> item : customData.entrySet()) {
-			transformed.getItems().add(transform(item));
-		}
-		return transformed;
-	}
-
-	private TraceLinkDataItem transform(Entry<String, String> item) {
-		final TraceLinkDataItem transformed = TextlinkFactory.eINSTANCE.createTraceLinkDataItem();
-		transformed.setKey(item.getKey());
-		transformed.setValue(item.getValue());
 		return transformed;
 	}
 

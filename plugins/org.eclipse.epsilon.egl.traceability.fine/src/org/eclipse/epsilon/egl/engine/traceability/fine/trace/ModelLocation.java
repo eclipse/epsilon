@@ -53,4 +53,9 @@ public class ModelLocation {
 	public int hashCode() {
 		return modelElement.hashCode() + propertyName.hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return "<ModelLocation modelElement:" + modelElement + ", propertyName:" + propertyName + ">"; 
+	}
 }

@@ -5,13 +5,13 @@ Bundle-SymbolicName: org.eclipse.epsilon.egl.engine
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.egl.traceability.fine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.config,
  org.eclipse.epsilon.egl.exceptions,
  org.eclipse.epsilon.egl.execute,
  org.eclipse.epsilon.egl.execute.context,
+ org.eclipse.epsilon.egl.execute.control,
  org.eclipse.epsilon.egl.execute.operations,
  org.eclipse.epsilon.egl.formatter,
  org.eclipse.epsilon.egl.formatter.language,

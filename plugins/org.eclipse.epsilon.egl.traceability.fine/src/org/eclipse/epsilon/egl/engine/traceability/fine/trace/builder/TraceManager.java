@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 
 public class TraceManager {
@@ -30,14 +29,6 @@ public class TraceManager {
 		this.trace = new TraceCombiner().combine(this.trace, trace, positionInParentReporter.getCurrentOffset());
 	}
 
-	public void addDestinationResourceForUnclaimedPropertyAccesses(String resource) {
-		for (TextLocation location : trace.locations) {
-			if (location.resource == null) {
-				location.resource = resource;
-			}
-		}
-	}
-	
 	public interface PositionReporter {
 		public int getCurrentOffset();
 	}

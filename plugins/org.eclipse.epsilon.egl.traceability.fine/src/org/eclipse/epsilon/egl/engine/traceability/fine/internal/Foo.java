@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2014 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,11 +8,14 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.engine.traceability.fine.context;
+package org.eclipse.epsilon.egl.engine.traceability.fine.internal;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import java.util.Stack;
 
-public interface IEglContextWithFineGrainedTraceability extends IEolContext {
+import org.eclipse.epsilon.common.util.Multimap;
+import org.eclipse.epsilon.egl.EglTemplate;
 
-	public IEglTraceabilityContext getTraceabilityContext();
+public class Foo {
+	public final Stack<EglTemplate> templates = new Stack<EglTemplate>();
+	public final Multimap<EglTemplate, PropertyAccessWithPosition> currentLinks = new Multimap<EglTemplate, PropertyAccessWithPosition>();
 }

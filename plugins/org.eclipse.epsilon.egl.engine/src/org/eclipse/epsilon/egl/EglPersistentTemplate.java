@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.util.FileUtil;
@@ -122,7 +123,10 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 			}
 
 			doGenerate(outputFile, name(path), overwrite, protectRegions);
-			module.getContext().getFineGrainedTraceManager().addDestinationResourceForUnclaimedPropertyAccesses(outputFile.getAbsolutePath());
+			
+			for (ITemplateExecutionListener listener : listeners) {
+				listener.finishedGenerating(this, name(path));
+			}
 			
 		} else {
 			addMessage("Existing contents of " + name(path) + " were preserved.");

@@ -48,24 +48,6 @@ public interface TextlinkFactory extends EFactory {
 	TraceLink createTraceLink();
 
 	/**
-	 * Returns a new object of class '<em>Trace Link Data</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Trace Link Data</em>'.
-	 * @generated
-	 */
-	TraceLinkData createTraceLinkData();
-
-	/**
-	 * Returns a new object of class '<em>Trace Link Data Item</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Trace Link Data Item</em>'.
-	 * @generated
-	 */
-	TraceLinkDataItem createTraceLinkDataItem();
-
-	/**
 	 * Returns a new object of class '<em>Emf Model Location</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -46,4 +46,9 @@ public class Region {
 	public int hashCode() {
 		return offset + length;
 	}
+	
+	@Override
+	public String toString() {
+		return offset + "+" + length; 
+	}
 }

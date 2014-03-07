@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
@@ -33,6 +34,7 @@ public class EglTemplate extends AbstractEglTemplate {
 
 	protected final String name;
 	protected final Template template;
+	protected final Collection<ITemplateExecutionListener> listeners;
 	
 	private IncrementalitySettings incrementalitySettings;
 	private Formatter formatter;
@@ -45,18 +47,19 @@ public class EglTemplate extends AbstractEglTemplate {
 	}
 
 	public EglTemplate(EglTemplateSpecification spec, IEglContext context) throws Exception {
-		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter(), spec.getIncrementalitySettings());
+		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter(), spec.getIncrementalitySettings(), spec.getTemplateExecutionListeners());
 		
 		spec.parseInto(module);
 	}
 	
-	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter, IncrementalitySettings incrementalitySettings) {
+	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter, IncrementalitySettings incrementalitySettings, Collection<ITemplateExecutionListener> listeners) {
 		super(new EglModule(context));
 		
 		this.name     = name;
 		this.template = template;
 		this.formatter = formatter;
 		this.incrementalitySettings = incrementalitySettings;
+		this.listeners = listeners;
 	}
 	
 	public String getName() {
@@ -68,11 +71,19 @@ public class EglTemplate extends AbstractEglTemplate {
 	}
 	
 	public String process() throws EglRuntimeException {
+		for (ITemplateExecutionListener listener : listeners) {
+			listener.aboutToProcess(this);
+		}
+		
 		final EglResult result = module.execute(template, formatter);
 		
 		contents = result.generatedText;
 		processed = true;
 
+		for (ITemplateExecutionListener listener : listeners) {
+			listener.finishedProcessing(this);
+		}
+		
 		return contents;
 	}
 	

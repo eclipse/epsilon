@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2014 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,41 +11,30 @@
 package org.eclipse.epsilon.egl.internal;
 
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.EglTraceabilityContext;
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglContextWithFineGrainedTraceability;
-import org.eclipse.epsilon.egl.engine.traceability.fine.context.IEglTraceabilityContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.output.OutputBufferOperationContributor;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
 import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.IToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 
-public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceability {
+public class EglPreprocessorContext implements IEolContext {
 
 	private final IEolContext delegate;
-	private IEglTraceabilityContext traceabilityContext = new EglTraceabilityContext(this);
 	private IEglContext parent;
 	
 	public EglPreprocessorContext(IEolContext delegate) {
 		this.delegate = delegate;
-		this.delegate.getPropertyAccessRecorders().add(this.traceabilityContext.getPropertyAccessRecorder());
 	}
 	
 	public IEglContext getEglContext() {
@@ -56,199 +45,141 @@ public class EglPreprocessorContext implements IEglContextWithFineGrainedTraceab
 		this.parent = parent;
 	}
 	
-	public void setTraceabilityContext(IEglTraceabilityContext traceabilityContext) {
-		this.delegate.getPropertyAccessRecorders().remove(this.traceabilityContext.getPropertyAccessRecorder());
-		this.traceabilityContext = traceabilityContext;
-		this.delegate.getPropertyAccessRecorders().add(this.traceabilityContext.getPropertyAccessRecorder());
-	}
 	
-	@Override
-	public IEglTraceabilityContext getTraceabilityContext() {
-		return traceabilityContext;
+	// The remaining methods delegate to the IEolContext object
+
+	public void setUserInput(IUserInput userInput) {
+		delegate.setUserInput(userInput);
 	}
 
-	@Override
-	public OperationContributorRegistry getOperationContributorRegistry() {
-		return new OperationContributorRegistry() {
-
-			@Override
-			protected List<OperationContributor> getDefaultOperationContributors() {
-				final List<OperationContributor> operationContributors = new LinkedList<OperationContributor>();
-				operationContributors.add(new OutputBufferOperationContributor());
-				operationContributors.addAll(super.getDefaultOperationContributors());
-				return operationContributors;
-			}
-			
-		};
-	}
-	
-	// The following methods delegate to the EolContext member	
-
-	@Override
-	public Collection<IPropertyAccessRecorder> getPropertyAccessRecorders() {
-		return delegate.getPropertyAccessRecorders();
-	}
-
-	@Override
-	public PrintStream getWarningStream() {
-		return delegate.getWarningStream();
-	}
-
-	@Override
-	public PrettyPrinterManager getPrettyPrinterManager() {
-		return delegate.getPrettyPrinterManager();
-	}
-	
-	@Override
-	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager) {
-		delegate.setPrettyPrinterManager(prettyPrinterManager);
-	}
-
-	@Override
-	public PrintStream getOutputStream() {
-		return delegate.getOutputStream();
-	}
-
-	@Override
-	public OperationFactory getOperationFactory() {
-		return delegate.getOperationFactory();
-	}
-
-	@Override
-	public ExecutorFactory getExecutorFactory() {
-		return delegate.getExecutorFactory();
-	}
-
-	@Override
-	public ModelRepository getModelRepository() {
-		return delegate.getModelRepository();
-	}
-
-	@Override
-	public FrameStack getFrameStack() {
-		return delegate.getFrameStack();
-	}
-
-	@Override
-	public IntrospectionManager getIntrospectionManager() {
-		return delegate.getIntrospectionManager();
-	}
-
-	@Override
-	public PrintStream getErrorStream() {
-		return delegate.getErrorStream();
-	}
-
-	@Override
-	public IModule getModule() {
-		return delegate.getModule();
-	}
-
-	@Override
 	public IUserInput getUserInput() {
 		return delegate.getUserInput();
 	}
 
-	@Override
-	public List<IToolNativeTypeDelegate> getNativeTypeDelegates() {
-		return delegate.getNativeTypeDelegates();
+	public PrettyPrinterManager getPrettyPrinterManager() {
+		return delegate.getPrettyPrinterManager();
 	}
 
-	@Override
-	public ExtendedProperties getExtendedProperties() {
-		return delegate.getExtendedProperties();
+	public void setPrettyPrinterManager(
+			PrettyPrinterManager prettyPrinterManager) {
+		delegate.setPrettyPrinterManager(prettyPrinterManager);
 	}
 
-	@Override
-	public void dispose() {
-		delegate.dispose();
+	public PrintStream getOutputStream() {
+		return delegate.getOutputStream();
 	}
 
-	@Override
-	public List<AsyncStatement> getAsyncStatementsQueque() {
-		return delegate.getAsyncStatementsQueque();
-	}
-	
-	@Override
-	public void setWarningStream(PrintStream warningStream) {
-		delegate.setWarningStream(warningStream);
-	}
-
-	@Override
-	public boolean isAssertionsEnabled() {
-		return delegate.isAssertionsEnabled();
-	}
-
-	@Override
-	public void setAssertionsEnabled(boolean assertionsEnabled) {
-		delegate.setAssertionsEnabled(assertionsEnabled);
-	}
-
-	@Override
 	public void setOutputStream(PrintStream outputStream) {
 		delegate.setOutputStream(outputStream);
 	}
 
-	@Override
+	public PrintStream getWarningStream() {
+		return delegate.getWarningStream();
+	}
+
+	public void setWarningStream(PrintStream warningStream) {
+		delegate.setWarningStream(warningStream);
+	}
+
+	public OperationFactory getOperationFactory() {
+		return delegate.getOperationFactory();
+	}
+
 	public void setOperationFactory(OperationFactory operationFactory) {
 		delegate.setOperationFactory(operationFactory);
 	}
 
-	@Override
+	public ExecutorFactory getExecutorFactory() {
+		return delegate.getExecutorFactory();
+	}
+
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
 		delegate.setExecutorFactory(executorFactory);
 	}
 
-	@Override
+	public ModelRepository getModelRepository() {
+		return delegate.getModelRepository();
+	}
+
 	public void setModelRepository(ModelRepository modelRepository) {
 		delegate.setModelRepository(modelRepository);
 	}
-	
-	@Override
-	public void setFrameStack(FrameStack frameStack) {
-		delegate.setFrameStack(frameStack);
+
+	public FrameStack getFrameStack() {
+		return delegate.getFrameStack();
 	}
 
-	@Override
+	public void setFrameStack(FrameStack scope) {
+		delegate.setFrameStack(scope);
+	}
+
+	public IntrospectionManager getIntrospectionManager() {
+		return delegate.getIntrospectionManager();
+	}
+
 	public void setIntrospectionManager(
 			IntrospectionManager introspectionManager) {
 		delegate.setIntrospectionManager(introspectionManager);
 	}
 
-	@Override
-	public void setErrorStream(PrintStream errorStream) {
-		delegate.setErrorStream(errorStream);
+	public PrintStream getErrorStream() {
+		return delegate.getErrorStream();
 	}
 
-	@Override
+	public void setErrorStream(PrintStream defaultErrorStream) {
+		delegate.setErrorStream(defaultErrorStream);
+	}
+
 	public void setModule(IModule module) {
 		delegate.setModule(module);
 	}
 
-	@Override
-	public void setUserInput(IUserInput userInput) {
-		delegate.setUserInput(userInput);
+	public IModule getModule() {
+		return delegate.getModule();
 	}
 
-	@Override
 	public void setNativeTypeDelegates(
 			List<IToolNativeTypeDelegate> nativeTypeDelegates) {
 		delegate.setNativeTypeDelegates(nativeTypeDelegates);
 	}
 
-	@Override
+	public List<IToolNativeTypeDelegate> getNativeTypeDelegates() {
+		return delegate.getNativeTypeDelegates();
+	}
+
 	public boolean isProfilingEnabled() {
 		return delegate.isProfilingEnabled();
 	}
 
-	@Override
 	public void setProfilingEnabled(boolean profilingEnabled) {
 		delegate.setProfilingEnabled(profilingEnabled);
 	}
 
-	@Override
-	public void setExtendedProperties(
-			ExtendedProperties extendedProperties) {
-		delegate.setExtendedProperties(extendedProperties);
+	public boolean isAssertionsEnabled() {
+		return delegate.isAssertionsEnabled();
 	}
+
+	public void setAssertionsEnabled(boolean assertionsEnabled) {
+		delegate.setAssertionsEnabled(assertionsEnabled);
+	}
+
+	public ExtendedProperties getExtendedProperties() {
+		return delegate.getExtendedProperties();
+	}
+
+	public void setExtendedProperties(ExtendedProperties properties) {
+		delegate.setExtendedProperties(properties);
+	}
+
+	public void dispose() {
+		delegate.dispose();
+	}
+
+	public List<AsyncStatement> getAsyncStatementsQueque() {
+		return delegate.getAsyncStatementsQueque();
+	}
+
+	public OperationContributorRegistry getOperationContributorRegistry() {
+		return delegate.getOperationContributorRegistry();
+	}		
 }

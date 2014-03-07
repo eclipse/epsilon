@@ -18,8 +18,6 @@ import java.util.List;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManager;
-import org.eclipse.epsilon.egl.engine.traceability.fine.trace.builder.TraceManager.PositionReporter;
 import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -51,14 +49,12 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	private TraceManager traceManager;
 	private IEglContext parentContext;
 	
 	public EglContext(EglTemplateFactory templateFactory) {
 		super(new EolClasspathNativeTypeDelegate(EglContext.class.getClassLoader()));
 		
 		this.templateFactory = templateFactory;
-		this.traceManager = new TraceManager(new PositionInParentReporter());
 		
 		populateScope();
 		setOperationFactory(new EglOperationFactory());
@@ -177,37 +173,11 @@ public class EglContext extends EolContext implements IEglContext {
 		return executionManager.getBase().template;
 	}
 	
+	public Template getCurrentTemplate() {
+		return executionManager.getCurrent().template;
+	}
+	
 	public void formatWith(Formatter formatter) {
 		getOutputBuffer().formatWith(formatter);
-	}
-
-	@Override
-	public TraceManager getFineGrainedTraceManager() {
-		return traceManager;
-	}
-	
-	
-	protected class PositionInParentReporter implements PositionReporter {
-		
-		@Override
-		public int getCurrentOffset() {
-			if (executionManager.hasParent()) {
-				return executionManager.getParent().outputBuffer.getOffset();
-				
-			} else {
-				return 0;
-			}			
-		}
-	}
-
-
-	@Override
-	public void setTraceManager(TraceManager traceManager) {
-		this.traceManager = traceManager;
-	}
-
-	@Override
-	public TraceManager getTraceManager() {
-		return traceManager;
 	}
 }

@@ -35,7 +35,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 */
 	public static TextlinkFactory init() {
 		try {
-			TextlinkFactory theTextlinkFactory = (TextlinkFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/gmt/epsilon/egl/textlink"); 
+			TextlinkFactory theTextlinkFactory = (TextlinkFactory)EPackage.Registry.INSTANCE.getEFactory(TextlinkPackage.eNS_URI);
 			if (theTextlinkFactory != null) {
 				return theTextlinkFactory;
 			}
@@ -66,8 +66,6 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 		switch (eClass.getClassifierID()) {
 			case TextlinkPackage.TRACE: return createTrace();
 			case TextlinkPackage.TRACE_LINK: return createTraceLink();
-			case TextlinkPackage.TRACE_LINK_DATA: return createTraceLinkData();
-			case TextlinkPackage.TRACE_LINK_DATA_ITEM: return createTraceLinkDataItem();
 			case TextlinkPackage.EMF_MODEL_LOCATION: return createEmfModelLocation();
 			case TextlinkPackage.TEXT_LOCATION: return createTextLocation();
 			case TextlinkPackage.REGION: return createRegion();
@@ -94,26 +92,6 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	public TraceLink createTraceLink() {
 		TraceLinkImpl traceLink = new TraceLinkImpl();
 		return traceLink;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TraceLinkData createTraceLinkData() {
-		TraceLinkDataImpl traceLinkData = new TraceLinkDataImpl();
-		return traceLinkData;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TraceLinkDataItem createTraceLinkDataItem() {
-		TraceLinkDataItemImpl traceLinkDataItem = new TraceLinkDataItemImpl();
-		return traceLinkDataItem;
 	}
 
 	/**

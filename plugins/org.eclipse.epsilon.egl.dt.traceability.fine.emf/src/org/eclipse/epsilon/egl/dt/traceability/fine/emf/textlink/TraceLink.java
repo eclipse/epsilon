@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getDestination <em>Destination</em>}</li>
- *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getCustomData <em>Custom Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,31 +81,5 @@ public interface TraceLink extends EObject {
 	 * @generated
 	 */
 	void setDestination(TextLocation value);
-
-	/**
-	 * Returns the value of the '<em><b>Custom Data</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Custom Data</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Custom Data</em>' containment reference.
-	 * @see #setCustomData(TraceLinkData)
-	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage#getTraceLink_CustomData()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	TraceLinkData getCustomData();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink#getCustomData <em>Custom Data</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Custom Data</em>' containment reference.
-	 * @see #getCustomData()
-	 * @generated
-	 */
-	void setCustomData(TraceLinkData value);
 
 } // TraceLink

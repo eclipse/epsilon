@@ -48,7 +48,7 @@ public abstract class ExportableModuleTask extends ExecutableModuleTask {
 		}
 	}
 	
-	private boolean shouldExportAsModel() {
+	protected boolean shouldExportAsModel() {
 		return exportAsModel != null;
 	}
 	

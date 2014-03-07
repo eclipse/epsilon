@@ -36,7 +36,7 @@ public class SubtemplateTraceShouldBeAdjustedWhenContributedToParent extends Egl
 	}
 	
 	@Test
-	public void destinationShouldStartAfterTextEmittedByParent() {
+	public void destinationRegionShouldBeOffsetAfterStaticText() {
 		// offsets start at 0 rather than 1
 		// => an offset of 10 is the 11th character
 		trace.assertEquals(10, "trace.traceLinks.first.destination.region.offset");		

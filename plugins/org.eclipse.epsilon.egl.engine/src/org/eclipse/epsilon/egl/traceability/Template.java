@@ -78,4 +78,16 @@ public class Template extends Container<Content<Template>> {
 	public Collection<Variable> getVariables() {
 		return Collections.unmodifiableCollection(variables);
 	}
+	
+	public Collection<OutputFile> getOutputFiles() {
+		final Collection<OutputFile> outputFiles = new LinkedList<OutputFile>();
+		
+		for (Content<Template> child : contents) {
+			if (child instanceof OutputFile) {
+				outputFiles.add((OutputFile)child);
+			}
+		}
+		
+		return outputFiles;
+	}
 }

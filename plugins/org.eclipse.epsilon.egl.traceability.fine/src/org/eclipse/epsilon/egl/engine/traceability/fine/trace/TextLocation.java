@@ -17,10 +17,15 @@ import java.util.List;
 public class TextLocation {
 
 	public final Region region;
-	public String resource;
+	public final String resource;
 	
 	public TextLocation(Region region) {
+		this(region, null);
+	}
+	
+	public TextLocation(Region region, String resource) {
 		this.region = region;
+		this.resource = resource;
 	}
 
 
@@ -28,10 +33,6 @@ public class TextLocation {
 
 	public String getResource() {
 		return resource;
-	}
-	
-	public void setResource(String resource) {
-		this.resource = resource;
 	}
 	
 	public Region getRegion() {
@@ -59,5 +60,11 @@ public class TextLocation {
 	@Override
 	public int hashCode() {
 		return (resource == null ? 0 : resource.hashCode()) + region.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		final String resourceName = resource == null ? "unknown" : resource;
+		return resourceName + "@" + region; 
 	}
 }

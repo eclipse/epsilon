@@ -21,7 +21,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	private final String name;
 	private final URI    uri;
 	
-	private final List<E> contents = new LinkedList<E>(); 
+	protected final List<E> contents = new LinkedList<E>(); 
 	
 	protected Container(Template parent, String name, URI uri) {
 		super(parent);

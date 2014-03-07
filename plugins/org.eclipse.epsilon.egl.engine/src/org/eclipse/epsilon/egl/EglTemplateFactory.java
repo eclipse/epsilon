@@ -16,11 +16,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
@@ -40,6 +42,7 @@ public class EglTemplateFactory {
 	
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
+	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<ITemplateExecutionListener>();
 	
 	
 	public EglTemplateFactory() {
@@ -48,6 +51,10 @@ public class EglTemplateFactory {
 	
 	public EglTemplateFactory(IEglContext context) {
 		this.context = context;
+	}
+	
+	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
+		return this.listeners;
 	}
 	
 	public IncrementalitySettings getDefaultIncrementalitySettings() {
@@ -237,7 +244,7 @@ public class EglTemplateFactory {
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
-		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings);
+		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings, listeners.toArray(new ITemplateExecutionListener[]{}));
 	}
 		
 	@Override

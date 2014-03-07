@@ -38,6 +38,8 @@ import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.formatter.FormatterSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.extensions.templateFactoryType.TemplateFactoryTypeSpecificationFactory;
 import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
+import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
+import org.eclipse.epsilon.egl.engine.traceability.fine.IEglContextWithFineGrainedTrace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -54,6 +56,8 @@ import org.eclipse.ui.PlatformUI;
 
 public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 
+	protected Trace fineGrainedTrace;
+	
 	@Override
 	public IEolExecutableModule createModule() throws CoreException {
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
@@ -111,6 +115,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		super.preExecute(module);
 		
 		addEglPrintStream(module);
+		
+		if (configuration.getAttribute(PRODUCE_TRACE, false)) {
+			fineGrainedTrace = new EglFineGrainedTraceContextAdaptor().adapt((IEglContext)module.getContext());
+		}
 	}
 	
 	private void addEglPrintStream(final IEolExecutableModule module) {
@@ -139,7 +147,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 		
 		if (configuration.getAttribute(PRODUCE_TRACE, false)) {
-			storeTraceModel((IEglContext) module.getContext());
+			storeTraceModel();
 		}
 		
 		for (StatusMessage message : ((IEglContext) module.getContext()).getStatusMessages())
@@ -173,12 +181,11 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 	}
 	
-	private void storeTraceModel(IEglContext context) throws CoreException {
-		final Trace trace = context.getFineGrainedTraceManager().getFineGrainedTrace();
-		trace.setDestination(configuration.getAttribute(TRACE_DESTINATION, ""));
+	private void storeTraceModel() throws CoreException {
+		fineGrainedTrace.setDestination(configuration.getAttribute(TRACE_DESTINATION, ""));
 		
 		for (FineGrainedTracePostprocessorSpecification spec : new FineGrainedTracePostprocessorSpecificationFactory().loadAllFromExtensionPoints()) {
-			spec.instantiate().postprocess(trace);
+			spec.instantiate().postprocess(fineGrainedTrace);
 		}
 	}
 	

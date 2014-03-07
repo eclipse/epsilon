@@ -103,18 +103,6 @@ public class TextlinkSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TextlinkPackage.TRACE_LINK_DATA: {
-				TraceLinkData traceLinkData = (TraceLinkData)theEObject;
-				T result = caseTraceLinkData(traceLinkData);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case TextlinkPackage.TRACE_LINK_DATA_ITEM: {
-				TraceLinkDataItem traceLinkDataItem = (TraceLinkDataItem)theEObject;
-				T result = caseTraceLinkDataItem(traceLinkDataItem);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case TextlinkPackage.TRACE_LINK_END: {
 				TraceLinkEnd traceLinkEnd = (TraceLinkEnd)theEObject;
 				T result = caseTraceLinkEnd(traceLinkEnd);
@@ -180,36 +168,6 @@ public class TextlinkSwitch<T> {
 	 * @generated
 	 */
 	public T caseTraceLink(TraceLink object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Trace Link Data</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Trace Link Data</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseTraceLinkData(TraceLinkData object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Trace Link Data Item</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Trace Link Data Item</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseTraceLinkDataItem(TraceLinkDataItem object) {
 		return null;
 	}
 
