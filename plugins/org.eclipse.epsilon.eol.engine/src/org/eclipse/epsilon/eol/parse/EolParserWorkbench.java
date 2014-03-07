@@ -20,6 +20,7 @@ import org.antlr.runtime.tree.Tree;
 import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolModule;
 
 public class EolParserWorkbench {
@@ -28,7 +29,7 @@ public class EolParserWorkbench {
 		new EolParserWorkbench().work();
 	}
 	
-	static String basePath = "/Users/dimitrioskolovos/Projects/Eclipse/4.2.2/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/test.eol";
+	static String basePath = FileUtil.getPath("test.eol", EolParserWorkbench.class);
 	
 	
 	public void workPathName() throws Exception {
