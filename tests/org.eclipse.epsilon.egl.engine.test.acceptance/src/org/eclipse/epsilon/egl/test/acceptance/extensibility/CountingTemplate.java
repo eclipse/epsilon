@@ -50,4 +50,10 @@ public class CountingTemplate extends EglPersistentTemplate {
 	public static int countFor(File file) {
 		return COUNTERS.containsKey(file) ? COUNTERS.get(file) : 0;
 	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+		COUNTERS.clear();
+	}
 }

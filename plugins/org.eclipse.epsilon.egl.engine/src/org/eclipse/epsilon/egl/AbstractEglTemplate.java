@@ -88,4 +88,6 @@ public abstract class AbstractEglTemplate {
 	protected void printWarning(String message) {
 		module.getContext().getWarningStream().println(message);
 	}
+	
+	public abstract void reset();
 }

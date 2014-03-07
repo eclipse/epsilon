@@ -90,4 +90,8 @@ public class Template extends Container<Content<Template>> {
 		
 		return outputFiles;
 	}
+
+	public void reset() {
+		contents.clear();
+	}
 }

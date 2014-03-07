@@ -143,5 +143,8 @@ public class EglTemplate extends AbstractEglTemplate {
 		return template;
 	}
 	
-	// TODO merge traceability template class into here?
+	@Override
+	public void reset() {
+		this.template.reset();
+	}
 }

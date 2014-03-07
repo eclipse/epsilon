@@ -14,6 +14,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.egl.test.acceptance.engine.Engine;
+import org.eclipse.epsilon.egl.test.acceptance.engine.reset.ResettingTemplates;
 import org.eclipse.epsilon.egl.test.acceptance.engine.subtemplates.InvokingSubtemplates;
 import org.eclipse.epsilon.egl.test.acceptance.eol.ConsistencyWithEolSuite;
 import org.eclipse.epsilon.egl.test.acceptance.exceptions.Exceptions;
@@ -33,6 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({Engine.class,
                ConsistencyWithEolSuite.class,
+               ResettingTemplates.class,
                InvokingSubtemplates.class,
                Output.class, OutputNewlines.class,
                Merge.class,
