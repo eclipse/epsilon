@@ -10,9 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.recording;
 
+import java.util.Collection;
+import java.util.Set;
+
 public interface IPropertyAccesses {
 
-	public Iterable<? extends IPropertyAccess> all();
+	public Collection<? extends IPropertyAccess> all();
+
+	public Set<? extends IPropertyAccess> unique();
 
 	public boolean isEmpty();
+
 }

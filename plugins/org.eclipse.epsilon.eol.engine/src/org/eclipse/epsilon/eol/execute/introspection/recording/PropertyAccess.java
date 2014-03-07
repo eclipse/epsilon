@@ -42,6 +42,11 @@ public class PropertyAccess implements IPropertyAccess {
 	}
 	
 	@Override
+	public int hashCode() {
+		return modelElement.hashCode() + propertyName.hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return "PropertyAccess of '" + propertyName + "' on model element: '" + modelElement + "'";
 	}

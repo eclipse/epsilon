@@ -11,9 +11,11 @@
 package org.eclipse.epsilon.eol.execute.introspection.recording;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class PropertyAccesses implements IPropertyAccesses {
 
@@ -24,8 +26,14 @@ public class PropertyAccesses implements IPropertyAccesses {
 	}
 	
 	@Override
-	public Iterable<? extends IPropertyAccess> all() {
-		return Collections.unmodifiableCollection(storage);
+	public Collection<? extends IPropertyAccess> all() {
+		// defensive copy
+		return new LinkedList<IPropertyAccess>(storage);
+	}
+	
+	@Override
+	public Set<? extends IPropertyAccess> unique() {
+		return new HashSet<IPropertyAccess>(storage);
 	}
 
 	public void add(IPropertyAccess propertyAccess) {
