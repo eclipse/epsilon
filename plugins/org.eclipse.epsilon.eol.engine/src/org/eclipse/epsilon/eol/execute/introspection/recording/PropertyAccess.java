@@ -43,6 +43,6 @@ public class PropertyAccess implements IPropertyAccess {
 	
 	@Override
 	public String toString() {
-		return "PropertyAccess of '" + propertyName + "' on model element: '" + modelElement;
+		return "PropertyAccess of '" + propertyName + "' on model element: '" + modelElement + "'";
 	}
 }

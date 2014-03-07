@@ -25,7 +25,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
-import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
@@ -79,24 +78,12 @@ public class PointExecutor extends AbstractExecutor{
 				}
 				
 				getter.setAst(featureCallAst);
-				recordPropertyAccess(source, featureCallAst, context);
-				
 				return wrap(getter.invoke(source, propertyName));
 			}
 		
 		} else {
 
 			return executeOperation(context, source, featureCallAst);
-		}
-	}
-
-	private void recordPropertyAccess(Object source, AST featureCallAst, IEolContext context) {
-		// Only record property accesses that involve obtaining a property's value from an IModel
-		// (and not, for example, the set of extended properties) 
-		if (context.getIntrospectionManager().isModelBasedProperty(source, featureCallAst.getText(), context)) {
-			for (IPropertyAccessRecorder recorder : context.getPropertyAccessRecorders()) {
-				recorder.record(source, featureCallAst.getText());
-			}
 		}
 	}
 	

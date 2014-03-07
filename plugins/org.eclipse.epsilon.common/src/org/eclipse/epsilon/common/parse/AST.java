@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.BaseTree;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.epsilon.common.module.IModule;
@@ -205,6 +206,14 @@ public class AST extends CommonTree {
 		return this;
 	}
 	
+	public AST getSecondChild() {
+		if (this.getChildCount() > 1) {
+			return cast(this.getChild(1));
+		} else {
+			return null;
+		}
+	}
+	
 	public Region getRegion() {
 		if (region == null) {
 			region = new Region();
@@ -297,5 +306,4 @@ public class AST extends CommonTree {
 	public List<Token> getExtraTokens() {
 		return extraTokens;
 	}
-	
 }

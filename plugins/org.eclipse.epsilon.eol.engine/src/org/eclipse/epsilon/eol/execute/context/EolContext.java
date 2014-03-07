@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
@@ -20,7 +19,6 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
@@ -48,7 +46,6 @@ public class EolContext implements IEolContext {
 	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
-	protected Collection<IPropertyAccessRecorder> propertyAccessRecorders = new ArrayList<IPropertyAccessRecorder>();
 	// The following members are initialised in the constructor
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
@@ -200,10 +197,6 @@ public class EolContext implements IEolContext {
 		this.extendedProperties = extendedProperties;
 	}
 	
-	public Collection<IPropertyAccessRecorder> getPropertyAccessRecorders() {
-		return propertyAccessRecorders;
-	}
-
 	public void dispose() {
 		if (executorFactory.getExecutionController() != null) {
 			executorFactory.getExecutionController().dispose();

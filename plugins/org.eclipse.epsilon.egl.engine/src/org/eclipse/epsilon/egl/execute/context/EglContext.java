@@ -105,7 +105,6 @@ public class EglContext extends EolContext implements IEglContext {
 		context.setNativeTypeDelegates(getNativeTypeDelegates());
 		context.setExtendedProperties(getExtendedProperties());
 		context.setPrettyPrinterManager(getPrettyPrinterManager());
-		context.getPropertyAccessRecorders().addAll(getPropertyAccessRecorders());
 		if (context instanceof EglPreprocessorContext)
 			((EglPreprocessorContext) context).setEglContext(this);
 	}

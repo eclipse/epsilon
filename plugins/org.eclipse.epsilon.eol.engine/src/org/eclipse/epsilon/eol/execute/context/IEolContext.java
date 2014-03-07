@@ -11,13 +11,11 @@
 package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
@@ -92,6 +90,4 @@ public interface IEolContext {
 	public List<AsyncStatement> getAsyncStatementsQueque();
 	
 	public OperationContributorRegistry getOperationContributorRegistry();
-	
-	public Collection<IPropertyAccessRecorder> getPropertyAccessRecorders();
 }
