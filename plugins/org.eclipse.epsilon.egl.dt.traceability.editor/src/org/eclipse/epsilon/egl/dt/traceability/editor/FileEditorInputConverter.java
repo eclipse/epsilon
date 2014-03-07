@@ -55,9 +55,6 @@ class FileEditorInputConverter {
 	}
 	
 	private IFile resourceToFile(Resource resource) {
-		
-		System.err.println("Resource; " + resource);
-		
 		final URI uri = resource.getURI();
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		
