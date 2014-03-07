@@ -75,7 +75,7 @@ public class EglTemplate extends AbstractEglTemplate {
 			listener.aboutToProcess(this);
 		}
 		
-		final EglResult result = module.execute(template, formatter);
+		final EglResult result = module.execute(this, formatter);
 		
 		contents = result.generatedText;
 		processed = true;

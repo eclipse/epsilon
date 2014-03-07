@@ -44,6 +44,10 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		this.factory = factory;
 	}
 	
+	public EglTemplate getCurrentTemplate() {
+		return current;
+	}
+	
 	public boolean parse(File file) throws Exception {
 		current = factory.load(file);
 		return getParseProblems().isEmpty();

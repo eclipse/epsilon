@@ -10,15 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.internal;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 
 public interface IEglModule extends IEolLibraryModule {
 
 	public IEglContext getContext();
 	
-	public EglResult execute(Template template, Formatter postprocessor) throws EglRuntimeException;
+	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;
 }

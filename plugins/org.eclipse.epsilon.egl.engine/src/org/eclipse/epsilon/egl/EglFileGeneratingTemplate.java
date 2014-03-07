@@ -36,8 +36,12 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private String existingContents;
 	private String newContents;
 	private String positiveMessage;
-	private boolean shouldMerge;
+	private OutputMode outputMode;
 
+	private static enum OutputMode {
+		WRITE, MERGE, APPEND;
+	}
+	
 	// For tests
 	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws Exception {
 		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context, outputRoot, outputRoot.getPath());
@@ -46,13 +50,36 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
 		super(spec, context, outputRoot, outputRootPath);
 	}
+	
+	public void append(String path) throws EglRuntimeException {
+		try {
+			final File target = resolveFile(path);
+
+			if (!isProcessed()) {
+				process();
+			}
+			
+			this.target = target;
+			this.targetName = name(path);			
+			this.existingContents = FileUtil.readIfExists(target);
+			this.outputMode = OutputMode.APPEND;
+			
+			prepareNewContents();
+			writeNewContentsIfDifferentFromExistingContents();
+			
+		} catch (URISyntaxException e) {
+			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
+		} catch (IOException ex) {
+			throw new EglRuntimeException("Could not generate to: " + target, ex, module.getAst());
+		}
+	}
 
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
 		try {
 			this.target = target;
 			this.targetName = targetName;			
 			this.existingContents = FileUtil.readIfExists(target);
-			this.shouldMerge = protectRegions && target.exists();
+			this.outputMode = (protectRegions && target.exists()) ? OutputMode.MERGE : OutputMode.WRITE;
 			
 			prepareNewContents();
 			writeNewContentsIfDifferentFromExistingContents();
@@ -65,12 +92,24 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 	
 	private void prepareNewContents() throws EglRuntimeException {
-		if (shouldMerge) {
-			newContents = merge(existingContents);
-			positiveMessage = "Protected regions preserved in ";
-		} else {
-			newContents = getContents();
-			positiveMessage = "Successfully wrote to ";
+		switch (outputMode) {
+			case APPEND:
+				newContents = existingContents + FileUtil.NEWLINE + getContents();
+				positiveMessage = "Successfully appended to ";
+				break;
+	
+			case MERGE:
+				newContents = merge(existingContents);
+				positiveMessage = "Protected regions preserved in ";
+				break;
+				
+			case WRITE:
+				newContents = getContents();
+				positiveMessage = "Successfully wrote to ";
+				break;
+				
+			default:
+				throw new EglRuntimeException("Unsupported output mode " + outputMode, new IllegalStateException());
 		}
 	}
 	
@@ -92,7 +131,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		
 		currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
 		
-		if (shouldMerge) {
+		if (outputMode == OutputMode.MERGE) {
 			for (ProtectedRegion pr : module.getContext().getPartitioner().partition(newContents).getProtectedRegions()) {
 				currentOutputFile.addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
 			}

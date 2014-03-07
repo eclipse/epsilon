@@ -145,7 +145,7 @@ public class AcceptanceTestUtil {
 		return context.getStatusMessages();
 	}
 	
-	public static Template getTemplate() {
-		return context.getBaseTemplate();
+	public static Template getTrace() {
+		return context.getTrace();
 	}
 }

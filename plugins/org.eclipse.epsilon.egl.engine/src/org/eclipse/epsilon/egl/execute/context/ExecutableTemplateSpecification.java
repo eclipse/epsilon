@@ -10,23 +10,23 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.traceability.Variable;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
 public class ExecutableTemplateSpecification {
 	
-	public Template template;
+	public EglTemplate template;
 	public IOutputBuffer outputBuffer;
 
-	public ExecutableTemplateSpecification(Template template, IOutputBuffer outputBuffer) {
+	public ExecutableTemplateSpecification(EglTemplate template, IOutputBuffer outputBuffer) {
 		this.template = template;
 		this.outputBuffer = outputBuffer;
 	}
 
 	public void addAsChild(ExecutableTemplateSpecification child) {
-		template.add(child.template);
+		template.getTemplate().add(child.template.getTemplate());
 	}
 	
 	public void addVariablesTo(FrameStack frameStack) {
@@ -39,7 +39,7 @@ public class ExecutableTemplateSpecification {
 	}
 	
 	private void addTemplateVariablesAsLocalVariables(FrameStack frameStack) {
-		for (Variable variable : template.getVariables()) {
+		for (Variable variable : template.getTemplate().getVariables()) {
 			frameStack.put(createEolVariable(variable.getName(), variable.getValue()));
 		}
 	}
@@ -50,6 +50,6 @@ public class ExecutableTemplateSpecification {
 	
 	@Override
 	public String toString() {
-		return template.toString();
+		return template.getTemplate().toString();
 	}
 }

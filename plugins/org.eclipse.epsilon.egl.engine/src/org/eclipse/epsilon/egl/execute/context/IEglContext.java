@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.List;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -46,15 +47,15 @@ public interface IEglContext extends IEolContext {
 	
 	public List<StatusMessage> getStatusMessages();
 
-	public void enter(Template template);
+	public void enter(EglTemplate template);
 
 	public void exit();
 
 	public IOutputBuffer getOutputBuffer();
 	
-	public Template getBaseTemplate();
+	public Template getTrace();
 	
-	public Template getCurrentTemplate();
+	public EglTemplate getCurrentTemplate();
 
 	public void formatWith(Formatter formatter);
 

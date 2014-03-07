@@ -23,7 +23,7 @@ public class EgxContext extends EglContext {
 	}
 	
 	@Override
-	public Template getBaseTemplate() {
+	public Template getTrace() {
 		if (baseTemplate == null) {
 			baseTemplate = new EgxModuleTemplateAdapter((EgxModule) module);
 		}

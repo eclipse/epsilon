@@ -249,8 +249,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	}
 
 	@Override
-	public EglResult execute(Template template, Formatter postprocessor)
-			throws EglRuntimeException {
+	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
 		System.err.println("EgxModule.execute() invoked");
 		return null;
 	}

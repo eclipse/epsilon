@@ -69,7 +69,7 @@ public class Traceability {
 
 //		System.out.println(expected);
 		
-		assertEquals(expected, AcceptanceTestUtil.getTemplate());
+		assertEquals(expected, AcceptanceTestUtil.getTrace());
 	}
 	
 	@Test
@@ -96,6 +96,6 @@ public class Traceability {
 		
 		System.out.println("e: " +expected);
 
-		assertEquals(expected, AcceptanceTestUtil.getTemplate());
+		assertEquals(expected, AcceptanceTestUtil.getTrace());
 	}
 }

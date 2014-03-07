@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
@@ -157,7 +158,7 @@ public class EglContext extends EolContext implements IEglContext {
 		super.setOutputStream(outputStream);
 	}
 		
-	public void enter(Template template) {
+	public void enter(EglTemplate template) {
 		executionManager.prepareFor(new ExecutableTemplateSpecification(template, outputBufferFactory.create()));
 	}
 	
@@ -169,11 +170,11 @@ public class EglContext extends EolContext implements IEglContext {
 		return executionManager.getCurrent().outputBuffer;
 	}
 	
-	public Template getBaseTemplate() {
-		return executionManager.getBase().template;
+	public Template getTrace() {
+		return executionManager.getBase().template.getTemplate();
 	}
 	
-	public Template getCurrentTemplate() {
+	public EglTemplate getCurrentTemplate() {
 		return executionManager.getCurrent().template;
 	}
 	
