@@ -55,4 +55,28 @@ public class Trace {
 	public void setDestination(String attribute) {
 		this.destination = attribute;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Trace))
+			return false;
+		
+		final Trace other = (Trace)object;
+		
+		return locations.equals(other.locations) &&
+		       traceLinks.equals(other.traceLinks) &&
+		       (destination == null ? other.destination == null : destination.equals(other.destination));
+	}
+
+	@Override
+	public int hashCode() {
+		return locations.hashCode() +
+		       traceLinks.hashCode() +
+		       (destination == null ? 0 : destination.hashCode());
+	}
+	
+	@Override
+	public String toString() {
+		return "<Trace # of links:" + traceLinks.size() + ", # of locations: " + locations.size() + " destination:" + destination + ">"; 
+	}
 }

@@ -12,7 +12,10 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -35,7 +38,7 @@ public class EglFrameStackManagerTests {
 	private static final Variable secondLocalVariable = Variable.createReadOnlyVariable("num", 42);
 	
 	private static final Template templateWithVariables = createTemplateWithVariables();
-	private static final ExecutableTemplateSpecification spec = new ExecutableTemplateSpecification(templateWithVariables, outputBuffer);
+	private static final ExecutableTemplateSpecification spec = createExecutableTemplateSpecification(templateWithVariables, outputBuffer);
 
 	private static FrameStack frameStack;
 	private static EglFrameStackManager manager;		
@@ -160,5 +163,11 @@ public class EglFrameStackManagerTests {
 		templateWithVariables.addVariable(firstLocalVariable.getName(), firstLocalVariable.getValue());
 		templateWithVariables.addVariable(secondLocalVariable.getName(), secondLocalVariable.getValue());
 		return templateWithVariables;
+	}
+	
+	private static ExecutableTemplateSpecification createExecutableTemplateSpecification(Template template, IOutputBuffer outputBuffer) {
+		final EglTemplate t = mock(EglTemplate.class);
+		when(t.getTemplate()).thenReturn(template);
+		return new ExecutableTemplateSpecification(t, outputBuffer);
 	}
 }

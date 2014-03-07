@@ -19,10 +19,6 @@ public class TextLocation {
 	public final Region region;
 	public final String resource;
 	
-	public TextLocation(Region region) {
-		this(region, null);
-	}
-	
 	public TextLocation(Region region, String resource) {
 		this.region = region;
 		this.resource = resource;

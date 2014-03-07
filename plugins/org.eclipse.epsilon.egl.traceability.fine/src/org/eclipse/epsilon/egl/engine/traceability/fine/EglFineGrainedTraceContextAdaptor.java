@@ -11,8 +11,8 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.internal.EglOutputBufferPrintExecutionListener;
-import org.eclipse.epsilon.egl.engine.traceability.fine.internal.Foo;
-import org.eclipse.epsilon.egl.engine.traceability.fine.internal.TemplateExecutionListener;
+import org.eclipse.epsilon.egl.engine.traceability.fine.internal.TracedPropertyAccessLedger;
+import org.eclipse.epsilon.egl.engine.traceability.fine.internal.TraceLinkCreatingTemplateExecutionListener;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
@@ -35,21 +35,21 @@ public class EglFineGrainedTraceContextAdaptor {
 	 */
 	public Trace adapt(IEglContext context) {
 		final Trace trace = new Trace();
-		final Foo foo = new Foo();
+		final TracedPropertyAccessLedger ledger = new TracedPropertyAccessLedger();
 		
-		selectivelyRecordPropertyAccesses(context, foo);
-		listenForTemplateExecution(context, trace, foo);
+		selectivelyRecordPropertyAccesses(context, ledger);
+		listenForTemplateExecution(context, trace, ledger);
 		
 		return trace;
 	}
 
-	protected void listenForTemplateExecution(IEglContext context, final Trace trace, final Foo foo) {
-		context.getTemplateFactory().getTemplateExecutionListeners().add(new TemplateExecutionListener(trace, foo));
+	protected void listenForTemplateExecution(IEglContext context, Trace trace, TracedPropertyAccessLedger ledger) {
+		context.getTemplateFactory().getTemplateExecutionListeners().add(new TraceLinkCreatingTemplateExecutionListener(trace, ledger));
 	}
 
-	protected void selectivelyRecordPropertyAccesses(IEglContext context, final Foo foo) {
+	protected void selectivelyRecordPropertyAccesses(IEglContext context, TracedPropertyAccessLedger ledger) {
 		final IPropertyAccessRecorder recorder = new PropertyAccessRecorder();
 		context.getExecutorFactory().addExecutionListener(new PropertyAccessExecutionListener(recorder));
-		context.getExecutorFactory().addExecutionListener(new EglOutputBufferPrintExecutionListener(recorder, foo));
+		context.getExecutorFactory().addExecutionListener(new EglOutputBufferPrintExecutionListener(recorder, ledger));
 	}
 }

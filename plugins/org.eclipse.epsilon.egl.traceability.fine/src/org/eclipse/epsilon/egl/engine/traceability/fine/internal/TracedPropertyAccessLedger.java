@@ -10,12 +10,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.internal;
 
-import java.util.Stack;
+import java.util.Collection;
 
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
 
-public class Foo {
-	public final Stack<EglTemplate> templates = new Stack<EglTemplate>();
-	public final Multimap<EglTemplate, PropertyAccessWithPosition> currentLinks = new Multimap<EglTemplate, PropertyAccessWithPosition>();
+public class TracedPropertyAccessLedger {
+	
+	private final Multimap<EglTemplate, TracedPropertyAccess> accessesByTemplate = new Multimap<EglTemplate, TracedPropertyAccess>();
+	
+	void associate(IPropertyAccess access, Region region, EglTemplate template) {
+		accessesByTemplate.put(template, new TracedPropertyAccess(access, region));
+	}
+
+	Collection<TracedPropertyAccess> retrieve(EglTemplate template) {
+		return accessesByTemplate.get(template);
+	}
 }

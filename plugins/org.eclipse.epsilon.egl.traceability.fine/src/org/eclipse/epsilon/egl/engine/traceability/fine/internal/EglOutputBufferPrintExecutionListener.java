@@ -16,6 +16,8 @@ import java.util.WeakHashMap;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
@@ -23,15 +25,16 @@ import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
+@SuppressWarnings("restriction")
 public class EglOutputBufferPrintExecutionListener implements IExecutionListener {
 
 	private final IPropertyAccessRecorder recorder;
 	private final WeakHashMap<AST, EglOutputBufferPrintExecutionListener.TraceData> cache = new WeakHashMap<AST, EglOutputBufferPrintExecutionListener.TraceData>();
-	private final Foo foo;
+	private final TracedPropertyAccessLedger ledger;
 
-	public EglOutputBufferPrintExecutionListener(IPropertyAccessRecorder recorder, Foo foo) {
+	public EglOutputBufferPrintExecutionListener(IPropertyAccessRecorder recorder, TracedPropertyAccessLedger ledger) {
 		this.recorder = recorder;
-		this.foo = foo;
+		this.ledger = ledger;
 	}
 
 	@Override
@@ -43,26 +46,30 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 		}
 		
 		if (cache.containsKey(ast)) {
-			System.out.println(ast.toStringTree());
-			
-			int offset = cache.get(ast).offset;
-			int length = cache.get(ast).buffer.getOffset() - offset;
-
-			Region region = new Region(offset, length);
-			
 			recorder.stopRecording();
-			
-			for (IPropertyAccess access : recorder.getPropertyAccesses().all()) {
-				final PropertyAccessWithPosition accessWithPosition = new PropertyAccessWithPosition(access, region);
-									
-				foo.currentLinks.put(foo.templates.peek(), accessWithPosition);
-			}
+			associatePropertyAccessesWithRegionInGeneratedText(ast, ((EglPreprocessorContext)context).getEglContext());
 		}
 	}
 
 	protected boolean isCallToPrintMethod(AST p) {
 		final List<String> printMethods = Arrays.asList("printdyn", "println", "print", "prinx");
 		return p.getType() == EolParser.POINT && printMethods.contains(p.getSecondChild().getText());
+	}
+	
+	private void associatePropertyAccessesWithRegionInGeneratedText(AST ast, IEglContext context) {
+		final Region region = regionFor(ast);
+		
+		for (IPropertyAccess access : recorder.getPropertyAccesses().all()) {
+			ledger.associate(access, region, context.getCurrentTemplate());
+		}
+	}
+
+	private Region regionFor(AST ast) {
+		int offset = cache.get(ast).offset;
+		int length = cache.get(ast).buffer.getOffset() - offset;
+
+		Region region = new Region(offset, length);
+		return region;
 	}
 
 	@Override

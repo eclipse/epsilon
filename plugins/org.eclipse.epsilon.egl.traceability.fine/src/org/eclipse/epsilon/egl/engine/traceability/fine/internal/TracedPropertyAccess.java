@@ -12,13 +12,26 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.internal;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
+import org.eclipse.epsilon.eol.execute.introspection.recording.PropertyAccess;
 
-class PropertyAccessWithPosition {
-	public final IPropertyAccess propertyAccess;
-	public final Region region;
+/**
+ * A {@link PropertyAccess} with additional information ({@link #getRegion()) that
+ * indicates the portion of the output that was generated from this property access. 
+ */
+class TracedPropertyAccess extends PropertyAccess {
 	
-	public PropertyAccessWithPosition(IPropertyAccess propertyAccess, Region region) {
-		this.propertyAccess = propertyAccess;
+	private final Region region;
+	
+	public TracedPropertyAccess(Object modelElement, String propertyName, Region region) {
+		super(modelElement, propertyName);
 		this.region = region;
+	}
+	
+	public TracedPropertyAccess(IPropertyAccess propertyAccess, Region region) {
+		this(propertyAccess.getModelElement(), propertyAccess.getPropertyName(), region);
+	}
+	
+	public Region getRegion() {
+		return region;
 	}
 }

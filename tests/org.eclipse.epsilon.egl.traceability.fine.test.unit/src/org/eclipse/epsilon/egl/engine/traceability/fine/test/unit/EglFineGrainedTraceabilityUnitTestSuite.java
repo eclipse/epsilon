@@ -10,13 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.test.unit;
 
+import org.eclipse.epsilon.egl.engine.traceability.fine.internal.EglOutputBufferPrintExecutionListenerTests;
+import org.eclipse.epsilon.egl.engine.traceability.fine.internal.TraceLinkCreatingTemplateExecutionListenerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)
-@SuiteClasses({})
+@SuiteClasses({EglOutputBufferPrintExecutionListenerTests.class, TraceLinkCreatingTemplateExecutionListenerTests.class})
 public class EglFineGrainedTraceabilityUnitTestSuite {
 
 }

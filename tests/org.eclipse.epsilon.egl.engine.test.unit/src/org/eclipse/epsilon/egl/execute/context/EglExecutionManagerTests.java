@@ -12,8 +12,12 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.junit.Before;
@@ -26,9 +30,15 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({EglExecutionManagerTests.PrepareTests.class, EglExecutionManagerTests.RestoreTests.class})
 public class EglExecutionManagerTests {
 	
-	private static final ExecutableTemplateSpecification firstSpec  = new ExecutableTemplateSpecification(new Template("First"), new OutputBuffer());
-	private static final ExecutableTemplateSpecification secondSpec = new ExecutableTemplateSpecification(new Template("Second"), new OutputBuffer());
-	private static final ExecutableTemplateSpecification thirdSpec  = new ExecutableTemplateSpecification(new Template("Third"), new OutputBuffer());
+	private static final ExecutableTemplateSpecification firstSpec  = createExecutableTemplateSpecification("First");
+	private static final ExecutableTemplateSpecification secondSpec = createExecutableTemplateSpecification("Second");
+	private static final ExecutableTemplateSpecification thirdSpec  = createExecutableTemplateSpecification("Third");
+	
+	private static ExecutableTemplateSpecification createExecutableTemplateSpecification(String name) {
+		final EglTemplate template = mock(EglTemplate.class);
+		when(template.getTemplate()).thenReturn(new Template(name));
+		return new ExecutableTemplateSpecification(template, new OutputBuffer());
+	}
 	
 	public static class PrepareTests {
 		private final EglFrameStackManager frameStackManager = mock(EglFrameStackManager.class);
