@@ -11,12 +11,30 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.io.FileOutputStream;
+import java.io.StringWriter;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Text;
 
 public class StringOperationContributor extends OperationContributor {
 
+	public static void main(String[] args) throws Exception {
+		StringOperationContributor sop = new StringOperationContributor();
+		sop.setTarget("M&S");
+		System.out.println(sop.escapeXml());
+	}
+	
 	@Override
 	public boolean contributesTo(Object target) {
 		return (target instanceof String || target instanceof Character);
@@ -34,6 +52,18 @@ public class StringOperationContributor extends OperationContributor {
 		else {
 			super.setTarget(target);			
 		}
+	}
+	
+	public String escapeXml() throws Exception {
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		Text text = document.createTextNode(target + "");
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		DOMSource source = new DOMSource(text);
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		transformer.transform(source, result);
+		return writer.toString();
 	}
 	
 	public String firstToUpperCase() {
