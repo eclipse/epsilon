@@ -10,10 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -95,7 +98,9 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 		else {
 			all.add(null);
 		}
-			
+		
+		Map<URI, EglTemplate> templateCache = new HashMap<URI, EglTemplate>();
+		
 		for (Object o : all) {
 			
 			if (sourceParameter != null) {
@@ -161,7 +166,13 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 				target = r.getValue() + "";
 			}
 			
-			EglTemplate eglTemplate = templateFactory.load(template);
+			URI templateUri = templateFactory.resolveTemplate(template);
+			
+			if (!templateCache.containsKey(templateUri)) {
+				templateCache.put(templateUri, templateFactory.load(templateUri));
+			}
+			
+			EglTemplate eglTemplate = templateCache.get(templateUri);
 			
 			if (sourceParameter != null) {
 				eglTemplate.populate(sourceParameter.getName(), o);
@@ -181,6 +192,7 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 			
 			context.getFrameStack().leaveLocal(getAst());
 			
+			eglTemplate.reset();
 		}
 			
 	}

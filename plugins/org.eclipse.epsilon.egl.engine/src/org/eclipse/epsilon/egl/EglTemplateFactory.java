@@ -112,7 +112,7 @@ public class EglTemplateFactory {
 		}
 	}
 	
-	protected URI resolveTemplate(String path) throws EglRuntimeException {
+	public URI resolveTemplate(String path) throws EglRuntimeException {
 		try {
 			path = UriUtil.encode(path, false);
 			return UriUtil.resolve(path, templateRoot, root);
@@ -191,6 +191,21 @@ public class EglTemplateFactory {
 		final String name = resource.toString(); // FIXME better name for URIs
 		
 		return load(createTemplateSpecificationFactory().fromResource(name, resource));
+	}
+	
+	/**
+	 * Loads an EglTemplate for the given EGL code as though it were
+	 * contained in the given URI. Used for parsing "dirty" code (which 
+	 * has not yet been saved to disk).
+	 * 
+	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
+	 * than this method, unless they wish to alter the way in which a dirty 
+	 * resource is transformed into an EglTemplateSpecification
+	 */
+	protected EglTemplate load(String code, URI resource) throws EglRuntimeException {
+		final String name = resource.toString(); // FIXME better name for URIs
+
+		return load(createTemplateSpecificationFactory().fromDirtyResource(name, code, resource));
 	}
 
 	/**
