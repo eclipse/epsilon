@@ -145,6 +145,7 @@ public class EglTemplate extends AbstractEglTemplate {
 	
 	@Override
 	public void reset() {
+		this.processed = false;
 		this.template.reset();
 	}
 }
