@@ -272,9 +272,9 @@ The Real type represents real numbers and provides the following operations.
 			
 			\textbf{Signature} & \textbf{Description} \\\hline
 
-			ceiling() : Integer & Returns the nearest Integer that is larger than the real\\\hline
+			ceiling() : Integer & Returns the nearest Integer that is greater than the real\\\hline
 			
-			floor() : Integer & Returns the nearest Integer that is greater than the real\\\hline
+			floor() : Integer & Returns the nearest Integer that is less than the real\\\hline
 			
 			round() : Integer & Rounds the real to the nearest Integer\\\hline
 			
@@ -453,7 +453,7 @@ The Map type represents an array of key-value pairs in which the keys are unique
 
 			put(key : Any, value : Any) & Adds the key-value pair to the map. If the map already contains the same key, the value is overwritten\\\hline
 				
-			get(key : Any) : Any & Returns the value for the specified keys\\\hline
+			get(key : Any) : Any & Returns the value for the specified key\\\hline
 	
 			containsKey(key : Any) : Boolean & Returns true if the map contains the specified key\\\hline
 	
@@ -655,7 +655,7 @@ EOL provides common operators for performing arithmetical computations and compa
 				
 			$>$ & For reals/integers returns true if the left hand side is greater than the right hand side number \\\hline
 			
-			$<$ & For reals/integers returns true if the left hand side is less than then right hand side number \\\hline
+			$<$ & For reals/integers returns true if the left hand side is less than the right hand side number \\\hline
 			
 			$>=$ & For reals/integers returns true if the left hand side is greater or equal to the right hand side number \\\hline
 			
@@ -719,7 +719,7 @@ EOL provides the \# operator for accessing enumeration literals. For example, th
 
 A variable declaration statement declares the name and (optionally) the type and initial value of a variable in an EOL program. If no type is explicitly declared, the variable is assumed to be of type Any. For variables of primitive type, declaration automatically creates an instance of the type with the default values presented in Table \ref{tab:DefaultValuesOfPrimitiveTypes}. For non-primitive types the user has to explicitly assign the value of the variable either by using the \emph{new} keyword or by providing an initial value expression. If neither is done the value of the variable is undefined. Variables in EOL are strongly-typed. Therefore a variable can only be assigned values that conform to its type (or a sub-type of it).
 
-\begin{table}
+\begin{table}[b]
   \centering
   \caption{Default values of primitive types}
   \label{tab:DefaultValuesOfPrimitiveTypes}
@@ -830,7 +830,7 @@ else { "A is less equal than 0".println(); }
 
 \subsection{Switch Statement}
 
-A switch statement consists of an expression and a set of cases, and can be used to implement multi-brancing. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
+A switch statement consists of an expression and a set of cases, and can be used to implement multi-branching. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
 
 \begin{lstlisting}[float=h, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, language=EOL]
 var i = "2";
@@ -882,7 +882,7 @@ for (r : Real in col) {
 }
 \end{lstlisting}
 
-Inside the body of a \emph{for} statement two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
+Inside the body of a \emph{for} statement, two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
 \begin{lstlisting}[float=h, caption=Example of a for statement, label=lst:TransactionStatement, language=EOL]
 var system : System.allInstances.first();
