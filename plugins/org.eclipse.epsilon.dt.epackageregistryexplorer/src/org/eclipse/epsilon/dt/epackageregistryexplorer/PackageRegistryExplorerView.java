@@ -265,6 +265,9 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 				if (o instanceof EPackage) {
 					ePackages.add((EPackage)o);
 				}
+				else if (o instanceof EPackage.Descriptor) {
+					ePackages.add(((EPackage.Descriptor) o).getEPackage());
+				}
 			}
 			PackageRegistryExplorerView.this.ePackages = ePackages;
 			classViewer.refresh();
