@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.runtime.CommonToken;
@@ -34,6 +35,7 @@ public class AST extends CommonTree {
 	protected List<Token> extraTokens = new ArrayList<Token>();
 	protected List<AST> descendants = null;
 	protected IModule module;
+	protected HashMap<String, Object> properties = null;
 	
 	public AST() {
 		super();
@@ -56,6 +58,10 @@ public class AST extends CommonTree {
 		this.module = real.getModule();
 	}
 	
+	public AST(Token token) {
+		super(token);
+	}
+	
 	public AST(Token token, URI uri) {
 		super(token);
 		this.uri = uri;
@@ -76,6 +82,10 @@ public class AST extends CommonTree {
 		return this;
 	}
 	
+	public void setUri(URI uri) {
+		this.uri = uri;
+	}
+	
 	public AST setAnnotationsAst(AST annotations) {
 		this.annotations = annotations;
 		return this;
@@ -84,7 +94,14 @@ public class AST extends CommonTree {
 	public AST getAnnotationsAst() {
 		return annotations;
 	}
-
+	
+	public HashMap<String, Object> getProperties() {
+		if (properties == null) {
+			properties = new HashMap<String, Object>();
+		}
+		return properties;
+	}
+	
 	/**
 	 * Returns the basename of the URI of this AST, which is the last segment of
 	 * its URI. {@link #getFile()} returns <code>null</code> for non-
