@@ -25,7 +25,7 @@ public class PlainXmlModelConfigurationDialog extends AbstractCachedModelConfigu
 
 	
 	protected String getModelName() {
-		return "Plain XML document";
+		return "Plain XML Document";
 	}
 
 	

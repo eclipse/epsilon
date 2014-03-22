@@ -7,7 +7,7 @@
             class="org.eclipse.epsilon.emc.plainxml.PlainXmlModel"
             dialog="org.eclipse.epsilon.emc.plainxml.dt.PlainXmlModelConfigurationDialog"
             icon="images/xml.png"
-            label="Plain XML document"
+            label="Plain XML Document"
             stable="true"
             type="PlainXML">
       </modelType>
