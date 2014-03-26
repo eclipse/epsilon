@@ -292,6 +292,10 @@ public class AST extends CommonTree {
 		return region;
 	}
 	
+	public void setToken(Token token) {
+		this.token = token;
+	}
+	
 	public List<AST> getDescendants() {
 		if (descendants == null) {
 			descendants = new ArrayList<AST>();
@@ -322,5 +326,9 @@ public class AST extends CommonTree {
 	
 	public List<Token> getExtraTokens() {
 		return extraTokens;
+	}
+	
+	public void setExtraTokens(List<Token> extraTokens) {
+		this.extraTokens = extraTokens;
 	}
 }

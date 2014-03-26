@@ -28,8 +28,20 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
+import org.eclipse.epsilon.eol.dom.FeatureCallExpression;
+import org.eclipse.epsilon.eol.dom.FeatureNameExpression;
+import org.eclipse.epsilon.eol.dom.ForStatement;
+import org.eclipse.epsilon.eol.dom.HigherOrderOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.IdentifierExpression;
+import org.eclipse.epsilon.eol.dom.IfStatement;
+import org.eclipse.epsilon.eol.dom.OperationCallExpression;
+import org.eclipse.epsilon.eol.dom.ParameterDeclaration;
+import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
+import org.eclipse.epsilon.eol.dom.StringLiteralExpression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.parse.AstExplorer;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
@@ -46,6 +58,51 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	protected EolOperationFactory operationFactory = new EolOperationFactory();
 	private IEolLibraryModule parent;
 
+	public static void main(String[] args) throws Exception {
+		
+		EolModule module = new EolModule();
+		module.parse("'foo'.bar();");
+		//module.execute();
+		new AstExplorer(module.getAst(), EolParser.class).setVisible(true);
+		
+	}
+	
+	/*
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		switch (cst.getType()) {
+			case EolParser.FOR: return new ForStatement();
+			case EolParser.IF: return new IfStatement();
+			case EolParser.POINT: {
+				if (cst.getSecondChild().getChildren().size() == 0) {
+					return new PropertyCallExpression();
+				}
+				else {
+					if (cst.getSecondChild().getFirstChild().getType() == EolParser.PARAMLIST) {
+						return new HigherOrderOperationCallExpression();
+					}
+					else {
+						return new OperationCallExpression();
+					}
+				}
+			}
+			case EolParser.NAME: return new IdentifierExpression();
+			case EolParser.FORMAL: return new ParameterDeclaration();
+			case EolParser.BLOCK: return new StatementBlock();
+			case EolParser.FEATURECALL: {
+				if (cst.getParent().getSecondChild() == cst && parentAst instanceof FeatureCallExpression) {
+					return new FeatureNameExpression();
+				}
+				else {
+					return new IdentifierExpression();
+				}
+			}
+			case EolParser.STRING: return new StringLiteralExpression();
+			
+			default: return super.adapt(cst, parentAst);
+		}
+	}*/
+	
 	@Override
 	public Lexer createLexer(InputStream inputStream) {
 		ANTLRInputStream input = null;

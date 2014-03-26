@@ -115,10 +115,13 @@ public class AstExplorer extends JFrame {
 			
 			label.setIcon(new ImageIcon(AstTreeCellRenderer.class
 					.getResource("node.gif")));
-
-			label.setText("<html>" + getText(ast) + " ("
+			
+			String color = "#C0C0C0";
+			if (ast.getClass().getSimpleName().equals("AST")) color = "red";
+			
+			label.setText("<html>" + "[" + ast.getClass().getSimpleName() + "] " + getText(ast) + " ("
 					+ resolver.getField(ast.getType()) + "-" + ast.getType()
-					+ ")" + "<font color='#C0C0C0'>"
+					+ ")" + "<font color='" + color + "'>"
 					+ " (Line:" + ast.getLine() + ", Col:" + ast.getCharPositionInLine() // +
 					// ", Props: "
 					// + toString(((EolAst) ast).getProperties())

@@ -33,6 +33,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
@@ -95,7 +96,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
 		try {
-			ast = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
+			AST cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
+			ast = createAst(cst, null);
 		}
 		
 		catch (RecognitionException ex){
@@ -128,6 +130,27 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		}
 	}
 	
+	protected AST createAst(AST cst, AST parentAst) {
+		AST ast = adapt(cst, parentAst);
+		ast.setToken(cst.getToken());
+		ast.setUri(cst.getUri());
+		ast.setModule(cst.getModule());
+		
+		ast.setExtraTokens(cst.getExtraTokens());
+		ast.setImaginary(cst.isImaginary());
+		
+		for (AST childCst : cst.getChildren()) {
+			AST childAst = createAst(childCst, ast);
+			childAst.setParent(ast);
+			ast.addChild(childAst);
+		}
+		return ast;
+	}
+	
+	public AST adapt(AST cst, AST parentAst) {
+		return new AST();
+	}
+	
 	private boolean parse(URI uri, final InputStream iStream) throws Exception {
 		parseProblems.clear();
 		try {
@@ -139,7 +162,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		    
 			final Lexer lexer = createLexer(noTabsStream);
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
-			final EpsilonTreeAdaptor adaptor = createTreeAdaptor(uri);
+			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri, this);
 
 			parser = createParser(stream);
 			parser.setDeepTreeAdaptor(adaptor);
@@ -153,10 +176,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		finally {
 			iStream.close();
 		}
-	}
-	
-	protected EpsilonTreeAdaptor createTreeAdaptor(URI uri) {
-		return new EpsilonTreeAdaptor(uri, this);
 	}
 	
 }
