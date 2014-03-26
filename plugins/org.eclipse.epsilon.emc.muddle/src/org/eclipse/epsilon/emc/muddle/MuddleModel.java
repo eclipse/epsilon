@@ -13,8 +13,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -26,6 +29,7 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class MuddleModel extends Model {
 
+	protected URI storeUri = null;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -57,7 +61,6 @@ public class MuddleModel extends Model {
 		eClass.getEStructuralFeatures().add(eAttribute2);		
 		
 		object.eSet(eClass.getEStructuralFeature("a2"), "v2");
-		
 		
 	}
 	
@@ -188,8 +191,21 @@ public class MuddleModel extends Model {
 	}
 
 	@Override
-	public boolean store(String arg0) {
+	public boolean store(String file) {
 		return false;
+	}
+	
+	public boolean store(URI uri) {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+		Resource resource = resourceSet.createResource(uri);
+		try {
+			resource.save(null);
+		}
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+		return true;
 	}
 	
 	protected MuddleElementType muddleElementTypeForName(String name) {
@@ -222,9 +238,9 @@ public class MuddleModel extends Model {
 		return propertySetter;
 	}
 	
+	
+	
 	@Override
-	public void load() throws EolModelLoadingException {
-		
-	}
+	public void load() throws EolModelLoadingException {}
 	
 }

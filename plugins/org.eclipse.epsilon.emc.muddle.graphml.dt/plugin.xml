@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.epsilon.common.dt.modelType">
       <modelType
-            class="org.eclipse.epsilon.emc.graphml.GraphmlModel"
+            class="org.eclipse.epsilon.emc.muddle.graphml.GraphmlModel"
             dialog="org.eclipse.epsilon.emc.muddle.graphml.dt.GraphmlModelConfigurationDialog"
             icon="images/graphml.png"
             label="GraphML Muddle"

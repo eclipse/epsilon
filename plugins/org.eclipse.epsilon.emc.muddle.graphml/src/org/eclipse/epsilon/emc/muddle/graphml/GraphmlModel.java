@@ -2,6 +2,7 @@ package org.eclipse.epsilon.emc.muddle.graphml;
 
 import java.io.File;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.MuddleModel;
@@ -52,4 +53,15 @@ public class GraphmlModel extends MuddleModel {
 	public File getFile() {
 		return file;
 	}
+	
+	@Override
+	public boolean store() {
+		return store(URI.createFileURI(file.getAbsolutePath()));
+	}
+	
+	@Override
+	public boolean store(String file) {
+		return super.store(file);
+	}
+	
 }

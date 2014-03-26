@@ -6,13 +6,10 @@ Bundle-Version: 1.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Bundle-Activator: org.eclipse.epsilon.emc.muddle.graphml.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.epsilon.eol.engine,
+Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.jdom_1.0,
- org.eclipse.epsilon.emc.muddle;visibility:=reexport
+ org.eclipse.epsilon.emc.muddle;visibility:=reexport,
+ org.eclipse.emf.ecore
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.emc.muddle.graphml
