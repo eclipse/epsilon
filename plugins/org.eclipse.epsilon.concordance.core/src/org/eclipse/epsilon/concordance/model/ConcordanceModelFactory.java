@@ -31,23 +31,29 @@ public class ConcordanceModelFactory {
 
 	public static IConcordanceModelFactory getFactory() {
 		if (factory == null) {
-			IConfigurationElement[] elements = Platform.getExtensionRegistry()
-					.getConfigurationElementsFor(MODEL_FACTORY_EXT_ID);
-			if (elements.length >= 2) {
-				LogUtil.log(IStatus.WARNING, 0,
-						"Multiple ModelTypes are defined.", null);
-			}
-
-			if (elements.length != 0) {
-				try {
-					factory = (IConcordanceModelFactory) elements[0]
-							.createExecutableExtension("factory");
-				} catch (CoreException e) {
-					// Failed... use default
+			
+			if (Platform.isRunning()) {
+				IConfigurationElement[] elements = Platform.getExtensionRegistry()
+						.getConfigurationElementsFor(MODEL_FACTORY_EXT_ID);
+				if (elements.length >= 2) {
+					LogUtil.log(IStatus.WARNING, 0,
+							"Multiple ModelTypes are defined.", null);
+				}
+	
+				if (elements.length != 0) {
+					try {
+						factory = (IConcordanceModelFactory) elements[0]
+								.createExecutableExtension("factory");
+					} catch (CoreException e) {
+						// Failed... use default
+						factory = new DefaultModelCreateFactory();
+					}
+				} else {
+					// No specific factory is configured, so use default
 					factory = new DefaultModelCreateFactory();
 				}
-			} else {
-				// No specific factory is configured, so use default
+			}
+			else {
 				factory = new DefaultModelCreateFactory();
 			}
 		}
