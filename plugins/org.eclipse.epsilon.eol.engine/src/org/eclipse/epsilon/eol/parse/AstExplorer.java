@@ -117,7 +117,7 @@ public class AstExplorer extends JFrame {
 					.getResource("node.gif")));
 			
 			String color = "#C0C0C0";
-			if (ast.getClass().getSimpleName().equals("AST")) color = "red";
+			if (ast.getClass().getSimpleName().equals("AST") && !ast.isImaginary()) color = "red";
 			
 			label.setText("<html>" + "[" + ast.getClass().getSimpleName() + "] " + getText(ast) + " ("
 					+ resolver.getField(ast.getType()) + "-" + ast.getType()

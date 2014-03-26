@@ -28,17 +28,38 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
+import org.eclipse.epsilon.eol.dom.AbortStatement;
+import org.eclipse.epsilon.eol.dom.Annotation;
+import org.eclipse.epsilon.eol.dom.AssignmentStatement;
+import org.eclipse.epsilon.eol.dom.BooleanLiteralExpression;
+import org.eclipse.epsilon.eol.dom.BreakStatement;
+import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ContinueStatement;
+import org.eclipse.epsilon.eol.dom.DeleteStatement;
+import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
 import org.eclipse.epsilon.eol.dom.FeatureCallExpression;
 import org.eclipse.epsilon.eol.dom.FeatureNameExpression;
 import org.eclipse.epsilon.eol.dom.ForStatement;
 import org.eclipse.epsilon.eol.dom.HigherOrderOperationCallExpression;
 import org.eclipse.epsilon.eol.dom.IdentifierExpression;
 import org.eclipse.epsilon.eol.dom.IfStatement;
+import org.eclipse.epsilon.eol.dom.ImportStatement;
+import org.eclipse.epsilon.eol.dom.IntegerLiteralExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
+import org.eclipse.epsilon.eol.dom.OperationDeclaration;
+import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.ParameterDeclaration;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
+import org.eclipse.epsilon.eol.dom.RealLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ReturnStatement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.StringLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ThrowStatement;
+import org.eclipse.epsilon.eol.dom.TransactionStatement;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
+import org.eclipse.epsilon.eol.dom.VariableDeclaration;
+import org.eclipse.epsilon.eol.dom.WhileStatement;
+import org.eclipse.epsilon.eol.execute.BreakAllStatementExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.AstExplorer;
@@ -61,18 +82,24 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	public static void main(String[] args) throws Exception {
 		
 		EolModule module = new EolModule();
-		module.parse("'foo'.bar();");
+		
+		//module.parse(new File("/Users/dimitrioskolovos/Downloads/" + 
+		//		"eclipse-modeling-kepler/workspace/org.eclipse.epsilon.eugenia/" + 
+		//		"transformations/FixGMFGen.eol"));
+		module.parse("if (true) transaction { a = 5; abort;}");
 		//module.execute();
 		new AstExplorer(module.getAst(), EolParser.class).setVisible(true);
 		
 	}
 	
 	/*
+	// TODO: Map literals
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
 		switch (cst.getType()) {
 			case EolParser.FOR: return new ForStatement();
 			case EolParser.IF: return new IfStatement();
+			case EolParser.ARROW:
 			case EolParser.POINT: {
 				if (cst.getSecondChild().getChildren().size() == 0) {
 					return new PropertyCallExpression();
@@ -98,6 +125,34 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 				}
 			}
 			case EolParser.STRING: return new StringLiteralExpression();
+			case EolParser.INT: return new IntegerLiteralExpression();
+			case EolParser.BOOLEAN: return new BooleanLiteralExpression();
+			case EolParser.FLOAT: return new RealLiteralExpression();
+			case EolParser.ASSIGNMENT: return new AssignmentStatement();
+			case EolParser.VAR: return new VariableDeclaration();
+			case EolParser.NEW: return new VariableDeclaration();
+			case EolParser.TYPE: return new TypeExpression();
+			case EolParser.IMPORT: return new ImportStatement();
+			case EolParser.OPERATOR: {
+				if (cst.getText().equals("=") && (parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement || parent instanceof StatementBlock )) {
+					return new AssignmentStatement();
+				}
+				else {
+					return new OperatorExpression();
+				}
+			}
+			case EolParser.CONTINUE: return new ContinueStatement();
+			case EolParser.DELETE: return new DeleteStatement();
+			case EolParser.HELPERMETHOD: return new OperationDeclaration();
+			case EolParser.RETURN: return new ReturnStatement();
+			case EolParser.ENUMERATION_VALUE: return new EnumerationLiteralExpression();
+			case EolParser.Annotation: return new Annotation();
+			case EolParser.COLLECTION: return new CollectionLiteralExpression();
+			case EolParser.BREAK: return new BreakStatement(false);
+			case EolParser.BREAKALL: return new BreakStatement(true);
+			case EolParser.THROW: return new ThrowStatement();
+			case EolParser.ABORT: return new AbortStatement();
+			case EolParser.TRANSACTION: return new TransactionStatement();
 			
 			default: return super.adapt(cst, parentAst);
 		}
