@@ -50,7 +50,7 @@ public class EolImport extends AbstractModuleElement{
 			// Detect and handle circular imports gracefully
 			for (IEolLibraryModule ancestor = parentModule;
 					ancestor != null && !found;
-					ancestor = ancestor.getParent()) {
+					ancestor = ancestor.getParentModule()) {
 				if (ancestor.getSourceUri() != null && ancestor.getSourceUri().equals(uri)) {
 					found = true;
 					importedModule = ancestor;

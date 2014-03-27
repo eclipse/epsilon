@@ -32,9 +32,9 @@ public interface IEolLibraryModule extends IModule{
 	
 	public Set<EolModelGroupDefinition> getModelGroupDefinitions();
 	
-	public IEolLibraryModule getParent();
+	public IEolLibraryModule getParentModule();
 	
-	public void setParent(IEolLibraryModule parent);
+	public void setParentModule(IEolLibraryModule parent);
 	
 	public List<EolImport> getImports();
 	

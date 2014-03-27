@@ -287,7 +287,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			try {
 				module = (IModule) moduleImplClass.newInstance();
 				if (module instanceof IEolLibraryModule) {
-					((IEolLibraryModule)module).setParent(this);
+					((IEolLibraryModule)module).setParentModule(this);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -374,12 +374,12 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	}
 
 	@Override
-	public IEolLibraryModule getParent() {
+	public IEolLibraryModule getParentModule() {
 		return parent;
 	}
 
 	@Override
-	public void setParent(IEolLibraryModule parent) {
+	public void setParentModule(IEolLibraryModule parent) {
 		this.parent = parent;
 	}
 

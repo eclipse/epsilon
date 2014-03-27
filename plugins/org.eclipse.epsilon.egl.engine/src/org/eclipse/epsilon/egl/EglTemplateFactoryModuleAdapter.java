@@ -137,12 +137,12 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	}
 
 	@Override
-	public IEolLibraryModule getParent() {
+	public IEolLibraryModule getParentModule() {
 		return null;
 	}
 
 	@Override
-	public void setParent(IEolLibraryModule parent) {
+	public void setParentModule(IEolLibraryModule parent) {
 		// do nothing
 	}
 
