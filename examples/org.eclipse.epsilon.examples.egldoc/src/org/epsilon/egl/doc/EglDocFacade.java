@@ -79,7 +79,7 @@ public class EglDocFacade {
 				System.out.println(message);
 			
 			// Get the subtemplate that generated the DOT file
-			final Template sub = (Template)factory.getContext().getBaseTemplate().getChildren().get(0);
+			final Template sub = (Template)factory.getContext().getTrace().getChildren().get(0);
 			// Get the output file
 			final OutputFile of = (OutputFile)sub.getChildren().get(0);
 			
