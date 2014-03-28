@@ -1,3 +1,7 @@
+pre {
+	
+}
+
 @abstract
 rule NamedElements
 	match l : Left!NamedElement
@@ -18,7 +22,7 @@ rule PackageableElements
 }
 
 rule Packages 
-	match l : Left!Package
+	match l : Left!Package 
 	with r : Right!Package
 	extends PackageableElements {
 	
@@ -32,6 +36,7 @@ rule Models
 	
 }	
 
+@greedy
 rule Classifiers 
 	match l : Left!Classifier 
 	with r : Right!Classifier 
