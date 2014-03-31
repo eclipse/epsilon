@@ -182,8 +182,8 @@ public class GenerationRule extends NamedRule implements ModuleElement {
 				eglTemplate.populate(key + "", parameters.get(key));
 			}
 			
-			if (eglTemplate instanceof EglFileGeneratingTemplate) {
-				((EglFileGeneratingTemplate) eglTemplate).generate(target, overwrite, protectRegions);
+			if (eglTemplate instanceof EglPersistentTemplate) {
+				((EglPersistentTemplate) eglTemplate).generate(target, overwrite, protectRegions);
 			}
 			
 			module.getInvokedTemplates().add(eglTemplate.getTemplate());
