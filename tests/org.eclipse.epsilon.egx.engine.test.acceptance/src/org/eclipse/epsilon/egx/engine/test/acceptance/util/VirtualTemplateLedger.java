@@ -10,21 +10,23 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance.util;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.eclipse.epsilon.hutn.test.model.families.FamiliesPackage;
-import org.eclipse.epsilon.test.fixtures.hutn.AbstractEmfModelConstructor;
+public class VirtualTemplateLedger {
 
-public class FamiliesModelConstructor extends AbstractEmfModelConstructor {
-
-	@Override
-	protected List<String> getNsUris() {
-		return Collections.singletonList(FamiliesPackage.eNS_URI);
+	private final Map<String, String> output = new HashMap<String, String>();
+	
+	public void add(String path, String contents) {
+		output.put(path, contents);
+	}
+	
+	public Collection<String> getOutputFiles() {
+		return output.keySet();
 	}
 
-	@Override
-	protected List<String> getConfigFiles() {
-		return Collections.singletonList(null);
+	public Object getContentFor(String path) {
+		return output.get(path);
 	}
 }
