@@ -374,6 +374,7 @@ public class GraphmlImporter {
 	}
 	
 	protected Slot findSuitableSlot(MuddleElement source, MuddleElement target) {
+		if (source == null || source.getType() == null) return null;
 		Feature slotPrototype = findSuitableSlotPrototype(source.getType(), target);
 		if (slotPrototype == null) return null;
 		for (Slot slot : source.getSlots()) {
@@ -532,7 +533,7 @@ public class GraphmlImporter {
 	
 	protected List<Element> getNodeElements() {
 		List<Element> elements = new ArrayList<Element>();
-		for (Object o : graphElement.getChildren("node", namespace)) {
+		for (Object o : getDescendants(graphElement, "name") /*graphElement.getChildren("node", namespace)*/) {
 			elements.add((Element) o);
 		}
 		return elements;
@@ -540,7 +541,7 @@ public class GraphmlImporter {
 	
 	protected List<Element> getEdgeElements() {
 		List<Element> elements = new ArrayList<Element>();
-		for (Object o : graphElement.getChildren("edge", namespace)) {
+		for (Object o : getDescendants(graphElement, "edge") /*graphElement.getChildren("edge", namespace)*/) {
 			elements.add((Element) o);
 		}
 		return elements;
