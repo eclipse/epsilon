@@ -140,6 +140,8 @@ public class GraphmlImporter {
 			MuddleElement source = nodeMap.get(edgeElement.getAttributeValue("source"));
 			MuddleElement target = nodeMap.get(edgeElement.getAttributeValue("target"));
 			
+			if (source == null || target == null) continue;
+			
 			String label = getFirstLabel(edgeElement);
 			if (label == null) {
 				orphanEdges.add(new OrphanLink(source, target));
@@ -533,7 +535,7 @@ public class GraphmlImporter {
 	
 	protected List<Element> getNodeElements() {
 		List<Element> elements = new ArrayList<Element>();
-		for (Object o : getDescendants(graphElement, "name") /*graphElement.getChildren("node", namespace)*/) {
+		for (Object o : getDescendants(graphElement, "node") /*graphElement.getChildren("node", namespace)*/) {
 			elements.add((Element) o);
 		}
 		return elements;
