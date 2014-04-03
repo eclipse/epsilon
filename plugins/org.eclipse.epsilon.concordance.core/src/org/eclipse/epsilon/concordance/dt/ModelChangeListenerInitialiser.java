@@ -22,7 +22,8 @@ import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 
 public class ModelChangeListenerInitialiser {
 
-private static final String MODEL_CHANGE_LISTENER_EXT_POINT_ID = "org.eclipse.epsilon.concordance.core.ModelChangeListener";
+	private static final String MODEL_CHANGE_LISTENER_EXT_POINT_ID = "org.eclipse.epsilon.concordance.core.ModelChangeListener";
+	private static final String MODEL_CHANGE_LISTENER_EXT_POINT_CHANGESDATABASE = "changesDatabase";
 	
 	public void attachAll(ModelChangeReporter reporter) {
 		for (IConfigurationElement extPoint : getModelChangeListenerExtensionDefinitions()) {
@@ -37,16 +38,20 @@ private static final String MODEL_CHANGE_LISTENER_EXT_POINT_ID = "org.eclipse.ep
 	
 	private static class ModelChangeListenerExtPoint {
 
+		private boolean changesDatabase;
 		private final ModelChangeListener instance;
-		
+
 		public ModelChangeListenerExtPoint(IConfigurationElement extPoint) {
 			instance = instantiateListener(extPoint);
 		}
 
 		private ModelChangeListener instantiateListener(IConfigurationElement extPoint) {
 			try {
+				changesDatabase = Boolean
+						.parseBoolean(extPoint
+								.getAttribute(MODEL_CHANGE_LISTENER_EXT_POINT_CHANGESDATABASE));
 				return (ModelChangeListener) extPoint.createExecutableExtension("class");
-				
+
 			} catch (CoreException e) {
 				LogUtil.log("Could not instantiate Concordance ModelChangeListener: " + extPoint.getAttribute("class"), e);
 				return null;
@@ -55,7 +60,7 @@ private static final String MODEL_CHANGE_LISTENER_EXT_POINT_ID = "org.eclipse.ep
 
 		public void attach(ModelChangeReporter reporter) {
 			if (instance != null) {
-				reporter.addListener(instance, false);
+				reporter.addListener(instance, changesDatabase);
 			}
 		}
 	}

@@ -59,6 +59,13 @@
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="changesDatabase" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  When true, the listener (might) change(s) the (H2) database that is used by other listeners. As a result it will be notified last, so the other listeners are able to use the original records (from before the change).
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
