@@ -39,7 +39,7 @@ public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeLi
 	 * @deprecated WARNING: This is a partial implementation of an in-memory index. It may not work as expected. 
 	 */
 	public InMemoryConcordanceIndex(ModelChangeReporter reporter) {
-		reporter.addListener(this);
+		reporter.addListener(this, false);
 	}
 
 	public void visitAllInstancesOf(String nsUri, ModelVisitor visitor) {

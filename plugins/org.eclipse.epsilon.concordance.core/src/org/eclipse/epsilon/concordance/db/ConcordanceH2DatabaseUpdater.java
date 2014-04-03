@@ -26,7 +26,7 @@ public class ConcordanceH2DatabaseUpdater implements ModelChangeListener {
 	public ConcordanceH2DatabaseUpdater(ConcordanceH2Database database, ModelChangeReporter reporter) {
 		this.database = database;
 			
-		reporter.addListener(this);
+		reporter.addListener(this, true);
 	}
 
 	public void modelAdded(IConcordanceModel model) {

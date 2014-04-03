@@ -55,7 +55,7 @@ private static final String MODEL_CHANGE_LISTENER_EXT_POINT_ID = "org.eclipse.ep
 
 		public void attach(ModelChangeReporter reporter) {
 			if (instance != null) {
-				reporter.addListener(instance);
+				reporter.addListener(instance, false);
 			}
 		}
 	}
