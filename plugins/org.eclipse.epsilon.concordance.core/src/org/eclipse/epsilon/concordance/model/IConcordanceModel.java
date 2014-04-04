@@ -12,6 +12,7 @@ package org.eclipse.epsilon.concordance.model;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -62,9 +63,31 @@ public interface IConcordanceModel {
 	 * 
 	 * @param resolve
 	 *            when true all model proxies are resolved
-	 * @return a list of all contents belonging to the model
+	 * @return an iterator that will iterate over all model contents
 	 * @throws IOException
 	 *             when the model could not get loaded
+	 * @see #getAllContents(boolean)
+	 */
+	public Iterator<EObject> getAllContentsIterator(boolean resolve) throws IOException;
+
+	/**
+	 * <p>
+	 * Get all contents of the model. Note this method might call
+	 * {@link #getEmfResource(boolean)}
+	 * </p>
+	 *
+	 * <p>
+	 * As this method creates a new list containing all contents, it might be
+	 * better to use {@link #getAllContentsIterator(boolean)}, if result is just
+	 * used to find some element for example.
+	 * </p>
+	 *
+	 * @param resolve
+	 *            when true all model proxies are resolved
+	 * @return a <b>copied</b> list of all contents belonging to the model
+	 * @throws IOException
+	 *             when the model could not get loaded
+	 * @see #getAllContentsIterator(boolean)
 	 */
 	Collection<EObject> getAllContents(boolean resolve) throws IOException;
 

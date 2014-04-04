@@ -56,13 +56,20 @@ public class ConcordanceModel implements IConcordanceModel, EObjectContainer {
 		return uri;
 	}
 	
+	public Iterator<EObject> getAllContentsIterator(boolean resolve) throws IOException {
+		return getEmfResource(resolve).getAllContents();
+	}
+
 	public Collection<EObject> getAllContents(boolean resolve) throws IOException {
+		// Create a new list
 		final Collection<EObject> contents = new LinkedList<EObject>();
-		
-		for (Iterator<EObject> iterator = getEmfResource(resolve).getAllContents(); iterator.hasNext();) {
+
+		for (Iterator<EObject> iterator = getAllContentsIterator(resolve); iterator.hasNext();) {
+			// Add item to the list
 			contents.add(iterator.next());
 		}
-		
+
+		// Return the newly created list
 		return contents;
 	}
 	
