@@ -139,8 +139,9 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		ast.setExtraTokens(cst.getExtraTokens());
 		ast.setImaginary(cst.isImaginary());
 		
-		for (AST childCst : cst.getChildren()) {
-			AST childAst = createAst(childCst, ast);
+		for (Object childCst : cst.getChildren()) {
+			if (!(childCst instanceof AST)) continue;
+			AST childAst = createAst((AST) childCst, ast);
 			childAst.setParent(ast);
 			ast.addChild(childAst);
 		}
