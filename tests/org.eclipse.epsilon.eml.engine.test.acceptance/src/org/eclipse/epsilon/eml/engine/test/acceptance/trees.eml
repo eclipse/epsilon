@@ -1,10 +1,12 @@
+import "imported.eml";
+
 pre {
 	var unmatched = new Merged!t_unmatched;
-	prepost.put("pre", "pre");
+	info.put("pre", "pre");
 }
 
 post {
-	prepost.put("post", "post");
+	info.put("post", "post");
 }
 
 rule TreeWithTree

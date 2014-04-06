@@ -19,7 +19,7 @@ public class TestXmlTreeMerging {
 	protected EmlModule emlModule = null;
 	protected PlainXmlModel mergedModel = null;
 	
-	protected HashMap<String, Object> prepost;
+	protected HashMap<String, Object> info;
 	
 	@Before
 	public void setup() throws Exception {
@@ -31,8 +31,8 @@ public class TestXmlTreeMerging {
 		
 		eclModule = new EclModule();
 		eclModule.parse(getClass().getResource("trees.ecl").toURI());
-		prepost = new HashMap<String, Object>();
-		eclModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("prepost", prepost));
+		info = new HashMap<String, Object>();
+		eclModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
 		eclModule.getContext().getModelRepository().addModel(leftModel);
 		eclModule.getContext().getModelRepository().addModel(rightModel);
 		eclModule.execute();
@@ -40,7 +40,7 @@ public class TestXmlTreeMerging {
 		mergedModel = loadXmlModel("Merged", "merged.xml", false);
 		emlModule = new EmlModule();
 		emlModule.parse(getClass().getResource("trees.eml").toURI());
-		emlModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("prepost", prepost));
+		emlModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
 		emlModule.getContext().getModelRepository().addModel(leftModel);
 		emlModule.getContext().getModelRepository().addModel(rightModel);
 		emlModule.getContext().setMatchTrace(eclModule.getContext().getMatchTrace().getReduced());
@@ -55,12 +55,17 @@ public class TestXmlTreeMerging {
 	
 	@Test
 	public void testPreExecuted() {
-		assertEquals("pre", prepost.get("pre"));		
+		assertEquals("pre", info.get("pre"));		
 	}
 	
 	@Test
 	public void testPostExecuted() {
-		assertEquals("post", prepost.get("post"));		
+		assertEquals("post", info.get("post"));		
+	}
+	
+	@Test
+	public void testOverrideByName() {
+		assertNotEquals(true, info.get("imported"));		
 	}
 	
 	protected PlainXmlModel loadXmlModel(String name, String fileName, boolean readOnLoad) throws Exception {
