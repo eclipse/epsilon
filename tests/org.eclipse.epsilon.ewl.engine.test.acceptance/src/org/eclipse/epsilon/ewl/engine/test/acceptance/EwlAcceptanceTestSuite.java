@@ -11,12 +11,13 @@
 package org.eclipse.epsilon.ewl.engine.test.acceptance;
 
 import org.eclipse.epsilon.ewl.engine.test.acceptance.builtins.EwlCanAccessBuiltinsTests;
+import org.eclipse.epsilon.ewl.engine.test.acceptance.trees.TestXmlTreeWizards;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EwlCanAccessBuiltinsTests.class})
+@SuiteClasses({EwlCanAccessBuiltinsTests.class, TestXmlTreeWizards.class})
 public class EwlAcceptanceTestSuite {
 
 }
