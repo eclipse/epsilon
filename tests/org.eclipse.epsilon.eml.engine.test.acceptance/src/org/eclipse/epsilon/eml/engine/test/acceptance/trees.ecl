@@ -1,11 +1,3 @@
-pre {
-	prepost.put("pre", "pre");
-}
-
-post {
-	prepost.put("post", "post");
-}
-
 rule Root2Root 
 	match l : Left!t_tree
 	with r : Right!t_tree {

@@ -1,9 +1,10 @@
 pre {
 	var unmatched = new Merged!t_unmatched;
+	prepost.put("pre", "pre");
 }
 
 post {
-	Merged!t_tree.all.a_label.println();
+	prepost.put("post", "post");
 }
 
 rule TreeWithTree
