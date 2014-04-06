@@ -31,6 +31,7 @@ public class TestXmlTreeWizards {
 	public void testCorrectNumberOfWizards() throws Exception {
 		Object t1 = model.getAllOfType("t_tree").iterator().next();
 		assertEquals(1, module.getWizardsFor(t1).size());
+		assertEquals(0, module.getWizardsFor(null).size());
 	}
 
 	@Test
