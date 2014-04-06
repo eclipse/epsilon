@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.ecl.engine.test.acceptance;
+package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 
 import java.io.File;
 import java.util.HashMap;

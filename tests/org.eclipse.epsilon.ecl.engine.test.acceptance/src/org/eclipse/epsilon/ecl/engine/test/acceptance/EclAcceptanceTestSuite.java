@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance;
 
 import org.eclipse.epsilon.ecl.engine.test.acceptance.builtins.EclCanAccessBuiltinsTests;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.trees.TestXmlTreeComparison;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

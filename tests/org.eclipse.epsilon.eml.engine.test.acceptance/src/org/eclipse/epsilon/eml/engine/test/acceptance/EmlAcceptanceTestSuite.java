@@ -11,12 +11,13 @@
 package org.eclipse.epsilon.eml.engine.test.acceptance;
 
 import org.eclipse.epsilon.eml.engine.test.acceptance.builtins.EmlCanAccessBuiltinsTests;
+import org.eclipse.epsilon.eml.engine.test.acceptance.trees.TestXmlTreeMerging;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EmlCanAccessBuiltinsTests.class})
+@SuiteClasses({EmlCanAccessBuiltinsTests.class, TestXmlTreeMerging.class})
 public class EmlAcceptanceTestSuite {
 
 }
