@@ -27,7 +27,7 @@
             type="EMF_M2">
       </modelType>
       <modelType
-            class="org.eclipse.epsilon.emc.emf.virtual.VirtualEmfModel"
+            class="org.eclipse.epsilon.eol.emc.emf.virtual.VirtualEmfModel"
             dialog="org.eclipse.epsilon.emc.emf.dt.VirtualEmfModelConfigurationDialog"
             icon="icons/emf.gif"
             label="Virtual EMF Model"
