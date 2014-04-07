@@ -47,6 +47,11 @@ public class TestXmlTreeWizards {
 		assertEquals(true, info.get("deleted"));
 	}
 	
+	@Test
+	public void testLoopWizards() throws Exception {
+		assertEquals(1, module.getWizardsFor(model.getAllOfType("t_tree")).size());
+	}
+	
 	protected PlainXmlModel loadXmlModel(String name, String fileName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setName(name);
