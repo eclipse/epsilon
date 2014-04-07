@@ -18,7 +18,7 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.EwlModule;
-import org.eclipse.epsilon.ewl.execute.WizardInstance;
+import org.eclipse.epsilon.ewl.EwlWizardInstance;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 
 public class EwlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
@@ -40,9 +40,9 @@ public class EwlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	
 	@Override
 	protected void execute(IEolLibraryModule module) throws EolRuntimeException {
-		final List<WizardInstance> wizards = ((EwlModule)module).getWizardsFor("Running EWL");
+		final List<EwlWizardInstance> wizards = ((EwlModule)module).getWizardsFor("Running EWL");
 		
-		for (WizardInstance wizard : wizards) {
+		for (EwlWizardInstance wizard : wizards) {
 			wizard.process();
 		}
 	}
