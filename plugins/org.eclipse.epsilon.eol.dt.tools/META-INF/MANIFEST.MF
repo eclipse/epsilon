@@ -4,6 +4,5 @@ Bundle-Name: Epsilon Object Language Tools
 Bundle-SymbolicName: org.eclipse.epsilon.eol.dt.tools;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.epsilon.eol.tools

@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.etl.dt;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.etl.dt.EtlPlugin
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.etl.engine;visibility:=reexport,
  org.eclipse.jface.text,

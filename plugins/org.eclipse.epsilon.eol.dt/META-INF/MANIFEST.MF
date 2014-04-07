@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.eol.dt;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Activator: org.eclipse.epsilon.eol.dt.EolPlugin
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text,
  org.eclipse.ui.console,
  org.eclipse.ui.workbench.texteditor,

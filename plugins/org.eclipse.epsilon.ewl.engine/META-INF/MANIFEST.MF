@@ -4,7 +4,6 @@ Bundle-Name: Epsilon Wizard Engine Engine
 Bundle-SymbolicName: org.eclipse.epsilon.ewl.engine
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.ewl,
  org.eclipse.epsilon.ewl.execute.context,

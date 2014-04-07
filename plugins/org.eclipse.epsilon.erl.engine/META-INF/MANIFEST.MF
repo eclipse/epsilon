@@ -4,7 +4,6 @@ Bundle-Name: Epsilon Rule Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.erl.engine;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.erl,
  org.eclipse.epsilon.erl.exceptions,

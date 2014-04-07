@@ -4,7 +4,6 @@ Bundle-Name: Epsilon EMF Model Support
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.emf;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,

@@ -12,4 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.draw2d,
  org.eclipse.gmf.runtime.draw2d.ui,
  org.eclipse.ui;bundle-version="3.4.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

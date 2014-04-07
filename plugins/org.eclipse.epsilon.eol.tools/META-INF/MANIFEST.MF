@@ -4,7 +4,6 @@ Bundle-Name: Built-in Tools for Epsilon
 Bundle-SymbolicName: org.eclipse.epsilon.eol.tools;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.profiling
 Export-Package: org.eclipse.epsilon.eol.tools
