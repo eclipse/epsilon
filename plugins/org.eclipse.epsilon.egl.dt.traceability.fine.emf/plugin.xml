@@ -22,9 +22,9 @@
    </extension>
    <extension
          point="org.eclipse.epsilon.egl.dt.fineGrainedTracePostprocessor">
-      <templateFactoryType
+      <fineGrainedTracePostprocessor
             implementation="org.eclipse.epsilon.egl.dt.traceability.fine.emf.Pojo2Emf">
-      </templateFactoryType>
+      </fineGrainedTracePostprocessor>
    </extension>
 
 </plugin>

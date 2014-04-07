@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="templateFactoryType" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="fineGrainedTracePostprocessor" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,15 +47,15 @@
       </complexType>
    </element>
 
-   <element name="templateFactoryType">
+   <element name="fineGrainedTracePostprocessor">
       <complexType>
          <attribute name="implementation" type="string" use="required">
             <annotation>
                <documentation>
-                  The subclass of EglTemplateFactory to use as the built-in TemplateFactory object when executing EGL programs.
+                  The implementation of IFineGrainedTracePostprocessor that will postprocess the trace from the EGL execution context.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.epsilon.egl.EglTemplateFactory:"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.egl.dt.traceability.IFineGrainedTracePostprocessor"/>
                </appInfo>
             </annotation>
          </attribute>
