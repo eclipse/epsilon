@@ -17,7 +17,6 @@ import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.RealType;
 import org.eclipse.epsilon.emc.muddle.Slot;
 import org.eclipse.epsilon.emc.muddle.Type;
-import org.eclipse.epsilon.eol.EolModule;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;

@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.epl;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
 public class PatternMatchPropertyGetter extends JavaPropertyGetter {

@@ -11,8 +11,6 @@
 package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
-
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;

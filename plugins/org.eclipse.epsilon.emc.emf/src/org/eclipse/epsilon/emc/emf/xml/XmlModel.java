@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.emf.xml;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,8 +22,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;

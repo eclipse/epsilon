@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.emf.dt;
 
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -23,7 +22,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.evl;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 

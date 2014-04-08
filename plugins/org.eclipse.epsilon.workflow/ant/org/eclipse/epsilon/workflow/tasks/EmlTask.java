@@ -12,9 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
-import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EmlTask extends ExecutableModuleTask {

@@ -15,7 +15,6 @@ import java.util.Comparator;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.eol.dt.EolPlugin;
 
 /**
  * Compares IVariable instances using their names.

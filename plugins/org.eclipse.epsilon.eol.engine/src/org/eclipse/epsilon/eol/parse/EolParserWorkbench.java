@@ -17,7 +17,6 @@ import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
-import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;

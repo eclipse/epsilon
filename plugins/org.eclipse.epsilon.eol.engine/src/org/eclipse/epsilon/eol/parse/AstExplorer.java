@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.parse;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.SystemColor;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,7 +23,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;

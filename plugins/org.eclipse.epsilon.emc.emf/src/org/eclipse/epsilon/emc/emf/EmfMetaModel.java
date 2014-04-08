@@ -11,9 +11,6 @@
 package org.eclipse.epsilon.emc.emf;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 

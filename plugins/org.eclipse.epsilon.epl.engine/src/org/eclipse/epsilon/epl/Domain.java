@@ -18,12 +18,9 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.types.EolOrderedSet;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
-import org.eclipse.epsilon.epl.combinations.ExceptionHandler;
 
 public class Domain extends AbstractModuleElement {
 	

@@ -26,7 +26,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
-import org.eclipse.epsilon.epl.combinations.ExceptionHandler;
 import org.eclipse.epsilon.epl.parse.EplParser;
 
 public class Role extends AbstractModuleElement {

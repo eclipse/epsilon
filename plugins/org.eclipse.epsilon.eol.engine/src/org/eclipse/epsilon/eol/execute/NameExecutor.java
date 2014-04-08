@@ -21,7 +21,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 

@@ -12,8 +12,6 @@ package org.eclipse.epsilon.evl.dt.views;
 
 
 import java.util.Collections;
-import java.util.ListIterator;
-
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlFixInstance;

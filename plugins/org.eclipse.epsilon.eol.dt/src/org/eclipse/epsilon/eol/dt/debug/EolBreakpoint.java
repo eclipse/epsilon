@@ -22,7 +22,6 @@ import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.LineBreakpoint;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.eol.dt.EolPlugin;
 
 public class EolBreakpoint extends LineBreakpoint {
 	

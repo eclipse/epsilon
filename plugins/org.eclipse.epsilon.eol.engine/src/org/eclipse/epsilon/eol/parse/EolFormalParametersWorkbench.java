@@ -1,8 +1,5 @@
 package org.eclipse.epsilon.eol.parse;
 
-import java.io.FileInputStream;
-import java.io.StringBufferInputStream;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;

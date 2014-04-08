@@ -10,10 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.console;
 
-import java.io.File;
-
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.ui.console.IHyperlink;
 

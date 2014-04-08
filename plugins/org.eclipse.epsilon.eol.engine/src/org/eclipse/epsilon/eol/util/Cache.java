@@ -12,8 +12,6 @@ package org.eclipse.epsilon.eol.util;
 
 import java.lang.ref.ReferenceQueue;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Cache<K, V> {
 	

@@ -13,10 +13,6 @@ package org.eclipse.epsilon.eol.execute.operations;
 
 import java.util.HashMap;
 
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.declarative.AggregateOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.AsOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ClosureOperation;

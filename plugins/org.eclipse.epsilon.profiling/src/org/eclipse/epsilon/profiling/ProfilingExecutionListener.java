@@ -11,10 +11,8 @@
 package org.eclipse.epsilon.profiling;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ProfilingExecutionListener implements IExecutionListener {
 

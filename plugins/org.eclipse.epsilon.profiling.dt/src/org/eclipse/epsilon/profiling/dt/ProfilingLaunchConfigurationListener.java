@@ -16,7 +16,6 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
-import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegateListener; 
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;

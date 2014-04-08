@@ -34,7 +34,6 @@ import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
-import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;

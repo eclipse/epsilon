@@ -12,8 +12,6 @@ package org.eclipse.epsilon.eol.userinput;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-
 import org.eclipse.epsilon.eol.exceptions.EolUserException;
 
 public abstract class AbstractUserInput implements IUserInput {

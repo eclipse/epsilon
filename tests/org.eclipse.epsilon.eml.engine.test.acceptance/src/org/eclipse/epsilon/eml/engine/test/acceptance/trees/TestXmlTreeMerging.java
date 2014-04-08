@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;

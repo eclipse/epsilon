@@ -33,7 +33,6 @@ import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 

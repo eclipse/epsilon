@@ -13,11 +13,9 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.Collection;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;

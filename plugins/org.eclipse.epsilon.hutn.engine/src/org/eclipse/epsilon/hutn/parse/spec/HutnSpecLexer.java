@@ -41,9 +41,6 @@ package org.eclipse.epsilon.hutn.parse.spec;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class HutnSpecLexer extends Lexer {
     public static final int LBRACKET=6;

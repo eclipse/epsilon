@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.exceptions.models;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class EolNotAnEnumerationValueException extends EolRuntimeException{

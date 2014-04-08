@@ -26,7 +26,6 @@ import org.eclipse.debug.ui.sourcelookup.ISourceLookupResult;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.text.BadLocationException;
