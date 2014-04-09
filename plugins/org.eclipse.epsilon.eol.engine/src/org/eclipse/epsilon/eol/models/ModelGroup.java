@@ -40,7 +40,11 @@ public class ModelGroup extends Model {
 		}
 		if (models.size() == 0) throw new EolModelNotFoundException(metaModel);
 	}
-
+	
+	public ArrayList<IModel> getModels() {
+		return models;
+	}
+	
 	public void load() throws EolModelLoadingException {
 		for (IModel model : models) {
 			model.load();

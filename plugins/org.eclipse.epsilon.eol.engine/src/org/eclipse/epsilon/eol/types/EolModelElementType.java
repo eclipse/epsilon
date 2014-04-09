@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository.AmbiguityCheckResult;
 
@@ -45,6 +46,7 @@ public class EolModelElementType extends EolType{
 	}
 
 	private EolModelElementType(String modelAndMetaClass,IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
+		
 		if (modelAndMetaClass.indexOf("!") > -1){
 			String[] parts = modelAndMetaClass.split("!");
 			modelName = parts[0];
@@ -57,8 +59,16 @@ public class EolModelElementType extends EolType{
 		
 		checkAmbiguityOfType(context);
 
-		model = context.getModelRepository().getModelByName(modelName);
-
+		try {
+			model = context.getModelRepository().getModelByName(modelName);
+		}
+		catch (EolModelNotFoundException ex) {
+			Variable modelVariable = context.getFrameStack().get(modelName);
+			if (modelVariable.getValue() instanceof IModel) {
+				model = (IModel) modelVariable.getValue();
+			}
+		}
+		
 		if (model==null || !model.hasType(typeName)){
 			throw new EolModelElementTypeNotFoundException(modelName,typeName);
 		}
