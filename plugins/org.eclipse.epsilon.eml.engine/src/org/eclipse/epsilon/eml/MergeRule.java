@@ -366,7 +366,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 }

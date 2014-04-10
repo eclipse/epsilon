@@ -19,7 +19,7 @@ public class StringUtil {
 	
 	public static Collection<String> split(String str, String delimiter) {
 		
-		if (str == null) return Collections.EMPTY_LIST;
+		if (str == null) return Collections.emptyList();
 		
 		ArrayList<String> parts = new ArrayList<String>();
 		

@@ -78,7 +78,7 @@ public class ExecuteWizardInstanceCommand implements Command{
 	}
 
 	public Collection<?> getAffectedObjects() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public String getDescription() {

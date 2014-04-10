@@ -54,7 +54,7 @@ public class EolReturnStandaloneExample extends EpsilonStandaloneExample {
 	protected Object execute(IEolExecutableModule module)
 			throws EolRuntimeException {
 		EolOperation operation = module.getDeclaredOperations().get(0);
-		return operation.execute(null, Collections.EMPTY_LIST, module.getContext());
+		return operation.execute(null, Collections.emptyList(), module.getContext());
 	}
 	
 	@Override

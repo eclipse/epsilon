@@ -88,7 +88,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 
 
 	public List<?> getChildren() { 
-		return current == null ? Collections.EMPTY_LIST : current.getChildren(); 
+		return current == null ? Collections.emptyList() : current.getChildren(); 
 	}
 
 	public IEglContext getContext() {

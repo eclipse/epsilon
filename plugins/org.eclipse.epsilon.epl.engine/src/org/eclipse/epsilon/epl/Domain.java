@@ -35,7 +35,7 @@ public class Domain extends AbstractModuleElement {
 	
 	@Override
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public DynamicList<Object> getValues(final IEolContext context, final String type) throws EolRuntimeException {
@@ -46,7 +46,7 @@ public class Domain extends AbstractModuleElement {
 		
 				if (!role.isActive(context, true)) return NoMatch.asList();
 				
-				Object result = context.getExecutorFactory().executeBlockOrExpressionAst(ast.getFirstChild(), context, Object.class, Collections.EMPTY_LIST);
+				Object result = context.getExecutorFactory().executeBlockOrExpressionAst(ast.getFirstChild(), context, Object.class, Collections.emptyList());
 				
 				if (!(result instanceof Collection)) {
 					List<Object> results = new ArrayList<Object>();

@@ -63,7 +63,7 @@ public class JavaModelTests {
 		
 		public boolean isBar() { return true; }
 		
-		public Collection<?> getBaz() { return Collections.EMPTY_LIST; }
+		public Collection<?> getBaz() { return Collections.emptyList(); }
 		
 	}
 }

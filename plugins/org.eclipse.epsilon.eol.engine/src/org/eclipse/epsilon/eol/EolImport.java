@@ -84,9 +84,8 @@ public class EolImport extends AbstractModuleElement{
 	
 	//TODO: Show the helpers under the imports
 	public List<?> getChildren() {
-		if (!loaded) return Collections.EMPTY_LIST;
+		if (!loaded) return Collections.emptyList();
 		else return importedModule.getChildren();
-		//return Collections.EMPTY_LIST;
 	}
 	
 	@Override

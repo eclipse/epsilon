@@ -106,7 +106,7 @@ public class Role extends AbstractModuleElement {
 	
 	@Override
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public Domain getDomain() {

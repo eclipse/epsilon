@@ -61,7 +61,7 @@ public class Pattern extends AbstractModuleElement {
 	
 	@Override
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public AST getMatchAst() {

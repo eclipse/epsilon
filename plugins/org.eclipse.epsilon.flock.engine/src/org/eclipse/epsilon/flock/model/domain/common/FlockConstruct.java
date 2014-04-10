@@ -36,7 +36,7 @@ public abstract class FlockConstruct implements ModuleElement {
 	}
 
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	protected boolean isAnnotatedWith(String annotation) {

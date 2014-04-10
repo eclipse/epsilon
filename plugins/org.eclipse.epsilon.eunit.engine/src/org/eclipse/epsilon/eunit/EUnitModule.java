@@ -256,7 +256,7 @@ public class EUnitModule extends EolModule {
 
 		try {
 			final EolSequence<?> values
-				= (EolSequence<?>) entry.getLeft().execute(null, Collections.EMPTY_LIST, context, true);
+				= (EolSequence<?>) entry.getLeft().execute(null, Collections.emptyList(), context, true);
 			final String variableName = entry.getRight();
 			for (Object value : values) {
 				EUnitTest child = new EUnitTest();
@@ -330,7 +330,7 @@ public class EUnitModule extends EolModule {
 
 			// Run the suite setup operations before all tests
 			for (EolOperation op : getSuiteSetups()) {
-				op.execute(null, Collections.EMPTY_LIST, context, false);
+				op.execute(null, Collections.emptyList(), context, false);
 			}
 		}
 
@@ -351,7 +351,7 @@ public class EUnitModule extends EolModule {
 			if (node.isRootTest()) {
 				// Run the suite teardown operations after all tests
 				for (EolOperation op : getSuiteTeardowns()) {
-					op.execute(null, Collections.EMPTY_LIST, context, false);
+					op.execute(null, Collections.emptyList(), context, false);
 				}
 			}
 		}
@@ -395,7 +395,7 @@ public class EUnitModule extends EolModule {
 		try {
 			// Load models from the inline model operations, if any
 			for (EolOperation inlineModelOp : getInlineModelOperations()) {
-				inlineModelOp.execute(null, Collections.EMPTY_LIST, context, false);
+				inlineModelOp.execute(null, Collections.emptyList(), context, false);
 			}
 
 			// Apply the model bindings
@@ -405,12 +405,12 @@ public class EUnitModule extends EolModule {
 
 			// Call the @setup operations
 			for (EolOperation opSetup : this.getSetups()) {
-				opSetup.execute(null, Collections.EMPTY_LIST, context, false);
+				opSetup.execute(null, Collections.emptyList(), context, false);
 			}
 
 			// Run the @test itself
 			if (opTest != null) {
-				opTest.execute(null, Collections.EMPTY_LIST, context, false);
+				opTest.execute(null, Collections.emptyList(), context, false);
 				node.setResult(EUnitTestResultType.SUCCESS);
 			}
 			else {
@@ -421,7 +421,7 @@ public class EUnitModule extends EolModule {
 		finally {
 			// Call the @teardown operations
 			for (EolOperation opTeardown : this.getTeardowns()) {
-				opTeardown.execute(null, Collections.EMPTY_LIST, context, false);
+				opTeardown.execute(null, Collections.emptyList(), context, false);
 			}
 		}
 	}

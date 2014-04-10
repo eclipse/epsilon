@@ -162,7 +162,7 @@ public class EvlConstraint extends AbstractModuleElement{
 	}
 
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 

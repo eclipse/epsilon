@@ -39,7 +39,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	}
 	
 	public List<Object> getExcluded() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public boolean canTransform(Object source) {

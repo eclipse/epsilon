@@ -39,7 +39,7 @@ public class EolNativeType extends EolAnyType {
 
 	@Override
 	public Object createInstance() throws EolRuntimeException {
-		return delegate.createInstance(clazz, Collections.EMPTY_LIST, context);
+		return delegate.createInstance(clazz, Collections.emptyList(), context);
 	}
 	
 	@Override

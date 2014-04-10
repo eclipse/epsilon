@@ -218,7 +218,7 @@ public class ValidationView extends ViewPart {
 
 					public void run() {
 						setDone(true);
-						viewer.setInput(Collections.EMPTY_LIST);
+						viewer.setInput(Collections.emptyList());
 					}
 					
 				});

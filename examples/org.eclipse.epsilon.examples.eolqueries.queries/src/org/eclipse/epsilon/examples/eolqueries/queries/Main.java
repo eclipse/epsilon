@@ -50,12 +50,12 @@ public class Main {
 		// Invoke the getAuthorNames() operation
 		Book book = library.getBooks().get(0);
 		EolOperation getAuthorNames = module.getOperations().getOperation("getAuthorNames");
-		String names = (String) getAuthorNames.execute(book, Collections.EMPTY_LIST, module.getContext());
+		String names = (String) getAuthorNames.execute(book, Collections.emptyList(), module.getContext());
 		System.err.println(names);
 		
 		// Invoke the getAuthors() EOL operation
 		EolOperation getAuthors = module.getOperations().getOperation("getAuthors");
-		Collection<?> authors = (Collection<?>) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
+		Collection<?> authors = (Collection<?>) getAuthors.execute(book, Collections.emptyList(), module.getContext());
 		
 		// Get the results of getAuthors() and unwrap them
 		@SuppressWarnings("unchecked")

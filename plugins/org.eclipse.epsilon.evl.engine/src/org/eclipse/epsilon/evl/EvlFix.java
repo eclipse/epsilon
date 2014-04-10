@@ -43,7 +43,7 @@ public class EvlFix extends AbstractModuleElement{
 	}
 	
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public String getTitle(Object self, IEvlContext context) throws EolRuntimeException{

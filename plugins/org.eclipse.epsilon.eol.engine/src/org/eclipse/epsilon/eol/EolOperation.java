@@ -322,7 +322,7 @@ public class EolOperation extends AbstractModuleElement{
 	}
 	
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public EolType getReturnType(IEolContext context) throws EolRuntimeException{

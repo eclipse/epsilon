@@ -110,7 +110,7 @@ public class SchedulerTool extends AbstractTool{
 				if (queque.size() > 0) {
 					EolOperation operation = queque.remove(0);
 					if (operation != null)
-					operation.execute(EolNoType.NoInstance, Collections.EMPTY_LIST, context);
+					operation.execute(EolNoType.NoInstance, Collections.emptyList(), context);
 				}
 			}
 		}

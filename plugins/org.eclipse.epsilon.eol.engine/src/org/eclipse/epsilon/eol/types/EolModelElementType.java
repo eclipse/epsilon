@@ -128,7 +128,7 @@ public class EolModelElementType extends EolType{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 	}
 	
@@ -138,7 +138,7 @@ public class EolModelElementType extends EolType{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 	}
 	

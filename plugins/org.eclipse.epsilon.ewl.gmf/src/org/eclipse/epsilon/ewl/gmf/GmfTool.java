@@ -47,7 +47,7 @@ public class GmfTool extends AbstractTool{
 			
 			return editor.getDiagramGraphicalViewer().findEditPartsForElement(getElementId(eObject), IGraphicalEditPart.class);
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	public EditPart getEditPart(EObject eObject) {

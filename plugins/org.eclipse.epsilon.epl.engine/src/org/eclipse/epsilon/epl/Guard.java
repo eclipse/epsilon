@@ -24,7 +24,7 @@ public class Guard extends AbstractModuleElement {
 	
 	@Override
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 }

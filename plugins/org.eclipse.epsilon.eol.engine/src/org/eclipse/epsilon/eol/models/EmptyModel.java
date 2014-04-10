@@ -34,23 +34,23 @@ public class EmptyModel extends Model{
 	}
 
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
  
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public Collection<?> getAllSupertypes(String metaClass) throws EolModelElementTypeNotFoundException {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public Collection<?> getAllSubtypes(String metaClass) throws EolModelElementTypeNotFoundException {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public Collection<?> getAllClasses(boolean onlyConcrete) {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public Object getTypeOf(Object instance) {
@@ -107,7 +107,7 @@ public class EmptyModel extends Model{
 	}
 
 	public Collection<?> allContents() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public boolean isInstantiable(String metaClass) {

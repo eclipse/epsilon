@@ -30,7 +30,7 @@ public class EolPrettyPrinter implements PrettyPrinter {
 	public boolean appliesTo(Object o) {
 		
 		try {
-			EolOperation operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.EMPTY_LIST, context);
+			EolOperation operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.emptyList(), context);
 			if (operation != null) return true;
 		} catch (EolRuntimeException e) {
 			return false;
@@ -42,8 +42,8 @@ public class EolPrettyPrinter implements PrettyPrinter {
 	public String print(Object o) {
 		EolOperation operation;
 		try {
-			operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.EMPTY_LIST, context);
-			return StringUtil.toString(operation.execute(o, Collections.EMPTY_LIST, context));
+			operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.emptyList(), context);
+			return StringUtil.toString(operation.execute(o, Collections.emptyList(), context));
 		} catch (EolRuntimeException e) {
 			return e.getMessage();
 		}

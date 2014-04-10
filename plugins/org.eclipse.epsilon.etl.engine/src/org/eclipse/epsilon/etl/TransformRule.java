@@ -283,7 +283,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	@Override

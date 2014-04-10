@@ -101,7 +101,7 @@ public class EwlWizard extends AbstractModuleElement{
 	}
 
 	public List<?> getChildren() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	@Override
