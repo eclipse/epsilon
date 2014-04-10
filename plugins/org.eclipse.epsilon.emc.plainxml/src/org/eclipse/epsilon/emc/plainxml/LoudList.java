@@ -51,14 +51,14 @@ public class LoudList<E> extends ArrayList<E> {
 	}
 	
 	
-	protected ArrayList<LoudListListener> listeners = new ArrayList<LoudListListener>();
+	protected ArrayList<LoudListListener<E>> listeners = new ArrayList<LoudListListener<E>>();
 	protected boolean unique = false;
 	
-	public void addListener(LoudListListener listener) {
+	public void addListener(LoudListListener<E> listener) {
 		this.listeners.add(listener);
 	}
 	
-	public boolean removeListener(LoudListListener listener) {
+	public boolean removeListener(LoudListListener<E> listener) {
 		return this.listeners.remove(listener);
 	}
 	
@@ -75,7 +75,7 @@ public class LoudList<E> extends ArrayList<E> {
 		if (unique && contains(e)) return false;
 		
 		boolean result = super.add(e);
-		for (LoudListListener listener : listeners) {
+		for (LoudListListener<E> listener : listeners) {
 			listener.objectAdded(this, e);
 		}
 		return result;
@@ -87,7 +87,7 @@ public class LoudList<E> extends ArrayList<E> {
 		if (unique && contains(element)) return;
 		
 		super.add(index, element);
-		for (LoudListListener listener : listeners) {
+		for (LoudListListener<E> listener : listeners) {
 			listener.objectAdded(this, element, index);
 		}
 	}
@@ -117,7 +117,7 @@ public class LoudList<E> extends ArrayList<E> {
 		super.clear();
 		
 		for (E o : temp) {
-			for (LoudListListener listener : listeners) {
+			for (LoudListListener<E> listener : listeners) {
 				listener.objectRemoved(this, o);
 			}
 		}
@@ -126,8 +126,8 @@ public class LoudList<E> extends ArrayList<E> {
 	@Override
 	public boolean remove(Object o) {
 		boolean result = super.remove(o);
-		for (LoudListListener listener : listeners) {
-			listener.objectRemoved(this, o);
+		for (LoudListListener<E> listener : listeners) {
+			listener.objectRemoved(this, (E) o);
 		}
 		return result;
 	}
@@ -135,7 +135,7 @@ public class LoudList<E> extends ArrayList<E> {
 	@Override
 	public E remove(int index) {
 		E removed = super.remove(index);
-		for (LoudListListener listener : listeners) {
+		for (LoudListListener<E> listener : listeners) {
 			listener.objectRemoved(this, removed, index);
 		}
 		return removed;

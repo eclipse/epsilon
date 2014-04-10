@@ -18,8 +18,7 @@ import java.util.Set;
 
 public class ListSet<E> implements Set<E> {
 	
-	protected ArrayList<E> storage = new ArrayList();
-	
+	protected ArrayList<E> storage = new ArrayList<E>();
 
 	public boolean add(E e) {
 		if (contains(e)) {
@@ -53,9 +52,9 @@ public class ListSet<E> implements Set<E> {
 
 	public boolean containsAll(Collection<?> c) {
 		boolean result = c.size() > 0;
-		Iterator it = storage.iterator();
+		Iterator<E> it = storage.iterator();
 		while (it.hasNext()) {
-			E e = (E) it.next();
+			E e = it.next();
 			result = result & contains(e);
 		}
 		return result;
