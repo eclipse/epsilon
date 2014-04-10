@@ -12,7 +12,7 @@ package org.eclipse.epsilon.common.util;
 
 import java.util.Comparator;
 
-public class OrderComparator implements Comparator {
+public class OrderComparator implements Comparator<Object> {
 
 	public OrderComparator() {
 		super();

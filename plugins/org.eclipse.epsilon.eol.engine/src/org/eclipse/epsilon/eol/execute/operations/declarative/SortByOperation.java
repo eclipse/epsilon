@@ -56,7 +56,7 @@ public class SortByOperation extends CollectOperation {
 		return result;
 	}
 	
-	class DecoratedObjectComparator implements Comparator {
+	class DecoratedObjectComparator implements Comparator<DecoratedObject> {
 		
 		protected PrettyPrinterManager p;
 		
@@ -64,31 +64,25 @@ public class SortByOperation extends CollectOperation {
 			this.p = p;
 		}
 		
-		public int compare(Object do1, Object do2) {
-			
-			if (do1 instanceof DecoratedObject && do2 instanceof DecoratedObject) {
-				
-				Object o1 = ((DecoratedObject) do1).getDecoration();
-				Object o2 = ((DecoratedObject) do2).getDecoration();
-				
-				if (o1 instanceof Number && o2 instanceof Number) {
-					if (NumberUtil.greaterThan((Number) o2, (Number) o1)) return -1;
-					else if (NumberUtil.greaterThan((Number) o1, (Number) o2)) return 1;
-					else return 0;
-				}
-				else if (o1 instanceof Comparable && o2 instanceof Comparable) {
-					return ((Comparable) o1).compareTo(o2);
-				}
-				else {
-					String str1 = p.print(o1);
-					String str2 = p.print(o2);
-					return str1.compareTo(str2);
-				}
-				
+		public int compare(DecoratedObject do1, DecoratedObject do2) {
+
+			Object o1 = do1.getDecoration();
+			Object o2 = do2.getDecoration();
+
+			if (o1 instanceof Number && o2 instanceof Number) {
+				if (NumberUtil.greaterThan((Number) o2, (Number) o1)) return -1;
+				else if (NumberUtil.greaterThan((Number) o1, (Number) o2)) return 1;
+				else return 0;
 			}
-			return -1;
+			else if (o1 instanceof Comparable && o2 instanceof Comparable) {
+				return ((Comparable) o1).compareTo(o2);
+			}
+			else {
+				String str1 = p.print(o1);
+				String str2 = p.print(o2);
+				return str1.compareTo(str2);
+			}
 		}
-				
 	}
 	
 	class DecoratedObject {

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-public abstract class EolPrimitive extends EolAny implements Comparable{
+public abstract class EolPrimitive extends EolAny implements Comparable<Object>{
 	
 	@Override
 	public boolean equals(Object opposite){

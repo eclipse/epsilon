@@ -56,9 +56,9 @@ public class ExeedPropertySheetPage extends ExtendedPropertySheetPage {
 			public void sort(IPropertySheetEntry[] entries) {
 				
 				if (alphabeticallySorted) {
-					Arrays.sort(entries, new Comparator() {
-						public int compare(Object a, Object b) {
-							return ((IPropertySheetEntry) a).getDisplayName().compareTo(((IPropertySheetEntry) b).getDisplayName());
+					Arrays.sort(entries, new Comparator<IPropertySheetEntry>() {
+						public int compare(IPropertySheetEntry a, IPropertySheetEntry b) {
+							return a.getDisplayName().compareTo(b.getDisplayName());
 						}
 					});
 				}

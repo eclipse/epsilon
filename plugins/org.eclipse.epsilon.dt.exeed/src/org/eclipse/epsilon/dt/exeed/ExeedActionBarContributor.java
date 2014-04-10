@@ -24,6 +24,7 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -281,11 +282,8 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected List sortActionCollection(Collection col) {
 
 		ArrayList list = new ArrayList(col);
-		Collections.sort(list, new Comparator() {
-			public int compare(Object o1, Object o2) {
-
-				Action a1 = (Action) o1;
-				Action a2 = (Action) o2;
+		Collections.sort(list, new Comparator<IAction>() {
+			public int compare(IAction a1, IAction a2) {
 				return a1.getText().compareTo(a2.getText());
 			}
 		});
