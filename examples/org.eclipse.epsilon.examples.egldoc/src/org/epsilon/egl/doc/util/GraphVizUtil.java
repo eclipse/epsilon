@@ -22,14 +22,17 @@ public class GraphVizUtil {
 			
 			dot.waitFor();
 			
+			String errors = "";
 			final BufferedReader br = new BufferedReader(
 					new InputStreamReader(dot.getErrorStream()));
-			
-			String errors = ""; String line;
-			while ((line = br.readLine()) != null) {
-				errors += line + System.getProperty("line.separator");
+			try {
+				String line;
+				while ((line = br.readLine()) != null) {
+					errors += line + System.getProperty("line.separator");
+				}
+			} finally {
+				br.close();
 			}
-			br.close();
 			
 			if (dot.exitValue() != 0) {
 				System.err.println("Error encountered whilst generating png.");

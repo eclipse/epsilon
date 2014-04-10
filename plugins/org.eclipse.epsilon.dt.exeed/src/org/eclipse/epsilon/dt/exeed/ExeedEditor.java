@@ -65,9 +65,19 @@ public class ExeedEditor extends EcoreEditor {
 			String nsUri = "";
 			try {
 				InputStream is = file.getContents();
-				InputStreamReader r = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(r);
-				nsUri = br.readLine();
+				try {
+					BufferedReader br = new BufferedReader(
+							new InputStreamReader(is));
+					try {
+						nsUri = br.readLine();
+					} finally {
+						// Make sure that 'br', 'isr' and 'is' are clsoed
+						br.close();
+					}
+				} finally {
+					// Just to make sure 'is' gets closed (if something happens when creating 'br'
+					is.close();
+				}
 			}
 			catch (Exception e) {
 				LogUtil.log(e);

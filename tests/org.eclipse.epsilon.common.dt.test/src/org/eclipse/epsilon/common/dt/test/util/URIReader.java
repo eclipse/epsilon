@@ -27,14 +27,18 @@ public class URIReader {
 
 	public String getContents() throws IOException {
 		final BufferedReader reader   = new BufferedReader(new InputStreamReader(URIConverter.INSTANCE.createInputStream(uri)));
-		final StringBuilder  contents = new StringBuilder();
-		
-		String line;
-		while ((line = reader.readLine()) != null) {
-			contents.append(line);
-			contents.append('\n');
+		try {
+			final StringBuilder contents = new StringBuilder();
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				contents.append(line);
+				contents.append('\n');
+			}
+
+			return contents.toString();
+		} finally {
+			reader.close();
 		}
-		
-		return contents.toString();
 	}
 }

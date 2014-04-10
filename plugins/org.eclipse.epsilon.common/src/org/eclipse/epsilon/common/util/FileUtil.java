@@ -68,16 +68,20 @@ public class FileUtil {
 	
 	public static Collection<String> getFileLineContents(File file) throws Exception {
 		final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-		final List<String> lines = new LinkedList<String>();
-		
-		String line = bufferedReader.readLine();
+		try {
+			final List<String> lines = new LinkedList<String>();
 
-		while (line != null) {
-			lines.add(line);
-			line = bufferedReader.readLine();
+			String line = bufferedReader.readLine();
+
+			while (line != null) {
+				lines.add(line);
+				line = bufferedReader.readLine();
+			}
+
+			return lines;
+		} finally {
+			bufferedReader.close();
 		}
-		
-		return lines;
 	}
 	
 	public static String getAbsolutePath(String basePath, String relativePath) {
@@ -205,8 +209,16 @@ public class FileUtil {
 			}
 
 			final FileInputStream isExpected = new FileInputStream(fileExpected);
-			final FileInputStream isActual   = new FileInputStream(fileActual);
-			return sameContents(isExpected, isActual);
+			try {
+				final FileInputStream isActual = new FileInputStream(fileActual);
+				try {
+					return sameContents(isExpected, isActual);
+				} finally {
+					isActual.close();
+				}
+			} finally {
+				isExpected.close();
+			}
 		}
 	}
 

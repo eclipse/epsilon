@@ -33,26 +33,32 @@ public class GUnitGenerator {
 		
 		final String testcaseFileName = getTestCaseName(Interp.parse(new ANTLRFileStream(args[1])));
 		
-		final BufferedReader reader = new BufferedReader(new FileReader(testcaseFileName));
-
 		final StringBuilder output = new StringBuilder();
-		
-		String line;
-		while ((line = reader.readLine()) != null) {
-			output.append(line);
-			output.append(NEWLINE);
+		final BufferedReader reader = new BufferedReader(new FileReader(testcaseFileName));
+		try {
 
-			if (line.contains("parser = new")) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line);
 				output.append(NEWLINE);
-				output.append("\t\t\tparser.prepareForGUnit();");
-				output.append(NEWLINE);
-				output.append(NEWLINE);
+
+				if (line.contains("parser = new")) {
+					output.append(NEWLINE);
+					output.append("\t\t\tparser.prepareForGUnit();");
+					output.append(NEWLINE);
+					output.append(NEWLINE);
+				}
 			}
+		} finally {
+			reader.close();
 		}
 		
-		reader.close();
-		
-		new FileWriter(testcaseFileName).append(output.toString()).close();
+		FileWriter fw = new FileWriter(testcaseFileName);
+		try {
+			fw.append(output.toString());
+		} finally {
+			fw.close();
+		}
 	}
 	
 	public static String getTestCaseName(GrammarInfo grammar) {

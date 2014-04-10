@@ -107,22 +107,19 @@ public class TestThatUsesAProject {
 		if (resource != null && resource.exists())
 			resource.delete(true, new NullProgressMonitor());
 	}
-	
-	protected static void printFileContents(IFile file) throws CoreException {
+
+	protected static void printFileContents(IFile file) throws IOException, CoreException {
+		final InputStreamReader reader = new InputStreamReader(file.getContents());
 		try {
-			final InputStreamReader reader = new InputStreamReader(file.getContents());
 			int c;
-			while((c = reader.read()) != -1) {
-				System.err.print((char)c);
+			while ((c = reader.read()) != -1) {
+				System.err.print((char) c);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			reader.close();
 		}
 	}
-	
-	
-	
+
 	protected static void addNature(IProject project, String natureId) throws CoreException {
 		applyNaturesToProject(project, addNature(project.getDescription().getNatureIds(), natureId));
 	}

@@ -153,10 +153,10 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	private boolean parse(URI uri, final InputStream iStream) throws Exception {
 		parseProblems.clear();
+		Scanner s = new java.util.Scanner(iStream);
 		try {
-			
 			// Replace tabs with spaces to get consistent column numbers in ASTs
-			Scanner s = new java.util.Scanner(iStream).useDelimiter("\\A");
+			s.useDelimiter("\\A");
 		    String contents = s.hasNext() ? s.next() : "";
 		    ByteArrayInputStream noTabsStream = new ByteArrayInputStream(contents.replaceAll("\t", " ").getBytes());
 		    
@@ -174,7 +174,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			throw ex;
 		}
 		finally {
-			iStream.close();
+			s.close();
 		}
 	}
 	

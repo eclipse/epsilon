@@ -39,41 +39,46 @@ public class MultilineCommentReader {
 			
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(file));
-				int currentLine = 0;
-				while (reader.readLine() != null && currentLine < line - 1) {
-					currentLine ++;
-				}
-				
-				String leadingWhitespace = "";
-				
-				ReaderState readerState = ReaderState.BeforeComment;
-				while (readerState != ReaderState.AfterComment) {
-					String l = reader.readLine();
-					if (readerState == ReaderState.BeforeComment) {
-						if (l.trim().equals("/*")) readerState = ReaderState.InFirstLineOfComment;
+				try {
+					int currentLine = 0;
+					while (reader.readLine() != null && currentLine < line - 1) {
+						currentLine++;
 					}
-					else if (readerState == ReaderState.InComment || readerState == ReaderState.InFirstLineOfComment) {
-						if (l.trim().equals("*/")) {
-							readerState = ReaderState.AfterComment;
-						}
-						else {
-							if (readerState == ReaderState.InFirstLineOfComment) {
-								readerState = ReaderState.InComment;
-								boolean nonWhitespaceFound = false;
-								for (char c : l.toCharArray()) {
-									if (Character.isWhitespace(c)) {
-										if (!nonWhitespaceFound) {
-											leadingWhitespace += c;
+
+					String leadingWhitespace = "";
+
+					ReaderState readerState = ReaderState.BeforeComment;
+					while (readerState != ReaderState.AfterComment) {
+						String l = reader.readLine();
+						if (readerState == ReaderState.BeforeComment) {
+							if (l.trim().equals("/*"))
+								readerState = ReaderState.InFirstLineOfComment;
+						} else if (readerState == ReaderState.InComment
+								|| readerState == ReaderState.InFirstLineOfComment) {
+							if (l.trim().equals("*/")) {
+								readerState = ReaderState.AfterComment;
+							} else {
+								if (readerState == ReaderState.InFirstLineOfComment) {
+									readerState = ReaderState.InComment;
+									boolean nonWhitespaceFound = false;
+									for (char c : l.toCharArray()) {
+										if (Character.isWhitespace(c)) {
+											if (!nonWhitespaceFound) {
+												leadingWhitespace += c;
+											}
+										} else {
+											nonWhitespaceFound = true;
 										}
 									}
-									else {
-										nonWhitespaceFound = true;
-									}
 								}
+								collected = collected
+										+ l.replace(leadingWhitespace, "")
+										+ "\r\n";
 							}
-							collected = collected + l.replace(leadingWhitespace, "") + "\r\n";
 						}
 					}
+				} finally {
+					reader.close();
 				}
 				
 			}
