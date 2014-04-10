@@ -50,7 +50,7 @@ public class JavaObjectModel extends Model {
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		
-		Class clazz = classForName(type);
+		Class<?> clazz = classForName(type);
 		
 		try {
 			Object instance = clazz.newInstance();
@@ -63,9 +63,9 @@ public class JavaObjectModel extends Model {
 		
 	}
 
-	public Class classForName(String type) throws EolModelElementTypeNotFoundException {
+	public Class<?> classForName(String type) throws EolModelElementTypeNotFoundException {
 		
-		Class clazz = null;
+		Class<?> clazz = null;
 		
 		clazz = getJavaClass(type);
 		
@@ -79,7 +79,7 @@ public class JavaObjectModel extends Model {
 		throw new EolModelElementTypeNotFoundException(this.name, type);
 	}
 	
-	protected Class getJavaClass(String name) {
+	protected Class<?> getJavaClass(String name) {
 		try {
 			return Class.forName(name);
 		}
@@ -95,7 +95,7 @@ public class JavaObjectModel extends Model {
 	public Collection getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 		
-		Class clazz = classForName(type);
+		Class<?> clazz = classForName(type);
 		ArrayList<Object> all = new ArrayList<Object>();
 		
 		for (Object o : contents) {
@@ -115,7 +115,7 @@ public class JavaObjectModel extends Model {
 	public Collection getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		
-		Class clazz = classForName(type);
+		Class<?> clazz = classForName(type);
 		ArrayList<Object> all = new ArrayList<Object>();
 		
 		for (Object o : contents) {

@@ -24,7 +24,7 @@ public class HtmlTransferable implements Transferable {
             try {
 				_htmlDataFlavor = new DataFlavor("text/html") {
 					@Override
-					public Class getRepresentationClass() {
+					public Class<?> getRepresentationClass() {
 						return String.class;
 					}
 				};

@@ -85,11 +85,11 @@ public class AnyOperationContributor extends OperationContributor {
 		return type.isKind(target);
 	}
 	
-	public Class getNativeType() {
+	public Class<?> getNativeType() {
 		return target.getClass();
 	}
 	
-	public Class nativeType() {
+	public Class<?> nativeType() {
 		return getNativeType();
 	}
 	

@@ -536,7 +536,7 @@ public class TestHutn extends TestCase {
 				/** If return object is instanceof AST, get the toStringTree */
 				if ( ruleReturn.toString().indexOf(testRuleName+"_return")>0 ) {
 					try {	// NullPointerException may happen here...
-						Class _return = Class.forName("org.eclipse.epsilon.hutn.parse.HutnParser"+"$"+testRuleName+"_return");            	
+						Class<?> _return = Class.forName("org.eclipse.epsilon.hutn.parse.HutnParser"+"$"+testRuleName+"_return");
 						Method[] methods = _return.getDeclaredMethods();
                 		for(Method method : methods) {
 			                if ( method.getName().equals("getTree") ) {

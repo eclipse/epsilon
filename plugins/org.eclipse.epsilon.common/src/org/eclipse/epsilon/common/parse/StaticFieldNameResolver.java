@@ -17,7 +17,7 @@ public class StaticFieldNameResolver {
 	
 	HashMap<Integer, String> map = new HashMap();
 	
-	public StaticFieldNameResolver(Class clazz) {
+	public StaticFieldNameResolver(Class<?> clazz) {
 		
 		for (Field f : clazz.getFields()) {
 			if (f.getType() == int.class) {

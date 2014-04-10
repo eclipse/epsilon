@@ -74,7 +74,7 @@ public class ToolsView extends ViewPart {
 
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof ToolVariable) {
-				Class clazz = ((ToolVariable) parentElement).getClazz();
+				Class<?> clazz = ((ToolVariable) parentElement).getClazz();
 				return getMethods(clazz, true);
 			}
 			else if (parentElement instanceof Method) {
@@ -91,7 +91,7 @@ public class ToolsView extends ViewPart {
 			}
 		}
 		
-		protected Object[] getMethods(Class clazz, boolean declaredOnly) {
+		protected Object[] getMethods(Class<?> clazz, boolean declaredOnly) {
 			ArrayList<Method> methods = new ArrayList<Method>();
 			Method[] classMethods;
 			
@@ -127,7 +127,7 @@ public class ToolsView extends ViewPart {
 		@Override
 		public String getText(Object obj) {
 			if (obj instanceof ToolVariable) {
-				Class clazz = ((ToolVariable) obj).getClazz();
+				Class<?> clazz = ((ToolVariable) obj).getClazz();
 				return clazz.getSimpleName() + " (" + clazz.getCanonicalName() + ")";
 			}
 			else {
@@ -135,7 +135,7 @@ public class ToolsView extends ViewPart {
 				String sig = "";
 				sig = method.getName() + "(";
 				int loop = 0;
-				for (Class parameterType : method.getParameterTypes()) {
+				for (Class<?> parameterType : method.getParameterTypes()) {
 					sig = sig + parameterType.getSimpleName();
 					loop ++;
 					if (loop < method.getParameterTypes().length) sig = sig + ", ";
@@ -197,7 +197,7 @@ public class ToolsView extends ViewPart {
 			if (editor instanceof AbstractModuleEditor) {
 				Object selection = ((IStructuredSelection) viewer.getSelection()).getFirstElement();
 				if (selection instanceof ToolVariable) {
-					Class toolClass = ((ToolVariable) selection).getClazz();
+					Class<?> toolClass = ((ToolVariable) selection).getClazz();
 					String toolVariableDeclaration = "var " + ((ToolVariable) selection).getName() + " : new Native(\"" + toolClass.getCanonicalName() + "\");";
 					((AbstractModuleEditor) editor).insertText(toolVariableDeclaration);
 				}

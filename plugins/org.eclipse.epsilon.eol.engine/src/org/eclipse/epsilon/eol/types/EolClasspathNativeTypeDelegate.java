@@ -42,7 +42,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 
 	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
 		try {
-			Class c = fClassLoader.loadClass(clazz);
+			Class<?> c = fClassLoader.loadClass(clazz);
 			if (parameters.size() > 0) {
 				for (Constructor con : c.getConstructors()) {
 					if (con.getParameterTypes().length != parameters.size()) continue;
@@ -72,8 +72,8 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		throw new EolRuntimeException("Native type " + clazz + " does not define a suitable constructor for arguments " + parameters);
 	}
 
-	public Class[] getTypes(Collection objects) {
-		Class[] types = new Class[objects.size()];
+	public Class<?>[] getTypes(Collection<Object> objects) {
+		Class<?>[] types = new Class[objects.size()];
 		int i = 0;
 		for (Object o : objects) {
 			types[i] = o.getClass();

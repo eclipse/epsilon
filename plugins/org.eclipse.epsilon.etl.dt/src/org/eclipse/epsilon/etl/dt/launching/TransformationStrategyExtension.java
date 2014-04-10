@@ -24,7 +24,7 @@ public class TransformationStrategyExtension {
 	
 	protected String type;
 	protected String label;
-	protected Class clazz;
+	protected Class<?> clazz;
 	protected String dialog;
 	protected IConfigurationElement configurationElement;
 	
@@ -56,11 +56,11 @@ public class TransformationStrategyExtension {
 		this.type = type;
 	}
 	
-	public Class getClazz() {
+	public Class<?> getClazz() {
 		return clazz;
 	}
 
-	public void setClazz(Class clazz) {
+	public void setClazz(Class<?> clazz) {
 		this.clazz = clazz;
 	}
 

@@ -36,7 +36,7 @@ public class Antlr3TreeViewer extends JFrame{
 	//JTree v2Tree = new JTree();
 	JTree v3Tree = new JTree();
 	
-	public Antlr3TreeViewer(Tree tree, Class v3Parser){
+	public Antlr3TreeViewer(Tree tree, Class<?> v3Parser){
 		
 		//this.v2Resolver = new StaticFieldNameResolver(v2Parser);
 		this.v3Resolver = new StaticFieldNameResolver(v3Parser);

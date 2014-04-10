@@ -48,7 +48,7 @@ public class EolNativeType extends EolAnyType {
 		return delegate.createInstance(clazz, parameters, context);
 	}
 	
-	public Class getJavaClass() {
+	public Class<?> getJavaClass() {
 		try {
 			return ClassLoader.getSystemClassLoader().loadClass(clazz);
 		} catch (ClassNotFoundException e) {
@@ -64,7 +64,7 @@ public class EolNativeType extends EolAnyType {
 	@Override
 	public boolean isKind(Object o) {
 		if (o != null) {
-			Class cls = o.getClass();
+			Class<?> cls = o.getClass();
 			boolean found = false;
 			while (cls!= null && !found) {
 				if (cls.getCanonicalName().equalsIgnoreCase(clazz)){

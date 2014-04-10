@@ -35,14 +35,14 @@ public class JavaTool {
 	
 	protected String getSignature(Method m) {
 		String signature = m.getName() + "(";
-		for (Class c : m.getParameterTypes()) {
+		for (Class<?> c : m.getParameterTypes()) {
 			signature = signature + c.getName() + ", ";
 		}
 		signature = signature + ")";
 		return signature;
 	}
 	
-	public Class loadClass(String clazz) {
+	public Class<?> loadClass(String clazz) {
 		try {
 			return ClassLoader.getSystemClassLoader().loadClass(clazz);
 		} catch (ClassNotFoundException e) {

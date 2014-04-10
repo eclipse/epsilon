@@ -13,7 +13,7 @@ package org.eclipse.epsilon.common.dt.tools;
 public class ToolVariable {
 	
 	protected String name;
-	protected Class clazz;
+	protected Class<?> clazz;
 	
 	public String getName() {
 		return name;
@@ -21,10 +21,10 @@ public class ToolVariable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Class getClazz() {
+	public Class<?> getClazz() {
 		return clazz;
 	}
-	public void setClazz(Class clazz) {
+	public void setClazz(Class<?> clazz) {
 		this.clazz = clazz;
 	}
 	

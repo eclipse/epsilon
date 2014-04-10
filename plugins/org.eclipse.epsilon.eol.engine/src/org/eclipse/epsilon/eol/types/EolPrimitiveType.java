@@ -17,7 +17,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolPrimitiveType extends EolType {
 
-	private Class clazz;
+	private Class<?> clazz;
 	private String name;
 	
 	public static EolPrimitiveType Integer = new EolPrimitiveType(Integer.class,"Integer");
@@ -26,7 +26,7 @@ public class EolPrimitiveType extends EolType {
 	public static EolPrimitiveType Real = new EolPrimitiveType(Float.class,"Real");
 	public static EolPrimitiveType Map = new EolPrimitiveType(EolMap.class,"Map");
 	
-	private EolPrimitiveType(Class clazz, String name){
+	private EolPrimitiveType(Class<?> clazz, String name){
 		this.clazz = clazz;
 		this.name = name;
 	}
@@ -58,7 +58,7 @@ public class EolPrimitiveType extends EolType {
 		return false;
 	}
 
-	public Class getClazz() {
+	public Class<?> getClazz() {
 		return clazz;
 	}
 

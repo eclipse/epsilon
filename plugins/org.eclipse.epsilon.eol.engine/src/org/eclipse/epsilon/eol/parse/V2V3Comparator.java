@@ -26,7 +26,7 @@ public class V2V3Comparator {
 	StaticFieldNameResolver r2;
 	StaticFieldNameResolver r3;
 	
-	public V2V3Comparator(Class v2, Class v3) {
+	public V2V3Comparator(Class<?> v2, Class<?> v3) {
 		r2 = new StaticFieldNameResolver(v2);
 		r3 = new StaticFieldNameResolver(v3);
 	}
