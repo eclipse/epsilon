@@ -31,7 +31,6 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		return value;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public boolean conforms(Object value) throws EolIllegalPropertyException {
 		if (propertyIsFixed())
 			return false;

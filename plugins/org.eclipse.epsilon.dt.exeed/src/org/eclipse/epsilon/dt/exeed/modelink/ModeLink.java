@@ -41,7 +41,6 @@ public class ModeLink {
 	private boolean forceExeedM = ATTR_FORCE_EXEED_DEFAULT;
 	private boolean forceExeedR = ATTR_FORCE_EXEED_DEFAULT;
 
-	@SuppressWarnings("rawtypes")
 	public void load(IFile file) throws Exception {
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(file.getContents());

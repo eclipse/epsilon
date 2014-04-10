@@ -56,7 +56,6 @@ class TestTreeContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Object[] getChildren(Object parent) {
 		if (parent instanceof EUnitTest) {
 			return ((EUnitTest)parent).getChildren().toArray();

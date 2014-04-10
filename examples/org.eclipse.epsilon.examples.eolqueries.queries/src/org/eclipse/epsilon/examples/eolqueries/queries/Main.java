@@ -58,6 +58,7 @@ public class Main {
 		Collection<?> authors = (Collection<?>) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
 		
 		// Get the results of getAuthors() and unwrap them
+		@SuppressWarnings("unchecked")
 		Collection<Author> casted = (Collection<Author>) authors;
 		
 		for (Author author : casted) {

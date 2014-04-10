@@ -121,7 +121,6 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 	
 	// ==================== Launch Configuration Storage ==================== \\
 	
-	@SuppressWarnings("unchecked")
 	private void storeLaunchConfiguration() throws CoreException {
 		final ILaunchConfigurationWorkingCopy launchConfig = 
 			launchManager.getLaunchConfigurationType("org.epsilon.etl.eclipse.dt.launching.EtlLaunchConfigurationDelegate")

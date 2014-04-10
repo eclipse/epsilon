@@ -24,7 +24,6 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 
 public class IncludeOperation extends AbstractSimpleOperation {
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
 				

@@ -51,7 +51,6 @@ public class ListActivities implements IObjectActionDelegate {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		if (selection instanceof IStructuredSelection) {

@@ -30,12 +30,11 @@ import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
-@SuppressWarnings("rawtypes")
 public class CollectionOfModelValuesTests {
 
 	private static final Model dummyModel  = createMock(Model.class);
-	
-	
+
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void unwrapShouldDelegateToUnwrapOfEachElement() {
 		final BackedModelValue firstMockModelValue  = createMock(BackedModelValue.class);
@@ -61,6 +60,7 @@ public class CollectionOfModelValuesTests {
 		verify(firstMockModelValue, secondMockModelValue);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void getEquivalentShouldDelegateToGetEquivalentOfEachElement() throws ConservativeCopyException {
 		final Model               dummyMigratedModel = createMock(Model.class);
@@ -89,6 +89,7 @@ public class CollectionOfModelValuesTests {
 		verify(dummyMigratedModel, dummyContext, firstMockModelValue, secondMockModelValue);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void getEquivalentShouldExcludeValuesThatUnwrapToNull() throws ConservativeCopyException {
 		final Model               dummyMigratedModel = createMock(Model.class);

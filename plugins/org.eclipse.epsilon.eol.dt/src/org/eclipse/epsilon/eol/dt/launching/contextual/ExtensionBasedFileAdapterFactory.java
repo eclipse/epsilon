@@ -20,7 +20,8 @@ public abstract class ExtensionBasedFileAdapterFactory implements IAdapterFactor
 	}
 	
 	protected abstract String getExtension();
-	
+
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof IFile) {
 			IFile file = ((IFile) adaptableObject);
@@ -31,6 +32,7 @@ public abstract class ExtensionBasedFileAdapterFactory implements IAdapterFactor
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Class[] getAdapterList() {
 		return null;
 	}

@@ -640,12 +640,12 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		});
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void initializeTestCaseCounts(List<EUnitModule> modules) throws EolRuntimeException {
 		nTotalTestCases = nErrors = nFailures = nRunTestCases = 0;
 
 		for (EUnitModule module : modules) {
 			final EUnitTest results = module.getSuiteRoot();
+			@SuppressWarnings("rawtypes")
 			final List selOps = module.getSelectedOperations();
 
 			final int allTests = results.countLeafTests(selOps);

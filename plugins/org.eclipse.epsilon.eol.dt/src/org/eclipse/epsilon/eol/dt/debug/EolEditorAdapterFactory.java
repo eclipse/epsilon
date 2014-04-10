@@ -17,6 +17,7 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 
 public class EolEditorAdapterFactory implements IAdapterFactory {
 
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		
 		if (adaptableObject instanceof AbstractModuleEditor) {
@@ -25,6 +26,7 @@ public class EolEditorAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Class[] getAdapterList() {
 		return new Class[]{IToggleBreakpointsTarget.class};
 	}

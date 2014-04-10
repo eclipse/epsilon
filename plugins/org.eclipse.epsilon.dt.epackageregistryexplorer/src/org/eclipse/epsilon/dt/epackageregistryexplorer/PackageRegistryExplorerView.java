@@ -368,6 +368,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			
 			IAdaptable adaptable = new IAdaptable() {
 
+				@SuppressWarnings("rawtypes")
 				public Object getAdapter(Class adapter) {
 					
 					if (selected instanceof EObject && adapter == IPropertySource.class) {

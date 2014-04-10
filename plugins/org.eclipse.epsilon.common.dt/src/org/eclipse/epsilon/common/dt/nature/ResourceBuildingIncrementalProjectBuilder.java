@@ -39,7 +39,6 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected IProject[] build(int kind, Map<String,String> args, IProgressMonitor monitor) {
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {

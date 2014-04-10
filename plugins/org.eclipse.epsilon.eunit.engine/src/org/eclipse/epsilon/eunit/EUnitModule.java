@@ -249,7 +249,6 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void populateSuiteTreeDataOperation(EUnitTest parent,
 			ListIterator<Pair<EolOperation, String>> dataIterator)
 			throws EolRuntimeException {

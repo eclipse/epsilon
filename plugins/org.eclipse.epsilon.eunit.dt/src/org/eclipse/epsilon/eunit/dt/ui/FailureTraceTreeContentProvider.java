@@ -69,13 +69,11 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 		return getChildren(inputElement);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof EUnitTest) {
 			EUnitTest test = (EUnitTest)parentElement;
 
-			@SuppressWarnings("rawtypes")
 			ArrayList<Object> children = new ArrayList<Object>();
 			if (test.getException() != null) {
 				children.add(test.getException());

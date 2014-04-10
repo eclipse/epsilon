@@ -154,6 +154,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		store.setDefault(EDITOR_MATCHING_BRACKETS_COLOR, "128,128,128");
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {

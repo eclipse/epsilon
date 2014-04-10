@@ -29,7 +29,6 @@ public class TreeEqualityAssertionOperation extends AbstractSimpleOperation {
 		this.mustBeEqual = mustBeEqual;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Object execute(
 			Object source, List<?> parameters, IEolContext context, AST ast)

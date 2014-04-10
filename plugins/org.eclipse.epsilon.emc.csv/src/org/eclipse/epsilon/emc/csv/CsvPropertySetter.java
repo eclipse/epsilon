@@ -40,6 +40,7 @@ public class CsvPropertySetter extends AbstractPropertySetter implements
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected Map<String, String> getMap() throws EolIllegalPropertyException {
 		if (object instanceof Map<?, ?>)
 			return (Map<String, String>) object;
