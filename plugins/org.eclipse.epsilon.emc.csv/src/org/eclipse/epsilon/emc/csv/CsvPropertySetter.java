@@ -14,7 +14,7 @@ public class CsvPropertySetter extends AbstractPropertySetter implements
 	public void invoke(Object value) throws EolRuntimeException {
 		
 		String key = getKey();
-		((Map<String, String>) object).put(key, (String) value);
+		getMap().put(key, (String) value);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CsvPropertySetter extends AbstractPropertySetter implements
 	}
 	
 	private String getKey() throws EolIllegalPropertyException {
-		Map<String, String> row = (Map<String, String>) object;
+		Map<String, String> row = getMap();
 		if (!row.keySet().contains(property)) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		} else {
