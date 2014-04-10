@@ -16,7 +16,7 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.common.parse.AST;
 
 
-public class EolFormalParameterList extends ArrayList{
+public class EolFormalParameterList extends ArrayList<EolFormalParameter> {
 	
 	protected AST ast;
 	
@@ -44,10 +44,10 @@ public class EolFormalParameterList extends ArrayList{
 	
 	@Override
 	public String toString(){
-		ListIterator li = listIterator();
+		ListIterator<EolFormalParameter> li = listIterator();
 		String str = "";
 		while (li.hasNext()){
-			EolFormalParameter fp = (EolFormalParameter) li.next();
+			EolFormalParameter fp = li.next();
 			str += fp.toString();
 			if (li.hasNext()){
 				str += ", ";

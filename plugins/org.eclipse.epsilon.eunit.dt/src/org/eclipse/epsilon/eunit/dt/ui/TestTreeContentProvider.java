@@ -62,7 +62,7 @@ class TestTreeContentProvider implements ITreeContentProvider {
 			return ((EUnitTest)parent).getChildren().toArray();
 		}
 		else if (parent instanceof List) {
-			return ((List)parent).toArray();
+			return ((List<?>)parent).toArray();
 		}
 		else if (parent instanceof EUnitModule) {
 			EUnitModule module = (EUnitModule)parent;

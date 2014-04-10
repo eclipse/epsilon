@@ -35,10 +35,10 @@ public class EmfPrettyPrinter implements PrettyPrinter{
 		
 		str += " [";
 		
-		Iterator it = eObject.eClass().getEAllStructuralFeatures().iterator();
+		Iterator<EStructuralFeature> it = eObject.eClass().getEAllStructuralFeatures().iterator();
 		
 		while (it.hasNext()){
-			EStructuralFeature sf = (EStructuralFeature) it.next();
+			EStructuralFeature sf = it.next();
 			
 			if (sf.getEType() instanceof EDataType){
 				str += sf.getName() + "=" + eObject.eGet(sf);

@@ -20,9 +20,9 @@ public interface IUserInput {
 	
 	public boolean confirm(String question, boolean default_) throws EolUserException;
 	
-	public Object chooseMany(String question, Collection choices, Collection default_);
+	public Object chooseMany(String question, Collection<?> choices, Collection<?> default_);
 	
-	public Object choose(String question, Collection choices, Object default_);
+	public Object choose(String question, Collection<?> choices, Object default_);
 	
 	public String prompt(String question, String default_);
 	

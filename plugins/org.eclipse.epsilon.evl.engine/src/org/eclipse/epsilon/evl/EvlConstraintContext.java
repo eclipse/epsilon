@@ -115,16 +115,16 @@ public class EvlConstraintContext extends AbstractModuleElement {
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
 		
-		Collection allOfKind = getAllOfSourceKind(context);
-		Iterator it = allOfKind.iterator();
+		Collection<?> allOfKind = getAllOfSourceKind(context);
+		Iterator<?> it = allOfKind.iterator();
 		
 		while (it.hasNext()){
 			Object object = it.next();
 			if (appliesTo(object,context)){
 				
-				Iterator cit = constraints.values().iterator();
+				Iterator<EvlConstraint> cit = constraints.values().iterator();
 				while (cit.hasNext()){
-					EvlConstraint constraint = (EvlConstraint) cit.next();
+					EvlConstraint constraint = cit.next();
 					if (!constraint.isLazy(context) && constraint.appliesTo(object,context)){
 						constraint.check(object,context);
 					}
@@ -139,14 +139,14 @@ public class EvlConstraintContext extends AbstractModuleElement {
 		return constraints;
 	}
 	
-	public Collection getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+	public Collection<?> getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
 			type = EolModelElementType.forName(typeAst.getText(), context);
 		}
 		return type.getAllOfType();
 	}
 
-	public Collection getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+	public Collection<?> getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
 			type = EolModelElementType.forName(typeAst.getText(), context);
 		}

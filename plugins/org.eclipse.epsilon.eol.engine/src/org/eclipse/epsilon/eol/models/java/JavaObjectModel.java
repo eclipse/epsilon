@@ -92,7 +92,7 @@ public class JavaObjectModel extends Model {
 		contents.remove(instance);
 	}
 
-	public Collection getAllOfKind(String type)
+	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 		
 		Class<?> clazz = classForName(type);
@@ -112,7 +112,7 @@ public class JavaObjectModel extends Model {
 		
 	}
 
-	public Collection getAllOfType(String type)
+	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		
 		Class<?> clazz = classForName(type);

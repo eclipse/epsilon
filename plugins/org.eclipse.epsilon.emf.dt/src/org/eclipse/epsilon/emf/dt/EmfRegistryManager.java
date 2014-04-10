@@ -64,7 +64,7 @@ public class EmfRegistryManager {
 				// IResourceDelta docDelta = rootDelta.findMember(DOC_PATH);
 				// if (docDelta == null)
 				// return;
-				final ArrayList<IResourceDelta> changed = new ArrayList();
+				final ArrayList<IResourceDelta> changed = new ArrayList<IResourceDelta>();
 				IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
 					public boolean visit(IResourceDelta delta) {
 						// only interested in changed resources (not added or
@@ -156,7 +156,7 @@ public class EmfRegistryManager {
 	}
 	
 	public List<String> getMetamodels() {
-		List<String> metamodels = new ArrayList();
+		List<String> metamodels = new ArrayList<String>();
 		String concat = EmfUtilPlugin.getDefault().getPreferenceStore()
 				.getString("metamodels");
 		StringTokenizer st = new StringTokenizer(concat, ";");
@@ -169,7 +169,7 @@ public class EmfRegistryManager {
 	
 	private void setMetamodels(List<String> metamodels) {
 		StringBuffer sb = new StringBuffer();
-		ListIterator li = metamodels.listIterator();
+		ListIterator<String> li = metamodels.listIterator();
 		while (li.hasNext()) {
 			sb.append(li.next());
 			if (li.hasNext()) {

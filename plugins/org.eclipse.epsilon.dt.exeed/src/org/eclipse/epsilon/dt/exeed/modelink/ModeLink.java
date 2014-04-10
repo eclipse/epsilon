@@ -53,7 +53,7 @@ public class ModeLink {
 		forceExeedM = getBooleanAttribute(root, ATTR_FORCE_EXEED_MIDDLE, ATTR_FORCE_EXEED_DEFAULT);
 		forceExeedR = getBooleanAttribute(root, ATTR_FORCE_EXEED_RIGHT, ATTR_FORCE_EXEED_DEFAULT);
 
-		ListIterator li = root.getChildren().listIterator();
+		ListIterator<?> li = root.getChildren().listIterator();
 		while (li.hasNext()) {
 			Object next = li.next();
 			if (next instanceof Element) {

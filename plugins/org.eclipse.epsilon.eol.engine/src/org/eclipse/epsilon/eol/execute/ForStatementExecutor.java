@@ -37,7 +37,7 @@ public class ForStatementExecutor extends AbstractExecutor{
 		
 		Object iterated = context.getExecutorFactory().executeAST(iteratedCollectionAst, context);
 		
-		Collection iteratedCol = null;
+		Collection<Object> iteratedCol = null;
 		
 		if (iterated instanceof Collection){
 			iteratedCol = (Collection) iterated;
@@ -76,10 +76,10 @@ public class ForStatementExecutor extends AbstractExecutor{
 		}
 		//}
 		
-		Iterator li = iteratedCol.iterator();
+		Iterator<Object> li = iteratedCol.iterator();
 		
 		if (iteratorType != EolAnyType.Instance) {
-			Collection typeSafeCollection = CollectionUtil.createDefaultList();
+			Collection<Object> typeSafeCollection = CollectionUtil.createDefaultList();
 			while (li.hasNext()) {
 				Object next = li.next();
 				if (iteratorType.isKind(next)) {

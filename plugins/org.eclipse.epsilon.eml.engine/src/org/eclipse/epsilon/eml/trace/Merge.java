@@ -20,7 +20,7 @@ public class Merge {
 	//protected Object left;
 	//protected Object right;
 	protected Match match;
-	protected Collection targets;
+	protected Collection<Object> targets;
 	protected MergeRule rule;
 	
 
@@ -28,7 +28,7 @@ public class Merge {
 		
 	}
 	
-	public Merge(Match match, Collection merged) {
+	public Merge(Match match, Collection<Object> merged) {
 		super();
 		//this.left = left;
 		this.match = match;
@@ -44,11 +44,11 @@ public class Merge {
 	//	this.left = left;
 	//}
 	
-	public Collection getTargets() {
+	public Collection<Object> getTargets() {
 		return targets;
 	}
 	
-	public void setTargets(Collection merged) {
+	public void setTargets(Collection<Object> merged) {
 		this.targets = merged;
 	}
 	

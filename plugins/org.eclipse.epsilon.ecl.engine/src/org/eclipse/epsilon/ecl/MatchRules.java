@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.rules.NamedRules;
 
 
@@ -38,7 +39,7 @@ public class MatchRules extends NamedRules {
 	*/
 	
 	public MatchRules getRulesFor(Object obj1, Object obj2, IEclContext context, boolean ofClassOnly) throws EolRuntimeException {
-		Iterator it = iterator();
+		Iterator<INamedRule> it = iterator();
 		MatchRules rules = new MatchRules();
 		while (it.hasNext()){
 			MatchRule matchRule = (MatchRule) it.next();

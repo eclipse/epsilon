@@ -16,7 +16,7 @@ import java.util.ListIterator;
 
 public class PrettyPrinterManager {
 	
-	protected ArrayList prettyPrinters = new ArrayList();
+	protected ArrayList<PrettyPrinter> prettyPrinters = new ArrayList<PrettyPrinter>();
 	protected DefaultPrettyPrinter defaultPrettyPrinter;
 	//protected EolPrettyPrinter eolPrettyPrinter;
 	//protected IEolContext context;
@@ -29,7 +29,7 @@ public class PrettyPrinterManager {
 		prettyPrinters.add(defaultPrettyPrinter);
 	}
 	
-	public List getPrettyPrinters(){
+	public List<PrettyPrinter> getPrettyPrinters(){
 		return prettyPrinters;
 	}
 	
@@ -48,9 +48,9 @@ public class PrettyPrinterManager {
 		//if (eolPrettyPrinter.appliesTo(o)) return eolPrettyPrinter;
 		
 		try {
-			ListIterator li = prettyPrinters.listIterator();
+			ListIterator<PrettyPrinter> li = prettyPrinters.listIterator();
 			while (li.hasNext()){
-				PrettyPrinter prettyPrinter = (PrettyPrinter) li.next();
+				PrettyPrinter prettyPrinter = li.next();
 				if (prettyPrinter.appliesTo(o)){
 					return prettyPrinter;
 				}

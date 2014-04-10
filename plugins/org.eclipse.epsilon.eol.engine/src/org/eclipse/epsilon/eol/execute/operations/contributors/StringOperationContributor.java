@@ -95,9 +95,9 @@ public class StringOperationContributor extends OperationContributor {
 		return (str == null ? false : str.indexOf(value) > -1);
 	}
 	
-	public List toCharSequence(){
+	public List<String> toCharSequence(){
 		String value = (String) target;
-		List charSeq = CollectionUtil.createDefaultList();
+		List<String> charSeq = CollectionUtil.createDefaultList();
 		for (int i=0;i<value.length();i++){
 			charSeq.add(value.charAt(i)+"");
 		}

@@ -23,7 +23,7 @@ public class ParametersExecutor extends AbstractExecutor{
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 
 		AST parameterAst = ast.getFirstChild();
-		ArrayList parameters = new ArrayList();
+		ArrayList<Object> parameters = new ArrayList<Object>();
 		
 		while (parameterAst != null){
 			parameters.add(context.getExecutorFactory().executeAST(parameterAst, context));

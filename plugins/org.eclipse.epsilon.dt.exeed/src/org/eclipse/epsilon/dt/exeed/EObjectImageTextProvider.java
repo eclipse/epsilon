@@ -56,7 +56,7 @@ public abstract class EObjectImageTextProvider {
 				operationCache.put("label", new AbstractSimpleOperation() {
 					@SuppressWarnings("rawtypes")
 					@Override
-					public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+					public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
 						return getEObjectReferenceLabel(source,getBasicEObjectLabel(source));
 					}
 

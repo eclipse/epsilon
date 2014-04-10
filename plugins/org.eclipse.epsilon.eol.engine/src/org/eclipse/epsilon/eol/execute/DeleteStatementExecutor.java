@@ -32,7 +32,7 @@ public class DeleteStatementExecutor extends AbstractExecutor {
 			target = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
 		}
 		
-		Collection col = CollectionUtil.asCollection(target);
+		Collection<?> col = CollectionUtil.asCollection(target);
 		
 		for (Object instance : EolCollectionType.clone(col)) {
 			//if (context.getModelRepository().isModelElement(instance)) {

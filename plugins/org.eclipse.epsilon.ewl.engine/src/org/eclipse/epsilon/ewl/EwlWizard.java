@@ -100,7 +100,7 @@ public class EwlWizard extends AbstractModuleElement{
 		return ast;
 	}
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

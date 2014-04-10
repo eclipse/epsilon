@@ -25,7 +25,7 @@ public interface ITransformationStrategy extends IEquivalentProvider {
 	
 	//public Object autoTransform (Object source, IEtlContext context) throws EolRuntimeException;
 	
-	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException;
+	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException;
 		
 	public void transformModels(IEtlContext context) throws EolRuntimeException;
 

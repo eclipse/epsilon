@@ -22,9 +22,9 @@ public class AddReferenceValuesCommand implements Command {
 	
 	protected EReference reference;
 	protected EObject object;
-	protected Collection newValues;
+	protected Collection<?> newValues;
 	
-	public AddReferenceValuesCommand(EObject object, Collection newValues, EReference reference) {
+	public AddReferenceValuesCommand(EObject object, Collection<?> newValues, EReference reference) {
 		this.object = object;
 		this.newValues = newValues;
 		this.reference = reference;
@@ -55,8 +55,8 @@ public class AddReferenceValuesCommand implements Command {
 		oldValues.addAll(newValues);
 	}
 
-	public Collection getAffectedObjects() {
-		List col = new ArrayList();
+	public Collection<EObject> getAffectedObjects() {
+		List<EObject> col = new ArrayList<EObject>();
 		col.add(object);
 		return col;
 	}
@@ -69,7 +69,7 @@ public class AddReferenceValuesCommand implements Command {
 		return "Add to " + reference.getName();
 	}
 
-	public Collection getResult() {
+	public Collection<?> getResult() {
 		// TODO Auto-generated method stub
 		return null;
 	}

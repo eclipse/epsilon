@@ -76,7 +76,7 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 			EUnitTest test = (EUnitTest)parentElement;
 
 			@SuppressWarnings("rawtypes")
-			ArrayList children = new ArrayList();
+			ArrayList<Object> children = new ArrayList<Object>();
 			if (test.getException() != null) {
 				children.add(test.getException());
 			}

@@ -39,7 +39,7 @@ public class DelegatingHasher implements Hasher {
 	
 	
 	@SuppressWarnings("unchecked")
-	private final Collection<TypeSafeHasher> typeSafeHashers = Arrays.asList((TypeSafeHasher)EPackageHasher.getInstance(),
+	private final Collection<TypeSafeHasher<?>> typeSafeHashers = Arrays.asList((TypeSafeHasher<?>)EPackageHasher.getInstance(),
 	                                                                         EClassHasher.getInstance(),
 	                                                                         EDataTypeHasher.getInstance(),
 	                                                                         EAttributeHasher.getInstance(),

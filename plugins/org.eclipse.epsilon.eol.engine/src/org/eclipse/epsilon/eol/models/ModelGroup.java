@@ -59,16 +59,16 @@ public class ModelGroup extends Model {
 		return models.get(0).getEnumerationValue(enumeration,label);
 	}
 
-	public Collection getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList allOfClass = new ArrayList();
+	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
+		ArrayList<Object> allOfClass = new ArrayList<Object>();
 		for (IModel model : models) {
 			allOfClass.addAll(model.getAllOfType(metaClass));
 		}
 		return allOfClass;
 	}
 
-	public Collection getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList allOfType = new ArrayList();
+	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
+		ArrayList<Object> allOfType = new ArrayList<Object>();
 		for (IModel model : models) {
 			allOfType.addAll(model.getAllOfKind(metaClass));
 		}
@@ -114,9 +114,9 @@ public class ModelGroup extends Model {
 	}
 
 	public Object getElementById(String id) {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			Object instance = model.getElementById(id);
 			if (instance!=null) return instance;
 		}
@@ -124,26 +124,26 @@ public class ModelGroup extends Model {
 	}
 
 	public String getElementId(Object instance) {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			if (model.owns(instance)) return model.getElementId(instance);
 		}
 		return null;
 	}
 	
 	public void setElementId(Object instance, String newId) {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			if (model.owns(instance)) model.setElementId(instance, newId);
 		}
 	}
 
 	public void deleteElement(Object instance) throws EolRuntimeException{
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			if (model.owns(instance)) model.deleteElement(instance);
 		}
 	}
@@ -160,9 +160,9 @@ public class ModelGroup extends Model {
 */	
 	
 	public boolean owns(Object instance) {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			if (model.owns(instance)) return true;
 		}
 		return false;
@@ -173,9 +173,9 @@ public class ModelGroup extends Model {
 	}
 
 	public boolean store() {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			model.store();
 		}
 		return true;
@@ -183,19 +183,19 @@ public class ModelGroup extends Model {
 
 	@Override
 	public void dispose() {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			model.dispose();
 		}
 	}
 
 	public boolean isInstantiable(String metaClass) {
-		return ((IModel) models.get(0)).isInstantiable(metaClass);
+		return models.get(0).isInstantiable(metaClass);
 	}
 
 	public boolean hasType(String metaClass) {
-		return ((IModel) models.get(0)).hasType(metaClass);
+		return models.get(0).hasType(metaClass);
 	}
 
 	@Override
@@ -204,9 +204,9 @@ public class ModelGroup extends Model {
 	}
 
 	public boolean isModelElement(Object instance) {
-		ListIterator li = models.listIterator();
+		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
-			IModel model =(IModel) li.next();
+			IModel model = li.next();
 			if (model.isModelElement(instance)) return true;
 		}
 		return false;

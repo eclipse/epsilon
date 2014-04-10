@@ -19,9 +19,9 @@ public class IntegerOperationContributor extends OperationContributor {
 		return target instanceof Integer;
 	}
 
-	public EolSequence to(Integer end) {
+	public EolSequence<Integer> to(Integer end) {
 		Integer start = (Integer) target;
-		EolSequence result = new EolSequence();
+		EolSequence<Integer> result = new EolSequence<Integer>();
 		if (start < end) {
 			for (int i = start; i <= end; i++) {
 				result.add(i);
@@ -34,8 +34,8 @@ public class IntegerOperationContributor extends OperationContributor {
 		return result;
 	}
 
-	public EolSequence iota(int i, int step) throws Exception {
-		EolSequence result = new EolSequence();
+	public EolSequence<Integer> iota(int i, int step) throws Exception {
+		EolSequence<Integer> result = new EolSequence<Integer>();
 		int x = (Integer) target;
 		if ((step == 0) || (x < i && step < 0) || (x > i && step > 0)) {
 			throw new Exception("Invalid argument(s) to iota(i, step)");

@@ -45,9 +45,9 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 	public void selectionChanged(SelectionChangedEvent event) {
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		
-		UniqueArrayList linkedObjects = new UniqueArrayList();
+		UniqueArrayList<String> linkedObjects = new UniqueArrayList<String>();
 		
-		Iterator it = selection.iterator();
+		Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
 			Object selected = it.next();
 			if (!(selected instanceof EObject)) continue;
@@ -68,18 +68,18 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 		
 	}
 	
-	protected List getLinkedObjects(EObject eObject) {
-		Iterator it = eObject.eClass().getEAllReferences().iterator();
-		UniqueArrayList linkedObjects = new UniqueArrayList();
+	protected List<String> getLinkedObjects(EObject eObject) {
+		Iterator<EReference> it = eObject.eClass().getEAllReferences().iterator();
+		UniqueArrayList<String> linkedObjects = new UniqueArrayList<String>();
 		
 		while (it.hasNext()) {
-			EReference ref = (EReference) it.next();
+			EReference ref = it.next();
 			if (ref.isContainer() || ref.isContainment()) continue;
 			Object value = eObject.eGet(ref);
 			
-			Collection values = CollectionUtil.asCollection(value);
+			Collection<?> values = CollectionUtil.asCollection(value);
 			
-			Iterator vit = values.iterator();
+			Iterator<?> vit = values.iterator();
 			
 			while (vit.hasNext()) {
 				Object next = vit.next();
@@ -95,7 +95,7 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 	
 	
 	
-	protected void selectEObjects(Object editor, List ids) {
+	protected void selectEObjects(Object editor, List<String> ids) {
 		
 		if (!(editor instanceof IEditingDomainProvider && editor instanceof IViewerProvider)) return;
 
@@ -104,17 +104,17 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 		TreeViewer viewer = (TreeViewer) ((IViewerProvider)editor).getViewer();
 		viewer.setSelection(new StructuredSelection(Collections.EMPTY_LIST));
 		
-		UniqueArrayList toSelect = new UniqueArrayList();
+		UniqueArrayList<EObject> toSelect = new UniqueArrayList<EObject>();
 		
 		//Resource resource = (Resource) ((IEditingDomainProvider)editor).getEditingDomain().getResourceSet().getResources().get(0);
 		ResourceSet resourceSet =  ((IEditingDomainProvider)editor).getEditingDomain().getResourceSet();
 		
-		Iterator it = resourceSet.getAllContents();
+		Iterator<?> it = resourceSet.getAllContents();
 		while (it.hasNext()) {
 			Object next = it.next();
 			if (!(next instanceof EObject)) continue;
 			if (ids.contains(getInstanceId(next))) {
-				toSelect.add(next);
+				toSelect.add((EObject) next);
 			}
 		}
 		

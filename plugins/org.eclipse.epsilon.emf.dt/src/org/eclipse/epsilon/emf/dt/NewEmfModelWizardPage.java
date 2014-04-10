@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
@@ -205,9 +206,9 @@ public class NewEmfModelWizardPage extends WizardPage {
 		rootClassCombo.removeAll();
 		ArrayList<String> classNames = new ArrayList<String>();
 		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(namespaceUri);
-		Iterator it = ePackage.eAllContents();
+		Iterator<EObject> it = ePackage.eAllContents();
 		while (it.hasNext()){
-			Object next = it.next();
+			EObject next = it.next();
 			if (next instanceof EClass){
 				EClass eClass = (EClass) next;
 				if (!eClass.isAbstract()) {

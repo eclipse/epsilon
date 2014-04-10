@@ -52,8 +52,8 @@ public class SetReferenceValueCommand implements Command {
 		object.eSet(reference, newValue);
 	}
 
-	public Collection getAffectedObjects() {
-		List col = new ArrayList();
+	public Collection<?> getAffectedObjects() {
+		List<EObject> col = new ArrayList<EObject>();
 		col.add(object);
 		return col;
 	}
@@ -66,7 +66,7 @@ public class SetReferenceValueCommand implements Command {
 		return "Set as " + reference.getName();
 	}
 
-	public Collection getResult() {
+	public Collection<?> getResult() {
 		return null;
 	}
 

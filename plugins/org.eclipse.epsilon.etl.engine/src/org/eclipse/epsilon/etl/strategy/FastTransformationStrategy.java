@@ -31,7 +31,7 @@ import org.eclipse.epsilon.etl.trace.Transformations;
 public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
-	protected HashMap<Object, Collection> flatTrace = new HashMap<Object, Collection>();
+	protected HashMap<Object, Collection<Object>> flatTrace = new HashMap<Object, Collection<Object>>();
 	protected HashMap<Object, Transformations> pendingTransformations = new HashMap<Object, Transformations>();
 	
 	public FastTransformationStrategy(){
@@ -46,7 +46,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		return !getExcluded().contains(source);
 	}
 	
-	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
+	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
 		throw new UnsupportedOperationException(
 				"FastTransformationStrategy cannot transform single objects. " +
@@ -54,7 +54,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public Collection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		
 		if (pendingTransformations.containsKey(source)) {
@@ -68,7 +68,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
-		Collection equivalents = getEquivalents(source, context, rules);
+		Collection<?> equivalents = getEquivalents(source, context, rules);
 		
 		if (equivalents != null && !equivalents.isEmpty()) {
 			return CollectionUtil.getFirst(equivalents);
@@ -79,15 +79,15 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public Collection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalent(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
 	}
 	
-	public Collection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalents(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
-		Collection equivalents = CollectionUtil.createDefaultList();
-		Iterator it = collection.iterator();
+		Collection<Object> equivalents = CollectionUtil.createDefaultList();
+		Iterator<?> it = collection.iterator();
 		while (it.hasNext()){
 			Object equivalent = getEquivalents(it.next(), context, rules);
 			if (equivalent != null && !equivalents.contains(equivalent)){
@@ -115,7 +115,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 				for (Object instance : sources) {
 					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)){
 						
-						Collection targets = CollectionUtil.createDefaultList();
+						Collection<Object> targets = CollectionUtil.createDefaultList();
 						
 						for (EolFormalParameter target : transformRule.getTargetParameters()) {
 							targets.add(target.getType(context).createInstance());

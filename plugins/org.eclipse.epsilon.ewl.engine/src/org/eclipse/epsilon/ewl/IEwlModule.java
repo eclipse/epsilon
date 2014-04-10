@@ -17,6 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public interface IEwlModule extends IEolLibraryModule{
 	
-	public List getWizardsFor(Object self) throws EolRuntimeException;
+	public List<EwlWizardInstance> getWizardsFor(Object self) throws EolRuntimeException;
 	
 }

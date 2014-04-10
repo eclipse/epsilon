@@ -13,9 +13,9 @@ package org.eclipse.epsilon.common.dt.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class StringList extends ArrayList{
+public class StringList extends ArrayList<String> {
 	
-	public StringList(Collection c){
+	public StringList(Collection<String> c){
 		super(c);
 	}
 	

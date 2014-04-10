@@ -35,7 +35,7 @@ public class NamedRule implements INamedRule {
 	}
 	
 	@Override
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.emptyList();
 	}
 }

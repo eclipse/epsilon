@@ -45,7 +45,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	protected List models = new StringList();
+	protected List<String> models = new StringList();
 	private TableViewer modelsViewer;
 	
 	private final List<Button> modelControls = new LinkedList<Button>();
@@ -261,7 +261,7 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 			IStructuredSelection selection = (IStructuredSelection) modelsViewer.getSelection();
 			if (selection.getFirstElement() == null) return;
 			int index = models.indexOf(selection.getFirstElement());
-			models.add(index, selection.getFirstElement());
+			models.add(index, (String) selection.getFirstElement());
 			modelsViewer.refresh(true);
 			canSave();
 			updateLaunchConfigurationDialog();

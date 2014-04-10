@@ -62,8 +62,8 @@ public class ContainmentChangeAdapter implements Adapter {
 					}
 				}
 				else if (value instanceof Collection) {
-					Collection col = (Collection) value;
-					Iterator it = col.iterator();
+					Collection<?> col = (Collection<?>) value;
+					Iterator<?> it = col.iterator();
 					while (it.hasNext()){
 						Object next = it.next();
 						if (next instanceof EObject) {

@@ -57,7 +57,7 @@ public class ListActivities implements IObjectActionDelegate {
 		if (selection instanceof IStructuredSelection) {
 			final IStructuredSelection sel = (IStructuredSelection)selection;
 
-			for (Iterator it = sel.iterator(); it.hasNext(); ) {
+			for (Iterator<?> it = sel.iterator(); it.hasNext(); ) {
 				final Object e = it.next();
 				if (e instanceof ActivityDiagramEditPart) {
 					final ActivityDiagramEditPart aed = (ActivityDiagramEditPart)e;

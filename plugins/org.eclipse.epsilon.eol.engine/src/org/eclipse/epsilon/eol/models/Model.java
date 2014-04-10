@@ -86,12 +86,12 @@ public abstract class Model implements IModel{
 	}
 	*/
 	
-	public Collection allInstances() {
+	public Collection<?> allInstances() {
 		return allContents();
 	}
 
 	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException{
-		Collection allOfKind = getAllOfKind(metaClass);
+		Collection<?> allOfKind = getAllOfKind(metaClass);
 		if (allOfKind != null && allOfKind.contains(instance)){
 			return true;
 		}
@@ -101,7 +101,7 @@ public abstract class Model implements IModel{
 	}
 
 	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException{
-		Collection allOfClass = getAllOfType(metaClass);
+		Collection<?> allOfClass = getAllOfType(metaClass);
 		if (allOfClass != null && allOfClass.contains(instance)){
 			return true;
 		}

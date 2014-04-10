@@ -17,7 +17,7 @@ import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class EolMain extends AbstractModuleElement{
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

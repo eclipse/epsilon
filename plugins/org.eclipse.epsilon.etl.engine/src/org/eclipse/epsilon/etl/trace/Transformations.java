@@ -12,20 +12,18 @@ package org.eclipse.epsilon.etl.trace;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ListIterator;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.etl.TransformRule;
 
 public class Transformations extends ArrayList<Transformation>{
 	
-	public Collection getTargets(){
+	public Collection<Object> getTargets(){
 		return getTargets(null);
 	}
 	
-	public Collection getTargets(String rule){
-		ListIterator li = listIterator();
-		Collection targets = CollectionUtil.createDefaultList();
+	public Collection<Object> getTargets(String rule){
+		Collection<Object> targets = CollectionUtil.createDefaultList();
 		for (Transformation transformation : this) {
 			if (rule == null || rule.equals(transformation.getRule().getName())) {
 				targets.addAll(transformation.getTargets());

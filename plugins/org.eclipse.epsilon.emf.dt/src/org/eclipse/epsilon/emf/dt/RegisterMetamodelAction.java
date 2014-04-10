@@ -38,7 +38,7 @@ public class RegisterMetamodelAction implements IObjectActionDelegate{
 	
 	public void run(IAction action){
 		
-		Iterator it = ((IStructuredSelection) selection).iterator();
+		Iterator<?> it = ((IStructuredSelection) selection).iterator();
 		while (it.hasNext()) {
 			IFile file = (IFile) it.next();
 			//String fileName = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + file.getFullPath().toOSString();

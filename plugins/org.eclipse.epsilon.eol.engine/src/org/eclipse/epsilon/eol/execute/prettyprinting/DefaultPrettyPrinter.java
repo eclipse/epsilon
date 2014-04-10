@@ -36,14 +36,14 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 		
 		if (o instanceof Collection){
 			
-			Collection c = (Collection) o;
+			Collection<?> c = (Collection<?>) o;
 			String result = EolCollectionType.getTypeName(c) + " {";
 			
 			if (c.size() > maximumCollectionSize) {
 				result += " ... large collection with more than " + maximumCollectionSize + " elements ... ";
 			}
 			else {
-				Iterator li = c.iterator();
+				Iterator<?> li = c.iterator();
 				
 				while (li.hasNext()){
 					Object next = li.next();
@@ -60,7 +60,7 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 		else if (o instanceof EolMap) {
 			String simpleClassName = o.getClass().getSimpleName();
 			String result = simpleClassName.substring(3, simpleClassName.length()) + " {";
-			Iterator li = ((EolMap) o).keySet().iterator();
+			Iterator<?> li = ((EolMap) o).keySet().iterator();
 			
 			while (li.hasNext()){
 				Object key = li.next();

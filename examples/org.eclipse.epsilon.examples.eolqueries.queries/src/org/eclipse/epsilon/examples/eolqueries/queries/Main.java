@@ -30,7 +30,7 @@ public class Main {
 		resourceSet.getPackageRegistry().put(LibraryPackage.eNS_URI, LibraryPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		Resource resource = resourceSet.createResource(URI.createFileURI(root + "library.model"));
-		resource.load(new HashMap());
+		resource.load(new HashMap<Object, Object>());
 		
 		// Get hold of the root library object
 		
@@ -55,7 +55,7 @@ public class Main {
 		
 		// Invoke the getAuthors() EOL operation
 		EolOperation getAuthors = module.getOperations().getOperation("getAuthors");
-		Collection authors = (Collection) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
+		Collection<?> authors = (Collection<?>) getAuthors.execute(book, Collections.EMPTY_LIST, module.getContext());
 		
 		// Get the results of getAuthors() and unwrap them
 		Collection<Author> casted = (Collection<Author>) authors;

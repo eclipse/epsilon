@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class StaticFieldNameResolver {
 	
-	HashMap<Integer, String> map = new HashMap();
+	HashMap<Integer, String> map = new HashMap<Integer, String>();
 	
 	public StaticFieldNameResolver(Class<?> clazz) {
 		

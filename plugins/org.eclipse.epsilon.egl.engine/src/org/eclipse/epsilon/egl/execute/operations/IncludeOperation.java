@@ -26,7 +26,7 @@ public class IncludeOperation extends AbstractSimpleOperation {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException {
+	public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
 				
 		Variable templateFactoryVariable = context.getFrameStack().get("TemplateFactory");
 		EglTemplateFactory templateFactory = (EglTemplateFactory) templateFactoryVariable.getValue();

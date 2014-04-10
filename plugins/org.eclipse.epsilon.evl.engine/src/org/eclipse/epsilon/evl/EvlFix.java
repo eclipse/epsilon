@@ -42,7 +42,7 @@ public class EvlFix extends AbstractModuleElement{
 		bodyBlock = new EolLabeledBlock(AstUtil.getChild(ast,EvlParser.DO), "DO");
 	}
 	
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

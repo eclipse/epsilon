@@ -17,9 +17,9 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.MergeRule;
 
-public class MergeTrace extends ArrayList{
+public class MergeTrace extends ArrayList<Merge> {
 	
-	public void add(Match match, Collection targets, MergeRule rule){
+	public void add(Match match, Collection<Object> targets, MergeRule rule){
 		Merge merge = new Merge();
 		merge.match = match;
 		merge.setTargets(targets);
@@ -28,10 +28,10 @@ public class MergeTrace extends ArrayList{
 	}
 	
 	public Merges getMerges(Match match){
-		ListIterator li = listIterator();
+		ListIterator<Merge> li = listIterator();
 		Merges merges = new Merges();
-		while (li.hasNext()){
-			Merge merge = (Merge)li.next();
+		while (li.hasNext()) {
+			Merge merge = li.next();
 			if (merge.getMatch() == match) {
 				merges.add(merge);
 			}
@@ -40,7 +40,7 @@ public class MergeTrace extends ArrayList{
 	}
 
 	public Merges getMerges(Match match, MergeRule mergeRule){
-		ListIterator li = listIterator();
+		ListIterator<Merge> li = listIterator();
 		Merges merges = new Merges();
 		while (li.hasNext()){
 			Merge merge = (Merge)li.next();

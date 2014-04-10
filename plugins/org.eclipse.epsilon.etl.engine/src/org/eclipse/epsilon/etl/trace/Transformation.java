@@ -17,14 +17,14 @@ import org.eclipse.epsilon.etl.TransformRule;
 public class Transformation {
 	
 	protected Object source;
-	protected Collection targets;
+	protected Collection<Object> targets;
 	protected TransformRule rule;
 	
 	public Transformation(){
 		
 	}
 	
-	public Transformation(Object source, Collection targets) {
+	public Transformation(Object source, Collection<Object> targets) {
 		super();
 		this.source = source;
 		this.targets = targets;
@@ -38,11 +38,11 @@ public class Transformation {
 		this.source = source;
 	}
 	
-	public Collection getTargets() {
+	public Collection<Object> getTargets() {
 		return targets;
 	}
 
-	public void setTargets(Collection targets) {
+	public void setTargets(Collection<Object> targets) {
 		this.targets = targets;
 	}
 

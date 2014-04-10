@@ -30,17 +30,17 @@ public class JFaceUserInput extends AbstractUserInput {
 	
 	protected PrettyPrinterManager prettyPrinterManager = null;
 
-	public Object choose(final String question, final Collection choices, final Object default_) {
+	public Object choose(final String question, final Collection<?> choices, final Object default_) {
 		
 		ReturningRunnable runnable = new ReturningRunnable() { 
 
 			@Override
 			public Object runImpl() {
 				
-				List<Object> values;
+				List<?> values;
 				
 				if (choices instanceof List) {
-					values = (List<Object>) choices;
+					values = (List<?>) choices;
 				}
 				else {
 					values = new ArrayList<Object>(choices);
@@ -78,17 +78,17 @@ public class JFaceUserInput extends AbstractUserInput {
 		return exec(runnable);
 	}
 	
-	public Object chooseMany(final String question, final Collection choices,
-			final Collection default_) {
+	public Object chooseMany(final String question, final Collection<?> choices,
+			final Collection<?> default_) {
 		ReturningRunnable runnable = new ReturningRunnable() { 
 
 			@Override
 			public Object runImpl() {
 				
-				List<Object> values;
+				List<?> values;
 				
 				if (choices instanceof List) {
-					values = (List<Object>) choices;
+					values = (List<?>) choices;
 				}
 				else {
 					values = new ArrayList<Object>(choices);
@@ -109,7 +109,7 @@ public class JFaceUserInput extends AbstractUserInput {
 				dialog.setTitle(question);
 				dialog.setMultipleSelection(true);
 				dialog.setElements(values.toArray());
-				dialog.setInitialElementSelections(new ArrayList(default_));
+				dialog.setInitialElementSelections(new ArrayList<Object>(default_));
 
 				if (dialog.open() == Window.OK) {
 					return Arrays.asList(dialog.getResult());

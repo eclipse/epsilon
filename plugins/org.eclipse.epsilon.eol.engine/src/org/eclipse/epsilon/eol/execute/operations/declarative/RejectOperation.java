@@ -25,7 +25,7 @@ public class RejectOperation extends SelectBasedOperation {
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
 		
-		Collection<Object> selected = (Collection<Object>) selectOperation.execute(target, iterator, expressionAst, context);		
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
 		Collection<?> source = CollectionUtil.asCollection(target);
 		
 		return new IterableOperationContributor(source).excludingAll(selected);

@@ -22,7 +22,7 @@ import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
 public abstract class ExtensibleNamedRule extends NamedRule {
 	
-	protected ArrayList superRulesAsts = new ArrayList();	
+	protected ArrayList<AST> superRulesAsts = new ArrayList<AST>();	
 	//protected IEolContext context;
 	protected NamedRules superRules = new NamedRules();
 	protected NamedRules allSuperRules = new NamedRules();
@@ -71,10 +71,10 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	
 	protected void calculateSuperRules(ExtensibleNamedRule rule, NamedRules allRules, NamedRules collectedRules, boolean recursive) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException {
 		
-		ListIterator li = rule.superRulesAsts.listIterator();
+		ListIterator<AST> li = rule.superRulesAsts.listIterator();
 		
 		while (li.hasNext()){
-			AST superRuleAst = ((AST) li.next());
+			AST superRuleAst = li.next();
 			String superRuleName = superRuleAst.getText();
 			ExtensibleNamedRule superRule = (ExtensibleNamedRule) allRules.getRule(superRuleName);
 			if (superRule != null){

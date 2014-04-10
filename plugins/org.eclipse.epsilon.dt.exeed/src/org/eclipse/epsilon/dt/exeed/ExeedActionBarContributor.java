@@ -173,7 +173,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		public void run() {
 			ExeedEditor editor = (ExeedEditor) ExeedActionBarContributor.this.getActiveEditor();
 			
-			ArrayList registeredPackages = new ArrayList(EPackage.Registry.INSTANCE.keySet());
+			ArrayList<String> registeredPackages = new ArrayList<String>(EPackage.Registry.INSTANCE.keySet());
 			Collections.sort(registeredPackages);
 			
 			ListSelectionDialog dlg = new ListSelectionDialog(
@@ -203,26 +203,26 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	
 	
 	@Override
-	protected Collection generateCreateChildActions(Collection descriptors,
+	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors,
 			ISelection selection) {
-		Collection actions = super.generateCreateChildActions(descriptors,
+		Collection<IAction> actions = super.generateCreateChildActions(descriptors,
 				selection);
 		inspect(actions);
 		updateImageDescriptors(descriptors, actions);
 		return sortActionCollection(actions);
 	}
 	
-	protected void inspect(Collection actions) {
-		Iterator it = actions.iterator();
+	protected void inspect(Collection<?> actions) {
+		Iterator<?> it = actions.iterator();
 		while (it.hasNext()) {
 			CreateChildAction a = (CreateChildAction) it.next();
 		}
 	}
 	
 	@Override
-	protected Collection generateCreateSiblingActions(Collection descriptors,
+	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors,
 			ISelection selection) {
-		Collection actions = super.generateCreateSiblingActions(descriptors,
+		Collection<IAction> actions = super.generateCreateSiblingActions(descriptors,
 				selection);
 		updateImageDescriptors(descriptors, actions);
 		/*
@@ -252,18 +252,18 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		return actions;
 	}
 
-	protected void updateImageDescriptors(Collection descriptors,
-			Collection actions) {
+	protected void updateImageDescriptors(Collection<?> descriptors,
+			Collection<IAction> actions) {
 		if (descriptors == null || actions == null || editor == null)
 			return;
 
-		Iterator dit = descriptors.iterator();
-		Iterator ait = actions.iterator();
+		Iterator<?> dit = descriptors.iterator();
+		Iterator<IAction> ait = actions.iterator();
 
 		while (dit.hasNext()) {
 			CommandParameter commandParameter = (CommandParameter) dit.next();
 			if (ait.hasNext()) {
-				Action action = (Action) ait.next();
+				IAction action = ait.next();
 				// Need the following check in case of XML models
 				if (commandParameter.getEValue() != null) {
 					EClass eClass = commandParameter.getEValue().eClass();
@@ -279,12 +279,12 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		}
 	}
 
-	protected List sortActionCollection(Collection col) {
+	protected List<IAction> sortActionCollection(Collection<IAction> col) {
 
-		ArrayList list = new ArrayList(col);
+		ArrayList<IAction> list = new ArrayList<IAction>(col);
 		Collections.sort(list, new Comparator<IAction>() {
-			public int compare(IAction a1, IAction a2) {
-				return a1.getText().compareTo(a2.getText());
+			public int compare(IAction o1, IAction o2) {
+				return o1.getText().compareTo(o2.getText());
 			}
 		});
 

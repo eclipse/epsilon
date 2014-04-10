@@ -44,7 +44,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		try {
 			Class<?> c = fClassLoader.loadClass(clazz);
 			if (parameters.size() > 0) {
-				for (Constructor con : c.getConstructors()) {
+				for (Constructor<?> con : c.getConstructors()) {
 					if (con.getParameterTypes().length != parameters.size()) continue;
 					boolean parameterTypesMatch = true;
 					for (int i=0;i<parameters.size();i++) {

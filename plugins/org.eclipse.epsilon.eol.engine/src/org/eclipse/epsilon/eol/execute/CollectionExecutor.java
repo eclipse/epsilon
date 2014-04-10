@@ -27,19 +27,19 @@ public class CollectionExecutor extends AbstractExecutor{
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
 		
-		Collection collection = null; 
+		Collection<Object> collection = null; 
 		
 		if (ast.getText().equals("Sequence") || ast.getText().equals("List")){
-			collection = new EolSequence();
+			collection = new EolSequence<Object>();
 		}
 		else if (ast.getText().equals("Set")){
-			collection = new EolSet();
+			collection = new EolSet<Object>();
 		}
 		else if (ast.getText().equals("OrderedSet")){
-			collection = new EolOrderedSet();
+			collection = new EolOrderedSet<Object>();
 		}
 		else {
-			collection = new EolBag();
+			collection = new EolBag<Object>();
 		}
 		
 		AST expressionListAst = ast.getFirstChild();

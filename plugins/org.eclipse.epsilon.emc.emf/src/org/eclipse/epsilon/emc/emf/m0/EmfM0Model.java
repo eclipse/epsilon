@@ -87,9 +87,9 @@ public class EmfM0Model extends EmfModel {
 	}
 	
 	public EolOperation getHelper(String name){
-		ListIterator li = eolModule.getDeclaredOperations().listIterator();
+		ListIterator<EolOperation> li = eolModule.getDeclaredOperations().listIterator();
 		while (li.hasNext()){
-			EolOperation helper = (EolOperation) li.next();
+			EolOperation helper = li.next();
 			if (helper.getName().equals(name)){
 				return helper;
 			}
@@ -100,7 +100,7 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertyGetter extends AbstractPropertyGetter {
 
 		public Object invoke(Object object, String property) throws EolRuntimeException {
-			ArrayList parameterValues = new ArrayList();
+			ArrayList<Object> parameterValues = new ArrayList<Object>();
 			parameterValues.add(property);
 			EolOperation propertyGetter = eolModule.getDeclaredOperations().getOperation(object,"getProperty",parameterValues,eolModule.getContext());
 			if (propertyGetter != null){
@@ -115,7 +115,7 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 		public void invoke(Object value) throws EolRuntimeException {
-			ArrayList parameterValues = new ArrayList();
+			ArrayList<Object> parameterValues = new ArrayList<Object>();
 			parameterValues.add(property);
 			parameterValues.add(value);
 			EolOperation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
@@ -163,7 +163,7 @@ public class EmfM0Model extends EmfModel {
 		Collection<EObject> allOfKind = null;
 		
 		try {
-			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList(), eolModule.getContext());
+			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList<Object>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
@@ -178,7 +178,7 @@ public class EmfM0Model extends EmfModel {
 		boolean hasType = false;
 		
 		try {
-			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList(), eolModule.getContext());
+			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList<Object>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);

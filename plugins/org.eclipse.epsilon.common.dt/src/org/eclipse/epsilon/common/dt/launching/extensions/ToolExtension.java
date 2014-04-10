@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.tools.ITool;
 public class ToolExtension {
 	
 	protected IConfigurationElement configurationElement;
-	static ArrayList instances;
+	static ArrayList<ToolExtension> instances;
 	final static String extensionPoint = "org.eclipse.epsilon.common.dt.tool";
 	
 	public IConfigurationElement getConfigurationElement() {
@@ -43,7 +43,7 @@ public class ToolExtension {
 	public static ArrayList<ToolExtension> getInstances() {
 		
 		if (instances == null) {
-			instances = new ArrayList();
+			instances = new ArrayList<ToolExtension>();
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
 			if (registry == null) {
 				return instances;
@@ -65,9 +65,9 @@ public class ToolExtension {
 	}
 	
 	public static ToolExtension forClass(String clazz) {
-		ListIterator li = getInstances().listIterator();
+		ListIterator<ToolExtension> li = getInstances().listIterator();
 		while (li.hasNext()) {
-			ToolExtension extension = (ToolExtension) li.next();
+			ToolExtension extension = li.next();
 			if (extension.getClazz().equalsIgnoreCase(clazz)){
 				return extension;
 			}

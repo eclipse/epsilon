@@ -16,7 +16,7 @@ import java.util.Collection;
 public class Tree {
 	
 	protected Tree parent;
-	protected Collection<Tree> children = new ArrayList();
+	protected Collection<Tree> children = new ArrayList<Tree>();
 	protected String label;
 	
 	public Tree() {

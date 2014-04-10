@@ -36,10 +36,10 @@ public class CollectOperation extends IteratorOperation {
 		Collection<Object> result = null;
 		
 		if (EolCollectionType.isOrdered(source)) {
-			result = new EolSequence();
+			result = new EolSequence<Object>();
 		}
 		else {
-			result = new EolBag();
+			result = new EolBag<Object>();
 		}
 		
 		FrameStack scope = context.getFrameStack();

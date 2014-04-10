@@ -35,7 +35,7 @@ class ModelValueWrapper {
 			return wrapModelElement(value);
 		
 		} else if(value instanceof Collection) {
-			return new CollectionOfModelValues(model, wrapValues((Collection)value));  
+			return new CollectionOfModelValues(model, wrapValues((Collection<?>)value));
 		
 		} else {
 			return new AttributeValue(model, value);
@@ -46,7 +46,7 @@ class ModelValueWrapper {
 		return ModelElement.create(model, object);
 	}
 	
-	private Collection<ModelValue<?>> wrapValues(Collection underlyingModelObjects) {
+	private Collection<ModelValue<?>> wrapValues(Collection<?> underlyingModelObjects) {
 		final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
 		
 		for (Object underlyingModelObject : underlyingModelObjects) {

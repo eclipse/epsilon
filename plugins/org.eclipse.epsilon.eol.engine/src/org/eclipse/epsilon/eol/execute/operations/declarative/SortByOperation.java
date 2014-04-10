@@ -32,8 +32,8 @@ public class SortByOperation extends CollectOperation {
   
 	@Override
 	public Object execute(Object obj, AST operationAst, IEolContext context) throws EolRuntimeException {
-		final List source = CollectionUtil.asList(obj);
-		final List collected = CollectionUtil.asList(super.execute(obj, operationAst, context));
+		final List<?> source = CollectionUtil.asList(obj);
+		final List<?> collected = CollectionUtil.asList(super.execute(obj, operationAst, context));
 		
 		List<DecoratedObject> decoratedObjects = new ArrayList<DecoratedObject>();
 		
@@ -48,7 +48,7 @@ public class SortByOperation extends CollectOperation {
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final Collection result = new EolSequence(); //EolCollectionType.createSameType(source);
+		final Collection<Object> result = new EolSequence<Object>(); //EolCollectionType.createSameType(source);
 		
 		for (int index = 0; index < collected.size(); index++)
 			result.add(decoratedObjects.get(index).getObject());

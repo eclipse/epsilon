@@ -256,8 +256,8 @@ public class EUnitModule extends EolModule {
 		final Pair<EolOperation, String> entry = dataIterator.next();
 
 		try {
-			final EolSequence values
-				= (EolSequence) entry.getLeft().execute(null, Collections.EMPTY_LIST, context, true);
+			final EolSequence<?> values
+				= (EolSequence<?>) entry.getLeft().execute(null, Collections.EMPTY_LIST, context, true);
 			final String variableName = entry.getRight();
 			for (Object value : values) {
 				EUnitTest child = new EUnitTest();

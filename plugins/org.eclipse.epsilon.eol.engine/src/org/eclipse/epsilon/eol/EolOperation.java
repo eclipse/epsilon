@@ -202,7 +202,7 @@ public class EolOperation extends AbstractModuleElement{
 		return false;
 	}
 
-	public Object execute(Object self, List parameterValues, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object self, List<?> parameterValues, IEolContext context) throws EolRuntimeException{
 		return execute(self, parameterValues, context, true);
 	}
 	
@@ -222,7 +222,7 @@ public class EolOperation extends AbstractModuleElement{
 	}
 	*/
 	
-	public Object execute(Object self, List parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException{
+	public Object execute(Object self, List<?> parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException{
 		
 		if (isCached() && cache.containsKey(self)) {
 			return cache.get(self);
@@ -321,7 +321,7 @@ public class EolOperation extends AbstractModuleElement{
 		}
 	}
 	
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

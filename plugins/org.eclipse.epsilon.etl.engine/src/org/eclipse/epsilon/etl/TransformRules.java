@@ -13,13 +13,14 @@ package org.eclipse.epsilon.etl;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.rules.NamedRules;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public class TransformRules extends NamedRules{
 	
 	public TransformRules getRulesFor(Object source, IEtlContext context) throws EolRuntimeException{
-		Iterator it = iterator();
+		Iterator<INamedRule> it = iterator();
 		TransformRules rules = new TransformRules();
 		
 		// First try to find rules that apply to the type

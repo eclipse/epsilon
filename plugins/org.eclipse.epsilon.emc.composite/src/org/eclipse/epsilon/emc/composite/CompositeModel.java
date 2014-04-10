@@ -62,7 +62,7 @@ public class CompositeModel extends Model {
 	protected void findEquivalents(MatchTrace matchTrace) {
 		for (Match m : matchTrace.getMatches()) {
 			boolean existing = false;
-			for (ArrayList eq : equivalents) {
+			for (ArrayList<Object> eq : equivalents) {
 				if (eq.contains(m.getLeft()) || eq.contains(m.getRight())) {
 					existing = true;
 					if (!eq.contains(m.getLeft())) eq.add(m.getLeft());
@@ -70,7 +70,7 @@ public class CompositeModel extends Model {
  				}
 			}
 			if (!existing) {
-				ArrayList eq = new ArrayList();
+				ArrayList<Object> eq = new ArrayList<Object>();
 				eq.add(m.getLeft());
 				eq.add(m.getRight());
 				equivalents.add(eq);
@@ -78,8 +78,8 @@ public class CompositeModel extends Model {
  		}
 	}
 	
-	public Collection getEquivalents(Object instance) {
-		Collection equivalents = new ArrayList<Object>();
+	public Collection<Object> getEquivalents(Object instance) {
+		Collection<Object> equivalents = new ArrayList<Object>();
 		for (ArrayList<Object> eq : this.equivalents) {
 			if (eq.contains(instance)) {
 				equivalents.addAll(eq);
@@ -89,7 +89,7 @@ public class CompositeModel extends Model {
 		return equivalents;
 	}
 	
-	public void removeDuplicates(Collection original, Collection equivalents) {
+	public void removeDuplicates(Collection<Object> original, Collection<Object> equivalents) {
 		
 		for (Object eq : equivalents) {
 			if (original.contains(eq)) {
@@ -100,7 +100,7 @@ public class CompositeModel extends Model {
 		}
 	}
 	
-	protected void removeDuplicates(Collection original) {
+	protected void removeDuplicates(Collection<Object> original) {
 		for (ArrayList<Object> eq : equivalents) {
 			removeDuplicates(original, eq);
 		}
@@ -137,10 +137,10 @@ public class CompositeModel extends Model {
 		}
 	}
 
-	public Collection getAllOfKind(String type)
+	public Collection<Object> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 
-		Collection all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<Object>();
 		
 		for (IModel m : models) {
 			if (m.hasType(type))
@@ -152,11 +152,11 @@ public class CompositeModel extends Model {
 		return all;
 	}
 
-	public Collection getAllOfType(String type)
+	public Collection<Object> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 
 
-		Collection all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<Object>();
 		
 		for (IModel m : models) {
 			if (m.hasType(type))
@@ -275,7 +275,7 @@ public class CompositeModel extends Model {
 				throws EolRuntimeException {
 			
 			HashMap<Object, IPropertyGetter> getters = new HashMap<Object, IPropertyGetter>();
-			Collection equivalents = getEquivalents(object);
+			Collection<Object> equivalents = getEquivalents(object);
 			
 			if (equivalents.isEmpty()) equivalents.add(object);
 
@@ -296,7 +296,7 @@ public class CompositeModel extends Model {
 				
 				
 				if (result instanceof Collection) {
-					results.addAll((Collection) result);
+					results.addAll((Collection<?>) result);
 				}
 				else {
 					return result;

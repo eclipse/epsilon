@@ -45,7 +45,7 @@ import org.eclipse.epsilon.etl.trace.Transformations;
 public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	protected EolFormalParameter sourceParameter;
-	protected List<EolFormalParameter> targetParameters = new ArrayList();
+	protected List<EolFormalParameter> targetParameters = new ArrayList<EolFormalParameter>();
 	protected AST guardAst = null;
 	protected AST bodyAst = null;
 	protected IEtlContext context;
@@ -91,7 +91,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return transformedElements.contains(source);
 	}
 	
-	public Collection getAllOfSourceType(IEtlContext context) throws EolRuntimeException{
+	public Collection<?> getAllOfSourceType(IEtlContext context) throws EolRuntimeException{
 		try {
 			EolModelElementType sourceType = (EolModelElementType) sourceParameter.getType(context);
 			return sourceType.getAllOfType();
@@ -123,7 +123,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		}
 	}*/
 	
-	protected Collection rejected = new ArrayList<Object>();
+	protected Collection<Object> rejected = new ArrayList<Object>();
 	
 	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule) throws EolRuntimeException {
 		return appliesTo(source, context, asSuperRule, true);
@@ -188,8 +188,8 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return applies;
 	}
 	
-	public boolean contains(Collection col, Object o){
-		Iterator it = col.iterator();
+	public boolean contains(Collection<Object> col, Object o){
+		Iterator<Object> it = col.iterator();
 		while (it.hasNext()){
 			if (it.next() == o) return true;
 		}
@@ -210,7 +210,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 	}
 	
-	public Collection transform(Object source, Collection targets, IEtlContext context) throws EolRuntimeException {
+	public Collection<?> transform(Object source, Collection<?> targets, IEtlContext context) throws EolRuntimeException {
 		transformedElements.add(source);
 		executeSuperRulesAndBody(source, targets, context);
 		return targets;
@@ -218,7 +218,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	protected Set<Object> transformedElements = new HashSet<Object>();
 	
-	public Collection transform(Object source, IEtlContext context) throws EolRuntimeException{
+	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException{
 		
 		TransformationTrace transformationTrace = context.getTransformationTrace();
 		
@@ -233,7 +233,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		//Control execution
 		//context.getExecutorFactory().getExecutionController().control(ast, context);
 		
-		Collection targets = CollectionUtil.createDefaultList();
+		Collection<Object> targets = CollectionUtil.createDefaultList();
 		
 		for (EolFormalParameter targetParameter : targetParameters) {
 			EolType targetParameterType = (EolType) targetParameter.getType(context);
@@ -249,16 +249,16 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		return targets;
 	}
 	
-	protected void executeSuperRulesAndBody(Object source, Collection targets_, IEtlContext context) throws EolRuntimeException{
+	protected void executeSuperRulesAndBody(Object source, Collection<?> targets_, IEtlContext context) throws EolRuntimeException{
 		
 		// Control guard execution
 		// context.getExecutorFactory().getExecutionController().control(ast, context);
 		
-		List targets = CollectionUtil.asList(targets_);
+		List<?> targets = CollectionUtil.asList(targets_);
 		
 		// Execute super-rules
 		
-		Iterator it = superRules.iterator();
+		Iterator<INamedRule> it = superRules.iterator();
 		while (it.hasNext()){
 			TransformRule superRule = (TransformRule) it.next();
 			superRule.transform(source, targets, context);
@@ -282,7 +282,7 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 		
 	}
 	
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	
@@ -290,9 +290,9 @@ public class TransformRule extends ExtensibleNamedRule implements ModuleElement{
 	public String toString(){
 		
 		String targetTypes = "";
-		Iterator it = targetParameters.iterator();
+		Iterator<EolFormalParameter> it = targetParameters.iterator();
 		while (it.hasNext()){
-			EolFormalParameter fp  = (EolFormalParameter) it.next();
+			EolFormalParameter fp = it.next();
 			targetTypes += fp.getTypeName();
 			if (it.hasNext()){
 				targetTypes += ", ";

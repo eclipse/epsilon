@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	private List tools = new StringList();
+	private List<String> tools = new StringList();
 	private TableViewer toolsViewer;
 
 	public void createControl(Composite parent) {
@@ -189,7 +189,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	class ListContentProvider implements IStructuredContentProvider{
 
 		public Object[] getElements(Object inputElement) {
-			List list = (List) inputElement;
+			List<?> list = (List<?>) inputElement;
 			return list.toArray();
 		}
 

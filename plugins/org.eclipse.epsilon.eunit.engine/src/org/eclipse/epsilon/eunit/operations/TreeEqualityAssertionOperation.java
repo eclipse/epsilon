@@ -32,7 +32,7 @@ public class TreeEqualityAssertionOperation extends AbstractSimpleOperation {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object execute(
-			Object source, List parameters, IEolContext context, AST ast)
+			Object source, List<?> parameters, IEolContext context, AST ast)
 			throws EolRuntimeException
 	{
 		if (parameters.size() != 2) {

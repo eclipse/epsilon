@@ -22,8 +22,8 @@ public class ArrayOperationContributor extends OperationContributor {
 		return target != null && target.getClass().isArray();
 	}
 	
-	public EolSequence asSequence() {
-		EolSequence sequence = new EolSequence();
+	public EolSequence<Object> asSequence() {
+		EolSequence<Object> sequence = new EolSequence<Object>();
 		sequence.addAll(Arrays.asList(target));
 		return sequence;
 	}

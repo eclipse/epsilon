@@ -16,13 +16,13 @@ import java.util.ListIterator;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
 
-public class Merges extends ArrayList{
+public class Merges extends ArrayList<Merge> {
 	
-	public Collection getTargets(){
-		ListIterator li = listIterator();
-		Collection targets = CollectionUtil.createDefaultList();
+	public Collection<Object> getTargets(){
+		ListIterator<Merge> li = listIterator();
+		Collection<Object> targets = CollectionUtil.createDefaultList();
 		while (li.hasNext()){
-			Merge merge = (Merge) li.next();
+			Merge merge = li.next();
 			targets.addAll(merge.getTargets());
 		}
 		return targets;

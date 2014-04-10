@@ -16,11 +16,11 @@ import org.eclipse.epsilon.eol.exceptions.EolUserException;
 
 public abstract class AbstractUserInput implements IUserInput {
 
-	public Object choose(String question, Collection choices) {
+	public Object choose(String question, Collection<?> choices) {
 		return choose(question, choices, null);
 	}
 	
-	public Object chooseMany(String question, Collection choices) {
+	public Object chooseMany(String question, Collection<?> choices) {
 		return chooseMany(question, choices, new ArrayList<Object>());
 	}
 	

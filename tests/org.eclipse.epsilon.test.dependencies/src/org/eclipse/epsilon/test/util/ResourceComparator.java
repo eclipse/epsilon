@@ -98,8 +98,8 @@ public class ResourceComparator {
 				if (ref.isDerived()) continue;
 				
 				if (ref.isMany()) {
-					EList cv1 = (EList) o1.eGet(ref);
-					EList cv2 = (EList) o2.eGet(ref);
+					EList<?> cv1 = (EList<?>) o1.eGet(ref);
+					EList<?> cv2 = (EList<?>) o2.eGet(ref);
 					
 					int j = 0;
 					for (Object v1 : cv1) {
@@ -128,9 +128,9 @@ public class ResourceComparator {
 	protected List<EObject> getAllContents(Resource r) {
 		
 		ArrayList<EObject> allContents = new ArrayList<EObject>();
-		Iterator it = r.getAllContents();
+		Iterator<EObject> it = r.getAllContents();
 		while (it.hasNext()) {
-			allContents.add((EObject)it.next());
+			allContents.add(it.next());
 		}
 		return allContents;
 	}

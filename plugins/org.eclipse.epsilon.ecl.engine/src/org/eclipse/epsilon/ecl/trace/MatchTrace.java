@@ -22,7 +22,7 @@ public class MatchTrace {
 	 * All matches tried during the 
 	 * execution of an ECL module
 	 */
-	protected List<Match> matches = new ArrayList();
+	protected List<Match> matches = new ArrayList<Match>();
 	
 	/**
 	 * Returns only successful matches
@@ -66,8 +66,8 @@ public class MatchTrace {
 	 * @param object
 	 * @return
 	 */
-	public List getMatches(Object object){
-		ArrayList matches = new ArrayList();
+	public List<Match> getMatches(Object object){
+		ArrayList<Match> matches = new ArrayList<Match>();
 		for (Match match : this.getMatches()) {
 			if (match.contains(object) && match.isMatching()){
 				matches.add(match);

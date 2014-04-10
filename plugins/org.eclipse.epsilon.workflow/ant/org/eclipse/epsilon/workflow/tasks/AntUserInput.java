@@ -25,7 +25,7 @@ public class AntUserInput extends AbstractUserInput{
 		this.inputHandler = inputHandler;
 	}
 	
-	public Object choose(String question, Collection choices, Object default_) {
+	public Object choose(String question, Collection<?> choices, Object default_) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -81,8 +81,8 @@ public class AntUserInput extends AbstractUserInput{
 
 	}
 
-	public Object chooseMany(String question, Collection choices,
-			Collection default_) {
+	public Object chooseMany(String question, Collection<?> choices,
+			Collection<?> default_) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -51,9 +51,9 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 		
 		call += "(";
 		
-		Iterator it = op.getFormalParameters().iterator();
+		Iterator<EolFormalParameter> it = op.getFormalParameters().iterator();
 		while (it.hasNext()) {
-			EolFormalParameter fp = (EolFormalParameter) it.next();
+			EolFormalParameter fp = it.next();
 			call += "${" + fp.getName() + "}";
 			if (it.hasNext()) call += ", ";
 		}

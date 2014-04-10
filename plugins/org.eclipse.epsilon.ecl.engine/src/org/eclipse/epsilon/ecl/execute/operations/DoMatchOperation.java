@@ -28,8 +28,8 @@ public class DoMatchOperation extends MatchesOperation{
 		Object parameter = context.getExecutorFactory().executeAST(parameterAst, context);
 		if (obj == null && parameter == null) return null;
 		
-		Collection leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(obj));
-		Collection rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
+		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(obj));
+		Collection<?> rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
 		for (Object left : leftCol) {
 			for (Object right : rightCol) {

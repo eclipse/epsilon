@@ -273,7 +273,7 @@ public class IterableOperationContributor extends OperationContributor {
 		return excluding;
 	}
 
-	public Collection<Object> excludingAll(Collection<Object> col) {
+	public Collection<Object> excludingAll(Collection<?> col) {
 		Collection<Object> difference = createCollection();
 		for (Object next : getIterable()) {
 			if (!col.contains(next)){

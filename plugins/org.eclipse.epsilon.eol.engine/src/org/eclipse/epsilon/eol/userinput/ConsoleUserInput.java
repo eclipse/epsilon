@@ -61,12 +61,12 @@ public abstract class ConsoleUserInput extends AbstractUserInput {
 		return true;
 	}
 	
-	public Object chooseMany(String question, Collection choices,
-			Collection default_) {
+	public Object chooseMany(String question, Collection<?> choices,
+			Collection<?> default_) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Object choose(String question, Collection choices, Object default_) {
+	public Object choose(String question, Collection<?> choices, Object default_) {
 		String response = initial;
 		int index = -2;
 		
@@ -75,7 +75,7 @@ public abstract class ConsoleUserInput extends AbstractUserInput {
 				if (index != -2) {
 					getErrorStream().println("Please select a choice from 1 to " + choices.size());
 				}
-				Iterator it = choices.iterator();
+				Iterator<?> it = choices.iterator();
 				getOutputStream().println(question);
 				int i = 1;
 				while (it.hasNext()) {
@@ -87,10 +87,10 @@ public abstract class ConsoleUserInput extends AbstractUserInput {
 				
 				if (index > 0 && index <= choices.size()){
 					if (choices instanceof List) {
-						return ((List) choices).get(index-1);
+						return ((List<?>) choices).get(index-1);
 					}
 					else {
-						return new ArrayList(choices).get(index-1);
+						return new ArrayList<Object>(choices).get(index-1);
 				
 					}
 				}

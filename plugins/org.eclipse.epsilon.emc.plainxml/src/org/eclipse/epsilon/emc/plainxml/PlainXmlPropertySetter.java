@@ -57,12 +57,12 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 								
 								ArrayList<String> referenceIds = new ArrayList<String>();
 								
-								Collection values = null;
+								Collection<Object> values = null;
 								if (value instanceof Collection) {
 									values = (Collection) value;
 								}
 								else {
-									values = new ArrayList();
+									values = new ArrayList<Object>();
 									values.add(value);
 								}
 								

@@ -32,8 +32,8 @@ public class MatchesOperation extends AbstractOperation{
 		
 		if (obj instanceof Collection && parameter instanceof Collection){
 			
-			Collection leftCol = (Collection) obj;
-			Collection rightCol = (Collection) parameter;
+			Collection<?> leftCol = (Collection<?>) obj;
+			Collection<?> rightCol = (Collection<?>) parameter;
 
 			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
 			
@@ -42,15 +42,15 @@ public class MatchesOperation extends AbstractOperation{
 			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
 			
 			
-			Collection leftColFlat = CollectionUtil.flatten(leftCol);
-			Collection rightColFlat = CollectionUtil.flatten(rightCol);
+			Collection<?> leftColFlat = CollectionUtil.flatten(leftCol);
+			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);
 			
 			if (leftColFlat.size() != rightColFlat.size()){
 				return false;
 			}
 			
-			Iterator lit = leftColFlat.iterator();
-			Iterator rit = rightColFlat.iterator();
+			Iterator<?> lit = leftColFlat.iterator();
+			Iterator<?> rit = rightColFlat.iterator();
 			
 			Boolean match = true;
 			

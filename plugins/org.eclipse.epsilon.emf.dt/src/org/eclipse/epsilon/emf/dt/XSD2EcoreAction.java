@@ -54,7 +54,7 @@ public class XSD2EcoreAction implements IObjectActionDelegate{
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
         Resource resource = resourceSet.createResource(URI.createFileURI(getSelectedFile().getLocation().toOSString() + ".ecore"));
 
-        for (Iterator iter = eCorePackages.iterator(); iter.hasNext();) {
+        for (Iterator<EObject> iter = eCorePackages.iterator(); iter.hasNext();) {
             EPackage element = (EPackage) iter.next();
             resource.getContents().add(element);
         }

@@ -42,6 +42,7 @@ import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.rules.ExtensibleNamedRule;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 
 
 public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
@@ -53,10 +54,10 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	protected EolFormalParameter rightParameter;
 	protected List<EolFormalParameter> targetParameters = new ArrayList<EolFormalParameter>();
 	
-	protected Collection allOfLeftType = null;
-	protected Collection allOfRightType = null;
-	protected Collection allOfLeftKind = null;
-	protected Collection allOfRightKind = null;
+	protected Collection<?> allOfLeftType = null;
+	protected Collection<?> allOfRightType = null;
+	protected Collection<?> allOfLeftKind = null;
+	protected Collection<?> allOfRightKind = null;
 	
 	protected boolean auto = false;
 	
@@ -145,7 +146,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return appliesToTypes && guardSatisfied;
 	}
 	
-	public Collection getAllOfRightType(IEmlContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfRightType(IEmlContext context) throws EolRuntimeException {
 		if (allOfRightType == null){
 			try {
 				EolModelElementType rightType = (EolModelElementType) rightParameter.getType(context);
@@ -164,7 +165,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return allOfRightType;
 	}
 	
-	public Collection getAllOfLeftType(IEmlContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfLeftType(IEmlContext context) throws EolRuntimeException {
 		if (allOfLeftType == null){
 			try {
 				//leftInstances = context.getModelRepository().allOfClass(leftParameter.getType());
@@ -184,7 +185,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return allOfLeftType;
 	}
 	
-	public Collection getAllOfRightKind(IEmlContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfRightKind(IEmlContext context) throws EolRuntimeException {
 		if (allOfRightKind == null){
 			try {
 				EolModelElementType rightType = (EolModelElementType) rightParameter.getType(context);
@@ -203,7 +204,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return allOfRightKind;
 	}
 	
-	public Collection getAllOfLeftKind(IEmlContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfLeftKind(IEmlContext context) throws EolRuntimeException {
 		if (allOfLeftKind == null){
 			try {
 				//leftInstances = context.getModelRepository().allOfClass(leftParameter.getType());
@@ -243,7 +244,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	*/
 	
-	public Collection merge(Match match, Collection targets, IEmlContext context) throws EolRuntimeException{
+	public Collection<?> merge(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException{
 		
 		MergeTrace mergeTrace =(context).getMergeTrace();
 		Merges merges = mergeTrace.getMerges(match, this);
@@ -268,7 +269,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	HashSet<Match> mergedMatches = new HashSet<Match>();
 	
-	public Collection merge(Match match, IEmlContext context) throws EolRuntimeException{
+	public Collection<?> merge(Match match, IEmlContext context) throws EolRuntimeException{
 		
 		MergeTrace mergeTrace =(context).getMergeTrace();
 		
@@ -282,9 +283,9 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		Object left = match.getLeft();
 		Object right = match.getRight();
 		
-		Collection targets = CollectionUtil.createDefaultList();
+		Collection<Object> targets = CollectionUtil.createDefaultList();
 
-		ListIterator li = targetParameters.listIterator();
+		ListIterator<EolFormalParameter> li = targetParameters.listIterator();
 		
 		/*
 		if (auto == true){
@@ -295,8 +296,8 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		*/
 		
 		while (li.hasNext()){
-			EolFormalParameter targetParameter = (EolFormalParameter) li.next();
-			EolType targetParameterType = (EolType) targetParameter.getType(context);
+			EolFormalParameter targetParameter = li.next();
+			EolType targetParameterType = targetParameter.getType(context);
 			targets.add(targetParameterType.createInstance());
 			//targets.add(context.getModelRepository().
 			//		createInstance(targetParameter.getType(context)));
@@ -319,9 +320,9 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		leftParameter.getTypeName() + ", " +
 		rightParameter.getTypeName();
 		str = str + ") : ";
-		ListIterator li = targetParameters.listIterator();
+		ListIterator<EolFormalParameter> li = targetParameters.listIterator();
 		while (li.hasNext()){
-			EolFormalParameter targetParameter = (EolFormalParameter) li.next();
+			EolFormalParameter targetParameter = li.next();
 			//str += targetParameter.getName() + ":" + targetParameter.getTypeName();
 			str += targetParameter.getTypeName();
 			if (li.hasNext()){
@@ -331,10 +332,10 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return str;
 	}
 	
-	public void executeSuperRulesAndBody(Match match, Collection targets, IEmlContext context) throws EolRuntimeException{
+	public void executeSuperRulesAndBody(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException{
 		
 		// Execute the super rules
-		Iterator it = superRules.iterator();
+		Iterator<INamedRule> it = superRules.iterator();
 		while (it.hasNext()){
 			MergeRule superRule = (MergeRule) it.next();
 			superRule.merge(match, targets, context);
@@ -364,7 +365,7 @@ public class MergeRule extends ExtensibleNamedRule implements ModuleElement{
 		return AstUtil.getChild(ast, EmlParser.EXTENDS);
 	}
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

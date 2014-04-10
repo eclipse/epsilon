@@ -27,9 +27,9 @@ public class EolLibraryExecutor extends AbstractExecutor{
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 		
 		// Find the imports
-		Iterator it = AstUtil.getChildren(ast, EolParser.IMPORT).iterator();
+		Iterator<AST> it = AstUtil.getChildren(ast, EolParser.IMPORT).iterator();
 		while (it.hasNext()){
-			context.getExecutorFactory().executeAST((AST) it.next(), context);
+			context.getExecutorFactory().executeAST(it.next(), context);
 		}
 		
 		// Then parse the helpers

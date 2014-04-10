@@ -48,8 +48,8 @@ public class AggregateOperation extends AbstractOperation {
 			iteratorType = EolAnyType.Instance;
 		}
 		
-		Collection source = CollectionUtil.asCollection(obj);
-		Iterator li = source.iterator();
+		Collection<?> source = CollectionUtil.asCollection(obj);
+		Iterator<?> li = source.iterator();
 		FrameStack scope = context.getFrameStack();
 		
 		EolMap result = new EolMap();

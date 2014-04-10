@@ -44,8 +44,8 @@ public class MapByOperation extends IteratorOperation {
 				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
 				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
 				
-				EolSequence sequence = (EolSequence) result.get(bodyResult);
-				if (sequence == null) sequence = new EolSequence();
+				EolSequence<Object> sequence = (EolSequence) result.get(bodyResult);
+				if (sequence == null) sequence = new EolSequence<Object>();
 				sequence.add(listItem);
 				result.put(bodyResult, sequence);
 				

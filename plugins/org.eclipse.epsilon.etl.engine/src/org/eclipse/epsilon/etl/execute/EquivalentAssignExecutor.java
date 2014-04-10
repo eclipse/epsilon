@@ -26,7 +26,7 @@ public class EquivalentAssignExecutor extends AssignExecutor{
 	public Object getRhsEquivalent(Object source, Object value, IEolContext context_) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		if (value instanceof Collection){
-			return context.getTransformationStrategy().getEquivalent(((Collection) value), context, null);
+			return context.getTransformationStrategy().getEquivalent(((Collection<?>) value), context, null);
 		}
 		else {
 			return context.getTransformationStrategy().getEquivalent(value,context, null);

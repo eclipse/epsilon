@@ -18,12 +18,12 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEquivalentProvider {
 	
-	public Object getEquivalent(Collection collection, IEolContext context, List<String> rules) throws EolRuntimeException;
+	public Object getEquivalent(Collection<?> collection, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
 	public Object getEquivalent(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
-	public Collection getEquivalents(Collection source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	public Collection<?> getEquivalents(Collection<?> source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
-	public Collection getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	public Collection<?> getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
 	
 }

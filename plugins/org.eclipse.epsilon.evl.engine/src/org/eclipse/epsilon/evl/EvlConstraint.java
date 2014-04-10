@@ -40,7 +40,7 @@ public class EvlConstraint extends AbstractModuleElement{
 	
 	protected String name;
 	protected boolean isCritique = false;
-	protected ArrayList fixes = new ArrayList();
+	protected ArrayList<EvlFix> fixes = new ArrayList<EvlFix>();
 	protected EvlConstraintContext constraintContext;
 	protected EvlGuard guard;
 	protected EolLabeledBlock body;
@@ -60,11 +60,11 @@ public class EvlConstraint extends AbstractModuleElement{
 		this.guard = new EvlGuard(AstUtil.getChild(ast, EvlParser.GUARD));
 		this.body = new EolLabeledBlock(AstUtil.getChild(ast,EvlParser.CHECK),"check");
 		this.message = new EolLabeledBlock(AstUtil.getChild(ast, EvlParser.MESSAGE),"message");
-		Collection fixesAst = AstUtil.getChildren(ast, EvlParser.FIX);
-		Iterator it = fixesAst.iterator();
+		Collection<AST> fixesAst = AstUtil.getChildren(ast, EvlParser.FIX);
+		Iterator<AST> it = fixesAst.iterator();
 		while (it.hasNext()){
 			EvlFix fix = new EvlFix();
-			fix.parse((AST) it.next());
+			fix.parse(it.next());
 			fixes.add(fix);
 		}
 	}
@@ -104,9 +104,9 @@ public class EvlConstraint extends AbstractModuleElement{
 					EvlUnsatisfiedConstraint unsatisfiedConstraint = new EvlUnsatisfiedConstraint();
 					unsatisfiedConstraint.setInstance(self);
 					unsatisfiedConstraint.setConstraint(this);
-					ListIterator li = fixes.listIterator();
+					ListIterator<EvlFix> li = fixes.listIterator();
 					while (li.hasNext()) {
-						EvlFix fix = (EvlFix) li.next();
+						EvlFix fix = li.next();
 						if (!fix.appliesTo(self, context)) continue;
 
 						EvlFixInstance fixInstance = new EvlFixInstance(context);
@@ -161,7 +161,7 @@ public class EvlConstraint extends AbstractModuleElement{
 		return ast;
 	}
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 

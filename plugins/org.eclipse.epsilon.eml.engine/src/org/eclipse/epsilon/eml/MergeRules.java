@@ -15,12 +15,13 @@ import java.util.Iterator;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.rules.NamedRules;
 
 public class MergeRules extends NamedRules{
 	
 	public MergeRules getRulesFor(Match match, IEmlContext context) throws EolRuntimeException{
-		Iterator li = iterator();
+		Iterator<INamedRule> li = iterator();
 		
 		MergeRules rules = new MergeRules();
 		

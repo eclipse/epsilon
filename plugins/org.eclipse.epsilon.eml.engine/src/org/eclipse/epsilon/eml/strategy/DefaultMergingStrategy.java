@@ -46,7 +46,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		transformModels(context);
 	}
 
-	public Collection getEquivalents(Object source, IEolContext context,
+	public Collection<?> getEquivalents(Object source, IEolContext context,
 			List<String> rules) throws EolRuntimeException {
 		
 		if (!getExcluded().contains(source)) {
@@ -59,19 +59,19 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 
 	
 	//TODO : Implement this
-	private Collection merge(Object source, IEolContext context_,
+	private Collection<Object> merge(Object source, IEolContext context_,
 			List<String> rules) throws EolRuntimeException {
 		
 		List<Match> matches = context.getMatchTrace().getMatches(source);
 		
-		List targets = CollectionUtil.createDefaultList();
+		List<Object> targets = CollectionUtil.createDefaultList();
 		
 		for (Match match : matches) {
 			for (INamedRule rule : context.getModule().getMergeRules().getRulesFor(match, context)) {
 				MergeRule mergeRule = (MergeRule) rule;
 				if (rules == null || rules.contains(rule.getName())) {
 					
-					Collection merged = mergeRule.merge(match, context);
+					Collection<?> merged = mergeRule.merge(match, context);
 					
 					if (!mergeRule.isPrimary(context)) {
 						targets.addAll(merged);

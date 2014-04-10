@@ -204,7 +204,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		return context.getModelRepository().getModelByName(name);
 	}
 
-	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
 		final IModel expectedCModel = getModel(expectedModelName);
 		final IModel actualCModel = getModel(actualModelName);
 		final IModelComparator comparator = getComparator(expectedCModel, actualCModel);

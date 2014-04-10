@@ -59,9 +59,9 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 			}
 		}, new Token(new TextAttribute(null, backgroundColor, SWT.NORMAL)));
 
-		ListIterator li = keywords.listIterator();
+		ListIterator<String> li = keywords.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next().toString(), new Token(
+			keywordsRule.addWord(li.next(), new Token(
 					new TextAttribute(AbstractModuleEditor.KEYWORD, backgroundColor,
 							SWT.BOLD)));
 		}
@@ -78,7 +78,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = builtinVariables.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next().toString(), new Token(
+			keywordsRule.addWord(li.next(), new Token(
 					new TextAttribute(AbstractModuleEditor.BUILTIN, backgroundColor,
 							SWT.ITALIC)));
 		}
@@ -95,7 +95,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = types.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next().toString(), new Token(
+			keywordsRule.addWord(li.next(), new Token(
 					new TextAttribute(AbstractModuleEditor.TYPE, backgroundColor,
 							SWT.BOLD)));
 		}
@@ -112,7 +112,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = assertions.listIterator();
 		while (li.hasNext()) {
-			assertionsRule.addWord(li.next().toString(), new Token(
+			assertionsRule.addWord(li.next(), new Token(
 					new TextAttribute(AbstractModuleEditor.ASSERTION, backgroundColor,
 							SWT.BOLD)));
 		}

@@ -11,7 +11,7 @@ import org.eclipse.ui.wizards.datatransfer.IImportStructureProvider;
 public class WebSvnImportStructureProvider implements IImportStructureProvider {
 	
 	@Override
-	public List getChildren(Object element) {
+	public List<?> getChildren(Object element) {
 		if (element instanceof WebSvnFolder) {
 			try {
 				return ((WebSvnFolder) element).getChildren();

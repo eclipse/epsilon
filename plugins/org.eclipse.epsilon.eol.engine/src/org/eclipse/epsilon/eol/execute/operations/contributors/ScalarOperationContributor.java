@@ -24,26 +24,26 @@ public class ScalarOperationContributor extends OperationContributor {
 		return !(target instanceof Collection);
 	}
 	
-	public EolSequence asSequence() {
-		EolSequence sequence = new EolSequence();
+	public EolSequence<Object> asSequence() {
+		EolSequence<Object> sequence = new EolSequence<Object>();
 		sequence.add(target);
 		return sequence;
 	}
 	
-	public EolSet asSet() {
-		EolSet set = new EolSet();
+	public EolSet<Object> asSet() {
+		EolSet<Object>set = new EolSet<Object>();
 		set.add(target);
 		return set;
 	}
 	
-	public EolBag asBag() {
-		EolBag bag = new EolBag();
+	public EolBag<Object> asBag() {
+		EolBag<Object> bag = new EolBag<Object>();
 		bag.add(target);
 		return bag;
 	}
 	
-	public EolOrderedSet asOrderedSet() {
-		EolOrderedSet set = new EolOrderedSet();
+	public EolOrderedSet<Object> asOrderedSet() {
+		EolOrderedSet<Object> set = new EolOrderedSet<Object>();
 		set.add(target);
 		return set;
 	}

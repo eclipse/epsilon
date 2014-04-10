@@ -26,7 +26,7 @@ import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 public class EquivalentsOperation extends AbstractSimpleOperation {
 	
 	@Override
-	public Object execute(Object source, List parameters, IEolContext context,
+	public Object execute(Object source, List<?> parameters, IEolContext context,
 			AST ast) throws EolRuntimeException {
 		
 		if (source == null) return null;
@@ -43,7 +43,7 @@ public class EquivalentsOperation extends AbstractSimpleOperation {
 		ITransformationStrategy strategy = etlContext.getTransformationStrategy();
 		
 		if (source instanceof Collection){
-			return strategy.getEquivalents((Collection) source, etlContext, rules);
+			return strategy.getEquivalents((Collection<?>) source, etlContext, rules);
 		} else {
 			return strategy.getEquivalents(source, etlContext, rules);
 		}

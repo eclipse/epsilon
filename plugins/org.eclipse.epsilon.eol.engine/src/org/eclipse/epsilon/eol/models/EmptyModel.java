@@ -33,23 +33,23 @@ public class EmptyModel extends Model{
 		return null;
 	}
 
-	public Collection getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.EMPTY_LIST;
 	}
  
-	public Collection getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Collection getAllSupertypes(String metaClass) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllSupertypes(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Collection getAllSubtypes(String metaClass) throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllSubtypes(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Collection getAllClasses(boolean onlyConcrete) {
+	public Collection<?> getAllClasses(boolean onlyConcrete) {
 		return Collections.EMPTY_LIST;
 	}
 

@@ -21,12 +21,12 @@ public class ObjectUtil {
 		return o1.equals(o2);
 	}
 	
-	public static Collection asCollection(Object o) {
+	public static Collection<?> asCollection(Object o) {
 		if (o instanceof Collection) {
-			return (Collection) o;
+			return (Collection<?>) o;
 		}
 		else {
-			ArrayList collection = new ArrayList();
+			ArrayList<Object> collection = new ArrayList<Object>();
 			collection.add(o);
 			return collection;
 		}

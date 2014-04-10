@@ -56,7 +56,7 @@ public class EolLabeledBlock extends AbstractModuleElement{
 	//	this.label = label;
 	//}
 	
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	

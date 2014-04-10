@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,6 +34,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.erl.rules.ExtensibleNamedRule;
+import org.eclipse.epsilon.erl.rules.INamedRule;
 
 
 public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
@@ -44,12 +44,10 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 	
 	protected EolFormalParameter leftParameter;
 	protected EolFormalParameter rightParameter;
-	protected Collection leftInstances;
-	protected Collection rightInstances;
-	protected Collection allOfLeftType;
-	protected Collection allOfRightType;
-	
-	protected ArrayList allSuperRules = null;
+	protected Collection<?> leftInstances;
+	protected Collection<?> rightInstances;
+	protected Collection<?> allOfLeftType;
+	protected Collection<?> allOfRightType;
 	
 	protected AST guardAst = null;
 	protected AST bodyAst = null;
@@ -138,7 +136,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	*/
 	
-	public Collection getAllOfRightType(IEclContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfRightType(IEclContext context) throws EolRuntimeException {
 		if (rightInstances == null){
 			try {
 				EolModelElementType rightType = (EolModelElementType) rightParameter.getType(context);
@@ -153,7 +151,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		return rightInstances;
 	}
 	
-	public Collection getAllOfLeftType(IEclContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfLeftType(IEclContext context) throws EolRuntimeException {
 		if (leftInstances == null){
 			try {
 				EolModelElementType leftType = (EolModelElementType) leftParameter.getType(context);
@@ -169,7 +167,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		return leftInstances;
 	}
 	
-	public Collection getAllOfRightKind(IEclContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfRightKind(IEclContext context) throws EolRuntimeException {
 		if (allOfRightType == null){
 			try {
 				EolModelElementType rightType = (EolModelElementType) rightParameter.getType(context);
@@ -183,7 +181,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		return allOfRightType;
 	}
 	
-	public Collection getAllOfLeftKind(IEclContext context) throws EolRuntimeException {
+	public Collection<?> getAllOfLeftKind(IEclContext context) throws EolRuntimeException {
 		if (allOfLeftType == null){
 			try {
 				EolModelElementType leftType = (EolModelElementType) leftParameter.getType(context);
@@ -198,12 +196,12 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 	}
 	
 	public void matchAll(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		Iterator leftIterator = ofTypeOnly ? getAllOfLeftType(context).iterator() 
+		Iterator<?> leftIterator = ofTypeOnly ? getAllOfLeftType(context).iterator() 
 			: getAllOfLeftKind(context).iterator();
 		
 		while (leftIterator.hasNext()){
 			Object leftInstance = leftIterator.next();
-			Iterator rightIterator = ofTypeOnly ? getAllOfRightType(context).iterator() 
+			Iterator<?> rightIterator = ofTypeOnly ? getAllOfRightType(context).iterator() 
 					: getAllOfRightKind(context).iterator();
 			while (rightIterator.hasNext()){
 				Object rightInstance = rightIterator.next();
@@ -299,7 +297,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		
 		// Execute all the super-rules
 		if (superRules.size() > 0){
-			Iterator it = superRules.iterator();
+			Iterator<INamedRule> it = superRules.iterator();
 			boolean matching = true;
 			while (it.hasNext()){
 				MatchRule matchRule = (MatchRule) it.next();
@@ -429,7 +427,7 @@ public class MatchRule extends ExtensibleNamedRule implements ModuleElement{
 		return str;
 	}
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 }

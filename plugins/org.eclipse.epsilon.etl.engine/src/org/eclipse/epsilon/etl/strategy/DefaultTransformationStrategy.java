@@ -60,9 +60,9 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		return !getExcluded().contains(source);
 	}
 	
-	public Collection transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
+	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
-		List targets = CollectionUtil.createDefaultList();
+		List<Object> targets = CollectionUtil.createDefaultList();
 		
 		//TODO : Change this to be less restrictive...
 		if (!canTransform(source)) return targets;
@@ -71,7 +71,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 			TransformRule transformRule = (TransformRule) rule;
 			if (rules == null || rules.contains(rule.getName())) {
 				
-				Collection transformed = transformRule.transform(source, context);
+				Collection<?> transformed = transformRule.transform(source, context);
 				
 				if (!transformRule.isPrimary()) {
 					targets.addAll(transformed);
@@ -90,7 +90,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public Collection getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		// First transform the source
 		return transform(source, context, rules);
@@ -102,7 +102,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
-		Collection equivalents = getEquivalents(source, context, rules);
+		Collection<?> equivalents = getEquivalents(source, context, rules);
 		
 		if (!equivalents.isEmpty()) {
 			return CollectionUtil.getFirst(equivalents);
@@ -113,12 +113,12 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	
 	}
 	
-	public Collection getEquivalent(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalent(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
 	}
 	
-	public Collection getEquivalents(Collection collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalents(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		Collection<Object> equivalents = CollectionUtil.createDefaultList();
 		for (Object item : collection) {

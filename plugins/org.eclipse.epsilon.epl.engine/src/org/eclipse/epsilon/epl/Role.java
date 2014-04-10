@@ -105,7 +105,7 @@ public class Role extends AbstractModuleElement {
 	}
 	
 	@Override
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 	
@@ -117,7 +117,7 @@ public class Role extends AbstractModuleElement {
 		return guard;
 	}
 	
-	public List getInstances(final IEolContext context) throws EolRuntimeException {
+	public List<Object> getInstances(final IEolContext context) throws EolRuntimeException {
 		
 		DynamicList<Object> instances = null;
 		
@@ -141,7 +141,7 @@ public class Role extends AbstractModuleElement {
 						return (List) allInstances;
 					}
 					else {
-						EolSequence sequence = new EolSequence();
+						EolSequence<Object> sequence = new EolSequence<Object>();
 						sequence.addAll(allInstances);
 						return sequence;
 					}
@@ -164,7 +164,7 @@ public class Role extends AbstractModuleElement {
 		}
 	}
 	
-	protected List getAll(final DynamicList<Object> instances, final IEolContext context) {
+	protected List<Object> getAll(final DynamicList<Object> instances, final IEolContext context) {
 		DynamicList<Object> allValues = new DynamicList<Object>() {
 			@Override
 			protected List<Object> getValues() throws Exception {
@@ -202,7 +202,7 @@ public class Role extends AbstractModuleElement {
 		return allValues;
 	}
 	
-	protected List getNegative(final DynamicList<Object> instances, final IEolContext context) {
+	protected List<Object> getNegative(final DynamicList<Object> instances, final IEolContext context) {
 		
 		DynamicList<Object> negativeDomainValues = new DynamicList<Object>() {
 
@@ -218,14 +218,14 @@ public class Role extends AbstractModuleElement {
 						context.getFrameStack().leaveLocal(getGuard().getAst());
 						if (ret.getValue() instanceof Boolean) result = (Boolean) ret.getValue();
 						if (result == true) {
-							return new ArrayList();
+							return new ArrayList<Object>();
 						}
 					}
 				}
 				else {
-					if (instances.size() > 0) return new ArrayList();
+					if (instances.size() > 0) return new ArrayList<Object>();
 				}
-				ArrayList noMatchList = new ArrayList();
+				ArrayList<Object> noMatchList = new ArrayList<Object>();
 				noMatchList.add(NoMatch.INSTANCE);
 				return noMatchList;
 			}

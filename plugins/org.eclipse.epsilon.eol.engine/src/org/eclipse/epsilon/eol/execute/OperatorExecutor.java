@@ -132,7 +132,7 @@ public class OperatorExecutor extends AbstractExecutor{
 			return NumberUtil.subtract((Number) o1, (Number) o2);
 		}
 		else if (o1 instanceof Collection && o2 instanceof Collection){
-			return new IterableOperationContributor((Collection) o1).excludingAll((Collection) o2);
+			return new IterableOperationContributor((Collection<?>) o1).excludingAll((Collection<?>) o2);
 		}
 		
 		return null;

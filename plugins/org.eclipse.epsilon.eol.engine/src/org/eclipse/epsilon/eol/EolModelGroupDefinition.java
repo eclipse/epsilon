@@ -37,7 +37,7 @@ public class EolModelGroupDefinition extends AbstractModuleElement{
 		this.group = group;
 	}
 
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 

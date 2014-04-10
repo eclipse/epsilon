@@ -136,7 +136,7 @@ public class PointExecutor extends AbstractExecutor{
 			return wrap(objectMethodAst.execute(new Object[]{featureCallAst}, featureCallAst));
 		}
 		
-		ArrayList<Object> parameters = (ArrayList<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
+		ArrayList<?> parameters = (ArrayList<?>) context.getExecutorFactory().executeAST(parametersAst, context);
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){

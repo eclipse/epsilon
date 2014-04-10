@@ -16,21 +16,20 @@ import java.util.Iterator;
 
 import org.eclipse.epsilon.evl.EvlConstraint;
 
-//FIXME : Make the ConstraintTrace iterable so that it can be used from EOL code
-public class ConstraintTrace implements Iterable{
+public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	
-	HashMap storage = new HashMap();
-	ArrayList iterable = new ArrayList();
+	HashMap<Object, HashMap<EvlConstraint, Boolean>> storage = new HashMap<Object, HashMap<EvlConstraint, Boolean>>();
+	ArrayList<ConstraintTraceItem> iterable = new ArrayList<ConstraintTraceItem>();
 	
 	public ConstraintTrace() {
 		super();
 	}
 	
 	public void addChecked(EvlConstraint constraint, Object object, boolean result){
-		HashMap results;
-		results = (HashMap) storage.get(object);
+		HashMap<EvlConstraint, Boolean> results;
+		results = storage.get(object);
 		if (results == null){
-			results = new HashMap();
+			results = new HashMap<EvlConstraint, Boolean>();
 			storage.put(object, results);
 		}
 		results.put(constraint, result);
@@ -38,8 +37,8 @@ public class ConstraintTrace implements Iterable{
 	}
 	
 	public boolean isChecked(EvlConstraint constraint, Object object) {
-		HashMap results;
-		results = (HashMap) storage.get(object);	
+		HashMap<EvlConstraint, Boolean> results;
+		results = storage.get(object);
 		if (results == null){
 			return false;
 		}
@@ -49,17 +48,17 @@ public class ConstraintTrace implements Iterable{
 	}
 	
 	public boolean isSatisfied(EvlConstraint constraint, Object object) {
-		HashMap results;
-		results = (HashMap) storage.get(object);
+		HashMap<EvlConstraint, Boolean> results;
+		results = storage.get(object);
 		if (results == null){
 			return false;
 		}
 		else {
-			return ((Boolean)results.get(constraint)).booleanValue();
+			return results.get(constraint).booleanValue();
 		}
 	}
 
-	public Iterator iterator() {
+	public Iterator<ConstraintTraceItem> iterator() {
 		return iterable.iterator();
 	}
 	

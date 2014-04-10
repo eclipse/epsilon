@@ -50,9 +50,9 @@ public class ContributeGmfWizardsAction extends AbstractContributeWizardsAction 
 			}
 			
 			protected void refresh(EObject eObject) {
-				List editPolicies = CanonicalEditPolicy.getRegisteredEditPolicies(eObject);
-                for (Iterator it = editPolicies.iterator(); it.hasNext();) {
-                        CanonicalEditPolicy nextEditPolicy = (CanonicalEditPolicy) it.next();
+				List<CanonicalEditPolicy> editPolicies = CanonicalEditPolicy.getRegisteredEditPolicies(eObject);
+                for (Iterator<CanonicalEditPolicy> it = editPolicies.iterator(); it.hasNext();) {
+                        CanonicalEditPolicy nextEditPolicy = it.next();
                                 nextEditPolicy.refresh();
                                
                 }

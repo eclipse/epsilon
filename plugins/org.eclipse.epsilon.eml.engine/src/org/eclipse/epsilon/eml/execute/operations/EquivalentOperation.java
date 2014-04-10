@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 public class EquivalentOperation extends AbstractSimpleOperation {
 	
 	@Override
-	public Object execute(Object source, List parameters, IEolContext context,
+	public Object execute(Object source, List<?> parameters, IEolContext context,
 			AST ast) throws EolRuntimeException {
 		
 		if (source == null) return null;
@@ -42,7 +42,7 @@ public class EquivalentOperation extends AbstractSimpleOperation {
 		IMergingStrategy strategy = emlContext.getMergingStrategy();
 		
 		if (source instanceof Collection){
-			return strategy.getEquivalent((Collection) source, emlContext, rules);
+			return strategy.getEquivalent((Collection<?>) source, emlContext, rules);
 		} else {
 			return strategy.getEquivalent(source, emlContext, rules);
 		}

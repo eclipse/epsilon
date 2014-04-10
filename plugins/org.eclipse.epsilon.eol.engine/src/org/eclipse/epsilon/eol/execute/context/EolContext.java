@@ -56,7 +56,9 @@ public class EolContext implements IEolContext {
 	
 	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
 		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
-		this.nativeTypeDelegates = new ArrayList(CollectionUtil.asCollection(classpathNativeTypeDelegate));
+		this.nativeTypeDelegates = new ArrayList<IToolNativeTypeDelegate>(
+				(ArrayList<IToolNativeTypeDelegate>) CollectionUtil
+						.asCollection(classpathNativeTypeDelegate));
 	}
 
 	public OperationContributorRegistry getOperationContributorRegistry() {

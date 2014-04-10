@@ -27,9 +27,9 @@ public class CommandLineFixer implements IEvlFixer {
 	public void fix(IEvlModule module) throws EolRuntimeException {
 		IEvlContext context = module.getContext();
 		IUserInput userInput = context.getUserInput();
-		ListIterator li = context.getUnsatisfiedConstraints().listIterator();
+		ListIterator<EvlUnsatisfiedConstraint> li = context.getUnsatisfiedConstraints().listIterator();
 		while (li.hasNext()){
-			EvlUnsatisfiedConstraint unsatisfiedConstraint = (EvlUnsatisfiedConstraint) li.next();
+			EvlUnsatisfiedConstraint unsatisfiedConstraint = li.next();
 			
 			context.getOutputStream().println(unsatisfiedConstraint.getMessage());
 			boolean fixIt = fix && (unsatisfiedConstraint.getFixes().size() > 0) && userInput.confirm("Fix error?", true);

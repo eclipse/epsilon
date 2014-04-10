@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -63,7 +64,7 @@ public class EmfWorkbench {
 	
 	public Resource getModel(String modelFile, String metamodelFile){
 
-		Map etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+		Map<String, Object> etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
 		if(!etfm.containsKey("*")) {
 			etfm.put("*", new XMIResourceFactoryImpl());
 		}
@@ -78,7 +79,7 @@ public class EmfWorkbench {
 			e.printStackTrace();
 		}
 		
-		Iterator it =  metamodel.getContents().iterator();
+		Iterator<EObject> it =  metamodel.getContents().iterator();
 		while (it.hasNext()){
 			EPackage p = (EPackage) it.next();
 			System.out.println(p.getNsURI());
@@ -98,7 +99,7 @@ public class EmfWorkbench {
 	}
 	
 	public Resource getMetamodel(String metamodelFile){
-		Map etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+		Map<String, Object> etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
 		if(!etfm.containsKey("*")) {
 			etfm.put("*", new XMIResourceFactoryImpl());
 		}

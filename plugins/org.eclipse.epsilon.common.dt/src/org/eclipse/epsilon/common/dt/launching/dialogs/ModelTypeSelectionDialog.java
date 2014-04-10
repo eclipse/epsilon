@@ -167,7 +167,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 	}
 	
 	private void findModelTypes() {		
-		modelTypes = new ArrayList();
+		modelTypes = new ArrayList<ModelTypeExtension>();
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.modelType");

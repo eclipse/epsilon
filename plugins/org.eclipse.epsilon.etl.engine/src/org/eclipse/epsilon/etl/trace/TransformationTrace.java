@@ -21,7 +21,7 @@ public class TransformationTrace {
 	HashMap<Object, Transformations> cache = new HashMap<Object, Transformations>();
 	Transformations transformations = new Transformations();
 	
-	public void add(Object source, Collection targets, TransformRule rule){
+	public void add(Object source, Collection<Object> targets, TransformRule rule){
 		Transformation transformation = new Transformation();
 		transformation.setSource(source);
 		transformation.setTargets(targets);

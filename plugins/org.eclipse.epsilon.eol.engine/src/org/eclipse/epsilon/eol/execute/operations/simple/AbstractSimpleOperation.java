@@ -28,7 +28,7 @@ public abstract class AbstractSimpleOperation extends AbstractOperation{
 	@Override
 	public Object execute(Object source, AST operationAst, IEolContext context) throws EolRuntimeException {
 		
-		List parameters = new ArrayList();
+		List<Object> parameters = new ArrayList<Object>();
 		AST parametersAst = operationAst.getFirstChild();
 		if (parametersAst != null){
 			//parameters = (List) context.getExecutorFactory().executeAST(parametersAst, context);
@@ -66,7 +66,7 @@ public abstract class AbstractSimpleOperation extends AbstractOperation{
 		}
 	}
 	
-	public abstract Object execute(Object source, List parameters, IEolContext context, AST ast) throws EolRuntimeException;
+	public abstract Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException;
 	
 	public boolean getTolerateExceptionInParameter(int parameterIndex) {
 		return false;

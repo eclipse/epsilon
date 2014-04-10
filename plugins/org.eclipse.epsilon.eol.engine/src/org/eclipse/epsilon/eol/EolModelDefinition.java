@@ -21,7 +21,7 @@ public class EolModelDefinition extends AbstractModuleElement {
 
 	protected String model;
 	
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 

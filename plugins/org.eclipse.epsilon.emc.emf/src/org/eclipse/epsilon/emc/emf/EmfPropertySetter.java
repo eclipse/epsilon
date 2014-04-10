@@ -37,7 +37,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 			return false;
 		
 		if (value instanceof Collection) {
-			final Collection<Object> collection = ((Collection)value);
+			final Collection<?> collection = ((Collection<?>)value);
 		
 			return propertyCanHoldCollections() &&
 			       isConformantSizeForProperty(collection) && 
@@ -57,7 +57,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 			if (value != null) {
 				Collection<Object> sourceValues = (Collection<Object>) getEObject().eGet(sf);
 				if (value instanceof Collection){	
-					copyCollectionValues(((Collection)value), sourceValues);
+					copyCollectionValues(((Collection<?>)value), sourceValues);
 				}
 				else {
 					throw new EolIllegalPropertyAssignmentException(
@@ -116,7 +116,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		return getEStructuralFeature().getLowerBound();
 	}
 	
-	private boolean allAreConformantTypeForProperty(Collection<Object> values) throws EolIllegalPropertyException {
+	private boolean allAreConformantTypeForProperty(Collection<?> values) throws EolIllegalPropertyException {
 		for (Object value : values) {
 			if (!isConformantTypeForProperty(value))
 				return false;

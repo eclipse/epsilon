@@ -118,11 +118,11 @@ public class CollectionOfModelValuesTests {
 	}
 	
 	
-	private static void assertEolCollectionsEqual(Collection expected, Collection actual) {
+	private static void assertEolCollectionsEqual(Collection<?> expected, Collection<?> actual) {
 		assertEquals(expected, actual);
 	}
 	
-	private static Collection toEolCollection(Object... element) {
+	private static Collection<Object> toEolCollection(Object... element) {
 		return Arrays.asList(element);
 	}
 }

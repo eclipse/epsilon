@@ -23,7 +23,7 @@ public class FormalParameterListExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		TreeMap parameters = new TreeMap(new OrderComparator());
+		TreeMap<String, EolType> parameters = new TreeMap<String, EolType>(new OrderComparator());
 		AST parameterAst = ast.getFirstChild();
 		
 		while (parameterAst != null){

@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ExecutionProfiler implements ExecutionController {
 	
-	protected HashMap profile = new HashMap();
+	protected HashMap<AST, Long> profile = new HashMap<AST, Long>();
 	long previousTime = 0;
 	AST previousAst = null;
 	
@@ -48,14 +48,14 @@ public class ExecutionProfiler implements ExecutionController {
 		return false;
 	}
 
-	public HashMap getProfile() {
+	public HashMap<AST, Long> getProfile() {
 		return profile;
 	}
 
 	public void report(IEolContext context) {
-		Iterator it = profile.keySet().iterator();
+		Iterator<AST> it = profile.keySet().iterator();
 		while (it.hasNext()){
-			Object key = it.next();
+			AST key = it.next();
 			context.getErrorStream().print(key);
 			context.getErrorStream().print("-");
 			context.getErrorStream().println(profile.get(key));

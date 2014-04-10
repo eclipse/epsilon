@@ -27,9 +27,9 @@ public class NamedRules extends ArrayList<INamedRule>{
 	}
 	
 	public INamedRule getRule(String name){
-		ListIterator li = listIterator();
+		ListIterator<INamedRule> li = listIterator();
 		while (li.hasNext()){
-			INamedRule rule = (INamedRule) li.next();
+			INamedRule rule = li.next();
 			if (rule.getName().equals(name)){
 				return rule;
 			}
@@ -58,10 +58,10 @@ public class NamedRules extends ArrayList<INamedRule>{
 	}
 	
 	public List<ParseProblem> calculateSuperRules(NamedRules allRules){
-		List<ParseProblem> parseProblems = new ArrayList();
-		Iterator it = iterator();
+		List<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
+		Iterator<INamedRule> it = iterator();
 		while (it.hasNext()){
-			Object next = it.next();
+			INamedRule next = it.next();
 			if (next instanceof ExtensibleNamedRule) {
 				ExtensibleNamedRule rule = (ExtensibleNamedRule) next;
 				try {
