@@ -33,22 +33,31 @@ import org.eclipse.emf.common.util.URI;
 import org.junit.After;
 import org.junit.Before;
 
+/**
+ * Helper class that provides some basic project/workspace related
+ * functionality. A clean project called 'sample' is provided for each test.
+ */
 public class TestThatUsesAProject {
 
+	/** Default project, available to the tests. It is cleaned between tests */
 	protected IProject project;
 	
 	@Before
 	public void setupProject() throws CoreException {
+		// Make sure the old project is not residing in the workspace anymore
 		deleteResource(project);
+
+        // Create default project
 		project = createProject("sample");
 	}
 	
 	@After
 	public void teardownProject() throws CoreException {
+        // Remove the default project
 		deleteResource(project);
 	}
 	
-	
+	/** @return the newly created project */
 	protected static IProject createProject(String name) throws CoreException {
 		final IProject base = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		
@@ -57,28 +66,45 @@ public class TestThatUsesAProject {
 		return base;
 	}
 	
+	/**
+	 * Creates a new folder in the given project with the given name
+	 * @return the folder object
+	 */
 	protected static IFolder createFolder(IProject project, String name) throws CoreException {
 		final IFolder folder = project.getFolder(name);
 		folder.create(true, true, null);
 		return folder;
 	}
 	
+	/**
+	 * Creates an empty file in the given project
+	 * @return the file object
+	 */
 	protected static IFile createEmptyFile(IProject project, String name) throws CoreException {
 		final IFile file = project.getFile(name);
 		file.create(new ByteArrayInputStream(new byte[0]), true, new NullProgressMonitor());
 		return file;
 	}
-	
+
+	/**
+	 * Creates a file in the given project with the provided contents
+	 * @return the file object
+	 */
 	protected static IFile createFile(IProject project, String name, String contents) throws CoreException {
 		final IFile file = project.getFile(name);
 		createFile(file, contents);
 		return file;
 	}
 	
+	/**
+	 * Creates a file in the given project with the contents of the given resource
+	 * @return the file object
+	 */
 	protected static IFile createFile(IProject project, String name, URI resourceToCopy) throws CoreException, IOException {
 		return createFile(project, name, new URIReader(resourceToCopy).getContents());
 	}
 	
+	/** Changes the content of the given file */
 	protected static void changeFileContents(IFile file, String newContents) throws CoreException {
 		if (file.exists())
 			file.setContents(new ByteArrayInputStream(newContents.getBytes()), true, false, new NullProgressMonitor());
@@ -86,6 +112,10 @@ public class TestThatUsesAProject {
 			createFile(file, newContents);
 	}
 	
+	/**
+	 * Refreshes the given resource (and all its child resources) in the
+	 * workspace (and sleep for 1 second)
+	 */
 	protected static void refreshContents(IResource resource) throws CoreException, InterruptedException {
 		resource.refreshLocal(IResource.DEPTH_INFINITE, null);
 		Thread.sleep(1000);
@@ -95,6 +125,10 @@ public class TestThatUsesAProject {
 		file.create(new ByteArrayInputStream(contents.getBytes()), true, new NullProgressMonitor());
 	}
 
+	/**
+	 * Moves the given file to newPath
+	 * @return the file object of the moved file
+	 */
 	protected static IFile moveFile(IFile file, String newPath) throws CoreException {
 		if (file == null) return null;
 		
@@ -103,11 +137,13 @@ public class TestThatUsesAProject {
 		return (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(destination);
 	}
 	
+	/** Delete the given resource */
 	protected static void deleteResource(IResource resource) throws CoreException {
 		if (resource != null && resource.exists())
 			resource.delete(true, new NullProgressMonitor());
 	}
 
+	/** Print the contents of the given file to {@link System.err} */
 	protected static void printFileContents(IFile file) throws IOException, CoreException {
 		final InputStreamReader reader = new InputStreamReader(file.getContents());
 		try {
@@ -120,6 +156,7 @@ public class TestThatUsesAProject {
 		}
 	}
 
+	/** Adds a nature of the given id to the given project */
 	protected static void addNature(IProject project, String natureId) throws CoreException {
 		applyNaturesToProject(project, addNature(project.getDescription().getNatureIds(), natureId));
 	}
