@@ -34,7 +34,7 @@ public class ExecuteEvlFixCommand implements Command{
 	}
 
 	public void execute() {
-		ChangeRecorder recorder = new ChangeRecorder(model.getModelImpl().getResourceSet());
+		ChangeRecorder recorder = new ChangeRecorder(model.getResource().getResourceSet());
 		try {
 			fix.perform();
 		} catch (EolRuntimeException e) {
