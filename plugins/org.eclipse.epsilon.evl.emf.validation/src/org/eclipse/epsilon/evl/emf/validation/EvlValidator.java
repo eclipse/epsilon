@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2012-2014 University of Twente.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +8,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Maarten Bezemer - lots of improvements
  ******************************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
@@ -184,7 +186,7 @@ public class EvlValidator implements EValidator {
 		try {
 			module.parse(source);
 		} catch (Exception e) {
-			if (isLogErrors()) {
+			if (logException(e)) {
 				LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, isShowErrorDialog());
 			}
 			
@@ -244,7 +246,7 @@ public class EvlValidator implements EValidator {
 				results.get(key).add(unsatisfied);
 			}
 		} catch (EolRuntimeException e) {
-			if (isLogErrors()) {
+			if (logException(e)) {
 				LogUtil.log("A runtime error was raised during the evaluation of " + source + " : " + e.getMessage(), e, isShowErrorDialog());
 			}
 			for (ValidationProblemListener listener : problemListeners) {
@@ -273,23 +275,52 @@ public class EvlValidator implements EValidator {
 			}
 		}
 	}
-	
+
+	/** @return true if an error dialog needs to be shown when an error occurs */
 	public boolean isShowErrorDialog() {
 		return showErrorDialog;
 	}
-	
+
+	/**
+	 * Sets whether an error dialog needs to be shown
+	 * 
+	 * @see #isShowErrorDialog()
+	 */
 	public void setShowErrorDialog(boolean showErrorDialog) {
 		this.showErrorDialog = showErrorDialog;
 	}
-	
+
+	/**
+	 * Method to determine whether the given exception needs to be logged. Can
+	 * be overridden to filter out certain types of exceptions (e.g. when the
+	 * user cancelled the validation)
+	 * 
+	 * @return true if error needs to be logged
+	 */
+	public boolean logException(Exception exception) {
+		return isLogErrors();
+	}
+
+	/**
+	 * This method is used by the default implementation of
+	 * {@link #logException(Exception) logException()}
+	 * 
+	 * @return true if errors need to be logged
+	 * @see #logException(Exception)
+	 */
 	public boolean isLogErrors() {
 		return logErrors;
 	}
-	
+
+	/**
+	 * Sets whether errors need to be logged or not
+	 * 
+	 * @see #isLogErrors()
+	 */
 	public void setLogErrors(boolean logErrors) {
 		this.logErrors = logErrors;
 	}
-	
+
 	public void addValidationProblemListener(ValidationProblemListener listener) {
 		problemListeners.add(listener);
 	}
