@@ -14,12 +14,14 @@ package org.eclipse.epsilon.concordance.model;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.concordance.model.nsuri.EObjectContainer;
 import org.eclipse.epsilon.concordance.model.nsuri.ModelWalkingNsUriAnalyser;
 
@@ -45,7 +47,12 @@ abstract public class ConcordanceModelBase implements IConcordanceModel,
 
 	public Iterator<EObject> getAllContentsIterator(boolean resolve)
 			throws IOException {
-		return getEmfResource(resolve).getAllContents();
+		Resource resource = getEmfResource(resolve);
+		if(resource == null) {
+			// Return an empty iterator
+			return Collections.<EObject>emptyList().iterator();
+		}
+		return resource.getAllContents();
 	}
 
 	public Collection<EObject> getAllContents(boolean resolve)
