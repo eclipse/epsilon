@@ -25,7 +25,15 @@ import org.eclipse.ui.IStartup;
 public class EValidatorPopulator implements IStartup {
 	
 	protected final String extensionPoint = "org.eclipse.epsilon.evl.emf.validation";
-	
+
+	/** When true the populator is finished and the validation is ready to use */
+	static private boolean isFinished = false;
+
+	/** @return true if the populator is finished initializing the validators */
+	public static boolean isFinished() {
+		return isFinished;
+	}
+
 	public void earlyStartup() {
 		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -111,7 +119,8 @@ public class EValidatorPopulator implements IStartup {
 				LogUtil.log(e);
 			}
 		}
-		
-	}
 
+		// Mark populator as finished, so clients can see whether they can use validation
+		isFinished = true;
+	}
 }
