@@ -1,11 +1,9 @@
 <project default="main">
 	<target name="main">
-		<jar destfile="bin/antlr-runtime-3.1b1.jar" basedir="../org.antlr.runtime_3.1.b1"/>
-		<jar destfile="bin/org.eclipse.epsilon.eol.engine.jar" basedir="../org.eclipse.epsilon.eol.engine/bin"/>	
-		<jar destfile="bin/org.eclipse.epsilon.egl.engine.jar" basedir="../org.eclipse.epsilon.egl.engine/bin"/>	
-		<jar destfile="bin/org.eclipse.epsilon.commons.jar" basedir="../org.eclipse.epsilon.commons/bin"/>
-		<jar destfile="bin/org.eclipse.epsilon.emc.emf.jar" basedir="../org.eclipse.epsilon.emc.emf/bin"/>
-		<jar destfile="bin/org.eclipse.epsilon.egl.servlet.jar" basedir="build/classes"/>
-		<zip destfile="egl-servlet-full.zip" basedir="bin"></zip>
+		<jar destfile="org.eclipse.epsilon.egl.servlet.jar" basedir="build/classes"/>
+		<zip destfile="egl-servlet-full.zip">
+			<fileset dir="WebContent/WEB-INF/lib"></fileset>
+			<fileset file="org.eclipse.epsilon.egl.servlet.jar"/>
+		</zip>
 	</target>
 </project>

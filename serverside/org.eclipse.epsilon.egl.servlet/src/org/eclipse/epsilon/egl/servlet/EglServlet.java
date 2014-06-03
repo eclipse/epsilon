@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.epsilon.commons.parse.problem.ParseProblem;
-import org.eclipse.epsilon.commons.profiling.Profiler;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -69,7 +68,6 @@ public class EglServlet extends HttpServlet {
 			resp.getWriter().println(caching.pageCache.retrieve(identifier));
 			
 		} else {
-			Profiler.INSTANCE.reset();
 			EglTemplateFactory factory = createTemplateFactory();
 			EglTemplate template;
 			
@@ -130,10 +128,6 @@ public class EglServlet extends HttpServlet {
 				catch (Exception ex) {
 					// We can only do so much...
 				}
-			}
-			
-			for (String targetName : Profiler.INSTANCE.getTargetNames()) {
-				System.out.println(targetName + " (" + Profiler.INSTANCE.getExecutionCount(targetName) + ") " + Profiler.INSTANCE.getTotalTime(targetName, false) + " / " + Profiler.INSTANCE.getTotalTime(targetName, true));
 			}
 		}
 		

@@ -10,6 +10,7 @@
 ******************************************************************************/
 package org.eclipse.epsilon.egl.servlet;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,17 +18,19 @@ import javax.servlet.ServletContext;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.commons.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.emc.graphml.GraphmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public class ModelManager {
 	
 	protected ServletContext servletContext;
 	protected ModelRepository currentModelRepository;
-	protected HashMap<String, EmfModel> cachedModels = new HashMap<String, EmfModel>();
+	protected HashMap<String, IModel> cachedModels = new HashMap<String, IModel>();
 	
 	public void setCurrentModelRepository(ModelRepository currentModelRepository) {
 		this.currentModelRepository = currentModelRepository;
@@ -45,12 +48,31 @@ public class ModelManager {
 		return servletContext;
 	}
 	
+	public void loadMuddle(String name, String modelFile) throws EolModelLoadingException {
+		
+		IModel model = cachedModels.get(modelFile);
+		
+		if (model == null || !(model instanceof GraphmlModel)) {
+			GraphmlModel graphmlModel = new GraphmlModel();
+			model = graphmlModel;
+			
+			graphmlModel.setName(name);
+			graphmlModel.setFile(new File(this.getServletContext().getRealPath(modelFile)));
+			graphmlModel.load();
+			cachedModels.put(name, graphmlModel);
+		}
+		
+		getCurrentModelRepository().addModel(model); 
+		
+	}
+	
 	public void loadModel(String name, String aliases, String modelFile, String metamodel, boolean expand, boolean metamodelIsFilebased) throws EolModelLoadingException {
 		
-		EmfModel model = cachedModels.get(modelFile);
+		IModel model = cachedModels.get(modelFile);
 		
-		if (model == null) {
-			model = new EmfModel();
+		if (model == null || !(model instanceof EmfModel)) {
+			EmfModel emfModel = new EmfModel();
+			model = emfModel;
 			
 			StringProperties properties = new StringProperties();
 			properties.put(EmfModel.PROPERTY_NAME, name);
@@ -68,8 +90,8 @@ public class ModelManager {
 			properties.put(EmfModel.PROPERTY_READONLOAD, "true");
 			properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
 						
-			model.load(properties, null);
-			cachedModels.put(modelFile, model);
+			emfModel.load(properties, null);
+			cachedModels.put(modelFile, emfModel);
 		}
 		
 		getCurrentModelRepository().addModel(model);
