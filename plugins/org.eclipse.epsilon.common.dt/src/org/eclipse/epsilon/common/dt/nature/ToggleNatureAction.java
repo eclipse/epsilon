@@ -93,11 +93,14 @@ public abstract class ToggleNatureAction extends AbstractObjectActionDelegate im
 	private boolean containsNature(ISelection selection) throws CoreException {
 		if (getFirstElementOf(selection) instanceof IProject) {
 			final IProject project = (IProject)getFirstElementOf(selection);
-			final String[] natureIds = project.getDescription().getNatureIds();
-			
-			return containsOurNature(natureIds);
+			if (project.isOpen()) {
+				final String[] natureIds = project.getDescription()
+						.getNatureIds();
+
+				return containsOurNature(natureIds);
+			}
 		}
-		
+
 		return false;
 	}
 	
