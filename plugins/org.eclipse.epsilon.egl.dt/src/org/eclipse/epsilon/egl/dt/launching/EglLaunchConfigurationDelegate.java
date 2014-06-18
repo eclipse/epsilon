@@ -17,6 +17,7 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.PRODUCE_TRACE;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TRACE_DESTINATION;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -117,7 +118,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	@SuppressWarnings("unchecked")
 	private Collection<Formatter> loadDefaultFormattersFromConfiguration() throws CoreException {
 		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();
-		final Collection<String> identifiers = configuration.getAttribute(EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS, Collections.emptyList());
+		final Collection<String> identifiers = configuration.getAttribute(EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS, new ArrayList<String>());
 		
 		for (FormatterSpecification spec : new FormatterSpecificationFactory().findByIdentifiers(identifiers)) {
 			defaultFormatters.add(spec.instantiate());

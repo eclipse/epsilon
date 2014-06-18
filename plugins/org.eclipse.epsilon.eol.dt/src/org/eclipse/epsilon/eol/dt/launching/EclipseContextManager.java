@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.dt.launching;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -140,7 +141,7 @@ public class EclipseContextManager {
 		List<?> models = null;
 		
 		try {
-			models = configuration.getAttribute("models", new ArrayList<Object>());
+			models = configuration.getAttribute("models", new ArrayList<String>());
 		} catch (CoreException e1) {
 			e1.printStackTrace(context.getErrorStream());
 		}

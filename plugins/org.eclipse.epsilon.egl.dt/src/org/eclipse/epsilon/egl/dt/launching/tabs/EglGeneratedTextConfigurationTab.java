@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl.dt.launching.tabs;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -183,7 +184,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 
 	@SuppressWarnings("unchecked")
 	private void initializeDefaultFormattersFrom(ILaunchConfiguration configuration) throws CoreException {
-		final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, Collections.emptyList());
+		final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, new ArrayList<String>());
 		defaultFormattersTable.setItems(new FormatterSpecificationFactory().findByIdentifiers(defaultFormatterIdentifiers));
 	}
 
