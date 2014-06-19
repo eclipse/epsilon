@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.debug.ui;visibility:=reexport,
  org.eclipse.ui.console,
  org.eclipse.core.variables,
- org.eclipse.epsilon.erl.engine;visibility:=reexport
+ org.eclipse.epsilon.erl.engine;visibility:=reexport,
+ org.eclipse.e4.ui.css.swt.theme;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.actions,

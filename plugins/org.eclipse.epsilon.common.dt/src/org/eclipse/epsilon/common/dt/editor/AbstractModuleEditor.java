@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
@@ -42,6 +43,7 @@ import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
@@ -63,12 +65,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
+import org.eclipse.ui.themes.IThemeManager;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 
 public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor { //implements IPropertyListener {
@@ -78,28 +84,64 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
 
-	public static final Color COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
-	public static final Color MARKER = new Color(Display.getCurrent(), new RGB(63, 127, 95));
-	public static final Color ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
-	public static final Color EXECUTABLEANNOTATION = ANNOTATION;
-	public static final Color STRING = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-	public static final Color DEFAULT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
-	public static final Color KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
-	public static final Color BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-	public static final Color ASSERTION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
-	public static final Color TYPE = new Color(Display.getCurrent(), new RGB(0, 192, 0));
-	public static final String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
+	public static Color COMMENT;
+	public static Color MARKER;
+	public static Color ANNOTATION;
+	public static Color EXECUTABLEANNOTATION;
+	public static Color STRING;
+	public static Color DEFAULT;
+	public static Color KEYWORD;
+	public static Color BUILTIN;
+	public static Color ASSERTION;
+	public static Color TYPE;
+	public static String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
 	
 	private ModuleContentOutlinePage outlinePage;
 
 	public AbstractModuleEditor() {
 		super();
+		boolean dark = false;
+		try {
+			IThemeEngine engine = (IThemeEngine)
+			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
+			dark = "org.eclipse.e4.ui.css.theme.e4_dark".equals(engine.getActiveTheme().getId());
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+		}
+		setColorScheme(dark);
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
 	    
 		//addSmartTyping();
 		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
+	}
+	
+	protected void setColorScheme(boolean dark) {
+		COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
+		ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
+		STRING = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+		DEFAULT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
+		KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
+		BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+		ASSERTION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
+		TYPE = new Color(Display.getCurrent(), new RGB(0, 192, 0));
+		
+		if (dark) {
+			COMMENT = new Color(Display.getCurrent(), new RGB(190, 218, 0));
+			KEYWORD = new Color(Display.getCurrent(), new RGB(243, 191, 0));
+			DEFAULT = new Color(Display.getCurrent(), new RGB(255, 255, 255));
+			ANNOTATION = new Color(Display.getCurrent(), new RGB(182, 67, 63));
+			STRING = new Color(Display.getCurrent(), new RGB(115, 148, 255));
+			BUILTIN = new Color(Display.getCurrent(), new RGB(182, 252, 255));
+			//ASSERTION = new Color(Display.getCurrent(), new RGB(225, 181, 119));
+			TYPE = new Color(Display.getCurrent(), new RGB(118, 167, 37));
+		}
+		
+		EXECUTABLEANNOTATION = ANNOTATION;
+		MARKER = COMMENT;
+		
 	}
 	
 	public void addModuleParsedListener(IModuleParseListener listener) {

@@ -32,11 +32,10 @@ public class EglEditor extends AbstractModuleEditor {
 	
 	public static final String ID = "org.eclipse.epsilon.egl.dt.editor.EglEditor";
 
-	private static final Color STATIC_TEXT = new Color(Display.getCurrent(), new RGB(42, 0, 255) /*new RGB(2, 70, 140)*/);
-	private static final Color LEGACY_STATIC_TEXT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
-
-	private static final Color DYNAMIC_BACKGROUND = null;
-	private static final Color LEGACY_DYNAMIC_BACKGROUND = new Color(Display.getCurrent(), new RGB(251, 242, 184));
+	private static Color STATIC_TEXT;
+	private static Color LEGACY_STATIC_TEXT;
+	private static Color DYNAMIC_BACKGROUND;
+	private static Color LEGACY_DYNAMIC_BACKGROUND;
 	
 	private final EolEditor eolEditor = new EolEditor();
 	private final boolean useLegacyColours = EglPlugin.getDefault().getPreferenceStore().getBoolean(EglPreferencePage.USE_LEGACY_COLOUR_SCHEME);
@@ -46,7 +45,14 @@ public class EglEditor extends AbstractModuleEditor {
 		addTemplateContributor(new EglEditorStaticTemplateContributor());
 		setBackgroundColor(getBackgroundColour());
 	}
-
+	
+	@Override
+	protected void setColorScheme(boolean dark) {
+		super.setColorScheme(dark);
+		STATIC_TEXT = STRING;
+		DYNAMIC_BACKGROUND = null;
+	}
+	
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
 		super.init(site, input);
