@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -225,9 +226,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 	
 	protected ResourceSet createResourceSet() {
-		ResourceSet resourceSet = new EmfModelResourceSet();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", EmfModelResourceFactory.getInstance());
-		return resourceSet;
+		return new CachedResourceSet();
 	}
 	
 	public void loadModelFromUri() throws EolModelLoadingException {
@@ -258,9 +257,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 					EcoreUtil.resolveAll(model);
 				}
 			} catch (IOException e) {
-				// Unload the model, so it will not be wrongly cached as "loaded",
-				// causing the intermittent errors produced in bug #386255
-				model.unload();
 				throw new EolModelLoadingException(e, this);
 			}
 		}

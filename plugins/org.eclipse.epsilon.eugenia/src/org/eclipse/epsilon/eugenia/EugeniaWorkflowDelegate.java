@@ -13,7 +13,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.emc.emf.EmfModelResourceFactory;
+import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -72,7 +72,7 @@ public abstract class EugeniaWorkflowDelegate implements IObjectActionDelegate {
 
 							});
 				} finally {
-					EmfModelResourceFactory.getInstance().clearCache();
+					CachedResourceSet.getCache().clear();
 				}
 				return Status.OK_STATUS;
 			}

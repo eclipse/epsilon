@@ -392,15 +392,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 	}
 	
-	//TODO : See if we can unload the model to save memory
 	@Override
 	public void disposeModel() {
-		//modelImpl.unload();
-		//resourceMap.remove("platform:/resource" + relativeModelFile);
 		registry = null;
 		if (modelImpl != null) {
-			//modelImpl.unload();
-			EmfModelResourceFactory.getInstance().removeCachedResource(modelImpl.getURI());
+			CachedResourceSet.getCache().returnResource(modelImpl);
 			modelImpl = null;
 		}
 
@@ -448,6 +444,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public String getElementId(Object instance) {
 		EObject eObject = (EObject) instance;
 		
+		/*
 		if (eObject.eResource() instanceof XMIResource){
 			String id = ((XMIResource) eObject.eResource()).getID(eObject);
 			if (id != null && id.trim().length() > 0) return id;
@@ -457,7 +454,10 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			return ((XMLResource) eObject.eResource()).getURIFragment(eObject);
 		}
 		
-		return "";
+		return "";*/
+		
+		return eObject.eResource().getURIFragment(eObject);
+		
 	}
 	
 	public void setElementId(Object instance, String newId) {
