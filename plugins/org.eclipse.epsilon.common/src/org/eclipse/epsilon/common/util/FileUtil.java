@@ -179,7 +179,7 @@ public class FileUtil {
 	 * We implement our own comparison algorithm here, so we don't need Eclipse
 	 * Compare to compute differences, but rather only to show them in the UI.
 	 */
-	public static boolean sameContents(File fileExpected, File fileActual) throws IOException {
+	public static boolean sameContents(File fileExpected, File fileActual, Set<String> ignoreFilenames) throws IOException {
 		if (fileExpected.isDirectory() != fileActual.isDirectory()) {
 			// One is a file, the other is a directory: not the same
 			return false;
@@ -190,13 +190,16 @@ public class FileUtil {
 			// and each pair should have the same contents
 			final Set<String> expectedFilenames = listFilesAsSet(fileExpected);
 			final Set<String> actualFilenames = listFilesAsSet(fileActual);
+			expectedFilenames.removeAll(ignoreFilenames);
+			actualFilenames.removeAll(ignoreFilenames);
+
 			if (!expectedFilenames.equals(actualFilenames)) {
 				return false;
 			}
 			for (String filename : expectedFilenames) {
 				final File expectedEntry = new File(fileExpected, filename);
 				final File actualEntry = new File(fileActual, filename);
-				if (!sameContents(expectedEntry, actualEntry)) {
+				if (!sameContents(expectedEntry, actualEntry, ignoreFilenames)) {
 					return false;
 				}
 			}

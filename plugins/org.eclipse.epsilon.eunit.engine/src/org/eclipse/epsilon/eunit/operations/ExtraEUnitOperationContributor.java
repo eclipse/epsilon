@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
@@ -37,6 +39,17 @@ import org.eclipse.epsilon.eunit.extensions.IModelComparator;
  * .
  */
 public class ExtraEUnitOperationContributor extends OperationContributor {
+
+	// Filenames that should be ignored by assertEqualDirectories
+	private static final Set<String> ASSERTEQUALDIRS_IGNORED_FILENAMES;
+
+	static {
+		ASSERTEQUALDIRS_IGNORED_FILENAMES = new HashSet<String>();
+
+		// By default, ignore hidden Subversion / Git directories 
+		ASSERTEQUALDIRS_IGNORED_FILENAMES.add(".svn");
+		ASSERTEQUALDIRS_IGNORED_FILENAMES.add(".git");
+	}
 
 	// Lambda lookalike for reusing code in the line matching methods
 	private interface Predicate2<T, U> {
@@ -167,7 +180,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 			// Compare and check against results
 			FileUtil.checkFileExists(fileExpected);
 			FileUtil.checkFileExists(fileActual);
-			if (FileUtil.sameContents(fileExpected, fileActual) == mustBeEqual) {
+			if (FileUtil.sameContents(fileExpected, fileActual, ASSERTEQUALDIRS_IGNORED_FILENAMES) == mustBeEqual) {
 				return;
 			}
 
