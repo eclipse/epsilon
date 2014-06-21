@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.domain.ICompareEditingDomain;
 import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
+import org.eclipse.emf.compare.ide.ui.internal.configuration.EMFCompareConfiguration;
 import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonEditorInput;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -27,7 +28,7 @@ public class EMFDifferenceViewer implements IDifferenceViewer {
 		final ICompareEditingDomain editingDomain = EMFCompareEditingDomain.create(left, right, null);
 		final AdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		final ComparisonEditorInput input = new ComparisonEditorInput(
-			new CompareConfiguration(), snap, editingDomain, adapterFactory);
+			new EMFCompareConfiguration(new CompareConfiguration()), snap, editingDomain, adapterFactory);
 		
 		CompareUI.openCompareDialog(input);
 	}
