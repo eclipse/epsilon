@@ -46,6 +46,9 @@
    <feature url="features/org.eclipse.epsilon.uml.feature_1.1.0.201404091144.jar" id="org.eclipse.epsilon.uml.feature" version="1.1.0.201404091144">
       <category name="Epsilon UML Integration"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.kepler.feature_1.0.0.qualifier.jar" id="org.eclipse.epsilon.eunit.dt.emf.kepler.feature" version="1.0.0.qualifier">
+      <category name="Epsilon EMF Integration"/>
+   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers and execution engines for languages of the Epsilon platform.
