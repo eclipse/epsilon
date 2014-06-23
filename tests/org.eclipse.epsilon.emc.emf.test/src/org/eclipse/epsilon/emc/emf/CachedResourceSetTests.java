@@ -16,7 +16,8 @@ public class CachedResourceSetTests {
 	protected EmfModel model2;
 	
 	@Before
-	public void setup() {
+	public void setup() throws Exception {
+		CachedResourceSet.getCache().clear();
 		model1 = getSimpleEcore();
 		model2 = getSimpleEcore();
 	}
@@ -60,9 +61,10 @@ public class CachedResourceSetTests {
 		assertFalse(CachedResourceSet.getCache().isCached(model1.getModelFileUri()));		
 	}
 	
-	protected EmfModel getSimpleEcore() {
+	protected EmfModel getSimpleEcore() throws Exception {
 		EmfModel model = new EmfModel();
-		model.setModelFileUri(URI.createFileURI(new File("model/Simple.ecore").getAbsolutePath()));
+		File file = new File("../org.eclipse.epsilon.emc.emf.test/model/Simple.ecore");
+		model.setModelFileUri(URI.createFileURI(file.getCanonicalPath()));
 		model.setMetamodelUri(EcorePackage.eINSTANCE.getNsURI());
 		return model;
 	}
