@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.eunit.dt.emf.juno.feature"
-      label="EMF Model Comparison for EUnit (EMF Compare 1.x / Juno and before)"
+      id="org.eclipse.epsilon.eunit.dt.emf.kepler.feature"
+      label="EMF Model Comparison for EUnit (EMF Compare 3.0 / Kepler)"
       version="1.0.0.qualifier"
       provider-name="Eclipse.org">
 
@@ -18,14 +18,14 @@
    </license>
 
    <plugin
-         id="org.eclipse.epsilon.eunit.dt.cmp.emf.v1"
+         id="org.eclipse.epsilon.eunit.dt.cmp.emf.v2"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.eunit.dt.diff.emf.v1"
+         id="org.eclipse.epsilon.eunit.dt.diff.emf.v2"
          download-size="0"
          install-size="0"
          version="0.0.0"
