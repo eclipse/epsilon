@@ -32,6 +32,7 @@ import org.eclipse.emf.compare.diff.DiffBuilder;
 import org.eclipse.emf.compare.match.IMatchEngine;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.EAttribute;
@@ -126,7 +127,7 @@ public class EMFModelComparator implements IModelComparator {
 				.setDiffEngine(new DefaultDiffEngine(new OptionBasedDiffBuilder()))
 				.build();
 
-		final IComparisonScope scope = EMFCompare.createDefaultScope(myResourceSet, otherResourceSet);
+		final IComparisonScope scope = new DefaultComparisonScope(myResourceSet, otherResourceSet, null);
 		final Comparison cmp = emfCompare.compare(scope);
 
 		return cmp.getDifferences().isEmpty() ? null : cmp;
