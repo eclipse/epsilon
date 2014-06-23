@@ -1,23 +1,26 @@
 package org.eclipse.epsilon.eunit.examples.etl.vsjunit;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+import org.eclipse.emf.compare.diff.DiffBuilder;
+import org.eclipse.emf.compare.match.IMatchEngine;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.etl.EtlModule;
-import org.eclipse.epsilon.eunit.dt.cmp.emf.EMFModelComparator;
+import org.eclipse.epsilon.eunit.dt.cmp.emf.v3.EMFModelComparator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,20 +62,23 @@ public class TransformationTest {
 		etlModule.execute();
 
 		// Using EMF Compare directly
-		final HashMap<String, Object> options
-			= new HashMap<String, Object>();
-		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		final MatchModel match = MatchService.doResourceMatch(
-			expectedGraph.getResource(),
-			resultGraph.getResource(),
-			options);
-		final DiffModel diff = DiffService.doDiff(match);
-		assertThat(diff.getDifferences().isEmpty(), is(true));
+		// From http://wiki.eclipse.org/EMF_Compare/Developer_Guide#Putting_it_all_together
+		final IMatchEngine.Factory matchEngineFactory = new MatchEngineFactoryImpl(UseIdentifiers.NEVER);
+        final IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+        matchEngineRegistry.add(matchEngineFactory);
+		final EMFCompare emfCompare = EMFCompare.builder()
+				.setMatchEngineFactoryRegistry(matchEngineRegistry)
+				.setDiffEngine(new DefaultDiffEngine(new DiffBuilder()))
+				.build();
+
+		final IComparisonScope scope = EMFCompare.createDefaultScope(expectedGraph.getResource(), resultGraph.getResource());
+		final Comparison cmp = emfCompare.compare(scope);
+		assertThat(cmp.getDifferences().isEmpty(), equalTo(true));
 
 		// Using generic comparison through EMC
 		assertThat(
 			new EMFModelComparator().compare(expectedGraph, resultGraph),
-			is(nullValue()));
+			nullValue());
 	}
 
 	private void loadEtl() throws Exception {
@@ -101,7 +107,6 @@ public class TransformationTest {
 		EmfModel model = new EmfModel();
 		model.setName(modelName);
 		model.setMetamodelFileUri(getResourceEmfURI(metamodelPath));
-		model.setMetamodelFileBased(true);
 		model.setModelFileUri(getResourceEmfURI(modelPath));
 		model.setReadOnLoad(readOnLoad);
 		model.setStoredOnDisposal(false);
