@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.eunit.dt.diff.emf.v2;
+package org.eclipse.epsilon.eunit.dt.diff.emf.v3;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;

@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.epsilon.eunit.dt.diffviewer">
       <diffviewer
-            class="org.eclipse.epsilon.eunit.dt.diff.emf.v2.EMFDifferenceViewer">
+            class="org.eclipse.epsilon.eunit.dt.diff.emf.v3.EMFDifferenceViewer">
       </diffviewer>
    </extension>
 

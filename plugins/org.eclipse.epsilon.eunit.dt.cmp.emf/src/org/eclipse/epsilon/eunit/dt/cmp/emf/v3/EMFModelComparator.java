@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio García-Domínguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.dt.cmp.emf.v2;
+package org.eclipse.epsilon.eunit.dt.cmp.emf.v3;
 
 import java.io.File;
 import java.io.IOException;
