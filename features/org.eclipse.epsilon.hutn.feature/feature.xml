@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.hutn.feature"
       label="Human Usable Textual Notation Core"
-      version="1.1.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -237,63 +237,63 @@ litigation.
          id="org.eclipse.epsilon.hutn.engine"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model.antlrAst"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.model.config"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.unparser"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.hutn"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.antlr.postprocessor"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.antlr.postprocessor.model"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
 </feature>
