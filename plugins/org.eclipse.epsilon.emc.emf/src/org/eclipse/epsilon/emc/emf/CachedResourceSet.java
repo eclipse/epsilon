@@ -49,7 +49,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 		
 		protected ArrayList<CacheItem> items = new ArrayList<CacheItem>();
 		
-		protected void cacheResource(URI uri, Resource resource) {
+		public void cacheResource(URI uri, Resource resource) {
 			CacheItem item = new CacheItem();
 			item.setUri(uri);
 			item.setResource(resource);
@@ -57,14 +57,14 @@ public class CachedResourceSet extends ResourceSetImpl {
 			items.add(item);
 		}
 		
-		protected boolean isCached(URI uri) {
+		public boolean isCached(URI uri) {
 			for (CacheItem item : items) {
 				if (item.getUri().equals(uri)) return item.getResource() != null;
 			}
 			return false;
 		}
 		
-		protected Resource checkoutResource(URI uri) {
+		public Resource checkoutResource(URI uri) {
 			CacheItem toCheckout = null;
 			for (CacheItem item : items) {
 				if (item.getUri().equals(uri)) toCheckout = item;
@@ -84,7 +84,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 			}
 		}
 		
-		protected void returnResource(Resource resource) {
+		public void returnResource(Resource resource) {
 			CacheItem toReturn = null;
 			for (CacheItem item : items) {
 				if (resource.equals(item.getResource())) toReturn = item;
@@ -106,8 +106,12 @@ public class CachedResourceSet extends ResourceSetImpl {
 		public int size() {
 			return items.size();
 		}
-	
-		class CacheItem {
+		
+		public ArrayList<CacheItem> getItems() {
+			return items;
+		}
+		
+		public class CacheItem {
 			protected WeakReference<Resource> resourceReference;
 			public URI uri;
 			public int checkedOut = 0;

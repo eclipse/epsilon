@@ -11,5 +11,13 @@
             name="EPackage Registry"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.epsilon.dt"
+            class="org.eclipse.epsilon.dt.epackageregistryexplorer.CachedResourceView"
+            icon="icons/cache.png"
+            id="org.eclipse.epsilon.dt.epackageregistryexplorer.CachedResourceView"
+            name="Model Cache"
+            restorable="true">
+      </view>
    </extension>
 </plugin>
