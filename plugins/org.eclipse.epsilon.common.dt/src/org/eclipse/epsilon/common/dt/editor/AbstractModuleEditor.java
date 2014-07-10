@@ -398,6 +398,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	public void parseModule() {
+		
+		// Return early if the file is opened in an unexpected editor (e.g. in a Subclipse RemoteFileEditor)
+		if (!(getEditorInput() instanceof FileEditorInput)) return;
+		
 		FileEditorInput fileInputEditor = (FileEditorInput) getEditorInput();
 		IFile file = fileInputEditor.getFile();
 		
