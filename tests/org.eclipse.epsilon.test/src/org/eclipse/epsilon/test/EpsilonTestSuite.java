@@ -28,6 +28,7 @@ import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestSuite;
 import org.eclipse.epsilon.emc.bibtex.BibtexModelTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
+import org.eclipse.epsilon.emc.graphml.tests.GraphmlTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
 import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
 import org.eclipse.epsilon.eml.engine.test.acceptance.EmlAcceptanceTestSuite;
@@ -68,7 +69,8 @@ import org.junit.runners.Suite.SuiteClasses;
                BibtexModelTestSuite.class,
                EpsilonFlockEngineTestSuite.class,
                ConcordanceTestSuite.class,
-               WorkflowTestSuite.class})
+               WorkflowTestSuite.class,
+               GraphmlTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
