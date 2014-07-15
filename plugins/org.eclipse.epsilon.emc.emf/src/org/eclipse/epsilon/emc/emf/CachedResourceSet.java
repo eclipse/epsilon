@@ -67,8 +67,10 @@ public class CachedResourceSet extends ResourceSetImpl {
 		public Resource checkoutResource(URI uri) {
 			CacheItem toCheckout = null;
 			for (CacheItem item : items) {
-				if (item.getUri().equals(uri)) toCheckout = item;
-				break;
+				if (item.getUri().equals(uri)) {
+					toCheckout = item;
+					break;
+				}
 			}
 			
 			if (toCheckout == null) {
@@ -87,8 +89,10 @@ public class CachedResourceSet extends ResourceSetImpl {
 		public void returnResource(Resource resource) {
 			CacheItem toReturn = null;
 			for (CacheItem item : items) {
-				if (resource.equals(item.getResource())) toReturn = item;
-				break;
+				if (resource.equals(item.getResource())) {
+					toReturn = item;
+					break;
+				}
 			}
 			
 			if (toReturn != null) {
