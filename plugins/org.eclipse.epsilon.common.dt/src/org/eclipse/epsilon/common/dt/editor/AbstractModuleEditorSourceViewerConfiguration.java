@@ -43,7 +43,7 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	public AbstractModuleEditorSourceViewerConfiguration(AbstractModuleEditor editor) {
 		this.editor = editor;
 		scanner = new AbstractModuleEditorScanner(editor);
-		commentScanner = new AbstractModuleEditorCommentScanner();
+		commentScanner = new AbstractModuleEditorCommentScanner(scanner.getCommentColor());
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		final MultilineDamagerRepairer commentDR = new MultilineDamagerRepairer(commentScanner);
 		reconciler.setDamager(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
 		reconciler.setRepairer(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
-
+		
 		return reconciler;
 	}
 	
@@ -80,8 +80,6 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 					int end = caretOffset;
 					boolean isIdentifierPart = Character
 							.isJavaIdentifierPart(doc.getChar(start));
-					// boolean isWhitespace =
-					// Character.isWhitespace(doc.getChar(start));
 
 					if (isIdentifierPart) {
 						while (Character.isJavaIdentifierPart(doc
@@ -94,19 +92,10 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 							end++;
 						}
 					}
-					/*
-					 * else if (isWhitespace){ while
-					 * (Character.isWhitespace(doc.getChar(start))){
-					 * start--; }
-					 * 
-					 * while (Character.isWhitespace(doc.getChar(end))){
-					 * end++; } }
-					 */
+
 					viewer.setSelectedRange(start + 1, end - start - 1);
 
-				} catch (BadLocationException e) {
-					// DebugUIPlugin.log(e);
-				}
+				} catch (BadLocationException e) {}
 			}
 		};
 		return clickStrat;
@@ -149,5 +138,11 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		return assistance;
 	}
 	
+	public AbstractModuleEditorScanner getScanner() {
+		return scanner;
+	}
 	
+	public AbstractModuleEditorCommentScanner getCommentScanner() {
+		return commentScanner;
+	}
 }

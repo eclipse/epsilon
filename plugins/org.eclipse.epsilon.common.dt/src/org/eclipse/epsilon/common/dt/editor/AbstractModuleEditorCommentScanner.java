@@ -14,11 +14,13 @@ package org.eclipse.epsilon.common.dt.editor;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 public class AbstractModuleEditorCommentScanner extends RuleBasedScanner {
-
-	public AbstractModuleEditorCommentScanner() {
-		setDefaultReturnToken(new Token(new TextAttribute(AbstractModuleEditor.COMMENT)));
+	
+	public AbstractModuleEditorCommentScanner(Color commentColor) {
+		setDefaultReturnToken(new Token(new TextAttribute(commentColor, null, SWT.NORMAL)));
 	}
 }
  

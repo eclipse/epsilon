@@ -14,6 +14,7 @@ package org.eclipse.epsilon.common.dt.editor;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
@@ -25,8 +26,20 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 public class AbstractModuleEditorScanner extends RuleBasedScanner {
+	
+	protected Color commentColor;
+	protected Color markerColor;
+	protected Color annotationColor;
+	protected Color stringColor;
+	protected Color defaultColor;
+	protected Color keywordColor;
+	protected Color builtinColor;
+	protected Color assertionColor;
+	protected Color typeColor;
 	
 	protected AbstractModuleEditor editor;
 	protected List<String> keywords;
@@ -34,7 +47,33 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 	protected List<String> types;
 	protected List<String> assertions;
 	
-	public AbstractModuleEditorScanner(AbstractModuleEditor editor) {
+	public void initialiseColours() {
+		
+		if (EclipseUtil.isDarkThemeEnabled()) {
+			commentColor = new Color(Display.getCurrent(), new RGB(190, 218, 0));
+			keywordColor = new Color(Display.getCurrent(), new RGB(243, 191, 0));
+			defaultColor = new Color(Display.getCurrent(), new RGB(255, 255, 255));
+			annotationColor = new Color(Display.getCurrent(), new RGB(182, 67, 63));
+			stringColor = new Color(Display.getCurrent(), new RGB(115, 148, 255));
+			builtinColor = new Color(Display.getCurrent(), new RGB(182, 252, 255));
+			assertionColor = new Color(Display.getCurrent(), new RGB(243, 0, 70));
+			typeColor = new Color(Display.getCurrent(), new RGB(118, 167, 37));
+		}
+		else {
+			commentColor = new Color(Display.getCurrent(), new RGB(63, 127, 95));
+			annotationColor = new Color(Display.getCurrent(), new RGB(184, 160, 0));
+			stringColor = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+			defaultColor = new Color(Display.getCurrent(), new RGB(0, 0, 0));
+			keywordColor = new Color(Display.getCurrent(), new RGB(127, 0, 85));
+			builtinColor = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+			assertionColor = new Color(Display.getCurrent(), new RGB(255, 0, 0));
+			typeColor = new Color(Display.getCurrent(), new RGB(0, 192, 0));			
+		}
+		
+		markerColor = commentColor;
+	}
+	
+	public AbstractModuleEditorScanner(final AbstractModuleEditor editor) {
 		
 		this.editor = editor;
 		this.keywords = editor.getKeywords();
@@ -42,12 +81,11 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		this.types = editor.getTypes();
 		this.assertions = editor.getAssertions();
 		
-		//addSmartTyping();
+		initialiseColours();
 		
-		final Color backgroundColor = editor.getBackgroundColor();
+		final Color backgroundColor = null; //editor.getBackgroundColor();
 		
-		fDefaultReturnToken = new Token(new TextAttribute(null, backgroundColor,
-				SWT.NORMAL));
+		fDefaultReturnToken = new Token(new TextAttribute(null, backgroundColor, SWT.NORMAL));
 		
 		WordRule keywordsRule = new WordRule(new IWordDetector() {
 			public boolean isWordStart(char c) {
@@ -61,9 +99,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		ListIterator<String> li = keywords.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next(), new Token(
-					new TextAttribute(AbstractModuleEditor.KEYWORD, backgroundColor,
-							SWT.BOLD)));
+			keywordsRule.addWord(li.next(), new Token(new TextAttribute(keywordColor, null, SWT.BOLD)));
 		}
 
 		WordRule builtinRule = new WordRule(new IWordDetector() {
@@ -78,9 +114,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = builtinVariables.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next(), new Token(
-					new TextAttribute(AbstractModuleEditor.BUILTIN, backgroundColor,
-							SWT.ITALIC)));
+			keywordsRule.addWord(li.next(), new Token(new TextAttribute(builtinColor, null, SWT.ITALIC)));
 		}
 		
 		WordRule typesRule = new WordRule(new IWordDetector() {
@@ -95,9 +129,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = types.listIterator();
 		while (li.hasNext()) {
-			keywordsRule.addWord(li.next(), new Token(
-					new TextAttribute(AbstractModuleEditor.TYPE, backgroundColor,
-							SWT.BOLD)));
+			keywordsRule.addWord(li.next(), new Token(new TextAttribute(typeColor, null, SWT.BOLD)));
 		}
 		
 		WordRule assertionsRule = new WordRule(new IWordDetector() {
@@ -112,31 +144,28 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 
 		li = assertions.listIterator();
 		while (li.hasNext()) {
-			assertionsRule.addWord(li.next(), new Token(
-					new TextAttribute(AbstractModuleEditor.ASSERTION, backgroundColor,
-							SWT.BOLD)));
+			assertionsRule.addWord(li.next(), new Token(new TextAttribute(assertionColor, null, SWT.BOLD)));
 		}
 		
 		setRules(new IRule[] {
-				new EndOfLineRule("--", new Token(new TextAttribute(
-						AbstractModuleEditor.COMMENT, backgroundColor, SWT.NORMAL))),
-				new MultiLineRule("-*", "*-",new Token(new TextAttribute(
-						AbstractModuleEditor.COMMENT, backgroundColor, SWT.NORMAL))),
-				new EndOfLineRule("//", new Token(new TextAttribute(
-						AbstractModuleEditor.COMMENT, backgroundColor, SWT.NORMAL))),
-				new MultiLineRule("/*", "*/",new Token(new TextAttribute(
-						AbstractModuleEditor.COMMENT, backgroundColor, SWT.NORMAL))),
-				new EndOfLineRule("@", new Token(new TextAttribute(
-						AbstractModuleEditor.ANNOTATION, backgroundColor, SWT.NORMAL))),
-				new EndOfLineRule("$", new Token(new TextAttribute(
-						AbstractModuleEditor.EXECUTABLEANNOTATION, backgroundColor, SWT.NORMAL))),
-				new SingleLineRule("\"", "\"", new Token(new TextAttribute(
-						AbstractModuleEditor.STRING, backgroundColor, SWT.NORMAL)), '\\'),
-				new SingleLineRule("'", "'", new Token(new TextAttribute(
-						AbstractModuleEditor.STRING, backgroundColor, SWT.NORMAL)), '\\'),
-				new SingleLineRule("`", "`", new Token(new TextAttribute(
-						AbstractModuleEditor.DEFAULT, backgroundColor, SWT.ITALIC)), '\\'),
+				new EndOfLineRule("--", new Token(new TextAttribute(commentColor, null, SWT.NORMAL))),
+				new MultiLineRule("-*", "*-", new Token(new TextAttribute(commentColor, null, SWT.NORMAL))),
+				new EndOfLineRule("//", new Token(new TextAttribute(commentColor, null, SWT.NORMAL))),
+				new MultiLineRule("/*", "*/", new Token(new TextAttribute(commentColor, null, SWT.NORMAL))),
+				new EndOfLineRule("@", new Token(new TextAttribute(annotationColor, null, SWT.NORMAL))),
+				new EndOfLineRule("$", new Token(new TextAttribute(annotationColor, null, SWT.NORMAL))),
+				new SingleLineRule("\"", "\"", new Token(new TextAttribute(stringColor, null, SWT.NORMAL)), '\\'),
+				new SingleLineRule("'", "'", new Token(new TextAttribute(stringColor, null, SWT.NORMAL)), '\\'),
+				new SingleLineRule("`", "`", new Token(new TextAttribute(defaultColor, null, SWT.ITALIC)), '\\'), 
 				keywordsRule, builtinRule, typesRule});
+	}
+	
+	public Color getCommentColor() {
+		return commentColor;
+	}
+	
+	public Color getMarkerColor() {
+		return markerColor;
 	}
 }
 

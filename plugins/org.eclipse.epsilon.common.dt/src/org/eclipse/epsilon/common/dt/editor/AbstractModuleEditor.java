@@ -34,6 +34,7 @@ import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
@@ -52,11 +53,15 @@ import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.DefaultCharacterPairMatcher;
 import org.eclipse.jface.text.source.ICharacterPairMatcher;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.ISourceViewerExtension2;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -84,64 +89,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
 
-	public static Color COMMENT;
-	public static Color MARKER;
-	public static Color ANNOTATION;
-	public static Color EXECUTABLEANNOTATION;
-	public static Color STRING;
-	public static Color DEFAULT;
-	public static Color KEYWORD;
-	public static Color BUILTIN;
-	public static Color ASSERTION;
-	public static Color TYPE;
 	public static String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
 	
 	private ModuleContentOutlinePage outlinePage;
 
 	public AbstractModuleEditor() {
 		super();
-		boolean dark = false;
-		try {
-			IThemeEngine engine = (IThemeEngine)
-			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
-			dark = "org.eclipse.e4.ui.css.theme.e4_dark".equals(engine.getActiveTheme().getId());
-		}
-		catch (Exception ex) {
-			LogUtil.log(ex);
-		}
-		setColorScheme(dark);
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
-	    
-		//addSmartTyping();
-		//setSourceViewerConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
-	}
-	
-	protected void setColorScheme(boolean dark) {
-		COMMENT = new Color(Display.getCurrent(), new RGB(63, 127, 95));
-		ANNOTATION = new Color(Display.getCurrent(), new RGB(184, 160, 0));
-		STRING = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-		DEFAULT = new Color(Display.getCurrent(), new RGB(0, 0, 0));
-		KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
-		BUILTIN = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-		ASSERTION = new Color(Display.getCurrent(), new RGB(255, 0, 0));
-		TYPE = new Color(Display.getCurrent(), new RGB(0, 192, 0));
-		
-		if (dark) {
-			COMMENT = new Color(Display.getCurrent(), new RGB(190, 218, 0));
-			KEYWORD = new Color(Display.getCurrent(), new RGB(243, 191, 0));
-			DEFAULT = new Color(Display.getCurrent(), new RGB(255, 255, 255));
-			ANNOTATION = new Color(Display.getCurrent(), new RGB(182, 67, 63));
-			STRING = new Color(Display.getCurrent(), new RGB(115, 148, 255));
-			BUILTIN = new Color(Display.getCurrent(), new RGB(182, 252, 255));
-			//ASSERTION = new Color(Display.getCurrent(), new RGB(225, 181, 119));
-			TYPE = new Color(Display.getCurrent(), new RGB(118, 167, 37));
-		}
-		
-		EXECUTABLEANNOTATION = ANNOTATION;
-		MARKER = COMMENT;
-		
 	}
 	
 	public void addModuleParsedListener(IModuleParseListener listener) {
@@ -346,6 +302,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		 */
 	//}
 	
+	public SourceViewerConfiguration createSourceViewerConfiguration() {
+		return new AbstractModuleEditorSourceViewerConfiguration(this);
+	}
+	
 	@Override
 	public void init(IEditorSite site, IEditorInput input) {
 		try {
@@ -354,8 +314,21 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			e.printStackTrace();
 		}
 		
-		AbstractModuleEditorSourceViewerConfiguration sourceViewerConfiguration = new AbstractModuleEditorSourceViewerConfiguration(this);
-		setSourceViewerConfiguration(sourceViewerConfiguration);
+		setSourceViewerConfiguration(createSourceViewerConfiguration());
+		
+		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new IPropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				ISourceViewer viewer= getSourceViewer();
+				if (!(viewer instanceof ISourceViewerExtension2))
+					return;
+
+				((ISourceViewerExtension2)viewer).unconfigure();
+				setSourceViewerConfiguration(createSourceViewerConfiguration());
+				viewer.configure(getSourceViewerConfiguration());
+			}
+		});
 		
 		outlinePage = createOutlinePage();
 		

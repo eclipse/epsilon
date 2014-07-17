@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
 import org.eclipse.epsilon.common.dt.editor.DefaultDamagerRepairer2;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IAutoIndentStrategy;
 import org.eclipse.jface.text.IDocument;
@@ -41,16 +42,27 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("deprecation")
 public class EglConfiguration extends SourceViewerConfiguration {
 
-	private final SourceViewerConfiguration configuration;
-	private final Color staticTextColour;
+	private final AbstractModuleEditorSourceViewerConfiguration configuration;
+	private Color staticTextColour;
 	
-	public EglConfiguration(SourceViewerConfiguration configuration, Color staticTextColour) {
+	public EglConfiguration(AbstractModuleEditorSourceViewerConfiguration configuration) {
 		this.configuration = configuration;
-		this.staticTextColour = staticTextColour;
+		initialiseColours();
+	}
+	
+	public void initialiseColours() {
+		if (EclipseUtil.isDarkThemeEnabled()) {
+			staticTextColour = new Color(Display.getCurrent(), new RGB(115, 148, 255));
+		}
+		else {
+			staticTextColour = new Color(Display.getCurrent(), new RGB(42, 0, 255));
+		}
 	}
 	
 	@Override
@@ -98,19 +110,13 @@ public class EglConfiguration extends SourceViewerConfiguration {
 	
 	private ITokenScanner getCommentScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		final TextAttribute    textAttribute = new TextAttribute(AbstractModuleEditor.COMMENT);
-		
-		scanner.setDefaultReturnToken(new Token(textAttribute));
-		
+		scanner.setDefaultReturnToken(new Token(new TextAttribute(configuration.getScanner().getCommentColor(), null, SWT.NORMAL)));
 		return scanner;
 	}
 	
 	private ITokenScanner getMarkerScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		final TextAttribute    textAttribute = new TextAttribute(AbstractModuleEditor.MARKER, null, SWT.BOLD);
-		
-		scanner.setDefaultReturnToken(new Token(textAttribute));
-		
+		scanner.setDefaultReturnToken(new Token(new TextAttribute(configuration.getScanner().getMarkerColor(), null, SWT.BOLD)));
 		return scanner;
 	}
 	

@@ -17,6 +17,7 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.PRODUCE_TRACE;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TRACE_DESTINATION;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import java.util.List;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
@@ -54,6 +56,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.IOConsoleOutputStream;
 
 public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 
@@ -139,7 +142,14 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		display.syncExec(new Runnable() {
 
 			public void run() {
-				module.getContext().setOutputStream(EpsilonConsole.getInstance().newPrintStream(display.getSystemColor(SWT.COLOR_DARK_MAGENTA)));	
+				IOConsoleOutputStream outputStream = EpsilonConsole.getInstance().createConsoleOutputStream();
+				if (EclipseUtil.isDarkThemeEnabled()) {
+					outputStream.setColor(display.getSystemColor(SWT.COLOR_CYAN));
+				}
+				else {
+					outputStream.setColor(display.getSystemColor(SWT.COLOR_DARK_MAGENTA));
+				}
+				module.getContext().setOutputStream(new PrintStream(outputStream));	
 			}
 			
 		});

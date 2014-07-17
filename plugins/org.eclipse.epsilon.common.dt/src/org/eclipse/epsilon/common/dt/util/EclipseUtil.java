@@ -19,9 +19,11 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
@@ -30,7 +32,19 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
 public class EclipseUtil {
 
 	private EclipseUtil() {}
-
+	
+	public static boolean isDarkThemeEnabled() {
+		try {
+			IThemeEngine engine = (IThemeEngine)
+			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
+			return "org.eclipse.e4.ui.css.theme.e4_dark".equals(engine.getActiveTheme().getId());
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+			return false;
+		}
+	}
+	
 	public static IFile findIFile(AST ast) {
 		if (ast == null) {
 			return null;

@@ -112,7 +112,7 @@
             class="org.eclipse.epsilon.egl.dt.editor.EglModuleValidator">
       </moduleValidator>
    </extension>
-   <extension
+   <!--extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="Epsilon"
@@ -120,6 +120,6 @@
             id="EglPreferencePage"
             name="EGL">
       </page>
-   </extension>
+   </extension-->
 
 </plugin>

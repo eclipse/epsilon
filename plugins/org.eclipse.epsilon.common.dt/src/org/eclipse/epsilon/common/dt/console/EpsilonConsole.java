@@ -13,9 +13,13 @@ package org.eclipse.epsilon.common.dt.console;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -32,30 +36,42 @@ public class EpsilonConsole {
 	private PrintStream errorPrintStream;
 	private PrintStream warningPrintStream;
 	private InputStream inputStream;
-		
+	
+	private IOConsoleOutputStream debugOutputStream = null;
+	private IOConsoleOutputStream errorOutputStream = null;
+	private IOConsoleOutputStream warningOutputStream = null;
+	private IOConsoleOutputStream infoOutputStream = null;
+	
 	private EpsilonConsole(){
 		
 		ioConsole = new IOConsole("Epsilon", null);
 		
 		// Necessary because colors are acquired through a non-UI thread
 		// and that used to cause an SWT illegal thread exception
-		final Display display = PlatformUI.getWorkbench().getDisplay();
-		display.syncExec(new Runnable() {
-			public void run() {
-				//ioConsole.setWaterMarks(1000, 80000);
-				debugPrintStream = newPrintStream(display.getSystemColor(SWT.COLOR_BLACK));
-				errorPrintStream = newPrintStream(display.getSystemColor(SWT.COLOR_RED));
-				warningPrintStream = newPrintStream(display.getSystemColor(SWT.COLOR_DARK_YELLOW));
-				infoPrintStream = newPrintStream(display.getSystemColor(SWT.COLOR_BLUE));
-				inputStream = ioConsole.getInputStream();				
-				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_GREEN));
+		
+		debugOutputStream = createConsoleOutputStream();
+		infoOutputStream = createConsoleOutputStream();
+		warningOutputStream = createConsoleOutputStream();
+		errorOutputStream = createConsoleOutputStream();
+		
+		debugPrintStream = new PrintStream(debugOutputStream);
+		errorPrintStream = new PrintStream(errorOutputStream);
+		warningPrintStream = new PrintStream(warningOutputStream);
+		infoPrintStream = new PrintStream(infoOutputStream);
+		inputStream = ioConsole.getInputStream();				
+		
+		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new IPropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				initialiseColours();
 			}
 		});
+		initialiseColours();
 		
 		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ioConsole});
 		ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
 		
-		//getDebugStream().println("Epsilon console initialized...");
 	}
 	
 	public static EpsilonConsole getInstance(){
@@ -65,11 +81,31 @@ public class EpsilonConsole {
 		return instance;
 	}
 	
-	public PrintStream newPrintStream(Color color){
+	public void initialiseColours() {
+		final Display display = PlatformUI.getWorkbench().getDisplay();
+		display.syncExec(new Runnable() {
+			public void run() {
+			if (EclipseUtil.isDarkThemeEnabled()) {
+				infoOutputStream.setColor(new Color(display, 190, 218, 0));
+				errorOutputStream.setColor(new Color(display, 243, 0, 70));
+				debugOutputStream.setColor(new Color(display, 235, 235, 235));
+				warningOutputStream.setColor(new Color(display, 131, 176, 207));
+				ioConsole.getInputStream().setColor(new Color(display, 118, 167, 37));				
+			}
+			else {
+				infoOutputStream.setColor(display.getSystemColor(SWT.COLOR_BLUE));
+				errorOutputStream.setColor(display.getSystemColor(SWT.COLOR_RED));
+				debugOutputStream.setColor(display.getSystemColor(SWT.COLOR_BLACK));
+				warningOutputStream.setColor(display.getSystemColor(SWT.COLOR_YELLOW));
+				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_GREEN));
+			}
+		}});
+	}
+	
+	public IOConsoleOutputStream createConsoleOutputStream(){
 		IOConsoleOutputStream mcs = ioConsole.newOutputStream();
 		mcs.setActivateOnWrite(true);
-		mcs.setColor(color);
-		return new PrintStream(mcs);
+		return mcs;
 	}
 	
 	
