@@ -10,7 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
@@ -417,7 +421,29 @@ public class IterableOperationContributor extends OperationContributor {
 			return new EolSequence<Object>();
 		}
 	}
-
+	
+	public Set<Set<Object>> powerset() {
+		
+		List<Object> originalSet = asSequence();
+		
+		Set<Set<Object>> sets = new HashSet<Set<Object>>();
+	    if (originalSet.isEmpty()) {
+	    	sets.add(new HashSet<Object>());
+	    	return sets;
+	    }
+	    
+	    Object head = originalSet.get(0);
+	    Set<Object> rest = new HashSet<Object>(originalSet.subList(1, originalSet.size())); 
+	    for (Set<Object> set : new IterableOperationContributor(rest).powerset()) {
+	    	Set<Object> newSet = new HashSet<Object>();
+	    	newSet.add(head);
+	    	newSet.addAll(set);
+	    	sets.add(newSet);
+	    	sets.add(set);
+	    }		
+	    return sets;
+	}
+	
 	private void addAll(final Iterable<Object> elements, Collection<Object> target) {
 		if (elements instanceof Collection) {
 			target.addAll((Collection<Object>)elements);
