@@ -36,6 +36,7 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -71,6 +72,8 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.preferences.ThemeManagerAdapter;
+import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.MarkerUtilities;
@@ -316,10 +319,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		
 		setSourceViewerConfiguration(createSourceViewerConfiguration());
 		
-		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new IPropertyChangeListener() {
+		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
 			
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void themeChange() {
 				ISourceViewer viewer= getSourceViewer();
 				if (!(viewer instanceof ISourceViewerExtension2))
 					return;

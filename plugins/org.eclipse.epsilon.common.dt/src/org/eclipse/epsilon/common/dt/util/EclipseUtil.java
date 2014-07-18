@@ -45,6 +45,18 @@ public class EclipseUtil {
 		}
 	}
 	
+	public static String getActiveTheme() {
+		try {
+			IThemeEngine engine = (IThemeEngine)
+			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
+			return engine.getActiveTheme().getId();
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+			return PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getId();
+		}
+	}
+	
 	public static IFile findIFile(AST ast) {
 		if (ast == null) {
 			return null;

@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -60,10 +61,10 @@ public class EpsilonConsole {
 		infoPrintStream = new PrintStream(infoOutputStream);
 		inputStream = ioConsole.getInputStream();				
 		
-		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new IPropertyChangeListener() {
+		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
 			
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void themeChange() {
 				initialiseColours();
 			}
 		});
