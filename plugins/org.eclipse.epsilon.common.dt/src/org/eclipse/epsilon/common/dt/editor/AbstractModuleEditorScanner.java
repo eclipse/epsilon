@@ -53,7 +53,7 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 			commentColor = new Color(Display.getCurrent(), new RGB(190, 218, 0));
 			keywordColor = new Color(Display.getCurrent(), new RGB(243, 191, 0));
 			defaultColor = new Color(Display.getCurrent(), new RGB(255, 255, 255));
-			annotationColor = new Color(Display.getCurrent(), new RGB(182, 67, 63));
+			annotationColor = new Color(Display.getCurrent(), new RGB(190, 214, 255));
 			stringColor = new Color(Display.getCurrent(), new RGB(115, 148, 255));
 			builtinColor = new Color(Display.getCurrent(), new RGB(182, 252, 255));
 			assertionColor = new Color(Display.getCurrent(), new RGB(243, 0, 70));
