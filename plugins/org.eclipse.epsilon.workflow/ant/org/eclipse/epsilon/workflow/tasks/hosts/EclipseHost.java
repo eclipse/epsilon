@@ -34,6 +34,8 @@ import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.epl.EplModule;
+import org.eclipse.epsilon.epl.dt.launching.EplDebugger;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -102,6 +104,8 @@ public class EclipseHost implements Host{
 	private Object createDebugger(IEolExecutableModule module) {
 		if (module instanceof EclModule) {
 			return new EclDebugger();
+		} else if (module instanceof EplModule) {
+			return new EplDebugger();
 		} else if (module instanceof EmlModule) {
 			return new EmlDebugger();
 		} else if (module instanceof EtlModule) {
