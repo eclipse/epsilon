@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks.hosts;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -20,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListener;
+import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.ecl.EclModule;
@@ -32,12 +34,16 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
+import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dt.launching.EplDebugger;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
+import org.eclipse.epsilon.eunit.EUnitModule;
+import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -139,5 +145,20 @@ public class EclipseHost implements Host{
 			throw new BuildException(e);
 		}
 	}
-	
+
+	@Override
+	public void addEUnitListeners(EUnitModule eunitModule) throws Exception {
+		final List<EUnitTestListener> listeners = ClassBasedExtension.getImplementations(
+				EUnitTestListener.EXTENSION_POINT_ID, EUnitTestListener.class
+		);
+		for (EUnitTestListener extraListener : listeners) {
+			eunitModule.addTestListener(extraListener);
+		}
+	}
+
+	@Override
+	public void setupContext(IEolContext ctx) {
+		EclipseContextManager.setup(ctx);
+	}
+
 }

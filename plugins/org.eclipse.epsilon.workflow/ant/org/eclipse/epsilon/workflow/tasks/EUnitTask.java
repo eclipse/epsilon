@@ -14,15 +14,12 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -33,11 +30,11 @@ import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 import org.eclipse.epsilon.eol.types.EolNoType;
-import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 
 /**
  * Ant task for running EUnit test suites.
@@ -152,21 +149,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			eunitModule.setReportDirectory(null);
 		}
 
-		// Bug 441410: we can't use ClassBasedExtension directly, as it is not part of the standalone jars.
-		// We need to use reflection instead, which will produce the usual ClassNotFoundException when run
-		// from a standalone environment.
-		try {
-			final Class<?> klazzBasedExt = Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
-			final Method methodGetImpl = klazzBasedExt.getMethod("getImplementations", String.class, Class.class);
-
-			@SuppressWarnings("unchecked")
-			final List<EUnitTestListener> listeners = (List<EUnitTestListener>) methodGetImpl.invoke(null, EUnitTestListener.EXTENSION_POINT_ID, EUnitTestListener.class);
-			for (EUnitTestListener extraListener : listeners) {
-				eunitModule.addTestListener(extraListener);
-			}
-		} catch (ClassNotFoundException ex) {
-			// Running in standalone mode: ignore
-		}
+		HostManager.getHost().addEUnitListeners(eunitModule);
 	}
 
 	@Override
@@ -204,12 +187,12 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	// TEST LISTENER METHODS
 
 	public void beforeCase(EUnitModule module, EUnitTest test) {
-		if (test.isRootTest() && Platform.getExtensionRegistry() != null) {
-			EclipseContextManager.setup(module.getContext());
+		if (test.isRootTest()) {
+			HostManager.getHost().setupContext(module.getContext());
 
 			// Disable notification through dialogs: it's bad for automated test cases.
 			// Use the console instead.
-			module.getContext().setUserInput(new JavaConsoleUserInput());
+			HostManager.getHost().configureUserInput(module, false);
 		}
 
 		if (test.isLeafTest()) {

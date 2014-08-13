@@ -15,7 +15,9 @@ import java.io.File;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eunit.EUnitModule;
 
 public interface Host {
 	
@@ -34,5 +36,9 @@ public interface Host {
 	public void configureUserInput(IEolExecutableModule module, boolean isGui);
 
 	public IModel createModel(String type) throws BuildException;
-	
+
+	public void addEUnitListeners(EUnitModule eunitModule) throws Exception;
+
+	public void setupContext(IEolContext context);
+
 }

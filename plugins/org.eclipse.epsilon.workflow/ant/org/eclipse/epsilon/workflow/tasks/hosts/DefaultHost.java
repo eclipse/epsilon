@@ -15,7 +15,9 @@ import java.io.File;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eunit.EUnitModule;
 
 public class DefaultHost implements Host{
 
@@ -58,6 +60,16 @@ public class DefaultHost implements Host{
 	@Override
 	public IModel createModel(String type) throws BuildException {
 		return null;
+	}
+
+	@Override
+	public void addEUnitListeners(EUnitModule eunitModule) {
+		// nothing to do!
+	}
+
+	@Override
+	public void setupContext(IEolContext ctx) {
+		// nothing to do!
 	}
 
 }
