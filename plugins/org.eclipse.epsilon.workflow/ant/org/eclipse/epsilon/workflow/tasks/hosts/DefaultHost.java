@@ -11,13 +11,13 @@
 package org.eclipse.epsilon.workflow.tasks.hosts;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eunit.EUnitModule;
 
 public class DefaultHost implements Host{
 
@@ -62,14 +62,10 @@ public class DefaultHost implements Host{
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addEUnitListeners(EUnitModule eunitModule) {
-		// nothing to do!
-	}
-
-	@Override
-	public void setupContext(IEolContext ctx) {
-		// nothing to do!
+	public <T> List<T> getExtensionsOfType(Class<T> klazz) {
+		return Collections.EMPTY_LIST;
 	}
 
 }

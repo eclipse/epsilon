@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks.hosts;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -34,15 +35,12 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dt.launching.EplDebugger;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
-import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
@@ -146,19 +144,19 @@ public class EclipseHost implements Host{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addEUnitListeners(EUnitModule eunitModule) throws Exception {
-		final List<EUnitTestListener> listeners = ClassBasedExtension.getImplementations(
-				EUnitTestListener.EXTENSION_POINT_ID, EUnitTestListener.class
-		);
-		for (EUnitTestListener extraListener : listeners) {
-			eunitModule.addTestListener(extraListener);
+	public <T> List<T> getExtensionsOfType(Class<T> klazz) throws Exception {
+		String pointID = null;
+		if (klazz == EUnitTestListener.class) {
+			pointID = EUnitTestListener.EXTENSION_POINT_ID;
 		}
-	}
 
-	@Override
-	public void setupContext(IEolContext ctx) {
-		EclipseContextManager.setup(ctx);
+		if (pointID != null) {
+			return ClassBasedExtension.getImplementations(pointID, klazz);
+		} else {
+			return Collections.EMPTY_LIST;
+		}
 	}
 
 }

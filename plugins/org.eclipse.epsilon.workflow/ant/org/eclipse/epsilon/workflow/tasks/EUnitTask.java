@@ -149,7 +149,12 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			eunitModule.setReportDirectory(null);
 		}
 
-		HostManager.getHost().addEUnitListeners(eunitModule);
+		HostManager.getHost().addNativeTypeDelegates(eunitModule);
+		final List<EUnitTestListener> testListeners
+			= HostManager.getHost().getExtensionsOfType(EUnitTestListener.class);
+		for (EUnitTestListener listener : testListeners) {
+			eunitModule.addTestListener(listener);
+		}
 	}
 
 	@Override
@@ -188,8 +193,6 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	public void beforeCase(EUnitModule module, EUnitTest test) {
 		if (test.isRootTest()) {
-			HostManager.getHost().setupContext(module.getContext());
-
 			// Disable notification through dialogs: it's bad for automated test cases.
 			// Use the console instead.
 			HostManager.getHost().configureUserInput(module, false);

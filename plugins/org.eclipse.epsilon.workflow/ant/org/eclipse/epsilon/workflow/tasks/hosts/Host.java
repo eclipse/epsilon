@@ -11,13 +11,12 @@
 package org.eclipse.epsilon.workflow.tasks.hosts;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eunit.EUnitModule;
 
 public interface Host {
 	
@@ -37,8 +36,6 @@ public interface Host {
 
 	public IModel createModel(String type) throws BuildException;
 
-	public void addEUnitListeners(EUnitModule eunitModule) throws Exception;
-
-	public void setupContext(IEolContext context);
+	public <T> List<T> getExtensionsOfType(Class<T> klazz) throws Exception;
 
 }
