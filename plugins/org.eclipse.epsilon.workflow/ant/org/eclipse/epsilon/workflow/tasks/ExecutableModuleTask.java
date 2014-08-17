@@ -16,15 +16,18 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.eclipse.ant.internal.core.AntPropertyValueProvider;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
@@ -52,6 +55,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected String uri;
 	protected Object result;
 	private boolean isGUI = true, isDebug = false;
+	protected boolean setBeans = false;
 	
 	static {
 		HostManager.getHost().initialise();
@@ -97,12 +101,28 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		module.getContext().setAssertionsEnabled(assertions);
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("System", system));
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("null", null));
-
+		
+		if (setBeans) {
+			Project project = getProject();
+			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("project", project));
+			addVariables(module.getContext(), 
+				project.getProperties(), project.getUserProperties(),
+				project.getCopyOfReferences(), project.getCopyOfTargets());
+		}
+		
 		populateModelRepository(false);
 		accessParameters();
 		useVariables();
 	}
-
+	
+	protected void addVariables(IEolContext context, Map<String, ?>... variableMaps) {
+		for (Map<String, ?> variableMap : variableMaps) {
+			for (String key : variableMap.keySet()) {
+				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(key, variableMap.get(key)));				
+			}
+		}
+	}
+	
 	protected void useResults() throws Exception {
 		exportVariables();
 		examine();
@@ -360,6 +380,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 				throw new BuildException("Variable " + var + " is undefined");
 			}
 		}
+	}
+	
+	public void setSetBeans(boolean setBeans) {
+		this.setBeans = setBeans;
+	}
+	
+	public boolean isSetBeans() {
+		return setBeans;
 	}
 	
 	protected abstract void initialize() throws Exception;
