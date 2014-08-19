@@ -88,6 +88,9 @@ public class AbstractModuleEditorCompletionProcessor extends TemplateCompletionP
 	}
 	
 	protected Template indentTemplate(Template original) {
+		if (original instanceof TemplateWithImage) {
+			return new TemplateWithImage(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable(), ((TemplateWithImage) original).getImage());
+		}
 		return new Template(original.getName(), original.getDescription(), original.getContextTypeId(), addIndent(original.getPattern(),getIndent()), original.isAutoInsertable());
 	}
 	
