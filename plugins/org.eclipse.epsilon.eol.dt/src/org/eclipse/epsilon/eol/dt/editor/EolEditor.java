@@ -36,7 +36,9 @@ public class EolEditor extends AbstractModuleEditor {
 		EolEditorBuiltinTypesTemplateContributor builtinTypesTemplateContributor = new EolEditorBuiltinTypesTemplateContributor();
 		addTemplateContributor(builtinTypesTemplateContributor);
 		addModuleParsedListener(builtinTypesTemplateContributor);
-		
+		EolEditorTokenTemplateContributor tokenTemplateContributor = new EolEditorTokenTemplateContributor();
+		addTemplateContributor(tokenTemplateContributor);
+		addModuleParsedListener(tokenTemplateContributor);		
 	}
 	
 	@Override
