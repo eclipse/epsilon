@@ -2,6 +2,7 @@ package org.eclipse.epsilon.emc.uml;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLUtil;
 
 public class UmlModel extends EmfModel {
@@ -10,6 +11,7 @@ public class UmlModel extends EmfModel {
 	protected ResourceSet createResourceSet() {
 		ResourceSet resourceSet = super.createResourceSet();
 		UMLUtil.init(resourceSet);
+		resourceSet.getPackageRegistry().put(UMLPackage.eINSTANCE.getNsURI(), UMLPackage.eINSTANCE);
 		return resourceSet;
 	}
 	
