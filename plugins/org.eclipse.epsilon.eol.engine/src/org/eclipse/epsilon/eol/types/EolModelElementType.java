@@ -64,7 +64,7 @@ public class EolModelElementType extends EolType{
 		}
 		catch (EolModelNotFoundException ex) {
 			Variable modelVariable = context.getFrameStack().get(modelName);
-			if (modelVariable.getValue() instanceof IModel) {
+			if (modelVariable != null && modelVariable.getValue() instanceof IModel) {
 				model = (IModel) modelVariable.getValue();
 			}
 		}
