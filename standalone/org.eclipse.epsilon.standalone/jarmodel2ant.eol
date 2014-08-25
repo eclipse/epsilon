@@ -1,0 +1,101 @@
+var prefix = JarModel.root.a_prefix;
+var version = JarModel.root.a_version;
+var projectsRoot = JarModel.root.a_projects;
+var pluginsRoot = JarModel.root.a_plugins;
+var dir = JarModel.root.a_dir;
+
+var project : new Ant!t_project;
+Ant.root = project;
+project.a_default = "main";
+
+var target : new Ant!t_target;
+project.appendChild(target);
+target.a_name = "main";
+
+for (jar in JarModel!t_jar.all) {
+	
+	var versions = 2;
+	if (not jar.c_plugin.isEmpty()) versions = 4;
+	
+	for (i in 1.to(2)) {
+		
+		var src = ((i == 1));
+		var suffix = "";
+		if (src) { suffix = "-src"; }
+				
+		var jarTask : new Ant!t_jar;
+		jarTask.a_destfile= dir + "/" + prefix + "-" + version + "-" + jar.a_name + suffix + ".jar";
+		target.appendChild(jarTask);
+		
+		for (project in jar.c_project) {
+			var binLocation = "/bin";
+			if (project.b_binary) { binLocation = "";}
+
+			var binFileset = new Ant!t_fileset;
+			binFileset.a_dir = projectsRoot + project.a_name + binLocation;
+			jarTask.appendChild(binFileset);
+
+			if (src and not project.b_binary) {
+				var srcFileset = new Ant!t_fileset;
+				srcFileset.a_dir = projectsRoot + project.a_name + "/" + project.getSrc();
+				jarTask.appendChild(srcFileset);			
+			}
+
+		}
+		
+		if (src and not jar.c_plugin.isEmpty()) {
+			var zip = new Ant!t_zip;
+			zip.a_file = dir + "/" + prefix + "-" + version + "-" + jar.a_name + "-dependencies.zip";
+			target.appendChild(zip);
+			for (plugin in jar.c_plugin) {
+				var fileset : new Ant!t_fileset;
+				fileset.a_file = pluginsRoot + "/" + plugin.getPluginJar(pluginsRoot);
+				zip.appendChild(fileset);
+			}
+		}
+	}
+}
+
+// Buid a mega-jar containing all binaries, sources and dependencies
+var jarTask = new Ant!t_jar;
+jarTask.a_destfile = dir + "/" + prefix + "-" + version + "-" + "kitchensink.jar";
+target.appendChild(jarTask);
+for (jar in JarModel!t_jar.all) {
+	var zipFileset = new Ant!t_zipgroupfileset;
+	zipFileset.a_file = dir + "/" + prefix + "-" + version + "-" + jar.a_name + ".jar";
+	jarTask.appendChild(zipFileset);
+}
+for (plugin in JarModel!t_plugin.all) {
+	var zipFileset = new Ant!t_zipgroupfileset;
+	zipFileset.a_file = pluginsRoot + "/" + plugin.getPluginJar(pluginsRoot);
+	jarTask.appendChild(zipFileset);
+}
+// Delete all problematic files from the mega-jar
+var zip = new Ant!t_exec;
+zip.a_executable = "zip";
+zip.addArg("-d");
+zip.addArg(jarTask.a_destfile);
+zip.addArg("*.RSA");
+zip.addArg("*.DSA");
+zip.addArg("*.SF");
+target.appendChild(zip);
+
+operation JarModel!t_plugin getPluginJar(pluginsRoot : String) : String {
+	var pluginsDir = new Native("java.io.File")(pluginsRoot);
+	return pluginsDir.listFiles.selectOne(f|f.name.startsWith(self.a_name+"_")).name;
+}
+
+operation Ant!t_exec addArg(value : String) {
+	var arg = new Ant!t_arg;
+	arg.a_value = value;
+	self.appendChild(arg);
+}
+
+operation JarModel!t_project getSrc() : String {
+	if (self.a_src.isDefined()) {
+		return self.a_src;
+	}
+	else {
+		return "src";
+	}
+}

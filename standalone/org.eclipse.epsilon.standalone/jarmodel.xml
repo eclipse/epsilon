@@ -1,0 +1,84 @@
+<jarmodel plugins="../../plugins" projects="../" version="1.2" prefix="epsilon" dir="jars">
+
+	<jar name="core">
+		<description>
+		This JAR includes the execution engines of all the Epsilon languages, 
+		as well as the plain XML and CSV drivers.
+		</description>
+		<project name="org.eclipse.epsilon.eol.engine"/>
+		<project name="org.eclipse.epsilon.egl.engine"/>
+		<project name="org.eclipse.epsilon.egl.traceability.fine"/>
+		<project name="org.eclipse.epsilon.ecl.engine"/>
+		<project name="org.eclipse.epsilon.eml.engine"/>
+		<project name="org.eclipse.epsilon.etl.engine"/>
+		<project name="org.eclipse.epsilon.evl.engine"/>
+		<project name="org.eclipse.epsilon.epl.engine"/>
+		<project name="org.eclipse.epsilon.eunit.engine"/>						
+		<project name="org.eclipse.epsilon.erl.engine"/>
+		<project name="org.eclipse.epsilon.ewl.engine"/>
+		<project name="org.eclipse.epsilon.flock.engine"/>
+		<project name="org.eclipse.epsilon.profiling"/>
+		<project name="org.eclipse.epsilon.common"/>
+		<project name="org.eclipse.epsilon.eol.tools"/>
+		<project name="org.eclipse.epsilon.emc.composite"/>
+		<project name="org.eclipse.epsilon.emc.plainxml"/>	
+		<project name="org.eclipse.epsilon.emc.csv"/>
+		<project name="org.antlr.runtime_3.1.b1" binary="true"/>
+	</jar>
+
+	<jar name="workflow" requires="core">
+		<description>
+		ANT tasks for the Epsilon languages. To use this JAR, you will need to have Apache ANT installed.
+		</description>
+		<project name="org.eclipse.epsilon.workflow" src="ant"/>
+	</jar>
+
+	<jar name="emf" requires="core">
+		<description>
+		Epsilon's EMF driver.
+		</description>
+		<project name="org.eclipse.epsilon.emc.emf"/>
+		<plugin name="org.eclipse.emf.common"/>
+		<plugin name="org.eclipse.emf.ecore"/>
+		<plugin name="org.eclipse.emf.ecore.xmi"/>
+		<plugin name="org.eclipse.xsd"/>
+		
+	</jar>
+
+	<jar name="workflow-emf" requires="workflow, emf">
+		<description>ANT tasks for Epsilon's EMF driver</description>
+		<project name="org.eclipse.epsilon.workflow.emf"/>
+	</jar>
+
+	<jar name="uml" requires="emf">
+		<description>
+		Epsilon's UML driver.
+		</description>	
+		<project name="org.eclipse.epsilon.emc.uml"/>
+		<plugin name="org.eclipse.uml2.uml"/>
+		<plugin name="org.eclipse.uml2.common"/>
+		<plugin name="org.eclipse.emf.mapping.ecore2xml"/>
+		<plugin name="org.eclipse.uml2.types"/>
+	</jar>
+
+	<jar name="hutn" requires="emf">
+		<description>
+		Epsilon's Human Usable Textual Notation implementation.
+		</description>	
+		<project name="org.eclipse.epsilon.hutn.engine"/>			
+		<project name="org.eclipse.epsilon.hutn.model"/>			
+		<project name="org.eclipse.epsilon.hutn.model.antlrAst"/>			
+		<project name="org.eclipse.epsilon.hutn.model.config"/>			
+		<project name="org.eclipse.epsilon.hutn.unparser"/>			
+		<project name="org.eclipse.epsilon.hutn.xmi"/>
+		<project name="org.eclipse.epsilon.antlr.postprocessor"/>
+		<project name="org.eclipse.epsilon.antlr.postprocessor.model"/>
+	</jar>
+
+	<jar name="graphml" requires="emf">
+		<description>Epsilon's Graphml Muddles integration.</description>
+		<project name="org.eclipse.epsilon.emc.muddle"/>
+		<project name="org.eclipse.epsilon.emc.graphml"/>
+	</jar>
+
+</jarmodel>

@@ -1,0 +1,7 @@
+for (i in M.allInstances()) {
+	i.println();
+}
+
+var n = NoteType.all.first();
+
+n.from = "Dimitris1";
