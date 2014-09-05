@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,8 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
-import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
@@ -69,19 +68,19 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		compareTrees(pathExpected, pathActual, true);
 	}
 
-	public void assertEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(null, expectedModelName, obtainedModelName, true, new HashMap<String, Object>());
 	}
 
-	public void assertEqualModels(String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertEqualModels(String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(null, expectedModelName, obtainedModelName, true, options);
 	}
 
-	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(message, expectedModelName, obtainedModelName, true, new HashMap<String, Object>());
 	}
 
-	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertEqualModels(String message, String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(message, expectedModelName, obtainedModelName, true, options);
 	}
 
@@ -93,19 +92,19 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		compareTrees(pathExpected, pathActual, false);
 	}
 
-	public void assertNotEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertNotEqualModels(String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(null, expectedModelName, obtainedModelName, false, new HashMap<String, Object>());
 	}
 
-	public void assertNotEqualModels(String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertNotEqualModels(String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(null, expectedModelName, obtainedModelName, false, options);
 	}
 
-	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(message, expectedModelName, obtainedModelName, false, new HashMap<String, Object>());
 	}
 
-	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	public void assertNotEqualModels(String message, String expectedModelName, String obtainedModelName, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		compareModels(message, expectedModelName, obtainedModelName, false, options);
 	}
 
@@ -217,7 +216,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		return context.getModelRepository().getModelByName(name);
 	}
 
-	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException, IllegalExtensionException {
+	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		final IModel expectedCModel = getModel(expectedModelName);
 		final IModel actualCModel = getModel(actualModelName);
 		final IModelComparator comparator = getComparator(expectedCModel, actualCModel);
@@ -272,10 +271,14 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		}
 	}
 
-	private IModelComparator getComparator(IModel expectedCModel, IModel actualCModel) throws IllegalExtensionException {
+	private IModelComparator getComparator(IModel expectedCModel, IModel actualCModel) throws EolInternalException {
 		try {
-			Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
-			List<IModelComparator> comparators = ClassBasedExtension.getImplementations(IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
+			// Use reflection to avoid static dependency on ClassBasedExtension (we can't use HostManager in epsilon.workflow from here)
+			Class<?> klazz = Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
+			Method getImpl = klazz.getMethod("getImplementations", IModelComparator.class, Class.class);
+
+			@SuppressWarnings("unchecked")
+			List<IModelComparator> comparators = (List<IModelComparator>) getImpl.invoke(null, IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
 			for (IModelComparator comparator : comparators) {
 				if (comparator.canCompare(expectedCModel, actualCModel)) {
 					return comparator;
@@ -283,6 +286,8 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 			}
 		} catch (ClassNotFoundException ex) {
 			// do nothing
+		} catch (Exception ex) {
+			throw new EolInternalException(ex);
 		}
 		return null;
 	}
