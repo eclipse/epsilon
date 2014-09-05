@@ -34,9 +34,12 @@ import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.compare.utils.ReferenceUtil;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -61,11 +64,12 @@ public class EMFModelComparator implements IModelComparator {
 					&& kind == DifferenceKind.CHANGE
 					&& source == DifferenceSource.LEFT)
 			{
-				final Object o1 = match.getLeft().eGet(attribute);
-				final Object o2 = match.getRight().eGet(attribute);
-				if (o1 instanceof String && o2 instanceof String) {
+				final Object o1 = ReferenceUtil.safeEGet(match.getLeft(), attribute);
+				final Object o2 = ReferenceUtil.safeEGet(match.getRight(), attribute);
+				
+				if (o1 != null && o2 != null) {
 					// attribute is set on both sides
-
+					
 					// should it be ignored as long as it is set on both sides?
 					if (!ignoreAttributes.isEmpty()) {
 						final String attrQualifiedName = getQualifiedName(attribute);
@@ -74,17 +78,31 @@ public class EMFModelComparator implements IModelComparator {
 						}
 					}
 
-					// same after stripping whitespace?
-					final String s1 = ((String)o1).replaceAll("\\s+", "");
-					final String s2 = ((String)o2).replaceAll("\\s+", "");
-					if (ignoreWhitespace && s1.equals(s2)) {
-						return;
+					if (ignoreWhitespace && o1 instanceof String && o2 instanceof String) {
+						// same after stripping whitespace?
+						final String s1 = ((String)o1).replaceAll("\\s+", "");
+						final String s2 = ((String)o2).replaceAll("\\s+", "");
+						if (s1.equals(s2)) {
+							return;
+						}
 					}
 
 				}
 			}
 
 			super.attributeChange(match, attribute, value, kind, source);
+		}
+
+		@Override
+		public void referenceChange(Match match, EReference reference,
+				EObject value, DifferenceKind kind, DifferenceSource source) {
+
+			// ignore MOVE changes for unordered references
+			if (ignoreUnorderedMoves && !reference.isOrdered() && kind == DifferenceKind.MOVE) {
+				return;
+			}
+
+			super.referenceChange(match, reference, value, kind, source);
 		}
 
 		private String getQualifiedName(ENamedElement elem) {
@@ -97,7 +115,7 @@ public class EMFModelComparator implements IModelComparator {
 		}
 	}
 
-	private boolean ignoreWhitespace = false;
+	private boolean ignoreWhitespace = false, ignoreUnorderedMoves = true;	
 	private Set<String> ignoreAttributes = Collections.emptySet();
 
 	@Override
@@ -216,6 +234,9 @@ public class EMFModelComparator implements IModelComparator {
 				String name = entry.getKey();
 				if ("whitespace".equals(name)) {
 					ignoreWhitespace = "ignore".equals(entry.getValue());
+				}
+				else if ("unorderedMoves".equals(name)) {
+					ignoreUnorderedMoves = "ignore".equals(entry.getValue());
 				}
 				else if ("ignoreAttributeValueChanges".equals(name)) {
 					if (entry.getValue() instanceof Collection) {

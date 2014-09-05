@@ -310,12 +310,13 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
   \label{tab:eunit-comparator-options} \\\hline
 
   \textbf{Comparator and key} & \textbf{Usage}  \\\hline
-  EMF, ``whitespace'' & When set to ``ignore'', differences in attribute values due to whitespace will be ignored. \\\hline
+  EMF, ``whitespace'' & When set to ``ignore'', differences in EString attribute values due to whitespace will be ignored.  Disabled by default.\\\hline
   EMF, ``ignore\-Attribute\-Value\-Changes'' & Can contain a \eol{Sequence} of
   strings of the form ``package.class.attribute''. Differences in the
   values for these attributes will be ignored. However, if the
   attribute is set on one side and not on the other, the difference
-  will be reported as normal. \\\hline
+  will be reported as normal. Empty by default. \\\hline
+  EMF, ``unordered\-Moves'' & When set to ``ignore'', differences in the order of the elements within an unordered EReference. Enabled by default. \\\hline
 \end{longtabu}
 
 \begin{sidewaysfigure}
