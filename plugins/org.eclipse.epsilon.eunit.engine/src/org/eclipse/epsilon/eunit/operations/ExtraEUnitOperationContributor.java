@@ -275,7 +275,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		try {
 			// Use reflection to avoid static dependency on ClassBasedExtension (we can't use HostManager in epsilon.workflow from here)
 			Class<?> klazz = Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
-			Method getImpl = klazz.getMethod("getImplementations", IModelComparator.class, Class.class);
+			Method getImpl = klazz.getMethod("getImplementations", String.class, Class.class);
 
 			@SuppressWarnings("unchecked")
 			List<IModelComparator> comparators = (List<IModelComparator>) getImpl.invoke(null, IModelComparator.EXTENSION_POINT_ID, IModelComparator.class);
