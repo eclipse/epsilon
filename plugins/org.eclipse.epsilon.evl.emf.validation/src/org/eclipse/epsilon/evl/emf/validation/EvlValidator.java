@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
@@ -61,6 +62,9 @@ public class EvlValidator implements EValidator {
 	protected boolean showErrorDialog = true;
 	protected boolean logErrors = true;
 	protected List<ValidationProblemListener> problemListeners = new ArrayList<ValidationProblemListener>();
+
+	/** Collection of all packages that are available to this validator */
+	protected Collection<EPackage> ePackages = new ArrayList<EPackage>();
 	
 	public static final String DEFAULT_MODEL_NAME = "_Model";
 
@@ -89,6 +93,7 @@ public class EvlValidator implements EValidator {
 			this.modelName = modelName;
 			this.ePackageUri = ePackageUri;
 			this.bundleId = bundleId;
+			ePackages.add(EPackage.Registry.INSTANCE.getEPackage(ePackageUri));
 		} else {
 			Activator.getDefault().getLog().log(new Status(
 				IStatus.WARNING, Activator.PLUGIN_ID,
@@ -115,6 +120,19 @@ public class EvlValidator implements EValidator {
 			diagnosticVariables = new HashSet<String>();
 		}
 		diagnosticVariables.add(name);
+	}
+
+	/**
+	 * Make an additional package available to be used by this validator.
+	 * 
+	 * @param packageUri
+	 *            Namespace URI of the package
+	 */
+	public void addAdditionalPackage(String packageUri) {
+		EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(packageUri);
+		if (ePackage != null) {
+			ePackages.add(ePackage);
+		}
 	}
 	
 	public boolean validate(EObject object, DiagnosticChain diagnostics,
@@ -206,7 +224,7 @@ public class EvlValidator implements EValidator {
 			return;
 		}
 
-		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackageUri);
+		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackages);
 		module.getContext().getModelRepository().addModel(model);
 		
 		Object monitor = null;

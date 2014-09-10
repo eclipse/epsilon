@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2014 University of Twente.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +8,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Maarten Bezemer - finished indicator, extension point additions
  ******************************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
@@ -79,6 +81,16 @@ public class EValidatorPopulator implements IStartup {
 					IConfigurationElement[] diagnosticVariables = configurationElement.getChildren("diagnosticVariable");
 					for (IConfigurationElement diagnosticVariable : diagnosticVariables) {
 						((EvlValidator) evlValidator).addDiagnosticianVariable(diagnosticVariable.getAttribute("name"));
+					}
+
+					// Add additional packages, so their model elements can be
+					// used by this validator
+					IConfigurationElement[] additionalPackagesUris = configurationElement
+							.getChildren("additionalNamespaceURI");
+					for (IConfigurationElement additionalPackageUri : additionalPackagesUris) {
+						((EvlValidator) evlValidator)
+								.addAdditionalPackage(additionalPackageUri
+										.getAttribute("namespaceURI"));
 					}
 				}
 				else {

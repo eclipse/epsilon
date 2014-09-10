@@ -59,6 +59,7 @@
       <complexType>
          <sequence>
             <element ref="diagnosticVariable" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="additionalNamespaceURI" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="namespaceURI" type="string" use="required">
             <annotation>
@@ -124,6 +125,23 @@ The value of the variable is taken from the entry with the same name in the cont
             <annotation>
                <documentation>
                   The name of the variable, which is used as the key of the Diagnostican context.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="additionalNamespaceURI">
+      <annotation>
+         <documentation>
+            Adds an additional  namespace URI of a package that is used in the validator, so the elements of this package are recognized and usable in the validators.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="namespaceURI" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Additional  namespace URI of a package that is used in the validator
                </documentation>
             </annotation>
          </attribute>
