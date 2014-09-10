@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2014 University of Twente.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +8,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Maarten Bezemer - toBinary, toHex
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
@@ -47,4 +49,13 @@ public class IntegerOperationContributor extends OperationContributor {
 		return result;
 	}
 
+	public String toBinary() {
+		Integer i = (Integer) target;
+		return Integer.toBinaryString(i);
+	}
+
+	public String toHex() {
+		Integer i = (Integer) target;
+		return Integer.toHexString(i);
+	}
 }
