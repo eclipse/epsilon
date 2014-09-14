@@ -9,6 +9,8 @@
 	<property name="elements.metamodel.location" location="${metamodels.location}/elements.ecore" />
 	<property name="graph.metamodel.location" location="${metamodels.location}/graph.ecore" />
 	<property name="tree.metamodel.location" location="${metamodels.location}/tree.ecore" />
+	<property name="graph.metamodel.uri" value="Graph" />
+	<property name="tree.metamodel.uri" value="Tree" />
 
 	<property name="tests.location" location="${basedir}/resources/tests"/>
 	<property name="antmodels.eunit.location" location="${tests.location}/load-models-implicitly.eunit"/>
@@ -19,14 +21,20 @@
 	<!-- EUNIT TARGETS -->
 
 	<target name="with-model-refs" description="Loads models using standard executable module references">
+		<!--
+		  When loading models for comparison in EUnit, it's better not to use "metamodelfile",
+		  to avoid having multiple instances of the same EMF package and confusing EMF Compare.
+		-->
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.emf.register file="${graph.metamodel.location}"/>
 		<epsilon.emf.loadModel name="Tree"
-			modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+			modelfile="${tree.model.location}" metamodeluri="${tree.metamodel.uri}"
 			read="true" store="false"/>
 		<epsilon.emf.loadModel name="GraphExpected"
-			modelfile="${graph.model.location}" metamodelfile="${graph.metamodel.location}"
+			modelfile="${graph.model.location}" metamodeluri="${graph.metamodel.uri}"
 			read="true" store="false"/>
 		<epsilon.emf.loadModel name="Graph"
-			modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
+			modelfile="transformed.model" metamodeluri="${graph.metamodel.uri}"
 			read="false" store="false"/>
 
 		<!-- EUnit will dispose and reload the referred models as needed -->
@@ -38,25 +46,31 @@
 	</target>
 
 	<target name="with-nested-model-tasks" description="Loads models using the nested modelTasks element">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.emf.register file="${graph.metamodel.location}"/>
+
 		<!-- EUnit will run the tasks inside <modelTasks> before each test, and
 		     dispose the models loaded in there after it. This is useful in case
 		     we want to do something more advanced for loading the models. -->
 		<epsilon.eunit src="${antmodels.eunit.location}">
 			<modelTasks>
 				<epsilon.emf.loadModel name="Tree"
-					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+					modelfile="${tree.model.location}" metamodeluri="${tree.metamodel.uri}"
 					read="true" store="false"/>
 				<epsilon.emf.loadModel name="GraphExpected"
-					modelfile="${graph.model.location}" metamodelfile="${graph.metamodel.location}"
+					modelfile="${graph.model.location}" metamodeluri="${graph.metamodel.uri}"
 					read="true" store="false"/>
 				<epsilon.emf.loadModel name="Graph"
-					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
+					modelfile="transformed.model" metamodeluri="${graph.metamodel.uri}"
 					read="false" store="false"/>
 			</modelTasks>
 		</epsilon.eunit>
 	</target>
 
 	<target name="with-model-loading-target" description="Loads models using a separate Ant target">
+		<epsilon.emf.register file="${tree.metamodel.location}"/>
+		<epsilon.emf.register file="${graph.metamodel.location}"/>
+
 		<!-- We'll use a @models annotation and run a specific target in the Ant
 		     buildfile from there. This is useful if we want to reuse the same
 		     model loading tasks between different test suites. -->
@@ -91,14 +105,14 @@
 
 	<target name="load-models" description="Used by with-model-loading-target to load models">
 		<epsilon.emf.loadModel name="Tree"
-			modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
+			modelfile="${tree.model.location}" metamodeluri="${tree.metamodel.uri}"
 			read="true" store="false"/>
 		<epsilon.emf.loadModel name="GraphExpected"
-			modelfile="${graph.model.location}" metamodelfile="${graph.metamodel.location}"
+			modelfile="${graph.model.location}" metamodeluri="${graph.metamodel.uri}"
 			read="true" store="false"/>
 		<epsilon.emf.loadModel name="Graph"
-			modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
-			read="false" store="false"/>		
+			modelfile="transformed.model" metamodeluri="${graph.metamodel.uri}"
+			read="false" store="false"/>
 	</target>
 
 	<!-- MODEL MANAGEMENT TARGETS -->
