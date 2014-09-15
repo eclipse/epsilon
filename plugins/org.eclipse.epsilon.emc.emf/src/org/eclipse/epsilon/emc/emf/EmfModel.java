@@ -37,6 +37,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	
@@ -138,10 +139,10 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=341481">Rationale for deprecating the FILE properties</a>.
 	 */
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		PropertyMigrator.migrateDeprecatedProperties(properties);	
 		
-		super.load(properties, basePath);
+		super.load(properties, resolver);
 		this.modelUri = URI.createURI(properties.getProperty(PROPERTY_MODEL_URI));
 		this.expand = properties.getBooleanProperty(PROPERTY_EXPAND, true);
 		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, false);

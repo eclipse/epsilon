@@ -67,7 +67,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 		}
 		
 		try {
-			model.load(properties, null);
+			model.load(properties);
 			getProjectRepository().addModel(model);
 		} catch (EolModelLoadingException e) {
 			e.printStackTrace();

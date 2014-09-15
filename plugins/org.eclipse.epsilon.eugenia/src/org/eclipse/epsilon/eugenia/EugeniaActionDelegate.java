@@ -240,7 +240,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		
 		//model.load(properties, EclipseUtil.getWorkspacePath());
-		model.load(properties, null);
+		model.load(properties);
 		return model;
 	}
 	

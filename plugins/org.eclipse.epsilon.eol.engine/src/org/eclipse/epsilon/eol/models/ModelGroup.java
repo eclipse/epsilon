@@ -199,7 +199,7 @@ public class ModelGroup extends Model {
 	}
 
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		load();
 	}
 

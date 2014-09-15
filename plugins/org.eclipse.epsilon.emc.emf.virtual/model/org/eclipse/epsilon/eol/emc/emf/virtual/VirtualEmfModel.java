@@ -30,6 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 
 public class VirtualEmfModel extends AbstractEmfModel {
@@ -83,17 +84,19 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	
 	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
 		
-		this.modelFile = StringUtil.toString(basePath) + properties.getProperty(EmfModel.PROPERTY_MODEL_FILE);
+		this.modelFile = resolver.resolve(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE));
+		this.modelFileUri = URI.createFileURI(modelFile);
 		
+		/*
 		if (StringUtil.isEmpty(basePath)) {
 			this.modelFileUri = URI.createFileURI(modelFile);
 		
 		} else {
 			this.modelFileUri = URI.createPlatformResourceURI(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE), true);
-		}
+		}*/
 		
 		load();
 	}

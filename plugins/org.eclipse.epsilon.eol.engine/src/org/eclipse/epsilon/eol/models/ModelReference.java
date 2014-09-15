@@ -144,8 +144,8 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 		return target.isStoredOnDisposal();
 	}
 
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		target.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		target.load(properties, resolver);
 	}
 
 	public void load() throws EolModelLoadingException {
@@ -205,6 +205,18 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 			return ((IOperationContributorProvider) target).getOperationContributor();
 		}
 		else return null;
+	}
+
+	@Override
+	public void load(StringProperties properties, String basePath)
+			throws EolModelLoadingException {
+		target.load(properties, basePath);
+	}
+	
+	@Override
+	public void load(StringProperties properties)
+			throws EolModelLoadingException {
+		target.load(properties);
 	}
 
 }

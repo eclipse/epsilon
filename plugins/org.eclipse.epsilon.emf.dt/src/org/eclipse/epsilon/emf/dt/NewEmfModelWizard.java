@@ -131,7 +131,7 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		properties.put(Model.PROPERTY_READONLOAD, false);
 		
 		try {
-			model.load(properties, null);
+			model.load(properties);
 		} catch (EolModelLoadingException e) {
 			LogUtil.log(e);
 		}

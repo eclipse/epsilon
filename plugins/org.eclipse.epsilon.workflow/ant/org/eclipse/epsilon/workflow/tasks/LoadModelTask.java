@@ -53,7 +53,7 @@ public class LoadModelTask extends EpsilonTask{
 		}
 		
 		try {
-			model.load(getStringProperties(), null);
+			model.load(getStringProperties());
 			model.setName(name);
 			getProjectRepository().addModel(model);
 		} catch (Exception e) {

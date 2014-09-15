@@ -11,10 +11,10 @@
 package org.eclipse.epsilon.eol.dt.launching;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -39,6 +40,7 @@ import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.ui.PlatformUI;
 
 public class EclipseContextManager {
@@ -157,10 +159,24 @@ public class EclipseContextManager {
 
 			try {
 				model = ModelTypeExtension.forType(properties.getProperty("type")).createModel();
-				model.load(properties, EclipseUtil.getWorkspacePath());
+				model.load(properties, new IRelativePathResolver() {
+					
+					@Override
+					public String resolve(String relativePath) {
+						try {
+							IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
+							if (file != null) { 
+								return file.getLocation().toOSString(); 
+							}
+						}
+						catch (Exception ex) { LogUtil.log("Error while resolving absolute path for " + relativePath, ex); }
+						
+						return EclipseUtil.getWorkspacePath() + relativePath;
+					}
+				});
+				
 				context.getModelRepository().addModel(model);
 			} catch (Exception e) {
-				e.printStackTrace();
 				EpsilonConsole.getInstance().getErrorStream().print(e.toString());
 				LogUtil.log(e);
 			}

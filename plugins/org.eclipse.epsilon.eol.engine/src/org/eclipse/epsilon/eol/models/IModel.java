@@ -25,7 +25,11 @@ import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public interface IModel {
 	
+	public void load(StringProperties properties) throws EolModelLoadingException;
+	
 	public void load(StringProperties properties, String basePath) throws EolModelLoadingException;
+	
+	public void load(StringProperties properties, IRelativePathResolver relativePathResolver) throws EolModelLoadingException;
 	
 	public void load() throws EolModelLoadingException;
 	

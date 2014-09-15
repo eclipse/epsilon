@@ -19,7 +19,6 @@ import java.util.Collections;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -31,6 +30,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IAdaptableModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
@@ -90,10 +90,10 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
 		
-		this.hutnSourceFile = new File(StringUtil.toString(basePath) + properties.getProperty(PROPERTY_SOURCE_FILE));
+		this.hutnSourceFile = new File(resolver.resolve(properties.getProperty(PROPERTY_SOURCE_FILE)));
 		
 		load();
 	}

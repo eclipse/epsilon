@@ -30,6 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
 public class XmlModel extends AbstractEmfModel implements IOperationContributorProvider {
@@ -41,26 +42,12 @@ public class XmlModel extends AbstractEmfModel implements IOperationContributorP
 	protected String modelFile = "";
 	protected String xsdFile = "";
 	
-	static String basePath = "E://Projects//Eclipse//3.3//workspace//org.eclipse.epsilon.eol.models.emf//src//org//epsilon//eol//models//emf//xml//";
-	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
-		this.modelFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_MODEL_FILE);
-		this.xsdFile = StringUtil.toString(basePath) + properties.getProperty(PROPERTY_XSD_FILE);
-		
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
+		this.modelFile = resolver.resolve(properties.getProperty(PROPERTY_MODEL_FILE));
+		this.xsdFile = resolver.resolve(properties.getProperty(PROPERTY_XSD_FILE));
 		load();
-	}
-	
-	public static void main(String[] args) throws Exception {
-
-		XmlModel model = new XmlModel();
-		model.modelFile = basePath + "Test.xml";
-		model.xsdFile = basePath + "TestCases.xsd";
-		model.load();
-		
-		model.store(model.modelFile + "copy.xml");
-		
 	}
 	
 	@Override

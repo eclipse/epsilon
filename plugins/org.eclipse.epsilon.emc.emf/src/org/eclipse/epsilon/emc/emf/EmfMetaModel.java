@@ -13,6 +13,7 @@ package org.eclipse.epsilon.emc.emf;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class EmfMetaModel extends AbstractEmfModel {
 	
@@ -49,9 +50,9 @@ public class EmfMetaModel extends AbstractEmfModel {
 	}
 
 	@Override
-	public void load(StringProperties properties, String basePath)
+	public void load(StringProperties properties, IRelativePathResolver resolver)
 			throws EolModelLoadingException {
-		super.load(properties, basePath);
+		super.load(properties, resolver);
 		this.metamodelUri = properties.getProperty(PROPERTY_METAMODEL_URI);
 		load();
 	}

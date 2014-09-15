@@ -119,8 +119,7 @@ public class EmptyModel extends Model{
 	}
 
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		// TODO Auto-generated method stub
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		
 	}
 

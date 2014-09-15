@@ -32,6 +32,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 /**
  * The Class CsvModel provides The Epsilon Model Connectivity Layer for CSV
@@ -426,13 +427,10 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 * @see org.eclipse.epsilon.eol.models.CachedModel#load(org.eclipse.epsilon.common.util.StringProperties, java.lang.String)
 	 */
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
 		
-		if (basePath != null)
-			this.file = basePath + properties.getProperty(PROPERTY_FILE);
-		else
-			this.file = properties.getProperty(PROPERTY_FILE);
+		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
 		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR);
 		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
 		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);	

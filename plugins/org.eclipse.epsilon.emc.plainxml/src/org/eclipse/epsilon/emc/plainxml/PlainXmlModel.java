@@ -37,6 +37,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -350,16 +351,15 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
-	public void load(StringProperties properties, String basePath)
+	public void load(StringProperties properties, IRelativePathResolver resolver)
 			throws EolModelLoadingException {
 		
-		super.load(properties, basePath);
+		super.load(properties, resolver);
 		
 		String filePath = properties.getProperty(PlainXmlModel.PROPERTY_FILE);
 		
 		if (filePath != null && filePath.trim().length() > 0) {
-			if (basePath != null) filePath = basePath + filePath;
-			file = new File(filePath);
+			file = new File(resolver.resolve(filePath));
 		}
 		else {
 			uri = properties.getProperty(PlainXmlModel.PROPERTY_URI);

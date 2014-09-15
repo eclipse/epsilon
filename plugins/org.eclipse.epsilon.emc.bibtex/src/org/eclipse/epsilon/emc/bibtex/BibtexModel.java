@@ -31,6 +31,7 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class BibtexModel extends CachedModel<Publication> {
 
@@ -44,16 +45,16 @@ public class BibtexModel extends CachedModel<Publication> {
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
 
-		readBibtexFromFile(properties, basePath);
+		readBibtexFromFile(properties, resolver);
 		load();
 	}
 
-	private void readBibtexFromFile(StringProperties properties, String basePath) throws EolModelLoadingException {
+	private void readBibtexFromFile(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		try {				
-			final File bibtexFile = new File(StringUtil.toString(basePath) + properties.getProperty(PROPERTY_SOURCE_FILE));
+			final File bibtexFile = new File(resolver.resolve(properties.getProperty(PROPERTY_SOURCE_FILE)));
 			this.bibtex = FileUtil.getFileContents(bibtexFile);
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);

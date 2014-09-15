@@ -148,8 +148,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
-		super.load(properties, basePath);
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
 		
 		this.setCachingEnabled(new Boolean(properties.getProperty(PROPERTY_CACHED)).booleanValue());
 	}

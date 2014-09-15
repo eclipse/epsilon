@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.MuddleModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class GraphmlModel extends MuddleModel {
 	
@@ -27,16 +28,11 @@ public class GraphmlModel extends MuddleModel {
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath)
+	public void load(StringProperties properties, IRelativePathResolver resolver)
 			throws EolModelLoadingException {
-		super.load(properties, basePath);
-		String filePath = properties.getProperty(GraphmlModel.PROPERTY_FILE);
+		super.load(properties, resolver);
 		
-		if (filePath != null && filePath.trim().length() > 0) {
-			if (basePath != null) filePath = basePath + filePath;
-			file = new File(filePath);
-		}
-		
+		file = new File(resolver.resolve(properties.getProperty(GraphmlModel.PROPERTY_FILE)));
 		load();
 	}
 	

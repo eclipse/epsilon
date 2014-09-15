@@ -35,7 +35,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 		
 		try {
 			XmlModel model = new XmlModel();
-			model.load(properties, null);
+			model.load(properties);
 			getProjectRepository().addModel(model);
 		}
 		catch (EolModelLoadingException e) {

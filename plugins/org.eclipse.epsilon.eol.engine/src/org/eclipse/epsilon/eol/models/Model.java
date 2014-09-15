@@ -50,7 +50,34 @@ public abstract class Model implements IModel{
 		return aliases;
 	}
 	
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+	@Override
+	public void load(StringProperties properties, String basePath)
+			throws EolModelLoadingException {
+		
+		final String _basePath = basePath;
+		load(properties, new IRelativePathResolver() {
+			
+			@Override
+			public String resolve(String relativePath) {
+				return _basePath + relativePath;
+			}
+		});
+		
+	}
+	
+	@Override
+	public void load(StringProperties properties)
+			throws EolModelLoadingException {
+		load(properties, new IRelativePathResolver() {
+			
+			@Override
+			public String resolve(String relativePath) {
+				return relativePath;
+			}
+		});
+	}
+	
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.name = properties.getProperty(PROPERTY_NAME);
 		this.readOnLoad = new Boolean(properties.getProperty(PROPERTY_READONLOAD)).booleanValue();
 		this.storeOnDisposal = new Boolean(properties.getProperty(PROPERTY_STOREONDISPOSAL)).booleanValue();

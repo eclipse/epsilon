@@ -38,7 +38,7 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
 		
 		try {
-			model.load(properties, null);
+			model.load(properties);
 			getProjectRepository().addModel(model);
 		} catch (EolModelLoadingException e) {
 			e.printStackTrace();

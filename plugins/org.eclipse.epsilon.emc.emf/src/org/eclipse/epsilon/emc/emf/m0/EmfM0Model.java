@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class EmfM0Model extends EmfModel {
 	
@@ -41,7 +42,7 @@ public class EmfM0Model extends EmfModel {
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.name = properties.getProperty("name");
 		String[] aliases = properties.getProperty("aliases").split(",");
 		for (int i=0;i<aliases.length;i++){
@@ -50,7 +51,7 @@ public class EmfM0Model extends EmfModel {
 		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
 		setMetamodelUri(properties.getProperty("metamodelUri"));
 		this.isMetamodelFileBased = Boolean.parseBoolean(properties.getProperty("isMetamodelFileBased"));
-		this.m0SpecificationFile = new File(basePath + properties.getProperty("m0SpecificationFile"));
+		this.m0SpecificationFile = new File(resolver.resolve(properties.getProperty("m0SpecificationFile")));
 		this.readOnLoad = Boolean.parseBoolean(properties.getProperty("readOnLoad"));
 		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty("storeOnDisposal"));
 		load();
