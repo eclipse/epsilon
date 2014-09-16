@@ -61,13 +61,6 @@
       <fileset dir="../org.eclipse.epsilon.emc.csv/bin"/>
       <fileset dir="../org.antlr.runtime_3.1.b1"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-src.jar">
-      <fileset dir="../org.eclipse.epsilon.workflow/bin"/>
-      <fileset dir="../org.eclipse.epsilon.workflow/ant"/>
-    </jar>
-    <jar destfile="jars/epsilon-1.2-workflow.jar">
-      <fileset dir="../org.eclipse.epsilon.workflow/bin"/>
-    </jar>
     <jar destfile="jars/epsilon-1.2-emf-src.jar">
       <fileset dir="../org.eclipse.epsilon.emc.emf/bin"/>
       <fileset dir="../org.eclipse.epsilon.emc.emf/src"/>
@@ -81,13 +74,6 @@
     <jar destfile="jars/epsilon-1.2-emf.jar">
       <fileset dir="../org.eclipse.epsilon.emc.emf/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-emf-src.jar">
-      <fileset dir="../org.eclipse.epsilon.workflow.emf/bin"/>
-      <fileset dir="../org.eclipse.epsilon.workflow.emf/src"/>
-    </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-emf.jar">
-      <fileset dir="../org.eclipse.epsilon.workflow.emf/bin"/>
-    </jar>
     <jar destfile="jars/epsilon-1.2-uml-src.jar">
       <fileset dir="../org.eclipse.epsilon.emc.uml/bin"/>
       <fileset dir="../org.eclipse.epsilon.emc.uml/src"/>
@@ -100,6 +86,16 @@
     </zip>
     <jar destfile="jars/epsilon-1.2-uml.jar">
       <fileset dir="../org.eclipse.epsilon.emc.uml/bin"/>
+    </jar>
+    <jar destfile="jars/epsilon-1.2-graphml-src.jar">
+      <fileset dir="../org.eclipse.epsilon.emc.muddle/bin"/>
+      <fileset dir="../org.eclipse.epsilon.emc.muddle/src"/>
+      <fileset dir="../org.eclipse.epsilon.emc.graphml/bin"/>
+      <fileset dir="../org.eclipse.epsilon.emc.graphml/src"/>
+    </jar>
+    <jar destfile="jars/epsilon-1.2-graphml.jar">
+      <fileset dir="../org.eclipse.epsilon.emc.muddle/bin"/>
+      <fileset dir="../org.eclipse.epsilon.emc.graphml/bin"/>
     </jar>
     <jar destfile="jars/epsilon-1.2-hutn-src.jar">
       <fileset dir="../org.eclipse.epsilon.hutn.engine/bin"/>
@@ -129,24 +125,28 @@
       <fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
       <fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-graphml-src.jar">
-      <fileset dir="../org.eclipse.epsilon.emc.muddle/bin"/>
-      <fileset dir="../org.eclipse.epsilon.emc.muddle/src"/>
-      <fileset dir="../org.eclipse.epsilon.emc.graphml/bin"/>
-      <fileset dir="../org.eclipse.epsilon.emc.graphml/src"/>
+    <jar destfile="jars/epsilon-1.2-workflow-src.jar">
+      <fileset dir="../org.eclipse.epsilon.workflow/bin"/>
+      <fileset dir="../org.eclipse.epsilon.workflow/ant"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-graphml.jar">
-      <fileset dir="../org.eclipse.epsilon.emc.muddle/bin"/>
-      <fileset dir="../org.eclipse.epsilon.emc.graphml/bin"/>
+    <jar destfile="jars/epsilon-1.2-workflow.jar">
+      <fileset dir="../org.eclipse.epsilon.workflow/bin"/>
+    </jar>
+    <jar destfile="jars/epsilon-1.2-workflow-emf-src.jar">
+      <fileset dir="../org.eclipse.epsilon.workflow.emf/bin"/>
+      <fileset dir="../org.eclipse.epsilon.workflow.emf/src"/>
+    </jar>
+    <jar destfile="jars/epsilon-1.2-workflow-emf.jar">
+      <fileset dir="../org.eclipse.epsilon.workflow.emf/bin"/>
     </jar>
     <jar destfile="jars/epsilon-1.2-kitchensink.jar">
       <zipgroupfileset file="jars/epsilon-1.2-core.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-workflow.jar"/>
       <zipgroupfileset file="jars/epsilon-1.2-emf.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-workflow-emf.jar"/>
       <zipgroupfileset file="jars/epsilon-1.2-uml.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-hutn.jar"/>
       <zipgroupfileset file="jars/epsilon-1.2-graphml.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.2-hutn.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.2-workflow.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.2-workflow-emf.jar"/>
       <zipgroupfileset file="../../plugins/org.eclipse.emf.common_2.10.0.v20140514-1158.jar"/>
       <zipgroupfileset file="../../plugins/org.eclipse.emf.ecore_2.10.0.v20140514-1158.jar"/>
       <zipgroupfileset file="../../plugins/org.eclipse.emf.ecore.xmi_2.10.0.v20140514-1158.jar"/>

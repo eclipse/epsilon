@@ -5,25 +5,41 @@ var root = JarModel.root.a_root;
 var dir = JarModel.root.a_dir;
 %]
 <h4>Modular JARs</h4>
-<ul>
-	
-	[%for (jar in t_jar.all){%]
-	<li>[%=(prefix + "-" + version + "-" + jar.a_name)%]
-	(<a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + "-src.jar")%]">source + binary</a>), 
-	(<a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + ".jar")%]">binary only</a>)
-	
-	<ul>
-		<li><i>[%=jar.e_description.text.trim()%]</i>
-		[%for (requires in (jar.a_requires+"").split(",").collect(s|s.trim()).excluding("")){%]
-		<li><i>To use this JAR, you will also need to have [%=prefix + "-" + version + "-" + requires%] in your classpath</i>
-		[%}%]
-		[%if (jar.c_plugin.notEmpty()){%]
-		<li> <i>To use this JAR, you will also need to have at least these <a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + "-dependencies.zip")%]">external dependencies</a> in your classpath</i>
-		[%}%]
-	</ul>
-	[%}%]
-</ul>
 
-<h4>Kitchen-sink JAR</h4>
-A fat JAR that contains all components above and all required external 
-dependencies is <a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-kitchensink.jar")%]">available here</a>.
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Description</th>
+			<th>Binary</th>
+			<th>Binary + Source</th>
+			<th>Dependencies</th>
+		</tr>
+	</thead>
+	<tbody>
+		[%for (jar in t_jar.all){%]
+		<tr>
+			<td>[%=jar.e_description.text.trim()%]</td>
+			<td><a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + ".jar")%]">[%=(prefix + "-" + version + "-" + jar.a_name + ".jar")%]</a>
+			<td><a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + "-src.jar")%]">[%=(prefix + "-" + version + "-" + jar.a_name + "-src.jar")%]</a>
+			<td>
+				<ul>
+					[%if (jar.a_requires.isUndefined() and jar.c_plugin.isEmpty()){%] <li> None [%}%]
+				
+					[%for (requires in (jar.a_requires+"").split(",").collect(s|s.trim()).excluding("")){%]
+					<li>To use this JAR, you will also need to have [%=prefix + "-" + version + "-" + requires%] in your classpath.
+					[%}%]
+					[%if (jar.c_plugin.notEmpty()){%]
+					<li> To use this JAR, you will also need to have at least these <a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-" + jar.a_name + "-dependencies.zip")%]">external dependencies</a> 
+					in your classpath.
+					[%}%]
+				</ul>
+			</td>
+		</tr>
+		[%}%]
+		<tr>
+			<td>Fat JAR that contains all JARs above and all required external dependencies.</td>
+			<td> - </td>
+			<td><a href="<?=$jarsUrl?>/[%=(prefix + "-" + version + "-kitchensink.jar")%]">[%=(prefix + "-" + version + "-kitchensink.jar")%]</a>
+			<td> <ul> <li> None </ul> <td>
+	</tbody>
+</table>

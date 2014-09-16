@@ -2,7 +2,7 @@
 
 	<jar name="core">
 		<description>
-		This JAR includes the execution engines of all the Epsilon languages, 
+		The execution engines of all Epsilon languages, 
 		as well as the plain XML and CSV drivers.
 		</description>
 		<project name="org.eclipse.epsilon.eol.engine"/>
@@ -26,13 +26,6 @@
 		<project name="org.antlr.runtime_3.1.b1" binary="true"/>
 	</jar>
 
-	<jar name="workflow" requires="core">
-		<description>
-		ANT tasks for the Epsilon languages. To use this JAR, you will need to have Apache ANT installed.
-		</description>
-		<project name="org.eclipse.epsilon.workflow" src="ant"/>
-	</jar>
-
 	<jar name="emf" requires="core">
 		<description>
 		Epsilon's EMF driver.
@@ -43,11 +36,6 @@
 		<plugin name="org.eclipse.emf.ecore.xmi"/>
 		<plugin name="org.eclipse.xsd"/>
 		
-	</jar>
-
-	<jar name="workflow-emf" requires="workflow, emf">
-		<description>ANT tasks for Epsilon's EMF driver</description>
-		<project name="org.eclipse.epsilon.workflow.emf"/>
 	</jar>
 
 	<jar name="uml" requires="emf">
@@ -61,6 +49,12 @@
 		<plugin name="org.eclipse.uml2.types"/>
 	</jar>
 
+	<jar name="graphml" requires="emf">
+		<description>Epsilon's Graphml muddles driver.</description>
+		<project name="org.eclipse.epsilon.emc.muddle"/>
+		<project name="org.eclipse.epsilon.emc.graphml"/>
+	</jar>
+	
 	<jar name="hutn" requires="emf">
 		<description>
 		Epsilon's Human Usable Textual Notation implementation.
@@ -75,10 +69,15 @@
 		<project name="org.eclipse.epsilon.antlr.postprocessor.model"/>
 	</jar>
 
-	<jar name="graphml" requires="emf">
-		<description>Epsilon's Graphml Muddles integration.</description>
-		<project name="org.eclipse.epsilon.emc.muddle"/>
-		<project name="org.eclipse.epsilon.emc.graphml"/>
+	<jar name="workflow" requires="core">
+		<description>
+		ANT tasks for the Epsilon languages. To use this JAR, you will need to have Apache ANT installed.
+		</description>
+		<project name="org.eclipse.epsilon.workflow" src="ant"/>
 	</jar>
 
+	<jar name="workflow-emf" requires="workflow, emf">
+		<description>ANT tasks for Epsilon's EMF driver.</description>
+		<project name="org.eclipse.epsilon.workflow.emf"/>
+	</jar>
 </jarmodel>
