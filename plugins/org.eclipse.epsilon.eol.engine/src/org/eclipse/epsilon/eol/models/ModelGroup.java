@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -99,6 +100,7 @@ public class ModelGroup extends Model {
 		throw new IllegalArgumentException("No grouped model can contain: " + instance + " (" + instance.getClass().getCanonicalName() + ")");
 	}
 
+	@SuppressWarnings("serial")
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		if (models.size() == 1) {
 			return models.get(0).createInstance(metaClass);
@@ -160,22 +162,27 @@ public class ModelGroup extends Model {
 */	
 	
 	public boolean owns(Object instance) {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
+		for (IModel model : models) {
 			if (model.owns(instance)) return true;
 		}
 		return false;
 	}
 
+	
+	@Override
+	public boolean knowsAboutProperty(Object instance, String property) {
+		for (IModel model : models) {
+			if (model.knowsAboutProperty(instance, property)) return true;
+		}
+		return false;
+	}
+	
 	public boolean store(String fileName) {
 		return false;
 	}
 
 	public boolean store() {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
+		for (IModel model : models) {
 			model.store();
 		}
 		return true;
@@ -183,19 +190,23 @@ public class ModelGroup extends Model {
 
 	@Override
 	public void dispose() {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
+		for (IModel model : models) {
 			model.dispose();
 		}
 	}
 
 	public boolean isInstantiable(String metaClass) {
-		return models.get(0).isInstantiable(metaClass);
+		for (IModel model : models) {
+			if (model.hasType(metaClass) && model.isInstantiable(metaClass)) return true;
+		}
+		return false;
 	}
 
 	public boolean hasType(String metaClass) {
-		return models.get(0).hasType(metaClass);
+		for (IModel model : models) {
+			if (model.hasType(metaClass)) return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -204,9 +215,7 @@ public class ModelGroup extends Model {
 	}
 
 	public boolean isModelElement(Object instance) {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
+		for (IModel model : models) {
 			if (model.isModelElement(instance)) return true;
 		}
 		return false;
@@ -226,32 +235,36 @@ public class ModelGroup extends Model {
 
 		public Object invoke(Object object, String property)
 				throws EolRuntimeException {
+			
 			for (IModel model : models) {
-				if (model.owns(object)) {
+				if (model.knowsAboutProperty(object, property)) {
 					return model.getPropertyGetter().invoke(object, property);
 				}
 			}
-			return null;
+			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
 	}
 	
 	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {
-
-		IPropertySetter delegate = null;
-		
-		@Override
-		public void setObject(Object object) {
-			super.setObject(object);
-			for (IModel model : models) {
-				if (model.owns(object)) {
-					delegate = model.getPropertySetter();
-				}
-			}
-		}
 		
 		public void invoke(Object value) throws EolRuntimeException {
-			delegate.invoke(value);
+			
+			for (IModel model : models) {
+				if (model.knowsAboutProperty(object, property)) {
+					IPropertySetter delegate = null;
+					delegate = model.getPropertySetter();
+					delegate.setObject(object);
+					delegate.setProperty(property);
+					delegate.setContext(context);
+					delegate.setAst(ast);
+					delegate.invoke(value);
+					return;
+				}
+			}
+			
+			throw new EolIllegalPropertyException(object, property, ast, context);
+
 		}
 	}
 }

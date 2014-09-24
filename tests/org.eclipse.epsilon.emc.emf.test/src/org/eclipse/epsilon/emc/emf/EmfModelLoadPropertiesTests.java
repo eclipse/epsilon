@@ -82,7 +82,7 @@ public class EmfModelLoadPropertiesTests {
 
 	private static void assertModelCanBeLoadedFrom(StringProperties properties) throws EolModelLoadingException {
 		final EmfModel model = new EmfModel();
-		model.load(properties, null);
+		model.load(properties);
 		
 		final EObject firstElement = model.getModelImpl().getContents().get(0);
 		assertEquals("Simple", firstElement.eClass().getName());

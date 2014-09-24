@@ -26,6 +26,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
+import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -100,4 +103,35 @@ public class ModelGroupTests {
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		group.getTypeNameOf("foo");
 	}
+	
+	@Test
+	public void testProperties() throws Exception {
+		ModelRepository repository = new ModelRepository();
+		repository.addModel(createReadOnlyPlainXmlModel("Foo", "Xml", "<a p=\"\"/>"));
+		repository.addModel(createReadOnlyPlainXmlModel("Bar", "Xml", "<a p=\"\"/>"));
+		IModel modelGroup = repository.getModelByName("Xml");
+		
+		EolModule module = new EolModule();
+		module.getContext().getModelRepository().addModel(modelGroup);
+		module.parse("for (a in Xml!t_a.all) { a.a_p = 'something'; } "
+				+ "assertEquals(Xml!t_a.all.first().a_p, 'something');"
+				+ "assertEquals(Xml!t_a.all.second().a_p, 'something');"
+				);
+		module.execute();
+	}
+	
+	protected PlainXmlModel createReadOnlyPlainXmlModel(String name, String alias, String xml) {
+		PlainXmlModel m = new PlainXmlModel();
+		m.setName(name);	
+		m.getAliases().add(alias);
+		m.setXml("<?xml version=\"1.0\"?>" + xml);
+		try {
+			m.load();
+		} catch (EolModelLoadingException e) {
+			throw new RuntimeException(e);
+		}
+		return m;
+	}
+
+	
 }
