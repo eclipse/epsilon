@@ -29,6 +29,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
+import org.eclipse.epsilon.common.dt.launching.tabs.ParameterConfiguration;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -36,6 +37,7 @@ import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
@@ -87,6 +89,7 @@ public class EclipseContextManager {
 		if (loadModels) {
 			loadModels(context,configuration,progressMonitor);
 		}
+		loadParameters(context, configuration);
 		setup(context, progressMonitor);
 	}
 	
@@ -133,19 +136,34 @@ public class EclipseContextManager {
 		}
 	}
 	
+	private static void loadParameters(IEolContext context, ILaunchConfiguration configuration) {
+		
+		List<String> parameters = null;
+		
+		try {
+			parameters = configuration.getAttribute("parameters", new ArrayList<String>());
+		} catch (CoreException e) {
+			LogUtil.log(e); return;
+		}
+		
+		for (String parameter : parameters) {
+			ParameterConfiguration p = new ParameterConfiguration(new StringProperties(parameter));
+			context.getFrameStack().putGlobal(new Variable(p.getName(), p.getCastedValue(), p.getEolType()));
+		}
+		
+	}
+	
 	private static void loadModels(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor) {
 		String subtask = "Loading models";
 		progressMonitor.subTask(subtask);
 		progressMonitor.beginTask(subtask, 100);
 		
-		//String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
-		
 		List<?> models = null;
 		
 		try {
 			models = configuration.getAttribute("models", new ArrayList<String>());
-		} catch (CoreException e1) {
-			e1.printStackTrace(context.getErrorStream());
+		} catch (CoreException e) {
+			LogUtil.log(e); return;
 		}
 		
 		ListIterator<?> li = models.listIterator();

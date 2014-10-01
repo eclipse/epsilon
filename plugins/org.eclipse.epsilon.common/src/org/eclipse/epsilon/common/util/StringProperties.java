@@ -17,11 +17,19 @@ import java.util.Properties;
 
 public class StringProperties extends Properties{
 	
+	public StringProperties() {
+		
+	}
+	
+	public StringProperties(String properties) {
+		load(properties);
+	}
+	
 	public void load(String properties){
 		try {
 			super.load(new ByteArrayInputStream(properties.getBytes()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -36,7 +44,14 @@ public class StringProperties extends Properties{
 			e.printStackTrace();
 		}
 
-		return os.toString();
+		// Get rid of the first two lines (comment + date)
+		String str = os.toString();
+		try {
+			return str.replaceAll("^#.*(\n|\r)", "").replaceAll("^#.*(\n|\r)", "").trim();
+		}
+		catch (Exception ex) {
+			return str;
+		}
 	}
 	
 	public boolean hasValueFor(String key) {
@@ -67,13 +82,13 @@ public class StringProperties extends Properties{
 	public static void main(String[] args){
 		
 		StringProperties sp = new StringProperties();
-		sp.put("Hello", "World");
+		sp.put("Hello2", "World");
 		sp.put("Name", "World");
 		sp.put("Mitsos", "World");
-		
-		StringProperties sp2 = new StringProperties();
-		sp2.load(sp.toString());
-		System.out.println(sp2.get("Name"));
+		System.out.println(sp.toString());
+		//StringProperties sp2 = new StringProperties();
+		//sp2.load(sp.toString());
+		//System.out.println(sp2.get("Name"));
 		
 	}
 	

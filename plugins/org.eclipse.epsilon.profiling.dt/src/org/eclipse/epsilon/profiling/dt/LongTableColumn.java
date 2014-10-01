@@ -24,7 +24,7 @@ public class LongTableColumn extends SortableTableColumn {
 	}
 
 	@Override
-	int compare(Object o1, Object o2) {
+	public int compare(Object o1, Object o2) {
 		long l1 = Long.parseLong(StringUtil.toString(o1));
 		long l2 = Long.parseLong(StringUtil.toString(o2));
 		if (l1>l2) return 1;

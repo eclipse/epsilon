@@ -24,7 +24,7 @@ public class StringTableColumn extends SortableTableColumn {
 	}
 
 	@Override
-	int compare(Object o1, Object o2) {
+	public int compare(Object o1, Object o2) {
 		return StringUtil.toString(o1).compareTo(StringUtil.toString(o2));
 	}
 

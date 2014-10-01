@@ -24,7 +24,7 @@ public class DoubleTableColumn extends SortableTableColumn {
 	}
 
 	@Override
-	int compare(Object o1, Object o2) {
+	public int compare(Object o1, Object o2) {
 		double l1 = Double.parseDouble(StringUtil.toString(o1));
 		double l2 = Double.parseDouble(StringUtil.toString(o2));
 		if (l1>l2) return 1;

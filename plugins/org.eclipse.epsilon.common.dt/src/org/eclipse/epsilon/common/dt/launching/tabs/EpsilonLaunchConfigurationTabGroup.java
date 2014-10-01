@@ -28,14 +28,13 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 		
 		public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 			
-			
-			
 			ArrayList<ILaunchConfigurationTab> tabList = new ArrayList<ILaunchConfigurationTab>();
 			for (ILaunchConfigurationTab tab : getSourceConfigurationTabs()) {
 				tabList.add(tab);
 			}
 			
 			tabList.add(new ModelsConfigurationTab());
+			tabList.add(new ParametersConfigurationTab());
 			
 			for (ILaunchConfigurationTab tab : getOtherConfigurationTabs()) {
 				tabList.add(tab);
