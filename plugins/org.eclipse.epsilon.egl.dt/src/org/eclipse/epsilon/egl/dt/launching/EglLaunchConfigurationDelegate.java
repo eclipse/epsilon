@@ -24,8 +24,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -213,15 +215,20 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	private void storeTraceModel() throws CoreException {
 		fineGrainedTrace.setDestination(configuration.getAttribute(TRACE_DESTINATION, ""));
 		
-		System.out.println(fineGrainedTrace);
-		
 		for (FineGrainedTracePostprocessorSpecification spec : new FineGrainedTracePostprocessorSpecificationFactory().loadAllFromExtensionPoints()) {
 			spec.instantiate().postprocess(fineGrainedTrace);
 		}
 	}
 	
-	private String absolutePathFor(String workspaceRelativePath) {
-		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + workspaceRelativePath;
+	private String absolutePathFor(String relativePath) {
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
+		if (file != null) { 
+			return file.getLocation().toOSString(); 
+		}
+		else {
+			// Old behaviour - use as fallback
+			return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString() + relativePath;
+		}
 	}
 	
 	protected boolean isEgx() {
