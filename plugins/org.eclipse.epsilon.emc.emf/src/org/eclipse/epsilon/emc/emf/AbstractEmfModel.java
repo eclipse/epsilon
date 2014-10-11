@@ -328,7 +328,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		//	contents.add(contentsIterator.next());
 		//}
 		contents.addAll(eObject.eContents());
-;		for (EObject content : contents) {
+		for (EObject content : contents) {
 			deleteElement(content);
 		}
 		contents.clear();
