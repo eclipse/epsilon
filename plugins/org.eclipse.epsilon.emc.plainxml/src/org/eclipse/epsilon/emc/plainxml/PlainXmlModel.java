@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -44,6 +45,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PlainXmlModel extends CachedModel<Element> {
+	
+	protected String idAttributeName = "id";
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -105,7 +108,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-
+	
 	public String getXml() {
 		try {
 			StringWriter sw = new StringWriter();
@@ -264,13 +267,17 @@ public class PlainXmlModel extends CachedModel<Element> {
 	@Override
 	protected void disposeModel() {}
 
-	
 	public Object getElementById(String id) {
 		return null;
 	}
-
 	
 	public String getElementId(Object instance) {
+		if (instance instanceof Element) {
+			Element element = (Element) instance;
+			if (element.hasAttribute(idAttributeName)) {
+				return element.getAttribute(idAttributeName);
+			}
+		}
 		return null;
 	}
 	
@@ -278,6 +285,13 @@ public class PlainXmlModel extends CachedModel<Element> {
 		// do nothing
 	}
 
+	public void setIdAttributeName(String idAttributeName) {
+		this.idAttributeName = idAttributeName;
+	}
+	
+	public String getIdAttributeName() {
+		return idAttributeName;
+	}
 	
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
