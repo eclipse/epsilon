@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class ModelSpy extends EmfModel {
 
@@ -24,7 +25,7 @@ public class ModelSpy extends EmfModel {
 	}
 
 	@Override
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.properties = properties;
 	}
 	

@@ -11,7 +11,8 @@ Require-Bundle: org.hamcrest.matchers_1.2;visibility:=reexport,
  org.eclipse.epsilon.hutn.engine;visibility:=reexport,
  org.mockito_1.8.4;visibility:=reexport,
  org.easymock_2.4;visibility:=reexport,
- org.junit;bundle-version="4.0.0";visibility:=reexport
+ org.junit;bundle-version="4.0.0";visibility:=reexport,
+ org.eclipse.epsilon.emc.plainxml;visibility:=reexport
 Bundle-Vendor: Eclipse.org
 Export-Package: org.antlr.gunit,
  org.eclipse.epsilon.test.builtins,
