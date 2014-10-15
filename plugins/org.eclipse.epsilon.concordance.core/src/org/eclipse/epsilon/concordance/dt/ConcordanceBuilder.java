@@ -27,24 +27,22 @@ import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
 import org.eclipse.ui.PlatformUI;
 
 public class ConcordanceBuilder extends IncrementalProjectBuilder {
-	
+
 	static final String ID = "org.eclipse.epsilon.concordance.builder.ConcordanceBuilder";
-	
+
 	private final ModelChangeReporter reporter;
 	private final ResourceCategoriser categoriser = new ResourceCategoriser();
 
-	
 	public ConcordanceBuilder() {
 		this(ConcordancePlugin.getDefault().getModelChangeReporter());
 	}
-	
+
 	public ConcordanceBuilder(ModelChangeReporter reporter) {
 		this.reporter = reporter;
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	@Override
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) {
+	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -55,73 +53,62 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
-		
+
 		refreshProject(monitor);
-		
+
 		return null;
 	}
-	
+
 	private void fullBuild(final IProgressMonitor monitor) {
 		try {
-			//Profiler.INSTANCE.start("Indexing");
-			
 			getProject().accept(new IResourceVisitor() {
 
+				@Override
 				public boolean visit(IResource resource) throws CoreException {
-					
+
 					if (categoriser.isModel(resource)) {
 						final IConcordanceModel model = ConcordanceModelFactory.createModel(resource);
 
 						// Report model change, so the model listeners can 'build' whatever they need to
 						reporter.reportChange(model);
 					}
-					
+
 					return true; // visit children too
 				}
-				
 			});
-			
-			//Profiler.INSTANCE.stop("Indexing");
-			
 		} catch (Exception e) {
 			logException(e);
 		}
 	}
 
 	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor) {
-		try {			
+		try {
 			delta.accept(new IResourceDeltaVisitor() {
-				
-				public boolean visit(IResourceDelta delta) {					
+
+				@Override
+				public boolean visit(IResourceDelta delta) {
 					if (categoriser.isModel(delta.getResource())) {
-					
 						final IConcordanceModel model = ConcordanceModelFactory.createModel(delta.getResource());
-						
+
 						if (delta.getKind() == IResourceDelta.ADDED && delta.getMovedFromPath() == null) {
 							reporter.reportAddition(model);
-						
 						} else if (delta.getKind() == IResourceDelta.CHANGED) {
 							reporter.reportChange(model);
-							
-							
 						} else if (delta.getKind() == IResourceDelta.REMOVED && delta.getMovedToPath() == null) {
 							reporter.reportRemoval(model);
-						
 						} else if (delta.getKind() == IResourceDelta.ADDED && delta.getMovedFromPath() != null) {
 							reporter.reportMove(ConcordanceModelFactory.createModel(delta.getMovedFromPath()), model);
 						}
-						
 					}
-					
+
 					return true; // visit children too
 				}
 			});
-			
 		} catch (CoreException e) {
 			logException(e);
 		}
 	}
-	
+
 	private void refreshProject(IProgressMonitor monitor) {
 		try {
 			getProject().refreshLocal(IProject.DEPTH_INFINITE, monitor);
@@ -129,7 +116,7 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 			logException(e);
 		}
 	}
-	
+
 	private static void logException(Exception e) {
 		if (PlatformUI.isWorkbenchRunning()) {
 			LogUtil.log("Error encountered while running Concordance builder.", e);
@@ -138,6 +125,6 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 			e.printStackTrace();
 		}
 	}
-	
-	// FIXME : build isn't called when workbench starts up	
+
+	// FIXME : build isn't called when workbench starts up
 }
