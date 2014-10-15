@@ -72,8 +72,8 @@ public class ConcordanceBuilder extends IncrementalProjectBuilder {
 					if (categoriser.isModel(resource)) {
 						final IConcordanceModel model = ConcordanceModelFactory.createModel(resource);
 
-						reporter.reportRemoval(model);
-						reporter.reportAddition(model);
+						// Report model change, so the model listeners can 'build' whatever they need to
+						reporter.reportChange(model);
 					}
 					
 					return true; // visit children too
