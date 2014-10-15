@@ -6,7 +6,7 @@
    <extension-point id="ConcordanceModelFactory" name="org.eclipse.epsilon.concordance.model.factory" schema="schema/ConcordanceModelFactory.exsd"/>
    <extension
          id="org.eclipse.epsilon.concordance.builder.ConcordanceBuilder"
-         name="Concordance Indexing Builder"
+         name="Concordance Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             callOnEmptyDelta="true"
