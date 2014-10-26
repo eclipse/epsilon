@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -18,6 +19,18 @@ import org.eclipse.epsilon.eol.models.Model;
 public class FilesystemModel extends Model {
 	
 	protected List<File> files = null;
+	
+	public static void main(String[] args) throws Exception {
+		
+		EolModule module = new EolModule();
+		module.parse("File.all.selectOne(f|f.name = 'test.txt').println();");
+		
+		FilesystemModel model = new FilesystemModel(new File("."));
+		model.setName("M");
+		module.getContext().getModelRepository().addModel(model);
+		
+		module.execute();
+	}
 	
 	public FilesystemModel(File root) {
 		files = getDescendants(root);
