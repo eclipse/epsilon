@@ -3,6 +3,7 @@ package org.eclipse.epsilon.emc.filesystem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.EolModule;
@@ -18,14 +19,17 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class FilesystemModel extends Model {
 	
-	protected List<File> files = null;
+	protected File root = null;
+	protected HashMap<File, List<File>> cache = new HashMap<File, List<File>>();
 	
 	public static void main(String[] args) throws Exception {
 		
 		EolModule module = new EolModule();
-		module.parse("File.all.selectOne(f|f.name = 'test.txt').println();");
+		module.parse("var tester = Tester.all.selectOne(t|t.p_name = 'Tom Jones');" + 
+					 "var requirementIds = tester.p_requirements.split(',');" +
+					 "Requirement.all.select(r|requirementIds.includes(r.name)).p_priority.println();");
 		
-		FilesystemModel model = new FilesystemModel(new File("."));
+		FilesystemModel model = new FilesystemModel(new File("test-data"));
 		model.setName("M");
 		module.getContext().getModelRepository().addModel(model);
 		
@@ -33,29 +37,28 @@ public class FilesystemModel extends Model {
 	}
 	
 	public FilesystemModel(File root) {
-		files = getDescendants(root);
+		getDescendants(root, cache);
 	}
 	
 	@Override
 	public boolean hasType(String type) {
-		return "File".equals(type);
-	}
-	
-	@Override
-	public Collection<?> getAllOfType(String type)
-			throws EolModelElementTypeNotFoundException {
-		return files;
+		return directoryForName(type) != null;
 	}
 	
 	@Override
 	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
-		return getAllOfType(type);
+		return cache.get(directoryForName(type));
 	}
 	
 	@Override
 	public boolean owns(Object instance) {
-		return files.contains(instance);
+		for (File directory : cache.keySet()) {
+			if (cache.get(directory).contains(instance)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override
@@ -66,6 +69,13 @@ public class FilesystemModel extends Model {
 	@Override
 	public IPropertySetter getPropertySetter() {
 		return new FilesystemModelPropertySetter();
+	}
+	
+	@Override
+	public Collection<?> getAllOfType(String type)
+			throws EolModelElementTypeNotFoundException {
+		
+		return cache.get(directoryForName(type));
 	}
 	
 	//TODO: Implement
@@ -85,8 +95,6 @@ public class FilesystemModel extends Model {
 	public Collection<?> allContents() {
 		return null;
 	}
-
-	
 
 	@Override
 	public String getTypeNameOf(Object instance) {
@@ -135,15 +143,29 @@ public class FilesystemModel extends Model {
 		return false;
 	}
 	
-	protected List<File> getDescendants(File root) {
-		ArrayList<File> descendants = new ArrayList<File>();
-		descendants.add(root);
-		if (root.isDirectory()) {
-			for (File child : root.listFiles()) {
-				descendants.addAll(getDescendants(child));
+	protected File directoryForName(String name) {
+		for (File directory : cache.keySet()) {
+			if (directory.getName().equals(name)) {
+				return directory;
 			}
 		}
-		return descendants;
+		return null;
+	}
+	
+	protected void getDescendants(File file, HashMap<File, List<File>> cache) {
+		
+		if (file.isDirectory()) {
+			ArrayList<File> files = new ArrayList<File>();
+			for (File child : file.listFiles()) {
+				if (child.isFile()) {
+					files.add(child);
+				}
+				else {
+					getDescendants(child, cache);
+				}
+			}
+			cache.put(file, files);
+		}
 	}
 	
 }
