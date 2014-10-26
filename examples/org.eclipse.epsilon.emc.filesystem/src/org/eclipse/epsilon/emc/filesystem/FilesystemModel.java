@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -19,25 +18,11 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class FilesystemModel extends Model {
 	
-	protected File root = null;
+	// Map of directories -> files they contain
 	protected HashMap<File, List<File>> cache = new HashMap<File, List<File>>();
 	
-	public static void main(String[] args) throws Exception {
-		
-		EolModule module = new EolModule();
-		module.parse("var tester = Tester.all.selectOne(t|t.p_name = 'Tom Jones');" + 
-					 "var requirementIds = tester.p_requirements.split(',');" +
-					 "Requirement.all.select(r|requirementIds.includes(r.name)).p_priority.println();");
-		
-		FilesystemModel model = new FilesystemModel(new File("test-data"));
-		model.setName("M");
-		module.getContext().getModelRepository().addModel(model);
-		
-		module.execute();
-	}
-	
 	public FilesystemModel(File root) {
-		getDescendants(root, cache);
+		populateCache(root, cache);
 	}
 	
 	@Override
@@ -152,7 +137,7 @@ public class FilesystemModel extends Model {
 		return null;
 	}
 	
-	protected void getDescendants(File file, HashMap<File, List<File>> cache) {
+	protected void populateCache(File file, HashMap<File, List<File>> cache) {
 		
 		if (file.isDirectory()) {
 			ArrayList<File> files = new ArrayList<File>();
@@ -161,7 +146,7 @@ public class FilesystemModel extends Model {
 					files.add(child);
 				}
 				else {
-					getDescendants(child, cache);
+					populateCache(child, cache);
 				}
 			}
 			cache.put(file, files);
