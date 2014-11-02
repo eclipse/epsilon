@@ -16,27 +16,26 @@ import java.util.Set;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEolLibraryModule extends IModule{
 
-	public EolOperations getDeclaredOperations();
+	public OperationList getDeclaredOperations();
 	
-	public EolOperations getOperations();
+	public OperationList getOperations();
 	
-	public List<EolModelDefinition> getDeclaredModelDefinitions();
+	public List<ModelDeclaration> getDeclaredModelDefinitions();
 	
-	public Set<EolModelDefinition> getModelDefinitions();
-	
-	public List<EolModelGroupDefinition> getDeclaredModelGroupDefinitions();
-	
-	public Set<EolModelGroupDefinition> getModelGroupDefinitions();
+	public Set<ModelDeclaration> getModelDefinitions();
 	
 	public IEolLibraryModule getParentModule();
 	
 	public void setParentModule(IEolLibraryModule parent);
 	
-	public List<EolImport> getImports();
+	public List<Import> getImports();
 	
 	public IEolContext getContext();
 	
@@ -44,7 +43,4 @@ public interface IEolLibraryModule extends IModule{
 	
 	public List<ParseProblem> getParseProblems();
 	
-	public EolOperationFactory getOperationFactory();
-	
-	public void setOperationFactory(EolOperationFactory operationFactory);
 }

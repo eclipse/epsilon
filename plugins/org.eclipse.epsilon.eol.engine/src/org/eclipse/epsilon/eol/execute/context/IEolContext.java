@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -41,9 +41,9 @@ public interface IEolContext {
 
 	public void setWarningStream(PrintStream warningStream);
 
-	public OperationFactory getOperationFactory();
+	public EolOperationFactory getOperationFactory();
 
-	public void setOperationFactory(OperationFactory operationFactory);
+	public void setOperationFactory(EolOperationFactory operationFactory);
 
 	public ExecutorFactory getExecutorFactory();
 

@@ -12,9 +12,9 @@ package org.eclipse.epsilon.ecl.execute;
 
 import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class EclOperationFactory extends OperationFactory{
+public class EclOperationFactory extends EolOperationFactory{
 	
 	public EclOperationFactory() {
 		super();
@@ -22,14 +22,4 @@ public class EclOperationFactory extends OperationFactory{
 		operationCache.put("doMatch", new DoMatchOperation());
 	}
 	
-	/*
-	protected AbstractOperation getOperationFor(String name){
-		
-		if (name.equals("matches")){
-			return new MatchesOperation();
-		}
-		
-		return super.getOperationFor(name);
-	}
-	*/
 }

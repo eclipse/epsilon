@@ -11,9 +11,9 @@
 package org.eclipse.epsilon.egl.execute;
 
 import org.eclipse.epsilon.egl.execute.operations.IncludeOperation;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class EglOperationFactory extends OperationFactory {
+public class EglOperationFactory extends EolOperationFactory {
 	
 	@Override
 	protected void createCache() {

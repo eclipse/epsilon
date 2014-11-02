@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.trace;
 
-import org.eclipse.epsilon.ecl.MatchRule;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.types.EolMap;
 
 public class Match {

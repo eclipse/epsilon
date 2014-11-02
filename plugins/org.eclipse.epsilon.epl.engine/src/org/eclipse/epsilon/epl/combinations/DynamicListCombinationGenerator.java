@@ -13,7 +13,7 @@ package org.eclipse.epsilon.epl.combinations;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.epl.NoMatch;
+import org.eclipse.epsilon.epl.dom.NoMatch;
 
 public class DynamicListCombinationGenerator<T> implements CombinationGenerator<T>{
 	

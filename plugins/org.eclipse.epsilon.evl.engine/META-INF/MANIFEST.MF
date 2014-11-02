@@ -8,6 +8,7 @@ Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Eclipse-AutoStart: true
 Export-Package: org.eclipse.epsilon.evl,
+ org.eclipse.epsilon.evl.dom,
  org.eclipse.epsilon.evl.execute,
  org.eclipse.epsilon.evl.execute.context,
  org.eclipse.epsilon.evl.execute.exceptions,

@@ -13,17 +13,18 @@ package org.eclipse.epsilon.hutn;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
@@ -56,23 +57,23 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	protected File configFileDirectory;
 	protected boolean hutnIsValid = false;
 	
-	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new HutnLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new HutnLexer(inputStream);
 	}
-
+	
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
 		return new HutnParser(tokenStream);
 	}
 	
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getParent() == null) {
+			return new HutnDocument();
+		}
+		return new AST();
+	}
 	
 	public String getMainRule() {
 		return "document";
@@ -97,8 +98,8 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	 * the HUTN model cause parse() to return false.
 	 */
 	@Override
-	protected boolean invokeMainRule() throws Exception {
-		boolean buildModelWasCalled = super.invokeMainRule();
+	protected boolean invokeMainRule(List<CommonToken> comments) throws Exception {
+		boolean buildModelWasCalled = super.invokeMainRule(comments);
 		
 		if (buildModelWasCalled) {
 			return parsingWasSuccessful();
@@ -116,10 +117,10 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		return true;
 	}
 
+	
 	public void buildModel() throws Exception {
 		super.buildModel();
-		document = new HutnDocument();
-		document.setAst(ast);
+		document = (HutnDocument) ast;
 		translateAst();
 	}
 

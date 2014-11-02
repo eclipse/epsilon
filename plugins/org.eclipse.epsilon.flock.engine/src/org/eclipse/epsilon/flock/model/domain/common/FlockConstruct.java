@@ -35,7 +35,7 @@ public abstract class FlockConstruct implements ModuleElement {
 		return ast;
 	}
 
-	public List<?> getChildren() {
+	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}
 	

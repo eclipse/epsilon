@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ewl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,8 +22,12 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.ewl.dom.Wizard;
+import org.eclipse.epsilon.ewl.execute.WizardInstance;
+import org.eclipse.epsilon.ewl.execute.WizardLoopInstance;
 import org.eclipse.epsilon.ewl.execute.context.EwlContext;
 import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 import org.eclipse.epsilon.ewl.parse.EwlLexer;
@@ -34,7 +36,7 @@ import org.eclipse.epsilon.ewl.parse.EwlParser;
 
 public class EwlModule extends EolLibraryModule implements IEwlModule {
 	
-	protected List<EwlWizard> templates = new ArrayList<EwlWizard>();
+	protected List<Wizard> wizards = new ArrayList<Wizard>();
 	protected IEwlContext context = null;
 	
 	public EwlModule(){
@@ -42,14 +44,19 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public AST adapt(AST cst, AST parentAst) {
+		switch (cst.getType()) {
+			case EwlParser.TITLE: return new ExecutableBlock<String>(String.class);
+			case EwlParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EwlParser.DO: return new ExecutableBlock<Void>(Void.class);
+			case EwlParser.WIZARD: return new Wizard();
 		}
-		return new EwlLexer(input);
+		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EwlLexer(inputStream);
 	}
 
 	@Override
@@ -66,22 +73,19 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	public void buildModel() throws Exception {
 		
 		super.buildModel();
-		
 		for (AST wizardAst : AstUtil.getChildren(ast,EwlParser.WIZARD)) {
-			final EwlWizard template = new EwlWizard();
-			template.build(wizardAst);
-			templates.add(template);
+			wizards.add((Wizard) wizardAst);
 		}
 	}
 	
-	public List<EwlWizardInstance> getWizardsFor(Object self) throws EolRuntimeException {
+	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException {
 		prepareContext(context);
 
-		final List<EwlWizardInstance> applicableWizards = new ArrayList<EwlWizardInstance>();
+		final List<WizardInstance> applicableWizards = new ArrayList<WizardInstance>();
 		
-		for (EwlWizard wizard : templates) {
+		for (Wizard wizard : wizards) {
 			if (wizard.appliesTo(self,context)){
-				applicableWizards.add(new EwlWizardInstance(wizard, self, context));
+				applicableWizards.add(new WizardInstance(wizard, self, context));
 			}
 			else if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {
 				// Run the same wizard over a collection of applicable objects
@@ -89,7 +93,7 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 				@SuppressWarnings("unchecked")
 				final Collection<Object> collection = (Collection<Object>)self;
 				if (allApply(wizard, collection)) {
-					applicableWizards.add(new EwlWizardLoopInstance(wizard, collection, context));
+					applicableWizards.add(new WizardLoopInstance(wizard, collection, context));
 				}
 			}
 		}
@@ -103,10 +107,10 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
-		children.addAll(templates);
+		children.addAll(wizards);
 		children.addAll(getDeclaredOperations());
 		return children;
 	}
@@ -114,11 +118,11 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	@Override
 	public void reset(){
 		super.reset();
-		templates = new ArrayList<EwlWizard>();
+		wizards = new ArrayList<Wizard>();
 		context = new EwlContext();
 	}
 
-	private boolean allApply(EwlWizard wizard, Collection<Object> self) throws EolRuntimeException {
+	private boolean allApply(Wizard wizard, Collection<Object> self) throws EolRuntimeException {
 		for (Object o : self) {
 			if (!wizard.appliesTo(o, context)) {
 				return false;

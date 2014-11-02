@@ -12,7 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.epl.EplModule;
-import org.eclipse.epsilon.epl.PatternMatchModel;
+import org.eclipse.epsilon.epl.execute.PatternMatchModel;
 
 public class EplTask extends ExecutableModuleTask {
 	

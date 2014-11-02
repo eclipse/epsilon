@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.egl.dt.editor.outline;
 
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.egl.execute.operations.EglTemplateOperation;
+import org.eclipse.epsilon.egl.execute.operations.TemplateOperation;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -23,7 +23,7 @@ public class EglModuleElementLabelProvider extends EolModuleElementLabelProvider
 		
 		if (element instanceof EglMarkerSection) {
 			return EglPlugin.getDefault().createImage("icons/marker.png");
-		} else if (element instanceof EglTemplateOperation) {
+		} else if (element instanceof TemplateOperation) {
 			return EglPlugin.getDefault().createImage("icons/template_operation.png");
 		}
 		

@@ -17,13 +17,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
 public class EUnitTest {
 	
-	private EolOperation operation;
+	private Operation operation;
 	private EUnitTestResultType result = EUnitTestResultType.NOT_RUN_YET;
 	private Exception exception;
 
@@ -43,11 +43,11 @@ public class EUnitTest {
 
 	private FrameStack frameStack;
 
-	public EolOperation getOperation() {
+	public Operation getOperation() {
 		return operation;
 	}
 
-	public void setOperation(EolOperation operation) {
+	public void setOperation(Operation operation) {
 		this.operation = operation;
 	}
 	
@@ -352,7 +352,7 @@ public class EUnitTest {
 		}
 
 		// Remove the file extension
-		String filename = getOperation().getAst().getBasename();
+		String filename = getOperation().getBasename();
 		final int lastDot = filename.lastIndexOf('.');
 		if (lastDot != -1) {
 			filename = filename.substring(0, lastDot);

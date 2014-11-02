@@ -10,16 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
-import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.trace.Transformation;
+import org.eclipse.epsilon.etl.trace.TransformationList;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
-import org.eclipse.epsilon.etl.trace.Transformations;
 
 public class EtlTask extends ExportableModuleTask {
 	
@@ -62,9 +63,9 @@ public class EtlTask extends ExportableModuleTask {
 	protected Collection<Class<?>> getClassesForExportedModel() {
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
 		classes.add(TransformationTrace.class);
-		classes.add(Transformations.class);
+		classes.add(TransformationList.class);
 		classes.add(Transformation.class);
-		classes.add(TransformRule.class);
+		classes.add(TransformationRule.class);
 		return classes;
 	}
 }

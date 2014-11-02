@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +21,14 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.EolImport;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
-import org.eclipse.epsilon.erl.rules.INamedRule;
+import org.eclipse.epsilon.erl.dom.NamedRuleList;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.EtlExecutorFactory;
 import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
@@ -41,8 +41,8 @@ import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 
 public class EtlModule extends ErlModule implements IEtlModule {
 	
-	protected TransformRules declaredTransformRules = null;
-	protected TransformRules transformRules = null;
+	protected NamedRuleList<TransformationRule> declaredTransformationRules = null;
+	protected NamedRuleList<TransformationRule> transformationRules = null;
 	protected IEtlContext context = null;
 	
 	public EtlModule(){
@@ -50,14 +50,8 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new EtlLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EtlLexer(inputStream);
 	}
 
 	@Override
@@ -71,27 +65,40 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == EtlParser.TRANSFORM) {
+			return new TransformationRule();
+		}
+		else if (cst.getType() == EtlParser.GUARD) {
+			return new ExecutableBlock<Boolean>(Boolean.class);
+		}
+		else if (cst.getType() == EtlParser.BLOCK && cst.getParent() != null && cst.getParent().getType() == EtlParser.TRANSFORM) {
+			return new ExecutableBlock<Void>(Void.class);
+		}
+		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
 	public void buildModel() throws Exception {
 		
 		super.buildModel();
 		
 		// Parse the transform rules
-		for (AST matchRuleAst : AstUtil.getChildren(ast, EtlParser.TRANSFORM)) {
-			declaredTransformRules.add(new TransformRule(matchRuleAst));
+		for (AST transformationRuleAst : AstUtil.getChildren(ast, EtlParser.TRANSFORM)) {
+			declaredTransformationRules.add((TransformationRule) transformationRuleAst);
 		}
 
-		getParseProblems().addAll(declaredTransformRules.calculateSuperRules(getTransformRules()));
+		getParseProblems().addAll(calculateSuperRules(getTransformationRules()));
 	}
 	
-	public TransformRules getDeclaredTransformRules() {
-		return declaredTransformRules;
+	public List<TransformationRule> getDeclaredTransformationRules() {
+		return declaredTransformationRules;
 	}
 
 	protected boolean hasLazyRules(IEtlContext context) {
-		for (INamedRule rule : getTransformRules()) {
-			TransformRule transformRule = (TransformRule) rule;
+		for (TransformationRule rule : getTransformationRules()) {
 			try {
-				if (transformRule.isLazy()) {
+				if (rule.isLazy()) {
 					return true;
 				}
 			} catch (EolRuntimeException e) {}
@@ -149,11 +156,11 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
-		children.addAll(declaredTransformRules);
+		children.addAll(declaredTransformationRules);
 		children.addAll(getDeclaredPost());
 		children.addAll(getDeclaredOperations());
 		return children;
@@ -164,39 +171,23 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		super.reset();
 		//preBlock = null;
 		//postBlock = null;
-		transformRules = null;
-		declaredTransformRules = new TransformRules();
+		transformationRules = null;
+		declaredTransformationRules = new NamedRuleList<TransformationRule>();
 		context = new EtlContext();
 	}
-	/*
-	public void setSourceModel(IEolModel sourceModel) {
-		this.sourceModel = sourceModel;
-	}
 
-	public IEolModel getSourceModel() {
-		return sourceModel;
-	}
-
-	public void setTargetModel(IEolModel targetModel) {
-		this.targetModel = targetModel;
-	}
-
-	public IEolModel getTargetModel() {
-		return targetModel;
-	}
-*/
-	public TransformRules getTransformRules() {
-		if (transformRules == null) {
-			transformRules = new TransformRules();
-			for (EolImport import_ : imports) {
+	public List<TransformationRule> getTransformationRules() {
+		if (transformationRules == null) {
+			transformationRules = new NamedRuleList<TransformationRule>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IEtlModule)) {
 					IEtlModule module = (IEtlModule) import_.getModule();
-					transformRules.addAll(module.getTransformRules());
+					transformationRules.addAll(module.getTransformationRules());
 				}
 			}
-			transformRules.addAll(declaredTransformRules);
+			transformationRules.addAll(declaredTransformationRules);
 		}
-		return transformRules;
+		return transformationRules;
 	}
 
 	@Override

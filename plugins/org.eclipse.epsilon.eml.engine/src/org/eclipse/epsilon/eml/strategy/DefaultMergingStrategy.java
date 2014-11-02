@@ -12,16 +12,15 @@ package org.eclipse.epsilon.eml.strategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
-import org.eclipse.epsilon.eml.MergeRule;
-import org.eclipse.epsilon.eml.MergeRules;
+import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 
 
@@ -34,9 +33,8 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		this.context = context;
 		
 		for (Match match : context.getMatchTrace().getMatches()) {
-			MergeRules rules = context.getModule().getMergeRules().getRulesFor(match, context);
-			for (INamedRule rule : rules) {
-				MergeRule mergeRule = (MergeRule) rule;
+			List<MergeRule> rules = getRulesFor(match, context);
+			for (MergeRule mergeRule : rules) {
 				if (!mergeRule.isLazy(context) && !mergeRule.hasMerged(match)) {
 					mergeRule.merge(match, context);
 				}
@@ -46,8 +44,23 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		transformModels(context);
 	}
 
-	public Collection<?> getEquivalents(Object source, IEolContext context,
-			List<String> rules) throws EolRuntimeException {
+	public List<MergeRule> getRulesFor(Match match, IEmlContext context) throws EolRuntimeException{
+		
+		List<MergeRule> rules = new ArrayList<MergeRule>();
+		
+		// First we try to find rules that apply to instance of type only
+		for (MergeRule mergeRule : context.getModule().getMergeRules()){
+			if (!mergeRule.isAbstract()){
+				if (mergeRule.appliesTo(match, context)){ 
+						rules.add(mergeRule);
+				}
+			}
+		}
+		
+		return rules;
+	}
+	
+	public Collection<?> getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException {
 		
 		if (!getExcluded().contains(source)) {
 			return super.getEquivalents(source, context, rules);
@@ -67,9 +80,8 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		List<Object> targets = CollectionUtil.createDefaultList();
 		
 		for (Match match : matches) {
-			for (INamedRule rule : context.getModule().getMergeRules().getRulesFor(match, context)) {
-				MergeRule mergeRule = (MergeRule) rule;
-				if (rules == null || rules.contains(rule.getName())) {
+			for (MergeRule mergeRule : getRulesFor(match, context)) {
+				if (rules == null || rules.contains(mergeRule.getName())) {
 					
 					Collection<?> merged = mergeRule.merge(match, context);
 					

@@ -23,7 +23,7 @@ import org.apache.tools.ant.Project;
 import org.eclipse.ant.internal.core.AntPropertyValueProvider;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.EolSystem;
+import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;

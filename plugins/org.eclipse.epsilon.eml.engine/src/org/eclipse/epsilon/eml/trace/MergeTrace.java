@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.ecl.trace.Match;
-import org.eclipse.epsilon.eml.MergeRule;
+import org.eclipse.epsilon.eml.dom.MergeRule;
 
 public class MergeTrace extends ArrayList<Merge> {
 	

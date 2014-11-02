@@ -13,24 +13,24 @@ package org.eclipse.epsilon.etl.trace;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 
 public class TransformationTrace {
 	
 	//List storage = new ArrayList();
-	HashMap<Object, Transformations> cache = new HashMap<Object, Transformations>();
-	Transformations transformations = new Transformations();
+	HashMap<Object, TransformationList> cache = new HashMap<Object, TransformationList>();
+	TransformationList transformations = new TransformationList();
 	
-	public void add(Object source, Collection<Object> targets, TransformRule rule){
+	public void add(Object source, Collection<Object> targets, TransformationRule rule){
 		Transformation transformation = new Transformation();
 		transformation.setSource(source);
 		transformation.setTargets(targets);
 		transformation.setRule(rule);
 		transformations.add(transformation);
 		//cache.put(source, transformation);
-		Transformations transformations = cache.get(source);
+		TransformationList transformations = cache.get(source);
 		if (transformations == null) {
-			transformations = new Transformations();
+			transformations = new TransformationList();
 			transformations.add(transformation);
 			cache.put(source, transformations);
 		}
@@ -39,7 +39,7 @@ public class TransformationTrace {
 		}
 	}
 	
-	public Transformations getTransformations() {
+	public TransformationList getTransformations() {
 		/*
 		Transformations transformations = new Transformations();
 		for (Object key : cache.keySet()) {
@@ -48,12 +48,12 @@ public class TransformationTrace {
 		return transformations;
 	}
 	
-	public Transformations getTransformations(Object source){
+	public TransformationList getTransformations(Object source){
 		if (cache.containsKey(source)){
 			return cache.get(source);
 		}
 		else {
-			Transformations transformations = new Transformations();
+			TransformationList transformations = new TransformationList();
 			return transformations;
 		}
 		/*

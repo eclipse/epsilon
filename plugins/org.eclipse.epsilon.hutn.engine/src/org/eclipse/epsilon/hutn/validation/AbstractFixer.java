@@ -12,9 +12,9 @@ package org.eclipse.epsilon.hutn.validation;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
 public abstract class AbstractFixer implements IEvlFixer {
 
@@ -29,7 +29,7 @@ public abstract class AbstractFixer implements IEvlFixer {
 	private void applyFixes() throws EolRuntimeException {
 		reset();
 
-		for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
+		for (UnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
 			if (!constraint.getFixes().isEmpty()) {				
 				changedModel = applyFix(constraint);
 			}
@@ -52,9 +52,9 @@ public abstract class AbstractFixer implements IEvlFixer {
 	 * @return true if and only if the fix caused the model to be changed.
 	 * @throws EolRuntimeException 
 	 */
-	protected boolean applyFix(EvlUnsatisfiedConstraint constraint) throws EolRuntimeException {
+	protected boolean applyFix(UnsatisfiedConstraint constraint) throws EolRuntimeException {
 		return false;
 	}
 	
-	protected abstract ParseProblem interpretUnsatisfiedConstraint(EvlUnsatisfiedConstraint constraint);
+	protected abstract ParseProblem interpretUnsatisfiedConstraint(UnsatisfiedConstraint constraint);
 }

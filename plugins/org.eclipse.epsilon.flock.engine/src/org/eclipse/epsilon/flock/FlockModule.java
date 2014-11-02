@@ -13,8 +13,6 @@
  */
 package org.eclipse.epsilon.flock;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +36,8 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	protected IFlockContext context = new FlockContext();
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new FlockLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new FlockLexer(inputStream);
 	}
 
 	@Override
@@ -85,7 +77,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		
 		children.addAll(getImports());

@@ -16,8 +16,8 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 
@@ -64,7 +64,7 @@ public abstract class AbstractValidator {
 		final List<ParseProblem> problems = new LinkedList<ParseProblem>();
 		
 		if (validator != null) {
-			for (EvlUnsatisfiedConstraint constraint : validator.getContext().getUnsatisfiedConstraints()) {
+			for (UnsatisfiedConstraint constraint : validator.getContext().getUnsatisfiedConstraints()) {
 				problems.add(fixer.interpretUnsatisfiedConstraint(constraint));
 			}
 		}

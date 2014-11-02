@@ -31,7 +31,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
 
 public abstract class EObjectImageTextProvider {
@@ -48,7 +48,7 @@ public abstract class EObjectImageTextProvider {
 		
 		module = new EolModule();
 		module.getContext().getModelRepository().addModel(model);
-		module.getContext().setOperationFactory(new OperationFactory() {
+		module.getContext().setOperationFactory(new EolOperationFactory() {
 
 			@Override
 			protected void createCache() {

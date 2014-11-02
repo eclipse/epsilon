@@ -13,15 +13,15 @@ package org.eclipse.epsilon.evl.execute.context;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public interface IEvlContext extends IEolContext {
 	
 	public IEvlModule getModule();
 	public ConstraintTrace getConstraintTrace();
-	public List<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints();
+	public List<UnsatisfiedConstraint> getUnsatisfiedConstraints();
 	public boolean hasFixes();
 	
 }

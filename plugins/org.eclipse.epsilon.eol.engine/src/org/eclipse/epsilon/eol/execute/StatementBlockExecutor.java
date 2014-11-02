@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class StatementBlockExecutor extends AbstractExecutor {
 
 	@Override
-	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
+	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 		AST statementAst = ast.getFirstChild();
 		while (statementAst != null){
 			context.getFrameStack().setCurrentStatement(statementAst);

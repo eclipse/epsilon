@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.hutn.validation.config;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.hutn.validation.AbstractFixer;
 
 class HutnConfigFileFixer extends AbstractFixer {
@@ -25,7 +25,7 @@ class HutnConfigFileFixer extends AbstractFixer {
 	}
 	
 	@Override
-	protected ParseProblem interpretUnsatisfiedConstraint(EvlUnsatisfiedConstraint constraint) {
+	protected ParseProblem interpretUnsatisfiedConstraint(UnsatisfiedConstraint constraint) {
 		return new ParseProblem(line, col, constraint.getMessage());
 	}
 

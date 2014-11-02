@@ -19,8 +19,8 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.ArrayUtil;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -41,20 +41,18 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 		
 		for (Object op : module.getOperations()) {
-			EolOperation operation = (EolOperation) op;
+			Operation operation = (Operation) op;
 			if (operation.getName().equals(ast.getText()) && operation.getFormalParameters().size() == ast.getFirstChild().getChildren().size()) {
-				AST operationAst = operation.getAst();
-				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, operation.toString()));
+				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operation, operation.toString()));
 			}
 		}
 		
 		if (hyperlinks.isEmpty()) {
 			for (Object op : module.getOperations()) {
-				EolOperation operation = (EolOperation) op;
+				Operation operation = (Operation) op;
 			
 				if (operation.getName().equals(ast.getText())) {
-					AST operationAst = operation.getAst();
-					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operationAst, operation.toString()));
+					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operation, operation.toString()));
 				}
 			}	
 		}

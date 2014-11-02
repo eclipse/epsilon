@@ -12,13 +12,13 @@ package org.eclipse.epsilon.etl.trace;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 
 public class Transformation {
 	
 	protected Object source;
 	protected Collection<Object> targets;
-	protected TransformRule rule;
+	protected TransformationRule rule;
 	
 	public Transformation(){
 		
@@ -50,11 +50,11 @@ public class Transformation {
 		return this.source == source;
 	}
 
-	public TransformRule getRule() {
+	public TransformationRule getRule() {
 		return rule;
 	}
 
-	public void setRule(TransformRule rule) {
+	public void setRule(TransformationRule rule) {
 		this.rule = rule;
 	}
 	

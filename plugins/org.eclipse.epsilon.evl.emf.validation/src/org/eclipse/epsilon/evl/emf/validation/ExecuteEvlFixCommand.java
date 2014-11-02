@@ -19,15 +19,15 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlFixInstance;;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 
 public class ExecuteEvlFixCommand implements Command{
 	
-	protected EvlFixInstance fix = null;
+	protected FixInstance fix = null;
 	protected InMemoryEmfModel model = null;
 	protected ChangeDescription changeDescription;
 	
-	public ExecuteEvlFixCommand(EvlFixInstance fix, InMemoryEmfModel model) {
+	public ExecuteEvlFixCommand(FixInstance fix, InMemoryEmfModel model) {
 		super();
 		this.fix = fix;
 		this.model = model;

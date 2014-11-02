@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl;
 
+import java.util.List;
+
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -17,9 +20,9 @@ import org.eclipse.epsilon.erl.IErlModule;
 
 public interface IEclModule extends IErlModule{
 		
-	public MatchRules getMatchRules();
+	public List<MatchRule> getMatchRules();
 	
-	public MatchRules getDeclaredMatchRules();
+	public List<MatchRule> getDeclaredMatchRules();
 	
 	//public void setLeftModel(IModel leftModel);
 	

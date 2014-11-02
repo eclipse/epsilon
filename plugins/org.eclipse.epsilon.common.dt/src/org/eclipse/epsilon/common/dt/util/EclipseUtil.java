@@ -99,6 +99,9 @@ public class EclipseUtil {
 	}*/
 	
 	public static void openEditorAt(AST ast) {
+		
+		if (ast == null) return;
+		
 		if (ast.getFile() != null) {
 			openEditorAt(ast.getFile().getAbsolutePath(), ast.getRegion());
 		}

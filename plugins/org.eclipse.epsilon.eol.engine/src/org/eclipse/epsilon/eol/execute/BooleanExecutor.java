@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.BooleanLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -19,12 +20,7 @@ public class BooleanExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		try {
-			return new Boolean(ast.getText()).booleanValue();
-		}
-		catch (Exception ex){
-			return false;
-		}
+		return ((BooleanLiteral) ast).getValue();
 	}
 
 }

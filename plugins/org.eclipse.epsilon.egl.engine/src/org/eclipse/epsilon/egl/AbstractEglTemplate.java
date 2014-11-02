@@ -19,11 +19,9 @@ import java.util.Set;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.internal.IEglModule;
-import org.eclipse.epsilon.eol.EolImport;
-import org.eclipse.epsilon.eol.EolModelDefinition;
-import org.eclipse.epsilon.eol.EolModelGroupDefinition;
-import org.eclipse.epsilon.eol.EolOperationFactory;
-import org.eclipse.epsilon.eol.EolOperations;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.OperationList;
 
 /**
  * An EGL template that uses an instance of {@link IEglModule}
@@ -46,43 +44,27 @@ public abstract class AbstractEglTemplate {
 	}
 	
 	public List<?> getChildren() {
-		return module.getChildren();
+		return module.getModuleElements();
 	}
 
-	public List<EolModelDefinition> getDeclaredModelDefinitions() {
+	public List<ModelDeclaration> getDeclaredModelDefinitions() {
 		return module.getDeclaredModelDefinitions();
 	}
 
-	public List<EolModelGroupDefinition> getDeclaredModelGroupDefinitions() {
-		return module.getDeclaredModelGroupDefinitions();
-	}
-
-	public EolOperations getDeclaredOperations() {
+	public OperationList getDeclaredOperations() {
 		return module.getDeclaredOperations();
 	}
 
-	public List<EolImport> getImports() {
+	public List<Import> getImports() {
 		return module.getImports();
 	}
 
-	public Set<EolModelDefinition> getModelDefinitions() {
+	public Set<ModelDeclaration> getModelDefinitions() {
 		return module.getModelDefinitions();
 	}
 
-	public Set<EolModelGroupDefinition> getModelGroupDefinitions() {
-		return module.getModelGroupDefinitions();
-	}
-
-	public EolOperationFactory getOperationFactory() {
-		return module.getOperationFactory();
-	}
-
-	public EolOperations getOperations() {
+	public OperationList getOperations() {
 		return module.getOperations();
-	}
-
-	public void setOperationFactory(EolOperationFactory operationFactory) {
-		module.setOperationFactory(operationFactory);
 	}
 
 	protected void printWarning(String message) {

@@ -14,7 +14,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.evl.EvlConstraint;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
@@ -38,7 +38,7 @@ public class SatisfiesOperation extends AbstractOperation{
 			Object result = context.getExecutorFactory().executeAST(child, context);
 			String constraintName = context.getPrettyPrinterManager().toString(result);
 			
-			EvlConstraint constraint = context.getModule().getConstraints().getConstraint(constraintName, obj, context);
+			Constraint constraint = context.getModule().getConstraints().getConstraint(constraintName, obj, context);
 			
 			if (constraint == null) {
 				throw new EvlConstraintNotFoundException(constraintName,ast);

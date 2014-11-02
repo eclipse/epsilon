@@ -20,16 +20,16 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.ewl.EwlWizardInstance;
+import org.eclipse.epsilon.ewl.execute.WizardInstance;
 
 public class ExecuteWizardInstanceCommand implements Command{
 	
-	protected EwlWizardInstance wizardInstance = null;
+	protected WizardInstance wizardInstance = null;
 	protected List<InMemoryEmfModel> models = null;
 	protected ChangeDescription changeDescription;
 	protected WorkbenchPartRefresher refresher;
 	
-	public ExecuteWizardInstanceCommand(EwlWizardInstance wizardInstance, List<InMemoryEmfModel> models, WorkbenchPartRefresher refresher) {
+	public ExecuteWizardInstanceCommand(WizardInstance wizardInstance, List<InMemoryEmfModel> models, WorkbenchPartRefresher refresher) {
 		super();
 		this.wizardInstance = wizardInstance;
 		this.models = models;

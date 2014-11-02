@@ -14,9 +14,10 @@ import java.util.List;
 
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.ewl.execute.WizardInstance;
 
 public interface IEwlModule extends IEolLibraryModule{
 	
-	public List<EwlWizardInstance> getWizardsFor(Object self) throws EolRuntimeException;
+	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException;
 	
 }

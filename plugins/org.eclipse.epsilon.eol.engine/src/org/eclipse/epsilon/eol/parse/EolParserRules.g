@@ -74,6 +74,7 @@ tokens {
 	NativeType;
 	MultiplicativeExpression;
 	OPERATOR;
+	EXPRESSIONINBRACKETS;
 	FeatureCall;
 	EOLMODULE;
 	BLOCK;
@@ -170,7 +171,7 @@ statementBlock
 
 formalParameter
 	@after {
-		$tree.setImaginary(true);
+	//	$tree.setImaginary(true);
 	}
 	:	NAME (':' pt=typeName {setTokenType(pt,TYPE);})?
 		-> ^(FORMAL NAME typeName?)
@@ -235,8 +236,12 @@ packagedType
 	;
 
 nativeType
-	:	n='Native'^ '('! STRING ')'!
-	{$n.setType(TYPE);}
+	@after{
+		$tree.getExtraTokens().add($s); 
+		$tree.getExtraTokens().add($e);
+		$tree.getToken().setType(TYPE);
+	}
+	:	'Native'^ s='('! STRING e=')'!
 	;
 
 collectionType
@@ -287,12 +292,12 @@ switchStatement
 	;
 	
 caseStatement
-	:	c='case'^ logicalExpression ':'! block
+	:	c='case'^ logicalExpression ':'! (block | statementBlock)
 	{$c.setType(CASE);}	
 	;
 	
 defaultStatement
-	:	d='default'^ ':'! block
+	:	d='default'^ ':'! (block | statementBlock)
 	{$d.setType(DEFAULT);}	
 	;
 	
@@ -521,8 +526,10 @@ logicalExpressionInBrackets
 	@after {
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
+		$tree.setImaginary(true);
 	}
-	:	ob='('! logicalExpression cb=')'!
+	:	ob='('^ logicalExpression cb=')'!
+	{$ob.setType(EXPRESSIONINBRACKETS);}
 	;
 	
 literal

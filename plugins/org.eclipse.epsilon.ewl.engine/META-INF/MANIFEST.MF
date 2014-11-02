@@ -6,6 +6,8 @@ Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.ewl,
+ org.eclipse.epsilon.ewl.dom,
+ org.eclipse.epsilon.ewl.execute,
  org.eclipse.epsilon.ewl.execute.context,
  org.eclipse.epsilon.ewl.parse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

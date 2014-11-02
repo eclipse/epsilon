@@ -10,8 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +22,19 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.parse.AstExplorer;
+import org.eclipse.epsilon.epl.dom.Cardinality;
+import org.eclipse.epsilon.epl.dom.Domain;
+import org.eclipse.epsilon.epl.dom.Pattern;
+import org.eclipse.epsilon.epl.dom.Role;
+import org.eclipse.epsilon.epl.execute.PatternMatchModel;
+import org.eclipse.epsilon.epl.execute.PatternMatcher;
 import org.eclipse.epsilon.epl.parse.EplLexer;
 import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.erl.ErlModule;
@@ -42,19 +49,19 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	
 	public static final int INFINITE = -1;
 	
+	public static void main(String[] args) throws Exception {
+		EplModule module = new EplModule();
+		module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/parse/test.epl"));
+		new AstExplorer(module.getAst(), EplParser.class);
+	}
+	
 	public EplModule() {
 		reset();
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new EplLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EplLexer(inputStream);
 	}
 
 	@Override
@@ -75,10 +82,22 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	}
 	
 	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		switch (cst.getType()) {
+			case EplParser.PATTERN: return new Pattern();
+			case EplParser.CARDINALITY: return new Cardinality();
+			case EplParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EplParser.DOMAIN: return new Domain();
+			case EplParser.ROLE: return new Role();
+		}
+		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
 	public void buildModel() throws Exception {
 		super.buildModel();
 		for (AST patternAst : AstUtil.getChildren(ast, EplParser.PATTERN)) {
-			declaredPatterns.add(new Pattern(patternAst));
+			declaredPatterns.add((Pattern) patternAst);
 		}
 	}
 	
@@ -91,7 +110,7 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	public List<Pattern> getPatterns() {
 		if (patterns == null) {
 			patterns = new ArrayList<Pattern>();
-			for (EolImport import_ : imports) {
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EplModule)) {
 					EplModule module = (EplModule) import_.getModule();
 					patterns.addAll(module.getPatterns());
@@ -103,7 +122,7 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren() {
+	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());

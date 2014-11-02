@@ -10,14 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl;
 
+import java.util.List;
+
 import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.erl.rules.NamedRules;
+import org.eclipse.epsilon.erl.dom.Post;
+import org.eclipse.epsilon.erl.dom.Pre;
 
 public interface IErlModule extends IEolExecutableModule {
 	
-	public NamedRules getPre();
-	public NamedRules getPost();
-	public NamedRules getDeclaredPre();
-	public NamedRules getDeclaredPost();
+	public List<Pre> getPre();
+	public List<Post> getPost();
+	public List<Pre> getDeclaredPre();
+	public List<Post> getDeclaredPost();
 	
 }

@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eol.dom.Main;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
@@ -23,28 +26,33 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolModule extends EolLibraryModule implements IEolModule {
 	
-	protected EolMain main;
+	protected Main main;
 	protected IEolContext context;
 	
 	public EolModule(){
 		reset();
-	}	
+	}
 
 	@Override
 	public void buildModel() throws Exception {
 		super.buildModel();
-		main = new EolMain();
-		main.setAst(AstUtil.getChild(ast, EolParser.BLOCK));
+		main = (Main) AstUtil.getChild(ast, EolParser.BLOCK);
+	}
+	
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK){
+			return new Main();
+		}
+		return super.adapt(cst, parentAst);
 	}
 	
 	public Object execute() throws EolRuntimeException {
 		prepareContext(getContext());
-		
-		return Return.getValue(getContext().getExecutorFactory().executeAST(main.getAst(), getContext()));
-		
+		return Return.getValue(getContext().getExecutorFactory().executeAST(main, getContext()));
 	}
 
-	public EolMain getMain() {
+	public Main getMain() {
 		return main;
 	}
 
@@ -59,7 +67,7 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren() {
+	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		if (getMain()!=null){
@@ -87,7 +95,7 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	 * of models, without having to parse it again.
 	 */
 	public void clearCache() {
-		for (EolOperation op : getOperations()) {
+		for (Operation op : getOperations()) {
 			op.clearCache();
 		}
 		getContext().getExtendedProperties().clear();

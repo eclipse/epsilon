@@ -17,7 +17,7 @@ import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class HutnDocument extends AbstractModuleElement {
 
-	public List<?> getChildren() {
+	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}
 	

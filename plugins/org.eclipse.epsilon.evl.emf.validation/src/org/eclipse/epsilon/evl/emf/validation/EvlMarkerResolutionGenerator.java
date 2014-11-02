@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlFixInstance;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator;
 
@@ -29,13 +29,13 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	public static EvlMarkerResolutionGenerator INSTANCE = new EvlMarkerResolutionGenerator();
 	
-	protected HashMap<String, Collection<EvlFixInstance>> resolutions = new HashMap<String, Collection<EvlFixInstance>>();
+	protected HashMap<String, Collection<FixInstance>> resolutions = new HashMap<String, Collection<FixInstance>>();
 	
-	protected HashMap<EvlFixInstance, String> messages = new HashMap<EvlFixInstance, String>();
+	protected HashMap<FixInstance, String> messages = new HashMap<FixInstance, String>();
 	
-	protected HashMap<EvlFixInstance, String> modelNames = new HashMap<EvlFixInstance, String>();
+	protected HashMap<FixInstance, String> modelNames = new HashMap<FixInstance, String>();
 	
-	protected HashMap<EvlFixInstance, String> ePackageUris = new HashMap<EvlFixInstance, String>();
+	protected HashMap<FixInstance, String> ePackageUris = new HashMap<FixInstance, String>();
 	
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		
@@ -51,7 +51,7 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 			String message = EvlMarkerResolverManager.INSTANCE.getMessage(marker);
 			
 			if (this.resolutions.get(elementId) != null) {
-				for (EvlFixInstance fix : this.resolutions.get(elementId)) {
+				for (FixInstance fix : this.resolutions.get(elementId)) {
 					if (message.equals(messages.get(fix))) {
 						resolutions.add(new EvlMarkerResolution(elementId, fix, modelNames.get(fix), ePackageUris.get(fix)));
 					}
@@ -94,9 +94,9 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	public void removeFixesFor(EObject eObject) {
 
 		String eObjectId = getEObjectId(eObject);
-		Collection<EvlFixInstance> fixes = resolutions.remove(eObjectId);
+		Collection<FixInstance> fixes = resolutions.remove(eObjectId);
 		if (fixes != null) {
-			for (EvlFixInstance fix : fixes) {
+			for (FixInstance fix : fixes) {
 				messages.remove(fix);
 				modelNames.remove(fix);
 			}
@@ -107,25 +107,25 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 		return EcoreUtil.getURI((EObject) instance).toString();
 	}
 	
-	public void addResolution(String message, EvlFixInstance fix, String modelName, String ePackageUri) {
+	public void addResolution(String message, FixInstance fix, String modelName, String ePackageUri) {
 
 		messages.put(fix, message);
 		modelNames.put(fix, modelName);
 		ePackageUris.put(fix, ePackageUri);
 		
 		String elementId = getEObjectId(fix.getSelf());
-		Collection<EvlFixInstance> fixes;
+		Collection<FixInstance> fixes;
 		if (resolutions.containsKey(elementId)) {
 			fixes = resolutions.get(elementId);
 		}
 		else {
-			fixes = new ArrayList<EvlFixInstance>();
+			fixes = new ArrayList<FixInstance>();
 			resolutions.put(elementId, fixes);
 		}
 		fixes.add(disconnect(fix));
 	}
 	
-	protected EvlFixInstance disconnect(EvlFixInstance fix) {
+	protected FixInstance disconnect(FixInstance fix) {
 		try {
 			fix.getTitle();
 		} catch (EolRuntimeException e) {

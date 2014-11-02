@@ -11,15 +11,16 @@
 package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.ArrayList;
+
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class EvlContext extends EolContext implements IEvlContext{
 
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
-	protected ArrayList<EvlUnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<EvlUnsatisfiedConstraint>();
+	protected ArrayList<UnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<UnsatisfiedConstraint>();
 	
 	public EvlContext() {
 		super();
@@ -29,12 +30,12 @@ public class EvlContext extends EolContext implements IEvlContext{
 		return constraintTrace;
 	}
 	
-	public ArrayList<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	public ArrayList<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
 	}
 	
 	public boolean hasFixes() {
-		for (EvlUnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
+		for (UnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
 			if (unsatisfiedConstraint.getFixes().size() > 0) {
 				return true;
 			}

@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -81,11 +81,11 @@ public class EglPreprocessorContext implements IEolContext {
 		delegate.setWarningStream(warningStream);
 	}
 
-	public OperationFactory getOperationFactory() {
+	public EolOperationFactory getOperationFactory() {
 		return delegate.getOperationFactory();
 	}
 
-	public void setOperationFactory(OperationFactory operationFactory) {
+	public void setOperationFactory(EolOperationFactory operationFactory) {
 		delegate.setOperationFactory(operationFactory);
 	}
 

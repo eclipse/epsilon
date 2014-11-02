@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.WhileStatement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
@@ -19,14 +20,12 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-
-// TODO : Fix the scope of while statements...
 public class WhileStatementExecutor extends AbstractExecutor{
 
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
-		AST conditionAst = ast.getFirstChild();
-		AST bodyAst = conditionAst.getNextSibling();
+		
+		WhileStatement whileStatement = (WhileStatement) ast;
 		
 		//how many times the loop has been executed
 		int loop = 0;
@@ -35,11 +34,11 @@ public class WhileStatementExecutor extends AbstractExecutor{
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast);
 			
 			loop ++;
-			Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
+			Object condition = context.getExecutorFactory().executeAST(whileStatement.getCondition(), context);		
 			
 			if (!(condition instanceof Boolean)) {
 				context.getFrameStack().leaveLocal(ast);
-				throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
+				throw new EolIllegalReturnException("Boolean", condition, whileStatement.getCondition(), context);
 			}
 			
 			Object result = null;
@@ -49,7 +48,7 @@ public class WhileStatementExecutor extends AbstractExecutor{
 				
 				
 				try {
-					result = context.getExecutorFactory().executeAST(bodyAst, context, true);
+					result = context.getExecutorFactory().executeAST(whileStatement.getBody(), context, true);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
@@ -63,10 +62,10 @@ public class WhileStatementExecutor extends AbstractExecutor{
 					continue;
 				}
 				
+				// /*@config(maxLoops=1000,firstLoop=0,loopCountName="z")*/
 				//if (loop > 100000) {
 				//	throw new EolRuntimeException("Possibly infinite loop (>100000 loops)", conditionAst);
 				//}
-				
 			}
 			else {
 				context.getFrameStack().leaveLocal(ast);
@@ -78,7 +77,6 @@ public class WhileStatementExecutor extends AbstractExecutor{
 			if (result instanceof Return) {
 				return result;
 			}
-		
 		}
 		
 		return null;

@@ -92,8 +92,8 @@ package org.eclipse.epsilon.epl.parse;
 }
 
 eplModule
-	:	importStatement* eplModuleContent* EOF
-	-> ^(EPLMODULE importStatement* eplModuleContent*)
+	:	importStatement* modelDeclaration* eplModuleContent* EOF
+	-> ^(EPLMODULE importStatement* modelDeclaration* eplModuleContent*)
 	;
 
 eplModuleContent

@@ -17,22 +17,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.EolFormalParameter;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
-import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
-import org.eclipse.epsilon.etl.trace.Transformations;
+import org.eclipse.epsilon.etl.trace.TransformationList;
 
 public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	protected IEquivalentProvider equivalentProvider;
 	protected HashMap<Object, Collection<Object>> flatTrace = new HashMap<Object, Collection<Object>>();
-	protected HashMap<Object, Transformations> pendingTransformations = new HashMap<Object, Transformations>();
+	protected HashMap<Object, TransformationList> pendingTransformations = new HashMap<Object, TransformationList>();
 	
 	public FastTransformationStrategy(){
 		equivalentProvider = this;
@@ -58,7 +57,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		IEtlContext context = (IEtlContext) context_;
 		
 		if (pendingTransformations.containsKey(source)) {
-			Transformations transformations = pendingTransformations.remove(source);
+			TransformationList transformations = pendingTransformations.remove(source);
 			executeTransformations(transformations, context);
 		}
 		
@@ -100,24 +99,16 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		
-		for (INamedRule rule : context.getModule().getTransformRules()) {			
-			TransformRule transformRule = ((TransformRule)rule);
+		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
 			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
-				Collection<?> sources;
-				
-				if (transformRule.isGreedy()) {
-					sources = transformRule.getSourceType(context).getAllOfKind();
-				}
-				else {
-					sources = transformRule.getSourceType(context).getAllOfType();
-				}
+				Collection<?> sources = transformRule.getAllInstances(transformRule.getSourceParameter(), context, !transformRule.isGreedy());
 				
 				for (Object instance : sources) {
 					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)){
 						
 						Collection<Object> targets = CollectionUtil.createDefaultList();
 						
-						for (EolFormalParameter target : transformRule.getTargetParameters()) {
+						for (Parameter target : transformRule.getTargetParameters()) {
 							targets.add(target.getType(context).createInstance());
 						}
 						
@@ -147,7 +138,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 				pendingTransformations.get(transformation.getSource()).add(transformation);
 			}
 			else {
-				Transformations transformations = new Transformations();
+				TransformationList transformations = new TransformationList();
 				transformations.add(transformation);
 				pendingTransformations.put(transformation.getSource(), transformations);
 			}
@@ -158,9 +149,9 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	protected void executeTransformations(Transformations transformations, IEtlContext context) throws EolRuntimeException {
+	protected void executeTransformations(TransformationList transformations, IEtlContext context) throws EolRuntimeException {
 		for (Transformation transformation : transformations) {
-			TransformRule rule = transformation.getRule();
+			TransformationRule rule = transformation.getRule();
 			if (!rule.hasTransformed(transformation.getSource())) {
 				rule.transform(transformation.getSource(), transformation.getTargets(), context);
 			}

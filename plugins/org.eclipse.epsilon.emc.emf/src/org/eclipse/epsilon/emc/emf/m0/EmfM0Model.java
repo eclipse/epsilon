@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -87,10 +87,11 @@ public class EmfM0Model extends EmfModel {
 		eolModule.getContext().getModelRepository().addModel(copy);
 	}
 	
-	public EolOperation getHelper(String name){
-		ListIterator<EolOperation> li = eolModule.getDeclaredOperations().listIterator();
+	public Operation getHelper(String name){
+		ListIterator<Operation> li = eolModule.getDeclaredOperations().listIterator();
 		while (li.hasNext()){
-			EolOperation helper = li.next();
+			Operation helper = (Operation) li.next();
+
 			if (helper.getName().equals(name)){
 				return helper;
 			}
@@ -103,7 +104,7 @@ public class EmfM0Model extends EmfModel {
 		public Object invoke(Object object, String property) throws EolRuntimeException {
 			ArrayList<Object> parameterValues = new ArrayList<Object>();
 			parameterValues.add(property);
-			EolOperation propertyGetter = eolModule.getDeclaredOperations().getOperation(object,"getProperty",parameterValues,eolModule.getContext());
+			Operation propertyGetter = eolModule.getDeclaredOperations().getOperation(object,"getProperty",parameterValues,eolModule.getContext());
 			if (propertyGetter != null){
 				return propertyGetter.execute(object,parameterValues,eolModule.getContext());
 			}
@@ -119,7 +120,7 @@ public class EmfM0Model extends EmfModel {
 			ArrayList<Object> parameterValues = new ArrayList<Object>();
 			parameterValues.add(property);
 			parameterValues.add(value);
-			EolOperation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
+			Operation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
 			if (propertySetter != null) {
 				propertySetter.execute(object,parameterValues,eolModule.getContext());
 			}
@@ -146,7 +147,7 @@ public class EmfM0Model extends EmfModel {
 
 	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
-		EolOperation allOfTypeHelper = getHelper("allOfType");
+		Operation allOfTypeHelper = getHelper("allOfType");
 		Collection<EObject> allOfType = null;
 		
 		try {
@@ -160,7 +161,7 @@ public class EmfM0Model extends EmfModel {
 	
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
-		EolOperation allOfKindHelper = getHelper("allOfKind");
+		Operation allOfKindHelper = getHelper("allOfKind");
 		Collection<EObject> allOfKind = null;
 		
 		try {
@@ -175,7 +176,7 @@ public class EmfM0Model extends EmfModel {
 	//FIXME : Actually check is such a type is present
 	@Override
 	public boolean hasType(String type){
-		EolOperation hasTypeHelper = getHelper("hasType");
+		Operation hasTypeHelper = getHelper("hasType");
 		boolean hasType = false;
 		
 		try {

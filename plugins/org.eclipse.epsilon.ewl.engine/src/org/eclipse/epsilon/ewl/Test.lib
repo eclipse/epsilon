@@ -1,3 +1,0 @@
-operation String foo() : String {
-	return self + 'foo';
-}

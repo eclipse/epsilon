@@ -16,8 +16,8 @@ import java.util.Collection;
 
 import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -140,7 +140,7 @@ public class PointExecutor extends AbstractExecutor{
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
-			EolOperation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(target, featureCallAst , parameters, context);
+			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(target, featureCallAst , parameters, context);
 			if (helper != null){
 				return ((IEolLibraryModule) context.getModule()).getOperations().execute(target, helper, featureCallAst, parameters, context);
 			}

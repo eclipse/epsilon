@@ -14,8 +14,8 @@ import java.util.Iterator;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -35,9 +35,9 @@ public class EolLibraryExecutor extends AbstractExecutor{
 		// Then parse the helpers
 		it = AstUtil.getChildren(ast, EolParser.HELPERMETHOD).iterator();
 		while (it.hasNext()){
-			EolOperation helper = new EolOperation((AST)it.next());
+			//EolOperation helper = new EolOperation((AST)it.next());
 			//helper.setSourceFile(this.getSourceFile());
-			((IEolLibraryModule)context.getModule()).getDeclaredOperations().add(helper);
+			((IEolLibraryModule)context.getModule()).getDeclaredOperations().add((Operation) it.next());
 		//	context.getExecutorFactory().executeAST((AST) it.next(), context);
 		}
 		

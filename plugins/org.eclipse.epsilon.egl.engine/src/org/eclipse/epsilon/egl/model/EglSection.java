@@ -41,7 +41,7 @@ public abstract class EglSection implements ModuleElement {
 		return ast;
 	}
 
-	public List<?> getChildren() {
+	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}
 	

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.ecl.trace;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.ecl.MatchRule;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class MatchTrace {

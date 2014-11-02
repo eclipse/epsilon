@@ -1,5 +1,0 @@
-rule A
-	transform a : A
-	to b : B {
-	
-}

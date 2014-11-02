@@ -22,9 +22,8 @@ import java.util.Map;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.EolOperation;
-import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
-import org.eclipse.epsilon.eol.annotations.IEolAnnotation;
+import org.eclipse.epsilon.eol.dom.Annotation;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -69,39 +68,40 @@ public class EUnitModule extends EolModule {
 		this.getContext().getOperationContributorRegistry().add(new ExtraEUnitOperationContributor());
 	}
 
-	public ArrayList<EolOperation> getTests() {
+	public ArrayList<Operation> getTests() {
 		return collectOperationsAnnotatedWith("Test", getOperationsAnnotatedWith("test"));
 	}
 
-	public ArrayList<EolOperation> getInlineModelOperations() {
+	public ArrayList<Operation> getInlineModelOperations() {
 		return collectOperationsAnnotatedWith("Model", getOperationsAnnotatedWith("model"));
 	}
 
-	public ArrayList<EolOperation> getSetups() {
+	public ArrayList<Operation> getSetups() {
 		return collectOperationsAnnotatedWith("Before", getOperationsAnnotatedWith("setup"));
 	}
 	
-	public ArrayList<EolOperation> getTeardowns() {
+	public ArrayList<Operation> getTeardowns() {
 		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
-	public ArrayList<EolOperation> getSuiteSetups() {
+	public ArrayList<Operation> getSuiteSetups() {
 		return collectOperationsAnnotatedWith("BeforeClass", getOperationsAnnotatedWith("suitesetup"));
 	}
 
-	public ArrayList<EolOperation> getSuiteTeardowns() {
+	public ArrayList<Operation> getSuiteTeardowns() {
 		return collectOperationsAnnotatedWith("AfterClass", getOperationsAnnotatedWith("suiteteardown"));
 	}
 
-	public List<Pair<EolOperation, String>> getDataVariableNames() {
-		final List<Pair<EolOperation, String>> results = new ArrayList<Pair<EolOperation, String>>();
-		for (EolOperation op : getOperations()) {
-			for (IEolAnnotation ann : EolAnnotationsUtil.getAnnotations(op.getAst())) {
+	public List<Pair<Operation, String>> getDataVariableNames() {
+		final List<Pair<Operation, String>> results = new ArrayList<Pair<Operation, String>>();
+		for (Operation op : getOperations()) {
+			if (op.getAnnotationBlock() == null) continue;
+			for (Annotation ann : op.getAnnotationBlock().getAnnotations()) {
 				final String annName = ann.getName();
 				if (!"data".equals(annName) && !"Data".equals(annName)) continue;
 
 				try {
-					results.add(new Pair<EolOperation, String>(op, (String)ann.getValue(context)));
+					results.add(new Pair<Operation, String>(op, (String)ann.getValue(context)));
 				} catch (EolRuntimeException e) {
 					// skip annotation and go on
 				}
@@ -110,9 +110,10 @@ public class EUnitModule extends EolModule {
 		return results;
 	}
 
-	public boolean isAnnotatedAs(EolOperation operation, String annotation) {
+	public boolean isAnnotatedAs(Operation operation, String annotation) {
 		try {
-			return EolAnnotationsUtil.getBooleanAnnotationValue(operation.getAst(), annotation, context, false, true);
+			return operation.hasAnnotation(annotation);
+			//return EolAnnotationsUtil.getBooleanAnnotationValue(operation, annotation, context, false, true);
 		}
 		catch (Exception ex) {
 			return false;
@@ -146,7 +147,7 @@ public class EUnitModule extends EolModule {
 			return suiteRoot;
 		}
 
-		List<Pair<EolOperation, String>> dataVariables = getDataVariableNames();
+		List<Pair<Operation, String>> dataVariables = getDataVariableNames();
 		suiteRoot = new EUnitTest();
 		populateSuiteTree(suiteRoot, dataVariables.listIterator());
 
@@ -180,7 +181,7 @@ public class EUnitModule extends EolModule {
 			fireAfterCase(node);
 
 			if (node.getOperation() != null) {
-				getContext().getFrameStack().leaveLocal(node.getOperation().getAst());
+				getContext().getFrameStack().leaveLocal(node.getOperation());
 			}
 		}
 	}
@@ -200,18 +201,18 @@ public class EUnitModule extends EolModule {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<ModelBindings> getModelBindings(EolOperation opTest) throws EolRuntimeException {
+	protected List<ModelBindings> getModelBindings(Operation opTest) throws EolRuntimeException {
 		final List<ModelBindings> results = new ArrayList<ModelBindings>();
-		for (Object withValue : EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_BINDING_ANNOTATION_NAME, getContext())) {
+		for (Object withValue : opTest.getAnnotationsValues(MODEL_BINDING_ANNOTATION_NAME, getContext())) {
 			results.add(new ModelBindings((Map<String, String>)withValue, ModelBindings.ExclusiveMode.INCLUDE_OTHERS));
 		}
-		for (Object onlyWithValue : EolAnnotationsUtil.getAnnotationsValues(opTest.getAst(), MODEL_EXCLUSIVE_BINDING_ANNOTATION_NAME, getContext())) {
+		for (Object onlyWithValue : opTest.getAnnotationsValues(MODEL_EXCLUSIVE_BINDING_ANNOTATION_NAME, getContext())) {
 			results.add(new ModelBindings((Map<String, String>)onlyWithValue, ModelBindings.ExclusiveMode.EXCLUDE_OTHERS));
 		}
 		return results;
 	}
 
-	private void populateSuiteTree(EUnitTest parent, ListIterator<Pair<EolOperation,String>> dataIterator) throws EolRuntimeException {
+	private void populateSuiteTree(EUnitTest parent, ListIterator<Pair<Operation,String>> dataIterator) throws EolRuntimeException {
 		if (dataIterator.hasNext()) {
 			populateSuiteTreeDataOperation(parent, dataIterator);
 		} else {
@@ -221,7 +222,7 @@ public class EUnitModule extends EolModule {
 
 	private void populateSuiteTreeTestOperation(EUnitTest parent)
 			throws EolRuntimeException {
-		for (EolOperation opTest : this.getTests()) {
+		for (Operation opTest : this.getTests()) {
 			EUnitTest test = new EUnitTest();
 			test.setParent(parent);
 			test.setOperation(opTest);
@@ -250,9 +251,9 @@ public class EUnitModule extends EolModule {
 	}
 
 	private void populateSuiteTreeDataOperation(EUnitTest parent,
-			ListIterator<Pair<EolOperation, String>> dataIterator)
+			ListIterator<Pair<Operation, String>> dataIterator)
 			throws EolRuntimeException {
-		final Pair<EolOperation, String> entry = dataIterator.next();
+		final Pair<Operation, String> entry = dataIterator.next();
 
 		try {
 			final EolSequence<?> values
@@ -269,7 +270,7 @@ public class EUnitModule extends EolModule {
 				// If the node has a data binding, use it while populating this
 				// node's subtree: it may be used in a $with annotation.
 				final FrameStack frameStack = getContext().getFrameStack();
-				final AST operationAST = child.getOperation().getAst();
+				final AST operationAST = child.getOperation();
 				frameStack.enterLocal(FrameType.UNPROTECTED, operationAST);
 				final AST dataBindingAST = applyDataBinding(child);
 				populateSuiteTree(child, dataIterator);
@@ -300,7 +301,7 @@ public class EUnitModule extends EolModule {
 		// We need separate stack frames to ensure everything is clean after
 		// each test case
 		if (node.getOperation() != null) {
-			getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, node.getOperation().getAst());
+			getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, node.getOperation());
 		}
 
 		// Implement data bindings
@@ -329,7 +330,7 @@ public class EUnitModule extends EolModule {
 			getContext().setErrorStream(new ByteBufferTeePrintStream(getContext().getErrorStream()));
 
 			// Run the suite setup operations before all tests
-			for (EolOperation op : getSuiteSetups()) {
+			for (Operation op : getSuiteSetups()) {
 				op.execute(null, Collections.emptyList(), context, false);
 			}
 		}
@@ -350,7 +351,7 @@ public class EUnitModule extends EolModule {
 			}
 			if (node.isRootTest()) {
 				// Run the suite teardown operations after all tests
-				for (EolOperation op : getSuiteTeardowns()) {
+				for (Operation op : getSuiteTeardowns()) {
 					op.execute(null, Collections.emptyList(), context, false);
 				}
 			}
@@ -384,7 +385,7 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
-	private void runLeafTestCase(EolOperation opTest, EUnitTest node) throws EolRuntimeException {
+	private void runLeafTestCase(Operation opTest, EUnitTest node) throws EolRuntimeException {
 		/*
 		 * NOTE: the @setup, @test and @teardown operations are all called within
 		 * the same unprotected stack frame, so they can reuse the same variables
@@ -394,7 +395,7 @@ public class EUnitModule extends EolModule {
 		// EXECUTION
 		try {
 			// Load models from the inline model operations, if any
-			for (EolOperation inlineModelOp : getInlineModelOperations()) {
+			for (Operation inlineModelOp : getInlineModelOperations()) {
 				inlineModelOp.execute(null, Collections.emptyList(), context, false);
 			}
 
@@ -404,7 +405,7 @@ public class EUnitModule extends EolModule {
 			}
 
 			// Call the @setup operations
-			for (EolOperation opSetup : this.getSetups()) {
+			for (Operation opSetup : this.getSetups()) {
 				opSetup.execute(null, Collections.emptyList(), context, false);
 			}
 
@@ -420,7 +421,7 @@ public class EUnitModule extends EolModule {
 		}
 		finally {
 			// Call the @teardown operations
-			for (EolOperation opTeardown : this.getTeardowns()) {
+			for (Operation opTeardown : this.getTeardowns()) {
 				opTeardown.execute(null, Collections.emptyList(), context, false);
 			}
 		}
@@ -503,15 +504,15 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
-	private ArrayList<EolOperation> getOperationsAnnotatedWith(String annotationName) {
-		ArrayList<EolOperation> results = new ArrayList<EolOperation>();
+	private ArrayList<Operation> getOperationsAnnotatedWith(String annotationName) {
+		ArrayList<Operation> results = new ArrayList<Operation>();
 		collectOperationsAnnotatedWith(annotationName, results);
 		return results;
 	}
 
-	private ArrayList<EolOperation> collectOperationsAnnotatedWith(String annotationName,
-			ArrayList<EolOperation> results) {
-		for (EolOperation operation : getOperations()) {
+	private ArrayList<Operation> collectOperationsAnnotatedWith(String annotationName,
+			ArrayList<Operation> results) {
+		for (Operation operation : getOperations()) {
 			if (isAnnotatedAs(operation, annotationName)){
 				results.add(operation);
 			}

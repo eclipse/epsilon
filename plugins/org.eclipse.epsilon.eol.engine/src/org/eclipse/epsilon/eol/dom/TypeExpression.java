@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
 
-public class TypeExpression extends AST {
+public class TypeExpression extends Expression {
 
 }

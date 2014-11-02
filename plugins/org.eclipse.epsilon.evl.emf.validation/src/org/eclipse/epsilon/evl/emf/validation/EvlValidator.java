@@ -41,11 +41,11 @@ import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.evl.EvlFixInstance;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.FixInstance;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
 public class EvlValidator implements EValidator {
 
@@ -155,7 +155,7 @@ public class EvlValidator implements EValidator {
 			validate(eObject.eResource(), context);
 
 			// Add problem markers for violations in objects in externally referenced models
-			for (Map.Entry<Object, Collection<EvlUnsatisfiedConstraint>> entry : results.entrySet()) {
+			for (Map.Entry<Object, Collection<UnsatisfiedConstraint>> entry : results.entrySet()) {
 				if (!(entry.getKey() instanceof EObject)) {
 					continue;
 				}
@@ -177,7 +177,7 @@ public class EvlValidator implements EValidator {
 		return true;
 	}
 
-	protected Diagnostic createDiagnostic(String msgPrefix, EvlUnsatisfiedConstraint unsatisfied) {
+	protected Diagnostic createDiagnostic(String msgPrefix, UnsatisfiedConstraint unsatisfied) {
 		int severity = 0;
 
 		if (unsatisfied.getConstraint().isCritique()) {
@@ -256,10 +256,10 @@ public class EvlValidator implements EValidator {
 				}
 			});
 
-			for (EvlUnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
+			for (UnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
 				Object key = unsatisfied.getInstance();
 				if (!results.containsKey(key)) {
-					results.put(key, new ArrayList<EvlUnsatisfiedConstraint>());
+					results.put(key, new ArrayList<UnsatisfiedConstraint>());
 				}
 				results.get(key).add(unsatisfied);
 			}
@@ -282,13 +282,13 @@ public class EvlValidator implements EValidator {
 			// user is not interested in markers...
 			return;
 		}
-		Collection<EvlUnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
+		Collection<UnsatisfiedConstraint> unsatisfiedConstraints = results.get(eObject);
 		
 		if (unsatisfiedConstraints != null && unsatisfiedConstraints.size() > 0) {
-			for (EvlUnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
+			for (UnsatisfiedConstraint unsatisfied : unsatisfiedConstraints) {
 				diagnostics.add(createDiagnostic(msgPrefix, unsatisfied));
 				for (Object fix : unsatisfied.getFixes()) {
-					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(EvlFixInstance) fix, modelName, ePackageUri);
+					EvlMarkerResolutionGenerator.INSTANCE.addResolution(unsatisfied.getMessage(),(FixInstance) fix, modelName, ePackageUri);
 				}
 			}
 		}

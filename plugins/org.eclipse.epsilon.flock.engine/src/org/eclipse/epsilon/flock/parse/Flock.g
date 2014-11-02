@@ -112,8 +112,8 @@ package org.eclipse.epsilon.flock.parse;
 
 
 flockModule
-	:	importStatement* (flockModuleContent)* EOF
-	-> ^(FLOCKMODULE importStatement* flockModuleContent*)
+	:	importStatement* modelDeclaration* (flockModuleContent)* EOF
+	-> ^(FLOCKMODULE importStatement* modelDeclaration* flockModuleContent*)
 	;
 
 flockModuleContent

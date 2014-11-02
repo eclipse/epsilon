@@ -35,7 +35,7 @@ import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.eol.EolLibraryModule;
-import org.eclipse.epsilon.eol.EolOperations;
+import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
@@ -80,7 +80,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	public boolean parse(File file) throws Exception {
 		return parse(file.toURI());
 	}
-
+	
 	private boolean parseFromLexer(EglLexer lexer, File file) throws Exception {
 		this.sourceFile = file;
 		
@@ -197,7 +197,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 
 	}
 	
-	public EolOperations getOperations() {
+	public OperationList getOperations() {
 		return preprocessorModule.getOperations();
 	}
 	
@@ -206,7 +206,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		return preprocessorModule.getAst();
 	}
 	
-	public List<ModuleElement> getChildren() {
+	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new LinkedList<ModuleElement>();
 		
 		children.addAll(preprocessorModule.getImports());

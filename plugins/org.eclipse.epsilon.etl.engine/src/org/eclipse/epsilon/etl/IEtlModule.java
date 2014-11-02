@@ -10,22 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl;
 
+import java.util.List;
+
 import org.eclipse.epsilon.erl.IErlModule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public interface IEtlModule extends IErlModule {
 	
-	public TransformRules getDeclaredTransformRules();
+	public List<TransformationRule> getDeclaredTransformationRules();
 	
-	public TransformRules getTransformRules();
-	
-	//public void setSourceModel(IEolModel sourceModel);
-	
-	//public IEolModel getSourceModel();
-	
-	//public void setTargetModel(IEolModel targetModel);
-	
-	//public IEolModel getTargetModel();
+	public List<TransformationRule> getTransformationRules();
 	
 	public IEtlContext getContext();
 	

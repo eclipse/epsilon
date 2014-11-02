@@ -1,7 +1,7 @@
 operation validate(tree, label) : Sequence {
   tree.label := label;
   runTarget('validate-tree');
-  return EVL!EvlUnsatisfiedConstraint.allInstances;
+  return EVL!UnsatisfiedConstraint.allInstances;
 }
 
 @setup

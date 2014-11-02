@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eunit.EUnitModule;
@@ -69,7 +69,7 @@ public class EUnitRunner extends Runner {
 			return testSuiteDescription;
 		}
 		
-		for (EolOperation test : module.getTests()) {
+		for (Operation test : module.getTests()) {
 			Description testDescription = Description.createTestDescription(clazz, test.getName());
 			testSuiteDescription.addChild(testDescription);
 			descriptions.put(test.getName(), testDescription);

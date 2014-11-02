@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,35 +21,31 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.execute.EmlExecutorFactory;
 import org.eclipse.epsilon.eml.execute.context.EmlContext;
 import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
-import org.eclipse.epsilon.eol.EolImport;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.EtlModule;
 
 
 public class EmlModule extends EtlModule {
 	
 	protected EmlContext context = new EmlContext();
-	protected MergeRules declaredMergeRules = null;
-	protected MergeRules mergeRules = null;
+	protected NamedRuleList<MergeRule> declaredMergeRules = null;
+	protected NamedRuleList<MergeRule> mergeRules = null;
 	
 	public EmlModule(){
 		reset();
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new EmlLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EmlLexer(inputStream);
 	}
 
 	@Override
@@ -78,10 +72,10 @@ public class EmlModule extends EtlModule {
 		
 		// Parse the merge rules
 		for (AST mergeRuleAst : AstUtil.getChildren(ast, EmlParser.MERGE)) {
-			declaredMergeRules.add(new MergeRule(mergeRuleAst));
+			declaredMergeRules.add((MergeRule) mergeRuleAst);
 		}
 		
-		getParseProblems().addAll(declaredMergeRules.calculateSuperRules(getMergeRules()));		
+		getParseProblems().addAll(calculateSuperRules(getMergeRules()));		
 	}
 	
 	@Override
@@ -112,20 +106,28 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == EmlParser.MERGE) {
+			return new MergeRule();
+		}
+		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
 	public void reset(){
 		super.reset();
-		declaredMergeRules = new MergeRules();
+		declaredMergeRules = new NamedRuleList<MergeRule>();
 		mergeRules = null;
 	}
 	
-	public MergeRules getDeclaredMergeRules(){
+	public List<MergeRule> getDeclaredMergeRules(){
 		return declaredMergeRules;
 	}
 	
-	public MergeRules getMergeRules() {
+	public List<MergeRule> getMergeRules() {
 		if (mergeRules == null) {
-			mergeRules = new MergeRules();
-			for (EolImport import_ : imports) {
+			mergeRules = new NamedRuleList<MergeRule>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EmlModule)) {
 					EmlModule module = (EmlModule) import_.getModule();
 					mergeRules.addAll(module.getMergeRules());
@@ -137,12 +139,12 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren() {
+	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
 		children.addAll(declaredMergeRules);
-		children.addAll(declaredTransformRules);
+		children.addAll(declaredTransformationRules);
 		children.addAll(getDeclaredPost());
 		children.addAll(getDeclaredOperations());
 		return children;

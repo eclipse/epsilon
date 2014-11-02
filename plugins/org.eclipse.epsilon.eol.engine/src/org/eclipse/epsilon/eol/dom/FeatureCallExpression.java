@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
 
-public abstract class FeatureCallExpression extends AST {
-
+public abstract class FeatureCallExpression extends Expression {
+	
 }

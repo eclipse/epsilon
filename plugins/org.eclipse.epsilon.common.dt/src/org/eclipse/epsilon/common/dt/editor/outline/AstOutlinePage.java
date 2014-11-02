@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -83,7 +84,9 @@ public class AstOutlinePage extends ModuleContentOutlinePage {
 			
 			@Override
 			public Object getParent(Object element) {
-				return ((AST) element).getParent();
+				//if (element inst)
+				//return ((AST) element).getParent();
+				return null;
 			}
 			
 			@Override
@@ -93,11 +96,19 @@ public class AstOutlinePage extends ModuleContentOutlinePage {
 			
 			@Override
 			public Object[] getChildren(Object parentElement) {
-				return AstOutlinePage.this.getChildren((AST) parentElement)/*.getChildren()*/.toArray();
+				
+				List<Object> children = new ArrayList<Object>();
+				if (parentElement instanceof AST) {
+					children.addAll(((AST) parentElement).getChildren());
+					if (parentElement instanceof AbstractModuleElement) children.addAll(((AbstractModuleElement) parentElement).getComments());
+				}
+				return children.toArray();
+				//return AstOutlinePage.this.getChildren((AST) parentElement)/*.getChildren()*/.toArray();
 			}
 		};
 	}
 	
+	/*
 	protected List<AST> getChildren(AST ast) {
 		boolean onlyNonImaginary = true;
 		if (onlyNonImaginary) {
@@ -119,6 +130,6 @@ public class AstOutlinePage extends ModuleContentOutlinePage {
 		else {
 			return ast.getChildren();
 		}
-	}
+	}*/
 	
 }

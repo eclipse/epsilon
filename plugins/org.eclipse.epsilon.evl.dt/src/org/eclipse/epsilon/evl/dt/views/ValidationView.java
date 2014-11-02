@@ -12,12 +12,13 @@ package org.eclipse.epsilon.evl.dt.views;
 
 
 import java.util.Collections;
+
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlFixInstance;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -50,10 +51,10 @@ public class ValidationView extends ViewPart {
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			return ((EvlUnsatisfiedConstraint) obj).getMessage();
+			return ((UnsatisfiedConstraint) obj).getMessage();
 		}
 		public Image getColumnImage(Object obj, int index) {
-			EvlUnsatisfiedConstraint unsatisfiedConstraint = (EvlUnsatisfiedConstraint) obj;
+			UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint) obj;
 			if (unsatisfiedConstraint.isFixed()) {
 				return EvlPlugin.getDefault().createImage("icons/fix.gif");
 			}
@@ -80,7 +81,7 @@ public class ValidationView extends ViewPart {
 	}
 	
 	protected boolean existUnsatisfiedConstraintsToFix() {
-		for (EvlUnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
+		for (UnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
 			if (constraint.getFixes().size() > 0 && !constraint.isFixed()) {
 				return true;
 			}
@@ -145,10 +146,10 @@ public class ValidationView extends ViewPart {
 
 	private void fillContextMenu(IMenuManager manager) {
 		
-		EvlUnsatisfiedConstraint unsatisfiedConstraint = (EvlUnsatisfiedConstraint)((StructuredSelection) viewer.getSelection()).getFirstElement();
+		UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint)((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (unsatisfiedConstraint == null) return;
 		
-		for (EvlFixInstance fixInstance : unsatisfiedConstraint.getFixes()) {
+		for (FixInstance fixInstance : unsatisfiedConstraint.getFixes()) {
 			manager.add(new PerformFixAction(unsatisfiedConstraint, fixInstance));
 		}
 		
@@ -158,10 +159,10 @@ public class ValidationView extends ViewPart {
 	
 	class PerformFixAction extends Action {
 		
-		EvlUnsatisfiedConstraint unsatisfiedConstraint = null;
-		EvlFixInstance fixInstance = null;
+		UnsatisfiedConstraint unsatisfiedConstraint = null;
+		FixInstance fixInstance = null;
 		
-		public PerformFixAction(EvlUnsatisfiedConstraint unsatisfiedConstraint, EvlFixInstance fixInstance) {
+		public PerformFixAction(UnsatisfiedConstraint unsatisfiedConstraint, FixInstance fixInstance) {
 			this.unsatisfiedConstraint = unsatisfiedConstraint;
 			this.fixInstance = fixInstance;
 			this.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/fix.gif"));

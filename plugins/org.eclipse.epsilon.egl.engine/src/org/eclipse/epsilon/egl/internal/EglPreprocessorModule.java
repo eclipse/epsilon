@@ -25,6 +25,7 @@ import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
+import org.eclipse.epsilon.egl.execute.operations.TemplateOperation;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.eol.EolModule;
@@ -55,7 +56,6 @@ public class EglPreprocessorModule extends EolModule {
 		final String eol = preprocessor.convertToEol(ast);
 
 		try {
-			setOperationFactory(new EglOperationFactory());
 			if (parse(eol, sourceFile)) {
 				updateASTLocations(this.ast);
 				return true;
@@ -88,6 +88,23 @@ public class EglPreprocessorModule extends EolModule {
 		}
 	}
 
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == EolParser.HELPERMETHOD && hasAnnotation(cst, "template")) {
+			return new TemplateOperation();
+		}
+		return super.adapt(cst, parentAst);
+	}
+	
+	protected boolean hasAnnotation(AST ast, String name) {
+		if (ast.getAnnotationsAst() == null) return false;
+		for (AST annotation : ast.getAnnotationsAst().getChildren()) {
+			if (annotation.getType() == EolParser.Annotation && 
+				annotation.getText().trim().equals("@" + name)) return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Updates the EOL ASTs produced by the preprocessor from EGL static sections.
 	 * 

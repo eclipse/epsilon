@@ -13,8 +13,8 @@ package org.eclipse.epsilon.eol.execute.prettyprinting;
 import java.util.Collections;
 
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -30,7 +30,7 @@ public class EolPrettyPrinter implements PrettyPrinter {
 	public boolean appliesTo(Object o) {
 		
 		try {
-			EolOperation operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.emptyList(), context);
+			Operation operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.EMPTY_LIST, context);
 			if (operation != null) return true;
 		} catch (EolRuntimeException e) {
 			return false;
@@ -40,7 +40,7 @@ public class EolPrettyPrinter implements PrettyPrinter {
 	}
 
 	public String print(Object o) {
-		EolOperation operation;
+		Operation operation;
 		try {
 			operation = ((IEolLibraryModule)context.getModule()).getOperations().getOperation(o, "toString", Collections.emptyList(), context);
 			return StringUtil.toString(operation.execute(o, Collections.emptyList(), context));

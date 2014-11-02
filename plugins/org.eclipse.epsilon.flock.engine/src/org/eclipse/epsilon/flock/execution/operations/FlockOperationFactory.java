@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution.operations;
 
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class FlockOperationFactory extends OperationFactory {
+public class FlockOperationFactory extends EolOperationFactory {
 	
 	public FlockOperationFactory() {
 		operationCache.put("equivalent", new EquivalentOperation());

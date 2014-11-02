@@ -15,18 +15,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlFixInstance;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.ui.IMarkerResolution;
 
 public class EvlMarkerResolution implements IMarkerResolution {
 	
 	protected String label;
-	protected EvlFixInstance fix;
+	protected FixInstance fix;
 	protected String elementId;
 	protected String modelName;
 	protected String ePackageUri;
 	
-	public EvlMarkerResolution(String elementId, EvlFixInstance fix, String modelName, String ePackageUri) {
+	public EvlMarkerResolution(String elementId, FixInstance fix, String modelName, String ePackageUri) {
 		try {
 			this.label = fix.getTitle();
 			this.fix = fix;

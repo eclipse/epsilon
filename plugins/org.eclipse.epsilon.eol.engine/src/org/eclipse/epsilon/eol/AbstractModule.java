@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.ParserRuleReturnScope;
@@ -32,12 +34,17 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.eclipse.epsilon.common.parse.Position;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.eol.annotations.EolAnnotationsUtil;
+import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eol.parse.EolLexer;
+import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 
 public abstract class AbstractModule extends AbstractModuleElement implements IModule {
+	
+	protected AST ast;
 	
 	protected EpsilonParser parser;
 	
@@ -47,18 +54,29 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public abstract String getMainRule();
 	
-	public abstract Lexer createLexer(InputStream inputStream);
+	protected abstract Lexer createLexer(ANTLRInputStream inputStream);
 	
 	public abstract EpsilonParser createParser(TokenStream tokenStream);
 	
 	public abstract void reset();
+	
+	protected File sourceFile;
+	protected URI sourceUri;
+	
+	public File getSourceFile() {
+		return sourceFile;
+	}
+	
+	public URI getSourceUri() {
+		return sourceUri;
+	}
 	
 	@Override
 	public AST getAst() {
 		return ast;
 	}
 
-	public abstract List<ModuleElement> getChildren();
+	public abstract List<ModuleElement> getModuleElements();
 	
 	public List<ParseProblem> getParseProblems() {
 		return parseProblems;
@@ -91,12 +109,12 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return parse(uri, uri.toURL().openStream());
 	}
 
-	protected boolean invokeMainRule() throws Exception {
+	protected boolean invokeMainRule(List<CommonToken> multilineComments) throws Exception {
 		EpsilonParseProblemManager.INSTANCE.reset();
+		AST cst = null;
 		
 		try {
-			AST cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
-			ast = createAst(cst, null);
+			cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
 		}
 		
 		catch (RecognitionException ex){
@@ -120,7 +138,10 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
 		if (getParseProblems().size() == 0){
-			EolAnnotationsUtil.assignAnnotations(ast);
+			assignAnnotations(cst);
+			assignComments(cst, multilineComments);
+			ast = createAst(cst, null);
+			assignAnnotations(ast);
 			buildModel();
 			return true;
 		}
@@ -137,6 +158,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		
 		ast.setExtraTokens(cst.getExtraTokens());
 		ast.setImaginary(cst.isImaginary());
+		ast.setCommentTokens(cst.getCommentTokens());
 		
 		for (Object childCst : cst.getChildren()) {
 			if (!(childCst instanceof AST)) continue;
@@ -151,6 +173,27 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return new AST();
 	}
 	
+	public static void main(String[] args) throws Exception {
+		EolModule module = new EolModule();
+		module.parse("	(/*a*/i).println();");
+		System.out.println("Problems: " + module.getParseProblems().size());
+		System.out.println(module.getAst().toStringTree());
+		module.execute();
+		//System.out.println(module.getAst().getFirstChild().getFirstChild().getComments().size());
+	}
+	
+	protected List<CommonToken> extractComments(CommonTokenStream stream) {
+		List<CommonToken> comments = new ArrayList<CommonToken>();
+		
+		for (Object t : stream.getTokens()) {
+			CommonToken token = (CommonToken) t;
+			if (token.getType() == EolLexer.COMMENT || token.getType() == EolParser.LINE_COMMENT) {
+				comments.add(token);
+			}
+		}
+		return comments;
+	}
+	
 	private boolean parse(URI uri, final InputStream iStream) throws Exception {
 		parseProblems.clear();
 		Scanner s = new java.util.Scanner(iStream);
@@ -160,14 +203,18 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		    String contents = s.hasNext() ? s.next() : "";
 		    ByteArrayInputStream noTabsStream = new ByteArrayInputStream(contents.replaceAll("\t", " ").getBytes());
 		    
-			final Lexer lexer = createLexer(noTabsStream);
+		    final Lexer lexer = createLexer(new ANTLRInputStream(noTabsStream));
+		    
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
+			
+			List<CommonToken> multilineComments = extractComments(stream);
+			
 			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri, this);
 
 			parser = createParser(stream);
 			parser.setDeepTreeAdaptor(adaptor);
 
-			return invokeMainRule();
+			return invokeMainRule(multilineComments);
 		}
 		catch (Exception ex) {
 			parseProblems.add(new ParseProblem("Exception during parsing: " + ex.getLocalizedMessage(), ParseProblem.ERROR));
@@ -175,6 +222,50 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		}
 		finally {
 			s.close();
+		}
+	}
+	
+	protected void assignComments(AST root, List<CommonToken> comments) {
+		for (CommonToken comment : comments) {
+			assignComment(root, comment);
+		}
+	}
+	
+	protected void assignComment(AST root, CommonToken comment) {
+		for (AST ast : root.getDescendants()) {
+			Position start = ast.getRegion().getStart();
+			if (!ast.isImaginary() && comment.getLine() <= start.getLine() && comment.getCharPositionInLine() <= start.getColumn()) {
+				ast.getCommentTokens().add(comment);
+				return;
+			}
+		}
+	}
+	
+	
+	protected void assignAnnotations(AST ast) {
+		List<AST> children = AstUtil.getChildren(ast);
+		for (AST child : children) {
+			if (child.getType() == EolParser.ANNOTATIONBLOCK) {
+				
+				AST target = null;
+				
+				//HACK to support main-less EOL programs
+				if (child.getNextSibling() != null) {
+					if (child.getNextSibling().getType() != EolParser.BLOCK) {
+						target = child.getNextSibling();
+					}
+					else if (child.getNextSibling().getNextSibling() != null) {
+						target = child.getNextSibling().getNextSibling();
+					}
+				}
+				
+				if (target != null) {
+					target.setAnnotationsAst(child);
+				}
+				
+			} else {
+				assignAnnotations(child);
+			}
 		}
 	}
 	

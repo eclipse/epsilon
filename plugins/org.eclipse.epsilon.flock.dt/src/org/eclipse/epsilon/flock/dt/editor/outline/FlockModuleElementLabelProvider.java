@@ -10,8 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.dt.editor.outline;
 
-import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
+import org.eclipse.epsilon.erl.dom.Post;
+import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
@@ -24,19 +25,22 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof EolLabeledBlock){
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/" + ((EolLabeledBlock) element).getLabel() + ".gif");
-			
-		} else if (element instanceof MigrateRule) {
+		if (element instanceof MigrateRule) {
 			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/migrate.png");
-		
-		} else if (element instanceof Retyping || element instanceof PackageRetyping) {
+		} 
+		else if (element instanceof Retyping || element instanceof PackageRetyping) {
 			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/retyping.gif");
-			
-		} else if (element instanceof Deletion || element instanceof PackageDeletion) {
+		} 
+		else if (element instanceof Deletion || element instanceof PackageDeletion) {
 			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/deletion.gif");
-
-		} else {
+		} 
+		else if (element instanceof Pre){
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/pre.gif");
+		}
+		else if (element instanceof Post){
+			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/post.gif");
+		}
+		else {
 			return super.getImage(element);
 		}
 	}

@@ -1,22 +1,33 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class IfStatement extends Statement {
 	
-	public Expression getCondition() {
-		return (Expression) getFirstChild();
-	}
+	protected Expression condition;
+	protected AbstractModuleElement then;
+	protected AbstractModuleElement _else;
 	
-	public AST getThen() {
-		return getSecondChild();
-	}
-	
-	public AST getElse() {
+	@Override
+	public void build() {
+		super.build();
+		condition = (Expression) getFirstChild();
+		then = (AbstractModuleElement) getSecondChild();
 		if (getChildCount() == 3) {
-			return getChild(2);
+			_else = (AbstractModuleElement) getThirdChild();
 		}
-		else return null;
+	}
+	
+	public Expression getCondition() {
+		return condition;
+	}
+	
+	public AbstractModuleElement getThen() {
+		return then;
+	}
+	
+	public AbstractModuleElement getElse() {
+		return _else;
 	}
 	
 }

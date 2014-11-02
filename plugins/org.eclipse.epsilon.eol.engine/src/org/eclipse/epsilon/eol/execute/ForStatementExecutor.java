@@ -56,16 +56,9 @@ public class ForStatementExecutor extends AbstractExecutor{
 			iteratedCol.add(iterated);
 		}
 		
-		//TODO : See how this affects performance
-		//iteratedCol = iteratedCol.clone();
-		
 		String iteratorName = "";
 		EolType iteratorType = null;
-		//if (iteratorAst.getType() == EolParser.NAME) {
-		//	iteratorName = iteratorAst.getText();
-		//	iteratorType = EolAnyType.Instance;
-		//}
-		//else {
+
 		iteratorName = iteratorAst.getFirstChild().getText();
 		AST iteratorTypeAst = iteratorAst.getFirstChild().getNextSibling();
 		if (iteratorTypeAst != null) {
@@ -74,20 +67,9 @@ public class ForStatementExecutor extends AbstractExecutor{
 		else {
 			iteratorType = EolAnyType.Instance;
 		}
-		//}
 		
 		Iterator<Object> li = iteratedCol.iterator();
-		
-		if (iteratorType != EolAnyType.Instance) {
-			Collection<Object> typeSafeCollection = CollectionUtil.createDefaultList();
-			while (li.hasNext()) {
-				Object next = li.next();
-				if (iteratorType.isKind(next)) {
-					typeSafeCollection.add(next);
-				}
-			}
-			li = typeSafeCollection.iterator();
-		}
+
 		
 		boolean loopBroken = false;
 		

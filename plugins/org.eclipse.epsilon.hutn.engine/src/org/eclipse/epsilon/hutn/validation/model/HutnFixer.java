@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.EvlFixInstance;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ModelElement;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -25,7 +25,7 @@ import org.eclipse.epsilon.hutn.validation.AbstractFixer;
 class HutnFixer extends AbstractFixer {
 
 	@Override
-	protected ParseProblem interpretUnsatisfiedConstraint(EvlUnsatisfiedConstraint constraint) {
+	protected ParseProblem interpretUnsatisfiedConstraint(UnsatisfiedConstraint constraint) {
 		if (constraint.getInstance() instanceof ModelElement) {			
 			final ModelElement modelElement = (ModelElement)constraint.getInstance();
 			return new ParseProblem(modelElement.getLine(), modelElement.getCol(), constraint.getMessage());
@@ -36,17 +36,17 @@ class HutnFixer extends AbstractFixer {
 	}
 
 	@Override
-	protected boolean applyFix(EvlUnsatisfiedConstraint constraint) throws EolRuntimeException {
+	protected boolean applyFix(UnsatisfiedConstraint constraint) throws EolRuntimeException {
 		// Assume all fixes are for ClassMustSpecifyRequiredReferences constraint
 		return applyFixForClassMustSpecifyRequiredReferences(constraint);
 	}
 	
-	private boolean applyFixForClassMustSpecifyRequiredReferences(EvlUnsatisfiedConstraint constraint) throws EolRuntimeException {
+	private boolean applyFixForClassMustSpecifyRequiredReferences(UnsatisfiedConstraint constraint) throws EolRuntimeException {
 		final ClassObject object = (ClassObject)constraint.getInstance();
 		
 		final List<Slot<?>> originalSlots = defensiveCopy(object.getSlots());
 		
-		((EvlFixInstance)constraint.getFixes().get(0)).perform();
+		((FixInstance)constraint.getFixes().get(0)).perform();
 		
 		// Return true only if fix caused a change.
 		return !originalSlots.equals(object.getSlots());

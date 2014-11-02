@@ -91,8 +91,8 @@ package org.eclipse.epsilon.eml.parse;
 }
 
 emlModule
-	:	importStatement* (emlModuleContent)* EOF
-	-> ^(EMLMODULE importStatement* emlModuleContent*)
+	:	importStatement* modelDeclaration* (emlModuleContent)* EOF
+	-> ^(EMLMODULE importStatement* modelDeclaration* emlModuleContent*)
 	;
 
 emlModuleContent

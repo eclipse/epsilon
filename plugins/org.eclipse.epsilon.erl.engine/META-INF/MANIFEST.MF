@@ -6,7 +6,7 @@ Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.erl,
+ org.eclipse.epsilon.erl.dom,
  org.eclipse.epsilon.erl.exceptions,
- org.eclipse.epsilon.erl.rules,
  org.eclipse.epsilon.erl.strategy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

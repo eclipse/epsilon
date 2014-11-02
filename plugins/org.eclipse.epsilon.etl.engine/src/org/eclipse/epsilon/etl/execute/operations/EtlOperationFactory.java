@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute.operations;
 
-public class EtlOperationFactory extends org.eclipse.epsilon.eol.execute.operations.OperationFactory{
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
+
+public class EtlOperationFactory extends EolOperationFactory{
 	
 	public EtlOperationFactory() {
 		super();
@@ -18,17 +20,4 @@ public class EtlOperationFactory extends org.eclipse.epsilon.eol.execute.operati
 		operationCache.put("equivalents", new EquivalentsOperation());
 	}
 	
-	/*
-	protected AbstractOperation getOperationFor(String name){
-				
-		if (name.equals("equivalent")){
-			return new EquivalentOperation();
-		}
-		else if (name.equals("equivalents")){
-			return new EquivalentsOperation();
-		}
-		return super.getOperationFor(name);
-		
-	}
-	*/
 }

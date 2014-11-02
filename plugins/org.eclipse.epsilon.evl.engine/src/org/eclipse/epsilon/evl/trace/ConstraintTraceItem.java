@@ -10,25 +10,25 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.trace;
 
-import org.eclipse.epsilon.evl.EvlConstraint;
+import org.eclipse.epsilon.evl.dom.Constraint;
 
 public class ConstraintTraceItem {
 	
 	protected Object instance;
-	protected EvlConstraint constraint;
+	protected Constraint constraint;
 	protected boolean result;
 	
-	public ConstraintTraceItem(Object instance, EvlConstraint constraint, boolean result) {
+	public ConstraintTraceItem(Object instance, Constraint constraint, boolean result) {
 		this.instance = instance;
 		this.constraint = constraint;
 		this.result = result;
 	}
 
-	public EvlConstraint getConstraint() {
+	public Constraint getConstraint() {
 		return constraint;
 	}
 
-	public void setConstraint(EvlConstraint constraint) {
+	public void setConstraint(Constraint constraint) {
 		this.constraint = constraint;
 	}
 

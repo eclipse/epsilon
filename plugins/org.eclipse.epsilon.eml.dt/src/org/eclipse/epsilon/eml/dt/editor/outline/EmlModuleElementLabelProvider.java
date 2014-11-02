@@ -10,11 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.dt.editor.outline;
 
-import org.eclipse.epsilon.ecl.MatchRule;
-import org.eclipse.epsilon.ecl.dt.EclPlugin;
-import org.eclipse.epsilon.eml.MergeRule;
+import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.dt.EmlPlugin;
-import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.etl.dt.editor.outline.EtlModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
@@ -28,12 +25,8 @@ public class EmlModuleElementLabelProvider extends EtlModuleElementLabelProvider
 	@Override
 	public Image getImage(Object element) {
 		
-		if (element instanceof EolLabeledBlock){
-			return EmlPlugin.getDefault().createImage("icons/" + ((EolLabeledBlock) element).getLabel() +".gif");
-		}else if (element instanceof MergeRule){
+		if (element instanceof MergeRule){
 			return EmlPlugin.getDefault().createImage("icons/mergerule.gif");
-		}else if (element instanceof MatchRule){
-			return EclPlugin.getDefault().createImage("icons/matchrule.gif");
 		}
 		
 		return super.getImage(element);

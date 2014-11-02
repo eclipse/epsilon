@@ -181,7 +181,7 @@ COMMENT
     ;
 
 LINE_COMMENT
-    : (('--' ~('\n'|'\r')* (('\r'? '\n')|EOF))|('//' ~('\n'|'\r')* (('\r'? '\n')|EOF))) {$channel=HIDDEN;}
+    : (('--' ~('\n'|'\r')*)|('//' ~('\n'|'\r')*)) {$channel=HIDDEN;}
     ;
     
 Annotation

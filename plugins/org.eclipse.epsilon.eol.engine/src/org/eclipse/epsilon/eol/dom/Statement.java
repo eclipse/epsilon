@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
-public abstract class Statement extends AST {
+public abstract class Statement extends AbstractModuleElement {
 
 }

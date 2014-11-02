@@ -29,7 +29,7 @@ public class SelectOperation extends IteratorOperation {
 	
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context, boolean returnOnFirstMatch) throws EolRuntimeException {
-
+		
 		Collection source = CollectionUtil.asCollection(target);
 		Collection result = EolCollectionType.createSameType(source);
 		

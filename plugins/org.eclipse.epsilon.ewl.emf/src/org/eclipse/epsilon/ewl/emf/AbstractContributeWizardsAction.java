@@ -39,13 +39,13 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.EolSystem;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.ewl.EwlModule;
-import org.eclipse.epsilon.ewl.EwlWizardInstance;
+import org.eclipse.epsilon.ewl.execute.WizardInstance;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.viewers.ISelection;
@@ -151,7 +151,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		}
 		
 		List<EObject> eObjects = new ArrayList<EObject>();
-		List<EwlWizardInstance> applicableWizards = new ArrayList<EwlWizardInstance>();
+		List<WizardInstance> applicableWizards = new ArrayList<WizardInstance>();
 
 		if ((selection instanceof IStructuredSelection)) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
@@ -231,7 +231,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			}
 		}
 		
-		for (final EwlWizardInstance wizard : applicableWizards) {
+		for (final WizardInstance wizard : applicableWizards) {
 			final MenuItem wizardItem = new MenuItem(wizardsMenu, SWT.NONE);
 			try {
 				wizardItem.setText(wizard.getTitle());

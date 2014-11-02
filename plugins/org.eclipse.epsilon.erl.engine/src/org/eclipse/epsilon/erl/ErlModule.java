@@ -10,46 +10,50 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl;
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.EolImport;
-import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.rules.INamedRule;
-import org.eclipse.epsilon.erl.rules.LabeledNamedRule;
-import org.eclipse.epsilon.erl.rules.NamedRules;
-
+import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
+import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.dom.NamedRuleList;
+import org.eclipse.epsilon.erl.dom.Post;
+import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
+import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
 public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 	
-	protected NamedRules declaredPre = new NamedRules();
-	protected NamedRules declaredPost = new NamedRules();
-	protected NamedRules pre = null;
-	protected NamedRules post = null;
+	protected NamedRuleList<Pre> declaredPre = new NamedRuleList<Pre>();
+	protected NamedRuleList<Post> declaredPost = new NamedRuleList<Post>();
+	protected NamedRuleList<Pre> pre = null;
+	protected NamedRuleList<Post> post = null;
 	
 	@Override
 	public void buildModel() throws Exception {
 		super.buildModel();
 		
 		for (AST preBlockAst : AstUtil.getChildren(ast, getPreBlockTokenType())){
-			declaredPre.add(new LabeledNamedRule(preBlockAst,"pre"));
+			declaredPre.add((Pre) preBlockAst);
 		}
 		
 		for (AST postBlockAst : AstUtil.getChildren(ast, getPostBlockTokenType())){
-			declaredPost.add(new LabeledNamedRule(postBlockAst,"post"));
+			declaredPost.add((Post) postBlockAst);
 		}
 		
 	}
-
-	public NamedRules getPost() {
+	
+	public List<Post> getPost() {
 		if (post == null) {
-			post = new NamedRules();
-			for (EolImport import_ : imports) {
+			post = new NamedRuleList<Post>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IErlModule)) {
 					IErlModule module = (IErlModule) import_.getModule();
 					post.addAll(module.getPost());
@@ -61,10 +65,10 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 		return post;
 	}
 
-	public NamedRules getPre() {
+	public List<Pre> getPre() {
 		if (pre == null) {
-			pre = new NamedRules();
-			for (EolImport import_ : imports) {
+			pre = new NamedRuleList<Pre>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IErlModule)) {
 					IErlModule module = (IErlModule) import_.getModule();
 					pre.addAll(module.getPre());
@@ -75,17 +79,29 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 		return pre;
 	}
 
-	public NamedRules getDeclaredPost() {
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == getPreBlockTokenType()) {
+			return new Pre();
+		}
+		else if (cst.getType() == getPostBlockTokenType()) {
+			return new Post();
+		}
+		return super.adapt(cst, parentAst);
+	}
+	
+	public List<Post> getDeclaredPost() {
 		return declaredPost;
 	}
 
-	public NamedRules getDeclaredPre() {
+	public List<Pre> getDeclaredPre() {
 		return declaredPre;
 	}
 	
-	protected void execute(NamedRules namedRules, IEolContext context) throws EolRuntimeException {
-		for (INamedRule namedRule : namedRules) {
-			context.getExecutorFactory().executeAST(namedRule.getAst(), context);
+	
+	protected void execute(List<? extends NamedRule> namedRules, IEolContext context) throws EolRuntimeException {
+		for (NamedRule namedRule : namedRules) {
+			context.getExecutorFactory().executeAST(namedRule.getBody(), context);
 		}
 	}
 	
@@ -100,16 +116,24 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 		declaredPre.clear();
 		declaredPost.clear();
 	}
-	
-	class EolLabeledBlockComparator implements Comparator<EolLabeledBlock> {
-		public int compare(EolLabeledBlock o1, EolLabeledBlock o2) {
-			if (StringUtil.areEqual(o1.getName(), o2.getName())) {
-				return 0;
-			}
-			else {
-				return 1;
+
+	public List<ParseProblem> calculateSuperRules(List<? extends ExtensibleNamedRule> allRules){
+		List<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
+		for (ExtensibleNamedRule rule : allRules) {
+			try {
+				rule.calculateSuperRules(allRules);
+			} catch (ErlRuleNotFoundException e) {
+				ParseProblem problem = new ParseProblem();
+				problem.setLine(rule.getLine());
+				problem.setReason(e.getReason());
+				parseProblems.add(problem);
+			} catch (ErlCircularRuleInheritanceException e) {
+				ParseProblem problem = new ParseProblem();
+				problem.setLine(rule.getLine());
+				problem.setReason(e.getReason());
+				parseProblems.add(problem);
 			}
 		}
+		return parseProblems;
 	}
-	
 }

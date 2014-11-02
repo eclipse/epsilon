@@ -10,10 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.editor.outline;
 
-import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.evl.EvlConstraint;
-import org.eclipse.epsilon.evl.EvlConstraintContext;
+import org.eclipse.epsilon.erl.dom.Post;
+import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.swt.graphics.Image;
 
@@ -21,20 +22,23 @@ public class EvlModuleElementLabelProvider extends EolModuleElementLabelProvider
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof EolLabeledBlock){
-			return EvlPlugin.getDefault().createImage("icons/" + ((EolLabeledBlock) element).getLabel() +".gif");
-		}
-		else if (element instanceof EvlConstraintContext) {
+		if (element instanceof ConstraintContext) {
 			return EvlPlugin.getDefault().createImage("icons/context.gif");
 		} 
-		else if (element instanceof EvlConstraint) {
-			if (((EvlConstraint) element).isCritique()) {
+		else if (element instanceof Constraint) {
+			if (((Constraint) element).isCritique()) {
 				return EvlPlugin.getDefault().createImage("icons/critique.gif");
 			}
 			else {
 				return EvlPlugin.getDefault().createImage("icons/error.gif");
 			}
-		} 
+		}
+		else if (element instanceof Pre){
+			return EvlPlugin.getDefault().createImage("icons/pre.gif");
+		}
+		else if (element instanceof Post){
+			return EvlPlugin.getDefault().createImage("icons/post.gif");
+		}
 		else {
 			return super.getImage(element);
 		}

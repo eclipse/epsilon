@@ -19,9 +19,9 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 
@@ -68,6 +68,9 @@ public class ExecutorFactory {
 		addExecutionListener(stackTraceManager);
 	}
 	
+	// model A driver EMF {nsUri="..."} 
+	// model X driver XML {sample="..."}
+	
 	protected void cacheExecutors() {
 		executorCache.put(EolParser.OPERATOR, new OperatorExecutor());	
 		executorCache.put(EolParser.INT,new IntegerExecutor());
@@ -107,6 +110,7 @@ public class ExecutorFactory {
 		executorCache.put(EolParser.NEW, new NewExecutor());
 		executorCache.put(EolParser.TRANSACTION, new TransactionExecutor());
 		executorCache.put(EolParser.ABORT, new AbortExecutor());
+		executorCache.put(EolParser.EXPRESSIONINBRACKETS, new ExpressionInBracketsExecutor());
 	}
 	
 	public AbstractExecutor getExecutorFor(int type){

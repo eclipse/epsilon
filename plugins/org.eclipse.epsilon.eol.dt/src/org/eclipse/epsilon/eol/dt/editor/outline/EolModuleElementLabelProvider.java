@@ -11,11 +11,10 @@
 package org.eclipse.epsilon.eol.dt.editor.outline;
 
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
-import org.eclipse.epsilon.eol.EolImport;
-import org.eclipse.epsilon.eol.EolMain;
-import org.eclipse.epsilon.eol.EolModelDefinition;
-import org.eclipse.epsilon.eol.EolModelGroupDefinition;
-import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.Main;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.swt.graphics.Image;
 
@@ -23,19 +22,16 @@ public class EolModuleElementLabelProvider extends ModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof EolOperation){
+		if (element instanceof Operation){
 			return EolPlugin.getDefault().createImage("icons/operation.gif");
 		}
-		else if (element instanceof EolMain){
+		else if (element instanceof Main){
 			return EolPlugin.getDefault().createImage("icons/program.gif");
 		}
-		else if (element instanceof EolImport){
+		else if (element instanceof Import){
 			return EolPlugin.getDefault().createImage("icons/import.gif");
 		}
-		else if (element instanceof EolModelDefinition){
-			return EolPlugin.getDefault().createImage("icons/import.gif");
-		}
-		else if (element instanceof EolModelGroupDefinition){
+		else if (element instanceof ModelDeclaration){
 			return EolPlugin.getDefault().createImage("icons/import.gif");
 		}
 		return null;

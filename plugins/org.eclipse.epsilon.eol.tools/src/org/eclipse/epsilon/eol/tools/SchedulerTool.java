@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.tools.AbstractTool;
@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 public class SchedulerTool extends AbstractTool{
 	
 	ArrayList<Job> jobs = new ArrayList<Job>();
-	ArrayList<EolOperation> queque = new ArrayList<EolOperation>();
+	ArrayList<Operation> queque = new ArrayList<Operation>();
 	
 	class Job {
 		
@@ -64,7 +64,7 @@ public class SchedulerTool extends AbstractTool{
 	abstract class JobTask extends TimerTask {
 		
 		int period = 0;
-		EolOperation operation = null;
+		Operation operation = null;
 		
 		public JobTask(String operationName, IEolContext context, int period) throws EolRuntimeException {
 			this.period = period;
@@ -108,7 +108,7 @@ public class SchedulerTool extends AbstractTool{
 			
 			synchronized (queque) {
 				if (queque.size() > 0) {
-					EolOperation operation = queque.remove(0);
+					Operation operation = queque.remove(0);
 					if (operation != null)
 					operation.execute(EolNoType.NoInstance, Collections.emptyList(), context);
 				}

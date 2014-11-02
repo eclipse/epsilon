@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ReturnStatement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -20,9 +21,11 @@ public class ReturnStatementExecutor extends AbstractExecutor {
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException {
 		
+		ReturnStatement returnStatement = (ReturnStatement) ast;
+		
 		Object result = null;
-		if (ast.getFirstChild() != null){
-			result = context.getExecutorFactory().executeAST(ast.getFirstChild(), context);
+		if (returnStatement.getReturned() != null){
+			result = context.getExecutorFactory().executeAST(returnStatement.getReturned(), context);
 		}
 		
 		return new Return(result);

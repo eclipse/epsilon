@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -21,29 +22,20 @@ public class IfStatementExecutor extends AbstractExecutor{
 	
 	@Override
 	public Object execute(AST ast, IEolContext context) throws EolRuntimeException{
-		AST conditionAst = ast.getFirstChild();
-		//thenAst is the block executed if the
-		//condition returns true
-		AST thenAst = conditionAst.getNextSibling();
-		AST elseAst = null;
 		
+		IfStatement ifStatement = (IfStatement) ast;
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast);
+		Object condition = context.getExecutorFactory().executeAST(ifStatement.getCondition(), context);
 		
-		if (ast.getNumberOfChildren() == 3){
-			elseAst = thenAst.getNextSibling();
-		} 
-		
-		Object condition = context.getExecutorFactory().executeAST(conditionAst, context);		
-		
-		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, conditionAst, context);
+		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, ifStatement.getCondition(), context);
 		
 		Object result = null;
 		
 		if (((Boolean) condition).booleanValue()){
-			result = context.getExecutorFactory().executeAST(thenAst, context, true);
+			result = context.getExecutorFactory().executeAST(ifStatement.getThen(), context, true);
 		}
-		else if (elseAst != null){
-			result = context.getExecutorFactory().executeAST(elseAst, context, true);
+		else if (ifStatement.getElse() != null){
+			result = context.getExecutorFactory().executeAST(ifStatement.getElse(), context, true);
 		}
 		
 		context.getFrameStack().leaveLocal(ast);

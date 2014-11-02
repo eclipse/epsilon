@@ -32,6 +32,7 @@ public class AST extends CommonTree {
 	protected AST annotations;
 	protected boolean imaginary;
 	protected List<Token> extraTokens = new ArrayList<Token>();
+	protected List<Token> commentTokens = new ArrayList<Token>();
 	protected List<AST> descendants = null;
 	protected IModule module;
 	protected HashMap<String, Object> properties = null;
@@ -39,7 +40,9 @@ public class AST extends CommonTree {
 	public AST() {
 		super();
 	}
-
+	
+	public void build() {}
+	
 	public AST(CommonTree commontree) {
 		super(commontree);
 		
@@ -195,6 +198,10 @@ public class AST extends CommonTree {
 		return this;
 	}
 	
+	public boolean hasChildren() {
+		return getChildCount() > 0;
+	}
+	
 	public AST getChild(int i) {
 		return cast(super.getChild(i));
 	}
@@ -337,5 +344,13 @@ public class AST extends CommonTree {
 	
 	public void setExtraTokens(List<Token> extraTokens) {
 		this.extraTokens = extraTokens;
+	}
+	
+	public List<Token> getCommentTokens() {
+		return commentTokens;
+	}
+	
+	public void setCommentTokens(List<Token> comments) {
+		this.commentTokens = comments;
 	}
 }

@@ -26,7 +26,7 @@ public abstract class AssignExecutor extends AbstractExecutor{
 		AST valueAst = varAst.getNextSibling();
 		
 		// Executing the varAst can return either a Variable
-		// or a SetterMethod with one arguement (set method)
+		// or a SetterMethod with one argument (set method)
 		// Executing the valueAst will return an object
 		
 		Object varAstResult = null;

@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eml.trace;
 import java.util.Collection;
 
 import org.eclipse.epsilon.ecl.trace.Match;
-import org.eclipse.epsilon.eml.MergeRule;
+import org.eclipse.epsilon.eml.dom.MergeRule;
 
 public class Merge {
 	

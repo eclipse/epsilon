@@ -19,7 +19,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -35,7 +35,7 @@ public class EolContext implements IEolContext {
 	protected ModelRepository modelRepository = new ModelRepository();
 	protected IntrospectionManager introspectionManager = new IntrospectionManager();
 	protected ExecutorFactory executorFactory = new ExecutorFactory();
-	protected OperationFactory operationFactory = new OperationFactory();
+	protected EolOperationFactory operationFactory = new EolOperationFactory();
 	protected PrettyPrinterManager prettyPrinterManager = new PrettyPrinterManager();
 	protected PrintStream outputStream = System.out;
 	protected PrintStream errorStream = System.err;
@@ -97,11 +97,11 @@ public class EolContext implements IEolContext {
 		this.outputStream = outputStream;
 	}
 
-	public OperationFactory getOperationFactory() {
+	public EolOperationFactory getOperationFactory() {
 		return operationFactory;
 	}
 
-	public void setOperationFactory(OperationFactory operationFactory) {
+	public void setOperationFactory(EolOperationFactory operationFactory) {
 		this.operationFactory = operationFactory;
 	}
 

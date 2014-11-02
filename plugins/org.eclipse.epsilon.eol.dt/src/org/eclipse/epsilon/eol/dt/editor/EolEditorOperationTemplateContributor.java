@@ -19,9 +19,9 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.eol.EolFormalParameter;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Image;
@@ -33,7 +33,7 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		if (module == null || !(module instanceof IEolLibraryModule)) return;
-		for (EolOperation op : ((IEolLibraryModule) module).getOperations()) {
+		for (Operation op : ((IEolLibraryModule) module).getOperations()) {
 			templates.add(createTemplate(op));
 		}
 		
@@ -45,15 +45,15 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 	
 	Image operationImage = EolPlugin.getDefault().createImage("icons/operation.gif");
 	
-	protected Template createTemplate(EolOperation op) {
+	protected Template createTemplate(Operation op) {
 		
 		String call = op.getName();
 		
 		call += "(";
 		
-		Iterator<EolFormalParameter> it = op.getFormalParameters().iterator();
+		Iterator<Parameter> it = op.getFormalParameters().iterator();
 		while (it.hasNext()) {
-			EolFormalParameter fp = it.next();
+			Parameter fp = (Parameter) it.next();
 			call += "${" + fp.getName() + "}";
 			if (it.hasNext()) call += ", ";
 		}

@@ -25,18 +25,16 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.eol.EolImport;
-import org.eclipse.epsilon.eol.EolModelDefinition;
-import org.eclipse.epsilon.eol.EolModelGroupDefinition;
-import org.eclipse.epsilon.eol.EolOperationFactory;
-import org.eclipse.epsilon.eol.EolOperations;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
-
+		
 	private final EglTemplateFactory factory;
 	private EglTemplate current;
 	
@@ -87,7 +85,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	public void buildModel() throws Exception {}
 
 
-	public List<?> getChildren() { 
+	public List<?> getModuleElements() { 
 		return current == null ? Collections.emptyList() : current.getChildren(); 
 	}
 
@@ -95,41 +93,25 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return factory.getContext();
 	}
 
-	public List<EolModelDefinition> getDeclaredModelDefinitions() {
+	public List<ModelDeclaration> getDeclaredModelDefinitions() {
 		return current.getDeclaredModelDefinitions();
 	}
 
-	public List<EolModelGroupDefinition> getDeclaredModelGroupDefinitions() {
-		return current.getDeclaredModelGroupDefinitions();
-	}
-
-	public EolOperations getDeclaredOperations() {
+	public OperationList getDeclaredOperations() {
 		return current.getDeclaredOperations();
 	}
 
-	public List<EolImport> getImports() {
+	public List<Import> getImports() {
 		return current.getImports();
 	}
 
-	public Set<EolModelDefinition> getModelDefinitions() {
+	public Set<ModelDeclaration> getModelDefinitions() {
 		return current.getModelDefinitions();
 	}
 
-	public Set<EolModelGroupDefinition> getModelGroupDefinitions() {
-		return current.getModelGroupDefinitions();
-	}
-
-	public EolOperationFactory getOperationFactory() {
-		return current.getOperationFactory();
-	}
-
-	public EolOperations getOperations() {
+	public OperationList getOperations() {
 		
 		return current.getOperations();
-	}
-
-	public void setOperationFactory(EolOperationFactory operationFactory) {
-		current.setOperationFactory(operationFactory);
 	}
 
 	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {

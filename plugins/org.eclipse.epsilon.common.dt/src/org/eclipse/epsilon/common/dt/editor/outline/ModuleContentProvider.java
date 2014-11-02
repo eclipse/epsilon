@@ -20,7 +20,7 @@ public class ModuleContentProvider implements ITreeContentProvider{
 	private IModule module;
 	
 	public Object[] getChildren(Object parentElement) {
-		return ((ModuleElement) parentElement).getChildren().toArray();
+		return ((ModuleElement) parentElement).getModuleElements().toArray();
 	}
 
 	public Object getParent(Object element) {
@@ -29,11 +29,11 @@ public class ModuleContentProvider implements ITreeContentProvider{
 
 	public boolean hasChildren(Object element) {
 		//return (element == module);
-		return (element instanceof ModuleElement && ((ModuleElement)element).getChildren().size() > 0) ;
+		return (element instanceof ModuleElement && ((ModuleElement)element).getModuleElements().size() > 0) ;
 	}
 
 	public Object[] getElements(Object inputElement) {
-		return ((ModuleElement) inputElement).getChildren().toArray();
+		return ((ModuleElement) inputElement).getModuleElements().toArray();
 	}
 
 	public void dispose() {

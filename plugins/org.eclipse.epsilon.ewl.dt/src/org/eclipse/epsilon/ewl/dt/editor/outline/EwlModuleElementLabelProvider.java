@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.ewl.dt.editor.outline;
 
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.ewl.EwlWizard;
+import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.dt.EwlPlugin;
 import org.eclipse.swt.graphics.Image;
 
@@ -20,7 +20,7 @@ public class EwlModuleElementLabelProvider extends EolModuleElementLabelProvider
 	@Override
 	public Image getImage(Object element) {
 		
-		if (element instanceof EwlWizard){
+		if (element instanceof Wizard){
 			return EwlPlugin.getDefault().createImage("icons/wizard.png");
 		}
 		/*else if (element instanceof EvlConstraintContext) {

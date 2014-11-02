@@ -11,12 +11,11 @@
 package org.eclipse.epsilon.egl;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -25,6 +24,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -34,18 +34,18 @@ import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.EolImport;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
-import org.eclipse.epsilon.erl.rules.INamedRule;
-import org.eclipse.epsilon.erl.rules.NamedRules;
+import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
 public class EgxModule extends ErlModule implements IEolExecutableModule, IEglModule {
 	
-	protected NamedRules declaredGenerationRules = null;
-	protected NamedRules generationRules = null;
+	protected NamedRuleList<GenerationRule> declaredGenerationRules = null;
+	protected NamedRuleList<GenerationRule> generationRules = null;
 	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
 	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
@@ -75,16 +75,10 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new EgxLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EgxLexer(inputStream);
 	}
-
+	
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
 		return new EgxParser(tokenStream);
@@ -101,22 +95,42 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		
 		// Parse the transform rules
 		for (AST generationRuleAst : AstUtil.getChildren(ast, EgxParser.GENERATE)) {
-			declaredGenerationRules.add(createGenerationRule(generationRuleAst));
+			declaredGenerationRules.add((GenerationRule) generationRuleAst);
 		}
 		
-		getParseProblems().addAll(declaredGenerationRules.calculateSuperRules(getGenerationRules()));
+		getParseProblems().addAll(calculateSuperRules(getGenerationRules()));
 	}
-
+	
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		switch (cst.getType()) {
+			case EgxParser.GENERATE: return createGenerationRule(cst);
+			case EgxParser.TEMPLATE: return new ExecutableBlock<String>(String.class);
+			case EgxParser.PARAMETERS: return new ExecutableBlock<Map<?, ?>>(Map.class);
+			case EgxParser.OVERWRITE: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EgxParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EgxParser.TARGET: return new ExecutableBlock<String>(String.class);
+			case EgxParser.PRE:
+			case EgxParser.POST: {
+				if (parentAst.getType() == EgxParser.GENERATE) {
+					return new ExecutableBlock<Void>(Void.class);
+				}
+			}
+		}
+	
+		return super.adapt(cst, parentAst);
+	}
+	
 	/**
 	 * Subclasses may override this method to change the implementation of
 	 * {@link GenerationRule} that is instantiated after parsing an EGX
 	 * program.
 	 */
 	protected GenerationRule createGenerationRule(AST generationRuleAst) {
-		return new GenerationRule(generationRuleAst);
+		return new GenerationRule();
 	}
 	
-	public NamedRules getDeclaredTransformRules() {
+	public List<GenerationRule> getDeclaredTransformRules() {
 		return declaredGenerationRules;
 	}
 	
@@ -149,8 +163,8 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		
 		execute(getPre(), context);
 		
-		for (INamedRule rule : getGenerationRules()) {
-			((GenerationRule) rule).generateAll(context, templateFactory, this);
+		for (GenerationRule rule : getGenerationRules()) {
+			rule.generateAll(context, templateFactory, this);
 		}
 		
 		execute(getPost(), context);
@@ -206,7 +220,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
@@ -220,14 +234,14 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	public void reset(){
 		super.reset();
 		generationRules = null;
-		declaredGenerationRules = new NamedRules();
+		declaredGenerationRules = new NamedRuleList<GenerationRule>();
 		context = new EgxContext(templateFactory);
 	}
 
-	public NamedRules getGenerationRules() {
+	public List<GenerationRule> getGenerationRules() {
 		if (generationRules == null) {
-			generationRules = new NamedRules();
-			for (EolImport import_ : imports) {
+			generationRules = new NamedRuleList<GenerationRule>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EgxModule)) {
 					EgxModule module = (EgxModule) import_.getModule();
 					generationRules.addAll(module.getGenerationRules());

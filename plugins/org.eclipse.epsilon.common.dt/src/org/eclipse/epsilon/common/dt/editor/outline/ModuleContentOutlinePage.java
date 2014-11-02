@@ -15,9 +15,7 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
@@ -30,7 +28,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
-
 
 public class ModuleContentOutlinePage extends ContentOutlinePage implements IModuleParseListener {
 
@@ -60,8 +57,6 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
     	toolbarManager.add(new AlphabeticallySortAction());
     	linkWithEditorAction = new LinkWithEditorAction();
     	toolbarManager.add(linkWithEditorAction);
-    	
-		//update();
 	}
 	
 	protected IContentProvider createContentProvider() {
@@ -86,28 +81,17 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		if (!linkWithEditorAction.isChecked()) return;
 		
 		try {
-			EditorSelection editorSelection = getEditorSelection(((IStructuredSelection) event
-					.getSelection()).getFirstElement());
-			
-			EclipseUtil.openEditorAt(editorSelection.getFile(), editorSelection.getLine(), 
-					editorSelection.getColumn(), true);
+			AST selected = (AST) ((IStructuredSelection) event.getSelection()).getFirstElement();
+			EclipseUtil.openEditorAt(selected);
 		}
-		catch (Exception ex) {
-			//ex.printStackTrace();
-		}
+		catch (Exception ex) {}
 	}
 	
 	protected EditorSelection getEditorSelection(Object selection) {
 		
-		ModuleElement element = (ModuleElement) (selection);
-		
-		if (element == null || element.getAst() == null)
-			return null;
-
-		AST firstConcreteChild = AstUtil
-				.getFirstConcreteChild(element.getAst());
-		
-		return new EditorSelection(firstConcreteChild.getFile(), firstConcreteChild.getLine(), firstConcreteChild.getColumn());
+		AST element = (AST) (selection);
+		if (element == null) return null;
+		return new EditorSelection(element.getFile(), element.getLine(), element.getColumn());
 	}
 
 	public IModule getModule() {
@@ -156,8 +140,10 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				
 				public void run() {
-					if (getTreeViewer() != null)
-						getTreeViewer().setInput(getOutlineRoot(module));				
+					if (getTreeViewer() != null) {
+						getTreeViewer().setInput(getOutlineRoot(module));
+						//getTreeViewer().expandAll();
+					}
 				}
 			});
 		}

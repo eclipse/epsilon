@@ -14,12 +14,12 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
 public abstract class AbstractEcoreModelValidationDelegate extends EugeniaActionDelegate {
 	
 	protected boolean valid = false;
-	protected List<EvlUnsatisfiedConstraint> unsatisfiedConstraints = null;
+	protected List<UnsatisfiedConstraint> unsatisfiedConstraints = null;
 	protected boolean validationEnabled = true;
 	protected IModel ecoreModel = null;
 	protected final String SECONDARY_MARKER_TYPE = "secondary-marker-type";
@@ -71,7 +71,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 						valid = (getErrors().size() == 0);
 						
 						// Create markers for unsatisfied constraints
-						for (EvlUnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {
+						for (UnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {
 							IMarker marker = file.createMarker(EValidator.MARKER);
 							if (unsatisfiedConstraint.getConstraint().isCritique()) {
 								marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
@@ -118,13 +118,13 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 		return valid;
 	}
 	
-	public List<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	public List<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
 	}
 	
-	public List<EvlUnsatisfiedConstraint> getUnsatisfiedConstraints(boolean error) {
-		List<EvlUnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<EvlUnsatisfiedConstraint>();
-		for (EvlUnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
+	public List<UnsatisfiedConstraint> getUnsatisfiedConstraints(boolean error) {
+		List<UnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<UnsatisfiedConstraint>();
+		for (UnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
 			if (!unsatisfiedConstraint.getConstraint().isCritique() == error) {
 				unsatisfiedConstraints.add(unsatisfiedConstraint);
 			}
@@ -132,7 +132,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 		return unsatisfiedConstraints;
 	}
 	
-	public List<EvlUnsatisfiedConstraint> getErrors() {
+	public List<UnsatisfiedConstraint> getErrors() {
 		return getUnsatisfiedConstraints(true);
 	}
 }

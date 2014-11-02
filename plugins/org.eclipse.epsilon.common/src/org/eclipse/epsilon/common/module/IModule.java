@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008-2012 The University of York, Antonio Garc��a-Dom��nguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - add getSourceURI
+ *     Antonio Garc��a-Dom��nguez - add getSourceURI
  ******************************************************************************/
 package org.eclipse.epsilon.common.module;
 
@@ -15,9 +15,12 @@ import java.io.File;
 import java.net.URI;
 import java.util.List;
 
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public interface IModule extends ModuleElement {
+	
+	public AST getAst();
 	
 	boolean parse(File file) throws Exception;
 	

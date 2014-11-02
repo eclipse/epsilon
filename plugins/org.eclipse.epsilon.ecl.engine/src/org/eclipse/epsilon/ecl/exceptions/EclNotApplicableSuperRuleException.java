@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.exceptions;
 
-import org.eclipse.epsilon.ecl.MatchRule;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -27,7 +27,7 @@ public class EclNotApplicableSuperRuleException extends EolRuntimeException {
 		this.left = left;
 		this.right = right;
 		this.context = context;
-		this.ast = rule.getAst();
+		this.ast = rule;
 	}
 	
 	@Override

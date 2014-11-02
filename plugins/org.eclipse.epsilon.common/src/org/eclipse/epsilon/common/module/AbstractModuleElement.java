@@ -10,32 +10,37 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.module;
 
-import java.io.File;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
 
 
-public abstract class AbstractModuleElement implements ModuleElement{
+public abstract class AbstractModuleElement extends AST implements ModuleElement {
 	
-	protected AST ast;
-	protected File sourceFile;
-	protected URI sourceUri;
+	protected List<Comment> comments = new ArrayList<Comment>();
 	
-	public AST getAst() {
-		return ast;
+	@Override
+	public void build() {
+		super.build();
+		for (Token commentToken : getCommentTokens()) {
+			Comment comment = new Comment(commentToken);
+			comment.setUri(getUri());
+			comments.add(comment);
+		}
 	}
 	
-	public void setAst(AST ast) {
-		this.ast = ast;
-	} 
-	
-	public File getSourceFile() {
-		return sourceFile;
+	@Override
+	public List<?> getModuleElements() {
+		return Collections.emptyList();
 	}
 	
-	public URI getSourceUri() {
-		return sourceUri;
+	public List<Comment> getComments() {
+		return comments;
 	}
-
+	
+	public String getDebugInfo() { return ""; }
+	
 }

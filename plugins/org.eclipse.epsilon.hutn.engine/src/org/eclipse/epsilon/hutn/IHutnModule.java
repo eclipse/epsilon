@@ -13,12 +13,13 @@ package org.eclipse.epsilon.hutn;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 
-public interface IHutnModule extends IEolLibraryModule {
+public interface IHutnModule extends IModule {
 	
 	/**
 	 * @return an in-memory EMF model for the HUTN source passed to

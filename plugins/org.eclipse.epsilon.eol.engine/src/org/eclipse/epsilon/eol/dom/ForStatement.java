@@ -1,19 +1,31 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class ForStatement extends Statement {
 	
-	public VariableDeclaration getIterator() {
-		return (VariableDeclaration) getFirstChild();
+	protected Parameter iterator;
+	protected Expression iterated;
+	protected AbstractModuleElement body;
+	
+	@Override
+	public void build() {
+		super.build();
+		iterator = (Parameter) getFirstChild();
+		iterated = (Expression) getSecondChild();
+		body = (AbstractModuleElement) getThirdChild();
+	}
+	
+	public Parameter getIterator() {
+		return iterator;
 	}
 	
 	public Expression getIterated() {
-		return (Expression) getSecondChild();
+		return iterated;
 	}
 	
-	public AST getBody() {
-		return getThirdChild();
+	public AbstractModuleElement getBody() {
+		return body;
 	}
 	
 }

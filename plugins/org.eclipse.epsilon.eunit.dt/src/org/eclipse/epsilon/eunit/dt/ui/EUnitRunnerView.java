@@ -80,7 +80,7 @@ import org.eclipse.ui.part.ViewPart;
  * it up. After setting it up, {@link ShowEUnitViewTestListener} delegates all
  * notifications to this class.</p>
  * 
- * @author Antonio García-Domínguez
+ * @author Antonio Garc��a-Dom��nguez
  * @version 1.0
  */
 public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
@@ -297,7 +297,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 					openInEOLEditor(eolEx.getAst());
 				}
 				else if (test.getOperation() != null) {
-					openInEOLEditor(test.getOperation().getAst());
+					openInEOLEditor(test.getOperation());
 				}
 			}
 		}

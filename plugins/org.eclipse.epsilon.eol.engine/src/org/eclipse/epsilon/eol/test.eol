@@ -1,5 +1,0 @@
-Sequence{1,2}->collect(x|x.foo()).println();
-
-  //for (i in Sequence{1..10}) {
-	i.println();
-}

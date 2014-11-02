@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,9 +18,8 @@ import java.util.List;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.rules.INamedRule;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
-import org.eclipse.epsilon.etl.TransformRule;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public class DefaultTransformationStrategy implements ITransformationStrategy{
@@ -67,8 +67,8 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		//TODO : Change this to be less restrictive...
 		if (!canTransform(source)) return targets;
 		
-		for (INamedRule rule : context.getModule().getTransformRules().getRulesFor(source, context)) {
-			TransformRule transformRule = (TransformRule) rule;
+		for (TransformationRule rule : getRulesFor(source, context)) {
+			TransformationRule transformRule = (TransformationRule) rule;
 			if (rules == null || rules.contains(rule.getName())) {
 				
 				Collection<?> transformed = transformRule.transform(source, context);
@@ -90,7 +90,22 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
+	public List<TransformationRule> getRulesFor(Object source, IEtlContext context) throws EolRuntimeException{
+		List<TransformationRule> rules = new ArrayList<TransformationRule>();
+		
+		for (TransformationRule rule : context.getModule().getTransformationRules()) {
+			if (!rule.isAbstract()){
+				if (rule.appliesTo(source, context, false)){
+					rules.add(rule);
+				}
+			}
+		}
+		
+		return rules;
+	}
+	
 	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+
 		IEtlContext context = (IEtlContext) context_;
 		// First transform the source
 		return transform(source, context, rules);
@@ -131,8 +146,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	}
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
-		for (INamedRule rule : context.getModule().getTransformRules()) {			
-			TransformRule transformRule = ((TransformRule)rule);
+		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
 			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
 				transformRule.transformAll(context, getExcluded());
 			}

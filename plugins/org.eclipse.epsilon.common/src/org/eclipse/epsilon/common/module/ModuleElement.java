@@ -12,11 +12,6 @@ package org.eclipse.epsilon.common.module;
 
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
-
-
 public interface ModuleElement {
-	AST getAst();
-	
-	List<?> getChildren();
+	List<?> getModuleElements();
 }

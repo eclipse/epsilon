@@ -11,9 +11,9 @@
 package org.eclipse.epsilon.eml.execute.operations;
 
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
-import org.eclipse.epsilon.eol.execute.operations.OperationFactory;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class EmlOperationFactory extends OperationFactory{
+public class EmlOperationFactory extends EolOperationFactory {
 	
 	public EmlOperationFactory () {
 		super();
@@ -22,18 +22,4 @@ public class EmlOperationFactory extends OperationFactory{
 		operationCache.put("equivalents", new EquivalentsOperation());
 	}
 	
-	/*
-	protected AbstractOperation getOperationFor(String name) {
-		if (name.equalsIgnoreCase("matches")){
-			return new MatchesOperation();
-		} 
-		else if (name.equalsIgnoreCase("equivalents")){
-			return new EquivalentsOperation();
-		}
-		else if (name.equalsIgnoreCase("equivalent")){
-			return new EquivalentOperation();
-		}
-		return super.getOperationFor(name);
-	}
-	*/
 }

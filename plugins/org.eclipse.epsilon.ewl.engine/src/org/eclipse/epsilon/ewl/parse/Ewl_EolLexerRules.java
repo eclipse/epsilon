@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2013-07-25 12:18:19
+// $ANTLR 3.1b1 EolLexerRules.g 2014-07-05 20:54:16
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -46,159 +46,160 @@ import java.util.HashMap;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 public class Ewl_EolLexerRules extends Lexer {
-    public static final int EXPONENT=6;
-    public static final int StatementBlock=29;
-    public static final int WHILE=33;
-    public static final int StrangeNameLiteral=15;
-    public static final int CASE=35;
-    public static final int NEW=49;
-    public static final int DO=82;
-    public static final int EWLMODULE=83;
-    public static final int FeatureCall=59;
-    public static final int EOF=-1;
-    public static final int BREAK=38;
-    public static final int KEYVALLIST=75;
-    public static final int TYPE=63;
-    public static final int T__93=93;
-    public static final int T__94=94;
-    public static final int T__91=91;
-    public static final int NAME=19;
-    public static final int T__92=92;
-    public static final int IMPORT=65;
-    public static final int T__148=148;
-    public static final int T__147=147;
-    public static final int T__90=90;
-    public static final int T__149=149;
-    public static final int RETURN=37;
-    public static final int NewExpression=47;
+    public static final int T__144=144;
+    public static final int T__143=143;
+    public static final int T__146=146;
+    public static final int MODELDECLARATIONPARAMETER=72;
+    public static final int T__145=145;
+    public static final int BREAKALL=39;
+    public static final int T__140=140;
+    public static final int T__142=142;
     public static final int VAR=48;
-    public static final int ANNOTATIONBLOCK=50;
-    public static final int T__154=154;
-    public static final int COMMENT=21;
-    public static final int ABORT=43;
-    public static final int NativeType=56;
-    public static final int T__99=99;
-    public static final int T__150=150;
-    public static final int T__98=98;
-    public static final int ITEMSELECTOR=72;
-    public static final int T__151=151;
-    public static final int T__97=97;
-    public static final int T__152=152;
-    public static final int T__96=96;
-    public static final int MultiplicativeExpression=57;
-    public static final int T__95=95;
-    public static final int T__153=153;
-    public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int T__139=139;
-    public static final int T__138=138;
+    public static final int MODELDECLARATIONPARAMETERS=71;
+    public static final int T__141=141;
+    public static final int THROW=53;
+    public static final int PARAMLIST=25;
+    public static final int EXPRLIST=54;
+    public static final int EXPRRANGE=55;
+    public static final int BREAK=38;
+    public static final int ELSE=32;
     public static final int T__137=137;
     public static final int T__136=136;
+    public static final int FORMAL=24;
+    public static final int IF=31;
+    public static final int MultiplicativeExpression=57;
+    public static final int TYPE=64;
+    public static final int T__139=139;
+    public static final int T__138=138;
+    public static final int Tokens=156;
+    public static final int T__133=133;
+    public static final int T__132=132;
+    public static final int T__135=135;
+    public static final int T__134=134;
+    public static final int T__131=131;
+    public static final int NewExpression=47;
+    public static final int T__130=130;
+    public static final int CASE=35;
+    public static final int Letter=16;
     public static final int LINE_COMMENT=22;
-    public static final int BREAKALL=39;
-    public static final int TRANSACTION=41;
-    public static final int SWITCH=34;
-    public static final int DRIVER=69;
-    public static final int ELSE=32;
-    public static final int EOLMODULE=60;
-    public static final int MODELDECLARATION=66;
-    public static final int PARAMLIST=25;
-    public static final int INT=8;
-    public static final int DELETE=52;
-    public static final int T__85=85;
-    public static final int T__141=141;
-    public static final int T__84=84;
-    public static final int T__142=142;
-    public static final int T__87=87;
-    public static final int HELPERMETHOD=28;
-    public static final int T__86=86;
-    public static final int T__140=140;
-    public static final int T__89=89;
-    public static final int T__145=145;
-    public static final int NAMESPACE=67;
-    public static final int T__88=88;
-    public static final int T__146=146;
-    public static final int CollectionType=44;
-    public static final int T__143=143;
-    public static final int T__144=144;
+    public static final int T__129=129;
     public static final int T__126=126;
+    public static final int JavaIDDigit=18;
     public static final int T__125=125;
+    public static final int MAP=74;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int WS=20;
-    public static final int T__129=129;
-    public static final int ALIAS=68;
-    public static final int JavaIDDigit=18;
-    public static final int GUARD=79;
-    public static final int Annotation=23;
-    public static final int T__130=130;
-    public static final int T__131=131;
-    public static final int EscapeSequence=13;
-    public static final int Letter=16;
-    public static final int T__132=132;
-    public static final int THROW=53;
-    public static final int T__133=133;
-    public static final int WIZARD=80;
-    public static final int T__134=134;
-    public static final int T__135=135;
-    public static final int SPECIAL_ASSIGNMENT=27;
-    public static final int MODELDECLARATIONPARAMETER=71;
-    public static final int PARAMETERS=46;
-    public static final int KEYVAL=74;
-    public static final int POINT=9;
-    public static final int T__118=118;
-    public static final int T__119=119;
-    public static final int T__116=116;
-    public static final int T__117=117;
-    public static final int T__114=114;
-    public static final int T__115=115;
-    public static final int T__124=124;
-    public static final int T__123=123;
-    public static final int T__122=122;
-    public static final int FOR=30;
-    public static final int T__121=121;
-    public static final int ENUMERATION_VALUE=64;
-    public static final int FLOAT=4;
-    public static final int T__120=120;
-    public static final int PRE=76;
-    public static final int EXECUTABLEANNOTATION=51;
-    public static final int IF=31;
+    public static final int MODELDECLARATION=67;
+    public static final int EXPRESSIONINBRACKETS=59;
+    public static final int TRANSACTION=41;
+    public static final int FLOAT_TYPE_SUFFIX=7;
+    public static final int ITEMSELECTOR=73;
+    public static final int COMMENT=21;
     public static final int ModelElementType=45;
-    public static final int BOOLEAN=12;
-    public static final int T__107=107;
+    public static final int IMPORT=66;
+    public static final int DELETE=52;
+    public static final int ARROW=11;
+    public static final int T__155=155;
+    public static final int SPECIAL_ASSIGNMENT=27;
+    public static final int T__154=154;
+    public static final int T__151=151;
+    public static final int T__150=150;
+    public static final int T__153=153;
+    public static final int T__152=152;
+    public static final int Annotation=23;
     public static final int CONTINUE=40;
-    public static final int T__108=108;
-    public static final int T__109=109;
-    public static final int T__103=103;
-    public static final int T__104=104;
-    public static final int T__105=105;
-    public static final int T__106=106;
+    public static final int ENUMERATION_VALUE=65;
+    public static final int OPERATOR=58;
+    public static final int EXPONENT=6;
+    public static final int STRING=14;
+    public static final int T__148=148;
+    public static final int T__147=147;
+    public static final int T__149=149;
+    public static final int T__91=91;
+    public static final int T__100=100;
+    public static final int NAMESPACE=68;
+    public static final int T__92=92;
+    public static final int COLLECTION=42;
+    public static final int NEW=49;
+    public static final int EXTENDS=79;
+    public static final int T__93=93;
+    public static final int T__102=102;
+    public static final int PRE=77;
+    public static final int T__94=94;
+    public static final int T__101=101;
+    public static final int POST=78;
+    public static final int T__90=90;
+    public static final int ALIAS=69;
+    public static final int DRIVER=70;
+    public static final int DO=83;
+    public static final int KEYVAL=75;
+    public static final int POINT_POINT=10;
+    public static final int GUARD=80;
+    public static final int T__99=99;
+    public static final int T__95=95;
+    public static final int HELPERMETHOD=28;
+    public static final int T__96=96;
+    public static final int T__97=97;
+    public static final int StatementBlock=29;
+    public static final int T__98=98;
+    public static final int ABORT=43;
+    public static final int StrangeNameLiteral=15;
+    public static final int FOR=30;
+    public static final int BLOCK=62;
+    public static final int PARAMETERS=46;
+    public static final int SpecialNameChar=17;
+    public static final int BOOLEAN=12;
+    public static final int NAME=19;
+    public static final int SWITCH=34;
+    public static final int FeatureCall=60;
+    public static final int T__122=122;
+    public static final int T__121=121;
+    public static final int T__124=124;
+    public static final int FLOAT=4;
+    public static final int T__123=123;
+    public static final int T__120=120;
+    public static final int NativeType=56;
+    public static final int INT=8;
+    public static final int WIZARD=81;
+    public static final int ANNOTATIONBLOCK=50;
+    public static final int RETURN=37;
+    public static final int KEYVALLIST=76;
+    public static final int FEATURECALL=63;
+    public static final int CollectionType=44;
+    public static final int T__119=119;
+    public static final int ASSIGNMENT=26;
+    public static final int T__118=118;
+    public static final int T__115=115;
+    public static final int WS=20;
+    public static final int EOF=-1;
+    public static final int T__114=114;
+    public static final int T__117=117;
+    public static final int T__116=116;
     public static final int T__111=111;
     public static final int T__110=110;
     public static final int T__113=113;
     public static final int T__112=112;
-    public static final int COLLECTION=42;
+    public static final int EscapeSequence=13;
+    public static final int EOLMODULE=61;
     public static final int DIGIT=5;
-    public static final int EXPRRANGE=55;
-    public static final int OPERATOR=58;
-    public static final int EXPRLIST=54;
+    public static final int EXECUTABLEANNOTATION=51;
+    public static final int EWLMODULE=84;
+    public static final int T__88=88;
+    public static final int T__108=108;
+    public static final int T__89=89;
+    public static final int T__107=107;
+    public static final int WHILE=33;
+    public static final int TITLE=82;
+    public static final int T__109=109;
+    public static final int T__104=104;
+    public static final int POINT=9;
+    public static final int T__85=85;
+    public static final int T__103=103;
+    public static final int T__86=86;
+    public static final int T__106=106;
     public static final int DEFAULT=36;
-    public static final int T__102=102;
-    public static final int T__101=101;
-    public static final int T__100=100;
-    public static final int Tokens=155;
-    public static final int POINT_POINT=10;
-    public static final int SpecialNameChar=17;
-    public static final int MODELDECLARATIONPARAMETERS=70;
-    public static final int BLOCK=61;
-    public static final int FEATURECALL=62;
-    public static final int MAP=73;
-    public static final int FORMAL=24;
-    public static final int POST=77;
-    public static final int ARROW=11;
-    public static final int ASSIGNMENT=26;
-    public static final int EXTENDS=78;
-    public static final int STRING=14;
-    public static final int TITLE=81;
+    public static final int T__87=87;
+    public static final int T__105=105;
 
     // delegates
     // delegators
@@ -1300,32 +1301,32 @@ public class Ewl_EolLexerRules extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:184:5: ( ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) ) )
-            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) )
+            // EolLexerRules.g:184:5: ( ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) ) )
+            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) )
             {
-            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) | ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) ) )
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) )
+            int alt21=2;
+            int LA21_0 = input.LA(1);
 
-            if ( (LA25_0=='-') ) {
-                alt25=1;
+            if ( (LA21_0=='-') ) {
+                alt21=1;
             }
-            else if ( (LA25_0=='/') ) {
-                alt25=2;
+            else if ( (LA21_0=='/') ) {
+                alt21=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return ;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 25, 0, input);
+                    new NoViableAltException("", 21, 0, input);
 
                 throw nvae;
             }
-            switch (alt25) {
+            switch (alt21) {
                 case 1 :
-                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
+                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* )
                     {
-                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
-                    // EolLexerRules.g:184:9: '--' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF )
+                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* )
+                    // EolLexerRules.g:184:9: '--' (~ ( '\\n' | '\\r' ) )*
                     {
                     match("--"); if (state.failed) return ;
 
@@ -1363,57 +1364,6 @@ public class Ewl_EolLexerRules extends Lexer {
                         }
                     } while (true);
 
-                    // EolLexerRules.g:184:28: ( ( ( '\\r' )? '\\n' ) | EOF )
-                    int alt21=2;
-                    int LA21_0 = input.LA(1);
-
-                    if ( (LA21_0=='\n'||LA21_0=='\r') ) {
-                        alt21=1;
-                    }
-                    else {
-                        alt21=2;}
-                    switch (alt21) {
-                        case 1 :
-                            // EolLexerRules.g:184:29: ( ( '\\r' )? '\\n' )
-                            {
-                            // EolLexerRules.g:184:29: ( ( '\\r' )? '\\n' )
-                            // EolLexerRules.g:184:30: ( '\\r' )? '\\n'
-                            {
-                            // EolLexerRules.g:184:30: ( '\\r' )?
-                            int alt20=2;
-                            int LA20_0 = input.LA(1);
-
-                            if ( (LA20_0=='\r') ) {
-                                alt20=1;
-                            }
-                            switch (alt20) {
-                                case 1 :
-                                    // EolLexerRules.g:184:30: '\\r'
-                                    {
-                                    match('\r'); if (state.failed) return ;
-
-                                    }
-                                    break;
-
-                            }
-
-                            match('\n'); if (state.failed) return ;
-
-                            }
-
-
-                            }
-                            break;
-                        case 2 :
-                            // EolLexerRules.g:184:42: EOF
-                            {
-                            match(EOF); if (state.failed) return ;
-
-                            }
-                            break;
-
-                    }
-
 
                     }
 
@@ -1421,27 +1371,27 @@ public class Ewl_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:184:48: ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
+                    // EolLexerRules.g:184:29: ( '//' (~ ( '\\n' | '\\r' ) )* )
                     {
-                    // EolLexerRules.g:184:48: ( '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF ) )
-                    // EolLexerRules.g:184:49: '//' (~ ( '\\n' | '\\r' ) )* ( ( ( '\\r' )? '\\n' ) | EOF )
+                    // EolLexerRules.g:184:29: ( '//' (~ ( '\\n' | '\\r' ) )* )
+                    // EolLexerRules.g:184:30: '//' (~ ( '\\n' | '\\r' ) )*
                     {
                     match("//"); if (state.failed) return ;
 
-                    // EolLexerRules.g:184:54: (~ ( '\\n' | '\\r' ) )*
-                    loop22:
+                    // EolLexerRules.g:184:35: (~ ( '\\n' | '\\r' ) )*
+                    loop20:
                     do {
-                        int alt22=2;
-                        int LA22_0 = input.LA(1);
+                        int alt20=2;
+                        int LA20_0 = input.LA(1);
 
-                        if ( ((LA22_0>='\u0000' && LA22_0<='\t')||(LA22_0>='\u000B' && LA22_0<='\f')||(LA22_0>='\u000E' && LA22_0<='\uFFFE')) ) {
-                            alt22=1;
+                        if ( ((LA20_0>='\u0000' && LA20_0<='\t')||(LA20_0>='\u000B' && LA20_0<='\f')||(LA20_0>='\u000E' && LA20_0<='\uFFFE')) ) {
+                            alt20=1;
                         }
 
 
-                        switch (alt22) {
+                        switch (alt20) {
                     	case 1 :
-                    	    // EolLexerRules.g:184:54: ~ ( '\\n' | '\\r' )
+                    	    // EolLexerRules.g:184:35: ~ ( '\\n' | '\\r' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -1458,60 +1408,9 @@ public class Ewl_EolLexerRules extends Lexer {
                     	    break;
 
                     	default :
-                    	    break loop22;
+                    	    break loop20;
                         }
                     } while (true);
-
-                    // EolLexerRules.g:184:68: ( ( ( '\\r' )? '\\n' ) | EOF )
-                    int alt24=2;
-                    int LA24_0 = input.LA(1);
-
-                    if ( (LA24_0=='\n'||LA24_0=='\r') ) {
-                        alt24=1;
-                    }
-                    else {
-                        alt24=2;}
-                    switch (alt24) {
-                        case 1 :
-                            // EolLexerRules.g:184:69: ( ( '\\r' )? '\\n' )
-                            {
-                            // EolLexerRules.g:184:69: ( ( '\\r' )? '\\n' )
-                            // EolLexerRules.g:184:70: ( '\\r' )? '\\n'
-                            {
-                            // EolLexerRules.g:184:70: ( '\\r' )?
-                            int alt23=2;
-                            int LA23_0 = input.LA(1);
-
-                            if ( (LA23_0=='\r') ) {
-                                alt23=1;
-                            }
-                            switch (alt23) {
-                                case 1 :
-                                    // EolLexerRules.g:184:70: '\\r'
-                                    {
-                                    match('\r'); if (state.failed) return ;
-
-                                    }
-                                    break;
-
-                            }
-
-                            match('\n'); if (state.failed) return ;
-
-                            }
-
-
-                            }
-                            break;
-                        case 2 :
-                            // EolLexerRules.g:184:82: EOF
-                            {
-                            match(EOF); if (state.failed) return ;
-
-                            }
-                            break;
-
-                    }
 
 
                     }
@@ -1546,17 +1445,17 @@ public class Ewl_EolLexerRules extends Lexer {
             {
             match('@'); if (state.failed) return ;
             // EolLexerRules.g:188:8: (~ ( '\\n' | '\\r' ) )*
-            loop26:
+            loop22:
             do {
-                int alt26=2;
-                int LA26_0 = input.LA(1);
+                int alt22=2;
+                int LA22_0 = input.LA(1);
 
-                if ( ((LA26_0>='\u0000' && LA26_0<='\t')||(LA26_0>='\u000B' && LA26_0<='\f')||(LA26_0>='\u000E' && LA26_0<='\uFFFE')) ) {
-                    alt26=1;
+                if ( ((LA22_0>='\u0000' && LA22_0<='\t')||(LA22_0>='\u000B' && LA22_0<='\f')||(LA22_0>='\u000E' && LA22_0<='\uFFFE')) ) {
+                    alt22=1;
                 }
 
 
-                switch (alt26) {
+                switch (alt22) {
             	case 1 :
             	    // EolLexerRules.g:188:8: ~ ( '\\n' | '\\r' )
             	    {
@@ -1575,7 +1474,7 @@ public class Ewl_EolLexerRules extends Lexer {
             	    break;
 
             	default :
-            	    break loop26;
+            	    break loop22;
                 }
             } while (true);
 
@@ -1592,9 +1491,9 @@ public class Ewl_EolLexerRules extends Lexer {
 
     public void mTokens() throws RecognitionException {
         // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
-        int alt27=12;
-        alt27 = dfa27.predict(input);
-        switch (alt27) {
+        int alt23=12;
+        alt23 = dfa23.predict(input);
+        switch (alt23) {
             case 1 :
                 // EolLexerRules.g:1:10: INT
                 {
@@ -1712,23 +1611,23 @@ public class Ewl_EolLexerRules extends Lexer {
     }
 
 
-    protected DFA27 dfa27 = new DFA27(this);
-    static final String DFA27_eotS =
+    protected DFA23 dfa23 = new DFA23(this);
+    static final String DFA23_eotS =
         "\2\uffff\1\15\1\uffff\2\10\13\uffff\4\10\1\27\1\10\1\uffff\1\27";
-    static final String DFA27_eofS =
+    static final String DFA23_eofS =
         "\31\uffff";
-    static final String DFA27_minS =
+    static final String DFA23_minS =
         "\1\11\1\uffff\1\56\1\52\1\162\1\141\4\uffff\1\52\6\uffff\1\165\1"+
         "\154\1\145\1\163\1\46\1\145\1\uffff\1\46";
-    static final String DFA27_maxS =
+    static final String DFA23_maxS =
         "\1\ufaff\1\uffff\1\56\1\76\1\162\1\141\4\uffff\1\57\6\uffff\1\165"+
         "\1\154\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
-    static final String DFA27_acceptS =
+    static final String DFA23_acceptS =
         "\1\uffff\1\1\4\uffff\1\6\1\7\1\10\1\11\1\uffff\1\14\1\3\1\2\1\4"+
         "\1\12\1\13\6\uffff\1\5\1\uffff";
-    static final String DFA27_specialS =
+    static final String DFA23_specialS =
         "\31\uffff}>";
-    static final String[] DFA27_transitionS = {
+    static final String[] DFA23_transitionS = {
             "\2\11\1\uffff\2\11\22\uffff\1\11\1\uffff\1\6\3\uffff\1\10\1"+
             "\6\5\uffff\1\3\1\2\1\12\12\1\5\uffff\1\10\1\13\32\10\3\uffff"+
             "\2\10\1\7\5\10\1\5\15\10\1\4\6\10\3\uffff\1\10\101\uffff\27"+
@@ -1767,34 +1666,34 @@ public class Ewl_EolLexerRules extends Lexer {
             "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10"
     };
 
-    static final short[] DFA27_eot = DFA.unpackEncodedString(DFA27_eotS);
-    static final short[] DFA27_eof = DFA.unpackEncodedString(DFA27_eofS);
-    static final char[] DFA27_min = DFA.unpackEncodedStringToUnsignedChars(DFA27_minS);
-    static final char[] DFA27_max = DFA.unpackEncodedStringToUnsignedChars(DFA27_maxS);
-    static final short[] DFA27_accept = DFA.unpackEncodedString(DFA27_acceptS);
-    static final short[] DFA27_special = DFA.unpackEncodedString(DFA27_specialS);
-    static final short[][] DFA27_transition;
+    static final short[] DFA23_eot = DFA.unpackEncodedString(DFA23_eotS);
+    static final short[] DFA23_eof = DFA.unpackEncodedString(DFA23_eofS);
+    static final char[] DFA23_min = DFA.unpackEncodedStringToUnsignedChars(DFA23_minS);
+    static final char[] DFA23_max = DFA.unpackEncodedStringToUnsignedChars(DFA23_maxS);
+    static final short[] DFA23_accept = DFA.unpackEncodedString(DFA23_acceptS);
+    static final short[] DFA23_special = DFA.unpackEncodedString(DFA23_specialS);
+    static final short[][] DFA23_transition;
 
     static {
-        int numStates = DFA27_transitionS.length;
-        DFA27_transition = new short[numStates][];
+        int numStates = DFA23_transitionS.length;
+        DFA23_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA27_transition[i] = DFA.unpackEncodedString(DFA27_transitionS[i]);
+            DFA23_transition[i] = DFA.unpackEncodedString(DFA23_transitionS[i]);
         }
     }
 
-    class DFA27 extends DFA {
+    class DFA23 extends DFA {
 
-        public DFA27(BaseRecognizer recognizer) {
+        public DFA23(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 27;
-            this.eot = DFA27_eot;
-            this.eof = DFA27_eof;
-            this.min = DFA27_min;
-            this.max = DFA27_max;
-            this.accept = DFA27_accept;
-            this.special = DFA27_special;
-            this.transition = DFA27_transition;
+            this.decisionNumber = 23;
+            this.eot = DFA23_eot;
+            this.eof = DFA23_eof;
+            this.min = DFA23_min;
+            this.max = DFA23_max;
+            this.accept = DFA23_accept;
+            this.special = DFA23_special;
+            this.transition = DFA23_transition;
         }
         public String getDescription() {
             return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";

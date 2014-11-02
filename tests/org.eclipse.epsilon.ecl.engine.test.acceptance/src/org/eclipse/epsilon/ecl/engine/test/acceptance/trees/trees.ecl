@@ -11,10 +11,14 @@ rule Root2Root
 	with r : Right!t_tree {
 	
 	guard : l.parent.isUndefined() 
-		and r.parent.isUndefined()
+			and r.parent.isUndefined()
 	
 	compare : true
-		
+	
+	do {
+		return;
+	}
+	
 }
 
 rule Tree2Tree

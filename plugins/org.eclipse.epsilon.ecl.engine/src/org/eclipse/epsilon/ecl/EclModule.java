@@ -10,11 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -24,24 +21,26 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.EclOperationFactory;
 import org.eclipse.epsilon.ecl.execute.context.EclContext;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.parse.EclLexer;
 import org.eclipse.epsilon.ecl.parse.EclParser;
 import org.eclipse.epsilon.ecl.trace.Match;
-import org.eclipse.epsilon.eol.EolImport;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
-import org.eclipse.epsilon.erl.rules.INamedRule;
+import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
 
 public class EclModule extends ErlModule implements IEclModule {
 	
-	protected MatchRules matchRules = null;
-	protected MatchRules declaredMatchRules = null;
+	protected NamedRuleList<MatchRule> matchRules = null;
+	protected NamedRuleList<MatchRule> declaredMatchRules = null;
 	protected IEclContext context = null;
 	
 	public EclModule(){
@@ -49,14 +48,8 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new EclLexer(input);
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EclLexer(inputStream);
 	}
 
 	@Override
@@ -76,12 +69,24 @@ public class EclModule extends ErlModule implements IEclModule {
 		
 		// Parse the match rules
 		for (AST matchRuleAst : AstUtil.getChildren(ast, EclParser.MATCH)) {
-			declaredMatchRules.add(new MatchRule(matchRuleAst));
+			declaredMatchRules.add((MatchRule) matchRuleAst);
 		}
 		
-		getParseProblems().addAll(getMatchRules().calculateSuperRules(getMatchRules()));
+		getParseProblems().addAll(calculateSuperRules(getMatchRules()));
 	}
-
+	
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		switch (cst.getType()) {
+			case EclParser.MATCH: return new MatchRule();
+			case EclParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EclParser.COMPARE: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EclParser.DO: return new ExecutableBlock<Void>(Void.class);
+		}
+		
+		return super.adapt(cst, parentAst);
+	}
+	
 	@Override
 	public HashMap<String, Class<?>> getImportConfiguration() {
 		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
@@ -89,10 +94,10 @@ public class EclModule extends ErlModule implements IEclModule {
 		return importConfiguration;
 	}
 	
-	public MatchRules getMatchRules() {
+	public List<MatchRule> getMatchRules() {
 		if (matchRules == null) {
-			matchRules = new MatchRules();
-			for (EolImport import_ : imports) {
+			matchRules = new NamedRuleList<MatchRule>();
+			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IEclModule)) {
 					IEclModule module = (IEclModule) import_.getModule();
 					matchRules.addAll(module.getMatchRules());
@@ -122,15 +127,13 @@ public class EclModule extends ErlModule implements IEclModule {
 	
 	public void matchModels() throws EolRuntimeException {
 		
-		for (INamedRule rule : getMatchRules()) {
-			MatchRule matchRule = (MatchRule) rule;
+		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy()) {
 				matchRule.matchAll(context, true);
 			}
 		}
 		
-		for (INamedRule rule : getMatchRules()) {
-			MatchRule matchRule = (MatchRule) rule;
+		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy() && matchRule.isGreedy()) {
 				matchRule.matchAll(context, false);
 			}
@@ -143,23 +146,20 @@ public class EclModule extends ErlModule implements IEclModule {
 		Match traceMatch = context.getMatchTrace().getMatch(left,right);
 		if (traceMatch != null) return traceMatch;
 		
-		MatchRules matchRules = getMatchRules().getRulesFor(left,right,context,true);
+		List<MatchRule> matchRules = getRulesFor(left,right,context,true);
 		
-		MatchRule matchRule = null;
 		
 		if (matchRules.size() > 0) {
-			matchRule = (MatchRule) matchRules.iterator().next();
+			MatchRule matchRule = (MatchRule) matchRules.iterator().next();
 			return matchRule.match(left,right,context,false, null, forcedMatch);
 		}
 		else {
-			matchRules = getMatchRules().getRulesFor(left, right, context, false);
+			matchRules = getRulesFor(left, right, context, false);
 			
 			if (matchRules.size() > 0){
 				
 				Match match = context.getMatchTrace().createMatch(left, right, true);
-				Iterator<INamedRule> it = matchRules.iterator();
-				while (it.hasNext()){
-					matchRule = (MatchRule) it.next();
+				for (MatchRule matchRule : matchRules) {
 					if (matchRule.isGreedy()) {
 						Match tempMatch = matchRule.match(left,right,context,true, match.getInfo(), forcedMatch);
 						match.setMatching(match.isMatching() && tempMatch.isMatching());
@@ -184,7 +184,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());
@@ -198,11 +198,11 @@ public class EclModule extends ErlModule implements IEclModule {
 	public void reset(){
 		super.reset();
 		matchRules = null;
-		declaredMatchRules = new MatchRules();
+		declaredMatchRules = new NamedRuleList<MatchRule>();
 		context = new EclContext();
 	}
 
-	public MatchRules getDeclaredMatchRules() {
+	public List<MatchRule> getDeclaredMatchRules() {
 		return declaredMatchRules;
 	}
 
@@ -221,5 +221,18 @@ public class EclModule extends ErlModule implements IEclModule {
 		if (context instanceof IEclContext) {
 			this.context = (IEclContext) context;
 		}
+	}
+	
+	public List<MatchRule> getRulesFor(Object obj1, Object obj2, IEclContext context, boolean ofClassOnly) throws EolRuntimeException {
+		List<MatchRule> rules = new ArrayList<MatchRule>();
+		for (MatchRule matchRule : getMatchRules()) {
+			
+			if (!matchRule.isAbstract()){
+				if (matchRule.appliesTo(obj1, obj2, context, ofClassOnly)){
+					rules.add(matchRule);
+				}
+			}
+		}
+		return rules;
 	}
 }
