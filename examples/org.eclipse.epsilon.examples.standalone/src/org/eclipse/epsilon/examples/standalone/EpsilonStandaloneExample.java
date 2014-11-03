@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public abstract class EpsilonStandaloneExample {
 	
@@ -81,7 +82,7 @@ public abstract class EpsilonStandaloneExample {
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, 
 				storeOnDisposal + "");
-		emfModel.load(properties, null);
+		emfModel.load(properties, (IRelativePathResolver) null);
 		return emfModel;
 	}
 
@@ -97,7 +98,7 @@ public abstract class EpsilonStandaloneExample {
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, 
 				storeOnDisposal + "");
-		emfModel.load(properties, null);
+		emfModel.load(properties, (IRelativePathResolver) null);
 		return emfModel;
 	}
 	

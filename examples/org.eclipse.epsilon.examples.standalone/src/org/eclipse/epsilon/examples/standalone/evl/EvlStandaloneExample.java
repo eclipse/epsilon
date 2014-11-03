@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
 
 /**
@@ -54,11 +54,11 @@ public class EvlStandaloneExample extends EpsilonStandaloneExample {
 		
 		EvlModule module = (EvlModule) this.module;
 		
-		Collection<EvlUnsatisfiedConstraint> unsatisfied = module.getContext().getUnsatisfiedConstraints();
+		Collection<UnsatisfiedConstraint> unsatisfied = module.getContext().getUnsatisfiedConstraints();
 	
 		if (unsatisfied.size() > 0) {
 			System.err.println(unsatisfied.size() + " constraint(s) have not been satisfied");
-			for (EvlUnsatisfiedConstraint uc : unsatisfied) {
+			for (UnsatisfiedConstraint uc : unsatisfied) {
 				System.err.println(uc.getMessage());
 			}
 		}

@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.EolOperation;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
@@ -53,7 +53,7 @@ public class EolReturnStandaloneExample extends EpsilonStandaloneExample {
 	@Override
 	protected Object execute(IEolExecutableModule module)
 			throws EolRuntimeException {
-		EolOperation operation = module.getDeclaredOperations().get(0);
+		Operation operation = module.getDeclaredOperations().get(0);
 		return operation.execute(null, Collections.emptyList(), module.getContext());
 	}
 	
