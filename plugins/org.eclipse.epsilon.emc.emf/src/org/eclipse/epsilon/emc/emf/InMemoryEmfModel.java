@@ -61,12 +61,12 @@ public class InMemoryEmfModel extends EmfModel {
 		}
 
 		if (ePackages == null || ePackages.isEmpty()) {
-			// No additional packages are provided, so just use the global registry,
-			// instead of the delegate registry that ResourceSetImpl would create
+			// No additional packages are provided, so if the package registry of 
+			// the local resource registry is empty, use the global registry instead
 			
 			// If there is no ResourceSet available, AbstractEmfModel#getPackageRegistry()
 			// already returns the global registry, so no need to worry about this
-			if(modelImpl.getResourceSet() != null) {
+			if(modelImpl.getResourceSet() != null && modelImpl.getResourceSet().getPackageRegistry().isEmpty()) {
 				modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
 			}
 		}
