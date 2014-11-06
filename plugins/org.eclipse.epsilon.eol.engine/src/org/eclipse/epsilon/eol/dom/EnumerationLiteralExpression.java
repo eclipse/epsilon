@@ -1,5 +1,22 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class EnumerationLiteralExpression extends LiteralExpression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+
+public class EnumerationLiteralExpression extends LiteralExpression implements IExecutableModuleElement {
+
+	protected String enumerationLiteral;
+	
+	@Override
+	public void build() {
+		super.build();
+		enumerationLiteral = getText();
+	}
+	
+	
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return context.getModelRepository().getEnumerationValue(enumerationLiteral);
+	}
 
 }

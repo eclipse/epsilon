@@ -28,26 +28,32 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.StaticFieldNameResolver;
 import org.eclipse.epsilon.common.util.StringUtil;
 
-public class AstExplorer extends JFrame {
+public class AstExplorer {
 
 	StaticFieldNameResolver resolver;
-	JTree jTree = new JTree();
-
+	JTree jTree;
+	Tree tree;
+	//System.out.println(Class.forName("org.eclipse.swt.widgets.Display"));
 	public AstExplorer(Tree tree, Class<?> parserClass) {
 		this.resolver = new StaticFieldNameResolver(parserClass);
+		this.tree = tree;
+	}
 
+	public void show() {
+		JFrame jFrame = new JFrame();
+		jTree = new JTree();
 		jTree.setModel(new AstTreeModel(tree));
 		jTree.setCellRenderer(new AstTreeCellRenderer());
 
-		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(new JScrollPane(jTree), BorderLayout.CENTER);
-		this.setTitle("AST Explorer");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(0, 0, 500, 1000);
+		jFrame.getContentPane().setLayout(new BorderLayout());
+		jFrame.getContentPane().add(new JScrollPane(jTree), BorderLayout.CENTER);
+		jFrame.setTitle("AST Explorer");
+		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setBounds(0, 0, 500, 1000);
 		expandAll(jTree);
-		this.setVisible(true);
+		jFrame.setVisible(true);
 	}
-
+	
 	public void expandAll(JTree tree) {
 		int row = 0;
 		while (row < tree.getRowCount()) {

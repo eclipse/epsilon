@@ -43,7 +43,7 @@ public class EolContext implements IEolContext {
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
 	protected ExtendedProperties extendedProperties = new ExtendedProperties();
-	protected List<AsyncStatement> asyncStatementsQueque = new ArrayList<AsyncStatement>();
+	protected List<AsyncStatementInstance> asyncStatementsQueque = new ArrayList<AsyncStatementInstance>();
 	protected PrintStream warningStream = System.out;
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
 	// The following members are initialised in the constructor
@@ -206,7 +206,7 @@ public class EolContext implements IEolContext {
 		extendedProperties.clear();
 	}
 
-	public List<AsyncStatement> getAsyncStatementsQueque() {
+	public List<AsyncStatementInstance> getAsyncStatementsQueque() {
 		return asyncStatementsQueque;
 	}
 }

@@ -21,20 +21,20 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ModelDeclaration extends AbstractModuleElement {
 
-	protected IdentifierExpression name;
-	protected List<IdentifierExpression> aliases = new ArrayList<IdentifierExpression>();
-	protected IdentifierExpression driver;
+	protected NameExpression name;
+	protected List<NameExpression> aliases = new ArrayList<NameExpression>();
+	protected NameExpression driver;
 	protected List<ModelDeclarationParameter> parameters = new ArrayList<ModelDeclarationParameter>();
 	
 	@Override
 	public void build() {
 		super.build();
-		name = (IdentifierExpression) getFirstChild();
-		driver = (IdentifierExpression) AstUtil.getChild(this, EolParser.DRIVER).getFirstChild();
+		name = (NameExpression) getFirstChild();
+		driver = (NameExpression) AstUtil.getChild(this, EolParser.DRIVER).getFirstChild();
 		AST aliasesAst = AstUtil.getChild(this, EolParser.ALIAS);
 		if (aliasesAst != null) {
 			for (AST aliasAst : aliasesAst.getChildren()) {
-				aliases.add((IdentifierExpression) aliasAst);
+				aliases.add((NameExpression) aliasAst);
 			}
 		}
 		AST parametersAst = AstUtil.getChild(this, EolParser.MODELDECLARATIONPARAMETERS);
@@ -45,23 +45,23 @@ public class ModelDeclaration extends AbstractModuleElement {
 		}
 	}
 	
-	public IdentifierExpression getName() {
+	public NameExpression getName() {
 		return name;
 	}
 
-	public void setName(IdentifierExpression name) {
+	public void setName(NameExpression name) {
 		this.name = name;
 	}
 
-	public IdentifierExpression getDriver() {
+	public NameExpression getDriver() {
 		return driver;
 	}
 
-	public void setDriver(IdentifierExpression driver) {
+	public void setDriver(NameExpression driver) {
 		this.driver = driver;
 	}
 
-	public List<IdentifierExpression> getAliases() {
+	public List<NameExpression> getAliases() {
 		return aliases;
 	}
 

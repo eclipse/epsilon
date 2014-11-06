@@ -14,7 +14,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
-public class AsyncStatement {
+public class AsyncStatementInstance {
 	
 	protected AST ast;
 	protected FrameStack localFrameStack;

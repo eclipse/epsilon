@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class BooleanLiteral extends LiteralExpression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+
+public class BooleanLiteral extends LiteralExpression implements IExecutableModuleElement {
 	
 	protected boolean value;
 	
@@ -17,6 +20,11 @@ public class BooleanLiteral extends LiteralExpression {
 	
 	public boolean getValue() {
 		return value;
+	}
+
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return getValue();
 	}
 	
 }

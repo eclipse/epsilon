@@ -22,7 +22,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eml.dom.MergeRule;
-import org.eclipse.epsilon.eml.execute.EmlExecutorFactory;
+import org.eclipse.epsilon.eml.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.eml.execute.context.EmlContext;
 import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
@@ -89,10 +89,6 @@ public class EmlModule extends EtlModule {
 		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("thisModule", this));
 		
-		EmlExecutorFactory emlExecutorFactory = new EmlExecutorFactory();
-		emlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
-		context.setExecutorFactory(emlExecutorFactory);
-		
 		execute(getPre(), context);
 		context.getMergingStrategy().mergeModels(context);
 		execute(getPost(), context);
@@ -109,6 +105,9 @@ public class EmlModule extends EtlModule {
 	public AST adapt(AST cst, AST parentAst) {
 		if (cst.getType() == EmlParser.MERGE) {
 			return new MergeRule();
+		}
+		else if (cst.getType() == EmlParser.SPECIAL_ASSIGNMENT) {
+			return new EquivalentAssignmentStatement();
 		}
 		return super.adapt(cst, parentAst);
 	}

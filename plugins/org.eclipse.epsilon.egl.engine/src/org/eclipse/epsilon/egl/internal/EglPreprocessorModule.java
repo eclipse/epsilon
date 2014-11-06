@@ -28,9 +28,12 @@ import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.operations.TemplateOperation;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
+import org.eclipse.epsilon.egl.types.EglComplexType;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EglPreprocessorModule extends EolModule {
@@ -93,7 +96,23 @@ public class EglPreprocessorModule extends EolModule {
 		if (cst.getType() == EolParser.HELPERMETHOD && hasAnnotation(cst, "template")) {
 			return new TemplateOperation();
 		}
-		return super.adapt(cst, parentAst);
+		
+		AST ast = super.adapt(cst, parentAst);
+		if (ast instanceof TypeExpression) {
+			return new TypeExpression() {
+				@Override
+				public Object execute(IEolContext context)
+						throws EolRuntimeException {
+					if (getTypeName().equals("Template")){
+						return EglComplexType.Template;
+					
+					} else {
+						return super.execute(context);
+					}
+				}
+			};
+		}
+		return ast;
 	}
 	
 	protected boolean hasAnnotation(AST ast, String name) {

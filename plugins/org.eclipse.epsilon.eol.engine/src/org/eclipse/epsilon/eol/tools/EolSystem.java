@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
+import org.eclipse.epsilon.eol.execute.context.AsyncStatementInstance;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 
 public class EolSystem extends AbstractTool{
@@ -36,9 +36,9 @@ public class EolSystem extends AbstractTool{
 	}
 	
 	public void execAsync() throws EolRuntimeException {
-		List<AsyncStatement> queque = context.getAsyncStatementsQueque();
+		List<AsyncStatementInstance> queque = context.getAsyncStatementsQueque();
 		while (queque.size() > 0) {
-			AsyncStatement statement = queque.get(0);
+			AsyncStatementInstance statement = queque.get(0);
 			statement.execute(context);
 			queque.remove(statement);
 		}

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -68,55 +69,16 @@ public class ExecutorFactory {
 		addExecutionListener(stackTraceManager);
 	}
 	
-	// model A driver EMF {nsUri="..."} 
-	// model X driver XML {sample="..."}
-	
 	protected void cacheExecutors() {
-		executorCache.put(EolParser.OPERATOR, new OperatorExecutor());	
-		executorCache.put(EolParser.INT,new IntegerExecutor());
-		executorCache.put(EolParser.STRING, new StringExecutor());
-		executorCache.put(EolParser.ASSIGNMENT, new DefaultAssignExecutor());
-		executorCache.put(EolParser.SPECIAL_ASSIGNMENT, new DefaultAssignExecutor());
-		executorCache.put(EolParser.POINT, new PointExecutor());
-		//executorCache.put(EolParser.POINT, new OptimisedPointExecutor(false));
-		executorCache.put(EolParser.NAME, new NameExecutor());
-		executorCache.put(EolParser.FEATURECALL, new NameExecutor());
-		executorCache.put(EolParser.BLOCK, new StatementBlockExecutor());
-		executorCache.put(EolParser.IF, new IfStatementExecutor());
-		executorCache.put(EolParser.SWITCH, new SwitchStatementExecutor());
-		executorCache.put(EolParser.BOOLEAN, new BooleanExecutor());
-		executorCache.put(EolParser.ARROW, new ArrowExecutor());
-		//executorCache.put(EolParser.ARROW, new OptimisedPointExecutor(true));
-		executorCache.put(EolParser.VAR, new VarStatementExecutor());
-		executorCache.put(EolParser.COLLECTION, new CollectionExecutor());
-		executorCache.put(EolParser.MAP, new MapExecutor());
-		executorCache.put(EolParser.FLOAT, new RealExecutor());
-		executorCache.put(EolParser.FOR, new ForStatementExecutor());
-		executorCache.put(EolParser.PARAMLIST, new FormalParameterListExecutor());
-		executorCache.put(EolParser.EOLMODULE, new EolModuleExecutor());
-		executorCache.put(EolParser.PARAMETERS, new ParametersExecutor());
-		executorCache.put(EolParser.TYPE, new TypeExecutor());
-		//executorCache.put(EolParser.TYPEINIT, new TypeExecutor());
-		executorCache.put(EolParser.RETURN, new ReturnStatementExecutor());
-		executorCache.put(EolParser.ITEMSELECTOR, new ItemSelectorExecutor());
-		//executorCache.put(EolParser.ASYNC, new AsyncStatementExecutor());
-		executorCache.put(EolParser.BREAK, new BreakStatementExecutor());
-		executorCache.put(EolParser.BREAKALL, new BreakAllStatementExecutor());
-		executorCache.put(EolParser.ENUMERATION_VALUE, new EnumerationValueExecutor());
-		executorCache.put(EolParser.CONTINUE, new ContinueExecutor());
-		executorCache.put(EolParser.WHILE, new WhileStatementExecutor());
-		executorCache.put(EolParser.THROW, new ThrowStatementExecutor());	
-		executorCache.put(EolParser.DELETE, new DeleteStatementExecutor());
-		executorCache.put(EolParser.NEW, new NewExecutor());
-		executorCache.put(EolParser.TRANSACTION, new TransactionExecutor());
-		executorCache.put(EolParser.ABORT, new AbortExecutor());
-		executorCache.put(EolParser.EXPRESSIONINBRACKETS, new ExpressionInBracketsExecutor());
+		
 	}
 	
 	public AbstractExecutor getExecutorFor(int type){
+		new Exception("Called from:").printStackTrace();
 		return (AbstractExecutor) executorCache.get(type);
-	}	
+	}
 	
+	//TODO: Only used in EPL's Role/Domain
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Class<?> returnType, Object default_) throws EolRuntimeException {
 		if (ast == null) return default_;
 		
@@ -132,6 +94,7 @@ public class ExecutorFactory {
 		}
 	}
 	
+	//TODO: Used in a few places in EPL, EVL and EWL
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		
 		if (ast == null) return null;
@@ -144,6 +107,7 @@ public class ExecutorFactory {
 		}
 	}
 	
+	//TODO: Only used by Flock's EolExecutor
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Object default_) {
 		
 		if (ast == null) return default_;
@@ -167,6 +131,7 @@ public class ExecutorFactory {
 
 	}
 	
+	//TODO: Should be able to remove this as soon as we've moved assignment execution logic to AssignmentStatement
 	public Object executeAST(AST ast, IEolContext context, boolean asStatement) throws EolRuntimeException {
 		
 		if (ast == null) return null;
@@ -193,10 +158,13 @@ public class ExecutorFactory {
 			catch (Exception ex) { throw new EolInternalException(ex); } 
 		}
 		
-		AbstractExecutor executor = getExecutorFor(ast.getType());
-		
-		if (executor == null){
-			throw new EolRuntimeException("No executor found for type #" + ast.getType(), ast);
+		AbstractExecutor executor = null;
+		if (!(ast instanceof IExecutableModuleElement)) {
+			executor = getExecutorFor(ast.getType());
+			
+			if (executor == null){
+				throw new EolRuntimeException("No executor found for type #" + ast.getType() + "/" + ast.getClass().getCanonicalName(), ast);
+			}
 		}
 		
 		for (IExecutionListener listener : executionListeners) {
@@ -206,7 +174,12 @@ public class ExecutorFactory {
 		Object result = null;
 		
 		try {
-			result = executor.execute(ast, context);
+			if (ast instanceof IExecutableModuleElement) {
+				result = ((IExecutableModuleElement) ast).execute(context);
+			}
+			else {
+				result = executor.execute(ast, context);
+			}
 			for (IExecutionListener listener : executionListeners) {
 				listener.finishedExecuting(ast, result, context);
 			}

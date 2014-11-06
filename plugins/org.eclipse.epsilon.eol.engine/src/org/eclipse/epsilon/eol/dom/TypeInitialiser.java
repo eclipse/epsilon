@@ -1,6 +1,6 @@
-package org.eclipse.epsilon.eol.execute;
+package org.eclipse.epsilon.eol.dom;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public abstract class TypeInitialiserExecutor extends AbstractExecutor {
+public abstract class TypeInitialiser extends Expression {
 	
 	protected Object initialiseType(EolType type, AST parametersAst, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
@@ -26,7 +26,15 @@ public abstract class TypeInitialiserExecutor extends AbstractExecutor {
 			}
 			
 			if (parametersAst != null) {
-				List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
+				//List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
+				AST parameterAst = parametersAst.getFirstChild();
+				ArrayList<Object> parameters = new ArrayList<Object>();
+				
+				while (parameterAst != null){
+					parameters.add(context.getExecutorFactory().executeAST(parameterAst, context));
+					parameterAst = parameterAst.getNextSibling();
+				}
+				
 				return type.createInstance(parameters);
 			}
 			else {
@@ -35,5 +43,4 @@ public abstract class TypeInitialiserExecutor extends AbstractExecutor {
 		}
 		return null;
 	}
-	
 }

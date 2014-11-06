@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class IntegerLiteral extends LiteralExpression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+
+public class IntegerLiteral extends LiteralExpression implements IExecutableModuleElement {
 	
 	protected Number value;
 	
@@ -21,4 +24,8 @@ public class IntegerLiteral extends LiteralExpression {
 		return value;
 	}
 	
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return getValue();
+	}
 }

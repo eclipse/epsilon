@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.dom.IdentifierExpression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -28,7 +28,7 @@ import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
 public abstract class ExtensibleNamedRule extends NamedRule {
 	
-	protected ArrayList<IdentifierExpression> superRulesIdentifiers = new ArrayList<IdentifierExpression>();	
+	protected ArrayList<NameExpression> superRulesIdentifiers = new ArrayList<NameExpression>();	
 	protected List<ExtensibleNamedRule> superRules = new ArrayList<ExtensibleNamedRule>();
 	protected List<ExtensibleNamedRule> allSuperRules = new ArrayList<ExtensibleNamedRule>();
 	protected Boolean isGreedy = null;
@@ -143,7 +143,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		if (superRulesAst != null){
 			AST superRuleAst = superRulesAst.getFirstChild();
 			while (superRuleAst != null){
-				superRulesIdentifiers.add((IdentifierExpression) superRuleAst);
+				superRulesIdentifiers.add((NameExpression) superRuleAst);
 				superRuleAst = superRuleAst.getNextSibling();
 			}
 		}

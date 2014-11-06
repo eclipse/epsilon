@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class RealLiteral extends LiteralExpression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+
+public class RealLiteral extends LiteralExpression implements IExecutableModuleElement {
 	
 	protected Number value;
 	
@@ -33,6 +36,11 @@ public class RealLiteral extends LiteralExpression {
 	
 	public Number getValue() {
 		return value;
+	}
+
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return getValue();
 	}
 	
 }

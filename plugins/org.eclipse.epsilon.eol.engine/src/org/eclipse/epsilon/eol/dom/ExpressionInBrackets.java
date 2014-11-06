@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-public class ExpressionInBrackets extends Expression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+
+public class ExpressionInBrackets extends Expression implements IExecutableModuleElement {
 	
 	protected Expression expression;
 	
@@ -16,6 +19,11 @@ public class ExpressionInBrackets extends Expression {
 	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
+	}
+
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return context.getExecutorFactory().executeAST(expression, context);
 	}
 	
 }

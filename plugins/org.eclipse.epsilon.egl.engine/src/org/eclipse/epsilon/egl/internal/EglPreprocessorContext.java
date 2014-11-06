@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.context.AsyncStatement;
+import org.eclipse.epsilon.eol.execute.context.AsyncStatementInstance;
 import org.eclipse.epsilon.eol.execute.context.ExtendedProperties;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -175,7 +175,7 @@ public class EglPreprocessorContext implements IEolContext {
 		delegate.dispose();
 	}
 
-	public List<AsyncStatement> getAsyncStatementsQueque() {
+	public List<AsyncStatementInstance> getAsyncStatementsQueque() {
 		return delegate.getAsyncStatementsQueque();
 	}
 

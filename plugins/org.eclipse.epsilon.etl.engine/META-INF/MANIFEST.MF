@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.etl,
  org.eclipse.epsilon.etl.dom,
- org.eclipse.epsilon.etl.execute,
  org.eclipse.epsilon.etl.execute.context,
  org.eclipse.epsilon.etl.execute.operations,
  org.eclipse.epsilon.etl.parse,

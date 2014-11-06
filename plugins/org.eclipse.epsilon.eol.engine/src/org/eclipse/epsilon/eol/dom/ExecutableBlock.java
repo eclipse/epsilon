@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ExecutableBlock<T> extends AbstractModuleElement {
+public class ExecutableBlock<T> extends AbstractModuleElement implements IExecutableModuleElement {
 	
 	protected AST body = null;
 	protected Class<?> expectedResultClass = null;
@@ -49,6 +49,23 @@ public class ExecutableBlock<T> extends AbstractModuleElement {
 		return execute(context, true, variables);
 	}
 	
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return execute(context, new Variable[]{});
+	}
+	
+	protected Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
+		if (ast == null) return null;
+		
+		if (ast instanceof ExecutableBlock<?> || ast instanceof StatementBlock) {
+			return StatementBlock.execute(ast, context);
+		}
+		else {
+			return new Return(context.getExecutorFactory().executeAST(ast,context));
+		}
+		
+	}
+	
 	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
 		
 		if (inNewFrame) context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
@@ -56,7 +73,8 @@ public class ExecutableBlock<T> extends AbstractModuleElement {
 			context.getFrameStack().put(variable);
 		}
 		
-		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(getBody(), context);
+		Object result = executeBlockOrExpressionAst(getBody(), context);
+		
 		if (inNewFrame) context.getFrameStack().leaveLocal(this);
 		
 		if (result instanceof Return) {
@@ -70,6 +88,9 @@ public class ExecutableBlock<T> extends AbstractModuleElement {
 			else if (value == null && getExpectedResultClass() == Void.class) {
 				return null;
 			}
+			else if (getExpectedResultClass() == null) {
+				return (T) result;
+			}
 			else {
 				throw new EolIllegalReturnException(getExpectedResultClass().getSimpleName(), value, this, context);
 			}	
@@ -81,11 +102,6 @@ public class ExecutableBlock<T> extends AbstractModuleElement {
 	}
 	
 	protected Class<?> getExpectedResultClass() {
-//		if (expectedResultClass == null) {
-//			System.out.println(getClass());
-//			ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-//			expectedResultClass = (Class<?>) type.getActualTypeArguments()[0];
-//		}
 		return expectedResultClass;
 	}
 	

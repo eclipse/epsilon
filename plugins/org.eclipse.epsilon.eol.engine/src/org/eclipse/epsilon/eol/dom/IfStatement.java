@@ -1,8 +1,12 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class IfStatement extends Statement {
+public class IfStatement extends Statement implements IExecutableModuleElement {
 	
 	protected Expression condition;
 	protected AbstractModuleElement then;
@@ -29,5 +33,28 @@ public class IfStatement extends Statement {
 	public AbstractModuleElement getElse() {
 		return _else;
 	}
+
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
+		Object condition = context.getExecutorFactory().executeAST(getCondition(), context);
+		
+		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, getCondition(), context);
+		
+		Object result = null;
+		
+		if (((Boolean) condition).booleanValue()){
+			result = context.getExecutorFactory().executeAST(getThen(), context, true);
+		}
+		else if (getElse() != null){
+			result = context.getExecutorFactory().executeAST(getElse(), context, true);
+		}
+		
+		context.getFrameStack().leaveLocal(this);
+		return result;
+	}
+	
+	
 	
 }

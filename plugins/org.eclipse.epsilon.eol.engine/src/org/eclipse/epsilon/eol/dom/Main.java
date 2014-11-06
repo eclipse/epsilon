@@ -13,9 +13,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
-
-public class Main extends AbstractModuleElement {
+public class Main extends StatementBlock {
 	
 	public List<?> getModuleElements() {
 		return Collections.emptyList();

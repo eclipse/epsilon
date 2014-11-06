@@ -37,15 +37,18 @@ import org.eclipse.epsilon.eol.dom.ContinueStatement;
 import org.eclipse.epsilon.eol.dom.DeleteStatement;
 import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
 import org.eclipse.epsilon.eol.dom.FeatureCallExpression;
 import org.eclipse.epsilon.eol.dom.FeatureExpression;
+import org.eclipse.epsilon.eol.dom.HigherOrderOperationCallExpression;
 import org.eclipse.epsilon.eol.dom.ForStatement;
-import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
-import org.eclipse.epsilon.eol.dom.IdentifierExpression;
+import org.eclipse.epsilon.eol.dom.ItemSelectorExpression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.IntegerLiteral;
+import org.eclipse.epsilon.eol.dom.MapLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.ModelDeclarationParameter;
 import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
@@ -84,24 +87,11 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	private IEolLibraryModule parent;
 
 	public static void main(String[] args) throws Exception {
-		
 		EolModule module = new EolModule();
 		module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/test.eol"));
 		module.execute();
-		//module.parse(new File("/Users/dimitrioskolovos/Downloads/" + 
-		//		"eclipse-modeling-kepler/workspace/org.eclipse.epsilon.eugenia/" + 
-		//		"transformations/FixGMFGen.eol"));
-		//module.parse("1.foo().println(); @cached \r\n operation Integer foo() { return self + 1; }");
-		//System.out.println(module.getAst().toStringTree());
-		//System.out.println(module.getAst().getChildren());
-		//System.out.println(module.getAst().getThirdChild().getAnnotationsAst());
-		//module.execute();
-		//new AstExplorer(module.getAst(), EolParser.class).setVisible(true);
-		
 	}
 	
-	
-	// TODO: Map literals
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
 		switch (cst.getType()) {
@@ -111,34 +101,31 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.CASE: return new Case();
 			case EolParser.SWITCH: return new SwitchStatement();
 			case EolParser.IF: return new IfStatement();
+			case EolParser.ITEMSELECTOR: return new ItemSelectorExpression();
 			case EolParser.ARROW:
 			case EolParser.POINT: {
-				
-				if (cst.getSecondChild() == null) {
-					System.err.println("Strange cst: " + cst.toStringTree());
-				}
-				
 				if (cst.getSecondChild().getChildren().size() == 0) {
 					return new PropertyCallExpression();
 				}
 				else {
 					if (cst.getSecondChild().getFirstChild().getType() == EolParser.PARAMLIST) {
-						return new FirstOrderOperationCallExpression();
+						return new HigherOrderOperationCallExpression();
 					}
 					else {
 						return new OperationCallExpression();
 					}
 				}
 			}
-			case EolParser.NAME: return new IdentifierExpression();
+			case EolParser.NAME: return new NameExpression();
 			case EolParser.FORMAL: return new Parameter();
 			case EolParser.BLOCK: return new StatementBlock();
 			case EolParser.FEATURECALL: {
-				if (cst.hasChildren() || (cst.getParent().getSecondChild() == cst && parentAst instanceof FeatureCallExpression)) {
-					return new FeatureExpression();
+				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMETERS) {
+					//if (cst.hasChildren() || (cst.getParent().getSecondChild() == cst && parentAst instanceof FeatureCallExpression)) {
+					return new OperationCallExpression(true);
 				}
 				else {
-					return new IdentifierExpression();
+					return new NameExpression();
 				}
 			}
 			case EolParser.STRING: return new StringLiteral();
@@ -175,6 +162,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.Annotation: return new SimpleAnnotation();
 			case EolParser.EXECUTABLEANNOTATION: return new ExecutableAnnotation();
 			case EolParser.ANNOTATIONBLOCK: return new AnnotationBlock();
+			case EolParser.MAP: return new MapLiteralExpression();
 			case EolParser.COLLECTION: return new CollectionLiteralExpression();
 			case EolParser.BREAK: return new BreakStatement(false);
 			case EolParser.BREAKALL: return new BreakStatement(true);

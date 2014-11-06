@@ -87,7 +87,7 @@ public interface IEolContext {
 	
 	public void dispose();
 	
-	public List<AsyncStatement> getAsyncStatementsQueque();
+	public List<AsyncStatementInstance> getAsyncStatementsQueque();
 	
 	public OperationContributorRegistry getOperationContributorRegistry();
 }

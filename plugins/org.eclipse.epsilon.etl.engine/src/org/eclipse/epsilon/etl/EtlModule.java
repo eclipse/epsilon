@@ -28,8 +28,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
+import org.eclipse.epsilon.etl.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
-import org.eclipse.epsilon.etl.execute.EtlExecutorFactory;
 import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
@@ -75,6 +75,9 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		else if (cst.getType() == EtlParser.BLOCK && cst.getParent() != null && cst.getParent().getType() == EtlParser.TRANSFORM) {
 			return new ExecutableBlock<Void>(Void.class);
 		}
+		else if (cst.getType() == EtlParser.SPECIAL_ASSIGNMENT) {
+			return new EquivalentAssignmentStatement();
+		}
 		return super.adapt(cst, parentAst);
 	}
 	
@@ -111,10 +114,6 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		// Initialize the context
 		prepareContext(context);
 		context.setOperationFactory(new EtlOperationFactory());
-		
-		EtlExecutorFactory etlExecutorFactory = new EtlExecutorFactory();
-		etlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
-		context.setExecutorFactory(etlExecutorFactory);
 		
 		if (hasLazyRules(context)) {
 			context.setTransformationStrategy(new DefaultTransformationStrategy());

@@ -12,24 +12,42 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 
-import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ForAllOperation extends SelectBasedOperation {
-
+public class ForAllOperation extends IteratorOperation {
+	
+	public boolean isReturnOnFirstMatch() {
+		return false;
+	}
+	
 	@Override
 	public Object execute(Object target, Variable iterator, AST expressionAst,
 			IEolContext context) throws EolRuntimeException {
 		
-		AST negatedExpressionAst = new AST(new CommonToken(EolParser.OPERATOR, "not"), expressionAst);
-		negatedExpressionAst.addChild(expressionAst);
+		Collection source = CollectionUtil.asCollection(target);
 		
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, negatedExpressionAst, context, true);
-		return selected.size() == 0;
+		FrameStack scope = context.getFrameStack();
+		
+		for (Object listItem : source) {	
+			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
+				scope.enterLocal(FrameType.UNPROTECTED, expressionAst);
+				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
+				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
+				if (bodyResult instanceof Boolean){
+					if ((Boolean) bodyResult == false) return false;
+				}
+				scope.leaveLocal(expressionAst);
+			}
+		}
+		
+		return true;
+
 	}
 
 }

@@ -19,7 +19,6 @@ import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
-import org.eclipse.epsilon.egl.execute.EglExecutorFactory;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
@@ -59,7 +58,6 @@ public class EglContext extends EolContext implements IEglContext {
 		
 		populateScope();
 		setOperationFactory(new EglOperationFactory());
-		setExecutorFactory(new EglExecutorFactory());
 	}
 	
 	@Override
