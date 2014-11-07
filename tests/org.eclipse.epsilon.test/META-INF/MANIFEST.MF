@@ -30,5 +30,6 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.egl.dt.traceability.editor.tests,
  org.eclipse.epsilon.egl.traceability.fine.test.acceptance,
  org.eclipse.epsilon.egl.traceability.fine.test.unit,
- org.eclipse.epsilon.emc.graphml.tests;bundle-version="1.0.0"
+ org.eclipse.epsilon.emc.graphml.tests;bundle-version="1.0.0",
+ org.eclipse.epsilon.epl.engine.test.acceptance
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

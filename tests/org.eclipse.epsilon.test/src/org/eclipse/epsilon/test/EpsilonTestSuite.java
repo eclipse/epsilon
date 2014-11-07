@@ -34,6 +34,8 @@ import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
 import org.eclipse.epsilon.eml.engine.test.acceptance.EmlAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.test.unit.EolUnitTestSuite;
+import org.eclipse.epsilon.epl.engine.test.acceptance.EplAcceptanceTestSuite;
+import org.eclipse.epsilon.epl.engine.test.acceptance.EplTests;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
 import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestSuite;
 import org.eclipse.epsilon.ewl.engine.test.acceptance.EwlAcceptanceTestSuite;
@@ -57,6 +59,7 @@ import org.junit.runners.Suite.SuiteClasses;
                EmlAcceptanceTestSuite.class,
                EwlAcceptanceTestSuite.class,
                EglTestSuite.class,
+               EplAcceptanceTestSuite.class,
                EglDevelopmentToolsTestSuite.class,
                EglTraceabilityEditorTestSuite.class,
                EglFineGrainedTraceabilityAcceptanceTestSuite.class,

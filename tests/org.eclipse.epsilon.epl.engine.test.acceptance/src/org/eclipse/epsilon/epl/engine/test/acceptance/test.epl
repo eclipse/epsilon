@@ -1,0 +1,69 @@
+pattern B
+	b : t_b {}
+	
+pattern BC
+	b : t_b,
+	c : t_c {}
+
+pattern BfromAll
+	b : t_b from : t_b.all {}
+	
+pattern BfromReturnAll
+	b : t_b from { return t_b.all; } {}
+	
+pattern Bmatch
+	b : t_b {
+	match : true
+}
+
+pattern NoB
+	b : t_b {
+	
+	match { return false; }
+}
+
+pattern NoBguardReturn
+	b : t_b guard { return false; } {}
+
+pattern Bguard
+	b : t_b guard : true {}
+
+pattern BCinactive
+	b : t_b,
+	c : t_c active : false {}
+	
+pattern BCactive 
+	b : t_b,
+	c : t_c active { return true; }
+
+pattern Binactive
+	b : t_b active : false {
+	
+}
+
+pattern Bonmatch
+	b : t_b {
+	
+	onmatch {
+		blackboard.put("Bonmatch", blackboard.get("Bonmatch") + "x");
+	}	
+}
+
+pattern Bnomatch
+	b : t_b {
+	
+	match : false
+	
+	nomatch {
+		blackboard.put("Bnomatch", blackboard.get("Bnomatch") + "x");
+	}
+}
+
+pattern BCdo
+	b : t_b,
+	c : t_c {
+	
+	onmatch {
+		blackboard.put("BCdo", blackboard.get("BCdo") + "x");
+	}	
+}
