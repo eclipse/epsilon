@@ -56,6 +56,8 @@ public class EplTests {
 		assertEquals("xx", blackboard.get("Bonmatch"));
 		assertEquals("xx", blackboard.get("Bnomatch"));
 		assertEquals("xxxx", blackboard.get("BCdo"));
+		assertNumberOfMatches(0, "BnoC");
+		assertNumberOfMatches(2, "BnonoC");
 		//assertNumberOfMatches(0, "Binactive"); <- Should be 0 but is 1 TODO: Investigate
 		
 	}

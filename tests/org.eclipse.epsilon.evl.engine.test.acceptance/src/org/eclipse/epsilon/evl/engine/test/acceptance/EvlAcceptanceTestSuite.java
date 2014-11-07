@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EvlCanAccessBuiltinsTests.class})
+@SuiteClasses({EvlCanAccessBuiltinsTests.class, EvlTests.class})
 public class EvlAcceptanceTestSuite {
 
 	public static Test suite() {

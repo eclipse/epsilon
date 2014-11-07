@@ -19,6 +19,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -33,7 +34,7 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class ConstraintContext extends AnnotatableModuleElement {
 	
-	protected AST guardAst = null;
+	protected ExecutableBlock<Boolean> guardBlock = null;
 	protected Constraints constraints = new Constraints();
 	protected AST typeAst;
 	protected EolModelElementType type = null;
@@ -43,7 +44,11 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	public ConstraintContext() {
 		super();
 	}
-
+	
+	public String getTypeName() {
+		return typeAst.getText();
+	}
+	
 	public List<ModuleElement> getModuleElements() {
 		return new ArrayList<ModuleElement>(constraints.values());
 	}
@@ -54,7 +59,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		this.ofTypeOnly = false;
 		this.name = typeAst.getText();
 	
-		guardAst = AstUtil.getChild(this, EvlParser.GUARD);
+		guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EvlParser.GUARD);
 		
 		for (AST constraintAst : AstUtil.getChildren(this, EvlParser.CONSTRAINT, EvlParser.CRITIQUE)) {
 			Constraint constraint = (Constraint) constraintAst;
@@ -68,27 +73,15 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		
 		if ((ofTypeOnly && getAllOfSourceType(context).contains(object))||
 				(!ofTypeOnly && getAllOfSourceKind(context).contains(object))) {
-		
-			if (guardAst != null) {
-				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, guardAst);
-				context.getFrameStack().put(Variable.createReadOnlyVariable("self", object));
-				Object result = context.getExecutorFactory().executeBlockOrExpressionAst(guardAst.getFirstChild(),context);
-				
-				if (result instanceof Return) {
-					result = Return.getValue(result);
-				}
-				context.getFrameStack().leaveLocal(guardAst);
-				if (result instanceof Boolean){
-					return ((Boolean) result);
-				}
-				else {
-					throw new EolIllegalReturnException("Boolean", result, guardAst, context);
-				}
+			
+			if (guardBlock != null) {
+				return guardBlock.execute(context);
 			}
 			else {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	

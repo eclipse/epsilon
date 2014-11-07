@@ -108,9 +108,7 @@ public class PatternMatcher {
 					i++;
 				}
 				if (!role.isNegative() && role.getGuard() != null && role.isActive(context) && role.getCardinality().isOne()) {
-					Return ret = null;
-					ret = (Return) context.getExecutorFactory().executeBlockOrExpressionAst(role.getGuard().getFirstChild(), context);
-					if (ret.getValue() instanceof Boolean) result = (Boolean) ret.getValue();
+					result = role.getGuard().execute(context);
 				}
 				context.getFrameStack().leaveLocal(pattern);
 				return result;

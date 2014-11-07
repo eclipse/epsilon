@@ -50,7 +50,7 @@ public class ExecutableBlock<T> extends AbstractModuleElement implements IExecut
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public T execute(IEolContext context) throws EolRuntimeException {
 		return execute(context, new Variable[]{});
 	}
 	
@@ -66,9 +66,8 @@ public class ExecutableBlock<T> extends AbstractModuleElement implements IExecut
 		
 	}
 	
-	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
-		
-		if (inNewFrame) context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
+	public T execute(IEolContext context, boolean inNewFrame, FrameType frameType, Variable... variables) throws EolRuntimeException {
+		if (inNewFrame) context.getFrameStack().enterLocal(frameType, this);
 		for (Variable variable : variables) {
 			context.getFrameStack().put(variable);
 		}
@@ -98,7 +97,11 @@ public class ExecutableBlock<T> extends AbstractModuleElement implements IExecut
 		else if (getExpectedResultClass() != Void.class){
 			throw new EolNoReturnException(getExpectedResultClass().getSimpleName(), this, context);
 		}
-		else return null;
+		else return null;		
+	}
+	
+	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
+		return execute(context, inNewFrame, FrameType.PROTECTED, variables);
 	}
 	
 	protected Class<?> getExpectedResultClass() {

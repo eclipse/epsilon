@@ -1,0 +1,68 @@
+context t_a {
+	
+	constraint GuardVariableInvisibleInBlock {
+		
+		guard { var condition = true; return true; }
+		
+		check {
+			return not frameStack.get("condition").isDefined();
+		}
+		
+	}
+	
+	constraint CheckVariableVisibleInMessage {
+		
+		check {
+			if (frameStack.get("condition").isDefined()) throw "condition variable has leaked";	
+			var msg = "error";
+			return false;
+		}
+		
+		message : msg
+		
+	}
+	
+	constraint CheckVariableVisibleInFix {
+		
+		check {
+			var msg = "error";
+			return false;
+		}
+		
+		fix {
+			title : "Fix " + msg
+			do {
+				blackboard.put("fix-do-executed", "true");
+				msg; // Check that the msg variable from the check part is visible
+				self; // Check that the self variable is visible
+			}
+		}
+		
+	}
+	
+}
+
+context t_a {
+	
+	guard : false
+	
+	constraint NeverChecked {
+		
+		check : false
+		
+	}
+	
+}
+
+context t_b {
+	
+	constraint AlwaysFalse { 
+		check : false
+	}
+	
+	constraint AlwaysTrue {
+		check : true
+	}
+	
+}
+

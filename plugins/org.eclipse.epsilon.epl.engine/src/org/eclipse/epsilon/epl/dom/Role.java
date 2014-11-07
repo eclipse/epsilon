@@ -20,10 +20,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.Return;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
@@ -39,8 +36,8 @@ public class Role extends AbstractModuleElement {
 	protected EolModelElementType type = null;
 	protected boolean negative;
 	protected Cardinality cardinality = new Cardinality(1, 1);
-	protected AST optionalAst = null;
-	protected AST activeAst = null;
+	protected ExecutableBlock<Boolean> optionalAst = null;
+	protected ExecutableBlock<Boolean> activeAst = null;
 	protected boolean isActiveCache = false;
 	
 	public Role() {}
@@ -71,12 +68,12 @@ public class Role extends AbstractModuleElement {
 		
 		AST optionalAst = AstUtil.getChild(this, EplParser.OPTIONAL);
 		if (optionalAst != null) {
-			this.optionalAst = optionalAst.getFirstChild();
+			this.optionalAst = (ExecutableBlock<Boolean>) optionalAst;
 		}
 		
 		AST activeAst = AstUtil.getChild(this, EplParser.ACTIVE);
 		if (activeAst != null) {
-			this.activeAst = activeAst.getFirstChild();
+			this.activeAst = (ExecutableBlock<Boolean>) activeAst;
 		}
 	}
 	
@@ -91,14 +88,14 @@ public class Role extends AbstractModuleElement {
 	public boolean isActive(IEolContext context, boolean forceRecompute) throws EolRuntimeException {
 		if (forceRecompute) {
 			if (activeAst == null) isActiveCache = true;
-			else isActiveCache = (Boolean) context.getExecutorFactory().executeBlockOrExpressionAst(activeAst, context, Boolean.class, true);
+			else isActiveCache = (Boolean) activeAst.execute(context);
 		}
 		return isActiveCache;
 	}
 	
 	public boolean isOptional(IEolContext context) throws EolRuntimeException {
 		if (optionalAst == null) return false;
-		else return (Boolean) context.getExecutorFactory().executeBlockOrExpressionAst(optionalAst, context, Boolean.class, true);
+		else return (Boolean) optionalAst.execute(context);
 	}
 	
 	public boolean isNegative() {
@@ -178,10 +175,7 @@ public class Role extends AbstractModuleElement {
 				
 				if (getGuard()!=null) {
 					for (Object o : instances) {
-						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, getGuard(), Variable.createReadOnlyVariable(getNames().get(0), o));
-						boolean ok = (Boolean) context.getExecutorFactory().executeBlockOrExpressionAst(getGuard().getFirstChild(), context, Boolean.class, false);
-						if (ok) { filtered.add(o); }
-						context.getFrameStack().leaveLocal(getGuard());
+						if (getGuard().execute(context, true)) { filtered.add(o); }
 					}
 				}
 				else {
@@ -216,13 +210,7 @@ public class Role extends AbstractModuleElement {
 				
 				if (getGuard()!=null) {
 					for (Object o : instances) {
-						boolean result = true;
-						Return ret = null;
-						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, getGuard(), Variable.createReadOnlyVariable(getNames().get(0), o));
-						ret = (Return) context.getExecutorFactory().executeBlockOrExpressionAst(getGuard().getFirstChild(), context);
-						context.getFrameStack().leaveLocal(getGuard());
-						if (ret.getValue() instanceof Boolean) result = (Boolean) ret.getValue();
-						if (result == true) {
+						if (getGuard().execute(context, true)) {
 							return new ArrayList<Object>();
 						}
 					}

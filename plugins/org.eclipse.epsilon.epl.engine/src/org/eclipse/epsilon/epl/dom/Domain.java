@@ -15,19 +15,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
 
-public class Domain extends AbstractModuleElement {
+public class Domain extends ExecutableBlock<Object> {
 	
 	protected boolean dynamic = false;
 	protected Role role;
 	
-	public Domain() {}
+	public Domain() {
+		super(Object.class);
+	}
 	
 	public void setRole(Role role) {
 		this.dynamic = "from".equals(getText());
@@ -46,8 +47,8 @@ public class Domain extends AbstractModuleElement {
 			protected List<Object> getValues() throws Exception {
 		
 				if (!role.isActive(context, true)) return NoMatch.asList();
-
-				Object result = context.getExecutorFactory().executeBlockOrExpressionAst(getFirstChild(), context, Object.class, Collections.emptyList());
+				
+				Object result =  execute(context);
 			
 				if (!(result instanceof Collection)) {
 					List<Object> results = new ArrayList<Object>();

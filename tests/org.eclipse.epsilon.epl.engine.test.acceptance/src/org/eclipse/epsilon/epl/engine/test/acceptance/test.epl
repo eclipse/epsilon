@@ -67,3 +67,11 @@ pattern BCdo
 		blackboard.put("BCdo", blackboard.get("BCdo") + "x");
 	}	
 }
+
+pattern BnoC
+	b : t_b,
+	no c : t_c guard : true {}
+
+pattern BnonoC
+	b : t_b,
+	no c : t_c guard : false {}

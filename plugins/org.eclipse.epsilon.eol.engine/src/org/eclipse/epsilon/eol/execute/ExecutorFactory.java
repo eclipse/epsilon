@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
@@ -74,27 +73,10 @@ public class ExecutorFactory {
 	}
 	
 	public AbstractExecutor getExecutorFor(int type){
-		new Exception("Called from:").printStackTrace();
 		return (AbstractExecutor) executorCache.get(type);
 	}
 	
-	//TODO: Only used in EPL's Role/Domain
-	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Class<?> returnType, Object default_) throws EolRuntimeException {
-		if (ast == null) return default_;
-		
-		Object result = executeBlockOrExpressionAst(ast, context);
-		if (result instanceof Return) result = ((Return) result).getValue();
-		if (result == null) return result;
-		
-		if (returnType.isAssignableFrom(result.getClass())) {
-			return result;
-		}
-		else {
-			throw new EolIllegalReturnException(returnType.getSimpleName(), result, ast, context);
-		}
-	}
-	
-	//TODO: Used in a few places in EPL, EVL and EWL
+	//TODO: Used in a few places in EWL
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		
 		if (ast == null) return null;

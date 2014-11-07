@@ -18,10 +18,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
-import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.execute.FixInstance;
@@ -88,63 +85,43 @@ public class Constraint extends AnnotatableModuleElement {
 		
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, checkBlock.getBody());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
-		Object result = context.getExecutorFactory().executeBlockOrExpressionAst(checkBlock.getBody(), context);
-		if (result instanceof Return) {
-			result = Return.getValue(result);
-			if (result instanceof Boolean){
-				boolean checkResult = ((Boolean) result).booleanValue();
-				if (checkResult == false){
-					
-					UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
-					unsatisfiedConstraint.setInstance(self);
-					unsatisfiedConstraint.setConstraint(this);
+		if (!checkBlock.execute(context, false)){
+			
+			UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
+			unsatisfiedConstraint.setInstance(self);
+			unsatisfiedConstraint.setConstraint(this);
 
-					for (Fix fix : fixes) {
-						if (!fix.appliesTo(self, context)) continue;
+			for (Fix fix : fixes) {
+				if (!fix.appliesTo(self, context)) continue;
 
-						FixInstance fixInstance = new FixInstance(context);
-						fixInstance.setFix(fix);
-						fixInstance.setSelf(self);
-						unsatisfiedConstraint.getFixes().add(fixInstance);
-					}
-					
-					String messageResult = null;
-					
-					if (messageBlock != null) {
-						Object messageAstResult = context.getExecutorFactory().executeBlockOrExpressionAst(messageBlock.getBody(),context);
-						if (messageAstResult instanceof Return) {
-							messageResult = context.getPrettyPrinterManager().toString(Return.getValue(messageAstResult));	
-						}
-						else {
-							throw new EolNoReturnException("Any", messageBlock.getBody(), context);
-						}
-					}
-					else {
-						messageResult = "Invariant " + this.getName() + " failed for " + 
-							context.getPrettyPrinterManager().toString(self);
-					}
-					
-					unsatisfiedConstraint.setMessage(messageResult);
-					
-					context.getConstraintTrace().addChecked(this,self,false);
-					context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
-					// We don't dispose the frame we leave because it may be needed for fix parts
-					context.getFrameStack().leaveLocal(checkBlock.getBody(), false);
-					return false;
-				}
-				else {
-					context.getConstraintTrace().addChecked(this,self,true);
-					context.getFrameStack().leaveLocal(checkBlock.getBody());
-					return true;
-				}
+				FixInstance fixInstance = new FixInstance(context);
+				fixInstance.setFix(fix);
+				fixInstance.setSelf(self);
+				unsatisfiedConstraint.getFixes().add(fixInstance);
+			}
+			
+			String messageResult = null;
+			
+			if (messageBlock != null) {
+				messageResult = messageBlock.execute(context, false);
 			}
 			else {
-				context.getFrameStack().leaveLocal(checkBlock.getBody());
-				throw new EolIllegalReturnException("Boolean",result,checkBlock.getBody(),context);
-			}	
+				messageResult = "Invariant " + this.getName() + " failed for " + 
+					context.getPrettyPrinterManager().toString(self);
+			}
+			
+			unsatisfiedConstraint.setMessage(messageResult);
+			
+			context.getConstraintTrace().addChecked(this,self,false);
+			context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
+			// We don't dispose the frame we leave because it may be needed for fix parts
+			context.getFrameStack().leaveLocal(checkBlock.getBody(), false);
+			return false;
 		}
-		else {	
-			throw new EolNoReturnException("Boolean", checkBlock.getBody(), context);
+		else {
+			context.getConstraintTrace().addChecked(this,self,true);
+			context.getFrameStack().leaveLocal(checkBlock.getBody());
+			return true;
 		}
 		
 	}

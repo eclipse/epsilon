@@ -89,6 +89,8 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 			case EplParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
 			case EplParser.DOMAIN: return new Domain();
 			case EplParser.ROLE: return new Role();
+			case EplParser.ACTIVE: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EplParser.OPTIONAL: return new ExecutableBlock<Boolean>(Boolean.class);
 		}
 		return super.adapt(cst, parentAst);
 	}
