@@ -76,19 +76,6 @@ public class ExecutorFactory {
 		return (AbstractExecutor) executorCache.get(type);
 	}
 	
-	//TODO: Used in a few places in EWL
-	public Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
-		
-		if (ast == null) return null;
-		
-		if (ast.getType() == EolParser.BLOCK){
-			return executeAST(ast,context);
-		}
-		else {
-			return new Return(executeAST(ast,context));
-		}
-	}
-	
 	//TODO: Only used by Flock's EolExecutor
 	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Object default_) {
 		

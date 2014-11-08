@@ -16,10 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
-import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -49,23 +46,7 @@ public class Wizard extends AnnotatableModuleElement {
 	public boolean appliesTo(Object self, IEolContext context) throws EolRuntimeException{
 		if (guardBlock.getBody() != null) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, guardBlock.getBody());
-			context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
-			Object result = null;
-			result = context.getExecutorFactory().executeBlockOrExpressionAst(guardBlock.getBody(), context);
-			if (result instanceof Return) {
-				result = Return.getValue(result);
-			}
-			else {
-				throw new EolNoReturnException("Boolean", guardBlock.getBody(), context);		
-			}
-		
-			//context.getScope().leave(guardBlock.getAst());
-			if (result instanceof Boolean){
-				return ((Boolean) result);
-			}
-			else {
-				throw new EolIllegalReturnException("Boolean",result,guardBlock.getBody(),context);
-			}
+			return guardBlock.execute(context, false, Variable.createReadOnlyVariable("self", self));
 		}
 		else {
 			return true;
@@ -73,30 +54,15 @@ public class Wizard extends AnnotatableModuleElement {
 	}
 	
 	public void process(Object self, IEolContext context) throws EolRuntimeException {
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyBlock.getBody());
-		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
-		context.getExecutorFactory().executeAST(bodyBlock.getBody(), context);
-		context.getFrameStack().leaveLocal(bodyBlock.getBody());
+		bodyBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self",self));
 	}
 	
 	public String getTitle(Object self, IEolContext context) throws EolRuntimeException{
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, titleBlock.getBody());
-		context.getFrameStack().put(Variable.createReadOnlyVariable("self",self));
-		Object result = null;
-		result = context.getExecutorFactory().executeBlockOrExpressionAst(titleBlock.getBody(), context);
-		if (result instanceof Return) {
-			result = Return.getValue(result);
-		}
-		else {
-			throw new EolNoReturnException("String", titleBlock.getBody(), context);		
-		}
-		
-		context.getFrameStack().leaveLocal(titleBlock.getBody());
-		return String.valueOf(result);
+		return titleBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self",self));
 	}
 
-	public List getModuleElements() {
-		return Collections.EMPTY_LIST;
+	public List<?> getModuleElements() {
+		return Collections.emptyList();
 	}
 	
 	@Override
