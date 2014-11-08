@@ -7,7 +7,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class VariableDeclaration extends TypeInitialiser implements IExecutableModuleElement {
+public class VariableDeclaration extends TypeInitialiser {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{

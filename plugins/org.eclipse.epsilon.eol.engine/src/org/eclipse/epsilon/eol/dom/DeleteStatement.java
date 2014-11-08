@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
-public class DeleteStatement extends Statement implements IExecutableModuleElement {
+public class DeleteStatement extends Statement {
 
 	protected Expression expression;
 	

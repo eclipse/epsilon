@@ -4,7 +4,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUserException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ThrowStatement extends Statement implements IExecutableModuleElement {
+public class ThrowStatement extends Statement {
 	
 	protected Expression thrown;
 	

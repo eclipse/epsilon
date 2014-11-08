@@ -3,7 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class EnumerationLiteralExpression extends LiteralExpression implements IExecutableModuleElement {
+public class EnumerationLiteralExpression extends LiteralExpression {
 
 	protected String enumerationLiteral;
 	

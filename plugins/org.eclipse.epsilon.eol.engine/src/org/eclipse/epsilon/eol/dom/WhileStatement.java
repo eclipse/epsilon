@@ -10,7 +10,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class WhileStatement extends Statement implements IExecutableModuleElement {
+public class WhileStatement extends Statement {
 	
 	protected Expression condition;
 	protected AbstractModuleElement body;
@@ -51,9 +51,8 @@ public class WhileStatement extends Statement implements IExecutableModuleElemen
 			if (((Boolean) condition).booleanValue()){
 				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
 				
-				
 				try {
-					result = context.getExecutorFactory().executeAST(getBody(), context, true);
+					result = context.getExecutorFactory().executeAST(getBody(), context);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){

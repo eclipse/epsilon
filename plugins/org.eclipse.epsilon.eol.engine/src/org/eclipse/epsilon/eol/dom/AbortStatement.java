@@ -4,7 +4,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolAbortTransactionException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class AbortStatement extends Statement implements IExecutableModuleElement {
+public class AbortStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {

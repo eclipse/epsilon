@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperati
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public class HigherOrderOperationCallExpression extends FeatureCallExpression implements IExecutableModuleElement {
+public class HigherOrderOperationCallExpression extends FeatureCallExpression {
 	
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		AST objectAst = getFirstChild();

@@ -48,7 +48,7 @@ public class Domain extends ExecutableBlock<Object> {
 		
 				if (!role.isActive(context, true)) return NoMatch.asList();
 				
-				Object result =  execute(context);
+				Object result =  context.getExecutorFactory().executeAST(Domain.this, context);
 			
 				if (!(result instanceof Collection)) {
 					List<Object> results = new ArrayList<Object>();

@@ -4,7 +4,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ReturnStatement extends Statement implements IExecutableModuleElement {
+public class ReturnStatement extends Statement {
 	
 	protected Expression returned;
 	

@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
-public class TypeExpression extends Expression implements IExecutableModuleElement {
+public class TypeExpression extends Expression {
 	
 	protected EolType type = null;
 	protected String typeName = null;

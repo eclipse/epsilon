@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
@@ -11,7 +10,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ExecutableBlock<T> extends AbstractModuleElement implements IExecutableModuleElement {
+public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
 	protected AST body = null;
 	protected Class<?> expectedResultClass = null;

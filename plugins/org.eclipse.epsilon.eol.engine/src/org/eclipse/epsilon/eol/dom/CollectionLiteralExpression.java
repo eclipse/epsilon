@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.types.EolOrderedSet;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolSet;
 
-public class CollectionLiteralExpression extends LiteralExpression implements IExecutableModuleElement {
+public class CollectionLiteralExpression extends LiteralExpression {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{

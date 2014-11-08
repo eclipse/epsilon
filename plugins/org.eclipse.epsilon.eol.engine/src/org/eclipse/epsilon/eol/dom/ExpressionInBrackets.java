@@ -3,7 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ExpressionInBrackets extends Expression implements IExecutableModuleElement {
+public class ExpressionInBrackets extends Expression {
 	
 	protected Expression expression;
 	

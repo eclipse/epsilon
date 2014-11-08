@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class ForStatement extends Statement implements IExecutableModuleElement {
+public class ForStatement extends Statement {
 	
 	protected Parameter iterator;
 	protected Expression iterated;
@@ -106,7 +106,7 @@ public class ForStatement extends Statement implements IExecutableModuleElement 
 			Object result = null; 
 			
 			try {
-				result = context.getExecutorFactory().executeAST(bodyAst, context, true);
+				result = ((IExecutableModuleElement) bodyAst).execute(context);
 				context.getFrameStack().leaveLocal(this);
 			}
 			catch (EolBreakException ex){

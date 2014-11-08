@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class SwitchStatement extends Statement implements IExecutableModuleElement {
+public class SwitchStatement extends Statement {
 	
 	protected Expression expression;
 	protected List<Case> cases = new ArrayList<Case>();

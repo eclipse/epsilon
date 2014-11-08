@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
-public class OperatorExpression extends Expression implements IExecutableModuleElement {
+public class OperatorExpression extends Expression {
 
 	private IEolContext context;
 	

@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolNoType;
 
-public class OperationCallExpression extends FeatureCallExpression implements IExecutableModuleElement {
+public class OperationCallExpression extends FeatureCallExpression {
 	
 	public static void main(String[] args) throws Exception {
 		

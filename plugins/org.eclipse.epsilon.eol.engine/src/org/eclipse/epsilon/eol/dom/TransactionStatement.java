@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class TransactionStatement extends Statement implements IExecutableModuleElement {
+public class TransactionStatement extends Statement {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {

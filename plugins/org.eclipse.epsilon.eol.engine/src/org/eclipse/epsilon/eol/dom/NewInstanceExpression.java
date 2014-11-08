@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class NewInstanceExpression extends TypeInitialiser implements IExecutableModuleElement {
+public class NewInstanceExpression extends TypeInitialiser {
 
 	protected TypeExpression instanceType;
 	protected List<Expression> parameters = new ArrayList<Expression>();

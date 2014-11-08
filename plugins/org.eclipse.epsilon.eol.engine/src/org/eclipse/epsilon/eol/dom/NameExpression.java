@@ -12,7 +12,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
-public class NameExpression extends Expression implements IExecutableModuleElement {
+public class NameExpression extends Expression {
 	
 	protected String name;
 	

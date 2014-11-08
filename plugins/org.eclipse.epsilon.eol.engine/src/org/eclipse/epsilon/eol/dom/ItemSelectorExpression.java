@@ -10,7 +10,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
 
-public class ItemSelectorExpression extends Expression implements IExecutableModuleElement {
+public class ItemSelectorExpression extends Expression {
 
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		

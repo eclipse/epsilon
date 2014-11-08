@@ -6,7 +6,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolMap;
 
-public class MapLiteralExpression extends Expression implements IExecutableModuleElement {
+public class MapLiteralExpression extends Expression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {

@@ -6,7 +6,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
-public class AssignmentStatement extends Statement implements IExecutableModuleElement {
+public class AssignmentStatement extends Statement {
 	
 	protected Expression lhs;
 	protected Expression rhs;

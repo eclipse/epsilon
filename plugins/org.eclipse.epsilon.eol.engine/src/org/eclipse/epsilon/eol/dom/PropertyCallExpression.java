@@ -9,7 +9,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
-public class PropertyCallExpression extends FeatureCallExpression implements IExecutableModuleElement {
+public class PropertyCallExpression extends FeatureCallExpression {
 	
 	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
 		AST objectAst = getFirstChild();

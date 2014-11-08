@@ -88,14 +88,14 @@ public class Role extends AbstractModuleElement {
 	public boolean isActive(IEolContext context, boolean forceRecompute) throws EolRuntimeException {
 		if (forceRecompute) {
 			if (activeAst == null) isActiveCache = true;
-			else isActiveCache = (Boolean) activeAst.execute(context);
+			else isActiveCache = (Boolean) context.getExecutorFactory().executeAST(activeAst, context);
 		}
 		return isActiveCache;
 	}
 	
 	public boolean isOptional(IEolContext context) throws EolRuntimeException {
 		if (optionalAst == null) return false;
-		else return (Boolean) optionalAst.execute(context);
+		else return (Boolean) context.getExecutorFactory().executeAST(optionalAst, context);
 	}
 	
 	public boolean isNegative() {

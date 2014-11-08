@@ -6,7 +6,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class IfStatement extends Statement implements IExecutableModuleElement {
+public class IfStatement extends Statement {
 	
 	protected Expression condition;
 	protected AbstractModuleElement then;
@@ -45,10 +45,10 @@ public class IfStatement extends Statement implements IExecutableModuleElement {
 		Object result = null;
 		
 		if (((Boolean) condition).booleanValue()){
-			result = context.getExecutorFactory().executeAST(getThen(), context, true);
+			result = context.getExecutorFactory().executeAST(getThen(), context);
 		}
 		else if (getElse() != null){
-			result = context.getExecutorFactory().executeAST(getElse(), context, true);
+			result = context.getExecutorFactory().executeAST(getElse(), context);
 		}
 		
 		context.getFrameStack().leaveLocal(this);

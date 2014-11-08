@@ -3,7 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class RealLiteral extends LiteralExpression implements IExecutableModuleElement {
+public class RealLiteral extends LiteralExpression {
 	
 	protected Number value;
 	

@@ -5,7 +5,7 @@ import org.eclipse.epsilon.eol.execute.context.AsyncStatementInstance;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class AsyncStatement extends Statement implements IExecutableModuleElement {
+public class AsyncStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {

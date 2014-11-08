@@ -4,7 +4,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class BreakStatement extends Statement implements IExecutableModuleElement {
+public class BreakStatement extends Statement {
 	
 	protected boolean all = false;
 	
