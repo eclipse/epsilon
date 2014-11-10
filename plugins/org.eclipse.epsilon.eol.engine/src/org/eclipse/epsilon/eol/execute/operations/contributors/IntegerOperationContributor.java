@@ -12,10 +12,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class IntegerOperationContributor extends OperationContributor {
-
+	
 	@Override
 	public boolean contributesTo(Object target) {
 		return target instanceof Integer;
@@ -58,4 +59,9 @@ public class IntegerOperationContributor extends OperationContributor {
 		Integer i = (Integer) target;
 		return Integer.toHexString(i);
 	}
+	
+	public Integer mod(Integer other) {
+		return ((Integer) target) % other;
+	}
+	
 }
