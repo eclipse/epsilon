@@ -51,8 +51,10 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	
 	public static void main(String[] args) throws Exception {
 		EplModule module = new EplModule();
-		module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/parse/test.epl"));
-		new AstExplorer(module.getAst(), EplParser.class);
+		//module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.epl.engine/src/org/eclipse/epsilon/epl/parse/test.epl"));
+		//new AstExplorer(module.getAst(), EplParser.class);
+		module.parse("pre{ System.user.prompt('foo?');}");
+		module.execute();
 	}
 	
 	public EplModule() {
@@ -152,8 +154,7 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 
 	@Override
 	public Object execute() throws EolRuntimeException {
-		this.getContext().setModule(this);
-		
+		prepareContext(context);
 		execute(getPre(), context);
 		
 		PatternMatcher patternMatcher = new PatternMatcher();

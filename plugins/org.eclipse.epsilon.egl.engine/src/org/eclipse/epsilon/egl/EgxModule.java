@@ -158,7 +158,8 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	
 	public Object execute() throws EolRuntimeException {
 		
-		context.setModule(this);
+		prepareContext(context);
+
 		context.copyInto(templateFactory.getContext(), true);
 		
 		execute(getPre(), context);
