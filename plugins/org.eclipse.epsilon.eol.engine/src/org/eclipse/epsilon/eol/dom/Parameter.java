@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolAnyType;
@@ -21,23 +21,29 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class Parameter extends AbstractModuleElement {
 	
 	protected String name;
-	protected String typeName = "";
-	protected AST typeAst;
+	protected TypeExpression typeExpression;
 	protected EolType type;
 	
 	public Parameter(){}
 	
+	public static void main(String[] args) throws Exception {
+		EolModule module = new EolModule();
+		module.parse("var x : Foo!Bar;");
+		System.out.println(module.getAst().toExtendedStringTree());
+	}
+	
 	@Override
 	public void build(){
 		this.name = this.getFirstChild().getText();
-		this.typeAst = this.getFirstChild().getNextSibling();
-		if (this.typeAst!=null){
-			typeName = typeAst.getText();
-		}
+		this.typeExpression = (TypeExpression) this.getFirstChild().getNextSibling();
 	}
 
-	public AST getTypeAst(){
-		return this.getFirstChild().getNextSibling();
+	public TypeExpression getTypeExpression(){
+		return typeExpression;
+	}
+	
+	public void setTypeExpression(TypeExpression typeExpression) {
+		this.typeExpression = typeExpression;
 	}
 	
 	public String getName() {
@@ -49,22 +55,23 @@ public class Parameter extends AbstractModuleElement {
 	}
 
 	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setType(String type) {
-		this.typeName = type;
+		if (typeExpression == null) {
+			return "Any";
+		}
+		else {
+			return getTypeExpression().getName();
+		}
 	}
 	
 	@Override
 	public String toString(){
-		return name + ":" + typeName;
+		return name + ":" + getTypeName();
 	}
 	
 	public EolType getType(IEolContext context) throws EolRuntimeException{
 		if (type == null){
-			if (typeAst != null){
-				type = (EolType) context.getExecutorFactory().executeAST(typeAst,context);
+			if (typeExpression != null){
+				type = (EolType) context.getExecutorFactory().executeAST(typeExpression,context);
 			}
 			else {
 				type = EolAnyType.Instance;

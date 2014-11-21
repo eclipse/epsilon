@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -8,36 +7,41 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class AssignmentStatement extends Statement {
 	
-	protected Expression lhs;
-	protected Expression rhs;
+	protected Expression targetExpression;
+	protected Expression valueExpression;
+	
+	@Override
+	public void build() {
+		super.build();
+		targetExpression = (Expression) getFirstChild();
+		valueExpression = (Expression) getSecondChild();
+	}
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
-		AST varAst = getFirstChild();
-		AST valueAst = varAst.getNextSibling();
 		
-		// Executing the varAst can return either a Variable
+		// Executing the targetExpression can return either a Variable
 		// or a SetterMethod with one argument (set method)
-		// Executing the valueAst will return an object
+		// Executing the valueExpression will return an object
 		
-		Object varAstResult = null;
+		Object targetExpressionResult = null;
 		
-		if (varAst instanceof PropertyCallExpression) {
-			varAstResult = ((PropertyCallExpression) varAst).execute(context, true);
+		if (targetExpression instanceof PropertyCallExpression) {
+			targetExpressionResult = ((PropertyCallExpression) targetExpression).execute(context, true);
 		}
-		else if (varAst instanceof NameExpression) {
-			varAstResult = ((NameExpression) varAst).execute(context, true);
+		else if (targetExpression instanceof NameExpression) {
+			targetExpressionResult = ((NameExpression) targetExpression).execute(context, true);
 		}
 		else {
-			varAstResult = context.getExecutorFactory().executeAST(varAst, context);
+			targetExpressionResult = context.getExecutorFactory().executeAST(targetExpression, context);
 		}
 		
-		Object valueAstResult = context.getExecutorFactory().executeAST(valueAst, context);
+		Object valueExpressionResult = context.getExecutorFactory().executeAST(valueExpression, context);
 		
-		if (varAstResult instanceof IPropertySetter){
-			IPropertySetter setter = (IPropertySetter) varAstResult;
+		if (targetExpressionResult instanceof IPropertySetter){
+			IPropertySetter setter = (IPropertySetter) targetExpressionResult;
 			try {
-				Object value = getRhsEquivalent(setter.getObject(), valueAstResult, context);
+				Object value = getValueEquivalent(setter.getObject(), valueExpressionResult, context);
 				
 				setter.invoke(value);
 			}
@@ -47,25 +51,25 @@ public class AssignmentStatement extends Statement {
 				}
 				throw ex;
 			}
-		} else if (varAstResult instanceof Variable){
-			Variable variable = (Variable) varAstResult;
+		} else if (targetExpressionResult instanceof Variable){
+			Variable variable = (Variable) targetExpressionResult;
 			try {
-				Object value = getRhsEquivalent(variable.getValue(), valueAstResult, context);
+				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
 				variable.setValue(value, context);
 			}
 			catch (EolRuntimeException ex){
-				ex.setAst(varAst);
+				ex.setAst(targetExpression);
 				throw ex;
 			}
 		} else {
-			throw new EolRuntimeException("Internall error. Expected either a SetterMethod or a Variable and got an " + varAstResult + "instead", this);
+			throw new EolRuntimeException("Internall error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + "instead", this);
 		}
 		
 		return null;
 		
 	}
 	
-	public Object getRhsEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {
+	public Object getValueEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {
 		return value;
 	}
 	

@@ -56,8 +56,20 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	protected Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		if (ast == null) return null;
 		
-		if (ast instanceof ExecutableBlock<?> || ast instanceof StatementBlock) {
-			return StatementBlock.execute(ast, context);
+		if (ast instanceof ExecutableBlock<?>) {
+			AST statementAst = ast.getFirstChild();
+			while (statementAst != null){
+				context.getFrameStack().setCurrentStatement(statementAst);
+				Object result = context.getExecutorFactory().executeAST(statementAst, context);
+				if (result instanceof Return) {
+					return result;
+				}
+				statementAst = statementAst.getNextSibling();
+			}
+			return null;
+		}
+		else if (ast instanceof StatementBlock) {
+			return context.getExecutorFactory().executeAST(ast, context);
 		}
 		else {
 			return new Return(context.getExecutorFactory().executeAST(ast,context));

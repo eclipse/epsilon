@@ -22,7 +22,15 @@ public class Case extends AbstractModuleElement {
 		return condition;
 	}
 	
+	public void setCondition(Expression condition) {
+		this.condition = condition;
+	}
+	
 	public StatementBlock getBody() {
 		return body;
+	}
+	
+	public void setBody(StatementBlock body) {
+		this.body = body;
 	}
 }

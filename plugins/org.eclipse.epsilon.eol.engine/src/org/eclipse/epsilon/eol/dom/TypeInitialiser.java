@@ -1,8 +1,8 @@
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -13,7 +13,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public abstract class TypeInitialiser extends Expression {
 	
-	protected Object initialiseType(EolType type, AST parametersAst, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
+	protected Object initialiseType(EolType type, List<Expression> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
 		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType){
 			return type.createInstance();
@@ -25,17 +25,12 @@ public abstract class TypeInitialiser extends Expression {
 				throw new EolNotInstantiableModelElementTypeException(modelElementType);
 			}
 			
-			if (parametersAst != null) {
-				//List<Object> parameters = (List<Object>) context.getExecutorFactory().executeAST(parametersAst, context);
-				AST parameterAst = parametersAst.getFirstChild();
-				ArrayList<Object> parameters = new ArrayList<Object>();
-				
-				while (parameterAst != null){
-					parameters.add(context.getExecutorFactory().executeAST(parameterAst, context));
-					parameterAst = parameterAst.getNextSibling();
+			if (!parameters.isEmpty()) {
+				ArrayList<Object> parameterValues = new ArrayList<Object>();
+				for (Expression parameter : parameters) {
+					parameterValues.add(context.getExecutorFactory().executeAST(parameter, context));
 				}
-				
-				return type.createInstance(parameters);
+				return type.createInstance(parameterValues);
 			}
 			else {
 				return type.createInstance();

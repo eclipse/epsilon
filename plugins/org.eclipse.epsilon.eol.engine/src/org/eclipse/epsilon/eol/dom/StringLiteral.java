@@ -7,6 +7,12 @@ public class StringLiteral extends Expression {
 	
 	protected String value;
 	
+	public StringLiteral() {}
+	
+	public StringLiteral(String value) {
+		this.value = value;
+	}
+	
 	@Override
 	public void build() {
 		super.build();
@@ -15,6 +21,10 @@ public class StringLiteral extends Expression {
 	
 	public String getValue() {
 		return value;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	@Override

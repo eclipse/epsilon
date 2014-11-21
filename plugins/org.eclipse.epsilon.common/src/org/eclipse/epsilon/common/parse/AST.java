@@ -335,7 +335,7 @@ public class AST extends CommonTree {
 	}
 	
 	public boolean isImaginary() {
-		return imaginary;
+		return imaginary || getToken() == null;
 	}
 	
 	public List<Token> getExtraTokens() {
@@ -352,5 +352,25 @@ public class AST extends CommonTree {
 	
 	public void setCommentTokens(List<Token> comments) {
 		this.commentTokens = comments;
+	}
+	
+	public String toExtendedStringTreeItem() {
+		return getText() + " " + getClass().getSimpleName() + " " + getRegion();
+	}
+	
+	public String toExtendedStringTree() {
+		return toExtendedStringTree(0);
+	}
+	
+	protected String toExtendedStringTree(int indent) {
+		String toString = "";
+		for (int i=0;i<indent;i++) {
+			toString += "  ";
+		}
+		toString += this.toExtendedStringTreeItem() + "\n";
+		for (AST child : getChildren()) {
+			toString += ((AST)child).toExtendedStringTree(indent + 1);
+		}
+		return toString;
 	}
 }

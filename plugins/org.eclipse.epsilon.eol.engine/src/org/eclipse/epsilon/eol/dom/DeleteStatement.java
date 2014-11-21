@@ -36,5 +36,13 @@ public class DeleteStatement extends Statement {
 		}
 		return null;
 	}
+	
+	public Expression getExpression() {
+		return expression;
+	}
+	
+	public void setExpression(Expression expression) {
+		this.expression = expression;
+	}
 
 }

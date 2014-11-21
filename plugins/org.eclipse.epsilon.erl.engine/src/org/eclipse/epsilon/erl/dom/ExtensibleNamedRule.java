@@ -60,11 +60,11 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 				cache.put(parameter, instances);
 			}
 			catch (EolModelElementTypeNotFoundException ex){
-				ex.setAst(parameter.getTypeAst());
+				ex.setAst(parameter.getTypeExpression());
 				throw ex;
 			}
 			catch (EolModelNotFoundException ex){
-				ex.setAst(parameter.getTypeAst());
+				ex.setAst(parameter.getTypeExpression());
 				throw ex;
 			}
 		}

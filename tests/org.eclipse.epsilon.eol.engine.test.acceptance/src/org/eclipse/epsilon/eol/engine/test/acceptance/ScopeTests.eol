@@ -1,0 +1,28 @@
+@test
+operation testForScope() {
+	for (i in 1.to(2)) {
+		var x = 5;
+		for (j in 1.to(2)) {
+			x;
+			var y = 10;
+		}
+		assertError(y);
+	}
+	assertError(x);
+}
+
+@test
+operation testIfScope() {
+	var z = 10;
+	if (true) {
+		var x = 5;
+		var z = 5;
+		if (true) {
+			x;
+			var y = 10;
+		}
+		assertError(y);
+	}
+	assertError(x);
+	assertEquals(10, z);
+}

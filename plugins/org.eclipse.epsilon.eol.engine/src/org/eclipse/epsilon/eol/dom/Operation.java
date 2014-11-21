@@ -32,30 +32,17 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class Operation extends AnnotatableModuleElement {
 	
-	private String name = "";
-	private AST contextTypeAst;
-	private EolType contextType;
-	private AST returnTypeAst;
-	private EolType returnType;
-	private AST body;
-	private List<Parameter> formalParameters = null;
+	protected String name = "";
+	protected TypeExpression contextTypeExpression;
+	protected EolType contextType;
+	protected TypeExpression returnTypeExpression;
+	protected EolType returnType;
+	protected StatementBlock body;
+	protected List<Parameter> formalParameters = new ArrayList<Parameter>();
 
 	// This field is lazily initialized by calling isCached(). If this
 	// operation cannot be cached, it will stay null, to save some memory.
 	protected EolMap cache;
-
-	public void clearCache() {
-		if (isCached()) {
-			cache.clear();
-		}
-
-		// This is important for EUnit, as it ensures that the cached
-		// type information will be re-evaluated for the reloaded models
-		contextType = returnType = null;
-		for (Parameter formalParameter : formalParameters) {
-			formalParameter.clearCache();
-		}
-	}
 	
 	//TODO: Add guards to helpers
 	//DONE: Go for context-less helpers
@@ -69,8 +56,8 @@ public class Operation extends AnnotatableModuleElement {
 		
 		AST nameAst = null;
 		if (getFirstChild().getType() == EolParser.TYPE) {
-			contextTypeAst = getFirstChild();
-			nameAst = contextTypeAst.getNextSibling(); 
+			contextTypeExpression = (TypeExpression) getFirstChild();
+			nameAst = contextTypeExpression.getNextSibling(); 
 		}
 		else {
 			nameAst = getFirstChild();
@@ -99,12 +86,9 @@ public class Operation extends AnnotatableModuleElement {
 			}
 		}
 		
-		this.body = bodyAst;
-		//this.contextTypeName = contextTypeAst.getText();
+		this.body = (StatementBlock) bodyAst;
 		this.name = nameAst.getText();
-		this.returnTypeAst = returnAst;
-		//if (returnAst != null) this.returnTypeName = returnAst.getText();
-		formalParameters = new ArrayList<Parameter>();
+		this.returnTypeExpression = (TypeExpression) returnAst;
 		if (paramListAst != null) {
 			for (AST formalParameterAst : paramListAst.getChildren()) {
 				formalParameters.add((Parameter)formalParameterAst);
@@ -113,40 +97,17 @@ public class Operation extends AnnotatableModuleElement {
 		
 	}
 
-	public AST getBody() {
-		return body;
-	}
-	
-	//public String getReturnTypeName() {
-	//	return returnTypeName;
-	//}
+	public void clearCache() {
+		if (isCached()) {
+			cache.clear();
+		}
 
-	//public void setReturnTypeName(String returnTypeName) {
-	//	this.returnTypeName = returnTypeName;
-	//}
-
-	public void setBody(AST body) {
-		this.body = body;
-	}
-	
-	//public String getContextTypeName() {
-	//	return contextTypeName;
-	//}
-	
-	//public void setContextTypeName(String contextTypeName) {
-	//	this.contextTypeName = contextTypeName;
-	//}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public List<Parameter> getFormalParameters() {
-		return formalParameters;
+		// This is important for EUnit, as it ensures that the cached
+		// type information will be re-evaluated for the reloaded models
+		contextType = returnType = null;
+		for (Parameter formalParameter : formalParameters) {
+			formalParameter.clearCache();
+		}
 	}
 	
 	@Override
@@ -154,18 +115,14 @@ public class Operation extends AnnotatableModuleElement {
 		String contextTypeName = "";
 		String returnTypeName = "";
 
-		if (contextTypeAst != null) {
-			contextTypeName = " - " + contextTypeAst.getText();// + ".";
+		if (contextTypeExpression != null) {
+			contextTypeName = " - " + contextTypeExpression.getText();// + ".";
 		}
-		if (returnTypeAst != null) {
-			returnTypeName = " : " + returnTypeAst.getText();
+		if (returnTypeExpression != null) {
+			returnTypeName = " : " + returnTypeExpression.getText();
 		}
 		
 		return name + "(" + new IterableOperationContributor(formalParameters).concat(", ") + ")" + returnTypeName + contextTypeName;
-	}
-
-	public void setFormalParameters(List<Parameter> formalParameters) {
-		this.formalParameters = formalParameters;
 	}
 
 	public synchronized boolean isCached() {
@@ -184,21 +141,6 @@ public class Operation extends AnnotatableModuleElement {
 		return execute(self, parameterValues, context, true);
 	}
 	
-	/*
-	public Object execute(Object self, List parameterValues, IEolContext contect, Collection<Variable> variables) {
-		
-		// Adds the given extra variables to the framestack before executing
-		// the operation and removes them straight afterwards...
-		return null;
-		
-		//static x : Boolean; or
-		// @static
-		// var x : Integer;
-		// Static variables are attached to the AST that is currently
-		// executed (owner of the frame) and are created only the first
-		// time...
-	}
-	*/
 	
 	public Object execute(Object self, List parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException{
 		
@@ -220,15 +162,7 @@ public class Operation extends AnnotatableModuleElement {
 		
 		evaluatePreConditions(context);
 		
-		Object result = null;
-		
-		//try {
-			result = Return.getValue(executeBody(context));
-			//context.getExecutorFactory().executeAST(this.getBody(), context);
-		//}
-		//catch (EolReturnException rex){
-		//	result = rex.getReturned();
-		//}
+		Object result = Return.getValue(executeBody(context));
 
 		checkResultType(result, context);
 		evaluatePostConditions(context, result);
@@ -236,12 +170,6 @@ public class Operation extends AnnotatableModuleElement {
 		if (inNewStackFrame) {
 			scope.leaveLocal(this);
 		}
-		
-		/*
-		if (this.getReturnType().length() > 0 &&
-			!EolTypeChecker.isOfType(result, this.getReturnType(), context)){
-		}
-		*/
 		
 		if (isCached() && !cache.containsKey(self)) {
 			cache.put(self, result);
@@ -273,9 +201,9 @@ public class Operation extends AnnotatableModuleElement {
 	protected void checkResultType(Object result, IEolContext context)
 			throws EolRuntimeException {
 		
-		if (returnTypeAst != null && result != null) {
+		if (returnTypeExpression != null && result != null) {
 			if (returnType == null) {
-				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeAst, context);
+				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeExpression, context);
 			}
 			if (!returnType.isKind(result)) {
 				throw new EolRuntimeException(name + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass().getCanonicalName());
@@ -304,15 +232,14 @@ public class Operation extends AnnotatableModuleElement {
 		}
 	}
 	
-	
-	public List getModuleElements() {
+	public List<?> getModuleElements() {
 		return Collections.EMPTY_LIST;
 	}
 	
 	public EolType getReturnType(IEolContext context) throws EolRuntimeException{
 		if (returnType == null){
-			if (returnTypeAst != null){
-				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeAst,context);
+			if (returnTypeExpression != null){
+				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeExpression,context);
 			}
 			else {
 				returnType = EolAnyType.Instance;
@@ -323,8 +250,8 @@ public class Operation extends AnnotatableModuleElement {
 	
 	public EolType getContextType(IEolContext context) throws EolRuntimeException{
 		if (contextType == null){
-			if (contextTypeAst != null){
-				contextType = (EolType) context.getExecutorFactory().executeAST(contextTypeAst,context);
+			if (contextTypeExpression != null){
+				contextType = (EolType) context.getExecutorFactory().executeAST(contextTypeExpression,context);
 			}
 			else {
 				contextType = EolNoType.Instance;
@@ -332,5 +259,43 @@ public class Operation extends AnnotatableModuleElement {
 		}
 		return contextType;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public List<Parameter> getFormalParameters() {
+		return formalParameters;
+	}
+	
+	
+	public StatementBlock getBody() {
+		return body;
+	}
+	
+	public void setBody(StatementBlock body) {
+		this.body = body;
+	}
+	
+	public TypeExpression getContextTypeExpression() {
+		return contextTypeExpression;
+	}
+	
+	public void setContextTypeExpression(TypeExpression contextTypeExpression) {
+		this.contextTypeExpression = contextTypeExpression;
+	}
+	
+	public TypeExpression getReturnTypeExpression() {
+		return returnTypeExpression;
+	}
+	
+	public void setReturnTypeExpression(TypeExpression returnTypeExpression) {
+		this.returnTypeExpression = returnTypeExpression;
+	}
+	
 }
 

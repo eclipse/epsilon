@@ -7,6 +7,12 @@ public class SimpleAnnotation extends Annotation {
 	
 	protected String value;
 	
+	public SimpleAnnotation() {}
+	
+	public SimpleAnnotation(String value) {
+		setValue(value);
+	}
+	
 	@Override
 	public void build() {
 		super.build();
@@ -23,11 +29,15 @@ public class SimpleAnnotation extends Annotation {
 	
 	@Override
 	public boolean hasValue() {
-		return value != null;
+		return getValue() != null;
 	}
 	
 	public String getValue() {
 		return value;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	@Override

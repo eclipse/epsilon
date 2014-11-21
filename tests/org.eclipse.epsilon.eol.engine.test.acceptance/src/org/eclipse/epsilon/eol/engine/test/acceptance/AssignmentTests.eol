@@ -47,3 +47,12 @@ operation testExtendedPropertyAssignmentUsesIdentity() {
 	assertEquals(1, x.~extended);
 	assertTrue(y.~extended.isUndefined());
 }
+
+@test
+operation testAssignmentInFor() {
+	var x = 0;
+	for (i in 1.to(2)) {
+		x = x + i;
+	}
+	assertEquals(3, x);
+}

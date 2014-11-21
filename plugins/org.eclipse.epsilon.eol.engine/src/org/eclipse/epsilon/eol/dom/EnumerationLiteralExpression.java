@@ -18,5 +18,13 @@ public class EnumerationLiteralExpression extends LiteralExpression {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return context.getModelRepository().getEnumerationValue(enumerationLiteral);
 	}
+	
+	public String getEnumerationLiteral() {
+		return enumerationLiteral;
+	}
+	
+	public void setEnumerationLiteral(String enumerationLiteral) {
+		this.enumerationLiteral = enumerationLiteral;
+	}
 
 }

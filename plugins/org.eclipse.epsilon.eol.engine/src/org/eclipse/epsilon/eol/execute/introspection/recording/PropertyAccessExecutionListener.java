@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.WeakHashMap;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -55,8 +56,7 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 	}
 	
 	private boolean isLeftHandSideOfPointExpression(AST ast) {
-		return ast.getParent().getType() == EolParser.POINT && 
-		       ast.getParent().getFirstChild() == ast;
+		return ast.getParent() instanceof PropertyCallExpression && ast.getParent().getFirstChild() == ast;
 	}
 	
 	private boolean isPropertyAccessExpression(AST ast) {

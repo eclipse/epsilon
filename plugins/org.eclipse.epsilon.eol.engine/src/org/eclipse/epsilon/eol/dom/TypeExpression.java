@@ -17,79 +17,31 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class TypeExpression extends Expression {
 	
 	protected EolType type = null;
-	protected String typeName = null;
+	protected String name = null;
 	
-	public TypeExpression() {
-		super();
-	}
+	public TypeExpression() {}
 	
 	public TypeExpression(String typeName) {
-		setTypeName(typeName);
-	}
-	
-	public String getTypeName() {
-		return typeName;
-	}
-	
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-		type = null;
-		if (typeName.equals("Integer")){
-			type = EolPrimitiveType.Integer;
-		}
-		else if (typeName.equals("Any")){
-			type = EolAnyType.Instance;
-		}
-		else if (typeName.equals("Boolean")){
-			type = EolPrimitiveType.Boolean;
-		}
-		else if (typeName.equals("String")){
-			type = EolPrimitiveType.String;
-		}
-		else if (typeName.equals("Real") ) {
-			type = EolPrimitiveType.Real;
-		}
-		else if (typeName.equals("Map")){
-			type = EolPrimitiveType.Map;
-		}
-		else if (typeName.equals("Sequence") || typeName.equals("List")){
-			type = EolCollectionType.Sequence;
-		}
-		else if (typeName.equals("Bag")){
-			type = EolCollectionType.Bag;
-		}
-		else if (typeName.equals("Set")){
-			type = EolCollectionType.Set;
-		}
-		else if (typeName.equals("OrderedSet")){
-			type = EolCollectionType.OrderedSet;
-		}
-		else if (typeName.equals("Collection")){
-			type = EolCollectionType.Collection;
-		}
-		else if (typeName.equals("Nothing")) {
-			type = EolNoType.Instance;
-		}
+		setName(typeName);
 	}
 	
 	@Override
 	public void build() {
 		super.build();
-		setTypeName(getText());
+		setName(getText());
 	}
-	
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 
 		if (type != null) return type;
 		
-		if (getTypeName().equals("Native")){
+		if (getName().equals("Native")){
 			return new EolNativeType(this.getFirstChild(), context);
 		}
 		
 		try {
-			return EolModelElementType.forName(typeName ,context);
+			return EolModelElementType.forName(name ,context);
 		}
 		catch (EolModelNotFoundException ex){
 			// Ignore
@@ -98,7 +50,51 @@ public class TypeExpression extends Expression {
 			// Ignore
 		}
 		
-		throw new EolTypeNotFoundException(getTypeName(), this);
+		throw new EolTypeNotFoundException(getName(), this);
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+		type = null;
+		if (name.equals("Integer")){
+			type = EolPrimitiveType.Integer;
+		}
+		else if (name.equals("Any")){
+			type = EolAnyType.Instance;
+		}
+		else if (name.equals("Boolean")){
+			type = EolPrimitiveType.Boolean;
+		}
+		else if (name.equals("String")){
+			type = EolPrimitiveType.String;
+		}
+		else if (name.equals("Real") ) {
+			type = EolPrimitiveType.Real;
+		}
+		else if (name.equals("Map")){
+			type = EolPrimitiveType.Map;
+		}
+		else if (name.equals("Sequence") || name.equals("List")){
+			type = EolCollectionType.Sequence;
+		}
+		else if (name.equals("Bag")){
+			type = EolCollectionType.Bag;
+		}
+		else if (name.equals("Set")){
+			type = EolCollectionType.Set;
+		}
+		else if (name.equals("OrderedSet")){
+			type = EolCollectionType.OrderedSet;
+		}
+		else if (name.equals("Collection")){
+			type = EolCollectionType.Collection;
+		}
+		else if (name.equals("Nothing")) {
+			type = EolNoType.Instance;
+		}
+	}
 }

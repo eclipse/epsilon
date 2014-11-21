@@ -24,12 +24,9 @@ public class OperationList extends ArrayList<Operation> {
 
 	public Operation getOperation(String name) {
 		
-		ListIterator li = listIterator();
-		
-		while (li.hasNext()){
-			Operation helper = (Operation) li.next();
-			if (helper.getName().equalsIgnoreCase(name)){
-				return helper;
+		for (Operation operation : this) {
+			if (operation.getName().equalsIgnoreCase(name)){
+				return operation;
 			}
 		}
 		
@@ -38,7 +35,7 @@ public class OperationList extends ArrayList<Operation> {
 	
 	//TODO: In case more than one helpers match when the ofTypeOnly = false
 	// throw something like an EolAmbiguousHelperCallException
-	public Operation getOperation(Object object, String name, List parameters, IEolContext context) throws EolRuntimeException{
+	public Operation getOperation(Object object, String name, List<?> parameters, IEolContext context) throws EolRuntimeException{
 		Operation operation = getOperation(object,name,parameters,true,context);
 		if (operation == null){
 			operation = getOperation(object,name,parameters,false,context);
@@ -46,23 +43,20 @@ public class OperationList extends ArrayList<Operation> {
 		return operation;
 	}
 	
-	public Operation getOperation(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
+	public Operation getOperation(Object object, String name, List<?> parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
 		List<Operation> operations = getOperations(object, name, parameters, ofTypeOnly, context, true);
 		if (operations.isEmpty()) return null;
 		else return operations.get(0);
 	}
 	
-	public List<Operation> getOperations(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
+	public List<Operation> getOperations(Object object, String name, List<?> parameters, boolean ofTypeOnly, IEolContext context) throws EolRuntimeException{
 		return getOperations(object, name, parameters, ofTypeOnly, context, false);
 	}
 	
-	public List<Operation> getOperations(Object object, String name, List parameters, boolean ofTypeOnly, IEolContext context, boolean returnOne) throws EolRuntimeException{
+	public List<Operation> getOperations(Object object, String name, List<?> parameters, boolean ofTypeOnly, IEolContext context, boolean returnOne) throws EolRuntimeException{
 		List<Operation> operations = new ArrayList<Operation>();
 		
-		ListIterator<Operation> li = listIterator();
-		
-		while (li.hasNext()){
-			Operation operation = li.next();
+		for (Operation operation : this) {
 			if (operation.getName().compareTo(name) == 0 
 					&& operation.getFormalParameters().size() == parameters.size()) {
 				
@@ -75,8 +69,8 @@ public class OperationList extends ArrayList<Operation> {
 				}
 				
 				if (correctContext){
-					ListIterator pi = parameters.listIterator();
-					ListIterator fpi = operation.getFormalParameters().listIterator();
+					ListIterator<?> pi = parameters.listIterator();
+					ListIterator<?> fpi = operation.getFormalParameters().listIterator();
 					boolean correctParameters = true;
 					while (pi.hasNext()){
 						Object parameter = pi.next();
@@ -102,7 +96,7 @@ public class OperationList extends ArrayList<Operation> {
 		return operations;
 	}
 	
-	public Operation getOperation(Object source, AST operationAst, List parameters, IEolContext context) throws EolRuntimeException{
+	public Operation getOperation(Object source, AST operationAst, List<?> parameters, IEolContext context) throws EolRuntimeException{
 		
 		Operation operation = null;
 		
@@ -115,9 +109,9 @@ public class OperationList extends ArrayList<Operation> {
 		
 	}
 	
-	public Object execute(Object source, Operation helper, AST operationAst, ArrayList parameters, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object source, Operation operation, AST operationAst, ArrayList<?> parameters, IEolContext context) throws EolRuntimeException{
 
-		return helper.execute(source,parameters,context);
+		return operation.execute(source,parameters,context);
 		
 	}
 }

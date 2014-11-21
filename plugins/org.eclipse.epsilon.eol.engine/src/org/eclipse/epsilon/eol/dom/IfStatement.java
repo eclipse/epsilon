@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -9,29 +8,29 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class IfStatement extends Statement {
 	
 	protected Expression condition;
-	protected AbstractModuleElement then;
-	protected AbstractModuleElement _else;
+	protected StatementBlock then;
+	protected StatementBlock _else;
 	
 	@Override
 	public void build() {
 		super.build();
 		condition = (Expression) getFirstChild();
-		then = (AbstractModuleElement) getSecondChild();
-		if (getChildCount() == 3) {
-			_else = (AbstractModuleElement) getThirdChild();
+		if (getSecondChild() instanceof StatementBlock) {
+			then = (StatementBlock) getSecondChild();
 		}
-	}
-	
-	public Expression getCondition() {
-		return condition;
-	}
-	
-	public AbstractModuleElement getThen() {
-		return then;
-	}
-	
-	public AbstractModuleElement getElse() {
-		return _else;
+		else {
+			then = new StatementBlock();
+			then.getStatements().add((Statement) getSecondChild());
+		}
+		if (getChildCount() == 3) {
+			if (getThirdChild() instanceof StatementBlock) {
+				_else = (StatementBlock) getThirdChild();
+			}
+			else {
+				_else = new StatementBlock();
+				_else.getStatements().add((Statement) getThirdChild());
+			}
+		}
 	}
 
 	@Override
@@ -55,6 +54,27 @@ public class IfStatement extends Statement {
 		return result;
 	}
 	
+	public Expression getCondition() {
+		return condition;
+	}
 	
+	public void setCondition(Expression condition) {
+		this.condition = condition;
+	}
 	
+	public StatementBlock getThen() {
+		return then;
+	}
+	
+	public void setThen(StatementBlock then) {
+		this.then = then;
+	}
+	
+	public StatementBlock getElse() {
+		return _else;
+	}
+	
+	public void setElse(StatementBlock _else) {
+		this._else = _else;
+	}
 }

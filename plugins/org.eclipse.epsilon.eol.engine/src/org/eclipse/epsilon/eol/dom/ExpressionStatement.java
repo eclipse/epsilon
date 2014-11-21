@@ -3,26 +3,27 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ExpressionInBrackets extends Expression {
+public class ExpressionStatement extends Statement {
 	
-	protected Expression expression;
+	protected Expression expression = null;
 	
-	@Override
-	public void build() {
-		super.build();
-		expression = (Expression) getFirstChild();
+	public ExpressionStatement() {}
+	
+	public ExpressionStatement(Expression expression) {
+		this.expression = expression;
 	}
-
+	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return context.getExecutorFactory().executeAST(expression, context);
 	}
 	
-	public Expression getExpression() {
-		return expression;
-	}
-	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
+	
+	public Expression getExpression() {
+		return expression;
+	}
+
 }

@@ -39,7 +39,7 @@ import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
 import org.eclipse.epsilon.eol.dom.ForStatement;
-import org.eclipse.epsilon.eol.dom.HigherOrderOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
 import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.IntegerLiteral;
@@ -54,6 +54,7 @@ import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.ParameterValueList;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.RealLiteral;
 import org.eclipse.epsilon.eol.dom.ReturnStatement;
@@ -106,7 +107,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 				}
 				else {
 					if (cst.getSecondChild().getFirstChild().getType() == EolParser.PARAMLIST) {
-						return new HigherOrderOperationCallExpression();
+						return new FirstOrderOperationCallExpression();
 					}
 					else {
 						return new OperationCallExpression();
@@ -117,8 +118,9 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.FORMAL: return new Parameter();
 			case EolParser.BLOCK: return new StatementBlock();
 			case EolParser.FEATURECALL: {
-				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMETERS) {
-					//if (cst.hasChildren() || (cst.getParent().getSecondChild() == cst && parentAst instanceof FeatureCallExpression)) {
+				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMETERS && 
+						((cst.getParent().getType() != EolParser.ARROW && cst.getParent().getType() != EolParser.POINT) ||
+						(cst.getParent().getType() == EolParser.ARROW || cst.getParent().getType() == EolParser.POINT) && cst.getParent().getFirstChild() == cst)) {
 					return new OperationCallExpression(true);
 				}
 				else {

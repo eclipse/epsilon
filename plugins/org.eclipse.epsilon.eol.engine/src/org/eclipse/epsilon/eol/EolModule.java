@@ -56,6 +56,10 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		return main;
 	}
 
+	public void setMain(Main main) {
+		this.main = main;
+	}
+	
 	@Override
 	public IEolContext getContext() {
 		return context;

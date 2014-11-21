@@ -7,6 +7,12 @@ public class RealLiteral extends LiteralExpression {
 	
 	protected Number value;
 	
+	public RealLiteral() {}
+	
+	public RealLiteral(Number value) {
+		this.value = value;
+	}
+	
 	@Override
 	public void build() {
 		super.build();
@@ -33,14 +39,18 @@ public class RealLiteral extends LiteralExpression {
 			value = new Float(text);
 		}
 	}
-	
-	public Number getValue() {
-		return value;
-	}
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
+	}
+	
+	public Number getValue() {
+		return value;
+	}
+	
+	public void setValue(Number value) {
+		this.value = value;
 	}
 	
 }

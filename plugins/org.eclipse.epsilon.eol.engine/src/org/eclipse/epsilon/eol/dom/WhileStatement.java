@@ -13,22 +13,20 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class WhileStatement extends Statement {
 	
 	protected Expression condition;
-	protected AbstractModuleElement body;
+	protected StatementBlock body;
 	
 	@Override
 	public void build() {
 		super.build();
 		condition = (Expression) getFirstChild();
-		body = (AbstractModuleElement) getSecondChild();
+		if (getSecondChild() instanceof StatementBlock) {
+			body = (StatementBlock) getSecondChild();
+		}
+		else {
+			body = new StatementBlock();
+			body.getStatements().add((Statement) getSecondChild());
+		}
 	} 
-	
-	public Expression getCondition() {
-		return condition;
-	}
-	
-	public AbstractModuleElement getBody() {
-		return body;
-	}
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
@@ -82,5 +80,20 @@ public class WhileStatement extends Statement {
 		return null;
 	}
 
+	public Expression getCondition() {
+		return condition;
+	}
+	
+	public void setCondition(Expression condition) {
+		this.condition = condition;
+	}
+	
+	public StatementBlock getBody() {
+		return body;
+	}
+	
+	public void setBody(StatementBlock body) {
+		this.body = body;
+	}
 	
 }

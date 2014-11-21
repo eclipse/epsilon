@@ -7,6 +7,12 @@ public class BooleanLiteral extends LiteralExpression {
 	
 	protected boolean value;
 	
+	public BooleanLiteral() {}
+	
+	public BooleanLiteral(boolean value) {
+		setValue(value);
+	}
+	
 	@Override
 	public void build() {
 		super.build();
@@ -17,14 +23,17 @@ public class BooleanLiteral extends LiteralExpression {
 			value = false;
 		}
 	}
-	
-	public boolean getValue() {
-		return value;
-	}
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
 	
+	public boolean getValue() {
+		return value;
+	}
+	
+	public void setValue(boolean value) {
+		this.value = value;
+	}
 }

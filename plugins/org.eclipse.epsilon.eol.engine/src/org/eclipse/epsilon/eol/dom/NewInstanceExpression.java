@@ -10,38 +10,40 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class NewInstanceExpression extends TypeInitialiser {
 
-	protected TypeExpression instanceType;
+	protected TypeExpression typeExpression;
 	protected List<Expression> parameters = new ArrayList<Expression>();
 	
 	@Override
 	public void build() {
 		super.build();
-		instanceType = (TypeExpression) getFirstChild();
+		typeExpression = (TypeExpression) getFirstChild();
 		if (getChildCount() == 2) {
 			for (AST parameterAst : getSecondChild().getChildren()) {
 				parameters.add((Expression) parameterAst);
 			}
 		}
 	}
+
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		
+		Object result = context.getExecutorFactory().executeAST(typeExpression, context);
+		
+		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeExpression);
+		
+		return initialiseType((EolType) result, parameters, context, true);
+		
+	}
 	
-	public TypeExpression getInstanceType() {
-		return instanceType;
+	public TypeExpression getTypeExpression() {
+		return typeExpression;
+	}
+	
+	public void setTypeExpression(TypeExpression typeExpression) {
+		this.typeExpression = typeExpression;
 	}
 	
 	public List<Expression> getParameters() {
 		return parameters;
-	}
-
-	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
-		AST typeAst = getFirstChild();
-		
-		Object result = context.getExecutorFactory().executeAST(typeAst, context);
-		
-		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeAst);
-		
-		AST parametersAst = typeAst.getNextSibling();
-		return initialiseType((EolType) result, parametersAst, context, true);
-		
 	}
 }

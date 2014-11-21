@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
@@ -18,19 +19,40 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
+	protected Expression target;
+	protected AST operationCallAst = null;
+	protected String operationName;
+	protected List<Expression> parameters = new ArrayList<Expression>();
+	protected boolean contextless;
+	
 	public static void main(String[] args) throws Exception {
-		
 		EolModule module = new EolModule();
-		module.parse("OrderedSet{1,2,3}.sortBy(i|i);");
-		//module.parse("foo(); operation foo(){'foo'.println();}");
+		module.parse("createSlotFor(defaultValues, attribute).addTraceabilityInfo(cla);");
+		//module.parse("Sequence{}.select(x|true);");
 		//module.execute();
-		for (AST descendant : module.getAst().getDescendants()) {
-			System.out.println(descendant.getClass().getCanonicalName() + " - " + descendant.getText());
+		System.out.println(module.getAst().toExtendedStringTree());
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		AST parametersAst = null;
+		if (!contextless) {
+			target = (Expression) getFirstChild();
+			operationCallAst = target.getNextSibling();
+			operationName = operationCallAst.getText();
+			parametersAst = operationCallAst.getFirstChild();
+		}
+		else {
+			operationName = this.getText();
+			parametersAst = getFirstChild();
+			operationCallAst = this;
+		}
+		for (AST parameterAst : parametersAst.getChildren()) {
+			parameters.add((Expression) parameterAst);
 		}
 		
 	}
-	
-	protected boolean contextless;
 	
 	public OperationCallExpression() {
 		super();
@@ -40,29 +62,51 @@ public class OperationCallExpression extends FeatureCallExpression {
 		this.contextless = contextless;
 	}
 	
+	public Expression getTarget() {
+		return target;
+	}
+	
+	public void setTarget(Expression target) {
+		this.target = target;
+	}
+	
+	public String getOperationName() {
+		return operationName;
+	}
+	
+	public void setOperationName(String operationName) {
+		this.operationName = operationName;
+	}
+	
+	public void setContextless(boolean contextless) {
+		this.contextless = contextless;
+	}
+	
+	public boolean isContextless() {
+		return contextless;
+	}
+	
+	public List<Expression> getParameters() {
+		return parameters;
+	}
+	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
-		AST featureCallAst;
-		Object target;
+		Object targetObject;
 		
 		if (!contextless) {
-			AST objectAst = getFirstChild();
-			featureCallAst = objectAst.getNextSibling();
-			target = context.getExecutorFactory().executeAST(objectAst, context);
+			targetObject = context.getExecutorFactory().executeAST(target, context);
 		}
 		else {
-			featureCallAst = this;
-			target = EolNoType.NoInstance;
+			targetObject = EolNoType.NoInstance;
 		}
 		
-		AST parametersAst = featureCallAst.getFirstChild();
-		String operationName = featureCallAst.getText();
-		IModel owningModel = context.getModelRepository().getOwningModel(target);
+		IModel owningModel = context.getModelRepository().getOwningModel(targetObject);
 		
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
 		if (operation != null && (!operation.isOverridable())){
-			return operation.execute(target, featureCallAst, context);
+			return operation.execute(targetObject, operationCallAst, context);
 		}
 		
 		// Operation contributor for model elements
@@ -75,58 +119,55 @@ public class OperationCallExpression extends FeatureCallExpression {
 		ObjectMethod objectMethodAst = null;
 		
 		if (modelOperationContributor != null) {
-			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(target, operationName, context);
+			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, context);
 		}
 		if (objectMethodAst == null) {
-			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(target, operationName, context);
+			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(targetObject, operationName, context);
 		}
 		
 		if (objectMethodAst != null) {
-			return wrap(objectMethodAst.execute(new Object[]{featureCallAst}, featureCallAst));
+			return wrap(objectMethodAst.execute(new Object[]{operationCallAst}, operationCallAst));
 		}
 		
-		//ArrayList<?> parameters = (ArrayList<?>) context.getExecutorFactory().executeAST(parametersAst, context);
-		AST parameterAst = parametersAst.getFirstChild();
-		ArrayList<Object> parameters = new ArrayList<Object>();
+		ArrayList<Object> parameterValues = new ArrayList<Object>();
 		
-		while (parameterAst != null){
-			parameters.add(context.getExecutorFactory().executeAST(parameterAst, context));
-			parameterAst = parameterAst.getNextSibling();
+		for (Expression parameter : parameters) {
+			parameterValues.add(context.getExecutorFactory().executeAST(parameter, context));
 		}
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
-			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(target, featureCallAst , parameters, context);
+			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(targetObject, operationCallAst , parameterValues, context);
 			if (helper != null){
-				return ((IEolLibraryModule) context.getModule()).getOperations().execute(target, helper, featureCallAst, parameters, context);
+				return ((IEolLibraryModule) context.getModule()).getOperations().execute(targetObject, helper, operationCallAst, parameterValues, context);
 			}
 		}
 		
 		// Method contributors that use the evaluated parameters
 		ObjectMethod objectMethod = null;
 		if (modelOperationContributor != null) {
-			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(target, operationName, parameters.toArray(), context);
+			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
 		}
 		
 		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(target, operationName, parameters.toArray(), context);
+			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
 		}
 		
 		if (objectMethod != null) {
-			return wrap(objectMethod.execute(parameters.toArray(), featureCallAst));
+			return wrap(objectMethod.execute(parameterValues.toArray(), operationCallAst));
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
 		if (operation != null){
 			if (operation instanceof AbstractSimpleOperation) {
-				return ((AbstractSimpleOperation) operation).execute(target, parameters, context, featureCallAst);
+				return ((AbstractSimpleOperation) operation).execute(targetObject, parameterValues, context, operationCallAst);
 			}
 			else {
-				return operation.execute(target, featureCallAst, context);
+				return operation.execute(targetObject, operationCallAst, context);
 			}
 		}
 
-		throw new EolIllegalOperationException(target, operationName, featureCallAst, context.getPrettyPrinterManager());
+		throw new EolIllegalOperationException(targetObject, operationName, operationCallAst, context.getPrettyPrinterManager());
 		
 	}
 }

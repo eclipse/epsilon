@@ -7,6 +7,12 @@ public class IntegerLiteral extends LiteralExpression {
 	
 	protected Number value;
 	
+	public IntegerLiteral() {}
+	
+	public IntegerLiteral(Number value) {
+		setValue(value);
+	}
+	
 	@Override
 	public void build() {
 		super.build();
@@ -20,12 +26,18 @@ public class IntegerLiteral extends LiteralExpression {
 		}
 	}
 	
-	public Number getValue() {
-		return value;
-	}
-	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
+	
+	public Number getValue() {
+		return value;
+	}
+	
+	public void setValue(Number value) {
+		//TODO: Throw exception if value is not an integer or a long
+		this.value = value;
+	}
+	
 }

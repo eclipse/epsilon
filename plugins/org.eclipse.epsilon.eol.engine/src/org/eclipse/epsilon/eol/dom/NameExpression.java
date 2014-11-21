@@ -16,14 +16,6 @@ public class NameExpression extends Expression {
 	
 	protected String name;
 	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	@Override
 	public void build() {
 		super.build();
@@ -104,4 +96,11 @@ public class NameExpression extends Expression {
 		}
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 }

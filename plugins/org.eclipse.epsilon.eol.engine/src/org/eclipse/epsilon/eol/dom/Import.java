@@ -35,9 +35,6 @@ public class Import extends AbstractModuleElement {
 	}
 	
 	public void setImportedModule(IModule importedModule) {
-		if (importedModule.getClass().getSimpleName().equals("EvlModule")) {
-			throw new RuntimeException();
-		}
 		this.importedModule = importedModule;
 	}
 	

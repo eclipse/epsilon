@@ -10,7 +10,7 @@ import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 public class EquivalentAssignmentStatement extends SpecialAssignmentStatement {
 	
 	@Override
-	public Object getRhsEquivalent(Object source, Object value,
+	public Object getValueEquivalent(Object source, Object value,
 			IEolContext context_) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		if (value instanceof Collection){
