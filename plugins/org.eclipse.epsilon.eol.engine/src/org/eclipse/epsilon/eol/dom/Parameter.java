@@ -34,8 +34,9 @@ public class Parameter extends AbstractModuleElement {
 	
 	@Override
 	public void build(){
-		this.name = this.getFirstChild().getText();
-		this.typeExpression = (TypeExpression) this.getFirstChild().getNextSibling();
+		super.build();
+		this.name = getFirstChild().getText();
+		this.typeExpression = (TypeExpression) getSecondChild();
 	}
 
 	public TypeExpression getTypeExpression(){

@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
-public class MapByOperation extends IteratorOperation {
+public class MapByOperation extends FirstOrderOperation {
 
 	public MapByOperation() {
 		super();

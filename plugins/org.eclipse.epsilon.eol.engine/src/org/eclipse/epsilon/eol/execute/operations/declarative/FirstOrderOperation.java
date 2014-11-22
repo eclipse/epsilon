@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public abstract class IteratorOperation extends AbstractOperation {
+public abstract class FirstOrderOperation extends AbstractOperation {
 	
 	@Override
 	public Object execute(Object source, AST operationAst, IEolContext context)

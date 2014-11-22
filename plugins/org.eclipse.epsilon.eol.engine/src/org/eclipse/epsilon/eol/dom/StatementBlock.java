@@ -12,6 +12,12 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	
 	protected List<Statement> statements = new ArrayList<Statement>();
 	
+	public StatementBlock(Statement...statements) {
+		for (Statement statement : statements) {
+			this.statements.add(statement);
+		}
+	}
+	
 	@Override
 	public void build() {
 		super.build();

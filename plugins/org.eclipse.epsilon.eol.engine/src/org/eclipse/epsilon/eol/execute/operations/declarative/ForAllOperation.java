@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class ForAllOperation extends IteratorOperation {
+public class ForAllOperation extends FirstOrderOperation {
 	
 	public boolean isReturnOnFirstMatch() {
 		return false;

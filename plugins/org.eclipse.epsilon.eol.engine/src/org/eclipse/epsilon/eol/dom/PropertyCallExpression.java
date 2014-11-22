@@ -11,21 +11,36 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class PropertyCallExpression extends FeatureCallExpression {
 	
-	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
-		AST objectAst = getFirstChild();
-		AST featureCallAst = objectAst.getNextSibling();
-		Object source = context.getExecutorFactory().executeAST(objectAst, context);
-		return execute(source, featureCallAst, context, returnSetter);
+	protected NameExpression propertyNameExpression;
+	
+	public PropertyCallExpression() {}
+	
+	public PropertyCallExpression(Expression targetExpression, NameExpression propertyNameExpression) {
+		this.targetExpression = targetExpression;
+		this.propertyNameExpression = propertyNameExpression;
 	}
 	
-	public Object execute(Object source, AST featureCallAst, IEolContext context, boolean returnSetter) throws EolRuntimeException {
+	@Override
+	public void build() {
+		super.build();
+		targetExpression = (Expression) getFirstChild();
+		propertyNameExpression = (NameExpression) getSecondChild();
+	}
+	
+	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
+		AST targetExpression = getFirstChild();
+		Object source = context.getExecutorFactory().executeAST(targetExpression, context);
+		return execute(source, propertyNameExpression, context, returnSetter);
+	}
+	
+	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context, boolean returnSetter) throws EolRuntimeException {
 		
-		String propertyName = featureCallAst.getText();
-		if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", featureCallAst);
+		String propertyName = propertyNameExpression.getName();
+		if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", propertyNameExpression);
 		
 		if (returnSetter){
 			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);
-			setter.setAst(featureCallAst);
+			setter.setAst(propertyNameExpression);
 			return setter;
 		} else{
 			IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
@@ -39,7 +54,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 				return results;
 			}
 			
-			getter.setAst(featureCallAst);
+			getter.setAst(propertyNameExpression);
 			return wrap(getter.invoke(source, propertyName));
 		}
 		
@@ -50,6 +65,12 @@ public class PropertyCallExpression extends FeatureCallExpression {
 		return execute(context, false);
 	}
 	
+	public NameExpression getPropertyNameExpression() {
+		return propertyNameExpression;
+	}
 	
+	public void setPropertyNameExpression(NameExpression propertyNameExpression) {
+		this.propertyNameExpression = propertyNameExpression;
+	}
 	
 }

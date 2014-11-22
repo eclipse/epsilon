@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class ClosureOperation extends IteratorOperation {
+public class ClosureOperation extends FirstOrderOperation {
 	
 	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();

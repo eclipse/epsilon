@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-public abstract class SelectBasedOperation extends IteratorOperation {
+public abstract class SelectBasedOperation extends FirstOrderOperation {
 	
 	protected SelectOperation selectOperation = new SelectOperation();
 	

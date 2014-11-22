@@ -15,6 +15,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 public abstract class FeatureCallExpression extends Expression {
 		
 	protected boolean arrow;
+	protected Expression targetExpression;
 	
 	public boolean isArrow() {
 		return arrow;
@@ -57,5 +58,13 @@ public abstract class FeatureCallExpression extends Expression {
 		if (operation != null) return operation;
 		else throw new EolIllegalOperationException(target, name, featureCallAst, context.getPrettyPrinterManager());				
 
+	}
+	
+	public Expression getTargetExpression() {
+		return targetExpression;
+	}
+	
+	public void setTargetExpression(Expression targetExpression) {
+		this.targetExpression = targetExpression;
 	}
 }

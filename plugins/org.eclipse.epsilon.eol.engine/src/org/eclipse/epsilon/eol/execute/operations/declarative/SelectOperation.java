@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
-public class SelectOperation extends IteratorOperation {
+public class SelectOperation extends FirstOrderOperation {
 	
 	public boolean isReturnOnFirstMatch() {
 		return false;

@@ -16,6 +16,12 @@ public class NameExpression extends Expression {
 	
 	protected String name;
 	
+	public NameExpression() {}
+	
+	public NameExpression(String name) {
+		this.name = name;
+	}
+	
 	@Override
 	public void build() {
 		super.build();

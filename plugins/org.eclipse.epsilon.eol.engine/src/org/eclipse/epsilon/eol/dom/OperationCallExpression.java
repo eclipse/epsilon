@@ -19,39 +19,15 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
-	protected Expression target;
 	protected AST operationCallAst = null;
 	protected String operationName;
-	protected List<Expression> parameters = new ArrayList<Expression>();
+	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
 	protected boolean contextless;
 	
 	public static void main(String[] args) throws Exception {
 		EolModule module = new EolModule();
-		module.parse("createSlotFor(defaultValues, attribute).addTraceabilityInfo(cla);");
-		//module.parse("Sequence{}.select(x|true);");
-		//module.execute();
-		System.out.println(module.getAst().toExtendedStringTree());
-	}
-	
-	@Override
-	public void build() {
-		super.build();
-		AST parametersAst = null;
-		if (!contextless) {
-			target = (Expression) getFirstChild();
-			operationCallAst = target.getNextSibling();
-			operationName = operationCallAst.getText();
-			parametersAst = operationCallAst.getFirstChild();
-		}
-		else {
-			operationName = this.getText();
-			parametersAst = getFirstChild();
-			operationCallAst = this;
-		}
-		for (AST parameterAst : parametersAst.getChildren()) {
-			parameters.add((Expression) parameterAst);
-		}
-		
+		module.parse("foo(); a.foo(); a.foo(bar);");
+		//System.out.println(module.getAst().toExtendedStringTree());
 	}
 	
 	public OperationCallExpression() {
@@ -62,32 +38,24 @@ public class OperationCallExpression extends FeatureCallExpression {
 		this.contextless = contextless;
 	}
 	
-	public Expression getTarget() {
-		return target;
-	}
-	
-	public void setTarget(Expression target) {
-		this.target = target;
-	}
-	
-	public String getOperationName() {
-		return operationName;
-	}
-	
-	public void setOperationName(String operationName) {
-		this.operationName = operationName;
-	}
-	
-	public void setContextless(boolean contextless) {
-		this.contextless = contextless;
-	}
-	
-	public boolean isContextless() {
-		return contextless;
-	}
-	
-	public List<Expression> getParameters() {
-		return parameters;
+	@Override
+	public void build() {
+		super.build();
+		AST parametersAst = null;
+		if (!contextless) {
+			targetExpression = (Expression) getFirstChild();
+			operationCallAst = targetExpression.getNextSibling();
+			operationName = operationCallAst.getText();
+			parametersAst = operationCallAst.getFirstChild();
+		}
+		else {
+			operationName = this.getText();
+			parametersAst = getFirstChild();
+			operationCallAst = this;
+		}
+		for (AST parameterAst : parametersAst.getChildren()) {
+			parameterExpressions.add((Expression) parameterAst);
+		}
 	}
 	
 	@Override
@@ -95,7 +63,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		Object targetObject;
 		
 		if (!contextless) {
-			targetObject = context.getExecutorFactory().executeAST(target, context);
+			targetObject = context.getExecutorFactory().executeAST(targetExpression, context);
 		}
 		else {
 			targetObject = EolNoType.NoInstance;
@@ -131,7 +99,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		ArrayList<Object> parameterValues = new ArrayList<Object>();
 		
-		for (Expression parameter : parameters) {
+		for (Expression parameter : parameterExpressions) {
 			parameterValues.add(context.getExecutorFactory().executeAST(parameter, context));
 		}
 		
@@ -169,5 +137,25 @@ public class OperationCallExpression extends FeatureCallExpression {
 
 		throw new EolIllegalOperationException(targetObject, operationName, operationCallAst, context.getPrettyPrinterManager());
 		
+	}
+	
+	public String getOperationName() {
+		return operationName;
+	}
+	
+	public void setOperationName(String operationName) {
+		this.operationName = operationName;
+	}
+	
+	public void setContextless(boolean contextless) {
+		this.contextless = contextless;
+	}
+	
+	public boolean isContextless() {
+		return contextless;
+	}
+	
+	public List<Expression> getParameterExpressions() {
+		return parameterExpressions;
 	}
 }

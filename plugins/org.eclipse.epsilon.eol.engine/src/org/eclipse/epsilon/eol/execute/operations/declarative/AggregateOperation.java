@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 import java.util.Iterator;
+
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -25,7 +26,7 @@ import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class AggregateOperation extends AbstractOperation {
-
+		
 	@Override
 	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
 		

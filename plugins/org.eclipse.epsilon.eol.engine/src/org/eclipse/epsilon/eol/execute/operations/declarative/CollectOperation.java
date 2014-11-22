@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
-public class CollectOperation extends IteratorOperation {
+public class CollectOperation extends FirstOrderOperation {
 
 	public CollectOperation() {
 		super();

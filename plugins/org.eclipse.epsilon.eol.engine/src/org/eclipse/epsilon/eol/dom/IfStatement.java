@@ -7,28 +7,28 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class IfStatement extends Statement {
 	
-	protected Expression condition;
-	protected StatementBlock then;
-	protected StatementBlock _else;
+	protected Expression conditionExpression;
+	protected StatementBlock thenStatementBlock;
+	protected StatementBlock elseStatementBlock;
 	
 	@Override
 	public void build() {
 		super.build();
-		condition = (Expression) getFirstChild();
+		conditionExpression = (Expression) getFirstChild();
 		if (getSecondChild() instanceof StatementBlock) {
-			then = (StatementBlock) getSecondChild();
+			thenStatementBlock = (StatementBlock) getSecondChild();
 		}
 		else {
-			then = new StatementBlock();
-			then.getStatements().add((Statement) getSecondChild());
+			thenStatementBlock = new StatementBlock();
+			thenStatementBlock.getStatements().add((Statement) getSecondChild());
 		}
 		if (getChildCount() == 3) {
 			if (getThirdChild() instanceof StatementBlock) {
-				_else = (StatementBlock) getThirdChild();
+				elseStatementBlock = (StatementBlock) getThirdChild();
 			}
 			else {
-				_else = new StatementBlock();
-				_else.getStatements().add((Statement) getThirdChild());
+				elseStatementBlock = new StatementBlock();
+				elseStatementBlock.getStatements().add((Statement) getThirdChild());
 			}
 		}
 	}
@@ -37,44 +37,44 @@ public class IfStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-		Object condition = context.getExecutorFactory().executeAST(getCondition(), context);
+		Object condition = context.getExecutorFactory().executeAST(conditionExpression, context);
 		
-		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, getCondition(), context);
+		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, conditionExpression, context);
 		
 		Object result = null;
 		
 		if (((Boolean) condition).booleanValue()){
-			result = context.getExecutorFactory().executeAST(getThen(), context);
+			result = context.getExecutorFactory().executeAST(thenStatementBlock, context);
 		}
-		else if (getElse() != null){
-			result = context.getExecutorFactory().executeAST(getElse(), context);
+		else if (elseStatementBlock != null){
+			result = context.getExecutorFactory().executeAST(elseStatementBlock, context);
 		}
 		
 		context.getFrameStack().leaveLocal(this);
 		return result;
 	}
 	
-	public Expression getCondition() {
-		return condition;
+	public Expression getConditionExpression() {
+		return conditionExpression;
 	}
 	
-	public void setCondition(Expression condition) {
-		this.condition = condition;
+	public void setConditionExpression(Expression conditionExpression) {
+		this.conditionExpression = conditionExpression;
 	}
 	
-	public StatementBlock getThen() {
-		return then;
+	public StatementBlock getThenStatementBlock() {
+		return thenStatementBlock;
 	}
 	
-	public void setThen(StatementBlock then) {
-		this.then = then;
+	public void setThenStatementBlock(StatementBlock thenStatementBlock) {
+		this.thenStatementBlock = thenStatementBlock;
 	}
 	
-	public StatementBlock getElse() {
-		return _else;
+	public StatementBlock getElseStatementBlock() {
+		return elseStatementBlock;
 	}
 	
-	public void setElse(StatementBlock _else) {
-		this._else = _else;
+	public void setElseStatementBlock(StatementBlock elseStatementBlock) {
+		this.elseStatementBlock = elseStatementBlock;
 	}
 }
