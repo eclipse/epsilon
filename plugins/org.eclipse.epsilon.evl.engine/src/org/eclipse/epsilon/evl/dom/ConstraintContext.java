@@ -75,7 +75,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 				(!ofTypeOnly && getAllOfSourceKind(context).contains(object))) {
 			
 			if (guardBlock != null) {
-				return (Boolean) context.getExecutorFactory().executeAST(guardBlock, context);
+				return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
 			}
 			else {
 				return true;

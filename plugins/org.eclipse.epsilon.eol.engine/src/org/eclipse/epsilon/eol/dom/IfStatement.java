@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -23,22 +24,8 @@ public class IfStatement extends Statement {
 	public void build() {
 		super.build();
 		conditionExpression = (Expression) getFirstChild();
-		if (getSecondChild() instanceof StatementBlock) {
-			thenStatementBlock = (StatementBlock) getSecondChild();
-		}
-		else {
-			thenStatementBlock = new StatementBlock();
-			thenStatementBlock.getStatements().add((Statement) getSecondChild());
-		}
-		if (getChildCount() == 3) {
-			if (getThirdChild() instanceof StatementBlock) {
-				elseStatementBlock = (StatementBlock) getThirdChild();
-			}
-			else {
-				elseStatementBlock = new StatementBlock();
-				elseStatementBlock.getStatements().add((Statement) getThirdChild());
-			}
-		}
+		thenStatementBlock = toStatementBlock(getSecondChild());
+		if (getChildCount() == 3) elseStatementBlock = toStatementBlock(getThirdChild());
 	}
 
 	@Override

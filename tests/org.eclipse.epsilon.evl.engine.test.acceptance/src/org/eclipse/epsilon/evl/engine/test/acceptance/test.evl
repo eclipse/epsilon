@@ -1,5 +1,10 @@
 context t_a {
 	
+	constraint SelfVisibleInGuard {
+		guard : self.isDefined()
+		check : true
+	}
+	
 	constraint GuardVariableInvisibleInBlock {
 		
 		guard { var condition = true; return true; }
@@ -44,7 +49,7 @@ context t_a {
 
 context t_a {
 	
-	guard : false
+	guard : not self.isDefined()
 	
 	constraint NeverChecked {
 		

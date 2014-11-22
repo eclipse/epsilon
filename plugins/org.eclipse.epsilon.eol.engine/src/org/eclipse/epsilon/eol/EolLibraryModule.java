@@ -83,12 +83,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	protected List<ModelDeclaration> declaredModelDefinitions = new ArrayList<ModelDeclaration>();
 	protected Set<ModelDeclaration> modelDefinitions = null;
 	private IEolLibraryModule parent;
-
-	public static void main(String[] args) throws Exception {
-		EolModule module = new EolModule();
-		module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/test.eol"));
-		module.execute();
-	}
 	
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
@@ -130,9 +124,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 						(cst.getParent().getType() == EolParser.ARROW || cst.getParent().getType() == EolParser.POINT) && cst.getParent().getFirstChild() == cst)) {
 					return new OperationCallExpression(true);
 				}
-//				else if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMLIST) {
-//					return new FirstOrderOperationCallExpression();
-//				}
 				else {
 					return new NameExpression();
 				}
@@ -347,7 +338,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			} else {
 				import_.load(sourceFile.toURI());
 			}
-			
 			if (!import_.isLoaded()){
 				ParseProblem problem = new ParseProblem();
 				problem.setLine(importAst.getLine());

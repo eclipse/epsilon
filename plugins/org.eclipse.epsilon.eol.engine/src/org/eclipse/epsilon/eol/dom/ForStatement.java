@@ -34,14 +34,7 @@ public class ForStatement extends Statement {
 		super.build();
 		iteratorParameter = (Parameter) getFirstChild();
 		iteratedExpression = (Expression) getSecondChild();
-		if (getThirdChild() instanceof StatementBlock) {
-			bodyStatementBlock = (StatementBlock) getThirdChild();
-		}
-		else {
-			bodyStatementBlock = new StatementBlock();
-			bodyStatementBlock.getStatements().add((Statement) getThirdChild());
-		}
-		
+		bodyStatementBlock = toStatementBlock(getThirdChild());
 	}
 	
 	@Override

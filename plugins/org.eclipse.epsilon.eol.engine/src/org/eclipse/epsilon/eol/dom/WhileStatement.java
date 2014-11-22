@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
@@ -26,13 +27,7 @@ public class WhileStatement extends Statement {
 	public void build() {
 		super.build();
 		conditionExpression = (Expression) getFirstChild();
-		if (getSecondChild() instanceof StatementBlock) {
-			bodyStatementBlock = (StatementBlock) getSecondChild();
-		}
-		else {
-			bodyStatementBlock = new StatementBlock();
-			bodyStatementBlock.getStatements().add((Statement) getSecondChild());
-		}
+		bodyStatementBlock = toStatementBlock(getSecondChild());
 	} 
 
 	@Override
