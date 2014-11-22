@@ -6,27 +6,37 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ReturnStatement extends Statement {
 	
-	protected Expression returned;
+	protected Expression returnedExpression;
+	
+	public ReturnStatement() {}
+	
+	public ReturnStatement(Expression returnedExpression) {
+		this.returnedExpression = returnedExpression;
+	}
 	
 	@Override
 	public void build() {
 		super.build();
-		returned = (Expression) getFirstChild();
-	}
-	
-	public Expression getReturned() {
-		return returned;
+		returnedExpression = (Expression) getFirstChild();
 	}
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 	
 		Object result = null;
-		if (getReturned() != null){
-			result = context.getExecutorFactory().executeAST(getReturned(), context);
+		if (returnedExpression != null){
+			result = context.getExecutorFactory().executeAST(returnedExpression, context);
 		}
 		
 		return new Return(result);
+	}
+	
+	public Expression getReturnedExpression() {
+		return returnedExpression;
+	}
+	
+	public void setReturnedExpression(Expression returnedExpression) {
+		this.returnedExpression = returnedExpression;
 	}
 	
 }

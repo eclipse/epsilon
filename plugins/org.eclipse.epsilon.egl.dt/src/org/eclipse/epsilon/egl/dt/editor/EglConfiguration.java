@@ -16,7 +16,9 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
 import org.eclipse.epsilon.common.dt.editor.DefaultDamagerRepairer2;
+import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IAutoIndentStrategy;
 import org.eclipse.jface.text.IDocument;
@@ -25,6 +27,7 @@ import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
@@ -50,9 +53,11 @@ public class EglConfiguration extends SourceViewerConfiguration {
 
 	private final AbstractModuleEditorSourceViewerConfiguration configuration;
 	private Color staticTextColour;
+	protected EolEditor eolEditor;
 	
-	public EglConfiguration(AbstractModuleEditorSourceViewerConfiguration configuration) {
+	public EglConfiguration(AbstractModuleEditorSourceViewerConfiguration configuration, EolEditor eolEditor) {
 		this.configuration = configuration;
+		this.eolEditor = eolEditor;
 		initialiseColours();
 	}
 	
@@ -161,10 +166,16 @@ public class EglConfiguration extends SourceViewerConfiguration {
 	public int[] getConfiguredTextHoverStateMasks(ISourceViewer sourceViewer, String contentType) {
 		return configuration.getConfiguredTextHoverStateMasks(sourceViewer, contentType);
 	}
-
+	
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-		return configuration.getContentAssistant(sourceViewer);
+		ContentAssistant contentAssistant = (ContentAssistant) configuration.getContentAssistant(sourceViewer);
+		AbstractModuleEditorCompletionProcessor eolCompletionProcessor = new AbstractModuleEditorCompletionProcessor(eolEditor);
+		contentAssistant.setContentAssistProcessor(eolCompletionProcessor,
+				EglProvider.EGL_EOL);
+		contentAssistant.setContentAssistProcessor(eolCompletionProcessor,
+				EglProvider.EGL_EOLSHORTCUT);
+		return contentAssistant;
 	}
 
 	@Override

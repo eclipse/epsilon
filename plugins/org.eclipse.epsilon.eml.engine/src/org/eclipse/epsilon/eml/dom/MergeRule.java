@@ -56,14 +56,11 @@ public class MergeRule extends ExtensibleNamedRule {
 		this.bodyBlock = (StatementBlock) AstUtil.getChild(this, EmlParser.BLOCK);
 		
 		//Parse the formal parameters
-		leftParameter = (Parameter) getFirstChild().getNextSibling();
-		rightParameter = (Parameter) leftParameter.getNextSibling();
+		leftParameter = (Parameter) getSecondChild();
+		rightParameter = (Parameter) getThirdChild();
 		
-		AST mergedParametersAst = rightParameter.getNextSibling();
-		AST mergedParameterAst = mergedParametersAst.getFirstChild();
-		while (mergedParameterAst != null){
+		for (AST mergedParameterAst : getFourthChild().getChildren()) {
 			targetParameters.add((Parameter) mergedParameterAst);
-			mergedParameterAst = mergedParameterAst.getNextSibling();
 		}
 		
 	}

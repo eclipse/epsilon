@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class NewInstanceExpression extends TypeInitialiser {
 
 	protected TypeExpression typeExpression;
-	protected List<Expression> parameters = new ArrayList<Expression>();
+	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
 	
 	@Override
 	public void build() {
@@ -19,7 +19,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 		typeExpression = (TypeExpression) getFirstChild();
 		if (getChildCount() == 2) {
 			for (AST parameterAst : getSecondChild().getChildren()) {
-				parameters.add((Expression) parameterAst);
+				parameterExpressions.add((Expression) parameterAst);
 			}
 		}
 	}
@@ -31,7 +31,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 		
 		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeExpression);
 		
-		return initialiseType((EolType) result, parameters, context, true);
+		return initialiseType((EolType) result, parameterExpressions, context, true);
 		
 	}
 	
@@ -43,7 +43,8 @@ public class NewInstanceExpression extends TypeInitialiser {
 		this.typeExpression = typeExpression;
 	}
 	
-	public List<Expression> getParameters() {
-		return parameters;
+	public List<Expression> getParameterExpressions() {
+		return parameterExpressions;
 	}
+	
 }

@@ -245,6 +245,15 @@ public class AST extends CommonTree {
 		}		
 	}
 	
+	public AST getFourthChild() {
+		if (this.getChildCount() > 3) {
+			return cast(this.getChild(3));
+		} else {
+			return null;
+		}		
+	}
+	
+	
 	public Region getRegion() {
 		if (region == null) {
 			region = new Region();

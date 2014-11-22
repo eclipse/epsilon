@@ -107,6 +107,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		this.moduleParsedListeners.add(listener);
 	}
 	
+	public ArrayList<IModuleParseListener> getModuleParsedListeners() {
+		return moduleParsedListeners;
+	}
+	
 	public boolean removeModuleParsedListener(IModuleParseListener listener) {
 		return moduleParsedListeners.remove(moduleParsedListeners);
 	}

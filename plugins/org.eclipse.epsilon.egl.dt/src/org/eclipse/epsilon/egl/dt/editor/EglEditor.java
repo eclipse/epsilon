@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
+import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
@@ -31,11 +32,21 @@ public class EglEditor extends AbstractModuleEditor {
 	public EglEditor() {
 		setDocumentProvider(new EglProvider());
 		addTemplateContributor(new EglEditorStaticTemplateContributor());
+		addModuleParsedListener(new IModuleParseListener() {
+			
+			@Override
+			public void moduleParsed(AbstractModuleEditor editor, IModule module_) {
+				EglTemplateFactoryModuleAdapter module = (EglTemplateFactoryModuleAdapter) module_;
+				for (IModuleParseListener moduleParseListener : eolEditor.getModuleParsedListeners()) {
+					moduleParseListener.moduleParsed(eolEditor, module);
+				}
+			}
+		});
 	}
 	
 	@Override
 	public SourceViewerConfiguration createSourceViewerConfiguration() {
-		return new EglConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this));
+		return new EglConfiguration(new AbstractModuleEditorSourceViewerConfiguration(this), eolEditor);
 	}
 
 	@Override

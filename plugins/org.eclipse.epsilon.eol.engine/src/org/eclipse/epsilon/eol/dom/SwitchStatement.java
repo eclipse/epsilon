@@ -13,10 +13,18 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class SwitchStatement extends Statement {
 	
-	protected Expression expression;
+	protected Expression conditionExpression;
 	protected List<Case> cases = new ArrayList<Case>();
 	protected Case _default;
 	
+	public SwitchStatement() {}
+	
+	public SwitchStatement(Expression conditionExpression, List<Case> cases, Case _default) {
+		this.conditionExpression = conditionExpression;
+		this.cases = cases;
+		this._default = _default;
+	}
+
 	@Override
 	public void build() {
 		super.build();
@@ -28,7 +36,7 @@ public class SwitchStatement extends Statement {
 				cases.add((Case) child);
 			}
 			else if (child instanceof Expression){
-				expression = (Expression) child;
+				conditionExpression = (Expression) child;
 			}
 		}
 	}
@@ -41,8 +49,12 @@ public class SwitchStatement extends Statement {
 		return _default;
 	}
 	
-	public Expression getExpression() {
-		return expression;
+	public Expression getConditionExpression() {
+		return conditionExpression;
+	}
+	
+	public void setConditionExpression(Expression conditionExpression) {
+		this.conditionExpression = conditionExpression;
 	}
 	
 	@Override

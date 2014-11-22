@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eml.strategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
