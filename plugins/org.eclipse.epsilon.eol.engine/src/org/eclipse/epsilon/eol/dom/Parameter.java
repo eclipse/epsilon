@@ -11,31 +11,28 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-
 public class Parameter extends AbstractModuleElement {
 	
-	protected String name;
+	protected NameExpression nameExpression;
 	protected TypeExpression typeExpression;
 	protected EolType type;
 	
 	public Parameter(){}
 	
-	public static void main(String[] args) throws Exception {
-		EolModule module = new EolModule();
-		module.parse("var x : Foo!Bar;");
-		System.out.println(module.getAst().toExtendedStringTree());
+	public Parameter(NameExpression nameExpression, TypeExpression typeExpression) {
+		this.nameExpression = nameExpression;
+		this.typeExpression = typeExpression;
 	}
 	
 	@Override
 	public void build(){
 		super.build();
-		this.name = getFirstChild().getText();
+		this.nameExpression = (NameExpression) getFirstChild();
 		this.typeExpression = (TypeExpression) getSecondChild();
 	}
 
@@ -47,12 +44,16 @@ public class Parameter extends AbstractModuleElement {
 		this.typeExpression = typeExpression;
 	}
 	
-	public String getName() {
-		return name;
+	public NameExpression getNameExpression() {
+		return nameExpression;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setNameExpression(NameExpression nameExpression) {
+		this.nameExpression = nameExpression;
+	}
+	
+	public String getName() {
+		return nameExpression.getName();
 	}
 
 	public String getTypeName() {
@@ -60,13 +61,13 @@ public class Parameter extends AbstractModuleElement {
 			return "Any";
 		}
 		else {
-			return getTypeExpression().getName();
+			return typeExpression.getName();
 		}
 	}
 	
 	@Override
 	public String toString(){
-		return name + ":" + getTypeName();
+		return getName() + ":" + getTypeName();
 	}
 	
 	public EolType getType(IEolContext context) throws EolRuntimeException{

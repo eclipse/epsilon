@@ -10,6 +10,13 @@ public class AssignmentStatement extends Statement {
 	protected Expression targetExpression;
 	protected Expression valueExpression;
 	
+	public AssignmentStatement() {}
+	
+	public AssignmentStatement(Expression targetExpression, Expression valueExpression) {
+		this.targetExpression = targetExpression;
+		this.valueExpression = valueExpression;
+	}
+	
 	@Override
 	public void build() {
 		super.build();

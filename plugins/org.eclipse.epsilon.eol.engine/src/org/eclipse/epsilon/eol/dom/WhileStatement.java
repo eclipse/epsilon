@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
@@ -12,19 +11,27 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class WhileStatement extends Statement {
 	
-	protected Expression condition;
-	protected StatementBlock body;
+	protected Expression conditionExpression;
+	protected StatementBlock bodyStatementBlock;
 	
+	public WhileStatement() {}
+	
+	
+	public WhileStatement(Expression conditionExpression, StatementBlock bodyStatementBlock) {
+		this.conditionExpression = conditionExpression;
+		this.bodyStatementBlock = bodyStatementBlock;
+	}
+
 	@Override
 	public void build() {
 		super.build();
-		condition = (Expression) getFirstChild();
+		conditionExpression = (Expression) getFirstChild();
 		if (getSecondChild() instanceof StatementBlock) {
-			body = (StatementBlock) getSecondChild();
+			bodyStatementBlock = (StatementBlock) getSecondChild();
 		}
 		else {
-			body = new StatementBlock();
-			body.getStatements().add((Statement) getSecondChild());
+			bodyStatementBlock = new StatementBlock();
+			bodyStatementBlock.getStatements().add((Statement) getSecondChild());
 		}
 	} 
 
@@ -37,11 +44,11 @@ public class WhileStatement extends Statement {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 			
 			loop ++;
-			Object condition = context.getExecutorFactory().executeAST(getCondition(), context);		
+			Object condition = context.getExecutorFactory().executeAST(conditionExpression, context);		
 			
 			if (!(condition instanceof Boolean)) {
 				context.getFrameStack().leaveLocal(this);
-				throw new EolIllegalReturnException("Boolean", condition, getCondition(), context);
+				throw new EolIllegalReturnException("Boolean", condition, conditionExpression, context);
 			}
 			
 			Object result = null;
@@ -50,7 +57,7 @@ public class WhileStatement extends Statement {
 				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
 				
 				try {
-					result = context.getExecutorFactory().executeAST(getBody(), context);
+					result = context.getExecutorFactory().executeAST(bodyStatementBlock, context);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
@@ -80,20 +87,20 @@ public class WhileStatement extends Statement {
 		return null;
 	}
 
-	public Expression getCondition() {
-		return condition;
+	public Expression getConditionExpression() {
+		return conditionExpression;
 	}
 	
-	public void setCondition(Expression condition) {
-		this.condition = condition;
+	public void setConditionExpression(Expression conditionExpression) {
+		this.conditionExpression = conditionExpression;
 	}
 	
-	public StatementBlock getBody() {
-		return body;
+	public StatementBlock getBodyStatementBlock() {
+		return bodyStatementBlock;
 	}
 	
-	public void setBody(StatementBlock body) {
-		this.body = body;
+	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
+		this.bodyStatementBlock = bodyStatementBlock;
 	}
 	
 }

@@ -17,6 +17,14 @@ public class OperatorExpression extends Expression {
 	protected Expression secondOperand;
 	protected String operator;
 	
+	public OperatorExpression() {}
+	
+	public OperatorExpression(String operator, Expression firstOperand, Expression secondOperand) {
+		this.operator = operator;
+		this.firstOperand = firstOperand;
+		this.secondOperand = secondOperand;
+	}
+	
 	@Override
 	public void build() {
 		super.build();

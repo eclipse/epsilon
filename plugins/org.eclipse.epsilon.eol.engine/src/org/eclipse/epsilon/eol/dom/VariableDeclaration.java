@@ -12,22 +12,33 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class VariableDeclaration extends TypeInitialiser {
 	
-	protected List<Expression> parameters = new ArrayList<Expression>();
-	protected String name = null;
+	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected NameExpression nameExpression = null;
 	protected boolean instantiate;
 	protected TypeExpression typeExpression = null;
+	
+	public VariableDeclaration() {}
+	
+	public VariableDeclaration(NameExpression nameExpression, TypeExpression typeExpression, boolean instantiate, Expression... parameterExpressions) {
+		this.nameExpression = nameExpression;
+		this.typeExpression = typeExpression;
+		this.instantiate = instantiate;
+		for (Expression parameterExpression : parameterExpressions) {
+			this.parameterExpressions.add(parameterExpression);
+		}
+	}
 	
 	@Override
 	public void build() {
 		super.build();
-		name = getFirstChild().getText();
+		nameExpression = (NameExpression) getFirstChild();
 		instantiate = getText().equalsIgnoreCase("new");
 		typeExpression = (TypeExpression) getSecondChild();
 		if (typeExpression != null) {
 			AST parametersAst = typeExpression.getNextSibling();
 			if (parametersAst != null) {
 				for (AST parameterAst : parametersAst.getChildren()) {
-					parameters.add((Expression) parameterAst);
+					parameterExpressions.add((Expression) parameterAst);
 				}
 			}
 		}
@@ -45,20 +56,16 @@ public class VariableDeclaration extends TypeInitialiser {
 		}
 		
 		//TODO : Add try-catch and support for EolInstantiationExceptions
-		Object newInstance = initialiseType(variableType, parameters, context, instantiate);
+		Object newInstance = initialiseType(variableType, parameterExpressions, context, instantiate);
 		
-		Variable variable = new Variable(name, newInstance, variableType);
+		Variable variable = new Variable(getName(), newInstance, variableType);
 		context.getFrameStack().put(variable);
 		return variable;
 		
 	}
 	
 	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
+		return nameExpression.getName();
 	}
 	
 	public boolean isInstantiate() {
@@ -77,4 +84,15 @@ public class VariableDeclaration extends TypeInitialiser {
 		this.typeExpression = typeExpression;
 	}
 	
+	public NameExpression getNameExpression() {
+		return nameExpression;
+	}
+	
+	public void setNameExpression(NameExpression nameExpression) {
+		this.nameExpression = nameExpression;
+	}
+	
+	public List<Expression> getParameterExpressions() {
+		return parameterExpressions;
+	}
 }

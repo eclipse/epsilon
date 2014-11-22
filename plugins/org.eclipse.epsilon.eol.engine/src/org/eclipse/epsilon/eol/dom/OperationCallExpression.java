@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -19,20 +18,19 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
-	
-	public static void main(String[] args) throws Exception {
-		EolModule module = new EolModule();
-		module.parse("foo();a.foo();");
-	}
-	
-	protected AST operationCallAst = null;
-	protected String operationName;
-	protected NameExpression operationNameExpression = null;
+	protected NameExpression nameExpression = null;
 	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
 	protected boolean contextless;
 	
-	public OperationCallExpression() {
-		super();
+	public OperationCallExpression() {}
+	
+	public OperationCallExpression(Expression targetExpression, NameExpression nameExpression, Expression... parameterExpressions) {
+		this.targetExpression = targetExpression;
+		this.nameExpression = nameExpression;
+		this.contextless = (targetExpression == null);
+		for (Expression parameterExpression : parameterExpressions) {
+			this.parameterExpressions.add(parameterExpression);
+		}
 	}
 	
 	public OperationCallExpression(boolean contextless) {
@@ -45,30 +43,25 @@ public class OperationCallExpression extends FeatureCallExpression {
 		AST parametersAst = null;
 		if (!contextless) {
 			targetExpression = (Expression) getFirstChild();
-			operationCallAst = targetExpression.getNextSibling();
-			operationName = operationCallAst.getText();
-			operationNameExpression = (NameExpression) operationCallAst;
-			parametersAst = operationCallAst.getFirstChild();
+			nameExpression = (NameExpression) getSecondChild();
+			parametersAst = getSecondChild().getFirstChild();
 		}
 		else {
-			operationName = this.getText();
-			operationNameExpression = new NameExpression();
-			operationNameExpression.setRegion(this.getRegion());
-			operationNameExpression.setUri(this.getUri());
-			operationNameExpression.setModule(this.getModule());
-			
+			nameExpression = new NameExpression(this.getText());
+			nameExpression.setRegion(this.getRegion());
+			nameExpression.setUri(this.getUri());
+			nameExpression.setModule(this.getModule());
 			parametersAst = getFirstChild();
-			operationCallAst = this;
 		}
 		for (AST parameterAst : parametersAst.getChildren()) {
 			parameterExpressions.add((Expression) parameterAst);
 		}
-		System.out.println(this.toExtendedStringTree());
 	}
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
 		Object targetObject;
+		String operationName = nameExpression.getName();
 		
 		if (!contextless) {
 			targetObject = context.getExecutorFactory().executeAST(targetExpression, context);
@@ -82,7 +75,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
 		if (operation != null && (!operation.isOverridable())){
-			return operation.execute(targetObject, operationNameExpression, new ArrayList<Parameter>(), parameterExpressions, context);
+			return operation.execute(targetObject, nameExpression, new ArrayList<Parameter>(), parameterExpressions, context);
 		}
 		
 		// Operation contributor for model elements
@@ -102,7 +95,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		if (objectMethodAst != null) {
-			return wrap(objectMethodAst.execute(new Object[]{operationCallAst}, operationCallAst));
+			return wrap(objectMethodAst.execute(new Object[]{nameExpression}, nameExpression));
 		}
 		
 		ArrayList<Object> parameterValues = new ArrayList<Object>();
@@ -113,9 +106,9 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
-			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(targetObject, operationCallAst , parameterValues, context);
+			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(targetObject, nameExpression , parameterValues, context);
 			if (helper != null){
-				return ((IEolLibraryModule) context.getModule()).getOperations().execute(targetObject, helper, operationCallAst, parameterValues, context);
+				return ((IEolLibraryModule) context.getModule()).getOperations().execute(targetObject, helper, parameterValues, context);
 			}
 		}
 		
@@ -130,24 +123,20 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		if (objectMethod != null) {
-			return wrap(objectMethod.execute(parameterValues.toArray(), operationCallAst));
+			return wrap(objectMethod.execute(parameterValues.toArray(), nameExpression));
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
 		if (operation instanceof SimpleOperation) {
-			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, operationCallAst);
+			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
 		}
 
-		throw new EolIllegalOperationException(targetObject, operationName, operationCallAst, context.getPrettyPrinterManager());
+		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
 		
 	}
 	
 	public String getOperationName() {
-		return operationName;
-	}
-	
-	public void setOperationName(String operationName) {
-		this.operationName = operationName;
+		return nameExpression.getText();
 	}
 	
 	public void setContextless(boolean contextless) {

@@ -11,6 +11,14 @@ public class IfStatement extends Statement {
 	protected StatementBlock thenStatementBlock;
 	protected StatementBlock elseStatementBlock;
 	
+	public IfStatement() {}
+	
+	public IfStatement(Expression conditionExpression, StatementBlock thenStatementBlock, StatementBlock elseStatementBlock) {
+		this.conditionExpression = conditionExpression;
+		this.thenStatementBlock = thenStatementBlock;
+		this.elseStatementBlock = elseStatementBlock;
+	}
+
 	@Override
 	public void build() {
 		super.build();

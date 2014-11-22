@@ -17,14 +17,37 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class ForStatement extends Statement {
 	
-	protected Parameter iterator;
-	protected Expression iterated;
-	protected StatementBlock body;
+	protected Parameter iteratorParameter;
+	protected Expression iteratedExpression;
+	protected StatementBlock bodyStatementBlock;
+	
+	public ForStatement() {}
+	
+	public ForStatement(Parameter iteratorParameter, Expression iteratedExpression, StatementBlock bodyStatementBlock) {
+		this.iteratorParameter = iteratorParameter;
+		this.iteratedExpression = iteratedExpression;
+		this.bodyStatementBlock = bodyStatementBlock;
+	}
+
+	@Override
+	public void build() {
+		super.build();
+		iteratorParameter = (Parameter) getFirstChild();
+		iteratedExpression = (Expression) getSecondChild();
+		if (getThirdChild() instanceof StatementBlock) {
+			bodyStatementBlock = (StatementBlock) getThirdChild();
+		}
+		else {
+			bodyStatementBlock = new StatementBlock();
+			bodyStatementBlock.getStatements().add((Statement) getThirdChild());
+		}
+		
+	}
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
 		
-		Object iteratedObject = context.getExecutorFactory().executeAST(this.iterated, context);
+		Object iteratedObject = context.getExecutorFactory().executeAST(this.iteratedExpression, context);
 		
 		Collection<Object> iteratedCol = null;
 		Iterator<Object> it = null;
@@ -48,7 +71,7 @@ public class ForStatement extends Statement {
 			iteratedCol.add(iteratedObject);
 		}
 		
-		EolType iteratorType = iterator.getType(context);
+		EolType iteratorType = iteratorParameter.getType(context);
 		if (it == null) it = iteratedCol.iterator();
 
 		boolean loopBroken = false;
@@ -60,14 +83,14 @@ public class ForStatement extends Statement {
 			if (!iteratorType.isKind(next)) continue;
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 			
-			context.getFrameStack().put(new Variable(iterator.getName(), next, iteratorType));
+			context.getFrameStack().put(new Variable(iteratorParameter.getName(), next, iteratorType));
 			context.getFrameStack().put(new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true));
 			context.getFrameStack().put(new Variable("loopCount", loop++, EolPrimitiveType.Integer, true));
 			
 			Object result = null; 
 			
 			try {
-				result = context.getExecutorFactory().executeAST(body, context);
+				result = context.getExecutorFactory().executeAST(bodyStatementBlock, context);
 				context.getFrameStack().leaveLocal(this);
 			}
 			catch (EolBreakException ex){
@@ -91,42 +114,27 @@ public class ForStatement extends Statement {
 		
 	}
 	
-	@Override
-	public void build() {
-		super.build();
-		iterator = (Parameter) getFirstChild();
-		iterated = (Expression) getSecondChild();
-		if (getThirdChild() instanceof StatementBlock) {
-			body = (StatementBlock) getThirdChild();
-		}
-		else {
-			body = new StatementBlock();
-			body.getStatements().add((Statement) getThirdChild());
-		}
-		
+	public Expression getIteratedExpression() {
+		return iteratedExpression;
 	}
 	
-	public Parameter getIterator() {
-		return iterator;
+	public void setIteratedExpression(Expression iteratedExpression) {
+		this.iteratedExpression = iteratedExpression;
 	}
 	
-	public void setIterator(Parameter iterator) {
-		this.iterator = iterator;
+	public Parameter getIteratorParameter() {
+		return iteratorParameter;
 	}
 	
-	public Expression getIterated() {
-		return iterated;
+	public void setIteratorParameter(Parameter iteratorParameter) {
+		this.iteratorParameter = iteratorParameter;
 	}
 	
-	public void setIterated(Expression iterated) {
-		this.iterated = iterated;
+	public StatementBlock getBodyStatementBlock() {
+		return bodyStatementBlock;
 	}
 	
-	public StatementBlock getBody() {
-		return body;
-	}
-	
-	public void setBody(StatementBlock body) {
-		this.body = body;
+	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
+		this.bodyStatementBlock = bodyStatementBlock;
 	}
 }

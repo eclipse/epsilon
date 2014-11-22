@@ -173,15 +173,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return new AST();
 	}
 	
-	public static void main(String[] args) throws Exception {
-		EolModule module = new EolModule();
-		module.parse("	(/*a*/i).println();");
-		System.out.println("Problems: " + module.getParseProblems().size());
-		System.out.println(module.getAst().toStringTree());
-		module.execute();
-		//System.out.println(module.getAst().getFirstChild().getFirstChild().getComments().size());
-	}
-	
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
 		List<CommonToken> comments = new ArrayList<CommonToken>();
 		

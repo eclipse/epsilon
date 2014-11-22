@@ -96,20 +96,20 @@ public class OperationList extends ArrayList<Operation> {
 		return operations;
 	}
 	
-	public Operation getOperation(Object source, AST operationAst, List<?> parameters, IEolContext context) throws EolRuntimeException{
+	public Operation getOperation(Object source, NameExpression operationNameExpression, List<?> parameters, IEolContext context) throws EolRuntimeException{
 		
 		Operation operation = null;
 		
-		operation = getOperation(source, operationAst.getText(), parameters, true, context);
+		operation = getOperation(source, operationNameExpression.getName(), parameters, true, context);
 		if (operation == null) {
-			operation = getOperation(source, operationAst.getText(), parameters, false, context);
+			operation = getOperation(source, operationNameExpression.getName(), parameters, false, context);
 		}
 		
 		return operation;
 		
 	}
 	
-	public Object execute(Object source, Operation operation, AST operationAst, ArrayList<?> parameters, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object source, Operation operation, ArrayList<?> parameters, IEolContext context) throws EolRuntimeException{
 
 		return operation.execute(source,parameters,context);
 		

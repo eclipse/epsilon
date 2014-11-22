@@ -31,6 +31,5 @@ Export-Package: org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.tools,
  org.eclipse.epsilon.eol.types,
  org.eclipse.epsilon.eol.userinput,
- org.eclipse.epsilon.eol.util,
- org.eclipse.epsilon.eol.validate
+ org.eclipse.epsilon.eol.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

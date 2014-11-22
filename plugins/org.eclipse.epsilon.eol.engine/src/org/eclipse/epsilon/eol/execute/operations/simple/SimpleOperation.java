@@ -31,40 +31,28 @@ public abstract class SimpleOperation extends AbstractOperation{
 	
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	
-//	@Override
-//	public Object execute2(Object source, AST operationAst, IEolContext context) throws EolRuntimeException {
-		
+	
 		List<Object> parameters = new ArrayList<Object>();
-		//AST parametersAst = operationAst.getFirstChild();
-		//if (parametersAst != null){
-			//parameters = (List) context.getExecutorFactory().executeAST(parametersAst, context);
-		
-			//AST parameterAst = parametersAst.getFirstChild();
-			int parameterIndex = 0;
-			ListIterator<Expression> it = expressions.listIterator();
-			while (it.hasNext()){
-				try {
-					parameters.add(context.getExecutorFactory().executeAST(it.next(), context));
-				}
-				catch (EolRuntimeException ex) {
-					if (getTolerateExceptionInParameter(parameterIndex)) {
-						parameters.add(ex);
-					}
-					else {
-						throw ex;
-					}
-				}
-				catch (Throwable t) {
-					context.getErrorStream().println("THROWABLE " + t.getClass().getName());
-					
-				}
-				parameterIndex++;
+		int parameterIndex = 0;
+		ListIterator<Expression> it = expressions.listIterator();
+		while (it.hasNext()){
+			try {
+				parameters.add(context.getExecutorFactory().executeAST(it.next(), context));
 			}
-		//}
+			catch (EolRuntimeException ex) {
+				if (getTolerateExceptionInParameter(parameterIndex)) {
+					parameters.add(ex);
+				}
+				else {
+					throw ex;
+				}
+			}
+			catch (Throwable t) {
+				context.getErrorStream().println("THROWABLE " + t.getClass().getName());
+			}
+			parameterIndex++;
+		}
+
 		try {
 			return execute(target, parameters, context, operationNameExpression);
 		}

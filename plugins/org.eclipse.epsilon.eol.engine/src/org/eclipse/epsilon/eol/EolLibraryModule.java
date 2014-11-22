@@ -114,7 +114,14 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 					}
 				}
 			}
-			case EolParser.NAME: return new NameExpression();
+			case EolParser.NAME: {
+				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMLIST) {
+					return new FirstOrderOperationCallExpression();
+				}
+				else {
+					return new NameExpression();
+				}
+			}
 			case EolParser.FORMAL: return new Parameter();
 			case EolParser.BLOCK: return new StatementBlock();
 			case EolParser.FEATURECALL: {
@@ -123,6 +130,9 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 						(cst.getParent().getType() == EolParser.ARROW || cst.getParent().getType() == EolParser.POINT) && cst.getParent().getFirstChild() == cst)) {
 					return new OperationCallExpression(true);
 				}
+//				else if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMLIST) {
+//					return new FirstOrderOperationCallExpression();
+//				}
 				else {
 					return new NameExpression();
 				}
