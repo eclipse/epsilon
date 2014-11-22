@@ -12,8 +12,8 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -23,36 +23,36 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class ClosureOperation extends FirstOrderOperation {
 	
-	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, AST expressionAST, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
+	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, Expression expression, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
-				scope.enterLocal(FrameType.UNPROTECTED, expressionAST);
+				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(expressionAST, context);
+				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
 				if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
 					for (Object result : CollectionUtil.asCollection(bodyResult)) {
 						if (result != null && !closure.contains(result)) {
 							closure.add(result);
-							closure(CollectionUtil.asCollection(bodyResult),iteratorName,iteratorType,expressionAST,context,closure);
+							closure(CollectionUtil.asCollection(bodyResult),iteratorName,iteratorType,expression,context,closure);
 						}
 					}
 					
 				}
-				scope.leaveLocal(expressionAST);
+				scope.leaveLocal(expression);
 			}
 		}
 	}
 
 	@Override
-	public Object execute(Object target, Variable iterator, AST expressionAst,
+	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
 		Collection<Object> result = CollectionUtil.createDefaultList();
 		
-		closure(source,iterator.getName(),iterator.getType(),expressionAst,context,result);
+		closure(source,iterator.getName(),iterator.getType(),expression,context,result);
 		
 		return result;
 	}

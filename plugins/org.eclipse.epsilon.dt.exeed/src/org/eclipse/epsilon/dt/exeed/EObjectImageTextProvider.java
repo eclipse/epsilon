@@ -32,7 +32,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
 public abstract class EObjectImageTextProvider {
 
@@ -53,7 +53,7 @@ public abstract class EObjectImageTextProvider {
 			@Override
 			protected void createCache() {
 				super.createCache();
-				operationCache.put("label", new AbstractSimpleOperation() {
+				operationCache.put("label", new SimpleOperation() {
 					@Override
 					public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
 						return getEObjectReferenceLabel(source,getBasicEObjectLabel(source));

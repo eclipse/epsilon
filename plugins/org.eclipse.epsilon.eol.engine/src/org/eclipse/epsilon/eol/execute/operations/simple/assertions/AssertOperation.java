@@ -16,9 +16,9 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
-public class AssertOperation extends AbstractSimpleOperation {
+public class AssertOperation extends SimpleOperation {
 
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context,

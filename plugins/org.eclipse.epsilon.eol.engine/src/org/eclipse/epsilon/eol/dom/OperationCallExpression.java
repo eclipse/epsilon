@@ -13,22 +13,23 @@ import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
-	protected AST operationCallAst = null;
-	protected String operationName;
-	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
-	protected boolean contextless;
 	
 	public static void main(String[] args) throws Exception {
 		EolModule module = new EolModule();
-		module.parse("foo(); a.foo(); a.foo(bar);");
-		//System.out.println(module.getAst().toExtendedStringTree());
+		module.parse("foo();a.foo();");
 	}
+	
+	protected AST operationCallAst = null;
+	protected String operationName;
+	protected NameExpression operationNameExpression = null;
+	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected boolean contextless;
 	
 	public OperationCallExpression() {
 		super();
@@ -46,16 +47,23 @@ public class OperationCallExpression extends FeatureCallExpression {
 			targetExpression = (Expression) getFirstChild();
 			operationCallAst = targetExpression.getNextSibling();
 			operationName = operationCallAst.getText();
+			operationNameExpression = (NameExpression) operationCallAst;
 			parametersAst = operationCallAst.getFirstChild();
 		}
 		else {
 			operationName = this.getText();
+			operationNameExpression = new NameExpression();
+			operationNameExpression.setRegion(this.getRegion());
+			operationNameExpression.setUri(this.getUri());
+			operationNameExpression.setModule(this.getModule());
+			
 			parametersAst = getFirstChild();
 			operationCallAst = this;
 		}
 		for (AST parameterAst : parametersAst.getChildren()) {
 			parameterExpressions.add((Expression) parameterAst);
 		}
+		System.out.println(this.toExtendedStringTree());
 	}
 	
 	@Override
@@ -74,7 +82,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
 		if (operation != null && (!operation.isOverridable())){
-			return operation.execute(targetObject, operationCallAst, context);
+			return operation.execute(targetObject, operationNameExpression, new ArrayList<Parameter>(), parameterExpressions, context);
 		}
 		
 		// Operation contributor for model elements
@@ -126,13 +134,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
-		if (operation != null){
-			if (operation instanceof AbstractSimpleOperation) {
-				return ((AbstractSimpleOperation) operation).execute(targetObject, parameterValues, context, operationCallAst);
-			}
-			else {
-				return operation.execute(targetObject, operationCallAst, context);
-			}
+		if (operation instanceof SimpleOperation) {
+			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, operationCallAst);
 		}
 
 		throw new EolIllegalOperationException(targetObject, operationName, operationCallAst, context.getPrettyPrinterManager());

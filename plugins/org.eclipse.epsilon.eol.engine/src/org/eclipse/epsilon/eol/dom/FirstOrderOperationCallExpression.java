@@ -44,7 +44,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			((SelectBasedOperation) operation).setSelectOperation(
 				(SelectOperation) getAbstractOperation(target, "select", featureCallAst, owningModel, context));
 		}
-		return operation.execute(target, featureCallAst, context);
+		return operation.execute(target, operationNameExpression, parameters, expressions, context);
 	}
 	
 	public void setOperationNameExpression(

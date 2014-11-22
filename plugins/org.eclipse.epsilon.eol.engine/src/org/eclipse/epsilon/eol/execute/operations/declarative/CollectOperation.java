@@ -12,8 +12,8 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -30,7 +30,7 @@ public class CollectOperation extends FirstOrderOperation {
 	}
 
 	@Override
-	public Object execute(Object target, Variable iterator, AST expressionAst, IEolContext context) throws EolRuntimeException {
+	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
 		Collection<Object> result = null;
@@ -46,11 +46,11 @@ public class CollectOperation extends FirstOrderOperation {
 		
 		for (Object listItem : source) {
 			if (iterator.getType() ==null || iterator.getType().isKind(listItem)){
-				scope.enterLocal(FrameType.UNPROTECTED, expressionAst);
+				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
-				Object bodyResult = context.getExecutorFactory().executeAST(expressionAst, context);
+				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
 				result.add(bodyResult);
-				scope.leaveLocal(expressionAst);
+				scope.leaveLocal(expression);
 			}
 		}
 		

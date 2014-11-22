@@ -20,10 +20,10 @@ import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
 
-public class EquivalentsOperation extends AbstractSimpleOperation {
+public class EquivalentsOperation extends SimpleOperation {
 	
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context,

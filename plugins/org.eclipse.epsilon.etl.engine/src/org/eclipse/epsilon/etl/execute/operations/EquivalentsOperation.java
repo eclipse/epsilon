@@ -18,12 +18,12 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 
 
-public class EquivalentsOperation extends AbstractSimpleOperation {
+public class EquivalentsOperation extends SimpleOperation {
 	
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context,

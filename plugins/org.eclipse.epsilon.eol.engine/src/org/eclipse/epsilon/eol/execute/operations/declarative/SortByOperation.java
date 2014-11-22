@@ -15,11 +15,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.eclipse.epsilon.common.parse.AST;
+
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
@@ -29,11 +29,10 @@ public class SortByOperation extends CollectOperation {
 	public SortByOperation() {
 		super();
 	}
-  
-	@Override
-	public Object execute(Object obj, AST operationAst, IEolContext context) throws EolRuntimeException {
-		final List<?> source = CollectionUtil.asList(obj);
-		final List<?> collected = CollectionUtil.asList(super.execute(obj, operationAst, context));
+	
+	public Object execute(Object target, org.eclipse.epsilon.eol.execute.context.Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+		final List<?> source = CollectionUtil.asList(target);
+		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		
 		List<DecoratedObject> decoratedObjects = new ArrayList<DecoratedObject>();
 		
@@ -54,7 +53,7 @@ public class SortByOperation extends CollectOperation {
 			result.add(decoratedObjects.get(index).getObject());
 		
 		return result;
-	}
+	};
 	
 	class DecoratedObjectComparator implements Comparator<DecoratedObject> {
 		

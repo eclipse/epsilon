@@ -12,32 +12,43 @@ package org.eclipse.epsilon.eol.execute.operations.simple;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 
 
-public abstract class AbstractSimpleOperation extends AbstractOperation{
+public abstract class SimpleOperation extends AbstractOperation{
 
-	public AbstractSimpleOperation() {
+	public SimpleOperation() {
 		super();
 	}
-
+	
 	@Override
-	public Object execute(Object source, AST operationAst, IEolContext context) throws EolRuntimeException {
+	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//	
+//	@Override
+//	public Object execute2(Object source, AST operationAst, IEolContext context) throws EolRuntimeException {
 		
 		List<Object> parameters = new ArrayList<Object>();
-		AST parametersAst = operationAst.getFirstChild();
-		if (parametersAst != null){
+		//AST parametersAst = operationAst.getFirstChild();
+		//if (parametersAst != null){
 			//parameters = (List) context.getExecutorFactory().executeAST(parametersAst, context);
 		
-			AST parameterAst = parametersAst.getFirstChild();
+			//AST parameterAst = parametersAst.getFirstChild();
 			int parameterIndex = 0;
-			while (parameterAst != null){
+			ListIterator<Expression> it = expressions.listIterator();
+			while (it.hasNext()){
 				try {
-					parameters.add(context.getExecutorFactory().executeAST(parameterAst, context));
+					parameters.add(context.getExecutorFactory().executeAST(it.next(), context));
 				}
 				catch (EolRuntimeException ex) {
 					if (getTolerateExceptionInParameter(parameterIndex)) {
@@ -51,16 +62,15 @@ public abstract class AbstractSimpleOperation extends AbstractOperation{
 					context.getErrorStream().println("THROWABLE " + t.getClass().getName());
 					
 				}
-				parameterAst = parameterAst.getNextSibling();
 				parameterIndex++;
 			}
-		}
+		//}
 		try {
-			return execute(source,parameters, context, operationAst);
+			return execute(target, parameters, context, operationNameExpression);
 		}
 		catch (EolRuntimeException ex){
 			if (ex.getAst() == null) {
-				ex.setAst(operationAst);
+				ex.setAst(operationNameExpression);
 			}
 			throw ex;
 		}

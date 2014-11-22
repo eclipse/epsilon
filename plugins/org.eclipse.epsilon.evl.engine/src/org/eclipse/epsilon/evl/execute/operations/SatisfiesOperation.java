@@ -10,15 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.operations;
 
+import java.util.List;
+
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
-public class SatisfiesOperation extends AbstractOperation{
+public class SatisfiesOperation extends SimpleOperation {
 	
 	protected boolean all = true;
 	
@@ -27,24 +29,33 @@ public class SatisfiesOperation extends AbstractOperation{
 		this.all = all;
 	}
 	
+	
+	public boolean isAll() {
+		return all;
+	}
+	
+	public void setAll(boolean all) {
+		this.all = all;
+	}
+
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context_) throws EolRuntimeException {
-		
-		if (obj == null) return false;
+	public Object execute(Object source, List<?> parameters,
+			IEolContext context_, AST ast) throws EolRuntimeException {
+
+		if (source == null) return false;
 		
 		IEvlContext context = (IEvlContext) context_;
 		
-		for (AST child : ast.getFirstChild().getChildren()) {
-			Object result = context.getExecutorFactory().executeAST(child, context);
-			String constraintName = context.getPrettyPrinterManager().toString(result);
+		for (Object parameter : parameters) {
+			String constraintName = context.getPrettyPrinterManager().toString(parameter);
 			
-			Constraint constraint = context.getModule().getConstraints().getConstraint(constraintName, obj, context);
+			Constraint constraint = context.getModule().getConstraints().getConstraint(constraintName, source, context);
 			
 			if (constraint == null) {
 				throw new EvlConstraintNotFoundException(constraintName,ast);
 			}
 			
-			boolean valid = constraint.check(obj,context);
+			boolean valid = constraint.check(source,context);
 			
 			if (all) {
 				if (!valid) return false;
@@ -55,15 +66,6 @@ public class SatisfiesOperation extends AbstractOperation{
 		}
 		
 		return true;
-		
-	}
-	
-	public boolean isAll() {
-		return all;
-	}
-	
-	public void setAll(boolean all) {
-		this.all = all;
 	}
 	
 }

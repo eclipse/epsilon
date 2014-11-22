@@ -12,8 +12,8 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -22,10 +22,10 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperation
 public class RejectOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object target, Variable iterator, AST expressionAst,
+	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expressionAst, context);
+		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context);
 		Collection<?> source = CollectionUtil.asCollection(target);
 		
 		return new IterableOperationContributor(source).excludingAll(selected);

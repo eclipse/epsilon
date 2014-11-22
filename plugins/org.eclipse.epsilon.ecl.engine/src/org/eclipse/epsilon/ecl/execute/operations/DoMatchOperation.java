@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.ecl.execute.operations;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -22,13 +23,14 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class DoMatchOperation extends MatchesOperation{
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context_) throws EolRuntimeException {
-		IEclContext context = (IEclContext) context_;
-		AST parameterAst = ast.getFirstChild().getFirstChild();
-		Object parameter = context.getExecutorFactory().executeAST(parameterAst, context);
-		if (obj == null && parameter == null) return null;
+	public Object execute(Object source, List<?> parameters,
+			IEolContext context_, AST ast) throws EolRuntimeException {
 		
-		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(obj));
+		IEclContext context = (IEclContext) context_;
+		Object parameter = parameters.get(0);
+		if (source == null && parameter == null) return null;
+		
+		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(source));
 		Collection<?> rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
 		for (Object left : leftCol) {
@@ -38,7 +40,6 @@ public class DoMatchOperation extends MatchesOperation{
 		}
 
 		return null;
-		
 	}
 	
 }

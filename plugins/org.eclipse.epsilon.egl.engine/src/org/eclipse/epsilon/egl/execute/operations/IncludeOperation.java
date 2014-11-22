@@ -20,9 +20,9 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.simple.AbstractSimpleOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
-public class IncludeOperation extends AbstractSimpleOperation {
+public class IncludeOperation extends SimpleOperation {
 
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {

@@ -10,34 +10,37 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.List;
+
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 
-public class AsOperation extends AbstractOperation {
-
-//	public static void main(String[] args) throws Exception {
-//		EolModule module = new EolModule();
-//		module.parse("if (1.as(foo).println() > 0) { ('x'+foo).println(); }");
-//		module.execute();
-//	}
+public class AsOperation extends SimpleOperation {
 	
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context) throws EolRuntimeException{
-		AST varAst = ast.getFirstChild().getFirstChild();
+	public Object execute(Object target,
+			NameExpression operationNameExpression, List<Parameter> iterators,
+			List<Expression> expressions, IEolContext context)
+			throws EolRuntimeException {
+		
+		AST varAst = expressions.get(0);
 		if (isNameAst(varAst)) {
 			String varName = varAst.getText();
-			Variable var = new Variable(varName, obj, EolAnyType.Instance);
+			Variable var = new Variable(varName, target, EolAnyType.Instance);
 			context.getFrameStack().put(var);
-			return obj;
+			return target;
 		}
 		else {
-			throw new EolIllegalOperationParametersException("as", ast);
+			throw new EolIllegalOperationParametersException("as", operationNameExpression);
 		}
 	}
 
@@ -49,6 +52,12 @@ public class AsOperation extends AbstractOperation {
 	protected boolean isNameAst(AST ast) {
 		return ast!= null && ast.getType() == EolParser.FEATURECALL &&
 			ast.getChildren().isEmpty();
+	}
+
+	@Override
+	public Object execute(Object source, List<?> parameters,
+			IEolContext context, AST ast) throws EolRuntimeException {
+		return null;
 	}
 	
 }

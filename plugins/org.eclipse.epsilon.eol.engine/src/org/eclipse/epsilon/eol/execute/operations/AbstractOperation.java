@@ -10,7 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
+import java.util.List;
+
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -19,7 +24,9 @@ public abstract class AbstractOperation {
 	
 	//TODO: Make operations aware of their names e.g. add a name attribute that the OperationFactory will populate
 	
-	public abstract Object execute(Object target, AST operationAst, IEolContext context) throws EolRuntimeException;
+	public abstract Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException;
+	
+	//public abstract Object execute(Object target, AST operationAst, IEolContext context) throws EolRuntimeException;
 	
 	public boolean isOverridable() {
 		return true;

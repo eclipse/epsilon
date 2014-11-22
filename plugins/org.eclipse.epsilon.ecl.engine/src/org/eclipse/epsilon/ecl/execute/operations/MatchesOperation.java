@@ -12,6 +12,7 @@ package org.eclipse.epsilon.ecl.execute.operations;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -19,29 +20,29 @@ import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
-public class MatchesOperation extends AbstractOperation{
+public class MatchesOperation extends SimpleOperation {
+	
+	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
+		
+		Match match = context.getModule().match(left,right, forcedMatch);
+		return match.isMatching();
+	}
 
 	@Override
-	public Object execute(Object obj, AST ast, IEolContext context_) throws EolRuntimeException {
-		IEclContext context = (IEclContext) context_;
-		AST parameterAst = ast.getFirstChild().getFirstChild();
-		Object parameter = context.getExecutorFactory().executeAST(parameterAst, context);
-		if (obj == null && parameter == null) return true;
+	public Object execute(Object source, List<?> parameters,
+			IEolContext context_, AST ast) throws EolRuntimeException {
 		
-		if (obj instanceof Collection && parameter instanceof Collection){
+		IEclContext context = (IEclContext) context_;
+		Object parameter = parameters.get(0);
+		if (source == null && parameter == null) return true;
+		
+		if (source instanceof Collection && parameter instanceof Collection){
 			
-			Collection<?> leftCol = (Collection<?>) obj;
+			Collection<?> leftCol = (Collection<?>) source;
 			Collection<?> rightCol = (Collection<?>) parameter;
 
-			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
-			
-			//if (leftCol.size() != rightCol.size()) return EolBoolean.FALSE;
-			
-			//context.getDefaultDebugStream().print(leftCol.size() + ":" + rightCol.size());
-			
-			
 			Collection<?> leftColFlat = CollectionUtil.flatten(leftCol);
 			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);
 			
@@ -60,18 +61,11 @@ public class MatchesOperation extends AbstractOperation{
 			
 			return match;
 		}
-		else if (obj instanceof Collection ^ parameter instanceof Collection) {
+		else if (source instanceof Collection ^ parameter instanceof Collection) {
 			return false;
 		}
 		else {
-			return matchInstances(obj, parameter, context, false);
+			return matchInstances(source, parameter, context, false);
 		}
-		
-	}
-	
-	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
-		
-		Match match = context.getModule().match(left,right, forcedMatch);
-		return match.isMatching();
 	}
 }
