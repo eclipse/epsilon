@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
@@ -15,14 +16,13 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.texteditor.IDocumentProvider;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 public class AstOutlinePage extends ModuleContentOutlinePage {
 
 	protected HashMap<AST, List<AST>> childrenCache = new HashMap<AST, List<AST>>();
 	
 	public AstOutlinePage(IDocumentProvider documentProvider,
-			ITextEditor editor, ILabelProvider labelProvider) {
+			AbstractModuleEditor editor, ILabelProvider labelProvider) {
 		super(documentProvider, editor, labelProvider);
 	}
 	

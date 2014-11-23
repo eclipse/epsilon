@@ -17,9 +17,14 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConf
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.Position;
+import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
+import org.eclipse.epsilon.egl.model.EglMarkerSection;
+import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
@@ -66,6 +71,26 @@ public class EglEditor extends AbstractModuleEditor {
 		vars.add("closeTag");
 		
 		return vars;
+	}
+	
+	@Override
+	public AST adaptToAST(Object o) {
+		// For some reason the AST of EglMarkerSections appears to be 
+		// starting in +1 characters off where it should be starting
+		// TODO: Investigate with Louis why this happens and
+		//       get rid of this ugly hack
+		if (o instanceof EglMarkerSection) {
+			AST ast = ((EglMarkerSection) o).getAst();
+			AST copy = new AST();
+			copy.setUri(ast.getUri());
+			Region astRegion = ast.getRegion();
+			Region copyRegion = new Region();
+			copyRegion.setStart(new Position(astRegion.getStart().getLine(), astRegion.getStart().getColumn()-1));
+			copyRegion.setEnd(astRegion.getEnd());
+			copy.setRegion(copyRegion);
+			return copy;
+		}
+		return super.adaptToAST(o);
 	}
 	
 	@Override

@@ -41,6 +41,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.jface.action.IAction;
@@ -129,6 +130,13 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		}
 	}
 	
+	public AST adaptToAST(Object o) {
+		if (o instanceof AST) {
+			return (AST) o;
+		}
+		else return null;
+	}
+	
 	public void insertText(String text) {
 		IDocument doc = this.getDocumentProvider().getDocument(
 				this.getEditorInput());
@@ -205,7 +213,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 
 	public abstract IModule createModule();
-
+	
 	public abstract ModuleElementLabelProvider createModuleElementLabelProvider();
 	
 	ProjectionSupport projectionSupport;

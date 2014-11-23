@@ -26,19 +26,18 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.texteditor.IDocumentProvider;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 public class ModuleContentOutlinePage extends ContentOutlinePage implements IModuleParseListener {
 
 	protected IDocumentProvider documentProvider;
 	protected IModule module;
-	protected ITextEditor editor;
+	protected AbstractModuleEditor editor;
 	protected ILabelProvider labelProvider;
 	protected Action linkWithEditorAction;
 	
 	public ModuleContentOutlinePage(IDocumentProvider documentProvider,
-			ITextEditor editor, ILabelProvider labelProvider) {
+			AbstractModuleEditor editor, ILabelProvider labelProvider) {
 		super();
 		this.documentProvider = documentProvider;
 		this.editor = editor;
@@ -81,8 +80,8 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		if (!linkWithEditorAction.isChecked()) return;
 		
 		try {
-			AST selected = (AST) ((IStructuredSelection) event.getSelection()).getFirstElement();
-			EclipseUtil.openEditorAt(selected);
+			AST selected = editor.adaptToAST(((IStructuredSelection) event.getSelection()).getFirstElement());
+			if (selected != null) EclipseUtil.openEditorAt(selected);
 		}
 		catch (Exception ex) {}
 	}
