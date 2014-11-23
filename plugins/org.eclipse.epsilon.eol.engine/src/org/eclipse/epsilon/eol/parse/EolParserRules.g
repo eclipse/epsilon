@@ -461,11 +461,12 @@ variableDeclarationExpression
 	@after{
 		String txt;
 		if (n != null) {txt = "new";}
+		else if (e != null) { txt = "external"; }
 		else { txt = "var";}
 		$tree.getToken().setText(txt);
 		$tree.getToken().setType(VAR);
 	}
-	:	v='var'^ NAME (':'! n='new'!? t=typeName {setTokenType(t, TYPE);} parameterList?)? 
+	:	v='var'^ NAME (':'! n='new'!? e='external'!? t=typeName {setTokenType(t, TYPE);} parameterList?)? 
 	;
 
 literalSequentialCollection

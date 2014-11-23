@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -15,6 +16,7 @@ public class VariableDeclaration extends TypeInitialiser {
 	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
 	protected NameExpression nameExpression = null;
 	protected boolean instantiate;
+	protected boolean external;
 	protected TypeExpression typeExpression = null;
 	
 	public VariableDeclaration() {}
@@ -33,6 +35,7 @@ public class VariableDeclaration extends TypeInitialiser {
 		super.build();
 		nameExpression = (NameExpression) getFirstChild();
 		instantiate = getText().equalsIgnoreCase("new");
+		external = getText().equalsIgnoreCase("external");
 		typeExpression = (TypeExpression) getSecondChild();
 		if (typeExpression != null) {
 			AST parametersAst = typeExpression.getNextSibling();
@@ -55,13 +58,17 @@ public class VariableDeclaration extends TypeInitialiser {
 			variableType = (EolType) context.getExecutorFactory().executeAST(typeExpression, context);
 		}
 		
+		if (external) {
+			Variable variable = context.getFrameStack().get(getName());
+			if (variable != null) { return variable; }
+		}
+		
 		//TODO : Add try-catch and support for EolInstantiationExceptions
 		Object newInstance = initialiseType(variableType, parameterExpressions, context, instantiate);
 		
 		Variable variable = new Variable(getName(), newInstance, variableType);
 		context.getFrameStack().put(variable);
 		return variable;
-		
 	}
 	
 	public String getName() {
@@ -74,6 +81,14 @@ public class VariableDeclaration extends TypeInitialiser {
 	
 	public void setInstantiate(boolean instantiate) {
 		this.instantiate = instantiate;
+	}
+	
+	public boolean isExternal() {
+		return external;
+	}
+	
+	public void setExternal(boolean external) {
+		this.external = external;
 	}
 	
 	public TypeExpression getTypeExpression() {

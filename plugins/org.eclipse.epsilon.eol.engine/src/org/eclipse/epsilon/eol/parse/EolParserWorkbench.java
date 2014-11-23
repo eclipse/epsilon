@@ -25,7 +25,12 @@ import org.eclipse.epsilon.eol.EolModule;
 public class EolParserWorkbench {
 	
 	public static void main(String[] args) throws Exception {
-		new EolParserWorkbench().work();
+		
+		EolModule module = new EolModule();
+		module.parse("var x : external Package;");
+		System.out.println(module.getAst().toExtendedStringTree());
+		
+		//new EolParserWorkbench().work();
 	}
 	
 	static String basePath = FileUtil.getPath("test.eol", EolParserWorkbench.class);

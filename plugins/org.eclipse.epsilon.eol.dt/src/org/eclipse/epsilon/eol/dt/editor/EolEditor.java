@@ -67,6 +67,7 @@ public class EolEditor extends AbstractModuleEditor {
 		keywords.add("not");
 		keywords.add("xor");
 		keywords.add("implies");
+		keywords.add("external");
 		keywords.add("in");
 		keywords.add("continue");
 		keywords.add("while");
