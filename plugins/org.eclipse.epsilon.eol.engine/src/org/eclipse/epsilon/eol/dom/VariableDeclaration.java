@@ -35,7 +35,7 @@ public class VariableDeclaration extends TypeInitialiser {
 		super.build();
 		nameExpression = (NameExpression) getFirstChild();
 		instantiate = getText().equalsIgnoreCase("new");
-		external = getText().equalsIgnoreCase("external");
+		external = getText().equals("ext");
 		typeExpression = (TypeExpression) getSecondChild();
 		if (typeExpression != null) {
 			AST parametersAst = typeExpression.getNextSibling();

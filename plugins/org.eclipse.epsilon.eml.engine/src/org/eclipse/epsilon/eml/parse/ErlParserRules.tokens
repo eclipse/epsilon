@@ -204,6 +204,7 @@ STRING=14
 'OrderedSet'=108
 'transform'=154
 'alias'=86
+'ext'=148
 'merge'=156
 'Collection'=103
 '='=91
@@ -217,7 +218,6 @@ STRING=14
 '}'=90
 'to'=155
 '<='=136
-'external'=148
 'continue'=123
 '<'=134
 'List'=105

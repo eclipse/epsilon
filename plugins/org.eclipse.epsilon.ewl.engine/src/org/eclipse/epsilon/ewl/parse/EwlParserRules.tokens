@@ -200,6 +200,7 @@ TITLE=82
 'new'=147
 'OrderedSet'=109
 'alias'=87
+'ext'=149
 'Collection'=104
 'wizard'=154
 '='=92
@@ -213,7 +214,6 @@ TITLE=82
 'case'=115
 '}'=91
 '<='=137
-'external'=149
 'continue'=124
 '<'=135
 'List'=106

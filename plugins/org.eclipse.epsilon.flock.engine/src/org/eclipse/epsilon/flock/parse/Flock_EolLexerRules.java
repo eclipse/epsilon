@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2014-11-23 22:46:19
+// $ANTLR 3.1b1 EolLexerRules.g 2014-11-24 08:22:02
 
 import org.antlr.runtime.*;
 import java.util.Stack;

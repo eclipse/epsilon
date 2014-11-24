@@ -209,6 +209,7 @@ STRING=14
 'new'=149
 'OrderedSet'=111
 'alias'=89
+'ext'=151
 'Collection'=106
 '='=94
 'Bag'=109
@@ -221,7 +222,6 @@ STRING=14
 '}'=93
 'to'=158
 '<='=139
-'external'=151
 'continue'=126
 '<'=137
 'List'=108

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EtlParserRules.g 2014-11-23 22:46:01
+// $ANTLR 3.1b1 EtlParserRules.g 2014-11-24 08:21:47
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -397,8 +397,8 @@ public class Eml_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_155_in_transformationRule58 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_formalParameterList_in_transformationRule61 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L,0x0000000001000000L});
     public static final BitSet FOLLOW_extendz_in_transformationRule64 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_89_in_transformationRule69 = new BitSet(new long[]{0x0000000000085110L,0x3FE37FC044000000L,0x00000000008C4800L});
-    public static final BitSet FOLLOW_guard_in_transformationRule72 = new BitSet(new long[]{0x0000000000085110L,0x3FE37FC044000000L,0x00000000000C4800L});
+    public static final BitSet FOLLOW_89_in_transformationRule69 = new BitSet(new long[]{0x0000000000085110L,0x3FE37FC044000000L,0x00000000009C4800L});
+    public static final BitSet FOLLOW_guard_in_transformationRule72 = new BitSet(new long[]{0x0000000000085110L,0x3FE37FC044000000L,0x00000000001C4800L});
     public static final BitSet FOLLOW_block_in_transformationRule75 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L});
     public static final BitSet FOLLOW_90_in_transformationRule79 = new BitSet(new long[]{0x0000000000000002L});
 

@@ -215,6 +215,7 @@ TITLE=87
 'OrderedSet'=114
 'critique'=161
 'alias'=92
+'ext'=154
 'Collection'=109
 '='=97
 'constraint'=160
@@ -228,7 +229,6 @@ TITLE=87
 'case'=120
 '}'=96
 '<='=142
-'external'=154
 'continue'=129
 '<'=140
 'List'=111
