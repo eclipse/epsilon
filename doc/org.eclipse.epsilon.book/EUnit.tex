@@ -334,27 +334,24 @@ Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user
 
 After describing the basic syntax, we will show how to use EUnit to test an ETL transformation.
 
-The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two targets: \anttarget{run-tests} (lines 2--22) registers the metamodels in advance\footnote{Using the \xmlattribute{metamodelfile} attribute in \xmlelement{epsilon.emf.loadModel} is discouraged, as it will result in models that belong to different \class{EPackage} instances and therefore cannot be reliably compared.} and invokes the EUnit suite, and \anttarget{tree2graph} (lines 23--28) is a helper target which transforms model \modelname{Tree} into model \modelname{Graph} using ETL. The \xmlelement{modelTasks} nested element is used to load the input, expected output and output EMF models. \modelname{Graph} is loaded with \xmlattribute{read} set to \eol{false}: the model will be initially empty, and will be populated by the ETL transformation.
+The Ant buildfile is shown in Listing~\ref{lst:eunit-ex1-ant}. It has two targets: \anttarget{run-tests} (lines 2--19) invokes the EUnit suite, and \anttarget{tree2graph} (lines 23--28) is a helper target which transforms model \modelname{Tree} into model \modelname{Graph} using ETL. The \xmlelement{modelTasks} nested element is used to load the input, expected output and output EMF models. \modelname{Graph} is loaded with \xmlattribute{read} set to \eol{false}: the model will be initially empty, and will be populated by the ETL transformation.
 
 \begin{lstlisting}[language=XML, caption=Ant buildfile for EUnit with \xmlelement{modelTasks} and a helper target, label=lst:eunit-ex1-ant]
 <project>
   <target name="run-tests">
-    <epsilon.emf.register file="tree.ecore"/>
-    <epsilon.emf.register file="graph.ecore"/>
-
     <epsilon.eunit src="test-external.eunit">
       <modelTasks>
         <epsilon.emf.loadModel name="Tree"
             modelfile="tree.model"
-            metamodeluri="Tree"
+            metamodelfile="tree.ecore"
             read="true" store="false"/>
         <epsilon.emf.loadModel name="GraphExpected"
             modelfile="graph.model"
-            metamodeluri="Graph"
+            metamodelfile="graph.ecore"
             read="true" store="false"/>
         <epsilon.emf.loadModel name="Graph"
             modelfile="transformed.model"
-            metamodeluri="Graph"
+            metamodelfile="graph.ecore"
             read="false" store="false"/>
       </modelTasks>
     </epsilon.eunit>
