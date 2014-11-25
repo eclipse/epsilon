@@ -185,28 +185,21 @@
 	<!-- Model comparison tests -->
 
 	<target name="emf-emf">
-		<!-- 
-			EMF Compare 2.x requires all compared models to use the same
-			EPackage instance, so instead of metamodelFile, we need to
-			explicitly register the Graph metamodel into the global
-			EPackage.Registry.INSTANCE.
-		-->
-		<epsilon.emf.register file="${graph.metamodel.location}"/>
 		<epsilon.eunit src="model-comparison/emf-emf.eunit" failonerrors="false">
 			<modelTasks>
 				<epsilon.emf.loadModel name="Tree"
 					modelfile="${tree.model.location}" metamodelfile="${tree.metamodel.location}"
 					read="true" store="false"/>
 				<epsilon.emf.loadModel name="GraphExpected"
-					modelfile="${graph1.model.location}" metamodeluri="${graph.metamodel.uri}"
+					modelfile="${graph1.model.location}" metamodelfile="${graph.metamodel.location}"
 					read="true" store="false"/>
 				<epsilon.emf.loadModel name="GraphDifferent"
-					modelfile="${graph2.model.location}" metamodeluri="${graph.metamodel.uri}"
+					modelfile="${graph2.model.location}" metamodelfile="${graph.metamodel.location}"
 					read="true" store="false"/>
 
 				<!-- empty model used as destination for the transformation -->
 				<epsilon.emf.loadModel name="Graph"
-					modelfile="transformed.model" metamodeluri="${graph.metamodel.uri}"
+					modelfile="transformed.model" metamodelfile="${graph.metamodel.location}"
 					read="false" store="false"/>
 
 				<epsilon.etl src="model-comparison/Tree2Graph.etl">
@@ -215,19 +208,11 @@
 				</epsilon.etl>
 			</modelTasks>
 		</epsilon.eunit>
-		<!--
-			Sadly, junitreport is broken in embedded environments in Ant 1.8.2 (see
-			https://issues.apache.org/bugzilla/show_bug.cgi?id=51668). Seems to have
-			been fixed in Ant 1.8.3, though.
-			
-			FIXME: uncomment this part when org.apache.ant is upgraded to 1.8.3 (for Juno, I guess).
-		-->
-		<!--
+
 		<junitreport>
 			<fileset dir="${basedir}" includes="TEST-*.xml"/>
 			<report format="noframes" todir="."/>
 		</junitreport>
-		-->
 	</target>
 
 	<target name="emf-emf-refs">
