@@ -118,6 +118,8 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 
 	// May contain metamodel URIs (as URI objects) or String (file-based metamodel paths) objects
 	private List<Object> metamodels = new ArrayList<Object>();
+
+	private Button reuseUnmodifiedFileBasedMetamodelsButton;
 	
 	@Override
 	protected String getModelName() {
@@ -211,6 +213,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		// Create and persist URI values that are needed to construct an instance of EmfModel
 		properties.put(EmfModel.PROPERTY_MODEL_URI, createFullyQualifiedUri(modelFileText.getText()));
 		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, sbFileMetamodelURIs.toString());
+		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedFileBasedMetamodelsButton.getSelection() + "");
 	}
 
 	protected void createEmfGroup(Composite parent) {
@@ -224,7 +227,16 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		GridData expandButtonData = new GridData();
 		expandButtonData.horizontalSpan = 2;
 		expandButton.setLayoutData(expandButtonData);
-	
+
+		reuseUnmodifiedFileBasedMetamodelsButton = new Button(groupContent, SWT.CHECK);
+		reuseUnmodifiedFileBasedMetamodelsButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		reuseUnmodifiedFileBasedMetamodelsButton.setText("Reuse unmodified file-based metamodels");
+		reuseUnmodifiedFileBasedMetamodelsButton.setSelection(true);
+
+		GridData reuseUnmodifiedFileBasedMetamodelsButtonData = new GridData();
+		reuseUnmodifiedFileBasedMetamodelsButtonData.horizontalSpan = 2;
+		reuseUnmodifiedFileBasedMetamodelsButton.setLayoutData(reuseUnmodifiedFileBasedMetamodelsButtonData);
+		
 		groupContent.layout();
 		groupContent.pack();
 	}

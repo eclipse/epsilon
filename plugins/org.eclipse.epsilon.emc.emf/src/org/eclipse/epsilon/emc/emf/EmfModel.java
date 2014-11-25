@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
@@ -29,7 +31,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -100,14 +101,27 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 */
 	@Deprecated
 	public static final String PROPERTY_MODEL_FILE = "modelFile";
-	
-	
+
+	/**
+	 * One of the keys used to construct the first argument to
+	 * {@link EmfModel#load(StringProperties, String)}.
+	 *
+	 * This key is a Boolean value that if set to <code>true</code> (the
+	 * default), tries to reuse previously registered file-based EPackages that
+	 * have not been modified since the last time they were registered.
+	 */
+	public static final String PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS = "reuseUnmodifiedFileBasedMetamodels";
+
 	protected List<URI> metamodelUris = new ArrayList<URI>();
 	protected List<EPackage> packages;
 	protected boolean isMetamodelFileBased;
 	protected URI modelUri = null;
 	protected List<URI> metamodelFileUris = new ArrayList<URI>();
 	protected boolean useExtendedMetadata = false;
+
+	protected boolean reuseUnmodifiedFileBasedMetamodels = true;
+	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<String, List<EPackage>>();
+	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<String, Long>();
 
 
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
@@ -149,6 +163,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 		this.metamodelUris = toURIList(properties.getProperty(PROPERTY_METAMODEL_URI));
 		this.metamodelFileUris = toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
+		this.reuseUnmodifiedFileBasedMetamodels = properties.getBooleanProperty(PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, true);
 
 		load();
 	}
@@ -351,6 +366,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		this.modelUri = URI.createFileURI(path);
 	}
 
+	public boolean isReuseUnmodifiedFileBasedMetamodels() {
+		return reuseUnmodifiedFileBasedMetamodels;
+	}
+
+	public void setReuseUnmodifiedFileBasedMetamodels(boolean reuseUnmodifiedFileBasedMetamodels) {
+		this.reuseUnmodifiedFileBasedMetamodels = reuseUnmodifiedFileBasedMetamodels;
+	}
+
 	@Override
 	public IReflectivePropertySetter getPropertySetter() {
 		return new EmfPropertySetter();
@@ -391,9 +414,13 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		packages = new ArrayList<EPackage>();
 
 		for (URI metamodelFileUri : this.metamodelFileUris) {
-			List<EPackage> metamodelPackages;
+			List<EPackage> metamodelPackages = null;
 			try {
-				metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+				metamodelPackages = attemptFileBasedMetamodelReuse(metamodelFileUri);
+				if (metamodelPackages == null) {
+					metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+					saveFileBasedMetamodelForReuse(metamodelFileUri, metamodelPackages);
+				}
 			} catch (Exception e) {
 				throw new EolModelLoadingException(e,this);
 			}
@@ -412,7 +439,41 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			EmfUtil.collectDependencies(ePackage, packages);
 		}
 	}
-	
+
+	private List<EPackage> attemptFileBasedMetamodelReuse(URI uri) {
+		if (!reuseUnmodifiedFileBasedMetamodels || !uri.isFile()) {
+			// Reuse has been disabled, or the URI is not for a file: do nothing
+			return null;
+		}
+
+		final String path = uri.toFileString();
+		final File metamodelFile = new File(path);
+		final Long lastTimestamp = fileBasedMetamodelTimestamps.get(path);
+		if (lastTimestamp == null || metamodelFile.lastModified() != lastTimestamp) {
+			// We don't have this URI in our cache yet, or the file
+			// has been modified since the last time we read it
+			return null;
+		}
+
+		return fileBasedMetamodels.get(path);
+	}
+
+	private void saveFileBasedMetamodelForReuse(URI uri, List<EPackage> packages) {
+		// We always save the previously loaded metamodels, as we might want to force
+		// a reload first in one EmfModel and then reuse the metamodel in the next
+		// EmfModel.
+		if (!uri.isFile()) {
+			// The URI is not for a file: do nothing
+			return;
+		}
+
+		final String path = uri.toFileString();
+		final File metamodelFile = new File(path);
+		final Long timestamp = metamodelFile.lastModified();
+		fileBasedMetamodels.put(path, packages);
+		fileBasedMetamodelTimestamps.put(path, timestamp);
+	}
+
 	public boolean hasPackage(String packageName) {
 		return packageForName(packageName) != null;
 	}

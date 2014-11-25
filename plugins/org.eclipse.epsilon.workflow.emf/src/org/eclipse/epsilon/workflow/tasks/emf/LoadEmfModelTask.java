@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2014 The University of York, Antonio García-Domínguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - reuseUnmodifiedMetamodelFiles flag
 ******************************************************************************/
 
 package org.eclipse.epsilon.workflow.tasks.emf;
@@ -33,6 +34,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 	protected boolean read = true;
 	protected boolean store = false;
 	protected boolean expand = false;
+	protected boolean reuseUnmodifiedMetamodelFile = true;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -47,6 +49,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
+		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedMetamodelFile + "");
 
 		if (metamodelUri != null) {
 			properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
@@ -163,7 +166,14 @@ public class LoadEmfModelTask extends EpsilonTask {
 
 	public void setStore(boolean store) {
 		this.store = store;
+	}
+
+	public boolean isReuseUnmodifiedMetamodelFile() {
+		return reuseUnmodifiedMetamodelFile;
+	}
+
+	public void setReuseUnmodifiedMetamodelFile(boolean reuseUnmodifiedMetamodelFiles) {
+		this.reuseUnmodifiedMetamodelFile = reuseUnmodifiedMetamodelFiles;
 	}	
-	
 }
  
