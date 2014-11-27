@@ -27,9 +27,9 @@ public interface IEolLibraryModule extends IModule{
 	
 	public OperationList getOperations();
 	
-	public List<ModelDeclaration> getDeclaredModelDefinitions();
+	public List<ModelDeclaration> getDeclaredModelDeclarations();
 	
-	public Set<ModelDeclaration> getModelDefinitions();
+	public Set<ModelDeclaration> getModelDelcarations();
 	
 	public IEolLibraryModule getParentModule();
 	

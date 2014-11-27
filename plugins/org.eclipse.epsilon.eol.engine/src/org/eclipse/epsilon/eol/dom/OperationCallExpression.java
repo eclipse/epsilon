@@ -85,17 +85,17 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Method contributors that use the unevaluated AST
-		ObjectMethod objectMethodAst = null;
+		ObjectMethod objectMethod = null;
 		
 		if (modelOperationContributor != null) {
-			objectMethodAst = modelOperationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, context);
+			objectMethod = modelOperationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
 		}
-		if (objectMethodAst == null) {
-			objectMethodAst = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(targetObject, operationName, context);
+		if (objectMethod == null) {
+			objectMethod = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
 		}
 		
-		if (objectMethodAst != null) {
-			return wrap(objectMethodAst.execute(new Object[]{nameExpression}, nameExpression));
+		if (objectMethod != null) {
+			return wrap(objectMethod.execute(new Object[]{nameExpression}, nameExpression));
 		}
 		
 		ArrayList<Object> parameterValues = new ArrayList<Object>();
@@ -113,7 +113,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Method contributors that use the evaluated parameters
-		ObjectMethod objectMethod = null;
 		if (modelOperationContributor != null) {
 			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
 		}

@@ -93,7 +93,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return factory.getContext();
 	}
 
-	public List<ModelDeclaration> getDeclaredModelDefinitions() {
+	public List<ModelDeclaration> getDeclaredModelDeclarations() {
 		return current.getDeclaredModelDefinitions();
 	}
 
@@ -105,7 +105,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		return current.getImports();
 	}
 
-	public Set<ModelDeclaration> getModelDefinitions() {
+	public Set<ModelDeclaration> getModelDelcarations() {
 		return current.getModelDefinitions();
 	}
 

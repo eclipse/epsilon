@@ -80,8 +80,8 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	protected OperationList declaredOperations = new OperationList();
 	protected List<Import> imports = new ArrayList<Import>();
 	protected OperationList operations = null;
-	protected List<ModelDeclaration> declaredModelDefinitions = new ArrayList<ModelDeclaration>();
-	protected Set<ModelDeclaration> modelDefinitions = null;
+	protected List<ModelDeclaration> declaredModelDeclarations = new ArrayList<ModelDeclaration>();
+	protected Set<ModelDeclaration> modelDeclarations = null;
 	private IEolLibraryModule parent;
 	
 	@Override
@@ -214,13 +214,10 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			if (child instanceof Operation) {
 				declaredOperations.add((Operation) child);
 			}
+			else if (child instanceof ModelDeclaration) {
+				declaredModelDeclarations.add((ModelDeclaration) child);
+			}
 		}
-		
-		/*
-		for (AST helperAst : AstUtil.getChildren(ast, EolParser.HELPERMETHOD)) {
-			EolOperation helper = operationFactory.createOperation(helperAst); //new EolOperation(helperAst);
-			declaredOperations.add(helper);
-		}*/
 	}
 	
 	protected void build(AST ast) {
@@ -280,17 +277,17 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		else return super.toString();
 	}
 
-	public Set<ModelDeclaration> getModelDefinitions() {
-		if (modelDefinitions == null){
-			modelDefinitions = new ListSet<ModelDeclaration>();
+	public Set<ModelDeclaration> getModelDelcarations() {
+		if (modelDeclarations == null){
+			modelDeclarations = new ListSet<ModelDeclaration>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolLibraryModule){
-					modelDefinitions.addAll(((IEolLibraryModule)import_.getModule()).getModelDefinitions());
+					modelDeclarations.addAll(((IEolLibraryModule)import_.getModule()).getModelDelcarations());
 				}
 			}
-			modelDefinitions.addAll(this.getDeclaredModelDefinitions());
+			modelDeclarations.addAll(this.getDeclaredModelDeclarations());
 		}
-		return modelDefinitions;
+		return modelDeclarations;
 	}
 	
 	public OperationList getOperations() {
@@ -375,8 +372,8 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		}		
 	}
 
-	public List<ModelDeclaration> getDeclaredModelDefinitions() {
-		return declaredModelDefinitions;
+	public List<ModelDeclaration> getDeclaredModelDeclarations() {
+		return declaredModelDeclarations;
 	}
 
 	@Override

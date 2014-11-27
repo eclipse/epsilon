@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.StringCompatibilityOperationContributor;
@@ -57,6 +58,7 @@ public class OperationContributorRegistry {
 		                           new IntegerOperationContributor(),
 		                           new NumberOperationContributor(),
 		                           new BooleanOperationContributor(),
+		                           new DateOperationContributor(),
 		                           new ArrayOperationContributor(),
 		                           new IterableOperationContributor(),
 		                           new ScalarOperationContributor(),
@@ -71,9 +73,9 @@ public class OperationContributorRegistry {
 	 * of the AST at runtime or for selective logging or tracing. See, for 
 	 * example, EGL's contributor for OutputBuffer's print operations.
 	 */
-	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, IEolContext context) {
+	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
 		for (OperationContributor c : getOperationContributorsFor(target)) {
-			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, context);
+			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
 			if (objectMethod != null) return objectMethod;
 		}
 		

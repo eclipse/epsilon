@@ -11,9 +11,11 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -26,7 +28,7 @@ public abstract class OperationContributor {
 	
 	public abstract boolean contributesTo(Object target);
 	
-	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, IEolContext context) {
+	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
 		// Note that the last parameter is false: we only want to retrieve methods that take an AST as an argument
 		// and not methods that take a supertype of AST (such as Object)
 		Method method = getObjectMethodFor(target, name, new Object[]{new AST()}, false);

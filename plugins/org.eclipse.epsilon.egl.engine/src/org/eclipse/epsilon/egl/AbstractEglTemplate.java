@@ -48,7 +48,7 @@ public abstract class AbstractEglTemplate {
 	}
 
 	public List<ModelDeclaration> getDeclaredModelDefinitions() {
-		return module.getDeclaredModelDefinitions();
+		return module.getDeclaredModelDeclarations();
 	}
 
 	public OperationList getDeclaredOperations() {
@@ -60,7 +60,7 @@ public abstract class AbstractEglTemplate {
 	}
 
 	public Set<ModelDeclaration> getModelDefinitions() {
-		return module.getModelDefinitions();
+		return module.getModelDelcarations();
 	}
 
 	public OperationList getOperations() {

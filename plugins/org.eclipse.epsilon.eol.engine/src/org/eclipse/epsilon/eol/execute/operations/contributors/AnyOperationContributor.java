@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -255,5 +259,9 @@ public class AnyOperationContributor extends OperationContributor {
 	public String asUnicode() {
 		String value = target.toString();
 		return "" + (char) Integer.parseInt(value, 16);
+	}
+	
+	public Date asDate(String format) throws ParseException {
+		return new SimpleDateFormat(format).parse(target.toString());
 	}
 }

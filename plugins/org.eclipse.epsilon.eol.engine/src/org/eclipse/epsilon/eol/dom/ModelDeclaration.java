@@ -70,7 +70,16 @@ public class ModelDeclaration extends AbstractModuleElement {
 	public List<ModelDeclarationParameter> getModelDeclarationParameters() {
 		return modelDeclarationParameters;
 	}
-
+	
+	public ModelDeclarationParameter getModelDeclarationParameter(String parameterName) {
+		for (ModelDeclarationParameter parameter : modelDeclarationParameters) {
+			if (parameter.getKey().equals(parameterName)) return parameter;
+		}
+		return null;
+	}
+	
+	
+	
 	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}
