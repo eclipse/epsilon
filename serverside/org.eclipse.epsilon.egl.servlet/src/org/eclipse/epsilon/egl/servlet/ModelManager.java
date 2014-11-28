@@ -24,6 +24,7 @@ import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.graphml.GraphmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public class ModelManager {
@@ -90,7 +91,7 @@ public class ModelManager {
 			properties.put(EmfModel.PROPERTY_READONLOAD, "true");
 			properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, "false");
 						
-			emfModel.load(properties, null);
+			emfModel.load(properties, (IRelativePathResolver) null);
 			cachedModels.put(modelFile, emfModel);
 		}
 		

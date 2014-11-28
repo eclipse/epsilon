@@ -73,12 +73,13 @@ public class EglServlet extends HttpServlet {
 			
 			try {
 				try {
-					if (this.getServletContext().getResourceAsStream(templateVirtualPath) == null) {
+					templateRealLocation = new File(this.getServletContext().getRealPath(templateVirtualPath));
+					
+					if (templateRealLocation == null || !templateRealLocation.exists()) {
 						resp.sendError(404, req.getRequestURI());
 						return;
 					}
 					
-					templateRealLocation = new File(this.getServletContext().getRealPath(templateVirtualPath));
 					template = factory.load(templateRealLocation);
 					
 				} catch (Exception e) {
