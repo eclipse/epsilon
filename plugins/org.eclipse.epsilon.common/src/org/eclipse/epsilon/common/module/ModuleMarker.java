@@ -13,6 +13,10 @@ public class ModuleMarker {
 	
 	public ModuleMarker() {}
 	
+	public ModuleMarker(AbstractModuleElement element, String message, Severity severity) {
+		this(element.getFile(), element.getRegion(), message, severity);
+	}
+	
 	public ModuleMarker(File file, Region region, String message, Severity severity) {
 		super();
 		this.file = file;
