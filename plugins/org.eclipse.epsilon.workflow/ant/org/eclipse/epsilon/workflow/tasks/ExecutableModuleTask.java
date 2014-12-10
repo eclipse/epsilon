@@ -20,10 +20,8 @@ import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.ant.internal.core.AntPropertyValueProvider;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -34,9 +32,11 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.ModelReference;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.models.ReflectiveModelReference;
+import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.Profiler;
+import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
@@ -56,6 +56,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected Object result;
 	private boolean isGUI = true, isDebug = false;
 	protected boolean setBeans = false;
+	protected boolean fine;
 	
 	static {
 		HostManager.getHost().initialise();
@@ -209,6 +210,10 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			configureModule();
 			initialize();
 
+			if (fine) {
+				module.getContext().getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
+			}
+			
 			if (!isDebug() || !HostManager.getHost().supportsDebugging()) {
 				result = module.execute();
 			} else {
@@ -388,6 +393,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	
 	public boolean isSetBeans() {
 		return setBeans;
+	}
+	
+	public boolean isFine() {
+		return fine;
+	}
+	
+	public void setFine(boolean fine) {
+		this.fine = fine;
 	}
 	
 	protected abstract void initialize() throws Exception;

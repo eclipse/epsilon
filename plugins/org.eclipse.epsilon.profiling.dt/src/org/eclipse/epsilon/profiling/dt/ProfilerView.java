@@ -142,7 +142,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			else if (columnIndex == 2) return target.getData(); 
 			else {
 				FileMarker fileMarker = target.getFileMarker();
-				if (fileMarker != null) {
+				if (fileMarker != null && fileMarker.getFile() != null) {
 					String label = fileMarker.getFile().getName();
 					label = label + " (" + fileMarker.getLine() + ", " + fileMarker.getColumn() + ")";
 					return label;
