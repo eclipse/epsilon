@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.EolOperation;
+import org.eclipse.epsilon.eol.dom.Operation;
 
 public class Main {
 	
@@ -49,12 +49,12 @@ public class Main {
 		
 		// Invoke the getAuthorNames() operation
 		Book book = library.getBooks().get(0);
-		EolOperation getAuthorNames = module.getOperations().getOperation("getAuthorNames");
+		Operation getAuthorNames = module.getOperations().getOperation("getAuthorNames");
 		String names = (String) getAuthorNames.execute(book, Collections.emptyList(), module.getContext());
 		System.err.println(names);
 		
 		// Invoke the getAuthors() EOL operation
-		EolOperation getAuthors = module.getOperations().getOperation("getAuthors");
+		Operation getAuthors = module.getOperations().getOperation("getAuthors");
 		Collection<?> authors = (Collection<?>) getAuthors.execute(book, Collections.emptyList(), module.getContext());
 		
 		// Get the results of getAuthors() and unwrap them
