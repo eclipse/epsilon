@@ -39,7 +39,7 @@ public abstract class Loader {
 	}
 
 	protected AST getGuard() {
-		return hasChildOfType(FlockParser.GUARD) ? getFirstChildOfType(FlockParser.GUARD).getFirstChild() : null;
+		return hasChildOfType(FlockParser.GUARD) ? getFirstChildOfType(FlockParser.GUARD) : null;
 	}
 
 	protected AST getFirstChild() {

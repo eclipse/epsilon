@@ -43,8 +43,7 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 	}
 	
 	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
-		return typedFor(context) && 
-			   super.appliesIn(context);
+		return typedFor(context) && super.appliesIn(context);
 	}
 
 	protected boolean typedFor(GuardedConstructContext context) {

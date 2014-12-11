@@ -25,7 +25,7 @@ public abstract class GuardedConstruct extends FlockConstruct {
 	
 	public GuardedConstruct(AST ast, Collection<String> annotations, AST guard) {
 		super(ast, annotations);
-		this.guard = new Guard(guard);
+		this.guard = (Guard)guard;
 	}
 	
 	protected Guard getGuard() {
@@ -49,6 +49,6 @@ public abstract class GuardedConstruct extends FlockConstruct {
 	
 	@Override
 	public int hashCode() {
-		return guard.hashCode();
+		return guard == null ? 0 : guard.hashCode();
 	}
 }

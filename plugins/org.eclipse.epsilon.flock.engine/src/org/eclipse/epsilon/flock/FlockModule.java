@@ -20,12 +20,14 @@ import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.common.Guard;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -48,6 +50,15 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	@Override
 	public String getMainRule() {
 		return "flockModule";
+	}
+	
+	@Override
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == FlockParser.GUARD) {
+			return new Guard();
+		}
+		
+		return super.adapt(cst, parentAst);
 	}
 
 	@Override

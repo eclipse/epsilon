@@ -13,45 +13,29 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class Guard {
+public class Guard extends ExecutableBlock<Boolean> {
 	
-	private final AST blockOrExpession;
-	
-	public Guard(AST blockOrExpession) {
-		this.blockOrExpession = blockOrExpession;
+	public Guard() {
+		super(Boolean.class);
 	}
 
+	// FIXME do these domain model classes still need to exist?
+	// if so, what should they be responsible for?
+	// for example, should the Guard now be responsible for caching its result
+	//    (e.g., see tests relating to guards with side effects)
+	
 	public boolean isSatisifedBy(EolExecutor executor, Variable variable) throws FlockRuntimeException {
-		if (blockOrExpession == null)
-			return true;
+		try {
+			return super.execute(executor.context, variable);
 		
-		return executor.executeGuard(blockOrExpession, variable);
-	}
-	
-	@Override
-	public String toString() {
-		return "Guard: " + blockOrExpession;
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof Guard))
-			return false;
-		
-		final Guard other = (Guard)object;
-		
-		return blockOrExpession == null ?
-		       other.blockOrExpession == null : 
-		       blockOrExpession.equals(other.blockOrExpession);
-	}
-	
-	@Override
-	public int hashCode() {
-		return blockOrExpession == null ? 0 : blockOrExpession.hashCode();
+		} catch (EolRuntimeException e) { // FIXME shouldn't wrap
+			throw new FlockRuntimeException(e);
+		}
 	}
 }

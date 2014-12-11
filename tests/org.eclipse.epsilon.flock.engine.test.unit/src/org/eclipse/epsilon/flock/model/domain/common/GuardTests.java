@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class GuardTests {
 	
-	private final Guard guard = new Guard(mock(AST.class));
+	private final Guard guard = new Guard();
 	private final EolExecutor executor = mock(EolExecutor.class);
 
 	@Test
@@ -47,7 +47,7 @@ public class GuardTests {
 	
 	@Test
 	public void isSatisifiedByReturnsTrueWhenAstIsNull() throws FlockRuntimeException {
-		final Guard guard = new Guard(null);
+		final Guard guard = new Guard();
 		
 		assertTrue(guard.isSatisifedBy(executor, mock(Variable.class)));
 	}

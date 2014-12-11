@@ -19,7 +19,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class EolExecutor {
 	
-	private final EolContext context;
+	public final EolContext context; // FIXME this class should probably disappear, but this definitely shouldn't be public
 	
 	public EolExecutor(EolContext context) {
 		this.context = context;

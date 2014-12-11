@@ -25,7 +25,7 @@ public class FlockRuntimeException extends EolRuntimeException {
 	}
 	
 	public FlockRuntimeException(Throwable cause) {
-		this(null, cause);
+		this(cause.getMessage(), cause);
 	}
 	
 	public FlockRuntimeException(String message, Throwable cause) {

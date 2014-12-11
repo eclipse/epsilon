@@ -36,7 +36,11 @@ public class GuardedConstructContext {
 	}
 	
 	public boolean satisfies(Guard guard) throws FlockRuntimeException {
-		return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
+		if (guard == null) {
+			return true;
+		} else {
+			return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
+		}
 	}
 
 	/**
