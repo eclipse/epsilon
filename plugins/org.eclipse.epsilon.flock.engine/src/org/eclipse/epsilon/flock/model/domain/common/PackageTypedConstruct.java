@@ -29,11 +29,6 @@ public abstract class PackageTypedConstruct extends GuardedConstruct {
 		super(ast, new LinkedList<String>(), guard);
 	}
 	
-	@Override // FIXME remove
-	protected boolean isAnnotatedWith(String annotation) {
-		return hasAnnotation(annotation);
-	}
-	
 	@Override
 	public void build() {
 		super.build();

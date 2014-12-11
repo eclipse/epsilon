@@ -30,11 +30,6 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 		this.originalType = originalType;
 	}
 	
-	@Override // FIXME remove
-	protected boolean isAnnotatedWith(String annotation) {
-		return hasAnnotation(annotation);
-	}
-	
 	@Override
 	public void build() {
 		super.build();
@@ -48,7 +43,7 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 	}
 	
 	protected boolean isStrict() {
-		return isAnnotatedWith("strict");
+		return hasAnnotation("strict");
 	}
 	
 	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {

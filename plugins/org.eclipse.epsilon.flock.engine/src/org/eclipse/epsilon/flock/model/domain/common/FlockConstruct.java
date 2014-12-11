@@ -40,10 +40,6 @@ public abstract class FlockConstruct extends AnnotatableModuleElement implements
 		return Collections.emptyList();
 	}
 	
-	protected boolean isAnnotatedWith(String annotation) {
-		return annotations.contains(annotation);
-	}
-	
 	protected String getAnnotationString() {
 		final StringBuilder annotationString = new StringBuilder();
 		
