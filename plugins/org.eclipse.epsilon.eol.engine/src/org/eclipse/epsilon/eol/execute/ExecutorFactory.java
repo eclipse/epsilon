@@ -110,11 +110,7 @@ public class ExecutorFactory {
 			}
 			else {
 				result = executor.execute(ast, context);
-			}
-			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(ast, result, context);
-			}
-			return result;
+			}	
 		}
 		catch (Exception ex){
 			if (ex instanceof EolRuntimeException){
@@ -129,10 +125,15 @@ public class ExecutorFactory {
 			}
 		}
 		finally {
+			for (IExecutionListener listener : executionListeners) {
+				listener.finishedExecuting(ast, result, context);
+			}
 			if (executionController != null) {
 				executionController.done(ast, context);
 			}
 		}
+		
+		return result;
 	}
 
 	public AST getActiveAst() {
