@@ -16,12 +16,13 @@ package org.eclipse.epsilon.flock.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.flock.parse.TestFlock;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ParserSuite.class, DomainModelSuite.class,
+@SuiteClasses({TestFlock.class, DomainModelSuite.class,
                EmcWrappersSuite.class,
                ExecutionSuite.class})
 public class EpsilonFlockEngineUnitTestSuite {

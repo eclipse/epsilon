@@ -13,19 +13,22 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
-import org.eclipse.epsilon.flock.equivalences.Equivalence;
-import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence.ConservativeCopy;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
@@ -33,13 +36,13 @@ import org.junit.Test;
 
 public class TypeBasedEquivalenceTests {
 
-	private final EolExecutor             executor     = mock(EolExecutor.class);
+	private final IEolContext             eolContext   = mock(IEolContext.class);
 	private final FlockExecution          execution    = mock(FlockExecution.class);
 	private final ModelElement            original     = mock(ModelElement.class);
 	private final ModelElement            equivalent   = mock(ModelElement.class);
 	private final ConservativeCopyContext context      = mock(ConservativeCopyContext.class);
 	
-	private final Equivalence equivalence = new TypeBasedEquivalence(executor, execution, original, equivalent);
+	private final Equivalence equivalence = new TypeBasedEquivalence(eolContext, execution, original, equivalent);
 	
 	@Test
 	public void automaticallyPopulateEquivalentShouldPreserveIdentity() throws FlockRuntimeException {		

@@ -18,6 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -28,9 +29,9 @@ import org.junit.Test;
 public class MigrateRuleContextTests {
 
 	private final Equivalence        equivalence = mock(Equivalence.class);
-	private final EolExecutor        executor    = mock(EolExecutor.class);
+	private final IEolContext        eolContext  = mock(IEolContext.class);
 	private final FlockExecution     execution   = mock(FlockExecution.class);
-	private final MigrateRuleContext context     = new MigrateRuleContext(equivalence, executor, execution);
+	private final MigrateRuleContext context     = new MigrateRuleContext(equivalence, eolContext, execution);
 	
 	private final ClassifierTypedConstruct construct = mock(ClassifierTypedConstruct.class);
 	

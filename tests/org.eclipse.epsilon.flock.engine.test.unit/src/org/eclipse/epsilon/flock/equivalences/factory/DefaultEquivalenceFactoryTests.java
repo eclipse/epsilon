@@ -10,18 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.equivalences.factory;
 
-import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
@@ -47,6 +49,6 @@ public class DefaultEquivalenceFactoryTests {
 	}
 
 	private Equivalence createEquivalence(final EquivalentFactory equivalentFactory) throws FlockRuntimeException {
-		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(EolExecutor.class), mock(FlockExecution.class), mock(ModelElement.class), equivalentFactory);
+		return DefaultEquivalenceFactory.getInstance().createEquivalence(mock(IEolContext.class), mock(FlockExecution.class), mock(ModelElement.class), equivalentFactory);
 	}
 }

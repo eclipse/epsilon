@@ -11,7 +11,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.model.loader;
+package org.eclipse.epsilon.flock;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
@@ -26,7 +26,7 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
  * Walks the AST, constructing an equivalent domain model
  * containing MigrationRule objects.
  */
-public class MigrationStrategyLoader {
+class MigrationStrategyLoader {
 
 	private AST ast;
 	

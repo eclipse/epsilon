@@ -18,6 +18,5 @@ Export-Package: org.eclipse.epsilon.flock,
  org.eclipse.epsilon.flock.model.domain.common,
  org.eclipse.epsilon.flock.model.domain.rules,
  org.eclipse.epsilon.flock.model.domain.typemappings,
- org.eclipse.epsilon.flock.model.loader,
  org.eclipse.epsilon.flock.parse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
