@@ -24,10 +24,6 @@ import org.eclipse.epsilon.flock.model.domain.common.PackageTypedConstruct;
 
 public class PackageDeletion extends PackageTypedConstruct implements TypeMappingConstruct {
 
-	public PackageDeletion() {
-		super(null, null, null);
-	}
-
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		return new NoEquivalence(executor, execution, original);
 	}

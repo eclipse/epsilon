@@ -28,10 +28,6 @@ public class MigrateRule extends ClassifierTypedConstruct {
 	private Body body;
 	private IgnoredProperties ignoredProperties;
 	
-	public MigrateRule() {
-		super(null, null, null, null);
-	}
-	
 	@Override
 	public void build() {
 		super.build();
@@ -82,7 +78,7 @@ public class MigrateRule extends ClassifierTypedConstruct {
 
 	@Override
 	public String toString() {
-		return getAnnotationString() + "migrate "  + getOriginalType() + " " +
+		return getAnnotationBlock().toString() + "migrate "  + getOriginalType() + " " +
 		       "ignoring " + ignoredProperties + " " + 
 		       "when "     + getGuard()        + " " + 
 		       "do "       + body;

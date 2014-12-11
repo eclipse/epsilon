@@ -27,10 +27,6 @@ public class PackageRetyping extends PackageTypedConstruct implements TypeMappin
 
 	private String evolvedPackage;
 	
-	public PackageRetyping() {
-		super(null, null, null);
-	}
-	
 	@Override
 	public void build() {
 		super.build();
@@ -39,8 +35,6 @@ public class PackageRetyping extends PackageTypedConstruct implements TypeMappin
 		if (evolvedPackage == null)
 			throw new IllegalArgumentException("evolvedPackage cannot be null");
 	}
-	
-	
 
 	public String getEvolvedPackage() {
 		return evolvedPackage;

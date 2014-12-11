@@ -13,64 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 
-public abstract class FlockConstruct extends AnnotatableModuleElement implements ModuleElement {
-
-	private final AST ast;
-	private final Collection<String> annotations;
-
-	public FlockConstruct(AST ast, Collection<String> annotations) {
-		this.ast = ast;
-		this.annotations = annotations;
-	}
-	
-	public AST getAst() {
-		return ast;
-	}
-
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
-	}
-	
-	protected String getAnnotationString() {
-		final StringBuilder annotationString = new StringBuilder();
-		
-		final Iterator<String> annotationsIterator = annotations.iterator();
-		
-		while(annotationsIterator.hasNext()) {
-			annotationString.append('@');
-			annotationString.append(annotationsIterator.next());
-			
-			if (annotationsIterator.hasNext()) {
-				annotationString.append(',');
-			}
-			
-			annotationString.append(' ');
-		}
-		
-		return annotationString.toString();
-	}
-	
-	@Override
-	public int hashCode() {
-		return annotations.hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof FlockConstruct))
-			return false;
-		
-		final FlockConstruct other = (FlockConstruct)object;
-		
-		return annotations.equals(other.annotations);
-	}
-}
+public abstract class FlockConstruct extends AnnotatableModuleElement {}

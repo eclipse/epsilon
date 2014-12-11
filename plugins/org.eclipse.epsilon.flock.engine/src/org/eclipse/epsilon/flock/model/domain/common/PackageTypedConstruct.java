@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
-import java.util.LinkedList;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -24,10 +21,6 @@ import org.eclipse.epsilon.flock.model.checker.PackageTypedConstructChecker;
 public abstract class PackageTypedConstruct extends GuardedConstruct {
 
 	private String originalPackage;
-	
-	public PackageTypedConstruct(AST ast, AST guard, String originalPackage) {
-		super(ast, new LinkedList<String>(), guard);
-	}
 	
 	@Override
 	public void build() {

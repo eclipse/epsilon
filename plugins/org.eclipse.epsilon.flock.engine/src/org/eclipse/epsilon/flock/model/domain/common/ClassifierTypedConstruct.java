@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
-import java.util.Collection;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -24,11 +21,6 @@ import org.eclipse.epsilon.flock.model.checker.ClassifierTypedConstructChecker;
 public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 
 	private String originalType;
-	
-	public ClassifierTypedConstruct(AST ast, Collection<String> annotations, AST guard, String originalType) {
-		super(ast, annotations, guard);
-		this.originalType = originalType;
-	}
 	
 	@Override
 	public void build() {

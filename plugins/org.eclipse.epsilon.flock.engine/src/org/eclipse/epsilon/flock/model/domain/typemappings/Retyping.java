@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import java.util.Collection;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -28,18 +25,6 @@ import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 public class Retyping extends ClassifierTypedConstruct implements TypeMappingConstruct {
 
 	private String evolvedType;
-	
-	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType, AST guard) {
-		super(null, null, null, null);
-	}
-	
-	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType) {
-		super(null, null, null, null);
-	}
-	
-	public Retyping() {
-		super(null, null, null, null);
-	}
 	
 	@Override
 	public void build() {

@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
-import java.util.Collection;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -23,11 +20,6 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 public abstract class GuardedConstruct extends FlockConstruct {
 
 	private Guard guard;
-	
-	public GuardedConstruct(AST ast, Collection<String> annotations, AST guard) {
-		super(ast, annotations);
-		this.guard = (Guard)guard;
-	}
 	
 	@Override
 	public void build() {

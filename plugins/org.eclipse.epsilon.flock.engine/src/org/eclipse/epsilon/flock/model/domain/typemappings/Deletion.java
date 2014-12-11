@@ -25,10 +25,6 @@ import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
 public class Deletion extends ClassifierTypedConstruct implements TypeMappingConstruct {
 	
-	public Deletion() {
-		super(null, null, null, null);
-	}
-	
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		return new NoEquivalence(executor, execution, original);
 	}
