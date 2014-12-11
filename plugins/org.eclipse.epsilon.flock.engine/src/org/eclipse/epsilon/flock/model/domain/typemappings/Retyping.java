@@ -27,21 +27,28 @@ import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
 public class Retyping extends ClassifierTypedConstruct implements TypeMappingConstruct {
 
-	private final String evolvedType;
+	private String evolvedType;
 	
 	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType, AST guard) {
-		super(ast, annotations, guard, originalType);
-		
-		if (evolvedType == null)
-			throw new IllegalArgumentException("evolvedType cannot be null");
-		
-		this.evolvedType = evolvedType;
+		super(null, null, null, null);
 	}
 	
 	public Retyping(AST ast, Collection<String> annotations, String originalType, String evolvedType) {
-		this(ast, annotations, originalType, evolvedType, null);
+		super(null, null, null, null);
 	}
 	
+	public Retyping() {
+		super(null, null, null, null);
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		
+		evolvedType = getSecondChild().getText();
+		if (evolvedType == null) throw new IllegalStateException("evolvedType cannot be null");
+	}
+
 	public String getEvolvedType() {
 		return evolvedType;
 	}
@@ -49,6 +56,11 @@ public class Retyping extends ClassifierTypedConstruct implements TypeMappingCon
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
 		final ModelElement equivalent = factory.createModelElementInMigratedModel(evolvedType);
 		return new TypeBasedEquivalence(executor, execution, original, equivalent);
+	}
+	
+	@Override // FIXME remove
+	protected boolean isAnnotatedWith(String annotation) {
+		return hasAnnotation(annotation);
 	}
 	
 	@Override

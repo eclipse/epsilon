@@ -35,9 +35,7 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 		super.build();
 		
 		originalType = getFirstChild().getText();
-		if (originalType == null) {
-			throw new IllegalArgumentException("originalType cannot be null");
-		}
+		if (originalType == null) throw new IllegalStateException("originalType cannot be null");
 	}
 	
 	public String getOriginalType() {
