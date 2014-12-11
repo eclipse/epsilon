@@ -15,13 +15,12 @@ package org.eclipse.epsilon.flock.model.loader;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
 /**
  * Walks the AST, constructing an equivalent domain model
  * containing MigrationRule objects.
- * 
- * @author lrose
  */
 public class MigrationStrategyLoader {
 
@@ -49,7 +48,7 @@ public class MigrationStrategyLoader {
 					break;
 					
 				case FlockParser.DELETE:
-					strategy.addTypeMappingConstruct(new DeletionLoader(childAst).run());
+					strategy.addTypeMappingConstruct((Deletion)childAst);
 					break;
 				
 				case FlockParser.DELETEPACKAGE:

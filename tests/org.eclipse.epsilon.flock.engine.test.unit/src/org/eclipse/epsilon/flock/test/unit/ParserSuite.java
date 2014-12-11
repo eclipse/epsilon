@@ -16,7 +16,6 @@ package org.eclipse.epsilon.flock.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.flock.model.loader.DeletionLoaderTest;
 import org.eclipse.epsilon.flock.model.loader.MigrateRuleLoaderTest;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoaderTest;
 import org.eclipse.epsilon.flock.model.loader.RetypingLoaderTest;
@@ -27,7 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({TestFlock.class,
-               MigrationStrategyLoaderTest.class, MigrateRuleLoaderTest.class, DeletionLoaderTest.class, RetypingLoaderTest.class})
+               MigrationStrategyLoaderTest.class, MigrateRuleLoaderTest.class, RetypingLoaderTest.class})
 public class ParserSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(ParserSuite.class);

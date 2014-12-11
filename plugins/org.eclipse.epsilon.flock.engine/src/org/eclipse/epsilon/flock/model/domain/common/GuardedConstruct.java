@@ -18,14 +18,21 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public abstract class GuardedConstruct extends FlockConstruct {
 
-	private final Guard guard;
+	private Guard guard;
 	
 	public GuardedConstruct(AST ast, Collection<String> annotations, AST guard) {
 		super(ast, annotations);
 		this.guard = (Guard)guard;
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		this.guard = (Guard)this.getFirstChildWithType(FlockParser.GUARD);
 	}
 	
 	protected Guard getGuard() {

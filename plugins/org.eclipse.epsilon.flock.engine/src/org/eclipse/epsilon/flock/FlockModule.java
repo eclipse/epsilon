@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.domain.common.Guard;
+import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 import org.eclipse.epsilon.flock.model.loader.MigrationStrategyLoader;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
 import org.eclipse.epsilon.flock.parse.FlockParser;
@@ -56,6 +57,9 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	public AST adapt(AST cst, AST parentAst) {
 		if (cst.getType() == FlockParser.GUARD) {
 			return new Guard();
+		
+		} else if (cst.getType() == FlockParser.DELETE) {
+			return new Deletion();
 		}
 		
 		return super.adapt(cst, parentAst);

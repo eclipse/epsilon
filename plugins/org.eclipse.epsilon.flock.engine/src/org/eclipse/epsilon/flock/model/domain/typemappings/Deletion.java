@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import java.util.Collection;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -27,9 +24,9 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
 public class Deletion extends ClassifierTypedConstruct implements TypeMappingConstruct {
-
-	public Deletion(AST ast, Collection<String> annotations, String type, AST guard) {
-		super(ast, annotations, guard, type);
+	
+	public Deletion() {
+		super(null, null, null, null);
 	}
 	
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
@@ -62,7 +59,12 @@ public class Deletion extends ClassifierTypedConstruct implements TypeMappingCon
 	}
 
 	protected boolean isCascading() {
-		return isAnnotatedWith("cascade");
+		return hasAnnotation("cascade");
+	}
+	
+	@Override // FIXME remove
+	protected boolean isAnnotatedWith(String annotation) {
+		return hasAnnotation(annotation);
 	}
 	
 	@Override

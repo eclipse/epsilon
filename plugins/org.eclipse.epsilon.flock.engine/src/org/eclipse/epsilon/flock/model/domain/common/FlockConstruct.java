@@ -20,8 +20,9 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 
-public abstract class FlockConstruct implements ModuleElement {
+public abstract class FlockConstruct extends AnnotatableModuleElement implements ModuleElement {
 
 	private final AST ast;
 	private final Collection<String> annotations;

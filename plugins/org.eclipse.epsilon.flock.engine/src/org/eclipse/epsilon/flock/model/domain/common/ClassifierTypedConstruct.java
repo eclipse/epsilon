@@ -23,15 +23,21 @@ import org.eclipse.epsilon.flock.model.checker.ClassifierTypedConstructChecker;
 
 public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 
-	private final String originalType;
+	private String originalType;
 	
 	public ClassifierTypedConstruct(AST ast, Collection<String> annotations, AST guard, String originalType) {
 		super(ast, annotations, guard);
-		
-		if (originalType == null)
-			throw new IllegalArgumentException("originalType cannot be null");
-		
 		this.originalType = originalType;
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		
+		originalType = getFirstChild().getText();
+		if (originalType == null) {
+			throw new IllegalArgumentException("originalType cannot be null");
+		}
 	}
 	
 	public String getOriginalType() {
