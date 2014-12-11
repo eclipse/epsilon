@@ -14,10 +14,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
-import org.eclipse.epsilon.flock.model.domain.rules.MigrateRules;
 import org.junit.Test;
 
 public class MigrateRulesTests {
@@ -39,7 +37,7 @@ public class MigrateRulesTests {
 		verify(inapplicableRule).applyTo(equivalenceAndContext);
 	}
 
-	private static MigrateRule ruleWithApplicabilty(boolean applicable) throws FlockRuntimeException {
+	private static MigrateRule ruleWithApplicabilty(boolean applicable) throws EolRuntimeException {
 		final MigrateRule rule = mock(MigrateRule.class);
 		when(rule.applyTo(equivalenceAndContext)).thenReturn(applicable);
 		return rule;

@@ -13,25 +13,27 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public abstract class GuardedConstruct extends FlockConstruct {
 
-	private Guard guard;
+	private ExecutableBlock<Boolean> guard;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void build() {
 		super.build();
-		this.guard = (Guard)this.getFirstChildWithType(FlockParser.GUARD);
+		this.guard = (ExecutableBlock<Boolean>)this.getFirstChildWithType(FlockParser.GUARD);
 	}
 	
-	protected Guard getGuard() {
+	protected ExecutableBlock<Boolean> getGuard() {
 		return guard;
 	}
 	
-	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
+	public boolean appliesIn(GuardedConstructContext context) throws EolRuntimeException {
 		return context.satisfies(guard);
 	}
 	

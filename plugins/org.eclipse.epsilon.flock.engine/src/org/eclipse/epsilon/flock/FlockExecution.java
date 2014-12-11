@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
@@ -31,7 +32,11 @@ public class FlockExecution {
 	public FlockResult run(Model originalModel) throws FlockRuntimeException {
 		ensureExpandIsOff(originalModel);
 	
-		runner.run();
+		try {
+			runner.run();
+		} catch (EolRuntimeException e) {
+			throw new FlockRuntimeException(e);
+		}
 		
 		return result;
 	}

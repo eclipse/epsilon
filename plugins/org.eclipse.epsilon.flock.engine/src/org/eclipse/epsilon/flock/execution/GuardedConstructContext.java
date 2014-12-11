@@ -10,10 +10,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.model.domain.common.Guard;
 
 public class GuardedConstructContext {
 
@@ -36,11 +36,11 @@ public class GuardedConstructContext {
 		return element.belongsTo(originalPackage);
 	}
 	
-	public boolean satisfies(Guard guard) throws FlockRuntimeException {
+	public boolean satisfies(ExecutableBlock<Boolean> guard) throws EolRuntimeException {
 		if (guard == null) {
 			return true;
 		} else {
-			return guard.isSatisfiedBy(context, element.createReadOnlyVariable("original"));
+			return guard.execute(context, element.createReadOnlyVariable("original"));
 		}
 	}
 

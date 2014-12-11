@@ -13,9 +13,9 @@
  */
 package org.eclipse.epsilon.flock;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalences;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class MigrationStrategyRunner {
@@ -30,7 +30,7 @@ public class MigrationStrategyRunner {
 	
 	private Equivalences equivalences;
 	
-	public void run() throws FlockRuntimeException {
+	public void run() throws EolRuntimeException {
 		checkStrategyAgainstModels();
 		establishEquivalences();
 		conservativeCopy();
@@ -41,15 +41,15 @@ public class MigrationStrategyRunner {
 		strategy.checkTypeMappingsAndRules(context.getMigrationStrategyCheckingContext());
 	}
 
-	private void establishEquivalences() throws FlockRuntimeException {
+	private void establishEquivalences() throws EolRuntimeException {
 		equivalences = Equivalences.establishFrom(strategy, context.getEquivalenceEstablishmentContext());
 	}
 
-	private void conservativeCopy() throws FlockRuntimeException {
+	private void conservativeCopy() throws EolRuntimeException {
 		equivalences.conservativeCopy(strategy, context.getConservativeCopyContext());
 	}
 	
-	private void applyRules() throws FlockRuntimeException {
+	private void applyRules() throws EolRuntimeException {
 		equivalences.applyRules(strategy);
 	}
 	

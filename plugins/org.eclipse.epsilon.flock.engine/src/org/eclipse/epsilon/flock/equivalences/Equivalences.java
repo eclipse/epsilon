@@ -16,11 +16,11 @@ package org.eclipse.epsilon.flock.equivalences;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class Equivalences {
@@ -30,7 +30,7 @@ public class Equivalences {
 	/**
 	 * Factory method for establishing original to migrated model Equivalences from a MigrationStrategy and an IFlockContext.
 	 */
-	public static Equivalences establishFrom(MigrationStrategy strategy, EquivalenceEstablishmentContext context) throws FlockRuntimeException {
+	public static Equivalences establishFrom(MigrationStrategy strategy, EquivalenceEstablishmentContext context) throws EolRuntimeException {
 		final Equivalences equivalences = new Equivalences();
 		
 		for (TypeMappingContext c : context.getTypeMappingContexts()) {
@@ -54,13 +54,13 @@ public class Equivalences {
 		return null;
 	}
 
-	public void conservativeCopy(MigrationStrategy strategy, ConservativeCopyContext context) throws FlockRuntimeException {		
+	public void conservativeCopy(MigrationStrategy strategy, ConservativeCopyContext context) throws EolRuntimeException {		
 		for (Equivalence equivalence : equivalences) {
 			context.automaticallyPopulateEquivalent(strategy, equivalence);
 		}
 	}
 	
-	public void applyRules(MigrationStrategy strategy) throws FlockRuntimeException {
+	public void applyRules(MigrationStrategy strategy) throws EolRuntimeException {
 		for (Equivalence equivalence : equivalences) {
 			strategy.applyRulesTo(equivalence.getContext());
 		}

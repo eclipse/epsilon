@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class MigrateRules {
 	private final List<MigrateRule> migrateRules;
@@ -35,7 +35,7 @@ public class MigrateRules {
 		}
 	}
 	
-	public IgnoredProperties ignoredPropertiesFor(MigrateRuleContext context) throws FlockRuntimeException {
+	public IgnoredProperties ignoredPropertiesFor(MigrateRuleContext context) throws EolRuntimeException {
 		final IgnoredProperties ignored = new IgnoredProperties();
 		
 		for (MigrateRule rule : migrateRules) {
@@ -45,7 +45,7 @@ public class MigrateRules {
 		return ignored;
 	}
 	
-	public void applyTo(MigrateRuleContext context) throws FlockRuntimeException {
+	public void applyTo(MigrateRuleContext context) throws EolRuntimeException {
 		for (MigrateRule rule : migrateRules) {
 			rule.applyTo(context);
 		}

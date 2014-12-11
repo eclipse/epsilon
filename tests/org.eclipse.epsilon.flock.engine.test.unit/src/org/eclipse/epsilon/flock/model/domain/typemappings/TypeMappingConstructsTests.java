@@ -18,9 +18,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class TypeMappingConstructsTests {
 	private final TypeMappingConstruct inapplicable      = mock(TypeMappingConstruct.class);
 	
 	@Before
-	public void setup() throws FlockRuntimeException {
+	public void setup() throws EolRuntimeException {
 		when(context.isEligibleFor(applicable)).thenReturn(true);
 		when(context.isEligibleFor(anotherApplicable)).thenReturn(true);
 		
@@ -41,7 +41,7 @@ public class TypeMappingConstructsTests {
 	}
 	
 	@Test
-	public void shouldUseApplicableTypeMappingConstruct() throws FlockRuntimeException {
+	public void shouldUseApplicableTypeMappingConstruct() throws EolRuntimeException {
 		final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs(applicable);
 		
 		typeMappingConstructs.createEquivalence(context);
@@ -50,7 +50,7 @@ public class TypeMappingConstructsTests {
 	}
 	
 	@Test
-	public void shouldUseFirstApplicableTypeMappingConstruct() throws FlockRuntimeException {
+	public void shouldUseFirstApplicableTypeMappingConstruct() throws EolRuntimeException {
 		final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs(inapplicable, applicable);
 				
 		typeMappingConstructs.createEquivalence(context);
@@ -60,7 +60,7 @@ public class TypeMappingConstructsTests {
 	}
 	
 	@Test
-	public void shouldUseOnlyTheFirstApplicableTypeMappingConstruct() throws FlockRuntimeException {
+	public void shouldUseOnlyTheFirstApplicableTypeMappingConstruct() throws EolRuntimeException {
 		final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs(applicable, anotherApplicable);
 		
 		typeMappingConstructs.createEquivalence(context);
@@ -70,7 +70,7 @@ public class TypeMappingConstructsTests {
 	}
 	
 	@Test
-	public void shouldUseDefaultFactoryWhenNoTypeMappingsAreApplicable() throws FlockRuntimeException {
+	public void shouldUseDefaultFactoryWhenNoTypeMappingsAreApplicable() throws EolRuntimeException {
 		final EquivalenceFactory equivalenceFactory = mock(EquivalenceFactory.class);	
 		final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs(equivalenceFactory);		
 		

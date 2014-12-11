@@ -13,9 +13,9 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.checker.ClassifierTypedConstructChecker;
 
 public abstract class ClassifierTypedConstruct extends GuardedConstruct {
@@ -38,7 +38,7 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 		return hasAnnotation("strict");
 	}
 	
-	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
+	public boolean appliesIn(GuardedConstructContext context) throws EolRuntimeException {
 		return typedFor(context) && super.appliesIn(context);
 	}
 

@@ -18,10 +18,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.junit.Test;
 
@@ -37,14 +37,14 @@ public class MigrateRuleContextTests {
 	
 	
 	@Test
-	public void firstCallToEvaluateGuardDelegatesToTypedAndGuardedConstruct() throws FlockRuntimeException {
+	public void firstCallToEvaluateGuardDelegatesToTypedAndGuardedConstruct() throws EolRuntimeException {
 		context.isEligibleFor(construct);
 		
 		verify(construct).appliesIn(any(GuardedConstructContext.class));
 	}
 	
 	@Test
-	public void secondCallToEvaluateGuardDoesNotDelegateToTypedAndGuardedConstruct() throws FlockRuntimeException {
+	public void secondCallToEvaluateGuardDoesNotDelegateToTypedAndGuardedConstruct() throws EolRuntimeException {
 		context.isEligibleFor(construct);
 		context.isEligibleFor(construct);
 		
@@ -52,7 +52,7 @@ public class MigrateRuleContextTests {
 	}
 	
 	@Test
-	public void secondCallToEvaluateGuardReturnsTrueWhenFirstCallReturnedTrue() throws FlockRuntimeException {
+	public void secondCallToEvaluateGuardReturnsTrueWhenFirstCallReturnedTrue() throws EolRuntimeException {
 		when(construct.appliesIn(any(GuardedConstructContext.class))).thenReturn(false);
 		
 		assertFalse(context.isEligibleFor(construct));
@@ -60,7 +60,7 @@ public class MigrateRuleContextTests {
 	}
 	
 	@Test
-	public void secondCallToEvaluateGuardReturnsFalseWhenFirstCallReturnedFalse() throws FlockRuntimeException {
+	public void secondCallToEvaluateGuardReturnsFalseWhenFirstCallReturnedFalse() throws EolRuntimeException {
 		when(construct.appliesIn(any(GuardedConstructContext.class))).thenReturn(true);
 		
 		assertTrue(context.isEligibleFor(construct));

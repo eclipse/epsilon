@@ -11,14 +11,14 @@
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public interface TypeMappingConstruct extends EquivalenceFactory, ModuleElement {
 
-	public boolean appliesIn(GuardedConstructContext original) throws FlockRuntimeException;
+	public boolean appliesIn(GuardedConstructContext original) throws EolRuntimeException;
 
 	public void check(MigrationStrategyCheckingContext context);
 }

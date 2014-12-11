@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
@@ -33,7 +34,7 @@ public class TypeMappingContext {
 		this.equivalentFactory = equivalentFactory;
 	}
 	
-	public boolean isEligibleFor(TypeMappingConstruct typeMapping) throws FlockRuntimeException {
+	public boolean isEligibleFor(TypeMappingConstruct typeMapping) throws EolRuntimeException {
 		return typeMapping.appliesIn(getOriginal());
 	}
 

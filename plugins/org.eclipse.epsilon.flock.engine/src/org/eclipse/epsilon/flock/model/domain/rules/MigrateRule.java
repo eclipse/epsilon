@@ -14,21 +14,23 @@
 package org.eclipse.epsilon.flock.model.domain.rules;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public class MigrateRule extends ClassifierTypedConstruct {
 
-	private Body body;
+	private ExecutableBlock<Void> body;
 	private final IgnoredProperties ignoredProperties = new IgnoredProperties();
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void build() {
 		super.build();
-		this.body = (Body)getFirstChildWithType(FlockParser.BLOCK);
+		this.body = (ExecutableBlock<Void>)getFirstChildWithType(FlockParser.BLOCK);
 		buildIgnoredProperties();
 	}
 
@@ -55,7 +57,7 @@ public class MigrateRule extends ClassifierTypedConstruct {
 		ignoredProperties.check(getOriginalType(), context);
 	}
 	
-	public void gatherIgnoredPropertiesFor(MigrateRuleContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
+	public void gatherIgnoredPropertiesFor(MigrateRuleContext context, IgnoredProperties ignoredProperties) throws EolRuntimeException {
 		final boolean applicable = context.isEligibleFor(this);
 
 		if (applicable) {
@@ -63,7 +65,7 @@ public class MigrateRule extends ClassifierTypedConstruct {
 		}
 	}
 	
-	public boolean applyTo(MigrateRuleContext context) throws FlockRuntimeException {
+	public boolean applyTo(MigrateRuleContext context) throws EolRuntimeException {
 		final boolean applicable = context.isEligibleFor(this);
 		
 		if (applicable) {

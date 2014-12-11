@@ -14,12 +14,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactory;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class TypeMappingConstructs {
 	private final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<TypeMappingConstruct>();
@@ -44,7 +44,7 @@ public class TypeMappingConstructs {
 		}
 	}
 	
-	public Equivalence createEquivalence(TypeMappingContext context) throws FlockRuntimeException {
+	public Equivalence createEquivalence(TypeMappingContext context) throws EolRuntimeException {
 		for (TypeMappingConstruct typeMapping : typeMappingConstructs) {
 			if (context.isEligibleFor(typeMapping)) {
 				return context.createEquivalenceUsing(typeMapping);

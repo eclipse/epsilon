@@ -13,6 +13,7 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
@@ -30,7 +31,7 @@ public class Deletion extends ClassifierTypedConstruct implements TypeMappingCon
 	}
 	
 	@Override
-	public boolean appliesIn(GuardedConstructContext context) throws FlockRuntimeException {
+	public boolean appliesIn(GuardedConstructContext context) throws EolRuntimeException {
 		if (this.typedFor(context) && super.appliesIn(context)) {
 			return true;
 		
@@ -41,7 +42,7 @@ public class Deletion extends ClassifierTypedConstruct implements TypeMappingCon
 		return false;
 	}
 	
-	private boolean appliesInAncestorOf(GuardedConstructContext context) throws FlockRuntimeException {
+	private boolean appliesInAncestorOf(GuardedConstructContext context) throws EolRuntimeException {
 		// Attempt to find an ancestor context to which this deletion construct applies
 		// by navigating through the parents 
 		while (context.isContextForParentElement()) {
