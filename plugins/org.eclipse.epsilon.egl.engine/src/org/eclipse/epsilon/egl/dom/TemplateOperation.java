@@ -9,9 +9,8 @@
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
 
-package org.eclipse.epsilon.egl.execute.operations;
+package org.eclipse.epsilon.egl.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
@@ -24,12 +23,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class TemplateOperation extends Operation {
 
-	public TemplateOperation() { }
-	
-	public TemplateOperation(AST ast) {
-		//super(ast);
-	}
-	
 	@Override
 	protected Object executeBody(IEolContext context) throws EolRuntimeException {
 		final IEglContext parentContext = ((EglPreprocessorContext)context).getEglContext();

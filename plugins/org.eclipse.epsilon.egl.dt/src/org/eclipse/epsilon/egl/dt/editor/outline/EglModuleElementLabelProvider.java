@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.editor.outline;
 
+import org.eclipse.epsilon.egl.dom.TemplateOperation;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.egl.execute.operations.TemplateOperation;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
