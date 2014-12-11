@@ -58,26 +58,28 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
-		if (cst.getType() == FlockParser.GUARD) {
-			return new ExecutableBlock<Boolean>(Boolean.class);
-		
-		} else if (cst.getType() == FlockParser.DELETE) {
-			return new Deletion();
-		
-		} else if (cst.getType() == FlockParser.RETYPE) {
-			return new Retyping();
-		
-		} else if (cst.getType() == FlockParser.MIGRATE) {
-			return new MigrateRule();
+		switch(cst.getType()) {
+			case FlockParser.GUARD:
+				return new ExecutableBlock<Boolean>(Boolean.class);
 			
-		} else if (cst.getType() == FlockParser.RETYPEPACKAGE) {
-			return new PackageRetyping();
-		
-		} else if (cst.getType() == FlockParser.DELETEPACKAGE) {
-			return new PackageDeletion();
-
-		} else if (cst.getType() == FlockParser.BLOCK && cst.getParent() != null && cst.getParent().getType() == FlockParser.MIGRATE) {
-			return new ExecutableBlock<Void>(Void.class);
+			case FlockParser.DELETE:
+				return new Deletion();
+			
+			case FlockParser.RETYPE:
+				return new Retyping();
+			
+			case FlockParser.MIGRATE:
+				return new MigrateRule();
+				
+			case FlockParser.RETYPEPACKAGE:
+				return new PackageRetyping();
+			
+			case FlockParser.DELETEPACKAGE:
+				return new PackageDeletion();
+	
+			case FlockParser.BLOCK:
+				if (cst.getParent() != null && cst.getParent().getType() == FlockParser.MIGRATE)
+					return new ExecutableBlock<Void>(Void.class);
 		}
 		
 		return super.adapt(cst, parentAst);
