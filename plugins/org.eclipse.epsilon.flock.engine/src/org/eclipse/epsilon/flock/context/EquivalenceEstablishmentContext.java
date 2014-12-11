@@ -14,10 +14,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
@@ -25,14 +25,14 @@ public class EquivalenceEstablishmentContext {
 	
 	private final Model originalModel;
 	private final Model migratedModel;
-	private final EolExecutor executor;
+	private final IEolContext context;
 	private final FlockExecution execution;
 	private final EquivalentFactory factory;
 	
-	public EquivalenceEstablishmentContext(Model originalModel, Model migratedModel, EolExecutor executor, FlockExecution execution) {
+	public EquivalenceEstablishmentContext(Model originalModel, Model migratedModel, IEolContext context, FlockExecution execution) {
 		this.originalModel = originalModel;
 		this.migratedModel = migratedModel;
-		this.executor      = executor;
+		this.context       = context;
 		this.execution     = execution;
 		this.factory       = new EquivalentFactory();
 	}
@@ -41,7 +41,7 @@ public class EquivalenceEstablishmentContext {
 		final Collection<TypeMappingContext> contexts = new LinkedList<TypeMappingContext>();
 		
 		for (ModelElement original : originalModel.directContents()) {
-			contexts.add(new TypeMappingContext(original, executor, execution, factory));
+			contexts.add(new TypeMappingContext(original, context, execution, factory));
 		}
 		
 		return contexts;

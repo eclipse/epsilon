@@ -13,6 +13,7 @@ package org.eclipse.epsilon.flock.execution;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
@@ -23,13 +24,13 @@ import org.eclipse.epsilon.flock.model.domain.rules.Body;
 public class MigrateRuleContext {
 	
 	private final Equivalence equivalence;
-	private final EolExecutor executor;
+	private final IEolContext context;
 	private final FlockExecution execution;
 	private final Map<ClassifierTypedConstruct, Boolean> applicabilityCache = new HashMap<ClassifierTypedConstruct, Boolean>();
 
-	public MigrateRuleContext(Equivalence equivalence, EolExecutor executor, FlockExecution execution) {
+	public MigrateRuleContext(Equivalence equivalence, IEolContext context, FlockExecution execution) {
 		this.equivalence = equivalence;
-		this.executor = executor;
+		this.context = context;
 		this.execution = execution;
 	}
 
@@ -48,11 +49,11 @@ public class MigrateRuleContext {
 	}
 	
 	private GuardedConstructContext getOriginal() {
-		return new GuardedConstructContext(equivalence.getOriginal(), executor);
+		return new GuardedConstructContext(equivalence.getOriginal(), context);
 	}
 
 	public void execute(Body body) throws FlockRuntimeException {
 		equivalence.ruleApplied(execution);
-		body.applyTo(executor, equivalence.getVariables().toArray(new Variable[]{}));
+		if (body != null) { body.applyTo(context, equivalence.getVariables().toArray(new Variable[]{})); }
 	}
 }

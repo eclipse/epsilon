@@ -13,12 +13,12 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
@@ -38,9 +38,9 @@ public class Retyping extends ClassifierTypedConstruct implements TypeMappingCon
 		return evolvedType;
 	}
 
-	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
+	public Equivalence createEquivalence(IEolContext context, FlockExecution execution, ModelElement original, EquivalentFactory factory) throws FlockRuntimeException {
 		final ModelElement equivalent = factory.createModelElementInMigratedModel(evolvedType);
-		return new TypeBasedEquivalence(executor, execution, original, equivalent);
+		return new TypeBasedEquivalence(context, execution, original, equivalent);
 	}
 	
 	@Override

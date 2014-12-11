@@ -13,10 +13,10 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
@@ -24,8 +24,8 @@ public class NoEquivalence extends Equivalence {
 
 	public final ModelElement original;
 	
-	public NoEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original) {
-		super(executor, execution);
+	public NoEquivalence(IEolContext context, FlockExecution execution, ModelElement original) {
+		super(context, execution);
 		
 		if (original == null)
 			throw new IllegalArgumentException("original cannot be null");

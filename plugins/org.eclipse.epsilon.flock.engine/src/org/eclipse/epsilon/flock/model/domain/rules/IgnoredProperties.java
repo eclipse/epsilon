@@ -29,6 +29,9 @@ public class IgnoredProperties {
 		this.ignoredProperties.addAll(ignoredProperties);
 	}
 
+	public void add(String ignoredProperty) {
+		this.ignoredProperties.add(ignoredProperty);
+	}
 	
 	public void addAll(IgnoredProperties other) {
 		this.ignoredProperties.addAll(other.ignoredProperties);

@@ -10,12 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
-import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class EolExecutor {
 	
@@ -23,31 +18,5 @@ public class EolExecutor {
 	
 	public EolExecutor(EolContext context) {
 		this.context = context;
-	}
-	
-	public boolean executeGuard(AST guard, Variable originalVar) throws FlockRuntimeException {
-		context.getFrameStack().enterLocal(FrameType.PROTECTED, guard, originalVar);
-		
-		final Boolean guardSatisfied = (Boolean)context.getExecutorFactory().executeBlockOrExpressionAst(guard, context, false);
-		
-		context.getFrameStack().leaveLocal(guard);
-		
-		return guardSatisfied.booleanValue();
-	}
-
-	public Object executeBlock(AST block, Variable... variables) throws FlockRuntimeException {
-		try {
-			context.getFrameStack().enterLocal(FrameType.PROTECTED, block, variables);
-			
-			final Object result = context.getExecutorFactory().executeAST(block, context);
-			
-			context.getFrameStack().leaveLocal(block);
-			
-			return result;
-			
-		} catch (EolRuntimeException e) {
-			e.printStackTrace();
-			throw new FlockRuntimeException("Exception encountered while executing EOL block.", e);
-		}
 	}
 }

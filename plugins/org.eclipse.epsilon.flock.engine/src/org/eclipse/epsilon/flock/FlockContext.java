@@ -17,11 +17,10 @@ package org.eclipse.epsilon.flock;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
-import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
+import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.execution.operations.FlockOperationFactory;
@@ -91,10 +90,8 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	
-	private final EolExecutor executor = new EolExecutor(this);
-	
 	public EquivalenceEstablishmentContext getEquivalenceEstablishmentContext() {
-		return new EquivalenceEstablishmentContext(originalModel, migratedModel, executor, execution);
+		return new EquivalenceEstablishmentContext(originalModel, migratedModel, this, execution);
 	}
 
 	public MigrationStrategyCheckingContext getMigrationStrategyCheckingContext() {

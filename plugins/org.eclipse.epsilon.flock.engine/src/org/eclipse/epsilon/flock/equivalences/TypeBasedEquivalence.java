@@ -15,11 +15,11 @@ package org.eclipse.epsilon.flock.equivalences;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
@@ -29,8 +29,8 @@ public class TypeBasedEquivalence extends Equivalence {
 	protected final ModelElement original;
 	protected final ModelElement equivalent;
 	
-	public TypeBasedEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, ModelElement equivalent) {
-		super(executor, execution);
+	public TypeBasedEquivalence(IEolContext context, FlockExecution execution, ModelElement original, ModelElement equivalent) {
+		super(context, execution);
 		
 		this.original   = original;
 		this.equivalent = equivalent;

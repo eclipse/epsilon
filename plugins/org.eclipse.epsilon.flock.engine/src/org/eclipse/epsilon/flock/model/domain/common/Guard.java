@@ -15,8 +15,8 @@ package org.eclipse.epsilon.flock.model.domain.common;
 
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
 public class Guard extends ExecutableBlock<Boolean> {
@@ -30,9 +30,9 @@ public class Guard extends ExecutableBlock<Boolean> {
 	// for example, should the Guard now be responsible for caching its result
 	//    (e.g., see tests relating to guards with side effects)
 	
-	public boolean isSatisifedBy(EolExecutor executor, Variable variable) throws FlockRuntimeException {
+	public boolean isSatisfiedBy(IEolContext context, Variable variable) throws FlockRuntimeException {
 		try {
-			return super.execute(executor.context, variable);
+			return super.execute(context, variable);
 		
 		} catch (EolRuntimeException e) { // FIXME shouldn't wrap
 			throw new FlockRuntimeException(e);

@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.rules;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
@@ -26,22 +23,22 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 public class MigrateRule extends ClassifierTypedConstruct {
 
 	private Body body;
-	private IgnoredProperties ignoredProperties;
+	private final IgnoredProperties ignoredProperties = new IgnoredProperties();
 	
 	@Override
 	public void build() {
 		super.build();
-		this.body = new Body((AST)getFirstChildWithType(FlockParser.BLOCK));
-		
-		// FIXME discuss with Dimitris
-		Collection<String> ips = new LinkedList<String>();
+		this.body = (Body)getFirstChildWithType(FlockParser.BLOCK);
+		buildIgnoredProperties();
+	}
+
+	private void buildIgnoredProperties() {
 		final AST ignoring = (AST)getFirstChildWithType(FlockParser.IGNORING);
 		if (ignoring != null) {
 			for (AST ignoredProperty : ignoring.getChildren()) {
-				ips.add(ignoredProperty.getText());
+				this.ignoredProperties.add(ignoredProperty.getText());
 			}
 		}
-		this.ignoredProperties = new IgnoredProperties(ips);	
 	}
 
 	public IgnoredProperties getIgnoredProperties() {
@@ -82,24 +79,5 @@ public class MigrateRule extends ClassifierTypedConstruct {
 		       "ignoring " + ignoredProperties + " " + 
 		       "when "     + getGuard()        + " " + 
 		       "do "       + body;
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof MigrateRule))
-			return false;
-		
-		final MigrateRule other = (MigrateRule)object;
-		
-		return super.equals(other) &&
-		       body.equals(other.body) &&
-		       ignoredProperties.equals(other.ignoredProperties);
-	}
-	
-	@Override
-	public int hashCode() {
-		return super.hashCode() +
-		       body.hashCode()  +
-		       ignoredProperties.hashCode();
 	}
 }

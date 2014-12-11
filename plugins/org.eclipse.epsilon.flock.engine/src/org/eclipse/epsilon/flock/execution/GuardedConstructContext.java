@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.execution;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.Guard;
@@ -17,11 +18,11 @@ import org.eclipse.epsilon.flock.model.domain.common.Guard;
 public class GuardedConstructContext {
 
 	private final ModelElement element;
-	private final EolExecutor executor;
+	private final IEolContext context;
 	
-	public GuardedConstructContext(ModelElement element, EolExecutor executor) {
-		this.element  = element;
-		this.executor = executor;
+	public GuardedConstructContext(ModelElement element, IEolContext context) {
+		this.element = element;
+		this.context = context;
 	}
 	
 	public boolean originalConformsTo(String originalType, boolean strict) {
@@ -39,7 +40,7 @@ public class GuardedConstructContext {
 		if (guard == null) {
 			return true;
 		} else {
-			return guard.isSatisifedBy(executor, element.createReadOnlyVariable("original"));
+			return guard.isSatisfiedBy(context, element.createReadOnlyVariable("original"));
 		}
 	}
 
@@ -53,6 +54,6 @@ public class GuardedConstructContext {
 	}
 	
 	public GuardedConstructContext getContextForParentElement() {
-		return new GuardedConstructContext(element.getContainer(), executor);
+		return new GuardedConstructContext(element.getContainer(), context);
 	}
 }

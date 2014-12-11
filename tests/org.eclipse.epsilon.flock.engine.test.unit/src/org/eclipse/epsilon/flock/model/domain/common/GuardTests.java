@@ -34,7 +34,7 @@ public class GuardTests {
 		when(executor.executeGuard(isA(AST.class), isA(Variable.class)))
 			.thenReturn(true);		
 				
-		assertTrue(guard.isSatisifedBy(executor, mock(Variable.class)));
+		assertTrue(guard.isSatisfiedBy(executor.context, mock(Variable.class)));
 	}
 	
 	@Test
@@ -42,13 +42,13 @@ public class GuardTests {
 		when(executor.executeGuard(isA(AST.class), isA(Variable.class)))
 			.thenReturn(false);		
 			
-		assertFalse(guard.isSatisifedBy(executor, mock(Variable.class)));
+		assertFalse(guard.isSatisfiedBy(executor.context, mock(Variable.class)));
 	}
 	
 	@Test
 	public void isSatisifiedByReturnsTrueWhenAstIsNull() throws FlockRuntimeException {
 		final Guard guard = new Guard();
 		
-		assertTrue(guard.isSatisifedBy(executor, mock(Variable.class)));
+		assertTrue(guard.isSatisfiedBy(executor.context, mock(Variable.class)));
 	}
 }

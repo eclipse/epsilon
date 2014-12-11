@@ -17,11 +17,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
@@ -30,8 +30,8 @@ public abstract class Equivalence {
 
 	private final MigrateRuleContext context;
 	
-	public Equivalence(EolExecutor executor, FlockExecution execution) {
-		this.context = new MigrateRuleContext(this, executor, execution);
+	public Equivalence(IEolContext context, FlockExecution execution) {
+		this.context = new MigrateRuleContext(this, context, execution);
 	}
 	
 	public MigrateRuleContext getContext() {

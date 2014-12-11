@@ -13,42 +13,29 @@
  */
 package org.eclipse.epsilon.flock.model.domain.rules;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flock.execution.EolExecutor;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 
-public class Body {
+public class Body extends ExecutableBlock<Void> {
 
-	private final AST block;
-	
-	public Body(AST block) {
-		this.block = block;
+	// FIXME do these domain model classes still need to exist?
+		// if so, what should they be responsible for?
+		// for example, should the Guard now be responsible for caching its result
+		//    (e.g., see tests relating to guards with side effects)
+		
+	public Body() {
+		super(Void.class);
 	}
-	
-	public void applyTo(EolExecutor executor, Variable... variables) throws FlockRuntimeException {
-		if (block != null) {
-			executor.executeBlock(block, variables);
+
+	public void applyTo(IEolContext context, Variable... variables) throws FlockRuntimeException {
+		try {
+			this.execute(context, variables);
+		
+		} catch (EolRuntimeException e) { // FIXME shouldn't wrap
+			throw new FlockRuntimeException(e);
 		}
-	}
-	
-	@Override
-	public String toString() {
-		return "Body: " + block;
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof Body))
-			return false;
-		
-		final Body other = (Body)object;
-		
-		return block == null ? other.block == null : block.equals(other.block);
-	}
-	
-	@Override
-	public int hashCode() {
-		return block == null ? 0 : block.hashCode();
 	}
 }
