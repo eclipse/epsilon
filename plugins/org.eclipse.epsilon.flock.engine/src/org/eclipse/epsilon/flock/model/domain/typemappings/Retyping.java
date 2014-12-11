@@ -58,11 +58,6 @@ public class Retyping extends ClassifierTypedConstruct implements TypeMappingCon
 		return new TypeBasedEquivalence(executor, execution, original, equivalent);
 	}
 	
-	@Override // FIXME remove
-	protected boolean isAnnotatedWith(String annotation) {
-		return hasAnnotation(annotation);
-	}
-	
 	@Override
 	public String toString() {
 		return "retype " + getOriginalType() + " to " + evolvedType + " when " + getGuard();

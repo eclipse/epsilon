@@ -62,11 +62,6 @@ public class Deletion extends ClassifierTypedConstruct implements TypeMappingCon
 		return hasAnnotation("cascade");
 	}
 	
-	@Override // FIXME remove
-	protected boolean isAnnotatedWith(String annotation) {
-		return hasAnnotation(annotation);
-	}
-	
 	@Override
 	public String toString() {
 		return "delete " + getOriginalType() + " when " + getGuard();

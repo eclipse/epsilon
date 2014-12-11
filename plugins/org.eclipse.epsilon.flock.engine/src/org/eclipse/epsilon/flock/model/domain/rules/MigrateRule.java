@@ -14,26 +14,40 @@
 package org.eclipse.epsilon.flock.model.domain.rules;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
+import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public class MigrateRule extends ClassifierTypedConstruct {
 
-	private final Body body;
-	private final IgnoredProperties ignoredProperties;
+	private Body body;
+	private IgnoredProperties ignoredProperties;
 	
-	
-	MigrateRule(AST ast, Collection<String> annotations, String originalType, Collection<String> ignoredProperties, AST guard, AST body) {
-		super(ast, annotations, guard, originalType);
-		
-		this.body = new Body(body);
-		this.ignoredProperties = new IgnoredProperties(ignoredProperties);
+	public MigrateRule() {
+		super(null, null, null, null);
 	}
 	
+	@Override
+	public void build() {
+		super.build();
+		this.body = new Body((AST)getFirstChildWithType(FlockParser.BLOCK));
+		
+		// FIXME discuss with Dimitris
+		Collection<String> ips = new LinkedList<String>();
+		final AST ignoring = (AST)getFirstChildWithType(FlockParser.IGNORING);
+		if (ignoring != null) {
+			for (AST ignoredProperty : ignoring.getChildren()) {
+				ips.add(ignoredProperty.getText());
+			}
+		}
+		this.ignoredProperties = new IgnoredProperties(ips);	
+	}
+
 	public IgnoredProperties getIgnoredProperties() {
 		return ignoredProperties;
 	}

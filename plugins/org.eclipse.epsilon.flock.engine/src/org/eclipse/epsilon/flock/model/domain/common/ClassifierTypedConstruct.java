@@ -30,6 +30,11 @@ public abstract class ClassifierTypedConstruct extends GuardedConstruct {
 		this.originalType = originalType;
 	}
 	
+	@Override // FIXME remove
+	protected boolean isAnnotatedWith(String annotation) {
+		return hasAnnotation(annotation);
+	}
+	
 	@Override
 	public void build() {
 		super.build();
