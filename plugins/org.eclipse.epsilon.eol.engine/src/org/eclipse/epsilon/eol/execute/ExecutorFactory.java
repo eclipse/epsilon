@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 
 public class ExecutorFactory {
@@ -74,30 +73,6 @@ public class ExecutorFactory {
 	
 	public AbstractExecutor getExecutorFor(int type){
 		return (AbstractExecutor) executorCache.get(type);
-	}
-	
-	//TODO: Only used by Flock's EolExecutor
-	public Object executeBlockOrExpressionAst(AST ast, IEolContext context, Object default_) {
-		
-		if (ast == null) return default_;
-		
-		try {
-			if (ast.getType() == EolParser.BLOCK){
-				Object result = executeAST(ast,context);
-				if (result instanceof Return) {
-					return ((Return) result).getValue();
-				}
-				return default_;
-			}
-			else {
-				return executeAST(ast,context);
-			}			
-		}
-		catch (EolRuntimeException ex) {
-			context.getErrorStream().println(ex.toString());
-			return default_;
-		}
-
 	}
 	
 	public Object executeAST(AST ast, IEolContext context) throws EolRuntimeException{
