@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -26,17 +25,23 @@ import org.eclipse.epsilon.flock.model.domain.common.PackageTypedConstruct;
 
 public class PackageRetyping extends PackageTypedConstruct implements TypeMappingConstruct {
 
-	private final String evolvedPackage;
+	private String evolvedPackage;
 	
-	public PackageRetyping(AST ast, String originalPackage, String evolvedPackage, AST guard) {
-		super(ast, guard, originalPackage);
-		
-		if (evolvedPackage == null)
-			throw new IllegalArgumentException("evolvedPackage cannot be null");
-		
-		this.evolvedPackage = evolvedPackage;
+	public PackageRetyping() {
+		super(null, null, null);
 	}
 	
+	@Override
+	public void build() {
+		super.build();
+
+		evolvedPackage = getSecondChild().getText();
+		if (evolvedPackage == null)
+			throw new IllegalArgumentException("evolvedPackage cannot be null");
+	}
+	
+	
+
 	public String getEvolvedPackage() {
 		return evolvedPackage;
 	}

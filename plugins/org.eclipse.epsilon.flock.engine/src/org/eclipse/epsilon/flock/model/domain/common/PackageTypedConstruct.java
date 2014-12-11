@@ -23,15 +23,24 @@ import org.eclipse.epsilon.flock.model.checker.PackageTypedConstructChecker;
 
 public abstract class PackageTypedConstruct extends GuardedConstruct {
 
-	private final String originalPackage;
+	private String originalPackage;
 	
 	public PackageTypedConstruct(AST ast, AST guard, String originalPackage) {
 		super(ast, new LinkedList<String>(), guard);
-		
+	}
+	
+	@Override // FIXME remove
+	protected boolean isAnnotatedWith(String annotation) {
+		return hasAnnotation(annotation);
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+
+		originalPackage = getFirstChild().getText();
 		if (originalPackage == null)
 			throw new IllegalArgumentException("originalPackage cannot be null");
-		
-		this.originalPackage = originalPackage;
 	}
 	
 	public String getOriginalPackage() {

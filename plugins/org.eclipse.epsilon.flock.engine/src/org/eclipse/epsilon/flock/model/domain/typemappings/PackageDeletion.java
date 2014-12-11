@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
@@ -25,10 +24,10 @@ import org.eclipse.epsilon.flock.model.domain.common.PackageTypedConstruct;
 
 public class PackageDeletion extends PackageTypedConstruct implements TypeMappingConstruct {
 
-	public PackageDeletion(AST ast, String originalPackage, AST guard) {
-		super(ast, guard, originalPackage);
+	public PackageDeletion() {
+		super(null, null, null);
 	}
-	
+
 	public Equivalence createEquivalence(EolExecutor executor, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		return new NoEquivalence(executor, execution, original);
 	}
