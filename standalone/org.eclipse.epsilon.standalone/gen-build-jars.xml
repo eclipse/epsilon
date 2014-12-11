@@ -8,18 +8,17 @@
 		classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"/>  
 	        
 	<target name="main">
-		
 		<epsilon.xml.loadmodel name="JarModel" file="jarmodel.xml" read="true" store="false"/>
 		<epsilon.xml.loadmodel name="Ant" file="build-jars.xml" read="false" store="true"/>
 		
 		<epsilon.eol src="jarmodel2ant.eol">
 			<model ref="JarModel"/>
 			<model ref="Ant"/>
+			<parameter name="eclipseHome" value="${eclipse.home}"/>
 		</epsilon.eol>
 		
 		<epsilon.egl src="index.egl" target="jars/version.php">
 			<model ref="JarModel"/>
 		</epsilon.egl>
-		
 	</target>
 </project>

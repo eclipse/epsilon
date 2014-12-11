@@ -1,7 +1,7 @@
 var prefix = JarModel.root.a_prefix;
 var version = JarModel.root.a_version;
 var projectsRoot = JarModel.root.a_projects;
-var pluginsRoot = JarModel.root.a_plugins;
+var pluginsRoot = eclipseHome + "/plugins";
 var dir = JarModel.root.a_dir;
 
 var project : new Ant!t_project;

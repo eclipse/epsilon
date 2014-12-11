@@ -1,4 +1,4 @@
-<jarmodel plugins="../../plugins" projects="../" version="1.2" prefix="epsilon" dir="jars">
+<jarmodel plugins="../../plugins" projects="../../plugins/" version="1.2" prefix="epsilon" dir="jars">
 
 	<jar name="core">
 		<description>
