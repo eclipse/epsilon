@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.emc.graphml;
 
 import java.io.File;
+import java.net.URL;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
@@ -21,7 +22,9 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 public class GraphmlModel extends MuddleModel {
 	
 	public static final String PROPERTY_FILE = "file";
-	protected File file = null;	
+	public static String PROPERTY_URI = "uri";
+	protected File file = null;
+	protected String uri = null;
 	
 	public GraphmlModel() {
 		
@@ -32,7 +35,15 @@ public class GraphmlModel extends MuddleModel {
 			throws EolModelLoadingException {
 		super.load(properties, resolver);
 		
-		file = new File(resolver.resolve(properties.getProperty(GraphmlModel.PROPERTY_FILE)));
+		String filePath = properties.getProperty(GraphmlModel.PROPERTY_FILE);
+		
+		if (filePath != null && filePath.trim().length() > 0) {
+			file = new File(resolver.resolve(filePath));
+		}
+		else {
+			uri = properties.getProperty(GraphmlModel.PROPERTY_URI);
+		}
+		
 		load();
 	}
 	
@@ -41,7 +52,11 @@ public class GraphmlModel extends MuddleModel {
 		if (readOnLoad) {
 			GraphmlImporter importer = new GraphmlImporter();
 			try {
-				muddle = importer.importGraph(file);
+				if (uri!=null) {
+					muddle = importer.importGraph(uri);
+				} else {
+					muddle = importer.importGraph(file);
+				}
 			} catch (Exception e) {
 				throw new EolModelLoadingException(e, this);
 			}
@@ -57,5 +72,13 @@ public class GraphmlModel extends MuddleModel {
 	
 	public File getFile() {
 		return file;
+	}
+	
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+	
+	public String getUri() {
+		return uri;
 	}
 }

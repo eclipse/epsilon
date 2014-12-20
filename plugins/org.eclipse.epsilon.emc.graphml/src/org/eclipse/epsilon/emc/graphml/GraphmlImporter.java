@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.emc.graphml;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,40 +47,11 @@ public class GraphmlImporter {
 	protected GraphmlConfiguration configuration;
 	protected List<MuddleElement> referenceNodes;
 	
-	
-	
-	public static void main(String[] args) throws Exception {
-		
-		GraphmlModel model = new GraphmlModel();
-		model.setFile(new File("/Users/dimitrioskolovos/Downloads/eclipse-epsilon-kepler/workspace/org.eclipse.epsilon.emc.graphml/samples/template.graphml"));
-		model.setName("X");
-		model.load();
-		
-		EolModule module = new EolModule();
-		module.parse("Element.all.title.println();");
-		module.getContext().getModelRepository().addModel(model);
-		module.execute();
-		
-		/*
-		GraphmlImporter importer = new GraphmlImporter();
-		Muddle graph = importer.importGraph(new File("/Users/dimitrioskolovos/Desktop/sample.graphml"));
-		
-		GraphmlModel model = new GraphmlModel();
-		model.setName("X");
-		model.setGraph(graph);
-		
-		EolModule module = new EolModule();
-		
-		module.parse("City.all.collect(c|c.incoming.collect(r|r.distance)).println();");
-		//module.parse("Road.all.collect(r|r.distance).println();");
-		//module.parse("Admin.all.collect(a|a.language).println();");
-		//module.parse("Entity.all.second().admin.collect(a|a.language).println();");
-		//module.parse("Foo.all.size().println();");
-		module.getContext().getModelRepository().addModel(model);
-		module.execute();*/
-	}
-	
 	public Muddle importGraph(File file) throws Exception {
+		return importGraph(file.toURI().toString());
+	}
+
+	public Muddle importGraph(String uri) throws Exception {
 		
 		graph = MuddleFactory.eINSTANCE.createMuddle();
 		nodeMap = new HashMap<String, MuddleElement>();
@@ -88,7 +60,7 @@ public class GraphmlImporter {
 		referenceNodes = new ArrayList<MuddleElement>();
 		
 		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(file);
+		Document doc = builder.build(uri);
 		Element root = doc.getDocument().getRootElement();
 		namespace = root.getNamespace();
 		
@@ -100,7 +72,6 @@ public class GraphmlImporter {
 		
 		return graph;
 	}
-	
 	protected void populateGraph() {
 		
 		// Process node elements

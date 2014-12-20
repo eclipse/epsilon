@@ -35,7 +35,10 @@ public class GraphmlModelConfigurationDialog extends AbstractCachedModelConfigur
 	
 	protected Label fileTextLabel;
 	protected Text fileText;
+	protected Label uriTextLabel;
+	protected Text uriText;
 	protected Button browseModelFile;
+	protected Button filebasedButton;
 	
 	
 	protected void createGroups(Composite control) {
@@ -46,12 +49,40 @@ public class GraphmlModelConfigurationDialog extends AbstractCachedModelConfigur
 	}
 	
 	protected void toggleEnabledFields() {
-		storeOnDisposalCheckbox.setSelection(false);
-		storeOnDisposalCheckbox.setEnabled(false);
+		if (filebasedButton.getSelection()) {
+			fileTextLabel.setEnabled(true);
+			fileText.setEnabled(true);
+			uriTextLabel.setEnabled(false);
+			uriText.setEnabled(false);
+			uriText.setText("");
+		}
+		else {
+			fileTextLabel.setEnabled(false);
+			fileText.setEnabled(false);
+			uriTextLabel.setEnabled(true);
+			uriText.setEnabled(true);
+			fileText.setText("");
+			storeOnDisposalCheckbox.setSelection(false);
+		}
 	}
 	
 	protected Composite createFilesGroup(Composite parent) {
 		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);		
+		
+		filebasedButton = new Button(groupContent, SWT.CHECK);
+		GridData filebasedButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
+		filebasedButtonGridData.horizontalSpan = 3;
+		filebasedButton.setSelection(true);
+		filebasedButton.setText("Workspace file");
+		filebasedButton.setLayoutData(filebasedButtonGridData);
+		filebasedButton.addListener(SWT.Selection, new Listener() {
+
+			
+			public void handleEvent(Event event) {
+				toggleEnabledFields();
+			}
+			
+		});
 		
 		fileTextLabel = new Label(groupContent, SWT.NONE);
 		fileTextLabel.setText("File: ");
@@ -63,6 +94,14 @@ public class GraphmlModelConfigurationDialog extends AbstractCachedModelConfigur
 		browseModelFile.setText("Browse Workspace...");
 		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "GraphML models in the workspace", "Select a GraphML model"));
 		
+		uriTextLabel = new Label(groupContent, SWT.NONE);
+		uriTextLabel.setText("URI: ");
+		
+		uriText = new Text(groupContent, SWT.BORDER);
+		GridData uriTextGridData = new GridData(GridData.FILL_HORIZONTAL);
+		uriTextGridData.horizontalSpan = 2;
+		uriText.setLayoutData(uriTextGridData);
+		
 		groupContent.layout();
 		groupContent.pack();
 		return groupContent;
@@ -70,14 +109,20 @@ public class GraphmlModelConfigurationDialog extends AbstractCachedModelConfigur
 
 	protected void loadProperties(){
 		super.loadProperties();
+		storeOnDisposalCheckbox.setSelection(false);
+		storeOnDisposalCheckbox.setEnabled(false);
 		if (properties == null) return;
 		fileText.setText(properties.getProperty(GraphmlModel.PROPERTY_FILE));
+		uriText.setText(properties.getProperty(GraphmlModel.PROPERTY_URI));
+		filebasedButton.setSelection(properties.getBooleanProperty("fileBased", true));
 		toggleEnabledFields();
 	}
 	
 	
 	protected void storeProperties(){
 		super.storeProperties();
+		properties.put(GraphmlModel.PROPERTY_URI, uriText.getText());
 		properties.put(GraphmlModel.PROPERTY_FILE, fileText.getText());
+		properties.put("fileBased", filebasedButton.getSelection() + "");
 	}
 }
