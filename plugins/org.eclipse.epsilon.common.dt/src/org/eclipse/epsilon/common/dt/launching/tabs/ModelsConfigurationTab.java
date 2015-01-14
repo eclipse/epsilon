@@ -22,6 +22,7 @@ import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfiguratio
 import org.eclipse.epsilon.common.dt.launching.dialogs.ModelTypeSelectionDialog;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -222,9 +223,9 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 			AbstractModelConfigurationDialog dialog = null;
 			try {
 				dialog = modelType.createDialog();
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				LogUtil.log(e);
+				return;
 			}
 			dialog.setBlockOnOpen(true);
 			
@@ -273,7 +274,9 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 		public Image getImage(Object element) {
 			StringProperties properties = new StringProperties();
 			properties.load(element.toString());
-			return ModelTypeExtension.forType(properties.getProperty("type")).getImage();
+			ModelTypeExtension modelTypeExtension = ModelTypeExtension.forType(properties.getProperty("type"));
+			if (modelTypeExtension != null) return modelTypeExtension.getImage();
+			else return EpsilonCommonsPlugin.getDefault().createImage("icons/unknown.gif");
 		}
 
 		public String getText(Object element) {
