@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.execute.control;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IExecutionListener {
@@ -19,8 +20,9 @@ public interface IExecutionListener {
 	
 	/**
 	 * @param result the result of evaluating ast, calculated during execution
-	 *                     or null if an exception occurred during the execution of ast
 	 */
 	public void finishedExecuting(AST ast, Object result, IEolContext context);
+	
+	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context);
 	
 }

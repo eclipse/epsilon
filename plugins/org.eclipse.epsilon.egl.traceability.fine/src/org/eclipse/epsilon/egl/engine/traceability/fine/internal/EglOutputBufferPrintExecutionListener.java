@@ -19,6 +19,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
@@ -50,7 +51,10 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 			associatePropertyAccessesWithRegionInGeneratedText(ast, ((EglPreprocessorContext)context).getEglContext());
 		}
 	}
-
+	
+	@Override
+	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
+	
 	protected boolean isCallToPrintMethod(AST p) {
 		final List<String> printMethods = Arrays.asList("printdyn", "println", "print", "prinx");
 		return p.getType() == EolParser.POINT && printMethods.contains(p.getSecondChild().getText());

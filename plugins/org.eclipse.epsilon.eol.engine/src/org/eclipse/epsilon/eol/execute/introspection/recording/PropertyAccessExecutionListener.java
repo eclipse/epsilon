@@ -17,6 +17,7 @@ import java.util.WeakHashMap;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -54,6 +55,9 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 			}
 		}
 	}
+	
+	@Override
+	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
 	
 	private boolean isLeftHandSideOfPointExpression(AST ast) {
 		return ast.getParent() instanceof PropertyCallExpression && ast.getParent().getFirstChild() == ast;

@@ -110,24 +110,30 @@ public class ExecutorFactory {
 			}
 			else {
 				result = executor.execute(ast, context);
-			}	
+			}
+			for (IExecutionListener listener : executionListeners) {
+				listener.finishedExecuting(ast, result, context);
+			}
 		}
 		catch (Exception ex){
+			EolRuntimeException exception = null;
 			if (ex instanceof EolRuntimeException){
 				EolRuntimeException eolEx = (EolRuntimeException) ex;
 				if (eolEx.getAst() == null){
 					eolEx.setAst(ast);
 				}
-				throw eolEx;
+				exception = eolEx;
 			}
 			else {
-				throw new EolInternalException(ex, ast);
+				exception = new EolInternalException(ex, ast);
 			}
+			for (IExecutionListener listener : executionListeners) {
+				listener.finishedExecutingWithException(ast, exception, context);
+			}
+			throw exception;
 		}
 		finally {
-			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(ast, result, context);
-			}
+			
 			if (executionController != null) {
 				executionController.done(ast, context);
 			}

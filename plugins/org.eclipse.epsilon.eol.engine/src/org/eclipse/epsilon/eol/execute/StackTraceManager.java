@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Stack;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
@@ -28,6 +29,9 @@ public class StackTraceManager implements IExecutionListener {
 			stackTrace.pop();
 		}
 	}
+	
+	@Override
+	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
 	
 	public List<AST> getStackTrace() {
 		ArrayList<AST> stackTrace = new ArrayList<AST>();

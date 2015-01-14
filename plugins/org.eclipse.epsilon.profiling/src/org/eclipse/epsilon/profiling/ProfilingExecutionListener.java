@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.profiling;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
@@ -27,6 +28,9 @@ public class ProfilingExecutionListener implements IExecutionListener {
 		//if (AstUtil.getParentType(ast) == EolParser.POINT)
 			Profiler.INSTANCE.stop(getLabel(ast));
 	}
+	
+	@Override
+	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
 	
 	protected String getLabel(AST ast) {
 		return ast.getText() + " (" + ast.getLine() + ":" + ast.getColumn() + ")";
