@@ -251,7 +251,9 @@ collectionType
 		$tree.getToken().setType(TYPE);
 	}
 	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map')^
-		(op='('! tn=typeName {setTokenType(tn,TYPE);} cp=')'!)?
+		((op='('! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp=')'!) |
+		 (op='<'! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp='>'!)
+		)?
 	;
 
 statement 

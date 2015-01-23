@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class EolCollectionType extends EolType {
 	
 	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers = null;
+	protected EolType contentType = EolAnyType.Instance;
 	
 	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
 		if (collectionTypeResolvers == null) {
@@ -39,8 +40,13 @@ public class EolCollectionType extends EolType {
 	public static EolCollectionType Set = new EolCollectionType("Set");
 	public static EolCollectionType OrderedSet = new EolCollectionType("OrderedSet");
 	
-	private EolCollectionType(String name){
+	public EolCollectionType(String name){
 		this.name = name;
+	}
+	
+	public EolCollectionType(String name, EolType contentType) {
+		this(name);
+		this.contentType = contentType;
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
@@ -150,6 +156,14 @@ public class EolCollectionType extends EolType {
 	
 	public static boolean isOrdered(Collection<?> c) {
 		return Sequence.isType(c) || OrderedSet.isType(c);
+	}
+	
+	public EolType getContentType() {
+		return contentType;
+	}
+	
+	public void setContentType(EolType contentType) {
+		this.contentType = contentType;
 	}
 	
 }

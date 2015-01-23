@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.EolModule;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
@@ -9,6 +12,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolNoType;
@@ -18,8 +22,9 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class TypeExpression extends Expression {
 	
-	protected EolType type = null;
+	protected EolType type = EolAnyType.Instance;
 	protected String name = null;
+	protected List<TypeExpression> parameterTypeExpressions = new ArrayList<TypeExpression>();
 	
 	public TypeExpression() {}
 	
@@ -31,6 +36,11 @@ public class TypeExpression extends Expression {
 	public void build() {
 		super.build();
 		setName(getText());
+		for (AST child : getChildren()) {
+			if (child instanceof TypeExpression) {
+				parameterTypeExpressions.add((TypeExpression) child);
+			}
+		}
 	}
 	
 	@Override
@@ -57,7 +67,28 @@ public class TypeExpression extends Expression {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub
+		
+		for (TypeExpression typeExpression : parameterTypeExpressions) {
+			typeExpression.compile(context);
+		}
+		
+		if (type instanceof EolCollectionType) {
+			if (parameterTypeExpressions.size() == 1) {
+				((EolCollectionType) type).setContentType(parameterTypeExpressions.get(0).getCompilationType());
+			}
+			else if (parameterTypeExpressions.size() > 1) {
+				context.addErrorMarker(this, "Collection types can have at most one content type");
+			}
+		}
+		if (type instanceof EolMapType) {
+			if (parameterTypeExpressions.size() == 2) {
+				((EolMapType) type).setKeyType(parameterTypeExpressions.get(0).getCompilationType());
+				((EolMapType) type).setValueType(parameterTypeExpressions.get(1).getCompilationType());
+			}
+			else if (parameterTypeExpressions.size() > 0) {
+				context.addErrorMarker(this, "Maps need two types: key-type and value-type");
+			}
+		}
 	}
 	
 	public String getName() {
@@ -83,22 +114,22 @@ public class TypeExpression extends Expression {
 			type = EolPrimitiveType.Real;
 		}
 		else if (name.equals("Map")){
-			type = EolPrimitiveType.Map;
+			type = new EolMapType();
 		}
 		else if (name.equals("Sequence") || name.equals("List")){
-			type = EolCollectionType.Sequence;
+			type = new EolCollectionType("Sequence");
 		}
 		else if (name.equals("Bag")){
-			type = EolCollectionType.Bag;
+			type = new EolCollectionType("Bag");
 		}
 		else if (name.equals("Set")){
-			type = EolCollectionType.Set;
+			type = new EolCollectionType("Set");
 		}
 		else if (name.equals("OrderedSet")){
-			type = EolCollectionType.OrderedSet;
+			type = new EolCollectionType("OrderedSet");
 		}
 		else if (name.equals("Collection")){
-			type = EolCollectionType.Collection;
+			type = new EolCollectionType("Collection");
 		}
 		else if (name.equals("Nothing")) {
 			type = EolNoType.Instance;
@@ -106,11 +137,7 @@ public class TypeExpression extends Expression {
 	}
 	
 	public EolType getCompilationType() {
-		if (type != null) return type;
-		if (!"Native".equals(name)) {
-			return new EolModelElementType(name);
-		}
-		return EolAnyType.Instance;
+		return type;
 	}
 	
 }

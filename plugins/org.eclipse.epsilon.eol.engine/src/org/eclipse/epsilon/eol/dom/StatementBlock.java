@@ -51,7 +51,6 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	@Override
 	public void compile(EolCompilationContext context) {
 		for (Statement statement : statements) {
-			System.out.println(statement.getClass());
 			statement.compile(context);
 		}
 	}

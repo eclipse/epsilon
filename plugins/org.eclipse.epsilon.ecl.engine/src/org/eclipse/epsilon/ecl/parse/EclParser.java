@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g 2014-11-24 08:21:42
+// $ANTLR 3.1b1 /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g 2015-01-23 13:44:03
 
 package org.eclipse.epsilon.ecl.parse;
 
@@ -237,7 +237,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     }
 
     public String[] getTokenNames() { return EclParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g"; }
+    public String getGrammarFileName() { return "/Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g"; }
 
 
     public static class eclModule_return extends ParserRuleReturnScope {
@@ -246,7 +246,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     };
 
     // $ANTLR start eclModule
-    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:93:1: eclModule : ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* ) ;
+    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:93:1: eclModule : ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* ) ;
     public final EclParser.eclModule_return eclModule() throws RecognitionException {
         EclParser.eclModule_return retval = new EclParser.eclModule_return();
         retval.start = input.LT(1);
@@ -267,10 +267,10 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
         RewriteRuleSubtreeStream stream_importStatement=new RewriteRuleSubtreeStream(adaptor,"rule importStatement");
         RewriteRuleSubtreeStream stream_modelDeclaration=new RewriteRuleSubtreeStream(adaptor,"rule modelDeclaration");
         try {
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:2: ( ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* ) )
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:4: ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:2: ( ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF -> ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* ) )
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:4: ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* EOF
             {
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:4: ( importStatement )*
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:4: ( importStatement )*
             loop1:
             do {
                 int alt1=2;
@@ -283,7 +283,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:0:0: importStatement
+            	    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:0:0: importStatement
             	    {
             	    pushFollow(FOLLOW_importStatement_in_eclModule76);
             	    importStatement1=importStatement();
@@ -300,7 +300,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 }
             } while (true);
 
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:22: ( modelDeclaration )*
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:22: ( modelDeclaration )*
             loop2:
             do {
                 int alt2=2;
@@ -313,7 +313,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:0:0: modelDeclaration
+            	    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:0:0: modelDeclaration
             	    {
             	    pushFollow(FOLLOW_modelDeclaration_in_eclModule80);
             	    modelDeclaration2=modelDeclaration();
@@ -330,7 +330,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 }
             } while (true);
 
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:40: ( eclModuleContent )*
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:40: ( eclModuleContent )*
             loop3:
             do {
                 int alt3=2;
@@ -343,7 +343,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:41: eclModuleContent
+            	    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:94:41: eclModuleContent
             	    {
             	    pushFollow(FOLLOW_eclModuleContent_in_eclModule84);
             	    eclModuleContent3=eclModuleContent();
@@ -366,7 +366,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
 
             // AST REWRITE
-            // elements: eclModuleContent, modelDeclaration, importStatement
+            // elements: modelDeclaration, eclModuleContent, importStatement
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -378,24 +378,24 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
             // 95:2: -> ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* )
             {
-                // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:5: ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* )
+                // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:5: ^( ECLMODULE ( importStatement )* ( modelDeclaration )* ( eclModuleContent )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
                 root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(ECLMODULE, "ECLMODULE"), root_1);
 
-                // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:17: ( importStatement )*
+                // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:17: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
                     adaptor.addChild(root_1, stream_importStatement.nextTree());
 
                 }
                 stream_importStatement.reset();
-                // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:35: ( modelDeclaration )*
+                // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:35: ( modelDeclaration )*
                 while ( stream_modelDeclaration.hasNext() ) {
                     adaptor.addChild(root_1, stream_modelDeclaration.nextTree());
 
                 }
                 stream_modelDeclaration.reset();
-                // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:53: ( eclModuleContent )*
+                // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:95:53: ( eclModuleContent )*
                 while ( stream_eclModuleContent.hasNext() ) {
                     adaptor.addChild(root_1, stream_eclModuleContent.nextTree());
 
@@ -436,7 +436,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     };
 
     // $ANTLR start eclModuleContent
-    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:98:1: eclModuleContent : ( pre | annotationBlock | matchRule | operationDeclaration | post );
+    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:98:1: eclModuleContent : ( pre | annotationBlock | matchRule | operationDeclaration | post );
     public final EclParser.eclModuleContent_return eclModuleContent() throws RecognitionException {
         EclParser.eclModuleContent_return retval = new EclParser.eclModuleContent_return();
         retval.start = input.LT(1);
@@ -456,7 +456,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
 
         try {
-            // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:2: ( pre | annotationBlock | matchRule | operationDeclaration | post )
+            // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:2: ( pre | annotationBlock | matchRule | operationDeclaration | post )
             int alt4=5;
             switch ( input.LA(1) ) {
             case 150:
@@ -496,7 +496,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
             switch (alt4) {
                 case 1 :
-                    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:4: pre
+                    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:4: pre
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
@@ -510,7 +510,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                     }
                     break;
                 case 2 :
-                    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:10: annotationBlock
+                    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:10: annotationBlock
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
@@ -524,7 +524,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                     }
                     break;
                 case 3 :
-                    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:28: matchRule
+                    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:28: matchRule
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
@@ -538,7 +538,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                     }
                     break;
                 case 4 :
-                    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:40: operationDeclaration
+                    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:40: operationDeclaration
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
@@ -552,7 +552,7 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                     }
                     break;
                 case 5 :
-                    // /Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:63: post
+                    // /Users/dkolovos/git/org.eclipse.epsilon/plugins/org.eclipse.epsilon.ecl.engine/src/org/eclipse/epsilon/ecl/parse/Ecl.g:99:63: post
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
@@ -588,78 +588,78 @@ public class EclParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     // $ANTLR end eclModuleContent
 
     // Delegated rules
-    public Ecl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Ecl_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
-    public Ecl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Ecl_EclParserRules.compareBlock_return compareBlock() throws RecognitionException { return gEclParserRules.compareBlock(); }
-    public Ecl_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Ecl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Ecl_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
-    public Ecl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Ecl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Ecl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Ecl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Ecl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Ecl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Ecl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Ecl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Ecl_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Ecl_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
     public Ecl_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Ecl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
-    public Ecl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
-    public Ecl_EolParserRules.keyvalExpression_return keyvalExpression() throws RecognitionException { return gEolParserRules.keyvalExpression(); }
-    public Ecl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Ecl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Ecl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
+    public Ecl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Ecl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Ecl_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
     public Ecl_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Ecl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Ecl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Ecl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Ecl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Ecl_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
+    public Ecl_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
+    public Ecl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
     public Ecl_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
-    public Ecl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
-    public Ecl_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
+    public Ecl_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
     public Ecl_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Ecl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Ecl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Ecl_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Ecl_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Ecl_EolParserRules.keyvalExpression_return keyvalExpression() throws RecognitionException { return gEolParserRules.keyvalExpression(); }
+    public Ecl_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Ecl_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Ecl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Ecl_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
+    public Ecl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
+    public Ecl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Ecl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
+    public Ecl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
     public Ecl_EolParserRules.keyvalExpressionList_return keyvalExpressionList() throws RecognitionException { return gEolParserRules.keyvalExpressionList(); }
     public Ecl_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
-    public Ecl_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
-    public Ecl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Ecl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
-    public Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Ecl_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
-    public Ecl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Ecl_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
-    public Ecl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
-    public Ecl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Ecl_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
-    public Ecl_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
-    public Ecl_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
-    public Ecl_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
-    public Ecl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
-    public Ecl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Ecl_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
-    public Ecl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Ecl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Ecl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Ecl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Ecl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
-    public Ecl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Ecl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Ecl_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
-    public Ecl_EclParserRules.doBlock_return doBlock() throws RecognitionException { return gEclParserRules.doBlock(); }
     public Ecl_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Ecl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Ecl_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
+    public Ecl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Ecl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Ecl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
+    public Ecl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Ecl_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Ecl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
     public Ecl_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Ecl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Ecl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Ecl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Ecl_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
-    public Ecl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Ecl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
     public Ecl_EolParserRules.declarativeFeatureCall_return declarativeFeatureCall() throws RecognitionException { return gEolParserRules.declarativeFeatureCall(); }
-    public Ecl_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
-    public Ecl_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
     public Ecl_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Ecl_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
+    public Ecl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Ecl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
+    public Ecl_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
+    public Ecl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
     public Ecl_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
-    public Ecl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Ecl_EclParserRules.matchRule_return matchRule() throws RecognitionException { return gEclParserRules.matchRule(); }
-    public Ecl_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Ecl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Ecl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Ecl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Ecl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Ecl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
+    public Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Ecl_EclParserRules.doBlock_return doBlock() throws RecognitionException { return gEclParserRules.doBlock(); }
+    public Ecl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Ecl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Ecl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
+    public Ecl_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
+    public Ecl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
+    public Ecl_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
     public Ecl_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Ecl_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
-    public Ecl_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Ecl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Ecl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Ecl_EclParserRules.matchRule_return matchRule() throws RecognitionException { return gEclParserRules.matchRule(); }
+    public Ecl_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
+    public Ecl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Ecl_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
+    public Ecl_EclParserRules.compareBlock_return compareBlock() throws RecognitionException { return gEclParserRules.compareBlock(); }
 
 
  

@@ -11,7 +11,7 @@
         	 though the variables have the same value for an svn setup.
         	-->
         	<property name="project_loc" location="../../../../../.."/>
-        	<property name="workspace_loc" location="../../../../../../.."/>
+        	<property name="workspace_loc" location="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/"/>
     	    <property name="plugins_loc" location="../../../../../../.."/>
         	
         	<echo message="Generating @{langUpperCase} parser..."></echo>

@@ -4,8 +4,8 @@
 		<attribute name="lang"/>
 		<attribute name="parser" default="@{lang}"/>
 		<sequential>
-			<property name="workspace_loc" location="../../../../../../.."/>
-			<ant inheritall="false" antfile="${workspace_loc}/org.eclipse.epsilon.@{lang}.engine/src/org/eclipse/epsilon/@{lang}/parse/build-@{parser}-parser.xml"/>			
+			<property name="plugins_loc" location="../../../../../../.."/>
+			<ant inheritall="false" antfile="${plugins_loc}/org.eclipse.epsilon.@{lang}.engine/src/org/eclipse/epsilon/@{lang}/parse/build-@{parser}-parser.xml"/>			
 		</sequential>
 	</macrodef>
 	

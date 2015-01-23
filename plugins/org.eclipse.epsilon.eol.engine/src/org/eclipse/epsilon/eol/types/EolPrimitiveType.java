@@ -24,7 +24,6 @@ public class EolPrimitiveType extends EolType {
 	public static EolPrimitiveType String = new EolPrimitiveType(String.class,"String");
 	public static EolPrimitiveType Boolean = new EolPrimitiveType(Boolean.class,"Boolean");
 	public static EolPrimitiveType Real = new EolPrimitiveType(Float.class,"Real");
-	public static EolPrimitiveType Map = new EolPrimitiveType(EolMap.class,"Map");
 	
 	private EolPrimitiveType(Class<?> clazz, String name){
 		this.clazz = clazz;
@@ -52,9 +51,6 @@ public class EolPrimitiveType extends EolType {
 		else if ((this == EolPrimitiveType.Boolean) && (o instanceof Boolean)) {
 			return true;
 		}
-		else if ((this == EolPrimitiveType.Map) && (o instanceof EolMap)) {
-			return true;
-		}
 		return false;
 	}
 
@@ -68,7 +64,6 @@ public class EolPrimitiveType extends EolType {
 		else if (this == EolPrimitiveType.Real) return Real.isType(o) || Integer.isType(o);
 		else if (this == EolPrimitiveType.String) return String.isType(o);
 		else if (this == EolPrimitiveType.Boolean) return Boolean.isType(o);
-		else if (this == EolPrimitiveType.Map) return Map.isType(o);
 		else return false;
 	}
 
@@ -78,7 +73,6 @@ public class EolPrimitiveType extends EolType {
 		else if (this == Real) return 0.0f;
 		else if (this == String) return "";
 		else if (this == Boolean) return false;
-		else if (this == Map) return new EolMap();
 		else return null;
 	}
 
