@@ -38,7 +38,11 @@ public class NewInstanceExpression extends TypeInitialiser {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub	
+		typeExpression.compile(context);
+		for (Expression parameterExpression : parameterExpressions) {
+			parameterExpression.compile(context);
+		}
+		resolvedType = typeExpression.getResolvedType();
 	}
 	
 	public TypeExpression getTypeExpression() {

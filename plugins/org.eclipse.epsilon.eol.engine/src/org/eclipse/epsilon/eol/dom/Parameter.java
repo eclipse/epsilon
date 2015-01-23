@@ -94,7 +94,11 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 
 	@Override
 	public void compile(EolCompilationContext context) {
-		//TODO: Finish this
+		if (typeExpression != null) typeExpression.compile(context);
+		EolType type = null;
+		if (typeExpression != null) type = typeExpression.getCompilationType();
+		else type = EolAnyType.Instance;
+		context.getFrameStack().put(new Variable(getName(), type));
 	}
 
 }

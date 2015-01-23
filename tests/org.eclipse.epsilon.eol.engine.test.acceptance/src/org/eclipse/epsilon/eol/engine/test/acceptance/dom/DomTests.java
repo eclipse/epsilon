@@ -5,12 +5,14 @@ import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
 import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
 import org.eclipse.epsilon.eol.dom.ForStatement;
+import org.eclipse.epsilon.eol.dom.GreaterThanOperatorExpression;
 import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.dom.IntegerLiteral;
+import org.eclipse.epsilon.eol.dom.LessThanOperatorExpression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
-import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.dom.VariableDeclaration;
@@ -28,7 +30,7 @@ public class DomTests {
 				/*if (a < 10) {
 					a.println(); // prints 5
 				} */
-				new IfStatement(new OperatorExpression("<", new NameExpression("a"), new IntegerLiteral(10)), 
+				new IfStatement(new LessThanOperatorExpression(new NameExpression("a"), new IntegerLiteral(10)), 
 						new StatementBlock(
 								new ExpressionStatement(new OperationCallExpression( new NameExpression("a"), new NameExpression("println"))
 							)),
@@ -42,8 +44,8 @@ public class DomTests {
 					b.println(); // prints 4 and 5
 				}
 				*/
-				new WhileStatement(new OperatorExpression(">", new NameExpression("a"), new NameExpression("b")), new StatementBlock(
-							new AssignmentStatement(new NameExpression("b"), new OperatorExpression("+", new NameExpression("b"), new IntegerLiteral(1))),
+				new WhileStatement(new GreaterThanOperatorExpression(new NameExpression("a"), new NameExpression("b")), new StatementBlock(
+							new AssignmentStatement(new NameExpression("b"), new PlusOperatorExpression(new NameExpression("b"), new IntegerLiteral(1))),
 							new ExpressionStatement(new OperationCallExpression(new NameExpression("b"), new NameExpression("println")))
 						)),
 				/*var x = Sequence{2..4}.select(x | x > 2);*/
@@ -52,7 +54,7 @@ public class DomTests {
 								new CollectionLiteralExpression("Sequence", true, new IntegerLiteral(2), new IntegerLiteral(4)),
 								new NameExpression("select"), 
 								new Parameter(new NameExpression("x"), null), 
-								new OperatorExpression(">", new NameExpression("x"), new IntegerLiteral(2)))),
+								new GreaterThanOperatorExpression(new NameExpression("x"), new IntegerLiteral(2)))),
 				/*
 				for (i in x) {
 					i.println(); // prints 3.4

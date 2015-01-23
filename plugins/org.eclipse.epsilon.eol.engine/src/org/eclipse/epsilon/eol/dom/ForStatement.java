@@ -111,11 +111,13 @@ public class ForStatement extends Statement {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		iteratedExpression.compile(context);
 		
+		iteratedExpression.compile(context);
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 
 				new Variable("loopCount", EolPrimitiveType.Integer), 
 				new Variable("hasMore", EolPrimitiveType.Boolean));
+		
+		iteratorParameter.compile(context);
 		bodyStatementBlock.compile(context);
 		context.getFrameStack().leaveLocal(bodyStatementBlock);
 		

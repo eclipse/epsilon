@@ -4,11 +4,15 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.m3.MetaClass;
+import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class PropertyCallExpression extends FeatureCallExpression {
 	
@@ -70,6 +74,17 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
 		targetExpression.compile(context);
+		EolType type = targetExpression.getResolvedType();
+		if (type instanceof EolModelElementType && ((EolModelElementType) type).getMetaClass() != null) {
+			MetaClass metaClass = (MetaClass) ((EolModelElementType) type).getMetaClass();
+			StructuralFeature structuralFeature = metaClass.getStructuralFeature(propertyNameExpression.getName());
+			if (structuralFeature == null) {
+				context.addWarningMarker(propertyNameExpression, "Structural feature " + propertyNameExpression.getName() + " not found in type " + metaClass.getName());
+			}
+			else {
+				
+			}
+		}
 	}
 	
 	public NameExpression getPropertyNameExpression() {

@@ -40,13 +40,8 @@ public class EolCollectionType extends EolType {
 	public static EolCollectionType Set = new EolCollectionType("Set");
 	public static EolCollectionType OrderedSet = new EolCollectionType("OrderedSet");
 	
-	public EolCollectionType(String name){
+	private EolCollectionType(String name){
 		this.name = name;
-	}
-	
-	public EolCollectionType(String name, EolType contentType) {
-		this(name);
-		this.contentType = contentType;
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {

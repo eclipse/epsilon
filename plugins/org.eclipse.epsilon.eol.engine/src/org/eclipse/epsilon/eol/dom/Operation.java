@@ -100,8 +100,18 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub
+		EolType contextType = EolNoType.Instance;
+		if (contextTypeExpression != null) {
+			contextTypeExpression.compile(context);
+			contextType = contextTypeExpression.getCompilationType();
+		}
+		
+		context.getFrameStack().enterLocal(FrameType.PROTECTED, this, new Variable("self", contextType));
+		for (Parameter parameter : formalParameters) {
+			parameter.compile(context);
+		}
 		body.compile(context);
+		context.getFrameStack().leaveLocal(this);
 	}
 	
 	public void clearCache() {

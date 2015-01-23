@@ -1,13 +1,14 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolType;
 
 
 public abstract class Expression extends AbstractExecutableModuleElement {
 	
-	protected Object resolvedType = EolAnyType.Instance;
+	protected EolType resolvedType = EolAnyType.Instance;
 	
-	public Object getResolvedType() {
+	public EolType getResolvedType() {
 		return resolvedType;
 	}
 	

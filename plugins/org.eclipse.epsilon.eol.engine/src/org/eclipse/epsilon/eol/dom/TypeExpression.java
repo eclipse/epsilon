@@ -132,19 +132,19 @@ public class TypeExpression extends Expression {
 			type = new EolMapType();
 		}
 		else if (name.equals("Sequence") || name.equals("List")){
-			type = new EolCollectionType("Sequence");
+			type = EolCollectionType.Sequence; //new EolCollectionType("Sequence");
 		}
 		else if (name.equals("Bag")){
-			type = new EolCollectionType("Bag");
+			type = EolCollectionType.Bag; //new EolCollectionType("Bag");
 		}
 		else if (name.equals("Set")){
-			type = new EolCollectionType("Set");
+			type = EolCollectionType.Set; // new EolCollectionType("Set");
 		}
 		else if (name.equals("OrderedSet")){
-			type = new EolCollectionType("OrderedSet");
+			type = EolCollectionType.OrderedSet; // new EolCollectionType("OrderedSet");
 		}
 		else if (name.equals("Collection")){
-			type = new EolCollectionType("Collection");
+			type = EolCollectionType.Collection; // new EolCollectionType("Collection");
 		}
 		else if (name.equals("Nothing")) {
 			type = EolNoType.Instance;

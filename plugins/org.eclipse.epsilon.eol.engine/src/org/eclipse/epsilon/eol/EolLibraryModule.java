@@ -56,6 +56,7 @@ import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
+import org.eclipse.epsilon.eol.dom.OperatorExpressionFactory;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.RealLiteral;
@@ -89,6 +90,9 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
+		
+		OperatorExpressionFactory operatorExpressionFactory = new OperatorExpressionFactory();
+		
 		switch (cst.getType()) {
 			case EolParser.FOR: return new ForStatement();
 			case EolParser.WHILE: return new WhileStatement();
@@ -154,7 +158,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 					return new AssignmentStatement();
 				}
 				else {
-					return new OperatorExpression();
+					return operatorExpressionFactory.createOperatorExpression(cst);
 				}
 			}
 			case EolParser.CONTINUE: return new ContinueStatement();

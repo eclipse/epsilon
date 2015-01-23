@@ -84,6 +84,7 @@ public class AssignmentStatement extends Statement {
 	@Override
 	public void compile(EolCompilationContext context) {
 		targetExpression.compile(context);
+		valueExpression.compile(context);
 	}
 	
 }

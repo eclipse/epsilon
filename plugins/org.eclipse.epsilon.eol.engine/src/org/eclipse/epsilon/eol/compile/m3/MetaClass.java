@@ -34,4 +34,13 @@ public class MetaClass extends MetaType {
 		this.isAbstract = isAbstract;
 	}
 	
+	public StructuralFeature getStructuralFeature(String name) {
+		for (StructuralFeature structuralFeature : getAllStructuralFeatures()) {
+			if (structuralFeature.getName().equals(name)) {
+				return structuralFeature;
+			}
+		}
+		return null;
+	}
+	
 }
