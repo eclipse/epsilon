@@ -1,7 +1,12 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public abstract class Expression extends AbstractExecutableModuleElement {
-
+	
+	protected Object resolvedType;
+	
+	public Object getResolvedType() {
+		return resolvedType;
+	}
+	
 }

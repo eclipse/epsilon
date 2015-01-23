@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -24,5 +25,10 @@ public class ExpressionInBrackets extends Expression {
 	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		expression.compile(context);
 	}
 }

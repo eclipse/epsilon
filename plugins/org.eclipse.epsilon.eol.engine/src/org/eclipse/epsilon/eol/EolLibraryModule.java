@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +22,14 @@ import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.AbortStatement;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
@@ -54,7 +58,6 @@ import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
-import org.eclipse.epsilon.eol.dom.ParameterValueList;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.RealLiteral;
 import org.eclipse.epsilon.eol.dom.ReturnStatement;
@@ -83,6 +86,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	protected List<ModelDeclaration> declaredModelDeclarations = new ArrayList<ModelDeclaration>();
 	protected Set<ModelDeclaration> modelDeclarations = null;
 	private IEolLibraryModule parent;
+	protected EolCompilationContext compilationContext = null;
 	
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
@@ -227,6 +231,15 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		}
 	}
 	
+	@Override
+	public IEolCompilationContext getCompilationContext() {
+		if (compilationContext == null) {
+			compilationContext = new EolCompilationContext();
+		}
+		compilationContext.setRuntimeContext(getContext());
+		return compilationContext;
+	}
+	
 	protected void prepareContext(IEolContext context) {
 		final EolSystem system = new EolSystem();
 		system.setContext(context);
@@ -239,6 +252,11 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("null", null));
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("System",system));
+	}
+	
+	@Override
+	public List<ModuleMarker> compile() {
+		return Collections.emptyList();
 	}
 	
 	@Override

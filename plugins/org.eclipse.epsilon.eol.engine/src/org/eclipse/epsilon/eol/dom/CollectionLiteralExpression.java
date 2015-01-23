@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -113,6 +114,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 		return collection;
 	}
 
-
+	@Override
+	public void compile(IEolCompilationContext context) {}
 
 }

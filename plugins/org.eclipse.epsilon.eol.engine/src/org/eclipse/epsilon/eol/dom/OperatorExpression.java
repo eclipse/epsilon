@@ -2,6 +2,7 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
@@ -103,6 +104,13 @@ public class OperatorExpression extends Expression {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+		firstOperand.compile(context);
+		if (secondOperand != null) { secondOperand.compile(context); }
 	}
 	
 	protected Object negative(Object o) {

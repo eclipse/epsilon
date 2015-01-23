@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -30,7 +31,7 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
-public class Operation extends AnnotatableModuleElement {
+public class Operation extends AnnotatableModuleElement implements ICompilableModuleElement {
 	
 	protected String name = "";
 	protected TypeExpression contextTypeExpression;
@@ -97,6 +98,12 @@ public class Operation extends AnnotatableModuleElement {
 		
 	}
 
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+		body.compile(context);
+	}
+	
 	public void clearCache() {
 		if (isCached()) {
 			cache.clear();

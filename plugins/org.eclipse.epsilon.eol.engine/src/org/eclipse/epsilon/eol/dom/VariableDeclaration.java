@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -69,6 +70,12 @@ public class VariableDeclaration extends TypeInitialiser {
 		Variable variable = new Variable(getName(), newInstance, variableType);
 		context.getFrameStack().put(variable);
 		return variable;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String getName() {

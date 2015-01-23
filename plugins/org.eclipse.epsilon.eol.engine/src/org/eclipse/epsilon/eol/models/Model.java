@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
+import org.eclipse.epsilon.eol.models.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 import org.eclipse.epsilon.eol.models.transactions.NoModelTransactionSupport;
 
@@ -210,5 +211,10 @@ public abstract class Model implements IModel{
 	NoModelTransactionSupport transactionSupport = new NoModelTransactionSupport();
 	public IModelTransactionSupport getTransactionSupport() {
 		return transactionSupport;
+	}
+	
+	@Override
+	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver) {
+		return null;
 	}
 }

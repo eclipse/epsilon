@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -29,6 +30,14 @@ public class ReturnStatement extends Statement {
 		}
 		
 		return new Return(result);
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+		if (returnedExpression != null) {
+			returnedExpression.compile(context);
+		}
 	}
 	
 	public Expression getReturnedExpression() {

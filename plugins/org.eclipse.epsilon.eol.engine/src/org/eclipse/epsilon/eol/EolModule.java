@@ -11,11 +11,14 @@
 package org.eclipse.epsilon.eol;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Main;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -51,7 +54,16 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		prepareContext(getContext());
 		return Return.getValue(getContext().getExecutorFactory().executeAST(main, getContext()));
 	}
-
+	
+	public List<ModuleMarker> compile() {
+		EolCompilationContext compilationContext = new EolCompilationContext();
+		for (Operation operation : getDeclaredOperations()) {
+			operation.compile(compilationContext);
+		}
+		main.compile(compilationContext);
+		return compilationContext.getMarkers();
+	}
+	
 	public Main getMain() {
 		return main;
 	}

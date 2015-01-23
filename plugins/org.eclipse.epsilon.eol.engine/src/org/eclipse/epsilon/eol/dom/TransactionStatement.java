@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolAbortTransactionException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -68,4 +69,9 @@ public class TransactionStatement extends Statement {
 		return null;
 	}
 
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+	}
+	
 }

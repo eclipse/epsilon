@@ -21,12 +21,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
@@ -73,7 +75,12 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	public Object execute() throws EolRuntimeException {
 		return current == null ? null : current.process();
 	}
-		
+	
+	@Override
+	public List<ModuleMarker> compile() {
+		return Collections.emptyList();
+	}
+	
 	public AST getAst() { 
 		return current == null ? null : current.getAst(); 
 	}
@@ -138,5 +145,11 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 		if (context instanceof IEglContext) {
 			factory.setContext((IEglContext) context);
 		}
+	}
+
+	@Override
+	public IEolCompilationContext getCompilationContext() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

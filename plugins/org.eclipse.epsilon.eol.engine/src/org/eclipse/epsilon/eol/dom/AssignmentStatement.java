@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -78,6 +79,11 @@ public class AssignmentStatement extends Statement {
 	
 	public Object getValueEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {
 		return value;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		targetExpression.compile(context);
 	}
 	
 }

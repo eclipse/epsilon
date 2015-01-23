@@ -1,11 +1,11 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ExecutableAnnotation extends Annotation {
 	
-	//TODO: Turning this to an expression causes cast exceptions in tests
 	protected Expression expression = null;
 	
 	@Override
@@ -30,6 +30,11 @@ public class ExecutableAnnotation extends Annotation {
 	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		expression.compile(context);
 	}
 	
 }

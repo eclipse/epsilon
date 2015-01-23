@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -30,6 +31,11 @@ public class StringLiteral extends Expression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		resolvedType = String.class;
 	}
 	
 	public String unescape(String str) {

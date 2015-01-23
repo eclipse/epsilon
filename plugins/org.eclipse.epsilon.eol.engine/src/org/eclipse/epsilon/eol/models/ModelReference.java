@@ -26,6 +26,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.models.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public class ModelReference implements IAdaptableModel, IWrapper, IOperationContributorProvider {
@@ -217,6 +218,11 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 	public void load(StringProperties properties)
 			throws EolModelLoadingException {
 		target.load(properties);
+	}
+
+	@Override
+	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver) {
+		return target.getMetamodel(properties, resolver);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
@@ -74,6 +75,11 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 				(SelectOperation) getAbstractOperation(target, "select", nameExpression, owningModel, context));
 		}
 		return operation.execute(target, nameExpression, parameters, expressions, context);
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
 	}
 	
 	public NameExpression getNameExpression() {

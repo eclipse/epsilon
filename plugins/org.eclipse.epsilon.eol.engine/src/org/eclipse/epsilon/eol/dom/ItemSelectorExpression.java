@@ -6,6 +6,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
@@ -33,19 +34,9 @@ public class ItemSelectorExpression extends Expression {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		EolModule module = new EolModule();
-		//module.parse("var map = new Map; map.put('foo', 'bar'); map['foo'].println();");
-		module.parse("var list = List{1,2,3}; list[2].println();");
-		if (module.getParseProblems().size() > 0) {
-			for (ParseProblem p : module.getParseProblems()) {
-				System.out.println(p);
-			}
-		}
-		else {
-			module.execute();
-		}
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
 	}
 	
 }

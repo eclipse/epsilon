@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.models.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public interface IModel {
@@ -137,4 +138,7 @@ public interface IModel {
 	public void setReadOnLoad(boolean readOnLoad);
 	
 	public IModelTransactionSupport getTransactionSupport();
+	
+	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver);
+	
 }

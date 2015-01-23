@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
@@ -86,6 +87,11 @@ public class NameExpression extends Expression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
 		return execute(context,false);
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
 	}
 	
 	public Variable getModelElementType(String name, IEolContext context) {

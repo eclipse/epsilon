@@ -426,29 +426,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			if (module.getParseProblems().isEmpty()) {
 				
 				try {
+					createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
 					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
-						for (ModuleMarker moduleMarker : validator.validate(module)) {
-							Map<String, Object> attr = new HashMap<String, Object>();
-							Region region = moduleMarker.getRegion();
-							int startOffset = doc.getLineOffset(region.getStart().getLine()-1) + region.getStart().getColumn();
-							int endOffset = doc.getLineOffset(region.getEnd().getLine()-1) + region.getEnd().getColumn();
-							attr.put(IMarker.CHAR_START, startOffset);
-							attr.put(IMarker.CHAR_END, endOffset);
-							attr.put(IMarker.MESSAGE, moduleMarker.getMessage());
-							if (moduleMarker.getSeverity() == Severity.Error) {
-								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-							}
-							else if (moduleMarker.getSeverity() == Severity.Warning) {
-								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-							}
-							else {
-								attr.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-							}
-							
-							String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());
-							
-							MarkerUtilities.createMarker(file, attr, markerType);
-						}
+						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());
+						createMarkers(validator.validate(module), doc, file, markerType);
 					}
 				}
 				catch (Exception ex) { LogUtil.log(ex); }
@@ -462,7 +443,32 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		}
 		
 	}
-
+	
+	private void createMarkers(List<ModuleMarker> moduleMarkers, IDocument doc, IFile file, String markerType) throws BadLocationException, CoreException {
+		if (moduleMarkers == null) return;
+		
+		for (ModuleMarker moduleMarker : moduleMarkers) {
+			Map<String, Object> attr = new HashMap<String, Object>();
+			Region region = moduleMarker.getRegion();
+			int startOffset = doc.getLineOffset(region.getStart().getLine()-1) + region.getStart().getColumn();
+			int endOffset = doc.getLineOffset(region.getEnd().getLine()-1) + region.getEnd().getColumn();
+			attr.put(IMarker.CHAR_START, startOffset);
+			attr.put(IMarker.CHAR_END, endOffset);
+			attr.put(IMarker.MESSAGE, moduleMarker.getMessage());
+			if (moduleMarker.getSeverity() == Severity.Error) {
+				attr.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			}
+			else if (moduleMarker.getSeverity() == Severity.Warning) {
+				attr.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+			}
+			else {
+				attr.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+			}
+			
+			MarkerUtilities.createMarker(file, attr, markerType);
+		}
+	}
+	
 	private Collection<String> getMarkerTypes() {
 		final Set<String> markerTypes = new HashSet<String>();
 		markerTypes.add(AbstractModuleEditor.PROBLEMMARKER);

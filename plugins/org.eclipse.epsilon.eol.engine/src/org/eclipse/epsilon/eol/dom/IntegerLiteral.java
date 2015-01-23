@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -38,6 +39,11 @@ public class IntegerLiteral extends LiteralExpression {
 	public void setValue(Number value) {
 		//TODO: Throw exception if value is not an integer or a long
 		this.value = value;
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		resolvedType = value.getClass();
 	}
 	
 }

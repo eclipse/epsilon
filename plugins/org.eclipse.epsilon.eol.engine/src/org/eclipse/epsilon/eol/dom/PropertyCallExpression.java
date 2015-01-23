@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.Collection;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -63,6 +64,12 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
 		return execute(context, false);
+	}
+	
+	@Override
+	public void compile(IEolCompilationContext context) {
+		// TODO Auto-generated method stub
+		targetExpression.compile(context);
 	}
 	
 	public NameExpression getPropertyNameExpression() {

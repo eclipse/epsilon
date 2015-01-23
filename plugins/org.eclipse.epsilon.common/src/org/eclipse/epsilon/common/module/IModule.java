@@ -29,7 +29,9 @@ public interface IModule extends ModuleElement {
 	boolean parse(String code) throws Exception;
 	
 	boolean parse(String code, File file) throws Exception;
-
+	
+	List<ModuleMarker> compile();
+	
 	URI getSourceUri();
 
 	void buildModel() throws Exception;
