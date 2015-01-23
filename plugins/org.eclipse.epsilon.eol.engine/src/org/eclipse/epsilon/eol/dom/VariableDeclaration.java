@@ -73,7 +73,7 @@ public class VariableDeclaration extends TypeInitialiser {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		typeExpression.compile(context);
+		if (typeExpression != null) typeExpression.compile(context);
 		EolType type = null;
 		if (typeExpression != null) type = typeExpression.getCompilationType();
 		else type = EolAnyType.Instance;
