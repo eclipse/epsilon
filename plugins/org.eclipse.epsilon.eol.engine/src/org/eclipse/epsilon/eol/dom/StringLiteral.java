@@ -1,8 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class StringLiteral extends Expression {
 	
@@ -34,8 +35,8 @@ public class StringLiteral extends Expression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		resolvedType = String.class;
+	public void compile(EolCompilationContext context) {
+		resolvedType = EolPrimitiveType.String;
 	}
 	
 	public String unescape(String str) {

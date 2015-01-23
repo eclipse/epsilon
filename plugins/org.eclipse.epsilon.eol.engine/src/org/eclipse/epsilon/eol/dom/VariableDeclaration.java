@@ -3,9 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -73,9 +72,11 @@ public class VariableDeclaration extends TypeInitialiser {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
-		
+	public void compile(EolCompilationContext context) {
+		EolType type = null;
+		if (typeExpression != null) type = typeExpression.getCompilationType();
+		else type = EolAnyType.Instance;
+		context.getFrameStack().put(new Variable(getName(), type));
 	}
 	
 	public String getName() {

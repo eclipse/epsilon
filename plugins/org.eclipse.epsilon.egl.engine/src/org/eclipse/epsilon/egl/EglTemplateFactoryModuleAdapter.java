@@ -28,7 +28,7 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
@@ -148,7 +148,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	}
 
 	@Override
-	public IEolCompilationContext getCompilationContext() {
+	public EolCompilationContext getCompilationContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}

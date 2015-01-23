@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -42,7 +43,7 @@ public class TypeExpression extends Expression {
 		}
 		
 		try {
-			return EolModelElementType.forName(name ,context);
+			return new EolModelElementType(name ,context);
 		}
 		catch (EolModelNotFoundException ex){
 			// Ignore
@@ -55,8 +56,8 @@ public class TypeExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub		
+	public void compile(EolCompilationContext context) {
+		// TODO Auto-generated method stub
 	}
 	
 	public String getName() {
@@ -103,4 +104,13 @@ public class TypeExpression extends Expression {
 			type = EolNoType.Instance;
 		}
 	}
+	
+	public EolType getCompilationType() {
+		if (type != null) return type;
+		if (!"Native".equals(name)) {
+			return new EolModelElementType(name);
+		}
+		return EolAnyType.Instance;
+	}
+	
 }

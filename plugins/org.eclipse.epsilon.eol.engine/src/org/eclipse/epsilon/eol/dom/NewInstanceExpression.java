@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -37,7 +37,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub	
 	}
 	

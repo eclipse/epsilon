@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
@@ -90,15 +90,20 @@ public class NameExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
+		Variable variable = context.getFrameStack().get(name);
+		if (variable != null) {
+			resolvedType = variable.getType();
+		}
+		else {
+			context.addErrorMarker(this, "Undefined variable " + name);
+		}
 	}
 	
 	public Variable getModelElementType(String name, IEolContext context) {
 		try {
-			EolModelElementType type = null;
-			type = EolModelElementType.forName(name,context);
-			return Variable.createReadOnlyVariable(name,type);
+			return Variable.createReadOnlyVariable(name, new EolModelElementType(name, context));
 		}
 		catch (EolRuntimeException rex){
 			return null;

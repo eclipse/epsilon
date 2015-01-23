@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -136,7 +136,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
 		if (targetExpression != null) targetExpression.compile(context);
 	}

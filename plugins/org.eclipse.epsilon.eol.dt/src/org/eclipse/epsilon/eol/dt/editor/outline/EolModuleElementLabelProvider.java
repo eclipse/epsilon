@@ -12,9 +12,9 @@ package org.eclipse.epsilon.eol.dt.editor.outline;
 
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dom.Import;
-import org.eclipse.epsilon.eol.dom.Main;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.swt.graphics.Image;
 
@@ -25,7 +25,7 @@ public class EolModuleElementLabelProvider extends ModuleElementLabelProvider{
 		if (element instanceof Operation){
 			return EolPlugin.getDefault().createImage("icons/operation.gif");
 		}
-		else if (element instanceof Main){
+		else if (element instanceof StatementBlock){
 			return EolPlugin.getDefault().createImage("icons/program.gif");
 		}
 		else if (element instanceof Import){

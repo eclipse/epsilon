@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -49,10 +49,15 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		for (Statement statement : statements) {
+			System.out.println(statement.getClass());
 			statement.compile(context);
 		}
 	}
-		
+
+	@Override
+	public String toString(){
+		return "{...}";
+	}
 }

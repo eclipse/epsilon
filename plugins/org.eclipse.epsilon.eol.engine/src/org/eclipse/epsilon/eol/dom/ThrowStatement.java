@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUserException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -39,7 +39,7 @@ public class ThrowStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		thrown.compile(context);
 	}
 	

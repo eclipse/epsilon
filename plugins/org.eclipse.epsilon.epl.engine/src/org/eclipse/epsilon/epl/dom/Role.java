@@ -135,7 +135,7 @@ public class Role extends AbstractModuleElement {
 					if (!isActive(context, true)) return NoMatch.asList();
 					
 					if (type == null) {
-						type = EolModelElementType.forName(typeAst.getText(), context);
+						type = new EolModelElementType(typeAst.getText(), context);
 					}
 
 					Collection<?> allInstances = type.getAllOfKind();

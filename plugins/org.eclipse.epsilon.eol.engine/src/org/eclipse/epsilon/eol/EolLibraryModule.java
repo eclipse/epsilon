@@ -29,7 +29,6 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.AbortStatement;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
@@ -42,8 +41,8 @@ import org.eclipse.epsilon.eol.dom.DeleteStatement;
 import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
-import org.eclipse.epsilon.eol.dom.ForStatement;
 import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.ForStatement;
 import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.IntegerLiteral;
@@ -151,7 +150,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.TYPE: return new TypeExpression();
 			case EolParser.IMPORT: return new Import();
 			case EolParser.OPERATOR: {
-				if (cst.getText().equals("=") && ((parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement) && (cst.getParent().getFirstChild() != cst)) || parentAst instanceof StatementBlock || parentAst.getText().equals("BLOCK")) {
+				if (cst.getText().equals("=") && (((parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement) && (cst.getParent().getFirstChild() != cst)) || parentAst instanceof StatementBlock || parentAst.getText().equals("BLOCK"))) {
 					return new AssignmentStatement();
 				}
 				else {
@@ -232,7 +231,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	}
 	
 	@Override
-	public IEolCompilationContext getCompilationContext() {
+	public EolCompilationContext getCompilationContext() {
 		if (compilationContext == null) {
 			compilationContext = new EolCompilationContext();
 		}

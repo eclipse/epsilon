@@ -31,22 +31,7 @@ public class EolModelElementType extends EolType{
 	protected String typeName = "";
 	protected IModel model;
 	
-	//static HashMap<String, EolModelElementType> cache = new HashMap<String, EolModelElementType>();
-	
-	public static EolModelElementType forName(String modelAndMetaClass, IEolContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
-		EolModelElementType type = null;
-		///if (cache.containsKey(modelAndMetaClass)) {
-		//	type = cache.get(modelAndMetaClass);
-		//}
-		//else {
-			type = new EolModelElementType(modelAndMetaClass, context);
-		//	cache.put(modelAndMetaClass, type);
-		//}
-		return type;
-	}
-
-	private EolModelElementType(String modelAndMetaClass,IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
-		
+	public EolModelElementType(String modelAndMetaClass) {
 		if (modelAndMetaClass.indexOf("!") > -1){
 			String[] parts = modelAndMetaClass.split("!");
 			modelName = parts[0];
@@ -56,6 +41,11 @@ public class EolModelElementType extends EolType{
 			modelName = "";
 			typeName = modelAndMetaClass;
 		}
+	}
+	
+	public EolModelElementType(String modelAndMetaClass, IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
+		
+		this(modelAndMetaClass);
 		
 		checkAmbiguityOfType(context);
 

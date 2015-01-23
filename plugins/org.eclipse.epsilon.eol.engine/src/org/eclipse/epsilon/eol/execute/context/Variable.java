@@ -58,6 +58,11 @@ public class Variable {
 		this.value = null;
 	}
 	
+	public Variable(String name, EolType type) {
+		this.name = name;
+		this.type = type;
+	}
+	
 	public Variable(String name, Object value, EolType type){
 		this.name = name;
 		this.type = type;

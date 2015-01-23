@@ -11,12 +11,14 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class Parameter extends AbstractModuleElement {
+public class Parameter extends AbstractModuleElement implements ICompilableModuleElement {
 	
 	protected NameExpression nameExpression;
 	protected TypeExpression typeExpression;
@@ -88,6 +90,11 @@ public class Parameter extends AbstractModuleElement {
 	 */
 	public void clearCache() {
 		type = null;
+	}
+
+	@Override
+	public void compile(EolCompilationContext context) {
+		//TODO: Finish this
 	}
 
 }

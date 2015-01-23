@@ -20,12 +20,9 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
-import org.eclipse.epsilon.eol.execute.Return;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -113,14 +110,14 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	
 	public Collection getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
-			type = EolModelElementType.forName(typeAst.getText(), context);
+			type = new EolModelElementType(typeAst.getText(), context);
 		}
 		return type.getAllOfType();
 	}
 
 	public Collection getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
-			type = EolModelElementType.forName(typeAst.getText(), context);
+			type = new EolModelElementType(typeAst.getText(), context);
 		}
 		return type.getAllOfKind();
 	}	

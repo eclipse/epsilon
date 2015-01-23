@@ -1,11 +1,13 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.AbstractModuleElement;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.common.module.ModuleMarker;
+import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class IfStatement extends Statement {
 	
@@ -51,8 +53,23 @@ public class IfStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
+	public void compile(EolCompilationContext context) {
+		conditionExpression.compile(context);
+		
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, thenStatementBlock);
+		thenStatementBlock.compile(context);
+		context.getFrameStack().leaveLocal(thenStatementBlock);
+		
+		if (elseStatementBlock != null) {
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, elseStatementBlock);
+			elseStatementBlock.compile(context);
+			context.getFrameStack().leaveLocal(elseStatementBlock);
+		}
+		
+		if (conditionExpression.hasResolvedType() && conditionExpression.getResolvedType() != EolPrimitiveType.Boolean) {
+			context.getMarkers().add(new ModuleMarker(conditionExpression, "Condition must be a Boolean", Severity.Error));
+		}
+		
 	}
 	
 	public Expression getConditionExpression() {

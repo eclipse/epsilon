@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.eol.EolLibraryModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
@@ -41,7 +41,7 @@ public class BooleanLiteral extends LiteralExpression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
+	public void compile(EolCompilationContext context) {
 		resolvedType = EolPrimitiveType.Boolean;
 	}
 	

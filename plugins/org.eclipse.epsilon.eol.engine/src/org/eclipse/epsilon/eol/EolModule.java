@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -19,8 +18,8 @@ import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
-import org.eclipse.epsilon.eol.dom.Main;
 import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
@@ -29,7 +28,7 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolModule extends EolLibraryModule implements IEolModule {
 	
-	protected Main main;
+	protected StatementBlock main;
 	protected IEolContext context;
 	
 	public EolModule(){
@@ -39,13 +38,13 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	@Override
 	public void buildModel() throws Exception {
 		super.buildModel();
-		main = (Main) AstUtil.getChild(ast, EolParser.BLOCK);
+		main = (StatementBlock) AstUtil.getChild(ast, EolParser.BLOCK);
 	}
 	
 	@Override
 	public AST adapt(AST cst, AST parentAst) {
 		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK){
-			return new Main();
+			return new StatementBlock();
 		}
 		return super.adapt(cst, parentAst);
 	}
@@ -64,11 +63,11 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 		return compilationContext.getMarkers();
 	}
 	
-	public Main getMain() {
+	public StatementBlock getMain() {
 		return main;
 	}
 
-	public void setMain(Main main) {
+	public void setMain(StatementBlock main) {
 		this.main = main;
 	}
 	

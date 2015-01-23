@@ -1,14 +1,17 @@
 package org.eclipse.epsilon.eol.dom;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolObjectComparator;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
 public class OperatorExpression extends Expression {
@@ -107,10 +110,49 @@ public class OperatorExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
+	public void compile(EolCompilationContext context) {
 		firstOperand.compile(context);
 		if (secondOperand != null) { secondOperand.compile(context); }
+		System.out.println("Compile");
+		
+		if (isBooleanOperator(operator)) {
+			for (Expression operand : getOperands()) {
+				if (operand.hasResolvedType() && operand.getResolvedType() != EolPrimitiveType.Boolean) {
+					context.addErrorMarker(operand, "Boolean expected instead of " + operand.getResolvedType());
+				}
+			}
+			resolvedType = EolPrimitiveType.Boolean;
+		}
+		
+		if (operatorIsOneOf("<", ">", ">=", "<=", "*", "/", "-")) {
+			for (Expression operand : getOperands()) {
+				if (operand.hasResolvedType() && 
+						operand.getResolvedType() != EolPrimitiveType.Integer 
+						&& operand.getResolvedType() != EolPrimitiveType.Real) {
+					
+					context.addErrorMarker(operand, "Number expected instead of " + operand.getResolvedType());
+				}
+			}
+		}
+		
+		if (operatorIsOneOf("==", "=", "<>", "<", ">", ">=", "<=")) {
+			resolvedType = EolPrimitiveType.Boolean;
+		}
+		
+	}
+	
+	protected boolean operatorIsOneOf(String... candidates) {
+		for (String candidate : candidates) {
+			if (candidate.equals(operator)) return true;
+		}
+		return false;
+	}
+	
+	public List<Expression> getOperands() {
+		List<Expression> operands = new ArrayList<Expression>();
+		operands.add(firstOperand);
+		if (secondOperand != null) operands.add(secondOperand);
+		return operands;
 	}
 	
 	protected Object negative(Object o) {
@@ -282,11 +324,7 @@ public class OperatorExpression extends Expression {
 	}
 	
 	public boolean isBooleanOperator(String operator){
-		return operator.equals("and") ||
-			operator.equals("or") ||
-			operator.equals("xor") ||
-			operator.equals("not") ||
-			operator.equals("implies");
+		return operatorIsOneOf("and", "or", "xor", "not", "implies");
 	}
 	
 	public String getOperator() {

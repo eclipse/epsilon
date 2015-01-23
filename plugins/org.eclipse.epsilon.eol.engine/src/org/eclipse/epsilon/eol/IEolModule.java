@@ -12,11 +12,11 @@ package org.eclipse.epsilon.eol;
 
 import java.io.File;
 
-import org.eclipse.epsilon.eol.dom.Main;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 
 public interface IEolModule extends IEolExecutableModule{
 	
-	public Main getMain();
+	public StatementBlock getMain();
 	
 	public boolean parse(String code, File file) throws Exception;
 	

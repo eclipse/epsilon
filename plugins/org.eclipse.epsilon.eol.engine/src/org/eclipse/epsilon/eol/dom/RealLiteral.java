@@ -1,8 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class RealLiteral extends LiteralExpression {
 	
@@ -47,8 +48,8 @@ public class RealLiteral extends LiteralExpression {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
+	public void compile(EolCompilationContext context) {
+		resolvedType = EolPrimitiveType.Real;
 	}
 	
 	public Number getValue() {

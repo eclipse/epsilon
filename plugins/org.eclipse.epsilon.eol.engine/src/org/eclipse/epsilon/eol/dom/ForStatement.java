@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
@@ -12,6 +12,7 @@ import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -109,8 +110,18 @@ public class ForStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
+	public void compile(EolCompilationContext context) {
+		iteratedExpression.compile(context);
+		
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 
+				new Variable("loopCount", EolPrimitiveType.Integer), 
+				new Variable("hasMore", EolPrimitiveType.Boolean));
+		bodyStatementBlock.compile(context);
+		context.getFrameStack().leaveLocal(bodyStatementBlock);
+		
+		if (iteratedExpression.hasResolvedType() && !(iteratedExpression.getResolvedType() instanceof EolCollectionType)) {
+			context.addErrorMarker(iteratedExpression, "Collection expected instead of " + iteratedExpression.getResolvedType());
+		}
 	}
 	
 	public Expression getIteratedExpression() {
