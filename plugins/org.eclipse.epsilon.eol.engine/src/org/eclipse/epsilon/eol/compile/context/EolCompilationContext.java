@@ -6,14 +6,22 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
+import org.eclipse.epsilon.eol.compile.m3.MetaClass;
+import org.eclipse.epsilon.eol.compile.m3.Metamodel;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
 
 public class EolCompilationContext {
 
 	protected List<ModuleMarker> markers = new ArrayList<ModuleMarker>();
 	protected IEolContext runtimeContext = null;
 	protected FrameStack frameStack = new FrameStack();
+	protected IModelFactory modelFactory = null;
+	protected IRelativePathResolver relativePathResolver = null;
+	protected List<ModelDeclaration> modelDeclarations = new ArrayList<ModelDeclaration>();
 	
 	public List<ModuleMarker> getMarkers() {
 		return markers;
@@ -33,6 +41,47 @@ public class EolCompilationContext {
 	
 	public FrameStack getFrameStack() {
 		return frameStack;
+	}
+	
+	public IModelFactory getModelFactory() {
+		return modelFactory;
+	}
+	
+	public void setModelFactory(IModelFactory modelFactory) {
+		this.modelFactory = modelFactory;
+	}
+	
+	public IRelativePathResolver getRelativePathResolver() {
+		return relativePathResolver;
+	}
+	
+	public void setRelativePathResolver(IRelativePathResolver relativePathResolver) {
+		this.relativePathResolver = relativePathResolver;
+	}
+	
+	public void setModelDeclarations(List<ModelDeclaration> modelDeclarations) {
+		this.modelDeclarations = modelDeclarations;
+	}
+	
+	public List<ModelDeclaration> getModelDeclarations() {
+		return modelDeclarations;
+	}
+	
+	public EolModelElementType getModelElementType(String modelAndType) {
+		EolModelElementType modelElementType = new EolModelElementType(modelAndType);
+		
+		for (ModelDeclaration modelDeclaration : modelDeclarations) {
+			if (modelElementType.getModelName().isEmpty() || modelDeclaration.getNameExpression().getName().equals(modelElementType.getModelName())) {
+				Metamodel metamodel = modelDeclaration.getMetamodel();
+				if (metamodel != null) {
+					MetaClass metaClass = metamodel.getMetaClass(modelElementType.getTypeName());
+					modelElementType.setMetaClass(metaClass);
+					return modelElementType;
+				}
+			}
+		}
+		
+		return modelElementType;
 	}
 	
 }

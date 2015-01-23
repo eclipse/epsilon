@@ -97,7 +97,16 @@ public class NameExpression extends Expression {
 			resolvedType = variable.getType();
 		}
 		else {
-			context.addErrorMarker(this, "Undefined variable " + name);
+			EolModelElementType modelElementType = context.getModelElementType(name);
+			if (modelElementType != null) {
+				resolvedType = modelElementType;
+				if (modelElementType.getMetaClass() == null && !context.getModelDeclarations().isEmpty()) {
+					context.addErrorMarker(this, "Unknown type " + name);
+				}
+			}
+			else {
+				context.addErrorMarker(this, "Undefined variable or type " + name);
+			}
 		}
 	}
 	

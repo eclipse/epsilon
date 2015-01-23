@@ -234,6 +234,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	public EolCompilationContext getCompilationContext() {
 		if (compilationContext == null) {
 			compilationContext = new EolCompilationContext();
+			compilationContext.setModelDeclarations(getDeclaredModelDeclarations());
 		}
 		compilationContext.setRuntimeContext(getContext());
 		return compilationContext;

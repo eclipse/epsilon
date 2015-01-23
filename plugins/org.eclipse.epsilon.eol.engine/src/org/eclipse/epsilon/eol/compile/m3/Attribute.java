@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.eol.models.m3;
+package org.eclipse.epsilon.eol.compile.m3;
 
 public class Attribute extends StructuralFeature {
 	

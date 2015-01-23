@@ -17,14 +17,19 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.m3.Metamodel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ModelDeclaration extends AbstractModuleElement {
+public class ModelDeclaration extends AbstractModuleElement implements ICompilableModuleElement {
 
 	protected NameExpression nameExpression;
 	protected List<NameExpression> aliasNameExpressions = new ArrayList<NameExpression>();
 	protected NameExpression driverNameExpression;
 	protected List<ModelDeclarationParameter> modelDeclarationParameters = new ArrayList<ModelDeclarationParameter>();
+	protected Metamodel metamodel = null;
 	
 	public ModelDeclaration() {}
 	
@@ -78,9 +83,36 @@ public class ModelDeclaration extends AbstractModuleElement {
 		return null;
 	}
 	
-	
-	
 	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}
+
+	@Override
+	public void compile(EolCompilationContext context) {
+		if (context.getModelFactory() == null) return;
+		IModel model = context.getModelFactory().createModel(driverNameExpression.getName());
+		if (model == null) {
+			context.addErrorMarker(driverNameExpression, "Unknown type of model: " + driverNameExpression.getName());
+		}
+		else {
+			StringProperties stringProperties = new StringProperties();
+			for (ModelDeclarationParameter parameter : modelDeclarationParameters) {
+				stringProperties.put(parameter.getKey(), parameter.getValue());
+			}
+			metamodel = model.getMetamodel(stringProperties, context.getRelativePathResolver());
+			if (metamodel != null) {
+				for (String error : metamodel.getErrors()) {
+					context.addErrorMarker(this, error);
+				}
+				for (String warning : metamodel.getWarnings()) {
+					context.addWarningMarker(this, warning);
+				}
+			}
+		}
+	}
+	
+	public Metamodel getMetamodel() {
+		return metamodel;
+	}
+	
 }

@@ -55,7 +55,7 @@ public class StringProperties extends Properties{
 		}
 	}
 	
-	public boolean hasValueFor(String key) {
+	public boolean hasProperty(String key) {
 		return containsKey(key) && !getProperty(key).isEmpty();
 	}
 	

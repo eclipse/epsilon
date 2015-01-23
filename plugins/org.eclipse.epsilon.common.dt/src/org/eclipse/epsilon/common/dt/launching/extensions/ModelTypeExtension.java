@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.eol.compile.context.IModelFactory;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -119,6 +120,5 @@ public class ModelTypeExtension {
 	public void setConfigurationElement(IConfigurationElement configurationElement) {
 		this.configurationElement = configurationElement;
 	}
-	
 	
 }

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
@@ -22,7 +23,6 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
-import org.eclipse.epsilon.eol.models.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 import org.eclipse.epsilon.eol.models.transactions.NoModelTransactionSupport;
 

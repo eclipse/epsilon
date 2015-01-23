@@ -42,6 +42,8 @@ import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -229,10 +231,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 		
-		IDocument doc = this.getDocumentProvider().getDocument(
-				this.getEditorInput());
-		
-		
+		//IDocument doc = this.getDocumentProvider().getDocument(
+		//		this.getEditorInput());
 		//autoclosingPairManager = new AutoclosingPairManager(doc, getSourceViewerConfiguration().getUndoManager(viewer));
 		//viewer.getTextWidget().addVerifyKeyListener(autoclosingPairManager);
 		getSourceViewerDecorationSupport(viewer);
@@ -426,6 +426,10 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			if (module.getParseProblems().isEmpty()) {
 				
 				try {
+					if (module instanceof IEolExecutableModule) {
+						EolCompilationContext compilationContext = ((IEolExecutableModule) module).getCompilationContext();
+						compilationContext.setModelFactory(new ModelTypeExtensionFactory());
+					}
 					createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
 					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
 						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());

@@ -80,6 +80,7 @@ public class TypeExpression extends Expression {
 				context.addErrorMarker(this, "Collection types can have at most one content type");
 			}
 		}
+		
 		if (type instanceof EolMapType) {
 			if (parameterTypeExpressions.size() == 2) {
 				((EolMapType) type).setKeyType(parameterTypeExpressions.get(0).getCompilationType());
@@ -87,6 +88,20 @@ public class TypeExpression extends Expression {
 			}
 			else if (parameterTypeExpressions.size() > 0) {
 				context.addErrorMarker(this, "Maps need two types: key-type and value-type");
+			}
+		}
+		
+		if (type == null) {
+			//TODO: Remove duplication between this and NameExpression
+			EolModelElementType modelElementType = context.getModelElementType(name);
+			if (modelElementType != null) {
+				type = modelElementType;
+				if (modelElementType.getMetaClass() == null && !context.getModelDeclarations().isEmpty()) {
+					context.addErrorMarker(this, "Unknown type " + name);
+				}
+			}
+			else {
+				context.addErrorMarker(this, "Undefined variable or type " + name);
 			}
 		}
 	}

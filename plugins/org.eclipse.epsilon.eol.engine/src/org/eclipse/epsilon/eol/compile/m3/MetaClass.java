@@ -1,9 +1,9 @@
-package org.eclipse.epsilon.eol.models.m3;
+package org.eclipse.epsilon.eol.compile.m3;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetaClass {
+public class MetaClass extends MetaType {
 	
 	protected List<MetaClass> superTypes = new ArrayList<MetaClass>();
 	protected List<StructuralFeature> structuralFeatures = new ArrayList<StructuralFeature>();

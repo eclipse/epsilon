@@ -18,6 +18,7 @@ import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -55,12 +56,15 @@ public class EolModule extends EolLibraryModule implements IEolModule {
 	}
 	
 	public List<ModuleMarker> compile() {
-		EolCompilationContext compilationContext = new EolCompilationContext();
-		for (Operation operation : getDeclaredOperations()) {
-			operation.compile(compilationContext);
+		EolCompilationContext context = getCompilationContext();
+		for (ModelDeclaration modelDeclaration : getDeclaredModelDeclarations()) {
+			modelDeclaration.compile(context);
 		}
-		main.compile(compilationContext);
-		return compilationContext.getMarkers();
+		for (Operation operation : getDeclaredOperations()) {
+			operation.compile(context);
+		}
+		main.compile(context);
+		return context.getMarkers();
 	}
 	
 	public StatementBlock getMain() {

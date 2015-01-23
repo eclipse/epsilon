@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.CollectionUtil.ElementPrinter;
+import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -30,6 +31,7 @@ public class EolModelElementType extends EolType{
 	protected String modelName = "";
 	protected String typeName = "";
 	protected IModel model;
+	protected MetaClass metaClass = null;
 	
 	public EolModelElementType(String modelAndMetaClass) {
 		if (modelAndMetaClass.indexOf("!") > -1){
@@ -196,5 +198,13 @@ public class EolModelElementType extends EolType{
 	
 	public IModel getModel() {
 		return model;
+	}
+	
+	public MetaClass getMetaClass() {
+		return metaClass;
+	}
+	
+	public void setMetaClass(MetaClass metaClass) {
+		this.metaClass = metaClass;
 	}
 }

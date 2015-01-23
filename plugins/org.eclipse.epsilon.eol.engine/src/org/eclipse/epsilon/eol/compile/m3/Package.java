@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.eol.models.m3;
+package org.eclipse.epsilon.eol.compile.m3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,14 @@ import java.util.List;
 public class Package extends NamedElement {
 	
 	protected List<Package> subPackages = new ArrayList<Package>();
-	protected List<Type> types = new ArrayList<Type>();
+	protected List<MetaType> metaTypes = new ArrayList<MetaType>();
 	
 	public List<Package> getSubPackages() {
 		return subPackages;
 	}
 	
-	public List<Type> getTypes() {
-		return types;
+	public List<MetaType> getTypes() {
+		return metaTypes;
 	}
+	
 }

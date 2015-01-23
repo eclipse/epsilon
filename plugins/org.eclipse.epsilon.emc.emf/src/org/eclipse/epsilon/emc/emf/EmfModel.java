@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
@@ -205,7 +206,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 
 		private static void migrateUriValue(StringProperties properties, String oldProperty, String newProperty) {
-			if (properties.hasValueFor(oldProperty) && !properties.hasValueFor(newProperty)) {
+			if (properties.hasProperty(oldProperty) && !properties.hasProperty(newProperty)) {
 				final String oldValue = properties.getProperty(oldProperty);
 
 				final File oldFile = new File(oldValue);
@@ -526,5 +527,11 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 		}
 		return list;
+	}
+	
+	@Override
+	public Metamodel getMetamodel(StringProperties properties,
+			IRelativePathResolver resolver) {
+		return new EmfModelMetamodel(properties, resolver);
 	}
 }
