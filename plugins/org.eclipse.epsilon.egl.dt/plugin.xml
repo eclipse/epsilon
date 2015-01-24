@@ -25,7 +25,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             class="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationTabGroup"
-            description="Create a configuration to launch an EGLtemplate."
+            description="Create a configuration to launch an EGL template."
             id="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationTabGroup"
             type="org.epsilon.egl.eclipse.dt.launching.EglLaunchConfigurationDelegate"/>
    </extension>
