@@ -12,11 +12,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.beans.Expression;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -33,15 +35,20 @@ public class EolCollectionType extends EolType {
 	}
 	
 	private String name;
-		
+	
 	public static EolCollectionType Collection = new EolCollectionType("Collection");
 	public static EolCollectionType Bag = new EolCollectionType("Bag");
 	public static EolCollectionType Sequence = new EolCollectionType("Sequence");
 	public static EolCollectionType Set = new EolCollectionType("Set");
 	public static EolCollectionType OrderedSet = new EolCollectionType("OrderedSet");
 	
-	private EolCollectionType(String name){
+	public EolCollectionType(String name){
 		this.name = name;
+	}
+	
+	public EolCollectionType(String name, EolType contentType) {
+		this(name);
+		this.contentType = contentType;
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
@@ -61,12 +68,19 @@ public class EolCollectionType extends EolType {
 		else return Bag;
 	}
 	
+	public static void main(String[] args) throws Exception {
+		EolModule module = new EolModule();
+		module.parse("Set{}.isTypeOf(Set).println();");
+		module.execute();
+	}
+	
 	@Override
 	public boolean isType(Object o) {
+		
 		if (!(o instanceof Collection)) return false;
 		Collection<?> c = (Collection<?>) o;
-		if (this == Collection) return false; // Collection is abstract
-		return getTypeOf(c) == this;
+		if (this.isCollection()) return false; // Collection is abstract
+		return getTypeOf(c).getName() == this.getName();
 	}
 
 	@Override
@@ -75,11 +89,11 @@ public class EolCollectionType extends EolType {
 		
 		EolCollectionType collectionType = getTypeOf((Collection<?>) o);
 		
-		if (this == Collection) return true;
-		else if (this == Bag) return collectionType == Bag || collectionType == Sequence;
-		else if (this == Sequence) return collectionType == Sequence;
-		else if (this == OrderedSet) return collectionType == OrderedSet;
-		else if (this == Set) return collectionType == Set || collectionType == OrderedSet; 
+		if (this.isCollection()) return true;
+		else if (this.isBag()) return collectionType.isBag() || collectionType.isSequence();
+		else if (this.isSequence()) return collectionType.isSequence();
+		else if (this.isOrderedSet()) return collectionType.isOrderedSet();
+		else if (this.isSet()) return collectionType.isSet() || collectionType.isOrderedSet(); 
 		
 		return false;
 	}
@@ -87,14 +101,14 @@ public class EolCollectionType extends EolType {
 	@Override
 	public Object createInstance() {
 		try {
-			if (this == Collection) return null;
-			else if (this == Bag) {
+			if (this.isCollection()) return null;
+			else if (this.isBag()) {
 				return new EolBag<Object>();
 			}
-			else if (this == Sequence) {
+			else if (this.isSequence()) {
 				return new EolSequence<Object>();
 			}
-			else if (this == OrderedSet) {
+			else if (this.isOrderedSet()) {
 				return new EolOrderedSet<Object>();
 			}
 			else return new EolSet<Object>();
@@ -153,12 +167,37 @@ public class EolCollectionType extends EolType {
 		return Sequence.isType(c) || OrderedSet.isType(c);
 	}
 	
+	public boolean isBag() {
+		return getName().equals("Bag");
+	}
+	
+	public boolean isSequence() {
+		return getName().equals("Sequence");
+	}
+	
+	public boolean isSet() {
+		return getName().equals("Set");
+	}
+	
+	public boolean isOrderedSet() {
+		return getName().equals("OrderedSet");
+	}
+	
+	public boolean isCollection() {
+		return getName().equals("Collection");
+	}
+	
 	public EolType getContentType() {
 		return contentType;
 	}
 	
 	public void setContentType(EolType contentType) {
 		this.contentType = contentType;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getName() + "<" + this.getContentType() + ">";
 	}
 	
 }

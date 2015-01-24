@@ -48,19 +48,11 @@ public class TypeExpression extends Expression {
 
 		if (type != null) return type;
 		
-		if (getName().equals("Native")){
-			return new EolNativeType(this.getFirstChild(), context);
-		}
+		if (getName().equals("Native")) return new EolNativeType(this.getFirstChild(), context);
 		
-		try {
-			return new EolModelElementType(name ,context);
-		}
-		catch (EolModelNotFoundException ex){
-			// Ignore
-		}
-		catch (EolModelElementTypeNotFoundException mex){
-			// Ignore
-		}
+		try { return new EolModelElementType(name ,context); }
+		catch (EolModelNotFoundException ex){}
+		catch (EolModelElementTypeNotFoundException mex){}
 		
 		throw new EolTypeNotFoundException(getName(), this);
 	}
@@ -132,19 +124,19 @@ public class TypeExpression extends Expression {
 			type = new EolMapType();
 		}
 		else if (name.equals("Sequence") || name.equals("List")){
-			type = EolCollectionType.Sequence; //new EolCollectionType("Sequence");
+			type = new EolCollectionType("Sequence");
 		}
 		else if (name.equals("Bag")){
-			type = EolCollectionType.Bag; //new EolCollectionType("Bag");
+			type = new EolCollectionType("Bag");
 		}
 		else if (name.equals("Set")){
-			type = EolCollectionType.Set; // new EolCollectionType("Set");
+			type = new EolCollectionType("Set");
 		}
 		else if (name.equals("OrderedSet")){
-			type = EolCollectionType.OrderedSet; // new EolCollectionType("OrderedSet");
+			type = new EolCollectionType("OrderedSet");
 		}
 		else if (name.equals("Collection")){
-			type = EolCollectionType.Collection; // new EolCollectionType("Collection");
+			type = new EolCollectionType("Collection");
 		}
 		else if (name.equals("Nothing")) {
 			type = EolNoType.Instance;

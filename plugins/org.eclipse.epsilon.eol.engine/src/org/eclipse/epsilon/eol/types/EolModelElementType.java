@@ -33,6 +33,11 @@ public class EolModelElementType extends EolType{
 	protected IModel model;
 	protected MetaClass metaClass = null;
 	
+	public EolModelElementType(MetaClass metaClass) {
+		this.metaClass = metaClass;
+		this.typeName = metaClass.getName();
+	}
+	
 	public EolModelElementType(String modelAndMetaClass) {
 		if (modelAndMetaClass.indexOf("!") > -1){
 			String[] parts = modelAndMetaClass.split("!");
@@ -206,5 +211,10 @@ public class EolModelElementType extends EolType{
 	
 	public void setMetaClass(MetaClass metaClass) {
 		this.metaClass = metaClass;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

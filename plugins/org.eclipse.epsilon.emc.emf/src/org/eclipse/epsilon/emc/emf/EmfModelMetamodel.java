@@ -2,23 +2,21 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.util.HashMap;
 
-import org.eclipse.emf.common.notify.impl.BasicNotifierImpl.EAdapterList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Attribute;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.compile.m3.Reference;
-import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class EmfModelMetamodel extends Metamodel {
-	
-	
 	
 	public EmfModelMetamodel(StringProperties properties, IRelativePathResolver resolver) {
 		
@@ -44,18 +42,46 @@ public class EmfModelMetamodel extends Metamodel {
 				for (EClass eClass : eClassMetaClassMap.keySet()) {
 					MetaClass metaClass = eClassMetaClassMap.get(eClass);
 					for (EClass eSuperType : eClass.getESuperTypes()) {
-						metaClass.getSuperTypes().add(eClassMetaClassMap.get(eSuperType));
+						MetaClass superType = eClassMetaClassMap.get(eSuperType);
+						if (superType != null) metaClass.getSuperTypes().add(superType);
 					}
-					for (EStructuralFeature eStructuralFeature : eClass.getEStructuralFeatures()) {
-						StructuralFeature structuralFeature = null;
-						if (eStructuralFeature instanceof EAttribute) {
-							structuralFeature = new Attribute();
+					
+					for (EAttribute eAttribute : eClass.getEAttributes()) {
+						Attribute attribute = new Attribute();
+						attribute.setName(eAttribute.getName());
+						attribute.setOrdered(eAttribute.isOrdered());
+						attribute.setUnique(eAttribute.isUnique());
+						attribute.setMany(eAttribute.isMany());
+						
+						String instanceClassName = eAttribute.getEAttributeType().getInstanceClassName();
+						if (instanceClassName.equals(String.class.getCanonicalName())) {
+							attribute.setType(EolPrimitiveType.String);
 						}
-						else {
-							structuralFeature = new Reference();
+						else if (instanceClassName.equals(Integer.class.getCanonicalName())) {
+							attribute.setType(EolPrimitiveType.Integer);
 						}
-						structuralFeature.setName(eStructuralFeature.getName());
-						metaClass.getStructuralFeatures().add(structuralFeature);
+						else if (instanceClassName.equals(Boolean.class.getCanonicalName())) {
+							attribute.setType(EolPrimitiveType.Boolean);
+						}
+						else if (instanceClassName.equals(Float.class.getCanonicalName()) || instanceClassName.equals(Double.class.getCanonicalName())) {
+							attribute.setType(EolPrimitiveType.Real);
+						}
+						metaClass.getStructuralFeatures().add(attribute);
+					}
+					
+					for (EReference eReference : eClass.getEReferences()) {
+						Reference reference = new Reference();
+						reference.setName(eReference.getName());
+						reference.setOrdered(eReference.isOrdered());
+						reference.setUnique(eReference.isUnique());
+						reference.setMany(eReference.isMany());
+						
+						EClass referenceType = eReference.getEReferenceType();
+						MetaClass referenceMetaClass = eClassMetaClassMap.get(referenceType);
+						if (referenceMetaClass != null) {
+							reference.setType(new EolModelElementType(referenceMetaClass));
+						}
+						metaClass.getStructuralFeatures().add(reference);
 					}
 				}
 			}

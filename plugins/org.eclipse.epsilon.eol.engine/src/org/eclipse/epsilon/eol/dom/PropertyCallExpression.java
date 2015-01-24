@@ -10,6 +10,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -72,18 +74,51 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub
 		targetExpression.compile(context);
-		EolType type = targetExpression.getResolvedType();
-		if (type instanceof EolModelElementType && ((EolModelElementType) type).getMetaClass() != null) {
-			MetaClass metaClass = (MetaClass) ((EolModelElementType) type).getMetaClass();
-			StructuralFeature structuralFeature = metaClass.getStructuralFeature(propertyNameExpression.getName());
-			if (structuralFeature == null) {
-				context.addWarningMarker(propertyNameExpression, "Structural feature " + propertyNameExpression.getName() + " not found in type " + metaClass.getName());
+		if (propertyNameExpression.getName().startsWith("~")) {
+			resolvedType = EolAnyType.Instance;
+		}
+		else {
+			EolType type = targetExpression.getResolvedType();
+			
+			boolean many = false;
+			MetaClass metaClass = null;
+			if (type instanceof EolModelElementType && ((EolModelElementType) type).getMetaClass() != null) {
+				metaClass = (MetaClass) ((EolModelElementType) type).getMetaClass();
 			}
-			else {
-				
+			else if (type instanceof EolCollectionType && ((EolCollectionType) type).getContentType() instanceof EolModelElementType) {
+				metaClass = ((EolModelElementType)((EolCollectionType) type).getContentType()).getMetaClass();
+				many = true;
 			}
+			
+			if (metaClass != null) {
+				StructuralFeature structuralFeature = metaClass.getStructuralFeature(propertyNameExpression.getName());
+				if (structuralFeature != null) {
+					if (structuralFeature.isMany()) {
+						EolCollectionType collectionType = null;
+						if (structuralFeature.isOrdered()) {
+							if (structuralFeature.isUnique()) collectionType = new EolCollectionType("OrderedSet");
+							else collectionType = new EolCollectionType("Sequence");
+						}
+						else {
+							if (structuralFeature.isUnique()) collectionType = new EolCollectionType("Set");
+							else collectionType = new EolCollectionType("Bag");
+						}
+						collectionType.setContentType(structuralFeature.getType());
+						resolvedType = collectionType;
+					}
+					else {
+						resolvedType = structuralFeature.getType();
+					}
+					if (many) {
+						resolvedType = new EolCollectionType("Sequence", resolvedType);
+					}
+				}
+				else {
+					context.addWarningMarker(propertyNameExpression, "Structural feature " + propertyNameExpression.getName() + " not found in type " + metaClass.getName());
+				}
+			}
+			
 		}
 	}
 	
