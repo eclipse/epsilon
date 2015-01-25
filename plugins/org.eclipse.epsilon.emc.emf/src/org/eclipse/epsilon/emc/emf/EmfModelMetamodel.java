@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.compile.m3.Attribute;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
@@ -54,13 +55,13 @@ public class EmfModelMetamodel extends Metamodel {
 						attribute.setMany(eAttribute.isMany());
 						
 						String instanceClassName = eAttribute.getEAttributeType().getInstanceClassName();
-						if (instanceClassName.equals(String.class.getCanonicalName())) {
+						if (StringUtil.isOneOf(instanceClassName, String.class.getCanonicalName(), "String")) {
 							attribute.setType(EolPrimitiveType.String);
 						}
-						else if (instanceClassName.equals(Integer.class.getCanonicalName())) {
+						else if (StringUtil.isOneOf(instanceClassName, Integer.class.getCanonicalName(), "int")) {
 							attribute.setType(EolPrimitiveType.Integer);
 						}
-						else if (instanceClassName.equals(Boolean.class.getCanonicalName())) {
+						else if (StringUtil.isOneOf(instanceClassName, Boolean.class.getCanonicalName(), "boolean")) {
 							attribute.setType(EolPrimitiveType.Boolean);
 						}
 						else if (instanceClassName.equals(Float.class.getCanonicalName()) || instanceClassName.equals(Double.class.getCanonicalName())) {

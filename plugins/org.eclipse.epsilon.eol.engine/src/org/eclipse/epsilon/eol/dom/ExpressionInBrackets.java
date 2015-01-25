@@ -30,5 +30,6 @@ public class ExpressionInBrackets extends Expression {
 	@Override
 	public void compile(EolCompilationContext context) {
 		expression.compile(context);
+		resolvedType = expression.getResolvedType();
 	}
 }

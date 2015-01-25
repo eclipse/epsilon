@@ -75,9 +75,20 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	@Override
 	public void compile(EolCompilationContext context) {
 		targetExpression.compile(context);
+		
+		// Extended properties
 		if (propertyNameExpression.getName().startsWith("~")) {
 			resolvedType = EolAnyType.Instance;
 		}
+		// e.g. EPackage.all
+		else if (targetExpression instanceof NameExpression && ((NameExpression) targetExpression).isTypeName()){
+			if (((NameExpression) targetExpression).getResolvedType() instanceof EolModelElementType) {
+				if (propertyNameExpression.getName().equals("all") || propertyNameExpression.getName().equals("allInstances")) {
+					resolvedType = new EolCollectionType("Sequence", ((NameExpression) targetExpression).getResolvedType());
+				}
+			}
+		}
+		// Regular properties
 		else {
 			EolType type = targetExpression.getResolvedType();
 			

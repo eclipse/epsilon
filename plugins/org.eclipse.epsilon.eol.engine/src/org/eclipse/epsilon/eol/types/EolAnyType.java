@@ -38,7 +38,6 @@ public class EolAnyType extends EolType{
 		return null;
 	}
 	
-	
 	@Override
 	public String getName() {
 		return "Any";
@@ -49,5 +48,10 @@ public class EolAnyType extends EolType{
 			throws EolRuntimeException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Any";
+	}
+	
 }

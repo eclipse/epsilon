@@ -9,6 +9,14 @@ public class EolMapType extends EolType {
 	protected EolType keyType = EolAnyType.Instance;
 	protected EolType valueType = EolAnyType.Instance;
 	
+	public EolMapType() {}
+	
+	public EolMapType(EolType keyType, EolType valueType) {
+		super();
+		this.keyType = keyType;
+		this.valueType = valueType;
+	}
+
 	@Override
 	public String getName() {
 		return "Map";
@@ -49,6 +57,11 @@ public class EolMapType extends EolType {
 	
 	public EolType getValueType() {
 		return valueType;
+	}
+	
+	@Override
+	public String toString() {
+		return "Map<" + keyType + ", " + valueType + ">";
 	}
 	
 }

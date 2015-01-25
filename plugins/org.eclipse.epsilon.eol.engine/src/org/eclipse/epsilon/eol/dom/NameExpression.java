@@ -16,6 +16,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class NameExpression extends Expression {
 	
 	protected String name;
+	protected boolean isTypeName = false;
 	
 	public NameExpression() {}
 	
@@ -100,6 +101,7 @@ public class NameExpression extends Expression {
 			EolModelElementType modelElementType = context.getModelElementType(name);
 			if (modelElementType != null) {
 				resolvedType = modelElementType;
+				isTypeName = true;
 				if (modelElementType.getMetaClass() == null && !context.getModelDeclarations().isEmpty()) {
 					context.addErrorMarker(this, "Unknown type " + name);
 				}
@@ -128,5 +130,13 @@ public class NameExpression extends Expression {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public boolean isTypeName() {
+		return isTypeName;
+	}
+	
+	public void setTypeName(boolean isTypeName) {
+		this.isTypeName = isTypeName;
 	}
 }

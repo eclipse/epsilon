@@ -72,6 +72,13 @@ public class StringUtil {
 		}
 	}
 	
+	public static boolean isOneOf(String target, String...candidates) {
+		for (String candidate : candidates) {
+			if (candidate.equals(target)) return true;
+		}
+		return false;
+	}
+	
 	public static String escapeHtml(String string) {
 		if (string == null) return "";
 	    StringBuffer sb = new StringBuffer(string.length());

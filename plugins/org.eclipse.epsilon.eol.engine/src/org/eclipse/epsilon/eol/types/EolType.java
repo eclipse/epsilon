@@ -25,4 +25,8 @@ public abstract class EolType {
 	public abstract Object createInstance() throws EolRuntimeException;
 	
 	public abstract Object createInstance(List<Object> parameters) throws EolRuntimeException;
+	
+	public boolean isNot(EolType type) {
+		return this != type && this != EolAnyType.Instance;
+	}
 }
