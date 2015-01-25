@@ -16,6 +16,7 @@ public class App {
 		
 		if (!module.getParseProblems().isEmpty()) {
 			System.out.println("Syntax errors found. Exiting.");
+			return;
 		}
 		
 		// Load the XML document
