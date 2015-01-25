@@ -48,4 +48,11 @@
             value="true">
       </persistent>
    </extension>
+      <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.epsilon.common.dt.preferences.EpsilonPreferencePage"
+            id="Epsilon"
+            name="Epsilon"/>
+   </extension>
 </plugin>

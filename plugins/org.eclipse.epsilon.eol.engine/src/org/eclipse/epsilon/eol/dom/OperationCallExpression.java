@@ -137,8 +137,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub
 		if (targetExpression != null) targetExpression.compile(context);
+		for (Expression parameterExpression : parameterExpressions) {
+			parameterExpression.compile(context);
+		}
 	}
 	
 	public String getOperationName() {

@@ -34,12 +34,5 @@
             id="org.eclipse.epsilon.dt"
             name="Epsilon"/>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="org.eclipse.epsilon.perspective.EpsilonPreferencePage"
-            id="Epsilon"
-            name="Epsilon"/>
-   </extension>
 
 </plugin>

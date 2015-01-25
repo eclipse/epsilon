@@ -30,9 +30,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
+import org.eclipse.epsilon.common.dt.preferences.EpsilonPreferencePage;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.module.IModule;
@@ -426,11 +428,14 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			if (module.getParseProblems().isEmpty()) {
 				
 				try {
-					if (module instanceof IEolExecutableModule) {
-						EolCompilationContext compilationContext = ((IEolExecutableModule) module).getCompilationContext();
-						compilationContext.setModelFactory(new ModelTypeExtensionFactory());
+					if (EpsilonCommonsPlugin.getDefault().getPreferenceStore().getBoolean(EpsilonPreferencePage.ENABLE_STATIC_ANALYSIS)) {
+						if (module instanceof IEolExecutableModule) {
+							EolCompilationContext compilationContext = ((IEolExecutableModule) module).getCompilationContext();
+							compilationContext.setModelFactory(new ModelTypeExtensionFactory());
+						}
+						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
 					}
-					createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
+					
 					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
 						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());
 						createMarkers(validator.validate(module), doc, file, markerType);
