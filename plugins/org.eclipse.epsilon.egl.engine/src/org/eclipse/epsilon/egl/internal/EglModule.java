@@ -88,7 +88,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 			this.sourceUri = file.toURI();
 
 			try {
-				templateRoot = UriUtil.fileToUri(file.getParentFile());
+				templateRoot = UriUtil.fileToUri(file.getAbsoluteFile().getParentFile());
 			} catch (URISyntaxException e) {}
 		}
 		

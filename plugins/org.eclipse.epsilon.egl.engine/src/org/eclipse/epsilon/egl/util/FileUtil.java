@@ -102,8 +102,8 @@ public abstract class FileUtil {
 	}
 	
 	public static void write(File file, String contents, boolean append) throws IOException {	
-		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdirs();
+		if (!file.getAbsoluteFile().getParentFile().exists()) {
+			file.getAbsoluteFile().getParentFile().mkdirs();
 		}
 		
 		FileWriter writer = null;

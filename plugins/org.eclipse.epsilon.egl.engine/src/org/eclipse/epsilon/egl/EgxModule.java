@@ -49,14 +49,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
 	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
- 	
-	public static void main(String[] args) throws Exception {
-		EgxModule module = new EgxModule(new EglTemplateFactory());
-		module.parse("rule C2J transform c : EClass { target: 1+2+'c' pre {'pre'.println();'pre1'.println();}  post{'post'.println();} }");
-		System.err.println(module.getParseProblems());
-		module.execute();
-	}
-
+	
 	public EgxModule() {
 		this(new EglTemplateFactory());
 	}
@@ -137,7 +130,8 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	@Override
 	public boolean parse(File file) throws Exception {
 		boolean result = super.parse(file);
-		if (result) templateFactory.initialiseRoot(file.getParentFile().toURI());
+		System.out.println(file.exists());
+		if (result) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 	
@@ -152,7 +146,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	@Override
 	public boolean parse(String code, File file) throws Exception {
 		boolean result = super.parse(code, file);
-		if (result) templateFactory.initialiseRoot(file.getParentFile().toURI());
+		if (result) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 	
