@@ -218,7 +218,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return null;
 	}
 
-	private EClass classForName(String name, boolean absolute, Object pkg) {
+	protected EClass classForName(String name, boolean absolute, Object pkg) {
 		for (EClassifier eClassifier : EmfUtil.getAllEClassifiers((EPackage)pkg)) {
 			if (eClassifier instanceof EClass) {
 				String eClassifierName = "";
