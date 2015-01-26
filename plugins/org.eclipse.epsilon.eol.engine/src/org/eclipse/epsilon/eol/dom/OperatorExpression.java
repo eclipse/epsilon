@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
@@ -42,7 +43,7 @@ public abstract class OperatorExpression extends Expression {
 			resolvedType = EolPrimitiveType.Boolean;
 		}
 		
-		if (operatorIsOneOf("<", ">", ">=", "<=", "*", "/", "-")) {
+		if (StringUtil.isOneOf(operator, "<", ">", ">=", "<=", "*", "/", "-")) {
 			for (Expression operand : getOperands()) {
 				if (operand.hasResolvedType() && 
 						operand.getResolvedType() != EolPrimitiveType.Integer 
@@ -53,17 +54,10 @@ public abstract class OperatorExpression extends Expression {
 			}
 		}
 		
-		if (operatorIsOneOf("==", "=", "<>", "<", ">", ">=", "<=")) {
+		if (StringUtil.isOneOf(operator, "==", "=", "<>", "<", ">", ">=", "<=")) {
 			resolvedType = EolPrimitiveType.Boolean;
 		}
 		
-	}
-	
-	protected boolean operatorIsOneOf(String... candidates) {
-		for (String candidate : candidates) {
-			if (candidate.equals(operator)) return true;
-		}
-		return false;
 	}
 	
 	public List<Expression> getOperands() {
@@ -74,7 +68,7 @@ public abstract class OperatorExpression extends Expression {
 	}
 	
 	public boolean isBooleanOperator(String operator){
-		return operatorIsOneOf("and", "or", "xor", "not", "implies");
+		return StringUtil.isOneOf(operator, "and", "or", "xor", "not", "implies");
 	}
 	
 	public String getOperator() {

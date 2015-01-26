@@ -77,7 +77,12 @@ public class VariableDeclaration extends TypeInitialiser {
 		EolType type = null;
 		if (typeExpression != null) type = typeExpression.getCompilationType();
 		else type = EolAnyType.Instance;
-		context.getFrameStack().put(new Variable(getName(), type));
+		if (context.getFrameStack().getTopFrame().contains(getName())) {
+			context.addErrorMarker(this, "Variable " + getName() + " has already been defined");
+		}
+		else {
+			context.getFrameStack().put(new Variable(getName(), type));
+		}
 	}
 	
 	public String getName() {

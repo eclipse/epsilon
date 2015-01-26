@@ -450,6 +450,10 @@ public class FrameStack {
 		return buffer.toString();
 	}
 
+	public Frame getTopFrame() {
+		return activeGroup().top();
+	}
+	
 	public AST getCurrentStatement() {
 		return activeGroup().top().getCurrentStatement();
 	}
