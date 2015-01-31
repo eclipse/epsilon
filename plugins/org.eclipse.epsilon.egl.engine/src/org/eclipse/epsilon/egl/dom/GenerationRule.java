@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dom;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,10 +98,10 @@ public class GenerationRule extends ExtensibleNamedRule {
 				context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
 			}
 			
-			if (preBlock != null) preBlock.execute(context, false);
-			
 			boolean guard = (guardBlock == null) ? true : guardBlock.execute(context, false);
 			if (!guard) continue;
+			
+			if (preBlock != null) preBlock.execute(context, false);
 			
 			boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
 			boolean protectRegions = (protectRegionsBlock == null) ? true : protectRegionsBlock.execute(context, false);			
@@ -125,13 +126,18 @@ public class GenerationRule extends ExtensibleNamedRule {
 				eglTemplate.populate(key + "", parameters.get(key));
 			}
 			
+			File generated = null;
 			if (eglTemplate instanceof EglPersistentTemplate) {
-				((EglPersistentTemplate) eglTemplate).generate(target, overwrite, protectRegions);
+				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, protectRegions);
 			}
 			
 			module.getInvokedTemplates().add(eglTemplate.getTemplate());
 			
-			if (postBlock != null) postBlock.execute(context, false);
+			if (postBlock != null) {
+				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
+				postBlock.execute(context, false);
+				context.getFrameStack().leaveLocal(postBlock);
+			}
 			
 			context.getFrameStack().leaveLocal(this);
 			

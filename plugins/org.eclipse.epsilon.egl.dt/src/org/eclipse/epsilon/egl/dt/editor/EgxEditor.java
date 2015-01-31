@@ -46,18 +46,18 @@ public class EgxEditor extends EolEditor {
 		return keywords;
 	}
 	
-	/*
+	
 	@Override
 	public List<String> getBuiltinVariables() {
 		
 		ArrayList<String> builtIn = new ArrayList<String>();
 		
-		builtIn.add("transTrace");
+		builtIn.add("generated");
 		
 		builtIn.addAll(super.getBuiltinVariables());
 		
 		return builtIn;
-	}*/
+	}
 
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {

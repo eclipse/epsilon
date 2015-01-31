@@ -114,7 +114,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	 * @param protectRegions
 	 * @throws EglRuntimeException
 	 */
-	public void generate(String path, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
+	public File generate(String path, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
 		final File outputFile = resolveFile(path);
 
 		if (overwrite || !outputFile.exists()) {
@@ -131,6 +131,8 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 		} else {
 			addMessage("Existing contents of " + name(path) + " were preserved.");
 		}
+		
+		return outputFile;
 	}
 	
 	protected String name(String path) {
