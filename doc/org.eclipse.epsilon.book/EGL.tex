@@ -180,7 +180,7 @@ In addition to \texttt{generate}, the Template type defines further operations f
 			
 			process() : String & Executes the template and returns the text that is generated.  \\\hline
 			
-			generate(destination : String) & Executes the template and stores the text to the specified destination. The format of the destination parameter is dictated by the type of template. For example, the default template type (which can generate files on disk) expects a file system path as the destination parameter. \\\hline
+			generate(destination : String) & Executes the template and stores the text to the specified destination. The format of the destination parameter is dictated by the type of template. For example, the default template type (which can generate files on disk) expects a file system path as the destination parameter. Returns a \class{java.io.File} object representing the generated file.\\\hline
 			
 			setFormatter(formatter : Formatter) & Changes the formatter for this template to the specified formatter. Subsequent calls to generate or process will produce text that is formatted with the specified formatter. See Section~\ref{sec:formatters}. \\\hline
 			
