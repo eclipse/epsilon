@@ -154,55 +154,52 @@ As is the case for most programming languages, EOL defines a built-in system of 
 \clearpage
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type Any}
-			\label{tab:AnyOperations}\\
-			
-			\hline
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{Operations of type Any}
+\label{tab:AnyOperations}\\
+\hline
+    \textbf{Signature} & \textbf{Description} \\\hline
 
-			isDefined() : Boolean & Returns true if the object is defined and false otherwise \\\hline
-			
-			isUndefined() : Boolean & Returns true if the object is undefined and false otherwise \\\hline
-			
-			ifUndefined(alt : Any) : Any & If the object is undefined, it returns alt else it returns the object \\\hline
-			
-			isTypeOf(type : Type) : Boolean & Returns true if the object is of the given type and false otherwise \\\hline
-			
-			isKindOf(type : Type) : Boolean & Returns true if the object is of the given type or one of its subtypes and false otherwise \\\hline
-			
-			type() : Type & Returns the type of the object. The EOL type system is illustrated in Figure \ref{fig:EOLTypes} \\\hline
-
-                        owningModel() : Model & Returns the model that contains this object or an undefined value otherwise \\\hline
-
-                        hasProperty(name : String) : Boolean & Returns true if the object has a property with the specified name or false otherwise \\\hline
-                        
-			asString() : String & Returns a string representation of the object \\\hline
-			
-			asInteger() : Integer & Returns an Integer based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
-			
-			asReal() : Real & Returns a Real based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
-			
-			asBoolean() : Boolean & Returns a Boolean based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
-			
-			asBag() : Bag & Returns a new Bag containing the object \\\hline
-			
-			asSequence() : Sequence & Returns a new Sequence containing the object \\\hline
-			
-			asSet() : Set & Returns a new Set containing the object \\\hline
-			
-			asOrderedSet() : OrderedSet & Returns a new OrderedSet containing the object \\\hline
-			
-			print([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the regular output stream, prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
-			
-			println([prefix : String]) : Any & Has the same effects as the \emph{print} operation but also produces a new line in the output stream. \\\hline
-
-			err([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the error stream prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
-			
-			errln([prefix : String]) : Any & Has the same effects as the \emph{err} operation but also produces a new line in the output stream. \\\hline
-			
-			format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
+    asBag() : Bag & Returns a new Bag containing the object \\\hline
+    
+    asBoolean() : Boolean & Returns a Boolean based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
+    
+    asInteger() : Integer & Returns an Integer based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
+    
+    asOrderedSet() : OrderedSet & Returns a new OrderedSet containing the object \\\hline
+    
+    asReal() : Real & Returns a Real based on the string representation of the object. If the string representation is not of an acceptable format, an error is raised \\\hline
+    
+    asSequence() : Sequence & Returns a new Sequence containing the object \\\hline
+    
+    asSet() : Set & Returns a new Set containing the object \\\hline
+    
+    asString() : String & Returns a string representation of the object \\\hline
+    
+    err([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the error stream prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
+    
+    errln([prefix : String]) : Any & Has the same effects as the \emph{err} operation but also produces a new line in the output stream. \\\hline
+    
+    format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
+    
+    hasProperty(name : String) : Boolean & Returns true if the object has a property with the specified name or false otherwise \\\hline
+    
+    ifUndefined(alt : Any) : Any & If the object is undefined, it returns alt else it returns the object \\\hline
+    
+    isDefined() : Boolean & Returns true if the object is defined and false otherwise \\\hline
+    
+    isKindOf(type : Type) : Boolean & Returns true if the object is of the given type or one of its subtypes and false otherwise \\\hline
+    
+    isTypeOf(type : Type) : Boolean & Returns true if the object is of the given type and false otherwise \\\hline
+    
+    isUndefined() : Boolean & Returns true if the object is undefined and false otherwise \\\hline
+    
+    owningModel() : Model & Returns the model that contains this object or an undefined value otherwise \\\hline
+    
+    print([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the regular output stream, prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
+    
+    println([prefix : String]) : Any & Has the same effects as the \emph{print} operation but also produces a new line in the output stream. \\\hline
+    
+    type() : Type & Returns the type of the object. The EOL type system is illustrated in Figure \ref{fig:EOLTypes} \\\hline
 
 \end{longtabu}
 
@@ -211,105 +208,94 @@ As is the case for most programming languages, EOL defines a built-in system of 
 EOL provides four primitive types: String, Integer, Real and Boolean. The String type represents finite sequences of characters and supports the following operations which can be invoked on its instances.
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type String}
-			\label{tab:StringOperations}\\
-			
-			\hline 
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
-			
-			charAt(index : Integer) : String & Returns the character in the specified index\\\hline
-			
-			concat(str : String) : String & Returns a concatenated form of the string with the \emph{str} parameter\\\hline
-
-			length() : Integer & Returns the number of characters in the string \\\hline
-						
-			toLowerCase() : String & Returns a new string where all the characters have been converted to lower case\\\hline
-			
-			firstToLowerCase() : String & Returns a new string the first character of which has been converted to lower case \\\hline
-			
-			toUpperCase() : String & Returns a new string where all the characters have been converted to upper case\\\hline
-			
-			firstToUpperCase() : String & Returns a new string, the first character of which has been converted to upper case \\\hline
-			
-			isSubstringOf(str : String) : Boolean & Returns true iff the string the operation is invoked on is a substring of \emph{str} \\\hline
-			
-			matches(reg : String) : Boolean & Returns true if there are occurrences of the regular expression \emph{reg} in the string\\\hline
-			
-			replace(source : String, target : String) : String & Returns a new string in which all instances of \emph{source} have been replaced with instances of \emph{target}\\\hline 
-			
-			split(reg : String) : Sequence(String) & Splits the string using as a delimiter the provided regular expression, \emph{reg}, and returns a sequence containing the parts\\\hline
-			
-			startsWith(str : String) : Boolean & Returns true iff the string starts with \emph{str}\\\hline
-			
-			endsWith(str : String) : Boolean & Returns true iff the string ends with \emph{str}\\\hline
-
-			isInteger() : Boolean & Returns true iff the string is an integer\\\hline
-			
-			isReal() : Boolean & Returns true iff the string is a real number\\\hline
-						
-			toCharSequence() : Sequence(String) & Returns a sequence containing all the characters of the string\\\hline
-			
-			substring(index : Integer) : String & Returns a sub-string of the string starting from the specified \emph{index} and extending to the end of the original string\\\hline
-			
-			substring(startIndex : Integer, endIndex : Integer) : String & Returns a sub-string of the string starting from the specified \emph{startIndex} and ending at \emph{endIndex} \\\hline
-			
-			pad(length : Integer, padding : String, right : Boolean) : String & Pads the string up to the specified length with specified padding (e.g. "foo".pad(5, "*", true) returns "foo**") \\\hline
-			
-			trim() : String & Returns a trimmed copy of the string \\\hline			
-			
+\caption{Operations of type String}
+\label{tab:StringOperations}\\
+\hline 
+    \textbf{Signature} & \textbf{Description} \\\hline
+    charAt(index : Integer) : String & Returns the character in the specified index\\\hline
+    
+    concat(str : String) : String & Returns a concatenated form of the string with the \emph{str} parameter\\\hline
+    
+    endsWith(str : String) : Boolean & Returns true iff the string ends with \emph{str}\\\hline
+    
+    firstToLowerCase() : String & Returns a new string the first character of which has been converted to lower case \\\hline
+    
+    firstToUpperCase() : String & Returns a new string, the first character of which has been converted to upper case \\\hline
+    
+    isInteger() : Boolean & Returns true iff the string is an integer\\\hline
+    
+    isReal() : Boolean & Returns true iff the string is a real number\\\hline
+    
+    isSubstringOf(str : String) : Boolean & Returns true iff the string the operation is invoked on is a substring of \emph{str} \\\hline
+    
+    length() : Integer & Returns the number of characters in the string \\\hline
+    
+    matches(reg : String) : Boolean & Returns true if there are occurrences of the regular expression \emph{reg} in the string\\\hline
+    
+    pad(length : Integer, padding : String, right : Boolean) : String & Pads the string up to the specified length with specified padding (e.g. "foo".pad(5, "*", true) returns "foo**") \\\hline
+    
+    replace(source : String, target : String) : String & Returns a new string in which all instances of \emph{source} have been replaced with instances of \emph{target}\\\hline
+    
+    split(reg : String) : Sequence(String) & Splits the string using as a delimiter the provided regular expression, \emph{reg}, and returns a sequence containing the parts\\\hline
+    
+    startsWith(str : String) : Boolean & Returns true iff the string starts with \emph{str}\\\hline
+    
+    substring(index : Integer) : String & Returns a sub-string of the string starting from the specified \emph{index} and extending to the end of the original string\\\hline
+    
+    substring(startIndex : Integer, endIndex : Integer) : String & Returns a sub-string of the string starting from the specified \emph{startIndex} and ending at \emph{endIndex} \\\hline
+    
+    toCharSequence() : Sequence(String) & Returns a sequence containing all the characters of the string\\\hline
+    
+    toLowerCase() : String & Returns a new string where all the characters have been converted to lower case\\\hline
+    
+    toUpperCase() : String & Returns a new string where all the characters have been converted to upper case\\\hline
+    
+    trim() : String & Returns a trimmed copy of the string \\\hline
 \end{longtabu}
 
 The Real type represents real numbers and provides the following operations.
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type Real}
-			\label{tab:RealOperations}\\
-			
-			\hline
-			
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{Operations of type Real}
+\label{tab:RealOperations}\\
 
-			ceiling() : Integer & Returns the nearest Integer that is greater than the real\\\hline
-			
-			floor() : Integer & Returns the nearest Integer that is less than the real\\\hline
-			
-			round() : Integer & Rounds the real to the nearest Integer\\\hline
-			
-			pow(exponent : Real) : Real & Returns the real to the power of exponent \\\hline
-			
-			log() : Real & Returns the natural logarithm of the real \\\hline
-			
-			log10() : Real & Returns the 10-based logarithm of the real \\\hline 
-			
-			abs() : Real & Returns the absolute value of the real \\\hline
-			
-			max(other : Real) : Real & Returns the maximum of the two reals \\\hline
-			
-			min(other : Real) : Real & Returns the minimum of the two reals \\\hline
-			
+\hline
+    \textbf{Signature} & \textbf{Description} \\\hline
+    abs() : Real & Returns the absolute value of the real \\\hline
+    
+    ceiling() : Integer & Returns the nearest Integer that is greater than the real\\\hline
+    
+    floor() : Integer & Returns the nearest Integer that is less than the real\\\hline
+    
+    log() : Real & Returns the natural logarithm of the real \\\hline
+    
+    log10() : Real & Returns the 10-based logarithm of the real \\\hline
+    
+    max(other : Real) : Real & Returns the maximum of the two reals \\\hline
+    
+    min(other : Real) : Real & Returns the minimum of the two reals \\\hline
+    
+    pow(exponent : Real) : Real & Returns the real to the power of exponent \\\hline
+    
+    round() : Integer & Rounds the real to the nearest Integer\\\hline
 \end{longtabu}
 
 The Integer type represents natural numbers and negatives and extends the Real primitive type. It also defines the following operations:
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type Integer}
-			\label{tab:IntegerOperations}\\
-			
-			\hline
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{Operations of type Integer}
+\label{tab:IntegerOperations}\\
+\hline
 
-			to(other : Integer) : Sequence(Integer) & Returns a sequence of integers (e.g. 1.to(5) returns Sequence\{1,2,3,4,5\})\\\hline
-			
-			iota(end : Integer, step : Integer) : Sequence(Integer) & Returns a sequence of integers up to \emph{end} using the specified step (e.g. 1.iota(10,2) returns Sequence\{1,3,5,7,9\})\\\hline
-			
-			toBinary() : String & Returns the binary representation of the integer (e.g. 6.toBinary() returns "110")\\\hline
+    \textbf{Signature} & \textbf{Description} \\\hline
 
-			toHex() : String & Returns the hexadecimal representation of the integer (e.g. 42.toBinary() returns "2a")\\\hline
+    iota(end : Integer, step : Integer) : Sequence(Integer) & Returns a sequence of integers up to \emph{end} using the specified step (e.g. 1.iota(10,2) returns Sequence\{1,3,5,7,9\})\\\hline
+    
+    to(other : Integer) : Sequence(Integer) & Returns a sequence of integers (e.g. 1.to(5) returns Sequence\{1,2,3,4,5\})\\\hline
+    
+    toBinary() : String & Returns the binary representation of the integer (e.g. 6.toBinary() returns "110")\\\hline
+    
+    toHex() : String & Returns the hexadecimal representation of the integer (e.g. 42.toBinary() returns "2a")\\\hline
 
 \end{longtabu}
 
@@ -323,157 +309,150 @@ EOL provides four types of collections and a Map type. The Bag type represents n
 All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports first-order logic operations on collections. The following operations apply to all types of collections:
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type Collection}
-			\label{tab:Collection Operations}\\
-			
-			\hline
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
-
-			add(item : Any) & Adds an item to the collection. If the collection is a set, addition of duplicate items has no effect \\\hline
-			
-			addAll(col : Collection) & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection\\\hline
-		
-			remove(item : Any) & Removes an \emph{item} from the collection \\\hline
-			
-			removeAll(col : Collection) & Removes all the items of \emph{col} from the collection \\\hline
-			
-			clear() & Empties the collection \\\hline
-			
-			includes(item : Any) : Boolean & Returns true if the collection includes the \emph{item} \\\hline
-			
-			excludes(item : Any) : Boolean & Returns true if the collection excludes the \emph{item} \\\hline
-			
-			includesAll(col : Collection) : Boolean & Returns true if the collection includes all the items of collection \emph{col} \\\hline
-			
-			excludesAll(col : Collection) : Boolean & Returns true if the collection excludes all the items of collection col \\\hline
-			
-			including(item : Any) : Collection & Returns a new collection that also contains the \emph{item} -- unlike the add() operation that adds the \emph{item} to the collection itself  \\\hline
-			
-			excluding(item : Any) : Collection & Returns a new collection that excludes the item -- unlike the remove() operation that removes the \emph{item} from the collection itself\\\hline
-			
-			includingAll(col : Collection) : Collection & Returns a new collection that is a union of the two collections. The type of the returned collection (i.e. Bag, Sequence, Set, OrderedSet) is same as the type of the collection on which the operation is invoked \\\hline
-			
-			excludingAll(col : Collection) : Collection & Returns a new collection that excludes all the elements of the col collection \\\hline
-			
-			flatten() : Collection & Recursively flattens all items that are of collection type and returns a new collection where no item is a collection itself \\\hline
-			
-			count(item : Any) : Integer & Returns the number of times the item exists in the collection \\\hline
-			
-			size() : Integer & Returns the number of items the collection contains \\\hline
-
-			sum() : Real & Returns the sum of all reals/integers in the collection\\\hline
-
-			product() : Real & Returns the product of all reals/integers in the collection\\\hline
-			
-			isEmpty() : Boolean & Returns true if the collection does not contain any elements and false otherwise \\\hline
-	
-			random() : Any & Returns a random item from the collection \\\hline
-			
-			clone() : Collection & Returns a new collection of the same type containing the same items with the original collection \\\hline
-			
-			concat() : String & Returns the string created by converting each element of the collection to a string \\\hline
-			
-			concat(separator : String) : String & Returns the string created by converting each element of the collection to a string, using the given argument as a separator \\\hline
+\caption{Operations of type Collection}
+\label{tab:Collection Operations}\\
+\hline
+    \textbf{Signature} & \textbf{Description} \\\hline
+    add(item : Any) & Adds an item to the collection. If the collection is a set, addition of duplicate items has no effect \\\hline
+    
+    addAll(col : Collection) & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection\\\hline
+    
+    clear() & Empties the collection \\\hline
+    
+    clone() : Collection & Returns a new collection of the same type containing the same items with the original collection \\\hline
+    
+    concat() : String & Returns the string created by converting each element of the collection to a string \\\hline
+    
+    concat(separator : String) : String & Returns the string created by converting each element of the collection to a string, using the given argument as a separator \\\hline
+    
+    count(item : Any) : Integer & Returns the number of times the item exists in the collection \\\hline
+    
+    excludes(item : Any) : Boolean & Returns true if the collection excludes the \emph{item} \\\hline
+    
+    excludesAll(col : Collection) : Boolean & Returns true if the collection excludes all the items of collection col \\\hline
+    
+    excluding(item : Any) : Collection & Returns a new collection that excludes the item -- unlike the remove() operation that removes the \emph{item} from the collection itself\\\hline
+    
+    excludingAll(col : Collection) : Collection & Returns a new collection that excludes all the elements of the col collection \\\hline
+    
+    flatten() : Collection & Recursively flattens all items that are of collection type and returns a new collection where no item is a collection itself \\\hline
+    
+    includes(item : Any) : Boolean & Returns true if the collection includes the \emph{item} \\\hline
+    
+    includesAll(col : Collection) : Boolean & Returns true if the collection includes all the items of collection \emph{col} \\\hline
+    
+    including(item : Any) : Collection & Returns a new collection that also contains the \emph{item} -- unlike the add() operation that adds the \emph{item} to the collection itself  \\\hline
+    
+    includingAll(col : Collection) : Collection & Returns a new collection that is a union of the two collections. The type of the returned collection (i.e. Bag, Sequence, Set, OrderedSet) is same as the type of the collection on which the operation is invoked \\\hline
+    
+    isEmpty() : Boolean & Returns true if the collection does not contain any elements and false otherwise \\\hline
+    
+    product() : Real & Returns the product of all reals/integers in the collection\\\hline
+    
+    random() : Any & Returns a random item from the collection \\\hline
+    
+    remove(item : Any) & Removes an \emph{item} from the collection \\\hline
+    
+    removeAll(col : Collection) & Removes all the items of \emph{col} from the collection \\\hline
+    
+    size() : Integer & Returns the number of items the collection contains \\\hline
+    
+    sum() : Real & Returns the sum of all reals/integers in the collection\\\hline
 \end{longtabu}
 
 The following operations apply to ordered collection types (i.e. Sequence and OrderedSet):
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of types Sequence and OrderedSet}
-			\label{tab:SortedOperations}\\
-			
-			\hline
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{Operations of types Sequence and OrderedSet}
+\label{tab:SortedOperations}\\
+\hline
+    \textbf{Signature} & \textbf{Description} \\\hline
 
-			first() : Any & Returns the first item of the collection  \\\hline
-
-			second() : Any & Returns the second item of the collection  \\\hline
-
-			third() : Any & Returns the third item of the collection  \\\hline
-
-			fourth() : Any & Returns the fourth item of the collection  \\\hline
-				
-			last() : Any & Returns the last item of the collection  \\\hline
-	
-			at(index : Integer) : Any & Returns the item of the collection at the specified index \\\hline
-			
-			removeAt(index : Integer) : Any & Removes and returns the item at the specified index. \\\hline
-			
-			indexOf(item : Any) : Integer & Returns the index of the item in the collection or -1 if it does not exist \\\hline
-
-			invert() : Collection & Returns an inverted copy of the collection\\\hline
-						
+    at(index : Integer) : Any & Returns the item of the collection at the specified index \\\hline
+    
+    first() : Any & Returns the first item of the collection  \\\hline
+    
+    fourth() : Any & Returns the fourth item of the collection  \\\hline
+    
+    indexOf(item : Any) : Integer & Returns the index of the item in the collection or -1 if it does not exist \\\hline
+    
+    invert() : Collection & Returns an inverted copy of the collection\\\hline
+    
+    last() : Any & Returns the last item of the collection  \\\hline
+    
+    removeAt(index : Integer) : Any & Removes and returns the item at the specified index. \\\hline
+    
+    second() : Any & Returns the second item of the collection  \\\hline
+    
+    third() : Any & Returns the third item of the collection  \\\hline
 \end{longtabu}
 
 Also, EOL collections support the following first-order operations:
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{First-order logic operations on Collections}
-			\label{tab:FirstOrderOperations}\\
-			
-			\hline
-							
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{First-order logic operations on Collections}
+\label{tab:FirstOrderOperations}\\
+\hline
 
-			select(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that satisfy the condition \\\hline 
+    \textbf{Signature} & \textbf{Description} \\\hline
+%iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
 
-			selectOne(iterator : Type $|$ condition) : Any & Returns the first element that satisfies the condition \\\hline
-			
-			reject(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that do not satisfy the condition \\\hline
-			
-			collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
-
-                        closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type \\\hline
-
-                        aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
-
-			one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
-
-			exists(iterator : Type $|$ condition) : Boolean & Returns true if there exists at least one item in the collection that satisfies the condition \\\hline
-			
-			forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
-			
-			%iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
-			
-						sortBy(iterator: Type $|$ expression) : Collection & Returns a copy of the collection sorted by the results of evaluating the expression on each item of the collection that conforms to the iterator type. The expression should return either an Integer, a String or an object that is an instance of Comparable. The ordering is calculated as follows: for integers, smaller to greater; for Strings, as defined by the compareTo method of Java strings; for Comparable objects, according to the semantics of the type's compareTo method implementation.  \\\hline
-
+    aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
+    
+    closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type \\\hline
+    
+    collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
+    
+    exists(iterator : Type $|$ condition) : Boolean & Returns true if there exists at least one item in the collection that satisfies the condition \\\hline
+    
+    forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
+    
+    one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
+    
+    reject(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that do not satisfy the condition \\\hline
+    
+    select(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that satisfy the condition \\\hline
+    
+    selectOne(iterator : Type $|$ condition) : Any & Returns the first element that satisfies the condition \\\hline
+    
+    sortBy(iterator: Type $|$ expression) : Collection & Returns a copy of the collection sorted by the results of evaluating the expression on each item of the collection that conforms to the iterator type. The expression should return either an Integer, a String or an object that is an instance of Comparable. The ordering is calculated as follows: for integers, smaller to greater; for Strings, as defined by the compareTo method of Java strings; for Comparable objects, according to the semantics of the type's compareTo method implementation.  \\\hline
 \end{longtabu}
 
 The Map type represents an array of key-value pairs in which the keys are unique. The type provides the following operations.
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of type Map}
-			\label{tab:MapOperations}\\
-			
-			\hline
-			
-			\textbf{Signature} & \textbf{Description} \\\hline
+\caption{Operations of type Map}
+\label{tab:MapOperations}\\
+\hline
 
-			put(key : Any, value : Any) & Adds the key-value pair to the map. If the map already contains the same key, the value is overwritten\\\hline
-				
-			get(key : Any) : Any & Returns the value for the specified key\\\hline
-	
-			containsKey(key : Any) : Boolean & Returns true if the map contains the specified key\\\hline
-	
-			keySet() : Set & Returns the keys of the map\\\hline
-			
-			values() : Bag & Returns the values of the map\\\hline
-			
-			clear() & Clears the map\\\hline
-			
+    \textbf{Signature} & \textbf{Description} \\\hline
+
+    clear() & Clears the map\\\hline
+    
+    containsKey(key : Any) : Boolean & Returns true if the map contains the specified key\\\hline
+    
+    containsValue(value : Any) : Boolean &  Returns true if this map maps one or more keys to the specified value.\\\hline
+    
+    get(key : Any) : Any & Returns the value for the specified key\\\hline
+    
+    keySet() : Set & Returns the keys of the map\\\hline
+    
+    put(key : Any, value : Any) & Adds the key-value pair to the map. If the map already contains the same key, the value is overwritten\\\hline
+    
+    putAll(map : Map) & Copies all of the mappings from the specified map to this map.\\\hline
+    
+    remove(key : Any) : Any & Removes the mapping for the specified key from this map if present. Returns the previous value associated with key.\\\hline
+    
+    size() : Integer &  Returns the number of key-value mappings in this map.\\\hline
+    
+    values() : Bag & Returns the values of the map\\\hline
 \end{longtabu}
 
 \subsection{Native Types}
 
 As discussed earlier, while the purpose of EOL is to provide significant expressive power to enable users to manage models at a high level of abstraction, it is not intended to be a general-purpose programming language. Therefore, there may be cases where users need to implement some functionality that is either not efficiently supported by the EOL runtime (e.g. complex mathematical computations) or that EOL does not support at all (e.g. developing user interfaces, accessing databases). To overcome this problem, EOL enables users to create objects of the underlying programming environment by using \emph{native} types. A native type specifies an $implementation$ property that indicates the unique identifier for an underlying platform type. For instance, in a Java implementation of EOL the user can instantiate and use a Java class via its class identifier. Thus, in Listing \ref{lst:Native} the EOL excerpt creates a Java window (Swing JFrame) and uses its methods to change its title and dimensions and make it visible.
 
-\begin{lstlisting}[float=tbp, caption=Demonstration of NativeType in EOL, label=lst:Native, language=EOL]
+\begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native, language=EOL]
 var frame = new Native("javax.swing.JFrame");
 frame.title = "Opened with EOL";
 frame.setBounds(100,100,300,200);
@@ -482,7 +461,7 @@ frame.visible = true;
 
 To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
 
-\begin{lstlisting}[float=tbp, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL]
+\begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL]
 var file = new Native("java.io.File")("myfile.txt");
 file.absolutePath.println();
 \end{lstlisting}
@@ -496,26 +475,23 @@ In case of multiple models, as well as the name of the type, the name of the mod
 In terms of concrete syntax, inspired by ATL, the ! character is used to separate the name of the type from the name of the model it is defined in. For instance $Ma!A$ represents the type $A$ of model $Ma$. Also, to support modelling technologies that provide hierarchical grouping of types (e.g. using packages) the :: notation is used to separate between packages and classes.  A model element type supports the following operations:
 
 \begin{longtabu} {|p{6.5cm}|X|}
-			
-			\caption{Operations of Model Element Types}
-			\label{tab:ModelElementTypesOperations}\\
-			
-			\hline
-			
-			\textbf{Signature} & \textbf{Description} \\\hline
-			
-			allOfType() : Set & Returns all the elements in the model that are instances of the type \\\hline
-			
-			allOfKind() : Set & Returns all the elements in the model that are instances either of the type itself or of one of its subtypes  \\\hline
+\caption{Operations of Model Element Types}
+\label{tab:ModelElementTypesOperations}\\
+\hline
 
-			allInstances() : Set & Alias for allOfKind() (for compatibility with OCL) \\\hline
-						
-			all() : Set & Alias for allOfKind() (for syntax-compactness purposes) \\\hline
-			
-			isInstantiable() : Boolean & Returns true if the type is instantiable (i.e. non-abstract)  \\\hline
-			
-			createInstance() : Any & Creates an instance of the type in the model \\\hline
-			
+    \textbf{Signature} & \textbf{Description} \\\hline
+
+    all() : Set & Alias for allOfKind() (for syntax-compactness purposes) \\\hline
+    
+    allInstances() : Set & Alias for allOfKind() (for compatibility with OCL) \\\hline
+    
+    allOfKind() : Set & Returns all the elements in the model that are instances either of the type itself or of one of its subtypes  \\\hline
+    
+    allOfType() : Set & Returns all the elements in the model that are instances of the type \\\hline
+    
+    createInstance() : Any & Creates an instance of the type in the model \\\hline
+    
+    isInstantiable() : Boolean & Returns true if the type is instantiable (i.e. non-abstract)  \\\hline
 \end{longtabu}
 
 As an example of the concrete syntax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
