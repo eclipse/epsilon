@@ -25,6 +25,7 @@ public class LoadXmlModel extends EpsilonTask {
 	protected String uri;
 	protected boolean read = true;
 	protected boolean store = false;
+	protected boolean cached = true;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -36,6 +37,7 @@ public class LoadXmlModel extends EpsilonTask {
 		model.getAliases().add(alias);
 		model.setReadOnLoad(read);
 		model.setStoredOnDisposal(store);
+		model.setCachingEnabled(cached);
 		if (file != null) model.setFile(file);
 		if (uri != null) model.setUri(uri);
 		
@@ -96,6 +98,14 @@ public class LoadXmlModel extends EpsilonTask {
 
 	public void setStore(boolean store) {
 		this.store = store;
+	}
+	
+	public boolean isCached() {
+		return cached;
+	}
+	
+	public void setCached(boolean cached) {
+		this.cached = cached;
 	}
 	
 }

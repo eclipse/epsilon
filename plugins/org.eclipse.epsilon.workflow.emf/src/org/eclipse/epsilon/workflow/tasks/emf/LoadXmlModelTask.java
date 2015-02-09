@@ -19,6 +19,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 	protected boolean read = true;
 	protected boolean store = false;
 	protected boolean expand = false;
+	protected boolean cached = true;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -32,6 +33,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
+		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
 		
 		try {
 			XmlModel model = new XmlModel();
@@ -100,6 +102,12 @@ public class LoadXmlModelTask extends EpsilonTask {
 		this.expand = expand;
 	}
 	
+	public void setCached(boolean cached) {
+		this.cached = cached;
+	}
 	
+	public boolean isCached() {
+		return cached;
+	}
 	
 }

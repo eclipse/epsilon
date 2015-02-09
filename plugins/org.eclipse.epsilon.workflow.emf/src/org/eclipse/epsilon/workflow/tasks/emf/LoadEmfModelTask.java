@@ -35,6 +35,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 	protected boolean store = false;
 	protected boolean expand = false;
 	protected boolean reuseUnmodifiedMetamodelFile = true;
+	protected boolean cached = true;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -49,8 +50,9 @@ public class LoadEmfModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
+		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
 		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedMetamodelFile + "");
-
+		
 		if (metamodelUri != null) {
 			properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
 		}
@@ -105,6 +107,14 @@ public class LoadEmfModelTask extends EpsilonTask {
 
 	public String getAlias() {
 		return alias;
+	}
+	
+	public void setCached(boolean cached) {
+		this.cached = cached;
+	}
+	
+	public boolean isCached() {
+		return cached;
 	}
 
 	public void setAlias(String alias) {
