@@ -53,7 +53,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup></startup>
+      <startup
+            class="org.eclipse.epsilon.emf.dt.EmfUtilPlugin"></startup>
    </extension>
 
 </plugin>
