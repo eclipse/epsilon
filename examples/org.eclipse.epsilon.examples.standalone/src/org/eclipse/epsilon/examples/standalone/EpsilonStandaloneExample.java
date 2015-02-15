@@ -21,6 +21,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -40,7 +41,7 @@ public abstract class EpsilonStandaloneExample {
 	
 	public void preProcess() {};
 	
-	public void execute() throws Exception {
+	public void execute(Variable... parameters) throws Exception {
 		
 		module = createModule();
 		module.parse(getFile(getSource()));
@@ -56,6 +57,8 @@ public abstract class EpsilonStandaloneExample {
 		for (IModel model : getModels()) {
 			module.getContext().getModelRepository().addModel(model);
 		}
+		
+		module.getContext().getFrameStack().put(parameters);
 		
 		preProcess();
 		result = execute(module);
