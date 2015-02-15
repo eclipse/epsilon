@@ -165,20 +165,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		this.metamodelUris = toURIList(properties.getProperty(PROPERTY_METAMODEL_URI));
 		this.metamodelFileUris = toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
 		this.reuseUnmodifiedFileBasedMetamodels = properties.getBooleanProperty(PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, true);
-
-		load();
-	}
-
-	public boolean store() {
-		if (modelImpl == null) return false;
 		
-		try {
-			modelImpl.save(null);
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		load();
 	}
 
 	protected void loadModel() throws EolModelLoadingException {

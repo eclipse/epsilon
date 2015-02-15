@@ -22,12 +22,13 @@ import org.eclipse.epsilon.emc.emf.EmfModelTestSuite;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetterCoerceTests;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetterConformsTests;
 import org.eclipse.epsilon.emc.emf.URITest;
+import org.eclipse.epsilon.emc.emf.XmlModelTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({URITest.class, AbstractEmfModelTests.class, EmfModelTestSuite.class,
+@SuiteClasses({URITest.class, AbstractEmfModelTests.class, EmfModelTestSuite.class, XmlModelTests.class,
                EmfPropertySetterConformsTests.class, EmfPropertySetterCoerceTests.class,
                EmfModelPackageForNameTests.class, CachedResourceSetTests.class, EmfModelDeleteTests.class})
 public class EmfTestSuite {

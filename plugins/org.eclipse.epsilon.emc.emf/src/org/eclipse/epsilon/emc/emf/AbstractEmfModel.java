@@ -356,6 +356,18 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 	}
 	
+	public boolean store() {
+		if (modelImpl == null) return false;
+		
+		try {
+			modelImpl.save(null);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean store(String fileName) {
 		return store(EmfUtil.createPlatformResourceURI(fileName));
 	}

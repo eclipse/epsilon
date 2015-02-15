@@ -22,18 +22,23 @@ public class CachedResourceSet extends ResourceSetImpl {
 	public Resource createResource(URI uri) {
 		Resource cachedResource = getCache().checkoutResource(uri);
 		if (cachedResource == null) {
-			cachedResource = super.createResource(uri);
-			if (cachedResource == null) {
-				cachedResource = new XMIResourceFactoryImpl().createResource(uri);
-				getResources().add(cachedResource);
-			}
+			cachedResource = createNewResource(uri);
 			cachedResource.setTrackingModification(false);
 			if (cachedResource instanceof XMLResource) {
 				configure((XMLResource) cachedResource);
 			}
+			getResources().add(cachedResource);
 			getCache().cacheResource(uri, cachedResource);
 		}
 		return cachedResource;
+	}
+	
+	public Resource createNewResource(URI uri) {
+		Resource resource = super.createResource(uri);
+		if (resource == null) {
+			resource = new XMIResourceFactoryImpl().createResource(uri);
+		}
+		return resource;
 	}
 	
 	public void configure(XMLResource resource) {
