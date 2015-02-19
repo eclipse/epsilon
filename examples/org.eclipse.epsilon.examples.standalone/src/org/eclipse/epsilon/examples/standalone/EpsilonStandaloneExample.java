@@ -13,6 +13,7 @@ package org.eclipse.epsilon.examples.standalone;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -28,6 +29,7 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 public abstract class EpsilonStandaloneExample {
 	
 	protected IEolExecutableModule module;
+	protected List<Variable> parameters = new ArrayList<Variable>();
 	
 	protected Object result;
 	
@@ -41,7 +43,7 @@ public abstract class EpsilonStandaloneExample {
 	
 	public void preProcess() {};
 	
-	public void execute(Variable... parameters) throws Exception {
+	public void execute() throws Exception {
 		
 		module = createModule();
 		module.parse(getFile(getSource()));
@@ -51,20 +53,26 @@ public abstract class EpsilonStandaloneExample {
 			for (ParseProblem problem : module.getParseProblems()) {
 				System.err.println(problem.toString());
 			}
-			System.exit(-1);
+			return;
 		}
 		
 		for (IModel model : getModels()) {
 			module.getContext().getModelRepository().addModel(model);
 		}
 		
-		module.getContext().getFrameStack().put(parameters);
+		for (Variable parameter : parameters) {
+			module.getContext().getFrameStack().put(parameter);
+		}
 		
 		preProcess();
 		result = execute(module);
 		postProcess();
 		
 		module.getContext().getModelRepository().dispose();
+	}
+	
+	public List<Variable> getParameters() {
+		return parameters;
 	}
 	
 	protected Object execute(IEolExecutableModule module) 
