@@ -44,7 +44,7 @@ public class Wizard extends AnnotatableModuleElement {
 	}
 	
 	public boolean appliesTo(Object self, IEolContext context) throws EolRuntimeException{
-		if (guardBlock.getBody() != null) {
+		if (guardBlock != null && guardBlock.getBody() != null) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, guardBlock.getBody());
 			return guardBlock.execute(context, false, Variable.createReadOnlyVariable("self", self));
 		}
