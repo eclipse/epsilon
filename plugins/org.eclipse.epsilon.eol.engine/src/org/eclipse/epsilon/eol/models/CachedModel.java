@@ -30,7 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
  */
 public abstract class CachedModel<ModelElementType> extends Model {
 	
-	public static final String PROPERTY_CACHED = "cached";
+	public static String PROPERTY_CACHED = "cached";
 	
 	protected abstract Collection<? extends ModelElementType> allContentsFromModel();
 	protected abstract Collection<? extends ModelElementType> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException;
@@ -62,14 +62,14 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 */
 	protected abstract Collection<String> getAllTypeNamesOf(Object instance);
 	
-	protected final Collection<ModelElementType> allContentsCache = new ArrayList<ModelElementType>();
+	protected Collection<ModelElementType> allContentsCache = new ArrayList<ModelElementType>();
 	protected boolean allContentsAreCached = false;
 
-	protected final List<Object> cachedTypes = new ArrayList<Object>();
-	protected final Multimap<Object, ModelElementType> typeCache = new Multimap<Object, ModelElementType>();
+	protected List<Object> cachedTypes = new ArrayList<Object>();
+	protected Multimap<Object, ModelElementType> typeCache = new Multimap<Object, ModelElementType>();
 
-	protected final List<Object> cachedKinds = new ArrayList<Object>();
-	protected final Multimap<Object, ModelElementType> kindCache = new Multimap<Object, ModelElementType>();
+	protected List<Object> cachedKinds = new ArrayList<Object>();
+	protected Multimap<Object, ModelElementType> kindCache = new Multimap<Object, ModelElementType>();
 	
 	protected boolean cachingEnabled = true;
 	
@@ -81,7 +81,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return cachingEnabled;
 	}
 	
-	public final Collection<ModelElementType> allContents() {
+	public Collection<ModelElementType> allContents() {
 		if (!allContentsAreCached || !isCachingEnabled()) {
 			allContentsCache.clear();
 			allContentsCache.addAll(allContentsFromModel());
@@ -91,8 +91,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return allContentsCache;
 	}
 	
-	public final Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
-		final Object key = getCacheKeyForType(type);
+	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+		Object key = getCacheKeyForType(type);
 
 		if (!cachedTypes.contains(key) || !isCachingEnabled()) {
 			typeCache.replaceValues(key, getAllOfTypeFromModel(type));
@@ -102,8 +102,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return typeCache.get(key);
 	}
 	
-	public final Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
-		final Object key = getCacheKeyForType(kind);
+	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
+		Object key = getCacheKeyForType(kind);
 		
 		if (!cachedKinds.contains(key) || !isCachingEnabled()) {
 			kindCache.replaceValues(key, getAllOfKindFromModel(kind));
@@ -113,8 +113,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return kindCache.get(key);
 	}
 	
-	public final ModelElementType createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
-		final ModelElementType instance = createInstanceInModel(type);
+	public ModelElementType createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		ModelElementType instance = createInstanceInModel(type);
 		
 		allContentsCache.add(instance);
 		
@@ -127,10 +127,10 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return instance;
 	}
 	
-	public final void deleteElement(Object o) throws EolRuntimeException {
+	public void deleteElement(Object o) throws EolRuntimeException {
 		if (deleteElementInModel(o)) {
 			@SuppressWarnings("unchecked")
-			final ModelElementType instance = (ModelElementType)o;
+			ModelElementType instance = (ModelElementType)o;
 			
 			allContentsCache.remove(instance);
 			
@@ -142,7 +142,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 	}
 	
-	public final void load() throws EolModelLoadingException {
+	public void load() throws EolModelLoadingException {
 		clearCache();
 		loadModel();
 	}
@@ -154,7 +154,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		this.setCachingEnabled(new Boolean(properties.getProperty(PROPERTY_CACHED)).booleanValue());
 	}
 
-	public final void dispose() {
+	public void dispose() {
 		super.dispose();
 		clearCache();
 		disposeModel();
