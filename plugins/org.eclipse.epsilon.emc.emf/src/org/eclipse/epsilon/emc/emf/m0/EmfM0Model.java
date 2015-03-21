@@ -43,18 +43,20 @@ public class EmfM0Model extends EmfModel {
 	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
-		this.name = properties.getProperty("name");
-		String[] aliases = properties.getProperty("aliases").split(",");
-		for (int i=0;i<aliases.length;i++){
-			this.aliases.add(aliases[i].trim());
-		}
-		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
-		setMetamodelUri(properties.getProperty("metamodelUri"));
-		this.isMetamodelFileBased = Boolean.parseBoolean(properties.getProperty("isMetamodelFileBased"));
 		this.m0SpecificationFile = new File(resolver.resolve(properties.getProperty("m0SpecificationFile")));
-		this.readOnLoad = Boolean.parseBoolean(properties.getProperty("readOnLoad"));
-		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty("storeOnDisposal"));
-		load();
+		super.load(properties, resolver);
+//		this.name = properties.getProperty("name");
+//		String[] aliases = properties.getProperty("aliases").split(",");
+//		for (int i=0;i<aliases.length;i++){
+//			this.aliases.add(aliases[i].trim());
+//		}
+//		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
+//		setMetamodelUri(properties.getProperty("metamodelUri"));
+//		this.isMetamodelFileBased = Boolean.parseBoolean(properties.getProperty("isMetamodelFileBased"));
+//		this.m0SpecificationFile = new File(resolver.resolve(properties.getProperty("m0SpecificationFile")));
+//		this.readOnLoad = Boolean.parseBoolean(properties.getProperty("readOnLoad"));
+//		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty("storeOnDisposal"));
+//		load();
 	}
 
 	@Override
@@ -160,6 +162,12 @@ public class EmfM0Model extends EmfModel {
 	}
 	
 	@Override
+	public Object getCacheKeyForType(String type)
+			throws EolModelElementTypeNotFoundException {
+		return null;
+	}
+	
+	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
 		Operation allOfKindHelper = getHelper("allOfKind");
 		Collection<EObject> allOfKind = null;
@@ -178,7 +186,6 @@ public class EmfM0Model extends EmfModel {
 	public boolean hasType(String type){
 		Operation hasTypeHelper = getHelper("hasType");
 		boolean hasType = false;
-		
 		try {
 			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList<Object>(), eolModule.getContext());
 		}
