@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Flock Engine
 Bundle-SymbolicName: org.eclipse.epsilon.flock.engine
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine
 Export-Package: org.eclipse.epsilon.flock,

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon CSV Workflow Tasks Plugin
 Bundle-SymbolicName: org.eclipse.epsilon.workflow.csv;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.workflow.tasks.csv
 Require-Bundle: org.apache.ant,

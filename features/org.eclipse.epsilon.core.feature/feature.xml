@@ -2,8 +2,8 @@
 <feature
       id="org.eclipse.epsilon.core.feature"
       label="Epsilon Core"
-      version="1.2.0.qualifier"
-      provider-name="Eclipse.org">
+      version="1.3.0.qualifier"
+      provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
       This feature provides execution engines for all Epsilon languages, profiling tools and several Epsilon Model Connectivity (EMC) drivers for non-EMF models, such as CSV files, BibTeX files and plain XML files.
@@ -103,133 +103,133 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.ecl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eml.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.tools"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.erl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.etl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.evl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ewl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.composite"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.plainxml"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.flock.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.traceability.fine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.bibtex"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.csv"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.profiling"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.epl.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eunit.engine"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.common"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>

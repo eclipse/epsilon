@@ -2,8 +2,8 @@
 <feature
       id="org.eclipse.epsilon.hutn.dt.feature"
       label="Human Usable Textual Notation Development Tools"
-      version="1.2.0.qualifier"
-      provider-name="Eclipse.org">
+      version="1.3.0.qualifier"
+      provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
       This feature provides an editor and supporting tools for models specified in the OMG HUTN textual notation. These models can be accessed by Epsilon programs through the a HUTN EMC driver.
@@ -238,21 +238,21 @@ litigation.
          id="org.eclipse.epsilon.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi.dt"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>

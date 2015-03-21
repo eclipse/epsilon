@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EVL EMF Validation Integration Plug-in
 Bundle-SymbolicName: org.eclipse.epsilon.evl.emf.validation;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.3.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.evl.emf.validation.Activator
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt,

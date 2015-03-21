@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Concordance Clients
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.clients;singleton:=true
 Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.concordance.core;visibility:=reexport,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.hutn.xmi.dt,

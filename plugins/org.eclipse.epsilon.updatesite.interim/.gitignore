@@ -1,0 +1,8 @@
+features/
+plugins/
+.DS_Store
+content.jar
+content.jar.pack.gz
+artifacts.jar
+artifacts.jar.pack.gz
+/content.jar.pack

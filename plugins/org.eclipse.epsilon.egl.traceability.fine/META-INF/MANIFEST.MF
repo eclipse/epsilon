@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Generation Language Engine: Fine-Grained Traceability
 Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine;singleton:=true
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine,

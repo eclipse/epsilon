@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Transformation Language Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.etl.dt;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.3.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.etl.dt.EtlPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.etl.engine;visibility:=reexport,
  org.eclipse.jface.text,

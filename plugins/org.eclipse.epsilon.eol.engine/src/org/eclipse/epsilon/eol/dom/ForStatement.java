@@ -111,7 +111,7 @@ public class ForStatement extends Statement {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		
+		//TODO: Fix iterator type
 		iteratedExpression.compile(context);
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 
 				new Variable("loopCount", EolPrimitiveType.Integer), 

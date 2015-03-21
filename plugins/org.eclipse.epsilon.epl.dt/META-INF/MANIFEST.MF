@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Pattern Language Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.epl.dt;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.3.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.epl.dt.EplPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.dt,
  org.eclipse.jface.text,
  org.eclipse.epsilon.common.dt,

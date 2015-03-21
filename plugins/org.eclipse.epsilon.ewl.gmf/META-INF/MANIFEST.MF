@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Wizard Language GMF Support
 Bundle-SymbolicName: org.eclipse.epsilon.ewl.gmf;singleton:=true
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.ewl.emf,

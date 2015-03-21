@@ -2,8 +2,8 @@
 <feature
       id="org.eclipse.epsilon.ewl.gmf.feature"
       label="Epsilon Wizard Language GMF Integration"
-      version="1.2.0.qualifier"
-      provider-name="Eclipse.org">
+      version="1.3.0.qualifier"
+      provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
       Installing this feature enables the &quot;Wizards&quot; popup menu in the GMF-based editors. From this &quot;Wizards&quot; menu, users will be able to run the registered EWL scripts that are applicable to the selected element.
@@ -223,7 +223,7 @@ litigation.
          id="org.eclipse.epsilon.ewl.gmf"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>

@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation XMI Bridge Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.xmi.dt;singleton:=true
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.hutn.xmi,
  org.eclipse.epsilon.hutn.engine,
  org.eclipse.epsilon.hutn.dt,

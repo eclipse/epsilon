@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon EMF Utilities
 Bundle-SymbolicName: org.eclipse.epsilon.emf.dt;singleton:=true
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.emf.dt
 Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,

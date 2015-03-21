@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Common
 Bundle-SymbolicName: org.eclipse.epsilon.common
-Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.common.module,
  org.eclipse.epsilon.common.parse,
  org.eclipse.epsilon.common.parse.problem,

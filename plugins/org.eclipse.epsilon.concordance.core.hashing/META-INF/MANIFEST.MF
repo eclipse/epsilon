@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation XMI Bridge EPackage Hashing
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.core.hashing
 Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.hutn.xmi
 Export-Package: org.eclipse.epsilon.concordance.core.hashing,

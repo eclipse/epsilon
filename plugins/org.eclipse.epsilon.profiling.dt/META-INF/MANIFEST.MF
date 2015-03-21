@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Profiling Support
 Bundle-SymbolicName: org.eclipse.epsilon.profiling.dt;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.3.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.profiling.dt.Activator
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.profiling,
  org.eclipse.epsilon.eol.dt,
