@@ -22,7 +22,7 @@ import org.eclipse.epsilon.emc.emf.EmfModelTestSuite;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetterCoerceTests;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetterConformsTests;
 import org.eclipse.epsilon.emc.emf.URITest;
-import org.eclipse.epsilon.emc.emf.XmlModelTests;
+import org.eclipse.epsilon.emc.emf.xml.XmlModelTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

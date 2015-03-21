@@ -49,8 +49,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EmfTestSuite.class,
-               CommonsTestSuite.class,
+@SuiteClasses({CommonsTestSuite.class,
                EolUnitTestSuite.class, 
                EolAcceptanceTestSuite.class,
                EvlAcceptanceTestSuite.class,
@@ -73,7 +72,8 @@ import org.junit.runners.Suite.SuiteClasses;
                EpsilonFlockEngineTestSuite.class,
                ConcordanceTestSuite.class,
                WorkflowTestSuite.class,
-               GraphmlTestSuite.class})
+               GraphmlTestSuite.class,
+               EmfTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {

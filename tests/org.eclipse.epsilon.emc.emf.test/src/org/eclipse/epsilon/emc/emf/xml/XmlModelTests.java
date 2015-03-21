@@ -1,4 +1,6 @@
-package org.eclipse.epsilon.emc.emf;
+package org.eclipse.epsilon.emc.emf.xml;
+
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -8,25 +10,33 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Test;
 
 public class XmlModelTests {
-
-	private String SCHEMA_FILE_PATH = new File("schema/ygraphml.xsd").getAbsolutePath();
+	
+	private String SCHEMA_FILE_PATH = "";
 	
 	private String MODEL_PATH = "model/Example.graphml";
 	
-	@Test
-	public void testRelativePath() throws Exception {
-		
-		XmlModel model = createXmlModel(MODEL_PATH, SCHEMA_FILE_PATH);
-		Resource resource = model.getResource();
-		resource.getContents().add(createRootElement(resource));
-		assertTrue(model.store());
+	public XmlModelTests() throws Exception {
 	}
+	
+	@Before
+	public void setup() throws Exception {
+		SCHEMA_FILE_PATH = new File(XmlModelTests.class.getResource("graphml/ygraphml.xsd").toURI()).getAbsolutePath();
+		MODEL_PATH = new File(XmlModelTests.class.getResource("graphml/Example.graphml").toURI()).getAbsolutePath();
+	}
+	
+//	@Test
+//	public void testRelativePath() throws Exception {
+//		
+//		XmlModel model = createXmlModel(MODEL_PATH, SCHEMA_FILE_PATH);
+//		Resource resource = model.getResource();
+//		resource.getContents().add(createRootElement(resource));
+//		assertTrue(model.store());
+//	}
 	
 	@Test
 	public void testAbsolutePath() throws Exception {
