@@ -44,11 +44,11 @@ public abstract class AbstractCachedModelConfigurationDialog extends AbstractMod
 	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
-		isCachedButton.setSelection(properties.getBooleanProperty(CachedModel.PROPERTY_CACHED, true));
+		if (isCachedButton != null) isCachedButton.setSelection(properties.getBooleanProperty(CachedModel.PROPERTY_CACHED, true));
 	}
 	
 	protected void storeProperties() {
 		super.storeProperties();
-		properties.put(CachedModel.PROPERTY_CACHED, isCachedButton.getSelection() + "");
+		if (isCachedButton != null) properties.put(CachedModel.PROPERTY_CACHED, isCachedButton.getSelection() + "");
 	}
 }
