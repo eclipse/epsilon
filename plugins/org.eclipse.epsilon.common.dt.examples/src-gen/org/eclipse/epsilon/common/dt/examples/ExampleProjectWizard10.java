@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard10 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard10 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard10() {
-		super("Cloning EMF model elements with EOL", "In this example, we demonstrate how the EmfTool built-in tool can be used to perform deep-copy (cloning) of EMF model elements using EOL.", "org.eclipse.epsilon.examples.clone",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.clone/");
+		super("Transform a Tree model to a Graph model with ETL", "In this example, we use ETL to transform a model that conforms to a Tree metamodel to a model that conforms to a Graph metamodel.", "org.eclipse.epsilon.examples.tree2graph",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.tree2graph/");
 		
 	}
 

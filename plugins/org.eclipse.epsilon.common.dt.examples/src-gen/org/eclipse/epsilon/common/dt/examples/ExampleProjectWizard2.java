@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard2 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard2 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard2() {
-		super("Transform a Tree model to a Graph model with ETL", "In this example, we use ETL to transform a model that conforms to a Tree metamodel to a model that conforms to a Graph metamodel.", "org.eclipse.epsilon.examples.tree2graph",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.tree2graph/");
+		super("Modify a Tree model with EOL", "In this example we use EOL to programmatically modify a model that conforms to a Tree metamodel and store the modified version as a new model.", "org.eclipse.epsilon.examples.modelmodification",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.modelmodification/");
 		
 	}
 

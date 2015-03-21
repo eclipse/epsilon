@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard13 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard13 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard13() {
-		super("Validate an OO model against a DB model with EVL", "In this example, we use EVL to expressing inter-model constraints.", "org.eclipse.epsilon.examples.evl.intermodel",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.evl.intermodel/");
+		super("Transform an OO model to a DB model with ETL", "In this example, we use ETL to transform a model that conforms to an Object-Oriented metamodel to a model that conforms to the Database metamodel.", "org.eclipse.epsilon.examples.oo2db",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.oo2db/");
 		
 	}
 

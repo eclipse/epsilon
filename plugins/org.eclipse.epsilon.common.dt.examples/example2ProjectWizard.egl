@@ -1,11 +1,11 @@
 [%import "util.eol";%]
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard[%=example.~index%] extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard[%=example.~index%] extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard[%=example.~index%]() {
 		super("[%=example.a_title%]", "[%=example.getShortDescription()%]", "[%=example.a_src%]",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/[%=example.a_src%]/");
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/[%=example.a_src%]/");
 		
 	}
 

@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard29 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard29 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard29() {
-		super("Test a model validation script with EUnit", "In this example we show how a model validation script written in EVL can be tested with EUnit, using the exportAsModel attribute of the EVL workflow task.", "org.eclipse.epsilon.eunit.examples.evl",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.eunit.examples.evl/");
+		super("Implement a GMF editor with end labels in connections using EuGENia", "In this example we use EuGENia to implement a GMF editor with end labels in connections.", "org.eclipse.epsilon.eugenia.examples.endlabels",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.eugenia.examples.endlabels/");
 		
 	}
 

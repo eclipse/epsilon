@@ -25,6 +25,8 @@ public class WizardNewImmuatableProjectCreationPage extends WizardNewProjectCrea
 			((Text) texts.get(0)).setEnabled(false);
 		}
 		
+		if (visible) { validatePage(); }
+		
 	}
 	
 	protected List<Control> getDescendants(Composite composite, Class<?> c) {

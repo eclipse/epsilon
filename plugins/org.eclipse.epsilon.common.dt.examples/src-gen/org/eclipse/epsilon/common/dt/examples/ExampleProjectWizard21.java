@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard21 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard21 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard21() {
-		super("Implement a GMF editor with end labels in connections using EuGENia", "In this example we use EuGENia to implement a GMF editor with end labels in connections.", "org.eclipse.epsilon.eugenia.examples.endlabels",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.eugenia.examples.endlabels/");
+		super("Migrate Petri net models with Epsilon Flock", "In this example we demonstrate how to migrate a model in response to metamodel changes with Epsilon Flock.", "org.eclipse.epsilon.examples.flock.petrinets",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.flock.petrinets/");
 		
 	}
 

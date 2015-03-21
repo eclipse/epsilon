@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard23 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard23 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard23() {
-		super("Provide custom/extended tasks for the workflow", "In this example we demonstrate how you can define your own ANT tasks that extend the Epsilon workflow tasks.", "org.eclipse.epsilon.workflow.extension.example",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.workflow.extension.example/");
+		super("MDD-TIF complete case study", "In this example, we demonstrate how different languages in Epsilon (EVL, EGL, EML, ETL and ECL) can be combined to implement more complex operations.", "org.eclipse.epsilon.examples.mddtif",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.mddtif/");
 		
 	}
 

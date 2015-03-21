@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard11 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard11 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard11() {
-		super("Profiling and caching in EOL", "This example demonstrates the caching capabilities and the profiling tools provided by Epsilon.", "org.eclipse.epsilon.examples.profiling",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.profiling/");
+		super("Transform an RSS feed to an Atom feed using ETL", "In this example, we use ETL and the plain XML driver to transform an RSS feed to an Atom feed.", "org.eclipse.epsilon.examples.rss2atom",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.rss2atom/");
 		
 	}
 

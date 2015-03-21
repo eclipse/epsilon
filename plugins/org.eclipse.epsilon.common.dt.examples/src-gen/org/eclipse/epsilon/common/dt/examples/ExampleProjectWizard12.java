@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard12 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard12 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard12() {
-		super("Validate an OO model with EVL", "In this example, we use EVL, to express constraints for models that conform to an Object-Oriented metamodel.", "org.eclipse.epsilon.examples.validateoo",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.validateoo/");
+		super("Experiment with the different types of transformation rule in ETL using a Flowchart-to-HTML transformation.", "In this example, we show the different types of transformation rule that are provided by ETL, including plain, abstract, lazy, primary and greedy rules. We also explore rule inheritance and rules that generate more than model element. We transform from a Flowchart model to an HTML model.", "org.eclipse.epsilon.examples.etl.flowchart2html",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.etl.flowchart2html/");
 		
 	}
 

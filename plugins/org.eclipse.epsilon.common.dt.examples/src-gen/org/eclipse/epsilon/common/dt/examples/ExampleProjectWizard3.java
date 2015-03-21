@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard3 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard3 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard3() {
-		super("Modify a Tree model with EOL", "In this example we use EOL to programmatically modify a model that conforms to a Tree metamodel and store the modified version as a new model.", "org.eclipse.epsilon.examples.modelmodification",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.modelmodification/");
+		super("Call Java code from Epsilon", "In this example, we create a JFrame from EOL. The aim of this example is to show how to call Java code from within Epsilon languages.", "org.eclipse.epsilon.examples.calljava",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.calljava/");
 		
 	}
 

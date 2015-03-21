@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard9 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard9 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard9() {
-		super("Cloning and copying XML elements across documents with EOL", "In this example, we use the plain XML driver of Epsilon to clone and copy XML elements across different documents with EOL.", "org.eclipse.epsilon.examples.plainxml.copyfromtemplate",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.plainxml.copyfromtemplate/");
+		super("Manage XSD-backed XML files with EOL", "In this example we demonstrate using EOL to query an XSD-backed XML file.", "org.eclipse.epsilon.examples.xsdxml",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.xsdxml/");
 		
 	}
 

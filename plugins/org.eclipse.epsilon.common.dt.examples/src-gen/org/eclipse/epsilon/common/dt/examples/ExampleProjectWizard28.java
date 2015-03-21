@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard28 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard28 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard28() {
-		super("Reuse EUnit tests with model and data bindings", "In this example we show how the same EUnit test can be reused for several models, and how EUnit supports several levels of parametric tests.", "org.eclipse.epsilon.eunit.examples.bindings",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.eunit.examples.bindings/");
+		super("Implement a GMF editor with image nodes using EuGENia", "In this example we use EuGENia to implement a GMF editor with images instead of shapes for nodes.", "org.eclipse.epsilon.eugenia.examples.friends",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.eugenia.examples.friends/");
 		
 	}
 

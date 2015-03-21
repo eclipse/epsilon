@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard15 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard15 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard15() {
-		super("Use Epsilon in standalone Java applications", "In this example, we demonstrate how Epsilon languages can be used in standalone, non-Eclipse-based Java applications.", "org.eclipse.epsilon.examples.standalone",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.standalone/");
+		super("Generating HTML pages from an XML document", "In this example, we use the plain XML driver of Epsilon in the context of an EGL model-to-text transformation.", "org.eclipse.epsilon.examples.egl.library",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.egl.library/");
 		
 	}
 

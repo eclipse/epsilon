@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard20 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard20 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard20() {
-		super("Implement a GMF editor with image nodes using EuGENia", "In this example we use EuGENia to implement a GMF editor with images instead of shapes for nodes.", "org.eclipse.epsilon.eugenia.examples.friends",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.eugenia.examples.friends/");
+		super("Heterogeneous Model Merging with ECL/EML", "In this example, we demonstrate merging heterogeneous models using ECL and EML.", "org.eclipse.epsilon.examples.mergeentitywithvocabulary",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.mergeentitywithvocabulary/");
 		
 	}
 

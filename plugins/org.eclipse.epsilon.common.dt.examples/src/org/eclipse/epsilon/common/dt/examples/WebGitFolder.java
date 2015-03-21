@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebSvnFolder extends WebSvnFile {
+public class WebGitFolder extends WebGitFile {
 	
-	protected List<WebSvnFile> children = null;
+	protected List<WebGitFile> children = null;
 	
 	public static void main(String[] args) throws Exception {
 
-		WebSvnFolder folder = new WebSvnFolder(
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.emc.contactsmodel/");
+		WebGitFolder folder = new WebGitFolder(
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.emc.contactsmodel/");
 		
-		for (WebSvnFile f : folder.getChildren()) {
+		for (WebGitFile f : folder.getChildren()) {
 			System.err.println(f.getRelativePath() + " - " + f.getClass().getSimpleName());
-			if (f instanceof WebSvnFolder) {
-				for (WebSvnFile f2 : ((WebSvnFolder)f).getChildren()) {
+			if (f instanceof WebGitFolder) {
+				for (WebGitFile f2 : ((WebGitFolder)f).getChildren()) {
 					System.err.println(">" + f2.getRelativePath() + " - " + f2.getClass().getSimpleName());
 				}
 			}
@@ -29,29 +29,29 @@ public class WebSvnFolder extends WebSvnFile {
 
 	}
 	
-	public WebSvnFolder(String url, WebSvnFolder parent) {
-		super(url, parent);
+	public WebGitFolder(String server, String url, WebGitFolder parent) {
+		super(server, url, parent);
 		if (!url.endsWith("/")) url += "/";		
 	}
 	
-	public WebSvnFolder(String url) {
-		super(url, null);
+	public WebGitFolder(String server, String url) {
+		super(server, url, null);
 		if (!url.endsWith("/")) url += "/";
 	}
 
-	public List<WebSvnFile> getChildren() throws Exception {
+	public List<WebGitFile> getChildren() throws Exception {
 		
 		if (children == null) {
 			
-			children = new ArrayList<WebSvnFile>();
+			children = new ArrayList<WebGitFile>();
 			List<String> childFileNames = getChildrenFileNames(url);
 			
 			for (String childFileName : childFileNames) {
 				
 				if (childFileName.startsWith("..") || childFileName.equals("/")) continue;
 				
-				if (childFileName.endsWith("/")) children.add(new WebSvnFolder(url + childFileName, this));
-				else children.add(new WebSvnFile(url + childFileName, this));
+				if (childFileName.endsWith("/")) children.add(new WebGitFolder(server, childFileName, this));
+				else children.add(new WebGitFile(server, childFileName, this));
 			}
 		}
 		
@@ -65,11 +65,15 @@ public class WebSvnFolder extends WebSvnFile {
 	
 	protected List<String> getChildrenFileNames(String url) throws Exception {
 		ArrayList<String> childFileNames = new ArrayList<String>();
-		String text = getText(url);
-		Pattern links = Pattern.compile("href=\"(.*?)\"");
+		String text = getText(server + url);
+		Pattern links = Pattern.compile("href='(.*?)'");
 		Matcher matcher = links.matcher(text);
+		boolean first = true;
 		while (matcher.find()) {
-			childFileNames.add(matcher.group(1));
+			if (!first) { // skip ../
+				childFileNames.add(matcher.group(1));
+			}
+			first = false;
 		}
 		return childFileNames;
 	}

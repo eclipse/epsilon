@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard19 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard19 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard19() {
-		super("Compare, validate and merge OO models", "In this example, we use ECL to compare two OO models, then use EVL to check the identified matches for consistency and finally EML to merge them.", "org.eclipse.epsilon.examples.oomerging",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.oomerging/");
+		super("Dijkstra's shortest path algorithm with EOL/EVL", "In this example, we use EOL and EVL to implement Dijkstra's shortest path algorithm.", "org.eclipse.epsilon.examples.shortestpath",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.shortestpath/");
 		
 	}
 

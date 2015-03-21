@@ -31,7 +31,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 
-abstract public class WebSvnProjectNewWizard extends Wizard implements
+abstract public class WebGitProjectNewWizard extends Wizard implements
 		INewWizard, IExecutableExtension {
 
 	private WizardNewProjectCreationPage wizardNewProjectCreationPage;
@@ -39,10 +39,11 @@ abstract public class WebSvnProjectNewWizard extends Wizard implements
 	private String pageTitle;
 	private String pageDescription;
 	private String pageProjectName;
+	private String projectServer;
 	private String projectUrl;
-
-	public WebSvnProjectNewWizard(String pageTitle, String pageDescription, 
-			String pageProjectName, String projectUrl) {
+	
+	public WebGitProjectNewWizard(String pageTitle, String pageDescription, 
+			String pageProjectName, String projectServer, String projectUrl) {
 		
 		super();
 
@@ -50,6 +51,7 @@ abstract public class WebSvnProjectNewWizard extends Wizard implements
 		this.pageDescription = pageDescription;
 		this.pageProjectName = pageProjectName;
 		this.projectUrl = projectUrl;
+		this.projectServer = projectServer;
 		setNeedsProgressMonitor(true);
 	}
 
@@ -73,8 +75,8 @@ abstract public class WebSvnProjectNewWizard extends Wizard implements
 						if (!project.exists()) {
 							monitor.worked(10);
 
-							WebSvnFolder exampleFolder = new WebSvnFolder(projectUrl.toString());
-							WebSvnImportStructureProvider structureProvider = new WebSvnImportStructureProvider();
+							WebGitFolder exampleFolder = new WebGitFolder(projectServer, projectUrl);
+							WebGitImportStructureProvider structureProvider = new WebGitImportStructureProvider();
 							
 							ImportOperation op = new ImportOperation(project.getFullPath(), exampleFolder, 
 									structureProvider,

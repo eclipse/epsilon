@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard6 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard6 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard6() {
-		super("Creating custom Java tools for Epsilon", "In this example, we create a custom tool for Epsilon.", "org.eclipse.epsilon.examples.tools",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.tools/");
+		super("Cloning and copying XML elements across documents with EOL", "In this example, we use the plain XML driver of Epsilon to clone and copy XML elements across different documents with EOL.", "org.eclipse.epsilon.examples.plainxml.copyfromtemplate",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.plainxml.copyfromtemplate/");
 		
 	}
 

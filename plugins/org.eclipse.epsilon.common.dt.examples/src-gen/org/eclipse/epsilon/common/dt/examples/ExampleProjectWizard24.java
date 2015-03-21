@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.common.dt.examples;
 
-public class ExampleProjectWizard24 extends WebSvnProjectNewWizard {
+public class ExampleProjectWizard24 extends WebGitProjectNewWizard {
 	
 	public ExampleProjectWizard24() {
-		super("Migrate Petri net models with Epsilon Flock", "In this example we demonstrate how to migrate a model in response to metamodel changes with Epsilon Flock.", "org.eclipse.epsilon.examples.flock.petrinets",
-				"https://dev.eclipse.org/svnroot/modeling/org.eclipse.epsilon/trunk/examples/org.eclipse.epsilon.examples.flock.petrinets/");
+		super("Compare, validate and merge OO models", "In this example, we use ECL to compare two OO models, then use EVL to check the identified matches for consistency and finally EML to merge them.", "org.eclipse.epsilon.examples.oomerging",
+				"https://git.eclipse.org", "/c/epsilon/org.eclipse.epsilon.git/plain/examples/org.eclipse.epsilon.examples.oomerging/");
 		
 	}
 

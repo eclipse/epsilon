@@ -8,13 +8,13 @@ import java.util.List;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.ui.wizards.datatransfer.IImportStructureProvider;
 
-public class WebSvnImportStructureProvider implements IImportStructureProvider {
+public class WebGitImportStructureProvider implements IImportStructureProvider {
 	
 	@Override
 	public List<?> getChildren(Object element) {
-		if (element instanceof WebSvnFolder) {
+		if (element instanceof WebGitFolder) {
 			try {
-				return ((WebSvnFolder) element).getChildren();
+				return ((WebGitFolder) element).getChildren();
 			} catch (Exception e) {
 				LogUtil.log(e);
 			}
@@ -26,9 +26,10 @@ public class WebSvnImportStructureProvider implements IImportStructureProvider {
 
 	@Override
 	public InputStream getContents(Object element) {
-		if (element.getClass() == WebSvnFile.class) {
+		if (element.getClass() == WebGitFile.class) {
+			WebGitFile file = (WebGitFile) element;
 			try {
-				return new URL(((WebSvnFile) element).getUrl()).openConnection().getInputStream();
+				return new URL(file.getServer() + file.getUrl()).openConnection().getInputStream();
 			} catch (Exception e) {
 				LogUtil.log(e);
 			}
@@ -38,17 +39,17 @@ public class WebSvnImportStructureProvider implements IImportStructureProvider {
 
 	@Override
 	public String getFullPath(Object element) {
-		return ((WebSvnFile) element).getRelativePath();
+		return ((WebGitFile) element).getRelativePath();
 	}
 
 	@Override
 	public String getLabel(Object element) {
-		return ((WebSvnFile) element).getName();
+		return ((WebGitFile) element).getName();
 	}
 
 	@Override
 	public boolean isFolder(Object element) {
-		return element instanceof WebSvnFolder;
+		return element instanceof WebGitFolder;
 	}
 
 }

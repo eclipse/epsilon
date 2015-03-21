@@ -4,8 +4,7 @@ pre {
 	}
 }
 
-rule Examples2PluginXml
-	transform examples : t_examples {
+rule Examples2PluginXml {
 	
 	template : "examples2PluginXml.egl"
 	
