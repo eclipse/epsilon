@@ -236,28 +236,28 @@ litigation.
          id="org.eclipse.epsilon.concordance.clients"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.concordance.core"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.concordance.core.hashing"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.flock.dt.concordance"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>
