@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SLF4J LOG4J-12 Binding 1.7.2
+Bundle-SymbolicName: org.slf4j.impl_1.7.2
+Bundle-Version: 1.7.2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: QOS.ch
+Bundle-ClassPath: .
+Export-Package: org.slf4j.impl
