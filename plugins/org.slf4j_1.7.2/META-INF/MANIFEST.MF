@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SLF4J API Module 1.7.2
-Bundle-SymbolicName: org.slf4j_1.7.2
+Bundle-SymbolicName: org.slf4j.api_1.7.2
 Bundle-Version: 1.7.2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: QOS.ch
