@@ -49,6 +49,18 @@
    <feature url="features/org.eclipse.epsilon.emc.graphml.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.emc.graphml.feature" version="1.3.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.feature" version="1.3.0.qualifier">
+      <category name="Epsilon Spreadsheet Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.dt.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature" version="1.3.0.qualifier">
+      <category name="Epsilon Spreadsheet Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature" version="1.3.0.qualifier">
+      <category name="Epsilon Spreadsheet Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.feature" version="1.3.0.qualifier">
+      <category name="Epsilon Spreadsheet Integration"/>
+   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers and execution engines for languages of the Epsilon platform.
@@ -82,6 +94,11 @@
    <category-def name="Model Monitoring" label="Model Monitoring">
       <description>
          Tools for monitoring and maintaining the consistency of EMF models in the workspace.
+      </description>
+   </category-def>
+   <category-def name="Epsilon Spreadsheet Integration" label="Epsilon Spreadsheet Integration">
+      <description>
+         Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
 </site>
