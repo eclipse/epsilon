@@ -46,3 +46,4 @@ Export-Package: com.google.gdata.client,
  com.google.gdata.wireformats,
  com.google.gdata.wireformats.input,
  com.google.gdata.wireformats.output
+Require-Bundle: com.google.guava_18.0;bundle-version="18.0.0"
