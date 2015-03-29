@@ -39,3 +39,6 @@ Export-Package: org.apache.poi,
  org.apache.poi.xwpf.extractor,
  org.apache.poi.xwpf.model,
  org.apache.poi.xwpf.usermodel
+Require-Bundle: org.apache.poi_3.10.1;bundle-version="3.10.1";visibility:=reexport,
+ org.apache.poi.ooxml.schemas_3.10.1;bundle-version="3.10.1";visibility:=reexport,
+ org.dom4j_1.6.1;bundle-version="1.6.1";visibility:=reexport

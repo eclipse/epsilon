@@ -44,3 +44,4 @@ Export-Package: com.microsoft.schemas.office.x2006.encryption,
  schemasMicrosoftComOfficeOffice.impl,
  schemasMicrosoftComVml,
  schemasMicrosoftComVml.impl
+Require-Bundle: org.apache.xmlbeans_2.6.0;bundle-version="2.6.0";visibility:=reexport
