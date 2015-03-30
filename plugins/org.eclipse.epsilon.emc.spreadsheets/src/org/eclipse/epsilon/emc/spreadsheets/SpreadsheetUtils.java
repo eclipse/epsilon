@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -133,7 +132,7 @@ public class SpreadsheetUtils
 		}
 		else
 		{
-			return Objects.toString(inputValue);
+			return String.valueOf(inputValue);
 		}
 	}
 

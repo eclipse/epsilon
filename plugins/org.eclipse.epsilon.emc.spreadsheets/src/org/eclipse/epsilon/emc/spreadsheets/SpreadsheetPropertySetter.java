@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -220,7 +219,7 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter
 			}
 			else
 			{
-				valuesToWrite.addAll(Arrays.asList(Objects.toString(newCellValues).split(column.getDelimiter())));
+				valuesToWrite.addAll(Arrays.asList(String.valueOf(newCellValues).split(column.getDelimiter())));
 			}
 		}
 		else

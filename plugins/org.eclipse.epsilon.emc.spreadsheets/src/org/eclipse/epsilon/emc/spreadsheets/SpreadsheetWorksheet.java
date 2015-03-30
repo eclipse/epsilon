@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -338,7 +337,7 @@ public abstract class SpreadsheetWorksheet
 				value = this.getValueToWriteToReferencingCell(entry.getKey(), value);
 			}
 			value = this.getValueToWriteToCell(entry.getKey(), value);
-			values.put(entry.getKey(), Objects.toString(value));
+			values.put(entry.getKey(), String.valueOf(value));
 		}
 
 		return this.insertRow(values);
@@ -455,7 +454,7 @@ public abstract class SpreadsheetWorksheet
 		}
 		else
 		{
-			return Objects.toString(inputValue);
+			return String.valueOf(inputValue);
 		}
 	}
 
