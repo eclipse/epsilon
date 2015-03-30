@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Easymock 3.1
+Bundle-SymbolicName: org.easymock_3.1
+Bundle-Version: 3.1
+Bundle-Vendor: OFFIS, Tammo Freese, Henri Tremblay
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .
+Export-Package: org.easymock,
+ org.easymock.internal,
+ org.easymock.internal.matchers
+Require-Bundle: net.sf.cglib.nodep_2.1.3;bundle-version="2.1.3",
+ org.objenesis_1.0;bundle-version="1.0.0"
