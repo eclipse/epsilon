@@ -30,17 +30,22 @@ public class ExcelRow extends SpreadsheetRow
 		{
 			final FormulaEvaluator evaluator = worksheet.model.workbook.getCreationHelper().createFormulaEvaluator();
 			final CellValue cellValue = evaluator.evaluate(cell);
-			switch (cellValue.getCellType())
-			{
-			case Cell.CELL_TYPE_NUMERIC:
-				visibleCellValue += cell.getNumericCellValue();
-				break;
-			case Cell.CELL_TYPE_STRING:
-				visibleCellValue = cell.getStringCellValue();
-				break;
-			case Cell.CELL_TYPE_BOOLEAN:
-				visibleCellValue += cell.getBooleanCellValue();
-				break;
+			if (cellValue != null) {
+				switch (cellValue.getCellType())
+				{
+				case Cell.CELL_TYPE_NUMERIC:
+					visibleCellValue += cell.getNumericCellValue();
+					break;
+				case Cell.CELL_TYPE_STRING:
+					visibleCellValue = cell.getStringCellValue();
+					break;
+				case Cell.CELL_TYPE_BOOLEAN:
+					visibleCellValue += cell.getBooleanCellValue();
+					break;
+				}
+			}
+			else {
+				visibleCellValue += cell.getStringCellValue();
 			}
 		}
 		return visibleCellValue;
