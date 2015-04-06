@@ -8,6 +8,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,7 +28,7 @@ public class DeleteReferencedRowTest
 	{
 		String pathToFile = "resources/delete/DeleteRowTest.xlsx";
 		String pathToConfig = "resources/delete/DeleteRowTestConfig.xml";
-		return SharedTestMethods.getModelsToTest("", pathToFile, pathToConfig, "DeleteRowTest");
+		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "DeleteRowTest");
 	}
 
 	@Test

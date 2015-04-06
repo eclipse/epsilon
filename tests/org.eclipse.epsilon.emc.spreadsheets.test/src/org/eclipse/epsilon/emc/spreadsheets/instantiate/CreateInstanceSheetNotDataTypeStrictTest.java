@@ -15,6 +15,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSWorksheet;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -34,7 +35,7 @@ public class CreateInstanceSheetNotDataTypeStrictTest
 	{
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
-		return SharedTestMethods.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
+		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test

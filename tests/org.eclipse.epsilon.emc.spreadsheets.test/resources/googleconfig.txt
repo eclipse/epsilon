@@ -1,2 +1,0 @@
-username:user
-password:password

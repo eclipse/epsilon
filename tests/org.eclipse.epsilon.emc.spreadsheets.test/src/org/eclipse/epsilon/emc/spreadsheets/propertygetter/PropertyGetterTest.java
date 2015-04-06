@@ -9,6 +9,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetPropertyGetter;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -28,7 +29,7 @@ public class PropertyGetterTest
 	{
 		String PATH_TO_FILE = "resources/propertygetter/PropertyGetterTest.xlsx";
 		String CONFIG = "resources/propertygetter/PropertyGetterTest.xml";
-		return SharedTestMethods.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertyGetterTest");
+		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertyGetterTest");
 	}
 
 	@Test

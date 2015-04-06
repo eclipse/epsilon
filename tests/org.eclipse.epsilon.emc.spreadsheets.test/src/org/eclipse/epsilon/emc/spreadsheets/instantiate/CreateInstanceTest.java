@@ -16,6 +16,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class CreateInstanceTest
 	{
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
-		return SharedTestMethods.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
+		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test

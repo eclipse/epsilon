@@ -13,8 +13,9 @@ import org.junit.Test;
 
 public class ExcelRowTest
 {
-	private final static String PATH_TO_FILE = "resources/excel/RowTest.xlsx";
-	private final static String PATH_TO_CONFIG = "resources/excel/ModelTestConfig.xml";
+	private final static String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/RowTest.xlsx";
+	private final static String PATH_TO_CONFIG = SharedTestMethods.getBasePath()
+			+ "resources/excel/ModelTestConfig.xml";
 
 	private static ExcelModel model = null;
 

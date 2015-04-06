@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetReferenceMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetReference;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
+import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class SpreadsheetReferenceTest
 	public static void setup() throws EolModelLoadingException
 	{
 		model = new ExcelModel();
-		model.setSpreadsheetFile("resources/excel/ModelTest.xlsx");
+		model.setSpreadsheetFile(SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xlsx");
 		model.load();
 	}
 

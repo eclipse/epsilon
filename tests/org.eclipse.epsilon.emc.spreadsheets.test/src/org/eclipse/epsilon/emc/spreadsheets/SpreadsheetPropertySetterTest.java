@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.easymock.EasyMock;
+import org.easymock.classextension.EasyMock;
 import org.easymock.IMocksControl;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;

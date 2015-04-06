@@ -13,6 +13,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetPropertySetter;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -32,7 +33,7 @@ public class ReferencingCellPropertySetterTest
 	{
 		String PATH_TO_FILE = "resources/propertysetter/PropertySetterTest.xlsx";
 		String CONFIG = "resources/propertysetter/ReferencingCellPropertySetterTest.xml";
-		return SharedTestMethods.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
+		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
 	}
 
 	@Test

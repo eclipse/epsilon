@@ -9,7 +9,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheetHeader;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSConstants;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSWorksheet;
-import org.eclipse.epsilon.emc.spreadsheets.test.ModelFactory;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +29,15 @@ public class LoadExistingWorksheetTest
 	public static Collection<Object[]> models() throws Exception
 	{
 		String CONFIG = "resources/google/LoadExistingWorksheetTest.xml";
-		SpreadsheetModel gsModel = ModelFactory.getGSModel("ReadTest", CONFIG, "");
-		return Arrays.asList(new Object[][] { { gsModel } });
+		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", CONFIG, "");
+		if (gsModel != null)
+		{
+			return Arrays.asList(new Object[][] { { gsModel } });
+		}
+		else
+		{
+			return Arrays.asList(new Object[][] {});
+		}
 	}
 
 	@Test
@@ -62,20 +69,23 @@ public class LoadExistingWorksheetTest
 	@AfterClass
 	public static void tearDown() throws Exception
 	{
-		GSWorksheet sheet1 = (GSWorksheet) model.getWorksheetByType("Sheet1");
-		sheet1.writeHeaderCell(1, "");
-		sheet1.writeHeaderCell(2, "");
-		sheet1.writeHeaderCell(3, "");
-		sheet1.writeHeaderCell(4, "");
-		GSWorksheet sheet2 = (GSWorksheet) model.getWorksheetByType("Sheet2");
-		sheet2.writeHeaderCell(1, "");
-		sheet2.writeHeaderCell(2, "");
-		sheet2.writeHeaderCell(3, "");
-		sheet2.writeHeaderCell(4, "");
-		GSWorksheet sheet3 = (GSWorksheet) model.getWorksheetByType("Sheet3");
-		sheet3.writeHeaderCell(1, "column1");
-		sheet3.writeHeaderCell(2, "column2");
-		sheet3.writeHeaderCell(3, "");
-		sheet3.writeHeaderCell(4, "");
+		if (model != null)
+		{
+			GSWorksheet sheet1 = (GSWorksheet) model.getWorksheetByType("Sheet1");
+			sheet1.writeHeaderCell(1, "");
+			sheet1.writeHeaderCell(2, "");
+			sheet1.writeHeaderCell(3, "");
+			sheet1.writeHeaderCell(4, "");
+			GSWorksheet sheet2 = (GSWorksheet) model.getWorksheetByType("Sheet2");
+			sheet2.writeHeaderCell(1, "");
+			sheet2.writeHeaderCell(2, "");
+			sheet2.writeHeaderCell(3, "");
+			sheet2.writeHeaderCell(4, "");
+			GSWorksheet sheet3 = (GSWorksheet) model.getWorksheetByType("Sheet3");
+			sheet3.writeHeaderCell(1, "column1");
+			sheet3.writeHeaderCell(2, "column2");
+			sheet3.writeHeaderCell(3, "");
+			sheet3.writeHeaderCell(4, "");
+		}
 	}
 }

@@ -13,8 +13,8 @@ import java.util.Map;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
-import org.eclipse.epsilon.emc.spreadsheets.test.ModelFactory;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
@@ -35,8 +35,15 @@ public class GSFindTest
 	public static Collection<Object[]> models() throws Exception
 	{
 		String pathToConfig = "resources/find/GSFindTestConfig.xml";
-		SpreadsheetModel gsModel = ModelFactory.getGSModel("FindTest", pathToConfig, "MODEL");
-		return Arrays.asList(new Object[][] { { gsModel } });
+		SpreadsheetModel gsModel = TestModelFactory.getGSModel("FindTest", pathToConfig, "MODEL");
+		if (gsModel != null)
+		{
+			return Arrays.asList(new Object[][] { { gsModel } });
+		}
+		else
+		{
+			return Arrays.asList(new Object[][] {});
+		}
 	}
 
 	@Test

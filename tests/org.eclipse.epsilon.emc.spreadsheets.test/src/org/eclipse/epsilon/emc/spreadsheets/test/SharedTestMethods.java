@@ -1,8 +1,6 @@
 package org.eclipse.epsilon.emc.spreadsheets.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,21 +91,10 @@ public class SharedTestMethods
 		listOfMap.add(mapOfValues);
 		return (SpreadsheetRow) model.createInstance(worksheetName, listOfMap);
 	}
-
-	public static Collection<Object[]> getModelsToTest(String modelName, String excelFile, String configPath,
-			String googleFileName) throws Exception
+	
+	public static String getBasePath()
 	{
-		SpreadsheetModel excelModel = ModelFactory.getExcelModel(excelFile, configPath, modelName);
-		SpreadsheetModel gsModel = ModelFactory.getGSModel(googleFileName, configPath, modelName);
-		return Arrays.asList(new Object[][] { { excelModel }, { gsModel } });
-	}
-
-	public static Collection<Object[]> getModelsToTest(String modelName, String excelFile, String googleFileName)
-			throws Exception
-	{
-		SpreadsheetModel excelModel = ModelFactory.getExcelModelNotLoaded(excelFile, modelName);
-		SpreadsheetModel gsModel = ModelFactory.getGSModelNotLoaded(googleFileName, modelName);
-		return Arrays.asList(new Object[][] { { excelModel }, { gsModel } });
+		return "../org.eclipse.epsilon.emc.spreadsheets.test/";
 	}
 
 }
