@@ -49,7 +49,7 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 				domains.put(editor, domain);
 			}
 			else {
-				domain = null;
+				domain = super.getEditingDomain(editor);
 			}
 		}
 		return domain;
