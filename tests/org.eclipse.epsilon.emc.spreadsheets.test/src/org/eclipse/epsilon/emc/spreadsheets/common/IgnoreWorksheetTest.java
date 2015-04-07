@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
-import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,7 +25,7 @@ public class IgnoreWorksheetTest
 	{
 		String PATH_TO_FILE = "resources/common/IgnoreWorksheetTest.xlsx";
 		String CONFIG = "resources/common/IgnoreWorksheetTestConfig.xml";
-		return SharedTestMethods.getModelsToTest("", PATH_TO_FILE, CONFIG, "IgnoreWorksheetTest");
+		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "IgnoreWorksheetTest");
 	}
 
 	@Test

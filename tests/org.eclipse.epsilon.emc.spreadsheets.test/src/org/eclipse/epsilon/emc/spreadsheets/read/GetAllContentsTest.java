@@ -8,6 +8,7 @@ import java.util.List;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,7 +28,7 @@ public class GetAllContentsTest
 	{
 		String pathToFile = "resources/read/ReadTest.xlsx";
 		String pathToConfig = "resources/read/ReadTestConfig.xml";
-		return SharedTestMethods.getModelsToTest("", pathToFile, pathToConfig, "ReadTest");
+		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "ReadTest");
 	}
 
 	@Test

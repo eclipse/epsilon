@@ -12,13 +12,15 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetDataType;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheetHeader;
+import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ExcelWorksheetTest
 {
-	private final static String PATH_TO_FILE = "resources/excel/WorksheetTest.xlsx";
-	private final static String PATH_TO_CONFIG = "resources/excel/WorksheetTestConfig.xml";
+	private final static String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/WorksheetTest.xlsx";
+	private final static String PATH_TO_CONFIG = SharedTestMethods.getBasePath()
+			+ "resources/excel/WorksheetTestConfig.xml";
 
 	private static ExcelModel model = null;
 

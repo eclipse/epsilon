@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
-import org.eclipse.epsilon.emc.spreadsheets.test.ModelFactory;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +29,15 @@ public class GSRowEqualsTest
 	public static Collection<Object[]> models() throws Exception
 	{
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
-		SpreadsheetModel gsModel = ModelFactory.getGSModel("ReadTest", pathToConfig, "");
-		return Arrays.asList(new Object[][] { { gsModel } });
+		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", pathToConfig, "");
+		if (gsModel != null)
+		{
+			return Arrays.asList(new Object[][] { { gsModel } });
+		}
+		else
+		{
+			return Arrays.asList(new Object[][] {});
+		}
 	}
 
 	@Test

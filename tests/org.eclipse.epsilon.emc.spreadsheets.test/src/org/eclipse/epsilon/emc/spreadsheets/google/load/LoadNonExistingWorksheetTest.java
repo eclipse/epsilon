@@ -9,7 +9,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheetHeader;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSConstants;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSWorksheet;
-import org.eclipse.epsilon.emc.spreadsheets.test.ModelFactory;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +29,15 @@ public class LoadNonExistingWorksheetTest
 	public static Collection<Object[]> models() throws Exception
 	{
 		String CONFIG = "resources/google/LoadNonExistingWorksheetTest.xml";
-		SpreadsheetModel gsModel = ModelFactory.getGSModel("ReadTest", CONFIG, "");
-		return Arrays.asList(new Object[][] { { gsModel } });
+		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", CONFIG, "");
+		if (gsModel != null)
+		{
+			return Arrays.asList(new Object[][] { { gsModel } });
+		}
+		else
+		{
+			return Arrays.asList(new Object[][] {});
+		}
 	}
 
 	@Test
@@ -58,12 +65,15 @@ public class LoadNonExistingWorksheetTest
 	@AfterClass
 	public static void tearDown() throws Exception
 	{
-		GSWorksheet sheet4 = (GSWorksheet) model.getWorksheetByType("Sheet4");
-		GSWorksheet sheet5 = (GSWorksheet) model.getWorksheetByType("Sheet5");
-		GSWorksheet sheet6 = (GSWorksheet) model.getWorksheetByType("Sheet6");
+		if (model != null)
+		{
+			GSWorksheet sheet4 = (GSWorksheet) model.getWorksheetByType("Sheet4");
+			GSWorksheet sheet5 = (GSWorksheet) model.getWorksheetByType("Sheet5");
+			GSWorksheet sheet6 = (GSWorksheet) model.getWorksheetByType("Sheet6");
 
-		sheet4.delete();
-		sheet5.delete();
-		sheet6.delete();
+			sheet4.delete();
+			sheet5.delete();
+			sheet6.delete();
+		}
 	}
 }

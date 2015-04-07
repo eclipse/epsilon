@@ -11,6 +11,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSModel;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
+import org.eclipse.epsilon.emc.spreadsheets.test.TestModelFactory;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ public class MetadataTest
 	public static Collection<Object[]> models() throws Exception
 	{
 		String pathToFile = "resources/read/ReadTest.xlsx";
-		return SharedTestMethods.getModelsToTest("", pathToFile, "ReadTest");
+		return TestModelFactory.getModelsToTest("", pathToFile, "ReadTest");
 	}
 
 	@Test
@@ -50,7 +51,8 @@ public class MetadataTest
 	{
 		try
 		{
-			String configFile = "resources/metadata/WorksheetMissingNameTestConfig.xml";
+			String configFile = SharedTestMethods.getBasePath()
+					+ "resources/metadata/WorksheetMissingNameTestConfig.xml";
 			if (model instanceof ExcelModel)
 			{
 				((ExcelModel) model).setConfigurationFile(configFile);
@@ -77,7 +79,7 @@ public class MetadataTest
 	{
 		try
 		{
-			String configFile = "resources/metadata/ColumnMissingNameTestConfig.xml";
+			String configFile = SharedTestMethods.getBasePath() + "resources/metadata/ColumnMissingNameTestConfig.xml";
 			if (model instanceof ExcelModel)
 			{
 				((ExcelModel) model).setConfigurationFile(configFile);
@@ -104,7 +106,8 @@ public class MetadataTest
 	{
 		try
 		{
-			String configFile = "resources/metadata/ReferenceMissingSourceTestConfig.xml";
+			String configFile = SharedTestMethods.getBasePath()
+					+ "resources/metadata/ReferenceMissingSourceTestConfig.xml";
 			if (model instanceof ExcelModel)
 			{
 				((ExcelModel) model).setConfigurationFile(configFile);
@@ -131,7 +134,8 @@ public class MetadataTest
 	{
 		try
 		{
-			String configFile = "resources/metadata/ReferenceMissingTargetTestConfig.xml";
+			String configFile = SharedTestMethods.getBasePath()
+					+ "resources/metadata/ReferenceMissingTargetTestConfig.xml";
 			if (model instanceof ExcelModel)
 			{
 				((ExcelModel) model).setConfigurationFile(configFile);

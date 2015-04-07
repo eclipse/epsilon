@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
+import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -16,12 +17,15 @@ import org.junit.Test;
 
 public class ExcelModelTest
 {
-	private final String PATH_TO_FILE = "resources/excel/ModelTest.xlsx";
-	private final String PATH_TO_XLS_FILE = "resources/excel/ModelTest.xls";
-	private final String PATH_TO_CONFIG = "resources/excel/ModelTestConfig.xml";
-	private final String PATH_TO_INVALID_CONFIG = "resources/excel/ModelTestInvalidConfig.xml";
-	private final String PATH_TO_PROTECTED_FILE = "resources/excel/ModelTestProtected.xlsx";
-	private final String PATH_TO_PROTECTED_XLS_FILE = "resources/excel/ModelTestProtected.xls";
+	private final String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xlsx";
+	private final String PATH_TO_XLS_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xls";
+	private final String PATH_TO_CONFIG = SharedTestMethods.getBasePath() + "resources/excel/ModelTestConfig.xml";
+	private final String PATH_TO_INVALID_CONFIG = SharedTestMethods.getBasePath()
+			+ "resources/excel/ModelTestInvalidConfig.xml";
+	private final String PATH_TO_PROTECTED_FILE = SharedTestMethods.getBasePath()
+			+ "resources/excel/ModelTestProtected.xlsx";
+	private final String PATH_TO_PROTECTED_XLS_FILE = SharedTestMethods.getBasePath()
+			+ "resources/excel/ModelTestProtected.xls";
 
 	@Test
 	public void testNullModel()
