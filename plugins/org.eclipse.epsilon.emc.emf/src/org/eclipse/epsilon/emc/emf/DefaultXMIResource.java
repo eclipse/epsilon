@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 public class DefaultXMIResource extends XMIResourceImpl {
 	
-	protected boolean useXmiIds = true;
+	protected boolean useXmiIds = super.useUUIDs();
 	
 	public DefaultXMIResource() {
 		super();
