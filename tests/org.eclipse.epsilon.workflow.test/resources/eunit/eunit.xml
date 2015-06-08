@@ -6,6 +6,7 @@
 	<property name="graph1.model.location" location="${models.location}/graph1.model" />
 	<property name="graph2.model.location" location="${models.location}/graph2.model" />
 	<property name="tree.model.location" location="${models.location}/tree.model" />
+	<property name="uml.profile.model.location" location="${models.location}/onlyProfiles.uml" />
 
 	<property name="metamodels.location" location="${basedir}/../metamodels" />
 
@@ -17,6 +18,8 @@
 
 	<property name="tree.metamodel.location" location="${metamodels.location}/tree.ecore" />
 	<property name="tree.metamodel.uri" value="Tree" />
+
+	<property name="uml.metamodel.uri" value="http://www.eclipse.org/uml2/2.0.0/UML"/>
 
 	<target name="template">
 		<property name="eunit.todir" location="${basedir}" />
@@ -271,7 +274,7 @@
 
 	<target name="emf-emf-copy">
 		<epsilon.emf.register file="${tree.metamodel.location}"/>
-		
+
 		<tempfile property="copy.tmpfile"/>
 		<macrodef name="loadTree">
 			<attribute name="path"/>
@@ -360,6 +363,18 @@
 			<modelTasks>
 				<epsilon.emf.loadModel name="A" metamodeluri="${graph.metamodel.uri}" read="false" store="false" modelfile="dummyA.model"/>
 				<epsilon.emf.loadModel name="B" metamodeluri="${graph.metamodel.uri}" read="false" store="false" modelfile="dummyB.model"/>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+
+	<!--
+		Sanity check for UML2: comparing a model with only a profile application against itself should not report any differences.
+	-->
+	<target name="uml-same">
+		<epsilon.eunit src="model-comparison/uml.eunit">
+			<modelTasks>
+				<epsilon.emf.loadModel name="Model" metamodeluri="${uml.metamodel.uri}" read="true" store="false" modelfile="${uml.profile.model.location}"	/>
+				<epsilon.emf.loadModel name="Expected" metamodeluri="${uml.metamodel.uri}" read="true" store="false" modelfile="${uml.profile.model.location}"	/>
 			</modelTasks>
 		</epsilon.eunit>
 	</target>

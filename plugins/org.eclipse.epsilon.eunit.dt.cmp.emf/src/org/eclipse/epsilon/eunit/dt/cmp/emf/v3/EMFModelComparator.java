@@ -175,8 +175,9 @@ public class EMFModelComparator implements IModelComparator {
 		// Save the original non-platform URIs
 		final Map<Resource, URI> originalURIMap = new HashMap<Resource, URI>();
 		for (Resource res : resourceSet.getResources()) {
-			if ("platform".equals(res.getURI().scheme())) {
-				// skip platform: models
+			final String scheme = res.getURI().scheme();
+			if ("platform".equals(scheme) || "pathmap".equals(scheme)) {
+				// skip platform: models (they're usually metamodels) and pathmap: models (usually UML profiles)
 				continue;
 			}
 			originalURIMap.put(res, res.getURI());

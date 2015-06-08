@@ -95,6 +95,11 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 	}
 
 	@Test
+	public void umlAgainstItself() throws Exception {
+		runTarget(ANT_BUILD_FILE, "uml-same");
+	}
+
+	@Test
 	public void bothModelsAreEmpty() throws Exception {
 		runTarget(ANT_BUILD_FILE, "emf-emf-empty-both");
 	}
