@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +20,6 @@ import java.util.Set;
 
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
@@ -33,7 +31,18 @@ import org.eclipse.epsilon.eol.types.ObjectUtil;
 public class IterableOperationContributor extends OperationContributor {
 
 	public IterableOperationContributor() {}
-
+	
+	public static void main(String[] args) {
+		
+		Collection<Object> c = new ArrayList<Object>();
+		for (int i=0;i<100;i++) {
+			c.add(i);
+		}
+		IterableOperationContributor ioc = new IterableOperationContributor(c);
+		System.out.println(ioc.first(10));
+		
+	}
+	
 	public IterableOperationContributor(Iterable<?> target) {
 		this.target = target;
 	}
@@ -289,6 +298,17 @@ public class IterableOperationContributor extends OperationContributor {
 		 * but the MDR IndexSetWrapper does not support it.
 		 */
 		return difference;
+	}
+	
+	public Collection<Object> first(int number) {
+		Iterator<Object> it = getIterable().iterator();
+		ArrayList<Object> result = new ArrayList<Object>();
+		int i = 0;
+		while (it.hasNext() && i < number) {
+			result.add(it.next());
+			i++;
+		}
+		return result;
 	}
 	
 	public Object first() {
