@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.emc.spreadsheets.excel.feature"
-      label="Microsoft Excel Spreadsheet Driver"
+      id="org.eclipse.epsilon.emc.spreadsheets.feature"
+      label="EMC Google Spreadsheets Driver Dependencies"
       version="1.3.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
-      This feature provides the Epsilon Model Connectivity driver for
-Microsoft Excel Spreadsheet models. This driver is required in order to
-work with Microsoft Excel Spreadsheet models in Epsilon.
+      This feature provides the EMC Google Spreadsheets Driver dependencies.
    </description>
 
    <copyright>
@@ -94,16 +92,15 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine" />
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets" />
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" />
+      <import plugin="com.google.gdata_1.47.1"/>
+      <import plugin="com.google.guava_18.0"/>
    </requires>
 
    <plugin
-         id="org.eclipse.epsilon.emc.spreadsheets.excel"
+         id="org.eclipse.epsilon.emc.spreadsheets.google.dependencies"
          download-size="0"
          install-size="0"
-         version="1.3.0.qualifier" 
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>

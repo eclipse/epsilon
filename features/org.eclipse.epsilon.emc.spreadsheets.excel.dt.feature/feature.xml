@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature"
-      label="Microsoft Excel Spreadsheet Driver Development Tools Feature"
+      label="Microsoft Excel Spreadsheet Driver Development Tools"
       version="1.3.0.qualifier"
       provider-name="Eclipse Modeling Project">
 

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.emc.spreadsheets.excel.feature"
-      label="Microsoft Excel Spreadsheet Driver"
+      id="org.eclipse.epsilon.emc.spreadsheets.feature"
+      label="EMC Abstract Spreadsheet Driver"
       version="1.3.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
-      This feature provides the Epsilon Model Connectivity driver for
-Microsoft Excel Spreadsheet models. This driver is required in order to
-work with Microsoft Excel Spreadsheet models in Epsilon.
+      This feature provides the abstract EMC Spreadsheets Driver.
    </description>
 
    <copyright>
@@ -94,16 +92,15 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine" />
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets" />
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" />
+      <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.eclipse.epsilon.emc.spreadsheets.dependencies"/>
    </requires>
 
    <plugin
-         id="org.eclipse.epsilon.emc.spreadsheets.excel"
+         id="org.eclipse.epsilon.emc.spreadsheets"
          download-size="0"
          install-size="0"
-         version="1.3.0.qualifier" 
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>
