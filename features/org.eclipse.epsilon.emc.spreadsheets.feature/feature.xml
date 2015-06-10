@@ -91,6 +91,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
 
+   <includes
+         id="org.eclipse.epsilon.emc.spreadsheets.dependencies.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.epsilon.emc.spreadsheets.dependencies"/>

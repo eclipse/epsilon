@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature"
-      label="Microsoft Excel Spreadsheet Driver Development Tools"
+      label="EMC Microsoft Excel Spreadsheet Driver Development Tools"
       version="1.3.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
@@ -14,7 +14,7 @@ work with Microsoft Excel Spreadsheet models.
       Please refer to the Licence Agreement.
    </copyright>
 
-  <license url="http://www.eclipse.org/legal/epl-v10.html">
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
       Eclipse Public License - v 1.0
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE (&quot;AGREEMENT&quot;). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT&apos;S ACCEPTANCE OF THIS AGREEMENT.
@@ -86,12 +86,12 @@ Everyone is permitted to copy and distribute copies of this Agreement, but in or
 
 This Agreement is governed by the laws of the State of New York and the intellectual property laws of the United States of America. No party to this Agreement will bring a legal action under this Agreement more than one year after the cause of action arose. Each party waives its rights to a jury trial in any resulting litigation.
    </license>
-   
+
    <url>
       <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
-   
+
    <requires>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel"/>
