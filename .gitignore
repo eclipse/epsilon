@@ -81,3 +81,6 @@ target
 /tests/org.eclipse.epsilon.workflow.test/resources/eunit/junit-noframes.html
 
 /plugins/org.eclipse.epsilon.updatesite.interim/index.html
+
+# Backup files from Emacs
+*~
